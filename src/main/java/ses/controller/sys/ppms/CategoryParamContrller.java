@@ -113,7 +113,7 @@ public class CategoryParamContrller extends BaseSupplierController {
             ct.setId(cate.getId());
             ct.setName(cate.getName());
             ct.setpId(cate.getParentId());
-            ct.setParamStatus(orgnization.getStatus());
+            ct.setParamStatus(orgnization.getStatus().toString());
             jList.add(ct);
 
             list=gson.toJson(jList);
@@ -821,7 +821,7 @@ public class CategoryParamContrller extends BaseSupplierController {
                            String ids,String id,String status){//ids  是树的节点   id是部门id
         String[] cateid = ids.split(","); 
         Orgnization org = orgnizationServiceI.findByCategoryId(id);
-        org.setStatus(status);
+        org.setStatus(Integer.valueOf(status));
         for (int i = 0; i < cateid.length; i++) {
             Category category=categoryService.selectByPrimaryKey(cateid[i]);
             category.setOrgnization(org);
@@ -915,7 +915,7 @@ public class CategoryParamContrller extends BaseSupplierController {
         String[] ids=id.split(",");
         for (int i = 0; i < ids.length; i++) {
             Orgnization org = orgnizationServiceI.findByCategoryId(ids[i]);
-            org.setStatus(status);
+            org.setStatus(Integer.valueOf(status));
             orgnizationServiceI.updateByCategoryId(org);
         }
         for (int i = 0; i < ids.length; i++) {

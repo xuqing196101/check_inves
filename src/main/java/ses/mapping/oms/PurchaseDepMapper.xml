@@ -3,7 +3,7 @@
 <mapper namespace="ses.dao.oms.PurchaseDepMapper">
 	 <!-- 根据条件查部 采购机构-->
 	<select id="findPurchaseDepList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseDep">
-			   select o.id  as id,
+			   select d.id  as id,
 		       d.LEVEL_DEP       as levelDep,
 		       d.SUBORDINATE_ORG_ID       as subordinateOrgId,
 		       d.SUBORDINATE_ORG_NAME     as subordinateOrgName,
@@ -28,6 +28,9 @@
 		       d.DEP_NAME   as depName,
 		       d.LEGAL   as legal,
 		       d.AGENT   as agent,
+		       d.ACCESS_NETWORK   as accessNetwork,
+           d.ACCESS_WAY   as accessWay,
+           d.VIDEO_SURVEILLANCE   as videoSurveillance,
 		       d.CONTACT   as contact,
 		       d.CONTACT_TELEPHONE   as contactTelephone,
 		       d.CONTACT_ADDRESS   as contactAddress,
@@ -50,6 +53,7 @@
 		       o.type_name    as typeName,
 		       o.address      as address,
 		       o.post_code    as postCode,
+		       o.FAX       as  fax,
 		       CONCAT(a.name, b.name) as areaName,
 		       d.DUTY_ROOM_PHONE  as dutyRoomPhone,
 		       a.id               as provinceId,
@@ -71,7 +75,7 @@
 	      AND o.is_deleted =0
 	      AND  d.ORG_ID = o.id
 		 <if test="id != null and id != ''">
-			and o.id= #{id}
+			and d.id= #{id}
 		</if>
 		 <if test="orgId != null">
 			and o.id= #{orgId}
@@ -155,6 +159,9 @@
                d.PAY_DEP   as payDep,
                d.BANK   as bank,
                d.BANK_ACCOUNT   as bankAccount,
+               d.ACCESS_NETWORK   as accessNetwork,
+               d.ACCESS_WAY   as accessWay,
+               d.VIDEO_SURVEILLANCE   as videoSurveillance,
                d.OFFICE_AREA   as officeArea,
                d.OFFICE_COUNT  as officeCount,
                d.METTING_ROOM_COUNT   as mettingRoomCount,
@@ -195,48 +202,48 @@
 	
 	<!-- 保存采购机构 -->
 	<insert id="savePurchaseDep" parameterType="ses.model.oms.PurchaseDep">
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+		<!-- <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select rawtohex(sys_guid()) as VALUE from dual
-		</selectKey>
+		</selectKey> -->
 		insert into T_SES_OMS_PURCHASE_DEP
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != null and id != ''">
         ID,
       </if>
-      <if test="levelDep != null">
+      <if test="levelDep != null and levelDep != ''">
         LEVEL_DEP,
       </if>
-      <if test="subordinateOrgId != null">
+      <if test="subordinateOrgId != null and subordinateOrgId != ''">
         SUBORDINATE_ORG_ID,
       </if>
-      <if test="subordinateOrgName != null">
+      <if test="subordinateOrgName != null and subordinateOrgName != ''">
         SUBORDINATE_ORG_NAME,
       </if>
-      <if test="businessDep != null">
+      <if test="businessDep != null and businessDep != ''">
         BUSINESS_DEP,
       </if>
-      <if test="businessDepId != null">
+      <if test="businessDepId != null and businessDepId != ''">
         BUSINESS_DEP_ID,
       </if>
-      <if test="businessRange != null">
+      <if test="businessRange != null and businessRange != ''">
         BUSINESS_RANGE,
       </if>
-      <if test="quaCode != null">
+      <if test="quaCode != null and quaCode != ''">
         QUA_CODE,
       </if>
-      <if test="quaLevel != null">
+      <if test="quaLevel != null and quaLevel != ''">
         QUA_LEVEL,
       </if>
-      <if test="quaEdndate != null">
+      <if test="quaEdndate != null and quaEdndate != ''">
         QUA_EDNDATE,
       </if>
       <if test="quaRange != null">
         QUA_RANGE,
       </if>
-      <if test="quaCert != null">
+      <if test="quaCert != null and quaCert != ''">
         QUA_CERT,
       </if>
-      <if test="leaderTelephone != null">
+      <if test="leaderTelephone != null and leaderTelephone != ''">
         LEADER_TELEPHONE,
       </if>
       <if test="officerCountnum != null">
@@ -266,73 +273,70 @@
        <if test="seniorPurCount != null">
         SENIOR_PUR_COUNT,
       </if>
-       <if test="depName != null">
+       <if test="depName != null and depName != ''">
         DEP_NAME,
       </if>
-      <if test="legal != null">
+      <if test="legal != null and legal != ''">
         LEGAL,
       </if>
-       <if test="agent != null">
+       <if test="agent != null and agent != ''">
         AGENT,
       </if>
-       <if test="contact != null">
+       <if test="contact != null and contact != ''">
         CONTACT,
       </if>
-       <if test="contactTelephone != null">
+       <if test="contactTelephone != null and contactTelephone != ''">
         CONTACT_TELEPHONE,
       </if>
-       <if test="contactAddress != null">
+       <if test="contactAddress != null and contactAddress != ''">
         CONTACT_ADDRESS,
       </if>
        <if test="unitPostCode != null">
         UNIT_POST_CODE,
       </if>
-       <if test="payDep != null">
+       <if test="payDep != null and payDep != ''">
         PAY_DEP,
       </if>
-      <if test="bank != null">
+      <if test="bank != null and bank != ''">
         BANK,
       </if>
-       <if test="bankAccount != null and bankAccount != ''">
+       <if test="bankAccount != null">
         BANK_ACCOUNT,
       </if>
        <if test="officeArea != null and officeArea != ''">
         OFFICE_AREA,
       </if>
-       <if test="officeCount != null and officeCount != ''">
+       <if test="officeCount != null">
         OFFICE_COUNT,
       </if>
-      <if test="mettingRoomCount != null and mettingRoomCount != ''">
+      <if test="mettingRoomCount != null">
         METTING_ROOM_COUNT,
       </if>
-       <if test="inviteRoomCount != null and inviteRoomCount != ''">
+       <if test="inviteRoomCount != null">
         INVITE_ROOM_COUNT,
       </if>
-       <if test="bidRoomCount != null and bidRoomCount != ''">
+       <if test="bidRoomCount != null">
         BID_ROOM_COUNT,
       </if>
-       <if test="isDeleted != null and isDeleted != ''">
+       <if test="isDeleted != null">
         IS_DELETED,
       </if>
-       <if test="updatedAt != null">
+       <if test="updatedAt != null and updatedAt != ''">
         UPDATED_AT,
       </if>
-       <if test="createdAt != null">
+       <if test="createdAt != null and createdAt != ''">
         CREATED_AT,
       </if>
        <if test="orgId != null and orgId != ''">
         ORG_ID,
       </if>
-       <if test="createdAt != null">
-        CREATED_AT,
-      </if>
        <if test="dutyRoomPhone != null and dutyRoomPhone != ''">
         DUTY_ROOM_PHONE,
       </if>
-       <if test="isAuditSupplier != null and isAuditSupplier != ''">
+       <if test="isAuditSupplier != null">
         IS_AUDIT_SUPPLIER,
       </if>
-      <if test="quaStatus != null and quaStatus != ''">
+      <if test="quaStatus != null">
         QUA_STATUS,
       </if>
        <if test="quaStartDate != null and quaStartDate != ''">
@@ -341,45 +345,54 @@
       <if test="quaStashReason != null and quaStashReason != ''">
         QUA_STASH_REASON,
       </if>
+      <if test="accessNetwork != null and accessNetwork != ''">
+        ACCESS_NETWORK,
+      </if>
+       <if test="accessWay != null and accessWay != ''">
+        ACCESS_WAY,
+      </if>
+      <if test="videoSurveillance != null and videoSurveillance != ''">
+        VIDEO_SURVEILLANCE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != null and id != ''">
         #{id},
       </if>
-      <if test="levelDep != null">
+      <if test="levelDep != null and levelDep != ''">
         #{levelDep},
       </if>
-      <if test="subordinateOrgId != null">
+      <if test="subordinateOrgId != null and subordinateOrgId != ''">
         #{subordinateOrgId},
       </if>
-      <if test="subordinateOrgName != null">
+      <if test="subordinateOrgName != null and subordinateOrgName != ''">
         #{subordinateOrgName},
       </if>
-      <if test="businessDep != null">
+      <if test="businessDep != null and businessDep != ''">
         #{businessDep},
       </if>
-      <if test="businessDepId != null">
+      <if test="businessDepId != null and businessDepId != ''">
         #{businessDepId},
       </if>
-      <if test="businessRange != null">
+      <if test="businessRange != null and businessRange != ''">
         #{businessRange},
       </if>
-      <if test="quaCode != null">
+      <if test="quaCode != null and quaCode != ''">
         #{quaCode},
       </if>
-      <if test="quaLevel != null">
+      <if test="quaLevel != null and quaLevel != ''">
         #{quaLevel},
       </if>
-      <if test="quaEdndate != null">
+      <if test="quaEdndate != null and quaEdndate != ''">
        #{quaEdndate},
       </if>
       <if test="quaRange != null">
         #{quaRange},
       </if>
-      <if test="quaCert != null">
+      <if test="quaCert != null and quaCert != ''">
         #{quaCert},
       </if>
-      <if test="leaderTelephone != null">
+      <if test="leaderTelephone != null and leaderTelephone != ''">
         #{leaderTelephone},
       </if>
       <if test="officerCountnum != null">
@@ -409,73 +422,70 @@
        <if test="seniorPurCount != null">
         #{seniorPurCount},
       </if>
-       <if test="depName != null">
+       <if test="depName != null and depName != ''">
         #{depName},
       </if>
-      <if test="legal != null">
+      <if test="legal != null and legal != ''">
         #{legal},
       </if>
-       <if test="agent != null">
+       <if test="agent != null and agent != ''">
         #{agent},
       </if>
-       <if test="contact != null">
+       <if test="contact != null and contact != ''">
         #{contact},
       </if>
-       <if test="contactTelephone != null">
+       <if test="contactTelephone != null and contactTelephone != ''">
        #{contactTelephone},
       </if>
-       <if test="contactAddress != null">
+       <if test="contactAddress != null and contactAddress != ''">
         #{contactAddress},
       </if>
        <if test="unitPostCode != null">
         #{unitPostCode},
       </if>
-       <if test="payDep != null">
+       <if test="payDep != null and payDep != ''">
         #{payDep},
       </if>
-      <if test="bank != null">
+      <if test="bank != null and bank != ''">
         #{bank},
       </if>
-       <if test="bankAccount != null and bankAccount != ''">
+       <if test="bankAccount != null">
         #{bankAccount},
       </if>
        <if test="officeArea != null and officeArea != ''">
         #{officeArea},
       </if>
-       <if test="officeCount != null and officeCount != ''">
+       <if test="officeCount != null">
         #{officeCount},
       </if>
-      <if test="mettingRoomCount != null and mettingRoomCount != ''">
+      <if test="mettingRoomCount != null">
         #{mettingRoomCount},
       </if>
-       <if test="inviteRoomCount != null and inviteRoomCount != ''">
+       <if test="inviteRoomCount != null">
         #{inviteRoomCount},
       </if>
-       <if test="bidRoomCount != null and bidRoomCount != ''">
+       <if test="bidRoomCount != null">
         #{bidRoomCount},
       </if>
-       <if test="isDeleted != null and isDeleted != ''">
+       <if test="isDeleted != null">
        #{isDeleted},
       </if>
-       <if test="updatedAt != null">
+       <if test="updatedAt != null and updatedAt != ''">
         #{updatedAt},
       </if>
-       <if test="createdAt != null">
+       <if test="createdAt != null and createdAt != ''">
        #{createdAt},
       </if>
        <if test="orgId != null and orgId != ''">
         #{orgId},
       </if>
-       <if test="createdAt != null">
-        #{createdAt},
-      </if>
        <if test="dutyRoomPhone != null and dutyRoomPhone != ''">
         #{dutyRoomPhone},
       </if>
-       <if test="isAuditSupplier != null and isAuditSupplier != ''">
+       <if test="isAuditSupplier != null">
         #{isAuditSupplier},
       </if>
-      <if test="quaStatus != null and quaStatus != ''">
+      <if test="quaStatus != null">
         #{quaStatus},
       </if>
        <if test="quaStartDate != null and quaStartDate != ''">
@@ -484,141 +494,171 @@
       <if test="quaStashReason != null and quaStashReason != ''">
         #{quaStashReason},
       </if>
+      <if test="accessNetwork != null and accessNetwork != ''">
+        #{accessNetwork},
+      </if>
+       <if test="accessWay != null and accessWay != ''">
+        #{accessWay},
+      </if>
+      <if test="videoSurveillance != null and videoSurveillance != ''">
+        #{videoSurveillance},
+      </if>
     </trim>
 	</insert>
 	<!-- 更新采购机构 -->
 	<update id="update" parameterType="ses.model.oms.PurchaseDep">
-		update T_SES_OMS_PURCHASE_DEP s
-	     set 
-	         UPDATED_AT=sysdate
-	         <if test="levelDep != null and levelDep != ''">
-		 		,LEVEL_DEP=#{levelDep,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="subordinateOrgId != null and subordinateOrgId != ''">
-		 		,SUBORDINATE_ORG_ID=#{subordinateOrgId,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="subordinateOrgName != null and subordinateOrgName != ''">
-		 		,SUBORDINATE_ORG_NAME=#{subordinateOrgName,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="businessDep != null and businessDep != ''">
-		 		,BUSINESS_DEP=#{businessDep,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="businessDepId != null and businessDepId != ''">
-		 		,BUSINESS_DEP_ID=#{businessDepId,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="businessRange != null and businessRange != ''">
-		 		,BUSINESS_RANGE=#{businessRange,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="quaCode != null and quaCode != ''">
-		 		,QUA_CODE=#{quaCode,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="quaLevel != null and quaLevel != ''">
-		 		,QUA_LEVEL=#{quaLevel,jdbcType=VARCHAR}
-		 	</if>
-		 	<if test="quaEdndate != null and quaEdndate != ''">
-		 		,QUA_EDNDATE=#{quaEdndate,jdbcType=TIMESTAMP}
-		 	</if>
-		 	 <if test="quaRange != null and quaRange != ''">
-		 		,QUA_RANGE=#{quaRange,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="quaCert != null and quaCert != ''">
-		 		,QUA_CERT=#{quaCert,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="leaderTelephone != null and leaderTelephone != ''">
-		 		,LEADER_TELEPHONE=#{leaderTelephone,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="officerCountnum != null and officerCountnum != ''">
-		 		,OFFICER_COUNTNUM=#{officerCountnum,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="officerNowCounts != null and officerNowCounts != ''">
-		 		,OFFICER_NOW_COUNTS=#{officerNowCounts,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="soldierNum != null and soldierNum != ''">
-		 		,SOLDIER_NUM=#{soldierNum,jdbcType=NUMERIC}
-		 	</if>
-		 	<if test="soldierNowCounts != null and soldierNowCounts != ''">
-		 		,SOLDIER_NOW_COUNTS=#{soldierNowCounts,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="staffNum != null and staffNum != ''">
-		 		,STAFF_NUM=#{staffNum,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="staffNowCounts != null and staffNowCounts != ''">
-		 		,STAFF_NOW_COUNTS=#{staffNowCounts,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="purchasersCount != null and purchasersCount != ''">
-		 		,PURCHASERS_COUNT=#{purchasersCount,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="juniorPurCount != null and juniorPurCount != ''">
-		 		,JUNIOR_PUR_COUNT=#{juniorPurCount,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="seniorPurCount != null and seniorPurCount != ''">
-		 		,SENIOR_PUR_COUNT=#{seniorPurCount,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="depName != null and depName != ''">
-		 		,DEP_NAME=#{depName,jdbcType=VARCHAR}
-		 	</if>
-		 	<if test="legal != null and legal != ''">
-		 		,LEGAL=#{legal,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="agent != null and agent != ''">
-		 		,AGENT=#{agent,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="contact != null and contact != ''">
-		 		,CONTACT=#{contact,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="contactTelephone != null and contactTelephone != ''">
-		 		,CONTACT_TELEPHONE=#{contactTelephone,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="contactAddress != null and contactAddress != ''">
-		 		,CONTACT_ADDRESS=#{contactAddress,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="unitPostCode != null and unitPostCode != ''">
-		 		,UNIT_POST_CODE=#{unitPostCode,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="payDep != null and payDep != ''">
-		 		,PAY_DEP=#{payDep,jdbcType=VARCHAR}
-		 	</if>
-		 	
-		 	<if test="bank != null and bank != ''">
-		 		,BANK=#{bank,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="bankAccount != null and bankAccount != ''">
-		 		,BANK_ACCOUNT=#{bankAccount,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="officeArea != null and officeArea != ''">
-		 		,OFFICE_AREA=#{officeArea,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="officeCount != null and officeCount != ''">
-		 		,OFFICE_COUNT=#{officeCount,jdbcType=NUMERIC}
-		 	</if>
-		 	<if test="mettingRoomCount != null and mettingRoomCount != ''">
-		 		,METTING_ROOM_COUNT=#{mettingRoomCount,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="inviteRoomCount != null and inviteRoomCount != ''">
-		 		,INVITE_ROOM_COUNT=#{inviteRoomCount,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="bidRoomCount != null and bidRoomCount != ''">
-		 		,BID_ROOM_COUNT=#{bidRoomCount,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="isDeleted != null and isDeleted != ''">
-		 		,IS_DELETED=#{isDeleted,jdbcType=NUMERIC}
-		 	</if>
-		 	 <if test="dutyRoomPhone != null and dutyRoomPhone != ''">
-		 		,DUTY_ROOM_PHONE=#{dutyRoomPhone,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="isAuditSupplier != null and isAuditSupplier != ''">
-		 		,IS_AUDIT_SUPPLIER=#{isAuditSupplier,jdbcType=NUMERIC}
-		 	</if>
-		 	<!--  <if test="quaStatus != null and quaStatus != ''">
-		 		,QUA_STATUS=#{quaStatus,jdbcType=NUMERIC}
-		 	</if> -->
-		 	 <if test="quaStashReason != null and quaStashReason != ''">
-		 		,QUA_STASH_REASON=#{quaStashReason,jdbcType=VARCHAR}
-		 	</if>
-		 	 <if test="quaStartDate != null and quaStartDate != ''">
-		 		,QUA_START_DATE=#{quaStartDate,jdbcType=TIMESTAMP}
-		 	</if>
-		 	 where s.id=#{id}  
+		update T_SES_OMS_PURCHASE_DEP 
+	     <set>
+	         UPDATED_AT=sysdate,
+	      <if test="levelDep != null and levelDep != ''">
+        LEVEL_DEP = #{levelDep},
+      </if>
+      <if test="subordinateOrgId != null and subordinateOrgId != ''">
+        SUBORDINATE_ORG_ID = #{subordinateOrgId},
+      </if>
+      <if test="subordinateOrgName != null and subordinateOrgName != ''">
+        SUBORDINATE_ORG_NAME = #{subordinateOrgName},
+      </if>
+      <if test="businessDep != null and businessDep != ''">
+        BUSINESS_DEP = #{businessDep},
+      </if>
+      <if test="businessDepId != null and businessDepId != ''">
+        BUSINESS_DEP_ID = #{businessDepId},
+      </if>
+      <if test="businessRange != null and businessRange != ''">
+        BUSINESS_RANGE = #{businessRange},
+      </if>
+      <if test="quaCode != null and quaCode != ''">
+        QUA_CODE = #{quaCode},
+      </if>
+      <if test="quaLevel != null and quaLevel != ''">
+        QUA_LEVEL = #{quaLevel},
+      </if>
+      <if test="quaEdndate != null and quaEdndate != ''">
+        QUA_EDNDATE = #{quaEdndate},
+      </if>
+      <if test="quaRange != null">
+        QUA_RANGE = #{quaRange},
+      </if>
+      <if test="quaCert != null and quaCert != ''">
+        QUA_CERT = #{quaCert},
+      </if>
+      <if test="leaderTelephone != null and leaderTelephone != ''">
+        LEADER_TELEPHONE = #{leaderTelephone},
+      </if>
+      <if test="officerCountnum != null and officerCountnum != ''">
+        OFFICER_COUNTNUM = #{officerCountnum},
+      </if>
+      <if test="officerNowCounts != null and officerNowCounts != ''">
+        OFFICER_NOW_COUNTS = #{officerNowCounts},
+      </if>
+       <if test="soldierNum != null and soldierNum != ''">
+        SOLDIER_NUM = #{soldierNum},
+      </if>
+      <if test="soldierNowCounts != null and soldierNowCounts != ''">
+        SOLDIER_NOW_COUNTS = #{soldierNowCounts},
+      </if>
+       <if test="staffNum != null and staffNum != ''">
+        STAFF_NUM = #{staffNum},
+      </if>
+       <if test="staffNowCounts != null and staffNowCounts != ''">
+        STAFF_NOW_COUNTS = #{staffNowCounts},
+      </if>
+       <if test="purchasersCount != null and purchasersCount != ''">
+        PURCHASERS_COUNT = #{purchasersCount},
+      </if>
+       <if test="juniorPurCount != null and juniorPurCount != ''">
+        JUNIOR_PUR_COUNT = #{juniorPurCount},
+      </if>
+       <if test="seniorPurCount != null and seniorPurCount != ''">
+        SENIOR_PUR_COUNT = #{seniorPurCount},
+      </if>
+       <if test="depName != null and depName != ''">
+        DEP_NAME = #{depName},
+      </if>
+      <if test="legal != null and legal != ''">
+        LEGAL = #{legal},
+      </if>
+       <if test="agent != null and agent != ''">
+        AGENT = #{agent},
+      </if>
+       <if test="contact != null and contact != ''">
+        CONTACT = #{contact},
+      </if>
+       <if test="contactTelephone != null and contactTelephone != ''">
+        CONTACT_TELEPHONE = #{contactTelephone},
+      </if>
+       <if test="contactAddress != null and contactAddress != ''">
+        CONTACT_ADDRESS = #{contactAddress},
+      </if>
+       <if test="unitPostCode != null and unitPostCode != ''">
+        UNIT_POST_CODE = #{unitPostCode},
+      </if>
+       <if test="payDep != null and payDep != ''">
+        PAY_DEP = #{payDep},
+      </if>
+      <if test="bank != null and bank != ''">
+        BANK = #{bank},
+      </if>
+       <if test="bankAccount != null and bankAccount != ''">
+        BANK_ACCOUNT = #{bankAccount},
+      </if>
+       <if test="officeArea != null and officeArea != ''">
+        OFFICE_AREA = #{officeArea},
+      </if>
+       <if test="officeCount != null and officeCount != ''">
+        OFFICE_COUNT = #{officeCount},
+      </if>
+      <if test="mettingRoomCount != null and mettingRoomCount != ''">
+        METTING_ROOM_COUNT = #{mettingRoomCount},
+      </if>
+       <if test="inviteRoomCount != null and inviteRoomCount != ''">
+        INVITE_ROOM_COUNT = #{inviteRoomCount},
+      </if>
+       <if test="bidRoomCount != null and bidRoomCount != ''">
+        BID_ROOM_COUNT = #{bidRoomCount},
+      </if>
+       <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+       <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+       <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+       <if test="orgId != null and orgId != ''">
+        ORG_ID = #{orgId},
+      </if>
+       <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+       <if test="dutyRoomPhone != null and dutyRoomPhone != ''">
+        DUTY_ROOM_PHONE = #{dutyRoomPhone},
+      </if>
+       <if test="isAuditSupplier != null and isAuditSupplier != ''">
+        IS_AUDIT_SUPPLIER = #{isAuditSupplier},
+      </if>
+      <if test="quaStatus != null and quaStatus != ''">
+        QUA_STATUS = #{quaStatus},
+      </if>
+       <if test="quaStartDate != null and quaStartDate != ''">
+        QUA_START_DATE = #{quaStartDate},
+      </if>
+      <if test="quaStashReason != null and quaStashReason != ''">
+        QUA_STASH_REASON = #{quaStashReason},
+      </if>
+      <if test="accessNetwork != null and accessNetwork != ''">
+        ACCESS_NETWORK = #{accessNetwork},
+      </if>
+       <if test="accessWay != null and accessWay != ''">
+        ACCESS_WAY = #{accessWay},
+      </if>
+      <if test="videoSurveillance != null and videoSurveillance != ''">
+        VIDEO_SURVEILLANCE = #{videoSurveillance},
+      </if>
+      </set>
+		 	 where ORG_ID=#{id}  
 	</update>
 	<select id="selectPurchaseById" parameterType="java.lang.String" resultType="ses.model.oms.PurchaseDep">
 		select d.id  as id,
@@ -695,12 +735,12 @@
 	
 	<!-- 保存 -->
 	<insert id="savePurchaseDept"  parameterType="ses.model.oms.PurchaseDep" >
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+		 <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select rawtohex(sys_guid()) as VALUE from dual
-		</selectKey>
+		</selectKey> 
 		insert into T_SES_OMS_PURCHASE_DEP
 		 (ID,ORG_ID,IS_DELETED,CREATED_AT)
 		values(
-	      #{id},#{orgId,jdbcType=VARCHAR},#{isDeleted,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP})
+	      #{id},#{orgId,jdbcType=VARCHAR},#{isDeleted},#{createdAt,jdbcType=TIMESTAMP})
 	</insert>
 </mapper>

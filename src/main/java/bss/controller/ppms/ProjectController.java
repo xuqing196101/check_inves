@@ -448,13 +448,59 @@ public class ProjectController extends BaseController {
     public String view(String id, String ids, Model model, Integer page, HttpServletRequest request) {
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("projectId", id);
-            List<Packages> list = packageService.findPackageById(map);
-            if(list != null && list.size()>0){
-                for(Packages ps:list){
-                    HashMap<String,Object> packageId = new HashMap<String,Object>();
+            List<Packages> packages = packageService.findPackageById(map);
+            if(packages != null && packages.size()>0){
+                for(Packages ps:packages){
+                	int serialN = 0;
+                    HashMap<String,Object> packageId = new HashMap<>();
                     packageId.put("packageId", ps.getId());
                     List<ProjectDetail> detailList = detailService.selectById(packageId);
-                    ps.setProjectDetails(detailList);
+                    List<String> parentId = new ArrayList<>();
+                    List<ProjectDetail> newDetails = new ArrayList<>();
+                    for(int i=0;i<detailList.size();i++){
+                    	if(!parentId.contains(detailList.get(i).getParentId())){
+                    		parentId.add(detailList.get(i).getParentId());
+                    		HashMap<String,Object> parentMap = new HashMap<>();
+                            parentMap.put("projectId", id);
+                            parentMap.put("id", detailList.get(i).getRequiredId());
+                            List<ProjectDetail> pList = detailService.selectByParent(parentMap);
+                            newDetails.addAll(pList);
+                    	}else{
+                    		newDetails.add(detailList.get(i));
+                    	}
+                    }
+                    ComparatorDetail comparator = new ComparatorDetail();
+                    Collections.sort(newDetails, comparator);
+                    List<String> newParentId = new ArrayList<>();
+                    for(int i=0;i<newDetails.size();i++){
+                    	HashMap<String,Object> detailMap = new HashMap<>();
+                        detailMap.put("id",newDetails.get(i).getRequiredId());
+                        detailMap.put("projectId", id);
+                        List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+                        if(dlist.size()>1){
+                        	HashMap<String,Object> dMap = new HashMap<>();
+                        	dMap.put("projectId", id);
+                        	dMap.put("id", newDetails.get(i).getRequiredId());
+                        	dMap.put("packageId", ps.getId());
+                        	List<ProjectDetail> packDetails = detailService.findHavePackageIdDetail(dMap);
+                        	int budget = 0;
+                        	for (ProjectDetail projectDetail : packDetails) {
+                        		budget += projectDetail.getBudget().intValue();
+                        	}
+                        	double money = budget;
+                        	newDetails.get(i).setBudget(money);
+                        }
+                        if(dlist.size()==1){
+                        	if(!newParentId.contains(newDetails.get(i).getParentId())){
+                        		serialN = 0;
+                        		newParentId.add(newDetails.get(i).getParentId());
+                        	}
+                        	char serialNum = (char) (97 + serialN);
+                    		newDetails.get(i).setSerialNumber("（"+serialNum+"）");
+                    		serialN ++;
+                        }
+                    }
+                    ps.setProjectDetails(newDetails);
                 }
             }else{
                 map.put("id", id);
@@ -462,7 +508,7 @@ public class ProjectController extends BaseController {
                 model.addAttribute("lists", detail);
             }
             model.addAttribute("kind", DictionaryDataUtil.find(5));
-            model.addAttribute("packageList", list);
+            model.addAttribute("packageList", packages);
             return "bss/ppms/project/viewDetail";
 
     }
@@ -676,8 +722,18 @@ public class ProjectController extends BaseController {
     public void viewPackage(String id, HttpServletResponse response) throws IOException{
         HashMap<String,Object> map = new HashMap<String,Object>();
         map.put("id", id);
-        List<ProjectDetail> detail = detailService.selectById(map);
-        String json = JSON.toJSONStringWithDateFormat(detail, "yyyy-MM-dd HH:mm:ss");
+        List<ProjectDetail> details = detailService.selectById(map);
+        List<ProjectDetail> bottomDetails = new ArrayList<>();
+        for(ProjectDetail detail:details){
+        	HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",detail.getRequiredId());
+            detailMap.put("projectId", id);
+            List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+            if(dlist.size()==1){
+                bottomDetails.add(detail);
+            }
+        }
+        String json = JSON.toJSONStringWithDateFormat(bottomDetails, "yyyy-MM-dd HH:mm:ss");
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().write(json);
         response.getWriter().flush();

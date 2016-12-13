@@ -1,11 +1,13 @@
 package ses.service.oms.impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.oms.PurchaseOrgMapper;
+import ses.model.oms.PurchaseOrg;
 import ses.service.oms.PurChaseDepOrgService;
 @Service("purChaseDepOrgService")
 public class PurChaseDepOrgServiceImpl implements PurChaseDepOrgService{
@@ -29,5 +31,11 @@ public class PurChaseDepOrgServiceImpl implements PurChaseDepOrgService{
 		// TODO Auto-generated method stub
 		return purchaseOrgMapper.delByOrgId(map);
 	}
+
+    @Override
+    public List<PurchaseOrg> selectById(HashMap<String, Object> map){
+        // TODO Auto-generated method stub
+        return purchaseOrgMapper.selectById(map);
+    }
 
 }

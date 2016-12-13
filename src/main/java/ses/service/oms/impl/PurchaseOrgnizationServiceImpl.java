@@ -1,5 +1,6 @@
 package ses.service.oms.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +13,11 @@ import org.springframework.stereotype.Service;
 import common.constant.StaticVariables;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.oms.PurchaseDepMapper;
+import ses.model.oms.OrgInfo;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
+import ses.service.oms.OrgInfoService;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 
@@ -28,6 +32,9 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	
 	@Autowired
 	private PurChaseDepOrgService purChaseDepOrgService;
+	
+	@Autowired
+    private OrgInfoService orgInfoService;
 
 	@Override
 	public List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map) {
@@ -47,25 +54,101 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	}
 
 	@Override
-	public int savePurchaseDep(PurchaseDep purchaseDep) {
+	public int savePurchaseDep(PurchaseDep purchaseDep, String ids, String[] purchaseUnitName, String[] purchaseUnitDuty) {
 	    Orgnization org = new Orgnization();
-	    org.setName(purchaseDep.getOrgnization().getName());
-	    org.setIsDeleted(StaticVariables.ISNOT_DELETED.toString());
+	    org.setName(purchaseDep.getName());
+	    org.setIsDeleted(StaticVariables.ISNOT_DELETED);
+	    org.setTypeName(StaticVariables.ORG_TYPE_PURCHASE);
 	    org.setCreatedAt(new Date());
-	    org.setShortName(purchaseDep.getOrgnization().getShortName());
-	    org.setAddress(purchaseDep.getOrgnization().getAddress());
-	    org.setPostCode(purchaseDep.getOrgnization().getPostCode());
+	    org.setShortName(purchaseDep.getShortName());
+	    org.setAddress(purchaseDep.getAddress());
+	    org.setPostCode(purchaseDep.getPostCode());
+	    org.setFax(purchaseDep.getFax());
 	    org.setProvinceId(purchaseDep.getOrgnization().getProvinceId());
 	    org.setCityId(purchaseDep.getOrgnization().getCityId());
 	    orgniztionMapper.saveOrg(org);
 	    String orgId = org.getId();
 	    purchaseDep.setOrgId(orgId);
 	    purchaseDep.setCreatedAt(new Date());
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+	    List<PurchaseOrg> purchaseOrgList = new ArrayList<PurchaseOrg>();
+	    map.put("ORG_ID", orgId);
+	    if(ids != null && !ids.equals("")){
+	        String id[] = ids.split(",");
+	        for (int i = 0; i < id.length; i++ ) {
+	            PurchaseOrg pOrg = new PurchaseOrg();
+                pOrg.setPurchaseDepId(id[i]);
+                purchaseOrgList.add(pOrg);
+            }
+	    }
+	    if(ids != null && !ids.equals("")){
+	        map.put("purchaseOrgList", purchaseOrgList);
+            purChaseDepOrgService.saveByMap(map);
+	    }
+	    if(purchaseUnitName != null || purchaseUnitDuty != null){
+            if(purchaseUnitName.length > 1 || purchaseUnitDuty.length > 1){
+                for (int i = 0; i < purchaseUnitName.length; i++ ) {
+                    OrgInfo orgInfo = new OrgInfo();
+                    orgInfo.setPurchaseUnitName(purchaseUnitName[i]);
+                    orgInfo.setPurchaseUnitDuty(purchaseUnitDuty[i]);
+                    orgInfo.setOrgId(orgId);
+                    orgInfoService.insertSelective(orgInfo);
+                }
+            }else{
+                for (int i = 0; i < purchaseUnitName.length; i++ ) {
+                    OrgInfo orgInfo = new OrgInfo();
+                    orgInfo.setPurchaseUnitName(purchaseUnitName[i]);
+                    orgInfo.setPurchaseUnitDuty(purchaseUnitDuty[i]);
+                    orgInfo.setOrgId(orgId);
+                    orgInfoService.insertSelective(orgInfo);
+                }
+            }
+        }
 		return purchaseDepMapper.savePurchaseDep(purchaseDep);
 	}
 
 	@Override
-	public int update(PurchaseDep purchaseDep) {
+	public int update(PurchaseDep purchaseDep, String selectedItem, String[] purchaseUnitName, String[] purchaseUnitDuty) {
+	    if(purchaseDep.getId() != null){
+	        purchaseDep.setCityId(purchaseDep.getOrgnization().getCityId());
+	        purchaseDep.setAddress(purchaseDep.getOrgnization().getAddress());
+	        purchaseDep.setId(purchaseDep.getOrgnization().getId());
+	        orgniztionMapper.updateOrgnizationById(purchaseDep);
+	    }
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+        List<PurchaseOrg> purchaseOrgList = new ArrayList<PurchaseOrg>();
+        map.put("ORG_ID", purchaseDep.getOrgnization().getId());
+        if(selectedItem != null && !selectedItem.equals("")){
+            String id[] = selectedItem.split(",");
+            for (int i = 0; i < id.length; i++ ) {
+                PurchaseOrg pOrg = new PurchaseOrg();
+                pOrg.setPurchaseDepId(id[i]);
+                purchaseOrgList.add(pOrg);
+            }
+        }
+        if(selectedItem != null && !selectedItem.equals("")){
+            map.put("purchaseOrgList", purchaseOrgList);
+            purChaseDepOrgService.saveByMap(map);
+        }
+	    if(purchaseUnitName != null || purchaseUnitDuty != null){
+            if(purchaseUnitName.length > 1 || purchaseUnitDuty.length > 1){
+                for (int i = 0; i < purchaseUnitName.length; i++ ) {
+                    OrgInfo orgInfo = new OrgInfo();
+                    orgInfo.setPurchaseUnitName(purchaseUnitName[i]);
+                    orgInfo.setPurchaseUnitDuty(purchaseUnitDuty[i]);
+                    orgInfo.setOrgId(purchaseDep.getOrgnization().getId());
+                    orgInfoService.insertSelective(orgInfo);
+                }
+            }else{
+                for (int i = 0; i < purchaseUnitName.length; i++ ) {
+                    OrgInfo orgInfo = new OrgInfo();
+                    orgInfo.setPurchaseUnitName(purchaseUnitName[i]);
+                    orgInfo.setPurchaseUnitDuty(purchaseUnitDuty[i]);
+                    orgInfo.setOrgId(purchaseDep.getOrgnization().getId());
+                    orgInfoService.insertSelective(orgInfo);
+                }
+            }
+        }
 		return purchaseDepMapper.update(purchaseDep);
 	}
 	

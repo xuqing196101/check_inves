@@ -1,6 +1,9 @@
 package ses.service.oms;
 
 import java.util.HashMap;
+import java.util.List;
+
+import ses.model.oms.PurchaseOrg;
 
 /**
  * 
@@ -13,4 +16,5 @@ public interface PurChaseDepOrgService {
 	int  saveByMap(HashMap<String, Object> map);
 	int delByMap(HashMap<String, Object> map);
 	int delByOrgId(HashMap<String, Object> map);
+	List<PurchaseOrg> selectById(HashMap<String, Object> map);
 }

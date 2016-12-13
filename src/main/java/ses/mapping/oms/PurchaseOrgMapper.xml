@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.oms.PurchaseOrgMapper">
+  <resultMap id="BaseResultMap" type="ses.model.oms.PurchaseOrg">
+    <result column="PURCHASE_DEP_ID" property="purchaseDepId" />
+    <result column="ORG_ID" property="orgId" />
+  </resultMap>
 	<!-- 批量保存-->
 	<insert id="saveByMap" parameterType="java.util.Map">
 		insert into  T_SES_OMS_PURDEP_ORG(ORG_ID,PURCHASE_DEP_ID)
@@ -12,9 +16,22 @@
        	from dual
    	 </foreach>) A
 	</insert>
+	 <select id="selectById" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    *
+    from T_SES_OMS_PURDEP_ORG
+    where PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=VARCHAR} 
+  </select>
 	<!-- 删除-->
 	<delete id="delByOrgId" parameterType="java.util.Map">
-		delete from T_SES_OMS_PURDEP_ORG s where s.ORG_ID =#{org_id}
+		delete from T_SES_OMS_PURDEP_ORG s
+		 where
+		 <if test="org_id != null and org_id != ''">
+		  s.ORG_ID =#{org_id}
+		  </if>
+		  <if test="purchaseDepId != null and purchaseDepId != ''">
+       and s.PURCHASE_DEP_ID =#{purchaseDepId}
+      </if>
 	</delete>
   <!-- 批量删-->
 	<delete id="delByMap" parameterType="java.util.Map">

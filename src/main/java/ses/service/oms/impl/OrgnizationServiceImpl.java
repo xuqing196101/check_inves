@@ -199,7 +199,7 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 			
 			PurchaseDep purchaseDep = new PurchaseDep();
 			purchaseDep.setOrgId(ORG_ID);
-			purchaseDep.setIsDeleted(StaticVariables.ISNOT_DELETED + "");
+			purchaseDep.setIsDeleted(StaticVariables.ISNOT_DELETED);
 			purchaseDep.setCreatedAt(new Date());
 			purchaseDeptMapper.savePurchaseDept(purchaseDep);
 		}
@@ -289,9 +289,9 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 	}
 
 	@Override
-	public int updateOrgnizationById(Orgnization orgnization) {
+	public void updateOrgnizationById(Orgnization orgnization) {
 		// TODO Auto-generated method stub
-		return orgniztionMapper.updateOrgnizationById(orgnization);
+		 orgniztionMapper.updateOrgnizationById(orgnization);
 	}
 
 	
@@ -402,7 +402,27 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		}
 		return StaticVariables.SUCCESS;
 	}
-	
-	
+
+    @Override
+    public List<Orgnization> selectedItem(String selectedItem) {
+        List<Orgnization> purchaseOrgList = new ArrayList<Orgnization>();
+        if (StringUtils.isNotBlank(selectedItem)){
+            if (selectedItem.contains(StaticVariables.COMMA_SPLLIT)){
+                String[] purchaseDepIds = selectedItem.split(",");
+                for(int j=0;j<purchaseDepIds.length;j++){
+                    Orgnization org = orgniztionMapper.findOrgByPrimaryKey(purchaseDepIds[j]);
+                    if (org != null){
+                        purchaseOrgList.add(org);
+                    }
+                }
+            } else {
+                Orgnization org = orgniztionMapper.findOrgByPrimaryKey(selectedItem);
+                if (org != null){
+                    purchaseOrgList.add(org);
+                }
+            }
+          }
+        return purchaseOrgList;
+    }
 
 }

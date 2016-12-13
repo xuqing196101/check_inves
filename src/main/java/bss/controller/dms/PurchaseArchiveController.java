@@ -36,9 +36,11 @@ import bss.service.dms.ArchiveBorrowServiceI;
 import bss.service.dms.ProbationaryArchiveServiceI;
 import bss.service.dms.PurchaseArchiveServiceI;
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseInfo;
 import ses.service.oms.PurchaseServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 
 /**
@@ -112,6 +114,7 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("contractCode", contractCode);
 		//model.addAttribute("planCode", planCode);
 		model.addAttribute("status", status);
+		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		return "bss/dms/purchaseArchive/list";
 	}
 	
@@ -148,14 +151,16 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		if(purchaseDep!=null&&!purchaseDep.equals("")){
 			map.put("purchaseDep",purchaseDep);
 		}
+		List<DictionaryData> data = DictionaryDataUtil.find(5);
 		String purchaseType = request.getParameter("purchaseType");
 		if(purchaseType!=null&&!purchaseType.equals("")){
-			map.put("purchaseType",purchaseType);
+			for(int i=0;i<data.size();i++){
+				if(data.get(i).getName().equals(purchaseType)){
+					map.put("purchaseType",data.get(i).getId());
+					break;
+				}
+			}
 		}
-//		String productName = request.getParameter("productName");
-//		if(productName!=null&&!productName.equals("")){
-//			map.put("productName",productName);
-//		}
 		String supplierName = request.getParameter("supplierName");
 		if(supplierName!=null&&!supplierName.equals("")){
 			map.put("supplierName",supplierName);
@@ -175,14 +180,12 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("name", name);
 		model.addAttribute("archiveCode", archiveCode);
 		model.addAttribute("contractCode", contractCode);
-//		model.addAttribute("planCode", planCode);
-//		model.addAttribute("planTime", planTime);
 		model.addAttribute("year", year);
 		model.addAttribute("purchaseDep", purchaseDep);
 		model.addAttribute("purchaseType", purchaseType);
-		//model.addAttribute("productName", productName);
 		model.addAttribute("supplierName", supplierName);
 		model.addAttribute("status", status);
+		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		return "bss/dms/purchaseArchive/query_archive";
 	}
 	
@@ -241,6 +244,7 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<ProbationaryArchive> contract = probationaryArchiveService.selectAll(map);
 		model.addAttribute("contract", new PageInfo<ProbationaryArchive>(contract));
+		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		return "bss/dms/purchaseArchive/add";
 	}
 	
@@ -388,7 +392,7 @@ public class PurchaseArchiveController extends BaseSupplierController{
 	* @Title: placeArchiveById
 	* @author ZhaoBo
 	* @date 2016-10-26 下午2:44:10  
-	* @Description: 归档档案 
+	* @Description: 归档 
 	* @param @return      
 	* @return String
 	 */

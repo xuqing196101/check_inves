@@ -21,6 +21,7 @@ session.setAttribute("tokenSession", tokenValue);
 		});
 	}
 	$(function(){
+		var count;
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/getAllCategory.do",
 			data:{"expertId":$("#id").val()},
@@ -56,8 +57,10 @@ session.setAttribute("tokenSession", tokenValue);
 						}
 					};
 					zTreeObj = $.fn.zTree.init($("#tab-" + (parseInt(i) + 1)), setting, zNodes);
+					zTreeObj.expandAll(true);//全部展开
 				});
 				$("#tab-1").attr("style", "");
+				$("#li_1").attr("class", "s_news f18");
 			}
 		});
 	});
@@ -91,6 +94,7 @@ session.setAttribute("tokenSession", tokenValue);
 			}
 		};
 		zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
+		zTreeObj.expandAll(true);//全部展开
 	}
 </script>
 <script type="text/javascript">
@@ -209,8 +213,8 @@ function fun1(count){
 	  <span id="ty2" class="new_step current fl" onclick="pre()"><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span>
 	  <span id="ty6" class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
 	  <span id="ty3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-	  <span id="ty4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载附件</span> </span> 
-	  <span id="ty5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传附件</span> </span> 
+	  <span id="ty4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">文件下载</span> </span> 
+	  <span id="ty5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">文件上传</span> </span> 
 	  <div class="clear"></div>
 	</h2>
 	<div class="col-md-12 tab-v2 job-content">
@@ -218,13 +222,13 @@ function fun1(count){
 	  	<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 		  <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">	  	
 			<c:if test="${cate.name eq '物资技术'}">
-			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a aria-expanded="true" data-toggle="tab" class="fujian f18">物资</a></li>
+			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="fujian f18">物资</a></li>
 			</c:if>
 			<c:if test="${cate.name eq '工程技术'}">
-			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a aria-expanded="true" data-toggle="tab" class="fujian f18">工程</a></li>
+			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="fujian f18">工程</a></li>
 			</c:if>
 			<c:if test="${cate.name eq '服务技术'}">
-			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a aria-expanded="false" data-toggle="tab" class="fujian f18">服务</a></li>
+			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="fujian f18">服务</a></li>
 			</c:if>
 		  </c:forEach>
 		</ul>

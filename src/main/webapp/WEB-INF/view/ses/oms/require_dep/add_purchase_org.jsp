@@ -6,26 +6,27 @@
 <html>
 <head>
 <script type="text/javascript">
-  	  $(function(){
-	  laypage({
-		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: "${list.pages}", //总页数
-		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    skip: true, //是否开启跳页
-		    total: "${list.total}",
-		    startRow: "${list.startRow}",
-		    endRow: "${list.endRow}",
-		    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
-		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-		        var page = location.search.match(/page=(\d+)/);
-		        return page ? page[1] : 1;
-		    }(), 
-		    jump: function(e, first){ //触发分页后的回调
-		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		             location.href = '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?page='+e.curr+"&address=${address}";
-		        }
-		    }
-		});
+    /*分页  */
+  $(function() {
+    laypage({
+      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+      pages : "${list.pages}", //总页数
+      skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+      skip : true, //是否开启跳页
+      total : "${list.total}",
+      startRow : "${list.startRow}",
+      endRow : "${list.endRow}",
+      groups : "${list.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+      curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
+        return "${list.pageNum}";
+      }(),
+      jump : function(e, first) { //触发分页后的回调
+        if (!first) { //一定要加此判断，否则初始时会无限刷新
+          $("#page").val(e.curr);
+          $("#form1").submit();
+        }
+      }
+    });
   });
   function fanhui(){
   	window.location.href="${pageContext.request.contextPath}/purchaseManage/add.html"
@@ -64,7 +65,7 @@ function chongzhi(){
 		});
 		var parentIndex = 0;
 		if (parentIndexArray.length > 0){
-			parentIndex = Math.max.apply(null, parentIndexArray)
+			parentIndex = Math.max.apply(null, parentIndexArray);
 		}
 		
 		var count = 1;
@@ -79,35 +80,29 @@ function chongzhi(){
 				 count ++;
 			 }
 		});
-        parent.layer.close(index); //执行关闭
+       parent.layer.close(index); //执行关闭
 	}
 	
 	/** 添加table */
 	function addTables(index,id,name){
 			parent.$("#tab").append("<tr id="+id+" align='center'>"
-					+"<td><input type='checkbox' name='selectedItem' value="+id+" /></td>"     
+					+"<td><input type='checkbox' name='selectedItem' onclick='checkAdd()' value="+id+" /></td>"     
                     +"<td>"+index+"</td>"
                     +"<td>"+name+"</td>"
                     +"</tr>"); 
 		}
+		
+	function closess(){
+	   var index = parent.layer.getFrameIndex(window.name);
+	   alert(index);
+	   parent.layer.close(index);
+	}
 </script>
 </head>
 <body>
   <div class="container">
-    <div class="headline-v2">
-	  <h2>
-	    <c:if test="${orgnization.typeName == '0'}">
-	            管理机构信息
-	    </c:if>
-	    <c:if test="${orgnization.typeName == '1'}">
-	           管理机构信息
-	    </c:if>
-	    <c:if test="${orgnization.typeName == '2'}">
-	          采购机构信息
-	    </c:if>
-	</div>
 	<h2 class="search_detail">
-	  <form id="form1" class="mb0" action="${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html" method="post" id="form1">
+	  <form  class="mb0" action="${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html" method="post" id="form1">
 		<input type="hidden" name="page" id="page"> 
 		<input type="hidden" name="flag" value="0">
 		<input type="hidden" name="typeName" value="${orgnization.typeName }" />
@@ -122,10 +117,6 @@ function chongzhi(){
 	    <div class="clear"></div>
 	  </form>
 	</h2>
-	<div class="col-md-12 pl20 mt10">
-	  <button class="btn btn-windows add" type="button" onclick="add()">添加</button>
-	  <button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
-	</div>
 	<div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
@@ -154,6 +145,10 @@ function chongzhi(){
 		</tbody>
 	  </table>
 	  <div id="pagediv" align="right"></div>
+	   <div class="col-md-12 col-sm-12 col-xs-12 tc">
+    <button class="btn btn-windows add" type="button" onclick="add()">添加</button>
+    <button class="btn btn-windows back" type="button" onclick="closess();">取消</button>
+  </div>
 	</div>
   </div>
 </body>

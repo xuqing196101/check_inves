@@ -229,7 +229,7 @@
                     </span>
                   </li>
                   <li>
-                    <label class="fl">专家类型：</label>
+                    <label class="fl">专家类别：</label>
                     <span class="fl">
                       <select name="expertsTypeId" id="expertsTypeId">
                         <option selected="selected"  value=''>-请选择-</option>

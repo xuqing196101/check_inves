@@ -51,7 +51,7 @@ public interface OrgnizationServiceI {
 	
     int delOrgnizationByid(HashMap<String, Object> map);
 	
-    int updateOrgnizationById(Orgnization orgnization);
+    void updateOrgnizationById(Orgnization orgnization);
 	
     List<Orgnization> findByName(Map<String, Object> map);
 	
@@ -114,4 +114,6 @@ public interface OrgnizationServiceI {
 	 * @return
 	 */
 	public String delUsers(String idsString, String orgType);
+	
+	List<Orgnization> selectedItem(String selectedItem);
 }

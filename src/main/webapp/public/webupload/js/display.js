@@ -189,7 +189,7 @@ function disFile(html,obj,key){
 	if (/(gif|jpg|jpeg|png|bmp)$/.test(fileExt)) {
 		var url = globalPath + '/file/viewFile.html?path=' + obj.path;
 		var li = '<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'
-			+'<img data-original="'+url+'"  src="'+url+'"/></a></div></div></li>';
+			+'<img data-original="'+url+'"  src="'+url+'" height="120px"/></a></div></div></li>';
 		html.append(li);
 	}
 }

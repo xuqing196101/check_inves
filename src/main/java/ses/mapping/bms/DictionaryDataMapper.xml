@@ -27,7 +27,7 @@
       <if test="code != null and code != ''">
         and dd.CODE = #{code} 
       </if>
-      <if test=" name!= null and name != ''">
+      <if test="name!= null and name != ''">
         and dd.NAME  like CONCAT(CONCAT('%', #{name}), '%') 
       </if>
       <if test="description != null and description != ''">

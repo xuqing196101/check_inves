@@ -83,7 +83,6 @@ public class DictionaryDataController extends BaseSupplierController{
         List<DictionaryData> ls = dictionaryDataService.find(dd);
         if (ls.size() > 0){
             model.addAttribute("dd", ls.get(0));
-            model.addAttribute("currpage",page);
             return "ses/bms/dictionaryData/edit";
         } else {
             throw new Exception("访问失败");
@@ -91,24 +90,22 @@ public class DictionaryDataController extends BaseSupplierController{
     }
     
     @RequestMapping("/update")
-    public String update(@Valid DictionaryData dd, BindingResult result, Model model, Integer currpage){
+    public String update(@Valid DictionaryData dd, BindingResult result, Model model, HttpServletRequest request){
         if(result.hasErrors()){
             model.addAttribute("dd", dd);
-            model.addAttribute("currpage",currpage);
             return "ses/bms/dictionaryData/edit";
         }
         
         List<DictionaryData> dds = dictionaryDataService.findRepeat(dd);
         if(dds.size() > 0){
             model.addAttribute("dd", dd);
-            model.addAttribute("currpage",currpage);
             model.addAttribute("exist", "编码已存在");
             return "ses/bms/dictionaryData/edit";
         }
         
         dd.setUpdatedAt(new Date());
         dictionaryDataService.update(dd);
-        return "redirect:list.html?kind="+dd.getKind()+"&page="+currpage;
+        return "redirect:dictionaryDataList.html?kind="+dd.getKind();
     }
     
     @RequestMapping("/deleteSoft")
@@ -131,7 +128,7 @@ public class DictionaryDataController extends BaseSupplierController{
     }
     
     @RequestMapping("/dictionaryDataList")
-    public String dictionaryDataList(Model model,String kind) {
+    public String dictionaryDataList(Model model,String kind,Integer page) {
         List<DictionaryType> ls = dictionaryTypeService.findList();
         model.addAttribute("list", ls);
         model.addAttribute("kind", kind);

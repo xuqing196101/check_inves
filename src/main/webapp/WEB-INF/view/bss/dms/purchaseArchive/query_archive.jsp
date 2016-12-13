@@ -4,86 +4,89 @@
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <title>采购档案查询</title>
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript">
-		$(function(){
-			$("#name").val("${name}");
-			$("#archiveCode").val("${archiveCode}");
-			$("#contractCode").val("${contractCode}");
-			//$("#planCode").val("${planCode}");
-			//$("#planTime").val("${planTime}");
-			$("#year").val("${year}");
-			$("#purchaseDep").val("${purchaseDep}");
-			$("#purchaseType").val("${purchaseType}");
-			//$("#productName").val("${productName}");
-			$("#supplierName").val("${supplierName}");
-			$("#status").val("${status}");
-			laypage({
-			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
-			    pages: "${archiveList.pages}", //总页数
-			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-			    skip: true, //是否开启跳页
-			    total: "${archiveList.total}",
-			    startRow: "${archiveList.startRow}",
-			    endRow: "${archiveList.endRow}",
-			    groups: "${archiveList.pages}">=5?5:"${archiveList.pages}", //连续显示分页数
-			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-			        var page = location.search.match(/page=(\d+)/);
-			        return page ? page[1] : 1;
-			    }(), 
-			    jump: function(e, first){ //触发分页后的回调
-			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			        	var name = "${name}";
-			        	var archiveCode = "${archiveCode}";
-			        	var contractCode = "${contractCode}";
-			        	//var planCode = "${planCode}";
-			        	//var planTime = "${planTime}";
-			        	var year = "${year}";
-			        	var purchaseDep = "${purchaseDep}";
-			        	var purchaseType = "${purchaseType}";
-			        	//var productName = "${productName}";
-			        	var supplierName = "${supplierName}";
-			        	var status = "${status}";
-			        	location.href = "${pageContext.request.contextPath }/purchaseArchive/queryArchive.do?name="+name+"&archiveCode="+archiveCode+"&contractCode="+contractCode+"&year="+year+"&purchaseDep="+purchaseDep+"&purchaseType="+purchaseType+"&supplierName="+supplierName+"&status="+status+"&page="+e.curr;
-			        }
-			    }
-			});
-		})
-		
-		//重置
-		function resetResult(){
-			$("#form").find("input").val("");
-			var purchaseMode = document.getElementById("purchaseType").options;
-			purchaseMode[0].selected = true;
-			var status = document.getElementById("status").options;
-			status[0].selected = true;
-		}
-	</script>
 
-  </head>
-  
-  <body>
-    <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购档案查询</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
-   <div class="container">
-	   <div class="headline-v2">
-	   		<h2>采购档案查询</h2>
-	   </div>
-   
-   	<form action="${pageContext.request.contextPath }/purchaseArchive/queryArchive.html" method="post" id="form">
-	   	<h2 class="search_detail">
+	<head>
+		<title>采购档案查询</title>
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="This is my page">
+		<script type="text/javascript">
+			$(function() {
+				$("#name").val("${name}");
+				$("#archiveCode").val("${archiveCode}");
+				$("#contractCode").val("${contractCode}");
+				$("#year").val("${year}");
+				$("#purchaseDep").val("${purchaseDep}");
+				$("#purchaseType").val("${purchaseType}");
+				$("#supplierName").val("${supplierName}");
+				$("#status").val("${status}");
+				laypage({
+					cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
+					pages: "${archiveList.pages}", //总页数
+					skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+					skip: true, //是否开启跳页
+					total: "${archiveList.total}",
+					startRow: "${archiveList.startRow}",
+					endRow: "${archiveList.endRow}",
+					groups: "${archiveList.pages}" >= 5 ? 5 : "${archiveList.pages}", //连续显示分页数
+					curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
+						var page = location.search.match(/page=(\d+)/);
+						return page ? page[1] : 1;
+					}(),
+					jump: function(e, first) { //触发分页后的回调
+						if(!first) { //一定要加此判断，否则初始时会无限刷新
+							var name = "${name}";
+							var archiveCode = "${archiveCode}";
+							var contractCode = "${contractCode}";
+							var year = "${year}";
+							var purchaseDep = "${purchaseDep}";
+							var purchaseType = "${purchaseType}";
+							var supplierName = "${supplierName}";
+							var status = "${status}";
+							location.href = "${pageContext.request.contextPath }/purchaseArchive/queryArchive.do?name=" + name + "&archiveCode=" + archiveCode + "&contractCode=" + contractCode + "&year=" + year + "&purchaseDep=" + purchaseDep + "&purchaseType=" + purchaseType + "&supplierName=" + supplierName + "&status=" + status + "&page=" + e.curr;
+						}
+					}
+				});
+			})
+
+			//重置
+			function resetResult() {
+				$("#form").find("input").val("");
+				var purchaseMode = document.getElementById("purchaseType").options;
+				purchaseMode[0].selected = true;
+				var status = document.getElementById("status").options;
+				status[0].selected = true;
+			}
+		</script>
+
+	</head>
+
+	<body>
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li>
+						<a href="#">首页</a>
+					</li>
+					<li>
+						<a href="#">保障作业</a>
+					</li>
+					<li>
+						<a href="#">采购档案查询</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="headline-v2">
+				<h2>采购档案查询</h2>
+			</div>
+
+			<form action="${pageContext.request.contextPath }/purchaseArchive/queryArchive.html" method="post" id="form">
+				<h2 class="search_detail">
 			<ul class="demand_list">
 				<li>
 			    	<label class="fl">档案名称：</label><span><input type="text" id="name" name="name"/></span>
@@ -136,77 +139,78 @@
 	  		</ul>
 	  		<div class="clear"></div>
 	  	</h2>
-  	</form>
-  	
-  			<div class="content table_box">
-	  		<table class="table table-bordered table-condensed table-hover">
-				<thead>
-					<tr class="info">
-						<th>序号</th>
-						<th>档案名称</th>
-						<th>档案编号</th>
-						<th>合同编号</th>
-						<%--<th>计划文号</th>
-						<th>计划下达时间</th>
-						--%><th>预算年度</th>
-						<th>采购机构</th>
-						<th>采购方式</th>
-						<th>产品名称</th>
-						<th>供应商名称</th>
-						<th>采购文件上报时间</th>
-						<th>采购文件批复时间</th>
-						<th>合同草案上报时间</th>
-						<th>合同草案批复时间</th>
-						<th>正式合同上报时间</th>
-						<th>正式合同批复时间</th>
-						<th>首件检验和出厂验收时间</th>
-						<th>发运和结算时间</th>
-						<th>状态</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${archiveList.list }" var="archive" varStatus="vs">
-						<tr class="tc">
-							<td class="w50">${(vs.index+1)+(archiveList.pageNum-1)*(archiveList.pageSize)}</td>
-							<td>${archive.name }</td>
-							<td>${archive.code }</td>
-							<td>${archive.contractCode }</td>
-							<%--<td>${archive.planCode }</td>
-							<td><fmt:formatDate value="${archive.planTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-							--%><td>${archive.year }</td>
-							<td>${archive.purchaseDep }</td>
-							<td>${archive.purchaseType }</td>
-							<td>${archive.productName }</td>
-							<td>${archive.supplierName }</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<c:if test="${archive.status==1 }">
-								<td>暂存</td>
-							</c:if>
-							<c:if test="${archive.status==2 }">
-								<td>审核通过</td>
-							</c:if>
-							<c:if test="${archive.status==3 }">
-								<td>审核不通过</td>
-							</c:if>
-							<c:if test="${archive.status==4 }">
-								<td>已归档</td>
-							</c:if>
-							<c:if test="${archive.status==5 }">
-								<td>已提交</td>
-							</c:if>
+			</form>
+
+			<div class="content table_box">
+				<table class="table table-bordered table-condensed table-hover">
+					<thead>
+						<tr class="info">
+							<th>序号</th>
+							<th>档案名称</th>
+							<th>档案编号</th>
+							<th>合同编号</th>
+							<th>预算年度</th>
+							<th>采购机构</th>
+							<th>采购方式</th>
+							<th>产品名称</th>
+							<th>供应商名称</th>
+							<th>采购文件上报时间</th>
+							<th>采购文件批复时间</th>
+							<th>合同草案上报时间</th>
+							<th>合同草案批复时间</th>
+							<th>正式合同上报时间</th>
+							<th>正式合同批复时间</th>
+							<th>首件检验和出厂验收时间</th>
+							<th>发运和结算时间</th>
+							<th>状态</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<c:forEach items="${archiveList.list }" var="archive" varStatus="vs">
+							<tr class="tc">
+								<td class="w50">${(vs.index+1)+(archiveList.pageNum-1)*(archiveList.pageSize)}</td>
+								<td>${archive.name }</td>
+								<td>${archive.code }</td>
+								<td>${archive.contractCode }</td>
+								<td>${archive.year }</td>
+								<td>${archive.purchaseDep }</td>
+								<td>
+									<c:forEach items="${kind}" var="kind">
+										<c:if test="${kind.id == archive.purchaseType}">${kind.name}</c:if>
+									</c:forEach>
+								</td>
+								<td>${archive.productName }</td>
+								<td>${archive.supplierName }</td>
+								<td>${archive.reportAt }</td>
+								<td>${archive.applyAt }</td>
+								<td>${archive.draftGitAt }</td>
+								<td>${archive.draftReviewedAt }</td>
+								<td>${archive.formalGitAt }</td>
+								<td>${archive.formalReviewedAt }</td>
+								<td></td>
+								<td></td>
+								<c:if test="${archive.status==1 }">
+									<td>暂存</td>
+								</c:if>
+								<c:if test="${archive.status==2 }">
+									<td>审核通过</td>
+								</c:if>
+								<c:if test="${archive.status==3 }">
+									<td>审核不通过</td>
+								</c:if>
+								<c:if test="${archive.status==4 }">
+									<td>已归档</td>
+								</c:if>
+								<c:if test="${archive.status==5 }">
+									<td>已提交</td>
+								</c:if>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+			<div id="pageDiv" align="right"></div>
 		</div>
-		<div id="pageDiv" align="right"></div>
-  	</div>
-  </body>
+	</body>
+
 </html>

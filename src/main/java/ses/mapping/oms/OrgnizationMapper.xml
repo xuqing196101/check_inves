@@ -30,12 +30,14 @@
 		<result column="EMAIL" property="email"/>
 		<result column="STATUS" property="status"/>
 		<result column="CREATED_AT" property="createdAt"/>
+		<result column="CONTACT_NAME" property="contactName"/>
+    <result column="CONTACT_MOBILE" property="contactMobile"/>
 	</resultMap>
 	
 	<sql id="baseSearchSql">
 		ID,NAME,TYPE_NAME,ADDRESS,MOBILE,POST_CODE,ORG_CODE,TELEPHONE,AREA_ID,DETAIL_ADDR,FAX,
 		WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,NATURE,SHORT_NAME,PARENT_ID,PARENT_NAME,PROVINCE_ID,
-		CITY_ID,ORG_LEVEL,IS_DELETED,DEP_ID,IS_ROOT,EMAIL,STATUS,CREATED_AT
+		CITY_ID,ORG_LEVEL,IS_DELETED,DEP_ID,IS_ROOT,EMAIL,STATUS,CREATED_AT,CONTACT_NAME,CONTACT_MOBILE
 	</sql>
 
    <!-- 根据id查询 -->
@@ -66,6 +68,8 @@
 		       d.IS_ROOT         as isRoot,
 		       d.EMAIL      as email,
 		       d.STATUS     as status
+		       d.CONTACT_NAME      as contactName,
+           d.CONTACT_MOBILE     as contactMobile
 		  from T_SES_OMS_ORG     d
 		       where d.ID =#{id}
    </select>
@@ -106,6 +110,8 @@
 		       d.IS_ROOT         as isRoot,
 		       d.EMAIL      as email,
 		       d.STATUS     as status
+		       d.CONTACT_NAME      as contactName,
+           d.CONTACT_MOBILE     as contactMobile
 		       from T_SES_OMS_ORG d
 		       
 		       where d.ID =#{id}
@@ -139,6 +145,8 @@
 		       d.IS_ROOT         as isRoot,
 		       d.EMAIL      as email,
 		      d.STATUS	    as status
+		       d.CONTACT_NAME      as contactName,
+           d.CONTACT_MOBILE     as contactMobile
 		  from T_SES_OMS_ORG    d
 		 where 1=1
 		 <if test="name != null and name != ''">
@@ -188,6 +196,8 @@
 		       d.DEP_ID       as depId,
 		       d.IS_ROOT         as isRoot,
 		       d.EMAIL      as email,
+		       d.CONTACT_NAME      as contactName,
+           d.CONTACT_MOBILE     as contactMobile
 		       a.NAME as provinceName
 		  from T_SES_OMS_ORG     d
 		  left join T_SES_BMS_AREA a
@@ -203,7 +213,7 @@
 		<if test="isroot != null and isroot != ''">
 			and d.PARENT_ID is null
 		</if>
-		<if test="typeName != null and typeName != ''">
+		<if test="typeName != null">
 			and d.TYPE_NAME= #{typeName}
 		</if> 
 		<if test="requireDepId != null and requireDepId != ''">
@@ -307,178 +317,191 @@
 	<update id="updateOrgnization" parameterType="java.util.Map">
 			 update T_SES_OMS_ORG s
 	     set 
-	         UPDATED_AT=sysdate
+	         UPDATED_AT=sysdate,
 	         <!-- -->
 	        <if test="name != null">
-		 		,NAME=#{name,jdbcType=VARCHAR}
+		 		NAME=#{name},
 		 	</if>
 		 	<if test="typeName != null">
-		 		,TYPE_NAME=#{typeName,jdbcType=VARCHAR}
+		 		TYPE_NAME=#{typeName},
 		 	</if>
 		 	<if test="parentId != null">
-		 		,PARENT_ID=#{parentId,jdbcType=VARCHAR}
+		 		PARENT_ID=#{parentId},
 		 	</if>
 		 	<if test="parentName != null">
-		 		,PARENT_NAME=#{parentName,jdbcType=VARCHAR}
+		 		PARENT_NAME=#{parentName},
 		 	</if>
 		 	<if test="describtion != null">
-		 		,DESCRIBTION=#{describtion,jdbcType=VARCHAR}
+		 		DESCRIBTION=#{describtion},
 		 	</if>
 		 	
 		 	 <if test="address != null">
-		 		,ADDRESS=#{address,jdbcType=VARCHAR}
+		 		ADDRESS=#{address},
 		 	</if>
 		 	 <if test="mobile != null">
-		 		,MOBILE=#{mobile,jdbcType=NUMERIC}
+		 		MOBILE=#{mobile,jdbcType=NUMERIC},
 		 	</if>
 		 	 <if test="postCode != null">
-		 		,POST_CODE=#{postCode,jdbcType=NUMERIC}
+		 		POST_CODE=#{postCode},
 		 	</if>
 		 	 <if test="orgCode != null">
-		 		,ORG_CODE=#{orgCode,jdbcType=VARCHAR}
+		 		ORG_CODE=#{orgCode},
 		 	</if>
 	        <if test="shortName != null">
-		 		,SHORT_NAME=#{shortName,jdbcType=VARCHAR}
+		 		SHORT_NAME=#{shortName},
 		 	</if>
 		 	 <if test="telephone != null">
-		 		,TELEPHONE=#{telephone,jdbcType=VARCHAR}
+		 		TELEPHONE=#{telephone},
 		 	</if>
 		 	 <if test="areaId != null">
-		 		,AREA_ID=#{areaId,jdbcType=VARCHAR}
+		 		AREA_ID=#{areaId},
 		 	</if>
 		 	 <if test="detailAddr != null">
-		 		,DETAIL_ADDR=#{detailAddr,jdbcType=VARCHAR}
+		 		DETAIL_ADDR=#{detailAddr},
 		 	</if>
 		 	 <if test="fax != null">
-		 		,FAX=#{fax,jdbcType=VARCHAR}
+		 		FAX=#{fax},
 		 	</if>
 		 	 <if test="website != null">
-		 		,WEBSITE=#{website,jdbcType=VARCHAR}
+		 		WEBSITE=#{website},
 		 	</if>
 		 	 <if test="princinpal != null">
-		 		,PRINCINPAL=#{princinpal,jdbcType=VARCHAR}
+		 		PRINCINPAL=#{princinpal},
 		 	</if>
 		 	 <if test="princinpalIdCard != null">
-		 		,PRINCINPAL_ID_CARD=#{princinpalIdCard,jdbcType=VARCHAR}
+		 		PRINCINPAL_ID_CARD=#{princinpalIdCard},
 		 	</if>
 		 	 <if test="nature != null">
-		 		,NATURE=#{nature,jdbcType=VARCHAR}
+		 	 NATURE=#{nature},
 		 	</if>
 		 	 <if test="orgLevel != null">
-		 		,ORG_LEVEL=#{orgLevel,jdbcType=INTEGER}
+		 		ORG_LEVEL=#{orgLevel,jdbcType=INTEGER},
 		 	</if>
 		 	 <if test="position != null">
-		 		,POSITION=#{position,jdbcType=INTEGER}
+		 		POSITION=#{position,jdbcType=INTEGER},
 		 	</if>
 		 	 <if test="isroot != null">
-		 		,IS_ROOT=#{isroot,jdbcType=INTEGER}
+		 	 IS_ROOT=#{isroot,jdbcType=INTEGER},
 		 	</if>
 		 	 <if test="pid != null">
-		 		,PROVINCE_ID=#{pid,jdbcType=VARCHAR}
+		 		PROVINCE_ID=#{pid},
 		 	</if>
 		 	 <if test="cid != null">
-		 		,CITY_ID=#{cid,jdbcType=VARCHAR}
+		 		CITY_ID=#{cid},
 		 	</if>
 		 	 <if test="is_deleted != null">
-		 		,IS_DELETED=#{is_deleted,jdbcType=NUMERIC}
+		 		IS_DELETED=#{is_deleted,jdbcType=NUMERIC},
 		 	</if>
 		 	 <if test="isroot != null">
-		 		,IS_ROOT=#{isroot,jdbcType=NUMERIC}
+		 		IS_ROOT=#{isroot,jdbcType=NUMERIC},
 		 	</if>
 		 	 <if test="quaStatus != null">
-		 		,QUA_STATUS=#{quaStatus,jdbcType=NUMERIC}
+		 		QUA_STATUS=#{quaStatus},
 		 	</if>
 		 	<if test="quaStashReason != null">
-		 		,QUA_STASH_REASON=#{quaStashReason,jdbcType=VARCHAR}
+		 		QUA_STASH_REASON=#{quaStashReason},
 		 	</if>
 		 	<if test="quaNormalReason != null">
-		 		,QUA_NORMAL_REASON=#{quaNormalReason,jdbcType=VARCHAR}
+		 		QUA_NORMAL_REASON=#{quaNormalReason},
 		 	</if>
 		 	<if test="quaTerminalReason != null">
-		 		,QUA_TERMINAL_REASON=#{quaTerminalReason,jdbcType=VARCHAR}
+		 		QUA_TERMINAL_REASON=#{quaTerminalReason},
 		 	</if>
+		 	<if test="contactName != null">
+        CONTACT_NAME=#{contactName},
+      </if>
+      <if test="contactMobile != null">
+        CONTACT_MOBILE=#{contactMobile},
+      </if>
 	     where s.id=#{id}    
 	</update>
 	<!-- 更新人员-->
 	<update id="updateOrgnizationById" parameterType="ses.model.oms.Orgnization">
-			  update T_SES_OMS_ORG s
-	     set 
-	         UPDATED_AT=sysdate
+			  update T_SES_OMS_ORG 
+	     <set> 
+	         UPDATED_AT=sysdate,
 	         <!-- -->
 	        <if test="name != null and name != ''">
-		 		,NAME=#{name,jdbcType=VARCHAR}
+		 		NAME=#{name},
 		 	</if>
-		 	<if test="typeName != null and typeName != ''">
-		 		,TYPE_NAME=#{typeName,jdbcType=VARCHAR}
+		 	<if test="typeName != null">
+		 		TYPE_NAME=#{typeName},
 		 	</if>
 		 	<if test="parentId != null and parentId != ''">
-		 		,PARENT_ID=#{parentId,jdbcType=VARCHAR}
+		 		PARENT_ID=#{parentId},
 		 	</if>
 		 	<if test="parentName != null and parentName != ''">
-		 		,PARENT_NAME=#{parentName,jdbcType=VARCHAR}
+		 		PARENT_NAME=#{parentName},
 		 	</if>
 		 	<if test="describtion != null and describtion != ''">
-		 		,DESCRIBTION=#{describtion,jdbcType=VARCHAR}
+		 		DESCRIBTION=#{describtion},
 		 	</if>
 		 	
 		 	 <if test="address != null and address != ''">
-		 		,ADDRESS=#{address,jdbcType=VARCHAR}
+		 		ADDRESS=#{address},
 		 	</if>
 		 	 <if test="mobile != null and mobile != ''">
-		 		,MOBILE=#{mobile,jdbcType=NUMERIC}
+		 		MOBILE=#{mobile},
 		 	</if>
 		 	 <if test="postCode != null and postCode != ''">
-		 		,POST_CODE=#{postCode,jdbcType=NUMERIC}
+		 		POST_CODE=#{postCode},
 		 	</if>
 		 	 <if test="orgCode != null and orgCode != ''">
-		 		,ORG_CODE=#{orgCode,jdbcType=VARCHAR}
+		 		ORG_CODE=#{orgCode},
 		 	</if>
 	        <if test="shortName != null and shortName != ''">
-		 		,SHORT_NAME=#{shortName,jdbcType=VARCHAR}
+		 		SHORT_NAME=#{shortName},
 		 	</if>
 		 	 <if test="telephone != null and telephone != ''">
-		 		,TELEPHONE=#{telephone,jdbcType=VARCHAR}
+		 		TELEPHONE=#{telephone},
 		 	</if>
 		 	 <if test="areaId != null and areaId != ''">
-		 		,AREA_ID=#{areaId,jdbcType=VARCHAR}
+		 		AREA_ID=#{areaId},
 		 	</if>
 		 	 <if test="detailAddr != null and detailAddr != ''">
-		 		,DETAIL_ADDR=#{detailAddr,jdbcType=VARCHAR}
+		 		DETAIL_ADDR=#{detailAddr},
 		 	</if>
 		 	 <if test="fax != null and fax != ''">
-		 		,FAX=#{fax,jdbcType=VARCHAR}
+		 		FAX=#{fax},
 		 	</if>
 		 	 <if test="website != null and website != ''">
-		 		,WEBSITE=#{website,jdbcType=VARCHAR}
+		 		WEBSITE=#{website},
 		 	</if>
 		 	 <if test="princinpal != null and princinpal != ''">
-		 		,PRINCINPAL=#{princinpal,jdbcType=VARCHAR}
+		 		PRINCINPAL=#{princinpal},
 		 	</if>
 		 	 <if test="princinpalIdCard != null and princinpalIdCard != ''">
-		 		,PRINCINPAL_ID_CARD=#{princinpalIdCard,jdbcType=VARCHAR}
+		 		PRINCINPAL_ID_CARD=#{princinpalIdCard},
 		 	</if>
 		 	 <if test="nature != null and nature != ''">
-		 		,NATURE=#{nature,jdbcType=VARCHAR}
+		 		NATURE=#{nature},
 		 	</if>
 		 	 <if test="orgLevel != null and orgLevel != ''">
-		 		,ORG_LEVEL=#{orgLevel,jdbcType=INTEGER}
+		 		ORG_LEVEL=#{orgLevel},
 		 	</if>
 		 	 <if test="position != null and position != ''">
-		 		,POSITION=#{position,jdbcType=INTEGER}
+		 		POSITION=#{position},
 		 	</if>
 		 	 <if test="isRoot != null and isRoot != ''">
-		 		,IS_ROOT=#{isRoot,jdbcType=NUMERIC}
+		 		IS_ROOT=#{isRoot},
 		 	</if>
 		 	 <if test="provinceId != null and provinceId != ''">
-		 		,PROVINCE_ID=#{provinceId,jdbcType=VARCHAR}
+		 		PROVINCE_ID=#{provinceId},
 		 	</if>
 		 	 <if test="cityId != null and cityId != ''">
-		 		,CITY_ID=#{cityId,jdbcType=VARCHAR}
+		 		CITY_ID=#{cityId},
 		 	</if>
 		 	 <if test="isDeleted != null and isDeleted != ''">
-		 		,IS_DELETED=#{isDeleted,jdbcType=NUMERIC}
+		 		IS_DELETED=#{isDeleted},
 		 	</if>
-	     where s.id=#{id}     
+		 	<if test="contactName != null">
+        CONTACT_NAME=#{contactName},
+      </if>
+      <if test="contactMobile != null">
+        CONTACT_MOBILE=#{contactMobile},
+      </if>
+		 	</set>
+	     where ID=#{id}     
 	</update>
 	<!-- 删除需求部门-->
 	<delete id="delOrgnizationByid" parameterType="java.util.Map">
@@ -547,55 +570,73 @@
 	  </selectKey>
 	  insert into T_SES_OMS_ORG
 	  <trim prefix="(" suffix=")" suffixOverrides=",">
-	     <if test="id != null">
+	     <if test="id != null and id != ''">
         ID,
       </if>
-      <if test="name != null">
+      <if test="name != null and name != ''">
         NAME,
       </if>
-      <if test="provinceId != null">
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="provinceId != null and provinceId != ''">
         PROVINCE_ID,
       </if>
-      <if test="cityId != null">
+      <if test="cityId != null and cityId != ''">
         CITY_ID,
       </if>
-      <if test="address != null">
+      <if test="address != null and address != ''">
         ADDRESS,
       </if>
-      <if test="postCode != null">
+      <if test="postCode != null and postCode != ''">
         POST_CODE,
       </if>
-      <if test="shortName != null">
+      <if test="shortName != null and shortName != ''">
         SHORT_NAME,
       </if>
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="contactName != null and contactName != ''">
+        CONTACT_NAME,
+      </if>
+      <if test="contactMobile != null and contactMobile != ''">
+        CONTACT_MOBILE,
+      </if>
 	  </trim>
 	  <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != null and id != ''">
         #{id},
       </if>
-      <if test="name != null">
+      <if test="name != null and name != ''">
         #{name},
       </if>
-      <if test="provinceId != null">
+      <if test="typeName != null">
+        #{typeName},
+      </if>
+      <if test="provinceId != null and provinceId != ''">
         #{provinceId},
       </if>
-      <if test="cityId != null">
+      <if test="cityId != null and cityId != ''">
         #{cityId},
       </if>
-      <if test="address != null">
+      <if test="address != null and address != ''">
         #{address},
       </if>
-      <if test="postCode != null">
+      <if test="postCode != null and postCode != ''">
         #{postCode},
       </if>
-      <if test="shortName != null">
+      <if test="shortName != null and shortName != ''">
         #{shortName},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
+      </if>
+      <if test="contactName != null and contactName != ''">
+        #{contactName},
+      </if>
+      <if test="contactMobile != null and contactMobile != ''">
+        #{contactMobile},
       </if>
     </trim>
 	</insert>

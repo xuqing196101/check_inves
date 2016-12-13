@@ -43,6 +43,13 @@
       function resetQuery() {
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
       }
+      
+      function shenqing(){
+    	  var appraisal = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
+    	  appraisal = $.trim(appraisal);
+    	  alert(appraisal);
+      }
+      
     </script>
 
   </head>
@@ -91,7 +98,7 @@
       </div>
 
       <div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows add" type="button" onclick="add()">申请审价</button>
+        <button class="btn btn-windows add" type="button" onclick="shenqing()">申请审价</button>
         <button class="btn btn-windows add" type="button" onclick="add()">添加合同</button>
       </div>
 
@@ -99,25 +106,25 @@
         <table class="table table-bordered table-striped table-hover">
           <thead>
             <tr>
-              <%--<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-            --%>
+              <th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
               <th class="info">序号</th>
               <th class="info">合同名称</th>
               <th class="info">合同编号</th>
               <th class="info">合同金额(万元)</th>
               <th class="info">供应商名称</th>
+              <th class="info">状态</th>
               <th class="info">操作</th>
             </tr>
           </thead>
           <c:forEach items="${list.list}" var="contract" varStatus="vs">
             <tr>
-              <%--<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
-            --%>
+             <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
               <td class="tc"><input type="hidden" value="${contract.id }" />${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <td class="tc">${contract.name }</td>
               <td class="tc">${contract.code }</td>
               <td class="tc">${contract.money }</td>
               <td class="tc">${contract.supplierName }</td>
+              <td class="tc">${contract.appraisal }</td>
               <td class="tc">
                 <c:if test="${contract.appraisal=='0' }">
                   <input type="button" value="申请审价" onclick="appraisal('${contract.id }')" class="btn">
