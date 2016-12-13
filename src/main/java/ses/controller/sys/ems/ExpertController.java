@@ -1457,6 +1457,10 @@ public class ExpertController {
         return "bss/prms/audit/list";
     }
 
+    @RequestMapping("/testRegister")
+    public String testRegister(){
+        return "ses/ems/expert/basic_info_four";
+    }
     /**
      * 
      * @Title: toFirstAudit
