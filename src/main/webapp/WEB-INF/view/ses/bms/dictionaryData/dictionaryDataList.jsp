@@ -28,7 +28,7 @@
                     tabhtml +='<ul class="demand_list" id = "form1"><li class="fl"><label class="fl">编码：</label><span><input type="text" id="code" value="" name="code" class=""/></span></li>'; 
                     tabhtml +='<li class="fl"><label class="fl">名称：</label><span><input type="text" id="name" value="" name="name" /></span></li>'; 
                     tabhtml +='<button type="button" onclick="search(1,'+kind+')" class="btn">查询</button><button type="button" onclick="resetQuery()" class="btn">重置</button></ul><div class="clear"></div></h2>';
-                    tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
+                    tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows edit" type="button" onclick="edit()">修改</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
                     tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
            			tabhtml +='<thead><tr><th class="info w30 tc"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
 					tabhtml +='<th class="info w50">序号</th>';
@@ -104,7 +104,7 @@
   	                    tabhtml +='<ul class="demand_list" id = "form1"><li class="fl"><label class="fl">编码：</label><span><input type="text" id="code" value="" name="code" class=""/></span></li>'; 
   	                    tabhtml +='<li class="fl"><label class="fl">名称：</label><span><input type="text" id="name" value="" name="name" /></span></li>'; 
   	                    tabhtml +='<button type="button" onclick="search(1,'+kind+')" class="btn">查询</button><button type="button" onclick="resetQuery()" class="btn">重置</button></ul><div class="clear"></div></h2>';
-  	                    tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
+  	                    tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows edit" type="button" onclick="edit()">修改</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
   	                    tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
   	           			tabhtml +='<thead><tr><th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
   						tabhtml +='<th class="info w50">序号</th>';
@@ -220,6 +220,22 @@
 		layer.alert("请选择一个字典类型",{offset: '222px', shade:0.01});
 	}
    }
+   
+   function edit(){
+   	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			var currPage = $("#pageNum").val();
+			window.location.href="${pageContext.request.contextPath}/dictionaryData/edit.html?id="+id+"&page="+currPage;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: '222px', shade:0.01});
+		}else{
+			layer.alert("请选择",{offset: '222px', shade:0.01});
+		}
+   }
+   
    
 	function resetQuery(){
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
