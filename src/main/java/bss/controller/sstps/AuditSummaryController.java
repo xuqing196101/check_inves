@@ -11,11 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import bss.model.cs.PurchaseContract;
+import bss.model.dms.ProbationaryArchive;
+import bss.model.ppms.Project;
 import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.AuditOpinion;
 import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.PlComprehensiveCost;
+import bss.service.cs.PurchaseContractService;
+import bss.service.ppms.ProjectService;
 import bss.service.sstps.AppraisalContractService;
 import bss.service.sstps.AuditOpinionService;
 import bss.service.sstps.ComprehensiveCostService;
@@ -28,6 +33,9 @@ import com.github.pagehelper.PageInfo;
 @Scope
 @RequestMapping("/auditSummary")
 public class AuditSummaryController {
+
+	@Autowired
+	private ProjectService projectService;
 	
 	@Autowired
 	private AuditOpinionService auditOpinionService;
@@ -196,6 +204,28 @@ public class AuditSummaryController {
 					appraisalContract.setAppraisal(2);
 					appraisalContract.setUpdatedAt(new Date());
 					appraisalContractService.update(appraisalContract);
+					appraisalContract = appraisalContractService.selectContractInfo(contractProduct.getAppraisalContract().getId());//获取目标单一来源合同
+					PurchaseContract purchaseContract = appraisalContract.getPurchaseContract();//获取目标采购合同
+					Project project  = projectService.selectById(purchaseContract.getProjectId());//获取目标项目
+					//插入预备档案表
+					ProbationaryArchive probationaryArchive = new ProbationaryArchive();
+					probationaryArchive.setContractCode(appraisalContract.getCode());//采购合同编号
+					probationaryArchive.setProjectCode(project.getProjectNumber());//项目编号
+					probationaryArchive.setYear(purchaseContract.getYear());//预算年度
+					probationaryArchive.setPurchaseDep(appraisalContract.getPurchaseDepName());//采购机构
+					probationaryArchive.setPurchaseType(appraisalContract.getPurchaseType());//采购方式
+					//产品名称
+					probationaryArchive.setSupplierName(appraisalContract.getSupplierName());//供应商名称
+					probationaryArchive.setProjectId(project.getId());//项目id
+					probationaryArchive.setDraftGitAt(purchaseContract.getDraftGitAt());//合同草案上报时间
+					probationaryArchive.setDraftReviewedAt(purchaseContract.getDraftReviewedAt());//合同草案批复时间
+					probationaryArchive.setFormalGitAt(purchaseContract.getFormalGitAt());//正式合同上报时间
+					probationaryArchive.setFormalReviewedAt(purchaseContract.getFormalReviewedAt());//正式合同批复时间
+					//采购文件上传时间
+					//采购文件批复时间
+					probationaryArchive.setCreatedAt(new Date());//创建时间
+					probationaryArchive.setContractCode(purchaseContract.getId());//单一来源合同ID
+					//插入预备档案表
 				}
 				
 		Integer page=1;
