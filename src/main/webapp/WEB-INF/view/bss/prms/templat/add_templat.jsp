@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -27,26 +28,26 @@
 	}
 	function submit1() {
 
-		var name = $("#name").val();
+		/* var name = $("#name").val();
 		if (!name) {
 			layer.tips("请填写名称", "#name");
 			return;
-		}
-		var id = [];
+		} */
+		/* var id = [];
 		$('input[name="kind"]:checked').each(function() {
 			id.push($(this).val());
 		});
 		if (id.length == 0) {
 			layer.tips("请选择类型", "#kind");
 			return;
-		}
+		} */
 
 		/* var creater = $("#creater").val();
 		if (!creater) {
 			layer.tips("请填写名称", "#creater");
 			return;
 		} */
-		var id2 = [];
+		/* var id2 = [];
 		$('input[name="isOpen"]:checked').each(function() {
 			id2.push($(this).val());
 		});
@@ -61,34 +62,44 @@
 		if (id3.length == 0) {
 			layer.tips("请选择一个", "#isUse");
 			return;
-		}
+		} */
 		$("#form1").submit();
+	}
+	
+	function goBack(){
+		window.location.href = '${pageContext.request.contextPath}/auditTemplat/list.html?page=1';
 	}
 </script>
 </head>
 <body>
 	<div class="container container_box">
 		<!-- 新增窗口 -->
-		<form
-			action="${pageContext.request.contextPath}/auditTemplat/add.html"
-			method="post" id="form1">
-			<h2 class="list_title">新增模板</h2>
+		<sf:form action="${pageContext.request.contextPath}/auditTemplat/add.html" method="post" id="form1" modelAttribute="firstAuditTemplat">
+			<h2 class="list_title">编辑模板</h2>
 			<ul class="ul_list">
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初审项模板名称</span>
+                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>模板名称</span>
 					<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-						<input class="input_group" type="text" id="name" maxlength="30" name="name">
+						<input class="input_group" type="text" id="name" maxlength="30" name="name" value="${templat.name}">
 						<span class="add-on">i</span>
+						<div class="cue"><sf:errors path="name"/></div>
 					</div>
 				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初审项模板类型</span>
-					<div class="select_check">
-						<input type="radio" name="kind" value="符合性">符合性 
-						<input type="radio" name="kind" id="kind" value="资格性">资格性 
-						<input name="creater" readonly="readonly" id="creater" maxlength="10" type="hidden" value="${sessionScope.loginUser.relName}">
-					</div>
+				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+					<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>模板类型</span>
+                    <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+                    <select  name="kind">
+                        <option value="">请选择</option>
+                        <c:forEach items="${kinds}" var="k" varStatus="vs">
+                            <option value="${k.id }" <c:if test="${k.id eq templat.kind}">selected</c:if>>
+                                ${k.name}
+                            </option>
+                        </c:forEach>
+                    </select>
+                    <div class="cue"><sf:errors path="kind"/></div>
+                    </div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="">是否公开</span>
+				<%-- <li class="col-md-3 margin-0 padding-0 "><span class="">是否公开</span>
                     <div class="select_check">
                         <input name="isOpen" maxlength="10" type="radio" checked value="0">公开
                         <input name="isOpen" id="isOpen" maxlength="10" type="radio" value="1">私有
@@ -100,13 +111,13 @@
                         <input name="isUse" id="isUse" maxlength="10" type="radio" value="1">不可用
                         <input type="hidden" name="userId" value="${sessionScope.loginUser.id }">
                     </div>
-                </li>
+                </li> --%>
 			</ul>
 			<div class="col-md-12 tc">
 			    <input type="button" onclick="submit1();" value="保存" class="btn btn-windows save" />
-                <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+                <button class="btn btn-windows back" onclick="goBack()" type="button">返回</button>
             </div>
-		</form>
+		</sf:form>
 	</div>
 </body>
 </html>

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -26,7 +27,7 @@ function openWindow(){
 }
 function submit1(){
 	
-	var name = $("#name").val();
+	/* var name = $("#name").val();
 	if(!name){
 		layer.tips("请填写名称", "#name");
 		return ;
@@ -38,14 +39,14 @@ function submit1(){
 	if(id.length==0){
 		layer.tips("请选择类型", "#kind");
 		return ;
-	}
+	} */
 	
 	/* var creater = $("#creater").val();
 	if(!creater){
 		layer.tips("请填写名称", "#creater");
 		return ;
 	} */
-	var id2=[]; 
+	/* var id2=[]; 
 	$('input[name="isOpen"]:checked').each(function(){ 
 		id2.push($(this).val());
 	}); 
@@ -60,32 +61,45 @@ function submit1(){
 	if(id3.length==0){
 		layer.tips("请选择一个", "#isUse");
 		return ;
-	}
+	} */
 	$("#form1").submit();
 }
+	function goBack(){
+	    window.location.href = '${pageContext.request.contextPath}/auditTemplat/list.html';
+	}
 </script>
 </head>
 <body>
 <div class="container container_box">
-	<form action="${pageContext.request.contextPath}/auditTemplat/edit.html" method="post" id="form1">
+	<sf:form action="${pageContext.request.contextPath}/auditTemplat/edit.html" method="post" id="form1" modelAttribute="firstAuditTemplat">
                  <h2 class="list_title">修改模板</h2>
+                 <input type="hidden" name="isUse" value="${templat.isUse}">
+                 <input type="hidden" name="id" value="${templat.id}">
        <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初审项模板名称</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                        <input type="text" class="input_group" id="name" maxlength="30" name="name" value="${templat.name }">
+                        <input type="text" class="input_group" id="name" maxlength="30" name="name" value="${templat.name}">
                         <span class="add-on">i</span>
+                        <div class="cue"><sf:errors path="name"/></div>
                     </div>
             </li>
             
-            <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="">初审项模板类型</span>
-                    <div class="select_check">
-                        <input type="radio" name="kind" value="资格性" <c:if test="${fn:contains(templat.kind,'资格性')}">checked="true"</c:if> >资格性
-                        <input type="radio" <c:if test="${fn:contains(templat.kind,'符合性')}">checked="true"</c:if> name="kind" id="kind" value="符合性" >符合性
-                        
-                    </div>
-            </li>
-            <li class="col-md-3 margin-0 padding-0 "><span class="">是否公开</span>
+            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                 <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>模板类型</span>
+                 <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+                 <select  name="kind">
+                     <option value="">请选择</option>
+                     <c:forEach items="${kinds}" var="k" varStatus="vs">
+                         <option value="${k.id }" <c:if test="${k.id eq templat.kind}">selected</c:if>>
+                             ${k.name}
+                         </option>
+                     </c:forEach>
+                 </select>
+                 <div class="cue"><sf:errors path="kind"/></div>
+                 </div>
+             </li>
+            <%-- <li class="col-md-3 margin-0 padding-0 "><span class="">是否公开</span>
                     <div class="select_check">
                         <input name="isOpen" maxlength="10" type="radio" value="0" <c:if test="${templat.isOpen eq '0' }">checked="true"</c:if> >公开
                         <input name="isOpen" id="isOpen" type="radio" value="1" <c:if test="${templat.isOpen eq '1' }">checked="true"</c:if> >私有
@@ -99,7 +113,7 @@ function submit1(){
                         <input type="hidden" name="id" value="${templat.id }">
                     </div>
                     <br/>
-            </li>
+            </li> --%>
           <%--   <li class="col-md-3 margin-0 padding-0 ">
             <span class="col-md-12 padding-left-5">创建人</span>
                     <div class="input-append">
@@ -109,10 +123,10 @@ function submit1(){
             </li> --%>
        </ul>
        <div class="col-md-12 tc">
-		    <input type="button"  value="修改" onclick="submit1();" class="btn btn-windows edit"/>
-		    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+		    <input type="button"  value="更新" onclick="submit1();" class="btn btn-windows save"/>
+		    <button class="btn btn-windows back" onclick="goBack()" type="button">返回</button>
 	   </div>
-  </form>
+  </sf:form>
 </div>
 </body>
 </html>

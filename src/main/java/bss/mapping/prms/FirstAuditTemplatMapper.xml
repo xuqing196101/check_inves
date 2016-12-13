@@ -6,8 +6,8 @@
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="KIND" jdbcType="VARCHAR" property="kind" />
     <result column="CREATER" jdbcType="VARCHAR" property="creater" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
     <result column="IS_USE" jdbcType="DECIMAL" property="isUse" />
     <result column="IS_OPEN" jdbcType="DECIMAL" property="isOpen" />
@@ -28,6 +28,9 @@
    <if test="name != null and name !=''">
     and NAME like '%${name}%'
    </if>
+   <if test="kind != null and kind !=''">
+    and KIND = #{kind}
+   </if>
    ORDER BY CREATED_AT DESC 
   </select>
   <!--查询所有模板 -->
@@ -39,6 +42,9 @@
      <if test="name != null and name!=''">
         and NAME like '%${name}%'
       </if>
+      <if test="kind != null and kind !=''">
+	    and KIND = #{kind}
+	   </if>
        ORDER BY CREATED_AT DESC 
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -57,7 +63,7 @@
       USER_ID, IS_USE, IS_OPEN
       )
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, 
-      #{creater,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, 
+      #{creater,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
       #{userId,jdbcType=VARCHAR}, #{isUse,jdbcType=DECIMAL}, #{isOpen,jdbcType=DECIMAL}
       )
   </insert>
@@ -106,10 +112,10 @@
         #{creater,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
@@ -135,10 +141,10 @@
         CREATER = #{creater,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="userId != null">
         USER_ID = #{userId,jdbcType=VARCHAR},
@@ -157,8 +163,8 @@
     set NAME = #{name,jdbcType=VARCHAR},
       KIND = #{kind,jdbcType=VARCHAR},
       CREATER = #{creater,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       USER_ID = #{userId,jdbcType=VARCHAR},
       IS_USE = #{isUse,jdbcType=DECIMAL},
       IS_OPEN = #{isOpen,jdbcType=DECIMAL}

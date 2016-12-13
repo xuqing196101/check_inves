@@ -243,8 +243,7 @@
 				        <select id="gender" name="gender">
 				        	<c:forEach items="${genders}" var="g" varStatus="vs">
 				        		<option value="${g.id }" <c:if test="${g.id eq user.gender}">selected</c:if>>
-				        			<c:if test="${'M' eq g.code}">男</c:if>
-				        			<c:if test="${'F' eq g.code}">女</c:if>
+				        			${g.name}
 				        		</option>
 				        	</c:forEach>
 				        </select>

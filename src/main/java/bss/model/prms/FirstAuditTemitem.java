@@ -11,6 +11,9 @@ public class FirstAuditTemitem implements Serializable{
 
 	private String id;
 
+    /**
+     * @Fields name : TODO(目的和意义)评审名称
+     */
     private String name;
 
     private String kind;
@@ -20,7 +23,17 @@ public class FirstAuditTemitem implements Serializable{
     private Date createdAt;
 
     private Date updatedAt;
-
+    
+    /**
+     * @Fields position : TODO(目的和意义)排序
+     */
+    private Integer position;
+    
+    /**
+     * @Fields content : TODO(目的和意义)评审内容
+     */
+    private String content;
+    
     private String templatId;
 
     public String getId() {
@@ -78,4 +91,21 @@ public class FirstAuditTemitem implements Serializable{
     public void setTemplatId(String templatId) {
         this.templatId = templatId == null ? null : templatId.trim();
     }
+
+    public Integer getPosition() {
+      return position;
+    }
+
+    public void setPosition(Integer position) {
+      this.position = position;
+    }
+
+    public String getContent() {
+      return content;
+    }
+
+    public void setContent(String content) {
+      this.content = content;
+    }
+    
 }

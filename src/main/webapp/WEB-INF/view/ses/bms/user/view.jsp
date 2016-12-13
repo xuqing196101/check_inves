@@ -46,8 +46,7 @@
 		 			<td>
 		 				<c:forEach items="${genders}" var="g" varStatus="vs">
 					  		<c:if test="${g.id eq user.gender}">
-					  			<c:if test="${'M' eq g.code}">男</c:if>
-								<c:if test="${'F' eq g.code}">女</c:if>
+					  			${g.name}
 					  		</c:if>
 			        	</c:forEach>
 		 			</td>
@@ -62,15 +61,7 @@
 		 			<td>
 		 				<c:forEach items="${typeNames}" var="t" varStatus="vs">
 					  		<c:if test="${t.id eq user.typeName}">
-					  			<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
-								<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
-								<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
-								<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
-								<c:if test="${'SUPPLIER_U' eq t.code}">供应商</c:if>
-								<c:if test="${'EXPERT_U' eq t.code}">专家</c:if>
-								<c:if test="${'IMP_SUPPLIER_U' eq t.code}">进口供应商</c:if>
-								<c:if test="${'IMP_AGENT_U' eq t.code}">进口代理商</c:if>
-								<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
+					  			${t.name}
 					  		</c:if>
 			        	</c:forEach>
 		 			</td>

@@ -1,28 +1,38 @@
 package bss.controller.prms;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 
+import bss.controller.base.BaseController;
 import bss.model.prms.FirstAuditTemitem;
 import bss.model.prms.FirstAuditTemplat;
 import bss.service.prms.FirstAuditTemitemService;
 import bss.service.prms.FirstAuditTemplatService;
-@RequestMapping("auditTemplat")
+import ses.model.bms.DictionaryData;
+import ses.util.DictionaryDataUtil;
+
 @Controller
-public class FirstAuditTemplatController {
+@RequestMapping("/auditTemplat")
+public class FirstAuditTemplatController extends BaseController{
 
 	@Autowired
 	private FirstAuditTemplatService service;
+	
 	@Autowired
 	private FirstAuditTemitemService temService;
 	
@@ -35,12 +45,16 @@ public class FirstAuditTemplatController {
 	  * @param @return      
 	  * @return String
 	 */
-	@RequestMapping("list")
-	public String list(String name,Integer page,Model model){
+	@RequestMapping("/list")
+	public String list(String name, String kind, Integer page, Model model){
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("name", name);
+		map.put("kind", kind);
 		List<FirstAuditTemplat> list = service.selectAll(map,page==null?1:page);
+		List<DictionaryData> kinds = DictionaryDataUtil.find(20);
 		model.addAttribute("list", new PageInfo<>(list));
+		model.addAttribute("kinds", kinds);
+		model.addAttribute("kind", kind);
 		model.addAttribute("name", name);
 		return "bss/prms/templat/list";
 	}
@@ -54,8 +68,10 @@ public class FirstAuditTemplatController {
 	  * @param @return      
 	  * @return String
 	 */
-	@RequestMapping("toAdd")
-	public String toAdd(){
+	@RequestMapping("/toAdd")
+	public String toAdd(Model model){
+	  List<DictionaryData> kinds = DictionaryDataUtil.find(20);
+    model.addAttribute("kinds", kinds);
 		return "bss/prms/templat/add_templat";
 	}
 	/**
@@ -68,8 +84,14 @@ public class FirstAuditTemplatController {
 	  * @param @return      
 	  * @return String
 	 */
-	@RequestMapping("add")
-	public String add(FirstAuditTemplat templat){
+	@RequestMapping("/add")
+	public String add(@Valid FirstAuditTemplat templat, BindingResult result, Model model){
+	  if(result.hasErrors()){
+      List<DictionaryData> kinds = DictionaryDataUtil.find(20);
+      model.addAttribute("kinds", kinds);
+      model.addAttribute("templat", templat);
+      return "bss/prms/templat/add_templat";
+    }
 		service.save(templat);
 		return "redirect:list.html";
 	}
@@ -83,8 +105,14 @@ public class FirstAuditTemplatController {
 	  * @param @return      
 	  * @return String
 	 */
-	@RequestMapping("edit")
-	public String edit(FirstAuditTemplat templat){
+	@RequestMapping("/edit")
+	public String edit(@Valid FirstAuditTemplat templat, BindingResult result, Model model){
+	  if(result.hasErrors()){
+	    List<DictionaryData> kinds = DictionaryDataUtil.find(20);
+	    model.addAttribute("kinds", kinds);
+	    model.addAttribute("templat", templat);
+	    return "bss/prms/templat/edit";
+	  }
 		service.update(templat);
 		return "redirect:list.html";
 	}
@@ -99,12 +127,62 @@ public class FirstAuditTemplatController {
 	  * @param @return      
 	  * @return String
 	 */
-	@RequestMapping("toEdit")
+	@RequestMapping("/toEdit")
 	public String toEdit(String id , Model model){
 		FirstAuditTemplat templat = service.getById(id);
+		List<DictionaryData> kinds = DictionaryDataUtil.find(20);
+    model.addAttribute("kinds", kinds);
 		model.addAttribute("templat", templat);
 		return "bss/prms/templat/edit";
 	}
+	
+	/**
+	 *〈简述〉编辑模板的评审项
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param templatKind 模板类型id
+	 * @return
+	 */
+	@RequestMapping("/editItem")
+	public String editItem(String templetKind, Model model, String templetId){
+	  DictionaryData kind = DictionaryDataUtil.findById(templetKind);
+	  List<FirstAuditTemitem> items = temService.selectByTemplatId(templetId);
+	  if (kind != null && kind.getCode().equals("REVIEW_QC")) {
+	    List<DictionaryData> dds = DictionaryDataUtil.find(22);
+	    //符合性审查项
+	    FirstAuditTemitem record = new FirstAuditTemitem();
+	    record.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
+	    record.setTemplatId(templetId);
+	    List<FirstAuditTemitem> items1 = temService.find(record);
+	    //资格性审查项
+      FirstAuditTemitem record2 = new FirstAuditTemitem();
+      record2.setKind(DictionaryDataUtil.getId("QUALIFICATION"));
+      record2.setTemplatId(templetId);
+      List<FirstAuditTemitem> items2 = temService.find(record2);
+	    //符合性资格性审查项类型
+	    model.addAttribute("dds", dds);
+	    model.addAttribute("kind", kind);
+	    model.addAttribute("items1", items1);
+	    model.addAttribute("items2", items2);
+	    model.addAttribute("templetKind", templetKind);
+	    model.addAttribute("templetId", templetId);
+	    //符合性资格性审查项编辑
+	    return "bss/prms/templat/qc_item_templet";
+    } 
+	  if (kind != null && kind.getCode().equals("REVIEW_ET")) {
+	    List<DictionaryData> dds = DictionaryDataUtil.find(23);
+      //经济技术审查项类型
+      model.addAttribute("dds", dds);
+      model.addAttribute("kind", kind);
+      model.addAttribute("items", items);
+      model.addAttribute("templetKind", templetKind);
+      model.addAttribute("templetId", templetId);
+      //经济技术审查项编辑
+      return "bss/prms/templat/et_item_templet";
+    } 
+	  return null;
+	}
+	
 	/**
 	 * 
 	  * @Title: toAddFirstAudit
@@ -205,5 +283,59 @@ public class FirstAuditTemplatController {
 			service.deleteById(string);
 		}
 		return "redirect:list.html";
+	}
+	
+	/**
+	 *〈简述〉保存符合性评审项
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param response
+	 * @param auditTemitem
+	 * @throws IOException
+	 */
+	@RequestMapping("/saveItem")
+	public void saveItem(HttpServletResponse response, FirstAuditTemitem auditTemitem) throws IOException{
+	  try {
+      int count = 0;
+      String msg = "";
+      if (auditTemitem.getName() == null || "".equals(auditTemitem.getName())) {
+        msg += "请输入评审项名称";
+        count ++;
+      }
+      if (auditTemitem.getPosition()== null) {
+        if (count > 0) {
+          msg += "、序号";
+        } else {
+          msg += "请输入排序号";
+        }
+        count ++;
+      }
+      if (auditTemitem.getContent()== null || "".equals(auditTemitem.getContent())) {
+        if (count > 0) {
+          msg += "和评审内容";
+        } else {
+          msg += "请输入评审内容";
+        }
+        count ++;
+      }
+      if (count > 0) {
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+                .print("{\"success\": " + false + ", \"msg\": \"" + msg+ "\"}");
+      }
+      if (count == 0) {
+        msg += "添加成功";
+        temService.save(auditTemitem);
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+                .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+        
+      }
+	    response.getWriter().flush();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally{
+        response.getWriter().close();
+    }
 	}
 }

@@ -27,4 +27,13 @@ public interface FirstAuditTemitemMapper {
       * @return List<FirstAuditTemitem>
      */
     List<FirstAuditTemitem> selectByTemplatId(String templatId);
+    
+    /**
+     *〈简述〉根据条件查询
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param firstAuditTemitem
+     * @return
+     */
+    List<FirstAuditTemitem> find(FirstAuditTemitem firstAuditTemitem);
 }

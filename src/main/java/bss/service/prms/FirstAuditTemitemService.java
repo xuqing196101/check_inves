@@ -82,4 +82,15 @@ public interface FirstAuditTemitemService {
 	      * @return List<FirstAuditTemitem>
 	     */
 	    List<FirstAuditTemitem> selectByTemplatId(String templatId);
+	    
+	    
+	    /**
+	     *〈简述〉根据条件查询
+	     *〈详细描述〉
+	     * @author Ye MaoLin
+	     * @param record
+	     * @return
+	     */
+	    List<FirstAuditTemitem> find(FirstAuditTemitem record);
+	    
 }
