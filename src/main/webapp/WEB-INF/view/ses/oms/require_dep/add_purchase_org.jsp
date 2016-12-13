@@ -59,7 +59,7 @@ function chongzhi(){
 		
 		var parentTabArray = [];
 		var parentIndexArray = [];
-		parent.$("input[name='selectedItem']").each(function(){
+		parent.$("input[name='selectedItems']").each(function(){
 			parentTabArray.push($(this).val());
 			parentIndexArray.push($(this).parents('tr').find('td').eq(1).text());
 		});

@@ -54,6 +54,8 @@
 		       o.address      as address,
 		       o.post_code    as postCode,
 		       o.FAX       as  fax,
+		       o.CONTACT_NAME  as contactName,
+           o.CONTACT_MOBILE  as contactMobile,
 		       CONCAT(a.name, b.name) as areaName,
 		       d.DUTY_ROOM_PHONE  as dutyRoomPhone,
 		       a.id               as provinceId,

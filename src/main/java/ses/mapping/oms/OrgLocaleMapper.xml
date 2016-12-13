@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.oms.OrgLocaleMapper">
+ <resultMap id="BaseResultMap" type="ses.model.oms.OrgLocale">
+    <id column="ID" property="id" />
+    <result column="SITE_TYPE" property="siteType" />
+    <result column="SITE_NUMBER" property="siteNumber" />
+    <result column="LOCATION" property="location" />
+    <result column="AREA" property="area" />
+    <result column="CREW_SIZE" property="crewSize" />
+    <result column="ORG_ID" property="orgId" />
+  </resultMap>
+ 
+ <sql id="Base_Column_List">
+    ID, SITE_TYPE, SITE_NUMBER,LOCATION,AREA,CREW_SIZE, ORG_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_OMS_ORG_LOCALE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="listByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_OMS_ORG_LOCALE
+    where 1=1
+    <if test="id != null and id != ''">
+       and  ID = #{id}
+     </if>
+     <if test="siteType != null and siteType != ''">
+       and  SITE_TYPE = #{siteType}
+     </if>
+      <if test="siteNumber != null and siteNumber != ''">
+       and  SITE_NUMBER = #{siteNumber}
+     </if>
+     <if test="location != null and location != ''">
+       and  LOCATION = #{location}
+     </if>
+      <if test="area != null and area != ''">
+       and  AREA = #{area}
+     </if>
+     <if test="crewSize != null and crewSize != ''">
+       and  CREW_SIZE = #{crewSize}
+     </if>
+      <if test="orgId != null and orgId != ''">
+        and ORG_ID = #{orgId} 
+      </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_OMS_ORG_LOCALE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.oms.OrgInfo">
+    update T_SES_OMS_ORG_INFO
+    <set>
+      <if test="siteType != null and siteType != ''">
+        SITE_TYPE = #{siteType},
+      </if>
+      <if test="siteNumber != null and siteNumber != ''">
+        SITE_NUMBER = #{siteNumber},
+      </if>
+      <if test="location != null and location != ''">
+        LOCATION = #{location},
+      </if>
+      <if test="area != null and area != ''">
+        AREA = #{area},
+      </if>
+      <if test="crewSize != null and crewSize != ''">
+        CREW_SIZE = #{crewSize},
+      </if>
+      <if test="orgId != null and orgId != ''">
+        ORG_ID = #{orgId},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+    <insert id="insertSelective" parameterType="ses.model.oms.OrgInfo">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select rawtohex(sys_guid()) as VALUE from dual
+    </selectKey>
+    insert into T_SES_OMS_ORG_LOCALE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        ID,
+      </if>
+      <if test="siteType != null and siteType != ''">
+        SITE_TYPE,
+      </if>
+      <if test="siteNumber != null and siteNumber != ''">
+        SITE_NUMBER,
+      </if>
+      <if test="location != null and location != ''">
+        LOCATION,
+      </if>
+      <if test="area != null and area != ''">
+        AREA,
+      </if>
+      <if test="crewSize != null and crewSize != ''">
+        CREW_SIZE,
+      </if>
+      <if test="orgId != null and orgId != ''">
+        ORG_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        #{id},
+      </if>
+      <if test="siteType != null and siteType != ''">
+        #{siteType},
+      </if>
+      <if test="siteNumber != null and siteNumber != ''">
+        #{siteNumber},
+      </if>
+      <if test="location != null and location != ''">
+        #{location},
+      </if>
+      <if test="area != null and area != ''">
+        #{area},
+      </if>
+      <if test="crewSize != null and crewSize != ''">
+        #{crewSize},
+      </if>
+      <if test="orgId != null and orgId != ''">
+        #{orgId},
+      </if>
+    </trim>
+  </insert>
+</mapper>

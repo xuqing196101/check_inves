@@ -251,18 +251,19 @@
       }
       //添加场所
       function dynamicaddTwo() {
-         layer.open({
-          type: 2, //page层
-          area : [ '600px', '550px' ],
-          title: '添加场所',
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
-          offset: ['90px', '630px'],
-          shadeClose: true,
-          content:"${pageContext.request.contextPath}/purchaseManage/addPosition.do",
-         });
+        $("#tab-position").append("<tr id=" + num2 + " align='center'>" +
+          "<td class='tc'><input type='checkbox' name='checkbo' /> </td>" +
+          "<td>" + num2 + "</td>" +
+          "<td><select  name='siteType'><option selected='selected' value=''>请选择</option><option  value='1'>办公室</option>"+
+          "<option  value='2'>会议室</option><option  value='3'>招标室</option><option  value='4'>评标室</option></select></td>" +
+          "<td><input name='siteNumber'/></td>" +
+          "<td><input name='location'/></td>" +
+          "<td><input name='area'/></td>" +
+          "<td><input name='crewSize'/></td>" +
+          "</tr>");
+        num2++;
       }
+      
       //添加采购管理部门
       function dynamicaddThree() {
         var typeName = $("input[name='typeName']").val();
@@ -605,15 +606,24 @@
     }
   
   }
- /*  
-  function check(){
-  var unitname = [], unitduty =[];
-  $("input[name='checkboxs']").each(function(){
-      var unitName = $(this).parents('tr').find('td').eq(2).find('input').val();
-      alert(unitName);
-    });
-   // $("#tab-orgnization tbody")
-  } */
+  
+   function del(){
+      var id = [];
+      $("input[name='checkbo']:checked").each(function(){ 
+        id.push($(this).val());
+      }); 
+    if(id.length > 0){
+        $("input[name='checkbo']:checked").parents("tr").remove();
+    }else{
+      layer.alert("请选择", {
+        offset : [ '222px', '730px' ],
+        shade : 0.01
+        });
+    
+    }
+      
+   }
+      
     </script>
   </head>
 
@@ -655,6 +665,20 @@
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="shortName" type="text" value="${purchaseDep.shortName }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_shortName}</div>
+                    </div>
+                  </li>
+                  
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>联系人姓名</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="contactName" type="text" value="${purchaseDep.contactName }"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_contactName}</div>
+                    </div>
+                  </li>
+                  
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>联系人电话</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="contactMobile" type="text" value="${purchaseDep.contactMobile }"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_contactMobile}</div>
                     </div>
                   </li>
 
@@ -997,8 +1021,8 @@
                           <tr style="cursor: pointer;">
                              <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkboxs" onclick="checks()" alt=""></td>
                               <td class="tc w50">${(vs.index+1)}</td>
-                              <td class="tc">${obj.purchaseUnitName}</td>
-                              <td class="tc">${obj.purchaseUnitDuty}</td>
+                              <td class="tc"><input name="purchaseUnitName" value="${obj.purchaseUnitName}"/></td>
+                              <td class="tc"><input name="purchaseUnitDuty" value="${obj.purchaseUnitDuty}"/></td>
                              </tr>
                         </c:forEach>
                     </tbody>
@@ -1049,6 +1073,35 @@
                       <div class="cue">${ERR_bidRoomCount}</div>
                     </div>
                   </li>
+                  
+                  <%-- <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>是否接入网络</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="accessNetwork" value="${purchaseDep.accessNetwork}"  type="text">
+                      <span class="add-on">i</span>
+                      <div class="cue">${ERR_accessNetwork}</div>
+                    </div>
+                  </li> --%>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class=""><i class="star_red">*</i>是否接入网络</span>
+                    <div class="select_check">
+                        <input name="accessNetwork" maxlength="10" type="radio" value="0" <c:if test="${purchaseDep.accessNetwork eq '0' }">checked="true"</c:if>>是
+                        <input name="accessNetwork"  maxlength="10" type="radio" value="1" <c:if test="${purchaseDep.accessNetwork eq '1' }">checked="true"</c:if>>否
+                    </div>
+                </li>
+                  
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>接入方式</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="accessWay" value="${purchaseDep.accessWay}"  type="text">
+                      <span class="add-on">i</span>
+                      <div class="cue">${ERR_accessWay}</div>
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class=""><i class="star_red">*</i>是否具备视频监控系统</span>
+                    <div class="select_check">
+                        <input name="videoSurveillance" maxlength="10" type="radio" value="0" <c:if test="${purchaseDep.videoSurveillance eq '0' }">checked="true"</c:if>>是
+                        <input name="videoSurveillance"  maxlength="10" type="radio" value="1" <c:if test="${purchaseDep.videoSurveillance eq '1' }">checked="true"</c:if>>否
+                    </div>
+                </li>
+                  
                 </ul>
                 
                 
@@ -1057,11 +1110,13 @@
                   <div class="col-md-12 pl20 mt10">
                     <!--  onclick= addOffice()-->
                     <button class="btn btn-windows add" type="button" id="dynamicAdd" onclick="dynamicaddTwo();">添加场所</button>
+                    <button class="btn btn-windows delete" type="button"  onclick="del();">删除</button>
                   </div>
                   <div class="content table_box">
                     <table class="table table-bordered table-condensed table-hover table-striped" id="tab-position">
                       <thead>
                         <tr>
+                          <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll();" /></th>
                           <th class="info f13">序号</th>
                           <th class="info f13">类型</th>
                           <th class="info f13">编号</th>
@@ -1071,7 +1126,24 @@
                         </tr>
                       </thead>
                       <tbody>
-                        
+                          <c:forEach items="${locales}" var="obj" varStatus="vs">
+                              <tr style="cursor: pointer;">
+                             <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkbo" onclick="checks()" alt=""></td>
+                              <td class="tc w50">${(vs.index+1)}</td>
+                              <td class="tc">
+                                <select name="siteType">
+                                  <option value="1" <c:if test="${'1' eq obj.siteType}">selected="selected" </c:if>>办公室</option>
+                                  <option value="2" <c:if test="${'2' eq obj.siteType}">selected="selected" </c:if>>会议室</option>
+                                  <option value="3" <c:if test="${'3' eq obj.siteType}">selected="selected" </c:if>>招标室</option>
+                                  <option value="4" <c:if test="${'4' eq obj.siteType}">selected="selected" </c:if>>评标室</option>
+                                </select>
+                              </td>
+                              <td class="tc"><input name="siteNumber"  value="${obj.siteNumber}"/></td>
+                              <td class="tc"><input name="location"  value="${obj.location}"/></td>
+                              <td class="tc"><input name="area"  value="${obj.area}"/></td>
+                              <td class="tc"><input name="crewSize"  value="${obj.crewSize}"/></td>
+                             </tr>
+                          </c:forEach>
                       </tbody>
                     </table>
                     <div class="clear"></div>

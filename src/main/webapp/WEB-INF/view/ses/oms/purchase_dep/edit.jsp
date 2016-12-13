@@ -155,6 +155,22 @@
         }
       }
       
+      function selectSite(){
+       var checklist = document.getElementsByName ("checkbo");
+       var checkAll = document.getElementById("checkSite");
+         if(checkAll.checked){
+           for(var i=0;i<checklist.length;i++)
+           {
+              checklist[i].checked = true;
+           } 
+         }else{
+          for(var j=0;j<checklist.length;j++)
+          {
+             checklist[j].checked = false;
+          }
+        }
+      }
+      
         function check() {
           var count = 0;
           var checklist = document.getElementsByName("selectedItems");
@@ -252,19 +268,6 @@
         $("#cid").val(pid);
       }
 
-      function update() {
-        $.ajax({
-          type: 'post',
-          url: "${pageContext.request.contextPath}/purchaseManage/updatePurchaseDepAjxa.do?",
-          data: $('#formID').serialize(),
-          //data: {'pid':pid,$("#formID").serialize()},
-          success: function(data) {
-            console.dir(data);
-            truealert(data.message, data.success == false ? 5 : 1);
-          }
-        });
-
-      }
 
       function stashBasic() {
         //var s = validteBasic().form();
@@ -304,39 +307,21 @@
         $("#formID").submit();
       }
 
-      function truealert(text, iconindex) {
-        layer.open({
-          content: text,
-          icon: iconindex,
-          shade: [0.3, '#000'],
-          offset: 300 + "px",
-          yes: function(index) {
-            //do something
-            //parent.location.reload();
-            layer.closeAll();
-            //parent.layer.close(index); //执行关闭
-            parent.location.href = "${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.do";
-          }
-        });
-      }
 
-      function pageOnload() {
-        /* var proviceId = $("#pid").val();
-        console.dir(proviceId);
-        var cityId = $("#cid").val();
-        var isAudit = $("#cid").val();
-        $("#province").val('A4CCB12438AD4E49AADE355B3B02910C');
-        $("#province").get(0).selectedIndex=proviceId;
-        $("#province option[value ='"+proviceId+"']").attr("selected", true);//val(2);
-        $("#city").val(cityId); */
-        //$("#provinceId").val(proviceId);
-        //$("div.panel-collapse").addClass("in");
-
-      }
       //添加场所
       function dynamicaddTwo() {
-        var typeName = $("#typeName").val();
-        showiframe("添加场所", 1000, 600, "${pageContext.request.contextPath}/purchaseManage/addPosition.do?typeName=" + typeName, "-4");
+        var aa = $("input[name='checkbo']").length;
+        aa++;
+        $("#tab-position").append("<tr id=" + aa + " align='center'>" +
+          "<td class='tc'><input type='checkbox' name='checkbo' /> </td>" +
+          "<td>" + aa + "</td>" +
+          "<td><select  name='siteType'><option selected='selected' value=''>请选择</option><option  value='1'>办公室</option>"+
+          "<option  value='2'>会议室</option><option  value='3'>招标室</option><option  value='4'>评标室</option></select></td>" +
+          "<td><input name='siteNumber'/></td>" +
+          "<td><input name='location'/></td>" +
+          "<td><input name='area'/></td>" +
+          "<td><input name='crewSize'/></td>" +
+          "</tr>");
       }
       //添加采购管理部门
       function dynamicaddThree() {
@@ -437,13 +422,15 @@
       }
 
       function addOrg() {
-        $("#tab-orgnization").append("<tr id=" + num2 + " align='center'>" +
-          "<td class='tc'><input type='checkbox' name='chkItem' /> </td>" +
-          "<td>" + num2 + "</td>" +
+		   var aa = $("input[name='checkboxs']").length;
+		   aa++;
+        $("#tab-orgnization").append("<tr id=" + aa + " align='center'>" +
+          "<td class='tc'><input type='checkbox' name='checkboxs' /> </td>" +
+          "<td>" + aa + "</td>" +
           "<td><input name='purchaseUnitName'/></td>" +
           "<td><input name='purchaseUnitDuty'/></td>" +
           "</tr>");
-        num2++;
+       // num2++;
       }
 
       function delOrgTr() {
@@ -452,18 +439,17 @@
         $("input[name='checkboxs']:checked").each(function(){ 
           id.push($(this).val());
         }); 
-        
-        var ids = [];
+        /* var ids = [];
         $("input[name='chkItem']:checked").each(function(){ 
           ids.push($(this).val());
         }); 
         if(ids.length > 0){
             $("input[name='chkItem']:checked").parents("tr").remove();
-        }
+        } */
         
         if(id.length > 0){
             $("input[name='checkboxs']:checked").parents("tr").remove();
-            window.location.href = "${pageContext.request.contextPath}/purchaseManage/delTr.do?id="+id+"&orgId="+orgId;
+            window.location.href = "${pageContext.request.contextPath}/purchaseManage/delTr.do?id="+id+"&orgId="+orgId+"&purId="+purId;;
         }else{
           layer.msg("请选择需要删除的部门");
         }
@@ -691,9 +677,31 @@
     }
     
     if(id.length > 0){
-        window.location.href = "${pageContext.request.contextPath}/purchaseManage/deleteds.do?id="+id+"&orgId="+orgId;
+        window.location.href = "${pageContext.request.contextPath}/purchaseManage/deleteds.do?id="+id+"&orgId="+orgId+"&purId="+purId;;
     }
   } 
+  
+  
+     function del(){
+      var ids = [];
+      $("input[name='site']:checked").each(function(){ 
+        ids.push($(this).val());
+      });
+      var orgId = $("#orgId").val();
+      var purId = $("#purId").val();
+	    if(ids.length > 0){
+	        $("input[name='site']:checked").parents("tr").remove();
+	    }
+	    
+	     var id = [];
+	      $("input[name='checkbo']:checked").each(function(){ 
+	        id.push($(this).val());
+	      }); 
+      
+       if(id.length > 0){
+        window.location.href = "${pageContext.request.contextPath}/purchaseManage/deletedSite.do?id="+id+"&orgId="+orgId+"&purId="+purId;
+      }
+   }
     </script>
   </head>
 
@@ -722,7 +730,7 @@
             <div class="tab-content padding-top-20">
               <div class="tab-pane fade active in" id="tab-1">
                 <h2 class="count_flow"><i>1</i>基本信息</h2>
-                <input class="hide" name="id" type="hidden" value="${purchaseDep.id }">
+                <input class="hide" name="id" type="hidden" id="purId" value="${purchaseDep.id }">
                 <input class="hide" name="orgnization.id" id="orgId" type="hidden" value="${purchaseDep.orgId }">
                 <input class="hide" name="ids" id="ids" type="hidden" >
                 <ul class="ul_list">
@@ -739,7 +747,21 @@
                       <div class="cue">${ERR_shortName}</div>
                     </div>
                   </li>
-
+                  
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>联系人姓名</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="contactName" type="text" value="${purchaseDep.contactName }"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_contactName}</div>
+                    </div>
+                  </li>
+                  
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>联系人电话</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="contactMobile" type="text" value="${purchaseDep.contactMobile }"> <span class="add-on">i</span>
+                      <div class="cue">${ERR_contactMobile}</div>
+                    </div>
+                  </li>
+                  
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购机构单位级别</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="levelDep" type="text" value="${purchaseDep.levelDep }"> <span class="add-on">i</span>
@@ -1057,7 +1079,7 @@
                 </div>
                 <div class="col-md-12 pl20 mt10">
                   <button type="button" class="btn btn-windows add" id="dynamicAdd" onclick="addOrg();">添加</button>
-                  <button type="button" class="btn btn-windows delete" id="dynamicAdd" onclick="delOrgTr();">删除</button>
+                  <button type="button" class="btn btn-windows delete"  onclick="delOrgTr();">删除</button>
                 </div>
                 
                 <div class="content table_box">
@@ -1132,6 +1154,27 @@
                       <div class="cue">${ERR_bidRoomCount}</div>
                     </div>
                   </li>
+                  
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class=""><i class="star_red">*</i>是否接入网络</span>
+                    <div class="select_check">
+                        <input name="accessNetwork" maxlength="10" type="radio" value="0" <c:if test="${purchaseDep.accessNetwork eq '0' }">checked="true"</c:if>>是
+                        <input name="accessNetwork"  maxlength="10" type="radio" value="1" <c:if test="${purchaseDep.accessNetwork eq '1' }">checked="true"</c:if>>否
+                    </div>
+                </li>
+                  
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>接入方式</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="accessWay" value="${purchaseDep.accessWay}"  type="text">
+                      <span class="add-on">i</span>
+                      <div class="cue">${ERR_accessWay}</div>
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class=""><i class="star_red">*</i>是否具备视频监控系统</span>
+                    <div class="select_check">
+                        <input name="videoSurveillance" maxlength="10" type="radio" value="0" <c:if test="${purchaseDep.videoSurveillance eq '0' }">checked="true"</c:if>>是
+                        <input name="videoSurveillance"  maxlength="10" type="radio" value="1" <c:if test="${purchaseDep.videoSurveillance eq '1' }">checked="true"</c:if>>否
+                    </div>
+                </li>
                 </ul>
                 
                 
@@ -1140,25 +1183,44 @@
                   <div class="col-md-12 pl20 mt10">
                     <!--  onclick= addOffice()-->
                     <button class="btn btn-windows add" type="button" id="dynamicAdd" onclick="dynamicaddTwo();">添加场所</button>
+                    <button class="btn btn-windows delete" type="button"  onclick="del();">删除</button>
                   </div>
                   <div class="content table_box">
                     <table class="table table-bordered table-condensed table-hover table-striped" id="tab-position">
                       <thead>
                         <tr>
+                          <th class="info w30"><input id="checkSite" type="checkbox" onclick="selectSite();" /></th>
                           <th class="info f13">序号</th>
                           <th class="info f13">类型</th>
                           <th class="info f13">编号</th>
                           <th class="info f13">位置</th>
                           <th class="info f13">面积</th>
-                          <th class="info f13">接入方式</th>
                           <th class="info f13">容纳人员数量</th>
-                          <th class="info f13">是否介入网络</th>
-                          <th class="info f13">是否具备监控系统</th>
-                          <th class="info f13">操作</th>
                         </tr>
                       </thead>
                       <tbody>
-
+                           <c:forEach items="${locales}" var="obj" varStatus="vs">
+                              <tr style="cursor: pointer;">
+                             <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkbo" onclick="checkSite()" alt=""></td>
+                              <td class="tc w50">${(vs.index+1)}</td>
+                                <%-- <select name="siteType">
+                                  <option value="1" <c:if test="${'1' eq obj.siteType}">selected="selected" </c:if>>办公室</option>
+                                  <option value="2" <c:if test="${'2' eq obj.siteType}">selected="selected" </c:if>>会议室</option>
+                                  <option value="3" <c:if test="${'3' eq obj.siteType}">selected="selected" </c:if>>招标室</option>
+                                  <option value="4" <c:if test="${'4' eq obj.siteType}">selected="selected" </c:if>>评标室</option>
+                                </select> --%>
+                              <td class="tc">
+                              <c:if test="${'1' eq obj.siteType}"> 办公室</c:if>
+                              <c:if test="${'2' eq obj.siteType}"> 会议室</c:if>
+                              <c:if test="${'3' eq obj.siteType}"> 招标室</c:if>
+                              <c:if test="${'4' eq obj.siteType}"> 评标室</c:if>
+                             <input type="hidden" name="siteType"  value="${obj.siteType}"/></td>
+                              <td class="tc">${obj.siteNumber}<input type="hidden" name="siteNumber"  value="${obj.siteNumber}"/></td>
+                              <td class="tc">${obj.location}<input type="hidden" name="location"  value="${obj.location}"/></td>
+                              <td class="tc">${obj.area}<input type="hidden" name="area"  value="${obj.area}"/></td>
+                              <td class="tc">${obj.crewSize}<input type="hidden" name="crewSize"  value="${obj.crewSize}"/></td>
+                             </tr>
+                          </c:forEach>
                       </tbody>
                     </table>
                     </div>

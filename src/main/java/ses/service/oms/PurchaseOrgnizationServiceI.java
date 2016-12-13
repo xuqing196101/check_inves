@@ -16,9 +16,12 @@ public interface PurchaseOrgnizationServiceI {
 	
 	List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map);
 	
-	int  savePurchaseDep(PurchaseDep purchaseDep, String ids,String[] purchaseUnitName, String[] purchaseUnitDuty);
+	int  savePurchaseDep(PurchaseDep purchaseDep, String ids,String[] purchaseUnitName,
+	                     String[] purchaseUnitDuty,String[] siteType,String[] siteNumber,
+	                     String[] location,String[] area,String[] crewSize);
 	
-	int update(PurchaseDep purchaseDep, String selectedItem,String[] purchaseUnitDuty, String[] purchaseUnitName);
+	int update(PurchaseDep purchaseDep, String selectedItem,String[] purchaseUnitDuty, String[] purchaseUnitName,
+	           String[] siteType,String[] siteNumber,String[] location,String[] area,String[] crewSize);
 	
 	PurchaseDep findByOrgId(String id);
 	

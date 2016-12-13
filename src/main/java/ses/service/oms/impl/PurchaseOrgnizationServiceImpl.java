@@ -14,10 +14,12 @@ import common.constant.StaticVariables;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.oms.PurchaseDepMapper;
 import ses.model.oms.OrgInfo;
+import ses.model.oms.OrgLocale;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
 import ses.service.oms.OrgInfoService;
+import ses.service.oms.OrgLocaleService;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 
@@ -35,6 +37,9 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	
 	@Autowired
     private OrgInfoService orgInfoService;
+	
+	@Autowired
+    private OrgLocaleService localeService;
 
 	@Override
 	public List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map) {
@@ -54,7 +59,8 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	}
 
 	@Override
-	public int savePurchaseDep(PurchaseDep purchaseDep, String ids, String[] purchaseUnitName, String[] purchaseUnitDuty) {
+	public int savePurchaseDep(PurchaseDep purchaseDep, String ids, String[] purchaseUnitName, String[] purchaseUnitDuty,
+	                           String[] siteType,String[] siteNumber,String[] location,String[] area,String[] crewSize) {
 	    Orgnization org = new Orgnization();
 	    org.setName(purchaseDep.getName());
 	    org.setIsDeleted(StaticVariables.ISNOT_DELETED);
@@ -64,6 +70,8 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	    org.setAddress(purchaseDep.getAddress());
 	    org.setPostCode(purchaseDep.getPostCode());
 	    org.setFax(purchaseDep.getFax());
+	    org.setContactName(purchaseDep.getContactName());
+	    org.setContactMobile(purchaseDep.getContactMobile());
 	    org.setProvinceId(purchaseDep.getOrgnization().getProvinceId());
 	    org.setCityId(purchaseDep.getOrgnization().getCityId());
 	    orgniztionMapper.saveOrg(org);
@@ -85,6 +93,8 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	        map.put("purchaseOrgList", purchaseOrgList);
             purChaseDepOrgService.saveByMap(map);
 	    }
+	    
+	    //添加财务部门
 	    if(purchaseUnitName != null || purchaseUnitDuty != null){
             if(purchaseUnitName.length > 1 || purchaseUnitDuty.length > 1){
                 for (int i = 0; i < purchaseUnitName.length; i++ ) {
@@ -104,11 +114,39 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
                 }
             }
         }
+	    
+	    //添加场所信息
+	    if(siteType != null || siteNumber != null || location != null || area != null || crewSize != null){
+            if(siteType.length > 1 || siteNumber.length > 1 || location.length > 1 || area.length > 1|| crewSize.length > 1){
+                for (int i = 0; i < siteNumber.length; i++ ) {
+                    OrgLocale locale = new OrgLocale();
+                    locale.setArea(area[i]);
+                    locale.setCrewSize(crewSize[i]);
+                    locale.setLocation(location[i]);
+                    locale.setSiteNumber(siteNumber[i]);
+                    locale.setSiteType(siteType[i]);
+                    locale.setOrgId(orgId);
+                    localeService.insertSelective(locale);
+                }
+            }else{
+                for (int i = 0; i < siteNumber.length; i++ ) {
+                    OrgLocale locale = new OrgLocale();
+                    locale.setArea(area[i]);
+                    locale.setCrewSize(crewSize[i]);
+                    locale.setLocation(location[i]);
+                    locale.setSiteNumber(siteNumber[i]);
+                    locale.setSiteType(siteType[i]);
+                    locale.setOrgId(orgId);
+                    localeService.insertSelective(locale);
+                }
+            }
+        }
 		return purchaseDepMapper.savePurchaseDep(purchaseDep);
 	}
 
 	@Override
-	public int update(PurchaseDep purchaseDep, String selectedItem, String[] purchaseUnitName, String[] purchaseUnitDuty) {
+	public int update(PurchaseDep purchaseDep, String selectedItem, String[] purchaseUnitName, String[] purchaseUnitDuty,
+	                  String[] siteType,String[] siteNumber,String[] location,String[] area,String[] crewSize) {
 	    if(purchaseDep.getId() != null){
 	        purchaseDep.setCityId(purchaseDep.getOrgnization().getCityId());
 	        purchaseDep.setAddress(purchaseDep.getOrgnization().getAddress());
@@ -146,6 +184,33 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
                     orgInfo.setPurchaseUnitDuty(purchaseUnitDuty[i]);
                     orgInfo.setOrgId(purchaseDep.getOrgnization().getId());
                     orgInfoService.insertSelective(orgInfo);
+                }
+            }
+        }
+	    
+	  //添加场所信息
+        if(siteType != null || siteNumber != null || location != null || area != null || crewSize != null){
+            if(siteType.length > 1 || siteNumber.length > 1 || location.length > 1 || area.length > 1|| crewSize.length > 1){
+                for (int i = 0; i < siteNumber.length; i++ ) {
+                    OrgLocale locale = new OrgLocale();
+                    locale.setArea(area[i]);
+                    locale.setCrewSize(crewSize[i]);
+                    locale.setLocation(location[i]);
+                    locale.setSiteNumber(siteNumber[i]);
+                    locale.setSiteType(siteType[i]);
+                    locale.setOrgId(purchaseDep.getOrgnization().getId());
+                    localeService.insertSelective(locale);
+                }
+            }else{
+                for (int i = 0; i < siteNumber.length; i++ ) {
+                    OrgLocale locale = new OrgLocale();
+                    locale.setArea(area[i]);
+                    locale.setCrewSize(crewSize[i]);
+                    locale.setLocation(location[i]);
+                    locale.setSiteNumber(siteNumber[i]);
+                    locale.setSiteType(siteType[i]);
+                    locale.setOrgId(purchaseDep.getOrgnization().getId());
+                    localeService.insertSelective(locale);
                 }
             }
         }
