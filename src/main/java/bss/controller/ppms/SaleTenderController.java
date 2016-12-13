@@ -157,12 +157,14 @@ public class SaleTenderController {
     * @return String
      */
     @RequestMapping("/register")
-    public String register(String id,String packId,SaleTender saleTender){
+    public String register(String id,String packId,String projectId,SaleTender saleTender){
+    	
     	saleTender.setUpdatedAt(new Date());
-    	saleTender.setStatusBid(null);
+    	saleTender.setCreatedAt(new Date());
+    	saleTender.setStatusBid((short)2);
     	saleTenderService.update(saleTender);
     	
-    	return "redirect:gview.html";
+    	return "redirect:view.html?projectId="+projectId;
     }
     
     /**
