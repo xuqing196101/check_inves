@@ -5,6 +5,7 @@ package bss.controller.ppms;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,9 +26,15 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierQuoteService;
+import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectDetailService;
+import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 
 import com.alibaba.fastjson.JSON;
@@ -62,6 +69,19 @@ public class SaleTenderController {
     private UploadService uploadService;
     @Autowired
     private DownloadService downloadService;
+    
+    /**
+     * @Fields projectService : 引用项目业务实现接口
+     */
+    @Autowired
+    private ProjectService projectService;
+    
+    /**
+     * @Fields packageService : 引用分包业务逻辑接口
+     */
+    @Autowired
+    private PackageService packageService;
+    
 
     /**
      * @Description:展示发售标书列表
@@ -85,8 +105,68 @@ public class SaleTenderController {
         model.addAttribute("supplierName",supplierName);
         return "bss/ppms/sall_tender/list";
     }
+    
+    
+    /**
+    * @Title: view
+    * @author Shen Zhenfei 
+    * @date 2016-12-12 下午4:40:49  
+    * @Description: 根据包名，或者供应商
+    * @param @param projectId
+    * @param @param model
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/view")
+    public String view(String projectId, Model model){
+    	//项目信息
+        Project project=projectService.selectById(projectId);
 
-
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId",projectId);
+        List<Packages> list = packageService.findPackageById(map);
+        
+        SaleTender saleTender = new SaleTender();
+        saleTender.setProjectId(projectId);
+       if(list != null && list.size()>0){
+            for(Packages ps:list){
+                HashMap<String,Object> packageId = new HashMap<String,Object>();
+                packageId.put("packageId", ps.getId());
+                saleTender.setPackages(ps.getId());
+               //供应商
+                List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+                ps.setSaleTenderList(saleTenderList);
+            }
+        }
+        model.addAttribute("kind", DictionaryDataUtil.find(5));
+        model.addAttribute("packageList", list);
+        model.addAttribute("project", project);
+        return "bss/ppms/sall_tender/view";
+    }
+    
+    
+    /**
+    * @Title: register
+    * @author Shen Zhenfei 
+    * @date 2016-12-13 上午11:20:16  
+    * @Description: 登记其他采购方式
+    * @param @param id
+    * @param @param packId
+    * @param @param saleTender
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/register")
+    public String register(String id,String packId,String projectId,SaleTender saleTender){
+    	
+    	saleTender.setUpdatedAt(new Date());
+    	saleTender.setCreatedAt(new Date());
+    	saleTender.setStatusBid((short)2);
+    	saleTenderService.update(saleTender);
+    	
+    	return "redirect:view.html?projectId="+projectId;
+    }
+    
     /**
      * @Description:展示供应商列表
      *
@@ -119,6 +199,45 @@ public class SaleTenderController {
         model.addAttribute("supplierName", supplier.getSupplierName());
         return "bss/ppms/sall_tender/supplier_list";
     }
+    
+    
+    /**
+    * @Title: showAllSupplier
+    * @author Shen Zhenfei 
+    * @date 2016-12-13 上午10:50:50  
+    * @Description: 公开招标获取全部供应商
+    * @param @param model
+    * @param @param projectId
+    * @param @param page
+    * @param @param packId
+    * @param @param supplier
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/showAllSupplier")
+    public  String showAllSupplier(Model model, String projectId,String page,String packId,Supplier supplier){
+    	//查询list方法里面的供应商id 为了过滤供应商 已经有的就不显示了
+    	SaleTender saleTender=new SaleTender();
+    	saleTender.setProjectId(projectId);
+    	List<SaleTender> list = saleTenderService.list(saleTender,page==null||"".equals(page)?1:Integer.valueOf(page));
+    	List<String> stsupplierIds=new ArrayList<String>();
+    	if(list.size()>0){
+	    	for(SaleTender st:list){
+	    		stsupplierIds.add(st.getSuppliers().getId());
+	    	}
+	    	supplier.setStsupplierIds(stsupplierIds);
+    	}
+        List<Supplier> allSupplier = auditService.getAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
+       
+        model.addAttribute("packId", packId);
+        model.addAttribute("list", new PageInfo<>(allSupplier));
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("supplierName", supplier.getSupplierName());
+        return "bss/ppms/sall_tender/suppliers_list";
+    }
+    
+    
+    
     /**
      * 
      * @Description:修改状态
@@ -246,6 +365,31 @@ public class SaleTenderController {
     		}
         }
         return "redirect:list.html?projectId="+projectId;
+    }
+    
+    /**
+    * @Title: saveSupplier
+    * @author Shen Zhenfei 
+    * @date 2016-12-13 上午10:50:04  
+    * @Description: 公开招标添加供应商
+    * @param @param ids
+    * @param @param packages
+    * @param @param status
+    * @param @param sq
+    * @param @param projectId
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/saveSupplier")
+    public String saveSupplier(String ids,String packages,String status,HttpServletRequest sq,String projectId){
+        User attribute = (User) sq.getSession().getAttribute("loginUser");
+    	if (attribute != null){
+    		List<String> listIds=Arrays.asList(ids.split(","));
+    		for(String str:listIds){
+    			saleTenderService.insert(new SaleTender(projectId, (short)1, str, (short)1, attribute.getId(),packages));
+    		}
+        }
+        return "redirect:view.html?projectId="+projectId;
     }
 
     /**

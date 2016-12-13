@@ -144,5 +144,14 @@ public class SaleTenderServiceImpl implements SaleTenderService {
         }
         return stList;
     }
+
+    
+    /**
+     *  根据项目包名，获取供应商
+     */
+	@Override
+	public List<SaleTender> getPackegeSupplier(SaleTender record) {
+		return saleTenderMapper.getPackegeSupplier(record);
+	}
 }
 

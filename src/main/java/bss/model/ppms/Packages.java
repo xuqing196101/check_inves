@@ -60,6 +60,8 @@ public class Packages {
 	private String projectId;
 	
 	private Supplier supplier;//用于拆分供应商展示
+	
+	private List<SaleTender> saleTenderList;
 
 	public Supplier getSupplier() {
 		return supplier;
@@ -261,6 +263,15 @@ public class Packages {
         this.listCheckPasses = listCheckPasses;
     }
 
+    
+    
+	public List<SaleTender> getSaleTenderList() {
+		return saleTenderList;
+	}
+
+	public void setSaleTenderList(List<SaleTender> saleTenderList) {
+		this.saleTenderList = saleTenderList;
+	}
 
 
   

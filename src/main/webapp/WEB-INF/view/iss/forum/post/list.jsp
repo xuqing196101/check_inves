@@ -312,7 +312,7 @@
 						<tr>
 							<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 							<th class="info">序号</th>
-							<th class="info">名称</th>
+							<th class="info">帖子名称</th>
 							<th class="info">置顶</th>
 							<th class="info">锁定</th>
 							<th class="info">发布时间</th>

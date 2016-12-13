@@ -206,7 +206,7 @@
 			<div class="search_detail">
 				<ul class="demand_list ">
 					<li class="fl">
-						<label class="fl">内容：</label>
+						<label class="fl">回复内容：</label>
 						<span><input type="text" id="replyCon" class="mb0 " value="${replyCon }"/></span>
 					</li>
 					<button class="btn" onclick="search()">查询</button>

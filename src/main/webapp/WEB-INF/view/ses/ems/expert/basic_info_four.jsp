@@ -122,8 +122,8 @@ session.setAttribute("tokenSession", tokenValue);
 			<span id="dy2" class="new_step current fl" onclick='pre2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span> 
 			<span id="ty6" class="new_step current fl" onclick='pre6()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
 			<span id="dy3" class="new_step current fl" onclick='pre3()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-			<span id="dy4" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载附件</span> </span> 
-			<span id="dy5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传附件</span> </span> 
+			<span id="dy4" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">文件下载</span> </span> 
+			<span id="dy5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">文件上传</span> </span> 
 			<div class="clear"></div>
 		  </h2>
 <div class="tab-content padding-top-20">
@@ -131,12 +131,12 @@ session.setAttribute("tokenSession", tokenValue);
 	 <h2>打印专家申请表、承诺书</h2>
   </div>  
 <div>
-  <table class="table">
   <div class="margin-top-30"></div>
     <div align="left">
       <a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">申请表下载</a>
       <a class="btn btn-windows input" onclick='downloadBook()' href="javascript:void(0)">承诺书下载</a>
     </div>
+  <table class="table table-bordered table-condensed ">
     <div class="margin-top-30"></div>
    	<tr>
  	  <td width="25%" class="bggrey">姓名</td>
@@ -231,33 +231,33 @@ session.setAttribute("tokenSession", tokenValue);
 	 <td colspan="3">${expert.fax}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey" rowspan="3">参评的产品类别 </td>
-	 <td colspan="3" rowspan="3">${expert.productCategories}</td>
+	 <td width="25%" class="bggrey">参评的产品类别 </td>
+	 <td colspan="3">${expert.productCategories}</td>
    </tr>
    <tr>
-	 <td width="25%"  class="bggrey" rowspan="3">主要工作经历</td>
-	 <td colspan="3" rowspan="3">${expert.jobExperiences}</td>
+	 <td width="25%"  class="bggrey">主要工作经历</td>
+	 <td colspan="3">${expert.jobExperiences}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey" rowspan="3">专业学术成果</td>
-	 <td colspan="3" rowspan="3">${expert.academicAchievement}</td>
+	 <td width="25%" class="bggrey">专业学术成果</td>
+	 <td colspan="3">${expert.academicAchievement}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey" rowspan="3">参加军队地方采购评审情况 </td>
-	 <td colspan="3" rowspan="3">${expert.reviewSituation}</td>
+	 <td width="25%" class="bggrey">参加军队地方采购评审情况 </td>
+	 <td colspan="3">${expert.reviewSituation}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey" rowspan="3">需要申请回避的情况 </td>
-	 <td colspan="3" rowspan="3">${expert.avoidanceSituation}</td>
+	 <td width="25%" class="bggrey">需要申请回避的情况 </td>
+	 <td colspan="3">${expert.avoidanceSituation}</td>
    </tr>
  </table>
     <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
    		<button class="btn"   type="button" onclick="pre3()">上一步</button>
 		<button class="btn"   type="button" onclick="four('ok')">下一步</button>
 	</div>
-	  </div>
-	    </div>
-	      </div>
+</div>
+</div>
+</div>
 	</form>
 	<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>

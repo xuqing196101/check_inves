@@ -88,4 +88,16 @@ public interface SaleTenderService   {
      * @return
      */
     public List<SaleTender> getPackageNames(List<SaleTender> stList);
+    
+    /**
+    * @Title: getPackegeSupplier
+    * @author Shen Zhenfei 
+    * @date 2016-12-12 下午4:51:54  
+    * @Description: 根据项目包名，获取供应商
+    * @param @return      
+    * @return List<SaleTender>
+     */
+    public List<SaleTender> getPackegeSupplier(SaleTender record);
+    
+    
 }
