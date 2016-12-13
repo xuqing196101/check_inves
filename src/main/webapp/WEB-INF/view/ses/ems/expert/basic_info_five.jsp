@@ -125,16 +125,16 @@ session.setAttribute("tokenSession", tokenValue);
 		<div id="reg_box_id_7" class="container clear margin-top-30" >
 		   <h2 class="padding-20 mt40">
 			 <span id="sc1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-			 <span id="sc2" class="new_step current fl" onclick='tab2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+			 <span id="sc2" class="new_step current fl" onclick='tab2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span> 
 			 <span id="ty6" class="new_step current fl" onclick='tab6()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
 			 <span id="sc3" class="new_step current fl" onclick='tab3()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-			 <span id="sc4" class="new_step current fl" onclick='tab4()'><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
-			 <span id="sc5" class="new_step current fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
+			 <span id="sc4" class="new_step current fl" onclick='tab4()'><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载附件</span> </span> 
+			 <span id="sc5" class="new_step current fl"><i class="">6</i> <span class="step_desc_01">上传附件</span> </span> 
 			 <div class="clear"></div>
 		  </h2>
 		<div class="tab-content padding-top-20">
 			<div class="headline-v2">
-			  <h2>专家申请表、承诺书</h2>
+			  <h2>上传专家申请表、承诺书</h2>
 			</div>   
 	   	 <table class="table table-bordered">
 	   	   <tr>

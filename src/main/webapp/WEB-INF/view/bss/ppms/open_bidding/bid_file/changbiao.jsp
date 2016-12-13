@@ -191,10 +191,10 @@ function ycDiv(obj, index){
 				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listPackage[index].name }</span></h2>
                </div>
 			<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
-				<c:forEach items="${proDel.key }" var="pd" varStatus="vs">
+				<c:forEach items="${proDel.key }" var="pdkey" varStatus="vs">
 						<div class="p0${index}">
-						<span class="fl">供应商名称：<span class="f14 blue">${pd.supplierName}</span></span>
-						<table id="${pd.id}"  class="table table-bordered table-condensed mt5">
+						<span class="fl">供应商名称：<span class="f14 blue">${pdkey.supplierName}</span></span>
+						<table id="${pdkey.id}"  class="table table-bordered table-condensed mt5">
 							<thead>
 								<tr>
 									<th class="info w50">序号</th>
@@ -211,18 +211,34 @@ function ycDiv(obj, index){
 							</thead>
 							<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
 								<c:forEach items="${proDel.value }" var="pd" varStatus="vs">
-									<tr id="${pd.id }" class="hand">
-										<td class="tc w50">${pd.serialNumber}</td>
-										<td class="tc">${pd.goodsName}</td>
-										<td class="tc">${pd.stand}</td>
-										<td class="tc">${pd.qualitStand}</td>
-										<td class="tc">${pd.item}</td>
-										<td class="tc">${pd.purchaseCount}</td>
-										<td class="tc"><input class="w60" maxlength="16" onblur="addTotal()" /></td>
-										<td class="tc"></td>
-										<td class="tc"><input class="w90" readonly="readonly" onClick="WdatePicker()" /></td>
-										<td class="tc"><input class="w60" /></td>
-									</tr>
+									<c:if test="${pd.supplierId eq pdkey.id }">
+										<tr id="${pd.id }" class="hand">
+											<td class="tc w50">${pd.serialNumber}</td>
+											<td class="tc">${pd.goodsName}</td>
+											<td class="tc">${pd.stand}</td>
+											<td class="tc">${pd.qualitStand}</td>
+											<td class="tc">${pd.item}</td>
+											<td class="tc">${pd.purchaseCount}</td>
+											<td class="tc"><input class="w60" value="${pd.quotePrice}" maxlength="16" onblur="addTotal()" /></td>
+											<td class="tc">${pd.total}</td>
+											<td class="tc"><input class="w90" value="<fmt:formatDate value="${pd.deliveryTime }" pattern="YYYY-MM-dd" />" readonly="readonly" onClick="WdatePicker()" /></td>
+											<td class="tc"><input class="w60" />${pd.remark}</td>
+										</tr>
+									</c:if>
+									<c:if test="${empty pd.supplierId}">
+										<tr id="${pd.id }" class="hand">
+											<td class="tc w50">${pd.serialNumber}</td>
+											<td class="tc">${pd.goodsName}</td>
+											<td class="tc">${pd.stand}</td>
+											<td class="tc">${pd.qualitStand}</td>
+											<td class="tc">${pd.item}</td>
+											<td class="tc">${pd.purchaseCount}</td>
+											<td class="tc"><input class="w60" value="${pd.quotePrice}" maxlength="16" onblur="addTotal()" /></td>
+											<td class="tc">${pd.total}</td>
+											<td class="tc"><input class="w90" value="<fmt:formatDate value="${pd.deliveryTime }" pattern="YYYY-MM-dd" />" readonly="readonly" onClick="WdatePicker()" /></td>
+											<td class="tc"><input class="w60" />${pd.remark}</td>
+										</tr>
+									</c:if>
 								</c:forEach>
 							</c:forEach>
 							<tr>

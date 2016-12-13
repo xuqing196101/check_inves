@@ -651,13 +651,38 @@ public class OpenBiddingController {
                 Quote quotes = new Quote();
                 quotes.setProjectId(projectId);
                 List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
-                Quote quote=new Quote();
-                quote.setProjectId(projectId);
-                quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1).getTime()));
-                List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
+                List<ProjectDetail> detailList = null;
+                if (listDate.size() != 0) {
+                    Quote quote=new Quote();
+                    quote.setProjectId(projectId);
+                    quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1).getTime()));
+                    List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
+                    detailList = detailService.selectByCondition(map1, null);
+                    List<ProjectDetail> detailList1 = new ArrayList<ProjectDetail>();
+                    for (Quote q : listQuote) {
+                        for (ProjectDetail projectDetail : detailList) {
+                            if (q.getProjectDetail().getId().equals(projectDetail.getId())) {
+                                ProjectDetail pd = new ProjectDetail();
+                                pd.setId(projectDetail.getId());
+                                pd.setSerialNumber(projectDetail.getSerialNumber());
+                                pd.setStand(projectDetail.getStand());
+                                pd.setQualitStand(projectDetail.getQualitStand());
+                                pd.setItem(projectDetail.getItem());
+                                pd.setPurchaseCount(projectDetail.getPurchaseCount());
+                                pd.setTotal(q.getTotal());
+                                pd.setDeliveryTime(q.getDeliveryTime());
+                                pd.setRemark(q.getRemark());
+                                pd.setQuotePrice(q.getQuotePrice());
+                                pd.setSupplierId(q.getSupplierId());
+                                detailList1.add(pd);
+                            }
+                        }
+                    }
+                    detailList = detailList1;
+                } else {
+                    detailList = detailService.selectByCondition(map1, null);
+                }
                 //
-                List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
-                ProjectDetail pd = new ProjectDetail();
                 for (SaleTender saleTender : saleTenderList) {
                     if (saleTender.getPackages().indexOf(pk.getId()) != -1) {
                         Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());

@@ -86,10 +86,20 @@ public class ProjectDetail {
      */
     private BigDecimal quotePrice;
     
-    
-    
+    /**
+     * 供应商id
+     */
+    private String supplierId;
 
-	public BigDecimal getTotal() {
+	public String getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(String supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    public BigDecimal getTotal() {
         return total;
     }
 

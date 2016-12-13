@@ -160,8 +160,8 @@ session.setAttribute("tokenSession", tokenValue);
   </div> 
 	  <div  class="col-md-12">
 	   <div class="padding-10" align="center">
-		   <button class="btn btn-windows reset"  type="button" onclick="location.href='javascript:history.go(-1);'"> 返回</button>
 		   <button class="btn btn-windows add"    type="button" onclick="submitForm1();"  >注册</button>
+		   <button class="btn btn-windows reset"  type="button" onclick="location.href='javascript:history.go(-1);'"> 返回</button>
 		</div>
 	 </div>
   </form>

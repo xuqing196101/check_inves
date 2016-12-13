@@ -9,7 +9,11 @@ http://www.springframework.org/schema/context/spring-context-3.2.xsd
 http://www.springframework.org/schema/mvc 
 http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 	
-	<mvc:annotation-driven/>  
+	<mvc:annotation-driven>
+	  <mvc:argument-resolvers>
+	    <bean class="common.resolver.LoginedArgumentResolver"/>
+	  </mvc:argument-resolvers>
+	</mvc:annotation-driven>  
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller" />
 
@@ -67,6 +71,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
  			<mvc:exclude-mapping path="/expert/updateStepNumber.*" />
  			<mvc:exclude-mapping path="/expert/getPIdandCIdByPurDepId.*" />
  			<mvc:exclude-mapping path="/expert/download.*" />
+ 			<mvc:exclude-mapping path="/expert/downloadBook.*" />
  			<mvc:exclude-mapping path="/area/find_by_parent_id.*" />
 			<mvc:exclude-mapping path="/area/find_by_id.*" />
 			<mvc:exclude-mapping path="/area/listByOne.*" />

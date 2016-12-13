@@ -81,6 +81,10 @@ function displayName(params,data,id,del){
 	var $ul = $("#"+id+"_disFileId");
 	$ul.empty();
 	if (data != null){
+		if (data.picture){
+			var li = '<li class=""><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+params.key+'","'+id+'","this");\'>查看</a></li>';
+			$ul.append(li);
+		}
 		if (data.success){
 			var li = '<li class=""><a href=\javascript:download("'+data.fileIds+'",'+key+');>下载</a></li>';
 			$ul.append(li);
@@ -89,10 +93,7 @@ function displayName(params,data,id,del){
 			var li = '<li class=""><a href=\javascript:removeFile("'+data.fileIds+'",'+key+',"'+id+'");>删除</a></li>';
 			$ul.append(li);
 		}
-		if (data.picture){
-			var li = '<li class=""><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+params.key+'","'+id+'");\'>查看</a></li>';
-			$ul.append(li);
-		}
+		
 	}
 }
 	
@@ -124,19 +125,21 @@ function removeFile(ids,key,id){
  * @returns
  */
 var view;
-function openViewDIv(businessId,typeId,key,id){
-	var html ="<ul id='showPicId'></ul>";
+function openViewDIv(businessId,typeId,key,id,obj){
+	var html ="<ul id='"+id+"showPicId'></ul>";
+	var height = document.body.clientHeight;
 	var index = layer.open({
 		  type: 1,
 		  title: '图片查看',
 		  skin: 'layui-layer-rim',
 		  shadeClose: true,
+		  area: [$(document).width(),height],
+		  offset:['0px','0px'],
 		  content: html
 		});
-	layer.full(index);  
-	display(businessId,typeId,key);
+	display(businessId,typeId,key,id);
 	
-	view =  $("#showPicId").viewer({
+	view =  $("#"+id+"showPicId").viewer({
 		  url:'data-original'
 	  }); 
 }
@@ -146,7 +149,7 @@ function openViewDIv(businessId,typeId,key,id){
  * 显示附件
  * @param params
  */
-function display(businessId,typeId,key){
+function display(businessId,typeId,key,id){
 	var params = {businessId: businessId,typeId: typeId,key: key};
 	$.ajax({
 		url: globalPath + '/file/displayFile.do',
@@ -154,7 +157,7 @@ function display(businessId,typeId,key){
 		async:false,
 		dataType: 'json',
 		success:function(datas){
-			disFiles(datas,key);
+			disFiles(datas,key,id);
 		}
 	});
 }
@@ -164,8 +167,8 @@ function display(businessId,typeId,key){
  * @param data @link Array
  * @param key 系统对应的key
  */
-function disFiles(data,key){
-	var $ul = $("#showPicId");
+function disFiles(data,key,id){
+	var $ul = $("#"+id+"showPicId");
 	$ul.empty();
 	if (data != null && data.length > 0) {
 		for (var i =0 ;i < data.length; i++){

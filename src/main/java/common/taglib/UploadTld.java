@@ -36,7 +36,7 @@ public class UploadTld extends TagSupport {
     private final static int UNIT = 1024;
     
     /** 选择按钮名称 */
-    private String selectButton = "选择文件";
+    private String selectButton = "添加文件";
     /** 上传按钮名称 */
     private String uloadButton = "开始上传";
     /** 选择按钮名称 */
