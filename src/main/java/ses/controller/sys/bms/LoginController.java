@@ -132,7 +132,7 @@ public class LoginController {
                                 out.print("black");
                             } else if(object.equals("5")){
                                 out.print("reject");
-                            }else if (object.equals("2")) {
+                            } else if (object.equals("2")) {
                                 req.getSession().setAttribute("loginUser", u);
                                 req.getSession().setAttribute("resource", u.getMenus());
                                 // 信息为空 重新填写

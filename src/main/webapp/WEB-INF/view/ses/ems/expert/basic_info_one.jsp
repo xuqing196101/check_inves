@@ -592,14 +592,14 @@ session.setAttribute("tokenSession", tokenValue);
 	    <span id="sp2" class="new_step fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span>
 	    <span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
 	    <span id="sp3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-	    <span id="sp4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载附件</span> </span> 
-	    <span id="sp5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传附件</span> </span> 
+	    <span id="sp4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">文件下载</span> </span> 
+	    <span id="sp5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">文件上传</span> </span> 
 	    <div class="clear"></div>
 	  </h2>
 	    <div class="container container_box">
 		  <h2 class="count_flow"><i>1</i>专家个人信息<font color="red" class="margin-left-30"> (注:军队单位人员，请登录内网进行注册!)</font></h2>
 			<ul class="ul_list">
-				<li class="col-md-3 col-sm-6 col-xs-12">
+				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家来源</span>
 					<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 						<select  name="expertsFrom" id="expertsFrom">
@@ -672,7 +672,7 @@ session.setAttribute("tokenSession", tokenValue);
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true"/>
 				    <u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
                     </div>
@@ -684,7 +684,7 @@ session.setAttribute("tokenSession", tokenValue);
   					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <u:upload id="expert8" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}" auto="true"/>
 				    <u:show showId="show8" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}"/>
                     </div>
@@ -706,7 +706,7 @@ session.setAttribute("tokenSession", tokenValue);
   					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <u:upload id="expert1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}" auto="true"/>
 				    <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
                     </div>
@@ -748,14 +748,14 @@ session.setAttribute("tokenSession", tokenValue);
 			<!-- 专家学历信息 -->
 			<h2 class="count_flow"><i>2</i>专家学历信息</h2>
 			<ul class="ul_list">
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>毕业院校及专业</span>
+                <li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>毕业院校及专业</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                       <input  maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"/>
                    	  <span class="add-on">i</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true"/>
 				    <u:show showId="show2" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
                     </div>
@@ -771,7 +771,7 @@ session.setAttribute("tokenSession", tokenValue);
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <u:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true"/>
 				    <u:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}"/>
                     </div>
@@ -790,7 +790,7 @@ session.setAttribute("tokenSession", tokenValue);
 			<!-- 专家专业信息 -->
 			<h2 class="count_flow"><i>3</i>专家专业信息</h2>
 			<ul class="ul_list">
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 所在单位</span>
+				<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 所在单位</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input  maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text"/>
 					<span class="add-on">i</span>
@@ -832,8 +832,9 @@ session.setAttribute("tokenSession", tokenValue);
 					<span class="add-on">i</span>
 					</div>
 				</li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                <li class="col-md-3 col-sm-6 col-xs-12">
+                    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true"/>
 				    <u:show  showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
                     </div>
@@ -854,7 +855,7 @@ session.setAttribute("tokenSession", tokenValue);
 			<!-- 专家专业信息 -->
 			<h2 class="count_flow"><i>4</i>专家类别</h2>
 			<ul class="ul_list">
-				<li class="col-md-3 col-sm-6 col-xs-12">
+				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					<div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
 						<c:forEach items="${spList}" var="sp" >
 					      <span><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name} </span>
