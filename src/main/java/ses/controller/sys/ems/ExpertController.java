@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -502,16 +503,25 @@ public class ExpertController {
      * @author WangHuijie
      * @param expertId
      * @return
+     * @throws Exception 
      */
     @RequestMapping(value = "validateAuditTime", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String validateAuditTime(String userId){
+    public String validateAuditTime(String userId) throws Exception{
         HashMap<String, Object> allInfo = new HashMap<String, Object>();
         // 根据userId查询出Expert
         Expert expert = service.selectByPrimaryKey(userService.getUserById(userId).getTypeId());   
         Date submitDate = expert.getUpdatedAt();
         allInfo.put("submitDate", new SimpleDateFormat("yyyy年MM月dd日").format(submitDate));
-        
+        // 判断有没有超过45天
+        String isok;
+        int betweenDays = service.daysBetween(submitDate);
+        if (betweenDays > 45) {
+            isok = "1";
+        } else {
+            isok = "0";
+        }
+        allInfo.put("isok", isok);
         // 查询初审机构信息
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", expert.getPurchaseDepId());
@@ -524,6 +534,7 @@ public class ExpertController {
         }
         return JSON.toJSONString(allInfo);
     }
+    
     
     @RequestMapping(value = "showJiGou", produces = "text/html;charset=UTF-8")
     @ResponseBody
@@ -1487,11 +1498,6 @@ public class ExpertController {
         }
 
         return "bss/prms/audit/list";
-    }
-
-    @RequestMapping("/testRegister")
-    public String testRegister(){
-        return "ses/ems/expert/basic_info_four";
     }
     /**
      * 

@@ -36,14 +36,16 @@
     				  offset:['45%','53%']
     			}); 
     			$.ajax({
-    				url : "${pageContext.request.contextPath}/login/login.html",
+    				url : "${pageContext.request.contextPath}/login/login.do",
     				type : "post",
+    				async: false,
     				data : {
     					loginName : $("#inputEmail").val(),
     					password : $("#inputPassword").val(),
     					rqcode : $("#inputCode").val()
     				},
     				success : function(data) {
+    					alert(data);
     					var flag = data.split(",");
     					if (data == "errorcode") {
     						layer.tips("验证码不正确", "#inputCode", {
@@ -96,23 +98,23 @@
     							dataType: "json",
     							async: false,
     							success: function(response){
-    								if (response.isok == "1") {
+    								if (response.isok == "0") {
     									// 没有超过45天
     									//询问框
     		    						layer.confirm("您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待!", {
     		    							btn : [ '确定' ]
     		    						//按钮
     		    						}, function() {
-    		    							window.location.href = "${pageContext.request.contextPath}/;
+    		    							window.location.href = "${pageContext.request.contextPath}/";
     		    						});
-    								} else {
+    								} else if (response.isok == "1") {
     									// 超过45天
     									//询问框
     		    						layer.confirm("您的信息提交审核已经超过45天,请耐心等待或联系相关初审机构(" + response.dep.contact + ":" + response.dep.contactTelephone + ")!", {
     		    							btn : [ '确定' ]
     		    						//按钮
     		    						}, function() {
-    		    							window.location.href = "${pageContext.request.contextPath}/;
+    		    							window.location.href = "${pageContext.request.contextPath}/";
     		    						});
     								}
     							}

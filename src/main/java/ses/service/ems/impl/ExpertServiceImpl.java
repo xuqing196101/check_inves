@@ -1,6 +1,8 @@
 package ses.service.ems.impl;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -84,8 +86,26 @@ public class ExpertServiceImpl implements ExpertService {
 		mapper.updateByPrimaryKeySelective(record);
 
 	}
-
-	/*@Override
+	
+	@Override
+    public int daysBetween(Date date) throws Exception{
+	    // 获取当前时间
+        Date nowDate = new Date();
+        // SimpleDateFormat
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+        date=sdf.parse(sdf.format(date));  
+        nowDate=sdf.parse(sdf.format(nowDate));  
+        Calendar cal = Calendar.getInstance();    
+        cal.setTime(date);    
+        long time1 = cal.getTimeInMillis();                 
+        cal.setTime(nowDate);    
+        long time2 = cal.getTimeInMillis();         
+        // 算出两个时间差,单位毫秒所以除以(1000*3600*24)
+        long betweenDays=(time2-time1)/(1000*3600*24);  
+        // 精确小数
+        return Integer.parseInt(String.valueOf(betweenDays)); 
+    }
+/*@Override
 	public List<Expert> selectLoginNameList(String loginName) {
 		List<Expert> expertList = mapper.selectLoginNameList(loginName);
 		return expertList;
