@@ -319,8 +319,8 @@
 	<select id="findAppraisalContract" parameterType="java.util.Map" resultType="bss.model.dms.PurchaseArchive">
 		SELECT
 			pcon.ID AS purchaseContractId,
-			pcon.code AS contractCode,
-			ppms.project_NUMBER AS projectCode,
+			pcon.CODE AS contractCode,
+			ppms.PROJECT_NUMBER AS projectCode,
 			pcon.YEAR AS year,
 			pcon.PURCHASE_DEP_NAME AS purchaseDep,
 			ppms.PURCHASE_TYPE AS purchaseType,
@@ -335,8 +335,8 @@
 			acon.APPRAISAL = 2
 		GROUP BY 
 			pcon.ID,
-			pcon.code,
-			ppms.project_NUMBER,
+			pcon.CODE,
+			ppms.PROJECT_NUMBER,
 			pcon.YEAR,
 			pcon.PURCHASE_DEP_NAME,
 			ppms.PURCHASE_TYPE,
