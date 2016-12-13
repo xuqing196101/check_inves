@@ -64,4 +64,18 @@ public interface SaleTenderMapper {
      * @return
      */
     Integer uploadCount(String businessId);
+    
+    
+    /**
+     * 
+    * @Title: getPackegeSupplier
+    * @author Shen Zhenfei 
+    * @date 2016-12-12 下午4:54:51  
+    * @Description: 根据项目包名，获取供应商
+    * @param @param record
+    * @param @return      
+    * @return List<SaleTender>
+     */
+    List<SaleTender> getPackegeSupplier(SaleTender record);
+    
 }

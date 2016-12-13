@@ -208,5 +208,22 @@
 		WHERE
 		BUSINESS_ID=#{businessId} AND IS_DELETED=0
 	</select>
+	
+	<!-- 根据产品包名查询供应商 -->
+	<select id="getPackegeSupplier" parameterType="bss.model.ppms.SaleTender"
+    resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    T_BSS_PPMS_SALE_TENDER st
+    WHERE
+    1=1
+    <if test="packages != null and packages != ''">
+      and st.PACKAGR_IDS = #{packages,jdbcType=VARCHAR}
+    </if>
+    <if test="project != null  and project != '' ">
+      and st.PROJECT_ID = #{project.id,jdbcType=VARCHAR}
+    </if>
+  </select>
 
 </mapper>
