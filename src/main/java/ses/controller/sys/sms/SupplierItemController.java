@@ -11,20 +11,22 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import common.constant.Constant;
 
 import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 @Controller
 @Scope("prototype")
@@ -42,6 +44,12 @@ public class SupplierItemController {
 	
 	@Autowired
 	private AreaServiceI areaService;
+	
+	@Autowired
+	private UploadService uploadService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	/**
 	 * @Title: saveOrUpdate
 	 * @author: Wang Zhaohua
@@ -107,6 +115,12 @@ public class SupplierItemController {
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", jsp);*/
 //		return  "redirect:../supplier/page_jump.html";
+		
+		boolean bool = validataItem(supplierItem);
+		if(bool==false){
+			model.addAttribute("err_item", "请上传产品目录近对应的近三年文件");
+			return "ses/sms/supplier_register/items";	
+		}
 		if(flag.equals("1")){
 			return "ses/sms/supplier_register/procurement_dep";	
 		}else if(flag.equals("2")){
@@ -123,5 +137,20 @@ public class SupplierItemController {
 		model.addAttribute("typeId", id);
 		return "ses/sms/supplier_register/category_uploadfile";	
 	}
+	
+	public boolean validataItem(SupplierItem supplierItem){
+		boolean bool=true;
+		
+		String ids[] = supplierItem.getCategoryId().split(",");
+		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
+		for(String s:ids){
+			List<UploadFile> list = uploadService.getFilesOther(s, null,"1");
+			if(list.size()<1){
+				bool=false;
+			}
+		}
+		return bool;
+	}
+	
 	
 }

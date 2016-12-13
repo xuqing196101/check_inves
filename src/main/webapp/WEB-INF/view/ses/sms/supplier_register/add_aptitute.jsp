@@ -143,7 +143,7 @@
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格等级：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span5" type="text" name="aptituteLevel" />
-													<div class="cue" id="cert_level"></div>s
+													<div class="cue" id="cert_level"></div>
 												</div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>批准资质资格内容：</span>

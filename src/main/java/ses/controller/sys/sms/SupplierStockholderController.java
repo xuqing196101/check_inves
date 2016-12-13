@@ -86,10 +86,10 @@ public class SupplierStockholderController extends BaseController{
 			map.put("nature", "不能为空");
 			bool=false;
 		}
-//		if(stockholder.getIdentity()==null){
-//			map.put("idCaerd", "身份证编码不正确");
-//			bool=false;
-//		}
+		if(stockholder.getIdentity()==null){
+			map.put("idCaerd", "不能为空");
+			bool=false;
+		}
 //		if(stockholder.getIdentity()!=null){
 //			if(stockholder.getIdentity().matches("^[0-9A-Z]{18}$")||stockholder.getIdentity().matches("^[1-9A-GY]{1}[1239]{1}[1-5]{1}[0-9]{5}[0-9A-Z]{10}$")){
 //				bool=true;
@@ -100,7 +100,7 @@ public class SupplierStockholderController extends BaseController{
 //		}
 		if(stockholder.getShares()==null||stockholder.getShares().length()>19){
 			bool=false;
-			map.put("share", "不能为空字符编码过长");
+			map.put("share", "不能为空字或是金额过大");
 		}
 		if(stockholder.getShares()!=null&&!stockholder.getShares().matches("^\\d+\\.?\\d*$")){
 			map.put("share", "金额格式错误");
