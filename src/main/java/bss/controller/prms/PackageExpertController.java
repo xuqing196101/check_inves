@@ -840,7 +840,6 @@ public class PackageExpertController {
             Project project = projectService.selectById(projectId);
             DictionaryData dd = DictionaryDataUtil.findById(project.getPurchaseType());
             model.addAttribute("purchaserType", dd.getCode());
-            System.out.println(project);
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("projectId", projectId);
             List<Packages> listPackage = supplierQuoteService

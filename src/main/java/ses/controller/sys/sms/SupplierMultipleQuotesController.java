@@ -35,6 +35,7 @@ import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.SaleTenderService;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 /**
  * 版权：(C) 版权所有 
  * <简述>供应商报价控制层
@@ -282,7 +283,15 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping(value = "openBid")
-    public String openBid(){
+    public String openBid(@CurrentUser User user, String projectId, Model model) {
+        SaleTender st = new SaleTender();
+        st.setProjectId(projectId);
+        st.setSupplierId(user.getTypeId());
+        List<SaleTender> stList = saleTenderService.find(st);
+        model.addAttribute("std", stList.get(0));
+        Project project = new Project();
+        project.setId(projectId);
+        model.addAttribute("project", project);
         return "ses/sms/multiple_quotes/open_bid";
     }
     
@@ -293,7 +302,15 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping(value = "priceBuild")
-    public String priceBuild(){
+    public String priceBuild(@CurrentUser User user, String projectId, Model model) {
+        SaleTender st = new SaleTender();
+        st.setProjectId(projectId);
+        st.setSupplierId(user.getTypeId());
+        List<SaleTender> stList = saleTenderService.find(st);
+        model.addAttribute("std", stList.get(0));
+        Project project = new Project();
+        project.setId(projectId);
+        model.addAttribute("project", project);
         return "ses/sms/multiple_quotes/price_build";
     }
     
@@ -304,7 +321,15 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping(value = "priceView")
-    public String priceView(){
+    public String priceView(@CurrentUser User user, String projectId, Model model) {
+        SaleTender st = new SaleTender();
+        st.setProjectId(projectId);
+        st.setSupplierId(user.getTypeId());
+        List<SaleTender> stList = saleTenderService.find(st);
+        model.addAttribute("std", stList.get(0));
+        Project project = new Project();
+        project.setId(projectId);
+        model.addAttribute("project", project);
         return "ses/sms/multiple_quotes/price_view";
     }
     
