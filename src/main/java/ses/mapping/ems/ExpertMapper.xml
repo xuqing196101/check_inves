@@ -892,4 +892,17 @@
 		set STEP_NUMBER = #{param2}
 		where id = #{param1} 
 	</update>
+	
+	<!-- 专家审核列表 可条件查询 -->
+	<select id="findExpertAuditList" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
+		select
+			*
+		from
+			T_SES_EMS_EXPERT
+		where 1=1
+			<if test="relName != null and relName !=''">
+				AND REAL_NAME like '%${relName}%'
+			</if>
+			ORDER BY CREATED_AT DESC
+	</select>
 </mapper>

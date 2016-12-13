@@ -114,4 +114,11 @@ public interface ExpertMapper {
      * @param stepNumber
      */
     void updateStepNumber(String expertId, String stepNumber);
+    
+    /**
+     * 专家审核
+     * @param expert
+     * @return
+     */
+    List<Expert> findExpertAuditList(Expert expert);
 }
