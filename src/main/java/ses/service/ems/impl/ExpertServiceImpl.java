@@ -297,26 +297,32 @@ public class ExpertServiceImpl implements ExpertService {
 			//查出当前登录的用户个人信息
 			Expert expert = mapper.selectByPrimaryKey(typeId);
 			if(expert!=null){
-				if((expert.getIsSubmit().equals("0") || expert.getStatus().equals("3"))&&!expert.getIsBlack().equals("1")){
-						//如果专家信息不为null 并且状态为暂存  或者为退回修改 就证明该专家填写过个人信息 需要重新填写 并注册提交审核
-						map.put("expert", "4");
+				if(expert.getIsSubmit().equals("0")&&!expert.getIsBlack().equals("1")){
+					//未提交
+					map.put("expert", "4");
 				} else if(expert.getStatus().equals("2")){
-					//如果审核未通过 或者已拉黑 则根据此状态阻止登录
+					//审核未通过
 					map.put("expert", "5");
 				}else if(expert.getIsBlack().equals("1")){
-	                    //如果审核未通过 或者已拉黑 则根据此状态阻止登录
+	                    //已拉黑
 	                    map.put("expert", "1");
 	            }else if(expert.getStatus().equals("0") && expert.getIsSubmit().equals("1") ){
 					//未审核
 					map.put("expert", "3");
-				}
+				}else if(expert.getStatus().equals("3") && !expert.getIsBlack().equals("1")){
+				    // 退回修改
+				    map.put("expert", "2");
+				}else if(expert.getStatus().equals("5")){
+                    // 复审踢除
+                    map.put("expert", "6");
+                }
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息
-				map.put("expert", "2");
+				map.put("expert", "4");
 			}
 		}else{
 			//如果用户关联的专家id为空 证明还没有填写过个人信息
-			map.put("expert", "2");
+			map.put("expert", "4");
 		}
 		return map;
 	}
