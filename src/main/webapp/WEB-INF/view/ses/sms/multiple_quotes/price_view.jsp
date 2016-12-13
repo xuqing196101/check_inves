@@ -3,25 +3,36 @@
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
 
-<title>投标结果</title>
+	<head>
+		<title>项目管理</title>
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="This is my page">
+		<script type="text/javascript"></script>
+	</head>
 
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-</head>
-
-<body onload="OpenFile()">
-	<div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">我的项目</a></li><li><a href="#">标书管理</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-    </div>
-    <div class="container clear mt20">
+	<body>
+		<!--面包屑导航开始-->
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li>
+						<a href="#"> 首页</a>
+					</li>
+					<li>
+						<a href="#">我的项目</a>
+					</li>
+					<li>
+						<a href="#">标书管理</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="container clear mt20">
    		<div class="list-unstyled padding-10 breadcrumbs-v3">
    			<span>
 				  <a href="${pageContext.request.contextPath}/mulQuo/openBid.html?projectId=${project.id}" class="img-v1">开标一览表</a>
@@ -96,9 +107,111 @@
 			</span>
    		</div>
   	</div>
-    <div class="container content height-350 pt0 mt20">
-    	
-    	投标完成，请等待结果。。
-   </div>
-</body>
+		<!-- 开标一览表-->
+		<div class="container">
+			<div class="content table_box">
+			    <h2 class="tc">货物材料、部件、工具价格明细表</h2>
+				<span class="ml10"><b>项目名称:</b>买车项目 </span><span class="ml50"><b>项目编号:</b>mcxm100 </span><span class="ml100"><b>金额单位:元</b> </span>
+				<table class="table table-bordered table-condensed table-hover table-striped">
+					<tr>
+						<td class="tc">序号</td>
+						<td>项目</td>
+						<td>规格型号</td>
+						<td>执行标准</td>
+						<td>计量单位</td>
+						<td>定额消耗数量</td>
+						<td>单价(元)</td>
+						<td>金额(元)</td>
+						<td>产地或生产企业</td>
+					</tr>
+					<tr>
+						<td class="tc">一</td>
+						<td>直接材料费</td>
+						<td>辆</td>
+						<td>100</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						
+					</tr>
+					<tr>
+						<td class="tc">1</td>
+						<td>100.50</td>
+						<td>辆</td>
+						<td>100</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						
+					</tr>
+					<tr>
+						<td class="tc">二</td>
+						<td>外购成件费</td>
+						<td>辆</td>
+						<td>100</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						
+					</tr>
+					<tr>
+						<td class="tc">1</td>
+						<td>100.50</td>
+						<td>辆</td>
+						<td>100</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						
+					</tr>
+					<tr>
+						<td class="tc">三</td>
+						<td>备件工具费</td>
+						<td>辆</td>
+						<td>100</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						
+					</tr>
+					<tr>
+						<td class="tc">1</td>
+						<td>100.50</td>
+						<td>辆</td>
+						<td>100</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						
+					</tr>
+					<tr>
+						<td></td>
+						<td>合计</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						
+					</tr>
+				</table>
+				<span class="ml10">投标人全称：政法大学（盖章）</span> <span class="ml100">法定代表人（或授权代表）：宋彪伟（签字）</span><span class="ml200">2016年  12月  13日</span>
+			</div>
+		</div>
+	</body>
+
 </html>

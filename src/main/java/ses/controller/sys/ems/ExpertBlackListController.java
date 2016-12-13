@@ -170,7 +170,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 	@RequestMapping("/blacklist")
 	public String fnidAll(HttpServletRequest request,Model model,Integer page,ExpertBlackList expert){
 		List<ExpertBlackList> expertList = service.findAll(expert,page==null?1:page);
-		request.setAttribute("result", new PageInfo<>(expertList));
+		request.setAttribute("result", new PageInfo<ExpertBlackList>(expertList));
 		model.addAttribute("expertList", expertList);
 		//所有专家
 		List<Expert> expertName = service.findExpertList();

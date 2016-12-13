@@ -95,6 +95,18 @@
     </div>
 	<div class="container clear mt20">
    		<div class="list-unstyled padding-10 breadcrumbs-v3">
+   			<span>
+				  <a href="${pageContext.request.contextPath}/mulQuo/openBid.html?projectId=${project.id}" class="img-v1">开标一览表</a>
+				  <span class="green_link">→</span>
+			</span>
+			<span>
+				  <a href="${pageContext.request.contextPath}/mulQuo/priceBuild.html?projectId=${project.id}" class="img-v1">价格构成表</a>
+				  <span class="green_link">→</span>
+			</span>
+			<span>
+				  <a href="${pageContext.request.contextPath}/mulQuo/priceView.html?projectId=${project.id}" class="img-v1">明细表</a><!--货物材料、部件、工具价格明细表  -->
+				  <span class="green_link">→</span>
+			</span>
 		    <span>
 		    	<c:if test="${std.bidFinish == 0}">
 				  <a href="${pageContext.request.contextPath}/supplierProject/bidDocument.html?projectId=${project.id}" class="img-v2 orange_link">编制标书</a>

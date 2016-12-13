@@ -392,7 +392,7 @@ public class ExpertServiceImpl implements ExpertService {
 			//执行校验并修改
 			 map = Validate(expert,2,gitFlag);
 			//mapper.updateByPrimaryKeySelective(expert);
-			//获取之前的审核信息
+			/*获取之前的审核信息
 			List<ExpertAudit> auditList = expertAuditMapper.selectByExpertId(expert.getId());
 			if(auditList!=null && auditList.size()>0){
 				for (ExpertAudit expertAudit : auditList) {
@@ -401,14 +401,7 @@ public class ExpertServiceImpl implements ExpertService {
 					expertAudit.setIsHistory("1");
 					expertAuditMapper.updateByPrimaryKeySelective(expertAudit);
 				}
-			}
-			if("1".equals(expert.getExpertsTypeId())){
-			//保存品目
-			//saveCategory(expert, categoryIds);
-			}else{
-				//不是技术专家就删除品目关联信息
-				//categoryMapper.deleteByExpertId(expert.getId());
-			}
+			}*/
 		}else{
     		expert.setId(expertId);
     		//未考试
@@ -719,6 +712,22 @@ public class ExpertServiceImpl implements ExpertService {
         // TODO Auto-generated method stub
         mapper.updateStepNumber(expertId, stepNumber);
     }
+
+    /**
+     *〈简述〉
+     * 专家审核列表
+     *〈详细描述〉
+     * @author XuQing
+     * @param expert
+     */
+	@Override
+	public List<Expert> findExpertAuditList(Expert expert, Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		if(pageNum != null){
+			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		}
+		return mapper.findExpertAuditList(expert);
+	}
 	
 }
 

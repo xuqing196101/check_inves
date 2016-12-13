@@ -777,7 +777,7 @@ public class OpenBiddingController {
             List<SaleTender> sts = saleTenderService.find(saleTender);
             SaleTender std = sts.get(0);
             std.setBidFinish((short) 3);
-            //saleTenderService.update(std);
+            saleTenderService.update(std);
         } catch (Exception e) {
             e.printStackTrace();
         }

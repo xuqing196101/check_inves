@@ -3,25 +3,36 @@
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
 
-<title>投标结果</title>
+	<head>
+		<title>项目管理</title>
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="This is my page">
+		<script type="text/javascript"></script>
+	</head>
 
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-</head>
-
-<body onload="OpenFile()">
-	<div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">我的项目</a></li><li><a href="#">标书管理</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-    </div>
-    <div class="container clear mt20">
+	<body>
+		<!--面包屑导航开始-->
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li>
+						<a href="#"> 首页</a>
+					</li>
+					<li>
+						<a href="#">我的项目</a>
+					</li>
+					<li>
+						<a href="#">标书管理</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="container clear mt20">
    		<div class="list-unstyled padding-10 breadcrumbs-v3">
    			<span>
 				  <a href="${pageContext.request.contextPath}/mulQuo/openBid.html?projectId=${project.id}" class="img-v1">开标一览表</a>
@@ -96,9 +107,64 @@
 			</span>
    		</div>
   	</div>
-    <div class="container content height-350 pt0 mt20">
-    	
-    	投标完成，请等待结果。。
-   </div>
-</body>
+		<!-- 开标一览表-->
+		<div class="container">
+			<div class="content table_box">
+			    <h2 class="tc">价格构成表</h2>
+				<span class="ml10">项目名称:买车项目 </span><span class="ml50">项目编号:mcxm100 </span><span class="ml100">包号:2016001 </span><span class="ml140">金额单位:元 </span>
+				<table class="table table-bordered table-condensed table-hover table-striped">
+					<tr>
+						<td rowspan="2">货物名称</td>
+						<td rowspan="2">规格型号</td>
+						<td rowspan="2">计量单位</td>
+						<td rowspan="2">数量</td>
+						<td rowspan="2">总价</td>
+						<td colspan="13" class="tc">价格组成</td>
+					</tr>
+					<tr>
+						<td>单价</td>
+						<td>直接<br/>材料费</td>
+						<td>外购<br/>成件费</td>
+						<td>燃料及<br/>动力费</td>
+						<td>直接<br/>人工费</td>
+						
+						<td>废品<br/>损失费</td>
+						<td>管理<br/>费用</td>
+						<td>利润</td>
+						<td>税金</td>
+						
+						<td>备件<br/>工具费</td>
+						<td>安装<br/>调试费</td>
+						<td>技术<br/>服务费</td>
+						<td>运杂费</td>
+					</tr>
+					<tr>
+						<td>大卡车</td>
+						<td>3*15m</td>
+						<td>辆</td>
+						<td>100</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+						<td>100.50</td>
+					</tr>
+					<tr>
+						<td colspan="18">货物总金额（大写人民币）：壹佰元        (¥：100)</td>
+					</tr>
+				</table>
+				<span class="ml10">投标人全称：政法大学（盖章）</span><span class="ml50">法定代表人（或授权代表）：宋彪伟（签字）</span><span class="ml100">2016年  12月  13日</span>
+			</div>
+		</div>
+	</body>
+
 </html>

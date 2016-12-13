@@ -196,6 +196,18 @@
 			<div class="list-unstyled padding-10 breadcrumbs-v3">
 				<input id="projectId" name="projectId" value="${project.id }" type="hidden" />
 				<span>
+					  <a href="${pageContext.request.contextPath}/mulQuo/openBid.html?projectId=${project.id}" class="img-v1">开标一览表</a>
+					  <span class="green_link">→</span>
+				</span>
+				<span>
+					  <a href="${pageContext.request.contextPath}/mulQuo/priceBuild.html?projectId=${project.id}" class="img-v1">价格构成表</a>
+					  <span class="green_link">→</span>
+				</span>
+				<span>
+					  <a href="${pageContext.request.contextPath}/mulQuo/priceView.html?projectId=${project.id}" class="img-v1">明细表</a><!--货物材料、部件、工具价格明细表  -->
+					  <span class="green_link">→</span>
+				</span>
+				<span>
 		    	<c:if test="${std.bidFinish == 0}">
 				  <a href="${pageContext.request.contextPath}/supplierProject/bidDocument.html?projectId=${project.id}" class="img-v2 orange_link">编制标书</a>
 				  <span class="green_link">→</span>
@@ -385,7 +397,7 @@
 					<option value=''>暂无报价历史</option>
 				</c:if>
 				<c:forEach items="${listDate }" var="ld" varStatus="vs">
-					<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>' onclick="showQuoteHistory('<fmt:formatDate value=" ${ld} " pattern="YYYY-MM-dd HH:mm:ss "/>')">第${vs.index+1 }次报价</option>
+					<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>' onclick="showQuoteHistory('<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss "/>')">第${vs.index+1 }次报价</option>
 				</c:forEach>
 			</select>
 		</div>

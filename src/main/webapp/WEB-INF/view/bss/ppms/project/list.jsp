@@ -268,7 +268,6 @@
     </h2>
 	<div class="col-md-12 pl20 mt10">
       <a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/add.html">新增</a>
-	  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
 	  <button class="btn btn-windows apply" onclick="start();" type="button">实施</button>
 	  <button class="btn btn-windows edit" onclick="edit();">修改</button>
 	</div>

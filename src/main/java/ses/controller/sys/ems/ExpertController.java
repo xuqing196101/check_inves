@@ -1037,7 +1037,15 @@ public class ExpertController {
         // 用户信息处理
         service.userManager(user, userId, expert, expertId);
         // 调用service逻辑代码 实现提交
-        service.saveOrUpdate(expert, expertId, categoryId, gitFlag, userId);
+        //service.saveOrUpdate(expert, expertId, categoryId, gitFlag, userId);
+        expert.setIsDo("0");
+        //已提交
+        expert.setIsSubmit("1");
+        //未审核
+        expert.setStatus("0");
+        //修改时间
+        expert.setUpdatedAt(new Date());
+        service.updateByPrimaryKeySelective(expert);
     } catch (Exception e) {
       e.printStackTrace();
       // 未做异常处理
@@ -1077,8 +1085,10 @@ public class ExpertController {
                 categories.append(categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getName());
                 categories.append("、");
             }
-            String productCategories = categories.substring(0, categories.length() - 1);
-            expert.setProductCategories(productCategories);
+            if (!"".equals(categories.toString())) {
+                String productCategories = categories.substring(0, categories.length() - 1);
+                expert.setProductCategories(productCategories);
+            }
             service.zanCunInsert(expert, expertId, categoryId);
 
         } catch (Exception e) {
@@ -1449,6 +1459,10 @@ public class ExpertController {
         return "bss/prms/audit/list";
     }
 
+    @RequestMapping("/testRegister")
+    public String testRegister(){
+        return "ses/ems/expert/basic_info_four";
+    }
     /**
      * 
      * @Title: toFirstAudit

@@ -819,7 +819,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
-  <!-- 获取临时项目 -->
+  	<!-- 获取临时项目 -->
     <select id="provisionalList" parameterType="bss.model.ppms.Project"
         resultMap="BaseResultMap">
         select
@@ -834,6 +834,21 @@
         </if>
         <if test="status != null">
             and STATUS like '%${status}%'
+        </if>
+        ORDER BY CREATED_AT DESC
+    </select>
+    
+    <!-- 根据项目编号或项目名字查项目 -->
+    <select id="selectProjectByCode" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from T_BSS_PPMS_PROJECTS
+        where 1=1 
+        <if test="name != null and name != ''">
+            and NAME = #{name}
+        </if>
+        <if test="projectNumber != null and projectNumber != ''">
+            and PROJECT_NUMBER = #{projectNumber}
         </if>
         ORDER BY CREATED_AT DESC
     </select>

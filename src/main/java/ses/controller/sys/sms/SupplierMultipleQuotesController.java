@@ -1,5 +1,3 @@
-
-
 package ses.controller.sys.sms;
 
 import java.io.UnsupportedEncodingException;
@@ -37,6 +35,7 @@ import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.SaleTenderService;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 /**
  * 版权：(C) 版权所有 
  * <简述>供应商报价控制层
@@ -278,34 +277,60 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
     }
     
     /**
-     *〈简述〉跳转到报价页面
+     *〈简述〉开标一览表
      *〈详细描述〉
      * @author Song Biaowei
-     * @param id 项目ID
-     * @param packageName 包名称 
-     * @param packageId 包id
-     * @param page 当前页
-     * @param model 模型
      * @return String
-     * @throws UnsupportedEncodingException 异常处理
      */
-    @RequestMapping(value = "/baojia")
-    public String baojia(String id, String packageName, String packageId, Integer page, Model model) throws UnsupportedEncodingException{
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
-        List<ProjectDetail> detailList = detailService.selectByCondition(map, page == null ? 0 : page);
-        List<ProjectDetail> list = new ArrayList<ProjectDetail>();
-        if (detailList.size() > 0) {
-            for (ProjectDetail pd:detailList) {
-                if (pd.getPackages().getName().equals(URLDecoder.decode(packageName, "UTF-8"))) {
-                    list.add(pd);
-                }
-            }
-        }
-        model.addAttribute("list", list);
-        model.addAttribute("id", id);
-        model.addAttribute("projectId", id);
-        return "ses/sms/multiple_quotes/quote";
+    @RequestMapping(value = "openBid")
+    public String openBid(@CurrentUser User user, String projectId, Model model) {
+        SaleTender st = new SaleTender();
+        st.setProjectId(projectId);
+        st.setSupplierId(user.getTypeId());
+        List<SaleTender> stList = saleTenderService.find(st);
+        model.addAttribute("std", stList.get(0));
+        Project project = new Project();
+        project.setId(projectId);
+        model.addAttribute("project", project);
+        return "ses/sms/multiple_quotes/open_bid";
+    }
+    
+    /**
+     *〈简述〉价格构成表
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @return String
+     */
+    @RequestMapping(value = "priceBuild")
+    public String priceBuild(@CurrentUser User user, String projectId, Model model) {
+        SaleTender st = new SaleTender();
+        st.setProjectId(projectId);
+        st.setSupplierId(user.getTypeId());
+        List<SaleTender> stList = saleTenderService.find(st);
+        model.addAttribute("std", stList.get(0));
+        Project project = new Project();
+        project.setId(projectId);
+        model.addAttribute("project", project);
+        return "ses/sms/multiple_quotes/price_build";
+    }
+    
+    /**
+     *〈简述〉明细表
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @return String
+     */
+    @RequestMapping(value = "priceView")
+    public String priceView(@CurrentUser User user, String projectId, Model model) {
+        SaleTender st = new SaleTender();
+        st.setProjectId(projectId);
+        st.setSupplierId(user.getTypeId());
+        List<SaleTender> stList = saleTenderService.find(st);
+        model.addAttribute("std", stList.get(0));
+        Project project = new Project();
+        project.setId(projectId);
+        model.addAttribute("project", project);
+        return "ses/sms/multiple_quotes/price_view";
     }
     
     /**

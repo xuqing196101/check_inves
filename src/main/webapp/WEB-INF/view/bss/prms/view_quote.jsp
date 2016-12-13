@@ -25,7 +25,8 @@
 	  </div>
     </div> --%>
     <!-- 项目戳开始 -->
-  <div class="col-md-12 tc">
+       <c:if test="${purchaserType eq 'JZXTP' }">
+            <div class="col-md-12 tc">
 			  	<span >报价历史查看：</span>
 					  	<select onchange="showQuoteHistory(this)">
 					  	    <c:if test="${empty listDate }">
@@ -41,6 +42,7 @@
 					  	    </c:forEach>
 					  	</select>
 			 </div>
+	    </c:if>
   <!--详情开始-->
     <div class="row magazine-page">
       <div class="col-md-12 tab-v2 job-content">

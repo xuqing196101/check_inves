@@ -30,4 +30,6 @@ public interface ProjectMapper {
     List<Project> selectProject(HashMap<String,Object> map);
     
     List<Project> provisionalList(Project project);
+    
+    List<Project> selectProjectByCode(HashMap<String,Object> map);
 }

@@ -272,4 +272,11 @@ public interface ExpertService {
      * @param stepNumber
      */
     void updateStepNumber(String expertId, String stepNumber);
+    
+    /**
+     * 专家审核列表
+     * @param expert
+     * @return
+     */
+    List<Expert> findExpertAuditList(Expert expert, Integer pageNum);
 }

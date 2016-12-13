@@ -48,7 +48,6 @@ public class Expert implements Serializable{
     /**缴纳社会保险证明*/
     private String coverNote;
     /**居民身份证号码*/
-    @NotNull(message = "不能为空") 
     private String idCardNumber;
     /**军队人员身份证件类型*/
     @NotNull(message = "不能为空") 
@@ -73,7 +72,6 @@ public class Expert implements Serializable{
     /**固话*/
     private String  telephone;
     /**邮箱*/
-    @NotNull(message = "不能为空")
     private String email;//邮箱
     /* 12-8新加
      * <1>参评的产品类别

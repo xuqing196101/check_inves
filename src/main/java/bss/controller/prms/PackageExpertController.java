@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ses.model.bms.DictionaryData;
 import ses.model.ems.ExpExtPackage;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
@@ -35,6 +36,7 @@ import ses.service.ems.ProjectExtractService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.CnUpperCaser;
+import ses.util.DictionaryDataUtil;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Money;
 import bss.model.ppms.Packages;
@@ -835,6 +837,9 @@ public class PackageExpertController {
     public String supplierQuote(String projectId, String supplierId,
                                 Model model, Quote quote, String timestamp) {
         try {
+            Project project = projectService.selectById(projectId);
+            DictionaryData dd = DictionaryDataUtil.findById(project.getPurchaseType());
+            model.addAttribute("purchaserType", dd.getCode());
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("projectId", projectId);
             List<Packages> listPackage = supplierQuoteService

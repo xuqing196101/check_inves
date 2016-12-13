@@ -74,18 +74,13 @@ session.setAttribute("tokenSession", tokenValue);
 				otherParam: {
 					"categoryIds": id,
 				},
-				callback: {
-					
-				},
 				dataType: "json",
 				type: "post"
 			},
 			check: {
-				enable: true,
-				chkboxType: {
-					"Y": "s",
-					"N": "s"
-				}
+				enable : true,
+				chkStyle:"checkbox",  
+				chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
 			},
 			data: {
 				simpleData: {

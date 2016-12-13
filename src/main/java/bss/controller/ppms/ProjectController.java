@@ -331,13 +331,22 @@ public class ProjectController extends BaseController {
                         detailService.insert(projectDetail);
                     }
                 }
-                
             }
-            
+            HashMap<String,Object> projectMap = new HashMap<String,Object>();
+            projectMap.put("projectNumber", project.getProjectNumber());
+            Project newProject = projectService.selectProjectByCode(projectMap).get(0);
+            String pId = newProject.getId(); 
+            HashMap<String,Object> map = new HashMap<>();
+            map.put("id", pId);
+            //拿到一个项目所有的明细
+            List<ProjectDetail> details = detailService.selectById(map);
+            model.addAttribute("list", details);
+            model.addAttribute("kind", DictionaryDataUtil.find(5));
+            model.addAttribute("project", newProject);
         }catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:list.html";
+        return "bss/ppms/project/sub_package";
     }
     
     /**
@@ -764,6 +773,7 @@ public class ProjectController extends BaseController {
         List<Packages> packages = packageService.findPackageById(pack);
         if(packages.size()!=0){
             for(Packages ps:packages){
+            	int serialN = 0;
                 HashMap<String,Object> packageId = new HashMap<>();
                 packageId.put("packageId", ps.getId());
                 List<ProjectDetail> detailList = detailService.selectById(packageId);
@@ -781,8 +791,9 @@ public class ProjectController extends BaseController {
                 		newDetails.add(detailList.get(i));
                 	}
                 }
-                ComparatorDetail comparator=new ComparatorDetail();
+                ComparatorDetail comparator = new ComparatorDetail();
                 Collections.sort(newDetails, comparator);
+                List<String> newParentId = new ArrayList<>();
                 for(int i=0;i<newDetails.size();i++){
                 	HashMap<String,Object> detailMap = new HashMap<>();
                     detailMap.put("id",newDetails.get(i).getRequiredId());
@@ -800,6 +811,15 @@ public class ProjectController extends BaseController {
                     	}
                     	double money = budget;
                     	newDetails.get(i).setBudget(money);
+                    }
+                    if(dlist.size()==1){
+                    	if(!newParentId.contains(newDetails.get(i).getParentId())){
+                    		serialN = 0;
+                    		newParentId.add(newDetails.get(i).getParentId());
+                    	}
+                    	char serialNum = (char) (97 + serialN);
+                		newDetails.get(i).setSerialNumber("（"+serialNum+"）");
+                		serialN ++;
                     }
                 }
                 ps.setProjectDetails(newDetails);
@@ -859,7 +879,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/addPack")
     @ResponseBody
-    public String addPack(HttpServletRequest request){
+    public void addPack(HttpServletRequest request){
         String[] id = request.getParameter("id").split(",");
         String projectId = request.getParameter("projectId");
         Project project = projectService.selectById(projectId);
@@ -906,7 +926,6 @@ public class ProjectController extends BaseController {
             p.setStatus(0);
             packageService.updateByPrimaryKeySelective(p);
         }
-        return "1";
     }
 
     
@@ -921,7 +940,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/editPackName")
     @ResponseBody
-    public String editPackName(HttpServletRequest request){
+    public void editPackName(HttpServletRequest request){
         String name = request.getParameter("name");
         String id = request.getParameter("id");
         Packages pk = new Packages();
@@ -929,7 +948,6 @@ public class ProjectController extends BaseController {
         pk.setName(name);
         pk.setUpdatedAt(new Date());
         packageService.updateByPrimaryKeySelective(pk);
-        return "1";
     }
     /**
      * 
@@ -963,6 +981,36 @@ public class ProjectController extends BaseController {
         }
     }
     
+    /**
+     * 
+    * @Title: addDetailById
+    * @author ZhaoBo
+    * @date 2016-12-12 下午6:30:59  
+    * @Description: 根据包ID添加明细 
+    * @param @param request      
+    * @return void
+     */
+    @RequestMapping("/addDetailById")
+    @ResponseBody
+    public void addDetailById(HttpServletRequest request){
+    	 String[] id = request.getParameter("id").split(",");
+    	 String packageId = request.getParameter("packageId");
+         String projectId = request.getParameter("projectId");
+         for(int i=0;i<id.length;i++){
+         	ProjectDetail pDetail = detailService.selectByPrimaryKey(id[i]);
+         	HashMap<String,Object> map = new HashMap<String,Object>();
+         	map.put("id", pDetail.getRequiredId());
+         	map.put("projectId", projectId);
+         	List<ProjectDetail> list = detailService.selectByParentId(map);
+         	if(list.size()==1){
+         		ProjectDetail projectDetail = new ProjectDetail();
+                projectDetail.setId(id[i]);
+                projectDetail.setPackageId(packageId);
+                projectDetail.setUpdateAt(new Date());
+                detailService.update(projectDetail);
+         	}
+         }
+    }
     
     /**
      * Description: 根据项目的采购方式进入不同的实施页面

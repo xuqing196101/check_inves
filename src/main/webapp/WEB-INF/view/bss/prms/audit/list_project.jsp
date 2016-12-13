@@ -47,26 +47,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                }
          }
   }
-   //项目评审
-  function toAudit(){
-	  var count = 0;
-	  var ids = document.getElementsByName("chkItem");
+   	//项目评审
+	function toAudit(){
+	  	var count = 0;
+	  	var ids = document.getElementsByName("chkItem");
  
-     for(i=0;i<ids.length;i++) {
-   		 if(document.getElementsByName("chkItem")[i].checked){
-   		 var id = document.getElementsByName("chkItem")[i].value;
-   		 var value = id.split(",");
-   		 count++;
-    }
-  }   
+     	for(i=0;i<ids.length;i++) {
+   		 	if(document.getElementsByName("chkItem")[i].checked){
+   		 		var id = document.getElementsByName("chkItem")[i].value;
+   		 		var value = id.split(",");
+   		 		count++;
+    		}
+  		}   
   		if(count>1){
   			layer.alert("只能选择一条记录",{offset: ['222px', '390px'],shade:0.01});
   		}else if(count<1){
-  			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+  			layer.alert("请先选择一条记录",{offset: ['222px', '390px'],shade:0.01});
   		}else if(count==1){
   			window.location.href="${pageContext.request.contextPath}/expert/projectList.html?projectId="+value[0];
      	}
-  }
+  	}
 </script>
   </head>
   
