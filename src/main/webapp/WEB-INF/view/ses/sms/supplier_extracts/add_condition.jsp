@@ -21,6 +21,7 @@
     type="text/css">
 
 <script type="text/javascript">
+
     
     //供应商地区
     function areas(){
@@ -33,15 +34,22 @@
           success: function(data){
                var list = data;
                $("#city").empty();
-               for(var i=0;i<list.length;i++){
-                    $("#city").append("<option value="+list[i].id+">"+list[i].name+"</option>");
+               
+               var  html="";
+               var areas=$("#area").find("option:selected").text();
+               if(areas == '全国'){
+            	   html="<option value=''>全国</option>";
                }
+               for(var i=0;i<list.length;i++){
+            	   html +="<option value="+list[i].id+">"+list[i].name+"</option>";
+               }
+               $("#city").append(html);
           }
       });
     }
     
     function resetQuery(){
-        $("#form1").find(":input[type='text']").val("");
+        $("#form1").find(":input[type='text']").attr("value","");
         $("#area").find("option:first").prop("selected", 'selected');
          areas();
       }
@@ -86,7 +94,7 @@
                                     }else if(extConType[l].isMulticondition==2){
                                       html+="满足多个条件,";
                                     }
-                                       html+="抽取数量:"+extConType[l].alreadyCount+"/"+extConType[l].supplieCount;
+                                       html+="抽取数量:"+extConType[l].alreadyCount+"/"+extConType[l].supplierCount;
                                       html+="<br/>";
                                   }
                                   $("#extcontype").append(html);
@@ -510,7 +518,7 @@ return false;
                                        }else if(list[0].conType[l].isMulticondition==2){
                                          html+="满足多个条件,";
                                        }
-                                          html+="抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].supplieCount;
+                                          html+="抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].supplierCount;
                                          html+="<br/>";
                                      }
                                      $("#extcontype").append(html);
@@ -603,13 +611,14 @@ return false;
       <!--     品目id -->
       <input  type='hidden' name='categoryId' id='extCategoryId' >
       <div>
-        <h2 class="count_flow"><i>2</i>抽取条件</h2>
+        <h2 class="count_flow"><i>1</i>抽取条件</h2>
         <ul class="ul_list">
           <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="star_red">*</div>所在地区：</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                
+              
                   <select class="col-md-6 col-sm-6 col-xs-6 p0" id="area" onchange="areas();">
+                     <option value="">全国</option>
                       <c:forEach  items="${privnce }" var="prin">
                    <c:if test="${prin.id==area.parentId }">
                     <option value="${prin.id }" selected="selected" >${prin.name }</option>
@@ -620,11 +629,12 @@ return false;
                    </c:forEach>
                   </select>
                   <select name="extractionSites" class="col-md-6 col-sm-6 col-xs-6 p0" id="city">
+                     <option value="">全国</option>
                   <c:forEach  items="${city }" var="city">
-                   <c:if test="${city.id==listCon.conTypes[0].address}">
+                   <c:if test="${city.id==listCon.address}">
                     <option value="${city.id }" selected="selected" >${city.name }</option>
                    </c:if>
-                   <c:if test="${city.id!=listCon.conTypes[0].address }">
+                   <c:if test="${city.id!=listCon.address }">
                     <option value="${city.id }"  >${city.name }</option>
                    </c:if>
                 </c:forEach>
@@ -663,24 +673,27 @@ return false;
               <div class="cue" id="dCount"></div>
             </div>
           </li>
-          
-          <div class=" w300 pl20 mt10">
+            <li class="col-md-3 col-sm-6 col-xs-12">
+            <div class=" w300 pl20 mt24">
             <button class="btn btn-windows add" id="save" onclick="cityt();" type="button">抽取</button>
             <button class="btn btn-windows add" id="save" onclick="resetQuery();" type="button">重置</button>
+          </div>
+          </li>
+          
+        </ul>
+          <!--=== Content Part ===-->
+            <h2 class="count_flow"><i>2</i>抽取结果</h2>
+    <ul class="ul_list">
+    <div class="row">
+     <div class=" w300 pl20 ml10 mt10">
             <button class="btn btn-windows add" id="save" onclick="finish();;" type="button">完成</button>
           </div>
-          <div align="right" class="padding-10">
-            <div class="col-md-12  f12 red tip" id="array"></div>
-
-          </div>
-          <!--=== Content Part ===-->
-    <div class="row">
       <!-- Begin Content -->
       <div class="col-md-12" id="count" style="min-height: 400px;">
         <div id="extcontype">
         <c:forEach var="con" items="${extConType}">
             <c:if test="${con.categoryName != null && con.categoryName != ''}">
-                                                                 抽取品目 :${fn:replace(con.categoryName, "^", ",")}
+                                                                 &nbsp;&nbsp;&nbsp;&nbsp;抽取品目 :${fn:replace(con.categoryName, "^", ",")}
                     </c:if>
             <c:if test="${con.isMulticondition != null && isMulticondition != ''}">
 
