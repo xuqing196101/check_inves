@@ -562,7 +562,7 @@ session.setAttribute("tokenSession", tokenValue);
 	$(function(){
 		var typeIds = "${expert.expertsTypeId}";
 		var ids = typeIds.split(",");
-		//回显已选产品
+		//回显
 		var checklist1 = document.getElementsByName("chkItem_1");
 		for(var i=0;i<checklist1.length;i++){
 			var vals=checklist1[i].value;
@@ -582,6 +582,17 @@ session.setAttribute("tokenSession", tokenValue);
 			}	
 		}
 	}); 
+	function errorMsg(auditField){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/expert/findAuditReason.do",
+			data: {"expertId": $("#id").val(), "auditField": auditField},
+			dataType: "json",
+			success: function(response){
+				alert(response);
+				layer.msg(response ,{offset: ['400px', '750px']});
+			}
+		});
+	}
 </script>
 </head>
 <body>
@@ -638,8 +649,13 @@ session.setAttribute("tokenSession", tokenValue);
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-						<input id="relName" name="relName" value="${expert.relName}"   type="text"/>
-					    <span class="add-on">i</span>
+						<input id="relName" name="relName" value="${expert.relName}" type="text"  <c:if test="${fn:contains(errorField,'专家姓名')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('专家姓名')"</c:if>/>
+					    <c:if test="${fn:contains(errorField,'专家姓名')}">
+						    <span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+					    </c:if>
+					    <c:if test="${!fn:contains(errorField,'专家姓名')}">
+						    <span class="add-on">i</span>
+					    </c:if>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12">
@@ -655,8 +671,13 @@ session.setAttribute("tokenSession", tokenValue);
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 出生日期</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
- 					  <input    readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
-					  <span class="add-on">i</span>
+ 					  <input  <c:if test="${fn:contains(errorField,'出生日期')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('出生日期')"</c:if> readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
+					  <c:if test="${fn:contains(errorField,'出生日期')}">
+						    <span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+					    </c:if>
+					    <c:if test="${!fn:contains(errorField,'出生日期')}">
+						    <span class="add-on">i</span>
+					    </c:if>
 					</div>
 				</li> 
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>省</span>
@@ -685,15 +706,25 @@ session.setAttribute("tokenSession", tokenValue);
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>民族</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                    <input  maxlength="10" value="${expert.nation}"  name="nation" id="nation" type="text"/>
-                    <span class="add-on">i</span>
-					    <span class="input-tip">请填写名族,如:汉族</span>
+	                    <input  maxlength="10" value="${expert.nation}"  name="nation" id="nation" type="text"  <c:if test="${fn:contains(errorField,'民族')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('民族')"</c:if>/>
+						<c:if test="${fn:contains(errorField,'民族')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'民族')}">
+							<span class="add-on">i</span>
+							<span class="input-tip">请填写名族,如:汉族</span>
+						</c:if>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 缴纳社会保险证明</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                    <input  maxlength="30" value="${expert.coverNote}"  name="coverNote" id="coverNote" type="text"/>
-                    <span class="add-on">i</span>
+                    	<input  maxlength="30" value="${expert.coverNote}"  name="coverNote" id="coverNote" type="text"  <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('缴纳社会保险证明')"</c:if>/>
+                    	<c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'缴纳社会保险证明')}">
+							<span class="add-on">i</span>
+						</c:if>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 社保证明附件</span>
@@ -704,8 +735,13 @@ session.setAttribute("tokenSession", tokenValue);
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 居民身份证号码</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-						<input  maxlength="30" value="${expert.idCardNumber}"  name="idCardNumber" id="idCardNumber" type="text"/>
-  						<span class="add-on">i</span>
+						<input  maxlength="30" value="${expert.idCardNumber}"  name="idCardNumber" id="idCardNumber" type="text"  <c:if test="${fn:contains(errorField,'居民身份证号码')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('居民身份证号码')"</c:if>/>
+  						<c:if test="${fn:contains(errorField,'居民身份证号码')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'居民身份证号码')}">
+							<span class="add-on">i</span>
+						</c:if>
   					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 居民身份证附件</span>
@@ -726,8 +762,13 @@ session.setAttribute("tokenSession", tokenValue);
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>证件号码</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-						<input  maxlength="30" value="${expert.idNumber}"  name="idNumber" id="idNumber" type="text"/>
-  						<span class="add-on">i</span>
+						<input  maxlength="30" value="${expert.idNumber}"  name="idNumber" id="idNumber" type="text"  <c:if test="${fn:contains(errorField,'证件号码')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('证件号码')"</c:if>/>
+  						<c:if test="${fn:contains(errorField,'证件号码')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'证件号码')}">
+							<span class="add-on">i</span>
+						</c:if>
   					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 军队人员身份证件附件</span>
@@ -738,35 +779,60 @@ session.setAttribute("tokenSession", tokenValue);
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>手机</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="15" value="${user.mobile}" readonly="readonly" name="mobile" id="mobile" type="text"/>
-					<span class="add-on">i</span>
-					    <span class="input-tip">手机号码暂不支持修改</span>
+						<input  maxlength="15" value="${user.mobile}" readonly="readonly" name="mobile" id="mobile" type="text"  <c:if test="${fn:contains(errorField,'手机')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('手机')"</c:if>/>
+						<c:if test="${fn:contains(errorField,'手机')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'手机')}">
+							<span class="add-on">i</span>
+					    	<span class="input-tip">手机号码暂不支持修改</span>	
+						</c:if>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="15" value="${expert.telephone}"  name="telephone" id="telephone" type="text"/>
-					<span class="add-on">i</span>
-					    <span class="input-tip">如: XXX - XXXXXXX</span>
+						<input  maxlength="15" value="${expert.telephone}"  name="telephone" id="telephone" type="text"  <c:if test="${fn:contains(errorField,'固定电话')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('固定电话')"</c:if>/>
+						<c:if test="${fn:contains(errorField,'固定电话')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'固定电话')}">
+							<span class="add-on">i</span>
+						    <span class="input-tip">如: XXX - XXXXXXX</span>	
+						</c:if>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 传真电话</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input value="${expert.fax}"  name="fax" id="fax" type="text"/>
-					<span class="add-on">i</span>
-					<span class="input-tip">如: XXX - XXXXXXXX</span>
+						<input value="${expert.fax}"  name="fax" id="fax" type="text"  <c:if test="${fn:contains(errorField,'传真电话')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('传真电话')"</c:if>/>
+						<c:if test="${fn:contains(errorField,'传真电话')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'传真电话')}">
+							<span class="add-on">i</span>
+						    <span class="input-tip">如: XXX - XXXXXXX</span>	
+						</c:if>
 					</div>
 				</li> 
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>个人邮箱</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-						<input  maxlength="30" value="${expert.email}" name="email" id="email" type="text"/>
-						<span class="add-on">i</span>
+						<input  maxlength="30" value="${expert.email}" name="email" id="email" type="text"  <c:if test="${fn:contains(errorField,'个人邮箱')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('个人邮箱')"</c:if>/>
+						<c:if test="${fn:contains(errorField,'个人邮箱')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'个人邮箱')}">
+							<span class="add-on">i</span>
+						</c:if>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>健康状态</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text"/>
-					<span class="add-on">i</span>
+						<input  maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text"  <c:if test="${fn:contains(errorField,'健康状态')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('健康状态')"</c:if>/>
+						<c:if test="${fn:contains(errorField,'健康状态')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'健康状态')}">
+							<span class="add-on">i</span>
+						</c:if>
 					</div>
 				</li>
 			</ul>
@@ -775,8 +841,13 @@ session.setAttribute("tokenSession", tokenValue);
 			<ul class="ul_list">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>毕业院校及专业</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                      <input  maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"/>
-                   	  <span class="add-on">i</span>
+                      <input  maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"  <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('毕业院校及专业')"</c:if>/>
+                   	  <c:if test="${fn:contains(errorField,'毕业院校及专业')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'毕业院校及专业')}">
+							<span class="add-on">i</span>
+					  </c:if>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 毕业证书附件</span>
@@ -817,48 +888,83 @@ session.setAttribute("tokenSession", tokenValue);
 			<ul class="ul_list">
 				<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 所在单位</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text"/>
-					<span class="add-on">i</span>
+					  	<input  maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text"  <c:if test="${fn:contains(errorField,'所在单位')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('所在单位')"</c:if>/>
+					  	<c:if test="${fn:contains(errorField,'所在单位')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'所在单位')}">
+							<span class="add-on">i</span>
+					  	</c:if>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 单位地址</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0" >
-					 <input  maxlength="40" value="${expert.unitAddress}"  name="unitAddress" id="unitAddress" type="text"/>
-					<span class="add-on">i</span>
+					 	<input  maxlength="40" value="${expert.unitAddress}"  name="unitAddress" id="unitAddress" type="text"  <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('单位地址')"</c:if>/>
+						<c:if test="${fn:contains(errorField,'单位地址')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'单位地址')}">
+							<span class="add-on">i</span>
+					  	</c:if>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 单位邮编</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-						<input  maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text"/>
-						<span class="add-on">i</span>
+						<input  maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text"  <c:if test="${fn:contains(errorField,'单位邮编')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('单位邮编')"</c:if>/>
+						<c:if test="${fn:contains(errorField,'单位邮编')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'单位邮编')}">
+							<span class="add-on">i</span>
+					  	</c:if>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text"/>
-					<span class="add-on">i</span>
+					<input  maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text"  <c:if test="${fn:contains(errorField,'现任职务')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('现任职务')"</c:if>/>
+						<c:if test="${fn:contains(errorField,'现任职务')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'现任职务')}">
+							<span class="add-on">i</span>
+					  	</c:if>
 					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>从事专业</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                    <input  maxlength="20" value="${expert.major}"  name="major" id="major" type="text"/>
-                    <span class="add-on">i</span>
+                    <input  maxlength="20" value="${expert.major}"  name="major" id="major" type="text"  <c:if test="${fn:contains(errorField,'从事专业,')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('从事专业')"</c:if> />
+                    	<c:if test="${fn:contains(errorField,'从事专业,')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'从事专业,')}">
+							<span class="add-on">i</span>
+					  	</c:if>
                     </div>
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					 <input  value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
-					<span class="add-on">i</span>
+					 <input   <c:if test="${fn:contains(errorField,'从事专业起始年度')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('从事专业起始年度')"</c:if>  value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+					<c:if test="${fn:contains(errorField,'从事专业起始年度')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'从事专业起始年度')}">
+							<span class="add-on">i</span>
+					  	</c:if>
 					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家技术职称/执业资格</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text"/>
-					<span class="add-on">i</span>
+					<input  <c:if test="${fn:contains(errorField,'专家技术职称/执业资格')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('专家技术职称/执业资格')"</c:if> maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text"/>
+					<c:if test="${fn:contains(errorField,'专家技术职称/执业资格')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'专家技术职称/执业资格')}">
+							<span class="add-on">i</span>
+					  	</c:if>
 					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
-                    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 上传技术职称/执业资格证书</span>
+                    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 技术职称/执业资格证书附件</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true"/>
 				    <u:show  showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
@@ -866,14 +972,24 @@ session.setAttribute("tokenSession", tokenValue);
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 取得技术职称时间</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
-					<span class="add-on">i</span>
+					<input  <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"</c:if> value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+					<c:if test="${fn:contains(errorField,'取得技术职称时间')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'取得技术职称时间')}">
+							<span class="add-on">i</span>
+					  	</c:if>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input readonly="readonly" value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM'/>" name="timeToWork"  type="text" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
-					<span class="add-on">i</span>
+					<input  <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"</c:if> readonly="readonly" value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM'/>" name="timeToWork"  type="text" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+					<c:if test="${fn:contains(errorField,'参加工作时间')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'参加工作时间')}">
+							<span class="add-on">i</span>
+					  	</c:if>
 					</div>
 				</li>
 			</ul>

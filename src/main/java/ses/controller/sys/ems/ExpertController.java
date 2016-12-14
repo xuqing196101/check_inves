@@ -40,6 +40,7 @@ import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
+import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
@@ -119,7 +120,7 @@ public class ExpertController {
     @Autowired
     private ProjectExtractService projectExtractService;//是否被抽取查询
     @Autowired
-    private CategoryService categoryService;//是否被抽取查询
+    private CategoryService categoryService;//品目
 
     /**
      * 
@@ -405,6 +406,19 @@ public class ExpertController {
         if ("six".equals(stepNumber)) {
             showCategory(expert, model);
         }
+        if ("3".equals(expert.getStatus())) {
+            // 如果状态为退回修改则查询没通过的字段 
+            ExpertAudit expertAudit = new ExpertAudit();
+            expertAudit.setExpertId(expertId);
+            expertAudit.setSuggestType(stepNumber);
+            List<ExpertAudit> auditList = expertAuditService.selectFailByExpertId(expertAudit);
+            // 所有的不通过字段的名字
+            StringBuffer errorField = new StringBuffer();
+            for (ExpertAudit audit : auditList) {
+                errorField.append(audit.getAuditField() + ",");
+            }
+            model.addAttribute("errorField", errorField);
+        }
         return "ses/ems/expert/basic_info_"+stepNumber;
     }
 
@@ -433,6 +447,22 @@ public class ExpertController {
         model.addAttribute("allCategoryList", allCategoryList);
     }
     
+    /**
+     *〈简述〉
+     * 查询不通过理由
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @param auditField
+     * @return
+     */
+    @RequestMapping(value = "/findAuditReason",produces="text/html;charset=UTF-8")
+    @ResponseBody
+    public String findErrorReason(ExpertAudit expertAudit){
+        List<ExpertAudit> audit = expertAuditService.selectFailByExpertId(expertAudit);
+        return audit.get(0).getAuditReason();
+    }
+    
     @RequestMapping(value = "getCategory", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getCategory(String expertId, String id){
@@ -453,6 +483,7 @@ public class ExpertController {
         allCategories.add(ct);
         // 递归查询出所有节点
         List<Category> categoryTree = getCategoryTree(ct.getId());
+        // 遍历所有节点添加到list中
         for (Category c : categoryTree) {
             List<Category> list1 = categoryService.findTreeByPid(c.getId());
             CategoryTree ct1 = new CategoryTree();
@@ -526,8 +557,8 @@ public class ExpertController {
      * @return
      */
     public List<Category> getCategoryTree(String id){
-        List<Category> list = categoryService.findTreeByPid(id);
         List<Category> childList = new ArrayList<Category>();
+        List<Category> list = categoryService.findTreeByPid(id);
         childList.addAll(list);
         for (Category cate : list) {
             childList.addAll(getCategoryTree(cate.getId()));
@@ -606,7 +637,7 @@ public class ExpertController {
                 .findPurchaseDepList(map);
         return JSON.toJSONString(purchaseDepList);
     }
-
+    
     /**
      * 
      * @Title: isAttachment

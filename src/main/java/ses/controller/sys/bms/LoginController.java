@@ -134,20 +134,13 @@ public class LoginController {
                             } else if(object.equals("5")){
                                 out.print("reject");
                             }else if (object.equals("2")) {
-                                req.getSession().setAttribute("loginUser", u);
-                                req.getSession().setAttribute("resource", u.getMenus());
-                                // 信息为空 重新填写
-                                out.print("empty," + u.getId());
-                            } else if (object.equals("3")) {
-                                req.getSession().setAttribute("loginUser", u);
-                                req.getSession().setAttribute("resource", u.getMenus());
-                                out.print("scuesslogin");
-                            } else if (object.equals("4")) {
-                                req.getSession().setAttribute("loginUser", u);
-                                req.getSession().setAttribute("resource", u.getMenus());
-                                // 暂存 或者 退回
-                                // Expert expert = (Expert)object;
                                 out.print("reset," + u.getId());
+                            } else if (object.equals("3")) {
+                                out.print("auditExp," + u.getId());
+                            } else if (object.equals("4")) {
+                                out.print("firset," + u.getId());
+                            } else if (object.equals("6")) {
+                                out.print("weed");
                             }
                         } else {
                             req.getSession().setAttribute("loginUser", u);

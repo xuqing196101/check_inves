@@ -25,7 +25,7 @@ public class ExpertAudit implements Serializable{
     private Date auditAt;
     //是否删除0否  1是
     private Long isDelete;
-    //审批类型
+    //审批类型(StepNumber)
     private String suggestType;
     //审核字段
     private String auditField;
