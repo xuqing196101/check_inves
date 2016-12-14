@@ -19,7 +19,7 @@ $(function(){
 			msie_ver = ver_arr[i].substring(5,ver_arr[i].length);
 		}
 	}
-	if ((browser=="Netscape"||browser=="Microsoft Internet Explorer") && (version<=4) && msie_ver < 8 ){
+	if ((browser=="Netscape"||browser=="Microsoft Internet Explorer") && (version<=4) && msie_ver < 6 ){
 		window.location.href="${pageContext.request.contextPath}/browser/index.html";
 	} else {
 		$("#firstPage").attr("Class","active dropdown shouye_li mega-menu-fullwidth");
@@ -764,13 +764,7 @@ function drugs(){
 <jsp:include page="/index_bottom.jsp"></jsp:include>
 </div>
 </div>
-<!--[if lt IE 9]>
-    <script src="/assets/plugins/respond.js?body=1"></script>
-<script src="/assets/plugins/html5shiv.js?body=1"></script>
-<script src="/assets/plugins/html5.js?body=1"></script>
-<script src="/assets/plugins/placeholder-IE-fixes.js?body=1"></script>
-<script src="/assets/ie_9.js?body=1"></script>
-<![endif]-->
+
 
 </body>
 </html>

@@ -10,7 +10,7 @@
 <link href="${pageContext.request.contextPath}/public/portal/css/blocks.css" media="screen" rel="stylesheet">
 <!-- js -->
 <script>
-	var globalPath = "${pageContext.request.contextPath}";
+  var globalPath = "${pageContext.request.contextPath}";
 </script>
 
 <script src="${pageContext.request.contextPath}/public/portal/js/jquery.min.js"></script>
@@ -20,3 +20,8 @@
 <script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
 <script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
 <script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js" type="text/javascript"></script>
+
+<!-- portal -->
+<!--[if lt IE 9]>
+  <script src="/jdcg/public/common/respond.src.js"></script>
+<![endif]-->
