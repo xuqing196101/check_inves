@@ -236,6 +236,18 @@ public class UserServiceImpl implements UserServiceI {
   public List<User> findByRole(HashMap<String, Object> map) {
     return userMapper.findByRole(map);
   }
+  
+    /**
+     * 
+     * @see ses.service.bms.UserServiceI#getUserCountByOrgId(java.lang.String)
+     */
+    @Override
+    public Long getUserCountByOrgId(String orgId) {
+        
+      return userMapper.getUserCountByOrgId(orgId);
+    }
+  
+  
     
 }
 

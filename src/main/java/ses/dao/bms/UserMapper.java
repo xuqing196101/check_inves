@@ -199,5 +199,15 @@ public interface UserMapper {
      * @return List<User>
      */
     List<User> findByRole(HashMap<String, Object> map);
+    
+    /**
+     * 
+     *〈简述〉根据组织机构Id查询用户数量
+     *〈详细描述〉
+     * @author myc
+     * @param orgId 组织机构ID
+     * @return 如果存在返回大于0的数
+     */
+    Long getUserCountByOrgId(@Param("orgId")String orgId);
 	
 }

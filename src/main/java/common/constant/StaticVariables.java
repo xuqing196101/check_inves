@@ -122,5 +122,7 @@ public class StaticVariables {
     public static final String ORG_TYPE_DEMAND = "ORG_TYPE_DEMAND";
     /** 组织机构 - 管理部门 **/
     public static final String ORG_TYPE_MANAGER = "ORG_TYPE_MANAGE";
+    /** 组织机构删除 - 提示 **/
+    public static  String ORG_RELATION_EXIST_USER = "该机构下存在{0}个用户，不能被删除！";
     
 }

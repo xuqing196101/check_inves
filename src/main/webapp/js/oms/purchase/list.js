@@ -141,8 +141,10 @@ function ajaxDelDepart(){
 					  if(msg == 'ok'){
 						  layer.msg("删除成功");
 						  refreshAllTree();
-					  } else{
+					  } else if(msg == 'failed'){
 						  layer.msg("删除失败");
+					  } else {
+						  layer.msg(msg);
 					  }
 			}
 		}); 

@@ -353,6 +353,11 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
     public String delOrg(String id) {
        
         if (StringUtils.isNotBlank(id)){
+            Long count = userService.getUserCountByOrgId(id);
+            if (count > 0){
+                String msg = StaticVariables.ORG_RELATION_EXIST_USER.replace("{0}", count.toString());
+                return msg;
+            }
            try {
                orgniztionMapper.delOrgById(id);
                HashMap<String,Object> orgMap = new HashMap<String, Object>();

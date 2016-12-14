@@ -332,7 +332,7 @@ public class PurchaseManageController {
      * @param request {@link HttpServletRequest}
      * @return 成功返回ok,失败返回failed
      */
-    @RequestMapping(value = "delOrg")
+    @RequestMapping(value = "delOrg",produces="html/text;charset=UTF-8")
     @ResponseBody    
     public String delOrg(HttpServletRequest request) {
         String id = request.getParameter("id");

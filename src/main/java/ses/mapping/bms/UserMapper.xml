@@ -583,4 +583,12 @@
            AND r.code = #{code}
         </if>
     </select>
+    
+    <!-- 根据组织机构Id查询用户数量 -->
+    <select id="getUserCountByOrgId" resultType="java.lang.Long">
+      SELECT COUNT(1)
+  	  FROM T_SES_BMS_USER
+ 	  WHERE ORG_ID = #{orgId}
+      AND IS_DELETED = '0'
+    </select>
 </mapper>

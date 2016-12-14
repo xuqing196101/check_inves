@@ -18,7 +18,7 @@
 		<li><a href="javascript:void(0)">支撑系统</a></li>
 		<li><a href="javascript:void(0)">后台管理</a></li>
 		<c:if test="${typeName == '0'}">
-		  <li class="active"><a href="#">组织机构</a></li>
+		  <li class="active"><a href="#">需求部门</a></li>
 		</c:if>
 		<c:if test="${typeName == '2'}">
 		  <li class="active"><a href="#">管理部门</a></li>

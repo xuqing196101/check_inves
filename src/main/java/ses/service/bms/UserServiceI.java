@@ -216,4 +216,14 @@ public interface UserServiceI {
    * @return List<User>
    */
   List<User> findByRole(HashMap<String, Object> map);
+  
+  /**
+   * 
+   *〈简述〉根据组织机构Id查询用户数量
+   *〈详细描述〉
+   * @author myc
+   * @param orgId  组织机构Id
+   * @return 存在用户
+   */
+  Long getUserCountByOrgId(String orgId);
 }
