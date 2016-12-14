@@ -9,7 +9,6 @@
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <head>
-<jsp:include page="/WEB-INF/view/portal.jsp" />
 </head>
 
 <body>

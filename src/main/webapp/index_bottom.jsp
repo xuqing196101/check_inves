@@ -6,10 +6,6 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<head>
-<jsp:include page="/WEB-INF/view/portal.jsp" />
-</head>
-
 <body>
 <!--底部代码开始-->
 <div class="footer-v2" id="footer-v2">

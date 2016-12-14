@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
-<jsp:include page="/WEB-INF/view/portal.jsp" />
 <script type="text/javascript">
 $(function(){
 	
