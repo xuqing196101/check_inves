@@ -19,7 +19,7 @@ $(function(){
 			msie_ver = ver_arr[i].substring(5,ver_arr[i].length);
 		}
 	}
-	if ((browser=="Netscape"||browser=="Microsoft Internet Explorer") && (version<=4) && msie_ver < 6 ){
+	if ((browser=="Netscape"||browser=="Microsoft Internet Explorer") && (version<=4) && msie_ver < 8 ){
 		window.location.href="${pageContext.request.contextPath}/browser/index.html";
 	} else {
 		$("#firstPage").attr("Class","active dropdown shouye_li mega-menu-fullwidth");
