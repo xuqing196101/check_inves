@@ -130,67 +130,45 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public StringBuilder getContent(List<Packages> listPackages) {
         StringBuilder sb = new StringBuilder("");
-        sb.append("<p style=text-align: center;><strong>测试项目不要删</strong></p><p><br/>");
+        sb.append("<table><tr><th>包名</th><th>货物名称</th><th>规格型号</th><th>技术要求</th><th>计量单位</th><th>数量</th><th>交货时间</th><th>交货地点</th><th>备注</th></tr>");
         for (Packages pack : listPackages) {
-            sb.append("<strong>包名</strong><strong>：</strong>"+pack.getName()+"</p>");
-            sb.append("<table><tbody><tr class=firstRow>");
-            sb.append("<td width=59 valign=middle align=center><strong>序号<br/></strong></td>");   
-            sb.append("<td style=word-break: break-all; width=59 valign=middle align=center><p><strong>需求</strong></p><p><strong>部门</strong></p></td>");
-            sb.append("<td style=word-break: break-all; width=59 valign=middle align=center><p><strong>物资</strong></p><p><strong>名称</strong></p></td>");
-            sb.append("<td style=word-break: break-all; width=59 valign=middle align=center><p><strong>规格</strong></p><p><strong>型号</strong></p></td>");
-            sb.append("<td width=59 valign=middle align=center><strong>质量技术标准<br/></strong></td>");
-            sb.append("<td style=word-break: break-all; width=59 valign=middle align=center><p><strong>计量</strong></p><p><strong>单位</strong></p></td>");
-            sb.append("<td style=word-break: break-all; width=59 valign=middle align=center><p><strong>采购</strong></p><p><strong>数量</strong></p></td>");
-            sb.append("<td style=word-break: break-all; width=59 valign=middle align=center><p><strong>单价</strong></p><p><strong>(元)<br/></strong></p></td>");
-            sb.append("<td style=word-break: break-all; width=59 valign=middle align=center><p><strong>预算金额</strong></p><p><strong>(万元)</strong></p></td>");
-            sb.append("<td colspan=1 rowspan=1 style=word-break: break-all; width=59 valign=middle align=center><p><strong>交货</strong></p><p><strong>期限</strong></p></td>");
-            sb.append("<td colspan=1 rowspan=1 style=word-break: break-all; width=59 valign=middle align=center><strong>采购方式建议<br/></strong></td>");
-            sb.append("<td colspan=1 rowspan=1 width=59 valign=middle align=center><strong>供应商名称<br/></strong></td>");
-            sb.append("<td width=59 valign=middle align=center><strong>备注<br/></strong></td></tr>");
             for (ProjectDetail pd : pack.getProjectDetails()) {
-                if (pd.getSerialNumber() == null) pd.setSerialNumber("");
-                if (pd.getDepartment() == null) pd.setDepartment("");
-                if (pd.getGoodsName() == null) pd.setGoodsName("");
-                if (pd.getStand() == null) pd.setStand("");
-                if (pd.getQualitStand() == null) pd.setQualitStand("");
-                if (pd.getDeliverDate() == null) pd.setDeliverDate("");
-                String price = "";
-                if (pd.getPrice() != null) {
-                    price = pd.getPrice() + "";
-                }
-                String budget = "";
-                if (pd.getBudget() != null) {
-                    budget = pd.getBudget() + "";
-                }
-                String purchaseCount = "";
-                if (pd.getPurchaseCount() != null) {
-                    purchaseCount = pd.getPurchaseCount() + "";
-                }
-                if (pd.getItem() == null) pd.setItem("");
-                if (pd.getPurchaseCount() == null) pd.setPurchaseCount(0.00);
-                sb.append("<tr><td width=59 valign=top><br/>"+pd.getSerialNumber()+"</td>");
-                sb.append("<td width=59 valign=top><br/>"+pd.getDepartment()+"</td>");
-                sb.append("<td width=59 valign=top><br/>"+pd.getGoodsName()+"</td>");
-                sb.append("<td width=59 valign=top><br/>"+pd.getStand()+"</td>");
-                sb.append("<td width=59 valign=top><br/>"+pd.getQualitStand()+"</td>");
-                sb.append("<td width=59 valign=top><br/>"+pd.getItem()+"</td>");
-                sb.append("<td width=59 valign=top><br/>"+purchaseCount+"</td>");
-                sb.append("<td width=59 valign=top><br/>"+price+"</td>");
-                sb.append("<td width=59 valign=top><br/>"+budget+"</td>");
-                sb.append("<td width=59 valign=top><br/>"+pd.getDeliverDate()+"</td>");
-                for (DictionaryData dd : DictionaryDataUtil.find(5)) {
-                    if (dd.getId() == pack.getPurchaseType()) {
-                        sb.append("<td colspan=1 rowspan=1 width=59 valign=top><br/>"+dd.getName()+"</td>");
+                if (pd.getPrice() == null || "".equals(pd.getPrice())) {
+                    continue;
+                    } else {
+                        if (pd.getSerialNumber() == null) pd.setSerialNumber("");
+                        if (pd.getDepartment() == null) pd.setDepartment("");
+                        if (pd.getGoodsName() == null) pd.setGoodsName("");
+                        if (pd.getStand() == null) pd.setStand("");
+                        if (pd.getQualitStand() == null) pd.setQualitStand("");
+                        if (pd.getDeliverDate() == null) pd.setDeliverDate("");
+                        String price = "";
+                        if (pd.getPrice() != null) {
+                            price = pd.getPrice() + "";
+                        }
+                        String budget = "";
+                        if (pd.getBudget() != null) {
+                            budget = pd.getBudget() + "";
+                        }
+                        String purchaseCount = "";
+                        if (pd.getPurchaseCount() != null) {
+                            purchaseCount = pd.getPurchaseCount() + "";
+                        }
+                        if (pd.getItem() == null) pd.setItem("");
+                        if (pd.getPurchaseCount() == null) pd.setPurchaseCount(0.00);
+                        sb.append("<tr><td>"+pack.getName()+"</td>");   
+                        sb.append("<td>"+pd.getGoodsName()+" </td>");
+                        sb.append("<td>"+pd.getStand()+"</td>");
+                        sb.append("<td>"+pd.getQualitStand()+"</td>");
+                        sb.append("<td>"+pd.getItem()+"</td>");
+                        sb.append("<td>"+purchaseCount+"</td>");
+                        sb.append("<td>"+pd.getDeliverDate()+"</td>");
+                        sb.append("<td></td><td></td></tr>");
+                    }
                     }
                 }
-                sb.append("<td colspan=1 rowspan=1 width=59 valign=top><br/></td>");
-                sb.append("<td colspan=1 rowspan=1 width=59 valign=top><br/></td>");
-                sb.append("<td width=59 valign=top><br/></td>");
-                sb.append("</tr>");
+                sb.append("<tr><td>说明</td><td colspan=8>1. 投标人须对所投包内所有产品和数量进行投标报价，否则视为无效投标。<br/>2. 运杂费：</td></tr></table>");
+                return sb;
             }
-            sb.append("</tbody></table><p><br/><br/></p>");
+        	
         }
-        return sb;
-    }
-	
-}

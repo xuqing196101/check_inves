@@ -18,7 +18,7 @@
               	<li class="dropdown wdxx">
 					<a href="${pageContext.request.contextPath}/login/home.html"  target="home">
 					  <div class="top_icon wdxx_icon"></div>
-					  <span>我的信息</span>
+					  <span>我的通知</span>
 					</a>
 				</li>
 			    <c:forEach items="${sessionScope.resource}" var="resource" varStatus="vs">

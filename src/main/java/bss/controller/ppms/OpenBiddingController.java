@@ -28,10 +28,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.Templet;
 import ses.model.bms.User;
+import ses.model.oms.PurchaseDep;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
+import ses.service.bms.TempletService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.CnUpperCaser;
@@ -126,6 +129,9 @@ public class OpenBiddingController {
     private SaleTenderService saleTenderService;
     
     @Autowired FlowMangeService flowMangeService;
+    
+    @Autowired
+    private TempletService templetService;
     
     /**
      * @Fields jsonData : ajax返回数据封装类
@@ -862,12 +868,15 @@ public class OpenBiddingController {
             //货物/物资
             if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_pro_notice_matarials");
+                getDefaultTemplate(projectId, model);
             } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())){
                 //工程  
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_engineering");
+                getDefaultTemplate(projectId, model);
             } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())){
                 //服务 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_service");
+                getDefaultTemplate(projectId, model);
             }
         }
         //如果是拟制中标公告
@@ -888,7 +897,7 @@ public class OpenBiddingController {
         //查询公告列表中是否有该项目的招标公告
         List<Article> articles = articelService.selectArticleByProjectId(article);
         //判断该项目是否已经存在该类型公告
-        if (articles != null && articles.size() > 0){
+        if (articles != null && articles.size() > 0) {
             //判断该项目的公告是否发布
             if (articles.get(0).getPublishedAt() != null && articles.get(0).getPublishedName() != null && !"".equals(articles.get(0).getPublishedName())){
                 //已发布公告
@@ -909,11 +918,6 @@ public class OpenBiddingController {
                 return "bss/ppms/open_bidding/bid_notice/add";
             }
         } else {
-            //新增招标公告
-            Article article1 = new Article();
-            String content = getContent(projectId);
-            article1.setContent(content);
-            model.addAttribute("article", article1);
             model.addAttribute("articleType", articleType);
             model.addAttribute("articleId",WfUtil.createUUID());
             model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
@@ -939,5 +943,36 @@ public class OpenBiddingController {
         }
         StringBuilder sb = articelService.getContent(list);
         return sb.toString();
+    }
+    
+    public void getDefaultTemplate(String projectId, Model model) {
+        Templet templet = new Templet();
+        templet.setTemType("招标公告");
+        List<Templet> templets = templetService.search(1, templet);
+        String content = templets.get(0).getContent();
+        Article article1 = new Article();
+        String table = getContent(projectId);
+        Project p = projectService.selectById(projectId);
+        PurchaseDep pd = p.getPurchaseDep();
+        String contact = "";
+        String purchaserName = "";
+        String contactTelephone = "";
+        String contactAddress = "";
+        String fax = "";
+        String bank = "";
+        if (pd != null) {
+             contact = pd.getContact();
+             purchaserName = pd.getDepName();
+             contactTelephone = pd.getContactTelephone();
+             contactAddress = pd.getContactAddress();
+             fax = pd.getFax();
+             bank = pd.getBank();
+        }
+        content = content.replace("projectDetail", table).replace("projectName", p.getName()).replace("projectNum", p.getProjectNumber());
+        content = content.replace("bidDate", new SimpleDateFormat("yyyy年MM月dd日").format(p.getBidDate())).replace("contact", contact);
+        content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
+        content = content.replace("address", contactAddress).replace("fax", fax).replace("bank", bank);
+        article1.setContent(content);
+        model.addAttribute("article", article1);
     }
 }
