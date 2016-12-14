@@ -900,9 +900,14 @@
 		from
 			T_SES_EMS_EXPERT
 		where 1=1
-			<if test="relName != null and relName !=''">
-				AND REAL_NAME like '%${relName}%'
+			<if test="sign eq 1">
+				and (STATUS = 0 or STATUS = 2 or STATUS = 3)
 			</if>
-			ORDER BY CREATED_AT DESC
+			<if test="sign eq 2">
+				and (STATUS = 1 or STATUS = 4 or STATUS = 5)
+			</if>
+			<if test="relName != null and relName !=''">
+				and REAL_NAME like '%${relName}%'
+			</if>
 	</select>
 </mapper>
