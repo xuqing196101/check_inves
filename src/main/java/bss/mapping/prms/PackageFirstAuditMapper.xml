@@ -28,10 +28,13 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PRMS_PACKAGE_FIRST_AUDIT
-    where PACKAGE_ID in 
+    where 1=1
+    <if test="packageIds != null">
+     PACKAGE_ID in 
 	<foreach item="item" index="index" collection="packageIds" open="(" separator="," close=")">  
 	 	#{item}  
 	</foreach> 
+	</if>
     AND 
     PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   </select>

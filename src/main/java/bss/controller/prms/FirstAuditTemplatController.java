@@ -143,8 +143,8 @@ public class FirstAuditTemplatController extends BaseController{
 	 * @param templatKind 模板类型id
 	 * @return
 	 */
-	@RequestMapping("/editItem")
-	public String editItem(String templetKind, Model model, String templetId){
+	@RequestMapping("/editTemplat")
+	public String editTemplat(String templetKind, Model model, String templetId){
 	  DictionaryData kind = DictionaryDataUtil.findById(templetKind);
 	  List<FirstAuditTemitem> items = temService.selectByTemplatId(templetId);
 	  if (kind != null && kind.getCode().equals("REVIEW_QC")) {
@@ -268,7 +268,7 @@ public class FirstAuditTemplatController extends BaseController{
 	}
 	/**
 	 * 
-	  * @Title: delete
+	  * @Title: delete 
 	  * @author ShaoYangYang
 	  * @date 2016年10月12日 上午11:19:13  
 	  * @Description: TODO 删除模板
@@ -281,6 +281,10 @@ public class FirstAuditTemplatController extends BaseController{
 		//循环删除选中的数据
 		for (String string : id) {
 			service.deleteById(string);
+			List<FirstAuditTemitem> temitems = temService.selectByTemplatId(string);
+      for (FirstAuditTemitem firstAuditTemitem : temitems) {
+        temService.deleteById(firstAuditTemitem.getId());
+      }
 		}
 		return "redirect:list.html";
 	}
@@ -331,6 +335,100 @@ public class FirstAuditTemplatController extends BaseController{
                 .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
         
       }
+	    response.getWriter().flush();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally{
+        response.getWriter().close();
+    }
+	}
+	
+	/**
+	 *〈简述〉弹出编辑符合性评审项页面
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @return
+	 */
+	@RequestMapping("/editItem")
+	public String editItem(String id, Model model){
+	  FirstAuditTemitem firstAuditTemitem = temService.getById(id);
+	  FirstAuditTemplat firstAuditTemplat = service.getById(firstAuditTemitem.getTemplatId());
+	  model.addAttribute("item", firstAuditTemitem);
+	  model.addAttribute("templat", firstAuditTemplat);
+	  return "bss/prms/templat/qc_edit_item";
+	}
+	
+	/**
+	 *〈简述〉更新符合性评审项
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param response
+	 * @param firstAuditTemitem
+	 * @throws IOException
+	 */
+	@RequestMapping("/updateItem")
+	public void updateItem(HttpServletResponse response, FirstAuditTemitem firstAuditTemitem) throws IOException{
+	  try {
+	    int count = 0;
+      String msg = "";
+      if (firstAuditTemitem.getName() == null || "".equals(firstAuditTemitem.getName())) {
+        msg += "请输入评审项名称";
+        count ++;
+      }
+      if (firstAuditTemitem.getPosition()== null) {
+        if (count > 0) {
+          msg += "、序号";
+        } else {
+          msg += "请输入排序号";
+        }
+        count ++;
+      }
+      if (firstAuditTemitem.getContent()== null || "".equals(firstAuditTemitem.getContent())) {
+        if (count > 0) {
+          msg += "和评审内容";
+        } else {
+          msg += "请输入评审内容";
+        }
+        count ++;
+      }
+      if (count > 0) {
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+                .print("{\"success\": " + false + ", \"msg\": \"" + msg+ "\"}");
+      }
+      if (count == 0) {
+        msg += "更新成功";
+        temService.update(firstAuditTemitem);
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+                .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+        
+      }
+	    response.getWriter().flush();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally{
+        response.getWriter().close();
+    }
+	}
+	
+	/**
+	 *〈简述〉删除符合性评审项
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param response
+	 * @param id 
+	 * @throws IOException
+	 */
+	@RequestMapping("/delItem")
+	public void delItem(HttpServletResponse response, String id) throws IOException{
+	  try {
+	    FirstAuditTemitem firstAuditTemitem = temService.getById(id);
+	    temService.deleteById(firstAuditTemitem.getId());
+	    String msg = "删除成功";
+	    response.setContentType("text/html;charset=utf-8");
+      response.getWriter()
+              .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
 	    response.getWriter().flush();
     } catch (Exception e) {
         e.printStackTrace();

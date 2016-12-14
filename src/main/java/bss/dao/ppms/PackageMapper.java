@@ -130,4 +130,13 @@ public interface PackageMapper {
      * @return
      */
     List<Packages> listSupplierCheckPass(String projectId);
+    
+    /**
+     *〈简述〉根据条件查询
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param map
+     * @return
+     */
+    List<Packages> find(Packages packages);
 }

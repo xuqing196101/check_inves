@@ -1,5 +1,6 @@
 package bss.service.prms;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -104,4 +105,14 @@ public interface FirstAuditTemplatService {
       * @return void
      */
     void relate(String ids,String projectId);
+    
+    /**
+     *〈简述〉查询模板
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param map2
+     * @param object
+     * @return 
+     */
+    List<FirstAuditTemplat> find(HashMap<String, Object> map);
 }

@@ -114,4 +114,14 @@ public interface PackageService {
      * @return
      */
     List<Packages> listSupplierCheckPass(String projectId);
+
+    /**
+     *〈简述〉分页查询包
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param map
+     * @param i
+     * @return
+     */
+    List<Packages> findPackageByPage(Packages packages, int i);
 }

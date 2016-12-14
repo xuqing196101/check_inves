@@ -1,6 +1,7 @@
 package bss.service.prms.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -183,4 +184,9 @@ public class FirstAuditTemplatServiceImpl implements FirstAuditTemplatService {
 		   auditMapper.insertSelective(audit);
 	}
    }
+   
+  @Override
+  public List<FirstAuditTemplat> find(HashMap<String, Object> map) {
+    return mapper.selectAll(map);
+  }
 }

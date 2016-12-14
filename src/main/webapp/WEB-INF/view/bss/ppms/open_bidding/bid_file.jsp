@@ -157,45 +157,120 @@
         }
 </script>
   </head>
-  
+  <script type="text/javascript">
+	  //显示或隐藏各包评审项
+	  function viewAndHidden(obj,index){
+		  var classNames = $(obj).attr("class");
+		  if (classNames.indexOf("jbxx") != -1) {
+	          $("#"+index).removeAttr("class");
+	          //隐藏
+	          $("#"+index).attr("class","dnone");
+	          $(obj).removeAttr("class");
+	          $(obj).attr("class","count_flow hand zhxx");
+	      }
+	      if (classNames.indexOf("zhxx") != -1) {
+	          //显示
+	          $("#"+index).removeAttr("class");
+	          $(obj).removeAttr("class");
+	          $(obj).attr("class","count_flow jbxx hand");
+	      }
+	  }
+	  
+    //编辑模板内容
+    function editPackageFirstAudit(packageId,projectId){
+        window.location.href = "${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId="+packageId+"&projectId="+projectId;
+    }
+  </script>
   <body>
-	                     <div class="col-md-12 p0">
-						   <ul class="flow_step">
-						     <li class="active">
-							   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >01、符合性</a>
-							   <i></i>
-							 </li>
-							 
-							 <li>
-							   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
-							   <i></i>							  
-							 </li>
-						     <li>
-							   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、评标细则</a>
-							   <i></i>
-							 </li>
-							 <li>
-							   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
-							     <c:if test="${project.dictionary.code eq 'GKZB' }">
-							     04、招标文件
-							     </c:if>
-							     <c:if test="${project.dictionary.code eq 'XJCG' }">
-							     04、询价文件
-							     </c:if>
-							     <c:if test="${project.dictionary.code eq 'YQZB' }">
-							     04、招标文件
-							     </c:if>
-							     <c:if test="${project.dictionary.code eq 'JZXTP' }">
-							     04、竞谈文件
-							     </c:if>
-							     <c:if test="${project.dictionary.code eq 'DYLY' }">
-							     04、单一来源文件
-							     </c:if>
-							   </a>
-							 </li>
-						   </ul>
-						 </div>
-<div class="tab-content clear step_cont">
+     <div class="col-md-12 p0">
+	   <ul class="flow_step">
+	     <li class="active">
+		   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >01、符合性</a>
+		   <i></i>
+		 </li>
+		 
+		 <li>
+		   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
+		   <i></i>							  
+		 </li>
+	     <li>
+		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、评标细则</a>
+		   <i></i>
+		 </li>
+		 <li>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
+		     <c:if test="${project.dictionary.code eq 'GKZB' }">
+		     04、招标文件
+		     </c:if>
+		     <c:if test="${project.dictionary.code eq 'XJCG' }">
+		     04、询价文件
+		     </c:if>
+		     <c:if test="${project.dictionary.code eq 'YQZB' }">
+		     04、招标文件
+		     </c:if>
+		     <c:if test="${project.dictionary.code eq 'JZXTP' }">
+		     04、竞谈文件
+		     </c:if>
+		     <c:if test="${project.dictionary.code eq 'DYLY' }">
+		     04、单一来源文件
+		     </c:if>
+		   </a>
+		 </li>
+	   </ul>
+	 </div>
+	 <h2 class="list_title">拟制符合性审查项</h2>
+     <input type="hidden" id="projectId" value="${projectId}">
+     <table class="table table-bordered table-condensed table-hover table-striped">
+         <thead>
+         <tr>
+           <th class="w50 info">序号</th>
+           <th class="info">包名</th>
+           <th class="info">操作</th>
+         </tr>
+         </thead>
+         <c:forEach items="${packages}" var="p" varStatus="vs">
+            <tr>
+                <td class="tc w30">${vs.count}</td>
+                <td class="tc">${p.name}</td>
+                <td class="tc">
+                    <button class="btn btn-windows edit" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+                </td>
+         </c:forEach>
+     </table>
+	  
+	 <div id="openDiv" class="dnone layui-layer-wrap" >
+      <form id="form2" method="post" >
+        <div class="drop_window">
+              <input type="hidden" name="templatId" id="templetId" value="${templetId}">
+              <input type="hidden" name="kind" id="itemKind" > 
+              <ul class="list-unstyled">
+                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</label>
+                    <span class="col-md-12 col-sm-12 col-xs-12 p0">
+                       <input name="name" id="itemName" maxlength="30" type="text">
+                    </span>
+                  </li>
+                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</label>
+                    <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                       <input  name="position" id="itemPosition" maxlength="10" type="text">
+                    </div>
+                 </li>
+                 <li class="col-md-12 col-sm-12 col-xs-12 mb20">
+                   <label class="col-md-12 pl20 col-xs-12 padding-left-5"><div class="star_red">*</div>评审内容</label>
+                   <span class="col-md-12 col-sm-12 col-xs-12 p0">
+                    <textarea class="col-md-12 col-sm-12 col-xs-12 h80" id="itemContent" name="content" maxlength="200" title="" placeholder=""></textarea>
+                   </span>
+                 </li>
+              </ul>
+              <div class="mt40 tc mb50">
+                <input class="btn btn-windows save"  onclick="saveItem();" value="保存" type="button"> 
+                <input class="btn btn-windows back"  onclick="cancel();" value="取消" type="button"> 
+              </div>
+            </div>
+         </form>
+      </div>
+<%-- <div class="tab-content clear step_cont">
 	<!--第一个  -->
 		<div class="" id="tab-1">
 			<div class="headline-v2">
@@ -280,6 +355,6 @@
 				</form>
 			</div>
 		</div>
-	</div>
+	</div> --%>
   </body>
 </html>

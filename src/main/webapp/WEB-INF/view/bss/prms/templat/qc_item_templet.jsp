@@ -31,19 +31,47 @@
             shadeClose: false,
             content: $("#openDiv"),
           });
-    	
     }
     
     //修改评审项
-    function editItem(){
-    	
-    	
+    function editItem(id){
+        layer.open({
+            type: 2,
+            title: '修改评审项信息',
+            area: ['500px', '300px'],
+            closeBtn: 1,
+            shade:0.01, //遮罩透明度
+            moveType: 1, //拖拽风格，0是默认，1是传统拖动
+            shift: 1, //0-6的动画形式，-1不开启
+            offset: '110px',
+            shadeClose: false,
+            content: '${pageContext.request.contextPath}/auditTemplat/editItem.html?id='+id
+          });
     }
     
     //删除评审项 
-    function delItem(){
-    	
-    	
+    function delItem(id){
+    	layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
+	    	$.ajax({   
+	            type: "POST",  
+	            url: "${pageContext.request.contextPath}/auditTemplat/delItem.html?id="+id,        
+	            dataType:'json',
+	            success:function(result){
+	                if(!result.success){
+	                    layer.msg(result.msg,{offset: ['150px']});
+	                }else{
+	                	var templatKind = $("#templetKind").val();
+	                    var templatId = $("#templetId").val();
+	                    window.location.href = '${pageContext.request.contextPath}/auditTemplat/editTemplat.html?templetKind='+templatKind+'&templetId='+templatId;
+	                    layer.msg(result.msg,{offset: ['150px']});
+	                    layer.close(index);
+	                }
+	            },
+	            error: function(result){
+	                layer.msg("删除失败",{offset: ['150px']});
+	            }
+	       });       	
+        });
     }
     
     //关闭弹窗
@@ -85,7 +113,7 @@
                     	trobj.after(trhtml); */
                     var templetKind = $("#templetKind").val();
                     var templetId = $("#templetId").val();
-                    window.location.href = '${pageContext.request.contextPath}/auditTemplat/editItem.html?templetKind='+templetKind+'&templetId='+templetId;
+                    window.location.href = '${pageContext.request.contextPath}/auditTemplat/editTemplat.html?templetKind='+templetKind+'&templetId='+templetId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -163,8 +191,8 @@
                         <td class="w260">
                             <c:if test="${i.kind == d.id}">
                                 ${i.name}
-	                             <img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png">
-	                             <img src="${pageContext.request.contextPath}/public/backend/images/sc.png">
+	                             <a href="javascript:void(0);" title="编辑" onclick="editItem('${i.id}');"><img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png"></a>
+	                             <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')"><img src="${pageContext.request.contextPath}/public/backend/images/sc.png"></a>
                             </c:if>
                         </td>
                         <td>
@@ -189,8 +217,8 @@
                         <td class="w260">
                             <c:if test="${i.kind == d.id}">
                                 ${i.name}
-                                 <img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png">
-                                 <img src="${pageContext.request.contextPath}/public/backend/images/sc.png">
+                                 <a href="javascript:void(0);" title="编辑" onclick="editItem('${i.id}');"><img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png"></a>
+                                 <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')"><img src="${pageContext.request.contextPath}/public/backend/images/sc.png"></a>
                             </c:if>
                         </td>
                         <td>
@@ -218,19 +246,19 @@
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
                     <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</label>
 	                <span class="col-md-12 col-sm-12 col-xs-12 p0">
-	                   <input name="name" maxlength="30" type="text">
+	                   <input name="name" id="itemName" maxlength="30" type="text">
 	                </span>
                   </li>
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                     <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</label>
 	                <div class="col-md-12 col-sm-12 col-xs-12 p0">
-	                   <input  name="position" maxlength="10" type="text">
+	                   <input  name="position" id="itemPosition" maxlength="10" type="text">
 	                </div>
                  </li>
                  <li class="col-md-12 col-sm-12 col-xs-12 mb20">
                    <label class="col-md-12 pl20 col-xs-12 padding-left-5"><div class="star_red">*</div>评审内容</label>
                    <span class="col-md-12 col-sm-12 col-xs-12 p0">
-                    <textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="content" maxlength="200" title="" placeholder=""></textarea>
+                    <textarea class="col-md-12 col-sm-12 col-xs-12 h80" id="itemContent" name="content" maxlength="200" title="" placeholder=""></textarea>
                    </span>
                  </li>
               </ul>

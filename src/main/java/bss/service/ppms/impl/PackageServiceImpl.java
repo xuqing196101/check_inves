@@ -10,6 +10,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.model.bms.User;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
@@ -95,6 +97,12 @@ public class PackageServiceImpl implements PackageService{
      */
     public List<Packages> listSupplierCheckPass(String projectId){
         return packageMapper.listSupplierCheckPass(projectId);
+    }
+
+    @Override
+    public List<Packages> findPackageByPage(Packages packages, int pageNum) {
+      PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+      return packageMapper.find(packages);
     }
 }
 

@@ -209,6 +209,24 @@
 		from T_BSS_PPMS_PACKAGE
 		where ID = #{id} and IS_DELETED=0
 	</select>
+    
+    <select id="find" parameterType="Object"
+        resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from T_BSS_PPMS_PACKAGE p
+        where p.IS_DELETED=0
+        <if test="projectId != null and projectId !=''">
+            AND p.PROJECT_ID = #{projectId}
+        </if>
+        <if test="id != null and id !=''">
+            AND p.ID = #{id}
+        </if>
+        <if test="name != null and name !=''">
+            AND p.NAME like '%'||#{name}||'%'
+        </if>
+        ORDER BY p.CREATED_AT DESC
+    </select>
 
 	<!-- 联合查询 -->
 	<select id="findPackageAndBidMethodById" parameterType="java.util.Map"

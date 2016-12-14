@@ -10,9 +10,12 @@
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
     <result column="IS_CONFIRM" jdbcType="DECIMAL" property="isConfirm" />
+    <result column="POSITION" jdbcType="DECIMAL" property="position" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="PACKAGEID" jdbcType="VARCHAR" property="packageId" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, KIND, CREATED_AT, CREATER, UPDATED_AT, PROJECT_ID, IS_CONFIRM
+    ID, NAME, KIND, CREATED_AT, CREATER, UPDATED_AT, PROJECT_ID, IS_CONFIRM, POSITION, CONTENT, PACKAGEID
   </sql>
   
   <!-- 根据项目id 查询初审项集合 -->
@@ -35,10 +38,11 @@
   <insert id="insert" parameterType="bss.model.prms.FirstAudit">
     insert into T_BSS_PRMS_FIRST_AUDIT (ID, NAME, KIND, 
       CREATED_AT, CREATER, UPDATED_AT, 
-      PROJECT_ID, IS_CONFIRM)
+      PROJECT_ID, IS_CONFIRM, POSITION, CONTENT, PACKAGEID)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=DATE}, #{creater,jdbcType=VARCHAR}, #{updatedAt,jdbcType=DATE}, 
-      #{projectId,jdbcType=VARCHAR}, #{isConfirm,jdbcType=DECIMAL})
+      #{projectId,jdbcType=VARCHAR}, #{isConfirm,jdbcType=DECIMAL}, #{position,jdbcType=DECIMAL}, 
+      #{content,jdbcType=VARCHAR},#{packageId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.prms.FirstAudit">
     insert into T_BSS_PRMS_FIRST_AUDIT
@@ -67,6 +71,15 @@
       <if test="isConfirm != null">
         IS_CONFIRM,
       </if>
+      <if test="position != null">
+        POSITION,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="packageId != null">
+        PACKAGEID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -92,6 +105,15 @@
       </if>
       <if test="isConfirm != null">
         #{isConfirm,jdbcType=DECIMAL},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+       <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -119,6 +141,15 @@
       <if test="isConfirm != null">
         IS_CONFIRM = #{isConfirm,jdbcType=DECIMAL},
       </if>
+      <if test="position != null">
+        POSITION = #{position},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content},
+      </if>
+      <if test="packageId != null">
+        PACKAGEID = #{packageId},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -131,13 +162,25 @@
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
       PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       IS_CONFIRM = #{isConfirm,jdbcType=DECIMAL}
+      POSITION = #{position},
+      CONTENT = #{content},
+      PACKAGEID = #{packageId}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <select id="find" parameterType="bss.model.prms.FirstAudit" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PRMS_FIRST_AUDIT
-    where ID = #{id,jdbcType=VARCHAR}
-	and KIND=#{kind,jdbcType=VARCHAR}
+    where 1=1
+     <if test="id != null and id != ''">
+        and ID = #{id,jdbcType=VARCHAR}
+     </if>
+     <if test="kind !=null and kind != ''">
+	   and KIND=#{kind,jdbcType=VARCHAR}
+     </if>
+	 <if test="packageId != null">
+	   and PACKAGEID = #{packageId}
+	 </if>
+	 ORDER BY POSITION ASC
   </select>
 </mapper>

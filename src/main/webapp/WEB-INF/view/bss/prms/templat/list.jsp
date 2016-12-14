@@ -116,8 +116,8 @@
     }
 	
 	//编辑模板内容
-	function editItem(templetKind,templetId){
-		window.location.href = "${pageContext.request.contextPath}/auditTemplat/editItem.html?templetKind="+templetKind+"&templetId="+templetId;
+	function editTemplat(templetKind,templetId){
+		window.location.href = "${pageContext.request.contextPath}/auditTemplat/editTemplat.html?templetKind="+templetKind+"&templetId="+templetId;
 	}
 </script>
 <body>
@@ -208,7 +208,7 @@
 		                            </c:forEach>
 								</td>
 								<td class="tc opinter">
-								    <button class="btn btn-windows edit" type="button" onclick="editItem('${templet.kind}','${templet.id}')">编辑</button>
+								    <button class="btn btn-windows edit" type="button" onclick="editTemplat('${templet.kind}','${templet.id}')">编辑</button>
 								</td>
 								<%-- 
 								<c:if test="${templet.isOpen eq '0'}">

@@ -1,11 +1,13 @@
 package bss.controller.prms;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,15 +22,19 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.prms.FirstAudit;
+import bss.model.prms.FirstAuditTemitem;
 import bss.model.prms.FirstAuditTemplat;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.prms.FirstAuditService;
+import bss.service.prms.FirstAuditTemitemService;
 import bss.service.prms.FirstAuditTemplatService;
 import bss.service.prms.PackageFirstAuditService;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.util.DictionaryDataUtil;
 
 @Controller
 @RequestMapping("/firstAudit")
@@ -45,6 +51,10 @@ public class FirstAuditController {
 	private FirstAuditTemplatService templatService;
 	@Autowired
 	private PackageFirstAuditService packageFirstAuditService;
+	@Autowired
+  private FirstAuditTemplatService firstAuditTemplatService;//符合性审查模板
+  @Autowired
+  private FirstAuditTemitemService firstAuditTemitemService;//符合性审查模板评审项
 	/**
 	 * 
 	  * @Title: toAdd
@@ -57,12 +67,18 @@ public class FirstAuditController {
 	@RequestMapping("/toAdd")
 	public String toAdd(String projectId, Model model, String flowDefineId){
 		try {
-			
-			//初审项信息
-			List<FirstAudit> list2 = service.getListByProjectId(projectId);
-			model.addAttribute("list", list2);
+		  Project project = projectService.selectById(projectId);
+		  HashMap<String, Object> map = new HashMap<String, Object>();
+		  map.put("projectId", projectId);
+      List<Packages> packages = packageService.findPackageById(map);
+      //查询项目下所有的符合性审查项
+      List<FirstAudit> firstAudits = service.getListByProjectId(projectId);
+      model.addAttribute("packages", packages);
+      List<DictionaryData> dds = DictionaryDataUtil.find(22);
+      //符合性资格性审查项类型
+      model.addAttribute("dds", dds);
+      model.addAttribute("firstAudits", firstAudits);
 			model.addAttribute("projectId", projectId);
-			Project project = projectService.selectById(projectId);
 			model.addAttribute("flowDefineId", flowDefineId);
 			model.addAttribute("project", project);
 		} catch (Exception e) {
@@ -238,4 +254,296 @@ public class FirstAuditController {
 	public void relate(String id,String projectId){
 		templatService.relate(id, projectId);
 	}
+	
+	
+	/**
+	 *〈简述〉编辑包的符合性审查项
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param packageId 包id
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/editPackageFirstAudit")
+	public String editPackageFirstAudit(String packageId, Model model, String projectId, String flag){	  
+	  List<DictionaryData> dds = DictionaryDataUtil.find(22);
+    //符合性审查项
+	  FirstAudit firstAudit1 = new FirstAudit();
+	  firstAudit1.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
+	  firstAudit1.setPackageId(packageId);
+	  List<FirstAudit> items1 = service.findBykind(firstAudit1);
+    //资格性审查项
+	  FirstAudit firstAudit2 = new FirstAudit();
+    firstAudit2.setKind(DictionaryDataUtil.getId("QUALIFICATION"));
+    firstAudit2.setPackageId(packageId);
+    List<FirstAudit> items2 = service.findBykind(firstAudit2);
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    map.put("id", packageId);
+    List<Packages> packages = packageService.findPackageById(map);
+    if (packages != null) {
+      model.addAttribute("packages", packages.get(0));
+    }
+    HashMap<String, Object> map2 = new HashMap<String, Object>();
+    map2.put("kind", DictionaryDataUtil.getId("REVIEW_QC"));
+    //获取资格性和符合性审查模版
+    List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+    model.addAttribute("dds", dds);
+    model.addAttribute("items1", items1);
+    model.addAttribute("items2", items2);
+    model.addAttribute("packageId", packageId);
+    model.addAttribute("projectId", projectId);
+    model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+    model.addAttribute("flag", flag);
+	  return "bss/prms/first_audit/edit_package_qc";
+	}
+	
+	/**
+	 *〈简述〉保存符合性审查项
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param response
+	 * @param firstAudit 符合性审查项封装实体
+	 * @throws IOException
+	 */
+	@RequestMapping("/savePackageFirstAudit")
+	public void savePackageFirstAudit(HttpServletResponse response, FirstAudit firstAudit) throws IOException{
+	  try {
+      int count = 0;
+      String msg = "";
+      if (firstAudit.getName() == null || "".equals(firstAudit.getName())) {
+        msg += "请输入评审项名称";
+        count ++;
+      }
+      if (firstAudit.getPosition()== null) {
+        if (count > 0) {
+          msg += "、序号";
+        } else {
+          msg += "请输入排序号";
+        }
+        count ++;
+      }
+      if (firstAudit.getContent()== null || "".equals(firstAudit.getContent())) {
+        if (count > 0) {
+          msg += "和评审内容";
+        } else {
+          msg += "请输入评审内容";
+        }
+        count ++;
+      }
+      if (count > 0) {
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+                .print("{\"success\": " + false + ", \"msg\": \"" + msg+ "\"}");
+      }
+      if (count == 0) {
+        msg += "添加成功";
+        service.add(firstAudit);
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+                .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+        
+      }
+      response.getWriter().flush();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally{
+        response.getWriter().close();
+    }
+	  
+	}
+	
+	/**
+   *〈简述〉弹出编辑符合性评审项页面
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @return
+   */
+  @RequestMapping("/editItem")
+  public String editItem(String id, Model model){
+    FirstAudit firstAudit = service.get(id);
+    model.addAttribute("item", firstAudit);
+    return "bss/prms/first_audit/qc_edit_item";
+  }
+  
+  /**
+   *〈简述〉更新符合性评审项
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param response
+   * @param firstAuditTemitem
+   * @throws IOException
+   */
+  @RequestMapping("/updateItem")
+  public void updateItem(HttpServletResponse response, FirstAudit firstAudit) throws IOException{
+    try {
+      int count = 0;
+      String msg = "";
+      if (firstAudit.getName() == null || "".equals(firstAudit.getName())) {
+        msg += "请输入评审项名称";
+        count ++;
+      }
+      if (firstAudit.getPosition()== null) {
+        if (count > 0) {
+          msg += "、序号";
+        } else {
+          msg += "请输入排序号";
+        }
+        count ++;
+      }
+      if (firstAudit.getContent()== null || "".equals(firstAudit.getContent())) {
+        if (count > 0) {
+          msg += "和评审内容";
+        } else {
+          msg += "请输入评审内容";
+        }
+        count ++;
+      }
+      if (count > 0) {
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+                .print("{\"success\": " + false + ", \"msg\": \"" + msg+ "\"}");
+      }
+      if (count == 0) {
+        msg += "更新成功";
+        service.update(firstAudit);
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+                .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+        
+      }
+      response.getWriter().flush();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally{
+        response.getWriter().close();
+    }
+  }
+  
+  /**
+   *〈简述〉删除符合性评审项
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param response
+   * @param id 
+   * @throws IOException
+   */
+  @RequestMapping("/delItem")
+  public void delItem(HttpServletResponse response, String id) throws IOException{
+    try {
+      service.delete(id);
+      String msg = "删除成功";
+      response.setContentType("text/html;charset=utf-8");
+      response.getWriter()
+              .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+      response.getWriter().flush();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally{
+        response.getWriter().close();
+    }
+  }
+	
+  /**
+   *〈简述〉引入模板数据
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param response
+   * @param id 模板id
+   * @param projectId 项目id
+   * @param packageId 包id
+   * @throws IOException 
+   */
+  @RequestMapping("/loadTemplat")
+  public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
+    try{
+      FirstAudit record = new FirstAudit();
+      record.setPackageId(packageId);
+      record.setProjectId(projectId);
+      List<FirstAudit> firstAudits = service.findBykind(record);
+      //先删除数据
+      for (FirstAudit firstAudit : firstAudits) {
+        service.delete(firstAudit.getId());
+      }
+      List<FirstAuditTemitem> items = firstAuditTemitemService.selectByTemplatId(id);
+      for (FirstAuditTemitem firstAuditTemitem : items) {
+        FirstAudit firstAudit = new FirstAudit();
+        firstAudit.setContent(firstAuditTemitem.getContent());
+        firstAudit.setKind(firstAuditTemitem.getKind());
+        firstAudit.setName(firstAuditTemitem.getName());
+        firstAudit.setPackageId(packageId);
+        firstAudit.setPosition(firstAuditTemitem.getPosition());
+        firstAudit.setProjectId(projectId);
+        //保存导入模板数据
+        service.add(firstAudit);
+      }
+      String msg = "引入成功";
+      response.setContentType("text/html;charset=utf-8");
+      response.getWriter()
+              .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+      response.getWriter().flush();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally{
+        response.getWriter().close();
+    }
+  }
+  
+  
+  /**
+   *〈简述〉加载其他项目包的评审项
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param model
+   * @param page页码
+   * @param packages
+   * @return
+   */
+  @RequestMapping("/loadOtherPackage")
+  public String loadOtherPackage(Model model, Integer page, Packages packages, String oldPackageId, String oldProjectId){
+      List<Packages> list = packageService.findPackageByPage(packages, page == null ? 1 : page);
+      model.addAttribute("list", new PageInfo<Packages>(list));
+      model.addAttribute("packages", packages);
+      model.addAttribute("oldPackageId", oldPackageId);
+      model.addAttribute("oldProjectId", oldProjectId);
+      return "bss/prms/first_audit/load_other";
+  }
+  
+  @RequestMapping("/saveLoadPackage")
+  public void saveLoadPackage(HttpServletResponse response, String id, String packageId, String projectId) throws IOException{
+    try{
+      FirstAudit record = new FirstAudit();
+      record.setPackageId(packageId);
+      record.setProjectId(projectId);
+      List<FirstAudit> firstAudits = service.findBykind(record);
+      //先删除数据
+      for (FirstAudit firstAudit : firstAudits) {
+        service.delete(firstAudit.getId());
+      }
+      FirstAudit record2 = new FirstAudit();
+      record2.setPackageId(id);
+      //获取引入数据评审项
+      List<FirstAudit> firstAudits2 = service.findBykind(record2);
+      for (FirstAudit fa : firstAudits2) {
+        FirstAudit firstAudit = new FirstAudit();
+        firstAudit.setContent(fa.getContent());
+        firstAudit.setKind(fa.getKind());
+        firstAudit.setName(fa.getName());
+        firstAudit.setPackageId(packageId);
+        firstAudit.setPosition(fa.getPosition());
+        firstAudit.setProjectId(projectId);
+        //保存导入模板数据
+        service.add(firstAudit);
+      }
+      String msg = "引入成功";
+      response.setContentType("text/html;charset=utf-8");
+      response.getWriter()
+              .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+      response.getWriter().flush();
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally{
+        response.getWriter().close();
+    }
+    
+  }
 }

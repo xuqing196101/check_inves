@@ -38,7 +38,7 @@
       TEMPLAT_ID, POSITION, CONTENT)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, 
       #{creater,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{templatId,jdbcType=VARCHAR}), #{position,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}
+      #{templatId,jdbcType=VARCHAR}), #{position,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.prms.FirstAuditTemitem">
     insert into T_BSS_PRMS_FIRST_AUDIT_TEMITEM

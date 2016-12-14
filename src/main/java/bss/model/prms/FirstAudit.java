@@ -16,10 +16,29 @@ public class FirstAudit {
     private Date updatedAt;
 
     private String projectId;
+    
+    private String projectName;//不做数据存储
+    
+    private String packageName;//不做数据存储
 
     private Short isConfirm;
     
     private Integer page;
+    
+    /**
+     * @Fields packageId : TODO(目的和意义)所属包id
+     */
+    private String packageId;
+    
+    /**
+     * @Fields position : TODO(目的和意义)排序
+     */
+    private Integer position;
+    
+    /**
+     * @Fields content : TODO(目的和意义)评审内容
+     */
+    private String content;
 
     public String getId() {
         return id;
@@ -91,6 +110,46 @@ public class FirstAudit {
 
     public void setPage(Integer page) {
         this.page = page;
+    }
+    
+    public Integer getPosition() {
+      return position;
+    }
+
+    public void setPosition(Integer position) {
+      this.position = position;
+    }
+
+    public String getContent() {
+      return content;
+    }
+
+    public void setContent(String content) {
+      this.content = content;
+    }
+
+    public String getPackageId() {
+      return packageId;
+    }
+
+    public void setPackageId(String packageId) {
+      this.packageId = packageId;
+    }
+
+    public String getProjectName() {
+      return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+      this.projectName = projectName;
+    }
+
+    public String getPackageName() {
+      return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+      this.packageName = packageName;
     }
     
 }
