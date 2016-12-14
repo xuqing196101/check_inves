@@ -5,9 +5,9 @@
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
+<jsp:include page="/index_head.jsp"></jsp:include>
 <script type="text/javascript">
 $(function(){
-	
 	var browser=navigator.appName;
 	var b_version=navigator.appVersion;
 	var version=parseFloat(b_version);
@@ -45,7 +45,6 @@ function drugs(){
 </head>
 
 <body>
-  <jsp:include page="/index_head.jsp"></jsp:include>
   <!--/end container-->
   <!-- End Navbar -->
   <div class="container content job-content ">

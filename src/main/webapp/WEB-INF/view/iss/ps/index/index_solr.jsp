@@ -7,6 +7,7 @@
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <head>
+<jsp:include page="/index_head.jsp"></jsp:include>
 	<script type="text/javascript">
      $(function(){
 	  laypage({
@@ -34,7 +35,6 @@
 </head>
 
 <body>
-  <jsp:include page="/index_head.jsp"></jsp:include>
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
