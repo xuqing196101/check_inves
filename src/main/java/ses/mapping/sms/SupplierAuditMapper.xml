@@ -139,9 +139,6 @@
       <if test="userId != null">
         USER_ID = #{userId},
       </if>
-      <if test="supplierId != null">
-        SUPPLIER_ID = #{supplierId},
-      </if>
       <if test="status != null">
         STATUS = #{status},
       </if>
@@ -164,7 +161,8 @@
         IS_DELETED = #{isDeleted},
       </if>
     </set>
-    where ID = #{id}
+    where
+        SUPPLIER_ID = #{supplierId}
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierAudit">
     update T_SES_SMS_SUPPLIER_AUDIT

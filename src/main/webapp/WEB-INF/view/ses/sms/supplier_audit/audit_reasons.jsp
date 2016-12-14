@@ -119,6 +119,9 @@
 			  if(str=="serviceInformation"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
 			  }
+			  if(str=="items"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+			  }
 			  if(str=="product"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/product.html";
 			  }
@@ -154,7 +157,7 @@
     <div class="container container_box">
       <div class="content">
         <div class="col-md-12 tab-v2 job-content">
-	          <ul class="flow_step">
+	          <ul class="nav nav-tabs bgdd">
 		          <li onclick = "jump('essential')">
 		            <a aria-expanded="false" href="#tab-1">详细信息</a>
 		            <i></i>
@@ -191,6 +194,10 @@
 		              <i></i>
 		            </li>
 		          </c:if>
+		          <li onclick = "jump('items')">
+	            	<a aria-expanded="false" href="#tab-4" >品目信息</a>
+	            	<i></i>
+	          	</li>
 		          <li onclick = "jump('product')" >
 		            <a aria-expanded="false" href="#tab-4">产品信息</a>
 		             <i></i>
@@ -200,7 +207,7 @@
 		            <i></i>
 		          </li>
 		          <li onclick = "jump('reasonsList')"  class="active">
-		            <a aria-expanded="false" href="#tab-4" data-toggle="tab">汇总</a>
+		            <a aria-expanded="false" href="#tab-4" data-toggle="tab">审核汇总</a>
 		          </li>
 		        </ul>
         

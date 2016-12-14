@@ -15,11 +15,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.model.bms.Area;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
@@ -33,6 +36,7 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
@@ -48,11 +52,13 @@ import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierExtRelateService;
+import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 
@@ -114,6 +120,8 @@ public class SupplierAuditController extends BaseSupplierController{
 	@Autowired
 	private SupplierAddressService supplierAddressService;
 	
+	@Autowired
+	private SupplierItemService supplierItemService;
 	/**
 	 * @Title: daiBan
 	 * @author Xu Qing
@@ -334,7 +342,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}else if(supplierTypeName.contains("服务") && url == null){
 			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
 		}else{
-			url=request.getContextPath()+"/supplierAudit/product.html";
+			url=request.getContextPath()+"/supplierAudit/items.html";
 		}
 		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/shareholder";
@@ -376,7 +384,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}else if(supplierTypeName.contains("服务") && url == null){
 			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
 		}else{
-			url=request.getContextPath()+"/supplierAudit/product.html";
+			url=request.getContextPath()+"/supplierAudit/items.html";
 		}
 		request.setAttribute("url", url);		
 		return "ses/sms/supplier_audit/material_production";
@@ -414,7 +422,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}else if(supplierTypeName.contains("服务") && url == null){
 			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
 		}else{
-			url=request.getContextPath()+"/supplierAudit/product.html";
+			url=request.getContextPath()+"/supplierAudit/items.html";
 		}
 		request.setAttribute("url", url);
 		
@@ -473,7 +481,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		if(supplierTypeName.contains("服务")){
 			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
 		}else{
-			url=request.getContextPath()+"/supplierAudit/product.html";
+			url=request.getContextPath()+"/supplierAudit/items.html";
 		}
 		request.setAttribute("url", url);
 		
@@ -747,7 +755,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		if(reasonsList.size() !=0 ){
 			supplierAudit.setStatus(supplier.getStatus());
-			supplierAudit.setId(supplierAudit.getId());
+			supplierAudit.setSupplierId(supplierId);
 			supplierAuditService.updateStatusById(supplierAudit);
 		}
 		return "redirect:supplierAll.html";
@@ -904,16 +912,72 @@ public class SupplierAuditController extends BaseSupplierController{
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
-		//查询品目
-		/*List<SupplierTypeTree> listSupplierTypeTrees = categoryService.findCategoryByType(category, supplierId);
-		String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().write(json);
-		response.getWriter().flush();
-		response.getWriter().close();
-		*/
 		request.setAttribute("supplierId", supplierId);
+		
+		supplier = supplierService.get(supplierId);
+		request.setAttribute("currSupplier", supplier);
+		
 		return "ses/sms/supplier_audit/items";
+	}
+	
+	@RequestMapping(value="/category_type" ,produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getCategory(String id,String name,String code,String supplierId){
+		List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
+        if(code != null) {
+            DictionaryData type = DictionaryDataUtil.get(code);
+            CategoryTree ct = new CategoryTree();
+            ct.setName( type.getName());
+            ct.setId(type.getId());
+            ct.setIsParent("true");
+            categoryList.add(ct);
+            
+            List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
+            
+            for (SupplierItem category : item) {
+            	 String parentId = categoryService.selectByPrimaryKey(category.getCategoryId()).getParentId();
+                 if (parentId != null && parentId.equals(ct.getId())) {
+                     ct.setChecked(true);
+                 }
+            }
+            List<Category> child = getChild(type.getId());
+            for(Category c:child){
+            	CategoryTree ct1 = new CategoryTree();
+                ct1.setName(c.getName());
+                ct1.setParentId(c.getParentId());
+                ct1.setId(c.getId());
+                // 设置是否为父级
+                if (!child.isEmpty()) {
+                    ct1.setIsParent("true");
+                } else {
+                		ct1.setIsParent("false");
+                }
+//                ct1.set
+//                ct1.set  
+//                }
+                
+                // 设置是否回显
+                for (SupplierItem category : item) {
+                    if (category.getCategoryId() != null) {
+                        if (category.getCategoryId().equals(c.getId())) {
+                            ct1.setChecked(true);
+                        }
+                    }
+                }
+                categoryList.add(ct1);
+            }
+        }
+		return JSON.toJSONString(categoryList);
+	}
+	
+	public List<Category> getChild(String id){
+	     List<Category> list = categoryService.findTreeByPid(id);
+	        List<Category> childList = new ArrayList<Category>();
+	        childList.addAll(list);
+	        for (Category cate : list) {
+	            childList.addAll(getChild(cate.getId()));
+	        }
+	        return list;
 	}
 	
 	/**

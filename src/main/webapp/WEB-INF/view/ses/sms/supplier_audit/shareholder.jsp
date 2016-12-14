@@ -104,6 +104,9 @@
 			  if(str=="serviceInformation"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
 			  }
+			  if(str=="items"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+			  }
 			  if(str=="product"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/product.html";
 			  }
@@ -160,7 +163,7 @@
         <li class=""><a >审核汇总</a></li>
         </ul> --%>
                     
-        <ul class="flow_step">
+        <ul class="nav nav-tabs bgdd">
           <li onclick = "jump('essential')">
             <a aria-expanded="false" href="#tab-1">详细信息</a>
             <i></i>
@@ -197,6 +200,10 @@
               <i></i>
             </li>
           </c:if>
+          <li onclick = "jump('items')">
+            <a aria-expanded="false" href="#tab-4" >品目信息</a>
+            <i></i>
+	        </li>
           <li onclick = "jump('product')">
             <a aria-expanded="false" href="#tab-4" >产品信息</a>
              <i></i>
@@ -206,7 +213,7 @@
             <i></i>
           </li>
           <li onclick = "jump('reasonsList')">
-            <a aria-expanded="false" href="#tab-4" >汇总</a>
+            <a aria-expanded="false" href="#tab-4" >审核汇总</a>
           </li>
         </ul>
 
