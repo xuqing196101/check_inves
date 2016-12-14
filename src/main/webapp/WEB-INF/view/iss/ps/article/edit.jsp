@@ -222,7 +222,7 @@
 
       }
       var ue = UE.getEditor('editor', option);
-      var content = "${article.content}";
+      var content = '${article.content}';
       ue.ready(function() {
         ue.setContent(content);
       });

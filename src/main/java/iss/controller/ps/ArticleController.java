@@ -379,7 +379,7 @@ public class ArticleController extends BaseSupplierController{
       return "iss/ps/article/edit";
     }
     
-    if(article.getSource().length()>50){
+    if (article.getSource() != null  && article.getSource().length()>50){
       model.addAttribute("ERR_source", "文章来源不得超过50字符");
       model.addAttribute("article.id", article.getId());
       Article artc = articleService.selectArticleById(article.getId());
@@ -391,7 +391,7 @@ public class ArticleController extends BaseSupplierController{
       return "iss/ps/article/edit";
     }
     
-    if(article.getSourceLink().length()>100){
+    if(article.getSourceLink() != null && article.getSourceLink().length()>100){
       model.addAttribute("ERR_sourceLink", "连接来源不得超过100字符");
       model.addAttribute("article.id", article.getId());
       Article artc = articleService.selectArticleById(article.getId());

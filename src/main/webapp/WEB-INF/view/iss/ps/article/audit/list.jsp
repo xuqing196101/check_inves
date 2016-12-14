@@ -201,7 +201,7 @@
       <input type="hidden" id="depid" name="depid">
 
       <div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows check" type="button" onclick="audit()">审核</button>
+        <button class="btn btn-windows check" type="button" onclick="audit()">发布</button>
       </div>
 
       <div class="content table_box">

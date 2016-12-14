@@ -24,7 +24,7 @@
 
       function sub() {
         var id = $("#id").val();
-        layer.confirm('您确定需要审核通过吗?', {
+        layer.confirm('您确定需要发布吗?', {
           title: '提示',
           offset: ['222px', '360px'],
           shade: 0.01
@@ -118,12 +118,7 @@
                 <input class="span2" id="sourceLink" name="sourceLink" type="text" value="${article.sourceLink }" readonly>
               </div>
             </li>
-            <li class="col-md-3 col-sm-6 col-xs-12" id="picshow">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">图片展示：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input class="span2" id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }" readonly>
-              </div>
-            </li>
+            
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息正文：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -136,12 +131,7 @@
                 <up:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
               </div>
             </li>
-            <li class="col-md-6 col-sm-6 col-xs-12 mt10" id="picNone">
-              <span class="fl">图片上传：</span>
-              <div class="fl">
-                <up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
-              </div>
-            </li>
+            
           </ul>
         </div>
         <div class="padding-top-10 clear">
@@ -155,7 +145,7 @@
             </li>
           </ul>
           <div class="col-md-12 tc">
-            <button class="btn btn-windows check" type="button" onclick="sub()">审核</button>
+            <button class="btn btn-windows check" type="button" onclick="sub()">发布</button>
             <button class="btn btn-windows withdraw" type="button" onclick="back()">驳回</button>
             <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
           </div>
@@ -180,7 +170,7 @@
         ]
       }
       var ue = UE.getEditor('editor', option);
-      var content = "${article.content}";
+      var content = '${article.content}';
       ue.ready(function() {
         ue.setContent(content);
         ue.setDisabled(true);
