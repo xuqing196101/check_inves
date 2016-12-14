@@ -118,7 +118,7 @@ public class SaleTenderController {
     * @return String
      */
     @RequestMapping("/view")
-    public String view(String projectId, Model model){
+    public String view(String projectId, Model model,String supplierName,String contactTelephone,Integer statusBid){
     	//项目信息
         Project project=projectService.selectById(projectId);
 
@@ -126,13 +126,25 @@ public class SaleTenderController {
         map.put("projectId",projectId);
         List<Packages> list = packageService.findPackageById(map);
         
+        Supplier supplier=new Supplier();
+        if(supplierName!=null){
+        	supplier.setSupplierName("%"+supplierName+"%");
+        }
+        if(contactTelephone!=null){
+        	supplier.setContactTelephone(contactTelephone);
+        }
         SaleTender saleTender = new SaleTender();
+        if(statusBid!=null){
+        	saleTender.setStatusBid(statusBid.shortValue());
+        }
         saleTender.setProjectId(projectId);
        if(list != null && list.size()>0){
             for(Packages ps:list){
                 HashMap<String,Object> packageId = new HashMap<String,Object>();
                 packageId.put("packageId", ps.getId());
                 saleTender.setPackages(ps.getId());
+                saleTender.setSuppliers(supplier);
+                
                //供应商
                 List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
                 ps.setSaleTenderList(saleTenderList);
@@ -141,6 +153,9 @@ public class SaleTenderController {
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("packageList", list);
         model.addAttribute("project", project);
+        model.addAttribute("supplierName",supplierName);
+        model.addAttribute("contactTelephone",contactTelephone);
+        model.addAttribute("statusBid",statusBid);
         return "bss/ppms/sall_tender/view";
     }
     
@@ -410,4 +425,18 @@ public class SaleTenderController {
         //saleTenderService.download(projectId,id);
         return "redirect:list.html?projectId="+projectId;
     }
+    
+    
+    @RequestMapping("/downloads")
+    public String downloads(HttpServletRequest request, HttpServletResponse response, String projectId,String id){
+        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+        List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+        if (files != null && files.size() > 0) {
+            downloadService.downloadOther(request, response, files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
+        }
+        //saleTenderService.download(projectId,id);
+        return "redirect:view.html?projectId="+projectId;
+    }
+    
+    
 }
