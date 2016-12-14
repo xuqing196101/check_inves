@@ -79,7 +79,7 @@
 		
 	});
 	
-	function loadZtree(code, kind) {
+	
 	/* 	alert(kind); */
 	/* 	var id = "";
 		if (kind == "1") id = "tree_ul_id_1";
@@ -88,18 +88,18 @@
 		if (kind == "4") id = "tree_ul_id_4"; */
 	 
 		var setting = {
-			async : {
+/* 			async : {
 				autoParam: ["id"],
 				enable : true,
 				url : "${pageContext.request.contextPath}/supplier/category_type.html",
 				otherParam : {
 					"code":code,
 					"supplierId": "${currSupplier.id}",
-					 /*kind : kind */
+					 kind : kind  
 				},
 				dataType : "json",
 				type : "post",
-			},
+			}, */
 			check : {
 				enable : true,
 				chkStyle:"checkbox",  
@@ -108,18 +108,28 @@
 			data : {
 				simpleData : {
 					enable : true,
-					idKey : "id",
-					pIdKey : "parentId"
+					idKey: "id",
+					pIdKey: "parentId",
 				}
 			},
 		 	callback: {
 		 		onClick:zTreeOnClick
 			} 
 		};
-		zTreeObj = $.fn.zTree.init($("#" + kind), setting, zNodes);
-		zTreeObj.expandAll(true);
+
+	function loadZtree(code, kind) {
+		var supplierId="${currSupplier.id}";
+			$.ajax({
+		        type: "GET",
+		        async: false, 
+		        url: "${pageContext.request.contextPath}/supplier/category_type.html?code="+code+"&supplierId="+supplierId,
+		        dataType: "json",
+		        success: function(zNodes){
+			        	zTreeObj = $.fn.zTree.init($("#" + kind), setting, zNodes);
+			    		zTreeObj.expandAll(true);
+		          }
+		    	});
 	}
-	
 	
  
 		function zTreeOnClick(event,treeId,treeNode){

@@ -12,13 +12,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import bss.controller.base.BaseController;
 import ses.model.bms.Area;
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
@@ -31,7 +34,7 @@ import common.service.UploadService;
 @Controller
 @Scope("prototype")
 @RequestMapping(value = "/supplier_item")
-public class SupplierItemController {
+public class SupplierItemController extends BaseController{
 	
 	@Autowired
 	private SupplierItemService supplierItemService;
@@ -50,6 +53,9 @@ public class SupplierItemController {
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+	private CategoryService categoryService;
 	/**
 	 * @Title: saveOrUpdate
 	 * @author: Wang Zhaohua
@@ -64,6 +70,10 @@ public class SupplierItemController {
 	 */
 	@RequestMapping(value = "save_or_update")
 	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String flag, Model model) {
+		
+		
+		
+		
 		supplierItemService.saveOrUpdate(supplierItem);
 		
 		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
@@ -115,20 +125,25 @@ public class SupplierItemController {
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", jsp);*/
 //		return  "redirect:../supplier/page_jump.html";
+		if(flag.equals("3")){
+			return "ses/sms/supplier_register/supplier_type";
+		}
+		
+		
 		if(flag.equals("2")){
 			return "ses/sms/supplier_register/items";	
 		}
-		
+	
 		boolean bool = validataItem(supplierItem);
 		if(bool==false){
 			model.addAttribute("err_item", "请上传产品目录近对应的近三年文件");
 			return "ses/sms/supplier_register/items";	
 		}
-		if(flag.equals("1")){
+		 
 			return "ses/sms/supplier_register/procurement_dep";	
-		}
+	 
 		
-		return "ses/sms/supplier_register/supplier_type";	
+		
 	}
 	
 	@RequestMapping(value = "getCategory")
@@ -142,15 +157,20 @@ public class SupplierItemController {
 	
 	public boolean validataItem(SupplierItem supplierItem){
 		boolean bool=true;
-		
-		String ids[] = supplierItem.getCategoryId().split(",");
-		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
-		for(String s:ids){
-			List<UploadFile> list = uploadService.getFilesOther(s, null,"1");
-			if(list.size()<1){
-				bool=false;
+		if(supplierItem.getCategoryId()!=null){
+			String ids[] = supplierItem.getCategoryId().split(",");
+//			SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
+			for(String s:ids){
+				List<Category> category = categoryService.findTreeByPid(s);
+				if(category.size()<1){
+					List<UploadFile> list = uploadService.getFilesOther(s, null,"1");
+					if(list.size()<1){
+						bool=false;
+					}
+				}
 			}
 		}
+	
 		return bool;
 	}
 	

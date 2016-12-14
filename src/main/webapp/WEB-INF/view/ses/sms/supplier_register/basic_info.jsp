@@ -516,7 +516,7 @@ function deleteFinance() {
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="bankAccount" value="${currSupplier.bankAccount}" />
 			        <span class="add-on cur_point">i</span>
-			        <div class="cue"> ${err_msg_postCode } </div>
+			        <div class="cue"> <%-- ${err_msg_postCode }  --%></div>
 			       </div>
 				 </li> 
 				
@@ -771,24 +771,48 @@ function deleteFinance() {
 	       	   </div>
 		   	 </li> 
 		    
-		    
+	<%-- 	    
 		     <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证正面</span> 
 			   <div class="col-md-12 col-sm-12 col-xs-12 p0 h30">
 			     <u:upload id="bearchcert_up_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" /> 
 			     <u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
 			   </div>
-			  <%--  <div class="cue"> ${err_bearch } </div> --%>
-			</li>
+			   <div class="cue"> ${err_bearch } </div>
+			</li> --%>
 			
+			    <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 身份证正面</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
+					     <u:upload id="bearchcert_up_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" /> 
+					     <u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+                    </div>
+                </li>
+              
+         <%--        <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 居民身份证附件</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
+					     <u:upload id="bearchcert_up_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" /> 
+					     <u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+                    </div>
+                </li> --%>
+                
+                  
+                 <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 身份证反面</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
+					   			     <u:upload id="identity_down_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" auto="true" /> 
+			    					 <u:show showId="identity_down_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
+                    </div>
+                </li>
+                
+                 
+  <%--               
 			 <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证反面</span> 
 			   <div class="col-md-12 col-sm-12 col-xs-12 p0 h30">
 			     <u:upload id="identity_down_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" auto="true" /> 
 			     <u:show showId="identity_down_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
 			   </div>
-			  <%--  <div class="cue"> ${err_bearch } </div> --%>
-			</li>
+			   <div class="cue"> ${err_bearch } </div>
+			</li> --%>
 			
 			
 		     <li class="col-md-3 col-sm-6 col-xs-12">
