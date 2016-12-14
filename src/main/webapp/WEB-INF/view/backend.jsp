@@ -63,12 +63,6 @@ if('downloadabiddocument' == uri[0] ){
 }
 
 </script>
-
-<!-- backend -->
-<!--[if lt IE 9]>
-    <script src="/jdcg/public/common/respond.src.js"></script>
-<![endif]-->
-
 </head>
 <body>
     <!--面包屑导航开始-->

@@ -23,5 +23,5 @@
 
 <!-- portal -->
 <!--[if lt IE 9]>
-  <script src="/jdcg/public/common/respond.src.js"></script>
+  <script src="${pageContext.request.contextPath}/public/common/respond.src.js"></script>
 <![endif]-->
