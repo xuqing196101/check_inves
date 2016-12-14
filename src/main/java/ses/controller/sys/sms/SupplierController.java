@@ -1056,7 +1056,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_bankAccount", "格式不正确 !");
 			count++;
 		}
-		if (supplier.getPostCode() == null || !ValidateUtils.Zipcode(supplier.getPostCode())) {
+		if (supplier.getPostCode() == null || supplier.getPostCode().length()!=6) {
 			model.addAttribute("err_msg_postCode", "格式不正确 !");
 			count++;
 		}
@@ -1680,7 +1680,7 @@ public class SupplierController extends BaseSupplierController {
 	@ResponseBody
 	public String getCategory(String id,String name,String code,String supplierId){
 		List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
-        if(id == null && code != null) {
+        if(code != null) {
             DictionaryData type = DictionaryDataUtil.get(code);
             CategoryTree ct = new CategoryTree();
             ct.setName( type.getName());
@@ -1697,9 +1697,35 @@ public class SupplierController extends BaseSupplierController {
                      ct.setChecked(true);
                  }
             }
+            List<Category> child = getChild(type.getId());
+            for(Category c:child){
+            	CategoryTree ct1 = new CategoryTree();
+                ct1.setName(c.getName());
+                ct1.setParentId(c.getParentId());
+                ct1.setId(c.getId());
+                // 设置是否为父级
+                if (!child.isEmpty()) {
+                    ct1.setIsParent("true");
+                } else {
+                		ct1.setIsParent("false");
+                }
+//                ct1.set
+//                ct1.set  
+//                }
+                
+                // 设置是否回显
+                for (SupplierItem category : item) {
+                    if (category.getCategoryId() != null) {
+                        if (category.getCategoryId().equals(c.getId())) {
+                            ct1.setChecked(true);
+                        }
+                    }
+                }
+                categoryList.add(ct1);
+            }
         } else {
-        	List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
-//            List<ExpertCategory> expertCategory = expertCategoryService.getListByExpertId(expertId);供应商选择的品目
+        	/*List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
+            List<ExpertCategory> expertCategory = expertCategoryService.getListByExpertId(expertId);供应商选择的品目
             List<Category> list = categoryService.findTreeByPid(id);
             for (Category c : list) {
                 List<Category> list1 = categoryService.findTreeByPid(c.getId());
@@ -1722,7 +1748,7 @@ public class SupplierController extends BaseSupplierController {
                     }
                 }
                 categoryList.add(ct1);
-            }
+            }*/
         }
 		return JSON.toJSONString(categoryList);
 	}
@@ -1771,5 +1797,15 @@ public class SupplierController extends BaseSupplierController {
 			 
 		}
 		return yearThree;
+		}
+		
+		public List<Category> getChild(String id){
+		     List<Category> list = categoryService.findTreeByPid(id);
+		        List<Category> childList = new ArrayList<Category>();
+		        childList.addAll(list);
+		        for (Category cate : list) {
+		            childList.addAll(getChild(cate.getId()));
+		        }
+		        return list;
 		}
 }
