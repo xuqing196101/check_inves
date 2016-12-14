@@ -10,86 +10,41 @@
    
     <title>查看质检信息</title>
      <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />   
-<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
-<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
 	
 <script type="text/javascript">
-	
-
-$(function(){
-	  $("#contract").select2();
-})	
-	$(function(){
-		$("#purchaseType").val("${pqinfo.projectType}");
-		$("#type").val("${pqinfo.type}");
-		$("#conclusion").val("${pqinfo.conclusion}");
-		var type=$("#purchaseType").val();
-		if(type!=null && type!="" && type!="-请选择-"){
-			$.ajax({
-				contentType: "application/json;charset=UTF-8",
-				  url:"${pageContext.request.contextPath}/pqinfo/selectContract.do?purchaseType="+type,
-			      type:"POST",
-			      dataType: "json",
-			      success:function(purchaseContracts) {     
-		              if (purchaseContracts) {           
-		                $("#contract").html("<option></option>");                
-		                $.each(purchaseContracts, function(i, purchaseContract) {  
-		              	  if(purchaseContract.name != null && purchaseContract.name!=''){
-		              		  $("#contract").append("<option  value="+purchaseContract.id+">"+purchaseContract.name+"</option>"); 
-		              	  }	                                              
-		                });  
-		              }
-		              $("#contract").select2("val", "${pqinfo.contract.id}"); 
-		          }
-				
-			});
-		}
-	});
-  	
-
-
-function contractType(type){
-	  $("#contractCode").val("");
-	  $("#supplierName").val("");
-	  $("#procurementId").val("");
-      $("#contractName").val("");
-	  $("#contract").select2("val", "");
-	  $("#contract").empty();
+function selectByCode(){
+	var code= $("#contractCode").val();
 	$.ajax({
-		contentType: "application/json;charset=UTF-8",
-		  url:"${pageContext.request.contextPath}/pqinfo/selectContract.do?purchaseType="+type,
-	      type:"POST",
-	      dataType: "json",
-	      success:function(purchaseContracts) {     
-              if (purchaseContracts) {           
-                $("#contract").html("<option></option>");                
-                $.each(purchaseContracts, function(i, purchaseContract) {  
-              	  if(purchaseContract.name != null && purchaseContract.name!=''){
-              		  $("#contract").append("<option  value="+purchaseContract.id+">"+purchaseContract.name+"</option>"); 
-              	  }	                                              
-                });  
-              }
-          }
-		
-	});
+		type:"POST",
+		dataType:"json",
+		url:"${pageContext.request.contextPath}/purchaseContract/selectByCode.do?code="+code,
+		success:function(json){
+			if(json.code=="ErrCode"){
+				 $("#contractId").val(json.id);
+				 $("#contractName").val(json.name);
+				 $("#projectType").val(json.purchaseType);	
+				 $("#procurementId").val(json.supplierPurId);	
+				 $("#supplierName").val(json.supplierDepName);
+				 $("#contractCodeErr").text("合同编号不存在");
+			}else{
+			 $("#contractId").val(json.id);
+			 $("#contractName").val(json.name);
+			 $("#projectType").val(json.purchaseType);	
+			 $("#procurementId").val(json.supplierPurId);	
+			 $("#supplierName").val(json.supplierDepName);
+			 $("#contractCodeErr").text("");
+			}
+ 		}
+ 	});
 }
-	
-
-function change(){
-	var id = $("#contract").val();
-	  $.ajax({
-		  url:"${pageContext.request.contextPath}/appraisalContract/selectContractId.do?id="+id,
-	      type:"POST",
-	      success:function(contract){
-	    	  var con = JSON.parse(contract);
-	    	  $("#contractName").val(con.name);
-	    	  $("#contractCode").val(con.code);
-	    	  $("#supplierName").val(con.supplierDepName);
-	    	  $("#procurementId").val(con.supplierPurId);
-	      }
-	  });
+$(function(){
+	$("#type").val("${pqinfo.type}");
+	$("#conclusion").val("${pqinfo.conclusion}");
+})
+function goback(){
+	window.location.href="${pageContext.request.contextPath}/pqinfo/getAll.html";
+  	
 }
 </script>
   
@@ -110,42 +65,40 @@ function change(){
    <div class="container container_box">
    		<form action="${pageContext.request.contextPath}/pqinfo/update.html" method="post"  enctype="multipart/form-data">
    		<div>
-   		<h2 class="count_flow">修改质检报告</h2>
+   		<h2 class="count_flow"><i>1</i>合同基本信息</h2>
    		<ul class="ul_list">
    			<input type="hidden" class="id" name="id" value = '${pqinfo.id}'>
-   			<input type="hidden" id="contractId" class="contract_id" name="contract.id" value = '${pqinfo.contract.id}'>
+   			<input type="hidden" id="contractId" name="contract.id" value = '${pqinfo.contract.id}'>
    			
-			 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>项目类别：</span>
-			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-		        	<select id="purchaseType" name="projectType" onchange="contractType(this.options[this.selectedIndex].value)">
-						<option value="-请选择-">请选择</option>
-						<option value="询价">询价</option>
-						<option value="单一来源">单一来源</option>
-						<option value="邀请招标">邀请招标</option>
-						<option value="公开招标">公开招标</option>
-						<option value="竞争性谈判">竞争性谈判</option>
-	  				</select> 
-	  				<div id="contractCodeErr" class="cue">${ERR_projectType}</div>
-	  			</div>
-			 </li>
-			 
-		     	<li class="col-md-3 col-sm-6 col-xs-12">
-			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>合同名称：</span>
-			   		<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			   		<select id="contract" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change()"></select>
-			   		<input type="hidden" id="contractName" name="contract.name" value="${pqinfo.contract.name }">
-		       		<div id="contractCodeErr" class="cue">${ERR_contract_name}</div>
-		       </div>
-			 </li>
-			 
 		    	<li class="col-md-3 col-sm-6 col-xs-12">
-			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">合同编号：</span>
+			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>合同编号：</span>
 			   		<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        	<input class="span5 contractCode" id="contractCode" name="contract.code" value = '${pqinfo.contract.code}'  type="text"  readonly="readonly">
-		        	<span class="add-on">i</span>
-       			</div>
-			 </li>
+		        		<input class="span5 contractCode" id="contractCode" name="contract.code" onblur="selectByCode()" type="text" value="${pqinfo.contract.code }">
+		        		<span class="add-on">i</span>
+		        		<span class="input-tip">填写合同编号合同信息自动生成</span>
+		        		<div class="cue" id="contractCodeErr">${ERR_contract_code }</div>
+		       		</div>
+			 	</li>
+
+   				<li class="col-md-3 col-sm-6 col-xs-12">
+			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">合同名称：</span>
+			   		<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			   		  	<input class="span5 projectType" type="text" id="contractName" name="contract.name" readonly="readonly" value="${pqinfo.contract.name }">
+		       		  	<span class="add-on">i</span>
+						<span class="input-tip">填写合同编号合同信息自动生成</span>
+			 	    </div>
+			 	</li>
+
+
+   				<li class="col-md-3 col-sm-6 col-xs-12">
+			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">项目类别：</span>
+		        	<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        		<input class="span5 projectType" id="projectType" type="text" name="projectType" readonly="readonly" value = '${pqinfo.projectType}'>
+		        		<span class="add-on">i</span>
+		        		<span class="input-tip">填写合同编号合同信息自动生成</span>
+       				</div>
+			 	</li>
+
     		 	<li class="col-md-3 col-sm-6 col-xs-12">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商组织机构代码：</span>
 		        	<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -161,10 +114,17 @@ function change(){
 		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-    		 <li class="col-md-3 col-sm-6 col-xs-12">
+			 </ul>
+			</div>
+			 
+			<div class="padding-top-10 clear">
+    			<h2 class="count_flow"><i>2</i>质检登记</h2>
+   				<ul class="ul_list">			
+			 
+    		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检单位：</span>
 		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
-		        	<input name="unit" value = '${pqinfo.unit}'  type="text">
+		        	<input class="span5" name="unit" value = '${pqinfo.unit}'  type="text">
 		        	<span class="add-on">i</span>
 		        	<div class="cue">${ERR_unit}</div>
        			</div>
@@ -235,7 +195,7 @@ function change(){
 			 <li class="col-md-12 col-sm-12 col-xs-12 mt10" id="picNone" >
 	   			<span class="fl">图片上传：</span>
 	    		<div class="fl">
-	        		<up:upload id="artice_up"  businessId="${pqinfoID }" sysKey="${pqinfoKey}" typeId="${attachtypeId }" auto="true" />
+	        		<up:upload id="artice_up"  businessId="${pqinfoID }" sysKey="${pqinfoKey}" typeId="${attachtypeId }" auto="true" exts="png,jpeg,jpg,bmp,git"/>
 					<up:show showId="artice_show"  businessId="${pqinfoID }" sysKey="${pqinfoKey}" typeId="${attachtypeId }"/>
 				</div>
 	 		</li>
@@ -243,7 +203,7 @@ function change(){
 
   		<div  class="col-md-12 col-sm-12 col-xs-12 tc mt20">
     			<button class="btn btn-windows save" type="submit">更新</button>
-    			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+    			<button class="btn btn-windows back" onclick="goback()" type="button">返回</button>
   		</div>
   		</div>
   		</form>

@@ -124,32 +124,28 @@ public class PqInfoController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_pqdate", "请选择质检日期");
 		}
-		if(pqInfo.getContract().getName()==null || pqInfo.getContract().getName().equals("")){
+			
+		if(pqInfo.getContract().getCode()==null || pqInfo.getContract().getCode().equals("")){
 			flag = false;
-			model.addAttribute("ERR_contract_name", "请填写合同名称");
-		}else{			
-			if(pqInfo.getContract().getCode()==null || pqInfo.getContract().getCode().equals("")){
+			model.addAttribute("ERR_contract_code","请输入合同编号");
+		}else{
+			PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
+			if (pc==null) {
 				flag = false;
-				model.addAttribute("ERR_contract_code","请输入合同编号");
+				model.addAttribute("ERR_contract_code","合同编号不存在");
 			}else{
-				PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
-				if (pc==null) {
-					flag = false;
-					model.addAttribute("ERR_contract_code","合同编号不存在");
-				}else{
-					pqInfo.setContract(pc);
-				}
+				pqInfo.setContract(pc);
 			}
 		}
 		if(pqInfo.getProjectType()==null||pqInfo.getProjectType().equals("-请选择-")){
 			flag = false;
 			model.addAttribute("ERR_projectType", "请选择项目类型");
 		}
-		if(pqInfo.getType().equals("-请选择-")){
+		if(pqInfo.getType()==null||pqInfo.getType().equals("-请选择-")){
 			flag = false;
 			model.addAttribute("ERR_type", "请选择质检类型");
 		}
-		if(pqInfo.getConclusion().equals("-请选择-")){
+		if(pqInfo.getConclusion()==null||pqInfo.getConclusion().equals("-请选择-")){
 			flag = false;
 			model.addAttribute("ERR_conclusion", "请选择质检结论");
 		}
@@ -223,32 +219,27 @@ public class PqInfoController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_pqdate", "请选择质检日期");
 		}
-		if(pqInfo.getContract().getName()==null || pqInfo.getContract().getName().equals("")){
+		if(pqInfo.getContract().getCode()==null || pqInfo.getContract().getCode().equals("")){
 			flag = false;
-			model.addAttribute("ERR_contract_name", "请填写合同名称");
+			model.addAttribute("ERR_contract_code","请输入合同编号");
 		}else{
-			if(pqInfo.getContract().getCode()==null || pqInfo.getContract().getCode().equals("")){
+			PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
+			if (pc==null) {
 				flag = false;
-				model.addAttribute("ERR_contract_code","请输入合同编号");
+				model.addAttribute("ERR_contract_code","合同编号不存在");
 			}else{
-				PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
-				if (pc==null) {
-					flag = false;
-					model.addAttribute("ERR_contract_code","合同编号不存在");
-				}else{
-					pqInfo.setContract(pc);
-				}
+				pqInfo.setContract(pc);
 			}
 		}
-		if(pqInfo.getProjectType().equals("-请选择-")){
+		if(pqInfo.getProjectType()==null||pqInfo.getProjectType().equals("")){
 			flag = false;
 			model.addAttribute("ERR_projectType", "请选择项目类型");
 		}
-		if(pqInfo.getType().equals("-请选择-")){
+		if(pqInfo.getType()==null||pqInfo.getType().equals("-请选择-")){
 			flag = false;
 			model.addAttribute("ERR_type", "请选择质检类型");
 		}
-		if(pqInfo.getConclusion().equals("-请选择-")){
+		if(pqInfo.getConclusion()==null||pqInfo.getConclusion().equals("-请选择-")){
 			flag = false;
 			model.addAttribute("ERR_conclusion", "请选择质检结论");
 		}

@@ -165,7 +165,7 @@
 				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
 				<td class="tc pointer">
-				<button type="button" onclick="view('${PqInfo.report}',this)" class="btn">质检报告</button>
+				<button type="button" onclick="openViewDIv('${PqInfo.id}','${PqInfo.report}','2','artice_show','this')" class="btn">质检报告</button>
 				</td>  				
 			</tr>
 		</c:forEach>

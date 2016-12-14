@@ -351,7 +351,7 @@
   
    <!-- 查询图片路径 -->
   <select id="queryPath" parameterType="Object" resultType="Object">
-  	select PATH
+  	select TYPE_ID
   	from T_SES_BMS_ATTACHMENT
   	WHERE 
 		BUSINESS_ID = #{id}

@@ -450,6 +450,10 @@ public class PurchaseContractController extends BaseSupplierController{
 	public PurchaseContract selectByCode(HttpServletRequest request) throws Exception{
 		String code = request.getParameter("code");
 		PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
+		if(purchaseCon==null){
+			purchaseCon=new PurchaseContract();
+			purchaseCon.setCode("ErrCode");
+		}
 		return purchaseCon;
 	}
 	
