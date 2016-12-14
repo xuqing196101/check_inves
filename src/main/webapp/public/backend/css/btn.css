@@ -333,7 +333,7 @@
     background-color: #000000;
     color: white; }
 
-.btn-windows {
+.btn-windows,.btn-windows:focus{
   background-color: #2c9fa6;
   border-color: #2c9fa6;
   color: #ffffff; 
@@ -342,9 +342,10 @@
   background-image:url(../images/icons.png);
   background-repeat: no-repeat;
   }
-  .btn-windows:hover {
+.btn-windows:hover{
     background-color: #48bbef;
-    color: white; }
+    color: white; 
+}
 
 .btn-android {
   background-color: transparent;
