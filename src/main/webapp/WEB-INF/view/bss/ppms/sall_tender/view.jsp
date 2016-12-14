@@ -91,6 +91,9 @@
 
       $(function() {
         $("#statusBid").find("option[value='${statusBid}']").attr("selected", true);
+        var index=0;
+        var divObj = $(".p0" + index);
+        $(divObj).removeClass("hide");
       })
     </script>
   </head>
@@ -152,7 +155,7 @@
 
         </div>
 
-        <div class="p0${index}">
+        <div class="p0${index} hide">
           <table class="table table-bordered table-condensed table-hover table-striped">
             <thead>
               <tr>
