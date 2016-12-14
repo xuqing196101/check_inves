@@ -40,7 +40,6 @@ function chongzhi(){
 
    
 	function selectAll(){
-		//alert($("#allId").prop("checked"));
 		if ($("#allId").prop("checked")) {  
             $("input[name=items]").each(function() {  
                 $(this).prop("checked", true);  
@@ -59,7 +58,7 @@ function chongzhi(){
 		
 		var parentTabArray = [];
 		var parentIndexArray = [];
-		parent.$("input[name='selectedItems']").each(function(){
+		parent.$("input[name='selectedItem']").each(function(){
 			parentTabArray.push($(this).val());
 			parentIndexArray.push($(this).parents('tr').find('td').eq(1).text());
 		});
@@ -94,7 +93,6 @@ function chongzhi(){
 		
 	function closess(){
 	   var index = parent.layer.getFrameIndex(window.name);
-	   alert(index);
 	   parent.layer.close(index);
 	}
 </script>

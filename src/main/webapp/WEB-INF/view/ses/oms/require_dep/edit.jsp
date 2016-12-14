@@ -140,7 +140,7 @@
         <li><a href="javascript:void(0)">后台管理</a></li>
         <li><a href="javascript:void(0)">机构管理</a></li>
         <c:if test="${orgnization.typeName == '0'}">
-		  <li class="active"><a href="javascript:void(0)">编辑组织机构</a></li>
+		  <li class="active"><a href="javascript:void(0)">编辑需求部门</a></li>
 		</c:if>
 		<c:if test="${orgnization.typeName == '2'}">
 		  <li class="active"><a href="javascript:void(0)">编辑管理部门</a></li>
@@ -155,7 +155,7 @@
     <sf:form action="${pageContext.request.contextPath}/purchaseManage/update.do" method="post" onsubmit="return check();" id="formID" modelAttribute="orgnization">
 	  <input type="hidden" id="typeName" name="typeName" value="${orgnization.typeName}" />
 	  <div>
-		<h2 class="count_flow"><i>1</i>修改基本信息</h2>
+		<h2 class="count_flow"><i>1</i>基本信息</h2>
 		<input type="hidden" name="depIds" id="depIds"/>
 		<input type="hidden" name="id" value="${orgnization.id}"/>
 		<ul class="ul_list">

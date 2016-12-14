@@ -143,7 +143,7 @@
 		<li><a href="javascript:void(0)">后台管理</a></li>
 		<li><a href="javascript:void(0)">机构管理</a></li>
 		<c:if test="${orgnization.typeName == '0'}">
-		  <li class="active"><a href="javascript:void(0)">新增组织机构</a></li>
+		  <li class="active"><a href="javascript:void(0)">新增需求部门</a></li>
 		</c:if>
 		<c:if test="${orgnization.typeName == '2'}">
 		  <li class="active"><a href="javascript:void(0)">新增管理部门</a></li>

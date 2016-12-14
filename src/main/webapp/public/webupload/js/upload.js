@@ -166,6 +166,7 @@
 			uploader.on( 'beforeFileQueued', function(file) {
 				if (!checkFileType(file.name)){
 					uploader.removeFile(file);
+					alert(1);
 					layer.msg("不支持上传文件类型!");
 					return;
 				}
@@ -213,10 +214,10 @@
 			
 			//判断文件类型
 			checkFileType = function (fileName){
-				var fileType = $("#"+$base+"_extId").val();
+				var fileType =$("#"+$base+"_extId").val();
 				var allType = $("#extensionId").val();
 				var fileExt = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase();
-				if (fileType == null || fileType == ""){
+				if (fileType == null || fileType == "" || fileType == "null" ){
 					if (allType.indexOf(fileExt) != -1){
 						return true;
 					}
