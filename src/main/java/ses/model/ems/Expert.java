@@ -146,6 +146,8 @@ public class Expert implements Serializable{
     
     private Integer sign; //1：专家:初审 2:专家复审
     
+    private String  sex;
+    
     public String getStepNumber() {
         return stepNumber;
     }
@@ -536,6 +538,14 @@ public class Expert implements Serializable{
 
 	public void setSign(Integer sign) {
 		this.sign = sign;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
     
     

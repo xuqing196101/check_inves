@@ -35,7 +35,6 @@
 		//审核
 		function shenhe() {
 			var size = $(":radio:checked").size();
-	
 			if(!size) {
 				layer.msg("请选择专家 !", {
 					offset: '100px',
@@ -43,9 +42,9 @@
 				return;
 			}
 			var id = $(":radio:checked").val();
-			/* var state = $("#" + id).parents("tr").find("td").eq(5).text().trim();
+			var state = $("#" + id).parent("tr").find("td").eq(8).text().trim();
 			var isExtract = $("#" + id + "_isExtract").text();
-			if(state == "已审核" || state == "审核核未通过" || state == "复核未通过" || state == "审核退回") {
+			if(state == "已审核" || state == "初审未通过" || state == "复核踢出" || state == "初审退回") {
 				layer.msg("请选择待审核项 !", {
 					offset: '100px',
 				});
@@ -57,8 +56,7 @@
 					offset: '100px',
 				});
 				return;
-			} */
-	
+			}
 			$("input[name='expertId']").val(id);
 			$("#shenhe_form_id").submit();
 		}
@@ -98,7 +96,9 @@
 	  	</form>
 			<form action="${pageContext.request.contextPath}/expertAudit/list.html" method="post" id="formSearch" class="mb0">
 				<input type="hidden" name="pageNum" id="pageNum">
+				<input type="hidden" name="sign" value="${sign }">
 				<ul class="demand_list">
+				
 					<li>
 						<label class="fl">姓名：</label><span><input type="text" id="relName" name="relName" value=""></span>
 					</li>
@@ -164,7 +164,7 @@
 							<td class="tc w40"><input name="id" type="radio" value="${expert.id}"></td>
 							<td class="tc w50">${vs.count}</td>
 							<td  class="tc">${expert.relName}</td>
-							<td  class="tc">${expert.gender}</td>
+							<td  class="tc">${expert.sex}</td>
 							<%-- <c:if test="${expert.expertsTypeId ==null}">
 								<td  class="tc"></td>
 							</c:if>
@@ -182,7 +182,7 @@
 							<td  class="tc">
 								<fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td>
-							<td  class="tc">${expert.honestyScore }</td>
+							<td  class="tc" id="${expert.id}">${expert.honestyScore }</td>
 							<c:if test="${expert.status eq '0' }">
 								<td  class="tc"><span class="label rounded-2x label-dark">待初审</span></td>
 							</c:if>

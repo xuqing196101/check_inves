@@ -26,14 +26,10 @@
 			}
 		</script>
 		<script type="text/javascript">
-			$("#"+obj.id+"").each(function() {
-		      auditField = $(this).parents("li").find("span").text().replace("：","");
-    		});
-		
-		
 			function reason(obj,str){
 			  var expertId = $("#expertId").val();
-			  var auditField;
+			  var showId =  obj.id+"1";
+			  alert(showId);
 		    $("#"+obj.id+"").each(function() {
 		      auditField = $(this).parents("li").find("span").text().replace("：","");
     		});
@@ -50,7 +46,7 @@
 				      dataType:"json",
 				      data:"suggestType=expertFile"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField
 				    });
-					
+					 $("#"+showId+"").css('visibility', 'visible');
 		      layer.close(index);
 			    });
 		  	}
@@ -83,12 +79,12 @@
 						<li class="col-md-6 p0 mt10 mb25">
 							<span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="application" onclick="reason(this);">专家申请表：</span>
 								<up:show showId="show1" groups="show1,show2" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" />
-								<a class="b f18 ml10 red">×</a>
+								<a class="b f18 ml10 red" style="visibility:hidden" id="application1">×</a>
 						</li>
 						<li class="col-md-6 p0 mt10 mb25">
 							<span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="contract" onclick="reason(this);">专家承诺书：</span>
 								<up:show showId="show2" groups="show1,show2" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" />
-								<a class="b f18 ml10 red">×</a>
+								<a class="b f18 ml10 red" style="visibility:hidden" id="contract1">×</a>
 						</li>
 					</ul>
 				</div>

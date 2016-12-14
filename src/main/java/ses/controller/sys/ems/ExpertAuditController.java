@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,10 +60,19 @@ public class ExpertAuditController {
 	private TodosService todosService; //待办
 	
 	@RequestMapping("/list")
-	public String expertAuditList(Expert expert, Model model, Integer pageNum){
+	public String expertAuditList(Expert expert, Model model, Integer pageNum, HttpServletRequest request){
+		if(expert.getSign() == null){
+			Integer signs = (Integer) request.getSession().getAttribute("signs");
+			expert.setSign(signs);
+			request.getSession().removeAttribute("signs");
+		}
+
 		List<Expert> expertList = expertService.findExpertAuditList(expert, pageNum==null?1:pageNum);
 		model.addAttribute("result", new PageInfo<Expert>(expertList));
 		model.addAttribute("expertList", expertList);
+		//初审复审标识（1初审，2复审）
+		model.addAttribute("sign", expert.getSign());
+		request.getSession().setAttribute("signs",  expert.getSign());
 		
 		return "ses/ems/expertAudit/list";
 	}
@@ -96,6 +107,7 @@ public class ExpertAuditController {
 		model.addAttribute("degree", degree.getName());
 
 		model.addAttribute("expertId", expertId);
+		
 		return "ses/ems/expertAudit/basic_info";
 	}
 	
