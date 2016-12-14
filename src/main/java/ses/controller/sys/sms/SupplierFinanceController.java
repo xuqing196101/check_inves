@@ -250,14 +250,9 @@ public class SupplierFinanceController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "auditEnd")
     public String auditEnd(@CurrentUser User user, Model model, SupplierFinance supplierFinance) {
-	    if (supplierFinance.getStatus() == 3) {
 	        todosService.updateIsFinish("supplier_finance/audit.html?id=" + supplierFinance.getId());
 	        supplierFinanceService.update(supplierFinance);
 	        return "redirect:/login/home.html";
-	    } else {
-	        supplierFinanceService.update(supplierFinance);
-	        return "redirect:/login/home.html";
-	    }
     }
 	
 	/**

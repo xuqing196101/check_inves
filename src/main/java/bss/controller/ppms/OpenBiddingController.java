@@ -949,30 +949,35 @@ public class OpenBiddingController {
         Templet templet = new Templet();
         templet.setTemType("招标公告");
         List<Templet> templets = templetService.search(1, templet);
-        String content = templets.get(0).getContent();
-        Article article1 = new Article();
-        String table = getContent(projectId);
-        Project p = projectService.selectById(projectId);
-        PurchaseDep pd = p.getPurchaseDep();
-        String contact = "";
-        String purchaserName = "";
-        String contactTelephone = "";
-        String contactAddress = "";
-        String fax = "";
-        String bank = "";
-        if (pd != null) {
-             contact = pd.getContact();
-             purchaserName = pd.getDepName();
-             contactTelephone = pd.getContactTelephone();
-             contactAddress = pd.getContactAddress();
-             fax = pd.getFax();
-             bank = pd.getBank();
+        if (templets != null) {
+            String content = templets.get(0).getContent();
+            Article article1 = new Article();
+            String table = getContent(projectId);
+            Project p = projectService.selectById(projectId);
+            PurchaseDep pd = null;
+            if (p != null) {
+                pd = p.getPurchaseDep();
+            }
+            String contact = "";
+            String purchaserName = "";
+            String contactTelephone = "";
+            String contactAddress = "";
+            String fax = "";
+            String bank = "";
+            if (pd != null) {
+                 contact = pd.getContact();
+                 purchaserName = pd.getDepName();
+                 contactTelephone = pd.getContactTelephone();
+                 contactAddress = pd.getContactAddress();
+                 fax = pd.getFax();
+                 bank = pd.getBank();
+            }
+            content = content.replace("projectDetail", table).replace("projectName", p.getName()).replace("projectNum", p.getProjectNumber());
+            content = content.replace("bidDate", new SimpleDateFormat("yyyy年MM月dd日").format(p.getBidDate())).replace("contact", contact);
+            content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
+            content = content.replace("address", contactAddress).replace("fax", fax).replace("bank", bank);
+            article1.setContent(content);
+            model.addAttribute("article", article1);
         }
-        content = content.replace("projectDetail", table).replace("projectName", p.getName()).replace("projectNum", p.getProjectNumber());
-        content = content.replace("bidDate", new SimpleDateFormat("yyyy年MM月dd日").format(p.getBidDate())).replace("contact", contact);
-        content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
-        content = content.replace("address", contactAddress).replace("fax", fax).replace("bank", bank);
-        article1.setContent(content);
-        model.addAttribute("article", article1);
     }
 }
