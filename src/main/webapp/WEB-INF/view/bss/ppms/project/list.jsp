@@ -230,7 +230,7 @@
   <div class="margin-top-10 breadcrumbs ">
     <div class="container">
 	  <ul class="breadcrumb margin-left-0">
-	    <li><a href="javascript:void(0)"> 首页</a></li>
+	    <li><a href="javascript:void(0)">首页</a></li>
 		<li><a href="javascript:void(0)">保障作业系统</a></li>
 		<li><a href="javascript:void(0)">采购项目管理</a></li>
 		<li class="active"><a href="javascript:void(0)">立项管理</a></li>
@@ -267,7 +267,7 @@
 	  </form>
     </h2>
 	<div class="col-md-12 pl20 mt10">
-      <a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/add.html">新增</a>
+      <a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/add.html">立项</a>
 	  <button class="btn btn-windows apply" onclick="start();" type="button">实施</button>
 	  <button class="btn btn-windows edit" onclick="edit();">修改</button>
 	</div>

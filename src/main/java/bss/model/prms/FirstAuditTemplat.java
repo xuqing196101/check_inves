@@ -3,6 +3,8 @@ package bss.model.prms;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 public class FirstAuditTemplat implements Serializable{
     /**
 	 * @Fields serialVersionUID : 
@@ -11,8 +13,13 @@ public class FirstAuditTemplat implements Serializable{
 
 	private String id;
 
+	  @NotNull(message = "名称不能为空")
     private String name;
 
+    /**
+     * 模板类型
+     */
+	  @NotNull(message = "模板类型不能为空")
     private String kind;
 
     private String creater;

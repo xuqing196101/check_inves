@@ -6,12 +6,14 @@
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="KIND" jdbcType="VARCHAR" property="kind" />
     <result column="CREATER" jdbcType="VARCHAR" property="creater" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="TEMPLAT_ID" jdbcType="VARCHAR" property="templatId" />
+    <result column="POSITION" jdbcType="DECIMAL" property="position" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, KIND, CREATER, CREATED_AT, UPDATED_AT, TEMPLAT_ID
+    ID, NAME, KIND, CREATER, CREATED_AT, UPDATED_AT, TEMPLAT_ID, POSITION, CONTENT
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -33,10 +35,10 @@
   <insert id="insert" parameterType="bss.model.prms.FirstAuditTemitem">
     insert into T_BSS_PRMS_FIRST_AUDIT_TEMITEM (ID, NAME, KIND, 
       CREATER, CREATED_AT, UPDATED_AT, 
-      TEMPLAT_ID)
+      TEMPLAT_ID, POSITION, CONTENT)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, 
-      #{creater,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, 
-      #{templatId,jdbcType=VARCHAR})
+      #{creater,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{templatId,jdbcType=VARCHAR}), #{position,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}
   </insert>
   <insert id="insertSelective" parameterType="bss.model.prms.FirstAuditTemitem">
     insert into T_BSS_PRMS_FIRST_AUDIT_TEMITEM
@@ -62,6 +64,12 @@
       <if test="templatId != null">
         TEMPLAT_ID,
       </if>
+      <if test="position != null">
+        POSITION,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -77,13 +85,19 @@
         #{creater,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="templatId != null">
         #{templatId,jdbcType=VARCHAR},
+      </if>
+       <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+       <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -100,13 +114,19 @@
         CREATER = #{creater,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="templatId != null">
         TEMPLAT_ID = #{templatId,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        POSITION = #{position},
+      </if>
+      <if test="content != null">
+        CONTENT =#{content},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -116,9 +136,21 @@
     set NAME = #{name,jdbcType=VARCHAR},
       KIND = #{kind,jdbcType=VARCHAR},
       CREATER = #{creater,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      TEMPLAT_ID = #{templatId,jdbcType=VARCHAR}
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      TEMPLAT_ID = #{templatId,jdbcType=VARCHAR},
+      POSITION = #{position},
+      CONTENT =#{content}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!--根据评审项类型查询  -->
+   <select id="find" parameterType="Object" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_FIRST_AUDIT_TEMITEM
+    where KIND = #{kind,jdbcType=VARCHAR}
+    AND TEMPLAT_ID = #{templatId,jdbcType=VARCHAR}
+    ORDER BY POSITION ASC
+  </select>
 </mapper>

@@ -346,7 +346,7 @@
 		<div class="container content height-300">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
-					<div class="padding-top-10">
+					<div class="padding-top-10" >
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">物资-生产型品目信息</a></li>
@@ -361,7 +361,7 @@
 								<li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class=" f18">服务品目信息</a></li>
 							</c:if>
 						</ul>
-						<div class="tab-content padding-top-20" id="tab_content_div_id">
+						<div class="tab-content padding-top-20" id="tab_content_div_id" style="float:left;width:300px;">
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
@@ -409,8 +409,12 @@
 								
 								
 							</c:if>
+							
 						</div>
 						
+						<div style="float:left;margin-top:30px;">
+						${err_item }
+						</div>
 				<%-- 		<div>
 						计算机附件
 						 <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25">

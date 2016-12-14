@@ -1,6 +1,8 @@
 package ses.service.ems.impl;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -84,8 +86,26 @@ public class ExpertServiceImpl implements ExpertService {
 		mapper.updateByPrimaryKeySelective(record);
 
 	}
-
-	/*@Override
+	
+	@Override
+    public int daysBetween(Date date) throws Exception{
+	    // 获取当前时间
+        Date nowDate = new Date();
+        // SimpleDateFormat
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+        date=sdf.parse(sdf.format(date));  
+        nowDate=sdf.parse(sdf.format(nowDate));  
+        Calendar cal = Calendar.getInstance();    
+        cal.setTime(date);    
+        long time1 = cal.getTimeInMillis();                 
+        cal.setTime(nowDate);    
+        long time2 = cal.getTimeInMillis();         
+        // 算出两个时间差,单位毫秒所以除以(1000*3600*24)
+        long betweenDays=(time2-time1)/(1000*3600*24);  
+        // 精确小数
+        return Integer.parseInt(String.valueOf(betweenDays)); 
+    }
+/*@Override
 	public List<Expert> selectLoginNameList(String loginName) {
 		List<Expert> expertList = mapper.selectLoginNameList(loginName);
 		return expertList;
@@ -297,26 +317,32 @@ public class ExpertServiceImpl implements ExpertService {
 			//查出当前登录的用户个人信息
 			Expert expert = mapper.selectByPrimaryKey(typeId);
 			if(expert!=null){
-				if((expert.getIsSubmit().equals("0") || expert.getStatus().equals("3"))&&!expert.getIsBlack().equals("1")){
-						//如果专家信息不为null 并且状态为暂存  或者为退回修改 就证明该专家填写过个人信息 需要重新填写 并注册提交审核
-						map.put("expert", "4");
+				if(expert.getIsSubmit().equals("0")&&!expert.getIsBlack().equals("1")){
+					//未提交
+					map.put("expert", "4");
 				} else if(expert.getStatus().equals("2")){
-					//如果审核未通过 或者已拉黑 则根据此状态阻止登录
+					//审核未通过
 					map.put("expert", "5");
 				}else if(expert.getIsBlack().equals("1")){
-	                    //如果审核未通过 或者已拉黑 则根据此状态阻止登录
+	                    //已拉黑
 	                    map.put("expert", "1");
 	            }else if(expert.getStatus().equals("0") && expert.getIsSubmit().equals("1") ){
 					//未审核
 					map.put("expert", "3");
-				}
+				}else if(expert.getStatus().equals("3") && !expert.getIsBlack().equals("1")){
+				    // 退回修改
+				    map.put("expert", "2");
+				}else if(expert.getStatus().equals("5")){
+                    // 复审踢除
+                    map.put("expert", "6");
+                }
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息
-				map.put("expert", "2");
+				map.put("expert", "4");
 			}
 		}else{
 			//如果用户关联的专家id为空 证明还没有填写过个人信息
-			map.put("expert", "2");
+			map.put("expert", "4");
 		}
 		return map;
 	}

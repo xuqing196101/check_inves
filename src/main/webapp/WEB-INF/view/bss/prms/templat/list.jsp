@@ -63,12 +63,9 @@
 			}
 		}
 	}
-	function clearSearch() {
-		$("#name").attr("value", "");
-	}
+	
 	function view(id) {
-		window.location.href = "${pageContext.request.contextPath}/auditTemplat/toAddFirstAudit.html?id="
-				+ id;
+		window.location.href = "${pageContext.request.contextPath}/auditTemplat/toAddFirstAudit.html?id="+id;
 	}
 	function edit() {
 		var id = [];
@@ -76,19 +73,11 @@
 			id.push($(this).val());
 		});
 		if (id.length == 1) {
-
-			window.location.href = "${pageContext.request.contextPath}/auditTemplat/toEdit.html?id="
-					+ id;
+			window.location.href = "${pageContext.request.contextPath}/auditTemplat/toEdit.html?id="+id;
 		} else if (id.length > 1) {
-			layer.alert("只能选择一个", {
-				offset : [ '222px', '390px' ],
-				shade : 0.01
-			});
+			layer.alert("只能选择一个", {offset : ['222px'],shade : 0.01});
 		} else {
-			layer.alert("请选择需要修改的模板", {
-				offset : [ '222px', '390px' ],
-				shade : 0.01
-			});
+			layer.alert("请选择需要修改的模板", {offset : ['222px'],shade : 0.01});
 		}
 	}
 	function addFirstAudit() {
@@ -97,19 +86,11 @@
 			id.push($(this).val());
 		});
 		if (id.length == 1) {
-
-			window.location.href = "${pageContext.request.contextPath}/auditTemplat/toAddFirstAudit.html?id="
-					+ id;
+			window.location.href = "${pageContext.request.contextPath}/auditTemplat/toAddFirstAudit.html?id="+ id;
 		} else if (id.length > 1) {
-			layer.alert("只能选择一个", {
-				offset : [ '222px', '390px' ],
-				shade : 0.01
-			});
+			layer.alert("只能选择一个", {offset : [ '222px'],shade : 0.01});
 		} else {
-			layer.alert("请选择一个模板", {
-				offset : [ '222px', '390px' ],
-				shade : 0.01
-			});
+			layer.alert("请选择一个模板", {offset : [ '222px'],shade : 0.01});
 		}
 	}
 	function del() {
@@ -118,28 +99,25 @@
 			ids.push($(this).val());
 		});
 		if (ids.length > 0) {
-			layer
-					.confirm(
-							'您确定要删除吗?',
-							{
-								title : '提示',
-								offset : [ '222px', '360px' ],
-								shade : 0.01
-							},
-							function(index) {
-								layer.close(index);
-								window.location.href = "${pageContext.request.contextPath}/auditTemplat/delete.html?ids="
-										+ ids;
-							});
-		} else {
-			layer.alert("请选择要删除模板", {
-				offset : [ '222px', '390px' ],
-				shade : 0.01
+			layer.confirm('您确定要删除吗?',{title : '提示',offset : [ '222px'],shade : 0.01},function(index) {
+				layer.close(index);
+				window.location.href = "${pageContext.request.contextPath}/auditTemplat/delete.html?ids="+ids;
 			});
+		} else {
+			layer.alert("请选择要删除模板", {offset : [ '222px'],shade : 0.01});
 		}
 	}
 	function add() {
 		window.location.href = "${pageContext.request.contextPath}/auditTemplat/toAdd.html";
+	}
+	
+	function resetQuery(){
+        $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+    }
+	
+	//编辑模板内容
+	function editItem(templetKind,templetId){
+		window.location.href = "${pageContext.request.contextPath}/auditTemplat/editItem.html?templetKind="+templetKind+"&templetId="+templetId;
 	}
 </script>
 <body>
@@ -165,27 +143,35 @@
 			<h2>模版管理</h2>
 		</div>
 		<!-- 查询 -->
-		<h2 class="search_detail">
+		<div class="search_detail">
 			<form action="${pageContext.request.contextPath}/auditTemplat/list.html" id="form1" method="post" class="mb0">
+				<input type="hidden" name="page" id="page">
 				<ul class="demand_list">
-					<li><label class="fl">模板名称：</label><span><input
-							type="text" id="name" name="name" value="${name }" />
-					</span>
+					<li>
+					   <label class="fl">模板名称：</label><input type="text" id="name" name="name" value="${name}" />
 					</li>
-					<button class="btn" type="submit">查询</button>
-					<input class="btn" id="button" onclick="clearSearch();" value="重置" type="reset">
+					<li>
+		               <label class="fl">模板类型：</label>
+		               <select class="w178" name="kind">
+			               <option value="">请选择</option>
+	                       <c:forEach items="${kinds}" var="k" varStatus="vs">
+                                  <option value="${k.id}" <c:if test="${k.id eq kind}">selected</c:if> >${k.name}</option>
+                           </c:forEach>
+		               </select>
+		            </li>
+		            <button class="btn" type="submit">查询</button>
+                    <button type="button" onclick="resetQuery()" class="btn">重置</button>
 				</ul>
 				<div class="clear"></div>
-				<input type="hidden" name="page" id="page">
 			</form>
-		</h2>
+		</div>
 
 		<!-- 表格开始-->
 		<div class="col-md-12 pl20 mt10">
-					<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-					<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-					<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-					<button class="btn btn-windows add" type="button" onclick="addFirstAudit()">初审项定义</button>
+			<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+			<button class="btn btn-windows add" type="button" onclick="addFirstAudit()">初审项定义</button>
 		</div>
 
 		<div class="content table_box">
@@ -196,12 +182,13 @@
 									onclick="selectAll()" />
 								</th>
 								<th class="info w50">序号</th>
-								<th class="info">模板名称</th>
-								<th class="info">模板类型</th>
-								<th class="info">是否公开</th>
+								<th class="info">名称</th>
+								<th class="info">类型</th>
+								<th class="info">操作</th>
+								<!-- <th class="info">是否公开</th>
 								<th class="info">创建人</th>
 								<th class="info">创建日期</th>
-								<th class="info">修改日期</th>
+								<th class="info">修改日期</th> -->
 							</tr>
 						</thead>
 						<c:forEach items="${list.list}" var="templet" varStatus="vs">
@@ -211,11 +198,19 @@
 									type="checkbox" name="chkItem" value="${templet.id}" />
 								</td>
 
-								<td class="tc opinter" onclick="view('${templet.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+								<td class="tc opinter" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 
-								<td class="tc opinter" onclick="view('${templet.id}')">${templet.name}</td>
+								<td class="tc opinter" >${templet.name}</td>
 
-								<td class="tc opinter" onclick="view('${templet.id}')">${templet.kind}</td>
+								<td class="tc opinter" >
+								    <c:forEach items="${kinds}" var="k" varStatus="vs">
+		                               <c:if test="${k.id eq templet.kind}">${k.name}</c:if>
+		                            </c:forEach>
+								</td>
+								<td class="tc opinter">
+								    <button class="btn btn-windows edit" type="button" onclick="editItem('${templet.kind}','${templet.id}')">编辑</button>
+								</td>
+								<%-- 
 								<c:if test="${templet.isOpen eq '0'}">
 									<td class="tc opinter" onclick="view('${templet.id}')">公开</td>
 								</c:if>
@@ -230,7 +225,7 @@
 								</td>
 								<td class="tc opinter" onclick="view('${templet.id}')"><fmt:formatDate
 										value='${templet.updatedAt}' pattern="yyyy-MM-dd " />
-								</td>
+								</td> --%>
 							</tr>
 						</c:forEach>
 					</table>

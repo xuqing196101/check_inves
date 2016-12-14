@@ -41,6 +41,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Deparent;
 import ses.model.oms.OrgInfo;
+import ses.model.oms.OrgLocale;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
@@ -55,6 +56,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.DepartmentServiceI;
 import ses.service.oms.OrgInfoService;
+import ses.service.oms.OrgLocaleService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
@@ -110,6 +112,9 @@ public class PurchaseManageController {
     
     @Autowired
     private OrgInfoService orgInfoService;
+    
+    @Autowired
+    private OrgLocaleService orgLocaleService;
 	
 	
 	/**
@@ -486,9 +491,15 @@ public class PurchaseManageController {
 	    String selectedItem = request.getParameter("ids");
 	    String[] purchaseUnitName = request.getParameterValues("purchaseUnitName");
 	    String[] purchaseUnitDuty = request.getParameterValues("purchaseUnitDuty");
+	    String[] siteType = request.getParameterValues("siteType");
+        String[] siteNumber = request.getParameterValues("siteNumber");
+        String[] location = request.getParameterValues("location");
+        String[] area = request.getParameterValues("area");
+        String[] crewSize = request.getParameterValues("crewSize");
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 	    List<Orgnization> purchaseOrgList = orgnizationServiceI.selectedItem(selectedItem);
 	    List<OrgInfo> orgInfos = orgInfoService.selectedInfo(purchaseUnitName,purchaseUnitDuty);
+	    List<OrgLocale> locales = orgLocaleService.selectedInfo(siteType, siteNumber,location,area,crewSize);
 	    if(result.hasErrors()){
 	        List<FieldError> errors = result.getFieldErrors();
 	        for (FieldError fieldError : errors) {
@@ -499,6 +510,7 @@ public class PurchaseManageController {
 	        map.put("id", purchaseDep.getId());
 	        model.addAttribute("lists", purchaseOrgList);
 	        model.addAttribute("orgInfos", orgInfos);
+	        model.addAttribute("locales", locales);
 	        return "ses/oms/purchase_dep/add";
 	    }
         if(!ValidateUtils.isNotNull(purchaseDep.getIsAuditSupplier())){
@@ -679,7 +691,8 @@ public class PurchaseManageController {
 	        return "ses/oms/purchase_dep/add";
 	    }
 	    
-	    purchaseOrgnizationServiceI.savePurchaseDep(purchaseDep,selectedItem,purchaseUnitName,purchaseUnitDuty);
+	    purchaseOrgnizationServiceI.savePurchaseDep(purchaseDep,selectedItem,purchaseUnitName,purchaseUnitDuty,
+	        siteType,siteNumber,location,area,crewSize);
 	    
 	    return "redirect:purchaseUnitList.html";
 	}
@@ -689,7 +702,13 @@ public class PurchaseManageController {
 	    String selectedItem = request.getParameter("ids");
 	    String[] purchaseUnitName = request.getParameterValues("purchaseUnitName");
         String[] purchaseUnitDuty = request.getParameterValues("purchaseUnitDuty");
+        String[] siteType = request.getParameterValues("siteType");
+        String[] siteNumber = request.getParameterValues("siteNumber");
+        String[] location = request.getParameterValues("location");
+        String[] area = request.getParameterValues("area");
+        String[] crewSize = request.getParameterValues("crewSize");
 	    List<Orgnization> purchaseOrgList = orgnizationServiceI.selectedItem(selectedItem);
+	    List<OrgLocale> locales = orgLocaleService.selectedInfo(siteType, siteNumber,location,area,crewSize);
 	    List<OrgInfo> orgInfos = orgInfoService.selectedInfo(purchaseUnitName,purchaseUnitDuty);
 	    if(result.hasErrors()){
             List<FieldError> errors = result.getFieldErrors();
@@ -699,6 +718,7 @@ public class PurchaseManageController {
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
             model.addAttribute("orgInfos", orgInfos);
+            model.addAttribute("locales", locales);
             return "ses/oms/purchase_dep/edit";
         }
         if(!ValidateUtils.isNotNull(purchaseDep.getIsAuditSupplier())){
@@ -856,12 +876,14 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }
-	    purchaseOrgnizationServiceI.update(purchaseDep,selectedItem,purchaseUnitName,purchaseUnitDuty);
+	    purchaseOrgnizationServiceI.update(purchaseDep,selectedItem,purchaseUnitName,purchaseUnitDuty,
+	        siteType,siteNumber,location,area,crewSize);
+	                                
 	    return "redirect:purchaseUnitList.html";
 	}
 	
 	@RequestMapping("deleteds")
-	public String deleteds(String id,String orgId){
+	public String deleteds(String id,String orgId,String purId){
 	    HashMap<String, Object> map = new HashMap<>();
 	    String[] ids = id.split(",");
 	    for (int i = 0; i < ids.length; i++ ) {
@@ -875,16 +897,25 @@ public class PurchaseManageController {
 	        
         }
 	    
-	    return "redirect:editPurchaseDep.html";
+	    return "redirect:editPurchaseDep.html?orgId="+orgId+"&id="+purId;
 	}
 	
 	@RequestMapping("delTr")
-    public String delTr(String id, String orgId){
+    public String delTr(String id, String orgId,String purId){
 	    String[] ids = id.split(",");
 	    for (int i = 0; i < ids.length; i++ ) {
 	        orgInfoService.deleteByPrimaryKey(ids[i]);
         }
-        return "redirect:editPurchaseDep.html?orgId="+orgId;
+        return "redirect:editPurchaseDep.html?orgId="+orgId+"&id="+purId;
+    }
+	
+	@RequestMapping("deletedSite")
+    public String deletedSite(String id, String orgId,String purId){
+        String[] ids = id.split(",");
+        for (int i = 0; i < ids.length; i++ ) {
+            orgLocaleService.deleteByPrimaryKey(ids[i]);
+        }
+        return "redirect:editPurchaseDep.html?orgId="+orgId+"&id="+purId;
     }
 	
 	
@@ -1140,9 +1171,22 @@ public class PurchaseManageController {
         model.addAttribute("lists", lists);
         //财务部门信息
         HashMap<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("orgId", purchaseDep.getOrgId());
+        if(orgId != null){
+            map1.put("orgId", orgId);
+        }else{
+            map1.put("orgId", purchaseDep.getOrgId());
+        }
         List<OrgInfo> list2 = orgInfoService.listByAll(map1);
         model.addAttribute("orgInfos", list2);
+        
+        HashMap<String, Object> map2 = new HashMap<String, Object>();
+        if(orgId != null){
+            map2.put("orgId", orgId);
+        }else{
+            map2.put("orgId", purchaseDep.getOrgId());
+        }
+        List<OrgLocale> list3 = orgLocaleService.listByAll(map2);
+        model.addAttribute("locales", list3);
 		//多文件上传
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
         model.addAttribute("PURCHASE_QUA_CERT_ID", DictionaryDataUtil.getId("PURCHASE_QUA_CERT"));

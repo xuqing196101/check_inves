@@ -21,6 +21,7 @@ session.setAttribute("tokenSession", tokenValue);
 		});
 	}
 	$(function(){
+		var count;
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/getAllCategory.do",
 			data:{"expertId":$("#id").val()},
@@ -56,8 +57,10 @@ session.setAttribute("tokenSession", tokenValue);
 						}
 					};
 					zTreeObj = $.fn.zTree.init($("#tab-" + (parseInt(i) + 1)), setting, zNodes);
+					zTreeObj.expandAll(true);//全部展开
 				});
 				$("#tab-1").attr("style", "");
+				$("#li_1").attr("class", "s_news f18");
 			}
 		});
 	});
@@ -91,6 +94,7 @@ session.setAttribute("tokenSession", tokenValue);
 			}
 		};
 		zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
+		zTreeObj.expandAll(true);//全部展开
 	}
 </script>
 <script type="text/javascript">
@@ -218,13 +222,13 @@ function fun1(count){
 	  	<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 		  <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">	  	
 			<c:if test="${cate.name eq '物资技术'}">
-			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a aria-expanded="true" data-toggle="tab" class="fujian f18">物资</a></li>
+			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="fujian f18">物资</a></li>
 			</c:if>
 			<c:if test="${cate.name eq '工程技术'}">
-			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a aria-expanded="true" data-toggle="tab" class="fujian f18">工程</a></li>
+			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="fujian f18">工程</a></li>
 			</c:if>
 			<c:if test="${cate.name eq '服务技术'}">
-			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a aria-expanded="false" data-toggle="tab" class="fujian f18">服务</a></li>
+			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="fujian f18">服务</a></li>
 			</c:if>
 		  </c:forEach>
 		</ul>

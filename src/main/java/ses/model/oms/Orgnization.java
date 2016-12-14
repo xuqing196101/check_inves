@@ -94,8 +94,11 @@ public class Orgnization implements Serializable {
     private String quaNormalReason;//资质启用理由
     private String quaTerminalReason;//资质终止理由
     
+    @NotBlank(message = "姓名不能为空") 
     private String contactName;//联系人姓名
-    private String contactMobile;//联系人姓名
+    
+    @NotBlank(message = "电话不能为空") 
+    private String contactMobile;//联系人电话
     
     /** 品目名称 */
     private transient String cateNames;

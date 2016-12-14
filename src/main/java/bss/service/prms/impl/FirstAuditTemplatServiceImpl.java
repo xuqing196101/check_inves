@@ -55,7 +55,7 @@ public class FirstAuditTemplatServiceImpl implements FirstAuditTemplatService {
 	public int save(FirstAuditTemplat record) {
 		// TODO Auto-generated method stub
 		//record.setIsOpen((short)0);
-		//record.setIsUse((short)0);
+		record.setIsUse((short)0);
 		record.setCreatedAt(new Date());
 		record.setId(WfUtil.createUUID());
 		return mapper.insertSelective(record);

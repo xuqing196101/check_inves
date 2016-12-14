@@ -1,5 +1,8 @@
 package ses.service.ems;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +67,18 @@ public interface ExpertService {
 	      * @return void
 	     */
 	    void updateByPrimaryKeySelective(Expert record);
+	    
+
+	    /**
+	     *〈简述〉
+	     * 计算时间差,判断提交申请时间够不够45天
+	     *〈详细描述〉
+	     * @author Dell
+	     * @param date
+	     * @return
+	     * @throws Exception 
+	     */
+	    public int daysBetween(Date date) throws Exception;
 	    /**
 	     * 
 	      * @Title: selectLoginNameList

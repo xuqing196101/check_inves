@@ -37,6 +37,22 @@
             	  var boo=result.bool;
             	  var obj=result.fiance;
 	 	          if(boo==false){
+	 	        	  
+	 	        	  $("#fiance_name").text(result.name);
+	                  $("#finace_phone").text(result.phone);
+	                  $("#finace_auditor").text(result.auditors);
+	                  $("#finace_gains").text(result.assets);
+	                  $("#finace_debt").text(result.bilit);
+	                  $("#finace_total").text(result.noAssets);
+	                  $("#finace_take").text(result.taking);
+	              /*     $("#cert_sdate").text(result.aDate); */
+	                  $("#finace_audit_file").text(result.err_taxCert);
+	                  $("#finace_dept_file").text(result.err_bil);
+	                  $("#finace_gains_file").text(result.err_security);
+	                  $("#finace_cash_file").text(result.err_bearch);
+	                  
+	                  
+	                  
                 	 //   layer.msg(",{offset: ['150px', '180px']});     	 
                  } else{
                 	  //parent.location.reload();
@@ -138,16 +154,19 @@
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>会计事务所名称：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input type="text" name="name" />
+													<div class="cue" id="fiance_name"></div>
 												</div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>事务所联系电话：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input type="text" name="telephone" />
+													<div class="cue" id="finace_phone"></div>
 												</div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>审计人姓名：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input type="text" name="auditors" />
+													<div class="cue" id="finace_auditor"></div>
 												</div>
 											</li>
 											<!-- <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>指标：</span>
@@ -158,38 +177,46 @@
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资产总额（万元）：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input  onkeyup="checknums(this)" type="text" name="totalAssets" />
+													<div class="cue" id="finace_gains"></div>
 												</div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>负债总额（万元）：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input onkeyup="checknums(this)" type="text" name="totalLiabilities" />
+													<div class="cue" id="finace_debt"></div>
 												</div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>净资产总额（万元）：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input onkeyup="checknums(this)" type="text" name="totalNetAssets" />
+													<div class="cue" id="finace_total"></div>
 												</div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>营业收入（万元）：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input onkeyup="checknums(this)" type="text" name="taking" />
+													<div class="cue" id="finace_take"></div>
 												</div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>财务审计报告意见：</span>
 												<up:upload  multiple="true" id="auditopinion_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}" auto="true" />
 												<up:show showId="auditopinion_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}"/>
+												<div class="cue" id="finace_audit_file"></div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资产负债表：</span>
 												<up:upload  multiple="true" id="liabilities_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}" auto="true" />
 												<up:show showId="liabilities_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}"/>
+												<div class="cue" id="finace_dept_file"></div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>利润表：</span>
 												<up:upload  multiple="true" id="profit_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}" auto="true" />
 												<up:show showId="profit_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}"/>
+												<div class="cue" id="finace_gains_file"></div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>现金流量表：</span>
 												<up:upload  multiple="true" id="cashflow_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}" auto="true" />
 												<up:show showId="cashflow_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}"/>
+												<div class="cue" id="finace_cash_file"></div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所有者权益变动表：</span>
 												<up:upload  multiple="true" id="ownerchange_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" />

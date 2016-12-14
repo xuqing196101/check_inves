@@ -125,5 +125,9 @@ public class FirstAuditTemitemServiceImpl implements FirstAuditTemitemService {
 		// TODO Auto-generated method stub
 		return mapper.selectByTemplatId(templatId);
 	}
+    @Override
+    public List<FirstAuditTemitem> find(FirstAuditTemitem record) {
+      return mapper.find(record);
+    }
 
 }

@@ -722,8 +722,18 @@ public class ProjectController extends BaseController {
     public void viewPackage(String id, HttpServletResponse response) throws IOException{
         HashMap<String,Object> map = new HashMap<String,Object>();
         map.put("id", id);
-        List<ProjectDetail> detail = detailService.selectById(map);
-        String json = JSON.toJSONStringWithDateFormat(detail, "yyyy-MM-dd HH:mm:ss");
+        List<ProjectDetail> details = detailService.selectById(map);
+        List<ProjectDetail> bottomDetails = new ArrayList<>();
+        for(ProjectDetail detail:details){
+        	HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",detail.getRequiredId());
+            detailMap.put("projectId", id);
+            List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+            if(dlist.size()==1){
+                bottomDetails.add(detail);
+            }
+        }
+        String json = JSON.toJSONStringWithDateFormat(bottomDetails, "yyyy-MM-dd HH:mm:ss");
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().write(json);
         response.getWriter().flush();

@@ -127,26 +127,24 @@ public class LoginController {
                         Map<String, Object> map = expertService.loginRedirect(u);
                         Object object = map.get("expert");
                         if (object != null) {
-                            // 拉黑 阻止登录
                             if (object.equals("1")) {
+                                // 拉黑
                                 out.print("black");
                             } else if(object.equals("5")){
+                                // 未通过
                                 out.print("reject");
-                            } else if (object.equals("2")) {
-                                req.getSession().setAttribute("loginUser", u);
-                                req.getSession().setAttribute("resource", u.getMenus());
-                                // 信息为空 重新填写
-                                out.print("empty," + u.getId());
                             } else if (object.equals("3")) {
-                                req.getSession().setAttribute("loginUser", u);
-                                req.getSession().setAttribute("resource", u.getMenus());
-                                out.print("scuesslogin");
+                                // 待审核
+                                out.print("auditExp," + u.getId());
                             } else if (object.equals("4")) {
-                                req.getSession().setAttribute("loginUser", u);
-                                req.getSession().setAttribute("resource", u.getMenus());
-                                // 暂存 或者 退回
-                                // Expert expert = (Expert)object;
+                                // 未提交
+                                out.print("firset," + u.getId());
+                            } else if (object.equals("2")) {
+                                // 退回修改
                                 out.print("reset," + u.getId());
+                            } else if (object.equals("6")) {
+                                // 复审踢除
+                                out.print("weed");
                             }
                         } else {
                             req.getSession().setAttribute("loginUser", u);

@@ -234,7 +234,7 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
       </div>
     </div>
 
-    <form id="save_form_id" action="${pageContext.request.contextPath}/project/create.html" method="post" target="_parent">
+    <form id="save_form_id" action="${pageContext.request.contextPath}/project/create.html" method="post">
       <input id="detail_id" name="id" type="hidden" />
     </form>
   </body>

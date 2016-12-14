@@ -261,7 +261,7 @@
                 <option selected="selected" value="">请选择</option>
                 <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>已下达</option>
                 <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>受领</option>
-                <option value="0" <c:if test="${'2'==task.status}">selected="selected"</c:if>>已取消</option>
+                <option value="2" <c:if test="${'2'==task.status}">selected="selected"</c:if>>已取消</option>
               </select>
             </span>
           </li>

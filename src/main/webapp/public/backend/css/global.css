@@ -1070,3 +1070,12 @@ table .input_group .add-on{
 	margin-left: 5px;
 	font-size: 13px;
 }
+
+/* 评审项添加按钮 */
+.item_size{
+	height: 20px;
+	width:20px;
+	display: block;
+	float: left;
+	
+}

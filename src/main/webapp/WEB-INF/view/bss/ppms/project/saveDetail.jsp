@@ -156,7 +156,7 @@
       </table>
     </div>
   </div>
-  <form id="save_form_id" action="${pageContext.request.contextPath}/project/add.html" method="post" target="_parent">
+  <form id="save_form_id" action="${pageContext.request.contextPath}/project/add.html" method="post">
     <input id="detail_id" name="id" type="hidden" />
     <input  name="checkedIds" value="${checkedIds}" type="hidden" />
     <input name="name" type="hidden" value="${name}" />

@@ -69,7 +69,7 @@
 		       d.EMAIL      as email,
 		       d.STATUS     as status
 		       d.CONTACT_NAME      as contactName,
-           d.CONTACT_MOBILE     as contactMobile
+           d.CONTACT_MOBILE     as contactMobile,
 		  from T_SES_OMS_ORG     d
 		       where d.ID =#{id}
    </select>
@@ -111,7 +111,7 @@
 		       d.EMAIL      as email,
 		       d.STATUS     as status
 		       d.CONTACT_NAME      as contactName,
-           d.CONTACT_MOBILE     as contactMobile
+           d.CONTACT_MOBILE     as contactMobile,
 		       from T_SES_OMS_ORG d
 		       
 		       where d.ID =#{id}
@@ -197,7 +197,7 @@
 		       d.IS_ROOT         as isRoot,
 		       d.EMAIL      as email,
 		       d.CONTACT_NAME      as contactName,
-           d.CONTACT_MOBILE     as contactMobile
+           d.CONTACT_MOBILE     as contactMobile,
 		       a.NAME as provinceName
 		  from T_SES_OMS_ORG     d
 		  left join T_SES_BMS_AREA a
@@ -495,10 +495,10 @@
 		 		IS_DELETED=#{isDeleted},
 		 	</if>
 		 	<if test="contactName != null">
-        CONTACT_NAME=#{contactName},
+        CONTACT_NAME =#{contactName},
       </if>
       <if test="contactMobile != null">
-        CONTACT_MOBILE=#{contactMobile},
+        CONTACT_MOBILE =#{contactMobile},
       </if>
 		 	</set>
 	     where ID=#{id}     
