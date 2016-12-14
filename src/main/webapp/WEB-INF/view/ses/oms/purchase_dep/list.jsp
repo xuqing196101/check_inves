@@ -138,21 +138,15 @@
 	function submit() {
 		$("#form1").submit();
 	}
-	function purchaseStash(quaStatus){
+	function purchaseStash(opera,title,status){
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){
-			
-		}else if(id.length>1){
-			layer.alert("只能选择一条记录",{offset: ['222px', '390px'], shade:0.01});
-			return;
-		}else{
-			layer.alert("请选择一条记录",{offset: ['222px', '390px'], shade:0.01});
-			return ;
+		if(id.length != 1){
+			layer.msg("请选择一个采购机构进行" + opera);
 		}
-		var title = "确定暂停采购机构资质吗?";
+		var title = title;
 		var status = $("#"+id[0]).text().trim();
 		if(status=="终止"){
 			layer.alert("已终止不可暂停",{offset: ['222px', '390px'], shade:0.01});
