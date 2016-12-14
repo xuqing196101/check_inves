@@ -9,6 +9,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -17,6 +19,7 @@ import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierFinanceService;
+import ses.util.PropertiesUtil;
 
 /**
  * @Title: SupplierFinanceServiceImpl
@@ -50,7 +53,9 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 	@Override
 	public void deleteFinance(String financeIds) {
 		for (String id : financeIds.split(",")) {
-			supplierFinanceMapper.deleteByPrimaryKey(id);
+		    SupplierFinance sf = supplierFinanceMapper.selectByPrimaryKey(id);
+		    sf.setIsDeleted(1);
+			supplierFinanceMapper.updateByPrimaryKeySelective(sf);
 		}
 	}
 
@@ -101,25 +106,31 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		SupplierDictionaryData supplierDictionaryData = dictionaryDataServiceI.getSupplierDictionary();
 		if(finance!=null){
 			List<UploadFile> proList = uploadService.getFilesOther(id, supplierDictionaryData.getSupplierProfit(), String.valueOf(Constant.SUPPLIER_SYS_KEY));
-			finance.setProfitListId(proList.get(0).getId());
-			finance.setProfitList(proList.get(0).getName());
+			if(proList != null && proList.size() > 0) {
+			    finance.setProfitListId(proList.get(0).getId());
+	            finance.setProfitList(proList.get(0).getName());
+			}
 			
 			List<UploadFile> autitList = uploadService.getFilesOther(id, supplierDictionaryData.getSupplierAuditOpinion(), String.valueOf(Constant.SUPPLIER_SYS_KEY));
-			finance.setAuditOpinionId(autitList.get(0).getId());
-			finance.setAuditOpinion(autitList.get(0).getName());
-			
+			if(autitList != null && autitList.size() > 0) {
+			    finance.setAuditOpinionId(autitList.get(0).getId());
+			    finance.setAuditOpinion(autitList.get(0).getName());
+			}
 			List<UploadFile> liabList = uploadService.getFilesOther(id, supplierDictionaryData.getSupplierLiabilities(), String.valueOf(Constant.SUPPLIER_SYS_KEY));
-			finance.setLiabilitiesListId(liabList.get(0).getId());
-			finance.setLiabilitiesList(liabList.get(0).getName());
-			
+			if(liabList != null && liabList.size() > 0){
+			    finance.setLiabilitiesListId(liabList.get(0).getId());
+			    finance.setLiabilitiesList(liabList.get(0).getName());
+			}
 			List<UploadFile> cahsList = uploadService.getFilesOther(id, supplierDictionaryData.getSupplierCashFlow(), String.valueOf(Constant.SUPPLIER_SYS_KEY));
-			finance.setCashFlowStatementId(cahsList.get(0).getId());
-			finance.setCashFlowStatement(cahsList.get(0).getName());
-			
+			if(cahsList != null && cahsList.size() > 0){
+			    finance.setCashFlowStatementId(cahsList.get(0).getId());
+			    finance.setCashFlowStatement(cahsList.get(0).getName());
+			}
 			List<UploadFile> ownList = uploadService.getFilesOther(id, supplierDictionaryData.getSupplierOwnerChange(), String.valueOf(Constant.SUPPLIER_SYS_KEY));
-			finance.setChangeListId(ownList.get(0).getId());
-			finance.setChangeList(ownList.get(0).getName());
-			
+			if(ownList != null && ownList.size() > 0){
+			    finance.setChangeListId(ownList.get(0).getId());
+			    finance.setChangeList(ownList.get(0).getName());
+			}
 //			List<UploadFile> file = finance.getListUploadFiles();
 //			for(UploadFile uf:file){
 //				if (supplierDictionaryData.getSupplierProfit().equals(uf.getTypeId())) {
@@ -216,5 +227,21 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		return supplierFinanceMapper.getFinacne(supplierId, year);
 	}
 
+    @Override
+    public List<SupplierFinance> selectFinanceBySupplierId(SupplierFinance supplierFinance, Integer page) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage(page, Integer.parseInt(config.getString("pageSize")));
+        List<SupplierFinance> listSf = supplierFinanceMapper.findFinanceBySid(supplierFinance);
+        return listSf;
+    }
 
+    @Override
+    public void update(SupplierFinance supplierFinance) {
+        supplierFinanceMapper.updateByPrimaryKeySelective(supplierFinance);
+    }
+
+    @Override
+    public void save(SupplierFinance supplierFinance) {
+        supplierFinanceMapper.insertSelective(supplierFinance);        
+    }
 }

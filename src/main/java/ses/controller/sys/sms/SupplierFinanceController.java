@@ -1,43 +1,40 @@
 package ses.controller.sys.sms;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.alibaba.fastjson.JSON;
-
-import common.constant.Constant;
-import common.model.UploadFile;
-import common.service.UploadService;
+import ses.model.bms.Todos;
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.TodosService;
 import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierService;
-import ses.util.FtpUtil;
 import ses.util.PropUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 @Controller
 @Scope("prototype")
@@ -55,6 +52,12 @@ public class SupplierFinanceController extends BaseSupplierController {
 	
 	@Autowired
 	private UploadService uploadService;
+	
+    /**
+     * 发送待办服务层    
+     */
+    @Autowired
+    private TodosService todosService;
 	
 	@RequestMapping(value = "add_finance")
 	public String addCertEng(Model model, SupplierFinance supplierFinance) {
@@ -126,40 +129,243 @@ public class SupplierFinanceController extends BaseSupplierController {
 		return "ses/sms/supplier_register/basic_info";
 	}
 	
-	public void setFinanceUpload(HttpServletRequest request, SupplierFinance supplierFinance) throws IOException {
-		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-		if (multipartResolver.isMultipart(request)) {// 检查form中是否有enctype="multipart/form-data"
-			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;// 将request变成多部分request
-			Iterator<String> its = multiRequest.getFileNames();// 获取multiRequest 中所有的文件名
-			while (its.hasNext()) {// 循环遍历
-				String str = its.next();
-				MultipartFile file = multiRequest.getFile(str);
-				String fileName = file.getOriginalFilename();
-				if (file != null && file.getSize() > 0) {
-					String path = super.getStashPath(request) + fileName;// 获取暂存路径
-					file.transferTo(new File(path));// 暂存
-					FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));// 连接 ftp 服务器
-					String newfileName = FtpUtil.upload(new File(path));// 上传到 ftp 服务器, 获取新的文件名
-					FtpUtil.closeFtp();// 关闭 ftp
-					super.removeStash(request, fileName);// 移除暂存
-					
-					// 上面代码固定, 下面封装名字到对象
-					if (str.equals("auditOpinionFile")) {
-						supplierFinance.setAuditOpinion(newfileName);
-					} else if (str.equals("liabilitiesListFile")) {
-						supplierFinance.setLiabilitiesList(newfileName);
-					} else if (str.equals("profitListFile")) {
-						supplierFinance.setProfitList(newfileName);
-					} else if (str.equals("cashFlowStatementFile")) {
-						supplierFinance.setCashFlowStatement(newfileName);
-					} else if (str.equals("changeListFile")) {
-						supplierFinance.setChangeList(newfileName);
-					}
-				}
-			}
-		}
+	/**
+	 *〈简述〉打开修改页面 财务审计报告
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param model
+	 * @param supplierFinance
+	 * @return String
+	 */
+	@RequestMapping(value = "edit")
+    public String edit(Model model, SupplierFinance supplierFinance) {
+        supplierFinance = supplierFinanceService.queryById(supplierFinance.getId());
+        model.addAttribute("supplierFinance", supplierFinance);
+        model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
+        model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+        model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+        return "bss/supplier/finance/edit";
+    }
+	
+	/**
+	 *〈简述〉查看详情
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param model
+	 * @param supplierFinance
+	 * @return String
+	 */
+	@RequestMapping(value = "show")
+    public String show(Model model, SupplierFinance supplierFinance) {
+        supplierFinance = supplierFinanceService.queryById(supplierFinance.getId());
+        model.addAttribute("supplierFinance", supplierFinance);
+        model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
+        model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+        model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+        return "bss/supplier/finance/show";
+    }
+	
+	/**
+	 *〈简述〉打开增加页面
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param user
+	 * @param model
+	 * @param supplierFinance
+	 * @return String
+	 */
+	@RequestMapping(value = "add")
+    public String add(@CurrentUser User user, Model model, SupplierFinance supplierFinance) {
+        model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
+        model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+        model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+        return "bss/supplier/finance/add";
+    }
+	
+	/**
+	 *〈简述〉保存
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param user
+	 * @param model
+	 * @param supplierFinance
+	 * @return String
+	 */
+	@RequestMapping(value = "save")
+    public String save(@CurrentUser User user, Model model, SupplierFinance supplierFinance) {
+	    Map<String ,Object> map = validate(supplierFinance);
+	    if (map.get("bool").equals(true)) {
+	        supplierFinance.setSupplierId(user.getTypeId());
+	        supplierFinance.setIsDeleted(0);
+	        supplierFinance.setCreatedAt(new Timestamp(new Date().getTime()));
+	        supplierFinanceService.save(supplierFinance);
+	        Supplier supplier = supplierService.get(supplierFinance.getSupplierId());
+	        Todos todo = new Todos();
+	        todo.setSenderId(user.getId());
+	        todo.setOrgId(supplier.getProcurementDepId());
+	        todo.setPowerId(PropUtil.getProperty("gysedit"));
+	        todo.setUndoType((short) 1);
+	        todo.setName("财务审计报告审核");
+	        todo.setIsDeleted((short) 0);
+	        todo.setCreatedAt(new Date());
+	        todo.setUrl("supplier_finance/audit.html?id=" + supplierFinance.getId());
+	        todosService.insert(todo);
+	        return "redirect:list.html";
+	    } else {
+	        model.addAttribute("uuid", supplierFinance.getId());
+	        model.addAttribute("supplierFinance", supplierFinance);
+	        model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+	        model.addAttribute("map", map);
+	        model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+	        return "bss/supplier/finance/add";
+	    }
+    }
+	
+	/**
+	 *〈简述〉打开审核页面
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param user
+	 * @param model
+	 * @param supplierFinance
+	 * @return String
+	 */
+	@RequestMapping(value = "audit")
+    public String audit(@CurrentUser User user, Model model, SupplierFinance supplierFinance) {
+	    SupplierFinance sf = supplierFinanceService.queryById(supplierFinance.getId());
+	    model.addAttribute("supplierFinance", sf);
+	    model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+	    model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+        return "bss/supplier/finance/audit";
+    }
+	
+	/**
+	 *〈简述〉审核结束
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param user
+	 * @param model
+	 * @param supplierFinance
+	 * @return String
+	 */
+	@RequestMapping(value = "auditEnd")
+    public String auditEnd(@CurrentUser User user, Model model, SupplierFinance supplierFinance) {
+	    if (supplierFinance.getStatus() == 3) {
+	        todosService.updateIsFinish("supplier_finance/audit.html?id=" + supplierFinance.getId());
+	        supplierFinanceService.update(supplierFinance);
+	        return "redirect:/login/home.html";
+	    } else {
+	        supplierFinanceService.update(supplierFinance);
+	        return "redirect:/login/home.html";
+	    }
+    }
+	
+	/**
+	 *〈简述〉更新
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param user
+	 * @param model
+	 * @param supplierFinance
+	 * @return String
+	 */
+	@RequestMapping(value = "update")
+    public String update(@CurrentUser User user, Model model, SupplierFinance supplierFinance) {
+	    Map<String ,Object> map = validate(supplierFinance);
+        if (map.get("bool").equals(true)) {
+            supplierFinanceService.update(supplierFinance);
+            return "redirect:list.html";
+        } else {
+            supplierFinance = supplierFinanceService.queryById(supplierFinance.getId());
+            model.addAttribute("supplierFinance", supplierFinance);
+            model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
+            model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+            model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+            return "bss/supplier/finance/edit";
+        }
+    }
+	
+	/**
+	 *〈简述〉提交
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param id
+	 * @return boolean
+	 */
+	@RequestMapping(value = "tijiao")
+	@ResponseBody
+	public boolean tijiao(String id) {
+	    boolean data = true;
+	    SupplierFinance supplierFinance = supplierFinanceService.queryById(id);
+	    if (supplierFinance.getStatus() == 2 || supplierFinance.getStatus() ==3 || supplierFinance.getStatus() ==5) {
+	        data = false;
+	    } else {
+	        supplierFinance.setStatus(2);
+	        supplierFinanceService.update(supplierFinance);
+	    }
+	    return data;
 	}
 	
+	
+	/**
+	 *〈简述〉分页list
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param user
+	 * @param model
+	 * @param supplierFinance
+	 * @param page
+	 * @return String
+	 */
+    @RequestMapping(value = "list")
+    public String list(@CurrentUser User user, Model model, SupplierFinance supplierFinance, Integer page) {
+        supplierFinance.setSupplierId(user.getTypeId());
+        List<SupplierFinance> listSf = supplierFinanceService.selectFinanceBySupplierId(supplierFinance, page == null ? 0 : page);
+        /*SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
+        for (SupplierFinance sf : listSf) {
+            //财务利润
+            List<UploadFile> tlist1 = uploadService.getFilesOther(sf.getId(), supplierDictionary.getSupplierProfit(), Constant.SUPPLIER_SYS_KEY.toString());
+            //审计报告意见
+            List<UploadFile> tlist2 = uploadService.getFilesOther(sf.getId(), supplierDictionary.getSupplierAuditOpinion(), Constant.SUPPLIER_SYS_KEY.toString());
+            //资产负债
+            List<UploadFile> tlist3 = uploadService.getFilesOther(sf.getId(), supplierDictionary.getSupplierLiabilities(), Constant.SUPPLIER_SYS_KEY.toString());
+            //现金流量表
+            List<UploadFile> tlist4 = uploadService.getFilesOther(sf.getId(), supplierDictionary.getSupplierCashFlow(), Constant.SUPPLIER_SYS_KEY.toString());
+            //权益变动表
+            List<UploadFile> tlist5 = uploadService.getFilesOther(sf.getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString());
+            if (tlist1 != null && tlist1.size() > 0) {
+                sf.setProfitList(tlist1.get(0).getName());
+            }
+            if (tlist2 != null && tlist2.size() > 0) {
+                sf.setAuditOpinion(tlist2.get(0).getName());
+            }
+            if (tlist3 != null && tlist3.size() > 0) {
+                sf.setLiabilitiesList(tlist3.get(0).getName());
+            }
+            if (tlist4 != null && tlist4.size() > 0) {
+                sf.setCashFlowStatement(tlist4.get(0).getName());
+            }
+            if (tlist5 != null && tlist5.size() > 0) {
+                sf.setChangeList(tlist5.get(0).getName());
+            }
+        }*/
+        model.addAttribute("listSf", new PageInfo<>(listSf));
+        model.addAttribute("finance", supplierFinance);
+        return "bss/supplier/finance/list";
+    }
+    
+    /**
+     *〈简述〉删除
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param id
+     * @return String
+     */
+    @RequestMapping(value = "delete")
+    public String delete(String id) {
+        supplierFinanceService.deleteFinance(id);
+        return "redirect:list.html";
+    }
 	
 	
 	public  Map<String,Object>  validate(SupplierFinance supplierFinance){

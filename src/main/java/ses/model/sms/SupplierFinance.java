@@ -2,6 +2,7 @@ package ses.model.sms;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -154,7 +155,7 @@ public class SupplierFinance implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.CREATED_AT
 	 * </pre>
 	 */
-	private Date createdAt;
+	private Timestamp createdAt;
 
 	/**
 	 * <pre>
@@ -162,15 +163,43 @@ public class SupplierFinance implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.UPDATED_AT
 	 * </pre>
 	 */
-	private Date updatedAt;
+	private Timestamp updatedAt;
 
 	private Integer sign;
 
 	private List<UploadFile> listUploadFiles = new ArrayList<UploadFile>();
 
 	private String threeYear;
+	/**增加删除 和审核状态 和文件名称*/
+	private Integer isDeleted;
+	private Integer status;
+	private String fileName;
 	
-	public String getId() {
+	public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getId() {
 		return id;
 	}
 
@@ -298,23 +327,25 @@ public class SupplierFinance implements Serializable {
 		this.supplierId = supplierId;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+	
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+	public Timestamp getCreatedAt() {
+        return createdAt;
+    }
 
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
 
-	public Integer getSign() {
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Integer getSign() {
 		return sign;
 	}
 

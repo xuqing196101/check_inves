@@ -114,5 +114,14 @@ public interface SupplierFinanceMapper {
 	 */
 	SupplierFinance getFinacne(@Param("supplierId")String supplierId,@Param("year")String year);
 	
+	/**
+	 *〈简述〉按照供应商 id查询财务信息集合
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param supplierId
+	 * @return List<SupplierFinance>
+	 */
+	List<SupplierFinance> findFinanceBySid(SupplierFinance supplierFinance);
+	
 	
 }
