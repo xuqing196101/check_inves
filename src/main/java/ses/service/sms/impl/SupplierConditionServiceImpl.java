@@ -95,4 +95,14 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
     public Integer getCount(String packId) {
         return conditionMapper.getCount(packId);
     }
+
+    /**
+     * 直接删除查询不出结果的查询条件
+     * @return 
+     * @see ses.service.sms.SupplierConditionService#delById(java.lang.String)
+     */
+    @Override
+    public Integer delById(String Id) {
+        return conditionMapper.deleteByPrimaryKey(Id);
+    }
 }

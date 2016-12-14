@@ -38,6 +38,27 @@
 		    }
 		});
   });
+  
+  function extract(id,btn){
+//    layer.open({
+//           type: 2, //page层
+//           area: ['90%', '50%'],
+//           title: '供应商抽取 项目名称： ${projectName}',
+//           closeBtn: 1,
+//           shade:0.01, //遮罩透明度
+//           shadeClose: true,
+//           offset: '30px',
+//           move:false,
+//           content: '${pageContext.request.contextPath}/SupplierExtracts/extractCondition.html?cId='+id,
+//           end:function(){
+//            window.location.reload();
+//           }
+//         });
+    window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id="+id+"&&typeclassId=${typeclassId}";
+//    $(btn).next().remove();
+//   $(btn).parent().parent().find("td:eq(2)").html("抽取中");
+  }
+  
   	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName("chkItem");
@@ -205,106 +226,43 @@
   </script>
 <body>
 
-	<!--=== Content Part ===-->
-	<div class="container content height-350">
-		<div class="row">
-			<!-- Begin Content -->
-			<div class="col-md-12" id="count" style="min-height: 400px;">
-				<div id="extcontype">
-					<c:forEach var="con" items="${extConType}">
-						<c:if test="${con.categoryName != null && con.categoryName != ''}">
-                                                                 抽取品目 :${fn:replace(con.categoryName, "^", ",")}
-                    </c:if>
-						<c:if test="${con.isMulticondition != null && isMulticondition != ''}">
-
-							<c:if test="${con.isMulticondition==1}">
-                            满足一个条件,
-                                                               
-                    </c:if>
-							<c:if test="${con.isMulticondition==2}">
-                          满足多个条件,                             
-                    </c:if>
-                                                                    抽取数量${con.alreadyCount}/${con.supplieCount }
-                        </c:if>
-						<br />
-					</c:forEach>
-				</div>
-				<div class="col-md-12" style="min-height: 400px;">
-
-					<div class="clear"></div>
-					<table id="table" class="table table-bordered table-condensed">
-						<thead>
-							<tr>
-								<th class="info w50">序号</th>
-								<th class="info">供应商名称</th>
-								<th class="info">类型，级别</th>
-								<th class="info">联系人名称</th>
-								<th class="info">联系人电话</th>
-								<th class="info">联系人手机</th>
-								<th class="info">操作</th>
-							</tr>
-						</thead>
-						<tbody id="tbody">
-							<c:forEach items="${extRelateListYes}" var="listyes"
-								varStatus="vs">
-								<tr class='cursor '>
-									<td class='tc' onclick='show();'>${vs.index+1}</td>
-									<td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
-									<td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
-									<td class='tc' onclick='show();'>${listyes.supplier.contactName}</td>
-									<td class='tc' onclick='show();'>${listyes.supplier.contactTelephone}</td>
-									<td class='tc' onclick='show();'>${listyes.supplier.contactMobile}</td>
-									<td class='tc'><select id='select'
-										onchange='operation(this);'>
-											<c:choose>
-												<c:when test="${listyes.operatingType==1}">
-													<option selected="selected" disabled="disabled"
-														value='${listyes.id},${listyes.supplierConditionId},1'>能参加</option>
-												</c:when>
-												<c:when test="${listyes.operatingType==2}">
-													<option
-														value='${listyes.id},${listyes.supplierConditionId},1'>能参加</option>
-													<option
-														value='${listyes.id},${listyes.supplierConditionId},3'>不能参加</option>
-													<option selected="selected" disabled="disabled"
-														value='${listyes.id},${listyes.supplierConditionId},2'>待定</option>
-												</c:when>
-												<c:when test="${listyes.operatingType==3}">
-													<option selected="selected" disabled="disabled"
-														value='${listyes.id},${listyes.supplierConditionId},3'>不能参加</option>
-												</c:when>
-												<c:otherwise>
-													<option>请选择</option>
-													<option
-														value='${listyes.id},${listyes.supplierConditionId},1'>能参加</option>
-													<option
-														value='${listyes.id},${listyes.supplierConditionId},3'>不能参加</option>
-													<option
-														value='${listyes.id},${listyes.supplierConditionId},2'>待定</option>
-												</c:otherwise>
-											</c:choose>
-									</select></td>
-								</tr>
-							</c:forEach>
-							<c:forEach items="${extRelateListNo }" var="listno"
-								varStatus="vs">
-								<tr class='cursor'>
-									<td class='tc' onclick='show();'>${(vs.index+1)+1}</td>
-									<td class='tc' onclick='show();'>*****</td>
-									<td class='tc' onclick='show();'>*****</td>
-									<td class='tc' onclick='show();'>*****</td>
-									<td class='tc' onclick='show();'>*****</td>
-									<td class='tc' onclick='show();'>*****</td>
-									<td class='tc'>请选择</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<!-- End Content -->
-		</div>
-		<!--/container-->
-		<!--=== End Content Part ===-->
+ <div>
+<!--               <h2 class="count_flow"><i>1</i>抽取条件</h2> -->
+                <ul class="ul_list">
+                  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>所在地区：</span>
+                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                     <select class="w93 input_group fl" id="area" onchange="areas();">
+                            </select> <select name="extractionSites" class=" w93 input_group fl" id="city"></select>
+                 </div>
+               </li>
+               <li class="col-md-4 col-sm-6 col-xs-12">
+                 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>品目：</span>
+                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                   <input class="input_group " readonly id="extCategoryName" onclick="opens(this);" type="text">
+                   <span class="add-on">i</span>
+                   <div class=" f12 red tip w150 fl" id="dCategoryName"></div>
+                 </div>
+               </li>
+               <li class="col-md-4 col-sm-6 col-xs-12">
+                           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取数量：</span>
+                           <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                             <input class="input_group" id="eCount" type="text">
+                             <span class="add-on">i</span>
+                             <div class=" f12 red tip w150 fl" id="dCount"></div>
+                           </div>
+                         </li>  
+                         
+                            <div class=" w300 pl20 mt10">
+                <button class="btn btn-windows add"
+                  id="save" onclick="extract('12wde');" type="button">继续抽取</button>
+                                </div>
+                <div align="right" class="padding-10">
+                  <div class="col-md-12  f12 red tip" id="array"></div>
+                
+                </div>
+            </ul>
+                      </div>
+	
 </body>
 </html>

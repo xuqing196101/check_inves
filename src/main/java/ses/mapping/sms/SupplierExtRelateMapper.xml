@@ -252,13 +252,13 @@
 		#{conTypeId}
 		AND OPERATING_TYPE = 0
 	</update>
+	<!-- 包下是否已存在供应商 -->
 	<select id="getSupplierId" parameterType="Map" resultType="java.lang.Integer">
 		SELECT "COUNT"(SUPPLIER_ID) as count FROM
 		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
 		SUPPLIER_ID=#{supplierId}
 		AND
-		PROJECT_ID=(SELECT ID FROM T_SES_SMS_SUPPLIER_EXT_PACKAGE
-		WHERE ID=#{id} AND PROJECT_ID=#{projectId} )
+		PROJECT_ID=#{projectId}
 	</select>
 	<insert id="insertList" parameterType="java.util.List">
 		INSERT INTO T_SES_SMS_SUPPLIER_EXT_RELATE
@@ -280,7 +280,8 @@
 		<include refid="Base_Column_List" />
 		FROM
 		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
-		SUPPLIER_CONDITION_ID=#{supplierId} AND (OPERATING_TYPE =1 OR OPERATING_TYPE =2 OR OPERATING_TYPE =3)
+		SUPPLIER_CONDITION_ID=#{supplierId} AND (OPERATING_TYPE =1 OR
+		OPERATING_TYPE =2 OR OPERATING_TYPE =3)
 	</select>
 
 </mapper>

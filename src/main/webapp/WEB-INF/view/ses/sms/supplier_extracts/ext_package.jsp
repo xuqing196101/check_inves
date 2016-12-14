@@ -95,12 +95,12 @@
         }else if(id.length<=0){
          var	typeclassId="${typeclassId}";
         	if(typeclassId != null && typeclassId != ''){
-        		window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id="+id+"&&typeclassId=${typeclassId}";	
+        		window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=${projectId}";	
         	}else{
         		layer.alert("请选择一个",{shade:0.01});
         	}
         }else{
-        	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id="+id+"&&typeclassId=${typeclassId}";
+        	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}";
         }
     }
     

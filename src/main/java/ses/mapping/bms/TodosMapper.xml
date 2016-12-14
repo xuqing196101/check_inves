@@ -266,6 +266,7 @@
 			</when>
 			<otherwise>
 				<if test="permission != null and permission != ''">
+				OR
 					<foreach collection="permission" open="(" close=")"
 						separator="OR" item="permission">
 						BT.POWER_ID = #{permission}

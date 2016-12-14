@@ -1265,8 +1265,8 @@
 			<if
 				test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
 				<if test="item.isMulticondition==2">
-					<if test="item.supplierTypeId !=null and item.supplierTypeId != '' ">
-						<foreach item="type" collection="item.supplierTypeId">
+					<if test="item.arraySupplierTypeId !=null and item.arraySupplierTypeId != '' ">
+						<foreach item="type" collection="item.arraySupplierTypeId">
 							and "INSTR"(typeId,
 							#{type})>0
 						</foreach>
@@ -1280,8 +1280,8 @@
 					</if>
 				</if>
 				<if test="item.isMulticondition==1">
-					<if test="item.supplierTypeId !=null and item.supplierTypeId != '' ">
-						<foreach item="type" collection="item.supplierTypeId">
+					<if test="item.arraySupplierTypeId !=null and item.arraySupplierTypeId != '' ">
+						<foreach item="type" collection="item.arraySupplierTypeId">
 							or "INSTR"(typeId,
 							#{type})>0
 						</foreach>

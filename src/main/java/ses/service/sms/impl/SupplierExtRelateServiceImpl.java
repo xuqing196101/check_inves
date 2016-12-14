@@ -77,8 +77,8 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
                 show.getConTypes().clear();
                 show.getConTypes().add(contype);
                 //查询供应商集合
-                if(contype.getSupplieTypeId() != null &&  !"".equals(contype.getSupplieTypeId())){
-                    contype.setSupplierTypeId(contype.getSupplieTypeId().split("\\^"));
+                if(contype.getSupplierTypeId() != null &&  !"".equals(contype.getSupplierTypeId())){
+                    contype.setArraySupplierTypeId(contype.getSupplierTypeId().split("\\,"));
                 }
                 List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(show);//getAllSupplier(null);
                 //循环吧查询出的专家集合insert到专家记录表和专家关联的表中
@@ -86,9 +86,7 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
                 for (Supplier supplier2 : selectAllExpert) {
                     Map<String, String> map=new HashMap<String, String>();
                     map.put("supplierId", supplier2.getId());
-                    map.put("id", show.getProjectId());
-                    SupplierExtPackage selectByPrimaryKey = extPackageMapper.selectByPrimaryKey(show.getProjectId());
-                    map.put("projectId",selectByPrimaryKey.getProjectId());
+                    map.put("projectId",show.getProjectId());
                     if(supplierExtRelateMapper.getSupplierId(map)==0){
                         supplierExtRelate = new SupplierExtRelate();
                         //供应商id
@@ -154,7 +152,6 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
      */
     @Override
     public SupplierExtRelate getSupplierExtRelate(String id) {
-        // TODO Auto-generated method stub
         return supplierExtRelateMapper.selectByPrimaryKey(id);
     }
 

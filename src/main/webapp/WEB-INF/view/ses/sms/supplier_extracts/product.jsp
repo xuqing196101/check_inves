@@ -60,79 +60,9 @@
   }
   /*树点击事件*/
   var check;
-  var sccuess=''; //货物
-  var sccuess1='';//工程
-  var sccuess2='';//服务
   function zTreeOnCheck(event,treeId,treeNode){
       treeid=treeNode.id;
-      var pNode = treeNode.getParentNode();
-      if(pNode!=null){
-      var name=treeNode.getParentNode();
-      while(pNode!=null) {
-    	  if(pNode.getParentNode()!=null){
-    		  name = pNode.getParentNode();
-    		  pNode = pNode.getParentNode();
-    	  }else{
-    		  pNode=null;
-    	  }
-    	}
-      }else{
-    	  name=treeNode;
-      }
-//       alert(name.code);
-      if(name.code=="GOODS"){  
-    	 var boo= name.checked;
-    	 if(boo==false){
-    		  $("#ultype").css("display","none");
-    		  document.getElementById("xschecked").checked=false;
-    		  sccuess='';
-    	 }else{
-    		  $("#ultype").css("display","block");
-    		  document.getElementById("xschecked").checked=true;
-    		  sccuess='sccuess';
-    	 }
-      }else {
-    	  if(sccuess!='sccuess'){
-              document.getElementById("xschecked").checked=false;  
-              sccuess='';
-          }
-      } 
-      
-      if(name.code=="PROJECT"){  
-          var boo= name.checked;
-          if(boo==false){
-//                $("#ultype").css("display","none");
-               document.getElementById("gcchecked").checked=false;
-               sccuess1='';
-          }else{
-//                $("#ultype").css("display","block");
-               document.getElementById("gcchecked").checked=true;
-               sccuess1='sccuess';
-          }
-       }else {
-           if(sccuess1!='sccuess'){
-               document.getElementById("gcchecked").checked=false;  
-               sccuess1='';
-           }
-       } 
-    	
-      if(name.code=="SERVICE"){  
-          var boo= name.checked;
-          if(boo==false){
-//                $("#ultype").css("display","none");
-               document.getElementById("fwchecked").checked=false;
-               sccuess2='';
-          }else{
-//                $("#ultype").css("display","block");
-               document.getElementById("fwchecked").checked=true;
-               sccuess2='sccuess';
-          }
-       }else {
-           if(sccuess2!='sccuess'){
-               document.getElementById("fwchecked").checked=false;  
-               sccuess2='';
-           }
-       }
+     
   }
   //获取选中子节点id
   function getChildren(cate){
@@ -140,56 +70,25 @@
        var nodes=Obj.getCheckedNodes(true);  
        var ids = new Array();
        var names=new Array();
-       var copynames=new Array();
        for(var i=0;i<nodes.length;i++){ 
            if(!nodes[i].isParent){
           //获取选中节点的值  
-           ids+=nodes[i].id+"^"; 
-           names+=nodes[i].name+"^";
-           copynames+=nodes[i].name+",";
+           ids+=nodes[i].id+","; 
+           names+=nodes[i].name+",";
            }
        } 
-      
         //专家类型
         parent.$("#exttypeid").val();
         //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
          
        if(cate!=null){
-    	   var expertstypeid=""; 
-    	   var expertsTypeName="";
-	       $('input[name="expertstypeid"]:checked').each(function(){ 
-	        	  expertstypeid+=$(this).val()+"^";
-	        	  
-	        	  if($(this).val()=='PRODUCT'){
-	                  expertsTypeName+="生产型,";
-	              }
-	        	  
-	        	  if($(this).val()=='SALES'){
-	            	  expertsTypeName+="销售型,";
-	              }
-	              
-	        	  if($(this).val()=='PROJECT'){
-	                 
-	                    expertsTypeName+="工程,";
-	              }
-	        	  if($(this).val()=='SERVICE'){
-	        		  expertsTypeName+="服务,";
-	              }
-	        	  
-	       }); 
-	       
-	       $(cate).parent().parent().parent().parent().parent().find("#expertsTypeName").val(expertsTypeName.substring(0,expertsTypeName.length-1));
-           $(cate).val(copynames.substring(0,copynames.length-1));
+           $(cate).val(names.substring(0,names.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names.substring(0,names.length-1));
-           $(cate).parent().parent().parent().parent().parent().find("#extCategoryNamest").val(names.substring(0,names.length-1));
-           $(cate).parent().parent().parent().parent().parent().find("#expTypeName").val(expertsTypeName.substring(0,expertsTypeName.length-1));
-           $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids);
+           $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids.substring(0,ids.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy);
-           $(cate).parent().parent().parent().parent().parent().find("#expertsTypeId").val(expertstypeid);
            
        }
-         
 	             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 	             parent.layer.close(index);
   }     
@@ -231,29 +130,29 @@
 			</div>
 			 <span class="red textspan margin-left-13">*</span>
 			<div id="ztree" class="ztree margin-left-13"></div>
-			<br />
-			<ul id="ultype" class="list-unstyled list-flow p0_20 dnone">
-				<li class="col-md-6 p0 ">
-				<div  class="ml5 fl">供应商类型:</div>
-					<div class="fl mr10">
-					  <input name="expertstypeid" class="fl"  id="xschecked"  type="checkbox"
-                            value="SALES">
-						<div class="ml5 fl">销售型</div>
-					</div>
-					<div class="fl mr10">
-						<input name="expertstypeid" class="fl" type="checkbox" value="PRODUCT">
-						<div class="ml5 fl">生产型</div>
-					</div>
-					<div class="fl mr10 dnone">
-                        <input name="expertstypeid"  class="fl " id="gcchecked" type="checkbox" value="PROJECT">
-                        <div class="ml5 fl">工程</div>
-                    </div>
-				    <div class="fl mr10 dnone">
-                        <input name="expertstypeid" class="fl " id="fwchecked" type="checkbox" value="SERVICE">
-                        <div class="ml5 fl">服务</div>
-                    </div>
-				</li>
-			</ul>
+<!-- 			<br /> -->
+<!-- 			<ul id="ultype" class="list-unstyled list-flow p0_20 dnone"> -->
+<!-- 				<li class="col-md-6 p0 "> -->
+<!-- 				<div  class="ml5 fl">供应商类型:</div> -->
+<!-- 					<div class="fl mr10"> -->
+<!-- 					  <input name="expertstypeid" class="fl"  id="xschecked"  type="checkbox" -->
+<!--                             value="SALES"> -->
+<!-- 						<div class="ml5 fl">销售型</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="fl mr10"> -->
+<!-- 						<input name="expertstypeid" class="fl" type="checkbox" value="PRODUCT"> -->
+<!-- 						<div class="ml5 fl">生产型</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="fl mr10 dnone"> -->
+<!--                         <input name="expertstypeid"  class="fl " id="gcchecked" type="checkbox" value="PROJECT"> -->
+<!--                         <div class="ml5 fl">工程</div> -->
+<!--                     </div> -->
+<!-- 				    <div class="fl mr10 dnone"> -->
+<!--                         <input name="expertstypeid" class="fl " id="fwchecked" type="checkbox" value="SERVICE"> -->
+<!--                         <div class="ml5 fl">服务</div> -->
+<!--                     </div> -->
+<!-- 				</li> -->
+<!-- 			</ul> -->
 		</form>
 	</div>
 </body>

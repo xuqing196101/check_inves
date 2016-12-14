@@ -39,7 +39,7 @@
 	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
 		id="ResultSupplier">
 
-		<collection property="listSupplier" column="EPID"
+		<collection property="listSupplier" column="ID"
 			select="ses.dao.sms.SupplierMapper.getByExtRelateProjectId" ofType="ses.model.sms.Supplier" />
 
 	</resultMap>
@@ -267,12 +267,14 @@
 	</delete>
 
 	<select id="selectAllByIsWon" parameterType="Map" resultMap="BaseResultMap">
-		select distinct pa.id as id,pa.PROJECT_ID projectId,pa.NAME name,pa.updated_at FROM
+		select distinct pa.id as id,pa.PROJECT_ID projectId,pa.NAME
+		name,pa.updated_at FROM
 		T_BSS_PPMS_PACKAGE pa,
 		T_BSS_PPMS_SUPPLIER_CHECK_PASS ch
 		where
 		pa.project_id in (
-		select pc.id from T_BSS_PPMS_PROJECTS pc where 1=1
+		select pc.id
+		from T_BSS_PPMS_PROJECTS pc where 1=1
 		<if test="projectName != null and projectName != ''">
 			and pc.NAME like '%'||#{projectName}||'%'
 		</if>
@@ -284,7 +286,8 @@
 		</if>
 		) and pa.id = ch.package_id
 		and ch.is_won_bid = 1
-		order by UPDATED_AT DESC
+		order by UPDATED_AT
+		DESC
 	</select>
 
 	<!-- 根据包信息返回抽取出的专家 -->
@@ -298,17 +301,16 @@
 		EP.PROJECT_ID = #{projectId}
 	</select>
 
-	<!-- 根据包信息返回抽取出的专家 -->
+	<!-- 根据包信息返回抽取出的供应商 -->
 	<select id="listResultSupplier" parameterType="java.lang.String"
 		resultMap="ResultSupplier">
 		SELECT
-		PP.*, EP."ID" AS EPID
+		<include refid="Base_Column_List" />
 		FROM
-		T_BSS_PPMS_PACKAGE pp
-		LEFT
-		JOIN T_SES_SMS_SUPPLIER_EXT_PACKAGE ep ON PP."ID" = EP.PACKAGE_ID
+		T_BSS_PPMS_PACKAGE 
 		WHERE
-		EP.PROJECT_ID = #{projectId}
+		PROJECT_ID =
+		#{projectId}
 	</select>
 
 	<select id="listSupplierCheckPass" parameterType="java.lang.String"

@@ -7,7 +7,7 @@ public class SupplierConType {
     /**
      * 供应商类型
      */
-    private String[]  supplierTypeId;
+    private String[]  arraySupplierTypeId;
     
     /**
      * 品目集合
@@ -43,7 +43,7 @@ public class SupplierConType {
      * 表字段 : T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_TYPE_ID
      * </pre>
      */
-    private String supplieTypeId;
+    private String supplierTypeId;
 
     /**
      * <pre>
@@ -51,7 +51,7 @@ public class SupplierConType {
      * 表字段 : T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_COUNT
      * </pre>
      */
-    private Integer supplieCount;
+    private Integer supplierCount;
 
     /**
      * <pre>
@@ -59,7 +59,7 @@ public class SupplierConType {
      * 表字段 : T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_QUALIFICATION
      * </pre>
      */
-    private String supplieQualification;
+    private String supplierTypeName;
 
     /**
      * <pre>
@@ -142,8 +142,8 @@ public class SupplierConType {
      *
      * @return T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_TYPE_ID：供应商类型
      */
-    public String getSupplieTypeId() {
-        return supplieTypeId;
+    public String getSupplierTypeId() {
+        return supplierTypeId;
     }
 
     /**
@@ -152,48 +152,48 @@ public class SupplierConType {
      * 表字段：T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_TYPE_ID
      * </pre>
      *
-     * @param supplieTypeId
+     * @param supplierTypeId
      *            T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_TYPE_ID：供应商类型
      */
-    public void setSupplieTypeId(String supplieTypeId) {
-        this.supplieTypeId = supplieTypeId;
+    public void setSupplierTypeId(String supplierTypeId) {
+        this.supplierTypeId = supplierTypeId;
     }
 
     /**
      * <pre>
      * 获取：抽取数量
-     * 表字段：T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_COUNT
+     * 表字段：T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIR_COUNT
      * </pre>
      *
-     * @return T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_COUNT：抽取数量
+     * @return T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIER_COUNT：抽取数量
      */
-    public Integer getSupplieCount() {
-        return supplieCount;
+    public Integer getSupplierCount() {
+        return supplierCount;
     }
 
     /**
      * <pre>
      * 设置：抽取数量
-     * 表字段：T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_COUNT
+     * 表字段：T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIER_COUNT
      * </pre>
      *
      * @param supplieCount
-     *            T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_COUNT：抽取数量
+     *            T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIER_COUNT：抽取数量
      */
-    public void setSupplieCount(Integer supplieCount) {
-        this.supplieCount = supplieCount;
+    public void setSupplierCount(Integer supplierCount) {
+        this.supplierCount = supplierCount;
     }
 
     /**
      * <pre>
      * 获取：执行资格
-     * 表字段：T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_QUALIFICATION
+     * 表字段：T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIER_QUALIFICATION
      * </pre>
      *
-     * @return T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_QUALIFICATION：执行资格
+     * @return T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIER_QUALIFICATION：执行资格
      */
-    public String getSupplieQualification() {
-        return supplieQualification;
+    public String getSupplierTypeName() {
+        return supplierTypeName;
     }
 
     /**
@@ -205,8 +205,8 @@ public class SupplierConType {
      * @param supplieQualification
      *            T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_QUALIFICATION：执行资格
      */
-    public void setSupplieQualification(String supplieQualification) {
-        this.supplieQualification = supplieQualification == null ? null : supplieQualification.trim();
+    public void setSupplierTypeName(String supplierTypeName) {
+        this.supplierTypeName = supplierTypeName == null ? null : supplierTypeName.trim();
     }
 
     /**
@@ -232,7 +232,7 @@ public class SupplierConType {
      */
     public void setCategoryId(String categoryId) {
         if(categoryId!=null){
-            String[] split = categoryId.split("\\^");
+            String[] split = categoryId.split("\\,");
             this.categorySplit =split ;
         }
         this.categoryId = categoryId == null ? null : categoryId.trim();
@@ -381,15 +381,15 @@ public class SupplierConType {
     /**
      * @return Returns the supplierTypeId.
      */
-    public String[] getSupplierTypeId() {
-        return supplierTypeId;
+    public String[] getArraySupplierTypeId() {
+        return arraySupplierTypeId;
     }
 
     /**
      * @param supplierTypeId The supplierTypeId to set.
      */
-    public void setSupplierTypeId(String[] supplierTypeId) {
-        this.supplierTypeId = supplierTypeId;
+    public void setArraySupplierTypeId(String[] arraySupplierTypeId) {
+        this.arraySupplierTypeId =arraySupplierTypeId;
     }
 
     /**

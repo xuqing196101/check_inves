@@ -6,9 +6,9 @@
     @mbggenerated
     -->
     <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="SUPPLIE_TYPE_ID" jdbcType="VARCHAR" property="supplieTypeId" />
-    <result column="SUPPLIE_COUNT" jdbcType="DECIMAL" property="supplieCount" />
-    <result column="SUPPLIE_QUALIFICATION" jdbcType="VARCHAR" property="supplieQualification" />
+    <result column="SUPPLIER_TYPE_ID" jdbcType="VARCHAR" property="supplierTypeId" />
+    <result column="SUPPLIER_COUNT" jdbcType="DECIMAL" property="supplierCount" />
+    <result column="SUPPLIER_TYPE_NAME" jdbcType="VARCHAR" property="supplierTypeName" />
     <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
     <result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
     <result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
@@ -20,7 +20,7 @@
     <!--
     @mbggenerated
     -->
-    ID, SUPPLIE_TYPE_ID, SUPPLIE_COUNT, SUPPLIE_QUALIFICATION, CATEGORY_ID, CATEGORY_NAME, 
+    ID, SUPPLIER_TYPE_ID, SUPPLIER_COUNT, SUPPLIER_TYPE_NAME, CATEGORY_ID, CATEGORY_NAME, 
     CONDITION_ID, CREATED_AT, IS_DELETE, IS_MULTICONDITION
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -43,12 +43,12 @@
     <!--
     @mbggenerated
     -->
-    insert into T_SES_SMS_SUPPLIE_CON_TYPE (ID, SUPPLIE_TYPE_ID, SUPPLIE_COUNT, 
-      SUPPLIE_QUALIFICATION, CATEGORY_ID, CATEGORY_NAME, 
+    insert into T_SES_SMS_SUPPLIE_CON_TYPE (ID, SUPPLIER_TYPE_ID, SUPPLIER_COUNT, 
+      SUPPLIER_TYPE_NAME, CATEGORY_ID, CATEGORY_NAME, 
       CONDITION_ID, CREATED_AT, IS_DELETE, 
       IS_MULTICONDITION)
-    values (#{id,jdbcType=VARCHAR}, #{supplieTypeId,jdbcType=VARCHAR}, #{supplieCount,jdbcType=DECIMAL}, 
-      #{supplieQualification,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{supplierTypeId,jdbcType=VARCHAR}, #{supplierCount,jdbcType=DECIMAL}, 
+      #{supplierTypeName,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, 
       #{conditionId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{isDelete,jdbcType=DECIMAL}, 
       #{isMulticondition,jdbcType=DECIMAL})
   </insert>
@@ -61,14 +61,14 @@
       <if test="id != null">
         ID,
       </if>
-      <if test="supplieTypeId != null">
-        SUPPLIE_TYPE_ID,
+      <if test="supplierTypeId != null">
+        SUPPLIER_TYPE_ID,
       </if>
-      <if test="supplieCount != null">
-        SUPPLIE_COUNT,
+      <if test="supplierCount != null">
+        SUPPLIER_COUNT,
       </if>
-      <if test="supplieQualification != null">
-        SUPPLIE_QUALIFICATION,
+      <if test="supplierTypeName != null">
+        SUPPLIER_TYPE_NAME,
       </if>
       <if test="categoryId != null">
         CATEGORY_ID,
@@ -93,14 +93,14 @@
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="supplieTypeId != null">
-        #{supplieTypeId,jdbcType=VARCHAR},
+      <if test="supplierTypeId != null">
+        #{supplierTypeId,jdbcType=VARCHAR},
       </if>
-      <if test="supplieCount != null">
-        #{supplieCount,jdbcType=DECIMAL},
+      <if test="supplierCount != null">
+        #{supplierCount,jdbcType=DECIMAL},
       </if>
-      <if test="supplieQualification != null">
-        #{supplieQualification,jdbcType=VARCHAR},
+      <if test="supplierTypeName != null">
+        #{supplierTypeName,jdbcType=VARCHAR},
       </if>
       <if test="categoryId != null">
         #{categoryId,jdbcType=VARCHAR},
@@ -128,14 +128,14 @@
     -->
     update T_SES_SMS_SUPPLIE_CON_TYPE
     <set>
-      <if test="supplieTypeId != null">
-        SUPPLIE_TYPE_ID = #{supplieTypeId,jdbcType=VARCHAR},
+      <if test="supplierTypeId != null">
+        SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
       </if>
-      <if test="supplieCount != null">
-        SUPPLIE_COUNT = #{supplieCount,jdbcType=DECIMAL},
+      <if test="supplierCount != null">
+        SUPPLIER_COUNT = #{supplierCount,jdbcType=DECIMAL},
       </if>
-      <if test="supplieQualification != null">
-        SUPPLIE_QUALIFICATION = #{supplieQualification,jdbcType=VARCHAR},
+      <if test="supplierTypeName != null">
+        SUPPLIER_TYPE_NAME = #{supplierTypeName,jdbcType=VARCHAR},
       </if>
       <if test="categoryId != null">
         CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
@@ -163,9 +163,9 @@
     @mbggenerated
     -->
     update T_SES_SMS_SUPPLIE_CON_TYPE
-    set SUPPLIE_TYPE_ID = #{supplieTypeId,jdbcType=VARCHAR},
-      SUPPLIE_COUNT = #{supplieCount,jdbcType=DECIMAL},
-      SUPPLIE_QUALIFICATION = #{supplieQualification,jdbcType=VARCHAR},
+    set SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=VARCHAR},
+      SUPPLIER_COUNT = #{supplierCount,jdbcType=DECIMAL},
+      SUPPLIER_TYPE_NAME = #{supplierTypeName,jdbcType=VARCHAR},
       CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
       CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
       CONDITION_ID = #{conditionId,jdbcType=VARCHAR},

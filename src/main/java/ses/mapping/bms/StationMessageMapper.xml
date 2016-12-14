@@ -228,19 +228,19 @@
 			<when
 				test="permission != null and permission != '' and message.orgId != null and message.orgId != '' ">
 				OR (SM.ORG_ID = #{message.orgId,jdbcType=VARCHAR}
-				AND SM.POWER_ID in
+				AND 
 				<foreach collection="permission" open="(" close=")"
-					separator="," item="permission">
-					#{permission}
+					separator="OR" item="permission">
+					SM.POWER_ID=#{permission}
 				</foreach>
 				)
 			</when>
 			<otherwise>
 				<if test="permission != null and permission != ''">
-					OR SM.POWER_ID in
+					OR  
 					<foreach collection="permission" open="(" close=")"
-						separator="," item="permission">
-						#{permission}
+						separator="OR" item="permission">
+					SM.POWER_ID = #{permission}
 					</foreach>
 				</if>
 				<if test="message.orgId != null and message.orgId != ''">

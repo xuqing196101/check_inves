@@ -68,7 +68,7 @@ public class SupplierCondition {
 
     /**
      * <pre>
-     * 专家类型
+     * 供应商类型
      * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID
      * </pre>
      */
@@ -97,10 +97,10 @@ public class SupplierCondition {
 
     /**
      * <pre>
-     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.SUPPLIER_LEVEL
      * </pre>
      */
-    private String supplietFrom;
+    private String supplierLevel;
 
     /**
      * <pre>
@@ -295,8 +295,8 @@ public class SupplierCondition {
      *
      * @return T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM：null
      */
-    public String getSupplietFrom() {
-        return supplietFrom;
+    public String getSupplierLevel() {
+        return supplierLevel;
     }
 
     /**
@@ -308,8 +308,8 @@ public class SupplierCondition {
      * @param supplietFrom
      *            T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM：null
      */
-    public void setSupplietFrom(String supplietFrom) {
-        this.supplietFrom = supplietFrom == null ? null : supplietFrom.trim();
+    public void setSupplierLevel(String supplierLevel) {
+        this.supplierLevel = supplierLevel == null ? null : supplierLevel.trim();
     }
 
     /**
