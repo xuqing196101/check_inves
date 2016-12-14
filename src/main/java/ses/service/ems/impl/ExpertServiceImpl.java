@@ -437,11 +437,11 @@ public class ExpertServiceImpl implements ExpertService {
 			saveCategory(expert,categoryIds);
 		}else{
 			//已提交
-			expert.setIsSubmit("0");
+			//expert.setIsSubmit("0");
 			//未考试
 			expert.setIsDo("0");
 			//未审核
-			expert.setStatus("0");
+			//expert.setStatus("0");
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			mapper.updateByPrimaryKey(expert);

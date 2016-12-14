@@ -93,6 +93,16 @@ session.setAttribute("tokenSession", tokenValue);
 			data:{"expertId":$("#id").val(),"stepNumber":stepNumber},
 			async:false,
 		});
+	} 
+	function errorMsg(auditField){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/expert/findAuditReason.do",
+			data: {"expertId": $("#id").val(), "auditField": auditField},
+			dataType: "json",
+			success: function(response){
+				layer.msg("不通过理由:" + response.auditReason ,{offset: ['400px', '730px']});
+			}
+		});
 	}
 </script>
 </head>
@@ -139,14 +149,14 @@ session.setAttribute("tokenSession", tokenValue);
 	   	 <table class="table table-bordered">
 	   	   <tr>
 	   	     <td class="bggrey" width="15%"><i class="red">*</i>专家申请表：</td>
-	   	     <td>
-	   	       <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" auto="true"/>
-			   <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}"/>
+	   	     <td <c:if test="${fn:contains(errorField,'专家申请表')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专家申请表')"</c:if>>
+	   	       <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" auto="true"/>
+			   <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}"/>
 	   	     </td>
 	   	     <td class="bggrey" width="15%" ><i class="red">*</i>专家承诺书：</td>
-	   	     <td>
-	   	       <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
-			   <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>
+	   	     <td <c:if test="${fn:contains(errorField,'专家承诺书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专家承诺书')"</c:if>>
+	   	       <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
+			   <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>
 	   	     </td>
 	   	   </tr>
 		 </table>

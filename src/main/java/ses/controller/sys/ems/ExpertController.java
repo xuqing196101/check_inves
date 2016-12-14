@@ -456,11 +456,11 @@ public class ExpertController {
      * @param auditField
      * @return
      */
-    @RequestMapping(value = "/findAuditReason",produces="text/html;charset=UTF-8")
+    @RequestMapping(value = "/findAuditReason",produces="application/json;charset=UTF-8")
     @ResponseBody
     public String findErrorReason(ExpertAudit expertAudit){
         List<ExpertAudit> audit = expertAuditService.selectFailByExpertId(expertAudit);
-        return audit.get(0).getAuditReason();
+        return JSON.toJSONString(audit.get(0));
     }
     
     @RequestMapping(value = "getCategory", produces = "application/json;charset=UTF-8")
