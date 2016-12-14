@@ -243,7 +243,12 @@ public class CategoryServiceImpl implements CategoryService {
         PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
         return categoryMapper.listByKeyword(map);
     }
-
+    
+    @Override
+    public List<Category> listByKeyname(Map<String, Object> map) {
+        return categoryMapper.listByKeyword(map);
+    }
+    
     @Override
     public List<Category> listByParent(String pid) {
         // TODO Auto-generated method stub

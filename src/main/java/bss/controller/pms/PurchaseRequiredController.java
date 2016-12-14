@@ -31,8 +31,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
@@ -58,13 +60,17 @@ import com.github.pagehelper.PageInfo;
 @Scope("prototype")
 @RequestMapping("/purchaser")
 public class PurchaseRequiredController extends BaseController{
-
+	@Autowired
+    private CategoryService categoryService;
+	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
 	
 
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	
 	
 	/**
 	 * 
@@ -534,4 +540,30 @@ public class PurchaseRequiredController extends BaseController{
 	    	
 	    	return id;
 	    }
+	    
+	    /**
+	     * 
+	    * @Title: listName
+	    * @author ZhaoBo
+	    * @date 2016-12-14 下午1:55:01  
+	    * @Description: 检索物种名称 
+	    * @param @param request
+	    * @param @return      
+	    * @return String
+	     */
+	    @RequestMapping("/listName")
+	    @ResponseBody
+	    public List<Category> listName(HttpServletRequest request){
+	    	List<Category> list = new ArrayList<>();
+	    	String name = request.getParameter("name");
+	    	if(name.trim().equals("")||name.trim()==null){
+	    		list = null;
+	    	}else{
+	    		Map<String,Object> map = new HashMap<String,Object>();
+		    	map.put("name", name);
+		    	list = categoryService.listByKeyname(map);
+	    	}
+	    	return list;
+	    }
+	    
 }

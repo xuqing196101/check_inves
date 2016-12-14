@@ -136,7 +136,18 @@ import ses.model.sms.SupplierTypeTree;
 	 */
 	public List<Category> listByKeyword(Map<String, Object> map);
 	
-
+	/**
+	 * 
+	* @Title: listByKeyname
+	* @author ZhaoBo
+	* @date 2016-12-14 下午2:47:11  
+	* @Description: 查找匹配的内容 
+	* @param @param map
+	* @param @return      
+	* @return List<Category>
+	 */
+	public List<Category> listByKeyname(Map<String, Object> map);
+	
 	/**
 	 * @Title: findCategoryByType
 	 * @author: Wang Zhaohua

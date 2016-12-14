@@ -22,13 +22,6 @@
 						setTimeout("addPack()", 300);
 					}
 				})
-				
-				if(window.name==""){ 
-					window.name = "0"; 
-				}else{ 
-					window.name = eval(window.name) + 1; 
-					alert("已经刷新"+ window.name+'次'); 
-				} 
 			});
 
 			//全选方法
