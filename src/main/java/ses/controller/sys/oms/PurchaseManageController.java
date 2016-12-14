@@ -1229,29 +1229,29 @@ public class PurchaseManageController {
             purchaseDep = list.get(0);
         }
         model.addAttribute("purchaseDep", purchaseDep);
+        map.put("orgId", purchaseDep.getOrgId());
+      //需求监管部门  或者  采购机构
+        List<Orgnization> lists = orgnizationServiceI.findPurchaseOrgList(map);
+        model.addAttribute("lists", lists);
+        //财务部门信息
+        HashMap<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("orgId", purchaseDep.getOrgId());
+        List<OrgInfo> list2 = orgInfoService.listByAll(map1);
+        model.addAttribute("orgInfos", list2);
+        HashMap<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("orgId", purchaseDep.getOrgId());
+        List<OrgLocale> list3 = orgLocaleService.listByAll(map2);
+        model.addAttribute("locales", list3);
+        Area area = areaServiceI.listById(purchaseDep.getProvinceId());
+        model.addAttribute("area", area);
+        Area area1 = areaServiceI.listById(purchaseDep.getCityId());
+        model.addAttribute("area1", area1);
       //多文件上传
         model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-        DictionaryData dd=new DictionaryData();
-        dd.setCode("PURCHASE_QUA_CERT");
-        List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-        if(lists.size()>0){
-            model.addAttribute("PURCHASE_QUA_CERT_ID", lists.get(0).getId());
-        }
-        dd.setCode("PURCHASE_QUA_STATUS_STASH");
-        List<DictionaryData> liststash = dictionaryDataServiceI.find(dd);
-        if(liststash.size()>0){
-            model.addAttribute("PURCHASE_QUA_STATUS_STASH_ID", liststash.get(0).getId());
-        }
-        dd.setCode("PURCHASE_QUA_STATUS_NORMAL");
-        List<DictionaryData> listnormal = dictionaryDataServiceI.find(dd);
-        if(listnormal.size()>0){
-            model.addAttribute("PURCHASE_QUA_STATUS_NORMAL_ID", listnormal.get(0).getId());
-        }
-        dd.setCode("PURCHASE_QUA_STATUS_TERMINAL");
-        List<DictionaryData> listterminal = dictionaryDataServiceI.find(dd);
-        if(listterminal.size()>0){
-            model.addAttribute("PURCHASE_QUA_STATUS_TERMINAL_ID", listterminal.get(0).getId());
-        }
+        model.addAttribute("PURCHASE_QUA_CERT_ID", DictionaryDataUtil.getId("PURCHASE_QUA_CERT"));
+        model.addAttribute("PURCHASE_QUA_STATUS_STASH_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_STASH"));
+        model.addAttribute("PURCHASE_QUA_STATUS_NORMAL_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_NORMAL"));
+        model.addAttribute("PURCHASE_QUA_STATUS_TERMINAL_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_TERMINAL"));
         return "ses/oms/purchase_dep/show";
     }
 	/**

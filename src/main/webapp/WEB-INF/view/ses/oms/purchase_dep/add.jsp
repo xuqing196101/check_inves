@@ -985,15 +985,6 @@
                   </li>
                 </ul>
                 <div class="clear"></div>
-                <!-- <div class="mt40 tc mb50">
-                                        <input type="button"
-                                            class="btn  padding-right-20 btn_back margin-5"
-                                            onclick="updateBasic();" value="确认" /> <input type="button"
-                                            class="btn  padding-right-20 btn_back margin-5"
-                                            onclick="stashBasic();" value="暂存" /> <input type="button"
-                                            class="btn  padding-right-20 btn_back margin-5"
-                                            onclick="history.go(-1)" value="取消" />
-                                    </div> -->
               </div>
 
 

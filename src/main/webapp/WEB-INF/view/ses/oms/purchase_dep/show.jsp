@@ -446,111 +446,6 @@
         });
       }
 
-      function validateOffice() {
-        return $("#formID").validate({
-          ignore: [],
-          focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
-          onkeyup: false,
-          rules: {
-            purchaseUnitName: {
-              required: true
-            }
-          },
-          messages: {
-            purchaseUnitName: {
-              required: "必填项 !"
-            }
-          },
-          showErrors: function(errorMap, errorList) {
-            $.each(this.successList, function(index, value) {
-              return $(value).popover("hide");
-            });
-            return $.each(errorList, function(index, value) {
-              console.dir(value);
-              var _popover;
-              _popover = $(value.element).popover({
-                trigger: "manual",
-                placement: "right",
-                content: value.message,
-                delay: {
-                  show: 5000,
-                  hide: 100
-                },
-                container: value.element,
-                template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
-              });
-              _popover.data("bs.popover").options.content = value.message;
-              return _popover.popover("show");
-            });
-          }
-        });
-      }
-
-      function validateAll() {
-        return $("#formID").validate({
-          ignore: ":hidden",
-          ignore: "",
-          focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
-          onkeyup: false,
-          wrapper: "div",
-          rules: {
-            levelDep: {
-              required: true
-            },
-            purchaseUnitName: {
-              required: true
-            },
-            purchaseRoomTypeName: {
-              required: true
-            },
-            purchaseRoomCode: {
-              required: true
-            }
-          },
-          messages: {
-            levelDep: {
-              required: "必填项 !"
-            },
-            purchaseUnitName: {
-              required: "必填项 !"
-            },
-            purchaseRoomTypeName: {
-              required: "必填项 !"
-            },
-            purchaseRoomCode: {
-              required: "必填项 !"
-            }
-          },
-          errorPlacement: function(error, element) {
-            error.appendTo(element.parent("div").next("td"));
-          },
-          showErrors: function(errorMap, errorList) {
-            for(var a = 0; a < errorList.length; a++) {
-              //layer.tips("请选择要上传的附件 !", errorList[a].element);
-              //errorList[a].element.addClass("w");
-            }
-
-            　　　　　　　　　　 //此方法处理所有不满足校验的元素
-            　　　　　　　　　
-            /*  var i = 0;
-            　　　　　　　　　　 for(var key in errorMap){
-            　　　　　　　　　　　　console.dir("属性：" + key + ",值："+ errorMap[key]); 
-            　　　　　　　　　　　　if(true){
-            　　　　　　　　　　　　　　　 // 所有tab页的内容域
-            　　　　　　　　　　　　　　var conents = $("div.tab_tontent > div");
-            　　　　　　　　　　　　　　　 // 所有tab页头
-            　　　　　　　　　　　　　   var tabs = $("div.tab_menu ul li"); 
-            　　　　　　　　　　　 　　        var index = conents.index(conents.has("[name='"+key+"']"));
-                                console.dir("index:"+index);
-            　　　　　　　　　　　　　       tabs.eq(index).click();
-            　　　　　　　　　　　　}
-            　　　　　　　　　　　　i++;
-            　　　　　　　　　　} */
-            　　　　　　　　　　
-            this.defaultShowErrors();　　　　　　
-          }
-        });
-      }
 
       function a(errorList) {
         return $.each(errorList, function(index, value) {
@@ -570,56 +465,6 @@
           return _popover.popover("show");
         });
       }
-    </script>
-    <script type="text/javascript">
-      /* $(document).ready(function() {
-               $("#formID").validate({
-                  focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
-                  onkeyup : false,
-                  rules : {
-                      levelDep : {
-                          required : true,
-                          isZipCode : true
-                      },
-                      purchaseRoomTypeName:{
-                          required : true
-                      },
-                      purchaseRoomCode:{
-                          required : true
-                      }
-                  },
-                  messages : {
-                      levelDep : {
-                          required : "必填项 !",
-                          valiEnglish : "邮编6位数字组成!"
-                      },
-                      purchaseRoomTypeName : {
-                          required : "必填项 !",
-                          valiEnglish : "邮编6位数字组成!"
-                      },
-                      purchaseRoomCode : {
-                          required : "必填项 !",
-                          valiEnglish : "邮编6位数字组成!"
-                      }
-                  },
-                  showErrors: function(errorMap, errorList) {
-                     $.each(this.successList, function(index, value) {
-                       return $(value).popover("hide");
-                     });
-                     return $.each(errorList, function(index, value) {
-                          var _popover;
-                          _popover = $(value.element).popover({
-                          trigger: "manual",
-                          placement: "top",
-                          content: value.message,
-                          template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
-                     });
-                   _popover.data("bs.popover").options.content = value.message;
-                   return _popover.popover("show");
-                 });
-               }
-              }); 
-           });  */
     </script>
   </head>
 
@@ -673,9 +518,9 @@
                       <td class="bggrey">邮编：</td>
                       <td>${purchaseDep.postCode }</td>
                       <td class="bggrey ">省：</td>
-                      <td>${purchaseDep.provinceId }</td>
+                      <td>${area.name }</td>
                       <td class="bggrey">市：</td>
-                      <td>${purchaseDep.cityId }</td>
+                      <td>${area1.name }</td>
                     </tr>
                     
                     <tr>
@@ -684,7 +529,10 @@
                       <td class="bggrey ">传真号：</td>
                       <td>${purchaseDep.fax }</td>
                       <td class="bggrey ">是否具有审核供应商：</td>
-                      <td>${purchaseDep.isAuditSupplier }</td>
+                      <td>
+                        <c:if test="${'1' eq purchaseDep.isAuditSupplier}">是 </c:if>
+                        <c:if test="${'0' eq purchaseDep.isAuditSupplier}">否 </c:if>
+                      </td>
                     </tr>
                     
                   </tbody>
@@ -696,9 +544,24 @@
                   
                     <tr>
                       <td class="bggrey">采购资质等级：</td>
-                      <td>${purchaseDep.quaLevel }</td>
+                      <td>
+                        <c:if test="${'1' eq purchaseDep.quaLevel}">一级 </c:if>
+                        <c:if test="${'2' eq purchaseDep.quaLevel}">二级 </c:if>
+                        <c:if test="${'3' eq purchaseDep.quaLevel}">三级 </c:if>
+                        <c:if test="${'4' eq purchaseDep.quaLevel}">四级</c:if>
+                        <c:if test="${'5' eq purchaseDep.quaLevel}">五级 </c:if>
+                        <c:if test="${'6' eq purchaseDep.quaLevel}">六级</c:if>
+                        <c:if test="${'7' eq purchaseDep.quaLevel}">七级</c:if>
+                        <c:if test="${'8' eq purchaseDep.quaLevel}">八级 </c:if>
+                        <c:if test="${'9' eq purchaseDep.quaLevel}">九级</c:if>
+                      </td>
                       <td class="bggrey ">采购资质范围：</td>
-                      <td>${purchaseDep.quaRange }</td>
+                      <td>
+                        <c:if test="${'1' eq purchaseDep.quaRange}">综合 </c:if>
+                        <c:if test="${'2' eq purchaseDep.quaRange}">物资 </c:if>
+                        <c:if test="${'3' eq purchaseDep.quaRange}">工程</c:if>
+                        <c:if test="${'4' eq purchaseDep.quaRange}">服务</c:if>
+                      </td>
                       <td class="bggrey ">采购资质编号：</td>
                       <td>${purchaseDep.quaCode }</td>
                     </tr>
@@ -816,20 +679,20 @@
                         <th class="info f13">序号</th>
                         <th class="info f13">部门名称</th>
                         <th class="info f13">主要职责</th>
-                        <th class="info f13">操作</th>
                       </tr>
                     </thead>
                     <tbody>
-
+                           <c:forEach items="${orgInfos}" var="obj" varStatus="vs">
+                          <tr style="cursor: pointer;">
+                              <td class="tc w50">${(vs.index+1)}</td>
+                              <td class="tc">${obj.purchaseUnitName}</td>
+                              <td class="tc">${obj.purchaseUnitDuty}</td>
+                             </tr>
+                        </c:forEach>
                     </tbody>
                   </table>
                 </div>
                 <div class="clear"></div>
-                <!-- <div class="mt40 tc mb50">
-                                        <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="updateOffice();" value="确认"/>
-                                        <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stashOffice();" value="暂存"/> 
-                                        <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="history.go(-1)" value="取消"/>
-                                    </div> -->
               </div>
 
               <!-- 股东信息 -->
@@ -851,7 +714,21 @@
                       <td class="bggrey">招标室数量：</td>
                       <td>${purchaseDep.inviteRoomCount}</td>
                       <td class="bggrey ">评标室数量：</td>
-                      <td colspan="3">${purchaseDep.bidRoomCount}</td>
+                      <td>${purchaseDep.bidRoomCount}</td>
+                      <td class="bggrey ">是否接入网络：</td>
+                      <td>
+                        <c:if test="${purchaseDep.accessNetwork eq '0' }">是</c:if>
+                        <c:if test="${purchaseDep.accessNetwork eq '1' }">否</c:if>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="bggrey">接入方式：</td>
+                      <td>${purchaseDep.accessWay}</td>
+                      <td class="bggrey ">是否具备视频监控系统：</td>
+                      <td colspan="3">
+                        <c:if test="${purchaseDep.videoSurveillance eq '0' }">是</c:if>
+                        <c:if test="${purchaseDep.videoSurveillance eq '1' }">否</c:if>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -866,26 +743,30 @@
                         <th class="info f13">编号</th>
                         <th class="info f13">位置</th>
                         <th class="info f13">面积</th>
-                        <th class="info f13">接入方式</th>
                         <th class="info f13">容纳人员数量</th>
-                        <th class="info f13">是否介入网络</th>
-                        <th class="info f13">是否具备监控系统</th>
-                        <th class="info f13">操作</th>
                       </tr>
                       
                     </thead>
                     <tbody>
-
+                        <c:forEach items="${locales}" var="obj" varStatus="vs">
+                              <tr style="cursor: pointer;">
+                              <td class="tc w50">${(vs.index+1)}</td>
+                              <td class="tc">
+                              <c:if test="${'1' eq obj.siteType}"> 办公室</c:if>
+                              <c:if test="${'2' eq obj.siteType}"> 会议室</c:if>
+                              <c:if test="${'3' eq obj.siteType}"> 招标室</c:if>
+                              <c:if test="${'4' eq obj.siteType}"> 评标室</c:if>
+                             </td>
+                              <td class="tc">${obj.siteNumber}</td>
+                              <td class="tc">${obj.location}</td>
+                              <td class="tc">${obj.area}</td>
+                              <td class="tc">${obj.crewSize}</td>
+                             </tr>
+                          </c:forEach>
                     </tbody>
                   </table>
                 </div>
               </div>
-              <!-- <div class="mt40 tc mb50">
-                                        <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="updatePosition();" value="确认"/>
-                                        <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stashPosition();" value="暂存"/> 
-                                        <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="history.go(-1)" value="取消"/>
-                                    </div> -->
-              <!--  -->
               <div class="tab-pane fade height-200" id="tab-4">
                 <div class="headline-v2">
                   <h2>采购管理部门信息</h2>
@@ -894,20 +775,27 @@
                   <table class="table table-bordered table-condensed table-hover table-striped" id="tab">
                     <thead>
                       <tr>
-                        <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
                         <th class="info w50">序号</th>
                         <th class="info f13">机构名称</th>
-                        <th class="hide f13">机构id</th>
-                        <th class="info f13">操作</th>
                       </tr>
                     </thead>
                     <tbody>
-
+                        <c:if test="${lists != null}">
+                        <c:forEach items="${lists}" var="obj" varStatus="vs">
+                             <tr style="cursor: pointer;">
+                              <td class="tc w50">${(vs.index+1)}</td>
+                              <td class="tc w50">${obj.name}</td>
+                             </tr>
+                          </c:forEach>
+                          </c:if>
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
+            <div class="mt40 tc mb50">
+                <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回" />
+              </div>
           </form>
         </div>
       </div>

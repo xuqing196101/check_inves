@@ -261,6 +261,8 @@
        D.NATURE             AS NATURE,
        D.ORG_CODE           AS ORGCODE,
        D.PROVINCE_ID        AS PROVINCEID,
+       D.CONTACT_NAME     AS CONTACTNAME,
+       D.CONTACT_MOBILE     AS CONTACTMOBILE,
        D.CITY_ID            AS CITYID
 
        FROM T_SES_OMS_ORG D,

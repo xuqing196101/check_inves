@@ -84,6 +84,30 @@
       $("#save_form_id").submit();
     }   
   }
+  
+  function ycDiv(obj, index){
+  if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
+    $(obj).removeClass("jbxx");
+    $(obj).addClass("zhxx");
+  } else {
+    if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
+      $(obj).removeClass("zhxx");
+      $(obj).addClass("jbxx");
+    }
+  }
+  
+  var divObj = new Array();
+  divObj = $(".p0" + index);
+  for (var i =0; i < divObj.length; i++) {
+      if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
+        $(divObj[i]).removeClass("hide");
+      } else {
+        if ($(divObj[i]).hasClass("p0"+index)) {
+          $(divObj[i]).addClass("hide");
+        }
+      }
+  };
+}
 </script>
 </head>
 
@@ -111,45 +135,36 @@
       <div class="tab-content">
         <div class="tab-pane fade active in" id="tab-1">
           <h2 class="count_flow jbxx">基本信息</h2>
-          <form id="save_form_id" action="${pageContext.request.contextPath}/project/addProject.html" method="post" target="_parent">
+          <form id="save_form_id" action="${pageContext.request.contextPath}/project/addProject.html" method="post" >
             <table class="table table-bordered">
               <tbody>
                 <tr>
                   <td class="bggrey">项目编号:</td>
-                  <td>${project.projectNumber}<input type="hidden" name="id" id="id" value="${project.id}"/></td>
+                  <td><input name="projectNumber" id="projectNumber" value="${project.projectNumber}"/><input type="hidden" name="id" id="id" value="${project.id}"/></td>
                   <td class="bggrey">项目名称:</td>
-                  <td>${project.name}<input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}"/></td>
+                  <td><input name="name" id="name" value="${project.name}"/><input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}"/></td>
                 </tr>
                 <tr>
                   <td class="bggrey">项目经办人:</td>
-                  <td>${project.principal}</td>
+                  <td><input name="principal" id="principal" value="${project.principal}"/></td>
                   <td class="bggrey">经办人手机:</td>
-                  <td>${project.ipone}</td>
+                  <td><input name="ipone" id="ipone" value="${project.ipone}"/></td>
                 </tr>
                 <tr>
                   <td class="bggrey">采购机构名称:</td>
-                  <td>${project.sectorOfDemand}</td>
-                  <td class="bggrey">联系地址:</td>
-                  <td>${project.address}</td>
+                  <td><input name="sectorOfDemand" id="sectorOfDemand" value="${project.sectorOfDemand}"/></td>
+                  <td class="bggrey">预算报价（万元）:</td>
+                  <td><input name="budgetAmount" id="budgetAmount" value="${project.budgetAmount}"/></td>
                 </tr>
-                <tr>
-                  <td class="bggrey">邮编:</td>
-                  <td>${project.postcode}</td>
+                <%-- <tr>
                   <td class="bggrey">最少供应商人数:</td>
                   <td><input name="supplierNumber" id="supplierNumber" value="${project.supplierNumber}" /></td>
                 </tr>
                 <tr>
                   <td class="bggrey">报价标准分值:</td>
                   <td>${project.offerStandard}</td>
-                  <td class="bggrey">预算报价（万元）:</td>
-                  <td>${project.budgetAmount}</td>
-                </tr>
-                                    <%--  <tr>
-                                            <c:forEach items="${info.list}" var="obj" varStatus="vs">
-                                              <td class="bggrey">${obj.name}密码:</td><td>${obj.passWord}</td>
-                                              </c:forEach>
-                                              <td class="bggrey">评分细则:</td><td>${project.scoringRubric}</td>
-                                            </tr> --%>
+                  
+                </tr> --%>
                  <tr>
                    <td class="bggrey">采购方式:</td>
                    <td>
@@ -161,7 +176,7 @@
                      </c:forEach>
                    </td>
                    <td class="bggrey">投标截止时间:</td>
-                   <td>${project.deadline}</td>
+                   <td><fmt:formatDate value='${project.deadline}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                  </tr>
                  <tr>
                    <td class="bggrey">开标时间:</td>
@@ -169,11 +184,16 @@
                    <td class="bggrey">开标地点:</td>
                    <td><input name="bidAddress" id="bidAddress" value="${project.bidAddress}"/></td>
                  </tr>
+               </tbody>
+             </table>
+              <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">时间信息</h2>
+             <table class="table table-bordered">
+               <tbody>
                  <tr>
                    <td class="bggrey">招标文件报批时间:</td>
-                   <td>${project.approvalTime}</td>
+                   <td><fmt:formatDate value='${project.approvalTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                    <td class="bggrey">招标文件批复时间:</td>
-                   <td>${project.replyTime}</td>
+                   <td><fmt:formatDate value='${project.replyTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                  </tr>
                  <tr>
                    <td class="bggrey">需求计划提报时间:</td>
@@ -236,7 +256,6 @@
                  <thead>
                    <tr>
                      <th class="info w50">序号</th>
-                     <th class="info">需求部门</th>
                      <th class="info">物资名称</th>
                      <th class="info">规格型号</th>
                      <th class="info">质量技术标准</th>
@@ -245,7 +264,6 @@
                      <th class="info">单价（元）</th>
                      <th class="info">预算金额（万元）</th>
                      <th class="info">交货期限</th>
-                     <th class="info">采购方式建议</th>
                      <th class="info">供应商名称</th>
                      <c:if test="${pack.isImport==1 }">
                        <th class="info">是否申请办理免税</th>
@@ -258,7 +276,6 @@
 		         <c:forEach items="${pack.projectDetails}" var="obj">
 		           <tr>
 		             <td class="tc w50">${obj.serialNumber}</td>
-		             <td class="tc">${obj.department}</td>
 		             <td class="tc">${obj.goodsName}</td>
 		             <td class="tc">${obj.stand}</td>
 		             <td class="tc">${obj.qualitStand}</td>
@@ -267,11 +284,6 @@
 		             <td class="tc">${obj.price}</td>
 		             <td class="tc">${obj.budget}</td>
 		             <td class="tc">${obj.deliverDate}</td>
-		             <td class="tc">
-		               <c:forEach items="${kind}" var="kind" >
-		                 <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-		               </c:forEach>
-		             </td>
 		             <td class="tc">${obj.supplier}</td>
 		             <c:if test="${pack.isImport==1 }">
 		               <td class="tc">${obj.isFreeTax}</td>
