@@ -435,9 +435,49 @@ public class ExpertController {
     
     @RequestMapping(value = "getCategory", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getCategory(String id, String categoryIds, String expertId){
-        List<CategoryTree> allList = new ArrayList<CategoryTree>();
-        if(id == null && categoryIds != null) {
+    public String getCategory(String expertId, String id){
+        List<CategoryTree> allCategories = new ArrayList<CategoryTree>();
+        DictionaryData parent = dictionaryDataServiceI.getDictionaryData(id);    
+        CategoryTree ct = new CategoryTree();
+        ct.setName(parent.getName().substring(0, parent.getName().length() - 2));
+        ct.setId(parent.getId());
+        ct.setIsParent("true");
+        // 判断是否被选中
+        List<ExpertCategory> allCategory = expertCategoryService.getListByExpertId(expertId);
+        for (ExpertCategory expertCategory : allCategory) {
+            String parentId = categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getParentId();
+            if (parentId != null && parentId.equals(ct.getId())) {
+                ct.setChecked(true);
+            }
+        }
+        allCategories.add(ct);
+        // 递归查询出所有节点
+        List<Category> categoryTree = getCategoryTree(ct.getId());
+        for (Category c : categoryTree) {
+            List<Category> list1 = categoryService.findTreeByPid(c.getId());
+            CategoryTree ct1 = new CategoryTree();
+            ct1.setName(c.getName());
+            ct1.setParentId(c.getParentId());
+            ct1.setId(c.getId());
+            // 设置是否为父级
+            if (!list1.isEmpty()) {
+                ct1.setIsParent("true");
+            } else {
+                ct1.setIsParent("false");
+            }
+            // 设置是否回显
+            for (ExpertCategory category : allCategory) {
+                if (category.getCategoryId() != null) {
+                    if (category.getCategoryId().equals(c.getId())) {
+                        ct1.setChecked(true);
+                    }
+                }
+            }
+            allCategories.add(ct1);
+        }
+        return JSON.toJSONString(allCategories);
+    }
+        /*if(id == null && categoryIds != null) {
             DictionaryData type = dictionaryDataServiceI.getDictionaryData(categoryIds);
             CategoryTree ct = new CategoryTree();
             ct.setName(type.getName().substring(0, type.getName().length() - 2));
@@ -475,9 +515,24 @@ public class ExpertController {
                     }
                 }
                 allList.add(ct1);
-            }
+            }*/
+    
+    /**
+     *〈简述〉
+     * 递归查询所有Tree节点
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param id
+     * @return
+     */
+    public List<Category> getCategoryTree(String id){
+        List<Category> list = categoryService.findTreeByPid(id);
+        List<Category> childList = new ArrayList<Category>();
+        childList.addAll(list);
+        for (Category cate : list) {
+            childList.addAll(getCategoryTree(cate.getId()));
         }
-        return JSON.toJSONString(allList);
+        return list;
     }
     
     @RequestMapping(value = "getAllCategory", produces = "application/json;charset=UTF-8")

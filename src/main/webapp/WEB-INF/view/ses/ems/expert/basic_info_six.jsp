@@ -22,6 +22,21 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	$(function(){
 		var count;
+		var zTreeObj;
+		var setting = {
+				check: {
+					chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+	        		chkStyle:"checkbox",  
+					enable: true
+				},
+				data: {
+					simpleData: {
+						enable: true,
+						idKey: "id",
+						pIdKey: "parentId",
+					}
+				}
+			};
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/getAllCategory.do",
 			data:{"expertId":$("#id").val()},
@@ -29,35 +44,17 @@ session.setAttribute("tokenSession", tokenValue);
 			dataType:"json",
 			success:function(response){
 				$.each(response,function(i, result){
-					var id = result.id;
-					var zTreeObj;
-					var zNodes;
-					var setting = {
-						async: {
-							autoParam: ["id"],
-							enable: true,
-							url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId=${expert.id}",
-							otherParam: {
-								categoryIds: id,
-							},
-							dataType: "json",
-							type: "post"
-						},
-						check: {
-							enable : true,
-							chkStyle:"checkbox",  
-							chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
-						},
-						data: {
-							simpleData: {
-								enable: true,
-								idKey: "id",
-								pIdKey: "parentId"
-							}
-						}
-					};
-					zTreeObj = $.fn.zTree.init($("#tab-" + (parseInt(i) + 1)), setting, zNodes);
-					zTreeObj.expandAll(true);//全部展开
+					$.ajax({
+			            type: "GET",
+			            async: false, 
+			            url: "${pageContext.request.contextPath}/expert/getCategory.do",
+			            data: {"id":result.id,"expertId":$("#id").val()},
+			            dataType: "json",
+			            success: function(zNodes){
+							zTreeObj = $.fn.zTree.init($("#tab-" + (parseInt(i) + 1)), setting, zNodes);
+							zTreeObj.expandAll(true);//全部展开
+			            }
+			         });
 				});
 				$("#tab-1").attr("style", "");
 				$("#li_1").attr("class", "s_news f18");
@@ -105,7 +102,7 @@ function showDivTree(obj){
 	var id = obj.id;
 	var page = "tab-" + id.charAt(id.length - 1);
 	$("#" + page).attr("style", "");
-	showTree(page);
+	//showTree(page);
 }
 function zancunCategory(count){
 	var ids = new Array();
