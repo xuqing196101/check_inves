@@ -39,7 +39,7 @@
 			  var auditContent;
 			  var html = "<div class='abolish' style='padding-right;30px'>×</div>";
 		    $("#"+obj.id+"").each(function() {
-		      auditField = $(this).parents("li").find("span").text().replace("：","");
+		      auditField = $(this).parents("li").find("span").text().replace("：","").trim();
           auditContent = $(this).parents("li").find("input").val();
     		});
 					var index = layer.prompt({
@@ -58,6 +58,25 @@
 		      layer.close(index);
 			    });
 		  	}
+		  	
+			//获取选中子节点id
+			$(function (){
+				var ids=new Array();
+				var checklist1 = document.getElementsByName ("chkItem_1");
+				for(var i=0;i<checklist1.length;i++){
+			 		var vals=checklist1[i].value;
+			 		if(checklist1[i].checked){
+			 			ids.push(vals);
+			 		}
+				}
+				var checklist2 = document.getElementsByName ("chkItem_2");
+				for(var i=0;i<checklist2.length;i++){
+			 		var vals=checklist2[i].value;
+			 		if(checklist2[i].checked){
+			 			ids.push(vals);
+			 		}
+				}
+			});
 		</script>
 		<script type="text/javascript">
 			function jump(str){
@@ -105,7 +124,7 @@
 		<div class="container container_box">
 			<div class=" content height-350">
 				<div class="col-md-12 tab-v2 job-content">
-					<ul class="flow_step">
+					<ul class="nav nav-tabs bgdd">
 						<li class="active">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a><i></i>
 						</li>
@@ -273,7 +292,7 @@
 								<input maxlength="20" value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" />
 							</div>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 取得技术职称时间：</span>
+						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
 							</div>
@@ -285,7 +304,20 @@
 						</li>
 					</ul>
 					
-					
+					<!-- 专家专业信息 -->
+					<%-- <h2 class="count_flow"><i>4</i>专家类别</h2>
+					<ul class="ul_list" id="expertType" onclick="reason(this);">
+						<li class="col-md-3 col-sm-6 col-xs-12 pl10" >
+							<div class="input-append col-sm-12 col-xs-12 col-md-12 p0" >
+								<c:forEach items="${spList}" var="sp" >
+							  	<span><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name} </span>
+							  </c:forEach> 
+							  <c:forEach items="${jjList}" var="jj" >
+									<span><input type="checkbox" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
+								</c:forEach>
+							</div>
+						</li>
+					</ul> --%>
 				</div>
 			</div>
 		</div>

@@ -76,7 +76,7 @@
 		<div class="container container_box">
 			<div class=" content height-350">
 				<div class="col-md-12 tab-v2 job-content">
-					<ul class="flow_step">
+					<ul class="nav nav-tabs bgdd">
 						<li onclick="jump('basicInfo')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a><i></i>
 						</li>

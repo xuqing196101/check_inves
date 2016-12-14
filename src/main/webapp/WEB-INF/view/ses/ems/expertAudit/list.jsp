@@ -98,41 +98,26 @@
 				<input type="hidden" name="pageNum" id="pageNum">
 				<input type="hidden" name="sign" value="${sign }">
 				<ul class="demand_list">
-				
 					<li>
-						<label class="fl">姓名：</label><span><input type="text" id="relName" name="relName" value=""></span>
+						<label class="fl">专家姓名：</label>
+						<input type="text" name="relName" value="">
 					</li>
-					<%-- <li>
-						<label class="fl">来源：</label>
-							<span class="fl">
-								<select name="expertsFrom" id="expertsFrom">
-									<option selected="selected" value="">-请选择-</option>
-									<c:forEach items="${lyTypeList }" var="ly" varStatus="vs">
-										<option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
-									</c:forEach>
-								</select>
-							</span>
-					</li> --%>
-					<%-- <li>
-						<label class="fl">状态：</label>
-						<select name="status" id="status">
-							<option selected="selected" value=''>-请选择-</option>
-							<option <c:if test="${expert.status =='0' }">selected</c:if> value="0">未审核</option>
-							<option <c:if test="${expert.status =='1' }">selected</c:if> value="1">审核通过</option>
-							<option <c:if test="${expert.status =='2' }">selected</c:if> value="2">审核未通过</option>
-							<option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
-						</select>
-					</li> --%>
-					<%-- <li>
-						<label class="fl">专家类型：</label>
-						<!--<span class="fl">-->
-						<select name="expertsTypeId" id="expertsTypeId">
-							<option selected="selected" value=''>-请选择-</option>
-							<option <c:if test="${expert.expertsTypeId =='1' }">selected</c:if> value="1">技术</option>
-							<option <c:if test="${expert.expertsTypeId =='3' }">selected</c:if> value="3">经济</option>
-						</select>
-						<!--</span>-->
-					</li> --%>
+					<li>
+						<label class="fl">审核状态：</label>
+						<select name="status" class="w178" id="status">
+			        <option value="">全部</option>
+		          <c:if test="${sign == 1}">
+		            <option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
+		            <option <c:if test="${state == 2 }">selected</c:if> value="2">初审未通过</option>
+		            <option <c:if test="${state == 3 }">selected</c:if> value="3">初审退回</option>
+		          </c:if>
+		          <c:if test="${sign == 2}">
+		            <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
+		            <option <c:if test="${state == 4 }">selected</c:if> value="4">复审通过</option>
+		            <option <c:if test="${state == 5 }">selected</c:if> value="5">复审踢除</option>
+		          </c:if>
+			      </select> 
+					</li>
 				</ul>
 				<input class="btn" value="查询" type="submit">
 				<input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">

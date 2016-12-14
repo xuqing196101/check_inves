@@ -1,7 +1,6 @@
 package ses.controller.sys.ems;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.DictionaryData;
-import ses.model.bms.Todos;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.service.bms.CategoryService;
@@ -24,8 +22,7 @@ import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.util.PropertiesUtil;
-import ses.util.WfUtil;
+import ses.util.DictionaryDataUtil;
 
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
@@ -83,29 +80,47 @@ public class ExpertAuditController {
 		model.addAttribute("expert", expert);
 		
 		//专家来源
-		DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
-		model.addAttribute("expertsFrom", expertsFrom.getName());
-		
+		if(expert.getExpertsFrom() != null){
+			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
+			model.addAttribute("expertsFrom", expertsFrom.getName());
+		}
 		//性别
-		DictionaryData gender = dictionaryDataServiceI.getDictionaryData(expert.getGender());
-		model.addAttribute("gender", gender.getName());
-		
+		if(expert.getGender() != null){
+			DictionaryData gender = dictionaryDataServiceI.getDictionaryData(expert.getGender());
+			model.addAttribute("gender", gender.getName());
+		}
 		//政治面貌
-		DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(expert.getPoliticsStatus());
-		model.addAttribute("politicsStatus", politicsStatus.getName());
-		
+		if(expert.getPoliticsStatus() != null){
+			DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(expert.getPoliticsStatus());
+			model.addAttribute("politicsStatus", politicsStatus.getName());	
+		}
 		//军队人员身份证件类型
-		DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
-		model.addAttribute("idType", idType.getName());
-		
+		if(expert.getIdType() != null){
+			DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
+			model.addAttribute("idType", idType.getName());
+		}
 		//最高学历
-		DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(expert.getHightEducation());
-		model.addAttribute("hightEducation", hightEducation.getName());
-		
+		if(expert.getHightEducation() != null){
+			DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(expert.getHightEducation());
+			model.addAttribute("hightEducation", hightEducation.getName());
+		}
 		//最高学位
-		DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
-		model.addAttribute("degree", degree.getName());
-
+		if(expert.getDegree() != null){
+			DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
+			model.addAttribute("degree", degree.getName());
+		}
+		// 货物类型数据字典
+        List<DictionaryData> hwList = DictionaryDataUtil.find(8);
+        model.addAttribute("hwList", hwList);
+        
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
+        
+       // 产品类型数据字典
+        List<DictionaryData> spList = DictionaryDataUtil.find(6);
+        model.addAttribute("spList", spList);
+        
 		model.addAttribute("expertId", expertId);
 		
 		return "ses/ems/expertAudit/basic_info";

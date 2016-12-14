@@ -170,7 +170,7 @@
 			<input type="hidden" name="id" id="id" value="${expertId}" />
 			<div id="reg_box_id_4" class="container container_box">
 				<div class=" content height-350">
-					<ul class="flow_step">
+					<ul class="nav nav-tabs bgdd">
 						<li onclick="jump('basicInfo')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a><i></i>
 						</li>

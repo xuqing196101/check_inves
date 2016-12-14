@@ -921,7 +921,10 @@
 				ORDER BY decode(STATUS,'1',1,'4',2,'5',3)
 			</if>
 			<if test="relName != null and relName !=''">
-				and REAL_NAME like '%${relName}%'
+				and REAL_NAME like #{relName}
 			</if>
+			<if test="status != null and status !=''">
+				and STATUS = #{status}
+		  </if> 
 	</select>
 </mapper>
