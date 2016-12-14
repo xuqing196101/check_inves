@@ -93,6 +93,12 @@
 	        <type>java.lang.Boolean</type>
 	        <rtexprvalue>true</rtexprvalue>
        </attribute>
+       <attribute>
+            <name>exts</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
        
  </tag>
  <tag>

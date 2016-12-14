@@ -1,7 +1,5 @@
 package bss.util;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -13,6 +11,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import bss.model.pms.PurchaseRequired;
 
@@ -35,13 +34,13 @@ public class ExcelUtil {
 	* @param @return     
 	* @return List<PurchaseRequired>     
 	 */
-	public static List<?> readExcel(File path) throws Exception{
+	public static List<PurchaseRequired> readExcel(MultipartFile file) throws Exception{
 		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
-		 FileInputStream fis = new FileInputStream(path);
-	        Workbook workbook = WorkbookFactory.create(fis);
-	        if (fis != null) {
+		 //FileInputStream fis = new FileInputStream(path);
+	        Workbook workbook = WorkbookFactory.create(file.getInputStream());
+	       /* if (fis != null) {
 	            fis.close();
-	        }
+	        }*/
 	        Sheet sheet = workbook.getSheetAt(0);
 	        for (Row row : sheet) {
 	        	PurchaseRequired rq=new PurchaseRequired();

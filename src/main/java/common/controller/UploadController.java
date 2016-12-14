@@ -126,7 +126,7 @@ public class UploadController {
      * @param request {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
      */
-    @RequestMapping("/viewFile")
+    @RequestMapping(value="/viewFile")
     public void viewPicture(HttpServletRequest request ,HttpServletResponse response){
         
         uploadService.viewPicture(request, response);

@@ -4,7 +4,6 @@
 <html>
 <head>
  <jsp:include page="/WEB-INF/view/common.jsp"/> 
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 <script type="text/javascript">
  	//跳转到增加页面
     function add(){
@@ -31,54 +30,47 @@
 	function closeLayer(){
 		layer.close(index);	
 	}
+	
+	
+	function uploadExcel(){
+		layer.open({
+			  type: 2, //page层
+			  area: ['600px', '500px'],
+			  title: '文件上传',
+			  closeBtn: 1,
+			  shade:0.01, //遮罩透明度
+			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  shift: 1, //0-6的动画形式，-1不开启
+			  offset: ['80px', '400px'],
+			  content: '${pageContext.request.contextPath}/purchaser/fileUpload.html',
+			});
+	}
+	
 	//上传excel文件
 	function upload(){
-		  var name=$("#jhmc").val();
-	 		 var no=$("#jhbh").val();
-	 		 
-	 		 
- 		var type=$("#wtype").val();
- 		name=encodeURI(name);
- 		if(name==""){
- 			layer.tips("计划名称不允许为空","#jhmc");
- 		 } else if(no==""){
- 			layer.tips("计划编号不允许为空","#jhbh");
- 		 }else{
- 			 
- 		 
-		            $.ajaxFileUpload (
-		                {
-		                    url: '${pageContext.request.contextPath}/purchaser/upload.do?type='+type+"&&planName="+name+"&&planNo="+no, //用于文件上传的服务器端请求地址
-		                    secureuri: false, //一般设置为false
-		                    fileElementId: 'fileName', //文件上传空间的id属性  <input type="file" id="file" name="file" />
-		                  
-		                 	 dataType: "text", //返回值类型 一般设置为json
-		                    success: function (data)  //服务器成功响应处理函数
-		                    { 
-		                    	if(data=="ERROR"){
-		                    		layer.alert("文件名错误",{offset: ['222px', '390px'], shade:0.01});
-		                    	}else if(data=="exception"){
-		                    		layer.alert("格式错误",{offset: ['222px', '390px'], shade:0.01});
-		                    	}
-		                    	
-		                    	else{
-		                    		
-		                    		layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
-		                    		window.location.href="${pageContext.request.contextPath}/purchaser/list.html";
-		                    	}
-		                   
-		                    },
-		                    error: function (data, status, e)//服务器响应失败处理函数
-		                    {
-		                    	  alert("上传失败");
-		                    }
-		                }
-		            );
-		            
- 		 }
- 		
-		  	}    
+		$.ajaxFileUpload ({
+               url: '${pageContext.request.contextPath}/purchaser/upload.do', 
+               secureuri: false, 
+               fileElementId: 'fileName', 
+               dataType: "text", 
+               success: function (data){ 
+                 if(data=="ERROR"){
+               		layer.msg("文件名错误");
+               	 }else if(data=="exception"){
+               		layer.msg("格式错误");
+               	 }else{
+               		layer.msg("上传成功");
+               		window.location.href="${pageContext.request.contextPath}/purchaser/list.html";
+               	 }
+               },error: function (data, status, e){
+            	   layer.msg("上传失败");
+                 }
+        });
+   }
 	  
+	function loadTrInfo(obj){
+		
+	}
 	  
 	  function adds(){
 		  var name=$("#jhmc").val();
@@ -370,7 +362,7 @@
 	<button  class="btn btn-windows add" onclick="aadd()">添加子级</button>
 	<button  class="btn btn-windows add" onclick="same()">添加同级</button>
 	<button class="btn btn-windows output" onclick="down()">下载Excel模板</button>
-	<button class="btn btn-windows output" onclick="upload();">导入</button>
+	<button class="btn btn-windows output" onclick="uploadExcel();">导入</button>
 	<button  class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 	<button  class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
 	</div>			
@@ -381,39 +373,39 @@
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
-						<th class="info">需求部门</th>
-						<th class="info">物资类别及物种名称</th>
-						<th class="info">规格型号</th>
-						<th class="info">质量技术标准（技术参数）</th>
-						<th class="info">计量单位</th>
-						<th class="info">采购数量</th>
-						<th class="info">单位（元）</th>
-						<th class="info">预算金额（万元）</th>
-						<th class="info">交货期限</th>
-						<th class="info">采购方式建议</th>
-						<th class="info">供应商名称</th>
-						<th class="info">是否申请办理免税</th>
-						<th class="info">物资用途（仅进口）</th>
-						<th class="info">使用单位（仅进口）</th>
-						<th class="info">备注</th>
+						<th class="info w100">需求部门</th>
+						<th class="info w200">物资类别及物种名称</th>
+						<th class="info w100">规格型号</th>
+						<th class="info w100">质量技术标准（技术参数）</th>
+						<th class="info w100">计量单位</th>
+						<th class="info w100">采购数量</th>
+						<th class="info w150">单位（元）</th>
+						<th class="info w150">预算金额（万元）</th>
+						<th class="info w100">交货期限</th>
+						<th class="info w120">采购方式建议</th>
+						<th class="info w200">供应商名称</th>
+						<th class="info w80">是否申请办理免税</th>
+						<th class="info w200">物资用途（仅进口）</th>
+						<th class="info w200">使用单位（仅进口）</th>
+						<th class="info w200">备注</th>
 					</tr>
 				</thead>
-
-				<tr>
+				<tbody>
+				  <tr>
 					<td class="tc w50">
-					<input style="border: 0px;" type="hidden" name="list[0].id" id="purid" value="">
-					<input style="border: 0px;width: 60px;" type="text" name="list[0].seq" value="">
+					<input type="hidden" name="list[0].id" id="purid" value="">
+					<input type="text" name="list[0].seq" value="">
 					</td>
-					<td><input style="border: 0px;width: 130px;" type="text" name="list[0].department" value=""></td>
-					<td><input style="border: 0px;width: 100px;"  type="text" name="list[0].goodsName" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 70px;"  type="text" name="list[0].stand" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 80px;"  type="text" name="list[0].qualitStand" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 55px;"  type="text" name="list[0].item" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 80px;"  type="text" name="list[0].purchaseCount" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 80px;"  type="text" name="list[0].price" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 80px;"  type="text" name="list[0].budget" value=""></td>
-					<td><input style="border: 0px;width: 90px;"  type="text" name="list[0].deliverDate" value=""></td>
-					<td>
+					<td class="w100"><input type="text" name="list[0].department" value=""></td>
+					<td class="w200"><input  type="text" name="list[0].goodsName" value=""></td>
+					<td class="tc w100"><input  type="text" name="list[0].stand" value=""></td>
+					<td class="tc w100"><input  type="text" name="list[0].qualitStand" value=""></td>
+					<td class="tc w100"><input   type="text" name="list[0].item" value=""></td>
+					<td class="tc w100"><input   type="text" name="list[0].purchaseCount" value=""></td>
+					<td class="tc w150"><input   type="text" name="list[0].price" value=""></td>
+					<td class="tc w150"><input  type="text" name="list[0].budget" value=""></td>
+					<td class="w100"><input  type="text" name="list[0].deliverDate" value=""></td>
+					<td class="w120">
 					 <select name="list[0].purchaseType" style="width:90px" id="select">
               				    <option value="" >请选择</option>
 	                                <c:forEach items="${list2 }" var="obj">
@@ -422,12 +414,13 @@
 			           </select>
 			                
 					</td>
-					<td class="tc"><input style="border: 0px;width:50px;"  type="text" name="list[0].supplier" value=""></td>
-					<td class="tc"><input style="border: 0px;width:50px;"  type="text" name="list[0].isFreeTax" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].goodsUse" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].useUnit" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].memo" value=""></td>
+					<td class="tc w200"><input   type="text" name="list[0].supplier" value=""></td>
+					<td class="tc w80"><input   type="text" name="list[0].isFreeTax" value=""></td>
+					<td class="tc w200"><input   type="text" name="list[0].goodsUse" value=""></td>
+					<td class="tc w200"><input   type="text" name="list[0].useUnit" value=""></td>
+					<td class="tc w200"><input   type="text" name="list[0].memo" value=""></td>
 				</tr>
+			</tbody>
 			 <tr style="display: none">
 
 					<td class="tc" colspan="16"><!--  <input type="hidden" name="planType" value="" id="ptype"> -->

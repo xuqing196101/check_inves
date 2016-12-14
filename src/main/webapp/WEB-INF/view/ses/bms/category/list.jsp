@@ -389,7 +389,7 @@
        	    	  <td class='info'>图片</td>
        	    	  <td>
        	    		<div id="uploadBtnId" class="dis_none">
-       	    		  <u:upload  id="uploadId"   businessId="${id}" auto="true" sysKey="2"/>
+       	    		  <u:upload  id="uploadId"   businessId="${id}" multiple="true" exts="png,jpeg,jpg"  auto="false" sysKey="2"/>
        	    		</div>
        	    		<div id="showFileId">
        	    		  <u:show showId="fileId" businessId="${id}" sysKey="2"/>
