@@ -159,7 +159,7 @@
           <table class="table table-bordered table-condensed table-hover table-striped">
             <thead>
               <tr>
-                <th class="info w30"></th>
+                <th class="info w50">选择</th>
                 <th class="info w50">供应商名称</th>
                 <th class="info">联系人</th>
                 <th class="info">联系电话</th>
@@ -179,7 +179,7 @@
                   <td class="tc opinter w110">${obj.suppliers.contactTelephone}</td>
 
                   <td class="tc opinter w150">
-                    <fmt:formatDate value='${obj.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss' />
+                    <fmt:formatDate value='${obj.createdAt}' pattern='yyyy-MM-dd HH:mm:ss' />
                   </td>
                   <td class="tc opinter w60">
                     <c:if test="${obj.statusBid==1}">

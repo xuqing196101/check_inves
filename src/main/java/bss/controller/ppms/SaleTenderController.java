@@ -126,32 +126,44 @@ public class SaleTenderController {
         map.put("projectId",projectId);
         List<Packages> list = packageService.findPackageById(map);
         
-        Supplier supplier=new Supplier();
-        if(supplierName!=null){
-        	supplier.setSupplierName("%"+supplierName+"%");
-        }
-        if(contactTelephone!=null){
-        	supplier.setContactTelephone(contactTelephone);
-        }
-        SaleTender saleTender = new SaleTender();
-        if(statusBid!=null){
-        	saleTender.setStatusBid(statusBid.shortValue());
-        }
-        saleTender.setProjectId(projectId);
+        List<Packages> lists = new ArrayList<>();
+        
        if(list != null && list.size()>0){
-            for(Packages ps:list){
-                HashMap<String,Object> packageId = new HashMap<String,Object>();
-                packageId.put("packageId", ps.getId());
-                saleTender.setPackages(ps.getId());
-                saleTender.setSuppliers(supplier);
-                
-               //供应商
-                List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
-                ps.setSaleTenderList(saleTenderList);
+//            for(Packages ps:list){
+//                saleTender.setPackages(ps.getId());
+//                saleTender.setSuppliers(supplier);
+//               //供应商
+//                List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+//                if(saleTenderList.size()>0){
+//                	ps.setSaleTenderList(saleTenderList);
+//                }
+//            }
+            for(int i=0;i<list.size();i++){
+            	Packages packages = list.get(i);
+            	Supplier supplier=new Supplier();
+                if(supplierName!=null){
+                	supplier.setSupplierName("%"+supplierName+"%");
+                }
+                if(contactTelephone!=null){
+                	supplier.setContactTelephone(contactTelephone);
+                }
+                SaleTender saleTender = new SaleTender();
+                if(statusBid!=null){
+                	saleTender.setStatusBid(statusBid.shortValue());
+                }
+                saleTender.setProjectId(projectId);
+            	saleTender.setPackages(packages.getId());
+            	saleTender.setSuppliers(supplier);
+            	List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+            	if(saleTenderList.size()>0){
+            		packages.setSaleTenderList(saleTenderList);
+            		lists.add(packages);
+                }
             }
+            
         }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
-        model.addAttribute("packageList", list);
+        model.addAttribute("packageList", lists);
         model.addAttribute("project", project);
         model.addAttribute("supplierName",supplierName);
         model.addAttribute("contactTelephone",contactTelephone);
