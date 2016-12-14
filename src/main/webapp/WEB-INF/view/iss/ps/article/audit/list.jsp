@@ -163,7 +163,7 @@
       </div>
 
       <div class="search_detail">
-        <form id="form1" action="${pageContext.request.contextPath }/article/auditlist.html?status=1" method="post" class="mb0">
+        <form id="form1" action="${pageContext.request.contextPath }/article/auditlist.html" method="post" class="mb0">
           <ul class="demand_list">
             <li>
               <label class="fl">信息标题：</label>

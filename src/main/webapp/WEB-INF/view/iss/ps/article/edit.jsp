@@ -150,13 +150,16 @@
             <div class="input-append col-md-12 col-xs-12 col-sm-12 input_group p0">
               <input id="source" name="source" value="${article.source }" type="text">
               <span class="add-on">i</span>
+              <div class="cue">${ERR_source}</div>
             </div>
+            
           </li>
           <li class="col-md-3 col-sm-6 col-xs-12">
             <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">链接来源：</span>
             <div class="input-append col-md-12 col-xs-12 col-sm-12 input_group p0">
               <input id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text">
               <span class="add-on">i</span>
+              <div class="cue">${ERR_sourceLink}</div>
             </div>
           </li>
           <li class="col-md-3 col-sm-6 col-xs-12" id="picshow">
@@ -164,8 +167,8 @@
             <div class="input-append col-md-12 col-xs-12 col-sm-12 input_group p0">
               <input id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }">
               <span class="add-on">i</span>
+              <div class="cue">${ERR_isPicShow}</div>
             </div>
-            <div class="cue">${ERR_isPicShow}</div>
           </li>
 
           <li class="col-md-12 col-xs-12 col-sm-12">

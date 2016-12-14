@@ -135,8 +135,21 @@ public class ValidateUtils {
     
     /**只能输入大于0的正数*/
     private static final String V_PLUS_NUMBER = "^[0-9].*$";
+    
+    /**小于50位  */
+    private static final String V_NA = "/^{50}$/";
       
     private ValidateUtils(){}  
+    
+    
+    
+    /** 
+     * 验证50位 
+     * @return 如果是符合格式的字符串,返回 <b>true </b>,否则为 <b>false </b> 
+     */  
+    public static boolean isNA(String value){  
+        return match(V_NA,value);  
+    }  
     
     /*
      * 非空验证
@@ -208,6 +221,13 @@ public class ValidateUtils {
         return match(V_INTEGER,value);  
     }  
   
+    /** 
+     * 验证是不是小于20位 
+     * @param value 要验证的字符串 要验证的字符串 
+     * @return  如果是符合格式的字符串,返回 <b>true </b>,否则为 <b>false </b> 
+     */
+    
+    
     /** 
      * 验证是不是正整数 
      * @param value 要验证的字符串 
