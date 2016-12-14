@@ -152,6 +152,10 @@ public class ArticleController extends BaseSupplierController{
     if(ValidateUtils.isNull(article.getName())){
       model.addAttribute("ERR_name", "标题名称不能为空");
       flag = false;
+    }else 
+      if(article.getName().length()>50){
+      model.addAttribute("ERR_name", "标题名称不能超过50字符");
+      flag = false;
     }
     List<Article> art = articleService.selectAllArticle(null,1);
     if(art!=null){
@@ -183,6 +187,17 @@ public class ArticleController extends BaseSupplierController{
       flag = false;
       model.addAttribute("ERR_range", "发布范围不能为空");
     }
+    
+    if(article.getSource() != null  && article.getSource().length()>50){
+      model.addAttribute("ERR_source", "文章来源不能超过50字符");
+      flag = false;
+    }
+    
+    if(article.getSourceLink() != null  && article.getSourceLink().length()>100){
+      model.addAttribute("ERR_sourceLink", "连接来源不能超过100字符");
+      flag = false;
+    }
+    
     if(ValidateUtils.isNull(article.getContent())){
       flag = false;
       model.addAttribute("ERR_content", "信息正文不能为空");

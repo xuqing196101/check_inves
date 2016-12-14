@@ -143,6 +143,7 @@
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text">
                 <span class="add-on">i</span>
+              <div class="cue">${ERR_sourceLink}</div>
               </div>
             </li>
 

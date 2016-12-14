@@ -136,7 +136,7 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">编制单位</th>
+		  <th class="info">需求部门名称</th>
 		  <th class="info">采购总金额</th>
 		  <th class="info">汇总时间</th>
 		  <th class="info">状态</th>
