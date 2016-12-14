@@ -96,15 +96,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	    
 	    //添加财务部门
 	    if(purchaseUnitName != null || purchaseUnitDuty != null){
-            if(purchaseUnitName.length > 1 || purchaseUnitDuty.length > 1){
-                for (int i = 0; i < purchaseUnitName.length; i++ ) {
-                    OrgInfo orgInfo = new OrgInfo();
-                    orgInfo.setPurchaseUnitName(purchaseUnitName[i]);
-                    orgInfo.setPurchaseUnitDuty(purchaseUnitDuty[i]);
-                    orgInfo.setOrgId(orgId);
-                    orgInfoService.insertSelective(orgInfo);
-                }
-            }else{
+            if(purchaseUnitName.length > 0 || purchaseUnitDuty.length > 0){
                 for (int i = 0; i < purchaseUnitName.length; i++ ) {
                     OrgInfo orgInfo = new OrgInfo();
                     orgInfo.setPurchaseUnitName(purchaseUnitName[i]);
@@ -117,18 +109,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	    
 	    //添加场所信息
 	    if(siteType != null || siteNumber != null || location != null || area != null || crewSize != null){
-            if(siteType.length > 1 || siteNumber.length > 1 || location.length > 1 || area.length > 1|| crewSize.length > 1){
-                for (int i = 0; i < siteNumber.length; i++ ) {
-                    OrgLocale locale = new OrgLocale();
-                    locale.setArea(area[i]);
-                    locale.setCrewSize(crewSize[i]);
-                    locale.setLocation(location[i]);
-                    locale.setSiteNumber(siteNumber[i]);
-                    locale.setSiteType(siteType[i]);
-                    locale.setOrgId(orgId);
-                    localeService.insertSelective(locale);
-                }
-            }else{
+            if(siteType.length > 0 || siteNumber.length > 0 || location.length > 0 || area.length > 0 || crewSize.length > 0){
                 for (int i = 0; i < siteNumber.length; i++ ) {
                     OrgLocale locale = new OrgLocale();
                     locale.setArea(area[i]);
@@ -147,15 +128,22 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	@Override
 	public int update(PurchaseDep purchaseDep, String selectedItem, String[] purchaseUnitName, String[] purchaseUnitDuty,
 	                  String[] siteType,String[] siteNumber,String[] location,String[] area,String[] crewSize) {
+	    
+	    String orgId = purchaseDep.getOrgnization().getId();
 	    if(purchaseDep.getId() != null){
 	        purchaseDep.setCityId(purchaseDep.getOrgnization().getCityId());
 	        purchaseDep.setAddress(purchaseDep.getOrgnization().getAddress());
-	        purchaseDep.setId(purchaseDep.getOrgnization().getId());
+	        purchaseDep.setId(orgId);
 	        orgniztionMapper.updateOrgnizationById(purchaseDep);
 	    }
 	    HashMap<String, Object> map = new HashMap<String, Object>();
         List<PurchaseOrg> purchaseOrgList = new ArrayList<PurchaseOrg>();
         map.put("ORG_ID", purchaseDep.getOrgnization().getId());
+        
+        HashMap<String, Object> delmap = new HashMap<String, Object>();
+        delmap.put("org_id", orgId);
+        purChaseDepOrgService.delByOrgId(delmap);
+        
         if(selectedItem != null && !selectedItem.equals("")){
             String id[] = selectedItem.split(",");
             for (int i = 0; i < id.length; i++ ) {
@@ -164,33 +152,30 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
                 purchaseOrgList.add(pOrg);
             }
         }
+        
         if(selectedItem != null && !selectedItem.equals("")){
             map.put("purchaseOrgList", purchaseOrgList);
             purChaseDepOrgService.saveByMap(map);
         }
-	    if(purchaseUnitName != null || purchaseUnitDuty != null){
-            if(purchaseUnitName.length > 1 || purchaseUnitDuty.length > 1){
+	    
+        //添加部门信息
+        orgInfoService.deletePurchaseUnit(orgId);
+        if(purchaseUnitName != null || purchaseUnitDuty != null){
+            if(purchaseUnitName.length > 0 || purchaseUnitDuty.length > 0){
                 for (int i = 0; i < purchaseUnitName.length; i++ ) {
                     OrgInfo orgInfo = new OrgInfo();
                     orgInfo.setPurchaseUnitName(purchaseUnitName[i]);
                     orgInfo.setPurchaseUnitDuty(purchaseUnitDuty[i]);
-                    orgInfo.setOrgId(purchaseDep.getOrgnization().getId());
-                    orgInfoService.insertSelective(orgInfo);
-                }
-            }else{
-                for (int i = 0; i < purchaseUnitName.length; i++ ) {
-                    OrgInfo orgInfo = new OrgInfo();
-                    orgInfo.setPurchaseUnitName(purchaseUnitName[i]);
-                    orgInfo.setPurchaseUnitDuty(purchaseUnitDuty[i]);
-                    orgInfo.setOrgId(purchaseDep.getOrgnization().getId());
+                    orgInfo.setOrgId(orgId);
                     orgInfoService.insertSelective(orgInfo);
                 }
             }
         }
 	    
-	  //添加场所信息
+	    //添加场所信息
+        localeService.deleteLocal(orgId);
         if(siteType != null || siteNumber != null || location != null || area != null || crewSize != null){
-            if(siteType.length > 1 || siteNumber.length > 1 || location.length > 1 || area.length > 1|| crewSize.length > 1){
+            if(siteType.length > 0 || siteNumber.length > 0 || location.length > 0 || area.length > 0|| crewSize.length > 0){
                 for (int i = 0; i < siteNumber.length; i++ ) {
                     OrgLocale locale = new OrgLocale();
                     locale.setArea(area[i]);
@@ -198,18 +183,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
                     locale.setLocation(location[i]);
                     locale.setSiteNumber(siteNumber[i]);
                     locale.setSiteType(siteType[i]);
-                    locale.setOrgId(purchaseDep.getOrgnization().getId());
-                    localeService.insertSelective(locale);
-                }
-            }else{
-                for (int i = 0; i < siteNumber.length; i++ ) {
-                    OrgLocale locale = new OrgLocale();
-                    locale.setArea(area[i]);
-                    locale.setCrewSize(crewSize[i]);
-                    locale.setLocation(location[i]);
-                    locale.setSiteNumber(siteNumber[i]);
-                    locale.setSiteType(siteType[i]);
-                    locale.setOrgId(purchaseDep.getOrgnization().getId());
+                    locale.setOrgId(orgId);
                     localeService.insertSelective(locale);
                 }
             }

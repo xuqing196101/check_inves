@@ -7,6 +7,7 @@
     <script type="text/javascript">
       var tab = 1;
       $(function() {
+    	  
         $("#page_ul_id").find("li").click(function() {
           var id = $(this).attr("id");
           tab = id;
@@ -14,9 +15,11 @@
 
           $("input[name='defaultPage']").val(page);
         });
+        
         var defaultPage = "${defaultPage}";
         if(defaultPage) {
           var num = defaultPage.charAt(defaultPage.length - 1);
+          
           $("#page_ul_id").find("li").each(function(index) {
             if(index == num - 1) {
               $(this).attr("class", "active");
@@ -24,6 +27,7 @@
               $(this).removeAttr("class");
             }
           });
+          
           $(".tab-pane").each(function() {
             var id = $(this).attr("id");
             if(id == defaultPage) {
@@ -33,106 +37,26 @@
             }
           });
         }
+        
+        loadProvice();
       });
       
-      function selectAlls(){
-	     var checklist = document.getElementsByName ("selectedItem");
-	     var checkAll = document.getElementById("checkAlls");
-	       if(checkAll.checked){
-	         for(var i=0;i<checklist.length;i++)
-	         {
-	            checklist[i].checked = true;
-	         } 
-	       }else{
-	        for(var j=0;j<checklist.length;j++)
-	        {
-	           checklist[j].checked = false;
-	        }
-	      }
+      /** 全选 **/
+      function selectAll(obj,name){
+    	  if ($(obj).prop("checked")) {  
+              $("input[name="+name+"]").each(function() {  
+                  $(this).prop("checked", true);  
+              });  
+          } else {  
+              $("input[name="+name+"]").each(function() {  
+                  $(this).prop("checked", false);  
+              });  
+          }   
       }
       
-      function selectAll(){
-       var checklist = document.getElementsByName ("checkboxs");
-       var checkAll = document.getElementById("checkAll");
-         if(checkAll.checked){
-           for(var i=0;i<checklist.length;i++)
-           {
-              checklist[i].checked = true;
-           } 
-         }else{
-          for(var j=0;j<checklist.length;j++)
-          {
-             checklist[j].checked = false;
-          }
-        }
-      }
-      
-        function check() {
-				  var count = 0;
-				  var checklist = document.getElementsByName("selectedItem");
-				  var checkAll = document.getElementById("checkAlls");
-				  for ( var i = 0; i < checklist.length; i++) {
-				    if (checklist[i].checked == false) {
-				    checkAll.checked = false;
-				    break;
-				    }
-				    for ( var j = 0; j < checklist.length; j++) {
-				    if (checklist[j].checked == true) {
-				      checkAll.checked = true;
-				      count++;
-				      }
-				    }
-				  }
-        }
-        
-        function checks() {
-          var count = 0;
-          var checklist = document.getElementsByName("checkboxs");
-          var checkAll = document.getElementById("checkAll");
-          for ( var i = 0; i < checklist.length; i++) {
-            if (checklist[i].checked == false) {
-            checkAll.checked = false;
-            break;
-            }
-            for ( var j = 0; j < checklist.length; j++) {
-            if (checklist[j].checked == true) {
-              checkAll.checked = true;
-              count++;
-              }
-            }
-          }
-        }
-      
-      var num1 = 1;
-      var num2 = 1;
-      Array.prototype.indexOf = function(val) {
-        for(var i = 0; i < this.length; i++) {
-          if(this[i] == val) return i;
-        }
-        return -1;
-      };
-      Array.prototype.remove = function(val) {
-        var index = this.indexOf(val);
-        if(index > -1) {
-          this.splice(index, 1);
-        }
-      };
-      var array = [];
-      var deltr = function(index, name) {
-        var deldata = index + "," + name;
-        array.remove(deldata);
-        $("tr[id='" + index + "']").remove(); //删除当前行   
-        var num = $("#tab tbody tr").length;
-        var trs = $("#tab tbody tr");
-        for(i = 0; i < num; i++) {
-          trs.find("td:eq(1)").each(function(i) {
-            $(this).text(i + 1);
-          });
-        }
-      };
-      $(document).ready(function() {
+      /** 加载省份 **/
+      function loadProvice() {
         var proviceId = $("#pid").val();
-
         $.ajax({
           type: 'post',
           url: "${pageContext.request.contextPath}/purchaseManage/getProvinceList.do?",
@@ -157,9 +81,9 @@
             });
           }
         });
-
-      });
-
+      }
+	
+      /** 加载城市 **/
       function loadCities(pid) {
         $("#pid").val(pid);
         var cityId = $("#cid").val();
@@ -189,71 +113,11 @@
         });
       }
 
-      function loadTown(pid) {
-        $("#cid").val(pid);
-      }
-
-      function save() {
-        $.ajax({
-          type: 'post',
-          url: "${pageContext.request.contextPath}/purchaseManage/updatePurchaseDepAjxa.do?",
-          data: $('#formID').serialize(),
-          success: function(data) {
-            console.dir(data);
-            truealert(data.message, data.success == false ? 5 : 1);
-          }
-        });
-
-      }
-
-      function stashBasic() {
-        validateAll();
-        return;
-        $("#formID").submit();
-      }
-
-      function stashOffice() {
-        validateAll();
-        return;
-        $("#formID").submit();
-      }
-
-      function stashPosition() {
-        //var s2 = validatePosition().form();
-        validateAll();
-        return;
-        $("#formID").submit();
-      }
-
-      function stash() {
-        if(tab = 1) {
-          validteBasic();
-        } else if(tab = 2) {
-          validatePosition();
-        } else {
-          validateOffice();
-        }
-        return false;
-        $("#formID").submit();
-      }
-
-      function truealert(text, iconindex) {
-        layer.open({
-          content: text,
-          icon: iconindex,
-          shade: [0.3, '#000'],
-          offset: 300 + "px",
-          yes: function(index) {
-            layer.closeAll();
-            parent.location.href = "${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.do";
-          }
-        });
-      }
       //添加场所
-      function dynamicaddTwo() {
-        $("#tab-position").append("<tr id=" + num2 + " align='center'>" +
+      function addPlace() {
+        $("#tab-position").append("<tr  align='center'>" +
           "<td class='tc'><input type='checkbox' name='checkbo' /> </td>" +
-          "<td>" + num2 + "</td>" +
+          "<td></td>" +
           "<td><select  name='siteType'><option selected='selected' value=''>请选择</option><option  value='1'>办公室</option>"+
           "<option  value='2'>会议室</option><option  value='3'>招标室</option><option  value='4'>评标室</option></select></td>" +
           "<td><input name='siteNumber'/></td>" +
@@ -261,369 +125,106 @@
           "<td><input name='area'/></td>" +
           "<td><input name='crewSize'/></td>" +
           "</tr>");
-        num2++;
+        calIndex('checkbo');
       }
       
-      //添加采购管理部门
-      function dynamicaddThree() {
+      /** 删除场所 **/
+      function delPlace(){
+          var count = 0;
+          $("input[name='checkbo']:checked").each(function(){ 
+        	  count++;
+          }); 
+          
+          if(count == 0){
+        	  layer.msg("请选择需要删除的记录");
+        	  return ;
+          }
+          
+          $("input[name='checkbo']:checked").each(function(){ 
+        	  $(this).parents('tr').remove();
+          });
+          calIndex('checkbo');
+       }
+      
+      //关联采购管理部门
+      function addManageDept() {
         var typeName = $("input[name='typeName']").val();
          layer.open({
-          type: 2, //page层
+          type: 2, 
           area : [ '600px', '550px' ],
           title: '添加采购管理部门',
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
           offset: ['90px', '630px'],
           shadeClose: true,
-          content:"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,
+          content:"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName=" + typeName
          });
       }
-
-      function showiframe(titles, width, height, url, top) {
-        if(top == null || top == "underfined") {
-          top = 120;
-        }
-        layer.open({
-          type: 2,
-          title: [titles, "background-color:#eee;color:#fff;font-size:16px;text-align:center;"],
-          maxmin: true,
-          shade: [0.3, '#000'],
-          offset: top + "px",
-          shadeClose: false, //点击遮罩关闭层 
-          area: [width + "px", height + "px"],
-          content: url
-        });
-      }
-
-      function addOffice() {
-        $.ajax({
-          type: 'post',
-          url: "${pageContext.request.contextPath}/purchaseManage/addOffice.do?",
-          data: {
-            num: num1
-          },
-          success: function(data) {
-            console.dir(data);
-            $("#tab-position").append(data.message);
-            num1++;
-          }
-        });
-
-      }
-
-      function addOffice1() {
-        countAdd();
-        $("#tab-position").append("<tr id=" + num1 + " align='center'>" +
-          "<td>" + num1 + "</td>" +
-          "<td><select class='purchaseRoomTypeName' id=purchaseRoomTypeName" + num1 + " name='purchaseRoomTypeName'> <option value=''>请选择</option><option value='0'>办公室</option><option value='1'>会议室</option><option value='2'>招标室</option><option value='3'>评标室</option></select></td>"
-          //+"<td><input type='text' name='desc"+_len+"' id='name"+_len+"' value='"+_len+"' /></td>"
-          +
-          "<td><input id=purchaseRoomCode" + num1 + " name='purchaseRoomCode' style='width:100px;'/></td>" +
-          "<td><input name='purchaseRoomLocation' style='width:100px;'/></td>" +
-          "<td><input name='purchaseRoomArea' style='width:100px;'/></td>" +
-          "<td><input name='purchaseRoomNetConnectStyle' style='width:100px;'/></td>" +
-          "<td><input name='purchaseRoomCapacity' style='width:100px;'/></td>" +
-          "<td><select name='purchaseRoomIsNetConnect'> <option value='-1'>请选择</option><option value='0'>是</option><option value='1'>否</option></select></td>" +
-          "<td><select name='purchaseRoomHasVideoSys'> <option value='-1'>请选择</option><option value='0'>是</option><option value='1'>否</option></select></td>" +
-          "<td><a href=\'#\' onclick=\'delPositionTr(this)\'>删除</a></td>" +
-          "</tr>");
-        num++;
-      }
-      //统计
-      var bg_office = 0;
-      var hy_office = 0;
-      var zb_office = 0;
-      var pb_office = 0;
-      var area = 0;
-
-      function countAdd() {
-        var num = $("#tab-position tbody tr").length;
-        var trs = $("#tab-position tbody tr");
-
-        var t = $("select.purchaseRoomTypeName");
-        for(j = 0; j < t.length; j++) {
-          if(t[j].value != undefined && t[j].value == "0") {
-            bg_office++;
-          } else if(t[j].value == "1") {
-            hy_office++;
-          } else if(t[j].value == "2") {
-            zb_office++;
-          } else if(t[j].value == "3") {
-            pb_office++;
-          }
-        }
-        for(i = 0; i < num; i++) {
-          trs.find("td:eq(4)").each(function(i) {
-            area = Number($(this).text()) + Number(area);
-          });
-        }
-        console.dir(bg_office);
-        console.dir(area);
-      }
       
-      /**  **/
-      function addOrg() {
-        $("#tab-orgnization").append("<tr id=" + num2 + " align='center'>" +
-          "<td class='tc'><input type='checkbox' name='chkItem' /> </td>" +
-          "<td>" + num2 + "</td>" +
+      /** 删除管理部门 **/
+      function delManageDept(){
+    	    var  count = 0;
+    	    $("input[name='selectedItem']:checked").each(function(){ 
+    	    	count++;
+    	    }); 
+    	    
+    	    if(count == 0){
+    	      layer.msg("请选择需要删除的管理部门");
+    	      reurn ;
+    	    }
+    	  
+    	    $("input[name='selectedItem']:checked").each(function(){ 
+    	    	 $(this).parents('tr').remove();
+    	    }); 
+       }
+    
+      /** 添加部门信息 **/
+      function addDept() {
+        $("#tab-orgnization").append("<tr  align='center'>" +
+          "<td class='tc'><input type='checkbox' name='checkboxs' /> </td>" +
+          "<td></td>" +
           "<td><input name='purchaseUnitName'/></td>" +
           "<td><input name='purchaseUnitDuty'/></td>" +
           "</tr>");
-        num2++;
+        calIndex('checkboxs');
       }
-
-      function delOrgTr(obj) {
-        var id = [];
+	
+      /** 删除部门信息 **/
+      
+      function delDept() {
+        var count = 0;
 		    $("input[name='checkboxs']:checked").each(function(){ 
-		      id.push($(this).val());
+		    	count ++ ;
 		    }); 
-		    if(id.length > 0){
-		        $("input[name='checkboxs']:checked").parents("tr").remove();
-		    }else{
-		      layer.msg("请选择需要删除的部门");
-		    }
-      }
-
-      function delPositionTr(obj) {
-        var tr = obj.parentNode.parentNode;
-        tr.parentNode.removeChild(tr);
-        var num = $("#tab-position tbody tr").length;
-        var trs = $("#tab-position tbody tr");
-        console.dir(trs.find("td:eq(0)"));
-        for(i = 0; i < num; i++) {
-          trs.find("td:eq(0)").each(function(i) {
-            $(this).text(i + 1);
-          });
-        }
-        num1--;
-      }
-      //validate
-      function validteBasic() {
-        return $("#formID").validate({
-          ignore: [],
-          focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
-          onkeyup: false,
-          rules: {
-            levelDep: {
-              required: true
-            }
-          },
-          messages: {
-            levelDep: {
-              required: "必填项 !"
-            }
-          },
-          showErrors: function(errorMap, errorList) {
-            $.each(this.successList, function(index, value) {
-              return $(value).popover("hide");
-            });
-            return $.each(errorList, function(index, value) {
-              var _popover;
-              _popover = $(value.element).popover({
-                trigger: "manual",
-                placement: "right",
-                content: value.message,
-                template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
-              });
-              _popover.data("bs.popover").options.content = value.message;
-              return _popover.popover("show");
-            });
-          }
-        });
-      }
-      //
-      function validatePosition() {
-        return $("#formID").validate({
-          ignore: [],
-          focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
-          onkeyup: false,
-          rules: {
-            purchaseRoomTypeName: {
-              required: true
-            },
-            purchaseRoomCode: {
-              required: true
-            }
-          },
-          messages: {
-            purchaseRoomTypeName: {
-              required: "必填项 !"
-            },
-            purchaseRoomCode: {
-              required: "必填项 !"
-            }
-          },
-          showErrors: function(errorMap, errorList) {
-            $.each(this.successList, function(index, value) {
-              return $(value).popover("hide");
-            });
-            return $.each(errorList, function(index, value) {
-              var _popover;
-              _popover = $(value.element).popover({
-                trigger: "manual",
-                placement: "right",
-                content: value.message,
-                template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
-              });
-              _popover.data("bs.popover").options.content = value.message;
-              return _popover.popover("show");
-            });
-          }
-        });
-      }
-
-      function validateOffice() {
-        return $("#formID").validate({
-          ignore: [],
-          focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
-          onkeyup: false,
-          rules: {
-            purchaseUnitName: {
-              required: true
-            }
-          },
-          messages: {
-            purchaseUnitName: {
-              required: "必填项 !"
-            }
-          },
-          showErrors: function(errorMap, errorList) {
-            $.each(this.successList, function(index, value) {
-              return $(value).popover("hide");
-            });
-            return $.each(errorList, function(index, value) {
-              console.dir(value);
-              var _popover;
-              _popover = $(value.element).popover({
-                trigger: "manual",
-                placement: "right",
-                content: value.message,
-                delay: {
-                  show: 5000,
-                  hide: 100
-                },
-                container: value.element,
-                template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
-              });
-              _popover.data("bs.popover").options.content = value.message;
-              return _popover.popover("show");
-            });
-          }
-        });
-      }
-
-      function validateAll() {
-        return $("#formID").validate({
-          ignore: ":hidden",
-          ignore: "",
-          focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
-          onkeyup: false,
-          wrapper: "div",
-          rules: {
-            levelDep: {
-              required: true
-            },
-            purchaseUnitName: {
-              required: true
-            },
-            purchaseRoomTypeName: {
-              required: true
-            },
-            purchaseRoomCode: {
-              required: true
-            }
-          },
-          messages: {
-            levelDep: {
-              required: "必填项 !"
-            },
-            purchaseUnitName: {
-              required: "必填项 !"
-            },
-            purchaseRoomTypeName: {
-              required: "必填项 !"
-            },
-            purchaseRoomCode: {
-              required: "必填项 !"
-            }
-          },
-          errorPlacement: function(error, element) {
-            error.appendTo(element.parent("div").next("td"));
-          },
-          showErrors: function(errorMap, errorList) {
-            this.defaultShowErrors();
-          }
-        });
-      }
-
-      function a(errorList) {
-        return $.each(errorList, function(index, value) {
-          var _popover;
-          _popover = $(value.element).popover({
-            trigger: "manual",
-            placement: "right",
-            content: value.message,
-            delay: {
-              show: 5000,
-              hide: 100
-            },
-            container: value.element,
-            template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
-          });
-          _popover.data("bs.popover").options.content = value.message;
-          return _popover.popover("show");
-        });
+		    
+		   	if (count == 0){
+		   		layer.msg("请选择需要删除的部门");
+		   		return ;
+		   	}
+		   	
+		   	$("input[name='checkboxs']:checked").each(function(){ 
+		    	$(this).parents('tr').remove();
+		    }); 
+		   	calIndex('checkboxs');
       }
       
-	        
-    
-  
-  function save(){
-	  var id = [];
-	  $("input[name='selectedItem']").each(function(){ 
+      /** 计算下标 **/
+      function calIndex(name){
+    	  var count = 0;
+  		$("input[name="+name+"]").each(function(){
+  			count++;
+  			$(this).parents('tr').find('td').eq(1).text(count);
+  		});
+      }
+      
+      /** 保存  **/
+      function save(){
+	    var id = [];
+	    $("input[name='selectedItem']").each(function(){ 
 	        id.push($(this).val());
-	        }); 
-	   $("#ids").val(id);
+	    }); 
+	    $("#ids").val(id);
         $("#formID").submit();
-  }
+      }
   
-  
-  
-  function deleteds(obj){
-    var id = [];
-    $("input[name='selectedItem']:checked").each(function(){ 
-      id.push($(this).val());
-    }); 
-    if(id.length > 0){
-        $("input[name='selectedItem']:checked").parents("tr").remove();
-    }else{
-      layer.alert("请选择", {
-		    offset : [ '222px', '730px' ],
-		    shade : 0.01
-		    });
-    
-    }
-  
-  }
-  
-   function del(){
-      var id = [];
-      $("input[name='checkbo']:checked").each(function(){ 
-        id.push($(this).val());
-      }); 
-    if(id.length > 0){
-        $("input[name='checkbo']:checked").parents("tr").remove();
-    }else{
-      layer.alert("请选择", {
-        offset : [ '222px', '730px' ],
-        shade : 0.01
-        });
-    
-    }
-      
-   }
-      
     </script>
   </head>
 
@@ -760,7 +361,6 @@
                   </li>
                 </ul>
                 
-                <!--  class="panel panel-default" -->
                 <h2 class="count_flow"><i>2</i>资质信息</h2>
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -817,7 +417,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资格证书图片</span>
                     <div class="uploader orange m0">
-                      <u:upload id="purchaseQuaFile" businessId="${purchaseDepIds}" sysKey="2" auto="true"/>
+                      <u:upload id="purchaseQuaFile" businessId="${purchaseDepIds}" multiple="true" exts="png,jpeg,jpg,bmp" sysKey="2" auto="true"/>
                       <u:show showId="pqId" businessId="${purchaseDepIds}" sysKey="2"  />
                     </div>
                     <div class="cue">${ERR_msg}</div>
@@ -827,7 +427,7 @@
                 
                 <h2 class="count_flow"><i>3</i>人员信息</h2>
                 <ul class="ul_list">
-                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>单位主要领导姓名及电话</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>单位主要领导姓名</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="leaderTelephone" value="${purchaseDep.leaderTelephone}" type="text">
                       <span class="add-on">i</span>
@@ -994,14 +594,14 @@
                   <h2>部门信息</h2>
                 </div>
                 <div class="col-md-12 pl20 mt10">
-                  <button type="button" class="btn btn-windows add" id="dynamicAdd" onclick="addOrg();">添加</button>
-                  <button type="button" class="btn btn-windows delete" id="dynamicAdd" onclick="delOrgTr(this);">删除</button>
+                  <button type="button" class="btn btn-windows add" id="dynamicAdd" onclick="addDept();">添加</button>
+                  <button type="button" class="btn btn-windows delete" id="dynamicAdd" onclick="delDept();">删除</button>
                 </div>
                 <div class="content table_box">
                   <table class="table table-bordered table-condensed table-hover table-striped" id="tab-orgnization">
                     <thead>
                       <tr>
-                        <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll();" /></th>
+                        <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll(this,'checkboxs');" /></th>
                         <th class="info f13">序号</th>
                         <th class="info f13">部门名称</th>
                         <th class="info f13">主要职责</th>
@@ -1009,8 +609,8 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${orgInfos}" var="obj" varStatus="vs">
-                          <tr style="cursor: pointer;">
-                             <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkboxs" onclick="checks()" alt=""></td>
+                          <tr>
+                             <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkboxs"></td>
                               <td class="tc w50">${(vs.index+1)}</td>
                               <td class="tc"><input name="purchaseUnitName" value="${obj.purchaseUnitName}"/></td>
                               <td class="tc"><input name="purchaseUnitDuty" value="${obj.purchaseUnitDuty}"/></td>
@@ -1026,7 +626,7 @@
               <div class="tab-pane fade height-200" id="tab-3">
                 <h2 class="count_flow"><i>1</i>基本信息</h2>
                 <ul class="ul_list">
-                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>办公场地总面积</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>办公场地总面积(平方米)</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="officeArea" type="text" value="${purchaseDep.officeArea}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_officeArea}</div>
@@ -1065,13 +665,6 @@
                     </div>
                   </li>
                   
-                  <%-- <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>是否接入网络</span>
-                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="accessNetwork" value="${purchaseDep.accessNetwork}"  type="text">
-                      <span class="add-on">i</span>
-                      <div class="cue">${ERR_accessNetwork}</div>
-                    </div>
-                  </li> --%>
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class=""><i class="star_red">*</i>是否接入网络</span>
                     <div class="select_check">
                         <input name="accessNetwork" maxlength="10" type="radio" value="0" <c:if test="${purchaseDep.accessNetwork eq '0' }">checked="true"</c:if>>是
@@ -1099,27 +692,26 @@
                 <h2 class="count_flow"><i>2</i>添加场所</h2>
                 <ul class="ul_list">
                   <div class="col-md-12 pl20 mt10">
-                    <!--  onclick= addOffice()-->
-                    <button class="btn btn-windows add" type="button" id="dynamicAdd" onclick="dynamicaddTwo();">添加场所</button>
-                    <button class="btn btn-windows delete" type="button"  onclick="del();">删除</button>
+                    <button class="btn btn-windows add" type="button" id="dynamicAdd" onclick="addPlace();">添加</button>
+                    <button class="btn btn-windows delete" type="button"  onclick="delPlace();">删除</button>
                   </div>
                   <div class="content table_box">
                     <table class="table table-bordered table-condensed table-hover table-striped" id="tab-position">
                       <thead>
                         <tr>
-                          <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll();" /></th>
+                          <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll(this,'checkbo');" /></th>
                           <th class="info f13">序号</th>
                           <th class="info f13">类型</th>
                           <th class="info f13">编号</th>
                           <th class="info f13">位置</th>
-                          <th class="info f13">面积</th>
+                          <th class="info f13">面积(平方米)</th>
                           <th class="info f13">容纳人员数量</th>
                         </tr>
                       </thead>
                       <tbody>
                           <c:forEach items="${locales}" var="obj" varStatus="vs">
-                              <tr style="cursor: pointer;">
-                             <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkbo" onclick="checks()" alt=""></td>
+                            <tr>
+                              <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkbo" ></td>
                               <td class="tc w50">${(vs.index+1)}</td>
                               <td class="tc">
                                 <select name="siteType">
@@ -1133,38 +725,29 @@
                               <td class="tc"><input name="location"  value="${obj.location}"/></td>
                               <td class="tc"><input name="area"  value="${obj.area}"/></td>
                               <td class="tc"><input name="crewSize"  value="${obj.crewSize}"/></td>
-                             </tr>
-                          </c:forEach>
+                            </tr>
+                         </c:forEach>
                       </tbody>
                     </table>
                     <div class="clear"></div>
                     </div>
                 </ul>
-
-                </div>
-
-                <!-- <div class="mt40 tc mb50">
-                                        <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="updatePosition();" value="确认"/>
-                                        <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stashPosition();" value="暂存"/> 
-                                        <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="history.go(-1)" value="取消"/>
-                                    </div> -->
-                <!--  -->
-                
+             </div>
                 
                 <div class="tab-pane fade height-200" id="tab-4">
                   <div class="headline-v2">
                     <h2>关联管理部门</h2>
                   </div>
                   <div class="col-md-12 pl20 mt10">
-                    <button type="button" class="btn btn-windows add" id="dynamicAdd" onclick="dynamicaddThree();">关联</button>
-                    <button type="button" class="btn btn-windows delete" id="deleted" onclick="deleteds(this);">删除</button>
+                    <button type="button" class="btn btn-windows add" id="dynamicAdd" onclick="addManageDept();">关联</button>
+                    <button type="button" class="btn btn-windows delete" id="deleted" onclick="delManageDept();">删除</button>
                     <input type="hidden" name="typeName" value="1"/>
                   </div>
                   <div class="content table_box">
                     <table class="table table-bordered table-condensed table-hover table-striped" id="tab">
                       <thead>
                         <tr>
-                          <th class="info w30"><input type="checkbox" id="checkAlls"onclick="selectAlls()" alt=""></th>
+                          <th class="info w30"><input type="checkbox" id="checkAlls"onclick="selectAll(this,'selectedItem')"></th>
                           <th class="info w50">序号</th>
                           <th class="info f13">机构名称</th>
                         </tr>
@@ -1172,11 +755,11 @@
                       <tbody>
                       <c:if test="${lists != null}">
                         <c:forEach items="${lists}" var="obj" varStatus="vs">
-                             <tr style="cursor: pointer;">
-                             <td class="tc w50"><input type="checkbox" value="${obj.id }" name="selectedItem" onclick="check()" alt=""></td>
+                           <tr style="cursor: pointer;">
+                              <td class="tc w50"><input type="checkbox" value="${obj.id }" name="selectedItem" ></td>
                               <td class="tc w50">${(vs.index+1)}</td>
                               <td class="tc w50">${obj.name}</td>
-                             </tr>
+                            </tr>
                           </c:forEach>
                           </c:if>
                       </tbody>
@@ -1188,7 +771,6 @@
 
               <div class="mt40 tc mb50">
                 <input type="button"  onclick="save()" class="btn btn-windows save"  value="保存" />
-                <!-- <input type="button" class="btn" onclick="stash();"  value="暂存" />  -->
                 <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回" />
               </div>
           </sf:form>

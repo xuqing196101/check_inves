@@ -16,5 +16,14 @@ public interface OrgInfoMapper {
     void updateByPrimaryKeySelective(OrgInfo orgInfo);
     
     void insertSelective(OrgInfo orgInfo);
+    
+    /**
+     * 
+     *〈简述〉根据组织机构ID删除
+     *〈详细描述〉
+     * @author myc
+     * @param orgId 组织机构Id
+     */
+    void deleteByOrgId (String orgId);
 
 }

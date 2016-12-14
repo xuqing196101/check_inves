@@ -119,15 +119,22 @@
     function add(){
     	window.location.href="${pageContext.request.contextPath}/purchaseManage/addPurchaseDep.html";
     }
+    
+    /** 详情 **/
     function show(id){
     	window.location.href="${pageContext.request.contextPath}/purchaseManage/showPurchaseDep.do?id="+id+"&&type=view";
     }
+    
+    /** 添加管理人员 **/
     function addPurchase(){
     	window.location.href="${pageContext.request.contextPath}/purchase/add.html?origin=1";
     }
+    
+    /**  重置查询条件  **/
     function resetQuery(){
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
+    /** 查询 **/
 	function submit() {
 		$("#form1").submit();
 	}

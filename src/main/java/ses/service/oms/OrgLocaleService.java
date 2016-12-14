@@ -19,4 +19,13 @@ public interface OrgLocaleService {
     void insertSelective(OrgLocale orgLocale);
     
     List<OrgLocale> selectedInfo(String[] siteType, String[] siteNumber,String[] location,String[] area,String[] crewSize);
+    
+    /**
+     * 
+     *〈简述〉根据orgId删除场所
+     *〈详细描述〉
+     * @author myc
+     * @param orgId
+     */
+    void deleteLocal(String orgId);
 }

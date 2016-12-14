@@ -132,4 +132,10 @@
       </if>
     </trim>
   </insert>
+  
+  <!-- 根据orgId删除场所 -->
+  <delete id="deleteLocale" parameterType="java.lang.String">
+    DELETE FROM T_SES_OMS_ORG_LOCALE
+    WHERE ORG_ID = #{orgId}
+  </delete>
 </mapper>

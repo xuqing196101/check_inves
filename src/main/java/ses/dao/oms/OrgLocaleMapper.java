@@ -16,5 +16,14 @@ public interface OrgLocaleMapper {
     void updateByPrimaryKeySelective(OrgLocale orgLocale);
     
     void insertSelective(OrgLocale orgLocale);
+    
+    /**
+     * 
+     *〈简述〉根据组织机构Id删除
+     *〈详细描述〉
+     * @author myc
+     * @param orgId 
+     */
+    void deleteLocale(String orgId);
 
 }

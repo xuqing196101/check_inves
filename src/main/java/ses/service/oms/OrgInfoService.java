@@ -18,4 +18,13 @@ public interface OrgInfoService {
     void insertSelective(OrgInfo orgInfo);
     
     List<OrgInfo> selectedInfo(String[] purchaseUnitName,String[] purchaseUnitDuty);
+    
+    /**
+     * 
+     *〈简述〉根据orgId删除
+     *〈详细描述〉
+     * @author myc
+     * @param orgId 
+     */
+    void deletePurchaseUnit(String orgId);
 }

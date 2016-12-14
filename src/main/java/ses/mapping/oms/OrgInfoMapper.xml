@@ -43,6 +43,12 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   
+  <!-- 根据orgId删除 -->
+  <delete id="deleteByOrgId" parameterType="java.lang.String">
+    DELETE FROM T_SES_OMS_ORG_INFO
+    WHERE ORG_ID = #{orgId}
+  </delete>
+  
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.oms.OrgInfo">
     update T_SES_OMS_ORG_INFO
     <set>

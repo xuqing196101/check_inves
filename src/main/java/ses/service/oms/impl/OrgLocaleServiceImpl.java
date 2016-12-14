@@ -53,17 +53,7 @@ public class OrgLocaleServiceImpl implements OrgLocaleService {
          String[] area, String[] crewSize) {
         List<OrgLocale> purchaseOrgList = new ArrayList<OrgLocale>();
         if(siteType != null || siteNumber != null || location != null || area != null || crewSize != null){
-            if(siteType.length > 1 || siteNumber.length > 1 || location.length > 1 || area.length > 1|| crewSize.length > 1){
-                for (int i = 0; i < siteNumber.length; i++ ) {
-                    OrgLocale locale = new OrgLocale();
-                    locale.setArea(area[i]);
-                    locale.setCrewSize(crewSize[i]);
-                    locale.setLocation(location[i]);
-                    locale.setSiteNumber(siteNumber[i]);
-                    locale.setSiteType(siteType[i]);
-                    purchaseOrgList.add(locale);
-                }
-            }else{
+            if(siteType.length > 0 || siteNumber.length > 0 || location.length > 0 || area.length > 0 || crewSize.length > 0){
                 for (int i = 0; i < siteNumber.length; i++ ) {
                     OrgLocale locale = new OrgLocale();
                     locale.setArea(area[i]);
@@ -77,5 +67,17 @@ public class OrgLocaleServiceImpl implements OrgLocaleService {
         }
         return purchaseOrgList;
     }
+
+    /**
+     * 
+     * @see ses.service.oms.OrgLocaleService#deleteLocal(java.lang.String)
+     */
+    @Override
+    public void deleteLocal(String orgId) {
+        
+        localeMapper.deleteLocale(orgId);
+    }
+    
+    
 
 }

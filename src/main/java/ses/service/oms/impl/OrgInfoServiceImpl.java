@@ -45,7 +45,7 @@ public class OrgInfoServiceImpl implements OrgInfoService {
 
     @Override
     public void insertSelective(OrgInfo orgInfo) {
-        // TODO Auto-generated method stub
+        
         infoMapper.insertSelective(orgInfo);
     }
 
@@ -53,23 +53,27 @@ public class OrgInfoServiceImpl implements OrgInfoService {
     public List<OrgInfo> selectedInfo(String[] purchaseUnitName, String[] purchaseUnitDuty) {
         List<OrgInfo> purchaseOrgList = new ArrayList<OrgInfo>();
         if(purchaseUnitName != null || purchaseUnitDuty != null){
-            if(purchaseUnitName.length > 1 || purchaseUnitDuty.length > 1){
+            if(purchaseUnitName.length > 0 || purchaseUnitDuty.length > 0){
                 for (int i = 0; i < purchaseUnitName.length; i++ ) {
                     OrgInfo orgInfo = new OrgInfo();
                     orgInfo.setPurchaseUnitName(purchaseUnitName[i]);
                     orgInfo.setPurchaseUnitDuty(purchaseUnitDuty[i]);
                     purchaseOrgList.add(orgInfo);
                 }
-            }else{
-                for (int i = 0; i < purchaseUnitName.length; i++ ) {
-                OrgInfo orgInfo = new OrgInfo();
-                orgInfo.setPurchaseUnitName(purchaseUnitName[i]);
-                orgInfo.setPurchaseUnitDuty(purchaseUnitDuty[i]);
-                purchaseOrgList.add(orgInfo);
-                }
             }
         }
         return purchaseOrgList;
     }
+    
+    /**
+     * 
+     * @see ses.service.oms.OrgInfoService#deletePurchaseUnit(java.lang.String)
+     */
+    @Override
+    public void deletePurchaseUnit(String orgId) {
+        
+        infoMapper.deleteByOrgId(orgId);
+    }
 
+    
 }

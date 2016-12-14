@@ -697,7 +697,8 @@ public class PurchaseManageController {
 	    return "redirect:purchaseUnitList.html";
 	}
 	
-	@RequestMapping("updatePurchaseDepI")
+	
+	@RequestMapping("updatePurchaseDep")
 	public String updatePurchaseDep(@Valid PurchaseDep purchaseDep, BindingResult result, Model model, HttpServletRequest request){
 	    String selectedItem = request.getParameter("ids");
 	    String[] purchaseUnitName = request.getParameterValues("purchaseUnitName");
@@ -710,6 +711,7 @@ public class PurchaseManageController {
 	    List<Orgnization> purchaseOrgList = orgnizationServiceI.selectedItem(selectedItem);
 	    List<OrgLocale> locales = orgLocaleService.selectedInfo(siteType, siteNumber,location,area,crewSize);
 	    List<OrgInfo> orgInfos = orgInfoService.selectedInfo(purchaseUnitName,purchaseUnitDuty);
+	    purchaseDep.setOrgId(purchaseDep.getOrgnization().getId());
 	    if(result.hasErrors()){
             List<FieldError> errors = result.getFieldErrors();
             for (FieldError fieldError : errors) {
@@ -882,70 +884,6 @@ public class PurchaseManageController {
 	    return "redirect:purchaseUnitList.html";
 	}
 	
-	@RequestMapping("deleteds")
-	public String deleteds(String id,String orgId,String purId){
-	    HashMap<String, Object> map = new HashMap<>();
-	    String[] ids = id.split(",");
-	    for (int i = 0; i < ids.length; i++ ) {
-	        map.put("purchaseDepId", ids[i]);
-	        map.put("org_id", orgId);
-	        List<PurchaseOrg> list = purChaseDepOrgService.selectById(map);
-	        if(list != null && list.size() > 0){
-	            purChaseDepOrgService.delByOrgId(map);
-	        }else{
-	        }
-	        
-        }
-	    
-	    return "redirect:editPurchaseDep.html?orgId="+orgId+"&id="+purId;
-	}
-	
-	@RequestMapping("delTr")
-    public String delTr(String id, String orgId,String purId){
-	    String[] ids = id.split(",");
-	    for (int i = 0; i < ids.length; i++ ) {
-	        orgInfoService.deleteByPrimaryKey(ids[i]);
-        }
-        return "redirect:editPurchaseDep.html?orgId="+orgId+"&id="+purId;
-    }
-	
-	@RequestMapping("deletedSite")
-    public String deletedSite(String id, String orgId,String purId){
-        String[] ids = id.split(",");
-        for (int i = 0; i < ids.length; i++ ) {
-            orgLocaleService.deleteByPrimaryKey(ids[i]);
-        }
-        return "redirect:editPurchaseDep.html?orgId="+orgId+"&id="+purId;
-    }
-	
-	
-	/**
-	 * 
-	 * @Title: getDetail
-	 * @author: 获取详情   获取部门信息  部门人员信息   监管部门信息
-	 * @date: 2016-9-14 下午2:27:32
-	 * @Description: TODO
-	 * @param: @param model
-	 * @param: @param request
-	 * @param: @param orgnization
-	 * @param: @return
-	 * @return: HashMap<String,Object>
-	 */
-	/*@RequestMapping("getDetail")
-	@ResponseBody
-	public HashMap<String,Object> getDetail(Model model,HttpServletRequest request,@ModelAttribute Orgnization orgnization) {
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("id", orgnization.getId());
-		List<Orgnization> oList = orgnizationServiceI.findOrgnizationList(map);
-		if(oList!=null && oList.size()>0){
-			model.addAttribute("orgnization", oList.get(0).getName());
-			resultMap.put("orgnization",  oList.get(0));
-			jsonData.setMessage("nihao");
-		}
-		
-		return resultMap;
-	}*/
-	
 	/**
 	 * 
 	 * @Title: save
@@ -1015,132 +953,6 @@ public class PurchaseManageController {
 		json.setMessage("保存成功");
 		return json;
 	}
-	
-	
-	/**
-	 * 
-	 * @Title: updateOrg
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-14 下午4:47:46
-	 * @Description: 删除直接传is_deleted=1即可   逻辑删除  更新  公用此方法   异步更新
-	 * @param: @param model
-	 * @param: @param request
-	 * @param: @param orgnization
-	 * @param: @param session
-	 * @param: @param response
-	 * @param: @return
-	 * @return: AjaxJsonData
-	 */
-	/*@RequestMapping(value = "updateOrg")
-	@ResponseBody  */  
-	/*public AjaxJsonData updateOrg(Model model,HttpServletRequest request,@ModelAttribute Orgnization orgnization,HttpSession session,HttpServletResponse response) {
-		//UserEntity user = (UserEntity) session.getAttribute(SessionStringPool.LOGIN_USER);
-		HashMap<String, Object> orgMap = new HashMap<String, Object>();
-		HashMap<String, Object> purMap = new HashMap<String, Object>();
-		orgMap.put("id", orgnization.getId());
-		orgMap.put("name", orgnization.getName()==null?"":orgnization.getName());
-		orgMap.put("address", orgnization.getAddress()==null?"":orgnization.getAddress());
-		orgMap.put("mobile", orgnization.getMobile());
-		orgMap.put("postCode", orgnization.getPostCode());
-		
-		orgMap.put("shortName", orgnization.getShortName());
-		orgMap.put("orgCode", orgnization.getOrgCode());
-		orgMap.put("telephone", orgnization.getTelephone());
-		orgMap.put("areaId", orgnization.getAreaId());
-		orgMap.put("detailAddr", orgnization.getDetailAddr());
-		orgMap.put("fax", orgnization.getFax());
-		orgMap.put("website", orgnization.getWebsite());
-		orgMap.put("princinpal", orgnization.getPrincinpal());
-		orgMap.put("princinpalIdCard", orgnization.getPrincinpalIdCard());
-		orgMap.put("nature", orgnization.getNature());
-		orgMap.put("is_deleted", orgnization.getIsDeleted()==null?0:1);
-		orgnizationServiceI.updateOrgnization(orgMap);
-		purMap.put("org_id", orgMap.get("id"));
-		purMap.put("name", orgnization.getName()==null?"":orgnization.getName());
-		//更新采购机构
-		if(orgnization.getTypeName()!=null &&orgnization.getTypeName().equals(2)){
-			//更新采购机构
-		}
-		AjaxJsonData json = new AjaxJsonData();
-		json.setSuccess(true);
-		json.setMessage("更新成功");
-		if(orgnization.getIsDeleted()!=null && orgnization.getIsDeleted().equals(1)){
-			json.setMessage("删除成功");
-		}
-		return json;
-	}*/
-	
-	
-	
-	/*@RequestMapping("editUser")
-	public String editUser(@ModelAttribute User user,Model model) {
-		user = userServiceI.queryByList(user).get(0);
-		model.addAttribute("user", user);
-		return "ses/oms/require_dep/edit-user";
-	}*/
-	/**
-	 * 
-	 * @Title: updateUser
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-27 下午4:26:16
-	 * @Description: 更新用户
-	 * @param: @param user
-	 * @param: @param request
-	 * @param: @return
-	 * @return: AjaxJsonData
-	 */
-	/*@RequestMapping(value="updateUser",method= RequestMethod.POST)
-	@ResponseBody
-	public AjaxJsonData updateUser(@ModelAttribute User user,HttpServletRequest request){
-		User currUser = (User) request.getSession().getAttribute("loginUser");
-		user.setTypeName(DictionaryDataUtil.getId("PURCHASER_U"));
-		userServiceI.update(user);
-		jsonData.setSuccess(true);
-		jsonData.setMessage("更新成功");
-		return jsonData;
-	}
-	*/
-	
-	//------------------------------------机构下人员增删改查-----------------------------------------------------------------------
-	//-------------------------------------------监管部门相关操作------------------------------------------------------------------
-	
-	@RequestMapping("monitorDeplist")
-	public String monitorDeplist() {
-		return "ses/oms/monitor_dep/list";
-	}
-	
-	@RequestMapping("addMonitorDep")
-	public String addMonitorDep() {
-		return "ses/oms/monitor_dep/add";
-	}
-	
-	@RequestMapping("editMonitorDep")
-	public String editMonitorDep(@ModelAttribute Orgnization orgnization,Model model) {
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("id", orgnization.getId());
-		List<Orgnization> oList = orgnizationServiceI.findOrgnizationList(map);
-		if(oList!=null && oList.size()>0){
-			model.addAttribute("orgnization", oList.get(0));
-		}
-		return "ses/oms/monitor_dep/edit";
-	}
-	
-	//-------------------------------------------监管部门相关操作------------------------------------------------------------------
-	//-------------------------------采购相关机构操作------------------------------------------------------------------------------
-	/**
-	 * 
-	 * @Title: purchaseUnitList
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-18 下午1:58:58
-	 * @Description: 采购机构查询列表页
-	 * @param: @return
-	 * @return: String
-	 */
-	
-	/**
-	 * 新增采购机构  王赛说不要
-	 */
-	
 	
 	/**
 	 * 
@@ -1303,57 +1115,6 @@ public class PurchaseManageController {
         }
         return "ses/oms/purchase_dep/update_quate_status";
     }
-	
-	/*@RequestMapping("updatePurchaseDep")
-	public String updatePurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) throws IOException {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		List<PurchaseRoom> roomlist= this.parsePurchaseRooms(request);
-		List<PurchaseUnit> unitlist= this.parsePurchaseUnits(request);
-		this.setUploadFile(request, purchaseDep);
-		
-		purchaseOrgnizationServiceI.update(purchaseDep);
-		model.addAttribute("purchaseDep", purchaseDep);
-		return "redirect:purchaseUnitList.do";
-	}*/
-	/*@RequestMapping(value="updatePurchaseDepAjxa",method= RequestMethod.POST)
-	@ResponseBody
-	public AjaxJsonData updatePurchaseDepAjxa(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request){
-		@SuppressWarnings("unused")
-		User currUser = (User) request.getSession().getAttribute("loginUser");
-		
-		HashMap<String, Object> delmap = new HashMap<String, Object>();//机构对多对map
-		HashMap<String, Object> deporgmap = new HashMap<String, Object>();//机构对多对map
-		String depIds= request.getParameter("depIds");
-		if(purchaseDep.getOrgnization()!=null){
-		    
-		    orgnizationServiceI.updateOrgnizationById(purchaseDep.getOrgnization());
-		}
-		purchaseOrgnizationServiceI.update(purchaseDep);
-		jsonData.setSuccess(true);
-		jsonData.setMessage("更新成功");
-		jsonData.setObj(purchaseDep);
-		return jsonData;
-	}*/
-	
-	
-	/*@RequestMapping(value="updateOrgnizationAjxa",method= RequestMethod.POST)
-    @ResponseBody
-    public AjaxJsonData updateOrgnizationAjxa(@ModelAttribute Orgnization orgnization,HttpServletRequest request){
-        @SuppressWarnings("unused")
-        User currUser = (User) request.getSession().getAttribute("loginUser");
-        HashMap<String, Object> map = new HashMap<String, Object>();//
-        map.put("id", orgnization.getId());
-        map.put("quaStatus", orgnization.getQuaStatus());
-        map.put("quaStashReason", orgnization.getQuaStashReason());
-        map.put("quaNormalReason", orgnization.getQuaNormalReason());
-        map.put("quaTerminalReason", orgnization.getQuaTerminalReason());
-        orgnizationServiceI.updateOrgnization(map);
-        jsonData.setSuccess(true);
-        jsonData.setMessage("更新成功");
-        jsonData.setObj(orgnization);
-        return jsonData;
-    }*/
-	
 	
 	/**
 	 * 
