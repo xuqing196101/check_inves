@@ -37,4 +37,28 @@ public interface SupplierFinanceService {
 	
 	SupplierFinance getFinance(String supplierId,String year);
 	
+	/**
+	 *〈简述〉查询当前供应商所有的财务信息
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @return List<SupplierFinance>
+	 */
+	List<SupplierFinance> selectFinanceBySupplierId(SupplierFinance supplierFinance, Integer page);
+	
+	/**
+	 *〈简述〉更新信息
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param supplierFinance
+	 */
+	void update(SupplierFinance supplierFinance);
+	
+	 /**
+     *〈简述〉新增信息
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param supplierFinance
+     */
+    void save(SupplierFinance supplierFinance);
+	
 }

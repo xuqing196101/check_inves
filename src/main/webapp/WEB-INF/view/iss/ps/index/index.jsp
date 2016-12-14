@@ -5,10 +5,9 @@
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
-<jsp:include page="/WEB-INF/view/portal.jsp" />
+<jsp:include page="/index_head.jsp"></jsp:include>
 <script type="text/javascript">
 $(function(){
-	
 	var browser=navigator.appName;
 	var b_version=navigator.appVersion;
 	var version=parseFloat(b_version);
@@ -46,7 +45,6 @@ function drugs(){
 </head>
 
 <body>
-  <jsp:include page="/index_head.jsp"></jsp:include>
   <!--/end container-->
   <!-- End Navbar -->
   <div class="container content job-content ">
@@ -764,13 +762,7 @@ function drugs(){
 <jsp:include page="/index_bottom.jsp"></jsp:include>
 </div>
 </div>
-<!--[if lt IE 9]>
-    <script src="/assets/plugins/respond.js?body=1"></script>
-<script src="/assets/plugins/html5shiv.js?body=1"></script>
-<script src="/assets/plugins/html5.js?body=1"></script>
-<script src="/assets/plugins/placeholder-IE-fixes.js?body=1"></script>
-<script src="/assets/ie_9.js?body=1"></script>
-<![endif]-->
+
 
 </body>
 </html>

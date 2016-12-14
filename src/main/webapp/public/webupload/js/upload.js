@@ -129,6 +129,8 @@
 		     $list = $('#'+$base+'_thelist'),
 	         $btn = $('#'+$base+'_ctlBtn'),
 	         state = $base+'_pending',
+	         fileCount = 0,
+	         fileSize = 0,
 	         percentages = {},
 	         mutiple = transBoolean($("#"+$base+"_multipleId").val()),
 	         extension = $("#extensionId").val(),
@@ -182,22 +184,17 @@
 				if (!mutiple){
 					$list.empty();
 				}
-				liHtml($list,file);
+				fileCount ++;
+				fileSize += file.size;
+				percentages[ file.id ] = [ file.size, 0 ];
+				updateTotalProgress();
 			});
 			//上传进度条
 			uploader.on( 'uploadProgress', function( file, percentage ) {
-			    var $li = $( '#'+file.id ),
-			        $percent = $li.find('.progress .progress-bar');
-			    // 避免重复创建
-			    if ( !$percent.length ) {
-			        $percent = $('<div class="progress progress-striped active">' +
-			          '<div class="progress-bar" role="progressbar" style="width: 0%">' +
-			          '</div>' +
-			        '</div>').appendTo( $li ).find('.progress-bar');
-			    }
-
-			    $li.find('h4').text('上传中');
+				 var $percent =$('.progress span .percentage');
 			    $percent.css( 'width', percentage * 100 + '%' );
+			    percentages[ file.id ][ 1 ] = percentage;
+	            updateTotalProgress();
 			});
 			//上传成功后
 			uploader.on( 'uploadSuccess', function(file,res) {
@@ -207,8 +204,6 @@
 			   			},
 			   			function(msg){
 			   				if (msg == 'ok') {
-			   					$( '#'+file.id ).find('h4').text("上传成功");
-			   					setTimeout(function(){$list.empty();}, 1000);
 			   					showInit();
 			   				}
 			   				
@@ -216,39 +211,112 @@
 			   	});
 			});
 			
-			//带上传文件
-			liHtml = function (html,file) {
-				html.append( '<li id="' + file.id + '" class="item">' +
-				        '<h4 class="info">' + file.name + ',文件大小:'  + WebUploader.formatSize(file.size) + ',' +
-				        ' 等待上传...' + '<span onclick=\'delFile(this,"'+file.id+'");\' style=\'color:red;cursor:pointer\'>×</span></h4>' + 
-				    '</li>' );
-			}
 			//判断文件类型
 			checkFileType = function (fileName){
-				var fileType = $("#extensionId").val();
-				if (fileName) {
-					var fileExt = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase();
+				var fileType = $("#"+$base+"_extId").val();
+				var allType = $("#extensionId").val();
+				var fileExt = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase();
+				if (fileType == null || fileType == ""){
+					if (allType.indexOf(fileExt) != -1){
+						return true;
+					}
+				} else {
 					if (fileType.indexOf(fileExt) != -1){
 						return true;
 					}
 				}
 				return false;
 			}
+			
+			/**
+			 * 删除文件
+			 */
 			var fileObj =[];
 			delFile = function (obj,fileId){
 				$(obj).parent().parent().remove();
 				fileObj.push(uploader.getFile(fileId));
 			}
 			
+			/***
+			 * 总进度
+			 */
+			function updateTotalProgress() {
+	            var $statusBar = $('#statuId'),
+		         $info = $statusBar.find( '.info' ),
+		         $progress = $statusBar.find( '.progress' ),
+	                loaded = 0,
+	                total = 0,
+	                spans = $progress.children(),
+	                percent;
+	            $.each( percentages, function( k, v ) {
+	                total += v[ 0 ];
+	                loaded += v[ 0 ] * v[ 1 ];
+	            } );
+
+	            percent = total ? loaded / total : 0;
+
+	            spans.eq( 0 ).text( Math.round( percent * 100 ) + '%' );
+	            spans.eq( 1 ).css( 'width', Math.round( percent * 100 ) + '%' );
+	            updateStatus();
+	        }
+			
+			/***
+			 * 更新状态
+			 */
+			function updateStatus() {
+	            var text = '', stats;
+                stats = uploader.getStats();
+                text = '共' + fileCount + '个（' +
+                        WebUploader.formatSize( fileSize )  +
+                        '），已上传' + stats.successNum + '个';
+
+                if ( stats.uploadFailNum ) {
+                    text += '，失败' + stats.uploadFailNum + '个';
+                }
+                $("#statuId .info").html(text);
+	        }
+			
+			/**
+			 * 打开上传进度
+			 */
+			openUploadDiv = function(){
+				
+				var html= "<div id='statuId' class='statusBar'>" +
+						    "<div class='progress'>" +
+						      "<span class='text'></span>" +
+						      "<span class='percentage' style='width:0%'></span>" +
+						    "</div>" +
+						    "<div class='info'></div>" +
+						  "</div>";
+				  layer.open({
+					  type: 1,
+					  title:false,
+					  closeBtn: 0,
+					  shadeClose: false,
+					  content: html
+					});
+			  }
+			
+			/**
+			 * 上传出错
+			 */
 			uploader.on( 'uploadError', function( file ) {
 			    $( '#'+file.id ).find('h4').text('上传出错');
 			});
-
-			uploader.on( 'uploadComplete', function( file ) {
-			    $( '#'+file.id ).find('.progress').fadeOut();
+			
+			/**
+			 * 完成所有的上传
+			 */
+			uploader.on('uploadFinished',function(){
+				layer.closeAll();
+				uploader.reset();
 			});
 			
+			/**
+			 * 点击上传
+			 */
 			$btn.on( 'click', function() {
+				openUploadDiv();
 				if (fileObj && fileObj.length > 0){
 					for (var i = 0;i<fileObj.length;i++){
 						uploader.removeFile(fileObj[i]);

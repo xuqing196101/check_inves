@@ -33,3 +33,8 @@
 <script src="${pageContext.request.contextPath}/public/front/js/jquery.validate.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
 
+<!-- front -->
+<!--[if lt IE 9]>
+  <script src="${pageContext.request.contextPath}/public/common/respond.src.js"></script>
+<![endif]-->
+

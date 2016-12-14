@@ -20,11 +20,13 @@
 		<result column="SUPPLIER_ID" property="supplierId" />
 		<result column="CREATED_AT" property="createdAt" />
 		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="IS_DELETED" property="isDeleted" />
+		<result column="STATUS" property="status" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, NAME, YEAR, TELEPHONE, AUDITORS, QUOTA, TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS,
 		TAKING, AUDIT_OPINION, LIABILITIES_LIST, PROFIT_LIST, CASH_FLOW_STATEMENT_LIST, CHANGE_LIST,
-		SUPPLIER_ID, CREATED_AT, UPDATED_AT
+		SUPPLIER_ID, CREATED_AT, UPDATED_AT ,IS_DELETED ,STATUS
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
@@ -109,6 +111,12 @@
 			<if test="updatedAt != null">
 				UPDATED_AT,
 			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -164,6 +172,12 @@
 			</if>
 			<if test="updatedAt != null">
 				#{updatedAt},
+			</if>
+			<if test="status != null">
+				#{status},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted},
 			</if>
 		</trim>
 	</insert>
@@ -221,6 +235,12 @@
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt},
 			</if>
+			<if test="status != null">
+				STATUS = #{status},
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted},
+			</if>
 		</set>
 		where ID = #{id}
 	</update>
@@ -263,6 +283,21 @@
 		and
 			(t2.IS_DELETED = 0 or t2.IS_DELETED is null)
 	</select>
+	
+	<select id="findFinanceBySid" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_FINANCE
+		where 1=1 and IS_DELETED = 0
+		<if test="name != null and name != ''">
+			and NAME like '%${name}%'
+		</if>
+		<if test="supplierId !=null and supplierId !=''">
+		    and SUPPLIER_ID = #{supplierId}
+		</if>
+		ORDER BY YEAR DESC
+	</select>
+	
 	
 	<resultMap type="ses.model.sms.SupplierFinance" id="findFinanceBySupplierId" extends="BaseResultMap">
 		<collection property="listUploadFiles" ofType="common.model.UploadFile">

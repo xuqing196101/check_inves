@@ -160,20 +160,35 @@ public class UploadServiceImpl implements UploadService {
      */
     @Override
     public void viewPicture(HttpServletRequest request ,HttpServletResponse response) {
-
+        
+        InputStream fis = null;
         try {
-            String fileName = request.getParameter("path");
-            if (StringUtils.isNotBlank(fileName)){
-                File file = new File(fileName);
-                response.setContentType("image/*");
-                InputStream fis = new BufferedInputStream(new FileInputStream(file));   
-                OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-                UploadUtil.writeFile(fis, toClient);
+            String id = request.getParameter("id");
+            if (StringUtils.isNotBlank(id)){
+                UploadFile  uploadFile = uploadDao.findById(id);
+                if (uploadFile != null && StringUtils.isNotBlank(uploadFile.getPath())){
+                    File file = new File(uploadFile.getPath());
+                    response.setContentType("image/*");
+                    fis = new BufferedInputStream(new FileInputStream(file));  
+                    OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+                    byte[] b = new byte[fis.available()];
+                    fis.read(b);
+                    toClient.write(b);
+                    toClient.flush();
+                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally{
+            if (fis != null) {
+                try {
+                   fis.close();
+                } catch (IOException e) {
+                e.printStackTrace();
+            }   
+              }
         }
 
     }

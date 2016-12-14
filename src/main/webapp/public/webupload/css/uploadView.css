@@ -133,3 +133,80 @@ li{
 .uploadFiles li.file_delete{
 		background:url(./delete.png) no-repeat 5px;
 }
+
+.progress {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    height: 8px;
+    overflow: hidden;
+    z-index: 50;
+}
+
+.progress span {
+    display: inline-block;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    background: #2c9fa6 url(./progress.png) repeat-x;
+
+    -webit-transition: width 200ms linear;
+    -moz-transition: width 200ms linear;
+    -o-transition: width 200ms linear;
+    -ms-transition: width 200ms linear;
+    transition: width 200ms linear;
+
+    -webkit-animation: progressmove 2s linear infinite;
+    -moz-animation: progressmove 2s linear infinite;
+    -o-animation: progressmove 2s linear infinite;
+    -ms-animation: progressmove 2s linear infinite;
+    animation: progressmove 2s linear infinite;
+
+    -webkit-transform: translateZ(0);
+}
+
+.statusBar .progress {
+    border: 1px solid #2c9fa6;
+    width: 198px;
+    background: #fff;
+    height: 18px;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    position: relative;
+    margin-right: 0 10px 0 0;
+}
+
+.statusBar .progress span.percentage {
+    width: 0;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #2c9fa6;
+    position: absolute;
+}
+
+.statusBar .progress span.text {
+    position: relative;
+    z-index: 10;
+}
+
+.statusBar .info {
+    display: inline-block;
+    font-size: 14px;
+    color: #666666;
+}
+
+.layui-layer-pic{
+	border: 6px solid #8D8D8D;
+    border: 6px solid rgba(0,0,0,.3);
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+.layui-layer-pic .layui-layer-content{
+	background-color: #ccc;
+}

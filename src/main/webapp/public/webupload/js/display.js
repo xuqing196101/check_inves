@@ -131,7 +131,7 @@ function openViewDIv(businessId,typeId,key,id,obj){
 	var index = layer.open({
 		  type: 1,
 		  title: '图片查看',
-		  skin: 'layui-layer-rim',
+		  skin: 'layui-layer-pic',
 		  shadeClose: true,
 		  area: [$(document).width(),height],
 		  offset:['0px','0px'],
@@ -187,7 +187,7 @@ function disFile(html,obj,key){
 	var fileName = obj.path;
 	var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();
 	if (/(gif|jpg|jpeg|png|bmp)$/.test(fileExt)) {
-		var url = globalPath + '/file/viewFile.html?path=' + obj.path;
+		var url = globalPath + '/file/viewFile.html?id=' + obj.id;
 		var li = '<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'
 			+'<img data-original="'+url+'"  src="'+url+'" height="120px"/></a></div></div></li>';
 		html.append(li);

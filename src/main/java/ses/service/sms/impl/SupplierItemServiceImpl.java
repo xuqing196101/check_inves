@@ -66,24 +66,34 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		
 //		String id = supplierItem.getSupplierId();
 		supplierItemMapper.deleteBySupplierId(supplierItem.getSupplierId());
-		String ids[] = supplierItem.getCategoryId().split(",");
-		Map<String,Object> map=new HashMap<String,Object>();
-		for(String i:ids){
-			SupplierItem si = new SupplierItem();
-			String cid = UUID.randomUUID().toString().replaceAll("-", "");
-			si.setId(cid);
-			si.setSupplierId(supplierItem.getSupplierId());
-			si.setCategoryId(i);
-			si.setCreatedAt(new Date());
-			si.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
-			map.put("supplierId", supplierItem.getSupplierId());
-			map.put("categoryId", supplierItem.getCategoryId());
-			List<SupplierItem> list = supplierItemMapper.findByMap(map);
-			if(list.size()<1){
-				supplierItemMapper.insertSelective(si);
+		if(supplierItem.getCategoryId()!=null){
+			String categoryId = supplierItem.getCategoryId().trim();
+			if(supplierItem.getCategoryId().trim().length()>0){
+				String ids[] =categoryId.split(",");
+				Map<String,Object> map=new HashMap<String,Object>();
+				if(ids.length>=1){
+					for(String i:ids){
+						SupplierItem si = new SupplierItem();
+						String cid = UUID.randomUUID().toString().replaceAll("-", "");
+						si.setId(cid);
+						si.setSupplierId(supplierItem.getSupplierId());
+						si.setCategoryId(i);
+						si.setCreatedAt(new Date());
+						si.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
+						map.put("supplierId", supplierItem.getSupplierId());
+						map.put("categoryId", supplierItem.getCategoryId());
+						List<SupplierItem> list = supplierItemMapper.findByMap(map);
+						if(list.size()<1){
+							supplierItemMapper.insertSelective(si);
+						}
+						
+					}
+				}
 			}
-			
 		}
+		
+		
+		
 	/*	String[] addIds = {supplierItem.getAddProCategoryIds(), supplierItem.getAddSellCategoryIds(), supplierItem.getAddEngCategoryIds(), supplierItem.getAddServeCategoryIds()};
 		for(int i = 0; i < addIds.length; i++) {
 			String str = addIds[i];

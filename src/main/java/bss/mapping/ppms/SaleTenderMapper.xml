@@ -214,15 +214,31 @@
     resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List" />
+    , ss.SUPPLIER_NAME
+    , ss.CONTACT_TELEPHONE
+    
     FROM
     T_BSS_PPMS_SALE_TENDER st
+    
+    INNER JOIN
+    T_SES_SMS_SUPPLIER ss ON st.SUPPLIER_ID = ss."ID"
+    
     WHERE
     1=1
-    <if test="packages != null and packages != ''">
-      and st.PACKAGR_IDS = #{packages,jdbcType=VARCHAR}
+    <if test="packages != null  and packages != '' ">
+      AND st.PACKAGR_IDS = #{packages,jdbcType=VARCHAR}
     </if>
     <if test="project != null  and project != '' ">
-      and st.PROJECT_ID = #{project.id,jdbcType=VARCHAR}
+      AND st.PROJECT_ID = #{project.id,jdbcType=VARCHAR}
+    </if>
+    <if test="suppliers != null and suppliers.supplierName != null and suppliers.supplierName != ''">
+      AND ss.SUPPLIER_NAME LIKE #{suppliers.supplierName,jdbcType=VARCHAR}
+    </if>
+    <if test="suppliers != null and suppliers.contactTelephone != null and suppliers.contactTelephone != ''">
+      AND ss.CONTACT_TELEPHONE = #{suppliers.contactTelephone,jdbcType=VARCHAR}
+    </if>
+    <if test="statusBid != null  and statusBid != '' ">
+      AND st.STATUS_BID=#{statusBid,jdbcType=DECIMAL}
     </if>
   </select>
 

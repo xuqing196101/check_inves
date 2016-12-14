@@ -23,6 +23,24 @@ import common.exception.TagTldException;
  * @since
  * @see
  */
+/**
+ * 版权：(C) 版权所有 
+ * <简述>
+ * <详细描述>
+ * @author   myc
+ * @version  
+ * @since
+ * @see
+ */
+/**
+ * 版权：(C) 版权所有 
+ * <简述>
+ * <详细描述>
+ * @author   myc
+ * @version  
+ * @since
+ * @see
+ */
 public class UploadTld extends TagSupport {
 
     /**
@@ -55,6 +73,8 @@ public class UploadTld extends TagSupport {
     private String sysKey;
     /** 是否上传多个文件 */
     private boolean  multiple = false;
+    /** 文件扩展名 **/
+    private String exts;
     /** 扩展名 */
     private String extension = PropUtil.getProperty("file.upload.extension");
     /** 网页内容 */
@@ -136,6 +156,7 @@ public class UploadTld extends TagSupport {
             out.println("<input id='singlSizeId' type=\"hidden\"  value=" + singLimitFie + " />");
             out.println("<input id='"+id+"_multipleId' type=\"hidden\"  value=" + multiple + " />");
             out.println("<input id='extensionId' type=\"hidden\"  value=" + extension + " />");
+            out.println("<input id='"+id+"_extId' type=\"hidden\"  value=" + exts + " />");
             out.println("<input id='mimeTypesId' type=\"hidden\"  value=" + mimeTypes + " />");
             out.println("<input id='"+id+"_duplicateId' type=\"hidden\"  value=" + duplicate + " />");
             out.println("<input id='"+id+"_autoId' type=\"hidden\"  value=" + auto + " />");
@@ -293,6 +314,16 @@ public class UploadTld extends TagSupport {
     public void setAuto(boolean auto) {
         this.auto = auto;
     }
+
+    public String getExts() {
+        return exts;
+    }
+
+    public void setExts(String exts) {
+        this.exts = exts;
+    }
+    
+    
     
     
 }

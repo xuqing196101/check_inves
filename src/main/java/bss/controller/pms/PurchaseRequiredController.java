@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -41,6 +42,8 @@ import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
 import bss.util.Excel;
 import bss.util.ExcelUtil;
+import common.annotation.CurrentUser;
+import common.bean.ResponseBean;
 
 import com.github.pagehelper.PageInfo;
 /**
@@ -165,9 +168,14 @@ public class PurchaseRequiredController extends BaseController{
 		model.addAttribute("list2", DictionaryDataUtil.find(5));
 		return "bss/pms/purchaserequird/add";
 	}
+	
+	
+	@RequestMapping("/fileUpload")
+	public String uploadPage(){
+	    return "/bss/pms/purchaserequird/fileUpload";
+	}
+	
 	/**
-	 *   
-	 * 
 	* @Title: uploadFile
 	* @Description: 导入excel表格数据
 	* author: Li Xiaoxiao 
@@ -176,42 +184,28 @@ public class PurchaseRequiredController extends BaseController{
 	 * @throws IOException 
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/upload")
 	@ResponseBody
-	public String uploadFile(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,HttpServletResponse response,String type,String planName,String planNo) throws IOException{
-		response.setContentType("text/xml;charset=UTF-8");  
-		User user = (User) request.getSession().getAttribute("loginUser");
-	//	planName = new String(planName.getBytes("iso8859-1"),"UTF-8");
-		planName=	java.net.URLDecoder.decode(planName, "UTF-8");
-		
-		
-		String path = request.getSession().getServletContext().getRealPath("upload");  
+	@RequestMapping(value="/upload",produces="application/json;charset=UTF-8")
+	public ResponseBean uploadFile(@CurrentUser User user,@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,HttpServletResponse response,String type,String planName,String planNo) throws IOException{
+        ResponseBean bean = new ResponseBean();
+        
+        if (file == null){
+            bean.setSuccess(false);
+            bean.setObj("文件不能为空");
+            return bean;
+        }
         String fileName = file.getOriginalFilename();  
         if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){
-         
-        	return "ERROR";
-        }
-        File targetFile = new File(path, fileName);  
-        if(!targetFile.exists()){  
-            targetFile.mkdirs();  
+            bean.setSuccess(false);
+            bean.setObj("文件格式不支持");
+        	return bean;
         }  
-  
-        try {  
-            file.transferTo(targetFile);  
-        } catch (Exception e) {  
-            e.printStackTrace();  
-        } 
-        
-	
 		List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
 		try {
-			list = (List<PurchaseRequired>) ExcelUtil.readExcel(targetFile);
+			list = ExcelUtil.readExcel(file);
 		} catch (Exception e) {
-			String str = e.getMessage();
-			System.out.println("+++"+str);
-			if(str!=null){
-				return "exception";
-			}
+		    bean.setSuccess(false);
+            bean.setObj(e.getMessage());
 			
 		}
 		String did = UUID.randomUUID().toString().replaceAll("-", "");
@@ -326,10 +320,12 @@ public class PurchaseRequiredController extends BaseController{
 			}
 			count++;
 		}
-		purchaseRequiredService.batchAdd(list);
-		targetFile.delete();
+		bean.setSuccess(true);
+		bean.setObj(list);
+		//purchaseRequiredService.batchAdd(list);
+		//targetFile.delete();
 		
-		return "success";
+		return bean;
 	}
 	/**
 	 * @throws IOException 

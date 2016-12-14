@@ -136,6 +136,7 @@ public class SupplierServiceImpl implements SupplierService {
         //		}
         //		supplier.setSupplierTypeNames(supplierTypeNames);
         List<SupplierTypeRelate> relateList = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(id);
+        
         StringBuffer sb=new StringBuffer();
         if(relateList!=null&&relateList.size()>0){
             for(SupplierTypeRelate s:relateList){
