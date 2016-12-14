@@ -190,10 +190,10 @@
         }
         
         
-        function checkAdd() {
+        function checkSite() {
           var count = 0;
-          var checklist = document.getElementsByName("selectedItem");
-          var checkAll = document.getElementById("checkAlls");
+          var checklist = document.getElementsByName("checkbo");
+          var checkAll = document.getElementById("checkSite");
           for ( var i = 0; i < checklist.length; i++) {
             if (checklist[i].checked == false) {
             checkAll.checked = false;
@@ -909,7 +909,7 @@
                 </ul>
                 
                 
-                 <h2 class="count_flow"><i>3</i>个人信息</h2>
+                 <h2 class="count_flow"><i>3</i>人员信息</h2>
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>单位主要领导姓名及电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -1203,22 +1203,16 @@
                               <tr style="cursor: pointer;">
                              <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkbo" onclick="checkSite()" alt=""></td>
                               <td class="tc w50">${(vs.index+1)}</td>
-                                <%-- <select name="siteType">
-                                  <option value="1" <c:if test="${'1' eq obj.siteType}">selected="selected" </c:if>>办公室</option>
-                                  <option value="2" <c:if test="${'2' eq obj.siteType}">selected="selected" </c:if>>会议室</option>
-                                  <option value="3" <c:if test="${'3' eq obj.siteType}">selected="selected" </c:if>>招标室</option>
-                                  <option value="4" <c:if test="${'4' eq obj.siteType}">selected="selected" </c:if>>评标室</option>
-                                </select> --%>
                               <td class="tc">
                               <c:if test="${'1' eq obj.siteType}"> 办公室</c:if>
                               <c:if test="${'2' eq obj.siteType}"> 会议室</c:if>
                               <c:if test="${'3' eq obj.siteType}"> 招标室</c:if>
                               <c:if test="${'4' eq obj.siteType}"> 评标室</c:if>
-                             <input type="hidden" name="siteType"  value="${obj.siteType}"/></td>
-                              <td class="tc">${obj.siteNumber}<input type="hidden" name="siteNumber"  value="${obj.siteNumber}"/></td>
-                              <td class="tc">${obj.location}<input type="hidden" name="location"  value="${obj.location}"/></td>
-                              <td class="tc">${obj.area}<input type="hidden" name="area"  value="${obj.area}"/></td>
-                              <td class="tc">${obj.crewSize}<input type="hidden" name="crewSize"  value="${obj.crewSize}"/></td>
+                             </td>
+                              <td class="tc">${obj.siteNumber}</td>
+                              <td class="tc">${obj.location}</td>
+                              <td class="tc">${obj.area}</td>
+                              <td class="tc">${obj.crewSize}</td>
                              </tr>
                           </c:forEach>
                       </tbody>
@@ -1273,7 +1267,7 @@
               <div class="mt40 tc mb50">
                 <input type="button"  onclick="save()" class="btn btn-windows save"  value="保存" />
                 <!-- <input type="button" class="btn" onclick="stash();"  value="暂存" />  -->
-                <input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消" />
+                <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回" />
               </div>
           </form>
           </div>

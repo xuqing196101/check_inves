@@ -59,7 +59,7 @@
 				return;
 			} */
 	
-			$("input[name='id']").val(id);
+			$("input[name='expertId']").val(id);
 			$("#shenhe_form_id").submit();
 		}
 </script>
@@ -94,7 +94,7 @@
 		</div>
 		<div class="search_detail">
 			<form id="shenhe_form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
-			  <input name="id" type="hidden" />
+			  <input name="expertId" type="hidden" />
 	  	</form>
 			<form action="${pageContext.request.contextPath}/expertAudit/list.html" method="post" id="formSearch" class="mb0">
 				<input type="hidden" name="pageNum" id="pageNum">
@@ -183,23 +183,23 @@
 								<fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td>
 							<td  class="tc">${expert.honestyScore }</td>
-							<c:if test="${expert.status==null || expert.status eq '0' }">
-								<td  class="tc"><span class="label rounded-2x label-dark">未审核</span></td>
+							<c:if test="${expert.status eq '0' }">
+								<td  class="tc"><span class="label rounded-2x label-dark">待初审</span></td>
 							</c:if>
 							<c:if test="${expert.status eq '1' }">
-								<td  class="tc"><span class="label rounded-2x label-u">审核通过</span></td>
-							</c:if>
-							<c:if test="${expert.status eq '4' }">
-								<td  class="tc"><span class="label rounded-2x label-u">审核通过</span></td>
-							</c:if>
-							<c:if test="${expert.status eq '5' }">
-								<td  class="tc"><span class="label rounded-2x label-u">审核通过</span></td>
+								<td  class="tc"><span class="label rounded-2x label-u">待复审</span></td>
 							</c:if>
 							<c:if test="${expert.status eq '2' }">
-								<td  class="tc"><span class="label rounded-2x label-dark">审核未通过</span></td>
+								<td  class="tc"><span class="label rounded-2x label-u">初审未通过</span></td>
 							</c:if>
 							<c:if test="${expert.status eq '3' }">
-								<td  class="tc"><span class="label rounded-2x label-dark">退回修改</span></td>
+								<td  class="tc"><span class="label rounded-2x label-u">初审退回</span></td>
+							</c:if>
+							<c:if test="${expert.status eq '4' }">
+								<td  class="tc"><span class="label rounded-2x label-dark">复审通过</span></td>
+							</c:if>
+							<c:if test="${expert.status eq '5' }">
+								<td  class="tc"><span class="label rounded-2x label-dark">复审踢除</span></td>
 							</c:if>
 						</tr>
 					</c:forEach>
