@@ -144,6 +144,9 @@ public class Expert implements Serializable{
     private List<String> ids;
     
     
+    private Integer sign; //1：专家:初审 2:专家复审
+    
+    private String  sex;
     
     public String getStepNumber() {
         return stepNumber;
@@ -528,4 +531,22 @@ public class Expert implements Serializable{
     public void setAvoidanceSituation(String avoidanceSituation) {
         this.avoidanceSituation = avoidanceSituation;
     }
+
+	public Integer getSign() {
+		return sign;
+	}
+
+	public void setSign(Integer sign) {
+		this.sign = sign;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+    
+    
 }

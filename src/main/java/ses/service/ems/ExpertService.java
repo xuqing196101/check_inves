@@ -122,6 +122,15 @@ public interface ExpertService {
 	     */
 	    List<Expert> findAllExpert(HashMap<String,Object> map);
 	    
+	    /**
+	     *〈简述〉
+	     * 获取所有专家,仅用作定时删除无效专家
+	     *〈详细描述〉
+	     * @author WangHuiJie
+	     * @return
+	     */
+	    List<Expert> getAllExpert();
+	    
 	    /***
 	     * 
 	      * @Title: getCount

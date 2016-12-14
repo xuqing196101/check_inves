@@ -117,6 +117,7 @@
 			} 
 		};
 		zTreeObj = $.fn.zTree.init($("#" + kind), setting, zNodes);
+		zTreeObj.expandAll(true);
 	}
 	
 	

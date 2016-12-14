@@ -113,10 +113,6 @@
           <div class="clear"></div>
         </form>
       </h2>
-    <div class="tl">
-      <button class="btn btn-windows save" onclick="showSupplier()">保存</button>
-      <button class="btn btn-windows back" onclick="goBack()" type="button">返回</button>
-    </div>
 
     <input type="hidden" name="packages" value="${packId }" />
     <input type="hidden" name="projectId" value="${projectId }" />
@@ -146,6 +142,12 @@
       </c:forEach>
     </table>
     <div id="pagediv" align="right"></div>
-  </body>
-
+  
+  
+    <div class="col-md-12 tc mt5">
+      <button class="btn btn-windows save" onclick="showSupplier()">保存</button>
+      <button class="btn btn-windows back" onclick="goBack()" type="button">返回</button>
+    </div>
+    
+</body>
 </html>

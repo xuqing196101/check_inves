@@ -36,9 +36,8 @@
     				  offset:['45%','53%']
     			}); 
     			$.ajax({
-    				url : "${pageContext.request.contextPath}/login/login.do",
+    				url : "${pageContext.request.contextPath}/login/login.html",
     				type : "post",
-    				async: false,
     				data : {
     					loginName : $("#inputEmail").val(),
     					password : $("#inputPassword").val(),
@@ -67,7 +66,7 @@
     						layer.close(index);
     					} else if (flag[0] == "firset") {
     						//询问框
-    						layer.confirm('您完善个人信息，是否前去完善？', {
+    						layer.confirm('您还未完善个人信息，是否前去完善？', {
     							btn : [ '是', '否' ]
     						//按钮
     						}, function() {
@@ -97,7 +96,7 @@
     							dataType: "json",
     							async: false,
     							success: function(response){
-    								if (response.isok == "0") {
+    								if (response.isok == "1") {
     									// 没有超过45天
     									//询问框
     		    						layer.confirm("您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待!", {
@@ -106,7 +105,7 @@
     		    						}, function() {
     		    							window.location.href = "${pageContext.request.contextPath}/";
     		    						});
-    								} else if (response.isok == "1") {
+    								} else {
     									// 超过45天
     									//询问框
     		    						layer.confirm("您的信息提交审核已经超过45天,请耐心等待或联系相关初审机构(" + response.contact + ":" + response.contactTelephone + ")!", {
@@ -118,7 +117,7 @@
     								}
     							}
     						});
-    					}else if(flag[0]=="unprefect"){
+    					}else if(flag[0]=="unperfect"){
     						//询问框
     						layer.confirm('信息未完善，是否前去完善？', {
     						 	btn: ['是','否'] //按钮
@@ -128,7 +127,31 @@
     						 		layer.close(index);
     						 		window.location.href="${pageContext.request.contextPath}/";
     						 	    });
+    					}else if(flag[0]=="commit"){
+    						//询问框
+    						layer.confirm("您的信息已于" + flag[1]+ "提交审核,将于45天内审核完成,请耐心等待!", {
+    						 	btn: ['是','否'] //按钮
+    						},  function(){
+    							
+    						 		layer.close(index);
+    						 		window.location.href="${pageContext.request.contextPath}/";
+    						 	    });
+    					}
+    					else if(flag[0]=="beyong"){
+    						//询问框
+    					     layer.open({
+    		    					type : 2,
+    		    					title : '初审机构信息',
+    		    					// skin : 'layui-layer-rim', //加上边框
+    		    					area : [ '720px', '420px' ], //宽高
+    		    					offset : '100px',
+    		    					scrollbar : false,
+    		    					content :'${pageContext.request.contextPath}/supplier/audit_org?id='+flag[1], //url
+    		    					closeBtn : 1, //不显示关闭按钮
+    		    				});
+    		                    
     					}  
+    					
     					
     					else if (flag[0] == "reset") {
     						window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=" + flag[1];

@@ -1,7 +1,10 @@
 package bss.test;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -89,30 +92,36 @@ public class test {
 
 		@Test
 		public void ss(){
-		        String path = "d:/0623060253062306025306.torrent";
-		        
-		        for (int i = 0; i < 10; i++) {
-		        	for (int j = 0; j < i; j++) {
-						if(j==5){
-							break;
-						}
-						System.out.println("j="+j);
-					}
-					
-					//System.out.println("i="+i);
-				}
-		        
-//		        TorrentFile file = new TorrentFile(new File(path));
-//		        
-//		        String[] strs = file.getFilenames();
-//		        long[] longs = file.getLengths();
-//		        System.out.println(strs.length + " " + longs.length);
-//		        
-//		        for(int i = 0; i < strs.length; i ++)
-//		        {
-//		            System.err.println(strs[i] + " --->  " + longs[i]);
-//		        }
-		        
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+			Date today=new Date();
+			String str = sdf.format(today);
+			System.out.println(str);
+			Date date2= addDate(new Date(),3,45);
+			
+			String str2 = sdf.format(date2);
+			System.out.println( str2);
+		     if(today.getTime()>date2.getTime()){
+		    	 System.out.println(123);
+		     }   
 		        
 		}
+		
+		public Date addDate(Date baseDate, int type, int num) {
+			Date lastDate = null;
+			Calendar cale = Calendar.getInstance();
+			cale.setTime(baseDate);
+			if (type == 1)
+				cale.add(Calendar.YEAR, num);
+			else if (type == 2)
+				cale.add(Calendar.MONTH, num);
+			else if (type == 3)
+				cale.add(Calendar.DAY_OF_MONTH, num);
+			else if(type == 4)
+				cale.add(Calendar.HOUR, num);
+			lastDate = cale.getTime();
+			return lastDate;
+		} 
+
+		
+		
 }

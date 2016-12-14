@@ -82,7 +82,7 @@
 		    var id = $(":radio:checked").val();
 		    var state = $("#"+id).parents("tr").find("td").eq(5).text().trim();
 		    var isExtract=$("#"+id+"_isExtract").text();
-		    if (state == "已审核" || state == "审核核未通过" || state == "复核未通过" || state == "审核退回") {
+		    if (state == "已审核" || state == "审核未通过" || state == "复核未通过" || state == "审核退回") {
 		        layer.msg("请选择待审核项 !", {
 		        	offset : '100px',
 		        });

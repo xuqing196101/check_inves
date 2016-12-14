@@ -1152,10 +1152,10 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_catMobile", "格式不正确 或是字符过长!");
 			count++;
 		}
-		if(supplier.getContactTelephone()==null||!supplier.getContactTelephone().matches("^1[0-9]{10}$")||supplier.getContactTelephone().length()>12){
-			model.addAttribute("err_catTelphone", "格式不正确 !");
-			count++;
-		}
+//		if(supplier.getContactTelephone()==null||!supplier.getContactTelephone().matches("^1[0-9]{10}$")||supplier.getContactTelephone().length()>12){
+//			model.addAttribute("err_catTelphone", "格式不正确 !");
+//			count++;
+//		}
 		if(supplier.getContactEmail()==null||!supplier.getContactEmail().matches("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$")){
 			model.addAttribute("err_catEmail", "格式不正确 !");
 			count++;
@@ -1688,6 +1688,15 @@ public class SupplierController extends BaseSupplierController {
 //            supplierItemService.getSupplierIdCategoryId(supplierId, categoryId)
             ct.setIsParent("true");
             categoryList.add(ct);
+            
+            List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
+            
+            for (SupplierItem category : item) {
+            	 String parentId = categoryService.selectByPrimaryKey(category.getCategoryId()).getParentId();
+                 if (parentId != null && parentId.equals(ct.getId())) {
+                     ct.setChecked(true);
+                 }
+            }
         } else {
         	List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
 //            List<ExpertCategory> expertCategory = expertCategoryService.getListByExpertId(expertId);供应商选择的品目
@@ -1723,8 +1732,8 @@ public class SupplierController extends BaseSupplierController {
 		Supplier supp = supplierMapper.queryByName(name);
 		Supplier supplier = supplierService.get(supp.getId());
 		Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(supplier.getProcurementDepId());
-		model.addAttribute("orgnization", orgnization);
-		return "";
+		model.addAttribute("purchaseDep", orgnization);
+		return "ses/sms/supplier_register/audit_org";
 	}
 	
 	public Integer oneYear() {

@@ -72,6 +72,7 @@ public class ExpertServiceImpl implements ExpertService {
 	public int insertSelective(Expert record) {
 		//诚信分数初始化
 		record.setHonestyScore(0);
+		record.setUpdatedAt(new Date());
 		return mapper.insertSelective(record);
 	}
 
@@ -80,9 +81,50 @@ public class ExpertServiceImpl implements ExpertService {
 		
 		return mapper.selectByPrimaryKey(id);
 	}
-
+	
+	@Override
+    public List<Expert> getAllExpert() {
+        return mapper.getAllExpert();
+    }
+	
 	@Override
 	public void updateByPrimaryKeySelective(Expert record) {
+		String status = record.getStatus();
+		String expertId = record.getId();
+		Todos todos = new Todos();
+		Expert expert= mapper.selectByPrimaryKey(expertId);
+		String expertName = expert.getRelName();
+		/**
+		 * 初审通过发送待办
+		 */
+		if(status.equals(1)){
+			//待初审已完成
+			todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
+			todosMapper.updateIsFinish(todos);
+			/**
+			 * 推送
+			 */
+		    todos.setCreatedAt(new Date());
+		    todos.setIsDeleted((short)0);
+		    todos.setIsFinish((short)0);
+		    //待办名称
+		    todos.setName(expertName+"专家初审");
+		    //todos.setReceiverId();
+		    //接受人id
+		    todos.setOrgId(record.getPurchaseDepId());
+		    PropertiesUtil config = new PropertiesUtil("config.properties");
+		    todos.setPowerId(config.getString("zjdb"));
+		    //发送人id
+		    todos.setSenderId(record.getId());
+		    todos.setUndoType((short)2);
+		    //发送人姓名
+		    todos.setSenderName(record.getRelName());
+		    //审核地址
+		    todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
+		    todosMapper.insert(todos );
+		}
+		
+		
 		mapper.updateByPrimaryKeySelective(record);
 
 	}

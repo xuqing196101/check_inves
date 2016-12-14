@@ -19,9 +19,16 @@
 						//如果状态为1就什么都不做
 					} else {
 						clickState = 1; //如果状态不是1  则添加状态 1
-						setTimeout("addPack()", 1000);
+						setTimeout("addPack()", 300);
 					}
 				})
+				
+				if(window.name==""){ 
+					window.name = "0"; 
+				}else{ 
+					window.name = eval(window.name) + 1; 
+					alert("已经刷新"+ window.name+'次'); 
+				} 
 			});
 
 			//全选方法
@@ -116,9 +123,9 @@
 						layer.msg('修改成功', {
 							offset: ['45%', '50%']
 						});
-						window.setTimeout(function() {
-							window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId;
-						}, 300);
+						$(obj).parent().prev().find($("span[name='packageName']")).html(name);
+						$(obj).hide();
+						$(obj).prev().show();
 					}
 				});
 			}
@@ -316,8 +323,8 @@
 					title: '明细信息',
 					skin: 'layui-layer-rim',
 					shadeClose: true,
-					area: ['80%', '50%'],
-					offset: ['20%', '5%'],
+					area: ['90%', '90%'],
+					offset: ['5%', '5%'],
 					content: $("#oddDetail")
 				});
 				$(".layui-layer-shade").remove();
@@ -366,6 +373,32 @@
 					});
 				}
 			}
+			
+			//上一步
+			function prev(){
+				histroy.go(-1);
+			}
+			
+			//下一步
+			function next(){
+				var projectId = $("#projectId").val();
+				$.ajax({
+					type: "POST",
+					dataType:"json",
+					url: "${pageContext.request.contextPath }/project/judgeNext.do?projectId=" + projectId,
+					success: function(data) {
+						if(data==0){
+							layer.alert("项目还有明细未分包，请先分包", {
+								offset: ['20%', '40%']
+							});
+							$(".layui-layer-shade").remove();
+							return;
+						}else if(data==1){
+							
+						}
+					}
+				});
+			}
 		</script>
 	</head>
 
@@ -398,8 +431,8 @@
 			<!-- 按钮开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows add" type="button" onclick="addPack()" id="addPack">添加分包</button>
-				<%--<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
-				--%><span class="fr mt10">项目编号：${project.projectNumber}</span>
+				<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
+				<span class="fr mt10">项目编号：${project.projectNumber}</span>
 			</div>
 
 			<c:if test="${!empty list}">
@@ -524,7 +557,13 @@
 				</c:forEach>
 			</div>
 		</div>
-
+		
+		<!-- 按钮 -->
+		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+			<button class="btn" type="button" onclick="history.go(-1)">上一步</button>
+			<button class="btn" type="button" onclick="next()">下一步</button>
+		</div>
+		
 		<c:if test="${!empty list}">
 			<div class="content table_box dnone" id="oddDetail">
 				<table class="table table-bordered table-condensed table-hover table-striped">

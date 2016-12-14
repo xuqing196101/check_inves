@@ -18,6 +18,11 @@ public class CategoryTree {
      * 节点的父节点id
      */
     private String pId;
+    
+    /*
+     * 专家品目Tree专用父节点Id(上面的PID有时获取不到)
+     */
+    private String parentId;
 
     /*
      * 是否是父类
@@ -142,6 +147,12 @@ public class CategoryTree {
     }
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+    public String getParentId() {
+        return parentId;
+    }
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
 

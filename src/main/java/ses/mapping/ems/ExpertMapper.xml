@@ -70,6 +70,13 @@
 		COVER_NOTE, PRODUCT_CATEGORIES, ACADEMIC_ACHIEVEMENT,
 		REVIEW_SITUATION, AVOIDANCE_SITUATION
 	</sql>
+	<!-- 获取所有专家,仅用作定时删除无效专家 -->
+	<select id="getAllExpert" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_EMS_EXPERT
+		where IS_DELETE = 0
+	</select>
 	<!-- 查询用户名是否存在 -->
 	<!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap" 
 		> select IS_SUBMIT from T_SES_EMS_EXPERT where IS_SUBMIT = #{isSubmit} </select> -->
@@ -896,13 +903,25 @@
 	<!-- 专家审核列表 可条件查询 -->
 	<select id="findExpertAuditList" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
 		select
-			*
+			t1.*,
+			t2.NAME as  sex
 		from
-			T_SES_EMS_EXPERT
+			T_SES_EMS_EXPERT t1
+		left join
+			T_SES_BMS_DICTIONARY_DATA t2
+		on
+			t1.GENDER = t2.ID
 		where 1=1
-			<if test="relName != null and relName !=''">
-				AND REAL_NAME like '%${relName}%'
+			<if test="sign == 1">
+				and (STATUS = 0 or STATUS = 2 or STATUS = 3)
+				ORDER BY decode(STATUS,'0',1,'2',2,'3',3)
 			</if>
-			ORDER BY CREATED_AT DESC
+			<if test="sign == 2">
+				and (STATUS = 1 or STATUS = 4 or STATUS = 5)
+				ORDER BY decode(STATUS,'1',1,'4',2,'5',3)
+			</if>
+			<if test="relName != null and relName !=''">
+				and REAL_NAME like '%${relName}%'
+			</if>
 	</select>
 </mapper>

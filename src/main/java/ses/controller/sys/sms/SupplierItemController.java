@@ -115,6 +115,9 @@ public class SupplierItemController {
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", jsp);*/
 //		return  "redirect:../supplier/page_jump.html";
+		if(flag.equals("2")){
+			return "ses/sms/supplier_register/items";	
+		}
 		
 		boolean bool = validataItem(supplierItem);
 		if(bool==false){
@@ -123,9 +126,8 @@ public class SupplierItemController {
 		}
 		if(flag.equals("1")){
 			return "ses/sms/supplier_register/procurement_dep";	
-		}else if(flag.equals("2")){
-			return "ses/sms/supplier_register/items";	
 		}
+		
 		return "ses/sms/supplier_register/supplier_type";	
 	}
 	

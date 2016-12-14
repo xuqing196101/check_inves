@@ -59,6 +59,7 @@ import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.model.ppms.Packages;
@@ -74,6 +75,7 @@ import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 
@@ -260,6 +262,7 @@ public class ExpertController {
             userService.save(user, null);
             Expert expert = new Expert();
             expert.setId(expertId);
+            expert.setMobile(user.getMobile());
             service.insertSelective(expert);
             Role role = new Role();
             role.setCode("EXPERT_R");
@@ -364,12 +367,13 @@ public class ExpertController {
         // 如果是外网用户则不可以选择专家来源为军队
         //String ipAddress = request.getRemoteAddr();
         //int type = IpAddressUtil.validateIpAddress(ipAddress);
-        String type = request.getServletContext().getInitParameter("ipAddress");
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        String type = config.getString("ipAddressType");
         // 如果是外网用户,则删除军队这个选项
         if ("1".equals(type)) {
             for (int i = 0; i < lyTypeList.size(); i++) {
                 // 循环判断如果是军队则remove
-                if ("军队".equals(lyTypeList.get(i).getCode())) {
+                if ("军队".equals(lyTypeList.get(i).getName())) {
                     lyTypeList.remove(i);
                 }
             }
@@ -431,9 +435,49 @@ public class ExpertController {
     
     @RequestMapping(value = "getCategory", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getCategory(String id, String categoryIds, String expertId){
-        List<CategoryTree> allList = new ArrayList<CategoryTree>();
-        if(id == null && categoryIds != null) {
+    public String getCategory(String expertId, String id){
+        List<CategoryTree> allCategories = new ArrayList<CategoryTree>();
+        DictionaryData parent = dictionaryDataServiceI.getDictionaryData(id);    
+        CategoryTree ct = new CategoryTree();
+        ct.setName(parent.getName().substring(0, parent.getName().length() - 2));
+        ct.setId(parent.getId());
+        ct.setIsParent("true");
+        // 判断是否被选中
+        List<ExpertCategory> allCategory = expertCategoryService.getListByExpertId(expertId);
+        for (ExpertCategory expertCategory : allCategory) {
+            String parentId = categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getParentId();
+            if (parentId != null && parentId.equals(ct.getId())) {
+                ct.setChecked(true);
+            }
+        }
+        allCategories.add(ct);
+        // 递归查询出所有节点
+        List<Category> categoryTree = getCategoryTree(ct.getId());
+        for (Category c : categoryTree) {
+            List<Category> list1 = categoryService.findTreeByPid(c.getId());
+            CategoryTree ct1 = new CategoryTree();
+            ct1.setName(c.getName());
+            ct1.setParentId(c.getParentId());
+            ct1.setId(c.getId());
+            // 设置是否为父级
+            if (!list1.isEmpty()) {
+                ct1.setIsParent("true");
+            } else {
+                ct1.setIsParent("false");
+            }
+            // 设置是否回显
+            for (ExpertCategory category : allCategory) {
+                if (category.getCategoryId() != null) {
+                    if (category.getCategoryId().equals(c.getId())) {
+                        ct1.setChecked(true);
+                    }
+                }
+            }
+            allCategories.add(ct1);
+        }
+        return JSON.toJSONString(allCategories);
+    }
+        /*if(id == null && categoryIds != null) {
             DictionaryData type = dictionaryDataServiceI.getDictionaryData(categoryIds);
             CategoryTree ct = new CategoryTree();
             ct.setName(type.getName().substring(0, type.getName().length() - 2));
@@ -471,9 +515,24 @@ public class ExpertController {
                     }
                 }
                 allList.add(ct1);
-            }
+            }*/
+    
+    /**
+     *〈简述〉
+     * 递归查询所有Tree节点
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param id
+     * @return
+     */
+    public List<Category> getCategoryTree(String id){
+        List<Category> list = categoryService.findTreeByPid(id);
+        List<Category> childList = new ArrayList<Category>();
+        childList.addAll(list);
+        for (Category cate : list) {
+            childList.addAll(getCategoryTree(cate.getId()));
         }
-        return JSON.toJSONString(allList);
+        return list;
     }
     
     @RequestMapping(value = "getAllCategory", produces = "application/json;charset=UTF-8")
@@ -1078,7 +1137,7 @@ public class ExpertController {
         // 用户信息处理
         service.userManager(user, userId, expert, expertId);
         // 调用service逻辑代码 实现提交
-        //service.saveOrUpdate(expert, expertId, categoryId, gitFlag, userId);
+        service.saveOrUpdate(expert, expertId, categoryId, gitFlag, userId);
         expert.setIsDo("0");
         //已提交
         expert.setIsSubmit("1");
@@ -1792,6 +1851,18 @@ public class ExpertController {
           } else {
               return "1";
           }
+      }
+      
+      @ResponseBody
+      @RequestMapping("/validateAge")
+      public String validateAge(String birthday) {
+          String isok = "0";
+          String year = birthday.substring(0, 4);
+          String now = new SimpleDateFormat("yyyy").format(new Date());
+          if (Integer.parseInt(now) - Integer.parseInt(year) >= 70) {
+              isok = "1";
+          }
+          return isok;
       }
       /**
      *〈简述〉
