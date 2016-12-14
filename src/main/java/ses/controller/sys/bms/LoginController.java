@@ -17,11 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import common.constant.Constant;
-import common.utils.AuthUtil;
 import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.TodosService;
@@ -29,6 +28,8 @@ import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierService;
+import common.constant.Constant;
+import common.utils.AuthUtil;
 
 
 /**
@@ -127,24 +128,26 @@ public class LoginController {
                         Map<String, Object> map = expertService.loginRedirect(u);
                         Object object = map.get("expert");
                         if (object != null) {
+                            // 拉黑 阻止登录
                             if (object.equals("1")) {
-                                // 拉黑
                                 out.print("black");
                             } else if(object.equals("5")){
-                                // 未通过
                                 out.print("reject");
+                            }else if (object.equals("2")) {
+                                req.getSession().setAttribute("loginUser", u);
+                                req.getSession().setAttribute("resource", u.getMenus());
+                                // 信息为空 重新填写
+                                out.print("empty," + u.getId());
                             } else if (object.equals("3")) {
-                                // 待审核
-                                out.print("auditExp," + u.getId());
+                                req.getSession().setAttribute("loginUser", u);
+                                req.getSession().setAttribute("resource", u.getMenus());
+                                out.print("scuesslogin");
                             } else if (object.equals("4")) {
-                                // 未提交
-                                out.print("firset," + u.getId());
-                            } else if (object.equals("2")) {
-                                // 退回修改
+                                req.getSession().setAttribute("loginUser", u);
+                                req.getSession().setAttribute("resource", u.getMenus());
+                                // 暂存 或者 退回
+                                // Expert expert = (Expert)object;
                                 out.print("reset," + u.getId());
-                            } else if (object.equals("6")) {
-                                // 复审踢除
-                                out.print("weed");
                             }
                         } else {
                             req.getSession().setAttribute("loginUser", u);
@@ -157,13 +160,23 @@ public class LoginController {
                 } else if (srs != null && srs.size() > 0) { 
                     Map<String, Object> map = supplierService.checkLogin(u);
                     String msg = (String) map.get("status");
+                    String date = (String) map.get("date");
+                    Orgnization orgnization = ( Orgnization ) map.get("orgnization");
+                    
+                    
                     if ("success".equals(msg)) {
                         req.getSession().setAttribute("loginSupplier", map.get("supplier"));
                         req.getSession().setAttribute("loginUser", u);
                         req.getSession().setAttribute("resource", u.getMenus());
                         out.print("scuesslogin");
-                    }else{
-                        out.print("unprefect," + u.getLoginName());
+                    }else  if("unperfect".equals(msg)){
+                        out.print("unperfect," + u.getLoginName());
+                    }
+                    else  if("beyong".equals(msg)){
+                        out.print("beyong," + orgnization.getId());
+                    }
+                    else  if("commit".equals(msg)){
+                        out.print("commit," + date);
                     }
                 } else {
                     req.getSession().setAttribute("loginUser", u);

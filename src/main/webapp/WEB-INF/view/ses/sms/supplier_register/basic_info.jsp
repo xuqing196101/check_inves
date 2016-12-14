@@ -301,6 +301,7 @@ function deleteFinance() {
 			    "<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产公司地址</span>"+
 			    "<div class='col-md-12 col-xs-12 col-sm-12 select_common p0'>"+
 			     "<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='root_area_select_id' onchange='loadChildren(this)'  name='addressList["+ind+"].provinceId' >"+
+			     " <option value=''>请选择</option>"+
 			      " <c:forEach  items='${privnce }' var='prin'>"+
 				       " <option value='${prin.id }'  >${prin.name }</option>"+
 			        " </c:forEach>"+
@@ -411,7 +412,7 @@ function deleteFinance() {
 	<%-- 	<input name="defaultPage" value="${defaultPage}" type="hidden" />  --%>
 		<input name="flag" type="hidden" />
 		<div>
-    	  <h2 class="count_flow">基本信息</h2>
+    	  <h2 class="count_flow"> <i>1</i> 基本信息</h2>
     	  	<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 	 			<legend>企业信息</legend>
 	 			<ul class="list-unstyled" style="font-size: 14">
@@ -519,15 +520,26 @@ function deleteFinance() {
 			       </div>
 				 </li> 
 				
+				
+				<li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
+				   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 基本账户开户许可证</span> 
+				   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+					 <u:upload id="bank_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" auto="true" /> 
+				     <u:show showId="bank_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
+				   </div>
+				  <%--  <div class="cue"> ${err_bearch } </div> --%>
+				</li>
+			
+			
 				 
-				 <li id="breach_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
+	<%-- 			 <li id="breach_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 				   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 基本账户开户许可证</span> 
 				   <div class="col-md-6 col-sm-12 col-xs-12 p0">
 				     <u:upload id="bank_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" auto="true" /> 
 				     <u:show showId="bank_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
 				   </div>
 				    <div class="cue"> ${err_bearch } </div>
-				</li>
+				</li> --%>
 			
 			
 			<%-- 	 
@@ -556,7 +568,7 @@ function deleteFinance() {
 	 			<legend>地址信息</legend>
 	 			   <ul class="list-unstyled" style="font-size: 14">
 	 		   		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i>注册邮编</span>
+					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i>注册地址邮编</span>
 					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				        <input type="text" name="postCode" value="${currSupplier.postCode}" />
 				        <span class="add-on cur_point">i</span>
@@ -565,10 +577,10 @@ function deleteFinance() {
 					</li> 
 				 
 				 	<li class="col-md-3 col-sm-6 col-xs-12">
-				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>注册 公司地址</span>
+				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>注册公司地址</span>
 				    	<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren(this)">
-				     
+				    	 <option value="">请选择</option>
 				         <c:forEach  items="${privnce }" var="prin">
 					         <c:if test="${prin.id==area.parentId }">
 					          <option value="${prin.id }" selected="selected" >${prin.name }</option>
@@ -595,7 +607,7 @@ function deleteFinance() {
 				 </li>  
 				 
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 注册详细地址</span>
+				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 注册公司详细地址</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="detailAddress"  value="${currSupplier.detailAddress}">
 			        <span class="add-on cur_point">i</span>
@@ -612,7 +624,7 @@ function deleteFinance() {
 				 
 				 <c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
 				 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产公司邮编</span>
+					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产经营地址邮编</span>
 					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 					   <input type="hidden" name="addressList[${vs.index }].id" value="${addr.id}" />
 					<%--     <c:if test="${addr.code!=null}"> --%>
@@ -627,10 +639,10 @@ function deleteFinance() {
 					</li> 
 				 
 				 	<li class="col-md-3 col-sm-6 col-xs-12">
-				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产公司地址</span>
+				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营地址</span>
 				    	<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId" >
-				     
+				     	 <option value="">请选择</option>
 				         <c:forEach  items="${privnce }" var="prin">
 					         <c:if test="${prin.id==addr.provinceId }">
 					          <option value="${prin.id }" selected="selected" >${prin.name }</option>
@@ -658,7 +670,7 @@ function deleteFinance() {
 				 </li>  
 				 
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产公司详细地址</span>
+				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>生产经营详细地址</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				<%--     <c:if test="${addr.detailAddress!=null  }"> --%>
 			        <input type="text" name="addressList[${vs.index }].detailAddress"  value="${addr.detailAddress }">
@@ -739,7 +751,7 @@ function deleteFinance() {
 		  </ul>						
 		</fieldset>
 		<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-	 	  <legend>法人代表信息</legend>
+	 	  <legend>法定代表信息</legend>
 	 	  <ul class="list-unstyled" style="font-size: 14">
 		 	 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 姓名</span>
@@ -762,7 +774,7 @@ function deleteFinance() {
 		    
 		     <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证正面</span> 
-			   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+			   <div class="col-md-12 col-sm-12 col-xs-12 p0 h30">
 			     <u:upload id="bearchcert_up_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" /> 
 			     <u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
 			   </div>
@@ -771,7 +783,7 @@ function deleteFinance() {
 			
 			 <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证反面</span> 
-			   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+			   <div class="col-md-12 col-sm-12 col-xs-12 p0 h30">
 			     <u:upload id="identity_down_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" auto="true" /> 
 			     <u:show showId="identity_down_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
 			   </div>
@@ -851,7 +863,7 @@ function deleteFinance() {
 		    <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 手机</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        <input type="text" name="contactTelephone" value="${currSupplier.contactTelephone}" />
+		        <input type="text" name="mobile" value="${currSupplier.mobile}" />
 		        <span class="add-on cur_point">i</span>
 			    <div class="cue"> ${err_catTelphone } </div>		        
 	       	   </div>
@@ -1070,14 +1082,24 @@ function deleteFinance() {
 	       	 
 		    </li> 
 		    
-		    <li class="col-md-3 col-sm-6 col-xs-12">
+		<%--     <li class="col-md-3 col-sm-6 col-xs-12">
 		     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span> 
 				   <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25">
 					 <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
 		   	   		 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
 				   </div>
 				   <div class="cue"> ${err_business } </div>
-		    </li> 
+		    </li>  --%>
+		    
+		    	<li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
+				   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span> 
+				   <div class="col-md-12 col-sm-12 col-xs-12 p0 h30">
+					 <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
+		   	   		 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
+				   </div>
+				  <%--  <div class="cue"> ${err_bearch } </div> --%>
+				</li>
+				
 		    
 		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">
 		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 营业范围</span>
@@ -1106,8 +1128,259 @@ function deleteFinance() {
 		  	 <li class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">所在国家（地区）</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		    	 	<input name="branchList[${vs.index }].country" id="sup_country" type="text" value="${bran.country}" />
-			        <span class="add-on cur_point">i</span>
+		    	 <%-- 	<input name="branchList[${vs.index }].country" id="sup_country" type="text" value="${bran.country}" />
+			        <span class="add-on cur_point">i</span> --%>
+		  <select name="branchList[${vs.index }].country"  id="overseas_branch_select_id">	        
+				<option value="AL" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >阿尔巴尼亚</option>  
+		        <option value="DZ" <c:if test="${bran.country=='DZ'}">selected='selected' </c:if> >阿尔及利亚</option>  
+		        <option value="AF" <c:if test="${bran.country=='AF'}">selected='selected' </c:if> >阿富汗</option>  
+		        <option value="AR" <c:if test="${bran.country=='AR'}">selected='selected' </c:if> >阿根廷</option>  
+<%-- 		        <option value="AE" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >阿拉伯联合酋长国</option>  
+		        <option value="AW" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >阿鲁巴</option>  
+		        <option value="OM" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >阿曼</option>  
+		        <option value="AZ" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >阿塞拜疆</option>  
+		        <option value="EG" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >埃及</option>  
+		        <option value="ET" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >埃塞俄比亚</option>  
+		        <option value="IE" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >爱尔兰</option>  
+		        <option value="EE" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >爱沙尼亚</option>  
+		        <option value="AD" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >安道尔</option>  
+		        <option value="AO" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >安哥拉</option>  
+		        <option value="AI" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >安圭拉岛</option>  
+		        <option value="AG" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >安提瓜和巴布达</option>   --%>
+		        <option value="AT" <c:if test="${bran.country=='AT'}">selected='selected' </c:if> >奥地利</option>  
+		        <option value="AX" <c:if test="${bran.country=='AX'}">selected='selected' </c:if> >奥兰岛</option>  
+		        <option value="AU" <c:if test="${bran.country=='AU'}">selected='selected' </c:if> >澳大利亚</option>  
+		        <option value="MO" <c:if test="${bran.country=='MO'}">selected='selected' </c:if> >澳门特别行政区</option>  
+		        <option value="BB" <c:if test="${bran.country=='BB'}">selected='selected' </c:if> >巴巴多斯</option>  
+		        <option value="PG" <c:if test="${bran.country=='PG'}">selected='selected' </c:if> >巴布亚新几内亚</option>  
+		        <option value="BS" <c:if test="${bran.country=='BS'}">selected='selected' </c:if> >巴哈马</option>  
+		        <option value="PK" <c:if test="${bran.country=='PK'}">selected='selected' </c:if> >巴基斯坦</option>  
+		        <option value="PY" <c:if test="${bran.country=='PY'}">selected='selected' </c:if> >巴拉圭</option>  
+		        <option value="PS" <c:if test="${bran.country=='PS'}">selected='selected' </c:if> >巴勒斯坦民族权力机构</option>  
+		        <option value="BH" <c:if test="${bran.country=='BH'}">selected='selected' </c:if> >巴林</option>  
+		        <option value="PA" <c:if test="${bran.country=='PA'}">selected='selected' </c:if> >巴拿马</option>  
+		        <option value="BR" <c:if test="${bran.country=='BR'}">selected='selected' </c:if> >巴西</option>  
+		        <option value="BY" <c:if test="${bran.country=='BY'}">selected='selected' </c:if> >白俄罗斯</option>  
+		        <option value="BM" <c:if test="${bran.country=='BM'}">selected='selected' </c:if> >百慕大群岛</option>  
+		        <option value="BG" <c:if test="${bran.country=='BG'}">selected='selected' </c:if> >保加利亚</option>  
+		        <option value="MP"  <c:if test="${bran.country=='MP'}">selected='selected' </c:if> >北马里亚纳群岛</option>  
+		        <option value="BJ" <c:if test="${bran.country=='BJ'}">selected='selected' </c:if> >贝宁</option>  
+		        <option value="BE" <c:if test="${bran.country=='BE'}">selected='selected' </c:if> >比利时</option>  
+		        <option value="IS" <c:if test="${bran.country=='IS'}">selected='selected' </c:if> >冰岛</option>  
+		        <option value="PR" <c:if test="${bran.country=='PR'}">selected='selected' </c:if> >波多黎各</option>  
+<%-- 		        <option value="PL" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >波兰</option>  
+		        <option value="BA" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >波斯尼亚和黑塞哥维那</option>  
+		        <option value="BO" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >玻利维亚</option>  
+		        <option value="BZ" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >伯利兹</option>  
+		        <option value="BW" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >博茨瓦纳</option>  
+		        <option value="BQ" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >博内尔</option>   --%>
+		        <option value="BT" <c:if test="${bran.country=='BT'}">selected='selected' </c:if> >不丹</option>  
+		        <option value="BF" <c:if test="${bran.country=='BF'}">selected='selected' </c:if> >布基纳法索</option>  
+		        <option value="BI" <c:if test="${bran.country=='BI'}">selected='selected' </c:if> >布隆迪</option>  
+		        <option value="BV" <c:if test="${bran.country=='BV'}">selected='selected' </c:if> >布韦岛</option>  
+		        <option value="KP" <c:if test="${bran.country=='KP'}">selected='selected' </c:if> >朝鲜</option>  
+		        <option value="GQ" <c:if test="${bran.country=='GQ'}">selected='selected' </c:if> >赤道几内亚</option>  
+		        <option value="DK" <c:if test="${bran.country=='DK'}">selected='selected' </c:if> >丹麦</option>  
+		        <option value="DE" <c:if test="${bran.country=='DDE'}">selected='selected' </c:if> >德国</option>  
+		        <option value="TL"  <c:if test="${bran.country=='TL'}">selected='selected' </c:if> >东帝汶</option>  
+		        <option value="TG" <c:if test="${bran.country=='TG'}">selected='selected' </c:if> >多哥</option>  
+		        <option value="DO" <c:if test="${bran.country=='DO'}">selected='selected' </c:if> >多米尼加共和国</option>  
+		        <option value="DM" <c:if test="${bran.country=='DM'}">selected='selected' </c:if> >多米尼克</option>  
+		        <option value="RU" <c:if test="${bran.country=='RU'}">selected='selected' </c:if> >俄罗斯</option>  
+		        <option value="EC" <c:if test="${bran.country=='EC'}">selected='selected' </c:if> >厄瓜多尔</option>  
+		        <option value="ER" <c:if test="${bran.country=='ER'}">selected='selected' </c:if> >厄立特里亚</option>  
+		        <option value="FR" <c:if test="${bran.country=='FR'}">selected='selected' </c:if> >法国</option>  
+<%-- 		        <option value="FO" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >法罗群岛</option>  
+		        <option value="PF" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >法属波利尼西亚</option>  
+		        <option value="GF" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >法属圭亚那</option>  
+		        <option value="TF" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >法属南极地区</option>  
+		        <option value="VA" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >梵蒂冈城</option>  
+		        <option value="PH" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >菲律宾</option>  
+		        <option value="FJ" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >斐济群岛</option>  
+		        <option value="FI" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >芬兰</option>  
+		        <option value="CV" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >佛得角</option>  
+		        <option value="FK" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >福克兰群岛(马尔维纳斯群岛)</option>  
+		        <option value="GM" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >冈比亚</option>  
+		        <option value="CD" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >刚果(DRC)</option>  
+		        <option value="CG" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >刚果共和国</option>  
+		        <option value="CO" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >哥伦比亚</option>  
+		        <option value="CR" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >哥斯达黎加</option>  
+		        <option value="GG" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >格恩西岛</option>  
+		        <option value="GD" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >格林纳达</option>  
+		        <option value="GL" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >格陵兰</option>  
+		        <option value="GE" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >格鲁吉亚</option>  
+		        <option value="CU" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >古巴</option>   --%>
+		        <option value="GP" <c:if test="${bran.country=='GP'}">selected='selected' </c:if> >瓜德罗普岛</option>  
+		        <option value="GU" <c:if test="${bran.country=='GU'}">selected='selected' </c:if> >关岛</option>  
+		        <option value="GY" <c:if test="${bran.country=='GY'}">selected='selected' </c:if> >圭亚那</option>  
+		        <option value="KZ" <c:if test="${bran.country=='KZ'}">selected='selected' </c:if> >哈萨克斯坦</option>  
+		        <option value="HT" <c:if test="${bran.country=='HT'}">selected='selected' </c:if> >海地</option>  
+		        <option value="KR" <c:if test="${bran.country=='KR'}">selected='selected' </c:if> >韩国</option>  
+		        <option value="NL" <c:if test="${bran.country=='NL'}">selected='selected' </c:if> >荷兰</option>  
+		        <option value="HM" <c:if test="${bran.country=='HM'}">selected='selected' </c:if> >赫德和麦克唐纳群岛</option>  
+		        <option value="ME" <c:if test="${bran.country=='ME'}">selected='selected' </c:if> >黑山共和国</option>  
+		        <option value="HN" <c:if test="${bran.country=='MN'}">selected='selected' </c:if> >洪都拉斯</option>  
+		        <option value="KI" <c:if test="${bran.country=='KI'}">selected='selected' </c:if> >基里巴斯</option>  
+		        <option value="DJ" <c:if test="${bran.country=='DJ'}">selected='selected' </c:if> >吉布提</option>  
+		        <option value="KG" <c:if test="${bran.country=='KG'}">selected='selected' </c:if> >吉尔吉斯斯坦</option>  
+		        <option value="GN" <c:if test="${bran.country=='GN'}">selected='selected' </c:if> >几内亚</option>  
+		        <option value="GW" <c:if test="${bran.country=='GW'}">selected='selected' </c:if> >几内亚比绍</option>  
+		        <option value="CA" <c:if test="${bran.country=='CA'}">selected='selected' </c:if> >加拿大</option>  
+		        <option value="GH" <c:if test="${bran.country=='GH'}">selected='selected' </c:if> >加纳</option>  
+		        <option value="GA" <c:if test="${bran.country=='GA'}">selected='selected' </c:if> >加蓬</option>  
+		        <option value="KH" <c:if test="${bran.country=='KH'}">selected='selected' </c:if> >柬埔寨</option>  
+		        <option value="CZ" <c:if test="${bran.country=='CZ'}">selected='selected' </c:if> >捷克共和国</option>  
+		        <option value="ZW" <c:if test="${bran.country=='ZW'}">selected='selected' </c:if> >津巴布韦</option>  
+		        <option value="CM" <c:if test="${bran.country=='CM'}">selected='selected' </c:if> >喀麦隆</option>  
+		        <option value="QA" <c:if test="${bran.country=='QA'}">selected='selected' </c:if> >卡塔尔</option>  
+		        <option value="KY" <c:if test="${bran.country=='KY'}">selected='selected' </c:if> >开曼群岛</option>  
+		        <option value="CC" <c:if test="${bran.country=='CC'}">selected='selected' </c:if> >科科斯群岛(基灵群岛)</option>  
+		        <option value="KM" <c:if test="${bran.country=='KM'}">selected='selected' </c:if> >科摩罗联盟</option>  
+		        <option value="CI" <c:if test="${bran.country=='CI'}">selected='selected' </c:if> >科特迪瓦共和国</option>  
+		        <option value="KW" <c:if test="${bran.country=='KW'}">selected='selected' </c:if> >科威特</option>  
+<%-- 		        <option value="HR" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >克罗地亚</option>  
+		        <option value="KE" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >肯尼亚</option>  
+		        <option value="CK" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >库可群岛</option>  
+		        <option value="CW" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >库拉索</option>  
+		        <option value="LV" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >拉脱维亚</option>  
+		        <option value="LS" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >莱索托</option>   --%>
+		        <option value="LA" <c:if test="${bran.country=='LA'}">selected='selected' </c:if> >老挝</option>  
+		        <option value="LB" <c:if test="${bran.country=='LB'}">selected='selected' </c:if> >黎巴嫩</option>  
+		        <option value="LT" <c:if test="${bran.country=='LT'}">selected='selected' </c:if> >立陶宛</option>  
+		        <option value="LR" <c:if test="${bran.country=='LR'}">selected='selected' </c:if> >利比里亚</option>  
+		        <option value="LY" <c:if test="${bran.country=='LY'}">selected='selected' </c:if> >利比亚</option>  
+		        <option value="LI" <c:if test="${bran.country=='LI'}">selected='selected' </c:if> >列支敦士登</option>  
+		        <option value="RE" <c:if test="${bran.country=='RE'}">selected='selected' </c:if> >留尼汪岛</option>  
+		        <option value="LU" <c:if test="${bran.country=='LU'}">selected='selected' </c:if> >卢森堡</option>  
+		        <option value="RW" <c:if test="${bran.country=='RW'}">selected='selected' </c:if> >卢旺达</option>  
+		        <option value="RO" <c:if test="${bran.country=='RO'}">selected='selected' </c:if> >罗马尼亚</option>  
+		        <option value="MG" <c:if test="${bran.country=='MG'}">selected='selected' </c:if> >马达加斯加</option>  
+		        <option value="IM" <c:if test="${bran.country=='IM'}">selected='selected' </c:if> >马恩岛</option>  
+		        <option value="MV" <c:if test="${bran.country=='MV'}">selected='selected' </c:if> >马尔代夫</option>  
+		        <option value="MT" <c:if test="${bran.country=='MT'}">selected='selected' </c:if> >马耳他</option>  
+		        <option value="MW" <c:if test="${bran.country=='MW'}">selected='selected' </c:if> >马拉维</option>  
+		        <option value="MY" <c:if test="${bran.country=='MY'}">selected='selected' </c:if> >马来西亚</option>  
+		        <option value="ML" <c:if test="${bran.country=='ML'}">selected='selected' </c:if> >马里</option>  
+		        <option value="MK" <c:if test="${bran.country=='MK'}">selected='selected' </c:if> >马其顿, 前南斯拉夫共和国</option>  
+		        <option value="MH" <c:if test="${bran.country=='MH'}">selected='selected' </c:if> >马绍尔群岛</option>  
+		        <option value="MQ" <c:if test="${bran.country=='MQ'}">selected='selected' </c:if> >马提尼克岛</option>  
+		        <option value="YT" <c:if test="${bran.country=='YT'}">selected='selected' </c:if> >马约特岛</option>  
+		        <option value="MU" <c:if test="${bran.country=='MU'}">selected='selected' </c:if> >毛里求斯</option>  
+		        <option value="MR" <c:if test="${bran.country=='MR'}">selected='selected' </c:if> >毛利塔尼亚</option>  
+		        <option value="US" <c:if test="${bran.country=='US'}">selected='selected' </c:if> >美国</option>  
+<%-- 		        <option value="AS" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >美属萨摩亚</option>  
+		        <option value="UM" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >美属外岛</option>  
+		        <option value="VI" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >美属维尔京群岛</option>  
+		        <option value="MN" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >蒙古</option>   --%>
+		      <%--   <option value="MS" <c:if test="${bran.country=='MS'}">selected='selected' </c:if> >蒙特塞拉特</option>  
+		        <option value="BD" <c:if test="${bran.country==''}">selected='selected' </c:if> >孟加拉国</option>  
+		        <option value="PE" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >秘鲁</option>  
+		        <option value="FM" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >密克罗尼西亚</option>  
+		        <option value="MM" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >缅甸</option>  
+		        <option value="MD" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >摩尔多瓦</option>  
+		        <option value="MA" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >摩洛哥</option>  
+		        <option value="MC" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >摩纳哥</option>  
+		        <option value="MZ" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >莫桑比克</option>  
+		        <option value="MX" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >墨西哥</option>  
+		        <option value="NA" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >纳米比亚</option>  
+		        <option value="ZA" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >南非</option>  
+		        <option value="AQ" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >南极洲</option>  
+		        <option value="GS" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >南乔治亚和南德桑威奇群岛</option>  
+		        <option value="NR" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >瑙鲁</option>   --%>
+		        <option value="NP" <c:if test="${bran.country=='NP'}">selected='selected' </c:if> >尼泊尔</option>  
+		        <option value="NI" <c:if test="${bran.country=='NI'}">selected='selected' </c:if> >尼加拉瓜</option>  
+		        <option value="NE" <c:if test="${bran.country=='NE'}">selected='selected' </c:if> >尼日尔</option>  
+		        <option value="NG" <c:if test="${bran.country=='NG'}">selected='selected' </c:if> >尼日利亚</option>  
+<%-- 		        <option value="NU" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >纽埃</option>  
+		        <option value="NO" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >挪威</option>  
+		        <option value="NF" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >诺福克岛</option>  
+		        <option value="PW" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >帕劳群岛</option>  
+		        <option value="PN" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >皮特凯恩群岛</option>   --%>
+		        <option value="PT" <c:if test="${bran.country=='PT'}">selected='selected' </c:if> >葡萄牙</option>  
+		        <option value="JP" <c:if test="${bran.country=='JP'}">selected='selected' </c:if> >日本</option>  
+		        <option value="SE" <c:if test="${bran.country=='SE'}">selected='selected' </c:if> >瑞典</option>  
+		        <option value="CH" <c:if test="${bran.country=='CH'}">selected='selected' </c:if> >瑞士</option>  
+		        <option value="SV" <c:if test="${bran.country=='SV'}">selected='selected' </c:if> >萨尔瓦多</option>  
+		        <option value="WS" <c:if test="${bran.country=='WS'}">selected='selected' </c:if> >萨摩亚</option>  
+		        <option value="RS" <c:if test="${bran.country=='RS'}">selected='selected' </c:if> >塞尔维亚共和国</option>  
+		        <option value="SL" <c:if test="${bran.country=='SL'}">selected='selected' </c:if> >塞拉利昂</option>  
+<%-- 		        <option value="SN" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >塞内加尔</option>  
+		        <option value="CY" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >塞浦路斯</option>  
+		        <option value="SC" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >塞舌尔</option>  
+		        <option value="XS" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >沙巴岛</option>  
+		        <option value="SA" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >沙特阿拉伯</option>  
+		        <option value="BL"<c:if test="${bran.country=='AL'}">selected='selected' </c:if> >圣巴泰勒米岛</option>  
+		        <option value="CX"<c:if test="${bran.country=='AL'}">selected='selected' </c:if> >圣诞岛</option>  
+		        <option value="ST"<c:if test="${bran.country=='AL'}">selected='selected' </c:if> >圣多美和普林西比</option>  
+		        <option value="SH"<c:if test="${bran.country=='AL'}">selected='selected' </c:if> >圣赫勒拿岛</option>  
+		        <option value="KN"<c:if test="${bran.country=='AL'}">selected='selected' </c:if> >圣基茨和尼维斯</option>  
+		        <option value="LC" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >圣卢西亚</option>  
+		        <option value="MF" <c:if test="${bran.country=='AL'}">selected='selected' </c:if>>法属圣马丁岛</option>  
+		        <option value="SX" <c:if test="${bran.country=='AL'}">selected='selected' </c:if>>荷属圣马丁岛</option>  
+		        <option value="SM" <c:if test="${bran.country=='AL'}">selected='selected' </c:if>>圣马力诺</option>  
+		        <option value="PM" <c:if test="${bran.country=='AL'}">selected='selected' </c:if>>圣皮埃尔岛和密克隆岛</option>  
+		        <option value="VC" <c:if test="${bran.country=='AL'}">selected='selected' </c:if>>圣文森特和格林纳丁斯</option>  
+		        <option value="XE" <c:if test="${bran.country=='AL'}">selected='selected' </c:if>>圣尤斯特歇斯岛</option>   --%>
+		        <option value="LK" <c:if test="${bran.country=='LK'}">selected='selected' </c:if>>斯里兰卡</option>  
+		        <option value="SK" <c:if test="${bran.country=='SK'}">selected='selected' </c:if>>斯洛伐克</option>  
+		        <option value="SI" <c:if test="${bran.country=='SI'}">selected='selected' </c:if>>斯洛文尼亚</option>  
+		        <option value="SZ" <c:if test="${bran.country=='SZ'}">selected='selected' </c:if>>斯威士兰</option>  
+		        <option value="SD" <c:if test="${bran.country=='SD'}">selected='selected' </c:if>>苏丹</option>  
+		        <option value="SR" <c:if test="${bran.country=='SR'}">selected='selected' </c:if>>苏里南</option>  
+		        <option value="SB" <c:if test="${bran.country=='SB'}">selected='selected' </c:if>>所罗门群岛</option>  
+		        <option value="SO" <c:if test="${bran.country=='SO'}">selected='selected' </c:if>>索马里</option>  
+		        <option value="TJ" <c:if test="${bran.country=='TJ'}">selected='selected' </c:if>>塔吉克斯坦</option>  
+		        <option value="TW" <c:if test="${bran.country=='TW'}">selected='selected' </c:if>>台湾</option>  
+		        <option value="TH" <c:if test="${bran.country=='TH'}">selected='selected' </c:if>>泰国</option>  
+		        <option value="TZ" <c:if test="${bran.country=='TZ'}">selected='selected' </c:if> >坦桑尼亚</option>  
+		        <option value="TO" <c:if test="${bran.country=='TO'}">selected='selected' </c:if> >汤加</option>  
+		        <option value="TC" <c:if test="${bran.country=='TC'}">selected='selected' </c:if> >特克斯和凯科斯群岛</option>  
+		        <option value="TT" <c:if test="${bran.country=='TT'}">selected='selected' </c:if> >特立尼达和多巴哥</option>  
+		        <option value="TN" <c:if test="${bran.country=='TN'}">selected='selected' </c:if> >突尼斯</option>  
+		        <option value="TV" <c:if test="${bran.country=='TV'}">selected='selected' </c:if> >图瓦卢</option>  
+		        <option value="TR" <c:if test="${bran.country=='TR'}">selected='selected' </c:if> >土耳其</option>  
+		        <option value="TM" <c:if test="${bran.country=='TM'}">selected='selected' </c:if> >土库曼斯坦</option>  
+		        <option value="TK" <c:if test="${bran.country=='TK'}">selected='selected' </c:if> >托克劳</option>  
+		        <option value="WF" <c:if test="${bran.country=='WF'}">selected='selected' </c:if> >瓦利斯和富图纳</option>  
+		        <option value="VU" <c:if test="${bran.country=='VU'}">selected='selected' </c:if> >瓦努阿图</option>  
+		        <option value="GT" <c:if test="${bran.country=='GT'}">selected='selected' </c:if> >危地马拉</option>  
+		        <option value="VG" <c:if test="${bran.country=='VG'}">selected='selected' </c:if> >维尔京群岛(英属)</option>  
+		        <option value="VE" <c:if test="${bran.country=='VE'}">selected='selected' </c:if> >委内瑞拉</option>  
+		        <option value="BN" <c:if test="${bran.country=='BN'}">selected='selected' </c:if> >文莱</option>  
+		        <option value="UG" <c:if test="${bran.country=='UG'}">selected='selected' </c:if> >乌干达</option>  
+		        <option value="UA" <c:if test="${bran.country=='UA'}">selected='selected' </c:if> >乌克兰</option>  
+		        <option value="UY" <c:if test="${bran.country=='UY'}">selected='selected' </c:if> >乌拉圭</option>  
+		        <option value="UZ" <c:if test="${bran.country=='UZ'}">selected='selected' </c:if> >乌兹别克斯坦</option>  
+		        <option value="ES" <c:if test="${bran.country=='ES'}">selected='selected' </c:if> >西班牙</option>  
+		        <option value="GR" <c:if test="${bran.country=='GR'}">selected='selected' </c:if> >希腊</option>  
+		        <option value="HK" <c:if test="${bran.country=='HK'}">selected='selected' </c:if> >香港特别行政区</option>  
+		        <option value="SG" <c:if test="${bran.country=='SG'}">selected='selected' </c:if> >新加坡</option>  
+		        <option value="NC" <c:if test="${bran.country=='NC'}">selected='selected' </c:if> >新喀里多尼亚</option>  
+		        <option value="NZ" <c:if test="${bran.country=='NZ'}">selected='selected' </c:if> >新西兰</option>  
+		        <option value="HU" <c:if test="${bran.country=='HU'}">selected='selected' </c:if> >匈牙利</option>  
+		        <option value="SY" <c:if test="${bran.country=='SY'}">selected='selected' </c:if> >叙利亚</option>  
+		        <option value="JM" <c:if test="${bran.country=='JM'}">selected='selected' </c:if> >牙买加</option>  
+		        <option value="AM" <c:if test="${bran.country=='AM'}">selected='selected' </c:if> >亚美尼亚</option>  
+		        <option value="SJ" <c:if test="${bran.country=='SJ'}">selected='selected' </c:if> >扬马延岛</option>  
+		        <option value="YE" <c:if test="${bran.country=='YE'}">selected='selected' </c:if> >也门</option>  
+		        <option value="IQ" <c:if test="${bran.country=='IQ'}">selected='selected' </c:if> >伊拉克</option>  
+		        <option value="IR" <c:if test="${bran.country=='IR'}">selected='selected' </c:if> >伊朗</option>  
+		        <option value="IL" <c:if test="${bran.country=='IL'}">selected='selected' </c:if> >以色列</option>  
+		        <option value="IT" <c:if test="${bran.country=='IT'}">selected='selected' </c:if> >意大利</option>  
+		        <option value="IN" <c:if test="${bran.country=='IN'}">selected='selected' </c:if> >印度</option>  
+		        <option value="ID" <c:if test="${bran.country=='AL'}">selected='selected' </c:if> >印度尼西亚</option>  
+		        <option value="UK" <c:if test="${bran.country=='ID'}">selected='selected' </c:if> >英国</option>  
+		        <option value="IO" <c:if test="${bran.country=='IO'}">selected='selected' </c:if> >英属印度洋领地</option>  
+		        <option value="JO" <c:if test="${bran.country=='JO'}">selected='selected' </c:if> >约旦</option>  
+		        <option value="VN" <c:if test="${bran.country=='VN'}">selected='selected' </c:if> >越南</option>  
+		        <option value="ZM" <c:if test="${bran.country=='ZM'}">selected='selected' </c:if> >赞比亚</option>  
+		        <option value="JE" <c:if test="${bran.country=='JE'}">selected='selected' </c:if> >泽西</option>  
+		        <option value="TD" <c:if test="${bran.country=='TD'}">selected='selected' </c:if> >乍得</option>  
+		        <option value="GI" <c:if test="${bran.country=='GI'}">selected='selected' </c:if> >直布罗陀</option>  
+		        <option value="CL" <c:if test="${bran.country=='CL'}">selected='selected' </c:if> >智利</option>  
+		        <option value="CF" <c:if test="${bran.country=='CF'}">selected='selected' </c:if> >中非共和国</option>  
+		       <!--  <option value="CN">中国</option>   -->
+        		</select>
 	       	    </div>
 			 </li>
 			

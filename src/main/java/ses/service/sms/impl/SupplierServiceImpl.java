@@ -1,9 +1,10 @@
 package ses.service.sms.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,6 @@ import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
-import ses.model.bms.CategoryParameter;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
@@ -29,7 +29,7 @@ import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
-import ses.model.sms.ProductParam;
+import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierBranch;
@@ -43,6 +43,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierItemService;
@@ -116,6 +117,10 @@ public class SupplierServiceImpl implements SupplierService {
     
     @Autowired
     private AreaServiceI areaService;
+    
+    @Autowired
+    private OrgnizationServiceI orgnizationServiceI;
+    
     
     @Override
     public Supplier get(String id) {
@@ -374,7 +379,7 @@ public class SupplierServiceImpl implements SupplierService {
             todosMapper.updateIsFinish(new Todos("supplier/return_edit.html?id="+ supplier.getId()));
         }
         supplier.setStatus(0);
-
+        supplier.setAuditDate(new Date());
         supplierMapper.updateByPrimaryKeySelective(supplier);
         supplier = supplierMapper.getSupplier(supplier.getId());
         // 推送代办
@@ -438,8 +443,15 @@ public class SupplierServiceImpl implements SupplierService {
         if (status == -1) {
             map.put("status", "unperfect");
             //			map.put("status", "信息未提交, 请提交审核 !");
-        } else if (status == 0 || status == 8) {
-            map.put("status", "信息待初审, 请等待审核 !");
+//        } else if (status == 0 || status == 8) {
+        }
+        else if (status == 0 ) {
+        	Date today=new Date();
+        	Date date = addDate(supplier.getAuditDate(),3,45);
+        	if(today.getTime()>date.getTime()){
+        		map.put("status", "beyong!");
+        	}
+            map.put("status", "commit");
         } else if (status == 1) {
             map.put("status", "信息待复审, 请等待审核 !");
         } else if (status == 2) {
@@ -457,6 +469,14 @@ public class SupplierServiceImpl implements SupplierService {
             map.put("status", "success");
             map.put("supplier", supplier);
         }
+        Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(supplier.getProcurementDepId());
+        map.put("orgnization", orgnization);
+        map.put("supplier", supplier);
+        if(supplier.getAuditDate()!=null){
+        	SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日");
+            map.put("date",sdf.format(supplier.getAuditDate()));
+        }
+        
         return map;
     }
     /**
@@ -548,6 +568,31 @@ public class SupplierServiceImpl implements SupplierService {
         return supplierMapper.query(map);
     }
 
+	/**
+	 * 对日期进行加减操作
+	 * 
+	 * @param baseDate
+	 * @param type
+	 *            1:年份 2:月份 3:天 4:小时
+	 * @param num
+	 *            增加的量（为负数时减少）
+	 * @return
+	 */
+	public Date addDate(Date baseDate, int type, int num) {
+		Date lastDate = null;
+		Calendar cale = Calendar.getInstance();
+		cale.setTime(baseDate);
+		if (type == 1)
+			cale.add(Calendar.YEAR, num);
+		else if (type == 2)
+			cale.add(Calendar.MONTH, num);
+		else if (type == 3)
+			cale.add(Calendar.DAY_OF_MONTH, num);
+		else if(type == 4)
+			cale.add(Calendar.HOUR, num);
+		lastDate = cale.getTime();
+		return lastDate;
+	} 
 
 
 }

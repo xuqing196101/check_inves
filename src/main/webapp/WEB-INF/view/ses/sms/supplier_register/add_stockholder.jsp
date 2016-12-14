@@ -145,6 +145,7 @@
  														 <option value="1">法人</option>
  														 <option value="2">自然人</option>
  													</select>
+ 													<!--  <span class="add-on cur_point">i</span> -->
  													<div class="cue" id="stock_nature"></div>
 												</div>
 											</li>
