@@ -88,7 +88,7 @@
 	<!-- 我的订单页面开始-->
 	<div class="container">
 		<div class="headline-v2">
-			<h2>评标专家列表</h2>
+			<h2>专家审核列表</h2>
 		</div>
 		<div class="search_detail">
 			<form id="shenhe_form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">

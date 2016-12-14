@@ -176,4 +176,10 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public List<ExpertAudit> findAllPassExpert() {
 		return mapper.findAllPassExpert();
 	}
+	
+	
+	@Override
+	public List<ExpertAudit> selectFailByExpertId(ExpertAudit expertAudit) {
+		return mapper.selectFailByExpertId(expertAudit);
+	}
 }

@@ -105,4 +105,6 @@ public interface ExpertAuditMapper {
     * @return List<ExpertAudit>
      */
     List<ExpertAudit> findAllPassExpert();
+    
+    List<ExpertAudit> selectFailByExpertId (ExpertAudit expertAudit);
 }

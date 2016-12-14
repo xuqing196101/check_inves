@@ -136,7 +136,7 @@
 							url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 							type: "post",
 							dataType: "json",
-							data: "suggestType=product" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField,
+							data: "suggestType=six" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField,
 						}),
 						/* $(obj).after(html); */
 						layer.close(index);
@@ -146,6 +146,26 @@
 	</head>
 
 	<body>
+		<!--面包屑导航开始-->
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li>
+						<a href="javascript:void(0)">首页</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">支撑系统</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">专家管理</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">专家审核</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
 		<div class="col-md-12 tab-v2 job-content">
 			<input type="hidden" name="id" id="id" value="${expertId}" />
 			<div id="reg_box_id_4" class="container container_box">

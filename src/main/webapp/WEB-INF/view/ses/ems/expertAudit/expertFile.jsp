@@ -29,7 +29,6 @@
 			function reason(obj,str){
 			  var expertId = $("#expertId").val();
 			  var showId =  obj.id+"1";
-			  alert(showId);
 		    $("#"+obj.id+"").each(function() {
 		      auditField = $(this).parents("li").find("span").text().replace("：","");
     		});
@@ -44,7 +43,7 @@
 				      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 				      type:"post",
 				      dataType:"json",
-				      data:"suggestType=expertFile"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField
+				      data:"suggestType=five"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField
 				    });
 					 $("#"+showId+"").css('visibility', 'visible');
 		      layer.close(index);
@@ -54,6 +53,26 @@
 	</head>
 
 	<body>
+		<!--面包屑导航开始-->
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li>
+						<a href="javascript:void(0)">首页</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">支撑系统</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">专家管理</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">专家审核</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
 		<div class="container container_box">
 			<div class=" content height-350">
 				<div class="col-md-12 tab-v2 job-content">
@@ -75,14 +94,14 @@
 						</li>
 					</ul>
 					
-					<ul class="ul_list">
+					<ul class="ul_list hand">
 						<li class="col-md-6 p0 mt10 mb25">
-							<span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="application" onclick="reason(this);">专家申请表：</span>
+							<span class="col-md-5 padding-left-5" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="application" onclick="reason(this);">专家申请表：</span>
 								<up:show showId="show1" groups="show1,show2" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" />
 								<a class="b f18 ml10 red" style="visibility:hidden" id="application1">×</a>
 						</li>
 						<li class="col-md-6 p0 mt10 mb25">
-							<span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="contract" onclick="reason(this);">专家承诺书：</span>
+							<span class="col-md-5 padding-left-5" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="contract" onclick="reason(this);">专家承诺书：</span>
 								<up:show showId="show2" groups="show1,show2" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" />
 								<a class="b f18 ml10 red" style="visibility:hidden" id="contract1">×</a>
 						</li>

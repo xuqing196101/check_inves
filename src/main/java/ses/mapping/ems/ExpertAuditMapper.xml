@@ -200,4 +200,15 @@
       AUDIT_CONTENT = #{auditContent}
     where ID = #{id}
   </update>
+  
+  <select id="selectFailByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    	*
+    from 
+    	T_SES_EMS_EXPERT_AUDIT
+    where 
+    	EXPERT_ID = #{expertId}
+    and 
+    	SUGGEST_TYPE = #{suggestType}
+  </select>
 </mapper>

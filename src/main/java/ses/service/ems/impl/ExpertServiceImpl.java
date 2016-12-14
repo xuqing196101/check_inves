@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +96,8 @@ public class ExpertServiceImpl implements ExpertService {
 		Todos todos = new Todos();
 		Expert expert= mapper.selectByPrimaryKey(expertId);
 		String expertName = expert.getRelName();
+		 HttpServletRequest request = ServletServerHttpRequest();
+		/*User user=(User) request.getSession().getAttribute("loginUser");*/
 		/**
 		 * 初审通过发送待办
 		 */
@@ -108,14 +112,16 @@ public class ExpertServiceImpl implements ExpertService {
 		    todos.setIsDeleted((short)0);
 		    todos.setIsFinish((short)0);
 		    //待办名称
-		    todos.setName(expertName+"专家初审");
+		    todos.setName(expertName+"专家复审");
 		    //todos.setReceiverId();
 		    //接受人id
-		    todos.setOrgId(record.getPurchaseDepId());
+		    /*todos.setOrgId(record.getPurchaseDepId());*/
+		    //权限id
 		    PropertiesUtil config = new PropertiesUtil("config.properties");
 		    todos.setPowerId(config.getString("zjdb"));
 		    //发送人id
-		    todos.setSenderId(record.getId());
+		    /*todos.setSenderId(user.getId());*/
+		    //类型
 		    todos.setUndoType((short)2);
 		    //发送人姓名
 		    todos.setSenderName(record.getRelName());
@@ -124,11 +130,24 @@ public class ExpertServiceImpl implements ExpertService {
 		    todosMapper.insert(todos );
 		}
 		
+		/**
+		 * 初审未通过
+		 */
+		if(status.equals(2)){
+			//待初审已完成
+			todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
+			todosMapper.updateIsFinish(todos);
+		}
 		
 		mapper.updateByPrimaryKeySelective(record);
 
 	}
 	
+	private HttpServletRequest ServletServerHttpRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
     public int daysBetween(Date date) throws Exception{
 	    // 获取当前时间
@@ -508,7 +527,7 @@ public class ExpertServiceImpl implements ExpertService {
 		//发送人姓名
 		todos.setSenderName(expert.getRelName());
 		//审核地址
-		todos.setUrl("expert/toShenHe.html?id="+expert.getId());
+		todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
 		todosMapper.insertSelective(todos);
 		return map;
 	}
@@ -753,7 +772,7 @@ public class ExpertServiceImpl implements ExpertService {
     //发送人姓名
     todos.setSenderName(expert.getRelName());
     //审核地址
-    todos.setUrl("expert/toShenHe.html?id="+expert.getId());
+    todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
     todosMapper.insert(todos );
   }
 

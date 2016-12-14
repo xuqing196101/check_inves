@@ -126,4 +126,6 @@ public interface ExpertAuditService {
     * @return List<ExpertAudit>
      */
     List<ExpertAudit> findAllPassExpert();
+    
+    List<ExpertAudit> selectFailByExpertId (ExpertAudit expertAudit);
 }

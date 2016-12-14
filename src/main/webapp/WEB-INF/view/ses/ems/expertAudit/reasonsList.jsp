@@ -27,10 +27,21 @@
 
 			//提交审核
 			function shenhe(status) {
+				if(status == 3){
+					updateStepNumber("one");
+				}
 				$("#status").val(status);
 				$("#form_shenhe").submit();
 			}
-
+			
+			function updateStepNumber(stepNumber){
+				$.ajax({
+					url:"${pageContext.request.contextPath}/expert/updateStepNumber.do",
+					data:{"expertId":$("#id").val(),"stepNumber":stepNumber},
+					async:false,
+				});
+			}
+			
 			/** 全选全不选 */
 			function selectAll() {
 				var checklist = document.getElementsByName("chkItem");
@@ -108,6 +119,26 @@
 	</head>
 
 	<body>
+		<!--面包屑导航开始-->
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li>
+						<a href="javascript:void(0)">首页</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">支撑系统</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">专家管理</a>
+					</li>
+					<li>
+						<a href="javascript:void(0)">专家审核</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
 		<div class="container container_box">
 			<div class="content">
 				<div class="col-md-12 tab-v2 job-content">
@@ -144,10 +175,10 @@
 								<tr>
 									<td class="tc">${vs.index + 1}</td>
 									<td class="tc">
-										<c:if test="${reasons.suggestType eq 'basicInfo'}">基本信息</c:if>
-										<c:if test="${reasons.suggestType eq 'experience'}">经历经验</c:if>
-										<c:if test="${reasons.suggestType eq 'product'}">产品目录</c:if>
-										<c:if test="${reasons.suggestType eq 'expertFile'}">附件</c:if>
+										<c:if test="${reasons.suggestType eq 'one'}">基本信息</c:if>
+										<c:if test="${reasons.suggestType eq 'two'}">经历经验</c:if>
+										<c:if test="${reasons.suggestType eq 'six'}">产品目录</c:if>
+										<c:if test="${reasons.suggestType eq 'five'}">附件</c:if>
 									</td>
 									<td class="tc">${reasons.auditField }</td>
 									<td class="tc">${reasons.auditContent}</td>
