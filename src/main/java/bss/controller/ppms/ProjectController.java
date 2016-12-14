@@ -1068,6 +1068,36 @@ public class ProjectController extends BaseController {
          }
     }
     
+    @RequestMapping("/judgeNext")
+    @ResponseBody
+    public String judgeNext(HttpServletRequest request){
+    	String id = request.getParameter("projectId");
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("id", id);
+        //拿到一个项目所有的明细
+        List<ProjectDetail> details = detailService.selectById(map);
+        List<ProjectDetail> bottomDetails = new ArrayList<>();//底层的明细
+        for(ProjectDetail detail:details){
+        	HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",detail.getRequiredId());
+            detailMap.put("projectId", id);
+            List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+            if(dlist.size()==1){
+                bottomDetails.add(detail);
+            }
+        }
+        String str = "";
+        for(int i=0;i<bottomDetails.size();i++){
+        	if(bottomDetails.get(i).getPackageId()==null){
+        		str = "0";
+        		break;
+        	}else if(i==bottomDetails.size()-1){
+        		str = "1";
+        	}
+        }
+    	return str;
+    }
+    
     /**
      * Description: 根据项目的采购方式进入不同的实施页面
      * 
