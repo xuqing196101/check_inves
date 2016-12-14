@@ -66,7 +66,7 @@
     						layer.close(index);
     					} else if (flag[0] == "firset") {
     						//询问框
-    						layer.confirm('您完善个人信息，是否前去完善？', {
+    						layer.confirm('您还未完善个人信息，是否前去完善？', {
     							btn : [ '是', '否' ]
     						//按钮
     						}, function() {

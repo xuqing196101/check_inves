@@ -21,6 +21,8 @@ public interface ExpertMapper {
 
     int updateByPrimaryKey(Expert record);
     
+    List<Expert> getAllExpert();
+    
    // List<Expert> selectLoginNameList(String loginName);
     /**
      * 

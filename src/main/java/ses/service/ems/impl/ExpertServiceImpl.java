@@ -72,6 +72,7 @@ public class ExpertServiceImpl implements ExpertService {
 	public int insertSelective(Expert record) {
 		//诚信分数初始化
 		record.setHonestyScore(0);
+		record.setUpdatedAt(new Date());
 		return mapper.insertSelective(record);
 	}
 
@@ -80,7 +81,12 @@ public class ExpertServiceImpl implements ExpertService {
 		
 		return mapper.selectByPrimaryKey(id);
 	}
-
+	
+	@Override
+    public List<Expert> getAllExpert() {
+        return mapper.getAllExpert();
+    }
+	
 	@Override
 	public void updateByPrimaryKeySelective(Expert record) {
 		String status = record.getStatus();

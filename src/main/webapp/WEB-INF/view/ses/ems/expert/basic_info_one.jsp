@@ -318,7 +318,28 @@ session.setAttribute("tokenSession", tokenValue);
 			layer.msg("请选择来源 !",{offset: ['300px', '750px']});
 			return false;
 		}
-		
+		var birthday = $("#birthday").val();
+		if(!birthday){
+			layer.msg("请填写出生日期 !",{offset: ['300px', '750px']});
+			return false;
+		}
+		var isAge = true;
+		if(birthday != ""){
+			$.ajax({
+				url: "${pageContext.request.contextPath}/expert/validateAge.do",
+				async: false,
+				data: {"birthday":birthday},
+				success: function(response){
+					if (response == "1") {
+						layer.msg("年龄70周岁以下的才能进行注册!",{offset: ['300px', '750px']});
+						isAge = false;
+					} else {
+						isAge = true;
+					}
+				}
+			});
+		}
+		return isAge;
 		var nation = $("#nation").val();
 		if(!nation){
 			layer.msg("请填写民族 !",{offset: ['300px', '750px']});
@@ -334,7 +355,11 @@ session.setAttribute("tokenSession", tokenValue);
 			layer.msg("请选择最高学历!",{offset: ['300px', '750px']});
 			return false;
 		}
-		
+		var degree = $("#degree").val();
+		if(!degree){
+			layer.msg("请选择最高学位!",{offset: ['300px', '750px']});
+			return false;
+		}
 		var major = $("#major").val();
 		if(!major){
 			layer.msg("请填写从事专业!",{offset: ['300px', '750px']});
@@ -628,7 +653,7 @@ session.setAttribute("tokenSession", tokenValue);
                         </select>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 出生日期</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 出生日期</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
  					  <input    readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
 					  <span class="add-on">i</span>
@@ -770,7 +795,7 @@ session.setAttribute("tokenSession", tokenValue);
                       </select>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 最高学位</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                         <select  name="degree" id="degree">
                         <option selected="selected" value="">-请选择-</option>

@@ -64,7 +64,7 @@ session.setAttribute("tokenSession", tokenValue);
 			}
 		});
 	});
-	function showTree(tabId) {
+	<%--function showTree(tabId) {
 		var id = $("#" + tabId + "-value").val();
 		var zTreeObj;
 		var zNodes;
@@ -95,7 +95,7 @@ session.setAttribute("tokenSession", tokenValue);
 		};
 		zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
 		zTreeObj.expandAll(true);//全部展开
-	}
+	}--%>
 </script>
 <script type="text/javascript">
 function showDivTree(obj){

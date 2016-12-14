@@ -70,6 +70,13 @@
 		COVER_NOTE, PRODUCT_CATEGORIES, ACADEMIC_ACHIEVEMENT,
 		REVIEW_SITUATION, AVOIDANCE_SITUATION
 	</sql>
+	<!-- 获取所有专家,仅用作定时删除无效专家 -->
+	<select id="getAllExpert" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_EMS_EXPERT
+		where IS_DELETE = 0
+	</select>
 	<!-- 查询用户名是否存在 -->
 	<!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap" 
 		> select IS_SUBMIT from T_SES_EMS_EXPERT where IS_SUBMIT = #{isSubmit} </select> -->

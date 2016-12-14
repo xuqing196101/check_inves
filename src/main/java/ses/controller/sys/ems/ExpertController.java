@@ -59,6 +59,7 @@ import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.model.ppms.Packages;
@@ -74,6 +75,7 @@ import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 
@@ -260,6 +262,7 @@ public class ExpertController {
             userService.save(user, null);
             Expert expert = new Expert();
             expert.setId(expertId);
+            expert.setMobile(user.getMobile());
             service.insertSelective(expert);
             Role role = new Role();
             role.setCode("EXPERT_R");
@@ -364,12 +367,13 @@ public class ExpertController {
         // 如果是外网用户则不可以选择专家来源为军队
         //String ipAddress = request.getRemoteAddr();
         //int type = IpAddressUtil.validateIpAddress(ipAddress);
-        String type = request.getServletContext().getInitParameter("ipAddress");
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        String type = config.getString("ipAddressType");
         // 如果是外网用户,则删除军队这个选项
         if ("1".equals(type)) {
             for (int i = 0; i < lyTypeList.size(); i++) {
                 // 循环判断如果是军队则remove
-                if ("军队".equals(lyTypeList.get(i).getCode())) {
+                if ("军队".equals(lyTypeList.get(i).getName())) {
                     lyTypeList.remove(i);
                 }
             }
@@ -1078,7 +1082,7 @@ public class ExpertController {
         // 用户信息处理
         service.userManager(user, userId, expert, expertId);
         // 调用service逻辑代码 实现提交
-        //service.saveOrUpdate(expert, expertId, categoryId, gitFlag, userId);
+        service.saveOrUpdate(expert, expertId, categoryId, gitFlag, userId);
         expert.setIsDo("0");
         //已提交
         expert.setIsSubmit("1");
@@ -1792,6 +1796,18 @@ public class ExpertController {
           } else {
               return "1";
           }
+      }
+      
+      @ResponseBody
+      @RequestMapping("/validateAge")
+      public String validateAge(String birthday) {
+          String isok = "0";
+          String year = birthday.substring(0, 4);
+          String now = new SimpleDateFormat("yyyy").format(new Date());
+          if (Integer.parseInt(now) - Integer.parseInt(year) >= 70) {
+              isok = "1";
+          }
+          return isok;
       }
       /**
      *〈简述〉
