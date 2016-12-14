@@ -825,7 +825,7 @@
                 </ul>
                 
                 
-                <h2 class="count_flow"><i>3</i>个人信息</h2>
+                <h2 class="count_flow"><i>3</i>人员信息</h2>
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>单位主要领导姓名及电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -1198,7 +1198,7 @@
               <div class="mt40 tc mb50">
                 <input type="button"  onclick="save()" class="btn btn-windows save"  value="保存" />
                 <!-- <input type="button" class="btn" onclick="stash();"  value="暂存" />  -->
-                <input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消" />
+                <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回" />
               </div>
           </sf:form>
           </div>
