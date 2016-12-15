@@ -527,9 +527,6 @@
 			<input type="hidden" id="count" value="0">
 			<div id="catalogue" class="dnone">
 				<div id="ztree" class="ztree"></div>
-				<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-					<button id="bt" class="btn btn-windows cancel" onclick="typehide()">取消</button>
-				</div>
 			</div>
 
 			<form id="" action="${pageContext.request.contextPath}/purchaser/ztree.html" method="post">
