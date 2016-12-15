@@ -553,7 +553,7 @@ function deleteFinance() {
 				   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 基本账户开户许可证</span> 
 				   <div class="col-md-12 col-sm-12 col-xs-12 p0">
 					 <u:upload id="bank_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" auto="true" /> 
-				     <u:show showId="bank_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
+				     <u:show showId="bank_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
 				   </div>
 				  <%--  <div class="cue"> ${err_bearch } </div> --%>
 				</li>
@@ -736,7 +736,7 @@ function deleteFinance() {
 				    <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span> 
 				    <div class="col-md-6 col-sm-12 col-xs-12 p0">
 		    		  <u:upload id="taxcert_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> 
-		        	  <u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
+		        	  <u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
 			        </div>
 			        <div class="cue"> ${err_taxCert } </div>
 			    </li> 
@@ -745,7 +745,7 @@ function deleteFinance() {
 				   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年银行基本账户未对账单</span> 
 				   <div class="col-md-6 col-sm-12 col-xs-12 p0">
 					   <u:upload id="billcert_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> 
-					   <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
+					   <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
 				   </div>
 				    <div class="cue"> ${err_bil } </div>
 				</li>
@@ -754,7 +754,7 @@ function deleteFinance() {
 			      <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span> 
 			      <div class="col-md-6 col-sm-12 col-xs-12 p0">
 			        <u:upload id="curitycert_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /> 
-			        <u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
+			        <u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
 			      </div>
 			      <div class="cue"> ${err_security } </div>
 			   </li>
@@ -763,7 +763,7 @@ function deleteFinance() {
 			   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年内无重大违法记录声明</span> 
 			   <div class="col-md-6 col-sm-12 col-xs-12 p0">
 			     <u:upload id="bearchcert_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
-			     <u:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+			     <u:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 			   </div>
 			   <div class="cue"> ${err_bearch } </div>
 			</li>
@@ -812,7 +812,7 @@ function deleteFinance() {
 			    <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 身份证正面</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
 					     <u:upload id="bearchcert_up_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" /> 
-					     <u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+					     <u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
                     </div>
                 </li>
               
@@ -827,7 +827,7 @@ function deleteFinance() {
                  <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 身份证反面</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
 					   			     <u:upload id="identity_down_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" auto="true" /> 
-			    					 <u:show showId="identity_down_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
+			    					 <u:show showId="identity_down_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
                     </div>
                 </li>
                 
@@ -1156,7 +1156,7 @@ function deleteFinance() {
 		        <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>营业执照</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
 				  	 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
-				     <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
+				     <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
                     </div>
                 </li>
                 
@@ -1546,7 +1546,9 @@ function deleteFinance() {
 									</td> --%>
 									<td class="tc">${finance.year}</td>
 									<td class="tc">
-									 <a class="mt3 color7171C6" href="javascript:download('${finance.auditOpinionId}', '${sysKey}')">下载 </a>
+									 <u:show showId="fina_${vs.index}_pro" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_${vs.index}_pro" 
+									  businessId="${finance.id}" typeId="CAFD9B6FC80C4A089520DAB829B5F4D7" sysKey="${sysKey}"/>
+									 <%-- <a class="mt3 color7171C6" href="javascript:download('${finance.auditOpinionId}', '${sysKey}')">下载 </a> --%>
 									</td>
 									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.liabilitiesListId}', '${sysKey}')">${finance.liabilitiesList}</a>
 									</td>
