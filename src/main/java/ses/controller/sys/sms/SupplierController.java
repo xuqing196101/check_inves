@@ -1847,4 +1847,9 @@ public class SupplierController extends BaseSupplierController {
 			return list;
 		}
 		
+		@RequestMapping(value="/style")
+		public String style(){
+			return "ses/sms/supplier_register/basic_info";
+		}
+		
 }
