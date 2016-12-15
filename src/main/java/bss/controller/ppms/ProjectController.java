@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.User;
+import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.ComparatorDetail;
@@ -59,6 +60,7 @@ import bss.service.ppms.TaskService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 
 /**
@@ -113,8 +115,18 @@ public class ProjectController extends BaseController {
      * @return 跳转list页面
      */
     @RequestMapping("/list")
-    public String list(Integer page, Model model, Project project, HttpServletRequest request) {
-        request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
+    public String list(@CurrentUser User user, Integer page, Model model, Project project, HttpServletRequest request) {
+        if(user != null && user.getOrg() != null){
+            request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
+            PurchaseDep purchaseDep = new PurchaseDep();
+            purchaseDep.setId(user.getOrg().getId());
+            project.setPurchaseDep(purchaseDep);
+            List<Project> list = projectService.list(page == null ? 1 : page, project);
+            PageInfo<Project> info = new PageInfo<Project>(list);
+            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+            model.addAttribute("info", info);
+            model.addAttribute("projects", project);
+        }
         List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
@@ -591,11 +603,18 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/start")
     public String start(String id, String principal, HttpServletRequest request) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
         Project project = projectService.selectById(id);
-        project.setPrincipal(principal);
-        project.setStatus(1);
-        project.setStartTime(new Date());
-        projectService.update(project);
+        map.put("purchaseDepName", principal);
+        List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseList(map);
+        if(purchaseInfo != null && purchaseInfo.size()>0){
+            String mobile = purchaseInfo.get(0).getMobile();
+            project.setPrincipal(principal);
+            project.setIpone(mobile);
+            project.setStatus(1);
+            project.setStartTime(new Date());
+            projectService.update(project);
+        }
         return "redirect:excute.html?id=" + project.getId();
     }
     

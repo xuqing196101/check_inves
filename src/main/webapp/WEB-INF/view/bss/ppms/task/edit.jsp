@@ -192,6 +192,17 @@
       layer.tips("请上传附件", "#uuId");
     } 
   }
+  
+  //重置
+  function sel(obj) {
+  var val = $(obj).val();
+  $("select option").each(function() {
+    var opt = $(this).val();
+    if (val == opt) {
+    $(this).attr("selected", "selected");
+    }
+  });
+  }
 </script>
 </head>
   
@@ -238,7 +249,7 @@
       <div>
         <h2 class="count_flow"><i>2</i>需求明细调整</h2>
         <ul class="ul_list">
-          <div class="content table_box">
+          <div class="content table_box over_scroll">
             <table id="table" class="table table-bordered table-condensed table-hover">
               <thead>
 			    <tr>
@@ -252,7 +263,7 @@
 			      <th class="info">单价（元）</th>
 			      <th class="info">预算金额（万元）</th>
 			      <th class="info">交货期限</th>
-			      <th class="info">采购方式建议</th>
+			      <th class="info">采购方式</th>
 			      <th class="info">供应商名称</th>
 			      <th class="info">是否申请办理免税</th>
 			      <th class="info">物资用途（进口）</th>
@@ -263,11 +274,11 @@
 			  <c:forEach items="${lists}" var="obj" varStatus="vs">
 			    <tr style="cursor: pointer;">
 			      <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-			      <td class="tc">${obj.department}</td>
-			      <td class="tc">${obj.goodsName}</td>
-			      <td class="tc">${obj.stand}</td>
-			      <td class="tc">${obj.qualitStand}</td>
-			      <td class="tc">${obj.item}</td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].department" value="${obj.department }"></td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].item" value="${obj.item }"></td>
 			      <td class="tc">
 			        <c:if test="${obj.purchaseCount!=null}">
 			          <input   type="hidden" name="ss"   value="${obj.id }">
@@ -290,33 +301,25 @@
 			      </td>
 			      <td class="tc">
 			        <input   type="hidden" name="ss"   value="${obj.id }">
-			        <input maxlength="11" id="budget" name="list[${vs.index }].budget" style="width:50%;border-style:none" readonly="readonly"  value="${obj.budget}"/>
+			        <input maxlength="11" id="budget" type="text" name="list[${vs.index }].budget" style="text-align:center;border-style:none" readonly="readonly"  value="${obj.budget}"/>
 			        <input type="hidden" name="ss"   value="${obj.parentId }">
 			      </td>
-			      <td class="tc">${obj.deliverDate}</td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"></td>
 			      <td class="tc">
-			        <c:forEach items="${kind}" var="kind" >
-			          <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-			        </c:forEach>
+			         <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
+			            <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
+			            <c:forEach items="${kind}" var="kind" >
+			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
+			                        </c:forEach>
+			            </select> 
+			          </c:if> 
 			      </td>
-			      <td class="tc">${obj.supplier}</td>
-			      <td class="tc">${obj.isFreeTax}</td>
-			      <td class="tc">${obj.goodsUse}</td>
-			      <td class="tc">${obj.useUnit}</td>
-			      <td class="tc">${obj.memo }
+			      <td class="tc"><input type="text" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+			      <td class="tc"> <input type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+			      <td class="tc"> <input type="text" name="list[${vs.index }].memo" value="${obj.memo }">
 			         <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
-			         <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
-			         <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
-			         <input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
-			         <input type="hidden" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }">
-			         <input type="hidden" name="list[${vs.index }].item" value="${obj.item }">
-			         <input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }">
-			         <input type="hidden" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }">
-			         <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }">
-			         <input type="hidden" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
-			         <input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
-			         <input type="hidden" name="list[${vs.index }].useUnit" value="${obj.useUnit }">
-			         <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
 			         <input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 			         <input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
 			         <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
@@ -347,7 +350,7 @@
             <label class="col-md-12 pl20" id="uuId"></label>
             <span class="col-md-12">
                <input type="hidden" name="id" value="${task.id}"/>
-         <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
+         <f:upload id="upload_id" businessId="${task.id}" multiple="true" typeId="${dataId}" exts="png,jpeg,jpg,bmp,gif" sysKey="2"/>
          <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
             </span>
           </li>

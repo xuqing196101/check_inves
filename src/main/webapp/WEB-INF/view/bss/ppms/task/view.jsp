@@ -57,7 +57,7 @@
 					<th class="info">单价（元）</th>
 					<th class="info">预算金额（万元）</th>
 					<th class="info">交货期限</th>
-					<th class="info">采购方式建议</th>
+					<th class="info">采购方式</th>
 					<th class="info">供应商名称</th>
 					<th class="info">是否申请办理免税</th>
 					<th class="info">物资用途（进口）</th>

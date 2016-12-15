@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="bss.dao.ppms.ProjectMapper">
-  <resultMap id="BaseResultMap" type="bss.model.ppms.Project">
+<mapper namespace="bss.dao.ppms.AdvancedProjectMapper">
+  <resultMap id="BaseResultMap" type="bss.model.ppms.AdvancedProject">
     <id column="ID"  property="id" />
     <result column="NAME" property="name" />
     <result column="PROJECT_NUMBER"  property="projectNumber" />
@@ -180,7 +180,7 @@
    select t1.* from 
     (SELECT * FROM "JDCG"."T_BSS_PPMS_SALE_TENDER"  where STATUS_BID =2 and STATUS_BOND=2) t2
      LEFT JOIN
-    ( select * from T_BSS_PPMS_PROJECTS t ) t1
+    ( select * from T_BSS_PPMS_ADVANCED_PROJECTS t ) t1
     on  t1.id=t2.project_id
         where 1=1 and IS_PROVISIONAL=0 and t1.id is not null
     <if test="supplierId != null">
@@ -193,17 +193,17 @@
         AND PROJECT_NUMBER = #{projectNumber}
      </if> 
    </select>
-  <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectAdvancedProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_BSS_PPMS_PROJECTS
+    from T_BSS_PPMS_ADVANCED_PROJECTS
     where ID = #{id,jdbcType=VARCHAR} 
   </select>
   
-  <select id="selectByList" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
+  <select id="selectByList" parameterType="bss.model.ppms.AdvancedProject" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_BSS_PPMS_PROJECTS
+    from T_BSS_PPMS_ADVANCED_PROJECTS
     where 1=1 and IS_REHEARSE = 1 and IS_PROVISIONAL=0
      <if test="name != null and name != ''">
        and NAME like '%${name}%'
@@ -221,7 +221,7 @@
   <select id="selectSuccessProject" parameterType="Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_BSS_PPMS_PROJECTS
+    from T_BSS_PPMS_ADVANCED_PROJECTS
     where STATUS = 2 and IS_PROVISIONAL=0
     <if test="projectName != null and projectName != ''">
        and NAME like '%'||#{projectName}||'%'
@@ -235,10 +235,10 @@
     ORDER BY DATE_OF_ENTRUSTMENT DESC
   </select>
   
-   <select id="selectProjectByAll" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
+   <select id="selectAdvancedProjectByAll" parameterType="bss.model.ppms.AdvancedProject" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_BSS_PPMS_PROJECTS
+    from T_BSS_PPMS_ADVANCED_PROJECTS
     where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
      <if test="name != null and name != ''">
        and NAME like '%${name}%'
@@ -254,10 +254,10 @@
       </if>
       ORDER BY CREATED_AT DESC
   </select>
-  <select id="verifyByProject" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
+  <select id="verifyByProject" parameterType="bss.model.ppms.AdvancedProject" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_BSS_PPMS_PROJECTS
+    from T_BSS_PPMS_ADVANCED_PROJECTS
     where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
      <if test="name != null and name != ''">
        and NAME = #{name}
@@ -271,11 +271,11 @@
       ORDER BY CREATED_AT DESC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from T_BSS_PPMS_PROJECTS
+    delete from T_BSS_PPMS_ADVANCED_PROJECTS
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="bss.model.ppms.Project">
-    insert into T_BSS_PPMS_PROJECTS (ID, NAME, PROJECT_NUMBER, 
+  <insert id="insert" parameterType="bss.model.ppms.AdvancedProject">
+    insert into T_BSS_PPMS_ADVANCED_PROJECTS (ID, NAME, PROJECT_NUMBER, 
       STATUS, PRINCIPAL, IPONE, 
       LINKMAN, LINKMAN_IPONE, BID_UNIT, 
       ADDRESS, POSTCODE, SUPPLIER_NUMBER, 
@@ -296,11 +296,11 @@
       #{dateOfEntrustment,jdbcType=DATE}, #{bidDate,jdbcType=DATE}, #{bidAddress,jdbcType=VARCHAR}, 
       #{requieredId,jdbcType=VARCHAR}),#{baleNo}, #{amount}, #{dealSupplier.id},#{purchaseDepName})
   </insert>
-  <insert id="insertSelective" parameterType="bss.model.ppms.Project">
+  <insert id="insertSelective" parameterType="bss.model.ppms.AdvancedProject">
      <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
-    insert into T_BSS_PPMS_PROJECTS
+    insert into T_BSS_PPMS_ADVANCED_PROJECTS
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -624,8 +624,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Project">
-    update T_BSS_PPMS_PROJECTS
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.AdvancedProject">
+    update T_BSS_PPMS_ADVANCED_PROJECTS
     <set>
       <if test="name != null">
         NAME = #{name,jdbcType=VARCHAR},
@@ -786,8 +786,8 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="bss.model.ppms.Project">
-    update T_BSS_PPMS_PROJECTS
+  <update id="updateByPrimaryKey" parameterType="bss.model.ppms.AdvancedProject">
+    update T_BSS_PPMS_ADVANCED_PROJECTS
     set NAME = #{name,jdbcType=VARCHAR},
       PROJECT_NUMBER = #{projectNumber,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=DECIMAL},
@@ -823,11 +823,11 @@
   </update>
   
   	<!-- 获取临时项目 -->
-    <select id="provisionalList" parameterType="bss.model.ppms.Project"
+    <select id="provisionalList" parameterType="bss.model.ppms.AdvancedProject"
         resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from T_BSS_PPMS_PROJECTS
+        from T_BSS_PPMS_ADVANCED_PROJECTS
         where 1=1 and IS_PROVISIONAL=1
         <if test="name != null and name != ''">
             and NAME like '%${name}%'
@@ -845,7 +845,7 @@
     <select id="selectProjectByCode" parameterType="java.util.Map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from T_BSS_PPMS_PROJECTS
+        from T_BSS_PPMS_ADVANCED_PROJECTS
         where 1=1 
         <if test="name != null and name != ''">
             and NAME = #{name}
