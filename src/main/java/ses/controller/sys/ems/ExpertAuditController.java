@@ -310,9 +310,6 @@ public class ExpertAuditController {
 		if(Whether){
 			String msg = "{\"msg\":\"yes\"}";
 			writeJson(response, msg);
-		}else{
-			String msg = "{\"msg\":\"no\"}";
-			writeJson(response, msg);
 		}
 		
 	}

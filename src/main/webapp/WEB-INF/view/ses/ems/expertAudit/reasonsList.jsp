@@ -73,7 +73,6 @@
 				        type:"post",
 				        dataType:"json",
 								success:function(result){
-								alert(result);
 										result = eval("(" + result + ")");
 										if(result.msg == "yes"){
 											layer.msg("删除成功!",{offset : '100px'});
