@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 }
  }
  
- function org(obj){
+ /*function org(obj){
 	 
  	   var val=$(obj).val();
  
@@ -104,7 +104,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  			   $(this).attr("selected", "selected");  
  		   }
  	   });
-    } 
+    } */
  
  
 </script>
@@ -184,7 +184,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</td>
 							<td class="tc">
 							<select class="org"  onchange="org(this)" name="list[${vs.index }].organization">
-	 						<option value="">请选择</option>
 								<c:forEach items="${org }" var="ss">
 									<option value="${ss.name }" <c:if test="${ss.name==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 								</c:forEach>
