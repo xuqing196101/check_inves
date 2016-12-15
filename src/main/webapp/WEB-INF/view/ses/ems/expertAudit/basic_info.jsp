@@ -21,7 +21,7 @@
 	      $(":input").each(function() {
 	        var onmouseover = "this.style.border='solid 1px #FF0000'";
 	        var onmouseout = "this.style.border='solid 1px #D3D3D3'";
-	        $(this).attr("onmouseover",onmouseover);
+	        $(this).attr("onmousemove",onmouseover);
 	        $(this).attr("onmouseout",onmouseout);
 	    	});
 	    	
@@ -85,7 +85,31 @@
 			 			ids.push(vals);
 			 		}
 				}
+				var isEdit = "${isEdit}";
+				if (isEdit == "0") {
+					// 没有修改过
+					var index = layer.confirm('该专家在上次审核退回后未做任何修改!', {
+						btn : [ '确定' ],
+			            offset:'100px'
+					}, function() {
+						layer.close(index);
+					});
+				}
 			});
+			
+			// 提示之前的信息
+			function isCompare(inputName,fieldName, type){
+				$.ajax({
+					url: "${pageContext.request.contextPath}/expertAudit/getFieldContent.do",
+					data: {"field":fieldName,"type":type,"expertId":"${expertId}"},
+					async: false,
+					success: function(response){
+						layer.tips("原值:" + response, "#" + inputName, {
+		    				tips : 1
+		    			});
+					}
+				});
+			}
 		</script>
 		<script type="text/javascript">
 			function jump(str){
@@ -156,7 +180,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家来源：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="expertsFrom" value="${expertsFrom }" type="text" onclick="reason(this);"/>
+								<input id="expertsFrom" <c:if test="${fn:contains(editFields,'getExpertsFrom')}">onmouseover="isCompare('expertsFrom','getExpertsFrom','0');"</c:if> value="${expertsFrom }" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
@@ -178,12 +202,12 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">省：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="parentName" value="${parentName }" type="text" onclick="reason(this);"/>
+								<input id="" value="" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">市：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="sonName" value="${sonName }" type="text" onclick="reason(this);"/>
+								<input id="" value="" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">政治面貌：</span>
@@ -225,7 +249,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">手机：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.mobile}" readonly="readonly" id="mobile" type="text" onclick="reason(this);"/>
+								<input value="${user.mobile}" readonly="readonly" id="mobile" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">固定电话：</span>
@@ -240,7 +264,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">个人邮箱：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.email}" id="email" type="text" onclick="reason(this);"/>
+								<input value="${expert.email}" <c:if test="${fn:contains(editFields,'getEmail')}">onmouseover="isCompare('email','getEmail','0');"</c:if> id="email" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 					</ul>

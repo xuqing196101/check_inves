@@ -1,10 +1,14 @@
 package ses.controller.sys.ems;
 
+import java.beans.PropertyDescriptor;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,11 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertHistory;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -150,9 +156,102 @@ public class ExpertAuditController {
         
         
 		model.addAttribute("expertId", expertId);
-		
-		return "ses/ems/expertAudit/basic_info";
-	}
+		// 判断有没有进行修改
+        ExpertHistory oldExpert = service.selectOldExpertById(expertId);
+        Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
+        // 如果isEdit==1代表没有进行任何修改就进行了二次提交
+        if (compareMap.isEmpty()) {
+            // 没有修改
+            model.addAttribute("isEdit", "0");
+        } else {
+            // 有修改
+            model.addAttribute("isEdit", "1");
+        }
+        Set<String> keySet = compareMap.keySet();
+        List<String> editFields = new ArrayList<String>();
+        for (String method : keySet) {
+            editFields.add(method);
+        }
+        model.addAttribute("editFields", editFields);
+        return "ses/ems/expertAudit/basic_info";
+    }
+	
+	/**
+     *〈简述〉
+     * 根据字段名获取备份的信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param field
+     * @param type
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getFieldContent",produces="text/html;charset=UTF-8")
+    public String getFieldContent(String field, String type, String expertId){
+        StringBuffer content = new StringBuffer();
+        Expert expert = service.selectByPrimaryKey(expertId);
+        ExpertHistory oldExpert = service.selectOldExpertById(expertId);
+        Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
+        String value = (String) compareMap.get(field);
+        if ("0".equals(type)) {
+            // 不需要数据字典查询的
+            content.append(value);
+        } else {
+            // 需要从数据字典查询的
+            if (field.indexOf(",") == -1) {
+                // 不需要拼接逗号的
+                DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(value);
+                if (dictionaryData != null) {
+                    content.append(dictionaryData.getName());
+                }
+            } else {
+                // 需要逗号拼接的
+                StringBuffer temp = new StringBuffer();
+                String[] ids = value.split(",");
+                for (String id : ids) {
+                    DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(id);
+                    if (dictionaryData != null) {
+                        temp.append(dictionaryData.getName() + "、");
+                    }
+                }
+                content.append(temp.toString().substring(0, temp.length() - 1));
+            }
+        }
+        return content.toString();
+    }
+    
+    /**
+     *〈简述〉
+     * 判断改变了哪些字段以及本来的内容
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param oldExpert
+     * @param newExpert
+     * @return
+     */
+    private Map<String, Object> compareExpert(ExpertHistory oldExpert, ExpertHistory newExpert){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            Class<ExpertHistory> expertClass = ExpertHistory.class;
+            Field[] fieldList = expertClass.getDeclaredFields();
+            for (Field field : fieldList) {
+                PropertyDescriptor pd = new PropertyDescriptor(field.getName(), expertClass);
+                Method getMethod = pd.getReadMethod();
+                Object o1 = getMethod.invoke(oldExpert);
+                Object o2 = getMethod.invoke(newExpert);
+                if (o1 != null && o2!= null && !o1.toString().equals(o2.toString())) {
+                    map.put(getMethod.getName(), o1.toString());
+                }
+                if ((o1 == null && o2 != null) || o1 != null && o2 == null) {
+                    map.put(getMethod.getName(), o1.toString());
+                }
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return map;
+    }
 	
 	@RequestMapping("/auditReasons")
 	public void auditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response){
@@ -310,12 +409,18 @@ public class ExpertAuditController {
 	}
 	
 	@RequestMapping("/updateStatus")
-	public String updateStatus(Expert expert, Model model){
-		//提交审核，更新状态
-		expertService.updateByPrimaryKeySelective(expert);
-		
-		return "redirect:list.html";
-	}
+    public String updateStatus(Expert expert, Model model){
+        // 如果是退回修改就保存历史信息
+        if ("3".equals(expert.getStatus())) {
+            service.deleteExpertHistory(expert.getId());
+            Expert exp = service.selectByPrimaryKey(expert.getId());
+            service.insertExpertHistory(exp);
+        }
+        //提交审核，更新状态
+        expertService.updateByPrimaryKeySelective(expert);
+        
+        return "redirect:list.html";
+    }
 	
 	public void writeJson(HttpServletResponse response, Object object) {
 		try {
