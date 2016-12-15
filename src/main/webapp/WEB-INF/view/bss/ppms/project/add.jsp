@@ -177,7 +177,7 @@
 				<tr>
 				  <th class="info w50">序号</th>
 				  <th class="info">采购任务名称</th>
-				  <th class="info">采购管理部门</th>
+				  <th class="info">需求部门</th>
 				  <th class="info">下达文件编号</th>
 				  <th class="info">状态</th>
 				  <th class="info">下达时间</th>
@@ -222,7 +222,7 @@
 					<th class="info">单价（元）</th>
 					<th class="info">预算金额（万元）</th>
 					<th class="info">交货期限</th>
-					<th class="info">采购方式建议</th>
+					<th class="info">采购方式</th>
 					<th class="info">供应商名称</th>
 					<th class="info">是否申请办理免税</th>
 					<th class="info">物资用途（进口）</th>

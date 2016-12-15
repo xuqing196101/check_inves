@@ -229,6 +229,11 @@
 		}
 		
 	}
+	
+	
+	function advanced(){
+	   window.location.href = "${pageContext.request.contextPath}/advancedProject/add.html";
+	}
   </script>
   </head>
   
@@ -296,6 +301,7 @@
    <div class="col-md-12 pl20 mt10">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">汇入采购计划</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="advanced()">预研项目</button>
 	 </div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">

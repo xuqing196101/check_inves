@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 
 public interface ProjectDetailMapper {

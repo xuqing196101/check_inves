@@ -134,8 +134,9 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane fade active in" id="tab-1">
-          <h2 class="count_flow jbxx">基本信息</h2>
           <form id="save_form_id" action="${pageContext.request.contextPath}/project/addProject.html" method="post" >
+          <h2 onclick="ycDiv(this,'${1}')" class="count_flow jbxx hand">基本信息</h2>
+          <div class="p0${1}">
             <table class="table table-bordered">
               <tbody>
                 <tr>
@@ -156,17 +157,10 @@
                   <td class="bggrey">预算报价（万元）:</td>
                   <td><input name="budgetAmount" id="budgetAmount" value="${project.budgetAmount}"/></td>
                 </tr>
-                <%-- <tr>
+                 <tr>
                   <td class="bggrey">最少供应商人数:</td>
                   <td><input name="supplierNumber" id="supplierNumber" value="${project.supplierNumber}" /></td>
-                </tr>
-                <tr>
-                  <td class="bggrey">报价标准分值:</td>
-                  <td>${project.offerStandard}</td>
-                  
-                </tr> --%>
-                 <tr>
-                   <td class="bggrey">采购方式:</td>
+                  <td class="bggrey">采购方式:</td>
                    <td>
                      <c:forEach items="${kind}" var="kind" >
                        <c:if test="${kind.id == project.purchaseType}">
@@ -175,18 +169,22 @@
                        </c:if>
                      </c:forEach>
                    </td>
+                </tr>
+                 <tr>
+                   <td class="bggrey">开标时间:</td>
+                   <td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm:ss"/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                    <td class="bggrey">投标截止时间:</td>
                    <td><fmt:formatDate value='${project.deadline}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                  </tr>
                  <tr>
-                   <td class="bggrey">开标时间:</td>
-                   <td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm:ss"/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                    <td class="bggrey">开标地点:</td>
-                   <td><input name="bidAddress" id="bidAddress" value="${project.bidAddress}"/></td>
+                   <td colspan="3"><input name="bidAddress" id="bidAddress" value="${project.bidAddress}"/></td>
                  </tr>
                </tbody>
              </table>
-              <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">时间信息</h2>
+             </div>
+              <h2 onclick="ycDiv(this,'${2}')" class="count_flow jbxx hand">时间信息</h2>
+              <div class="p0${2}">
              <table class="table table-bordered">
                <tbody>
                  <tr>
@@ -241,6 +239,7 @@
              </table>
              <div class="col-md-12 tc mt20" >
                <button class="btn btn-windows git"  type="button" onclick="checkDate();">更新</button>
+             </div>
              </div>
            </form>
          </div>
