@@ -126,7 +126,7 @@
 	        async: false,
 			success:function(obj){
 				if(obj.length<1){
-					$("#thead").empty();
+					$("#purchase_orgs").empty();
 				}
 				$.each(obj,function(i,result){
 					i=i+1;
@@ -139,7 +139,7 @@
 					if(detailAddr==null)detailAddr="";
 					if(mobile==null)mobile="";
 					if(orgId==result.id){
-						$("#thead").append(
+						$("#purchase_orgs").append(
 								"<tr align='center' ><td><input checked='checked' type='radio' name='radio'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
@@ -148,7 +148,7 @@
 								/* "<td>"+mobile+"</td></tr>" */
 							);
 					}else{
-						$("#thead").append(
+						$("#purchase_orgs").append(
 								"<tr align='center' ><td><input type='radio' name='radio'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
@@ -270,7 +270,7 @@
 												<th class="info">所在城市</th>
 											</tr>
 										</thead>
-										<tbody id="thead">
+										<tbody id="purchase_orgs">
 											<c:forEach items="${listOrgnizations1}" var="org1" varStatus="vs">
 												<tr>
 												

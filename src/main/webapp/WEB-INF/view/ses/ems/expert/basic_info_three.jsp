@@ -116,7 +116,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	
 	function purDepBack(){
-		$("#thead").empty();
+		$("#purchase_orgs").empty();
 		var purDepId = "${expert.purchaseDepId}";
 		$.ajax({
 			url:'${pageContext.request.contextPath}/expert/getPIdandCIdByPurDepId.do',
@@ -166,7 +166,7 @@ session.setAttribute("tokenSession", tokenValue);
 					if(detailAddr==null)detailAddr="";
 					if(mobile==null)mobile="";
 					if(purDepId==result.id){
-						$("#thead").append(
+						$("#purchase_orgs").append(
 								"<tr align='center' ><td><input checked='checked' type='radio' name='purchaseDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
@@ -175,7 +175,7 @@ session.setAttribute("tokenSession", tokenValue);
 								"<td>"+mobile+"</td></tr>"
 							);
 					}else{
-						$("#thead").append(
+						$("#purchase_orgs").append(
 								"<tr align='center' ><td><input type='radio' name='purchaseDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
@@ -193,7 +193,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	
 	function showJiGou(){
-		$("#thead").empty();
+		$("#purchase_orgs").empty();
 		//采购机构
 		var sup = $("#purchaseDepId").val();
 		var purDepId="";
@@ -232,7 +232,7 @@ session.setAttribute("tokenSession", tokenValue);
 					if(detailAddr==null)detailAddr="";
 					if(mobile==null)mobile="";
 					if(purDepId==result.id){
-						$("#thead").append(
+						$("#purchase_orgs").append(
 								"<tr align='center' ><td><input checked='checked' type='radio' name='purchaseDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
@@ -241,7 +241,7 @@ session.setAttribute("tokenSession", tokenValue);
 								"<td>"+mobile+"</td></tr>"
 							);
 					}else{
-						$("#thead").append(
+						$("#purchase_orgs").append(
 								"<tr align='center' ><td><input type='radio' name='purchaseDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
@@ -383,7 +383,7 @@ session.setAttribute("tokenSession", tokenValue);
 					  <th class="info">联系电话</th>
 					</tr>
 				</thead>
-				<tbody id="thead"></tbody>
+				<tbody id="purchase_orgs"></tbody>
 			</table>
 			<h6>
 		               友情提示：请专家记录好初审采购机构的相关信息，以便进行及时沟通
