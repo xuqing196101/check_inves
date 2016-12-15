@@ -998,7 +998,7 @@ session.setAttribute("tokenSession", tokenValue);
 				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					<div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
 						<c:forEach items="${spList}" var="sp" >
-					      <span><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name} </span>
+					      <span><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
 					    </c:forEach>
 					    <c:forEach items="${jjList}" var="jj" >
 							<span><input type="checkbox" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>

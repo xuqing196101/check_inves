@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -213,8 +214,10 @@ public class SupplierServiceImpl implements SupplierService {
         List<SupplierAddress> addressList = supplierAddressService.getBySupplierId(id);
         if(addressList.size()>0){
         	for(SupplierAddress b:addressList){
-        		List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
-        		b.setAreaList(city);
+        	    if (StringUtils.isNotBlank(b.getProvinceId())){
+        	        List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
+                    b.setAreaList(city);
+        	    }
         	}
             supplier.setAddressList(addressList);
         }else{

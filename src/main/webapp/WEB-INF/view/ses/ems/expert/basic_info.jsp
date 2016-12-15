@@ -1102,31 +1102,31 @@ session.setAttribute("tokenSession", tokenValue);
 				  	<tr>
 				  	   <td class="bggrey" width="15%"><i class="red">*</i>身份证</td>
 				  	   <td>
-				  	      <u:upload id="expert1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}" auto="true"/>
+				  	      <u:upload id="expert1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}" auto="true"/>
 				          <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
 				  	   </td>
 				  	   <td class="bggrey" width="15%"><i class="red">*</i>学历证书</td>
 				  	   <td>
-				  	      <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true"/>
+				  	      <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true"/>
 				          <u:show showId="show2" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
 				  	   </td>
 				  	</tr>
 				  	<tr>
 				  	   <td class="bggrey"><i class="red">*</i>职称证书</td>
 				  	   <td>
-				  	      <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true"/>
+				  	      <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true"/>
 				          <u:show  showId="show3" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
 				  	   </td>
 				  	   <td class="bggrey"><i class="red">*</i>学位证书</td>
 				  	   <td>
-				  	      <u:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true"/>
+				  	      <u:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true"/>
 				          <u:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}"/>
 				  	   </td>
 				  	</tr>
 				  	<tr>
 				  	   <td class="bggrey"><i class="red">*</i>个人照片</td>
 				  	   <td colspan="3">
-				  	      <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true"/>
+				  	      <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true"/>
 				          <u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
 				  	   </td>
 				  	</tr>
@@ -1451,12 +1451,12 @@ session.setAttribute("tokenSession", tokenValue);
 	   	    <tr>
 	   	      <td class="bggrey" width="15%"><i class="red">*</i>专家申请表：</td>
 	   	      <td>
-	   	        <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" auto="true"/>
+	   	        <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" auto="true"/>
 			    <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}"/>
 	   	      </td>
 	   	      <td class="bggrey" width="15%" ><i class="red">*</i>专家合同书：</td>
 	   	      <td>
-	   	        <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
+	   	        <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
 			    <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>
 	   	      </td>
 	   	    </tr>
