@@ -182,6 +182,37 @@ public class PackageExpertController {
         return "bss/prms/assign_expert/list";
     }
 
+    /**
+     *〈简述〉
+     * 专家后台评分汇总按钮点击事件
+     *〈详细描述〉
+     * 展示专家信息
+     * @author WangHuijie
+     * @param model
+     * @param projectId
+     * @param packageId
+     * @return
+     */
+    @RequestMapping("toTotal")
+    public String toTotal(Model model, String projectId, String packageId){
+      //获取关联信息
+        ExpExtPackage extPackag = new ExpExtPackage();
+        extPackag.setProjectId(projectId);
+        extPackag.setPackageId(packageId);
+        List<ExpExtPackage> list = expExtPackageService.list(extPackag, "0");
+        // 项目抽取的专家信息
+        if (list != null && list.size() !=0 ){
+            ProjectExtract projectExtract = new ProjectExtract();
+            projectExtract.setProjectId(list.get(0).getId());
+            projectExtract.setIsProvisional((short)1);
+            projectExtract.setReason("1");
+            List<ProjectExtract> expertList = projectExtractService.list(projectExtract);
+            model.addAttribute("expertList", expertList);
+            model.addAttribute("packageId", packageId);
+            model.addAttribute("projectId", projectId);
+        }
+        return "bss/prms/audit/expert_list";
+    }
 
     /**
      * 

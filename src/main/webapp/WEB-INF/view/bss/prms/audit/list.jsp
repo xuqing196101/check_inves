@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          }
   }
    //项目评审
-  function toAudit(){
+ /* function toAudit(){
 	  var count = 0;
 	  var ids = document.getElementsByName("chkItem");
  
@@ -66,7 +66,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		}else if(count==1){
   			window.location.href="${pageContext.request.contextPath}/expert/toFirstAudit.html?projectId="+value[0]+"&packageId="+value[1];
      	}
-  }
+  }*/
+	//符合性审查
+ 	function toAudit(projectId, packageId){
+ 		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
+ 	}
+	//经济技术审查
+	function toFirstAudit(projectId, packageId){
+		window.location.href="${pageContext.request.contextPath}/expert/toFirstAudit.html?projectId="+projectId+"&packageId="+packageId;
+	}
 </script>
   </head>
   
@@ -90,10 +98,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    <div class="container">
    <span class="fl option_btn ml10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">项目评审</button>
-        <button class="btn btn-windows back" onclick="history.go(-1)">返回</button>
+        <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">项目评审</button> -->
       </span>
-    <div class="container margin-top-5">
+    	<div class="container margin-top-5">
                <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
@@ -102,10 +109,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">项目名称</th>
           <th class="info">项目编号</th>
           <th class="info">包名</th>
-		  <th class="info">总进度</th>
+		  <%--<th class="info">总进度</th>
 		  <th class="info">初审进度</th>
-		  <th class="info">详审进度</th>
-        </tr>
+		  <th class="info">详审进度</th>--%>
+		  <th class="info">操作</th>
+		  </tr>
         </thead>
         <tbody id="tbody_id">
         
@@ -116,6 +124,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td>${obj.name}</td>
               <td>${obj.projectNumber }</td>
               <td class="tc">${obj.packageName }</td>
+              <td class="tc">
+              	<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit('${obj.id }','${obj.packageId}');" value="符合性审查">
+              	<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toFirstAudit('${obj.id }','${obj.packageId}');" value="经济技术审查">
+              </td>
+			    <!-- 
               <td class="w260">
 				  <div class="col-md-12 padding-0">
 				  	  <span class="fl padding-5">
@@ -156,6 +169,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  <span class="fl padding-5">${obj.reviewProgress.scoreProgress*100}%</span>
 				  </div>
 			    </td>
+			     -->
             </tr>
          </c:forEach> 
         </tbody>

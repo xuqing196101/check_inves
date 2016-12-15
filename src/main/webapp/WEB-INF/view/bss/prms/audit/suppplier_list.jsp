@@ -47,16 +47,23 @@
   function toAudit(){
 	     var projectId = "${projectId}";
 	     var packageId = "${packageId}";
-  			window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
+  		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
 	  
   }
    //项目评分
-  function toGrade(){
-	     var projectId = "${projectId}";
-	     var packageId = "${packageId}";
-  			window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
-	  
-  }
+  	function toGrade(){
+		var projectId = "${projectId}";
+	    var packageId = "${packageId}";
+	    var packageExpert = "${packageExpert}";
+	    if (packageExpert.isAudit == 1 && packageExpert.isGrade != 1) {
+		    window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
+	    } else {
+			layer.alert("符合性审查全部通过之后才可以进行此项操作!", {
+				offset : [ '222px', '390px' ],
+				shade : 0.01
+			});
+	    }
+  	}
    //供应商报价
    function supplierPrice(){
 	   var packageId = "${packageId}";
@@ -78,7 +85,7 @@
 			});
 		}
  }
-   function toTotal(){
+   /*function toTotal(){
 	   var packageId = "${packageId}";
 	   var projectId = "${projectId}";
 	   $.ajax({
@@ -106,7 +113,10 @@
 				}
 			}
 		});
-   }
+   }*/
+   	function toTotal(){
+   		window.location.href="${pageContext.request.contextPath}/packageExpert/toTotal.html?packageId=${packageId}&projectId=${projectId}";		
+   	}
   </script>
   </head>
   
@@ -130,19 +140,19 @@
    </div>
    <div class="container clear">
    <span class="fl option_btn margin-top-10 ml10">
-   	  <c:if test="${packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
-   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">评分</button>
-   	  </c:if>
-   	  <c:if test="${packageExpert.isGroupLeader == 1 && packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
+   	  <!--<c:if test="${packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">-->
+   	  <!--</c:if>-->
+   	  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">评分</button>
    	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toTotal();">评分汇总</button>
-   	  </c:if>
+   	  <!--<c:if test="${packageExpert.isGroupLeader == 1 && packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">-->
+   	 <!-- </c:if>-->
    	   <c:if test="${packageExpert.isAudit != 1  && packageExpert.isGrade == 0}">
-   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>
+   	  <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>-->
    	  </c:if>
    	  
        <!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button> -->
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="supplierPrice()">查看供应商报价</button>
-        <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/>
+        <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="supplierPrice()">查看供应商报价</button>-->
+        
       </span>
     <div class="container margin-top-5">
                <table class="table table-striped table-bordered table-hover">
@@ -175,6 +185,7 @@
          </c:forEach> 
         </tbody>
       </table>
+      <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/>
       </div>
    </div>
  </div>

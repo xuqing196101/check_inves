@@ -1509,7 +1509,7 @@ public class ExpertController {
 
     /**
      * 
-     * @Title: toProjectList
+     * @Title: projectList
      * @author ShaoYangYang
      * @date 2016年10月22日 上午10:28:43
      * @Description: TODO 去项目评审列表页面
@@ -1532,9 +1532,9 @@ public class ExpertController {
                 List<PackageExpert> pel = packageExpertService.selectList(map);
                 List<PackageExpert> packageExpertList = new ArrayList<PackageExpert>();
                 for (PackageExpert packageExpert : pel) {
-                    if (packageExpert.getProjectId().equals(projectId)){
-                        packageExpertList.add(packageExpert);
-                    }
+                    //if (packageExpert.getProjectId().equals(projectId)){
+                    packageExpertList.add(packageExpert);
+                    //}
                 }
                 HashMap<String, Object> hashMap;
                 // 该专家的所有包集合
@@ -1561,7 +1561,7 @@ public class ExpertController {
                         projectExt.setPackageName(packages.getName());
                         //进度
                         Map<String, Object> map2 = new HashMap<String, Object>();
-                        map2.put("projectId", projectId);
+                        //map2.put("projectId", projectId);
                         map2.put("packageId", packages.getId());
                         //查询该包有没有评审进度数据
                         List<ReviewProgress> rplist = reviewProgressService.selectByMap(map2);
