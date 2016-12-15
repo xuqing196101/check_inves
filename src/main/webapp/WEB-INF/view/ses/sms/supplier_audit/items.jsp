@@ -8,20 +8,6 @@
 
 	<head>
 
-		<title>品目信息</title>
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
-		<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-		<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
-		<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 		<script type="text/javascript">
 			function tijiao(status) {
 				$("#status").val(status);
@@ -397,10 +383,10 @@
 							<a aria-expanded="false" href="#tab-4">品目信息</a>
 							<i></i>
 						</li>
-						<li onclick="jump('product')">
+						<!-- <li onclick="jump('product')">
 							<a aria-expanded="false" href="#tab-4">产品信息</a>
 							<i></i>
-						</li>
+						</li> -->
 						<li onclick="jump('applicationForm')">
 							<a aria-expanded="false" href="#tab-4">申请表</a>
 							<i></i>

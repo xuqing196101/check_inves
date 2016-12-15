@@ -211,10 +211,10 @@
 	            	<a aria-expanded="false" href="#tab-4" >品目信息</a>
 	            	<i></i>
 	          	</li>
-		          <li onclick = "jump('product')" >
+		        <!--   <li onclick = "jump('product')" >
 		            <a aria-expanded="false" href="#tab-4">产品信息</a>
 		             <i></i>
-		          </li>
+		          </li> -->
 		          <li onclick = "jump('applicationForm')" class="active" >
 		            <a aria-expanded="false" href="#tab-4" data-toggle="tab">申请表</a>
 		            <i></i>

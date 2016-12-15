@@ -138,7 +138,7 @@
 											
 											<br> <br>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class=""><a class="star_red">*</a>证书附件：</span>
-									 				<up:upload id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}" auto="true" />
+									 				<up:upload id="cert_up"  multiple="true" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}" auto="true" />
 												   <up:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}"/>
 											</li>
 											<span id="cert_file"></span>
