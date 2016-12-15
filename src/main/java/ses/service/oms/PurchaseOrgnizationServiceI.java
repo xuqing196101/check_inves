@@ -36,4 +36,17 @@ public interface PurchaseOrgnizationServiceI {
 	 * @return
 	 */
 	String delPurchaseDep(String id);
+	
+	/**
+	 * 
+	 *〈简述〉根据主键更新状态
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 主键
+	 * @param purchaseId 采购机构Id
+	 * @param quaStatus 状态
+	 * @param quaStashReason 原因
+	 * @return
+	 */
+    String updateStatus(String id, String purchaseId, String quaStatus, String quaStashReason);
 }

@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 import common.constant.StaticVariables;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.oms.PurchaseDepMapper;
+import ses.dao.oms.PurchaseStatusMapper;
 import ses.model.oms.OrgInfo;
 import ses.model.oms.OrgLocale;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
+import ses.model.oms.PurchaseStatus;
 import ses.service.oms.OrgInfoService;
 import ses.service.oms.OrgLocaleService;
 import ses.service.oms.PurChaseDepOrgService;
@@ -31,6 +33,10 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	
 	@Autowired
 	private OrgnizationMapper orgniztionMapper;
+	
+	/** 状态Mapper **/
+	@Autowired
+	private PurchaseStatusMapper purStatusMapper;
 	
 	@Autowired
 	private PurChaseDepOrgService purChaseDepOrgService;
@@ -230,5 +236,46 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
          purchaseDepMapper.delPurchaseByOrgId(id);
 	}
 	
-
+	/**
+	 * 
+	 * @see ses.service.oms.PurchaseOrgnizationServiceI#updateStatus(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+    @Override
+    public String updateStatus(String id, String purchaseId ,String quaStatus, String quaStashReason) {
+        
+        String res  = StaticVariables.SUCCESS;
+        
+        if (!StringUtils.isNotBlank(quaStashReason)){
+            
+            return StaticVariables.PURCHASER_STATUS_RESON;
+        }
+        
+        if (StringUtils.isNotBlank(id) && StringUtils.isNotBlank(quaStatus)){
+            
+        }
+        Integer status = Integer.parseInt(quaStatus);
+        
+        try {
+            PurchaseDep  purchaseDep = new PurchaseDep();
+            purchaseDep.setId(purchaseId);
+            purchaseDep.setQuaStatus(status);
+            purchaseDepMapper.updatePurchById(purchaseDep);
+            
+            //保存状态
+            PurchaseStatus ps = new PurchaseStatus();
+            ps.setId(id);
+            ps.setPurchaseId(purchaseId);
+            ps.setStatus(status);
+            ps.setReason(quaStashReason);
+            ps.setCreatedAt(new Date());
+            purStatusMapper.save(ps);
+        } catch (Exception e) {
+            res = StaticVariables.FAILED;
+            e.printStackTrace();
+        }
+        
+        return res;
+    }
+	
+	
 }

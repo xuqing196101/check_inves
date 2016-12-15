@@ -33,4 +33,13 @@ public interface PurchaseDepMapper {
 	 * @param purchaseDep PurchaseDep对象
 	 */
 	void savePurchaseDept(PurchaseDep purchaseDep);
+	
+	/**
+	 * 
+	 *〈简述〉根据Id更新
+	 *〈详细描述〉
+	 * @author myc
+	 * @param purchaseDep {@link PurchaseDep}
+	 */
+	void updatePurchById(PurchaseDep purchaseDep);
 }

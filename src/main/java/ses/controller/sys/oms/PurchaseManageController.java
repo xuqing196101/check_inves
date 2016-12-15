@@ -1090,6 +1090,7 @@ public class PurchaseManageController {
 	    
 	    model.addAttribute("purchaseDepId", id);
 	    model.addAttribute("purchaseStarus", quaStatus);
+	    model.addAttribute("id", WfUtil.createUUID());
 	    
 	    Integer status = null;
 	    if (StringUtils.isNotBlank(quaStatus)){
@@ -1108,6 +1109,23 @@ public class PurchaseManageController {
 	    
         return "ses/oms/purchase_dep/update_quate_status";
     }
+	
+	/**
+	 * 
+	 *〈简述〉
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 主键
+	 * @param quaStatus 状态 
+	 * @param quaStashReason 理由
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/updatePurchaseStatus",produces="html/text;charset=UTF-8")
+	public String updatePurchaseStatus(String id, String purchaseId ,String quaStatus, String quaStashReason){
+	    
+	    return purchaseOrgnizationServiceI.updateStatus(id,purchaseId,quaStatus, quaStashReason);
+	}
 	
 	/**
 	 * 

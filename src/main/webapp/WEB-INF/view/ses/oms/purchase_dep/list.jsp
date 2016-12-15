@@ -162,7 +162,7 @@
 		}
 		layer.open({
 			type : 2, 
-			area : [ '500px', '300px' ],
+			area : [ '600px', '500px' ],
 			title : title,
 			offset : [ '220px', '630px' ],
 			shadeClose : true,
@@ -170,6 +170,14 @@
 		 });
 		
 	}
+    
+    /** 更新状态 **/
+    function updateStatus(status,text){
+    	$('input[name="chkItem"]:checked').each(function(){
+			qStatus = $(this).parents('tr').find('input[name=qStatus]').val(status);
+			qStatus = $(this).parents('tr').find('td').eq(9).text(text);
+		});
+    }
   </script>
 <body>
 		<!--面包屑导航开始-->

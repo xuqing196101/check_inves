@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.oms.PurchaseStatusMapper">
+
+  <!-- 实体对应 -->	
+  <resultMap id="basePurchaseStatus" type="ses.model.oms.PurchaseStatus">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="STATUS" jdbcType="NUMERIC" property="status" />
+    <result column="PURCHASE_ID" jdbcType="VARCHAR" property="purchaseId" />
+    <result column="REASON" jdbcType="VARCHAR" property="reason" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+  </resultMap>
+  
+  <!-- 基础sql查询 -->
+  <sql id="baseSql">
+    ID, STATUS, PURCHASE_ID, REASON
+  </sql>
+  
+  <!-- 根据采购机构Id查询 -->
+  <select id="findByPurchaseId" resultMap="basePurchaseStatus">
+    SELECT 
+    <include refid="baseSql" />
+    FROM T_SES_OMS_PURCHASE_STATUS
+    WHERE PURCHASE_ID = #{purchaseId}
+  </select>	
+  
+  <!-- 新增 -->
+  <insert id="save" parameterType="ses.model.oms.PurchaseStatus">
+    INSERT INTO T_SES_OMS_PURCHASE_STATUS
+    (ID,STATUS,PURCHASE_ID,REASON,CREATED_AT) values 
+    (#{id,jdbcType=VARCHAR},#{status,jdbcType=NUMERIC},
+     #{purchaseId,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP})
+  </insert>
+</mapper>
