@@ -398,7 +398,7 @@ function deleteFinance() {
 	}
 	
 	function errorMsg(auditField){
-		alerT("hehe");
+		alert("hehe");
 		var supplierId = "${currSupplier.id}";
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier/audit.html",
@@ -435,7 +435,7 @@ function deleteFinance() {
 				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 公司名称</span>
 					<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-				        <input id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}"  <c:if test="${fn:contains(errorField,'supplierName')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('supplierName')"</c:if>  /> 
+				        <input id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}"  <c:if test="${fn:contains(errorField,'supplierName')}">style="border: 1px solid #ef0000;" onblur="errorMsg('supplierName')"</c:if>  /> 
 				      	 <c:if test="${fn:contains(errorField,'supplierName')}">
 						    <span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
 					    </c:if>
@@ -600,7 +600,7 @@ function deleteFinance() {
 					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				        <input type="text" name="postCode" value="${currSupplier.postCode}" />
 				        <span class="add-on cur_point">i</span>
-				         <div class="cue"> ${err_msg_bankAccount } </div>
+				         <div class="cue"> ${err_msg_postCode } </div>
 				       </div>
 					</li> 
 				 
@@ -1153,10 +1153,17 @@ function deleteFinance() {
 				</li>
 				 --%>
 		    
-		        <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 身份证正面</span>
+		       <%--  <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>营业执照</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
 				     <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
 		   	   		 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
+                    </div>
+                </li> --%>
+                
+                 <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>营业执照</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
+				     <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="123455" sysKey="1" typeId="123456" /> 
+		   	   		 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="123455" sysKey="1" typeId="123456" auto="true" />
                     </div>
                 </li>
                 
@@ -1174,7 +1181,7 @@ function deleteFinance() {
 		<fieldset class="col-md-12 border_font mt20">
 	 	  <legend>境外分支</legend>
 		   <ul class="list-unstyled" style="font-size: 14">
-     		<!-- <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+     		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red"></i>境外分支机构</span>
 		    	<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 		    	   <select  name="overseasBranch" onchange="dis(this)"  id="overseas_branch_select_id">
@@ -1182,7 +1189,7 @@ function deleteFinance() {
 						<option value="1">有</option>
 					</select>
 	       	    </div>
-			 </li>  -->
+			 </li> 
 			
 			<c:forEach items="${currSupplier.branchList }" var="bran"  varStatus="vs">
 		  	 <li class="col-md-3 col-sm-6 col-xs-12">

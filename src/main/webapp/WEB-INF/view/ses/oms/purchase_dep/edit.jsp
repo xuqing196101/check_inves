@@ -422,8 +422,8 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资格证书图片</span>
                     <div class="uploader orange m0">
-                      <u:upload id="purchaseQuaFile" businessId="${purchaseDep.id}" multiple="true" exts="png,jpeg,jpg,bmp" sysKey="2" auto="true"/>
-                      <u:show showId="pqId" businessId="${purchaseDep.id}" sysKey="2"  />
+                      <u:upload id="purchaseQuaFile" businessId="${purchaseDep.id}" multiple="true" typeId="${purchaseTypeId}" exts="png,jpeg,jpg,bmp" sysKey="2" auto="true"/>
+                      <u:show showId="pqId" businessId="${purchaseDep.id}" sysKey="2" typeId="${purchaseTypeId}" />
                     </div>
                     <div class="cue"><br>${ERR_msg}</div>
                   </li>
@@ -775,17 +775,12 @@
 
               <div class="mt40 tc mb50">
                 <input type="button"  onclick="save()" class="btn btn-windows save"  value="保存" />
-                <!-- <input type="button" class="btn" onclick="stash();"  value="暂存" />  -->
                 <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回" />
               </div>
           </form>
           </div>
         </div>
       </div>
-
-      <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
-        <input type="hidden" name="fileName" />
-      </form>
 
   </body>
 

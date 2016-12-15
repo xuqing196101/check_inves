@@ -78,6 +78,35 @@
 			});
 		}
  }
+   function toTotal(){
+	   var packageId = "${packageId}";
+	   var projectId = "${projectId}";
+	   $.ajax({
+			url:"${pageContext.request.contextPath}/packageExpert/isGather.do",
+			data:{"packageIds":packageId, "projectId":projectId},
+			async:false,
+			success:function (response) {
+				if (response == "ok") {
+					$.ajax({
+						 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',
+						 data:{"packageId":packageId,"projectId":projectId},
+						 async:false,
+						 success:function(){
+							 layer.alert("已汇总",{offset: [y, x], shade:0.01});
+						 },
+						 error: function(){
+							 layer.alert("汇总失败,请稍后重试!",{offset: [y, x], shade:0.01});
+						 }
+					 });
+				} else {
+					layer.alert(response + "不满足汇总条件!", {
+						offset : [ y, x ],
+						shade : 0.01
+					});
+				}
+			}
+		});
+   }
   </script>
   </head>
   
@@ -103,6 +132,9 @@
    <span class="fl option_btn margin-top-10 ml10">
    	  <c:if test="${packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
    	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">评分</button>
+   	  </c:if>
+   	  <c:if test="${packageExpert.isGroupLeader == 1 && packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
+   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toTotal();">评分汇总</button>
    	  </c:if>
    	   <c:if test="${packageExpert.isAudit != 1  && packageExpert.isGrade == 0}">
    	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>

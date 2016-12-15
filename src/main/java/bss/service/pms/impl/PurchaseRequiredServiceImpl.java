@@ -53,8 +53,8 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	@Override
 	public List<PurchaseRequired> query(PurchaseRequired purchaseRequired,Integer page) {
 		List<PurchaseRequired> list = purchaseRequiredMapper.query(purchaseRequired);
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		//PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt("30"));
 		return list;
 	}
 

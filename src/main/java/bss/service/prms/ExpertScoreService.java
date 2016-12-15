@@ -102,7 +102,7 @@ public interface ExpertScoreService {
 	     * @param expertId 
 	     * @return
 	     */
-        String gather(String packageId, String projectId, List<SaleTender> supplierList);
+        void gather(String packageId, String projectId, List<SaleTender> supplierList);
         
         /**
          * 

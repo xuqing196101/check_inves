@@ -913,11 +913,12 @@ public class PackageExpertController {
     @ResponseBody
     public void scoreTotal(String packageId, String projectId) {
         // 供应商信息
-        List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
-        for (int i = 0; i < supplierList.size(); i++) {
-            SaleTender sale = supplierList.get(i);
-            if (!sale.getPackages().contains(packageId)) {
-                supplierList.remove(i);
+        List<SaleTender> allSupplierList = saleTenderService.list(new SaleTender(projectId), 0);
+        List<SaleTender> supplierList = new ArrayList<SaleTender>();
+        for (int i = 0; i < allSupplierList.size(); i++) {
+            SaleTender sale = allSupplierList.get(i);
+            if (sale.getPackages().contains(packageId)) {
+                supplierList.add(sale);
             }
         }
         expertScoreService.gather(packageId, projectId, supplierList);

@@ -51,7 +51,6 @@
 				data:{"packageIds":packageIds, "projectId":projectId},
 				async:false,
 				success:function (response) {
-					alert(response);
 					if (response == "ok") {
 						$.ajax({
 							 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',

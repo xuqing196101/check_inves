@@ -111,9 +111,10 @@ public interface UploadService {
      *〈详细描述〉
      * @author ZhaoBo
      * @param id 主键
+     * @param key 对应的key
      * @return UploadFile
      */
-    UploadFile findById(String id);
+    UploadFile findById(String id,Integer key);
     
     
     /**

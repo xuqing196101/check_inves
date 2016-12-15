@@ -125,4 +125,12 @@ public class StaticVariables {
     /** 组织机构删除 - 提示 **/
     public static  String ORG_RELATION_EXIST_USER = "该机构下存在{0}个用户，不能被删除！";
     
+    
+    /** 企业资质等级 - 正常 **/
+    public static final Integer PURCHASER_COMPREHEN_NORMAL = 0;
+    /** 企业资质等级 - 暂停 **/
+    public static final Integer PURCHASER_COMPREHE_PUASE = 1;
+    /** 企业资质等级 - 终止 **/
+    public static final Integer PURCHASER_COMPREHE_STOP = 2;
+    
 }

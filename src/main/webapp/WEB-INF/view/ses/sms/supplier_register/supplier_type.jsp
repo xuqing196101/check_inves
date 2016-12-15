@@ -7,6 +7,7 @@
 <script type="text/javascript">
  function checks(obj){
 	 var bool=$(obj).is(':checked');
+
 	 var val=$(obj).val();	 
  	if(bool==true){
  		$("#tab_div").show();
@@ -96,19 +97,28 @@
 		 var s=$(this).val();
 		 if(s=='SALES'){
 			 sflag=$(this).is(':checked');
-			 count++;
+			 if(sflag==true){
+				 count++;
+			 }
+			
 		 }
 		 if(s=='PRODUCT'){
 			 pflag=$(this).is(':checked');
-			 count++;
+			 if(pflag==true){
+				 count++;
+			 }
 		 }
 		 if(s=='SERVICE'){
 			 svflag=$(this).is(':checked');
-			 count++;
+			 if(svflag==true){
+				 count++;
+			 }
 		 }
 		 if(s=='PROJECT'){
 			 prflag=$(this).is(':checked');
-			 count++;
+			 if(prflag==true){
+				 count++;
+			 }
 		 }
 		}); 
 	 
@@ -116,12 +126,29 @@
 		 $("#tab_div").hide();
 		 $("#tab_content_div_id").hide();
 	 }
-	if(count<1){
+
+	if(count>=1){
+	
 	 $("#tab_content_div_id").find(".tab-pane").each(function(index) {
+		 	if(val != 'PRODUCT'){
+		 		$("#production_div").attr("class", "tab-pane fade height-300");
+		 	}
+			if(val != 'SALES'){
+		 		$("#sale_div").attr("class", "tab-pane fade height-300");
+		 	}
+			if(val != 'PROJECT'){
+		 		$("#project_div").attr("class", "tab-pane fade height-300");
+		 	}
+			if(val != 'SERVICE'){
+		 		$("#server_div").attr("class", "tab-pane fade height-300");
+		 	}
+		 	
 			if (val == 'PRODUCT'&&bool==true) {
+		 
 				$("#production_div").attr("class", "tab-pane fade height-300 active in");
 				//$("#sale_div").attr("class", "tab-pane fade height-300 ");
 			} else if(val == 'PRODUCT'&&bool==false){
+				alert("生产未选中");
 				$("#production_div").attr("class", "tab-pane fade height-300");
 				//$("#sale_div").attr("class", "tab-pane fade height-300 active in");
 			}
@@ -512,39 +539,58 @@
 					      var checkValue=$(checkbox).val();
 					            if(arrays[i]==checkValue){
 				                      $(checkbox).attr("checked",true);
+				                      if(arrays[i]!='PROJECT'){
+					                    		$("#project_div").attr("class", "tab-pane fade height-300");
+					                  }
+				                      if(arrays[i]!='PRODUCT'){
+				                    	  $("#production_div").attr("class", "tab-pane fade height-300");
+				                      }
+				                      if(arrays[i]!='SALES'){
+					                     $("#sale_div").attr("class", "tab-pane fade height-300");
+					                    	 
+					                  }
+				                      if(arrays[i]!='SERVICE'){
+				                    		  $("#server_div").attr("class", "tab-pane fade height-300");
+				                      }
+				                      
 				                      if(arrays[i]=='PRODUCT'){
 				                    	  
 				                    		 $("#li_id_1").show();
-				                    		// $("#production_div").attr("class", "tab-pane fade height-300 active in");
+				                    	//	 $("#li_id_1").attr("class", "active");
+				                    		$("#production_div").attr("class", "tab-pane fade height-300 active in");
 				                    		 /*  $("#production").show();
 				                    	   $("#production_seach").next().val(arrays[i]);
 				                       $("# li_id_1").show(); */
 				                    	  
 				                      }
-				                      if(arrays[i]=='SALES'){
+				                      else if(arrays[i]=='SALES'){
 				                    		 $("#li_id_2").show();
-				                    	  //$("#sale_div").attr("class", "tab-pane fade height-300 active in");
+				                    	//	 $("#li_id_2").attr("class", "active");
+				                    	$("#sale_div").attr("class", "tab-pane fade height-300 active in");
 				                    	  /*  $("#sale").show();
 				                    	  $("#sale_div").show();
 				                    	  $("#sale_seach").next().val(arrays[i]);
 				                    	  ("# li_id_2").show(); */
 				                      }
-				                      if(arrays[i]=='SERVICE'){
-				                    		 $("#li_id_4").show();
-				                    	//	  $("#server_div").attr("class", "tab-pane fade height-300 active in");
-				                    		 /* $("#server_div").show();
-				                    	  $("#server").show();
-				                    	  $("#server_seach").next().val(arrays[i]);
-				                      ("# li_id_4").show(); */
-				                      }
-				                      if(arrays[i]=='PROJECT'){
+				                      else if(arrays[i]=='PROJECT'){
 				                    	  $("#li_id_3").show();
+				                    	//  $("#li_id_3").attr("class", "active");
 				                    	    $("#project_div").attr("class", "tab-pane fade height-300 active in");
 				                    	  /* $("#project_div").show();
 				                    	  $("#project").show();
 				                    	  $("#project_seach").next().val(arrays[i]);
 				                    	   ("# li_id_3").show(); */
-				                      } 
+				                      }
+				                        else  if(arrays[i]=='SERVICE'){
+				                    		 $("#li_id_4").show();
+				                    		 $("#li_id_4").attr("class", "active");
+				                    	 	$("#server_div").attr("class", "tab-pane fade height-300 active in");
+				                    		 /* $("#server_div").show();
+				                    	  $("#server").show();
+				                    	  $("#server_seach").next().val(arrays[i]);
+				                      ("# li_id_4").show(); */
+				                      }
+				                        
 				               }
 				      });
 			  }
@@ -755,8 +801,8 @@
 			 				<input type="hidden" name="defaultPage" value="${defaultPage}" />
 				<div id="tab_content_div_id" class="tab-content padding-top-20">
 						<!-- 物资生产型专业信息 -->
-			          <c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
-			              <div class="tab-pane fade"    id="production_div">
+			         <%--  <c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}"> --%>
+			              <div class=""    id="production_div">
 			              <div class="container container_box">
 			              	  <h2 class="list_title">物资-生产型专业信息</h2>
 			              	    <ul class="list-unstyled f14">
@@ -970,10 +1016,10 @@
 									  </div>
 									</fieldset>
 								</div>
-							</c:if>
+				<%-- 			</c:if>
 				
  
-				<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">		
+				<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">		 --%>
 								<!-- 物资销售型专业信息 -->
 						<div   class="tab-pane fade height-300" id="sale_div">
 						  <div class="container container_box">
@@ -1084,8 +1130,8 @@
 									 </fieldset>
 								</div> 
 							 </div>
-		 			</c:if>
-				 <c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
+		 		<%-- 	</c:if>
+				 <c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}"> --%>
 								
 								<!-- 工程专业信息 -->
 		 			<div class="tab-pane fade height-200"    id="project_div">
@@ -1334,8 +1380,8 @@
 								</div>	 
 							 </div>
 						
-				 </c:if>
-				 	<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
+		<%-- 		 </c:if>
+				 	<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}"> --%>
 							 <div class="tab-pane fade height-200"  id="server_div">
 									<div class="container container_box">
 					              	  <h3 class="headline-v2" style="background-color: #FBFBFB ">服务专业信息:</h3>
@@ -1440,7 +1486,7 @@
 								</fieldset>
 							 </div>
 							</div>
-					</c:if>
+					<%-- </c:if> --%>
 							
 						</div>
 						  <input name="supplierTypeIds" type="hidden" />
