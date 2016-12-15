@@ -1469,7 +1469,7 @@ public class ExpertController {
                 String typeId = user.getTypeId();
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("expertId", typeId);
-                map.put("isGather", 0);
+                map.put("isGather", "0");
                 // 查询出关联表中的项目id和包id
                 List<PackageExpert> packageExpertList = packageExpertService.selectList(map);
                 HashMap<String, Object> hashMap;
@@ -1619,6 +1619,7 @@ public class ExpertController {
         model.addAttribute("supplierList", supplierList);
         model.addAttribute("projectId", projectId);
         model.addAttribute("packageId", packageId);
+        
         return "bss/prms/audit/suppplier_list";
     }
 

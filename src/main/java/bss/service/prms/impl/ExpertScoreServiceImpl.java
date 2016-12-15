@@ -19,6 +19,7 @@ import bss.dao.ppms.AduitQuotaMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
 import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.ReviewFirstAuditMapper;
+import bss.model.ppms.AduitQuota;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.SupplyMark;
@@ -158,12 +159,13 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
      * @param projectId
      * @return
      */
-	public String gather(String packageId, String projectId, List<SaleTender> supplierList){
+	public void gather(String packageId, String projectId, List<SaleTender> supplierList){
         // 1.将PACKAGE_EXPERT表中该包的IS_GRADE_GATHER改为已汇总
         Map<String, Object> map = new HashMap<>();
         map.put("projectId", projectId);
         map.put("packageId", packageId);
         mapper.gather(map);
+        Map<String, Object> searchMap = new HashMap<>();
         for (SaleTender sale : supplierList) {
             // 2.向SUPPLIER_CHECK_PASS表中插入数据
             Supplier supplier = sale.getSuppliers();
@@ -200,10 +202,31 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
             record.setTotalPrice(total.longValue());
             supplierCheckPassMapper.insert(record);
             //end
-            // 3.同步AUDIT_QUOTA表中的专家评分和最终成绩
-            
+            // 3.查询出专家评分和最终成绩
+            searchMap.put("projectId", projectId);
+            searchMap.put("packageId", packageId);
+            searchMap.put("supplierId", supplier.getId());
+            List<ExpertScore> expertScore = mapper.selectByMap(map);
+            // 判断expertScore是否为空 
+            if (expertScore != null && !expertScore.isEmpty()) {
+                AduitQuota aduit = new AduitQuota();
+                aduit.setProjectId(projectId);
+                aduit.setPackageId(packageId);
+                aduit.setSupplierId(supplier.getId());
+                List<AduitQuota> findList = aduitQuotaMapper.findList(aduit);
+                if (findList != null && !findList.isEmpty()) {
+                    AduitQuota aduitQuota = new AduitQuota();
+                    String id = findList.get(0).getId();
+                    BigDecimal expertValue = expertScore.get(0).getExpertValue();
+                    BigDecimal finalScore = expertScore.get(0).getScore();
+                    aduitQuota.setId(id);
+                    aduitQuota.setExpertValue(expertValue);
+                    aduitQuota.setFinalScore(finalScore);
+                    // 4.同步AUDIT_QUOTA表中的专家评分和最终成绩
+                    aduitQuotaMapper.update(aduitQuota);
+                }
+            }
         }
-        return "success";
     }
     /**
      * 
