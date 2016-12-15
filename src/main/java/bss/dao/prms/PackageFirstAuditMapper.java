@@ -51,5 +51,12 @@ public interface PackageFirstAuditMapper {
      */
     List<PackageFirstAudit> findByProAndPackage(Map<String,Object> map);
     
-    
+    /**
+     *〈简述〉根据符合性审查项Id删除
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param map
+     * @return
+     */
+    void deleteByFirstAuditId(String firstAuditId);
 }

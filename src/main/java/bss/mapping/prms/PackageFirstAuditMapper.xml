@@ -16,6 +16,12 @@
     delete from T_BSS_PRMS_PACKAGE_FIRST_AUDIT
     where PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
   </delete>
+  <!-- 根据初审项id删除 -->
+   <delete id="deleteByFirstAuditId" parameterType="java.lang.String">
+    delete from T_BSS_PRMS_PACKAGE_FIRST_AUDIT
+    where FIRST_AUDIT_ID = #{firstAuditId,jdbcType=VARCHAR}
+  </delete>
+  
   <!-- 根据项目id和包id查询关联表集合 -->
   <select id="selectList"  resultMap="BaseResultMap">
     select 

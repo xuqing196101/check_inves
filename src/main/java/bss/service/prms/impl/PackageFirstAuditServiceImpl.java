@@ -67,4 +67,8 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
    public List<PackageFirstAudit> findByProAndPackage(Map<String, Object> map) {
         return mapper.findByProAndPackage(map);
    }
+  @Override
+  public void deleteByFirstAuditId(String id) {
+    mapper.deleteByFirstAuditId(id);
+  }
 }

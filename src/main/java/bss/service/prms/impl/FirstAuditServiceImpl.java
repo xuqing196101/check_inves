@@ -7,13 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bss.dao.prms.FirstAuditMapper;
+import bss.dao.prms.PackageFirstAuditMapper;
 import bss.model.prms.FirstAudit;
+import bss.model.prms.PackageFirstAudit;
 import bss.service.prms.FirstAuditService;
 import ses.util.WfUtil;
 @Service("firstAuditService")
 public class FirstAuditServiceImpl implements FirstAuditService {
 	@Autowired
 	private FirstAuditMapper mapper;
+	@Autowired
+	private PackageFirstAuditMapper packageFirstAuditMapper;
 	
 	/**
 	 * 
@@ -27,6 +31,7 @@ public class FirstAuditServiceImpl implements FirstAuditService {
 	 */
 	@Override
 	public int delete(String id) {
+	  packageFirstAuditMapper.deleteByFirstAuditId(id);
 		return mapper.deleteByPrimaryKey(id);
 	}
 
@@ -61,8 +66,15 @@ public class FirstAuditServiceImpl implements FirstAuditService {
      */
 	@Override
 	public int add(FirstAudit record) {
-		record.setId(WfUtil.createUUID());
+	  String recordId = WfUtil.createUUID();
+		record.setId(recordId);
 		record.setCreatedAt(new Date());
+		PackageFirstAudit record2 = new PackageFirstAudit();
+    record2.setFirstAuditId(recordId);
+    record2.setPackageId(record.getPackageId());
+    record2.setProjectId(record.getProjectId());
+    //添加 包关联
+    packageFirstAuditMapper.insertSelective(record2);
 		return mapper.insertSelective(record);
 	}
 

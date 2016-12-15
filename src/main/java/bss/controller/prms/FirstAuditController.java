@@ -341,7 +341,6 @@ public class FirstAuditController {
         response.setContentType("text/html;charset=utf-8");
         response.getWriter()
                 .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
-        
       }
       response.getWriter().flush();
     } catch (Exception e) {
