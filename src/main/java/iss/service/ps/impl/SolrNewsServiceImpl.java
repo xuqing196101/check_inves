@@ -17,6 +17,8 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,10 +49,23 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 			indexEntity.setPublishtime(article.getPublishedAt());
 			indexEntity.setTitle(article.getName());
 			String context=article.getContent();
-			int startIndex=context.indexOf("<");
-			int lastIndex=context.lastIndexOf(">");
-			String newContext=context.substring(startIndex+3, lastIndex-3);
-			indexEntity.setContext(newContext);
+//			int startIndex=context.indexOf("<");
+//			int lastIndex=context.lastIndexOf(">");
+//			String newContext=context.substring(startIndex+3, lastIndex-3);
+			Document doc = Jsoup.parse(context);
+			String text = doc.text();
+			// remove extra white space
+			StringBuilder builder = new StringBuilder(text);
+			int index = 0;
+			while(builder.length()>index){
+				char tmp = builder.charAt(index);
+				if(Character.isSpaceChar(tmp) || Character.isWhitespace(tmp)){
+					builder.setCharAt(index, ' ');
+				}
+				index++;
+			}
+			text = builder.toString().replaceAll(" +", " ").trim();
+			indexEntity.setContext(text);
 			SolrContext.getServer().addBean(indexEntity);
 			SolrContext.getServer().commit();
 		} catch (IOException e) {
