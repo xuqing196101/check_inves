@@ -361,11 +361,11 @@
 	</select>
 	
 	<!-- 按名称查询品目名称是否存在-->
-	<select id="findByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+	<select id="findByCode" parameterType="java.lang.String" resultType="java.lang.Integer">
 		select
-		count(ID) from
+		count(1) from
 		T_SES_BMS_CATEGORY
-		where IS_DELETED=0 and name = #{Name}
+		where IS_DELETED=0 and CODE = #{code}
 	</select>
 	
 	<!-- 逻辑删除节点以及节点下的子节点 -->

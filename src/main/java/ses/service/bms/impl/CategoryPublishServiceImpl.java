@@ -11,14 +11,14 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import common.constant.StaticVariables;
 import ses.dao.bms.CategoryMapper;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryPublishService;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
-
-import common.constant.StaticVariables;
 
 /**
  * 
@@ -41,6 +41,10 @@ public class CategoryPublishServiceImpl implements CategoryPublishService {
     /** 品目Mapper */
     @Autowired
     private CategoryMapper categoryMapper;
+    
+    /** 品目service **/
+    @Autowired
+    private CategoryService categoryService;
     
     /** 注册 SqlSessionFactory */
     @Autowired
@@ -73,6 +77,12 @@ public class CategoryPublishServiceImpl implements CategoryPublishService {
                 tree.setId(cate.getId());
                 tree.setName(cate.getName());
                 tree.setpId(treeId);
+                List<Category> cList = categoryService.findTreeByPid(cate.getId());
+                if (cList != null && cList.size() > 0){
+                    tree.setIsParent("true");
+                } else {
+                    tree.setIsParent("false");
+                }
                 tree.setClassify(cate.getClassify()+"");
                 tree.setPubStatus(cate.getIsPublish());
                 tree.setStatus(cate.getParamStatus());

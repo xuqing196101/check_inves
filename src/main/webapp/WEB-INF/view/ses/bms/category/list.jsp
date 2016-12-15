@@ -146,7 +146,7 @@
 					$("#pid").val(cate.parentId);
 					$("#parentNameId").text(nodeName);
 					$("#cateId").val(cate.name);
-					$("#posId").val(cate.position);
+					$("#posId").val(cate.code);
 					$("#descId").val(cate.description);
 					showInit();
 		      }
@@ -376,10 +376,10 @@
            		  </td>
            		</tr>
            		<tr>
-       			  <td class='info'>排序<span class="red">*</span></td>
+       			  <td class='info'>编码<span class="red">*</span></td>
        			  <td id="posTdId">
        				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id ="posNameId">
-       				  <input  id="posId" type="text" name='position'/>
+       				  <input  id="posId" type="text" name='code'/>
        				  <span class="add-on">i</span>
        				  <span id="posTipsId" class="red clear" />
        				</div>

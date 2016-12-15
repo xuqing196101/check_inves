@@ -191,10 +191,10 @@ public interface CategoryMapper {
       *〈简述〉 按照品目名称查看品目是否存在
       *〈详细描述〉
       * @author myc
-      * @param name 品目名称
+      * @param code 品目编码
       * @return 数量
       */
-     public Integer findByName(String name);
+     public Integer findByCode(String code);
 
      /**
       * 

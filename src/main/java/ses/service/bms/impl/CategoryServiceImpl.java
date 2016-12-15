@@ -57,11 +57,9 @@ public class CategoryServiceImpl implements CategoryService {
     /** 品目名称不能为空 **/
     private static final String CATEGORY_ISNOTNULL = "品目名称不能为空";
     /** 品目名称已经存在 **/
-    private static final String CATEGORY_EXIST = "品目名称已经存在";
+    private static final String CATEGORY_EXIST = "品目编码已经存在";
     /** 序号不能为空 **/
-    private static final String CATEGORY_CODE_ISNUOTNUll = "序号不能为空";
-    /** 序号不能为空 **/
-    private static final String CATEGORY_CODE_ISINTEGER = " 序号只能输入正整数";
+    private static final String CATEGORY_CODE_ISNUOTNUll = "编码不能为空";
     /** 最大输入值 **/
     private static final String CATEGORY_MAX_VALUE = "最多只能输入200个汉字";
 
@@ -124,7 +122,7 @@ public class CategoryServiceImpl implements CategoryService {
         
         String name = request.getParameter("name");
         String id = request.getParameter("id");
-        String position = request.getParameter("position");
+        String code = request.getParameter("code");
         String operaType = request.getParameter("opera");
         String desc = request.getParameter("description");
         
@@ -135,17 +133,12 @@ public class CategoryServiceImpl implements CategoryService {
            return  res;
         }
         
-        if (StringUtils.isEmpty(position)) {
+        if (StringUtils.isEmpty(code)) {
             res.setSuccess(false);
             res.setError(CATEGORY_CODE_ISNUOTNUll);
            return  res;
         }
         
-        if (!StringUtils.isNumeric(position)) {
-            res.setSuccess(false);
-            res.setError(CATEGORY_CODE_ISINTEGER);
-            return  res;
-        }
         
         if (!StringUtil.validateStrByLength(desc,400)) {
             res.setSuccess(false);
@@ -158,7 +151,7 @@ public class CategoryServiceImpl implements CategoryService {
          */
         if (operaType.equals(OPERA_ADD)) {
             
-            Integer count = findByName(name.trim());
+            Integer count = findByCode(code);
             
             if (count != null && count > 0) {
                 res.setSuccess(false);
@@ -168,7 +161,7 @@ public class CategoryServiceImpl implements CategoryService {
             
             Category category = new Category();
             category.setId(id);
-            category.setPosition(Integer.parseInt(position));
+            category.setCode(code);
             category.setParentId(request.getParameter("parentId"));
             category.setName(name);
             category.setStatus(1);
@@ -185,7 +178,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (operaType.equals(OPERA_EDIT)) {
             Category category = selectByPrimaryKey(id);
             if (category != null) {
-                category.setPosition(Integer.parseInt(position));
+                category.setCode(code);
                 category.setDescription(desc);
                 category.setName(name);
                 category.setUpdatedAt(new Date());
@@ -480,8 +473,8 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.deleted(list);
     }
     
-    public Integer findByName(String name){
-       return  categoryMapper.findByName(name);
+    public Integer findByCode(String code){
+       return  categoryMapper.findByCode(code);
     }
     
     /**

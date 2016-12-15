@@ -222,10 +222,10 @@ import ses.model.sms.SupplierTypeTree;
      *〈简述〉 按照名称检索
      *〈详细描述〉
      * @author myc
-     * @param name
+     * @param code 编码
      * @return 返回数量
      */
-    public Integer findByName(String name);
+    public Integer findByCode(String code);
     
     /**
      * 

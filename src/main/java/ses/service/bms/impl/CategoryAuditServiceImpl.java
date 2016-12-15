@@ -67,6 +67,12 @@ public class CategoryAuditServiceImpl implements CategoryAuditService {
                 tree.setId(cate.getId());
                 tree.setName(cate.getName());
                 tree.setpId(treeId);
+                List<Category> cList = categoryService.findTreeByPid(cate.getId());
+                if (cList != null && cList.size() > 0){
+                    tree.setIsParent("true");
+                } else {
+                    tree.setIsParent("false");
+                }
                 tree.setClassify(cate.getClassify()+"");
                 tree.setPubStatus(cate.getIsPublish());
                 tree.setStatus(cate.getParamStatus());
