@@ -1,11 +1,13 @@
 package ses.controller.sys.ems;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,7 @@ import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 
@@ -105,10 +108,10 @@ public class ExpertAuditController {
 			model.addAttribute("hightEducation", hightEducation.getName());
 		}
 		//最高学位
-		if(expert.getDegree() != null){
+		/*if(expert.getDegree() != null){
 			DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
 			model.addAttribute("degree", degree.getName());
-		}
+		}*/
 		// 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
@@ -127,8 +130,23 @@ public class ExpertAuditController {
 	}
 	
 	@RequestMapping("/auditReasons")
-	public void auditReasons(ExpertAudit expertAudit, Model model){
-		expertAuditService.add(expertAudit);
+	public void auditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response){
+		//唯一验证
+		List<ExpertAudit> reasonsList = expertAuditService.getListByExpertId(expertAudit.getExpertId());	
+		boolean same= true;
+		for(int i=0; i<reasonsList.size(); i++){
+			if(reasonsList.get(i).getAuditField().equals(expertAudit.getAuditField()) && reasonsList.get(i).getAuditContent().equals(expertAudit.getAuditContent()) && reasonsList.get(i).getSuggestType().equals(expertAudit.getSuggestType())){
+				same = false;
+				break;
+			}
+		}
+		if(same){
+			expertAuditService.add(expertAudit);
+		}else{
+			String msg = "{\"msg\":\"fail\"}";
+			writeJson(response, msg);
+		}
+		
 	}
 	
 	
@@ -272,5 +290,30 @@ public class ExpertAuditController {
 		expertService.updateByPrimaryKeySelective(expert);
 		
 		return "redirect:list.html";
+	}
+	
+	public void writeJson(HttpServletResponse response, Object object) {
+		try {
+			String json = JSON.toJSONStringWithDateFormat(object, "yyyy-MM-dd HH:mm:ss");
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("/deleteByIds")
+	public void deleteByIds(String[] ids, HttpServletResponse response) {
+		boolean Whether = expertAuditService.deleteByIds(ids);
+		if(Whether){
+			String msg = "{\"msg\":\"yes\"}";
+			writeJson(response, msg);
+		}else{
+			String msg = "{\"msg\":\"no\"}";
+			writeJson(response, msg);
+		}
+		
 	}
 }

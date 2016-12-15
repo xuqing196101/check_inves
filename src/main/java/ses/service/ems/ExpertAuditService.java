@@ -24,7 +24,7 @@ public interface ExpertAuditService {
 	  * @param @return      
 	  * @return int
 	 */
-    int delete(String id);
+    boolean deleteByIds(String[] ids);
     /**
      * 
       * @Title: insert
@@ -46,7 +46,7 @@ public interface ExpertAuditService {
       * @param @return      
       * @return int
      */
-    int add(ExpertAudit record);
+     void add(ExpertAudit record);
     /**
      * 
       * @Title: selectByPrimaryKey

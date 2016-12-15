@@ -15,7 +15,7 @@ public interface ExpertAuditMapper {
 	  * @param @return      
 	  * @return int
 	 */
-    int deleteByPrimaryKey(String id);
+    void deleteByPrimaryKey(String id);
     /**
      * 
       * @Title: insert
@@ -37,7 +37,7 @@ public interface ExpertAuditMapper {
       * @param @return      
       * @return int
      */
-    int insertSelective(ExpertAudit record);
+    void insertSelective(ExpertAudit record);
     /**
      * 
       * @Title: selectByPrimaryKey
