@@ -196,7 +196,7 @@
 	    	   });
 	       } */
 	      
-	       function org(obj){
+	   /*     function org(obj){
 	    		 
 	    	   var val=$(obj).val();
 	    
@@ -207,7 +207,7 @@
 	    			   $(this).attr("selected", "selected");  
 	    		   }
 	    	   });
-	       }
+	       } */
 	       
 	       
 </script>

@@ -21,7 +21,7 @@
 	      $(":input").each(function() {
 	        var onmouseover = "this.style.border='solid 1px #FF0000'";
 	        var onmouseout = "this.style.border='solid 1px #D3D3D3'";
-	        $(this).attr("onmouseover",onmouseover);
+	        $(this).attr("onmousemove",onmouseover);
 	        $(this).attr("onmouseout",onmouseout);
 	    	});
 	    	
@@ -85,7 +85,31 @@
 			 			ids.push(vals);
 			 		}
 				}
+				var isEdit = "${isEdit}";
+				if (isEdit == "0") {
+					// 没有修改过
+					var index = layer.confirm('该专家在上次审核退回后未做任何修改!', {
+						btn : [ '确定' ],
+			            offset:'100px'
+					}, function() {
+						layer.close(index);
+					});
+				}
 			});
+			
+			// 提示之前的信息
+			function isCompare(inputName,fieldName, type){
+				$.ajax({
+					url: "${pageContext.request.contextPath}/expertAudit/getFieldContent.do",
+					data: {"field":fieldName,"type":type,"expertId":"${expertId}"},
+					async: false,
+					success: function(response){
+						layer.tips("原值:" + response, "#" + inputName, {
+		    				tips : 2
+		    			});
+					}
+				});
+			}
 		</script>
 		<script type="text/javascript">
 			function jump(str){
@@ -156,24 +180,24 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家来源：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="expertsFrom" value="${expertsFrom }" type="text" onclick="reason(this);"/>
+								<input id="expertsFrom" <c:if test="${fn:contains(editFields,'getExpertsFrom')}">onmouseover="isCompare('expertsFrom','getExpertsFrom','1');"</c:if> value="${expertsFrom }" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家姓名：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="relName" value="${expert.relName}" type="text" onclick="reason(this);"/>
+								<input id="relName" <c:if test="${fn:contains(editFields,'getRelName')}">onmouseover="isCompare('relName','getRelName','0');"</c:if> value="${expert.relName}" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">性别：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="gender" value="${gender }" type="text" onclick="reason(this);"/>
+								<input id="gender" <c:if test="${fn:contains(editFields,'getGender')}">onmouseover="isCompare('gender','getGender','1');"</c:if> value="${gender }" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">出生日期：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" id="birthday" type="text" onclick="reason(this);"/>
+								<input readonly="readonly" <c:if test="${fn:contains(editFields,'getBirthday')}">onmouseover="isCompare('birthday','getBirthday','2');"</c:if> value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" id="birthday" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">省：</span>
@@ -183,64 +207,64 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">市：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="" value="" type="text" onclick="reason(this);"/>
+								<input id="" value="" type="text" onclick="reason(this);" <c:if test="${fn:contains(editFields,'getAddress')}">onmouseover="isCompare('address','getAddress','1');"</c:if>/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">政治面貌：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="politicsStatus" value="${politicsStatus }" type="text" onclick="reason(this);"/>
+								<input id="politicsStatus" <c:if test="${fn:contains(editFields,'getPoliticsStatus')}">onmouseover="isCompare('politicsStatus','getPoliticsStatus','1');"</c:if> value="${politicsStatus }" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">民族：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.nation}" id="nation" type="text" onclick="reason(this);"/>
+								<input value="${expert.nation}" <c:if test="${fn:contains(editFields,'getNation')}">onmouseover="isCompare('nation','getNation','0');"</c:if> id="nation" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">健康状态：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.healthState}" id="healthState" type="text" onclick="reason(this);"/>
+								<input value="${expert.healthState}" <c:if test="${fn:contains(editFields,'getHealthState')}">onmouseover="isCompare('healthState','getHealthState','0');"</c:if> id="healthState" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">缴纳社会保险证明：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.coverNote}" id="coverNote" type="text" onclick="reason(this);"/>
+								<input value="${expert.coverNote}" <c:if test="${fn:contains(editFields,'getCoverNote')}">onmouseover="isCompare('coverNote','getCoverNote','0');"</c:if> id="coverNote" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">居民身份证号码：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.idCardNumber}" id="idCardNumber" type="text" onclick="reason(this);"/>
+								<input value="${expert.idCardNumber}" <c:if test="${fn:contains(editFields,'getIdCardNumber')}">onmouseover="isCompare('idCardNumber','getIdCardNumber','0');"</c:if> id="idCardNumber" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">军队人员身份证件类型：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="idType" value="${idType }" type="text" onclick="reason(this);"/>
+								<input id="idType" <c:if test="${fn:contains(editFields,'getIdType')}">onmouseover="isCompare('idType','getIdType','1');"</c:if> value="${idType }" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证件号码：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.idNumber}" id="idNumber" type="text" onclick="reason(this);"/>
+								<input value="${expert.idNumber}" <c:if test="${fn:contains(editFields,'getIdNumber')}">onmouseover="isCompare('idNumber','getIdNumber','0');"</c:if> id="idNumber" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">手机：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${user.mobile}" readonly="readonly" id="mobile" type="text" onclick="reason(this);"/>
+								<input value="${user.mobile}" <c:if test="${fn:contains(editFields,'getMobile')}">onmouseover="isCompare('mobile','getMobile','0');"</c:if> readonly="readonly" id="mobile" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">固定电话：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.telephone}" id="telephone" type="text" onclick="reason(this);"/>
+								<input value="${expert.telephone}" <c:if test="${fn:contains(editFields,'getTelephone')}">onmouseover="isCompare('telephone','getTelephone','0');"</c:if> id="telephone" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 传真电话：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.fax}" id="fax" type="text" onclick="reason(this);"/>
+								<input value="${expert.fax}" <c:if test="${fn:contains(editFields,'getFax')}">onmouseover="isCompare('fax','getFax','0');"</c:if> id="fax" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">个人邮箱：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.email}" id="email" type="text" onclick="reason(this);"/>
+								<input value="${expert.email}" <c:if test="${fn:contains(editFields,'getEmail')}">onmouseover="isCompare('email','getEmail','0');"</c:if> id="email" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 					</ul>
@@ -249,17 +273,17 @@
 					<ul class="ul_list">
 					  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">毕业院校及专业：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.graduateSchool}" id="graduateSchool" type="text" onclick="reason(this);"/>
+								<input value="${expert.graduateSchool}" <c:if test="${fn:contains(editFields,'getGraduateSchool')}">onmouseover="isCompare('graduateSchool','getGraduateSchool','0');"</c:if> id="graduateSchool" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">最高学历：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="hightEducation" value="${hightEducation }" type="text" onclick="reason(this);"/>
+								<input id="hightEducation" <c:if test="${fn:contains(editFields,'getHightEducation')}">onmouseover="isCompare('hightEducation','getHightEducation','1');"</c:if> value="${hightEducation }" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${degree}" id="degree" type="text" onclick="reason(this);"/>
+								<input value="${degree}" <c:if test="${fn:contains(editFields,'getDegree')}">onmouseover="isCompare('degree','getDegree','1');"</c:if> id="degree" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 					</ul>
@@ -268,47 +292,47 @@
 					<ul class="ul_list">
 					  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">所在单位：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.workUnit}" id="workUnit" type="text" onclick="reason(this);"/>
+								<input value="${expert.workUnit}" <c:if test="${fn:contains(editFields,'getWorkUnit')}">onmouseover="isCompare('workUnit','getWorkUnit','0');"</c:if> id="workUnit" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">单位地址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.unitAddress}" id="unitAddress" type="text" onclick="reason(this);"/>
+								<input value="${expert.unitAddress}" <c:if test="${fn:contains(editFields,'getUnitAddress')}">onmouseover="isCompare('unitAddress','getUnitAddress','0');"</c:if> id="unitAddress" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 单位邮编：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.postCode}" id="postCode" type="text" onclick="reason(this);"/>
+								<input value="${expert.postCode}" <c:if test="${fn:contains(editFields,'getPostCode')}">onmouseover="isCompare('postCode','getPostCode','0');"</c:if> id="postCode" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.atDuty}" id="appendedInput" type="text" onclick="reason(this);"/>
+								<input value="${expert.atDuty}" <c:if test="${fn:contains(editFields,'getAtDuty')}">onmouseover="isCompare('atDuty','getAtDuty','0');"</c:if> id="appendedInput" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">从事专业：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.major}" id="major" type="text" onclick="reason(this);"/>
+								<input value="${expert.major}" <c:if test="${fn:contains(editFields,'getMajor')}">onmouseover="isCompare('major','getMajor','0');"</c:if> id="major" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="timeStartWork" type="text" onclick="reason(this);"/>
+								<input <c:if test="${fn:contains(editFields,'getTimeStartWork')}">onmouseover="isCompare('timeStartWord','getTimeStartWord','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="timeStartWork" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家技术职称/职业资格：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input maxlength="20" value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
+								<input maxlength="20" <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if> value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
+								<input <c:if test="${fn:contains(editFields,'getMakeTechDate')}">onmouseover="isCompare('makeTechDate','getMakeTechDate','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input readonly="readonly" value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM'/>" id="timeToWork" type="text" onclick="reason(this);"/>
+								<input readonly="readonly" <c:if test="${fn:contains(editFields,'getTimeToWork')}">onmouseover="isCompare('timeToWork','getTimeToWork','3');"</c:if> value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM'/>" id="timeToWork" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 					</ul>

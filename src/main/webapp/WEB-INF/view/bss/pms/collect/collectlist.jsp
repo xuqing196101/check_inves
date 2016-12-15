@@ -324,118 +324,117 @@
 				      <button type="submit" class="btn">查询</button>
 	 						<button type="button" onclick="resetQuery()" class="btn">重置</button>
 			    	</ul>
-			    	<div class="clear"></div>
-   				</form>
-  			</h2>
+			    
+   
+   </form>
+  	</h2>
+   
+   <div class="col-md-12 pl20 mt10">
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">添加至已有计划中</button>
+	 </div>
+   <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover table-striped">
+		<thead>
+		<tr>
+		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+		  <th class="info w50">序号</th>
+		  <th class="info">需求部门</th>
+		  <th class="info">需求计划名称</th>
+		  <!-- <th class="info">编报人</th> -->
+		  <th class="info">物资类别</th> 
+		  <th class="info">提交日期</th>
+		  <th class="info">预算总金额</th>
+		  <th class="info">状态</th>
+		</tr>
+		</thead>
+		<c:forEach items="${info.list}" var="obj" varStatus="vs">
+			<tr style="cursor: pointer;">
+			  <td class="tc w30">
+			  <input type="hidden" name="department" value="${obj.planType }"> 
+			
+			 <c:if test="${obj.status=='4' }">
+              <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
+              </c:if>
+               <c:if test="${obj.status!='4' }">
+              <input type="checkbox" disabled="disabled"  value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
+              </c:if>
+			   <input type="hidden" name="department" value="${obj.department }">
+			  </td>
+			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  
+			    <td class="tc"  >${obj.department }</td>
+			    
+			  <td class="tc"  >${obj.planName }</td>
+			
+			  <td class="tc"  >
+			   <c:forEach items="${dic }" var="dic">
+				   <c:if test="${obj.planType==dic.id}">
+				   ${dic.name }
+				   </c:if>
+			   </c:forEach>
+			  
+			  </td>
+			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tc"  >
+			 <c:if test="${obj.status=='1' }">
+			 	 已编制为采购计划
+			  </c:if>
+			  
+			     <c:if test="${obj.status=='2' }">
+			 	已提交
+			  </c:if>
+			  <c:if test="${obj.status=='3' }">
+			 	受理退回
+			  </c:if>
+			    <c:if test="${obj.status=='4' }">
+			 	已受理
+			  </c:if>
+			   <c:if test="${obj.status=='5' }">
+			 	已经汇总
+			  </c:if>
+			   <c:if test="${obj.status=='6' }">
+			 	审核通过
+			  </c:if>
+			   <c:if test="${obj.status=='7' }">
+			 	审核暂存
+			  </c:if>
+			  
+			  </td>
+			</tr>
+	 
+		 </c:forEach>
+		 
 
-			<div class="col-md-12 pl20 mt10">
-				<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
-				<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">汇入采购计划</button>
-				<button class="btn padding-left-10 padding-right-10 btn_back" onclick="advanced()">预研项目</button>
-			</div>
-			<div class="content table_box">
-				<table class="table table-bordered table-condensed table-hover table-striped">
-					<thead>
-						<tr>
-							<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt=""></th>
-							<th class="info w50">序号</th>
-							<th class="info">需求部门</th>
-							<th class="info">需求计划名称</th>
-							<!-- <th class="info">编报人</th> -->
-							<th class="info">物资类别</th>
-							<th class="info">提交日期</th>
-							<th class="info">预算总金额</th>
-							<th class="info">状态</th>
-						</tr>
-					</thead>
-					<c:forEach items="${info.list}" var="obj" varStatus="vs">
-						<tr style="cursor: pointer;">
-							<td class="tc w30">
-								<input type="hidden" name="department" value="${obj.planType }">
+      </table>
+      
+      <div id="pagediv" align="right"></div>
+   </div>
+ </div>
 
-								<c:if test="${obj.status=='4' }">
-									<input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()" alt="">
-								</c:if>
-								<c:if test="${obj.status!='4' }">
-									<input type="checkbox" disabled="disabled" value="${obj.planNo }" name="chkItem" onclick="check()" alt="">
-								</c:if>
-								<input type="hidden" name="department" value="${obj.department }">
-							</td>
-							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 
-							<td class="tc">${obj.department }</td>
-
-							<td class="tc">${obj.planName }</td>
-
-							<td class="tc">
-								<c:forEach items="${dic }" var="dic">
-									<c:if test="${obj.planType==dic.id}">
-										${dic.name }
-									</c:if>
-								</c:forEach>
-
-							</td>
-							<td class="tc">
-								<fmt:formatDate value="${obj.createdAt }" />
-							</td>
-							<td class="tc">
-								<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
-							</td>
-							<td class="tc">
-								<c:if test="${obj.status=='1' }">
-									已编制为采购计划
-								</c:if>
-
-								<c:if test="${obj.status=='2' }">
-									已提交
-								</c:if>
-								<c:if test="${obj.status=='3' }">
-									受理退回
-								</c:if>
-								<c:if test="${obj.status=='4' }">
-									已受理
-								</c:if>
-								<c:if test="${obj.status=='5' }">
-									已汇总
-								</c:if>
-								<c:if test="${obj.status=='6' }">
-									审核通过
-								</c:if>
-								<c:if test="${obj.status=='7' }">
-									审核暂存
-								</c:if>
-
-							</td>
-						</tr>
-
-					</c:forEach>
-
-				</table>
-
-				<div id="pagediv" align="right"></div>
-			</div>
-		</div>
-
-		<div id="content" class="dnone layui-layer-wrap">
-
-			<form id="collect_form" action="${pageContext.request.contextPath }/collect/add.html" method="post">
-				<div class="drop_window">
-					<ul class="list-unstyled">
-						<li class="mt10 col-md-12 p0 col-xs-12">
-							<label class="col-md-12 pl20 col-xs-12">计划编号</label>
-							<span class="col-md-12 col-xs-12">
-                        <input class="col-xs-12 h80 mt6" name="cno" maxlength="300" type="text">
-                    </span>
-						</li>
-						<li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
-							<label class="col-md-12 pl20 col-xs-12">文件名称</label>
-							<span class="col-md-12 col-xs-12">
+ <div id="content" class="dnone layui-layer-wrap">
+	 
+	<form id="collect_form" action="${pageContext.request.contextPath }/collect/add.html" method="post">
+	<div class="drop_window">
+	<ul class="list-unstyled">
+	   
+                 <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
+                   <label class="col-md-12 pl20 col-xs-12">计划名称</label>
+                    <span class="col-md-12 col-xs-12">
                         <input class="title col-md-12" name="fileName"  maxlength="3" type="text">
                     </span>
-						</li>
-						<li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
-							<label class="col-md-12 pl20 col-xs-12">密码</label>
-							<span class="col-md-12 col-xs-12">
+                 </li>
+                 <li class="mt10 col-md-12 p0 col-xs-12">
+                   <label class="col-md-12 pl20 col-xs-12">计划编号</label>
+                     <span class="col-md-12 col-xs-12">
+                        <input class="col-xs-12 h80 mt6" name="cno" maxlength="300" type="text">
+                    </span>
+                 </li>
+                 <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
+                   <label class="col-md-12 pl20 col-xs-12">密码</label>
+                    <span class="col-md-12 col-xs-12">
                         <input class="title col-md-12" name="password" maxlength="200" type="password">
                     </span>
 						</li>

@@ -36,6 +36,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
+import ses.model.ems.ExpertHistory;
 import ses.service.bms.RoleServiceI;
 import ses.service.ems.ExpertService;
 import ses.util.PropertiesUtil;
@@ -815,6 +816,46 @@ public class ExpertServiceImpl implements ExpertService {
 		}
 		return mapper.findExpertAuditList(expert);
 	}
+
+	/**
+     *〈简述〉
+     * 未退回修改的专家存储历史信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     */
+    @Override
+    public void insertExpertHistory(Expert expert) {
+        // TODO Auto-generated method stub
+        mapper.insertExpertHistory(expert);
+    }
+    
+    /**
+     *〈简述〉
+     * 根据id查询专家的历史信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @return
+     */
+    @Override
+    public ExpertHistory selectOldExpertById(String expertId) {
+        // TODO Auto-generated method stub
+        return mapper.selectOldExpertById(expertId);
+    }
+
+    /**
+     *〈简述〉
+     * 删除退回修改的专家存储历史信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     */
+    @Override
+    public void deleteExpertHistory(String expertId) {
+        // TODO Auto-generated method stub
+        mapper.deleteExpertHistory(expertId);
+    }
 	
 }
 

@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
   * @author ShaoYangYang
   * @date 2016年9月8日上午9:26:23
  */
-public class Expert implements Serializable{
+public class Expert extends ExpertHistory implements Serializable {
 	/**
 	 * @Fields serialVersionUID : 
 	 */

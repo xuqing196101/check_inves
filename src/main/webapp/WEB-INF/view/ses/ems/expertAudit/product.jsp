@@ -9,10 +9,11 @@
 
 		<script type="text/javascript">
 			$(function() {
+			var expertId = $("#expertId").val();
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/getAllCategory.do",
 					data: {
-						"expertId": $("#expertId").val()
+						"expertId": expertId
 					},
 					async: false,
 					dataType: "json",
@@ -25,7 +26,7 @@
 								async: {
 									autoParam: ["id"],
 									enable: true,
-									url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId=${expertId}",
+									url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId="+expertId,
 									otherParam: {
 										categoryIds: id,
 									},
@@ -55,16 +56,16 @@
 				});
 			});
 			
-				function showTree(tabId) {
+	function showTree(tabId) {
+		var expertId = $("#expertId").val();
 		var id = $("#" + tabId + "-value").val();
 		var zTreeObj;
 		var zNodes;
-		var expertId="${expertId}";
 		var setting = {
 			async: {
 				autoParam: ["id"],
 				enable: true,
-				url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId=${expertId}",
+				url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId="+expertId,
 				otherParam: {
 					"categoryIds": id,
 				},

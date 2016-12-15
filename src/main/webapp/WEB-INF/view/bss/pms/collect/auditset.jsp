@@ -230,7 +230,7 @@
     <div id="pagediv" align="right"></div>
  </ul>
  </div>
- <div class="padding-top-10 clear">
+ <!--  <div class="padding-top-10 clear">
     
       <h2 class="list_title">审核字段设置
       </h2>
@@ -277,7 +277,7 @@
 	
 </div>
 </ul>
-</div>
+</div>  -->
 	<div style="margin-top: 50px; margin-bottom: 30px; text-align: center;">
 		<button class="btn btn-windows git" onclick="save()">保存</button>
 		<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">

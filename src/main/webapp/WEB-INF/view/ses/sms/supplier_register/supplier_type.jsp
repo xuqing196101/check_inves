@@ -732,11 +732,11 @@
 			});
 		} else {
 			$("#page_ul_id").find("li").each(function(index) {
-				if (index == 0) {
+				/* if (index == 0) {
 					$(this).attr("class", "active");
 				} else {
 					$(this).removeAttr("class");
-				}
+				} */
 			});
 			$("#tab_content_div_id").find(".tab-pane").each(function(index) {
 				if (index == 0) {
@@ -786,7 +786,7 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
 					   <ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-							 <li id="li_id_1" style="display:none;" class="active"><a aria-expanded="true" href="#production_div" data-toggle="tab" class=" f18">物资-生产型专业信息</a></li>
+							 <li id="li_id_1" style="display:none;" class=""><a aria-expanded="true" href="#production_div" data-toggle="tab" class=" f18">物资-生产型专业信息</a></li>
 							 <li id="li_id_2" style="display:none;" class=""><a aria-expanded="false" href="#sale_div" data-toggle="tab" class="f18">物资-销售型专业信息</a></li>
 							 <li id="li_id_3" style="display:none;" class=""><a aria-expanded="false" href="#project_div" data-toggle="tab" class="  f18">工程专业信息</a></li>
 							 <li id="li_id_4" style="display:none;"class=""><a aria-expanded="false" href="#server_div" data-toggle="tab" class="  f18">服务专业信息</a></li>
