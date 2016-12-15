@@ -53,6 +53,15 @@
 				      type:"post",
 				      dataType:"json",
 				      data:"suggestType=one"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField,
+					    success:function(result){
+				        result = eval("(" + result + ")");
+				        if(result.msg == "fail"){
+				           layer.msg('该条信息已审核过！', {	            
+				             shift: 6, //动画类型
+				             offset:'100px'
+				          });
+				        }
+				      }
 				    });
 					$(obj).after(html);
 		      layer.close(index);
@@ -289,7 +298,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家技术职称/职业资格：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input maxlength="20" value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" />
+								<input maxlength="20" value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>

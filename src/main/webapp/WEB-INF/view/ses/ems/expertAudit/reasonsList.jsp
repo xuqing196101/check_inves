@@ -57,45 +57,42 @@
 				}
 			}
 
-			//移除
-	/* 		function dele() {
-				var supplierId = $("input[name='supplierId']").val();
-				var ids = [];
-				$('input[name="chkItem"]:checked').each(function() {
-					ids.push($(this).val());
+		  //移除
+	    function dele(){
+	  		var expertId = $("input[name='expertId']").val();
+				var ids =[];
+				$('input[name="chkItem"]:checked').each(function(){ 
+			  	ids.push($(this).val());
 				});
-				if(ids.length > 0) {
-					layer.confirm('您确定要移除吗?', {
-						title: '提示！',
-						offset: ['200px']
-					}, function(index) {
-						layer.close(index);
-						$.ajax({
-							url: "${pageContext.request.contextPath}/supplierAudit/deleteById.html",
-							data: "ids=" + ids,
-							success: function() {
-								layer.msg("删除成功!", {
-									offset: '100px'
+				if(ids.length>0){
+			      layer.confirm('您确定要移除吗?', {title:'提示！',offset: ['200px']}, function(index){
+				    layer.close(index);
+				      $.ajax({
+				        url:"${pageContext.request.contextPath}/expertAudit/deleteByIds.html",
+				        data:"ids="+ids,
+				        type:"post",
+				        dataType:"json",
+								success:function(result){
+								alert(result);
+										result = eval("(" + result + ")");
+										if(result.msg == "yes"){
+											layer.msg("删除成功!",{offset : '100px'});
+					       			window.setTimeout(function(){
+					       				var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+							    			$("#form_id").attr("action",action);
+							    			$("#form_id").submit();
+					       			}, 1000);
+									}
+		       			},
+		       				error: function(){
+		       					layer.msg("删除失败",{offset : '100px'});
+									}
 								});
-								window.setTimeout(function() {
-									var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
-									$("#form_id").attr("action", action);
-									$("#form_id").submit();
-								}, 1000);
-							},
-							error: function(message) {
-								layer.msg("删除失败", {
-									offset: '100px'
-								});
-							}
-						});
-					});
-				} else {
-					layer.alert("请选择需要移除的信息！", {
-						offset: '100px'
-					});
-				}
-			} */
+				   		});
+				 		}else{
+			        layer.alert("请选择需要移除的信息！",{offset:'100px'});
+				 	  }
+	        }
 		</script>
 		<script type="text/javascript">
 			function jump(str) {
@@ -160,9 +157,11 @@
 						</li>
 					</ul>
 					<ul class="ul_list count_flow">
+						<button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
 						<table class="table table-bordered table-condensed table-hover">
 							<thead>
 								<tr>
+									<th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
 									<th class="info w50">序号</th>
 									<th class="info">审批类型</th>
 									<th class="info">审批字段</th>
@@ -173,6 +172,7 @@
 							<c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
 								<input id="auditId" value="${reasons.id}" type="hidden">
 								<tr>
+									<td class="tc w30"><input type="checkbox" value="${reasons.id }" name="chkItem"  id="${reasons.id}"></td>
 									<td class="tc">${vs.index + 1}</td>
 									<td class="tc">
 										<c:if test="${reasons.suggestType eq 'one'}">基本信息</c:if>

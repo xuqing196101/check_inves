@@ -92,7 +92,8 @@ public interface FileUploadMapper {
      *〈详细描述〉
      * @author ZhaoBo
      * @param id 主键
+     * @param tableName 表名称
      * @return UploadFile
      */
-    UploadFile findById(String id);
+    UploadFile findById(@Param("id")String id,@Param("tableName")String tableName);
 }

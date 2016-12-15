@@ -1080,7 +1080,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	}
 	
 	@RequestMapping(value = "deleteById")
-	public void deleteById (HttpServletResponse response, String[] ids){
+	public void deleteById (String[] ids){
 		supplierAuditService.deleteById(ids);
 	}
 }

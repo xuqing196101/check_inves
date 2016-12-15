@@ -3,6 +3,8 @@ package ses.service.ems.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,17 +30,17 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	/**
 	 * 
 	  * @Title: deleteByPrimaryKey
-	  * @author ShaoYangYang
-	  * @date 2016年9月26日 下午2:26:23  
+	  * @author XuQing
+	  * @date 2016年12月15日 下午2:26:23  
 	  * @Description: TODO 根据主键删除
 	  * @param @param id
-	  * @param @return      
-	  * @return int
 	 */
 	@Override
-	public int delete(String id) {
-		mapper.deleteByPrimaryKey(id);
-		return 0;
+	public boolean deleteByIds(String[] ids) {
+		for(int i=0; i<ids.length; i++){
+			mapper.deleteByPrimaryKey(ids[i]);
+		}
+		return true;
 	}
 	/**
      * 
@@ -65,8 +67,9 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
       * @return int
      */
 	@Override
-	public int add(ExpertAudit record) {
-		return mapper.insertSelective(record);
+	public void add(ExpertAudit record) {
+
+		mapper.insertSelective(record);
 	}
 	 /**
      * 

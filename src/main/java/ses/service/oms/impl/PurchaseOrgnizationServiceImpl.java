@@ -77,6 +77,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	    orgniztionMapper.saveOrg(org);
 	    String orgId = org.getId();
 	    purchaseDep.setOrgId(orgId);
+	    purchaseDep.setQuaStatus(0);
 	    purchaseDep.setCreatedAt(new Date());
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 	    List<PurchaseOrg> purchaseOrgList = new ArrayList<PurchaseOrg>();
@@ -188,6 +189,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
                 }
             }
         }
+        purchaseDep.setQuaStatus(0);
 		return purchaseDepMapper.update(purchaseDep);
 	}
 	

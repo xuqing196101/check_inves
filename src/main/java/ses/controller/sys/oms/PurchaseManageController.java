@@ -459,13 +459,6 @@ public class PurchaseManageController {
         return "ses/oms/purchase_dep/list";
     }
 	
-	@RequestMapping("addPosition")
-	 public String addPosition(Model model){
-	    
-	    
-        return "ses/oms/purchase_dep/list";
-    }
-	
 	/**
 	 * 
 	 *〈简述〉新增采购机构
@@ -476,8 +469,25 @@ public class PurchaseManageController {
 	@RequestMapping("addPurchaseDep")
     public String addPurchaseDep(Model model) {
 	    model.addAttribute("purchaseDepIds", WfUtil.createUUID());
+	    initPurchaseType("PURCHASE_QUA_CERT",model);
         return "ses/oms/purchase_dep/add";
     }
+	
+	/**
+	 * 
+	 *〈简述〉初始化附件类型
+	 *〈详细描述〉
+	 * @author myc
+	 * @param code 编码
+	 * @param model 
+	 */
+	private void initPurchaseType(String code, Model model){
+	    DictionaryData  dd = DictionaryDataUtil.get(code);
+        if (dd != null){
+            model.addAttribute("purchaseTypeId", dd.getId());
+        }
+	}
+	
 	
 	/**
 	 * 
@@ -500,6 +510,7 @@ public class PurchaseManageController {
 	    List<Orgnization> purchaseOrgList = orgnizationServiceI.selectedItem(selectedItem);
 	    List<OrgInfo> orgInfos = orgInfoService.selectedInfo(purchaseUnitName,purchaseUnitDuty);
 	    List<OrgLocale> locales = orgLocaleService.selectedInfo(siteType, siteNumber,location,area,crewSize);
+	    initPurchaseType("PURCHASE_QUA_CERT",model);
 	    if(result.hasErrors()){
 	        List<FieldError> errors = result.getFieldErrors();
 	        for (FieldError fieldError : errors) {
@@ -712,6 +723,7 @@ public class PurchaseManageController {
 	    List<OrgLocale> locales = orgLocaleService.selectedInfo(siteType, siteNumber,location,area,crewSize);
 	    List<OrgInfo> orgInfos = orgInfoService.selectedInfo(purchaseUnitName,purchaseUnitDuty);
 	    purchaseDep.setOrgId(purchaseDep.getOrgnization().getId());
+	    initPurchaseType("PURCHASE_QUA_CERT",model);
 	    if(result.hasErrors()){
             List<FieldError> errors = result.getFieldErrors();
             for (FieldError fieldError : errors) {
@@ -988,8 +1000,8 @@ public class PurchaseManageController {
         }else{
             map1.put("orgId", purchaseDep.getOrgId());
         }
-        List<OrgInfo> list2 = orgInfoService.listByAll(map1);
-        model.addAttribute("orgInfos", list2);
+        List<OrgInfo> orgInfos = orgInfoService.listByAll(map1);
+        model.addAttribute("orgInfos", orgInfos);
         
         HashMap<String, Object> map2 = new HashMap<String, Object>();
         if(orgId != null){
@@ -997,14 +1009,9 @@ public class PurchaseManageController {
         }else{
             map2.put("orgId", purchaseDep.getOrgId());
         }
-        List<OrgLocale> list3 = orgLocaleService.listByAll(map2);
-        model.addAttribute("locales", list3);
-		//多文件上传
-		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-        model.addAttribute("PURCHASE_QUA_CERT_ID", DictionaryDataUtil.getId("PURCHASE_QUA_CERT"));
-        model.addAttribute("PURCHASE_QUA_STATUS_STASH_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_STASH"));
-        model.addAttribute("PURCHASE_QUA_STATUS_NORMAL_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_NORMAL"));
-        model.addAttribute("PURCHASE_QUA_STATUS_TERMINAL_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_TERMINAL"));
+        List<OrgLocale> locales = orgLocaleService.listByAll(map2);
+        model.addAttribute("locales", locales);
+        initPurchaseType("PURCHASE_QUA_CERT",model);
 		return "ses/oms/purchase_dep/edit";
 	}
 	
@@ -1077,42 +1084,28 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("updateQuateStatus")
-    public String updateQuateStatus(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) {
+    public String updateQuateStatus(HttpServletRequest request,Model model) {
+	    String id = request.getParameter("id");
 	    String quaStatus = request.getParameter("quaStatus");
-	    model.addAttribute("quaStatus", quaStatus);
-	    if(quaStatus!=null ){
-	        purchaseDep.setQuaStatus(Integer.parseInt(quaStatus));
+	    
+	    model.addAttribute("purchaseDepId", id);
+	    model.addAttribute("purchaseStarus", quaStatus);
+	    
+	    Integer status = null;
+	    if (StringUtils.isNotBlank(quaStatus)){
+	        status = Integer.parseInt(quaStatus);
 	    }
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("id", purchaseDep.getId());
-        List<PurchaseDep> list = purchaseOrgnizationServiceI.findPurchaseDepList(map);
-        if(list!=null && list.size()>0){
-            purchaseDep = list.get(0);
+	    
+	    if (status == StaticVariables.PURCHASER_COMPREHEN_NORMAL){
+	        initPurchaseType("PURCHASE_QUA_STATUS_NORMAL", model);
+	    }
+	    if (status == StaticVariables.PURCHASER_COMPREHE_PUASE){
+            initPurchaseType("PURCHASE_QUA_STATUS_STASH", model);
         }
-        model.addAttribute("purchaseDep", purchaseDep);
-        //多文件上传
-        model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-        DictionaryData dd=new DictionaryData();
-        dd.setCode("PURCHASE_QUA_CERT");
-        List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-        if(lists.size()>0){
-            model.addAttribute("PURCHASE_QUA_CERT_ID", lists.get(0).getId());
+	    if (status == StaticVariables.PURCHASER_COMPREHE_STOP){
+            initPurchaseType("PURCHASE_QUA_STATUS_STOP", model);
         }
-        dd.setCode("PURCHASE_QUA_STATUS_STASH");
-        List<DictionaryData> liststash = dictionaryDataServiceI.find(dd);
-        if(liststash.size()>0){
-            model.addAttribute("PURCHASE_QUA_STATUS_STASH_ID", liststash.get(0).getId());
-        }
-        dd.setCode("PURCHASE_QUA_STATUS_NORMAL");
-        List<DictionaryData> listnormal = dictionaryDataServiceI.find(dd);
-        if(listnormal.size()>0){
-            model.addAttribute("PURCHASE_QUA_STATUS_NORMAL_ID", listnormal.get(0).getId());
-        }
-        dd.setCode("PURCHASE_QUA_STATUS_TERMINAL");
-        List<DictionaryData> listterminal = dictionaryDataServiceI.find(dd);
-        if(listterminal.size()>0){
-            model.addAttribute("PURCHASE_QUA_STATUS_TERMINAL_ID", listterminal.get(0).getId());
-        }
+	    
         return "ses/oms/purchase_dep/update_quate_status";
     }
 	

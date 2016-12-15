@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
@@ -637,7 +638,7 @@ public class PurchaseArchiveController extends BaseSupplierController{
 			
 		}else{
 			for(int i=0;i<fileId.length;i++){
-				UploadFile uploadFile = uploadService.findById(fileId[i]);
+				UploadFile uploadFile = uploadService.findById(fileId[i],Constant.TENDER_SYS_KEY);
 				ArchiveBorrow borrowObject = new ArchiveBorrow();
 				borrowObject.setUserId(userId);
 				borrowObject.setCreatedAt(new Date());

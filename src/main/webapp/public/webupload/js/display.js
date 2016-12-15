@@ -82,7 +82,7 @@ function displayName(params,data,id,del){
 	$ul.empty();
 	if (data != null){
 		if (data.picture){
-			var li = '<li class="file_view"><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+params.key+'","'+id+'","this");\'>查看</a></li>';
+			var li = '<li class="file_view"><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'>查看</a></li>';
 			$ul.append(li);
 		}
 		if (data.success){
@@ -187,7 +187,7 @@ function disFile(html,obj,key){
 	var fileName = obj.path;
 	var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();
 	if (/(gif|jpg|jpeg|png|bmp)$/.test(fileExt)) {
-		var url = globalPath + '/file/viewFile.html?id=' + obj.id;
+		var url = globalPath + '/file/viewFile.html?id=' + obj.id +'&key=' + key;
 		var li = '<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'
 			+'<img data-original="'+url+'"  src="'+url+'" height="120px"/></a></div></div></li>';
 		html.append(li);
