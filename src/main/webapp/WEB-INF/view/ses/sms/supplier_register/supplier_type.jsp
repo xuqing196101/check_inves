@@ -404,7 +404,6 @@
 			}
 			certProIds += $(this).val();
 		});
-		alert(certProIds);
 		var size = checkboxs.length;
 		if (size > 0) {
 			layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
