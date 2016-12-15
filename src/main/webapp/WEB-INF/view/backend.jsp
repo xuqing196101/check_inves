@@ -87,15 +87,14 @@ if('downloadabiddocument' == uri[0] ){
                             <h2 class="margin-0 news cursor"
                                 onclick="window.location.href='${pageContext.request.contextPath}/StationMessage/listStationMessage.do'">通知</h2>
                         </div>
-                        <ul 
-                            class="padding-left-20  categories hex padding-bottom-5 padding-top-5" >
+                        <ul class="backend_new" >
                             <c:forEach items="${stationMessage}" var="station">
                                 <li><a href="javascript:void(0);" onclick="clickuri('${station.url}^${station.id}');" title="${station.name }"> <c:choose>
                                             <c:when test="${fn:length(station.name) > 10}">  
-                                           ${fn:substring(station.name, 0, 14)}......
+                                           <span>●</span>${fn:substring(station.name, 0, 14)}......
                                         </c:when>
                                             <c:otherwise>  
-                                          ${station.name }
+                                          	<span>●</span>${station.name}
                                         </c:otherwise>
                                         </c:choose>
                                 </a></li>

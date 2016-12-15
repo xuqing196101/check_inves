@@ -1077,5 +1077,23 @@ table .input_group .add-on{
 	width:20px;
 	display: block;
 	float: left;
-	
+}
+
+
+/*后台首页公告*/
+.backend_new{
+	list-style-type: none;
+	padding: 10px;
+}
+.backend_new li{
+	height:25px;
+	line-height:25px;
+}
+.backend_new li span{
+	font-size:8px;
+	margin-right: 5px;
+	height:25px;
+	line-height: 25px;
+	float: left;
+	display: inline-block;
 }
