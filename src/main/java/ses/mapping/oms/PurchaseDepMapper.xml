@@ -64,8 +64,8 @@
 		       b.name             as cityName,
 		       nvl(d.IS_AUDIT_SUPPLIER,0) as isAuditSupplier,
 		       d.QUA_START_DATE    as quaStartDate,
-		       o.QUA_STATUS        as quaStatus,
-		       o.QUA_STASH_REASON  as quaStashReason,
+		       d.QUA_STATUS        as quaStatus,
+		       d.QUA_STASH_REASON  as quaStashReason,
 		       o.QUA_NORMAL_REASON  as quaNormalReason,
 		       o.QUA_TERMINAL_REASON  as quaTerminalReason
 		  from T_SES_OMS_ORG o 
@@ -187,8 +187,8 @@
                b.name             as cityName,
                nvl(d.IS_AUDIT_SUPPLIER,0) as isAuditSupplier,
                d.QUA_START_DATE    as quaStartDate,
-               o.QUA_STATUS        as quaStatus,
-               o.QUA_STASH_REASON  as quaStashReason,
+               d.QUA_STATUS        as quaStatus,
+               d.QUA_STASH_REASON  as quaStashReason,
                o.QUA_NORMAL_REASON  as quaNormalReason,
                o.QUA_TERMINAL_REASON  as quaTerminalReason
           from T_SES_OMS_ORG o 
@@ -204,9 +204,6 @@
 	
 	<!-- 保存采购机构 -->
 	<insert id="savePurchaseDep" parameterType="ses.model.oms.PurchaseDep">
-		<!-- <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select rawtohex(sys_guid()) as VALUE from dual
-		</selectKey> -->
 		insert into T_SES_OMS_PURCHASE_DEP
 		<trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -641,8 +638,8 @@
        <if test="isAuditSupplier != null and isAuditSupplier != ''">
         IS_AUDIT_SUPPLIER = #{isAuditSupplier},
       </if>
-      <if test="quaStatus != null and quaStatus != ''">
-        QUA_STATUS = #{quaStatus},
+      <if test="quaStatus != null">
+        QUA_STATUS = #{quaStatus,jdbcType=NUMERIC},
       </if>
        <if test="quaStartDate != null and quaStartDate != ''">
         QUA_START_DATE = #{quaStartDate},

@@ -164,8 +164,10 @@ public class UploadServiceImpl implements UploadService {
         InputStream fis = null;
         try {
             String id = request.getParameter("id");
-            if (StringUtils.isNotBlank(id)){
-                UploadFile  uploadFile = uploadDao.findById(id);
+            String key = request.getParameter("key");
+            if (StringUtils.isNotBlank(id) && StringUtils.isNotBlank(key)){
+                String tableName = Constant.fileSystem.get(Integer.parseInt(key));
+                UploadFile  uploadFile = uploadDao.findById(id,tableName);
                 if (uploadFile != null && StringUtils.isNotBlank(uploadFile.getPath())){
                     File file = new File(uploadFile.getPath());
                     response.setContentType("image/*");
@@ -431,8 +433,11 @@ public class UploadServiceImpl implements UploadService {
      * @see common.service.UploadService#findById(java.lang.String)
      */
     @Override
-    public UploadFile findById(String id) {
-        return uploadDao.findById(id);
+    public UploadFile findById(String id,Integer sysKey) {
+        
+        String tableName = Constant.fileSystem.get(sysKey);
+        
+        return uploadDao.findById(id,tableName);
     }
 
     /**

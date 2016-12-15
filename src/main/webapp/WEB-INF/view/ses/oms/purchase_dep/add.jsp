@@ -417,8 +417,8 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资格证书图片</span>
                     <div class="uploader orange m0">
-                      <u:upload id="purchaseQuaFile" businessId="${purchaseDepIds}" multiple="true" exts="png,jpeg,jpg,bmp" sysKey="2" auto="true"/>
-                      <u:show showId="pqId" businessId="${purchaseDepIds}" sysKey="2"  />
+                      <u:upload id="purchaseQuaFile" businessId="${purchaseDepIds}" typeId="${purchaseTypeId}" multiple="true" exts="png,jpeg,jpg,bmp" sysKey="2" auto="true"/>
+                      <u:show showId="pqId" businessId="${purchaseDepIds}" sysKey="2" typeId="${purchaseTypeId}"  />
                     </div>
                     <div class="cue">${ERR_msg}</div>
                   </li>
