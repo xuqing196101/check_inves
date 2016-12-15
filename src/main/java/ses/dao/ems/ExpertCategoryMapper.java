@@ -2,6 +2,8 @@ package ses.dao.ems;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.ems.ExpertCategory;
 
 public interface ExpertCategoryMapper {
@@ -29,4 +31,15 @@ public interface ExpertCategoryMapper {
       * @return void
      */
     void deleteByExpertId(String expertId);
+    
+    /**
+     * 
+     *〈简述〉根据专家Id和品目Id查询 ExpertCategory
+     *〈详细描述〉
+     * @author myc
+     * @param expertId 专家Id
+     * @param categoryId 品目Id
+     * @return
+     */
+    ExpertCategory getCategoryByExpertId(@Param("expertId")String expertId, @Param("categoryId")String categoryId );
 }

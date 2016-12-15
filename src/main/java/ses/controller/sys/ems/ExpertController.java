@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,6 +28,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.SaleTender;
+import bss.model.ppms.ext.ProjectExt;
+import bss.model.prms.PackageExpert;
+import bss.model.prms.ReviewProgress;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
+import bss.service.prms.PackageExpertService;
+import bss.service.prms.ReviewProgressService;
+import common.constant.Constant;
+import common.constant.StaticVariables;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -63,22 +78,6 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
-import bss.model.ppms.Packages;
-import bss.model.ppms.Project;
-import bss.model.ppms.SaleTender;
-import bss.model.ppms.ext.ProjectExt;
-import bss.model.prms.PackageExpert;
-import bss.model.prms.ReviewProgress;
-import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectService;
-import bss.service.ppms.SaleTenderService;
-import bss.service.prms.PackageExpertService;
-import bss.service.prms.ReviewProgressService;
-
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import common.constant.Constant;
 
 @Controller
 @RequestMapping("/expert")
@@ -469,17 +468,18 @@ public class ExpertController {
         List<CategoryTree> allCategories = new ArrayList<CategoryTree>();
         DictionaryData parent = dictionaryDataServiceI.getDictionaryData(id);    
         CategoryTree ct = new CategoryTree();
-        ct.setName(parent.getName().substring(0, parent.getName().length() - 2));
+        ct.setName(parent.getName());
         ct.setId(parent.getId());
         ct.setIsParent("true");
         // 判断是否被选中
-        List<ExpertCategory> allCategory = expertCategoryService.getListByExpertId(expertId);
+        /*List<ExpertCategory> allCategory = expertCategoryService.getListByExpertId(expertId);
         for (ExpertCategory expertCategory : allCategory) {
             String parentId = categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getParentId();
             if (parentId != null && parentId.equals(ct.getId())) {
                 ct.setChecked(true);
             }
         }
+        allCategories.add(ct);*/
         allCategories.add(ct);
         // 递归查询出所有节点
         List<Category> categoryTree = getCategoryTree(ct.getId());
@@ -490,6 +490,11 @@ public class ExpertController {
             ct1.setName(c.getName());
             ct1.setParentId(c.getParentId());
             ct1.setId(c.getId());
+            
+            ExpertCategory ec = expertCategoryService.getExpertCategory(expertId, c.getId());
+            if (ec != null){
+                ct1.setChecked(true);
+            }
             // 设置是否为父级
             if (!list1.isEmpty()) {
                 ct1.setIsParent("true");
@@ -497,13 +502,13 @@ public class ExpertController {
                 ct1.setIsParent("false");
             }
             // 设置是否回显
-            for (ExpertCategory category : allCategory) {
+            /*for (ExpertCategory category : allCategory) {
                 if (category.getCategoryId() != null) {
                     if (category.getCategoryId().equals(c.getId())) {
                         ct1.setChecked(true);
                     }
                 }
-            }
+            }*/
             allCategories.add(ct1);
         }
         return JSON.toJSONString(allCategories);
@@ -558,12 +563,12 @@ public class ExpertController {
      */
     public List<Category> getCategoryTree(String id){
         List<Category> childList = new ArrayList<Category>();
-        List<Category> list = categoryService.findTreeByPid(id);
+        List<Category> list = categoryService.findTreeByStatus(id,StaticVariables.CATEGORY_PUBLISH_STATUS);
         childList.addAll(list);
         for (Category cate : list) {
             childList.addAll(getCategoryTree(cate.getId()));
         }
-        return list;
+        return childList;
     }
     
     @RequestMapping(value = "getAllCategory", produces = "application/json;charset=UTF-8")

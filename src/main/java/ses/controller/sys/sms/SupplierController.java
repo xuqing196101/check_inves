@@ -31,6 +31,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
@@ -73,12 +80,6 @@ import ses.util.FtpUtil;
 import ses.util.IdentityCode;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
-
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import common.constant.Constant;
-import common.model.UploadFile;
-import common.service.UploadService;
 
 /**
  * @Title: supplierController
@@ -1705,54 +1706,70 @@ public class SupplierController extends BaseSupplierController {
 	}
   	
 	@RequestMapping(value="/category_type" ,produces = "text/html;charset=UTF-8")
-	@ResponseBody
-	public String getCategory(String id,String name,String code,String supplierId){
-		List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
+    @ResponseBody
+    public String getCategory(String id,String name,String code,String supplierId){
+        List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
+        String typeId ="";
         if(code != null) {
             DictionaryData type = DictionaryDataUtil.get(code);
+            if (type != null ) {
+                if(type.getCode().equals("PRODUCT") || type.getCode().equals("SALES")){
+                    DictionaryData dd = DictionaryDataUtil.get("GOODS");
+                    typeId = dd.getId();
+                } else {
+                    typeId = type.getId();
+                }
+                
+                
+            }
+            
             CategoryTree ct = new CategoryTree();
             ct.setName( type.getName());
-            ct.setId(type.getId());
+            ct.setId(typeId);
 //            supplierItemService.getSupplierIdCategoryId(supplierId, categoryId)
             ct.setIsParent("true");
             categoryList.add(ct);
             
-            List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
+           /* List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
             
             for (SupplierItem category : item) {
-            	 String parentId = categoryService.selectByPrimaryKey(category.getCategoryId()).getParentId();
+                 String parentId = categoryService.selectByPrimaryKey(category.getCategoryId()).getParentId();
                  if (parentId != null && parentId.equals(ct.getId())) {
                      ct.setChecked(true);
                  }
-            }
-            List<Category> child = getChild(type.getId());
+            }*/
+            List<Category> child = getChild(typeId);
             for(Category c:child){
-            	CategoryTree ct1 = new CategoryTree();
+                CategoryTree ct1 = new CategoryTree();
                 ct1.setName(c.getName());
                 ct1.setParentId(c.getParentId());
                 ct1.setId(c.getId());
-                // 设置是否为父级
-                if (!child.isEmpty()) {
+                List<SupplierItem> items =  supplierItemService.getSupplierIdCategoryId(supplierId, c.getId());
+                if (items != null && items.size() > 0){
+                    ct1.setChecked(true);
+                }
+                List<Category> cList = categoryService.findTreeByPid(c.getId());
+                if (cList != null && cList.size() > 0){
                     ct1.setIsParent("true");
                 } else {
-                		ct1.setIsParent("false");
+                    ct1.setIsParent("false");
                 }
 //                ct1.set
 //                ct1.set  
 //                }
                 
                 // 设置是否回显
-                for (SupplierItem category : item) {
+               /* for (SupplierItem category : item) {
                     if (category.getCategoryId() != null) {
                         if (category.getCategoryId().equals(c.getId())) {
                             ct1.setChecked(true);
                         }
                     }
-                }
+                }*/
                 categoryList.add(ct1);
             }
         } else {
-        	/*List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
+            /*List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
             List<ExpertCategory> expertCategory = expertCategoryService.getListByExpertId(expertId);供应商选择的品目
             List<Category> list = categoryService.findTreeByPid(id);
             for (Category c : list) {
@@ -1778,8 +1795,8 @@ public class SupplierController extends BaseSupplierController {
                 categoryList.add(ct1);
             }*/
         }
-		return JSON.toJSONString(categoryList);
-	}
+        return JSON.toJSONString(categoryList);
+    }
 
 	@RequestMapping("/audit_org")
 	public String audit_org(Model model,String name){
@@ -1828,14 +1845,14 @@ public class SupplierController extends BaseSupplierController {
 		}
 		
 		public List<Category> getChild(String id){
-		     List<Category> list = categoryService.findTreeByPid(id);
-		        List<Category> childList = new ArrayList<Category>();
-		        childList.addAll(list);
-		        for (Category cate : list) {
-		            childList.addAll(getChild(cate.getId()));
-		        }
-		        return list;
-		}
+            List<Category> list = categoryService.findTreeByStatus(id,StaticVariables.CATEGORY_PUBLISH_STATUS);
+               List<Category> childList = new ArrayList<Category>();
+               childList.addAll(list);
+               for (Category cate : list) {
+                   childList.addAll(getChild(cate.getId()));
+               }
+               return childList;
+       }
 		
 		@RequestMapping(value="/audit",produces = "text/html;charset=UTF-8")
 		@ResponseBody

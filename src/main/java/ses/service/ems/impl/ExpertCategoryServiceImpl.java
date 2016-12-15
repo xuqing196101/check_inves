@@ -86,5 +86,18 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 			mapper.deleteByExpertId(expertId);
 		}
 	}
+	
+	/**
+	 * 
+	 * @see ses.service.ems.ExpertCategoryService#getExpertCategory(java.lang.String, java.lang.String)
+	 */
+    @Override
+    public ExpertCategory getExpertCategory(String expertId, String categoryId) {
+        
+        return mapper.getCategoryByExpertId(expertId, categoryId);
+    }
+	
+	
+	
 }
  
