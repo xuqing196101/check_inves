@@ -28,7 +28,7 @@
 									enable: true,
 									url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId="+expertId,
 									otherParam: {
-										categoryIds: id,
+										id: id
 									},
 									dataType: "json",
 									type: "post"
@@ -47,9 +47,13 @@
 										idKey: "id",
 										pIdKey: "parentId"
 									}
+								},
+								callback:{
+									onClick: ztreeOnClick
 								}
 							};
 							zTreeObj = $.fn.zTree.init($("#tab-" + (parseInt(i) + 1)), setting, zNodes);
+							zTreeObj.expandAll(true);
 						});
 						$("#tab-1").attr("style", "");
 					}
@@ -67,7 +71,7 @@
 				enable: true,
 				url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId="+expertId,
 				otherParam: {
-					"categoryIds": id,
+					"id": id,
 				},
 				callback: {
 					
@@ -102,6 +106,18 @@
 				$("#" + page).attr("style", "");
 				showTree(page);
 			}
+		
+		/** 点击tree **/
+		function ztreeOnClick(event, treeId, treeNode){
+			if (treeNode != null){
+				if (!treeNode.isParent){
+					reason(treeNode.name);
+				} else {
+					layer.msg("请选择末级节点进行审核");
+				}
+			}
+			
+		}
 		</script>
 		<script type="text/javascript">
 			function jump(str) {
@@ -123,10 +139,9 @@
 			}
 		</script>
 		<script type="text/javascript">
-			function reason(obj,str) {
+			function reason(str) {
 				var expertId = $("#expertId").val();
-				var auditField = str.replace("技术","");
-				var auditContent = auditField + "产品目录信息";
+				var auditContent = str + "产品目录信息";
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
@@ -137,7 +152,7 @@
 							url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 							type: "post",
 							dataType: "json",
-							data: "suggestType=six" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField,
+							data: "suggestType=six" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + str,
 							success:function(result){
 				        result = eval("(" + result + ")");
 				        if(result.msg == "fail"){
@@ -201,17 +216,17 @@
 						<div class="padding-top-10">
 							<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 								<c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
-									<c:if test="${cate.name eq '物资技术'}">
+									<c:if test="${cate.name eq '物资'}">
 										<li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);">
 											<a aria-expanded="true" data-toggle="tab" class="f18">物资</a>
 										</li>
 									</c:if>
-									<c:if test="${cate.name eq '工程技术'}">
+									<c:if test="${cate.name eq '工程'}">
 										<li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);">
 											<a aria-expanded="true" data-toggle="tab" class="f18">工程</a>
 										</li>
 									</c:if>
-									<c:if test="${cate.name eq '服务技术'}">
+									<c:if test="${cate.name eq '服务'}">
 										<li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);">
 											<a aria-expanded="false" data-toggle="tab" class="f18">服务</a>
 										</li>
@@ -221,19 +236,19 @@
 							<c:set var="count" value="0"></c:set>
 							<div class="tag-box tag-box-v3 center" id="content_ul_id">
 								<c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
-									<c:if test="${cate.name eq '物资技术'}">
+									<c:if test="${cate.name eq '物资'}">
 										<c:set var="count" value="${count + 1}"></c:set>
-										<ul id="tab-${vs.index + 1}" class="ztree center" style="display: none" onclick="reason(this,'${cate.name}');"></ul>
+										<ul id="tab-${vs.index + 1}" class="ztree center" style="display: none" ></ul>
 										<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 									</c:if>
-									<c:if test="${cate.name eq '工程技术'}">
+									<c:if test="${cate.name eq '工程'}">
 										<c:set var="count" value="${count + 1}"></c:set>
-										<ul id="tab-${vs.index + 1}" class="ztree center" style="display: none" onclick="reason(this,'${cate.name}');"></ul>
+										<ul id="tab-${vs.index + 1}" class="ztree center" style="display: none" ></ul>
 										<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 									</c:if>
-									<c:if test="${cate.name eq '服务技术'}">
+									<c:if test="${cate.name eq '服务'}">
 										<c:set var="count" value="${count + 1}"></c:set>
-										<ul id="tab-${vs.index + 1}" class="ztree center" style="display: none" onclick="reason(this,'${cate.name}');"></ul>
+										<ul id="tab-${vs.index + 1}" class="ztree center" style="display: none" ></ul>
 										<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 									</c:if>
 								</c:forEach>
