@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierHistoryMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierHistory">
+    <id column="ID" property="id" />
+    <result column="SUPPLIER_ID" property="supplierId" />
+    <result column="BEFORE_FIELD" property="beforeField" />
+    <result column="AFTER_FIELD" property="afterField" />
+    <result column="BEFORE_CONTENT" property="beforeContent" />
+    <result column="AFTER_CONTENT" property="afterContent" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="RELATION_ID" property="relationId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SUPPLIER_ID, BEFORE_FIELD, AFTER_FIELD, BEFORE_CONTENT, AFTER_CONTENT, CREATED_AT, RELATION_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_HISTORY
+    where SUPPLIER_ID = #{supplierId} 
+  </select>
+
+  <insert id="insert" parameterType="ses.model.sms.SupplierHistory">
+    insert into T_SES_SMS_SUPPLIER_HISTORY (ID, SUPPLIER_ID, BEFORE_FIELD, AFTER_FIELD, BEFORE_CONTENT, AFTER_CONTENT, CREATED_AT, RELATION_ID)
+    values (#{id}, #{supplierId}, #{beforeField}, #{afterField}, #{beforeContent}, #{afterContent}, #{createdAt}, #{relationId}
+  </insert>
+  
+  <!-- 插入审核记录 -->
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierHistory">
+    insert into T_SES_SMS_SUPPLIER_HISTORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="beforeField != null">
+        BEFORE_FIELD,
+      </if>
+      <if test="afterField != null">
+        AFTER_FIELD,
+      </if>
+      <if test="beforeContent != null">
+        BEFORE_CONTENT,
+      </if>
+      <if test="afterContent != null">
+        AFTER_CONTENT,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="relationId != null">
+        RELATION_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="beforeField != null">
+        #{beforeField},
+      </if>
+      <if test="afterField != null">
+        #{afterField},
+      </if>
+      <if test="beforeContent != null">
+        #{beforeContent},
+      </if>
+      <if test="afterContent != null">
+        #{afterContent},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="relationId != null">
+        #{relationId},
+      </if>
+    </trim>
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select sys_guid() from dual
+  </selectKey>
+  </insert>
+</mapper>
