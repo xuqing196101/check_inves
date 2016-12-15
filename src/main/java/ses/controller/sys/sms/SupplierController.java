@@ -2,6 +2,8 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,13 +38,12 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
-import ses.model.ems.ExpertAudit;
-import ses.model.ems.ExpertCategory;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
@@ -59,6 +60,7 @@ import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierFinanceService;
+import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
@@ -74,7 +76,6 @@ import ses.util.ValidateUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -154,6 +155,12 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierAuditService supplierAuditService;
+	
+	
+	@Autowired
+	private  SupplierHistoryService supplierHistoryService;
+	
+	
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -328,10 +335,10 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @param model
 	 * @param: @return
 	 * @return: String
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "perfect_basic")
-	public String perfectBasic(HttpServletRequest request,Model model, Supplier supplier,String flag) throws IOException {
+	public String perfectBasic(HttpServletRequest request,Model model, Supplier supplier,String flag) throws Exception {
 		// this.setSupplierUpload(request, supplier);
 	//	supplierService.perfectBasic(supplier);// 保存供应商详细信息
 //		supplier = supplierService.get(supplier.getId());
@@ -436,6 +443,12 @@ public class SupplierController extends BaseSupplierController {
 		
 	
 		if(flag.equals("1")&&info==true){
+			
+			 Supplier before = supplierService.get(supplier.getId());
+			if(before.getStatus().equals(7)){
+				 record("", before, supplier, supplier.getId());
+			}
+			
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());
 //			if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
@@ -459,7 +472,6 @@ public class SupplierController extends BaseSupplierController {
 			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
 			model.addAttribute("wlist", wlist);
 			model.addAttribute("currSupplier", supplier);
-			
 			 Map<String, Object> map = supplierService.getCategory(supplier.getId());
 			 model.addAttribute("server", map.get("server"));
 			 model.addAttribute("product", map.get("product"));
@@ -1851,5 +1863,57 @@ public class SupplierController extends BaseSupplierController {
 		public String style(){
 			return "ses/sms/supplier_register/basic_info";
 		}
+		
+		
+		public  void record(String operationInfo, Object obj1,Object obj2,String supplierId) throws Exception {
+			if(obj1!=null&&obj2!=null){	
+			Class clazz1 = obj1.getClass();
+			Field[] fields = clazz1.getDeclaredFields();
+			StringBuffer sb=new StringBuffer();
+			sb.append("");
+			Method m=null;
+			Method	m2=null;
+			String upperCase=null;
+			 for(Field f : fields) {
+				 String str="";
+				 if(!f.getName().contains("serialVersionUID")){
+				 upperCase = "get" +f.getName().substring(0,1).toUpperCase()+ f.getName().substring(1);
+					  m=(Method) obj1.getClass().getMethod(upperCase); 
+				   	 m2 =(Method) obj2.getClass().getMethod(upperCase);
+				   	 if(m.equals(m2)){
+							    Object obj3 = m.invoke(obj1);
+							    Object obj4 = m2.invoke(obj2);
+							 if(obj3!=null&&obj4!=null){
+								 if(!obj3.toString().equals(obj4.toString())){
+									str=f.getName()+","+obj3+","+obj4+";";
+								 } 
+							 }
+			  
+						 sb.append(str);
+						}
+				
+				 	}
+				 }
+			String[] spl= sb.toString().split(";");
+			if(spl[0].trim().length()!=0){
+				for(String sss:spl){
+					SupplierHistory sh=new SupplierHistory();
+					String[] ss = sss.split(",");
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					sh.setId(id);
+					sh.setSupplierId(supplierId);
+					sh.setBeforeField(ss[0]);
+					sh.setBeforeContent(ss[1]);
+					sh.setAfterContent(ss[2]);
+					supplierHistoryService.add(sh);
+				}
+	 
+			}
+			
+		
+		}
+
+		}
+		
 		
 }

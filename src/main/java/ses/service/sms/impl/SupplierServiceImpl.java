@@ -449,10 +449,11 @@ public class SupplierServiceImpl implements SupplierService {
         else if (status == 0 ) {
         	Date today=new Date();
         	Date date = addDate(supplier.getAuditDate(),3,45);
+        	 map.put("status", "commit");
         	if(today.getTime()>date.getTime()){
-        		map.put("status", "beyong!");
+        		map.put("status", "beyong");
         	}
-            map.put("status", "commit");
+           
         } else if (status == 1) {
             map.put("status", "信息待复审, 请等待审核 !");
         } else if (status == 2) {

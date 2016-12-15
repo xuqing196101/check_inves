@@ -3,6 +3,7 @@ package ses.model.sms;
 import java.util.Date;
 
 public class SupplierHistory {
+	private String id;
 	private String supplierId;  //供应商Id
 	private String beforeField;  //修改之前字段
 	private String afterField;  //修改之后字段
@@ -51,6 +52,12 @@ public class SupplierHistory {
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

@@ -8,6 +8,7 @@ import java.util.List;
 
 import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
+import ses.util.MyAnnotation;
 
 /**
  * @Title: Supplier
@@ -24,6 +25,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.ID
 	 * </pre>
 	 */
+	@MyAnnotation("")
 	private String id;
 
 	/**
@@ -40,6 +42,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.MOBILE
 	 * </pre>
 	 */
+	@MyAnnotation("联系人手机号")
 	private String mobile;
 
 	/**
@@ -56,6 +59,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_NAME
 	 * </pre>
 	 */
+	@MyAnnotation("供应商名称")
 	private String supplierName;
 
 	/**
@@ -64,6 +68,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.WEBSITE
 	 * </pre>
 	 */
+	@MyAnnotation("网址")
 	private String website;
 
 	/**
@@ -72,6 +77,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.FOUND_DATE
 	 * </pre>
 	 */
+	@MyAnnotation("成立日期")
 	private Date foundDate;
 
 	/**
@@ -80,6 +86,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.BUSINESS_TYPE
 	 * </pre>
 	 */
+	@MyAnnotation("营业执照类型")
 	private String businessType;
 
 	/**
@@ -96,6 +103,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.ADDRESS
 	 * </pre>
 	 */
+	@MyAnnotation("注册地址")
 	private String address;
 
 	/**
@@ -104,6 +112,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.BANK_NAME
 	 * </pre>
 	 */
+	@MyAnnotation("开户行名称")
 	private String bankName;
 
 	/**
@@ -112,6 +121,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.BANK_ ACCOUNT
 	 * </pre>
 	 */
+	@MyAnnotation("开户行账号")
 	private String bankAccount;
 
 	/**
@@ -120,6 +130,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.POST_CODE
 	 * </pre>
 	 */
+	@MyAnnotation("注册邮编")
 	private String postCode;
 
 	/**
@@ -160,6 +171,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.LEGAL_NAME
 	 * </pre>
 	 */
+	@MyAnnotation("法人姓名")
 	private String legalName;
 
 	/**
@@ -168,6 +180,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.LEGA_ID_CARD
 	 * </pre>
 	 */
+	@MyAnnotation("法人身份证号")
 	private String legalIdCard;
 
 	/**
@@ -176,6 +189,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.LEGAL_TELEPHONE
 	 * </pre>
 	 */
+	@MyAnnotation("法人手机号")
 	private String legalTelephone;
 
 	/**
@@ -184,6 +198,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.LEGAL_MOBILE
 	 * </pre>
 	 */
+	@MyAnnotation("法人固定电话")
 	private String legalMobile;
 
 	/**
@@ -192,6 +207,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_NAME
 	 * </pre>
 	 */
+	@MyAnnotation("注册联系人姓名")
 	private String contactName;
 
 	/**
@@ -200,6 +216,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_TELEPHONE
 	 * </pre>
 	 */
+	@MyAnnotation("注册联系人手机号")
 	private String contactTelephone;
 
 	/**
@@ -208,6 +225,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_FAX
 	 * </pre>
 	 */
+	@MyAnnotation("注册联系人传真")
 	private String contactFax;
 
 	/**
@@ -216,6 +234,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_MOBILE
 	 * </pre>
 	 */
+	@MyAnnotation("注册联系人固定电话")
 	private String contactMobile;
 
 	/**
@@ -224,6 +243,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_EMAIL
 	 * </pre>
 	 */
+	@MyAnnotation("注册联系人邮箱")
 	private String contactEmail;
 
 	/**
@@ -232,6 +252,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_ADDRESS
 	 * </pre>
 	 */
+	@MyAnnotation("注册联系人邮箱")
 	private String contactAddress;
 
 	/**
@@ -523,6 +544,7 @@ public class Supplier implements Serializable {
 	/**
 	 * 公司详细地址
 	 */
+	@MyAnnotation("注册详细地址")
 	private String detailAddress;
 	/**
 	 * 条件查询供应商等级
@@ -552,6 +574,7 @@ public class Supplier implements Serializable {
 	private List<SupplierBranch> branchList=new ArrayList<SupplierBranch>();
 	
 	private String concatProvince;
+	
 	
 	private String concatCity;
 	

@@ -466,7 +466,7 @@ function deleteFinance() {
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 成立日期</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				    <fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate" />
-			        <input type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" />
+			        <input type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" <c:if test="${fn:contains(errorField,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('foundDate')"</c:if>  />
 			        <span class="add-on cur_point">i</span>
 			         <div class="cue"> ${err_msg_foundDate } </div>
 			       </div>
@@ -1174,7 +1174,7 @@ function deleteFinance() {
 		<fieldset class="col-md-12 border_font mt20">
 	 	  <legend>境外分支</legend>
 		   <ul class="list-unstyled" style="font-size: 14">
-     		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+     		<!-- <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red"></i>境外分支机构</span>
 		    	<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 		    	   <select  name="overseasBranch" onchange="dis(this)"  id="overseas_branch_select_id">
@@ -1182,7 +1182,7 @@ function deleteFinance() {
 						<option value="1">有</option>
 					</select>
 	       	    </div>
-			 </li> 
+			 </li> --> 
 			
 			<c:forEach items="${currSupplier.branchList }" var="bran"  varStatus="vs">
 		  	 <li class="col-md-3 col-sm-6 col-xs-12">
@@ -1546,9 +1546,9 @@ function deleteFinance() {
 									</td> --%>
 									<td class="tc">${finance.year}</td>
 									<td class="tc">
-									 <u:show showId="fina_${vs.index}_pro" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_${vs.index}_pro" 
-									  businessId="${finance.id}" typeId="CAFD9B6FC80C4A089520DAB829B5F4D7" sysKey="${sysKey}"/>
-									 <%-- <a class="mt3 color7171C6" href="javascript:download('${finance.auditOpinionId}', '${sysKey}')">下载 </a> --%>
+									<%--  <u:show showId="fina_${vs.index}_pro" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_${vs.index}_pro" 
+									  businessId="${finance.id}" typeId="CAFD9B6FC80C4A089520DAB829B5F4D7" sysKey="${sysKey}"/> --%>
+									 <a class="mt3 color7171C6" href="javascript:download('${finance.profitListId}', '${sysKey}')">${finance.profitList} </a>
 									</td>
 									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.liabilitiesListId}', '${sysKey}')">${finance.liabilitiesList}</a>
 									</td>
