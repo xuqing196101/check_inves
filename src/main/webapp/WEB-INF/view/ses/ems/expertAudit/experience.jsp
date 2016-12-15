@@ -67,6 +67,19 @@
 						layer.close(index);
 					});
 			}
+			// 提示之前的信息
+			function isCompare(inputName,fieldName, type){
+				$.ajax({
+					url: "${pageContext.request.contextPath}/expertAudit/getFieldContent.do",
+					data: {"field":fieldName,"type":type,"expertId":"${expertId}"},
+					async: false,
+					success: function(response){
+						layer.tips("原值:" + response, "#" + inputName, {
+		    				tips : 2
+		    			});
+					}
+				});
+			}
 		</script>
 		<script type="text/javascript">
 			function jump(str) {
@@ -146,7 +159,7 @@
 						<ul class="ul_list">
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
-									<textarea rows="10" id="jobExperiences" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'主要工作经历');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.jobExperiences}</textarea>
+									<textarea rows="10" <c:if test="${fn:contains(editFields,'getJobExperiences')}">onmouseover="isCompare('jobExperiences','getJobExperiences','0');"</c:if> id="jobExperiences" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'主要工作经历');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.jobExperiences}</textarea>
 								</div>
 							</li>
 						</ul>
@@ -157,7 +170,7 @@
 						<ul class="ul_list">
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
-									<textarea rows="10" id="academicAchievement" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'专业学术成果');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.academicAchievement}</textarea>
+									<textarea rows="10" <c:if test="${fn:contains(editFields,'getAcademicAchievement')}">onmouseover="isCompare('academicAchievement','getAcademicAchievement','0');"</c:if> id="academicAchievement" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'专业学术成果');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.academicAchievement}</textarea>
 								</div>
 							</li>
 						</ul>
@@ -168,7 +181,7 @@
 						<ul class="ul_list">
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
-									<textarea rows="10" id="reviewSituation" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'参加军队地方采购评审情况');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.reviewSituation}</textarea>
+									<textarea rows="10" <c:if test="${fn:contains(editFields,'getReviewSituation')}">onmouseover="isCompare('reviewSituation','getReviewSituation','0');"</c:if> id="reviewSituation" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'参加军队地方采购评审情况');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.reviewSituation}</textarea>
 								</div>
 							</li>
 						</ul>
@@ -179,7 +192,7 @@
 						<ul class="ul_list">
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
-									<textarea rows="10" id="avoidanceSituation" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'需要申请回避的情况');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.avoidanceSituation}</textarea>
+									<textarea rows="10" <c:if test="${fn:contains(editFields,'getAvoidanceSituation')}">onmouseover="isCompare('avoidanceSituation','getAvoidanceSituation','0');"</c:if> id="avoidanceSituation" style="height: 150px; width: 100%; resize: none;" onclick="reason(this,'需要申请回避的情况');" class="col-md-12 col-xs-12 col-sm-12 h80">${expert.avoidanceSituation}</textarea>
 								</div>
 							</li>
 						</ul>

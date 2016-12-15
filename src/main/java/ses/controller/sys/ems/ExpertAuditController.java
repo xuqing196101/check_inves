@@ -4,9 +4,13 @@ import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -184,19 +188,21 @@ public class ExpertAuditController {
      * @param field
      * @param type
      * @return
+	 * @throws ParseException 
      */
     @ResponseBody
     @RequestMapping(value = "/getFieldContent",produces="text/html;charset=UTF-8")
-    public String getFieldContent(String field, String type, String expertId){
+    public String getFieldContent(String field, String type, String expertId) throws ParseException{
         StringBuffer content = new StringBuffer();
         Expert expert = service.selectByPrimaryKey(expertId);
         ExpertHistory oldExpert = service.selectOldExpertById(expertId);
+        oldExpert.setTimeToWork(new SimpleDateFormat("yyyy-MM").parse(new SimpleDateFormat("yyyy-MM").format(oldExpert.getTimeToWork())));
         Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
         String value = (String) compareMap.get(field);
         if ("0".equals(type)) {
             // 不需要数据字典查询的
             content.append(value);
-        } else {
+        } else if ("1".equals(type)) {
             // 需要从数据字典查询的
             if (field.indexOf(",") == -1) {
                 // 不需要拼接逗号的
@@ -216,6 +222,15 @@ public class ExpertAuditController {
                 }
                 content.append(temp.toString().substring(0, temp.length() - 1));
             }
+        } else if ("2".equals(type)) {
+            SimpleDateFormat sdf1 = new SimpleDateFormat ("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
+            Date date=sdf1.parse(value);
+            content.append(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        } else if ("3".equals(type)) {
+            // Wed Feb 01 00:00:00 CST 2017         String
+            SimpleDateFormat sdf1 = new SimpleDateFormat ("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
+            Date date=sdf1.parse(value);
+            content.append(new SimpleDateFormat("yyyy-MM").format(date));
         }
         return content.toString();
     }
@@ -280,6 +295,23 @@ public class ExpertAuditController {
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		model.addAttribute("expertId", expertId);
+		// 判断有没有进行修改
+        ExpertHistory oldExpert = service.selectOldExpertById(expertId);
+        Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
+        // 如果isEdit==1代表没有进行任何修改就进行了二次提交
+        if (compareMap.isEmpty()) {
+            // 没有修改
+            model.addAttribute("isEdit", "0");
+        } else {
+            // 有修改
+            model.addAttribute("isEdit", "1");
+        }
+        Set<String> keySet = compareMap.keySet();
+        List<String> editFields = new ArrayList<String>();
+        for (String method : keySet) {
+            editFields.add(method);
+        }
+        model.addAttribute("editFields", editFields);
 		return "ses/ems/expertAudit/experience";
 	}
 	
