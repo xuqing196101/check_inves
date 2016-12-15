@@ -14,9 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
@@ -58,6 +60,12 @@ public class ExpertAuditController {
 
 	@Autowired
 	private TodosService todosService; //待办
+	
+	/**
+	 * 地区
+	 */
+	@Autowired
+	private AreaServiceI areaService;
 	
 	@RequestMapping("/list")
 	public String expertAuditList(Expert expert, Model model, Integer pageNum, HttpServletRequest request){
@@ -108,10 +116,10 @@ public class ExpertAuditController {
 			model.addAttribute("hightEducation", hightEducation.getName());
 		}
 		//最高学位
-		/*if(expert.getDegree() != null){
+		if(expert.getDegree() != null){
 			DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
 			model.addAttribute("degree", degree.getName());
-		}*/
+		}
 		// 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
@@ -123,6 +131,23 @@ public class ExpertAuditController {
        // 产品类型数据字典
         List<DictionaryData> spList = DictionaryDataUtil.find(6);
         model.addAttribute("spList", spList);
+        
+        
+        //地区查询
+		List<Area> privnce = areaService.findRootArea();
+		model.addAttribute("privnce", privnce);
+		
+		Area area = areaService.listById(expert.getAddress());
+		String sonName = area.getName();
+		model.addAttribute("sonName", sonName);
+		for(int i=0; i<privnce.size(); i++){
+			if(area.getParentId().equals(privnce.get(i).getId())){
+				String parentName = privnce.get(i).getName();
+				model.addAttribute("parentName", parentName);
+			}
+		}
+        
+        
         
 		model.addAttribute("expertId", expertId);
 		
