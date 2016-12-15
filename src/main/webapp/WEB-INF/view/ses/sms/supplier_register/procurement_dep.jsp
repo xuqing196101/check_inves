@@ -211,8 +211,9 @@
 									<ul class="list-unstyled list-flow">
 										<li class="col-md-6 p0"><span class=""> 选择您所在的城市：</span>
 											<form action="${pageContext.request.contextPath}/supplier/search_org.html" method="post">
-												<div class="input-append">
+												<div class="select_common">
 													<select class="w100 fz13" id="root_area_select_id" name=pid" onchange="loadChildren(this)">
+														<option value="">请选择</option>
 														<c:forEach  items="${privnce }" var="prin">
 													         <c:if test="${prin.id==orgnization.provinceId }">
 													          <option value="${prin.id }" selected="selected" >${prin.name }</option>

@@ -94,6 +94,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<mvc:exclude-mapping path="/supplier_products/*.*" />
 			<mvc:exclude-mapping path="/supplier_type/*.*" />
 			<mvc:exclude-mapping path="/product_param/*.*" />
+			<mvc:exclude-mapping path="/supplierAudit/*.*" />
 			<mvc:exclude-mapping path="/supplier_type_relate/*.*" />
 			<mvc:exclude-mapping path="/category/find_category.*" />
 			<mvc:exclude-mapping path="/categoryparam/flist_by_category_id_and_products_id.*" />

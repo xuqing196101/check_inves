@@ -36,9 +36,11 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
@@ -54,6 +56,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierItemService;
@@ -148,6 +151,9 @@ public class SupplierController extends BaseSupplierController {
 	@Autowired
 	private SupplierBranchService supplierBranchService;
 	
+	
+	@Autowired
+	private SupplierAuditService supplierAuditService;
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -1630,6 +1636,7 @@ public class SupplierController extends BaseSupplierController {
 		Supplier supp = supplierMapper.queryByName(name);
 //		Supplier supplier = supplierService.get("61a6b3713e754c7c8efdc7d942eb7834");
 		Supplier supplier = supplierService.get(supp.getId());
+		
 		if(supplier.getAddress()!=null){
 			Area area = areaService.listById(supplier.getAddress());
 			List<Area> city = areaService.findAreaByParentId(area.getParentId());
@@ -1663,16 +1670,25 @@ public class SupplierController extends BaseSupplierController {
 				supplier.getListSupplierFinances().add(fin3);	
 			}
 		}
-	
-		
+
+ 
 		model.addAttribute("company", DictionaryDataUtil.find(17));
 		model.addAttribute("currSupplier", supplier);
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("supplierId", supplier.getId());
-		
 		model.addAttribute("privnce", privnce);
-		
+		SupplierAudit s=new SupplierAudit();
+		s.setSupplierId(supplier.getId());;
+		List<SupplierAudit> auditLists = supplierAuditService.selectByPrimaryKey(s);
+          // 所有的不通过字段的名字
+          StringBuffer errorField = new StringBuffer();
+          for (SupplierAudit audit : auditLists) {
+              errorField.append(audit.getAuditField() + ",");
+          }
+          
+          
+		model.addAttribute("audit",errorField);
 		return "ses/sms/supplier_register/basic_info";
 	}
   	
@@ -1808,4 +1824,27 @@ public class SupplierController extends BaseSupplierController {
 		        }
 		        return list;
 		}
+		
+		@RequestMapping(value="/audit",produces = "text/html;charset=UTF-8")
+		@ResponseBody
+		public String auditMsg(String id,String fieldName){
+			SupplierAudit supplierAudit=new SupplierAudit();
+			supplierAudit.setSupplierId(id);
+			supplierAudit.setAuditField(fieldName);
+			List<SupplierAudit> list = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		
+			return JSON.toJSONString(list.get(0));
+		}
+		
+		public List<String> getAuditFiled(String id){
+			List<String> list=new LinkedList<String>();
+			SupplierAudit supplierAudit=new SupplierAudit();
+			supplierAudit.setSupplierId(id);
+			List<SupplierAudit> audit = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit s:audit){
+				list.add(s.getAuditField());
+			}
+			return list;
+		}
+		
 }

@@ -20,11 +20,14 @@
     AUDIT_CONTENT, AUDIT_FIELD_NAME ,IS_DELETED
   </sql>
   
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey"   parameterType="ses.model.sms.SupplierAudit" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT
     where SUPPLIER_ID = #{supplierId} 
+    <if test="auditField!=null">
+		and  AUDIT_FIELD=#{auditField}
+    </if>
     and IS_DELETED = 0
     ORDER BY CREATED_AT DESC
   </select>

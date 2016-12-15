@@ -81,11 +81,16 @@ public class SupplierItemController extends BaseController{
 			if(supplier.getProcurementDepId()!=null){
 				map.put("id", supplier.getProcurementDepId());
 				List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
-				Orgnization orgnization = listOrgnizations1.get(0);
-				List<Area> city = areaService.findAreaByParentId(orgnization.getProvinceId());
-				model.addAttribute("orgnization", orgnization);
-				model.addAttribute("city", city);
-				model.addAttribute("listOrgnizations1", listOrgnizations1);
+				if(listOrgnizations1.size()>0){
+					Orgnization orgnization = listOrgnizations1.get(0);
+					List<Area> city = areaService.findAreaByParentId(orgnization.getProvinceId());
+					model.addAttribute("orgnization", orgnization);
+					model.addAttribute("city", city);
+					model.addAttribute("listOrgnizations1", listOrgnizations1);
+				}else{
+					model.addAttribute("orgnization", new Orgnization());
+				}
+				
 	
 			}
 			List<Area> privnce = areaService.findRootArea();

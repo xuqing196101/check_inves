@@ -396,6 +396,22 @@ function deleteFinance() {
 		$(pre).remove();
 		$(obj).parent().parent().remove();
 	}
+	
+	function errorMsg(auditField){
+		alerT("hehe");
+		var supplierId = "${currSupplier.id}";
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/audit.html",
+			data: {"id": supplierId, "fieldName": auditField},
+			dataType: "json",
+			success: function(data){
+			alert(data.suggest);
+			//	layer.msg(response ,{offset: ['400px', '750px']});
+			}
+		});
+	}
+	
+	
 </script>
 </head>
 
@@ -419,17 +435,29 @@ function deleteFinance() {
 				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 公司名称</span>
 					<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-				        <input id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}" /> 
-				        <span class="add-on cur_point">i</span>
+				        <input id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}"  <c:if test="${fn:contains(errorField,'supplierName')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('supplierName')"</c:if>  /> 
+				      	 <c:if test="${fn:contains(errorField,'supplierName')}">
+						    <span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+					    </c:if>
+					     <c:if test="${!fn:contains(errorField,'supplierName')}">
+							<span class="add-on cur_point">i</span>
+   					    </c:if>
+					    
+				     
 				        <div class="cue"> ${err_msg_supplierName } </div>
 				     </div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司网址</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			        <input type="text" name="website"  value="${currSupplier.website}">
-			        <span class="add-on cur_point">i</span>
-			        <span class="input-tip">例如：http://www.baidu.com</span>
+			        <input type="text" name="website"  value="${currSupplier.website}" <c:if test="${fn:contains(audit,'website')}">style="border: 1px solid #ef0000;" onfocus="errorMsg('website')"</c:if> >
+			       <c:if test="${fn:contains(audit,'website')}">
+						    <span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+					    </c:if>
+					     <c:if test="${!fn:contains(audit,'website')}">
+							<span class="add-on cur_point">i</span>
+			       			<span class="input-tip">例如：http://www.baidu.com</span>
+   					    </c:if>
 			         <div class="cue"> ${err_msg_website } </div>
 			       </div>
 				 </li>
@@ -1115,16 +1143,24 @@ function deleteFinance() {
 				   <div class="cue"> ${err_business } </div>
 		    </li>  --%>
 		    
-		    	<li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
+		   <%--  	<li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
 				   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span> 
 				   <div class="col-md-12 col-sm-12 col-xs-12 p0 h30">
 					 <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
 		   	   		 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
 				   </div>
-				  <%--  <div class="cue"> ${err_bearch } </div> --%>
+				   <div class="cue"> ${err_bearch } </div>
 				</li>
-				
+				 --%>
 		    
+		        <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 身份证正面</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
+				     <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
+		   	   		 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
+                    </div>
+                </li>
+                
+                
 		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">
 		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 营业范围</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
@@ -1150,8 +1186,8 @@ function deleteFinance() {
 			
 			<c:forEach items="${currSupplier.branchList }" var="bran"  varStatus="vs">
 		  	 <li class="col-md-3 col-sm-6 col-xs-12">
-				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">所在国家（地区）</span>
-		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 pl15">所在国家（地区）</span>
+		    	 <div class="select_common col-md-12 col-sm-12 col-xs-12  pl15">
 		    	 <%-- 	<input name="branchList[${vs.index }].country" id="sup_country" type="text" value="${bran.country}" />
 			        <span class="add-on cur_point">i</span> --%>
 		  <select name="branchList[${vs.index }].country"  id="overseas_branch_select_id">	        

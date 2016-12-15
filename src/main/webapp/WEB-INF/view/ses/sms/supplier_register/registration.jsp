@@ -33,10 +33,10 @@
 					${doc}
 					<div class="mt40">
 						<div class="fl">
-							文件下载：<span class="ml10">供应商注册须知</span><a href="#" class="download"></a>
+							文件下载：<span class="ml10">供应商注册须知</span><a href="http://www.plap.cn:80/staticFile/军队物资供应商入库标准（试行）.rar" class="download"></a>
 						</div>
 						<div class="fl ml20">
-							产品分类目录<a href="#" class="download"></a>
+							产品分类目录<a href="http://www.plap.cn:80/staticFile/军队物资供应商入库标准（试行）.rar" class="download"></a>
 						</div>
 						<div class="clear"></div>
 					</div>
