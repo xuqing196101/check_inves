@@ -1213,7 +1213,8 @@ public class ExpertController {
             StringBuffer categories = new StringBuffer();
             List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId());
             for (ExpertCategory expertCategory : allList) {
-                categories.append(categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getName());
+                Category category = categoryService.selectByPrimaryKey(expertCategory.getCategoryId());
+                categories.append(category == null ? "" : category.getName());
                 categories.append("、");
             }
             if (!"".equals(categories.toString())) {

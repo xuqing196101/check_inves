@@ -6,6 +6,7 @@ import java.util.Map;
 
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertHistory;
 
 
 public interface ExpertMapper {
@@ -123,4 +124,31 @@ public interface ExpertMapper {
      * @return
      */
     List<Expert> findExpertAuditList(Expert expert);
+    /**
+     *〈简述〉
+     * 未退回修改的专家存储历史信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     */
+    void insertExpertHistory(Expert expert);
+    
+    /**
+     *〈简述〉
+     * 删除退回修改的专家存储历史信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     */
+    void deleteExpertHistory(String expertId);
+    
+    /**
+     *〈简述〉
+     * 根据id查询专家的历史信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @return
+     */
+    ExpertHistory selectOldExpertById(String expertId);
 }

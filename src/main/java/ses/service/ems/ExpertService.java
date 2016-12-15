@@ -1,7 +1,5 @@
 package ses.service.ems;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
-import ses.model.ems.ExtConType;
+import ses.model.ems.ExpertHistory;
 
 
 /**
@@ -303,4 +301,31 @@ public interface ExpertService {
      * @return
      */
     List<Expert> findExpertAuditList(Expert expert, Integer pageNum);
+    /**
+     *〈简述〉
+     * 未退回修改的专家存储历史信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     */
+    void insertExpertHistory(Expert expert);
+    
+    /**
+     *〈简述〉
+     * 删除退回修改的专家存储历史信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     */
+    void deleteExpertHistory(String expertId);
+    
+    /**
+     *〈简述〉
+     * 根据id查询专家的历史信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @return
+     */
+    ExpertHistory selectOldExpertById(String expertId);
 }
