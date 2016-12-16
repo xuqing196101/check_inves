@@ -60,7 +60,7 @@ session.setAttribute("tokenSession", tokenValue);
 			         });
 				});
 				$("#tab-1").attr("style", "");
-				$("#li_1").attr("class", "s_news f18");
+				$("li_id_1").attr("class", "active");
 			}
 		});
 	});
