@@ -116,23 +116,33 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/list")
     public String list(@CurrentUser User user, Integer page, Model model, Project project, HttpServletRequest request) {
-        if(user != null && user.getOrg() != null){
-            request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
-            PurchaseDep purchaseDep = new PurchaseDep();
-            purchaseDep.setId(user.getOrg().getId());
-            project.setPurchaseDep(purchaseDep);
-            List<Project> list = projectService.list(page == null ? 1 : page, project);
-            PageInfo<Project> info = new PageInfo<Project>(list);
-            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-            model.addAttribute("info", info);
-            model.addAttribute("projects", project);
-        }
+//        if(user != null && user.getOrg() != null){
+//            request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
+//            PurchaseDep purchaseDep = new PurchaseDep();
+//            purchaseDep.setId(user.getOrg().getId());
+//            project.setPurchaseDep(purchaseDep);
+//            List<Project> list = projectService.list(page == null ? 1 : page, project);
+//            PageInfo<Project> info = new PageInfo<Project>(list);
+//            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+//            model.addAttribute("info", info);
+//            model.addAttribute("projects", project);
+//        }
+    	
+    	//取出session
+    	request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
+    	
         List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("info", info);
         model.addAttribute("projects", project);
         return "bss/ppms/project/list";
+    }
+    
+    @ResponseBody
+    @RequestMapping("/clean")
+    public void clean(HttpServletRequest request){
+    	request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
     }
     
     /**
@@ -199,6 +209,76 @@ public class ProjectController extends BaseController {
         return "bss/ppms/project/add";
     }
     
+    /**
+    * @Title: addSession
+    * @author Shen Zhenfei 
+    * @date 2016-12-15 下午6:54:31  
+    * @Description: 获取移除后的session
+    * @param @param page
+    * @param @param model
+    * @param @param id
+    * @param @param checkedIds
+    * @param @param request
+    * @param @param listBean
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/addSession")
+    public String addSession(Integer page, Model model, String id, String checkedIds,
+            HttpServletRequest request,PurchaseRequiredFormBean listBean){
+    	
+    	request.getSession().removeAttribute("sessionList");
+    	
+    	List<Task> list = taskservice.listByTask(null, page==null?1:page);
+        PageInfo<Task> info = new PageInfo<Task>(list);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        model.addAttribute("info", info);
+        //显示项目明细
+        if(id != null){
+            List<PurchaseRequired> lists  = new ArrayList<>();
+            String[] ids = id.split(",");
+            int bud = 0;
+            for (int i = 0; i < ids.length; i++ ) {
+                PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
+                map.put("id", purchaseRequired.getId());
+                List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(map);
+                if(lis.size() == 1){
+                    for (PurchaseRequired purchaseRequired2 : lis) {
+                        bud+=purchaseRequired2.getBudget().intValue();
+                    }
+                }
+                    lists.add(purchaseRequired);
+            }
+            Map<String,Object> mapTwo = new HashMap<>();
+            List<PurchaseRequired> list1 = new ArrayList<>();
+            for (PurchaseRequired pur : lists) {
+                mapTwo.put("id", pur.getId());
+                List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(mapTwo);
+                if(lis.size()>1){
+                    pur.setBudget(new BigDecimal(bud));
+                }
+                list1.add(pur);
+            }
+            model.addAttribute("kind", DictionaryDataUtil.find(5));
+            
+            List<PurchaseRequired> sessionList=  (List<PurchaseRequired>)request.getSession().getAttribute("sessionList");
+            if(sessionList!=null&&sessionList.size()>0){
+            	
+            	
+                list1.addAll(sessionList);
+            }
+            model.addAttribute("lists", list1);
+            
+            request.getSession().setAttribute("sessionList", list1);
+            String name = request.getParameter("name");
+            String projectNumber = request.getParameter("projectNumber");
+            model.addAttribute("name", name);
+            model.addAttribute("projectNumber", projectNumber);
+            model.addAttribute("ids", id);
+            model.addAttribute("checkedIds", checkedIds);
+        }
+    	return "bss/ppms/project/add";
+    }
     
     
     /**
@@ -441,6 +521,23 @@ public class ProjectController extends BaseController {
         response.getWriter().write(json);
         response.getWriter().flush();
         response.getWriter().close();
+    }
+    
+    
+    @RequestMapping("/checkDeailTop")
+    public void checkDeailTop(HttpServletResponse response, String id, Model model)
+        throws IOException {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(id);
+        if ("1".equals(purchaseRequired.getParentId())) {
+            map.put("id", purchaseRequired.getId());
+            List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
+            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write(json);
+            response.getWriter().flush();
+            response.getWriter().close();
+        }
     }
 
 
