@@ -59,10 +59,10 @@
 		        $('input[name="chkItem"]:checked').each(function(){ 
 		            id.push($(this).val());
 		        }); 
-		        if(id.length==1){
+		        if(id.length>=1){
 		     	   $.ajax({
 		                type: "GET",
-		                url: "${pageContext.request.contextPath}//ExpExtract/resetPwd.do?eid="+id+"&&flowDefineId=${flowDefineId}",
+		                url: "${pageContext.request.contextPath}/ExpExtract/resetPwd.do?eid="+id+"&&flowDefineId=${flowDefineId}",
 		                dataType: "json",
 		                success: function(data){
 		             	   if("sccuess"==data){
@@ -72,8 +72,6 @@
 		                           }
 		                         }
 		            });
-		        }else if(id.length>1){
-		            layer.alert("只能选择一个",{offset: ['100px', '300px'], shade:0.01});
 		        }else{
 		            layer.alert("请选择需要重置密码的专家",{offset: ['100px', '300px'], shade:0.01});
 		        }

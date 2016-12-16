@@ -107,7 +107,6 @@
                 shade: 0.01
               });
             }
-
             if(map.sccuess == "SCCUESS") {
               var projectId = map.projectId;
               window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
@@ -121,27 +120,6 @@
     	
     	  window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/addExtractions.html?projectId=' + pachageId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
 }
-//       function extract(id, btn) {
-        //        layer.open({
-        //               type: 2, //page层
-        //               area: ['90%', '50%'],
-        //               title: '供应商抽取 项目名称： ${projectName}',
-        //               closeBtn: 1,
-        //               shade:0.01, //遮罩透明度
-        //               shadeClose: true,
-        //               offset: '30px',
-        //               move:false,
-        //               content: '${pageContext.request.contextPath}/SupplierExtracts/extractCondition.html?cId='+id,
-        //               end:function(){
-        //                window.location.reload();
-        //               }
-        //             });
-//         window.location.href = "${pageContext.request.contextPath}/SupplierExtracts/extractCondition.html?cId=" + id;
-
-        //        $(btn).next().remove();
-        //       $(btn).parent().parent().find("td:eq(2)").html("抽取中");
-
-//       }
 
       //选择监督人员
       function supervise() {

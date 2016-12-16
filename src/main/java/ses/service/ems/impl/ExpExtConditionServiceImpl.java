@@ -23,6 +23,12 @@ import ses.service.ems.ExpExtConditionService;
  */
 @Service
 public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
+    
+    /** SCCUESS */
+    private static final String SUCCESS = "SUCCESS";
+    /** ERROR */
+    private static final String ERROR = "ERROR";
+    
 	@Autowired
 	ExpExtConditionMapper conditionMapper;
 	
@@ -93,6 +99,30 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
     @Override
     public Integer getCount(String packId) {
         return conditionMapper.getCount(packId);
+    }
+
+    /**
+     * 删除
+     * @see ses.service.ems.ExpExtConditionService#delById(java.lang.String)
+     */
+    @Override
+    public Integer delById(String id) {
+        return conditionMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 本次抽取是否完成
+     * @see ses.service.ems.ExpExtConditionService#isFinish()
+     */
+    @Override
+    public String isFinish(ExpExtCondition condition) {
+        List<ExpExtCondition> list = conditionMapper.list(condition);
+        if (list != null && list.size() !=0 ){
+            return SUCCESS;
+        }else{
+            return ERROR;
+        }
+     
     }
     
 }

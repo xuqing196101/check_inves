@@ -68,4 +68,23 @@ public interface ExpExtConditionService {
      */
     Integer getCount(String packId);
     
+    /**
+     * 
+     *〈简述〉根据id删除
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id
+     * @return
+     */
+    Integer delById(String id);
+    
+    /**
+     * 
+     *〈简述〉本次抽取是否完成
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    String isFinish(ExpExtCondition condition);
+    
 }

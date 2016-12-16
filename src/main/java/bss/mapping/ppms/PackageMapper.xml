@@ -32,7 +32,7 @@
 	<!-- 专家 -->
 	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
 		id="ResultExpert">
-		<collection property="listExperts" column="EPID"
+		<collection property="listExperts" column="ID"
 			select="ses.dao.ems.ExpertMapper.getByExpertProjectId" ofType="ses.model.ems.Expert" />
 	</resultMap>
 	<!-- 供应商 -->
@@ -309,27 +309,26 @@
 	</select>
 
 	<!-- 根据包信息返回抽取出的专家 -->
-	<select id="listResultExpert" parameterType="java.lang.String"
-		resultMap="ResultExpert">
-		SELECT PP.*,EP."ID" as EPID FROM T_BSS_PPMS_PACKAGE
-		pp LEFT
-		JOIN
-		T_SES_EMS_EXP_EXT_PACKAGE ep ON PP."ID"=EP.PACKAGE_ID
-		WHERE
-		EP.PROJECT_ID = #{projectId}
-	</select>
+  <select id="listResultExpert" parameterType="java.lang.String"
+    resultMap="ResultExpert">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PPMS_PACKAGE
+    WHERE
+    PROJECT_ID = #{projectId}
+  </select>
 
-	<!-- 根据包信息返回抽取出的供应商 -->
-	<select id="listResultSupplier" parameterType="java.lang.String"
-		resultMap="ResultSupplier">
-		SELECT
-		<include refid="Base_Column_List" />
-		FROM
-		T_BSS_PPMS_PACKAGE 
-		WHERE
-		PROJECT_ID =
-		#{projectId}
-	</select>
+  <!-- 根据包信息返回抽取出的供应商 -->
+  <select id="listResultSupplier" parameterType="java.lang.String"
+    resultMap="ResultSupplier">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    T_BSS_PPMS_PACKAGE 
+    WHERE
+    PROJECT_ID =
+    #{projectId}
+  </select>
 
 	<select id="listSupplierCheckPass" parameterType="java.lang.String"
 		resultMap="SupplierCheckPass">

@@ -57,48 +57,6 @@
 
 				});
 
-				$("#area1").empty();
-				//抽取地址回显    
-				var extractAddress = "${extractionSites}";
-				if(extractAddress != null && extractAddress != '') {
-					var extractAddressArray = extractAddress.split(",");
-					city1 = extractAddressArray[1]; <
-					c: forEach items = "${listArea}"
-					var = "item"
-					varStatus = "status" >
-						if("${item.name}" == extractAddressArray[0]) {
-							$("#area1").append("<option selected='selected' value='${item.id}'>${item.name}</option>");
-						} else {
-							$("#area1").append("<option  value='${item.id}'>${item.name}</option>");
-						} <
-						/c:forEach> 
-				} else { <
-					c: forEach items = "${listArea}"
-					var = "item"
-					varStatus = "status" >
-						$("#area1").append("<option value='${item.id}'>${item.name}</option>"); <
-					/c:forEach>   
-				}
-
-				var areas1 = $("#area1 option:selected").val();
-				$.ajax({
-					type: "POST",
-					url: "${pageContext.request.contextPath}/SupplierExtracts/city.do",
-					data: {
-						area: areas1
-					},
-					dataType: "json",
-					success: function(data) {
-						var list = data;
-						$("#city1").empty();
-						for(var i = 0; i < list.length; i++) {
-							if(list[i].name == city1) {
-								$("#city1").append("<option selected='selected' value=" + list[i].id + ">" + list[i].name + "</option>");
-							}
-							$("#city1").append("<option  value=" + list[i].id + ">" + list[i].name + "</option>");
-						}
-					}
-				});
 
 				//获取包id
 				var projectId = "${projectId}";
@@ -113,47 +71,32 @@
 				}
 			});
 
-			/** 全选全不选 */
-			function selectAll() {
-				var checklist = document.getElementsByName("chkItem");
-				var checkAll = document.getElementById("checkAll");
-				if(checkAll.checked) {
-					for(var i = 0; i < checklist.length; i++) {
-						checklist[i].checked = true;
-					}
-				} else {
-					for(var j = 0; j < checklist.length; j++) {
-						checklist[j].checked = false;
-					}
-				}
-			}
-
-			/** 单选 */
-			function check() {
-				var count = 0;
-				var checklist = document.getElementsByName("chkItem");
-				var checkAll = document.getElementById("checkAll");
-				for(var i = 0; i < checklist.length; i++) {
-					if(checklist[i].checked == false) {
-						checkAll.checked = false;
-						break;
-					}
-					for(var j = 0; j < checklist.length; j++) {
-						if(checklist[j].checked == true) {
-							checkAll.checked = true;
-							count++;
-						}
-					}
-				}
-			}
+			   function ycDiv(obj, index){
+			        if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
+			          $(obj).removeClass("jbxx");
+			          $(obj).addClass("zhxx");
+			        } else {
+			          if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
+			            $(obj).removeClass("zhxx");
+			            $(obj).addClass("jbxx");
+			          }
+			        }
+			        
+			        var divObj = new Array();
+			        divObj = $(".p0" + index);
+			        for (var i =0; i < divObj.length; i++) {
+			            if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
+			              $(divObj[i]).removeClass("hide");
+			            } else {
+			              if ($(divObj[i]).hasClass("p0"+index)) {
+			                $(divObj[i]).addClass("hide");
+			              };
+			            };
+			        };
+			      }
 
 			function add() {
-
-				//      var projectName = $("#projectName").val();
-				//      var projectNumber = $("#projectNumber").val();
-				$("#extAddress").val($("#area1 option:selected").text() + "," + $("#city1 option:selected").text());
-				//        var projectId="${projectId}";
-				//        alert(projectId);
+				 var packageId= $("#packageId").find("option:selected").val();
 				$.ajax({
 					cache: true,
 					type: "POST",
@@ -182,8 +125,8 @@
 							});
 						}
 						if(map.sccuess == "SCCUESS") {
-							var projectId = map.projectId;
-							window.location.href = '${pageContext.request.contextPath}/ExpExtract/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}';
+							  var projectId = map.projectId;
+				              window.location.href = '${pageContext.request.contextPath}/ExpExtract/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
 						}
 					}
 				});
@@ -281,140 +224,137 @@
 				<div>
 					<h2 class="count_flow"><i>1</i>必填项</h2>
 					<ul class="ul_list">
-						<li class="col-md-4 col-sm-6 col-xs-12 pl15">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><i class="red">*</i>抽取地区:</span>
-							<div class="input-append">
-								<select class="w133" id="area1" onchange="areas1();">
-								</select>
-								<select name="extractionSites" class="w93" id="city1"></select>
-							</div>
-						</li>
-						<li class="col-md-4 col-sm-6 col-xs-12 ">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><i class="red">*</i>项目名称:</span>
+              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                <input class="span5" id="projectName" name="name" value="${projectName}" type="text">
+                <span class="add-on">i</span>
+                <div class="cue" id="projectNameError"></div>
+              </div>
+            </li>
+            <li class="col-md-3 col-sm-6 col-xs-12">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>项目编号:</span>
+              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                <input class="span5" id="projectNumber" name="projectNumber" value="${projectNumber}" type="text">
+                <span class="add-on">i</span>
+                <div class="cue" id="projectNumberError"></div>
+              </div>
+            </li>
+            <li class="col-md-3 col-sm-6 col-xs-12 ">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>采购方式:</span>
+              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                <select class="col-md-12 col-sm-12 col-xs-6 p0" name="purchaseType">
+                  <c:forEach items="${findByMap}" var="map">
+                    <option value="${map.id}">${map.name}</option>
+                  </c:forEach>
+                </select>
+              </div>
+            </li>
+            <li class="col-md-3 col-sm-6 col-xs-12 ">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>开标时间:</span>
+              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                <input class="col-md-12 col-sm-12 col-xs-6 p0" onclick="WdatePicker();" id="tenderTimeId" name="tenderTime" value="<fmt:formatDate value='${bidDate}'
+                                pattern='yyyy-MM-dd' />" maxlength="30" type="text">
+                <div class="cue" id="tenderTimeError"></div>
+              </div>
+            </li>
+						<li class="col-md-3 col-sm-6 col-xs-12 ">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>监督人员:</span>
-							<div class="input-append">
+							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="span5" readonly id="supervises" title="${userName}" value="${userName}" onclick="supervise();" type="text">
 								<span class="add-on">i</span>
 								<div class="cue" id="dSupervise"></div>
 							</div>
 						</li>
-						<li class="col-md-4 col-sm-6 col-xs-12 ">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>项目名称:</span>
-							<div class="input-append">
-								<input class="span5" id="projectName" name="name" value="${projectName}" type="text">
-								<span class="add-on">i</span>
-								<div class="cue" id="projectNameError"></div>
-							</div>
-						</li>
-						<li class="col-md-4 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>项目编号:</span>
-							<div class="input-append">
-								<input class="span5" id="projectNumber" name="projectNumber" value="${projectNumber}" type="text">
-								<span class="add-on">i</span>
-								<div class="cue" id="projectNumberError"></div>
-							</div>
-						</li>
-						<li class="col-md-4 col-sm-6 col-xs-12 ">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>包名:</span>
-							<div class="input-append">
-								<input class="span5" id="packageName" name="packageName" value="${packageName}" type="text">
-								<span class="add-on">i</span>
-								<div class="cue" id="packageNameError"></div>
-							</div>
-						</li>
-						<li class="col-md-4 col-sm-6 col-xs-12 ">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>采购方式:</span>
-							<div class="input-append">
-								<select class="w230" name="purchaseType">
-									<c:forEach items="${findByMap}" var="map">
-										<option value="${map.id}">${map.name}</option>
-									</c:forEach>
-								</select>
-							</div>
-						</li>
-						<li class="col-md-4 col-sm-6 col-xs-12 dnone">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>开标时间:</span>
-							<div class="input-append">
-								<input class="Wdate w230" onclick="WdatePicker();" id="tenderTimeId" name="tenderTime" value="<fmt:formatDate value='${tenderTime}'
-                                pattern='yyyy-MM-dd' />" maxlength="30" type="text">
-								<div class="cue" id="tenderTimeError"></div>
-							</div>
-						</li>
-						<li class="col-md-4 col-sm-6 col-xs-12 ">
+						<li class="col-md-3 col-sm-6 col-xs-12 ">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>响应时间:</span>
-							<div class="input-append">
-								<input class="w108" name="hour" value="${hour}" maxlength="3" type="text"><span class="f14">时</span><input class="w108" value="${minute}" id="minute" name="minute" maxlength="3" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"><span class="f14">分</span>
+							<div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
+								<input class="col-md-5 col-sm-5 col-xs-5" name="hour" value="${hour}" maxlength="3" type="text">
+								<span class="f14   fl">时</span>
+								<input class="col-md-5 col-sm-5 col-xs-5" value="${minute}" id="minute" name="minute" maxlength="3" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+								<span class="f14   fl">分</span>
 								<div class="cue" id="responseTimeError"></div>
 							</div>
 						</li>
-
-						<div class="margin-bottom-5">
-							<button class="btn btn-windows add" type="button" onclick="add();">添加条件</button>
-						</div>
-						<table class="table table-bordered table-condensed ">
-							<thead>
-								<tr>
-									<th class="info w50">序号</th>
-									<th class="info">抽取条件</th>
-									<th class="info">状态</th>
-									<th class="info">操作</th>
-								</tr>
-							</thead>
-							<c:forEach items="${list.list}" var="obj" varStatus="vs">
-								<tr>
-									<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-									<td class="ww50">第【${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}】次抽取，
-
-										<c:forEach items="${stemFrom}" var="fm">
-											<c:if test="${fm.id eq obj.expertsFrom }">
-												专家来源【 ${ fm.name}】，
-											</c:if>
-										</c:forEach>
-
-										专家所在地区【${ obj.address}】
-										<c:forEach items="${obj.conTypes }" var="contypes">
-											， 专家类型
-											<c:choose>
-												<c:when test="${contypes.expertsTypeId==1}">
-													【技术】
-												</c:when>
-												<c:when test="${contypes.expertsTypeId==2}">
-													【法律】
-												</c:when>
-												<c:when test="${contypes.expertsTypeId==3}">
-													【商务】
-												</c:when>
-											</c:choose>
-											<c:if test="${contypes.categoryName!=null}">
-												<c:set var="re" value="${fn:replace(contypes.categoryName,'^',',')}" /> ， 采购类别【 ${re}】
-											</c:if>
-											,专家数量【${contypes.expertsCount }】
-										</c:forEach>
-									</td>
-									<td class="tc w50" id="status">
-										<c:if test="${obj.status==1}">
-											待抽取
-										</c:if>
-										<c:if test="${obj.status==2}">
-											抽取中
-										</c:if>
-										<c:if test="${obj.status==3}">
-											已抽取
-										</c:if>
-									</td>
-									<td class="tc w100" align="center">
-										<button class="btn" id="save" type="button" onclick="extract('${obj.id }',this);">抽取</button>
-
-										<c:if test="${obj.status==1 }">
-											<button class="btn margin-top-10" id="save" type="button" onclick="update('${obj.id }');">修改</button>
-										</c:if>
-									</td>
-								</tr>
-							</c:forEach>
-						</table>
-
-						<div id="pagediv" align="right"></div>
+						  <li class="col-md-12 col-sm-6 col-xs-12 ">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><i class="red">*</i>抽取地区:</span>
+               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                <input class="span5" id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
+                <span class="add-on">i</span>
+                <div class="cue" id="projectNumberError"></div>
+              </div>
+            </li>
 					</ul>
 				</div>
+				
+				 <div>
+          <h2 class="count_flow "><i>2</i>
+                    <div class="ww50 fl">抽取信息</div>
+          </h2>
+           <div align="right" class=" pl20 mb10 " >
+           <select class="w200" id="packageId" >
+            <c:forEach items="${listResultExpert}" var="list">
+                <option value="${list.id }" >${list.name }</option>
+            </c:forEach>
+          </select>
+            <button class="btn" 
+                onclick="add();" type="button">抽取</button>
+            <button class="btn"
+                onclick="record();" type="button">引用其他包</button>
+        </div>
+          <div class="ul_list">
+        <div class="clear">
+            <input id="priceStr" name="priceStr" type="hidden" />
+            <input id="projectId" name="projectId" value="${projectId }" type="hidden" />
+            <c:forEach items="${listResultExpert }" var="list" varStatus="vs">
+              <c:set value="${vs.index}" var="index"></c:set>
+              <div>
+                <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listResultExpert[index].name }</span></h2>
+              </div>
+              <div class="p0${index}">
+							  <table id="table" class="table table-bordered table-condensed">
+							          <thead>
+							            <tr>
+							              <th class="info w50">序号</th>
+							              <th class="info">专家姓名</th>
+							              <th class="info">联系电话</th>
+							              <th class="info">工作单位名称</th>
+							              <th class="info">专家技术职称</th>
+							            </tr>
+							          </thead>
+							          <tbody id="tbody">
+							          <c:choose>
+							           <c:when test="${typeId == 1}">
+							            <c:forEach items="${list.listExperts}" var="listyes"
+                            varStatus="vs">
+                            <tr class='cursor '>
+                              <td class='tc'>${vs.index+1}</td>
+                              <td class='tc'>${listyes.relName}</td>
+                              <td class='tc'>${listyes.mobile}</td>
+                              <td class='tc'>${listyes.workUnit}</td>
+                              <td class='tc'>${listyes.professTechTitles}</td>
+                            </tr>
+                          </c:forEach>
+							           </c:when>
+							           <c:otherwise>
+							             <c:forEach items="${list.listExperts}" var="listyes"    varStatus="vs">
+								           <tr class='cursor '>
+	                              <td class='tc'>${vs.index+1}</td>
+	                              <td class='tc'>******</td>
+	                              <td class='tc'>******</td>
+	                              <td class='tc'>******</td>
+	                              <td class='tc'>******</td>
+	                            </tr>
+                          </c:forEach>
+							           </c:otherwise>
+							          </c:choose>
+							          </tbody>
+							        </table>
+              </div>
+            </c:forEach>
+        </div>
+        </div>
+        </div>
 			</form>
 		</div>
 

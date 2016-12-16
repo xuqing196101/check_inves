@@ -4,6 +4,7 @@
 package ses.controller.sys.ems;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,11 +38,15 @@ import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.ExtConType;
 import ses.model.ems.ExtConTypeArray;
 import ses.model.ems.ProExtSupervise;
+import ses.model.ems.ProjectExtract;
+import ses.model.sms.SupplierCondition;
 import ses.service.bms.AreaServiceI;
 import ses.service.ems.ExpExtConditionService;
 import ses.service.ems.ExtConTypeService;
+import ses.service.ems.ProjectExtractService;
 import ses.service.ems.ProjectSupervisorServicel;
 import ses.util.DictionaryDataUtil;
+import ses.util.ValidateUtils;
 
 /**
  * @Description:查询条件控制
@@ -70,99 +75,89 @@ public class ExpExtConditionController {
     ProjectService projectService;
     @Autowired
     ExpExtPackageMapper extPackageMapper;
-    
+    @Autowired
+    ProjectExtractService extractService; //关联表
+
     /**
      * @Description:保存查询条件
      *
      * @author Wang Wenshuai
      * @version 2016年9月28日 上午10:56:45  
      * @param @return      
-     * @return String 
+     * @return String  
      * @throws UnsupportedEncodingException 
      */
     @ResponseBody
-    @RequestMapping(value="/saveExtCondition",produces = "text/html;charset=UTF-8")
+    @RequestMapping(value="saveExtCondition",produces = "text/html;charset=UTF-8")
     public String saveExtCondition(ExpExtCondition condition,String hour,String minute,
-                                   ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq,Model model,String typeclassId,String extAddress) throws NoSuchFieldException, SecurityException, UnsupportedEncodingException{
+                                   ExtConType extConType,String[] sids,HttpServletRequest sq,Model model,String typeclassId,String extAddress) throws NoSuchFieldException, SecurityException, UnsupportedEncodingException{
+         if (condition.getProjectId() != null && !"".equals(condition.getProjectId())){
+             //已抽取
+             conditionService.update(new ExpExtCondition(condition.getProjectId(),(short)2));
+         }
         List<Area> listArea = areaService.findTreeByPid("1",null);
         model.addAttribute("listArea", listArea);
         model.addAttribute("typeclassId", typeclassId);
-        Map<String, String> map = new HashMap<>();
-        Integer verification = verification(condition, hour, minute, sids, model,extConTypeArray,map);
-      
+        Map<String, Object> map = new HashMap<>();
+        Integer verification = verification(condition, hour, minute, sids, model,extConType,map);
         if (verification == 0){
-            map.put("sccuess", "sccuess");
             condition.setResponseTime(hour + "," + minute);
-            //给专家记录表set信息并且插入到记录表(查看是否已存在记录)
-            ExpExtractRecord record = new ExpExtractRecord();
-            
-            //根据包id获取
-            ExpExtPackage byId = extPackageMapper.selectByPrimaryKey(condition.getProjectId());
-            
-            record.setProjectId(byId.getProjectId());
-            //查询是否已有记录
-            PageHelper.startPage(1, 1);
-            List<ExpExtractRecord> list = expExtractRecordMapper.list(record);
-            if (condition.getId() != null && !"".equals(condition.getId())){
-                conditionService.update(condition);	
-                //删除关联数据重新添加
-                conTypeService.delete(condition.getId());
-            }else{
-                //插入信息
-                conditionService.insert(condition);
-                //添加一条记录
-                ExpExtPackage extP = new  ExpExtPackage();
-                extP.setId(condition.getProjectId());
-                List<ExpExtPackage> listExtPackage = extPackageMapper.list(extP);
-                if (listExtPackage != null && listExtPackage.size() != 0){
-                    extP.setCount(listExtPackage.get(0).getCount() == 0 ? 1 : listExtPackage.get(0).getCount()+ 1);
-                    extPackageMapper.updateByPrimaryKeySelective(extP);
-                }
-                
-                
-                if (list != null && list.size() != 0){
-                
-                }else{
-                    ExpExtractRecord expExtractRecord = new ExpExtractRecord();
-                    expExtractRecord.setExtractionTime(new Date());
-                    Project selectById = projectService.selectById(condition.getProjectId());
-                    if (selectById != null){
-                        expExtractRecord.setProjectId(selectById.getId());
-                        expExtractRecord.setProjectName(selectById.getName());
-                    }
-                    User user = (User) sq.getSession().getAttribute("loginUser");
-                    expExtractRecord.setExtractsPeople(user.getId());
-                    expExtractRecord.setExtractTheWay((short)1);
-                    expExtractRecord.setExtractionSites(extAddress);
-                    expExtractRecordMapper.insertSelective(expExtractRecord);
-                }
-               
-            }
-            
+            //插入信息
+            conditionService.insert(condition);
             //插入条件表
-            ExtConType conType = null;
-            if(extConTypeArray != null && extConTypeArray.getExpertsTypeId() != null){
-                for (int i = 0; i < extConTypeArray.getExpertsTypeId().length; i++) {
-                    conType=new ExtConType();
+            extConType.setConditionId(condition.getId());
+            conTypeService.insert(extConType); 
 
-                    conType.setExpertsCount(Integer.parseInt(extConTypeArray.getExtCount()[i]));
+            map.put("sccuess", "sccuess");
 
-                    conType.setExpertsTypeId(new Short(extConTypeArray.getExpertsTypeId()[i]));
-                    if (extConTypeArray.getExtCategoryId().length != 0){
-                        conType.setCategoryId(extConTypeArray.getExtCategoryId()[i]);
-                        conType.setCategoryName(extConTypeArray.getExtCategoryName()[i]);
+            //获取查询条件类型
+            Map<String, Integer> mapcount = new HashMap<String, Integer>();
+            User user=(User) sq.getSession().getAttribute("loginUser");
+            List<ProjectExtract> list = extractService.list(new ProjectExtract(condition.getId()));
+            if (list == null || list.size() == 0){
+                extractService.insert(condition.getId(), user != null && !"".equals(user.getId()) ? user.getId() : "");
+                list = extractService.list(new ProjectExtract(condition.getId()));
+            }
+            //已操作的
+            List<ProjectExtract> projectExtractListYes = new ArrayList<ProjectExtract>();
+            //未操作的
+            List<ProjectExtract> projectExtractListNo = new ArrayList<ProjectExtract>();
+            for (ProjectExtract projectExtract : list) {
+                if (projectExtract.getOperatingType() != null && (projectExtract.getOperatingType() ==1 || projectExtract.getOperatingType() == 2)){
+                    projectExtractListYes.add(projectExtract);
+                    Integer conTypeId = mapcount.get(projectExtract.getConTypeId());
+                    if (conTypeId != null && conTypeId != 0){
+                        mapcount.put(projectExtract.getConTypeId(), conTypeId+=1);
+                    } else {
+                        mapcount.put(projectExtract.getConTypeId(), 1);
                     }
-//                    if (extConTypeArray.getExtQualifications().length != 0){
-//                        conType.setExpertsQualification(extConTypeArray.getExtQualifications()[i]);
-//                    }
-                    conType.setConditionId(condition.getId());
-//                    conType.setIsMulticondition(new Short(extConTypeArray.getIsSatisfy()[i]));
-                    //如果有id就修改没有就新增
-                    conTypeService.insert(conType);	
+                } else if (projectExtract.getOperatingType() != null && projectExtract.getOperatingType() == 3){
+                    projectExtractListYes.add(projectExtract);
+                } else {
+                    projectExtractListNo.add(projectExtract);
                 }
             }
-           
-         
+
+            //获取查询条件类型
+            List<ExpExtCondition> listCondition = conditionService.list(new ExpExtCondition(condition.getId(), ""), 0);
+            List<ExtConType> conTypes = listCondition.get(0).getConTypes();
+            for (ExtConType extConType1 : conTypes) {
+                extConType1.setAlreadyCount(mapcount.get(extConType1.getId()) == null ? 0 : mapcount.get(extConType1.getId()));
+            }
+            map.put("extConType", conTypes);
+
+            if (projectExtractListNo.size() != 0) {
+                projectExtractListYes.add(projectExtractListNo.get(0));
+                projectExtractListNo.remove(0);
+            }
+            map.put("extRelateListYes", projectExtractListYes);
+            map.put("extRelateListNo", projectExtractListNo);
+            //删除查询不出的查询结果
+            if (projectExtractListNo.size() == 0 && projectExtractListYes.size() == 0){
+                conditionService.delById(listCondition.get(0).getId());
+                conTypeService.delete(listCondition.get(0).getConTypes().get(0).getId());
+            }
+
         }
         return JSON.toJSONString(map);
     }
@@ -179,20 +174,21 @@ public class ExpExtConditionController {
      * @return
      */
     private Integer verification(ExpExtCondition condition, String hour, String minute,
-                                 String[] sids, Model model,ExtConTypeArray extConTypeArray,Map<String, String> map) {
+                                 String[] sids, Model model,ExtConType extConType,Map<String, Object> map) {
         model.addAttribute("ExpExtCondition", condition);
         Integer count = 0;
-        if (condition.getAgeMax() == null || "".equals(condition.getAgeMax()) || condition.getAgeMin() == null || "".equals(condition.getAgeMax())){
-            map.put("age", "不能为空");
-            count = 1;
-        }   
-//        if (sids == null || sids.length == 0){
-//            map.put("supervise", "监督人员不能为空");
-//            count = 1;
-//        }
+        //        if (condition.getAgeMax() == null || "".equals(condition.getAgeMax()) || condition.getAgeMin() == null || "".equals(condition.getAgeMax())){
+        //            map.put("age", "不能为空");
+        //            count = 1;
+        //        }   
+        //        if (sids == null || sids.length == 0){
+        //            map.put("supervise", "监督人员不能为空");
+        //            count = 1;
+        //        }
 
-        if (extConTypeArray == null || extConTypeArray.getExtCount() == null){
-            map.put("typeArray", "请添加供应商抽取数量，产品类型等条件");
+        if (extConType.getExpertsCount() == null  || extConType.getExpertsCount() == 0){
+            map.put("expertsCountError", "不能为空");
+
             count = 1;
         }
         return count;
@@ -213,11 +209,11 @@ public class ExpExtConditionController {
         List<ExpExtCondition> list = conditionService.list(condition,null);
         //响应时间
         if (list != null && list.size() != 0){
-//            String[] atime = list.get(0).getResponseTime() != null?list.get(0).getResponseTime().split(","):null;
-//            if (atime != null && atime.length >= 2){
-//                model.addAttribute("minute", atime[0]);
-//                model.addAttribute("hour", atime[1]);
-//            }
+            //            String[] atime = list.get(0).getResponseTime() != null?list.get(0).getResponseTime().split(","):null;
+            //            if (atime != null && atime.length >= 2){
+            //                model.addAttribute("minute", atime[0]);
+            //                model.addAttribute("hour", atime[1]);
+            //            }
             model.addAttribute("ExpExtCondition", list.get(0));
             model.addAttribute("projectId", list.get(0).getProjectId());
             //获取监督人员
@@ -234,10 +230,10 @@ public class ExpExtConditionController {
 
                 }
             }
-            
+
             List<DictionaryData> find = DictionaryDataUtil.find(12);
             model.addAttribute("find", find);
-            
+
             //专家抽取地址
             ExpExtractRecord er = new ExpExtractRecord();
             er.setProjectId(list.get(0).getProjectId());
@@ -245,7 +241,7 @@ public class ExpExtConditionController {
             if (listRe != null && listRe.size() != 0){
                 model.addAttribute("extractionSites", listRe.get(0).getExtractionSites());
             }
-            
+
             model.addAttribute("userName", userName);
             model.addAttribute("userId", userId);
         }

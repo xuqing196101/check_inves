@@ -49,6 +49,7 @@
     						layer.tips("验证码不正确", "#inputCode", {
     							tips : 1
     						});
+    						getIdentityCode(1);
     						layer.close(index);
     					} else if (data == "errorlogin") {
     						layer.msg("用户名或密码错误！");

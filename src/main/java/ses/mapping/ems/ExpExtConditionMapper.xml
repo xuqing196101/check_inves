@@ -25,7 +25,7 @@
 		<collection property="conTypes" column="ID"
 			ofType="ses.model.ems.ExtConType">
 			<id column="ctid" jdbcType="VARCHAR" property="id" />
-			<result column="cttypeid" jdbcType="DECIMAL" property="expertsTypeId" />
+			<result column="cttypeid" jdbcType="VARCHAR" property="expertsTypeId" />
 			<result column="EXPERTS_COUNT" jdbcType="DECIMAL" property="expertsCount" />
 			<result column="EXPERTS_QUALIFICATION" jdbcType="VARCHAR"
 				property="expertsQualification" />
@@ -196,9 +196,6 @@
 		<!-- @mbggenerated -->
 		update T_SES_EMS_EXP_EXT_CONDITION
 		<set>
-			<if test="projectId != null">
-				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
-			</if>
 			<if test="status != null">
 				STATUS = #{status,jdbcType=DECIMAL},
 			</if>
@@ -242,7 +239,15 @@
 				EXTRACT_ADDRESS = #{extractAddress,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where ID = #{id,jdbcType=VARCHAR}
+		where 
+		1=1
+		<if test="id != null and id != '' ">
+		AND ID= #{id,jdbcType=VARCHAR}  
+		</if>
+		<if test="projectId != null and projectId !='' ">
+		 AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+		</if>
+		
 	</update>
 	<update id="updateByPrimaryKey" parameterType="ses.model.ems.ExpExtCondition">
 		<!-- @mbggenerated -->
@@ -283,6 +288,9 @@
 			<if test="id != null and id !='' ">
 				AND EC."ID"=#{id}
 			</if>
+			 <if test="status != null and status != ''">
+       AND EC.STATUS=#{status}
+      </if>
 		</trim>
 		   ORDER BY EC.CREATED_AT 
 	</sql>
