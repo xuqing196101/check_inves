@@ -43,10 +43,10 @@
 <!-- 验证-->
 <script src="${pageContext.request.contextPath}/public/backend/js/jquery.validate.min.js"></script>
 
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
-
 <!--[if lt IE 9]>
     <script src="${pageContext.request.contextPath}/public/common/respond.src.js"></script>
 <![endif]-->
+
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
