@@ -129,11 +129,12 @@
         <h2 style="margin-left: 20px;">
             <ul class="demand_list">
                 <li>
-                 <label class="fl">地区名称：<input type="text" id="search_condition" name="name" /> </label>
+                 <label class="fl">地区名称：</label><input type="text" id="search_condition" name="name" /> 
                 </li>
                 <button  class="btn" onclick="selectTree();">查询</button>
-                <br><br>
+                
             </ul>
+            <br>
          </h2>
        <div class="row">
                 <!-- Begin Content -->
