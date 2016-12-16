@@ -1598,6 +1598,36 @@ public class ExpertController {
 
         return "bss/prms/audit/list";
     }
+    
+    /**
+     *〈简述〉
+     * 判断是否通过了符合性审查
+     *〈详细描述〉
+     * 1代表通过,0没通过
+     * @author WangHuijie
+     * @param projectId
+     * @param packageId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/validateIsGrade")
+    public String validateIsGrade(String projectId, String packageId){
+        // 0代表为通过符合性审查
+        String isok = "0";
+        Map<String, Object> mapSearch = new HashMap<String, Object>();
+        mapSearch.put("projectId", projectId);
+        mapSearch.put("packageId", packageId);
+        List<PackageExpert> list = packageExpertService.selectList(mapSearch);
+        if (list.isEmpty()) {
+            PackageExpert packageExpert = list.get(0);
+            if ("1".equals(packageExpert.getIsAudit()) && !"1".equals(packageExpert.getIsGrade())) {
+                // 如果通过则改为1
+                isok = "1";
+            }
+        }
+        return isok;
+    }
+    
     /**
      * 
      * @Title: toFirstAudit
