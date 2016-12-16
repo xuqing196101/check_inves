@@ -17,6 +17,14 @@ public class AuditPerson {
 
     private Integer type;
     
+    private String unitName;
+    
+    private String auditStaff;
+    
+    private String userId;
+    
+    private String auditRound;
+    
     public String getId() {
         return id;
     }
@@ -63,6 +71,38 @@ public class AuditPerson {
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+
+	public String getAuditStaff() {
+		return auditStaff;
+	}
+
+	public void setAuditStaff(String auditStaff) {
+		this.auditStaff = auditStaff;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getAuditRound() {
+		return auditRound;
+	}
+
+	public void setAuditRound(String auditRound) {
+		this.auditRound = auditRound;
 	}
     
     
