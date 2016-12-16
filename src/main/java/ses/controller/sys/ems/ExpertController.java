@@ -1177,8 +1177,11 @@ public class ExpertController {
         expert.setIsDo("0");
         //已提交
         expert.setIsSubmit("1");
-        //未审核
-        expert.setStatus("0");
+        Expert temp = service.selectByPrimaryKey(expertId);
+        if ("3".equals(temp.getStatus())) {
+            //未审核
+            expert.setStatus("0");
+        }
         //修改时间
         expert.setUpdatedAt(new Date());
         service.updateByPrimaryKeySelective(expert);

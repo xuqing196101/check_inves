@@ -168,7 +168,7 @@
 								<fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td>
 							<td  class="tc" id="${expert.id}">${expert.honestyScore }</td>
-							<c:if test="${expert.status eq '0' }">
+							<c:if test="${(expert.status eq '0') or (expert.status eq '3' and expert.isSubmit eq '1')}">
 								<td  class="tc"><span class="label rounded-2x label-dark">待初审</span></td>
 							</c:if>
 							<c:if test="${expert.status eq '1' }">
@@ -177,7 +177,7 @@
 							<c:if test="${expert.status eq '2' }">
 								<td  class="tc"><span class="label rounded-2x label-u">初审未通过</span></td>
 							</c:if>
-							<c:if test="${expert.status eq '3' }">
+							<c:if test="${expert.status eq '3' and expert.isSubmit eq '0'}">
 								<td  class="tc"><span class="label rounded-2x label-u">初审退回</span></td>
 							</c:if>
 							<c:if test="${expert.status eq '4' }">

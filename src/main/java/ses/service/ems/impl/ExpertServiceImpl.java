@@ -139,7 +139,7 @@ public class ExpertServiceImpl implements ExpertService {
 			todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
 			todosMapper.updateIsFinish(todos);
 		}
-		
+		record.setStatus(expert.getStatus());
 		mapper.updateByPrimaryKeySelective(record);
 
 	}
@@ -474,7 +474,9 @@ public class ExpertServiceImpl implements ExpertService {
 			//已提交
 			expert.setIsSubmit("1");
 			//未审核
-			expert.setStatus("0");
+			if(!"3".equals(expert.getStatus())){
+			    expert.setStatus("0");
+			}
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			//执行校验并修改
@@ -497,7 +499,9 @@ public class ExpertServiceImpl implements ExpertService {
     		//已提交
     		expert.setIsSubmit("1");
     		//未审核
-    		expert.setStatus("0");
+            if(!"3".equals(expert.getStatus())){
+                expert.setStatus("0");
+            }
     		//创建时间
     		expert.setCreatedAt(new Date());
     		//修改时间

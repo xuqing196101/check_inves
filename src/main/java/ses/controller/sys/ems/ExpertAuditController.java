@@ -438,6 +438,7 @@ public class ExpertAuditController {
 		
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("status", expert.getStatus());
+		model.addAttribute("isSubmit", expert.getIsSubmit());
 
 		model.addAttribute("expertId", expertId);
 		return "ses/ems/expertAudit/reasonsList";
@@ -452,6 +453,7 @@ public class ExpertAuditController {
             service.insertExpertHistory(exp);
         }
         //提交审核，更新状态
+        expert.setIsSubmit("0");
         expertService.updateByPrimaryKeySelective(expert);
         
         return "redirect:list.html";

@@ -21,9 +21,9 @@
 		<script type="text/javascript">
 			$(function() {
 				$(":input").each(function() {
-					var onmouseover = "this.style.border='solid 1px #FF0000'";
+					var onmousemove = "this.style.border='solid 1px #FF0000'";
 					var onmouseout = "this.style.border='solid 1px #D3D3D3'";
-					$(this).attr("onmouseover", onmouseover);
+					$(this).attr("onmousemove", onmousemove);
 					$(this).attr("onmouseout", onmouseout);
 				});
 

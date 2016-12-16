@@ -37,7 +37,7 @@
 			function updateStepNumber(stepNumber){
 				$.ajax({
 					url:"${pageContext.request.contextPath}/expert/updateStepNumber.do",
-					data:{"expertId":$("#id").val(),"stepNumber":stepNumber},
+					data:{"expertId":$("#expertId").val(),"stepNumber":stepNumber},
 					async:false,
 				});
 			}
@@ -192,7 +192,7 @@
 							<input type="hidden" name="status" id="status" />
 								<div class="col-md-12 add_regist tc">
 									<div class="col-md-12 add_regist tc">
-										<c:if test="${status == 0 }">
+										<c:if test="${(status eq '0') or (status eq '3' and isSubmit eq '1')}">
 											<input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审通过 " id="tongguo">
 											<input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不通过">
 											<input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回" id="tuihui">
