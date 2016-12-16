@@ -212,7 +212,7 @@
 
   					<div class="col-md-5 col-sm-12 col-xs-12 login_right">
   						<div class="col-md-10 col-sm-12 col-xs-12 clear">
-  							<div class="box-shadow shadow-effect-2 opacity-80 sign_box">
+  							<div class="shadow-effect-2 opacity-80 sign_box">
 
   								<header class="margin-top-10 ofh">
   									<ul class="list-unstyled sign_kinds col-md-12 p0">
@@ -227,11 +227,11 @@
   									</ul>
   								</header>
 
-  								<div class="tab-content">
+  								<div class="tab-content reg-page">
   									<div class="tab-pane active in" id="tab-1">
 
-  										<form accept-charset="UTF-8" class="sky-form reg-page" method="post">
-  											<section class="mb10">
+  										<form accept-charset="UTF-8" class="sky-form" method="post">
+  											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">用户名</label>
   													<div class="col col-md-8 col-sm-12 col-xs-12">
@@ -241,7 +241,7 @@
   													</div>
   												</div>
   											</section>
-  											<section class="mb10">
+  											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">密
   														码</label>
@@ -254,7 +254,7 @@
   												</div>
   											</section>
 
-  											<section class="mb20">
+  											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">验证码</label>
   													<div class="col col-md-8 col-sm-12 col-xs-12">
@@ -281,9 +281,9 @@
   										</form>
   									</div>
   									<div class="tab-pane" id="tab-2">
-  										<form accept-charset="UTF-8" class="sky-form reg-page"
+  										<form accept-charset="UTF-8" class="sky-form"
   											method="post">
-  											<section class="mb10">
+  											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">用户名</label>
   													<div class="col col-md-8 col-sm-12 col-xs-12">
@@ -294,9 +294,9 @@
   												</div>
   											</section>
 
-  											<section class="mb10">
+  											<section>
   												<div class="row">
-  													<label class="label col col-md-3 col-sm-12 col-xs-12">密码</label>
+  													<label class="label col col-md-3 col-sm-12 col-xs-12">密 码</label>
   													<div class="col col-md-8 col-sm-12 col-xs-12">
   														<label class="input"> <input id="" name=""
   															placeholder="密 码" type="password">
@@ -306,7 +306,7 @@
   												</div>
   											</section>
 
-  											<section class="mb20">
+  											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">验证码</label>
   													<div class="col col-md-8 col-sm-12 col-xs-12">

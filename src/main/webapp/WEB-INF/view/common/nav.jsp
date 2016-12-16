@@ -7,13 +7,13 @@
         <!-- logo和搜索 -->
         <div class="navbar-header">
           <div class="row container">
-            <div class="col-md-3 padding-bottom-30 mt10">
+            <div class="col-md-3 col-sm-3 col-xs-12 padding-bottom-30 mt10">
               <a href="${pageContext.request.contextPath}/">
                  <img alt="Logo" src="${pageContext.request.contextPath}/public/backend/images/logo_2.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->
-            <div class="col-md-9 topbar-v1 col-md-12 padding-0">
+            <div class="col-md-9 topbar-v1 col-xs-12 col-sm-9 padding-0">
               <ul class="top-v1-data padding-0">
               	<li class="dropdown wdxx">
 					<a href="${pageContext.request.contextPath}/login/home.html"  target="home">

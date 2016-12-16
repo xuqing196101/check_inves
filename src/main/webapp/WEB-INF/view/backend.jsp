@@ -78,9 +78,9 @@ if('downloadabiddocument' == uri[0] ){
 
     <!-- 后台管理内容开始-->
     <div class="container content height-350 job-content ">
-
+    
         <div class="row magazine-page">
-            <div class="col-md-3 col-md-12 padding-0">
+            <div class="col-md-3 col-sm-4 col-xs-12 padding-0">
                 <div class="col-md-12 p0_10 margin-bottom-20">
                     <div class="tag-box tag-box-v3 margin-0 p0_10">
                         <div class="margin-0">
@@ -103,9 +103,8 @@ if('downloadabiddocument' == uri[0] ){
                     </div>
                 </div>
             </div>
-            <div class="col-md-9 padding-0">
-                <div class="col-md-12 tab-v2 job-content">
-                    <div class="">
+            <div class="col-md-9 col-sm-8 col-xs-12 padding-0">
+                <div class="col-md-12 col-sm-12 col-xs-12 tab-v2 job-content">
                         <ul class="nav nav-tabs" id="menu">
                             <li class=""><a  href="${pageContext.request.contextPath}/todo/todos.html" id="default" target="open_main" class=" f18">待办事项</a></li>
                             <li class=""><a  href="${pageContext.request.contextPath}/todo/havetodo.html" target="open_main"  class=" f18">已办事项</a></li>
@@ -124,10 +123,8 @@ if('downloadabiddocument' == uri[0] ){
                       <div class="">
                          <iframe  frameborder="0" name="open_main" id="open_main" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="${pageContext.request.contextPath}/todo/todos.html" ></iframe>
                       </div>
-                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 
