@@ -36,9 +36,9 @@
 	    $(function() {
 	      $(":input").each(function() {
 	        $(this).parent("div").find("div").hide();
-	        var onmouseover = "this.style.border='solid 1px #FF0000'";
+	         var onMouseMove = "this.style.border='solid 1px #FF0000'";
 	        var onmouseout = "this.style.border='solid 1px #D3D3D3'";
-	        $(this).attr("onmouseover",onmouseover);
+	        $(this).attr("onMouseMove",onMouseMove);
 	        $(this).attr("onmouseout",onmouseout);
 	    });
 	    
@@ -143,6 +143,24 @@
 	      $(this).attr("readonly", "readonly");
 	      });
 	    });
+	    
+	    
+	    // 提示之前的信息
+			function isCompare(field){
+				var supplierId=$("#id").val();
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplierAudit/showModify.do",
+					data: "&supplierId=" + supplierId + "&beforeField=" + field,
+					dataType: "text",
+					success: function(result){
+						layer.tips("修改前:" + result ,"#" + field, {
+		    				tips : 1
+		    			});
+					}
+				});
+			}
+	    
+	    
 	  </script>
 	
 		<script type="text/javascript">
@@ -291,21 +309,21 @@
 	            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="supplierName2">公司名称：</span>
 	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-	                <input id="supplierName" onclick="reason(this.id,'supplierName')" value="${suppliers.supplierName } " type="text">
+	                <input id="supplierName" onclick="reason(this.id,'supplierName')" value="${suppliers.supplierName } " type="text" <c:if test="${fn:contains(field,'supplierName')}">onMouseOver="isCompare('supplierName');"</c:if>>
 	                <div id="supplierName3" class="abolish">×</div>
 	              </div>
 	            </li>
 	            <li class="col-md-3 col-sm-6 col-xs-12">
 	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="website2">公司网址：</span>
 	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-	                <input class="hand " id="website" value="${suppliers.website } " onclick="reason(this.id,'website')" type="text">
+	                <input class="hand " id="website" value="${suppliers.website } "  type="text"  <c:if test="${fn:contains(field,'website')}">onMouseOver="isCompare('website');"</c:if>>
 	                <div  id="website3" class="abolish">×</div>
 	              </div>
 	            </li>
 	            <li class="col-md-3 col-sm-6 col-xs-12">
 	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="foundDate2">成立日期：</span>
 	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-	                <input id="foundDate" class="hand " value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>"  onclick="reason(this.id,'foundDate')" type="text">
+	                <input id="foundDate" class="hand " value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>"  onclick="reason(this.id,'foundDate')" type="text" <c:if test="${fn:contains(field,'foundDate')}">onMouseOver="isCompare('foundDate');"</c:if>>
 	                <div id="foundDate3" class="abolish">×</div>
 	              </div>
 	            </li>

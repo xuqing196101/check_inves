@@ -36,6 +36,7 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
@@ -52,6 +53,7 @@ import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierExtRelateService;
+import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -122,6 +124,10 @@ public class SupplierAuditController extends BaseSupplierController{
 	
 	@Autowired
 	private SupplierItemService supplierItemService;
+	
+	@Autowired
+	private SupplierHistoryService supplierHistoryService;
+	
 	/**
 	 * @Title: daiBan
 	 * @author Xu Qing
@@ -261,27 +267,19 @@ public class SupplierAuditController extends BaseSupplierController{
 			}
 		}
 		
-		
 		List<SupplierAddress> supplierAddress= supplierAddressService.getBySupplierId(supplierId);
 		request.setAttribute("supplierAddress", supplierAddress);
 		
-/*		
-		//地区查询
-		List<String> subNameList = new ArrayList<String>();
-		for(int i=0; i<supplierAddress.size(); i++){
-			String address = supplierAddress.get(i).getAddress();
-			Area region = areaService.listById(address);
-			String subName = region.getName();
-			subNameList.add(subName);
+		//查出全部修改的
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+		 StringBuffer field = new StringBuffer();
+		for(int i=0; i<editList.size(); i++){
+			String beforeField = editList.get(i).getBeforeField();
+			field.append( beforeField + ",");	
 		}
-		request.setAttribute("subNameList", subNameList);
-		for(int i=0; i<privnce.size(); i++){
-			if(area.getParentId().equals(privnce.get(i).getId())){
-				String rootName = privnce.get(i).getName();
-				request.setAttribute("rootName", rootName);
-			}
-		}
-		*/
+		request.setAttribute("field", field);
 		
 		return "ses/sms/supplier_audit/essential";
 	}
@@ -1083,4 +1081,17 @@ public class SupplierAuditController extends BaseSupplierController{
 	public void deleteById (String[] ids){
 		supplierAuditService.deleteById(ids);
 	}
+	
+	
+	 @ResponseBody
+	@RequestMapping(value = "/showModify",produces="text/html;charset=UTF-8")
+	public String showModify(SupplierHistory supplierHistory, HttpServletRequest request) {
+		//查询退回修改后的
+		supplierHistory.setSupplierId(supplierHistory.getSupplierId());
+		supplierHistory = supplierHistoryService.findBySupplierId(supplierHistory);
+		String showModify = supplierHistory.getAfterContent();
+		  return showModify;
+	}
+	
+	
 }
