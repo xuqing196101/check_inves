@@ -92,61 +92,8 @@ public class ExpertServiceImpl implements ExpertService {
 	
 	@Override
 	public void updateByPrimaryKeySelective(Expert record) {
-		String status = record.getStatus();
-		String expertId = record.getId();
-		Todos todos = new Todos();
-		Expert expert= mapper.selectByPrimaryKey(expertId);
-		String expertName = expert.getRelName();
-		 HttpServletRequest request = ServletServerHttpRequest();
-		/*User user=(User) request.getSession().getAttribute("loginUser");*/
-		/**
-		 * 初审通过发送待办
-		 */
-		if(status.equals(1)){
-			//待初审已完成
-			todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
-			todosMapper.updateIsFinish(todos);
-			/**
-			 * 推送
-			 */
-		    todos.setCreatedAt(new Date());
-		    todos.setIsDeleted((short)0);
-		    todos.setIsFinish((short)0);
-		    //待办名称
-		    todos.setName(expertName+"专家复审");
-		    //todos.setReceiverId();
-		    //接受人id
-		    /*todos.setOrgId(record.getPurchaseDepId());*/
-		    //权限id
-		    PropertiesUtil config = new PropertiesUtil("config.properties");
-		    todos.setPowerId(config.getString("zjdb"));
-		    //发送人id
-		    /*todos.setSenderId(user.getId());*/
-		    //类型
-		    todos.setUndoType((short)2);
-		    //发送人姓名
-		    todos.setSenderName(record.getRelName());
-		    //审核地址
-		    todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
-		    todosMapper.insert(todos );
-		}
-		
-		/**
-		 * 初审未通过
-		 */
-		if(status.equals(2)){
-			//待初审已完成
-			todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
-			todosMapper.updateIsFinish(todos);
-		}
-		record.setStatus(expert.getStatus());
 		mapper.updateByPrimaryKeySelective(record);
 
-	}
-	
-	private HttpServletRequest ServletServerHttpRequest() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Todos;
+import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertHistory;
@@ -37,6 +39,7 @@ import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropertiesUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -429,7 +432,7 @@ public class ExpertAuditController {
     }
 	
 	@RequestMapping("/reasonsList")
-	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId ){
+	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId){
 
 		List<ExpertAudit> reasonsList = expertAuditService.getListByExpertId(expertId);	
 		model.addAttribute("reasonsList", reasonsList);
@@ -445,7 +448,7 @@ public class ExpertAuditController {
 	}
 	
 	@RequestMapping("/updateStatus")
-    public String updateStatus(Expert expert, Model model){
+    public String updateStatus(Expert expert, Model model, HttpServletRequest request){
         // 如果是退回修改就保存历史信息
         if ("3".equals(expert.getStatus())) {
             service.deleteExpertHistory(expert.getId());
@@ -455,6 +458,43 @@ public class ExpertAuditController {
         //提交审核，更新状态
         expert.setIsSubmit("0");
         expertService.updateByPrimaryKeySelective(expert);
+        
+        String status = expert.getStatus();
+		String expertId = expert.getId();
+		Todos todos = new Todos();
+		expert= expertService.selectByPrimaryKey(expertId);
+		String expertName = expert.getRelName();
+		User user=(User) request.getSession().getAttribute("loginUser");
+		/**
+		 * 初审通过发送待办
+		 */
+		if(status.equals("1")){
+			//待初审已完成
+			todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
+			/**
+			 * 推送
+			 */
+		    todos.setCreatedAt(new Date());
+		    todos.setIsDeleted((short)0);
+		    todos.setIsFinish((short)0);
+		    //待办名称
+		    todos.setName(expertName+"专家复审");
+		    //todos.setReceiverId();
+		    //接受人id
+		    /*todos.setOrgId(record.getPurchaseDepId());*/
+		    //权限id
+		    PropertiesUtil config = new PropertiesUtil("config.properties");
+		    todos.setPowerId(config.getString("zjdb"));
+		    //发送人id
+		    todos.setSenderId(user.getId());
+		    //类型
+		    todos.setUndoType((short)2);
+		    //发送人姓名
+		    todos.setSenderName(expert.getRelName());
+		    //审核地址
+		    todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
+		    todosService.insert(todos );
+		}
         
         return "redirect:list.html";
     }
