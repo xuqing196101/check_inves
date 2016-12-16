@@ -1,5 +1,6 @@
 package bss.service.pms.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,8 +36,13 @@ public class AuditPersonServiceImpl implements AuditPersonService{
 	@Override
 	public List<AuditPerson> query(AuditPerson auditPerson, Integer page) {
 		PageHelper.startPage(page,10);
-
 		return auditPersonMapper.query(auditPerson);
+	}
+
+	
+	@Override
+	public int findUserByCondition(HashMap<String, Object> map) {
+		return auditPersonMapper.findUserByCondition(map);
 	}
 
 }

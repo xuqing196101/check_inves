@@ -39,38 +39,35 @@
 		var id  = $('input[name="chkItem"]:checked').val(); 
 		var index = parent.layer.getFrameIndex(window.name); 
 		var cid=parent.id;
-	 
 		$("#cid").val(cid);
 		if(id==""||id==null){
 			layer.alert("请选择要汇总的计划",{offset: ['100px', '100px'], shade:0.01});
 		}else{
-		 
-		$("#aid").val(id);
+			$("#aid").val(id);
 			$.ajax({
-			url: "${pageContext.request.contextPath}/set/add.html",
-			type: "post",
-			data:$("#collected_form").serialize(),
-			success: function(result) {
-				parent.location.reload(); // 父页面刷新
-				parent.layer.close(index);
-			
-		
-			},
-			error: function(message){
-				layer.msg("删除失败",{offset: ['222px', '390px']});
-				parent.layer.close(index);
-			}
-			
-			
-		});
-		
+				url: "${pageContext.request.contextPath}/set/add.html",
+				type: "post",
+				data:$("#collected_form").serialize(),
+				success: function(result) {
+					if(result==1){
+						layer.alert("人员已被添加，请重新选择", {
+							offset: ['30%', '40%']
+						});
+						$(".layui-layer-shade").remove();
+					}else{
+						layer.open({
+							type: 1,
+							title: '信息',
+							skin: 'layui-layer-rim',
+							shadeClose: true,
+							area: ['580px', '210px'],
+							content: $("#audit")
+						});
+						$(".layui-layer-shade").remove();
+					}
+				}
+			});
 		}
-			
- 	
-		 
-		 
-			
-		 
 	}
 	
  	function cancel(){
@@ -81,6 +78,40 @@
 	
  	function ss(){
  		
+ 	}
+ 	
+ 	//保存
+ 	function save(){
+ 		var auditStaff = $("#auditStaff").val();
+ 		$.ajax({
+			type: "POST",
+			url: "${pageContext.request.contextPath }/set/addStaff.html?auditStaff=" + auditStaff,
+			success: function(data) {
+				if(data == 0) {
+					$("#errorType").html("审核人员性质不能为空");
+				} else if(data == 1) {
+					var id  = $('input[name="chkItem"]:checked').val(); 
+					var index = parent.layer.getFrameIndex(window.name); 
+					var cid=parent.id;
+					$("#cid").val(cid);
+					$("#aid").val(id);
+					$.ajax({
+						url: "${pageContext.request.contextPath}/set/addUser.html?staff="+auditStaff,
+						type: "post",
+						data:$("#collected_form").serialize(),
+						success: function(result) {
+							parent.location.reload(); // 父页面刷新
+							parent.layer.close(index);
+						}
+					});
+				}
+			}
+		});
+ 	}
+ 	
+ 	//取消
+ 	function cancelss(){
+ 		layer.closeAll();
  	}
   </script>
   </head>
@@ -98,7 +129,7 @@
     <input type="hidden" name="page" id="page">
     <ul class="demand_list">
           <li>
-            <label class="fl">  用户名称 ：</label><span><input type="text" id="topic" name="relName" value="${user.relName }"/></span>
+            <label class="fl">姓名 ：</label><span><input type="text" id="topic" name="relName" value="${user.relName }"/></span>
           </li>
             <button type="submit" class="btn">查询</button>
     </ul>
@@ -117,29 +148,42 @@
 		  <th class="info w50">序号</th>
 		  <th class="info">姓名</th>
 		  <th class="info">电话</th>
-		  <th class="info">身份证号</th>
+		  <th class="info">单位名称</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
 			  <td class="tc w30"><input type="radio" value="${obj.id }" name="chkItem"></td>
-			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			    <td class="tc"  >
+			  <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			    <td class="tc">
 			  			${obj.relName}
 			    </td>
-			    <td class="tc"  >${obj.mobile }</td>
-			 	<td class="tc"  > </td>
+			    <td class="tc">${obj.mobile }</td>
+			 	<td class="tc">${obj.org.name }</td>
 			</tr>
 		 </c:forEach>
       </table>
    </div>
    <div id="pagediv" align="right"></div>
    </div>
-	 </body>
-	<form id="collected_form" action="" method="post" >
+   
+   <form id="collected_form" action="" method="post" >
 	 <input type="hidden" value="" name="id" id="aid">
 	  <input type="hidden" name="type" value="2">
 	  <input type="hidden" name="collectId" value="" id="cid">
+	  <input type="hidden" name="auditRound" value="${type }"/>
 	 </form>
 	 
+	 	<ul class="list-unstyled list-flow dnone mt10" id="audit">
+			<li class="col-md-12 ml15">
+				<span class="span3 fl mt5"><div class="red star_red">*</div>审核人员性质：</span>
+				<input type="text" id="auditStaff"/>
+				<div class="clear red" id="errorType"></div>
+			</li>
+			<div class="col-md-12 mt10 tc">
+				<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
+				<button class="btn btn-windows cancel" type="button" onclick="cancelss()">取消</button>
+			</div>
+		</ul>
+	 </body>
 </html>

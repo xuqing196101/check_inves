@@ -4,13 +4,18 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONSerializer;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -31,9 +36,12 @@ import ses.model.ems.Expert;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
+import ses.util.DictionaryDataUtil;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.AuditParamBean;
 import bss.formbean.FiledNameEnum;
+import bss.model.dms.ProbationaryArchive;
+import bss.model.dms.PurchaseArchive;
 import bss.model.pms.AuditParam;
 import bss.model.pms.AuditPerson;
 import bss.model.pms.CollectPlan;
@@ -105,7 +113,8 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String set(Model model,Integer page,String id){
+	public String set(Model model,Integer page,String id,HttpServletRequest request){
+		String type = request.getParameter("type");
 		List<FiledNameEnum> list = updateFiledService.getAllFiled();
 		List<UpdateFiled> list2 = updateFiledService.query(id,null);
 		List<UpdateFiled> listy=new LinkedList<UpdateFiled>();
@@ -127,7 +136,8 @@ public class AuditSetController {
 		model.addAttribute("listy", listy);
 		model.addAttribute("listn", listn);
 		model.addAttribute("id", id);
-		
+		model.addAttribute("kind", DictionaryDataUtil.find(4));
+		model.addAttribute("type", type);
 		return "bss/pms/collect/auditset";
 	}
 	/**
@@ -221,11 +231,13 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/expert")
-	public String getExpert(Integer page,Expert expert,Model model){
+	public String getExpert(Integer page,Expert expert,Model model,HttpServletRequest request){
+		String type = request.getParameter("type");
 		List<Expert> list = expertService.selectAllExpert(page==null?1:page, expert);
 		PageInfo<Expert> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("expert", expert);
+		model.addAttribute("type",type);
 		return "bss/pms/collect/expertlist";
 	}
 	/**
@@ -241,11 +253,13 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/user")
-	public String getUser(Integer page,User user,Model model){
+	public String getUser(Integer page,User user,Model model,HttpServletRequest request){
+		String type = request.getParameter("type");
 		List<User> list = userServiceI.list(user, page==null?1:page);
 		PageInfo<User> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("user", user);
+		model.addAttribute("type",type);
 		return "bss/pms/collect/userlist";
 	}
 	/**
@@ -260,22 +274,32 @@ public class AuditSetController {
 	 */
 	@RequestMapping("/add")
 	@ResponseBody
-	public String add(AuditPerson auditPerson,String id){
+	public String add(AuditPerson auditPerson,String id,HttpServletRequest request){
+		HashMap<String,Object> map = new HashMap<String,Object>();
 		 if(auditPerson.getType()==1){
 			 Expert expert = expertService.selectByPrimaryKey(id);
-			 auditPerson.setName(expert.getRelName());
-			 auditPerson.setMobile(expert.getMobile());
-			 auditPerson.setIdNumber(expert.getIdNumber());
-			 auditPersonService.add(auditPerson);
-			 return "";
+			 User user = userServiceI.findByTypeId(expert.getId());
+			 map.put("auditRound", request.getParameter("auditRound"));
+			 map.put("collectId", auditPerson.getCollectId());
+			 map.put("userId", user.getId());
+			 int num = auditPersonService.findUserByCondition(map);
+			 if(num==0){
+				 return "0";
+			 }else{
+				 return "1";
+			 }
 		 }else if(auditPerson.getType()==2){
 			 User user = userServiceI.getUserById(id);
-			 auditPerson.setName(user.getRelName());
-			 auditPerson.setMobile(user.getMobile());
-			 auditPersonService.add(auditPerson);
-			 return "";
+			 map.put("auditRound", request.getParameter("auditRound"));
+			 map.put("collectId", auditPerson.getCollectId());
+			 map.put("userId", user.getId());
+			 int num = auditPersonService.findUserByCondition(map);
+			 if(num==0){
+				 return "0";
+			 }else{
+				 return "1";
+			 }
 		 }else{
-			 auditPersonService.add(auditPerson);
 			 return "";
 		 }
 		
@@ -501,4 +525,122 @@ public class AuditSetController {
 			
 			
 	}	
+	
+	/**
+	 * 
+	* @Title: addStaff
+	* @author ZhaoBo
+	* @date 2016-12-15 下午6:34:31  
+	* @Description: 添加审核人员性质 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/addStaff")
+	@ResponseBody
+	public String addStaff(HttpServletRequest request){
+		String auditStaff = request.getParameter("auditStaff");
+		if(auditStaff==null||auditStaff.trim().equals("")){
+			return "0";
+		}else{
+			return "1";
+		}
+	}
+	
+	/**
+	 * 
+	* @Title: addExpert
+	* @author ZhaoBo
+	* @date 2016-12-15 下午7:03:33  
+	* @Description: 添加专家 
+	* @param @param auditPerson
+	* @param @param id
+	* @param @param request      
+	* @return void
+	 */
+	@RequestMapping("/addExpert")
+	@ResponseBody
+	public void addExpert(AuditPerson auditPerson,String id,HttpServletRequest request){
+		Expert expert = expertService.selectByPrimaryKey(id);
+		User user = userServiceI.findByTypeId(expert.getId());
+		auditPerson.setName(expert.getRelName());
+		auditPerson.setMobile(expert.getMobile());
+		auditPerson.setIdNumber(expert.getIdNumber());
+		auditPerson.setUnitName(expert.getWorkUnit());
+		auditPerson.setAuditRound(request.getParameter("auditRound"));
+		auditPerson.setUserId(user.getId());
+		auditPerson.setAuditStaff(request.getParameter("staff"));
+		auditPersonService.add(auditPerson);
+	}
+	
+	/**
+	 * 
+	* @Title: addUser
+	* @author ZhaoBo
+	* @date 2016-12-15 下午7:28:35  
+	* @Description: 添加用户 
+	* @param @param auditPerson
+	* @param @param id
+	* @param @param request      
+	* @return void
+	 */
+	@RequestMapping("/addUser")
+	@ResponseBody
+	public void addUser(AuditPerson auditPerson,String id,HttpServletRequest request){
+		User user = userServiceI.getUserById(id);
+		auditPerson.setName(user.getRelName());
+		if(user.getMobile()!=null){
+			auditPerson.setMobile(user.getMobile());
+		}
+		if(user.getOrg()==null){
+			
+		}else{
+			auditPerson.setUnitName(user.getOrg().getName());
+		}
+		auditPerson.setUserId(user.getId());
+		auditPerson.setAuditStaff(request.getParameter("staff"));
+		auditPersonService.add(auditPerson);
+	}
+	
+	/**
+	 * 
+	* @Title: judgeAddUser
+	* @author ZhaoBo
+	* @date 2016-12-15 下午7:49:30  
+	* @Description: 添加临时专家 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping(value="/judgeAddUser",produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String judgeAddUser(HttpServletRequest request,AuditPerson auditPerson){
+		String str = "无";
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(auditPerson.getName()==null||auditPerson.getName().trim().equals("")){
+			str = "error";
+			map.put("name", "姓名不能为空");
+		}
+		if(auditPerson.getMobile()==null||auditPerson.getMobile().trim().equals("")){
+			str = "error";
+			map.put("phone", "电话不能为空");
+		}
+		if(auditPerson.getUnitName()==null||auditPerson.getUnitName().trim().equals("")){
+			str = "error";
+			map.put("unitName", "单位名称不能为空");
+		}
+		if(auditPerson.getAuditStaff()==null||auditPerson.getAuditStaff().trim().equals("")){
+			str = "error";
+			map.put("auditStaff", "审核人员性质不能为空");
+		}
+		if(str.equals("error")){
+			return JSONSerializer.toJSON(map).toString();
+		}else{
+			auditPersonService.add(auditPerson);
+			return "1";
+		}
+		 
+	}
+	
+	
 }

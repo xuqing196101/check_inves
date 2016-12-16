@@ -83,8 +83,8 @@
 .header-v4 .topbar-v1 .top-v1-data li a {
 	font-size: 12px;
 	color:#ffffff;
+	display: block;
 }
-
 
 .header-v4 .topbar-v1 .top-v1-data li a:hover {
 	text-decoration:none;
@@ -468,7 +468,7 @@
 	.header-v4 .dropdown-menu {
 		padding: 0;
 		border: none;
-		min-width: 200px;
+		min-width:100px;
 		border-radius: 0;
 		z-index: 9999 ;
 		border-bottom: solid 2px #687074;
@@ -1114,3 +1114,14 @@ li.dropdown ul.dropdown-menu > li > .dropdown-menuson{
 .aqtc:hover .aqtc_icon{
 	background:url(../images/top-8-2.png) no-repeat center;
 }
+
+
+
+
+	.header-v4 .topbar-v1 > ul > li.dropdown:hover > .dropdown-menu {
+		display: block;
+	}
+
+.header-v4 .topbar-v1 > ul > li.dropdown:hover > .dropdown-menu {
+		display: block;
+	}

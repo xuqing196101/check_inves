@@ -28,6 +28,7 @@ p, li, li a, label {
 	clear: both;
 	margin: 5px 0px 10px 20px;
 	line-height: 32px;
+	overflow: hidden;
 }
 
 .table_box {
@@ -124,10 +125,12 @@ p, li, li a, label {
 }
 
 .breadcrumb {
-	top: 10px;
 	padding-right: 0;
 	background: none;
 	position: relative;
+	overflow: hidden;
+	margin-bottom:0px;
+	margin: 5px 0px; 
 }
 
 .breadcrumb a {
@@ -1096,4 +1099,5 @@ table .input_group .add-on{
 	line-height: 25px;
 	float: left;
 	display: inline-block;
+	font-family: Arial;
 }

@@ -8,9 +8,13 @@
     <result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber" />
     <result column="COLLECT_ID" jdbcType="VARCHAR" property="collectId" />
     <result column="TYPE" jdbcType="INTEGER" property="type" />
+    <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName" />
+    <result column="AUDIT_STAFF" jdbcType="VARCHAR" property="auditStaff" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="AUDIT_ROUND" jdbcType="VARCHAR" property="auditRound" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, MOBILE, ID_NUMBER, COLLECT_ID,TYPE
+    ID, NAME, MOBILE, ID_NUMBER, COLLECT_ID,TYPE,UNIT_NAME,AUDIT_STAFF,USER_ID,AUDIT_ROUND
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="AuditPerson_Map">
     select 
@@ -24,9 +28,10 @@
   </delete>
   <insert id="insert" parameterType="bss.model.pms.AuditPerson">
     insert into T_BSS_PMS_AUDIT_PERSON (ID, NAME, MOBILE, 
-      ID_NUMBER, COLLECT_ID,TYPE)
+      ID_NUMBER, COLLECT_ID,TYPE,UNIT_NAME)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{idNumber,jdbcType=VARCHAR}, #{collectId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
+      #{idNumber,jdbcType=VARCHAR}, #{collectId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{unitName,jdbcType=VARCHAR},#{auditStaff,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},#{auditRound,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.pms.AuditPerson">
     insert into T_BSS_PMS_AUDIT_PERSON
@@ -46,8 +51,20 @@
       <if test="collectId != null">
         COLLECT_ID,
       </if>
-        <if test="type != null">
+      <if test="type != null">
         TYPE,
+      </if>
+      <if test="unitName != null">
+        UNIT_NAME,
+      </if>
+      <if test="auditStaff != null">
+        AUDIT_STAFF,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="auditRound != null">
+        AUDIT_ROUND,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -66,8 +83,20 @@
       <if test="collectId != null">
         #{collectId,jdbcType=VARCHAR},
       </if>
-       <if test="type != null">
+      <if test="type != null">
         #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStaff != null">
+        #{auditStaff,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditRound != null">
+        #{auditRound,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -87,9 +116,20 @@
         COLLECT_ID = #{collectId,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
-        TYPE = #{type,jdbcType=VARCHAR},
+        TYPE = #{type,jdbcType=INTEGER},
       </if>
-      
+      <if test="unitName != null">
+        UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStaff != null">
+        AUDIT_STAFF = #{auditStaff,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditRound != null">
+        AUDIT_ROUND = #{auditRound,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -99,7 +139,11 @@
       MOBILE = #{mobile,jdbcType=VARCHAR},
       ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
       COLLECT_ID = #{collectId,jdbcType=VARCHAR},
-      TYPE = #{type,jdbcType=INTEGER}
+      TYPE = #{type,jdbcType=INTEGER},
+      UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+      AUDIT_STAFF = #{auditStaff,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      AUDIT_ROUND = #{auditRound,jdbcType=VARCHAR},
    	 where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -107,6 +151,14 @@
      select 
     <include refid="Base_Column_List" />
     from T_BSS_PMS_AUDIT_PERSON
+  </select>
+  
+  <select id="findUserByCondition" parameterType="java.util.Map" resultType="Integer">
+  	SELECT count(1)
+		FROM T_BSS_PMS_AUDIT_PERSON
+		WHERE AUDIT_ROUND = #{auditRound}
+		AND COLLECT_ID = #{collectId}
+		AND USER_ID = #{userId}
   </select>
   
 </mapper>

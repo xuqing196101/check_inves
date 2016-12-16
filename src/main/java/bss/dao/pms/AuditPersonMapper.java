@@ -1,5 +1,6 @@
 package bss.dao.pms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.pms.AuditPerson;
@@ -18,4 +19,6 @@ public interface AuditPersonMapper {
     int updateByPrimaryKey(AuditPerson record);
     
     List<AuditPerson> query(AuditPerson auditPerson);
+    
+    int findUserByCondition(HashMap<String,Object> map);
 }

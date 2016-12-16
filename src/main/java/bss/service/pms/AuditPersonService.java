@@ -1,5 +1,6 @@
 package bss.service.pms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.pms.AuditPerson;
@@ -35,4 +36,16 @@ public interface AuditPersonService {
 	* @throws
 	 */
 	List<AuditPerson> query(AuditPerson AuditPerson,Integer page);
+	
+	/**
+	 * 
+	* @Title: findUserByCondition
+	* @author ZhaoBo
+	* @date 2016-12-15 下午5:47:13  
+	* @Description: 验证重复添加审核人员 
+	* @param @param map
+	* @param @return      
+	* @return int
+	 */
+	int findUserByCondition(HashMap<String,Object> map);
 }

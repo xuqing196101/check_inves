@@ -286,8 +286,7 @@
 		<!-- 录入采购计划开始-->
 		<div class="container">
 			<div class="headline-v2 fl">
-				<h2>需求计划列表
-	  </h2>
+				<h2>需求计划列表</h2>
 			</div>
 
 			<h2 class="search_detail">
@@ -324,7 +323,7 @@
 				      <button type="submit" class="btn">查询</button>
 	 						<button type="button" onclick="resetQuery()" class="btn">重置</button>
 			    	</ul>
-			    
+			    	<div class="clear"></div>
    
    </form>
   	</h2>
@@ -393,7 +392,7 @@
 			 	已受理
 			  </c:if>
 			   <c:if test="${obj.status=='5' }">
-			 	已经汇总
+			 	已汇总
 			  </c:if>
 			   <c:if test="${obj.status=='6' }">
 			 	审核通过

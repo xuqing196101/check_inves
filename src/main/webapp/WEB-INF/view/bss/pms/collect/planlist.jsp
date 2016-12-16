@@ -152,7 +152,7 @@
 		 if(type==4){
 			 window.location.href="${pageContext.request.contextPath }/taskassgin/list.html?cid="+id;
 		 }else{
-			 window.location.href="${pageContext.request.contextPath }/set/list.html?id="+id; 
+			 window.location.href="${pageContext.request.contextPath }/set/list.html?id="+id+"&type="+type; 
 		 }
 		 
 	 }

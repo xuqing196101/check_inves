@@ -115,7 +115,7 @@
 		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 		  shift: 1, //0-6的动画形式，-1不开启
 		  offset: ['200px', '500px'],
-		  content:  '${pageContext.request.contextPath}/set/expert.html',
+		  content:  "${pageContext.request.contextPath}/set/expert.html?type="+$("#auditRound").val(),
 		});
     }
     function users(){
@@ -128,7 +128,7 @@
    		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
    		  shift: 1, //0-6的动画形式，-1不开启
    		  offset: ['200px', '500px'],
-   		  content:  '${pageContext.request.contextPath}/set/user.html',
+   		  content:  "${pageContext.request.contextPath}/set/user.html?type="+$("#auditRound").val(),
    		});
     }
     var index;
@@ -150,18 +150,42 @@
     }
     
     function qd(){
-   	 
 		 $.ajax({
-			 url:"${pageContext.request.contextPath}/set/add.html",
-			 type:"post",
+			 url:"${pageContext.request.contextPath}/set/judgeAddUser.do",
+			 type:"POST",
+			 dataType:"json",
 			 data:$("#collect_form").serialize(),
-			 success:function(){
-				 alert("添加成功");
-			    	layer.close(index);
-		window.location.reload();
-			 },error:function(){
-				 
-			 }
+			 success:function(data){
+				 if(data == 1) {
+						layer.msg('添加成功', {
+							offset: ['40%', '45%']
+						});
+						layer.close(index);
+						window.location.reload();
+					} else {
+						var error = eval(data);
+						if(error.name) {
+							$("#userName").html(error.name);
+						} else {
+							$("#userName").html("");
+						}
+						if(error.phone) {
+							$("#userPhone").html(error.phone);
+						} else {
+							$("#userPhone").html("");
+						}
+						if(error.unitName) {
+							$("#userUnitName").html(error.unitName);
+						} else {
+							$("#userUnitName").html("");
+						}
+						if(error.auditStaff) {
+							$("#userAuditStaff").html(error.auditStaff);
+						} else {
+							$("#userAuditStaff").html("");
+						}
+					}
+			 	}
 		 });
     }
     
@@ -181,15 +205,13 @@
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-<!-- 项目戳开始 -->
-  <%-- <div class="border1 col-md-12 ml30">
-    <form id="add_form" >
-  		审核人员设置： <input type="text" class="mt10" name="planName" value="${inf.planName }"/>
-   </form>
-  </div> --%>
-  <div class="container container_box">
+	<!-- 项目戳开始 -->
+  <%--<div class="border1 col-md-12 ml30">
+  		审核人员性质： <input type="text" class="mt10" name="auditStaff"/>
+  </div> 
+  --%><div class="container container_box">
   <div>
-  <h2 class="list_title">审核人员列列表</h2>
+  <h2 class="list_title">审核人员列表</h2>
   <ul class="ul_list">
       
     <div class="col-md-12 pl20 mt10">
@@ -201,36 +223,37 @@
   <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
-		<tr>
-		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
-		  <th class="info w50">序号</th>
-		  <th class="info">姓名</th>
-		  <th class="info">电话</th>
-		  <th class="info">身份证号</th>
- 
+		<tr class="info">
+		  <th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+		  <th class="w50">序号</th>
+		  <th>审核轮次</th>
+		  <th>姓名</th>
+		  <th>电话</th>
+		  <th>单位名称</th>
+		  <th>审核人员性质</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
-			<tr style="cursor: pointer;">
-			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-			  
-			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  
-			    <td class="tc"  >${obj.name }</td>
-			    
-			  <td class="tc"  >${obj.mobile }</td>
-			
-			  <td class="tc"  >${obj.idNumber }</td>
-			 
+			<tr class="tc pointer">
+			  <td class="w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+			  <td class="w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  <td>
+			  	<c:forEach items="${kind}" var="kind">
+						<c:if test="${kind.id == obj.auditRound}">${kind.name}</c:if>
+					</c:forEach>
+				</td>
+			  <td>${obj.name }</td>
+			  <td>${obj.mobile }</td>
+			  <td>${obj.unitName }</td>
+			  <td>${obj.auditStaff }</td>
 			</tr>
-	 
 		 </c:forEach>
       </table>
    </div>
     <div id="pagediv" align="right"></div>
  </ul>
- </div>
- <!--  <div class="padding-top-10 clear">
+ </div><%--
+ <div class="padding-top-10 clear">
     
       <h2 class="list_title">审核字段设置
       </h2>
@@ -277,8 +300,8 @@
 	
 </div>
 </ul>
-</div>  -->
-	<div style="margin-top: 50px; margin-bottom: 30px; text-align: center;">
+</div>
+	--%><div style="margin-top: 50px; margin-bottom: 30px; text-align: center;">
 		<button class="btn btn-windows git" onclick="save()">保存</button>
 		<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
@@ -286,6 +309,7 @@
  <div id="content" class="dnone layui-layer-wrap">
 	 
 	<form id="collect_form" action="">
+	<input type="hidden" id="auditRound" value="${type }" name="auditRound">
 	   <input type="hidden" name="type" id="type" value="3">
          <input type="hidden" name="id" value="123123123">
 	<div class="drop_window">
@@ -294,20 +318,30 @@
                    <label class="col-md-12 pl20 col-xs-12">姓名</label>
                     <span class="col-md-12 col-xs-12">
                        <input id="citySel" class="title col-md-12" name="name" type="text"/>
+                       <div class="cue" id="userName"></div>
                     </span>
                  </li>
                  <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
                    <label class="col-md-12 pl20 col-xs-12">电话</label>
                     <span class="col-md-12 col-xs-12">
                        <input id="citySel" class="title col-md-12" name="mobile" type="text"/>
+                       <div class="cue" id="userPhone"></div>
                     </span>
                  </li>
 	           <li class="mt10 col-md-12 p0 col-xs-12">
-                   <label class="col-md-12 pl20 col-xs-12">身份证号</label>
+                   <label class="col-md-12 pl20 col-xs-12">单位名称</label>
                      <span class="col-md-12 col-xs-12">
-                        <input class="col-xs-12 h80 mt6" name="idNumber"  type="text">
+                        <input class="title col-md-12" name="unitName"  type="text">
+                        <div class="cue" id="userUnitName"></div>
                     </span>
-            </li>
+            	</li>
+            	<li class="mt10 col-md-12 p0 col-xs-12">
+                   <label class="col-md-12 pl20 col-xs-12">审核人员性质</label>
+                     <span class="col-md-12 col-xs-12">
+                        <input class="title col-md-12" name="auditStaff"  type="text">
+                        <div class="cue" id="userAuditStaff"></div>
+                    </span>
+            	</li>
 		 <div class="clear"></div>
 	</ul>
 	<div class="tc mt10 col-md-12 col-xs-12">
@@ -326,6 +360,8 @@
 	 	<input type="hidden" name="fname2" value="" id="fname2" >
 	 	<input type="hidden" name="collectId" value="${id }">	
 	 </form>
+	 
+	 
 	 </body>
 	 
 	

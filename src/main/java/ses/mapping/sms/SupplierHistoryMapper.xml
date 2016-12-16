@@ -15,9 +15,19 @@
     ID, SUPPLIER_ID, BEFORE_FIELD, AFTER_FIELD, BEFORE_CONTENT, AFTER_CONTENT, CREATED_AT, RELATION_ID
   </sql>
   
-  <select id="selectByPrimaryKey"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
+  <select id="selectBySupplierId"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    	AFTER_CONTENT
+    from T_SES_SMS_SUPPLIER_HISTORY
+    where SUPPLIER_ID = #{supplierId} 
+    <if test="beforeField != '' and beforeField != null">
+    	and BEFORE_FIELD = #{beforeField}
+    </if>
+  </select>
+  
+  <select id="selectAllBySupplierId"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
+    select 
+    	BEFORE_FIELD
     from T_SES_SMS_SUPPLIER_HISTORY
     where SUPPLIER_ID = #{supplierId} 
   </select>
@@ -82,8 +92,5 @@
         #{relationId},
       </if>
     </trim>
-<!--     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-      select sys_guid() from dual
-  </selectKey> -->
   </insert>
 </mapper>

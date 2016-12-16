@@ -73,6 +73,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	}
 	//经济技术审查
 	function toFirstAudit(projectId, packageId){
+		// 下面代码是判断必须符合性审查通过才可以进入经济技术审查
+		/*$.ajax({
+			url: "${pageContext.request.contextPath}/expert/validateIsGrade.do",
+			data: {"projectId": projectId, "packageId": packageId},
+			success: function(response){
+				// 1 代表isAudit==1 and isGrade != 1
+				if (response == "1") {
+					window.location.href="${pageContext.request.contextPath}/expert/toFirstAudit.html?projectId="+projectId+"&packageId="+packageId;
+				} else {
+					layer.alert("符合性审查全部通过之后才可以进行此项操作!", {
+						offset : [ '222px', '700px' ],
+						shade : 0.01
+					});
+				}
+			}
+		});*/
+		// 临时代码,可直接进入经济技术审查
 		window.location.href="${pageContext.request.contextPath}/expert/toFirstAudit.html?projectId="+projectId+"&packageId="+packageId;
 	}
 </script>

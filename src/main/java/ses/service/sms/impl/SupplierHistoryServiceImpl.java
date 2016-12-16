@@ -1,5 +1,7 @@
 package ses.service.sms.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +17,15 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
 	
 	public void  add(SupplierHistory supplierHistory){
 		supplierHistoryMapper.insertSelective(supplierHistory);
+	}
+	
+	public SupplierHistory findBySupplierId(SupplierHistory supplierHistory) {
+		return supplierHistoryMapper.selectBySupplierId(supplierHistory);
+	}
+
+	@Override
+	public List<SupplierHistory> selectAllBySupplierId(SupplierHistory supplierHistory) {
+		
+		return supplierHistoryMapper.selectAllBySupplierId(supplierHistory);
 	}
 }

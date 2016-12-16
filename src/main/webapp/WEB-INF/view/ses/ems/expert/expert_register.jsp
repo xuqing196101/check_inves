@@ -124,7 +124,7 @@ session.setAttribute("tokenSession", tokenValue);
 			   <div class="input-append">
 		        <input class="span2" name="loginName" id="loginName" placeholder="用户名为3~16位" maxlength="16" type="text" onblur="validataLoginName();" value="">
 		        <span class="add-on">i</span>
-		       </div><font  id="spp"></font>
+		       </div><font id="spp"></font>
 			 </li>
 		      <li class="p0 ">
 			   <span class=""><i class="red mr5">*</i>密码：</span>
@@ -160,8 +160,8 @@ session.setAttribute("tokenSession", tokenValue);
   </div> 
 	  <div  class="col-md-12">
 	   <div class="padding-10" align="center">
-		   <button class="btn btn-windows add"    type="button" onclick="submitForm1();"  >注册</button>
-		   <button class="btn btn-windows reset"  type="button" onclick="location.href='javascript:history.go(-1);'"> 返回</button>
+		   <button class="btn btn-windows add"    type="button" onclick="submitForm1();"  >下一步</button>
+		   <button class="btn btn-windows reset"  type="button" onclick="location.href='javascript:history.go(-1);'"> 上一步</button>
 		</div>
 	 </div>
   </form>

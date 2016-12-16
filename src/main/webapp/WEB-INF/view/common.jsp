@@ -42,6 +42,7 @@
 <script src="${pageContext.request.contextPath}/public/echarts/echarts.js"></script>
 <!-- 验证-->
 <script src="${pageContext.request.contextPath}/public/backend/js/jquery.validate.min.js"></script>
+
 <!--[if lt IE 9]>
     <script src="${pageContext.request.contextPath}/public/common/respond.src.js"></script>
 <![endif]-->
