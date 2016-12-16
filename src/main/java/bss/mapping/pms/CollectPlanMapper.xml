@@ -219,6 +219,9 @@
         BUDGET=#{budget}
       </if>
   	</if>
+  	<if test="status != null and status != '' ">
+  		AND  STATUS=#{status}
+  	</if>
   	</where>
   order by POSITION desc
   </select>
