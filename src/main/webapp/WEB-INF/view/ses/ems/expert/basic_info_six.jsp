@@ -21,6 +21,9 @@ session.setAttribute("tokenSession", tokenValue);
 		});
 	}
 	$(function(){
+		$("#tab-1").attr("style", "");
+		$("#tab-2").attr("style", "display: none");
+		$("#tab-3").attr("style", "display: none");
 		var count;
 		var zTreeObj;
 		var setting = {
@@ -218,13 +221,13 @@ function fun1(count){
 	  <div class="padding-top-10">
 	  	<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 		  <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">	  	
-			<c:if test="${cate.name eq '物资'}">
+			<c:if test="${cate.code eq 'GOODS'}">
 			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="fujian f18">物资</a></li>
 			</c:if>
-			<c:if test="${cate.name eq '工程'}">
+			<c:if test="${cate.code eq 'PROJECT'}">
 			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="fujian f18">工程</a></li>
 			</c:if>
-			<c:if test="${cate.name eq '服务'}">
+			<c:if test="${cate.code eq 'SERVICE'}">
 			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="fujian f18">服务</a></li>
 			</c:if>
 		  </c:forEach>
@@ -232,19 +235,19 @@ function fun1(count){
 		  <c:set var="count" value="0"></c:set>
 		  <div class="tag-box tag-box-v3 center" id="content_ul_id">
 		    <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
-			  <c:if test="${cate.name eq '物资'}">
+			  <c:if test="${cate.code eq 'GOODS'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
-			    <ul id="tab-${vs.index + 1}" class="ztree center" style="display: none"></ul>
+			    <ul id="tab-${vs.index + 1}" class="ztree center"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 			  </c:if>
-			  <c:if test="${cate.name eq '工程'}">
+			  <c:if test="${cate.code eq 'PROJECT'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
-			    <ul id="tab-${vs.index + 1}" class="ztree center" style="display: none"></ul>
+			    <ul id="tab-${vs.index + 1}" class="ztree center"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 			  </c:if>
-			  <c:if test="${cate.name eq '服务'}">
+			  <c:if test="${cate.code eq 'SERVICE'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
-			    <ul id="tab-${vs.index + 1}" class="ztree center" style="display: none"></ul>
+			    <ul id="tab-${vs.index + 1}" class="ztree center"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 			  </c:if>
 		    </c:forEach>
