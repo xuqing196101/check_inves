@@ -2195,14 +2195,8 @@ a.yjfk{
   font-size:16px;
 }
 .ywbl_02:hover a,.ywbl_01:hover a{
- /*  background-position:45px 19px; */
- background-color:#65e7fc;
- background-image: none;
  box-shadow: 3px 3px 5px #c0c0c0;
-}
-.ywbl_02:hover span,.ywbl_01:hover span{
-	line-height: 104px;
-	color:#ffffff;
+ border:1px solid #fdaf0f;
 }
 .ywbl_02{
   width:154px;
@@ -2384,6 +2378,7 @@ a.yjfk{
 .sign_kinds{
    overflow:hidden;
    margin-bottom:0px;
+   border-bottom: 1px solid #dddddd;
 }
 .sign_kinds a{
    display:block;
@@ -2524,4 +2519,15 @@ h2.list_title{
 	padding-left:10px;
 	font-size: 16px;
 	margin: 15px 0;
+}
+
+.tab-content{
+	clear:both;
+}
+.reg-page .row{
+	margin-bottom: 10px;
+}
+.reg-page .border-top-1{
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	margin-top: 21px;
 }

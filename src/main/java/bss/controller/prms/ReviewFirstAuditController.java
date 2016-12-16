@@ -39,9 +39,11 @@ import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
 import bss.util.ScoreModelUtil;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierService;
 
@@ -73,6 +75,8 @@ public class ReviewFirstAuditController {
 	private SupplierService supplierService;//供应商查询
 	@Autowired
 	private ExpertScoreService expertScoreService;//供应商查询
+	@Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;//供应商查询
 
 	/**
 	 * 
@@ -175,13 +179,22 @@ public class ReviewFirstAuditController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("projectId", projectId);
 		map.put("packageId", packageId);
-		if(expert.getExpertsTypeId().equals("1"))
-		map.put("typeName",expert.getExpertsTypeId());
-		if(expert.getExpertsTypeId().equals("3"))
-			map.put("typeName",0);
-		
+		String[] typeIds = expert.getExpertsTypeId().split(",");
+		List<AuditModelExt> findAllByMap = new ArrayList<AuditModelExt>();
+		for (String id : typeIds) {
+            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(id);
+            // 判断如果kind值为6,代表专家类别有技术类
+            if (dictionaryData.getKind() == 6) {
+                map.put("typeName", "1");
+                findAllByMap.addAll(aduitQuotaService.findAllByMap(map));
+            }
+            // 判断如果kind值为19,代表专家类别有经济类
+            if (dictionaryData.getKind() == 19) {
+                map.put("typeName", "0");
+                findAllByMap.addAll(aduitQuotaService.findAllByMap(map));
+            }
+		}
 		//查询评分信息
-		List<AuditModelExt> findAllByMap = aduitQuotaService.findAllByMap(map);
 		removeAuditModelExt(findAllByMap);
 		model.addAttribute("list", findAllByMap);
 		//查询供应商信息

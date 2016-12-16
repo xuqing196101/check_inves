@@ -36,8 +36,8 @@
 						<input id="registration_input_id" type="checkbox" checked="checked" class="radio_orange"><span class="ml10">我已阅读，并且完全遵守相关规定</span>
 					</div>
 					<div class="mt40 tc">
-					    <a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
-						<input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/expert/toExpert.html'" value="开始注册">
+						<input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/expert/toExpert.html'" value="注册">
+					    <input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location.href='javascript:history.go(-1);'" value="取消">
 					</div>
 				</div>
 			</div>

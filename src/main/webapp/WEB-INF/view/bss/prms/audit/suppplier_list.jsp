@@ -51,18 +51,10 @@
 	  
   }
    //项目评分
-  	function toGrade(){
+	function toGrade(){
 		var projectId = "${projectId}";
 	    var packageId = "${packageId}";
-	    var packageExpert = "${packageExpert}";
-	    if (packageExpert.isAudit == 1 && packageExpert.isGrade != 1) {
-		    window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
-	    } else {
-			layer.alert("符合性审查全部通过之后才可以进行此项操作!", {
-				offset : [ '222px', '390px' ],
-				shade : 0.01
-			});
-	    }
+		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
   	}
    //供应商报价
    function supplierPrice(){
@@ -140,15 +132,18 @@
    </div>
    <div class="container clear">
    <span class="fl option_btn margin-top-10 ml10">
-   	  <!--<c:if test="${packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">-->
-   	  <!--</c:if>-->
+   	  <!-- 需要判断状态才显示时将button放入下面的c:if中 -->
    	  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">评分</button>
-   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toTotal();">评分汇总</button>
-   	  <!--<c:if test="${packageExpert.isGroupLeader == 1 && packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">-->
-   	 <!-- </c:if>-->
-   	   <c:if test="${packageExpert.isAudit != 1  && packageExpert.isGrade == 0}">
-   	  <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>-->
+   	  <c:if test="${packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
    	  </c:if>
+   	  <!-- 需要判断状态才显示时将button放入下面的c:if中 -->
+   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toTotal();">评分汇总</button>
+   	  	<c:if test="${packageExpert.isGroupLeader == 1 && packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
+   	 	</c:if>
+   	 	
+   	  <!--  <c:if test="${packageExpert.isAudit != 1  && packageExpert.isGrade == 0}">
+   	  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>
+   	  </c:if>-->
    	  
        <!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button> -->
         <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="supplierPrice()">查看供应商报价</button>-->

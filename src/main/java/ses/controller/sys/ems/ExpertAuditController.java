@@ -463,9 +463,9 @@ public class ExpertAuditController {
             service.deleteExpertHistory(expert.getId());
             Expert exp = service.selectByPrimaryKey(expert.getId());
             service.insertExpertHistory(exp);
+            expert.setIsSubmit("0");
         }
         //提交审核，更新状态
-        expert.setIsSubmit("0");
         expertService.updateByPrimaryKeySelective(expert);
         
         String status = expert.getStatus();
