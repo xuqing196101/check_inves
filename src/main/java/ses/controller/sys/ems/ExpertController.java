@@ -612,9 +612,9 @@ public class ExpertController {
         String isok;
         int betweenDays = service.daysBetween(submitDate);
         if (betweenDays > 45) {
-            isok = "1";
-        } else {
             isok = "0";
+        } else {
+            isok = "1";
         }
         allInfo.put("isok", isok);
         // 查询初审机构信息
@@ -1971,7 +1971,11 @@ public class ExpertController {
         // 专家类别
         StringBuffer expertType = new StringBuffer();
         for (String typeId : expert.getExpertsTypeId().split(",")) {
-            expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+            DictionaryData type = dictionaryDataServiceI.getDictionaryData(typeId);
+            if (type.getKind().intValue() == 6) {
+                type.setName(type.getName() + "技术");
+            }
+            expertType.append(type.getName() + "、");
         }
         String expertsType = expertType.toString().substring(0, expertType.length() - 1);
         expert.setExpertsTypeId(expertsType);
