@@ -765,6 +765,13 @@ public class ExpertServiceImpl implements ExpertService {
 		if(pageNum != null){
 			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		}
+		
+		//条件查询
+		String relName = expert.getRelName();
+		if(relName != null && !"".equals(relName)){
+			expert.setRelName("%" +relName+ "%");
+		}
+		
 		return mapper.findExpertAuditList(expert);
 	}
 

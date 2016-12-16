@@ -177,12 +177,9 @@
 		          </c:forEach>
 		       </select> 
 		    </li> --%>
-	      <li>
-			    <input type="submit" class="btn" value="查询" />
-			    <button onclick="resetForm();" class="btn" type="button">重置</button>
-	      </li>
         </ul>
-      <div class="clear"></div>
+        <input type="submit" class="btn" value="查询" />
+			  <button onclick="resetForm();" class="btn" type="button">重置</button>
       </form>
     </h2>
     <!-- 表格开始-->

@@ -95,6 +95,15 @@ public class ExpertAuditController {
 		model.addAttribute("sign", expert.getSign());
 		request.getSession().setAttribute("signs",  expert.getSign());
 		
+		//条件查询回显
+		String relName = expert.getRelName();
+		if(relName != null){
+			relName  = relName.replaceAll("%", "");
+		}
+		String status = expert.getStatus();
+		model.addAttribute("relName", relName);
+		model.addAttribute("state", status);
+		
 		return "ses/ems/expertAudit/list";
 	}
 	
