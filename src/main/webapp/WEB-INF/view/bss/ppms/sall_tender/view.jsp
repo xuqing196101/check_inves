@@ -100,7 +100,7 @@
 
   <body>
 
-    <h2 class="list_title">项目编号：${project.projectNumber }  项目名称：${project.name }</h2>
+    <%-- <h2 class="list_title">项目编号：${project.projectNumber }  项目名称：${project.name }</h2> --%>
 
     <div class="search_detail">
       <form action="${pageContext.request.contextPath}/saleTender/view.html?projectId=${project.id}" method="post" id="form1" class="mb0">
@@ -147,7 +147,7 @@
         <c:set value="${p.index}" var="index"></c:set>
 
         <div>
-          <h2><span onclick="ycDiv(this,'${index}')" class="f14 count_flow jbxx hand">包名:<span class="f14 blue">${pack.name }</span></span>
+          <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${pack.name }</span>
               <button class="btn btn-windows add" onclick="add('${pack.id }')" type="button">登记</button>
               <button class="btn btn-windows withdraw" onclick="download()" type="button">下载标书</button>
             </h2>

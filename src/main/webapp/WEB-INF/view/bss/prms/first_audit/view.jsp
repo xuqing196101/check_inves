@@ -50,8 +50,11 @@
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
-	    <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
+	    <div class="mb5 fr">
 		    <button class="btn" onclick="window.print();" type="button">打印</button>
+		    <button class="btn" onclick="" type="button">汇总</button>
+		    <button class="btn" onclick="" type="button">复核</button>
+		    <button class="btn" onclick="" type="button">结束</button>
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">

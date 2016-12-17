@@ -568,6 +568,11 @@
 			});		
 		}
 	}
+	
+	//返回
+	function goBack(url){
+		$("#tab-6").load(url);
+	}
 </script>
 </head>
 <body onload="is_Null('${packExpertExtList.size()}')">
@@ -581,8 +586,11 @@
 	<c:forEach items="${packageList }" var="pack" varStatus="vs">
 	  <c:if test="${pack.id eq packageId}">
 		<h3>包名称：${pack.name }</h3>
-	    <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
-		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
+	      <div class="mb5 fr">
+		  	<button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
+		 	<button class="btn" onclick="" type="button">汇总</button>
+		    <button class="btn" onclick="" type="button">复核</button>
+		    <button class="btn" onclick="" type="button">结束</button>
 		  </div>
 		  <!--循环供应商  -->
 		  <table class="table table-bordered table-condensed table-hover table-striped">
@@ -692,7 +700,7 @@
 	  </c:if>
 	</div>
     <div align="center">
-	  <input type="button" class="btn btn-windows back" value="返回" onclick="javascript:window.location.href='${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">
+	  <input type="button" class="btn btn-windows back" value="返回" onclick="goBack('${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">
 	</div>
   </body>
 </html>

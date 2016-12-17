@@ -1230,7 +1230,6 @@ public class ProjectController extends BaseController {
         model.addAttribute("page", page);
         HashMap<String, Object> map = (HashMap<String, Object>)getFlowDefine(project.getPurchaseType(), id);
         model.addAttribute("fds", map.get("fds"));
-        //默认url
         model.addAttribute("url", map.get("url"));
         System.out.println(map.get("url"));
         return "bss/ppms/open_bidding/main";
@@ -1287,6 +1286,10 @@ public class ProjectController extends BaseController {
             }
         } else {
             //默认第一个为将要执行状态
+            fds.get(0).setStatus(4);
+            map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
+        }
+        if (map.get("url") == null || "".equals(map.get("url"))) {
             fds.get(0).setStatus(4);
             map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
         }

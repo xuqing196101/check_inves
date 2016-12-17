@@ -89,15 +89,16 @@
 		}
 	}
   	function scoreView(packageId){
-  		window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId=${projectId}';
+  		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId=${projectId}');
+  		//window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId=${projectId}';
   	}
   </script>
 </head>
   <body>
-	    <h2 class="list_title">详细评审</h2>
-	    <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
+	    <h2 class="list_title">经济技术评审</h2>
+	    <!-- <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
 		    <button class="btn" onclick="scoreTotal(this)" type="button">评分汇总</button>
-	   	</div>
+	   	</div> -->
    		<input type="hidden" id="projectId" value="${projectId}">
     	<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>

@@ -890,15 +890,15 @@ public class OpenBiddingController {
             //货物/物资
             if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_pro_notice_matarials");
-                getDefaultTemplate(projectId, model);
+                getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
             } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())){
                 //工程  
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_engineering");
-                getDefaultTemplate(projectId, model);
+                getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
             } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())){
                 //服务 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_service");
-                getDefaultTemplate(projectId, model);
+                getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
             }
         }
         //如果是拟制中标公告
@@ -906,12 +906,15 @@ public class OpenBiddingController {
             //货物/物资
             if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_matarials");
+                getDefaultTemplate(projectId, model, WIN_NOTICE);
             } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())){
                 //工程  
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_engineering");
+                getDefaultTemplate(projectId, model, WIN_NOTICE);
             } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())){
                 //服务 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_service");
+                getDefaultTemplate(projectId, model, WIN_NOTICE);
             }
         }
         article.setProjectId(projectId);
@@ -967,15 +970,28 @@ public class OpenBiddingController {
         return sb.toString();
     }
     
-    public void getDefaultTemplate(String projectId, Model model) {
-        Templet templet = new Templet();
-        templet.setTemType("招标公告");
-        List<Templet> templets = templetService.search(1, templet);
+    public void getDefaultTemplate(String projectId, Model model, String type) {
+        List<Templet> templets = null;
+        if (type.equals(PURCHASE_NOTICE)) {
+          Templet templet = new Templet();
+          templet.setTemType("招标公告");
+          templets = templetService.search(1, templet);
+        }
+        if (type.equals(WIN_NOTICE)) {
+          Templet templet = new Templet();
+          templet.setTemType("中标公告");
+          templets = templetService.search(1, templet);
+        }
         if (templets != null) {
             String content = templets.get(0).getContent();
             Article article1 = new Article();
             String table = getContent(projectId);
             Project p = projectService.selectById(projectId);
+            String purchaseTypeName = "";
+            String auditResult = "";
+            if (p.getPurchaseType() != null) {
+               purchaseTypeName = DictionaryDataUtil.findById(p.getPurchaseType()).getName();
+            }
             PurchaseDep pd = null;
             if (p != null) {
                 pd = p.getPurchaseDep();
@@ -986,6 +1002,10 @@ public class OpenBiddingController {
             String contactAddress = "";
             String fax = "";
             String bank = "";
+            String bidDate = "";
+            if (p.getBidDate() != null) {
+              bidDate = new SimpleDateFormat("yyyy年MM月dd日").format(p.getBidDate());
+            }
             if (pd != null) {
                  contact = pd.getContact();
                  purchaserName = pd.getDepName();
@@ -994,10 +1014,10 @@ public class OpenBiddingController {
                  fax = pd.getFax();
                  bank = pd.getBank();
             }
-            content = content.replace("projectDetail", table).replace("projectName", p.getName()).replace("projectNum", p.getProjectNumber());
-            content = content.replace("bidDate", new SimpleDateFormat("yyyy年MM月dd日").format(p.getBidDate())).replace("contact", contact);
+            content = content.replace("projectDetail", table).replace("projectName", p.getName()).replace("projectNum", p.getProjectNumber()).replace("purchaseType", purchaseTypeName);
+            content = content.replace("bidDate", bidDate).replace("contact", contact);
             content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
-            content = content.replace("address", contactAddress).replace("fax", fax).replace("bank", bank);
+            content = content.replace("address", contactAddress).replace("fax", fax).replace("bank", bank).replace("auditResult", auditResult);
             article1.setContent(content);
             model.addAttribute("article", article1);
         }
