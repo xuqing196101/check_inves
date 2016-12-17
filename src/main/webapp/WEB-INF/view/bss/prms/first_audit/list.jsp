@@ -56,7 +56,8 @@
 	
 	//进入包初审页面
   	function fitsrView(packageId, projectId, flowDefineId){
-  		window.location.href="${pageContext.request.contextPath}/packageExpert/firstAuditView.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId;
+  		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/firstAuditView.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId);
+  		//window.location.href="${pageContext.request.contextPath}/packageExpert/firstAuditView.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId;
   	}
   
     //初审汇总
@@ -121,10 +122,10 @@
 	}
   </script>
   <body>
-	    <h2 class="list_title">初审</h2>
-	    <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
+	    <h2 class="list_title">符合性审查</h2>
+	    <!-- <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
 		    <button class="btn" onclick="gather();" type="button">初审汇总</button>
-	   	</div>
+	   	</div> -->
    		<input type="hidden" id="projectId" value="${projectId}">
    		<input type="hidden" id="flowDefineId" value="${flowDefineId}">
     	<table class="table table-bordered table-condensed table-hover table-striped">

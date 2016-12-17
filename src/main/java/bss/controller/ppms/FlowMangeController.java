@@ -204,7 +204,7 @@ public class FlowMangeController {
      * @throws Exception
      */
     @RequestMapping("/deleteSoft")
-    public String deleteSoft(String ids) throws Exception{
+    public String deleteSoft(String ids, String purchaseTypeId) throws Exception{
         String[] idArr = ids.split(",");
         for (String id : idArr) {
             FlowDefine fd = new FlowDefine();
@@ -217,7 +217,7 @@ public class FlowMangeController {
                 throw new Exception("获取失败");
             }
         }
-        return "redirect:list.html";
+        return "redirect:list.html?purchaseTypeId="+purchaseTypeId;
     }
     
 }

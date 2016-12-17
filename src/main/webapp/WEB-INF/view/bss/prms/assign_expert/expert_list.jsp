@@ -60,6 +60,7 @@
                     id.push($(this).val());
                 }); 
                 if(id.length==1){
+                	//$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/showTemporaryExpert.html?packageId="+id+"&&projectId=${project.id}&&&&flowDefineId=${flowDefineId}");
                     window.location.href="${pageContext.request.contextPath}/ExpExtract/showTemporaryExpert.html?packageId="+id+"&&projectId=${project.id}&&&&flowDefineId=${flowDefineId}";
                 }else if(id.length>1){
                     layer.alert("只能选择一个",{offset: ['100px', '300px'], shade:0.01});

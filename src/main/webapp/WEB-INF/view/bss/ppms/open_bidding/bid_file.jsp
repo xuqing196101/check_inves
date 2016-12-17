@@ -176,9 +176,14 @@
 	      }
 	  }
 	  
-    //编辑模板内容
+    //编辑符合性审查内容
     function editPackageFirstAudit(packageId,projectId){
         window.location.href = "${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId="+packageId+"&projectId="+projectId;
+    }
+    
+    //查看符合性审查内容
+    function view(packageId,projectId){
+    	window.open("${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId="+packageId+"&projectId="+projectId+"&flag="+1);   
     }
   </script>
   <body>
@@ -189,30 +194,30 @@
 		   <i></i>
 		 </li>
 		 
-		 <li>
+		 <%-- <li>
 		   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
 		   <i></i>							  
-		 </li>
+		 </li> --%>
 	     <li>
-		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、评标细则</a>
+		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">02、评标细则</a>
 		   <i></i>
 		 </li>
 		 <li>
 		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
 		     <c:if test="${project.dictionary.code eq 'GKZB' }">
-		     04、招标文件
+		     03、招标文件
 		     </c:if>
 		     <c:if test="${project.dictionary.code eq 'XJCG' }">
-		     04、询价文件
+		     03、询价文件
 		     </c:if>
 		     <c:if test="${project.dictionary.code eq 'YQZB' }">
-		     04、招标文件
+		     03、招标文件
 		     </c:if>
 		     <c:if test="${project.dictionary.code eq 'JZXTP' }">
-		     04、竞谈文件
+		     03、竞谈文件
 		     </c:if>
 		     <c:if test="${project.dictionary.code eq 'DYLY' }">
-		     04、单一来源文件
+		     03、单一来源文件
 		     </c:if>
 		   </a>
 		 </li>
@@ -233,7 +238,12 @@
                 <td class="tc w30">${vs.count}</td>
                 <td class="tc">${p.name}</td>
                 <td class="tc">
-                    <button class="btn btn-windows edit" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+                	<c:if test="${project.confirmFile == 1}">
+                		<button class="btn btn-windows edit" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
+                	</c:if>
+                	<c:if test="${project.confirmFile == 0}">
+	                    <button class="btn btn-windows edit" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+                	</c:if>
                 </td>
          </c:forEach>
      </table>

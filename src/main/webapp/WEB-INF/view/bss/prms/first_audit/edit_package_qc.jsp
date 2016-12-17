@@ -155,8 +155,8 @@
             shadeClose: false,
             content: '${pageContext.request.contextPath}/firstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId
           });
-    	
     }
+    
   </script>
 <body>  
     <h2 class="list_title">${packages.name}符合性审查项编辑</h2>
@@ -293,6 +293,7 @@
         <div class="drop_window">
               <input type="hidden" name="projectId" id="projectId" value="${projectId}">
               <input type="hidden" name="packageId" id="packageId" value="${packageId}">
+              <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}">
               <input type="hidden" name="kind" id="faKind" > 
               <ul class="list-unstyled">
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">

@@ -454,7 +454,7 @@ public class OpenBiddingController {
      * @throws IOException
      */
     @RequestMapping("/saveBidFile")
-    public void saveBidFile(HttpServletRequest req, String projectId, Model model, String flowDefineId) throws IOException{
+    public void saveBidFile(HttpServletRequest req, String projectId, Model model, String flowDefineId, String flag) throws IOException{
         String result = "保存失败";
         //判断该项目是否上传过招标文件
         String typeId = DictionaryDataUtil.getId("PROJECT_BID");
@@ -463,12 +463,34 @@ public class OpenBiddingController {
             //删除 ,表中数据假删除
             uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
             result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
-            //该环节设置为执行中状态
-            flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+            //flag：1，招标文件为提交状态
+            if ("1".equals(flag)) {
+              Project project = projectService.selectById(projectId);
+              project.setConfirmFile(1);
+              projectService.update(project);
+              //该环节设置为执行完状态
+              flowMangeService.flowExe(req, flowDefineId, projectId, 1);
+            }
+            //flag：0，招标文件为暂存状态
+            if ("0".equals(flag)) {
+              //该环节设置为执行中状态
+              flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+            }
         } else {
             result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
-            //该环节设置为执行中状态
-            flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+            //flag：1，招标文件为提交状态
+            if ("1".equals(flag)) {
+              Project project = projectService.selectById(projectId);
+              project.setConfirmFile(1);
+              projectService.update(project);
+              //该环节设置为执行完状态
+              flowMangeService.flowExe(req, flowDefineId, projectId, 1);
+            }
+            //flag：0，招标文件为暂存状态
+            if ("0".equals(flag)) {
+              //该环节设置为执行中状态
+              flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+            }
         }
         System.out.println(result);
     }
