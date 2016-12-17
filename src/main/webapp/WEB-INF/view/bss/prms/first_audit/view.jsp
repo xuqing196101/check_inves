@@ -19,6 +19,42 @@
 
   </head>
   <script type="text/javascript">
+  	/** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAllExp");
+		   if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
+	}
+	
+	/** 单选 */
+	function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAllExp");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
+  
   	//返回
   	function goBack(){
   		var projectId = $("#projectId").val();
@@ -61,6 +97,7 @@
 	  	<table class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
  		  <thead>
 		      <tr>
+		      	<th class="info w30"><input id="checkAllExp" type="checkbox" onclick="selectAll()" /></th>
 		        <th class="info">评委/供应商</th>
 		        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 		        	<th class="info">${supplier.suppliers.supplierName }</th>
@@ -70,6 +107,7 @@
 	      </thead>
 	      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
 		       <tr>
+		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 		        <td class="tc">${ext.expert.relName} </td>
 		        <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
 		        	<td class="tc">
