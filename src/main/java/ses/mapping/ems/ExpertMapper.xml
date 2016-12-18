@@ -809,44 +809,58 @@
 		</if>
 		ORDER BY CREATED_AT DESC
 	</select>
-	<!-- 专家抽取集合 -->
-	<!-- AND ee.ADDRESS = #{address} -->
-	<!-- AND EE.EXPERTS_FROM =#{expertsFrom} -->
 	
-	<select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
-		resultMap="BaseResultMap">
-		SELECT
-		*
-		FROM
-		T_SES_EMS_EXPERT ee
-		LEFT JOIN T_SES_EMS_EXPERT_CATEGORY ec
-		ON ee."ID" = EC.EXPERT_ID
-		WHERE
-		ee.IS_DELETE = 0
-		AND ee.STATUS = 1
+	 <!-- 专家抽取集合 -->
+<!--    AND ee.ADDRESS = #{address} -->
+  <select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
+    resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    T_SES_EMS_EXPERT ee
+    LEFT JOIN T_SES_EMS_EXPERT_CATEGORY ec
+    ON ee."ID" = EC.EXPERT_ID
+    WHERE
+    ee.IS_DELETE = 0
+    AND ee.STATUS = 1
     AND ee.IS_BLACK = 0
-		<foreach item="item" collection="conTypes">
-			AND (EE.EXPERTS_TYPE_ID = #{item.expertsTypeId}
-			<if
-				test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
-				<if test="item.isMulticondition==2">
-					AND
-					<foreach item="ids" collection="item.categorySplit"
-						separator="OR" open="(" close=")">
-						EC.CATEGORY_ID = #{ids}
-					</foreach>
-				</if>
-				<if test="item.isMulticondition==1">
-					AND
-					<foreach item="ids" collection="item.categorySplit"
-						separator="OR">
-						EC.CATEGORY_ID=#{ids}
-					</foreach>
-				</if>
-			</if>
-			)
-		</foreach>
-	</select>
+
+    <if test="expertsFromSplit != null and expertsFromSplit != ''">
+      AND 
+        <foreach collection="expertsFromSplit" item="fromsplit" close=")" open="(" separator="OR">
+          EE.EXPERTS_FROM = #{fromsplit}  
+        </foreach>
+    </if>
+    <foreach item="item" collection="conTypes">
+      <if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
+        AND (
+          <foreach collection="item.expertsTypeSplit" item="typeId" open="(" close=")" separator="OR">
+            EE.EXPERTS_TYPE_ID = #{typeId}
+          </foreach>
+      </if>
+
+      <if test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
+        <if test="item.isMulticondition==2">
+          AND
+          <foreach item="ids" collection="item.categorySplit"
+            separator="AND" open="(" close=")">
+            EC.CATEGORY_ID = #{ids}
+          </foreach>
+        </if>
+        <if test="item.isMulticondition==1">
+          AND
+          <foreach item="ids" collection="item.categorySplit" open="(" close=")"
+            separator="OR">
+            EC.CATEGORY_ID=#{ids}
+          </foreach>
+        </if>
+      </if>
+      <if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
+        )
+      </if>
+
+    </foreach>
+  </select>
 
 
 	<!-- 查询所有专家 可条件查询 -->

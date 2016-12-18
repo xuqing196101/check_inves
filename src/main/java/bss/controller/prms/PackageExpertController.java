@@ -1252,7 +1252,7 @@ public class PackageExpertController {
         }
 
         HashMap<String, Object> packmap = new HashMap<String, Object>();
-        packmap.put("packageId", packageId);
+        packmap.put("id", packageId);
         List<Packages> packages = packageService.findPackageById(packmap);
         if (packages != null && packages.size() > 0 ) {
             model.addAttribute("pack", packages.get(0));
@@ -1596,5 +1596,13 @@ public class PackageExpertController {
     @RequestMapping(value = "isGather", produces = "text/html;charset=utf-8")
     public String isGather(String packageIds, String projectId){
         return service.isGather(packageIds, projectId);
+    }
+    
+    @RequestMapping("/auditManage")
+    public String auditManage(Model model, String projectId, String flowDefineId){
+      
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("flowDefineId", flowDefineId);
+      return "bss/prms/audit_manage/manage";
     }
 }

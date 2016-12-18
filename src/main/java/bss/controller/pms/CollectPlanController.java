@@ -84,6 +84,8 @@ public class CollectPlanController extends BaseController {
 		 */
 		@RequestMapping("/collectlist")
 		public String queryCollect(CollectPlan collectPlan,Integer page,Model model,String type){
+		  //下达状态
+		  collectPlan.setStatus(1);
 			List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 			PageInfo<CollectPlan> info = new PageInfo<>(list);
  

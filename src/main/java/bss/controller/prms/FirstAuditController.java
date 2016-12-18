@@ -265,7 +265,7 @@ public class FirstAuditController {
 	 * @return
 	 */
 	@RequestMapping("/editPackageFirstAudit")
-	public String editPackageFirstAudit(String packageId, Model model, String projectId, String flag){	  
+	public String editPackageFirstAudit(String packageId, Model model, String projectId, String flag, String flowDefineId){	  
 	  List<DictionaryData> dds = DictionaryDataUtil.find(22);
     //符合性审查项
 	  FirstAudit firstAudit1 = new FirstAudit();
@@ -293,6 +293,7 @@ public class FirstAuditController {
     model.addAttribute("packageId", packageId);
     model.addAttribute("projectId", projectId);
     model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+    model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("flag", flag);
 	  return "bss/prms/first_audit/edit_package_qc";
 	}

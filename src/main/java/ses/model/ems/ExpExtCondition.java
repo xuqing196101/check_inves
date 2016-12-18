@@ -43,7 +43,7 @@ public class ExpExtCondition implements Cloneable {
 	}
 	
 
-	
+	private String[]  expertsFromSplit;
     
     private List<ExtConType> conTypes;
     
@@ -502,6 +502,10 @@ public class ExpExtCondition implements Cloneable {
      *            T_SES_EMS_EXP_EXT_CONDITION.EXPERTS_FROM：专家来源
      */
     public void setExpertsFrom(String expertsFrom) {
+        if(expertsFrom!=null){
+            String[] split = expertsFrom.split(",");
+            this.expertsFromSplit =split ;
+        }
         this.expertsFrom = expertsFrom == null ? null : expertsFrom.trim();
     }
 
@@ -631,6 +635,24 @@ public class ExpExtCondition implements Cloneable {
      */
     public void setExtRelatesList(List<ProjectExtract> extRelatesList) {
         this.extRelatesList = extRelatesList;
+    }
+
+
+
+    /**
+     * @return Returns the expertsFromSplit.
+     */
+    public String[] getExpertsFromSplit() {
+        return expertsFromSplit;
+    }
+
+
+
+    /**
+     * @param expertsFromSplit The expertsFromSplit to set.
+     */
+    public void setExpertsFromSplit(String[] expertsFromSplit) {
+        this.expertsFromSplit = expertsFromSplit;
     }
 
 

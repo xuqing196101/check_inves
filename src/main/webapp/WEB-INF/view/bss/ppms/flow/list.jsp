@@ -93,6 +93,7 @@
     }
     
     function del(){
+    	var typeId = $("#typeId").val();
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
@@ -100,7 +101,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${pageContext.request.contextPath}/flow/deleteSoft.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/flow/deleteSoft.html?ids="+ids+"&purchaseTypeId="+typeId;
 			});
 		}else{
 			layer.alert("请选择",{offset: '222px', shade:0.01});

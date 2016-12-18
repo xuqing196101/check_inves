@@ -98,67 +98,65 @@
 
 			//动态添加
 			function aadd() {
+				var value = $("#xqbm").val();
+				var detailRow = document.getElementsByName("detailRow");
 				var id = null;
 				$.ajax({
 					url: "${pageContext.request.contextPath}/purchaser/getId.html",
 					type: "post",
-
 					success: function(data) {
 						id = data;
 						var tr = $("input[name=dyadds]").parent().parent().prev();
 						// var tr=$(obj).parent().parent();
 						$(tr).children(":first").children(":first").val(data);
-
 						var s = $("#count").val();
 						s++;
 						$("#count").val(s);
 						// var trs = $(obj).parent().parent();
-						$(tr).after("<tr><td class='tc'><input style='border: 0px;' type='hidden' name='list[" + s + "].id' />" +
-							"<input style='border: 0px;' type='text' name='list[" + s + "].seq' /><input style='border: 0px;' value='" + id + "' type='hidden' name='list[" + s + "].parentId' /></td>" +
-							"<td class='tc'> <input  style='border: 0px;'  type='text' name='list[" + s + "].department' /> </td>" +
-							"<td class='tc'> <input  style='border: 0px;' type='text' name='list[" + s + "].goodsName' /> </td>" +
-							"<td class='tc'> <input  style='border: 0px;' type='text' name='list[" + s + "].stand' /> </td>" +
-							"<td class='tc'> <input  style='border: 0px;' type='text' name='list[" + s + "].qualitStand' /> </td>" +
-							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].item' /> </td>" +
-							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].purchaseCount' /> </td>" +
-							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].price' /> </td>" +
-							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].budget' /> </td>" +
-							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].deliverDate' /> </td>" +
-							"<td class='tc'>  <select name='list[" + s + "].purchaseType' style='width:90px'> <option value='' >请选择</option>" +
+						$(detailRow[detailRow.length-1]).after("<tr class='tc'><td><input type='hidden' name='list[" + s + "].id' />" +
+							"<input type='text' name='list[" + s + "].seq' /><input value='" + id + "' type='hidden' name='list[" + s + "].parentId' /></td>" +
+							"<td name='department'><input type='text' name='list[" + s + "].department' readonly='readonly' value='"+value+"'/></td>" +
+							"<td><input type='text' name='list[" + s + "].goodsName' /></td>" +
+							"<td><input type='text' name='list[" + s + "].stand' /></td>" +
+							"<td><input type='text' name='list[" + s + "].qualitStand' /></td>" +
+							"<td><input type='text' name='list[" + s + "].item' /> </td>" +
+							"<td><input type='text' name='list[" + s + "].purchaseCount' /></td>" +
+							"<td><input type='text' name='list[" + s + "].price' /></td>" +
+							"<td><input type='text' name='list[" + s + "].budget' readonly='readonly' /></td>" +
+							"<td><input type='text' name='list[" + s + "].deliverDate' /></td>" +
+							"<td><select name='list[" + s + "].purchaseType' style='width:90px'> <option value='' >请选择</option>" +
 							" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
-							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].supplier' /> </td>" +
-							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].isFreeTax' /> </td>" +
-							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].goodsUse' /> </td>" +
-							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].useUnit' /> </td>" +
-							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].memo' /> </td>" +
+							"<td><input type='text' name='list[" + s + "].supplier' /></td>" +
+							"<td><input type='text' name='list[" + s + "].isFreeTax' /></td>" +
+							"<td><input type='text' name='list[" + s + "].goodsUse' /></td>" +
+							"<td><input type='text' name='list[" + s + "].useUnit' /></td>" +
+							"<td><input type='text' name='list[" + s + "].memo' /></td>" +
+							"<td><input type='text' name='list[" + s + "].status' value='暂存' readonly='readonly' /></td>" +
 							+"<tr/>");
-
-					},
-					error: function() {
-
 					}
 				});
-
 			}
 
+			
+			//保存
 			function incr() {
-
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
 				var type = $("#wtype").val();
-				if(name == "") {
+				var depName = $("#xqbm").val();
+				if($.trim(name) == "") {
 					layer.tips("计划名称不允许为空", "#jhmc");
-				} else if(no == "") {
+				} else if($.trim(no) == "") {
 					layer.tips("计划编号不允许为空", "#jhbh");
-				} else {
+				}else if($.trim(depName) == ""){
+					layer.tips("需求部门不允许为空", "#xqbm");
+				}else {
 					$("#detailJhmc").val(name);
 					$("#detailJhbh").val(no);
 					$("#detailType").val(type);
-
+					$("#detailXqbm").val(depName);
 					$("#add_form").submit();
-
 				}
-
 			}
 
 			function down() {
@@ -348,6 +346,34 @@
 					}
 				});
 			}
+			
+			//只能输入数字
+			function checkNum(obj,num){
+				var vals=$(obj).val();
+				var reg= /^\d+\.?\d*$/;  
+				if(!reg.exec(vals)){
+					$(obj).val("");
+				}else{
+					if(num==1){
+						var count = $(obj).val();
+						var price = $(obj).parent().next().find("input").val();
+						$(obj).parent().next().next().find("input").val(count*price);
+					}else if(num==2){
+						var count = $(obj).parent().prev().find("input").val();
+						var price = $(obj).val();
+						$(obj).parent().next().find("input").val(count*price);
+					}
+				}
+			}
+			
+			//需求部门赋值
+			function assignDepartment(obj){
+				var value = $(obj).val();
+				var department = document.getElementsByName("department");
+				for(var i=0;i<department.length;i++){
+					$(department[i]).find("input").val(value);
+				}
+			}
 		</script>
 	</head>
 
@@ -400,6 +426,13 @@
 							</select>
 						</div>
 					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>需求部门</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group" name="depName" id="xqbm" onkeyup="assignDepartment(this)">
+							<span class="add-on">i</span>
+						</div>
+					</li>
 				</ul>
 
 			</div>
@@ -420,59 +453,58 @@
 						<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 							<table class="table table-bordered table-condensed ">
 								<thead>
-									<tr>
-										<th class="info w50">序号</th>
-										<th class="info w100">需求部门</th>
-										<th class="info w200">物资类别及物种名称</th>
-										<th class="info w100">规格型号</th>
-										<th class="info w100">质量技术标准（技术参数）</th>
-										<th class="info w100">计量单位</th>
-										<th class="info w100">采购数量</th>
-										<th class="info w150">单位（元）</th>
-										<th class="info w150">预算金额（万元）</th>
-										<th class="info w100">交货期限</th>
-										<th class="info w120">采购方式建议</th>
-										<th class="info w200">供应商名称</th>
-										<th class="info w80">是否申请办理免税</th>
-										<th class="info w200">物资用途（仅进口）</th>
-										<th class="info w200">使用单位（仅进口）</th>
-										<th class="info w200">备注</th>
-										<th class="info w100">状态</th>
+									<tr class="info">
+										<th class="w50">序号</th>
+										<th class="w100">需求部门</th>
+										<th class="w200">物种名称</th>
+										<th class="w100">规格型号</th>
+										<th class="w100">质量技术标准（技术参数）</th>
+										<th class="w100">计量单位</th>
+										<th class="w100">采购数量</th>
+										<th class="w150">单价（元）</th>
+										<th class="w150">预算金额（万元）</th>
+										<th class="w100">交货期限</th>
+										<th class="w120">采购方式建议</th>
+										<th class="w200">供应商名称</th>
+										<th class="w80">是否申请办理免税</th>
+										<th class="w200">物资用途（仅进口）</th>
+										<th class="w200">使用单位（仅进口）</th>
+										<th class="w200">备注</th>
+										<th class="w100">状态</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr name="detailRow">
 										<td class="tc w50">
 											<input type="hidden" name="list[0].id" id="purid" value="">
 											<input type="text" name="list[0].seq" value="">
 										</td>
-										<td class="w100"><input type="text" name="list[0].department" value=""></td>
-										<td class="w200"><input type="text" name="list[0].goodsName" value=""></td>
-										<td class="tc w100"><input type="text" name="list[0].stand" value=""></td>
-										<td class="tc w100"><input type="text" name="list[0].qualitStand" value=""></td>
-										<td class="tc w100"><input type="text" name="list[0].item" value=""></td>
-										<td class="tc w100"><input type="text" name="list[0].purchaseCount" value=""></td>
-										<td class="tc w150"><input type="text" name="list[0].price" value=""></td>
-										<td class="tc w150"><input type="text" name="list[0].budget" value=""></td>
-										<td class="w100"><input type="text" name="list[0].deliverDate" value=""></td>
+										<td class="w100" name="department"><input type="text" name="list[0].department" readonly="readonly"></td>
+										<td class="w200"><input type="text" name="list[0].goodsName"></td>
+										<td class="tc w100"><input type="text" name="list[0].stand"></td>
+										<td class="tc w100"><input type="text" name="list[0].qualitStand"></td>
+										<td class="tc w100"><input type="text" name="list[0].item"></td>
+										<td class="tc w100"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)"></td>
+										<td class="tc w150"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)"></td>
+										<td class="tc w150"><input type="text" name="list[0].budget" readonly="readonly"></td>
+										<td class="w100"><input type="text" name="list[0].deliverDate"></td>
 										<td class="w120">
-											<select name="list[0].purchaseType" style="width:90px" id="select" onchange="changeType(this)">
+											<select name="list[0].purchaseType" class="w100" id="select" onchange="changeType(this)">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
 													<option value="${obj.id }">${obj.name }</option>
 												</c:forEach>
 											</select>
-
 										</td>
-										<td class="tc w200"><input type="text" name="list[0].supplier" value="" disabled="disabled"></td>
-										<td class="tc w80"><input type="text" name="list[0].isFreeTax" value=""></td>
-										<td class="tc w200"><input type="text" name="list[0].goodsUse" value=""></td>
-										<td class="tc w200"><input type="text" name="list[0].useUnit" value=""></td>
-										<td class="tc w200"><input type="text" name="list[0].memo" value=""></td>
-										<td class="tc w100">暂存</td>
+										<td class="tc w200"><input type="text" name="list[0].supplier" disabled="disabled"></td>
+										<td class="tc w80"><input type="text" name="list[0].isFreeTax"></td>
+										<td class="tc w200"><input type="text" name="list[0].goodsUse"></td>
+										<td class="tc w200"><input type="text" name="list[0].useUnit"></td>
+										<td class="tc w200"><input type="text" name="list[0].memo"></td>
+										<td class="tc w100"><input type="text" name="list[0].status" value="暂存" readonly="readonly"></td>
 									</tr>
 								</tbody>
-								<tr style="display: none">
+								<tr class="dnone">
 
 									<td class="tc" colspan="16">
 										<!--  <input type="hidden" name="planType" value="" id="ptype"> -->
@@ -488,7 +520,7 @@
 							<input type="hidden" name="planName" id="detailJhmc">
 							<input type="hidden" name="planNo" id="detailJhbh">
 							<input type="hidden" name="planType" id="detailType">
-
+							<input type="hidden" name="planDepName" id="detailXqbm"/>
 						</form>
 
 					</div>

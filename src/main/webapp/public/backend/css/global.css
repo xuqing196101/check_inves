@@ -1101,3 +1101,10 @@ table .input_group .add-on{
 	display: inline-block;
 	font-family: Arial;
 }
+
+
+/*ie8*/
+.container{
+	width:85%\9;
+	margin: 0 auto\9;
+}

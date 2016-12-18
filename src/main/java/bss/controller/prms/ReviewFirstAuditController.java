@@ -172,7 +172,7 @@ public class ReviewFirstAuditController {
 		HashMap<String, Object> map2 = new HashMap<>();
 		map2.put("id", packageId);
 		//查询包信息
-		List<Packages> packages = packageService.findPackageById(map2 );
+		List<Packages> packages = packageService.findPackageById(map2);
 		if(packages!=null && packages.size()>0){
 			model.addAttribute("pack", packages.get(0));
 		}
@@ -200,14 +200,14 @@ public class ReviewFirstAuditController {
 		//查询供应商信息
 		List<Supplier> supplierList = new ArrayList<>();
 		Map<String,Object> supplierMap = new HashMap<>();
-		supplierMap.put("projectId", projectId);
-		supplierMap.put("packageId", packageId);
-		if(findAllByMap!=null && findAllByMap.size()>0){
-			for (AuditModelExt auditModelExt : findAllByMap) {
-				supplierMap.put("supplierId", auditModelExt.getSupplierId());
-				List<ReviewFirstAudit> list = service.selectList(supplierMap);
-				if(list!=null && list.size()>0){
-					//如果有一项不合格 那么就不参加评分
+        supplierMap.put("projectId", projectId);
+        supplierMap.put("packageId", packageId);
+        if(findAllByMap!=null && findAllByMap.size()>0){
+        	for (AuditModelExt auditModelExt : findAllByMap) {
+        		supplierMap.put("supplierId", auditModelExt.getSupplierId());
+        		List<ReviewFirstAudit> list = service.selectList(supplierMap);
+        		if(list!=null && list.size()>0){
+        		    //如果有一项不合格 那么就不参加评分
 					int flag = 0;
 					for (ReviewFirstAudit reviewFirstAudit : list) {
 						if(reviewFirstAudit.getIsPass()==1){

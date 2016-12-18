@@ -616,7 +616,6 @@ return false;
           <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="star_red">*</div>所在地区：</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-              
                   <select class="col-md-6 col-sm-6 col-xs-6 p0" id="area" onchange="areas();">
                      <option value="">全国</option>
                       <c:forEach  items="${privnce }" var="prin">
@@ -642,7 +641,7 @@ return false;
                 </div>
               </li>
           <li class="col-md-3 col-sm-6 col-xs-12">
-            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>品目：</span>
+            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">品目：</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
               <input class="input_group " readonly id="extCategoryName" value="${listCon.conTypes[0].categoryName}"  onclick="opens(this);" type="text">
               <span class="add-on">i</span>
@@ -650,7 +649,7 @@ return false;
             </div>
           </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取类型：</span>
+            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取类型：</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
               <input id="supplierType" class="" type="text" readonly  value="${listCon.conTypes[0].supplierTypeName }" name="supplierTypeName" onclick="showSupplierType();" />
                 <span class="add-on">i</span>
@@ -658,7 +657,7 @@ return false;
             </div>
           </li>
           <li class="col-md-3 col-sm-6 col-xs-12">
-            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取数量：</span>
+            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取数量：</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
               <input class="input_group"  name="supplierCount" value="${listCon.conTypes[0].supplierCount }" type="text">
               <span class="add-on">i</span>
@@ -666,7 +665,7 @@ return false;
             </div>
           </li>
            <li class="col-md-3 col-sm-6 col-xs-12">
-            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取级别：</span>
+            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取级别：</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
                <input id="levelType" class="" type="text" readonly name="supplierLevel" value="${listCon.supplierLevel}" onclick="showLevel();" />
               <span class="add-on">i</span> 

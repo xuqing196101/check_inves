@@ -21,6 +21,7 @@
 	    	type:'post',
 	    	success:function(obj){
 	    		reason=obj.rejectReason;
+	    		alert("ok");
 	    		if(reason!=null){
 	    		layer.open({
 	    			   type: 1,
@@ -48,8 +49,8 @@
 	    var value = $(obj).val();
 	    var ids = new Array();
 	    var ids= value.split(",");
-	    var projectId="${extension.projectId }";
-	    var packageId="${extension.packageId }";
+	    var projectId="${extension.projectId}";
+	    var packageId="${extension.packageId}";
 	    $.ajax({
 	    	url:'${pageContext.request.contextPath}/reviewFirstAudit/add.do',
 	    	data:{'projectId':projectId,'packageId':packageId,'firstAuditId':ids[0],'supplierId':ids[1],'isPass':ids[2],'rejectReason':text},
@@ -167,14 +168,14 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   	<li><a href="#">首页</a></li><li><a href="#">项目评审</a></li><li><a href="#">项目初审</a></li>
+		   	<li><a href="#">首页</a></li><li><a href="#">项目评审</a></li><li><a href="#">符合性审查</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
     </div>
 	<div class="container">
 		<div class="headline-v2">
-	     <h2>项目初审</h2>
+	     <h2>符合性审查</h2>
 	    </div> 
 		<div class="container clear" id="package">
 			<h2 class="count_flow jbxx">${extension.projectName }（${extension.packageName }）</h2>

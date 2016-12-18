@@ -60,6 +60,7 @@
                     id.push($(this).val());
                 }); 
                 if(id.length==1){
+                	//$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/showTemporaryExpert.html?packageId="+id+"&&projectId=${project.id}&&&&flowDefineId=${flowDefineId}");
                     window.location.href="${pageContext.request.contextPath}/ExpExtract/showTemporaryExpert.html?packageId="+id+"&&projectId=${project.id}&&&&flowDefineId=${flowDefineId}";
                 }else if(id.length>1){
                     layer.alert("只能选择一个",{offset: ['100px', '300px'], shade:0.01});
@@ -110,12 +111,12 @@
          
   </script>
   <body>
-        <h2 class="list_title">专家抽取包列表</h2>
+        <h2 class="list_title">专家分配</h2>
         <c:if test="${execute != 'SCCUESS' }">
           <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
              <button class="btn btn-windows add" onclick="addexp();" type="button">添加专家</button>
              <button class="btn " onclick="addLeader();" type="button">分配组长</button>
-             <button class="btn " onclick="finish();" type="button">执行完成</button>
+             <button class="btn " onclick="finish();" type="button">完成</button>
           </div>
         </c:if>
         <table class="table table-bordered table-condensed table-hover table-striped">

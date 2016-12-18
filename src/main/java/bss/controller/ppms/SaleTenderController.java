@@ -155,10 +155,10 @@ public class SaleTenderController {
             	saleTender.setPackages(packages.getId());
             	saleTender.setSuppliers(supplier);
             	List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
-            	if(saleTenderList.size()>0){
+            //	if(saleTenderList.size()>0){
             		packages.setSaleTenderList(saleTenderList);
             		lists.add(packages);
-                }
+            //    }
             }
             
         }
