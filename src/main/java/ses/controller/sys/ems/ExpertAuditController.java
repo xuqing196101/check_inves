@@ -92,7 +92,7 @@ public class ExpertAuditController {
 			expert.setSign(signs);
 			request.getSession().removeAttribute("signs");
 		}
-		
+		//是否被抽取
 		List<Expert> expertList = expertService.findExpertAuditList(expert, pageNum==null?1:pageNum);
 		if(expert.getSign() == 2){
 			List<Expert> list = new ArrayList<Expert>();

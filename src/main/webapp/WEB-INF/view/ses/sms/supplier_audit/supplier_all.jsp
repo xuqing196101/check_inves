@@ -99,7 +99,22 @@
 		    $("input[name='supplierId']").val(id);
 		    $("#shenhe_form_id").submit();
 		    
-		    } 
+		    }
+		    
+		    //实地考察
+		    function kaocha(){
+		    	var size = $(":radio:checked").size();
+			    if (!size) {
+			      layer.msg("请选择供应商 !", {
+			      	offset : '300px',
+			      });
+			      return;
+			    }
+			   	var id = $(":radio:checked").val();
+			    $("input[name='supplierId']").val(id);
+			    $("#shenhe_form_id").submit();
+		    }
+		    
 		    
 		    
 		    //重置搜索栏
@@ -123,9 +138,18 @@
         <li>
           <a href="#">供应商管理</a>
         </li>
-        <li>
-          <a href="#">供应商审核</a>
-        </li>
+        <c:choose>
+	        <c:when test="${sign == 3}">
+		        <li>
+	            <a href="#">供应商实地考察</a>
+	          </li>
+	       </c:when>
+	       <c:otherwise>
+	          <li>
+	            <a href="#">供应商审核</a>
+	          </li>
+	       </c:otherwise>
+				</c:choose>
         <li class="active">
 	        <c:if test="${sign == 1}">
 	          <a href="#">供应商审核列表</a>
@@ -184,7 +208,8 @@
     </h2>
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10">
-        <button class="btn" type="button" onclick="shenhe();" >审核</button>
+ 			<c:if test="${sign == 1}"><button class="btn" type="button" onclick="shenhe();" >审核</button></c:if>
+ 			<c:if test="${sign == 3}"><button class="btn" type="button" onclick="kaocha();" >考察</button></c:if>   
     </div>
     <div class="content table_box">
       <table class="table table-bordered table-condensed table-hover">
