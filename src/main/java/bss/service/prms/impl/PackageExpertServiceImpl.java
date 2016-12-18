@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.PackageExpertMapper;
@@ -203,6 +204,29 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         } else {
             return "ok";
         }
+    }
+    @Override
+    public String isFirstGather(String projectId, String packageId) {
+      Map<String, Object> map= new HashMap<String, Object>();
+      map.put("projectId", projectId);
+      map.put("packageId", packageId);
+      map.put("isAudit", 1);
+      //查询出关联表中包下已评审的数据
+      List<PackageExpert> packageExpertList = packageExpertMapper.selectList(map);
+      Map<String,Object> map2 = new HashMap<String,Object>(); 
+      map2.put("projectId", projectId);
+      map2.put("packageId", packageId);
+      //查询出关联表中包下所有的数据
+      List<PackageExpert> packageExpertList2 = packageExpertMapper.selectList(map2);
+      if (packageExpertList.size() < packageExpertList2.size() ) {
+        return "评审未完成不能汇总！";
+      } else {
+        for (PackageExpert packageExpert : packageExpertList) {
+          packageExpert.setIsGather((short)1);
+          packageExpertMapper.updateByBean(packageExpert);
+        }
+        return "SUCCESS";
+      }
     }
     
 }

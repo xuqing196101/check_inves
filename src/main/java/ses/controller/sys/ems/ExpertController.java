@@ -1605,6 +1605,11 @@ public class ExpertController {
                         } else {
                             projectExt.setReviewProgress(rplist.get(0));
                         }
+                        Map<String, Object> map3 = new HashMap<String, Object>();
+                        map3.put("projectId", projectId);
+                        //查询出关联表中包下已评审的数据
+                        List<PackageExpert> packageExpertList2 = packageExpertService.selectList(map2);
+                        projectExt.setPackageExperts(packageExpertList2);
                         projectExtList.add(projectExt);
                         model.addAttribute("projectExtList", projectExtList);
                     }
@@ -1755,7 +1760,7 @@ public class ExpertController {
         reviewProgressService.saveProgress(projectId, packageId, expertId);
         attr.addAttribute("projectId", projectId);
         attr.addAttribute("packageId", packageId);
-        return "redirect:toFirstAudit.html";
+        return "redirect:projectList.html";
     }
 
     /**

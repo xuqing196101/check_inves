@@ -83,12 +83,34 @@
 			window.location.href="${pageContext.request.contextPath}/packageExpert/viewBySupplier.html?supplierId="+supplierId+"&packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId;
 		}
 	}
+	
+	//汇总
+	function isFirstGather(projectId, packageId){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
+			data: {"projectId": projectId, "packageId": packageId},
+			success:function(result){
+			    	if(!result.success){
+                    	layer.msg(result.msg,{offset: ['150px']});
+			    	}else{
+			    		var html = "<tr><td>评审结果</td>";
+			    			html += "<td>合格</td>";
+			    			html += "<td>合格</td>";
+			    			html += "<td>不合格</td></tr>";
+			    		$("#content").append(html);
+			    	}
+                },
+            error: function(result){
+                layer.msg("汇总失败",{offset: ['222px']});
+            }
+		});
+	}
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
 	    <div class="mb5 fr">
 		    <button class="btn" onclick="window.print();" type="button">打印</button>
-		    <button class="btn" onclick="" type="button">汇总</button>
+		    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}');" type="button">汇总</button>
 		    <button class="btn" onclick="" type="button">复核</button>
 		    <button class="btn" onclick="" type="button">结束</button>
 	   	</div>
@@ -105,6 +127,7 @@
 		        <%-- <th class="tc w30"><button class="btn" onclick="viewByExpert(this,'${packageId}','${projectId}','${flowDefineId}');" type="button">查看明细</button></th> --%>
 		      </tr>
 	      </thead>
+	      <tbody id="content">
 	      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
 		       <tr>
 		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
@@ -113,7 +136,18 @@
 		        	<td class="tc">
 		        	  <c:forEach items="${supplierExtList}" var="supplierExt">
 		        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId}">
-		        	  	${supplierExt.suppIsPass}
+			        	  	<c:if test="${supplierExt.suppIsPass == 0}">
+				        	  	<input type="hidden" value="${supplierExt.suppIsPass}">
+				        	  	不合格
+			        	  	</c:if>
+			        	  	<c:if test="${supplierExt.suppIsPass == 1}">
+				        	  	<input type="hidden" value="${supplierExt.suppIsPass}">
+				        	  	合格
+			        	  	</c:if>
+		        	  		<c:if test="${supplierExt.suppIsPass == 2}">
+				        	  	<input type="hidden" value="${supplierExt.suppIsPass}">
+				        	  	未评审
+			        	  	</c:if>
 		        	  	</c:if>
 		        	  </c:forEach>
 		        	</td>
@@ -121,6 +155,7 @@
 	           <%--  <td class="tc"><input type="radio" name="firstAuditByExpert" value="${ext.expert.id}"></td> --%>
 		      </tr>
       	 </c:forEach>
+	     </tbody>
       	 	  <%-- <tr>
       	 		<td class="tc"><button class="btn" onclick="viewBySupplier(this,'${packageId}','${projectId}','${flowDefineId}')" type="button">查看明细</button></td>
       	 		 <c:forEach items="${supplierList}" var="supplier" varStatus="vs">

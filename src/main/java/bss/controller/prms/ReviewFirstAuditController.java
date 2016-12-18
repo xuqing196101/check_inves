@@ -46,6 +46,7 @@ import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 
 @Controller
 @RequestMapping("reviewFirstAudit")
@@ -147,6 +148,8 @@ public class ReviewFirstAuditController {
 		model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
 		//把封装的实体放入域中
 		model.addAttribute("extension", extension);
+		List<DictionaryData> dds = DictionaryDataUtil.find(22);
+		model.addAttribute("dds", dds);
 		return "bss/prms/audit/review_first_audit";
 	}
 	/**

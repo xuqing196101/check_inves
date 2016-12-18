@@ -10,18 +10,17 @@
     <title>项目评审</title>
 <script type="text/javascript">
 	//查看理由
-   function reason(firstAuditId,supplierId){
+   function reason(firstAuditId,supplierId,expertId){
 	   var projectId="${extension.projectId }";
 	   var packageId="${extension.packageId }";
 	   //查找该数据的理由
 	   var reason;
 	   $.ajax({
 	    	url:'${pageContext.request.contextPath}/reviewFirstAudit/getReason.do',
-	    	data:{'projectId':projectId,'packageId':packageId,'firstAuditId':firstAuditId,'supplierId':supplierId},
+	    	data:{'projectId':projectId,'packageId':packageId,'firstAuditId':firstAuditId,'supplierId':supplierId,'expertId':expertId},
 	    	type:'post',
 	    	success:function(obj){
 	    		reason=obj.rejectReason;
-	    		alert("ok");
 	    		if(reason!=null){
 	    		layer.open({
 	    			   type: 1,
@@ -29,11 +28,12 @@
 	    			   area: ['420px', '240px'], //宽高
 	    			   shade: false,
 	    			   shift: 3,
+	    			   offset: '100px',
 	    			   title: '理由', //不显示标题
 	    			   content: reason, //捕获的元素
 	    			 });
 	    		}else{
-	    			 layer.msg('没有理由！');
+	    			 layer.msg('没有理由！',{offset: '100px'});
 	    		}
 	    	},
 	    	error:function(obj){}
@@ -44,7 +44,7 @@
 
   //不合格的弹框
    function isPass(obj){
-	  layer.prompt({title: '请填写理由！', formType: 2,cancel:function(){$(obj).attr("checked",false);}}, function(text){
+	  layer.prompt({title: '请填写理由！',offset: '100px', formType: 2,cancel:function(){$(obj).attr("checked",false);}}, function(text){
 	    layer.msg('您的理由为：'+ text);
 	    var value = $(obj).val();
 	    var ids = new Array();
@@ -82,7 +82,7 @@
 	    });
   }
   //全部合格
-  function addAll(obj){
+  function addAll(obj,supplierId,flag){
 	  var projectId="${extension.projectId }";
 	  var packageId="${extension.packageId }";
 	  //获取供应商id 和状态
@@ -91,7 +91,8 @@
 	  var ids= value.split(",");
 	  $.ajax({
 	    	url:'${pageContext.request.contextPath}/reviewFirstAudit/addAll.do',
-	    	data:{'projectId':projectId,'packageId':packageId,'supplierId':ids[0],'flag':ids[1]},
+	    	/* data:{'projectId':projectId,'packageId':packageId,'supplierId':ids[0],'flag':ids[1]}, */
+	    	data:{'projectId':projectId,'packageId':packageId,'supplierId':supplierId,'flag':flag},
 	    	type:'post',
 	    	success:function(obj){
 	    		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
@@ -101,17 +102,18 @@
 	    });
   }
   //全部不合格
-  function addNotAll(obj){
+  function addNotAll(obj,supplierId,flag){
 	  var projectId="${extension.projectId }";
 	  var packageId="${extension.packageId }";
 	  //获取供应商id 和状态
 	  var value = $(obj).val();
 	  var ids = new Array();
 	  var ids= value.split(",");
-	  layer.prompt({title: '请填写理由！', formType: 2,cancel:function(){$(obj).attr("checked",false);}}, function(text){
+	  layer.prompt({title: '请填写理由！',offset: '100px', formType: 2,cancel:function(){$(obj).attr("checked",false);}}, function(text){
 	  $.ajax({
 	    	url:'${pageContext.request.contextPath}/reviewFirstAudit/addAll.do',
-	    	data:{'projectId':projectId,'packageId':packageId,'supplierId':ids[0],'flag':ids[1],'rejectReason':text},
+	    	/* data:{'projectId':projectId,'packageId':packageId,'supplierId':ids[0],'flag':ids[1],'rejectReason':text}, */
+	    	data:{'projectId':projectId,'packageId':packageId,'supplierId':supplierId,'flag':flag,'rejectReason':text},
 	    	type:'post',
 	    	success:function(obj){
 	    		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
@@ -153,7 +155,7 @@
 	  var projectId = "${extension.projectId }";
 	  var packageId = "${extension.packageId }";
 	 if(flag==1){
-		 layer.msg('还有未审核的数据，请完善！');
+		 layer.msg('还有未审核的数据，请完善！',{offset: '100px'});
 		 return ;
 	 }else{
 		 <%-- window.location.href="${pageContext.request.contextPath}/expert/toFirstAudit.html?projectId="+projectId+"&packageId="+packageId; --%>
@@ -187,18 +189,23 @@
 		   	   <div class="content table_box">
 				   <table class="table table-bordered table-condensed table-hover" id="table2">
 				   		<thead>
-				   		  <th class="info">初审项</th>
+				   		  <th class="info">资格性和符合性审查项</th>
+				   		  <c:set var="suppliers" value="0" />
 				   		  <c:forEach items="${extension.supplierList}" var="supplier" varStatus="vs">
 				   		  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
+					   		    <c:set var="suppliers" value="${suppliers+1}" />
 					   		    <th class="info">
 					   		      ${supplier.suppliers.supplierName }
 					   		    </th>
 				   		    </c:if>
 				   		  </c:forEach>
 				   		</thead>
-		 	            <c:forEach items="${extension.firstAuditList }" var="first" varStatus="vs">
+				   		<c:forEach items="${dds}" var="d">
+				   			<tr><td class="info" colspan="${suppliers+1}"><b>${d.name}</b></td></tr>
+				   			<c:forEach items="${extension.firstAuditList }" var="first" varStatus="vs">
+					      	<c:if test="${first.kind == d.id}">
 					      	<tr>
-					      	  <td>${first.name }</td>
+					      	  <td class="w150"><a href="javascript:void(0);" title="${first.content}">${first.name}</a></td>
 					      	  <c:forEach items="${extension.supplierList }" var="supplier" varStatus="v">
 					      	  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
 			   		                <td class="tc w200">
@@ -212,19 +219,26 @@
 			   		                       <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==1 }">checked</c:if>
 			   		                     </c:forEach>
 			   		                  >不合格
-			   		                  <a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
+			   		                  <a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${sessionScope.loginUser.typeId}');">查看理由</a>
 			   		                </td>
 		   		                </c:if>
 		   		              </c:forEach>
 					      	</tr>
+					      	</c:if>
 		 	            </c:forEach>
+				   		
+				   		</c:forEach>
+				   		
+		 	            
 		 	            <tr class="tc">
 		 	              <td class="tc"></td>
 		 	              <c:forEach items="${extension.supplierList }" var="supplier" varStatus="vs">
 			 	            <c:if test="${fn:contains(supplier.packages,extension.packageId)}">
 				 	            <td class="tc">
-				 	            	<input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },0">全部合格&nbsp;
-				 	            	<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },1">全部不合格
+				 	            	<input type="button" class="btn" onclick="addAll(this,'${supplier.suppliers.id  }',0);" name="${vs.index}" value="全部合格">
+				 	            	<input type="button" class="btn" onclick="addNotAll(this,'${supplier.suppliers.id  }',1);" name="${vs.index}" value="全部不合格">
+<%-- 				 	            	<input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },0">全部合格&nbsp;
+				 	            	<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },1">全部不合格  --%>
 				 	            </td>
 			 	            </c:if>
 			 	          </c:forEach>

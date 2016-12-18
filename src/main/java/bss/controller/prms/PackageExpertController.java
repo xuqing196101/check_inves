@@ -1227,20 +1227,20 @@ public class PackageExpertController {
                             .getId());
                         supplierExt.setExpertId(packageExpert.getExpertId());
                         supplierExt.setPackageId(packageExpert.getPackageId());
-                        supplierExt.setSuppIsPass("不合格");
+                        supplierExt.setSuppIsPass("0");
                     } else {
                         supplierExt.setSupplierId(saleTender.getSuppliers()
                             .getId());
                         supplierExt.setExpertId(packageExpert.getExpertId());
                         supplierExt.setPackageId(packageExpert.getPackageId());
-                        supplierExt.setSuppIsPass("合格");
+                        supplierExt.setSuppIsPass("1");
                     }
                 } else {
                     supplierExt
                     .setSupplierId(saleTender.getSuppliers().getId());
                     supplierExt.setPackageId(packageExpert.getPackageId());
                     supplierExt.setExpertId(packageExpert.getExpertId());
-                    supplierExt.setSuppIsPass("未评审");
+                    supplierExt.setSuppIsPass("1");
                 }
 
                 supplierExtList.add(supplierExt);
@@ -1601,5 +1601,35 @@ public class PackageExpertController {
       model.addAttribute("projectId", projectId);
       model.addAttribute("flowDefineId", flowDefineId);
       return "bss/prms/audit_manage/manage";
+    }
+    
+    /**
+     *〈简述〉符合性审查汇总
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param packageId 包id
+     * @param projectId 项目id
+     * @return
+     * @throws IOException 
+     */
+    @RequestMapping("/isFirstGather")
+    public void isFirstGather(HttpServletResponse response, String projectId, String packageId) throws IOException{
+      try {
+        String msg = service.isFirstGather(projectId,packageId);
+        if ("SUCCESS".equals(msg)) {
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter()
+                  .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+        } else {
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter()
+                  .print("{\"success\": " + false + ", \"msg\": \"" + msg+ "\"}");
+        }
+        response.getWriter().flush();
+      } catch (Exception e) {
+          e.printStackTrace();
+      } finally{
+          response.getWriter().close();
+      }
     }
 }
