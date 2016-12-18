@@ -61,6 +61,7 @@ session.setAttribute("tokenSession", tokenValue);
 				});
 				$("#tab-1").attr("style", "");
 				$("li_id_1").attr("class", "active");
+				$("li_1").attr("aria-expanded", "true");
 			}
 		});
 	});

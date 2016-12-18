@@ -122,7 +122,7 @@ $(document).ready(function() {
 		if(count==0){
 		$("#form1").submit();
 		}else{
-			layer.msg("还有未评分项");
+			layer.msg("还有未评分项",{offset: ['350px', '800px']});
 		}
 		
 	}
