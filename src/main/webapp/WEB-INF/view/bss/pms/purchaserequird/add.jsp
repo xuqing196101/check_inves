@@ -142,18 +142,20 @@
 			function incr() {
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
-				var type = $("#wtype").val();
+				var mobile = $("#mobile").val();
+				//var type = $("#wtype").val();
 				var depName = $("#xqbm").val();
 				if($.trim(name) == "") {
 					layer.tips("计划名称不允许为空", "#jhmc");
-				} else if($.trim(no) == "") {
-					layer.tips("计划编号不允许为空", "#jhbh");
+				} else if($.trim(mobile) == "") {
+					layer.tips("录入人手机号不允许为空", "#mobile");
 				}else if($.trim(depName) == ""){
 					layer.tips("需求部门不允许为空", "#xqbm");
 				}else {
 					$("#detailJhmc").val(name);
 					$("#detailJhbh").val(no);
-					$("#detailType").val(type);
+					//$("#detailType").val(type);
+					$("#detailMobile").val(mobile);
 					$("#detailXqbm").val(depName);
 					$("#add_form").submit();
 				}
@@ -416,7 +418,7 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12">
+					<%--<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 							<select name="planType" id="wtype">
@@ -426,10 +428,18 @@
 							</select>
 						</div>
 					</li>
+					--%>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>需求部门</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" name="depName" id="xqbm" onkeyup="assignDepartment(this)">
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>录入人手机号</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group" id="mobile" value="${user.mobile }"> 
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -519,7 +529,8 @@
 
 							<input type="hidden" name="planName" id="detailJhmc">
 							<input type="hidden" name="planNo" id="detailJhbh">
-							<input type="hidden" name="planType" id="detailType">
+							<%--<input type="hidden" name="planType" id="detailType">
+							--%><input type="hidden" name="recorderMobile" id="detailMobile">
 							<input type="hidden" name="planDepName" id="detailXqbm"/>
 						</form>
 

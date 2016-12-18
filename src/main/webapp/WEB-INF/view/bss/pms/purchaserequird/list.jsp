@@ -92,32 +92,33 @@
 		}
     }
     
+    //删除
     function del(){
     	var id =[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val()); 
-		});
-		if(id.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-				layer.close(index);
-				 $.ajax({
-		 			 url:"${pageContext.request.contextPath}/purchaser/delete.html?planNo="+id,
-		 			 type:"post",
-		 			 data:{
-		 				 planNo:id
-		 				 },
-		 			 success:function(){
-		 				window.location.reload();
-		 				 
-		 			 },error:function(){
-		 				 
-		 			 }
-		 		 });
+			$('input[name="chkItem"]:checked').each(function(){ 
+				id.push($(this).val()); 
 			});
-		}else{
-			layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
-		}
+			if(id.length>0){
+				layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+					layer.close(index);
+				 	$.ajax({
+		 			 	url:"${pageContext.request.contextPath}/purchaser/delete.html?planNo="+id,
+		 			 	type:"post",
+		 			 	success:function(){
+		 					layer.msg('删除成功', {
+								offset: ['40%', '45%']
+							});
+							window.setTimeout(function() {
+								window.location.reload();
+							}, 500);
+		 			 	}
+		 		 });
+				});
+			}else{
+				layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
+			}
     }
+    
     var index;
     function add(){
     	
@@ -214,10 +215,8 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-<!-- 录入采购计划开始-->
- <div class="container">
-
-   
+		<!-- 录入采购计划开始-->
+ 		<div class="container">
 		  <div class="headline-v2">
 			  <h2>需求计划列表</h2>
 		  </div>
@@ -227,48 +226,43 @@
 		       	<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
 			    	  <li>
-				    	<label class="fl">需求部门：</label><span>
-				  	   <input  type="text" name="department" value="${inf.department }" /> 
-				    	
-				    	</span>
+				    		<label class="fl">需求部门：</label><span>
+				  	  	<input type="text" name="department" value="${inf.department }" />
+				    		</span>
 				      </li>
-				   <li>
-				    	<label class="fl">需求计划名称：</label><span>
-				  	   <input type="text" name="planName" value="${inf.planName }" /> 
-				    	
+				   		<li>
+				    		<label class="fl">需求计划名称：</label><span>
+				  	   	<input type="text" name="planName" value="${inf.planName }" />
 				    	</span>
 				      </li>
 				      <li>
-				    	<label class="fl">需求计划编号：</label><span>
-				  	   <input  type="text" name="planNo" value="${inf.planNo }" /> 
-				    	
+				    		<label class="fl">需求计划编号：</label><span>
+				  	   	<input  type="text" name="planNo" value="${inf.planNo }" /> 
 				    	</span>
 				      </li>
 				      <li>
-				    	<label class="fl">需求填报日期：</label><span>
-				  	  <input style="width: 120px;" class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> 
-
-				    	
-				    	</span>
+				    		<label class="fl">需求填报日期：</label><span>
+				  	  	<input style="width: 120px;" class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> 
+				    		</span>
 				      </li>
 				    	  
 			    	</ul>
 			    	<div class="col-md-12 clear tc mt10">
-			    	<input class="btn"   type="submit" name="" value="查询" /> 
-				      <input type="button" onclick="resetQuery()" class="btn" value="重置"/>	
+			    		<input class="btn" type="submit" value="查询" /> 
+				      <input class="btn" type="button" value="重置" onclick="resetQuery()" />	
 			    	</div>
-		    	  	<div class="clear"></div>
+		    	  <div class="clear"></div>
 		        </form>
 		     </h2>
 	   	  
    	  <div class="col-md-12 pl20 mt10">
-	    <button class="btn btn-windows add" onclick="add()">计划录入</button>
-	    <button class="btn btn-windows edit"  onclick="edit()">修改</button>
-		<button class="btn btn-windows output" onclick="exports()">下载</button>
-	    <button class="btn btn-windows delete" onclick="del()">删除</button>
-		<button class="btn btn-windows git" onclick="sub()">提交</button>
-	  </div>
-   <div class="content table_box">
+	    	<button class="btn btn-windows add" onclick="add()">计划录入</button>
+	    	<button class="btn btn-windows edit"  onclick="edit()">修改</button>
+				<button class="btn btn-windows output" onclick="exports()">下载</button>
+	   		<button class="btn btn-windows delete" onclick="del()">删除</button>
+				<button class="btn btn-windows git" onclick="sub()">提交</button>
+	  	</div>
+   	<div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
@@ -283,11 +277,9 @@
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
-			<tr style="cursor: pointer;">
+			<tr class="pointer">
 			  <td class="tc w30">
-		 
-              <input type="checkbox"    value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
-            
+           <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()">
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.planName }</td>
@@ -296,37 +288,31 @@
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.auditDate }"/> </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
-				 <c:if test="${obj.status=='1' }">
-			 	 已编制为采购计划
-			  </c:if>
-			  
-			     <c:if test="${obj.status=='2' }">
-			 	已提交
-			  </c:if>
-			  <c:if test="${obj.status=='3' }">
-			 	受理退回
-			  </c:if>
+				 	<c:if test="${obj.status=='1' }">
+			 		 已编制为采购计划
+			  	</c:if>
+			    <c:if test="${obj.status=='2' }">
+			 		已提交
+			  	</c:if>
+			  	<c:if test="${obj.status=='3' }">
+			 		受理退回
+			  	</c:if>
 			    <c:if test="${obj.status=='4' }">
-			 	已受理
-			  </c:if>
-			   <c:if test="${obj.status=='5' }">
-			 	已汇总
-			  </c:if>
-			   <c:if test="${obj.status=='6' }">
-			 	审核通过
-			  </c:if>
-			   <c:if test="${obj.status=='7' }">
-			 	审核暂存
-			  </c:if>
-			  
+			 		已受理
+			  	</c:if>
+			   	<c:if test="${obj.status=='5' }">
+			 		已汇总
+			  	</c:if>
+			  	<c:if test="${obj.status=='6' }">
+			 		审核通过
+			  	</c:if>
+			   	<c:if test="${obj.status=='7' }">
+			 		审核暂存
+			  	</c:if>
 			  </td>
 			</tr>
-	 
-		 </c:forEach>
-		 
-
+		 	</c:forEach>
       </table>
-      
       <div id="pagediv" align="right"></div>
    </div>
  </div>

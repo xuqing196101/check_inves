@@ -169,7 +169,8 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws  
 	 */
 	@RequestMapping("/add")
-	public String add(Model model,String type) {
+	public String add(@CurrentUser User user,Model model,String type) {
+		model.addAttribute("user", user);
 		model.addAttribute("list", DictionaryDataUtil.find(6));
 		model.addAttribute("list2", DictionaryDataUtil.find(5));
 		return "bss/pms/purchaserequird/add";
@@ -345,7 +346,7 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/adddetail")
-	public String addReq(PurchaseRequiredFormBean list,String type,String planNo,String planName,HttpServletRequest request) throws IOException{
+	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request) throws IOException{
 		User user = (User) request.getSession().getAttribute("loginUser");
 		List<PurchaseRequired> plist = list.getList();
 		int count=1;
@@ -362,13 +363,14 @@ public class PurchaseRequiredController extends BaseController{
 								p.setId(id);
 							}
 							
-							p.setPlanType(type);
+							p.setPlanType(planType);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
 							p.setIsMaster(count);
 							p.setStatus("1");
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
+							p.setRecorderMobile(recorderMobile);
 //							p.setOrganization(user.getOrg().getName());
 //							purchaseRequiredService.add(p);	
 					}else{
@@ -380,13 +382,14 @@ public class PurchaseRequiredController extends BaseController{
 							if(p.getId()==null){
 								p.setId(id);
 							}
-							p.setPlanType(type);
+							p.setPlanType(planType);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
 							p.setIsMaster(count);
 							p.setStatus("1");
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
+							p.setRecorderMobile(recorderMobile);
 //							p.setOrganization(user.getOrg().getName());
 //							purchaseRequiredService.add(p);	
 					}
@@ -459,21 +462,14 @@ public class PurchaseRequiredController extends BaseController{
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public String delete(String planNo){
-		PurchaseRequired p=new PurchaseRequired();
-		p.setPlanNo(planNo);
-//		List<PurchaseRequired> list = purchaseRequiredService.query(p, 0);
-//		if(list.size()>0){
-//			
-//			for(PurchaseRequired pp:list){
-//				pp.setIsDelete(1);
-				purchaseRequiredService.delete(planNo);
-//			}
-//		}
-		
-		
-		return "";
+	public void delete(HttpServletRequest request){
+		String planNo = request.getParameter("planNo");
+		String[] no = planNo.split(",");
+		for(int i=0;i<no.length;i++){
+			purchaseRequiredService.delete(no[i]);
+		}
 	}
+	
 	/**
 	 * 
 	* @Title: downFile
