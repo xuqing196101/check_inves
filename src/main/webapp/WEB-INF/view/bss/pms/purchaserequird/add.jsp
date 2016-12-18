@@ -115,7 +115,7 @@
 							$("#detailZeroRow").html("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + 0 + "].id' />" +
 									"<input type='text' name='list[" + 0 + "].seq' /></td>" +
 									"<td name='department'><input type='text' name='list[" + 0 + "].department' readonly='readonly' value='"+value+"'/></td>" +
-									"<td><input type='text' name='list[" + 0 + "].goodsName' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
 									"<td><input type='text' name='list[" + 0 + "].stand' /></td>" +
 									"<td><input type='text' name='list[" + 0 + "].qualitStand' /></td>" +
 									"<td><input type='text' name='list[" + 0 + "].item' /> </td>" +
@@ -137,7 +137,7 @@
 						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + s + "].id' />" +
 							"<input type='text' name='list[" + s + "].seq' /></td>" +
 							"<td name='department'><input type='text' name='list[" + s + "].department' readonly='readonly' value='"+value+"'/></td>" +
-							"<td><input type='text' name='list[" + s + "].goodsName' /></td>" +
+							"<td><input type='text' name='list[" + s + "].goodsName' onkeyup='listName(this)'/></td>" +
 							"<td><input type='text' name='list[" + s + "].stand' /></td>" +
 							"<td><input type='text' name='list[" + s + "].qualitStand' /></td>" +
 							"<td><input type='text' name='list[" + s + "].item' /> </td>" +
