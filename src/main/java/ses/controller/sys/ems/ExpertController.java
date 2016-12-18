@@ -131,7 +131,10 @@ public class ExpertController {
      * @return String
      */
     @RequestMapping(value = "/toExpert")
-    public String toExpert() {
+    public String toExpert(Model model) {
+        // 查询数据字典中的专家来源配置数据
+        List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+        model.addAttribute("lyTypeList", lyTypeList);        
         return "ses/ems/expert/expert_register";
     }
 
@@ -229,7 +232,7 @@ public class ExpertController {
     @RequestMapping("/register")
     public String register(User user, HttpSession session, Model model,
             HttpServletRequest request, @RequestParam String token2,
-            RedirectAttributes attr) {
+            RedirectAttributes attr, String expertsFrom) {
         Object tokenValue = session.getAttribute("tokenSession");
         if (tokenValue != null && tokenValue.equals(token2)) {
             // 正常提交
@@ -263,6 +266,7 @@ public class ExpertController {
             Expert expert = new Expert();
             expert.setId(expertId);
             expert.setMobile(user.getMobile());
+            expert.setExpertsFrom(expertsFrom);
             service.insertSelective(expert);
             Role role = new Role();
             role.setCode("EXPERT_R");
@@ -340,6 +344,7 @@ public class ExpertController {
             flag = 1;
         }
         Map<String, Object> errorMap = service.Validate(expert, 3, null);
+        expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getCode());
         model.addAttribute("expert", expert);
         model.addAttribute("errorMap", errorMap);
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -1784,13 +1789,41 @@ public class ExpertController {
         String filePath = request.getSession().getServletContext()
                 .getRealPath("/WEB-INF/upload_file/");
         // 文件名称
-        String name = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
+        String name = new String(("军队评标专家承诺书.doc").getBytes("UTF-8"),
                 "UTF-8");
         /** 生成word 返回文件名 */
         String fileName = WordUtil.createWord(null, "expertBook.ftl",
                 name, request);
         // 下载后的文件名
         String downFileName = new String("军队评标专家承诺书.doc".getBytes("UTF-8"),
+                "iso-8859-1");// 为了解决中文名称乱码问题
+        return service.downloadFile(fileName, filePath, downFileName);
+    }
+    
+    /**
+     *〈简述〉
+     * 下载专家注册须知
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param id
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/downNotice")
+    public ResponseEntity<byte[]> downNotice(String id,
+            HttpServletRequest request) throws Exception {
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext()
+                .getRealPath("/WEB-INF/upload_file/");
+        // 文件名称
+        String name = new String(("评审专家申请人注册须知.doc").getBytes("UTF-8"),
+                "UTF-8");
+        /** 生成word 返回文件名 */
+        String fileName = WordUtil.createWord(null, "expertNotice.ftl",
+                name, request);
+        // 下载后的文件名
+        String downFileName = new String("评审专家申请人注册须知.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
         return service.downloadFile(fileName, filePath, downFileName);
     }

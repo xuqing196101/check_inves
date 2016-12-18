@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <jsp:include page="/WEB-INF/view/common/tags.jsp"></jsp:include>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
 <%
 	//表单标示
@@ -97,8 +98,16 @@ session.setAttribute("tokenSession", tokenValue);
 			}); 
 		}
    	}
+   function validateFrom(){
+	   var from = $("#expertsFrom").val();
+	   if (from == "" || from == null) {
+		   $("#fro").html("请选择专家来源!").css('color','red');
+		   return false;
+	   }
+   }
    	function submitForm1(){
    		validataLoginName();
+   		validateFrom();
    		validataPassword();
    		validataPwd2();
    		validatePhone();
@@ -119,6 +128,7 @@ session.setAttribute("tokenSession", tokenValue);
    <div>
 	<br/><br/>
    <ul class="list-unstyled list-flow" style="margin-left: 250px;">
+			<h2 class="count_flow margin-left-30"><font color="red" class="margin-left-30"> 注：军队单位人员，请登录内网进行注册!</font></h2>
      		<li class="p0">
 			   <span class=""><i class="red mr5">*</i>用户名：</span>
 			   <div class="input-append">
@@ -126,6 +136,17 @@ session.setAttribute("tokenSession", tokenValue);
 		        <span class="add-on">i</span>
 		       </div><font id="spp"></font>
 			 </li>
+			 <li class="p0">
+			  <span class=""><i class="red mr5">*</i>专家来源：</span>
+			  <div class="input-append">
+		        <select  name="expertsFrom" id="expertsFrom" onblur="validateFrom();">
+				  <option selected="selected" value="">-请选择-</option>
+				  <c:forEach items="${lyTypeList}" var="ly">
+				    <option value="${ly.id}">${ly.name}</option>
+				  </c:forEach>
+				</select>
+		      </div><font id="fro"></font>
+			</li>
 		      <li class="p0 ">
 			   <span class=""><i class="red mr5">*</i>密码：</span>
 			   <div class="input-append">
