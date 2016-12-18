@@ -336,14 +336,14 @@ public class PurchaseContractController extends BaseSupplierController{
 			suchp.setPackageId(pack.getId());
 			suchp.setIsWonBid((short)1);
 			List<SupplierCheckPass> chList = supplierCheckPassService.listCheckPass(suchp);
-			if(chList.size()>1){
-				flag="false";
-				news = "";
-				news+="有多个供应商，无法合并";
-				break;
-			}else{
+//			if(chList.size()>1){
+//				flag="false";
+//				news = "";
+//				news+="有多个供应商，无法合并";
+//				break;
+//			}else{
 				supIdList.add(chList.get(0).getSupplier().getId());
-			}
+//			}
 		}
 		
 		if(flag.equals("true")){
@@ -1012,16 +1012,16 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_purchaseType", "采购方式不能为空");
 		}
-		if(ValidateUtils.isNull(purCon.getBingDepName())){
-			flag = false;
-			model.addAttribute("ERR_bingDepName", "需求部门不能为空");
-		}else{
-			PurchaseDep purDep = purchaseOrgnizationServiceI.selectPurchaseById(purCon.getBingDepName());
-			if(ValidateUtils.isNull(purDep.getDepName())){
-				flag = false;
-				model.addAttribute("ERR_bingDepName", "需求部门不能为空");
-			}
-		}
+//		if(ValidateUtils.isNull(purCon.getBingDepName())){
+//			flag = false;
+//			model.addAttribute("ERR_bingDepName", "需求部门不能为空");
+//		}else{
+//			PurchaseDep purDep = purchaseOrgnizationServiceI.selectPurchaseById(purCon.getBingDepName());
+//			if(ValidateUtils.isNull(purDep.getDepName())){
+//				flag = false;
+//				model.addAttribute("ERR_bingDepName", "需求部门不能为空");
+//			}
+//		}
 		if(ValidateUtils.isNull(purCon.getCode())){
 			flag = false;
 			model.addAttribute("ERR_code", "合同编号不能为空");
@@ -1168,28 +1168,28 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_supplierBankName", "乙方开户名称不能为空");
 		}
-		if(ValidateUtils.isNull(purCon.getBingContact())){
-			flag = false;
-			model.addAttribute("ERR_bingContact", "丙方联系人不能为空");
-		}
-		if(ValidateUtils.isNull(purCon.getBingContactTelephone())){
-			flag = false;
-			model.addAttribute("ERR_bingContactTelephone", "丙方联系电话不能为空");
-		}else if(!ValidateUtils.Tele(purCon.getBingContactTelephone())){
-			flag = false;
-			model.addAttribute("ERR_bingContactTelephone", "请输入正确的联系电话");
-		}
-		if(ValidateUtils.isNull(purCon.getBingContactAddress())){
-			flag = false;
-			model.addAttribute("ERR_bingContactAddress", "丙方地址不能为空");
-		}
-		if(ValidateUtils.isNull(purCon.getBingUnitpostCode())){
-			flag = false;
-			model.addAttribute("ERR_bingUnitpostCode", "丙方邮编不能为空");
-		}else if(!ValidateUtils.Zipcode(purCon.getBingUnitpostCode())){
-			flag = false;
-			model.addAttribute("ERR_bingUnitpostCode", "请输入正确的邮编");
-		}
+//		if(ValidateUtils.isNull(purCon.getBingContact())){
+//			flag = false;
+//			model.addAttribute("ERR_bingContact", "丙方联系人不能为空");
+//		}
+//		if(ValidateUtils.isNull(purCon.getBingContactTelephone())){
+//			flag = false;
+//			model.addAttribute("ERR_bingContactTelephone", "丙方联系电话不能为空");
+//		}else if(!ValidateUtils.Tele(purCon.getBingContactTelephone())){
+//			flag = false;
+//			model.addAttribute("ERR_bingContactTelephone", "请输入正确的联系电话");
+//		}
+//		if(ValidateUtils.isNull(purCon.getBingContactAddress())){
+//			flag = false;
+//			model.addAttribute("ERR_bingContactAddress", "丙方地址不能为空");
+//		}
+//		if(ValidateUtils.isNull(purCon.getBingUnitpostCode())){
+//			flag = false;
+//			model.addAttribute("ERR_bingUnitpostCode", "丙方邮编不能为空");
+//		}else if(!ValidateUtils.Zipcode(purCon.getBingUnitpostCode())){
+//			flag = false;
+//			model.addAttribute("ERR_bingUnitpostCode", "请输入正确的邮编");
+//		}
 		map.put("flag", flag);
 		map.put("model", model);
 		return map;
