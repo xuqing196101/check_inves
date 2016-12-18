@@ -49,4 +49,22 @@ public interface PurchaseOrgnizationServiceI {
 	 * @return
 	 */
     String updateStatus(String id, String purchaseId, String quaStatus, String quaStashReason);
+    
+    /**
+	 * 
+	 *〈简述〉查询可用采购机构
+	 *〈详细描述〉
+	 * @author Qu Jie
+	 * @param purchaseDep PurchaseDep对象
+	 */
+	List<PurchaseDep> findAllUsefulPurchaseDep();
+	
+	/**
+	 * 
+	 *〈简述〉按id查询
+	 *〈详细描述〉
+	 * @author Qu Jie
+	 * @param purchaseDep PurchaseDep对象
+	 */
+	PurchaseDep selectPurchaseById(String id);
 }

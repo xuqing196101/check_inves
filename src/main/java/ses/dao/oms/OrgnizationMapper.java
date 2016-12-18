@@ -103,5 +103,15 @@ public interface OrgnizationMapper {
 	 */
 	void saveOrg(Orgnization orgnization);
 	
-	
+	/**
+     * 
+    * @Title: findAllUsefulOrg
+    * @author QuJie 
+    * @date 2016-9-22 下午2:48:23  
+    * @Description: 查询所有可用的需求部门
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    List<Orgnization> findAllUsefulOrg();
 }

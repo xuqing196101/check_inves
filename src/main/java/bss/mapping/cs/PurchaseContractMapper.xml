@@ -35,6 +35,11 @@
     <result column="SUPPLIER_BANK_ACCOUNT" jdbcType="DECIMAL" property="supplierBankAccount" />
     <result column="SUPPLIER_BANK_NAME" jdbcType="VARCHAR" property="supplierBankName" />
     <result column="SUPPLIER_PUR_ID" jdbcType="VARCHAR" property="supplierPurId"/>
+    <result column="BING_DEP_NAME" jdbcType="VARCHAR" property="bingDepName" />
+    <result column="BING_CONTACT" jdbcType="VARCHAR" property="bingContact" />
+    <result column="BING_CONTACT_TELEPHONE" jdbcType="VARCHAR" property="bingContactTelephone" />
+    <result column="BING_CONTACT_ADDRESS" jdbcType="VARCHAR" property="bingContactAddress" />
+    <result column="BING_UNITPOST_CODE" jdbcType="VARCHAR" property="bingUnitpostCode" />
     <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName"/>
     <result column="IS_APPEAL" jdbcType="DECIMAL" property="isAppeal"/>
     <result column="APPROVE_PIC" jdbcType="VARCHAR" property="approvePic"/>
@@ -65,7 +70,8 @@
     SUPPLIER_AGENT, SUPPLIER_CONTACT, SUPPLIER_CONTACT_TELEPHONE, SUPPLIER_CONTACT_ADDRESS, 
     SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,PROJECT_NAME,
     IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,DRAFT_GIT_AT,DRAFT_REVIEWED_AT,
-    FORMAL_GIT_AT,FORMAL_REVIEWED_AT,IS_IMPORT,IS_DECLARE,PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED
+    FORMAL_GIT_AT,FORMAL_REVIEWED_AT,IS_IMPORT,IS_DECLARE,PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED,
+    BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE
   </sql>
   <sql id="PurCon_BlOB_Column_List">
   	CONTENT
@@ -87,7 +93,6 @@
     <include refid="PurCon_BlOB_Column_List" />
     from T_BSS_CS_PURCHASE_CONTRACT
     where ID = #{id,jdbcType=VARCHAR}
-    and status = '1'
   </select>
   
   <select id="selectRoughById" parameterType="java.lang.String" resultMap="purContractBlob">
@@ -161,6 +166,41 @@
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT
   	where IS_DELETED = '0'
+  </select>
+  
+  <select id="selectAllContractByStatus" parameterType="Map" resultMap="purContractMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT where
+  	IS_DELETED = '0'
+  	<if test="projectName != null and projectName != ''">
+  		and PROJECT_NAME like '%'||#{projectName}||'%'
+  	</if>
+  	<if test="status != null ">
+  		and status = #{status}
+  	</if>
+  	<if test="code != null and code != ''">
+  		and CODE like '%'||#{code}||'%'
+  	</if>
+  	<if test="supplierDepName != null and supplierDepName != ''">
+  		and SUPPLIER_DEP_NAME like '%'||#{supplierDepName}||'%'
+  	</if>
+  	<if test="purchaseDepName != null and purchaseDepName != ''">
+  		and PURCHASE_DEP_NAME like '%'||#{purchaseDepName}||'%'
+  	</if>
+  	<if test="demandSector != null and demandSector != ''">
+  		and DEMAND_SECTOR like '%'||#{demandSector}||'%'
+  	</if>
+  	<if test="documentNumber != null and documentNumber != ''">
+  		and DOCUMENT_NUMBER like '%'||#{documentNumber}||'%'
+  	</if>
+  	<if test="year != null and year != ''">
+  		and YEAR = #{year}
+  	</if>
+  	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
+  		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
+  	</if>
+  	order by UPDATED_AT DESC
   </select>
   
   <select id="selectRoughContract" parameterType="Map" resultMap="purContractMap">
@@ -238,7 +278,6 @@
   <update id="deleteDraftByPrimaryKey" parameterType="java.lang.String">
     update T_BSS_CS_PURCHASE_CONTRACT set IS_DELETED = '1'
     where ID = #{id,jdbcType=VARCHAR}
-    and status = '1'
   </update>
   
   <update id="deleteRoughByPrimaryKey" parameterType="java.lang.String">
@@ -262,7 +301,7 @@
       CONTENT,PROJECT_NAME,IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,
       DRAFT_GIT_AT,DRAFT_REVIEWED_AT,FORMAL_GIT_AT,FORMAL_REVIEWED_AT
       CONTENT,PROJECT_NAME,IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,IS_IMPORT,IS_DECLARE,
-      PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED
+      PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED,BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{money,jdbcType=DECIMAL}, #{demandSector,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
@@ -277,14 +316,12 @@
       #{supplierContactAddress,jdbcType=VARCHAR}, #{supplierUnitpostCode,jdbcType=VARCHAR}, 
       #{supplierBank,jdbcType=VARCHAR}, #{supplierBankAccount,jdbcType=DECIMAL}, #{supplierBankName,jdbcType=VARCHAR},
       #{supplierPurId,jdbcType=VARCHAR},#{content},#{projectName},#{appeal},#{approvePic},#{createdAt},#{updatedAt},#{isDeleted},
-      #{contractType},#{draftGitAt},#{draftReviewedAt},#{formalGitAt},#{formalReviewedAt}
-      #{contractType},#{isImport},#{isDeclare},#{purchaseType},#{projectId}.#{finallyClosed}
+      #{contractType},#{draftGitAt},#{draftReviewedAt},#{formalGitAt},#{formalReviewedAt},
+      #{contractType},#{isImport},#{isDeclare},#{purchaseType},#{projectId}.#{finallyClosed},
+      #{bingDepName},#{bingContact},#{bingContactTelephone},#{bingContactAddress},#{bingUnitpostCode}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.PurchaseContract">
-  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
-        select sys_guid() from dual
-    </selectKey>
     insert into T_BSS_CS_PURCHASE_CONTRACT
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -437,6 +474,21 @@
       <if test="finallyClosed != null">
         FINALLY_CLOSED,
       </if>
+      <if test="bingDepName != null">
+        BING_DEP_NAME,
+      </if>
+      <if test="bingContact != null">
+        BING_CONTACT,
+      </if>
+      <if test="bingContactTelephone != null">
+        BING_CONTACT_TELEPHONE,
+      </if>
+      <if test="bingContactAddress != null">
+        BING_CONTACT_ADDRESS,
+      </if>
+      <if test="bingUnitpostCode != null">
+        BING_UNITPOST_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -588,6 +640,21 @@
       </if>
       <if test="finallyClosed != null">
         #{finallyClosed},
+      </if>
+      <if test="bingDepName != null">
+        #{bingDepName},
+      </if>
+      <if test="bingContact != null">
+        #{bingContact},
+      </if>
+      <if test="bingContactTelephone != null">
+        #{bingContactTelephone},
+      </if>
+      <if test="bingContactAddress != null">
+        #{bingContactAddress},
+      </if>
+      <if test="bingUnitpostCode != null">
+        #{bingUnitpostCode},
       </if>
     </trim>
   </insert>
@@ -745,6 +812,21 @@
       <if test="finallyClosed != null">
         FINALLY_CLOSED,
       </if>
+      <if test="bingDepName != null">
+        BING_DEP_NAME,
+      </if>
+      <if test="bingContact != null">
+        BING_CONTACT,
+      </if>
+      <if test="bingContactTelephone != null">
+        BING_CONTACT_TELEPHONE,
+      </if>
+      <if test="bingContactAddress != null">
+        BING_CONTACT_ADDRESS,
+      </if>
+      <if test="bingUnitpostCode != null">
+        BING_UNITPOST_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -897,6 +979,21 @@
       <if test="finallyClosed != null">
         #{finallyClosed},
       </if>
+      <if test="bingDepName != null">
+        #{bingDepName},
+      </if>
+      <if test="bingContact != null">
+        #{bingContact},
+      </if>
+      <if test="bingContactTelephone != null">
+        #{bingContactTelephone},
+      </if>
+      <if test="bingContactAddress != null">
+        #{bingContactAddress},
+      </if>
+      <if test="bingUnitpostCode != null">
+        #{bingUnitpostCode},
+      </if>
     </trim>
   </insert>
   
@@ -1047,6 +1144,21 @@
       <if test="finallyClosed != null">
         FINALLY_CLOSED = #{finallyClosed},
       </if>
+      <if test="bingDepName != null">
+        BING_DEP_NAME = #{bingDepName},
+      </if>
+      <if test="bingContact != null">
+        BING_CONTACT = #{bingContact},
+      </if>
+      <if test="bingContactTelephone != null">
+        BING_CONTACT_TELEPHONE = #{bingContactTelephone},
+      </if>
+      <if test="bingContactAddress != null">
+        BING_CONTACT_ADDRESS = #{bingContactAddress},
+      </if>
+      <if test="bingUnitpostCode != null">
+        BING_UNITPOST_CODE = #{bingUnitpostCode},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -1100,7 +1212,12 @@
       IS_DECLARE = ${isDeclare},
       PURCHASE_TYPE = ${purchaseType},
       PROJECT_ID = ${projectId},
-      FINALLY_CLOSED = ${finallyClosed}
+      FINALLY_CLOSED = ${finallyClosed},
+      BING_DEP_NAME = ${bingDepName},
+      BING_CONTACT = ${bingContact},
+      BING_CONTACT_TELEPHONE = ${bingContactTelephone},
+      BING_CONTACT_ADDRESS = ${bingContactAddress},
+      BING_UNITPOST_CODE = ${bingUnitpostCode}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.oms.OrgnizationMapper;
+import ses.model.oms.Orgnization;
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.cs.PurchaseContractMapper;
@@ -37,6 +39,9 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	
 	@Autowired
 	private PurchaseContractMapper purchaseContractMapper;
+	
+	@Autowired
+	private OrgnizationMapper orgnizationMapper;
 	
 	@Override
 	public int insert(PurchaseContract record) {
@@ -118,38 +123,145 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	}
 
 	@Override
-	public int createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request) {
+	public String createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request) {
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put("contractname", pur.getName());
-		dataMap.put("contractCode", pur.getCode());
-		dataMap.put("purchaseDepName", pur.getPurchaseDepName());
-		dataMap.put("purchaseL", pur.getPurchaseLegal());
-		dataMap.put("purchaseAgent", pur.getPurchaseAgent());
-		dataMap.put("purchaseContact", pur.getPurchaseContact());
-		dataMap.put("purchaseContactTelephone", pur.getPurchaseContactTelephone());
-		dataMap.put("purchaseContactAddress", pur.getPurchaseContactAddress());
-		dataMap.put("purchaseUnitp", pur.getPurchaseUnitpostCode());
-		dataMap.put("purchasePayDep", pur.getPurchasePayDep());
-		dataMap.put("purchaseBank", pur.getPurchaseBank());
-		dataMap.put("purchaseBankAccount", pur.getPurchaseBankAccount());
-		dataMap.put("supplierDepName", pur.getSupplierDepName());
-		dataMap.put("supplierLegal", pur.getSupplierLegal());
-		dataMap.put("supplierAgent", pur.getSupplierAgent());
-		dataMap.put("supplierContact", pur.getSupplierContact());
-		dataMap.put("supplierContactTelephone", pur.getSupplierContactTelephone());
-		dataMap.put("supplierContactAddress", pur.getSupplierContactAddress());
-		dataMap.put("supplierUnitpostCode", pur.getSupplierUnitpostCode());
-		dataMap.put("supplierBankName", pur.getSupplierBankName());
-		dataMap.put("supplierBank", pur.getSupplierBank());
-		dataMap.put("supplierBankAccount", pur.getSupplierBankAccount());
-		dataMap.put("documentNumber", pur.getDocumentNumber());
-		dataMap.put("approvalNumber", pur.getApprovalNumber());
-		dataMap.put("quaCode", pur.getQuaCode());
-		dataMap.put("sum", pur.getMoney());
-		int firstIndex = pur.getContent().indexOf(">");
-		int lastIndex = pur.getContent().lastIndexOf("<");
-		String content = pur.getContent().substring(firstIndex+1,lastIndex);
-		dataMap.put("content", content);
+		if(pur.getName()!=null){
+			dataMap.put("contractname", pur.getName());
+		}else{
+			dataMap.put("contractname", "");
+		}
+		if(pur.getCode()!=null){
+			dataMap.put("contractCode", pur.getCode());
+		}else{
+			dataMap.put("contractCode", "");
+		}
+		if(pur.getPurchaseDepName()!=null){
+			dataMap.put("purchaseDepName", pur.getPurchaseDepName());
+		}else{
+			dataMap.put("purchaseDepName", "");
+		}
+		if(pur.getPurchaseLegal()!=null){
+			dataMap.put("purchaseL", pur.getPurchaseLegal());
+		}else{
+			dataMap.put("purchaseL", "");
+		}
+		if(pur.getPurchaseAgent()!=null){
+			dataMap.put("purchaseAgent", pur.getPurchaseAgent());
+		}else{
+			dataMap.put("purchaseAgent", "");
+		}
+		if(pur.getPurchaseContact()!=null){
+			dataMap.put("purchaseContact", pur.getPurchaseContact());
+		}else{
+			dataMap.put("purchaseContact", "");
+		}
+		if(pur.getPurchaseContactTelephone()!=null){
+			dataMap.put("purchaseContactTelephone", pur.getPurchaseContactTelephone());
+		}else{
+			dataMap.put("purchaseContactTelephone", "");
+		}
+		if(pur.getPurchaseContactAddress()!=null){
+			dataMap.put("purchaseContactAddress", pur.getPurchaseContactAddress());
+		}else{
+			dataMap.put("purchaseContactAddress", "");
+		}
+		if(pur.getPurchaseUnitpostCode()!=null){
+			dataMap.put("purchaseUnitp", pur.getPurchaseUnitpostCode());
+		}else{
+			dataMap.put("purchaseUnitp", "");
+		}
+		if(pur.getPurchasePayDep()!=null){
+			dataMap.put("purchasePayDep", pur.getPurchasePayDep());
+		}else{
+			dataMap.put("purchasePayDep", "");
+		}
+		if(pur.getPurchaseBank()!=null){
+			dataMap.put("purchaseBank", pur.getPurchaseBank());
+		}else{
+			dataMap.put("purchaseBank", "");
+		}
+		if(pur.getPurchaseBankAccount()!=null){
+			dataMap.put("purchaseBankAccount", pur.getPurchaseBankAccount());
+		}else{
+			dataMap.put("purchaseBankAccount", "");
+		}
+		if(pur.getSupplierDepName()!=null){
+			dataMap.put("supplierDepName", pur.getSupplierDepName());
+		}else{
+			dataMap.put("supplierDepName", "");
+		}
+		if(pur.getSupplierLegal()!=null){
+			dataMap.put("supplierLegal", pur.getSupplierLegal());
+		}else{
+			dataMap.put("supplierLegal", "");
+		}
+		if(pur.getSupplierAgent()!=null){
+			dataMap.put("supplierAgent", pur.getSupplierAgent());
+		}else{
+			dataMap.put("supplierAgent", "");
+		}
+		if(pur.getSupplierContact()!=null){
+			dataMap.put("supplierContact", pur.getSupplierContact());
+		}else{
+			dataMap.put("supplierContact", "");
+		}
+		if(pur.getSupplierContactTelephone()!=null){
+			dataMap.put("supplierContactTelephone", pur.getSupplierContactTelephone());
+		}else{
+			dataMap.put("supplierContactTelephone", "");
+		}
+		if(pur.getSupplierContactAddress()!=null){
+			dataMap.put("supplierContactAddress", pur.getSupplierContactAddress());
+		}else{
+			dataMap.put("supplierContactAddress", "");
+		}
+		if(pur.getSupplierUnitpostCode()!=null){
+			dataMap.put("supplierUnitpostCode", pur.getSupplierUnitpostCode());
+		}else{
+			dataMap.put("supplierUnitpostCode", "");
+		}
+		if(pur.getSupplierBankName()!=null){
+			dataMap.put("supplierBankName", pur.getSupplierBankName());
+		}else{
+			dataMap.put("supplierBankName", "");
+		}
+		if(pur.getSupplierBank()!=null){
+			dataMap.put("supplierBank", pur.getSupplierBank());
+		}else{
+			dataMap.put("supplierBank", "");
+		}
+		if(pur.getSupplierBankAccount()!=null){
+			dataMap.put("supplierBankAccount", pur.getSupplierBankAccount());
+		}else{
+			dataMap.put("supplierBankAccount", "");
+		}
+		if(pur.getDocumentNumber()!=null){
+			dataMap.put("documentNumber", pur.getDocumentNumber());
+		}else{
+			dataMap.put("documentNumber", "");
+		}
+		if(pur.getApprovalNumber()!=null){
+			dataMap.put("approvalNumber", pur.getApprovalNumber());
+		}else{
+			dataMap.put("approvalNumber", "");
+		}
+		if(pur.getQuaCode()!=null){
+			dataMap.put("quaCode", pur.getQuaCode());
+		}else{
+			dataMap.put("quaCode", "");
+		}
+		if(pur.getMoney()!=null){
+			dataMap.put("sum", pur.getMoney());
+		}else{
+			dataMap.put("sum", "");
+		}
+		if(pur.getMoney()!=null){
+			dataMap.put("money", pur.getMoney());
+		}else{
+			dataMap.put("money", "");
+		}
+		
+		
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		if(requList!=null){
 			for(int i=0;i<requList.size();i++){
@@ -219,7 +331,10 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 //		System.out.println(this.getClass());
 		Template t = null;
 		try {
-			t = configuration.getTemplate("test.ftl");
+			if(pur.getStatus()==2){
+				t=configuration.getTemplate("formalcontract.ftl");
+			}
+			t = configuration.getTemplate("contract.ftl");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -228,7 +343,8 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		if(!rootFile.exists()){
 			rootFile.mkdirs();
 		}
-		File outFile = new File(rootpath+"/"+UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + pur.getName()+".doc");
+		String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + pur.getName()+".doc";
+		File outFile = new File(rootpath+"/"+fileName);
 		Writer out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
@@ -244,7 +360,7 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return fileName;
 	}
 
 	@Override
@@ -284,5 +400,16 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	@Override
 	public void insertSelectiveById(PurchaseContract record) {
 		purchaseContractMapper.insertSelectiveById(record);
+	}
+
+	@Override
+	public List<Orgnization> findAllUsefulOrg() {
+		return orgnizationMapper.findAllUsefulOrg();
+	}
+
+	@Override
+	public List<PurchaseContract> selectAllContractByStatus(
+			Map<String, Object> map) {
+		return purchaseContractMapper.selectAllContractByStatus(map);
 	}
 }

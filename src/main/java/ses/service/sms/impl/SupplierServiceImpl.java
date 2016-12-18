@@ -611,5 +611,13 @@ public class SupplierServiceImpl implements SupplierService {
 		return lastDate;
 	} 
 
+	@Override
+	public List<Supplier> findAllUsefulSupplier() {
+		return supplierMapper.findAllUsefulSupplier();
+	}
 
+	@Override
+	public Supplier selectOne(String id) {
+		return supplierMapper.selectOne(id);
+	}
 }

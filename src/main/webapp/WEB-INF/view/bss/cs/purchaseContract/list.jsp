@@ -114,16 +114,17 @@
   	
   	function createContract(){
   		var ids =[]; 
-  		var supid = null;
+  		var supid = [];
+  		var supcheckid = [];
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
-			supid = $(this).parent().next().text();
+			supid.push($(this).parent().next().text());
+			supcheckid.push($(this).parent().next().next().text());
 		}); 
 		if(ids.length>0){
 			if(ids.length>1){
 				layer.alert("只可选择一条项目生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				alert(supid);
 				/*$.ajax({
 		  			url:"${pageContext.request.contextPath}/purchaseContract/selectSuppliers.html?packageId="+ids,
 		  			dataType:"text",
@@ -144,7 +145,7 @@
 						});
 		  			}
 		  		});*/
-		  		window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids;
+		  		window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids+"&supcheckid="+supcheckid;
 			}
 		}else{
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
@@ -179,8 +180,10 @@
   	function someCreateContract(){
   		var ids =[]; 
   		var chekeds=[];
+  		var supcheckid = [];
 		$('input[name="chkItem"]:checked').each(function(){
 			ids.push($(this).val()); 
+			supcheckid.push($(this).parent().next().next().text());
 		});
 		
 		if(ids.length>0){
@@ -198,7 +201,7 @@
 					  			dataType:"text",
 					  			type:"POST",
 					  			success:function(data){
-									window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id="+ids+"&supid="+data;
+									window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id="+ids+"&supid="+data+"&supcheckid="+supcheckid;
 					  			}
 							});
 						}else if(ss[0]=="false"){
@@ -254,6 +257,7 @@
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 				<th class="tnone"></th>
+				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
 				<th class="info">采购项目名称</th>
 				<th class="info">编号</th>
@@ -267,6 +271,7 @@
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
 				<td class="tnone">${pack.supplier.id}</td>
+				<td class="tnone">${pack.supplierCheckPassId}</td>
 				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${pack.project.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>

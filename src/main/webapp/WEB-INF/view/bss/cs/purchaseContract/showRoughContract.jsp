@@ -1,13 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="/tld/upload" prefix="up" %>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>正式合同查看</title>
+    <title>暂存合同查看</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -22,19 +20,19 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购合同管理</a></li><li class="active"><a href="#">正式合同查看</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购合同管理</a></li><li class="active"><a href="#">暂存草稿查看</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
    
 <!-- 新增模板开始-->
-   <div class="container content pt0">
+    <div class="container content pt0">
 	 <div class="row magazine-page">
 	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
 	        <div class="padding-top-10">
 	        <ul class="nav nav-tabs bgwhite">
-	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">正式合同详情</a></li>
+	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">合同草案详情</a></li>
 	            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">标的信息</a></li>
             </ul>
    		<div class="tab-content padding-top-20 over_hideen">
@@ -44,14 +42,9 @@
 	        <tbody>
 	        <tr>
 	            <td class="bggrey"  width="13%">合同名称：</td>
-	            <td colspan="3" >${draftCon.name}</td>
-	        </tr>
-	        <tr>
+	            <td width="37%">${draftCon.name}</td>
 	            <td class="bggrey" width="13%">合同编号：</td>
-	            <td width="37%">${draftCon.code}</td>
-	            <td class="bggrey" width="13%">合同批准文号：</td>
-	            <td width="37%">${draftCon.approvalNumber}</td>
-	           
+	            <td width="37%"> ${draftCon.code}</td>
 	        </tr>
 	        <tr>
 	            <td class="bggrey" width="13%">需求部门：</td>
@@ -71,19 +64,9 @@
 	            <td class="bggrey" width="13%">合同预算：</td>
 	            <td width="37%">${draftCon.budget}</td>
 	        </tr>
-	        <tr>
-	            <td class="bggrey" width="13%">正式合同提报时间：</td>
-	            <td width="37%"><fmt:formatDate value="${draftCon.formalGitAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-	            <td class="bggrey" width="13%">正式合同报批时间：</td>
-	            <td width="37%"><fmt:formatDate value="${draftCon.formalReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-	        </tr>
-	        <tr>
-	        	<td class="bggrey" width="13%">合同批准文号：</td>
-	            <td width="37%">${draftCon.approvalNumber}</td>
-	        </tr>
 	        </tbody>
 	        </table>
-	        <h2 class="count_flow jbxx">甲方信息</h2>
+		  <h2 class="count_flow jbxx">甲方信息</h2>
 	        <table class="table table-bordered">
 	        <tbody>
 	        <tr>
@@ -118,7 +101,7 @@
 	        </tr>
 	        </tbody>
 	        </table>
-			 <h2 class="count_flow jbxx">乙方信息</h2>
+   		 <h2 class="count_flow jbxx">乙方信息</h2>
 	        <table class="table table-bordered">
 	        <tbody>
 	        <tr>
@@ -152,7 +135,7 @@
 	            <td width="37%">${draftCon.supplierBankAccount}</td>
 	        </tr>
 	        </tbody>
-	        </table>
+	        </table>  
 	        <h2 class="count_flow jbxx">丙方信息</h2>
 	        <table class="table table-bordered">
 	        <tbody>
@@ -174,13 +157,9 @@
 	        </tr>
 	        </tbody>
 	        </table>
-	        <h2 class="count_flow jbxx">批准文件电子扫描件</h2>
-   			<div class="col-md-12 select_common">
-				<up:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${contractattachsysKey}" typeId="${contractattachId}"/>
-			</div>  
-	        </div>
-	        <div class="tab-pane fade" id="tab-2">
-   		 <h2 class="count_flow jbxx">项目明细</h2>
+	     </div>
+	    <div class="tab-pane fade" id="tab-2">
+		 <h2 class="count_flow jbxx">项目明细</h2>
     	<table id="detailtable" name="" class="table table-bordered table-condensed mb0 mt10">
 		 <thead>
 			<tr>
@@ -214,7 +193,7 @@
    		</c:forEach>
 	</table>
 	</div>
-  	<div class="col-md-12 tc mt20">
+	<div class="col-md-12 tc mt20">
    		<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   	</div>
 </body>
