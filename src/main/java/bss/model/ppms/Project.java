@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.validator.constraints.NotBlank;
 
 import ses.model.bms.DictionaryData;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 
@@ -54,6 +55,8 @@ public class Project {
     private String materialsType; //物资类别 
 
     private String sectorOfDemand; //需求部门
+    
+    private Orgnization orgnization;
 
     private PurchaseDep purchaseDep; //采购机构
 
@@ -121,7 +124,15 @@ public class Project {
     
     private DictionaryData dictionary;
     
-    public DictionaryData getDictionary() {
+    public Orgnization getOrgnization() {
+		return orgnization;
+	}
+
+	public void setOrgnization(Orgnization orgnization) {
+		this.orgnization = orgnization;
+	}
+
+	public DictionaryData getDictionary() {
 		return dictionary;
 	}
 

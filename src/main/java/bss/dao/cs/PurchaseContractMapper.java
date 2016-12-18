@@ -3,6 +3,8 @@ package bss.dao.cs;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.oms.Orgnization;
+
 import bss.model.cs.PurchaseContract;
 
 public interface PurchaseContractMapper {
@@ -202,6 +204,19 @@ public interface PurchaseContractMapper {
     * 
     * @author QuJie 
     * @date 2016-11-11 下午3:13:59  
+    * @Description: 通过状态查找合同 
+    * @param @param 
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+    List<PurchaseContract> selectAllContractByStatus(Map<String,Object> map);
+    
+    /**
+     * 
+    * 〈简述〉 〈详细描述〉
+    * 
+    * @author QuJie 
+    * @date 2016-11-11 下午3:13:59  
     * @Description: 通过合同类型查找 
     * @param @return      
     * @return List<PurchaseContract>
@@ -232,4 +247,5 @@ public interface PurchaseContractMapper {
     * @return int
      */
     int insertSelectiveById(PurchaseContract record);
+    
 }

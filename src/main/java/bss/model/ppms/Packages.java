@@ -61,6 +61,16 @@ public class Packages {
 	
 	private Supplier supplier;//用于拆分供应商展示
 	
+	private String supplierCheckPassId;
+
+	public String getSupplierCheckPassId() {
+		return supplierCheckPassId;
+	}
+
+	public void setSupplierCheckPassId(String supplierCheckPassId) {
+		this.supplierCheckPassId = supplierCheckPassId;
+	}
+	
 	private List<SaleTender> saleTenderList;
 
 	public Supplier getSupplier() {

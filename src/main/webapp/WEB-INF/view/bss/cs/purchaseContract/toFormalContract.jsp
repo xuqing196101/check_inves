@@ -17,7 +17,9 @@
 <script type="text/javascript">
 function save(){
 	var text = $("#post_attach_show_disFileId").find("a").text();
+	var flag = true;
 	if(text==null || text==''){
+		flag = false;
 		layer.alert("请先上传附件",{offset: ['222px', '390px'], shade:0.01});
 	}/*else{
 		var houzhui = text.split(".");
@@ -32,16 +34,17 @@ function save(){
 			layer.alert("上传的附件类型不正确",{offset: ['222px', '390px'], shade:0.01});
 		}
 	}*/
-	var fga = $("#formalGitAt").val();
-	var fra = $("#formalReviewedAt").val();
-	$("#fga").val(fga);
-	$("#fra").val(fra);
-	$("#contractType").submit();
+	if(flag){
+		var fga = $("#formalGitAt").val();
+		var fra = $("#formalReviewedAt").val();
+		$("#fga").val(fga);
+		$("#fra").val(fra);
+		$("#contractType").submit();
+	}
 }
 
 function cancel(){
-	var id = "${id}";
-	window.location.href="${pageContext.request.contextPath}/purchaseContract/createerrContractPage.html?ids="+id;
+	window.location.href="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html";
 }
 	
 </script>    
@@ -60,7 +63,7 @@ function cancel(){
    </div>
    
    <div class="container container_box pt20">
-    <form id="contractType" action="${pageContext.request.contextPath}/purchaseContract/updateDraftById.html" method="post">
+    <form id="contractType" action="${pageContext.request.contextPath}/purchaseContract/toCreateFormalContract.html" method="post">
     <input type="hidden" value="${id}" id="ids" name="id"/>
     <input type="hidden" name="fga" id="fga" value=""/>
     <input type="hidden" name="fra" id="fra" value=""/>

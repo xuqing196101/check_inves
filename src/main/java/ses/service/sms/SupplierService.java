@@ -138,4 +138,27 @@ public interface SupplierService {
    public List<Supplier> query(Map<String,Object> map);
     
    public Date addDate(Date baseDate, int type, int num) ;
+   /**
+    * 
+   * @Title: findAllUsefulSupplier
+   * @Description: 查询可用的供应商
+   * author: QU Jie
+   * @param @param supplier
+   * @param @return     
+   * @return Supplier     
+   * @throws
+    */
+   List<Supplier> findAllUsefulSupplier();
+   
+   /**
+    * 
+   * @Title: selectOne
+   * @Description: 根据id查询
+   * author: QU Jie
+   * @param @param supplier
+   * @param @return     
+   * @return Supplier     
+   * @throws
+    */
+   Supplier selectOne(String id);
 }
