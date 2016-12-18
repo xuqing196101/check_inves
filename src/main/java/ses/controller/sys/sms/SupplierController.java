@@ -18,6 +18,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
@@ -48,6 +49,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
@@ -566,8 +568,26 @@ public class SupplierController extends BaseSupplierController {
              if(supplier2.getListSupplierStockholders()!=null&&supplier2.getListSupplierStockholders().size()>0){
                  supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders()); 
              }
+             if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
+            		for(SupplierAddress b:supplier.getAddressList()){
+                	    if (StringUtils.isNotBlank(b.getProvinceId())){
+                	        List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
+                            b.setAreaList(city);
+                	    }
+                	}
+            	 
+             }
+             if(supplier.getConcatProvince()!=null){
+             	List<Area> concity = areaService.findAreaByParentId(supplier.getConcatProvince());
+             	supplier.setConcatCityList(concity);
+             }
+             if(supplier.getArmyBuinessProvince()!=null){
+             	List<Area> armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
+             	supplier.setArmyCity(armcity);
+             }
              
-             
+ 			List<DictionaryData> foregin = DictionaryDataUtil.find(24);
+ 			model.addAttribute("foregin", foregin);
              
 			model.addAttribute("currSupplier", supplier);
 			

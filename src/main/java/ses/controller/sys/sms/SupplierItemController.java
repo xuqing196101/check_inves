@@ -145,13 +145,13 @@ public class SupplierItemController extends BaseController{
 			return "ses/sms/supplier_register/items";	
 		}
 	
-		boolean bool = validataItem(supplierItem);
-		if(bool==false){
-			model.addAttribute("err_item", "请上传产品目录近对应的近三年文件");
-			return "ses/sms/supplier_register/items";	
-		}
+//		boolean bool = validataItem(supplierItem);
+//		if(bool==false){
+//			model.addAttribute("err_item", "请上传产品目录近对应的近三年文件");
+//			return "ses/sms/supplier_register/items";	
+//		}
 		 
-			return "ses/sms/supplier_register/procurement_dep";	
+			 return "ses/sms/supplier_register/aptitude";
 	 
 		
 		

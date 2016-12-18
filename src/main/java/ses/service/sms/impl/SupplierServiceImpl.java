@@ -470,7 +470,7 @@ public class SupplierServiceImpl implements SupplierService {
         	}
            
         } else if (status == 1) {
-            map.put("status", "信息待复审, 请等待审核 !");
+            map.put("status", "success");
         } else if (status == 2) {
             map.put("status", "初审未通过 !");
         } else if (status == 3) {
