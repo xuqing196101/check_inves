@@ -134,15 +134,15 @@
 	                    value="${expert.expert.id}" name="chkItem" onclick="check()"></td>
 	                <td class="tc w30">${vs.count }</td>
 	                <td class="tc">${expert.expert.relName }</td>
-	                <c:if test="${expert.expert.expertsTypeId eq '1' }">
-	                    <td class="tc">技术</td>
-	                </c:if>
-	                <c:if test="${expert.expert.expertsTypeId eq '2' }">
-	                <td class="tc">法律</td>
-	                </c:if>
-	                <c:if test="${expert.expert.expertsTypeId eq '3' }">
-	                    <td class="tc">商务</td>
-	                </c:if>
+	                  <c:set value="" var="typeId"></c:set>
+                  <c:forEach items="${expert.expert.expertsTypeId}" var="split">
+                  <c:forEach var="project" items="${ddList}">
+                   <c:if test="${split eq project.id}">
+                    <c:set value="${typeId},${project.name}" var="typeId"></c:set>
+                   </c:if>
+                  </c:forEach>
+                  </c:forEach>
+	                <td class="tc">${fn:substring(typeId,1,typeId.length() )}</td>
 	                <td class="tc">${expert.expert.idNumber }</td>
 	                <td class="tc">${expert.expert.atDuty }</td>
 	                <td class="tc">${expert.expert.unitAddress }</td>
