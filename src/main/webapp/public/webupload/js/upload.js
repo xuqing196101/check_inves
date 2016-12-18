@@ -145,7 +145,7 @@
 			    server: globalPath + '/file/upload.html',
 			    pick:{
 			    	id:'#'+$base+'_picker',
-			    	label:'添加文件',
+			    	label:'上传彩色扫描件',
 			    	multiple: mutiple
 			    }, 
 			    disableGlobalDnd: true,
