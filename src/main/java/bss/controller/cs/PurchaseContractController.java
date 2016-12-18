@@ -179,6 +179,8 @@ public class PurchaseContractController extends BaseSupplierController{
 	//				String supplierNames = "";
 					for(SupplierCheckPass su:suList){
 						if(su.getIsCreateContract()==0){
+							Supplier su1 = supplierService.selectOne(su.getId());
+							su.setSupplier(su1);
 							if(su.getSupplier()!=null){
 		//						supplierNames+=su.getSupplier().getSupplierName()+",";
 		//						supplierNames+=su.getSupplier().getSupplierName();
