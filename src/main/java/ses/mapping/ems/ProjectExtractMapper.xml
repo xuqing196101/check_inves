@@ -293,4 +293,15 @@
 		EXPERT_CONDITION_ID=#{expertId}  AND (OPERATING_TYPE =1 OR OPERATING_TYPE =2 OR OPERATING_TYPE =3)
 	</select>
 
+	<select id="findExtractByExpertId" parameterType="ses.model.ems.ProjectExtract" resultMap="BaseResultMap">
+		select 
+			*
+		from
+			T_SES_EMS_PROJECT_EXTRACT
+	  where
+	  	EXPERT_ID = #{expert}
+		and
+		  OPERATING_TYPE = '1'
+	</select>
+
 </mapper>

@@ -30,6 +30,7 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertHistory;
+import ses.model.ems.ProjectExtract;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -37,6 +38,7 @@ import ses.service.bms.TodosService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
+import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
@@ -74,6 +76,9 @@ public class ExpertAuditController {
 	@Autowired
 	private TodosService todosService; //待办
 	
+	@Autowired
+	private ProjectExtractService projectExtractService;
+	
 	/**
 	 * 地区
 	 */
@@ -87,8 +92,19 @@ public class ExpertAuditController {
 			expert.setSign(signs);
 			request.getSession().removeAttribute("signs");
 		}
-
+		
 		List<Expert> expertList = expertService.findExpertAuditList(expert, pageNum==null?1:pageNum);
+		if(expert.getSign() == 2){
+			List<Expert> list = new ArrayList<Expert>();
+			for(Expert e : expertList){
+				List<ProjectExtract>  projectExtractList= projectExtractService.findExtractByExpertId(e.getId());
+				if(!projectExtractList.isEmpty()){
+					list.add(e);
+				}
+			}
+			model.addAttribute("result", new PageInfo<Expert>(list));
+			model.addAttribute("expertList", list);
+		}
 		model.addAttribute("result", new PageInfo<Expert>(expertList));
 		model.addAttribute("expertList", expertList);
 		//初审复审标识（1初审，2复审）

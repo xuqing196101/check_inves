@@ -954,14 +954,20 @@
 	<select id="findExpertAuditList" resultMap="BaseResultMap"
 		parameterType="ses.model.ems.Expert">
 		select
+<<<<<<< Updated upstream
 		t1.*,
 		t2.NAME as sex,
 		t3.OPERATING_TYPE
+=======
+			t1.*,
+			t2.NAME as  sex
+>>>>>>> Stashed changes
 		from
 		T_SES_EMS_EXPERT t1
 		left join
 		T_SES_BMS_DICTIONARY_DATA t2
 		on
+<<<<<<< Updated upstream
 		t1.GENDER = t2.ID
 		left join
 		T_SES_EMS_PROJECT_EXTRACT t3
@@ -988,6 +994,29 @@
 		<if test="sign == 2">
 			ORDER BY decode(STATUS,'1',1,'4',2,'5',3)
 		</if>
+=======
+			t1.GENDER = t2.ID
+		where 
+			1=1
+			<if test="sign == 1">
+				and (STATUS = 0 or STATUS = 2 or STATUS = 3)
+			</if>
+			<if test="sign == 2">
+				and (STATUS = 1 or STATUS = 4 or STATUS = 5)
+			</if>
+			<if test="relName != null and relName !=''">
+				and REAL_NAME like #{relName}
+			</if>
+			<if test="status != null and status !=''">
+				and STATUS = #{status}
+		  </if>
+		  <if test="sign == 1">
+				ORDER BY decode(STATUS,'0',1,'2',2,'3',3)
+			</if>
+			<if test="sign == 2">
+				ORDER BY decode(STATUS,'1',1,'4',2,'5',3)
+			</if> 
+>>>>>>> Stashed changes
 	</select>
 
 	<insert id="insertExpertHistory" parameterType="ses.model.ems.Expert">
