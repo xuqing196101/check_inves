@@ -31,6 +31,7 @@ import ses.model.ems.ProjectExtract;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.service.ems.ExpExtPackageService;
+import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.sms.SupplierQuoteService;
@@ -110,6 +111,8 @@ public class PackageExpertController {
     private FlowMangeService flowMangeService;//环节
     @Autowired
     private ExpExtPackageService expExtPackageService;//项目包关联
+    @Autowired
+    private ExpExtractRecordService expExtractRecordService; //专家抽取记录表
 
     /**
      *〈简述〉跳转分配专家
@@ -172,6 +175,8 @@ public class PackageExpertController {
             model.addAttribute("expertList", expertList);
             model.addAttribute("packageId", packageId);
             model.addAttribute("flowDefineId", flowDefineId);
+            //专家类型
+            model.addAttribute("ddList", expExtractRecordService.ddList());
         model.addAttribute("execute", execute);
         return "bss/prms/assign_expert/list";
     }
