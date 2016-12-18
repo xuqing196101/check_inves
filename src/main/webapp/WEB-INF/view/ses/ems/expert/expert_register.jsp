@@ -129,13 +129,6 @@ session.setAttribute("tokenSession", tokenValue);
 	<br/><br/>
    <ul class="list-unstyled list-flow" style="margin-left: 250px;">
 			<h2 class="count_flow margin-left-30"><font color="red" class="margin-left-30"> 注：军队单位人员，请登录内网进行注册!</font></h2>
-     		<li class="p0">
-			   <span class=""><i class="red mr5">*</i>用户名：</span>
-			   <div class="input-append">
-		        <input class="span2" name="loginName" id="loginName" placeholder="用户名为3~16位" maxlength="16" type="text" onblur="validataLoginName();" value="">
-		        <span class="add-on">i</span>
-		       </div><font id="spp"></font>
-			 </li>
 			 <li class="p0">
 			  <span class=""><i class="red mr5">*</i>专家来源：</span>
 			  <div class="input-append">
@@ -147,6 +140,13 @@ session.setAttribute("tokenSession", tokenValue);
 				</select>
 		      </div><font id="fro"></font>
 			</li>
+     		<li class="p0">
+			   <span class=""><i class="red mr5">*</i>用户名：</span>
+			   <div class="input-append">
+		        <input class="span2" name="loginName" id="loginName" placeholder="用户名为3~16位" maxlength="16" type="text" onblur="validataLoginName();" value="">
+		        <span class="add-on">i</span>
+		       </div><font id="spp"></font>
+			 </li>
 		      <li class="p0 ">
 			   <span class=""><i class="red mr5">*</i>密码：</span>
 			   <div class="input-append">
@@ -181,8 +181,8 @@ session.setAttribute("tokenSession", tokenValue);
   </div> 
 	  <div  class="col-md-12">
 	   <div class="padding-10" align="center">
-		   <button class="btn btn-windows add"    type="button" onclick="submitForm1();"  >下一步</button>
-		   <button class="btn btn-windows reset"  type="button" onclick="location.href='javascript:history.go(-1);'"> 上一步</button>
+		   <button class="btn btn-windows add"    type="button" onclick="submitForm1();"  >注册</button>
+		   <button class="btn btn-windows reset"  type="button" onclick="location.href='javascript:history.go(-1);'"> 返回</button>
 		</div>
 	 </div>
   </form>

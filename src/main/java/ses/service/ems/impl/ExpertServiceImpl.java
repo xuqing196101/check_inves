@@ -93,7 +93,6 @@ public class ExpertServiceImpl implements ExpertService {
 	@Override
 	public void updateByPrimaryKeySelective(Expert record) {
 		mapper.updateByPrimaryKeySelective(record);
-
 	}
 
 	@Override

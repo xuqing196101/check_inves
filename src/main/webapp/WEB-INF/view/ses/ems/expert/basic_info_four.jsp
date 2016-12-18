@@ -199,7 +199,7 @@ session.setAttribute("tokenSession", tokenValue);
    </tr>
    <tr>
 	 <td width="25%" class="bggrey">从事专业起始年度</td>
-	 <td width="25%"><fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM-dd" /></td>
+	 <td width="25%"><fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM" /></td>
 	 <td width="25%" class="bggrey">专家来源</td>
 	 <td width="25%" id="expertsFrom"></td>
    </tr>
@@ -207,7 +207,7 @@ session.setAttribute("tokenSession", tokenValue);
 	 <td width="25%" class="bggrey">专业技术职称/执业资格</td>
 	 <td width="25%">${expert.professTechTitles}</td>
 	 <td width="25%" class="bggrey">取得技术职称时间</td>
-	 <td width="25%"><fmt:formatDate value="${expert.makeTechDate}" pattern="yyyy-MM-dd" /></td>
+	 <td width="25%"><fmt:formatDate value="${expert.makeTechDate}" pattern="yyyy-MM" /></td>
    </tr>
    <tr>
 	 <td width="25%" class="bggrey">毕业院校及专业</td>

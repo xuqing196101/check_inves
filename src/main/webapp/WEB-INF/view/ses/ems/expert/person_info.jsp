@@ -32,6 +32,7 @@ session.setAttribute("tokenSession", tokenValue);
 				$("#idType").html(response.idType);
 				$("#expertsFrom").html(response.expertsFrom);
 				$("#expertsType").html(response.expertsTypeId);
+				$("#degree").html(response.degree);
 			}
 		});
 	}
@@ -40,7 +41,7 @@ session.setAttribute("tokenSession", tokenValue);
 <body onload="initData()">
 	<div id="reg_box_id_6" class="container clear margin-top-30 yinc">
 	<input type="hidden" name="id" id="id" value="${expert.id}"/>
-  <table class="table">
+  <table class="table table-bordered table-condensed ">
   <div class="margin-top-30"></div>
    	<tr>
  	  <td width="25%" class="bggrey">姓名</td>
@@ -98,7 +99,7 @@ session.setAttribute("tokenSession", tokenValue);
    </tr>
    <tr>
 	 <td width="25%" class="bggrey">从事专业起始年度</td>
-	 <td width="25%"><fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM-dd" /></td>
+	 <td width="25%"><fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM" /></td>
 	 <td width="25%" class="bggrey">专家来源</td>
 	 <td width="25%" id="expertsFrom"></td>
    </tr>
@@ -106,7 +107,7 @@ session.setAttribute("tokenSession", tokenValue);
 	 <td width="25%" class="bggrey">专业技术职称/执业资格</td>
 	 <td width="25%">${expert.professTechTitles}</td>
 	 <td width="25%" class="bggrey">取得技术职称时间</td>
-	 <td width="25%"><fmt:formatDate value="${expert.makeTechDate}" pattern="yyyy-MM-dd" /></td>
+	 <td width="25%"><fmt:formatDate value="${expert.makeTechDate}" pattern="yyyy-MM" /></td>
    </tr>
    <tr>
 	 <td width="25%" class="bggrey">毕业院校及专业</td>
@@ -120,7 +121,7 @@ session.setAttribute("tokenSession", tokenValue);
    </tr>
    <tr>
 	 <td width="25%" class="bggrey">最高学位</td>
-	 <td width="25%">${expert.degree}</td>
+	 <td width="25%" id="degree"></td>
 	 <td width="25%" class="bggrey">个人邮箱</td>
 	 <td width="25%">${expert.email}</td>
    </tr>
@@ -135,24 +136,24 @@ session.setAttribute("tokenSession", tokenValue);
 	 <td colspan="3">${expert.fax}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey" rowspan="3">参评的产品类别 </td>
-	 <td colspan="3" rowspan="3">${expert.productCategories}</td>
+	 <td width="25%" class="bggrey">参评的产品类别 </td>
+	 <td colspan="3">${expert.productCategories}</td>
    </tr>
    <tr>
-	 <td width="25%"  class="bggrey" rowspan="3">主要工作经历</td>
-	 <td colspan="3" rowspan="3">${expert.productCategories}</td>
+	 <td width="25%"  class="bggrey">主要工作经历</td>
+	 <td colspan="3">${expert.productCategories}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey" rowspan="3">专业学术成果</td>
-	 <td colspan="3" rowspan="3">${expert.academicAchievement}</td>
+	 <td width="25%" class="bggrey">专业学术成果</td>
+	 <td colspan="3">${expert.academicAchievement}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey" rowspan="3">参加军队地方采购评审情况 </td>
-	 <td colspan="3" rowspan="3">${expert.reviewSituation}</td>
+	 <td width="25%" class="bggrey">参加军队地方采购评审情况 </td>
+	 <td colspan="3">${expert.reviewSituation}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey" rowspan="3">需要申请回避的情况 </td>
-	 <td colspan="3" rowspan="3">${expert.avoidanceSituation}</td>
+	 <td width="25%" class="bggrey">需要申请回避的情况 </td>
+	 <td colspan="3">${expert.avoidanceSituation}</td>
    </tr>
  </table>
     <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
