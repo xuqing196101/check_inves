@@ -109,12 +109,33 @@
 						var tr = $("input[name=dyadds]").parent().parent().prev();
 						// var tr=$(obj).parent().parent();
 						$(tr).children(":first").children(":first").val(data);
-						var s = $("#count").val();
-						s++;
-						$("#count").val(s);
+						var s = detailRow.length;
 						// var trs = $(obj).parent().parent();
+						if(detailRow.length==0){
+							$("#detailZeroRow").html("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + 0 + "].id' />" +
+									"<input type='text' name='list[" + 0 + "].seq' /></td>" +
+									"<td name='department'><input type='text' name='list[" + 0 + "].department' readonly='readonly' value='"+value+"'/></td>" +
+									"<td><input type='text' name='list[" + 0 + "].goodsName' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].stand' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].qualitStand' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].item' /> </td>" +
+									"<td name='purchaseQuantity'><input type='text' name='list[" + 0 + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
+									"<td name='unitPrice'><input type='text' name='list[" + 0 + "].price' onkeyup='checkNum(this,2)'/></td>" +
+									"<td><input type='text' name='list[" + 0 + "].budget' readonly='readonly' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].deliverDate' /></td>" +
+									"<td><select name='list[" + 0 + "].purchaseType' style='width:90px' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
+									" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
+									"<td><input type='text' name='list[" + 0 + "].supplier' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].isFreeTax' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].goodsUse' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].useUnit' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].memo' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].status' value='暂存' readonly='readonly' /></td>" +
+									"<td><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
+									"<tr/>");
+						}else{
 						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + s + "].id' />" +
-							"<input type='text' name='list[" + s + "].seq' /><input value='" + id + "' type='hidden' name='list[" + s + "].parentId' /></td>" +
+							"<input type='text' name='list[" + s + "].seq' /></td>" +
 							"<td name='department'><input type='text' name='list[" + s + "].department' readonly='readonly' value='"+value+"'/></td>" +
 							"<td><input type='text' name='list[" + s + "].goodsName' /></td>" +
 							"<td><input type='text' name='list[" + s + "].stand' /></td>" +
@@ -124,7 +145,7 @@
 							"<td name='unitPrice'><input type='text' name='list[" + s + "].price' onkeyup='checkNum(this,2)'/></td>" +
 							"<td><input type='text' name='list[" + s + "].budget' readonly='readonly' /></td>" +
 							"<td><input type='text' name='list[" + s + "].deliverDate' /></td>" +
-							"<td><select name='list[" + s + "].purchaseType' style='width:90px'> <option value='' >请选择</option>" +
+							"<td><select name='list[" + s + "].purchaseType' style='width:90px' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
 							" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
 							"<td><input type='text' name='list[" + s + "].supplier' /></td>" +
 							"<td><input type='text' name='list[" + s + "].isFreeTax' /></td>" +
@@ -132,7 +153,9 @@
 							"<td><input type='text' name='list[" + s + "].useUnit' /></td>" +
 							"<td><input type='text' name='list[" + s + "].memo' /></td>" +
 							"<td><input type='text' name='list[" + s + "].status' value='暂存' readonly='readonly' /></td>" +
-							+"<tr/>");
+							"<td><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
+							"<tr/>");
+						}
 					}
 				});
 			}
@@ -159,6 +182,8 @@
 					$("#detailXqbm").val(depName);
 					$("#add_form").submit();
 				}
+				
+				
 			}
 
 			function down() {
@@ -171,6 +196,7 @@
 			}
 			var datas;
 			var treeObj;
+			
 			$(function() {
 				var setting = {
 					async: {
@@ -206,10 +232,8 @@
 					$("#ztree").hide();
 				}
 				
-				
-				
 			});
-
+			
 			function typeShow() {
 				/* 	 var expertsTypeId = $("#expertsTypeId").val();
 					 if(expertsTypeId==1 || expertsTypeId=="1"){ */
@@ -320,36 +344,6 @@
 					$(obj).parent().next().find("input").attr("disabled", "disabled");
 				}
 			}
-
-			//检索名字
-			function listName(obj) {
-				/**var ul = document.getElementById("materialName");
-	    ul.style.position = "absolute";
-	    ul.style.top = ($(obj).offset().top+33)+"px";
-	    ul.style.left = $(obj).offset().left+"px";*/
-				var name = $(obj).val();
-				if(name == "" || name == null) {
-					$("#materialName").html("");
-					return;
-				}
-				$.ajax({
-					type: "POST",
-					dataType: "json",
-					url: "${pageContext.request.contextPath }/purchaser/listName.do?name=" + name,
-					success: function(data) {
-						if(data) {
-							var html = "";
-							for(var i = 0; i < data.length; i++) {
-								html += "<li class='pointer' style='list-style:none;' onclick='getValue(this)'>" + data[i].name + "</li>";
-
-							}
-						}
-						$(obj).after($("#listName"));
-						$("#materialName").html(html);
-						$("#listName").removeClass("dnone");
-					}
-				});
-			}
 			
 			//只能输入数字
 			function checkNum(obj,num){
@@ -389,6 +383,75 @@
 				var department = document.getElementsByName("department");
 				for(var i=0;i<department.length;i++){
 					$(department[i]).find("input").val(value);
+				}
+			}
+			
+			//检索名字
+			function listName(obj) {
+				var name = $(obj).val();
+				if(name == "" || name == null) {
+					$("#materialName").html("");
+					$("#materialName").addClass("dnone");
+					return;
+				}
+				$.ajax({
+					type: "POST",
+					dataType: "json",
+					url: "${pageContext.request.contextPath }/purchaser/listName.do?name=" + name,
+					success: function(data) {
+							if(data.length>0){
+								var html = "";
+								for(var i = 0; i < data.length; i++) {
+									html += "<div style='width:178px;height:20px;' class='pointer' onmouseover='changeColor(this)' onclick='getValue(this)'>"+data[i].name+"</div>";
+								}
+								$("#materialName").html(html);
+								$("#materialName").removeClass("dnone");
+								$(obj).after($("#materialName"));
+							}else{
+								$("#materialName").html("");
+								$("#materialName").addClass("dnone");
+							}
+					}
+				});
+			}
+			
+			//改变颜色
+			function changeColor(obj){
+				$(obj).css("background-color","#eee");
+			}
+			
+			//获取值
+			function getValue(obj){
+				$(obj).parent().parent().find("input").val($(obj).html());
+				$(obj).parent().addClass("dnone");
+			}
+			
+			//删除一行
+			function delRowIndex(obj){
+				$(obj).parent().parent().remove();
+				var detailRow = document.getElementsByName("detailRow");
+				if(detailRow.length!=0){
+					for(var i=0;i<detailRow.length;i++){
+						$(detailRow[i]).find("td:eq(0)").find("input:eq(0)").attr("name","list["+i+"].id");
+						$(detailRow[i]).find("td:eq(0)").find("input:eq(1)").attr("name","list["+i+"].seq");
+						$(detailRow[i]).find("td:eq(1)").find("input").attr("name","list["+i+"].department");
+						$(detailRow[i]).find("td:eq(2)").find("input").attr("name","list["+i+"].goodsName");
+						$(detailRow[i]).find("td:eq(3)").find("input").attr("name","list["+i+"].stand");
+						$(detailRow[i]).find("td:eq(4)").find("input").attr("name","list["+i+"].qualitStand");
+						$(detailRow[i]).find("td:eq(5)").find("input").attr("name","list["+i+"].item");
+						$(detailRow[i]).find("td:eq(6)").find("input").attr("name","list["+i+"].purchaseCount");
+						$(detailRow[i]).find("td:eq(7)").find("input").attr("name","list["+i+"].price");
+						$(detailRow[i]).find("td:eq(8)").find("input").attr("name","list["+i+"].budget");
+						$(detailRow[i]).find("td:eq(9)").find("input").attr("name","list["+i+"].deliverDate");
+						$(detailRow[i]).find("td:eq(10)").find("select").attr("name","list["+i+"].purchaseType");
+						$(detailRow[i]).find("td:eq(10)").find("select").attr("id","pType["+i+"]");
+						$(detailRow[i]).find("td:eq(11)").find("input").attr("name","list["+i+"].supplier");
+						$(detailRow[i]).find("td:eq(12)").find("input").attr("name","list["+i+"].isFreeTax");
+						$(detailRow[i]).find("td:eq(13)").find("input").attr("name","list["+i+"].goodsUse");
+						$(detailRow[i]).find("td:eq(14)").find("input").attr("name","list["+i+"].useUnit");
+						$(detailRow[i]).find("td:eq(15)").find("input").attr("name","list["+i+"].memo");
+						$(detailRow[i]).find("td:eq(16)").find("input").attr("name","list["+i+"].status");
+					}
 				}
 			}
 		</script>
@@ -496,16 +559,19 @@
 										<th class="w200">使用单位（仅进口）</th>
 										<th class="w200">备注</th>
 										<th class="w100">状态</th>
+										<th class="w100">操作</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="detailZeroRow">
 									<tr name="detailRow">
 										<td class="tc w50">
 											<input type="hidden" name="list[0].id" id="purid" value="">
 											<input type="text" name="list[0].seq" value="">
 										</td>
 										<td class="w100" name="department"><input type="text" name="list[0].department" readonly="readonly"></td>
-										<td class="w200"><input type="text" name="list[0].goodsName"></td>
+										<td class="w200">
+											<input type="text" name="list[0].goodsName" onkeyup="listName(this)"/>
+										</td>
 										<td class="tc w100"><input type="text" name="list[0].stand"></td>
 										<td class="tc w100"><input type="text" name="list[0].qualitStand"></td>
 										<td class="tc w100"><input type="text" name="list[0].item"></td>
@@ -514,7 +580,7 @@
 										<td class="tc w150"><input type="text" name="list[0].budget" readonly="readonly"></td>
 										<td class="w100"><input type="text" name="list[0].deliverDate"></td>
 										<td class="w120">
-											<select name="list[0].purchaseType" class="w100" id="select" onchange="changeType(this)">
+											<select name="list[0].purchaseType" class="pt" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
 													<option value="${obj.id }">${obj.name }</option>
@@ -527,30 +593,18 @@
 										<td class="tc w200"><input type="text" name="list[0].useUnit"></td>
 										<td class="tc w200"><input type="text" name="list[0].memo"></td>
 										<td class="tc w100"><input type="text" name="list[0].status" value="暂存" readonly="readonly"></td>
+										<td class="tc w100"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
 								</tbody>
-								<tr class="dnone">
-
-									<td class="tc" colspan="16">
-										<!--  <input type="hidden" name="planType" value="" id="ptype"> -->
-										<input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd()" value="添加">
-										<!--  <input class="btn btn-windows delete" name="delt" type="button" onclick="delets()" value="删除"> -->
-
-									</td>
-								</tr>
 							</table>
-							<!--  <input class="btn btn-windows reset" value="取消"
-				type="button" onclick="hide()"> -->
-
+							
 							<input type="hidden" name="planName" id="detailJhmc">
 							<input type="hidden" name="planNo" id="detailJhbh">
 							<%--<input type="hidden" name="planType" id="detailType">
 							--%><input type="hidden" name="recorderMobile" id="detailMobile">
 							<input type="hidden" name="planDepName" id="detailXqbm"/>
 						</form>
-
 					</div>
-
 				</ul>
 				<input class="btn btn-windows save" style="margin-left: 500px;" type="button" onclick="incr()" value="提交">
 				<button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</button>
@@ -591,9 +645,12 @@
 				<input type="hidden" name="planName" id="fjhmc">
 				<input type="hidden" name="planNo" id="fjhbh">
 				<input type="hidden" name="type" value="" id="ptype">
-
 			</form>
 		</div>
+		
+		<div id="materialName" class="dnone" style="width:178px;max-height:400px;overflow:scroll;border:1px solid grey;">
+				
+		</div>
+		
 	</body>
-
 </html>
