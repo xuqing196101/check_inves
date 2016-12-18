@@ -32,6 +32,7 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierService;
@@ -116,6 +117,9 @@ public class PurchaseContractController extends BaseSupplierController{
 	@Autowired
 	private UploadService uploadService;
 	
+	@Autowired
+	private UserServiceI userServiceI;
+	
 	
 	/**
 	 * 
@@ -148,6 +152,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		model.addAttribute("list", new PageInfo<Packages>(packList));
 		List<Packages> pacList = new ArrayList<Packages>();
 		Orgnization or = user.getOrg();
+		
 //		boolean isRole = false;
 //		for(Role r:roleList){
 //			if(r.getCode().equals("PURCHASE_ORG_R")||r.getCode().equals("ADMIN_R")){
@@ -1005,10 +1010,15 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_purchaseType", "采购方式不能为空");
 		}
-		PurchaseDep purDep = purchaseOrgnizationServiceI.selectPurchaseById(purCon.getBingDepName());
-		if(ValidateUtils.isNull(purDep.getDepName())){
+		if(ValidateUtils.isNull(purCon.getBingDepName())){
 			flag = false;
 			model.addAttribute("ERR_bingDepName", "需求部门不能为空");
+		}else{
+			PurchaseDep purDep = purchaseOrgnizationServiceI.selectPurchaseById(purCon.getBingDepName());
+			if(ValidateUtils.isNull(purDep.getDepName())){
+				flag = false;
+				model.addAttribute("ERR_bingDepName", "需求部门不能为空");
+			}
 		}
 		if(ValidateUtils.isNull(purCon.getCode())){
 			flag = false;
@@ -1035,10 +1045,15 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_quaCode", "采购机构文号不能为空");
 		}
-		Orgnization org =  orgnizationServiceI.getOrgByPrimaryKey(purCon.getPurchaseDepName());
-		if(ValidateUtils.isNull(org.getName())){
+		if(ValidateUtils.isNull(purCon.getPurchaseDepName())){
 			flag = false;
 			model.addAttribute("ERR_purchaseDepName", "甲方单位不能为空");
+		}else{
+			Orgnization org =  orgnizationServiceI.getOrgByPrimaryKey(purCon.getPurchaseDepName());
+			if(ValidateUtils.isNull(org.getName())){
+				flag = false;
+				model.addAttribute("ERR_purchaseDepName", "甲方单位不能为空");
+			}
 		}
 		if(ValidateUtils.isNull(purCon.getPurchaseLegal())){
 			flag = false;
@@ -1103,10 +1118,15 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_budget", "请输入正确金额");
 		}
-		Supplier su = supplierService.selectOne(purCon.getSupplierDepName());
-		if(ValidateUtils.isNull(su.getSupplierName())){
+		if(ValidateUtils.isNull(purCon.getSupplierDepName())){
 			flag = false;
 			model.addAttribute("ERR_supplierDepName", "乙方单位不能为空");
+		}else{
+			Supplier su = supplierService.selectOne(purCon.getSupplierDepName());
+			if(ValidateUtils.isNull(su.getSupplierName())){
+				flag = false;
+				model.addAttribute("ERR_supplierDepName", "乙方单位不能为空");
+			}
 		}
 		if(ValidateUtils.isNull(purCon.getSupplierLegal())){
 			flag = false;
