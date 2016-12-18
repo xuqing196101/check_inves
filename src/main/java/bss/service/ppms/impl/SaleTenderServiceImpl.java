@@ -153,5 +153,12 @@ public class SaleTenderServiceImpl implements SaleTenderService {
 	public List<SaleTender> getPackegeSupplier(SaleTender record) {
 		return saleTenderMapper.getPackegeSupplier(record);
 	}
+
+	
+	@Override
+	public List<SaleTender> getPackegeSuppliers(SaleTender record) {
+		// TODO Auto-generated method stub
+		return saleTenderMapper.getPackegeSuppliers(record);
+	}
 }
 

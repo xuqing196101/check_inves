@@ -78,4 +78,17 @@ public interface SaleTenderMapper {
      */
     List<SaleTender> getPackegeSupplier(SaleTender record);
     
+    
+    /**
+    * @Title: getPackegeSuppliers
+    * @author Shen Zhenfei 
+    * @date 2016-12-18 上午11:06:58  
+    * @Description: 根据项目包名，获取对应的供应商
+    * @param @param record
+    * @param @return      
+    * @return List<SaleTender>
+     */
+    List<SaleTender> getPackegeSuppliers(SaleTender record);
+    
+    
 }

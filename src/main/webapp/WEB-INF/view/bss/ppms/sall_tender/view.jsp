@@ -28,7 +28,7 @@
         var kindName = $("#kindName").val();
         if(kindName == "公开招标") {
           var projectId = $("#projectId").val();
-          window.location.href = "${pageContext.request.contextPath}/saleTender/showAllSupplier.html?projectId=" + projectId + "&packId=" + packId;
+          window.location.href = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId;
         } else {
           var id = [];
           $('input[name="chkItem"]:checked').each(function() {

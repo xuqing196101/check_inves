@@ -28,6 +28,7 @@ import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropertiesUtil;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -61,6 +62,10 @@ public class SaleTenderController {
     private SaleTenderService saleTenderService; //关联表
     @Autowired
     private SupplierAuditService auditService;//查询所有供应商
+    
+    @Autowired
+    private SupplierService supplierService;//查询全部的供应商
+    
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;//TypeId
     @Autowired
@@ -241,12 +246,14 @@ public class SaleTenderController {
     * @param @return      
     * @return String
      */
-    @RequestMapping("/showAllSupplier")
-    public  String showAllSupplier(Model model, String projectId,String page,String packId,Supplier supplier){
-    	//查询list方法里面的供应商id 为了过滤供应商 已经有的就不显示了
+    @RequestMapping("/showAllSuppliers")
+    public  String showAllSuppliers(Model model, String projectId,String page,String packId,Supplier supplier){
     	SaleTender saleTender=new SaleTender();
-    	saleTender.setProjectId(projectId);
-    	List<SaleTender> list = saleTenderService.list(saleTender,page==null||"".equals(page)?1:Integer.valueOf(page));
+    	Project project = new Project();
+    	project.setId(projectId);
+    	saleTender.setProject(project);
+    	saleTender.setPackages(packId);
+    	List<SaleTender> list = saleTenderService.getPackegeSuppliers(saleTender);
     	List<String> stsupplierIds=new ArrayList<String>();
     	if(list.size()>0){
 	    	for(SaleTender st:list){
@@ -255,14 +262,12 @@ public class SaleTenderController {
 	    	supplier.setStsupplierIds(stsupplierIds);
     	}
         List<Supplier> allSupplier = auditService.getAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
-       
+    	model.addAttribute("list",new PageInfo<>(allSupplier));
         model.addAttribute("packId", packId);
-        model.addAttribute("list", new PageInfo<>(allSupplier));
         model.addAttribute("projectId", projectId);
         model.addAttribute("supplierName", supplier.getSupplierName());
         return "bss/ppms/sall_tender/suppliers_list";
     }
-    
     
     
     /**
