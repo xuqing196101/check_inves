@@ -1295,7 +1295,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(datas.size()>0){
 			model.addAttribute("attachtypeId", datas.get(0).getId());
 		}
-		model.addAttribute("list", new PageInfo<PurchaseContract>(draftConList));
+		PageInfo<PurchaseContract> list = new PageInfo<PurchaseContract>(draftConList);
+		model.addAttribute("list", list);
 		model.addAttribute("draftConList", draftConList);
 		model.addAttribute("contractSum",contractSum);
 		model.addAttribute("purCon", purCon);
