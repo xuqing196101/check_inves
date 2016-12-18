@@ -92,6 +92,17 @@
   		   }
   	   });
      } 
+     
+     function ss(){
+	 var value=$("#reson").val();
+
+	 if(value!=null&&value!=""){
+		 $("#status").val(3);
+		 $("#acc_form").submit();
+	 }else{
+			layer.tips("退回理由不允许为空","#reson");
+	 }
+ }
  /* 	function ss(obj){
    	   var val=$(obj).val();
    	   $("select option").each(function(){
@@ -210,6 +221,7 @@
 							<th class="info">是否申请办理免税</th>
 							<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th>
+							
 							<th class="info">备注</th>
 							<c:forEach items="${all }" var="p">
 											<th class="info">
@@ -329,6 +341,15 @@
 
 					</c:forEach>
 				</table>
+				
+				退回理由： <br><textarea   id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>
+				 <input type="hidden" name="planNo" value="${planNo }">
+				  <input type="hidden" id="status" name="status" value="4">
+				 <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="审核"> 
+				<!--  <input class="btn btn-windows save" type="button" onclick="returns();" value="退回">    -->
+				 <button class="btn btn-windows back" type="button" onclick="ss();">退回</button>
+				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+				
 				</div>
 			</form>
 		</div>
