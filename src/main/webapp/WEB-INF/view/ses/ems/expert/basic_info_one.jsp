@@ -433,17 +433,47 @@ session.setAttribute("tokenSession", tokenValue);
 				layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
 				return false;
 			}
-		}
-		var workUnit = $("#workUnit").val();
-		if(!workUnit){
-			layer.msg("请填写所在单位 !",{offset: ['300px', '750px']});
-			return false;
-		}
-		if (from == "LOCAL") {
-			var coverNote = $("#coverNote").val();
-			if(!coverNote){
-				layer.msg("请填写缴纳社会保险证明 !",{offset: ['300px', '750px']});
-				return false;
+			if (reg.test(idCardNumber) && idCardNumber.length == 18) {
+				// 分别获取到身份证号码中的年月日并转换为数字格式
+				var year = parseInt(idCardNumber.substring(6,10));
+				var month = parseInt(idCardNumber.substring(10,12));
+				var day = parseInt(idCardNumber.substring(12,14));
+				// 月份判断
+				if (month < 1 || month > 12) {
+					layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
+					return false;
+				}
+				// 根据大小月判断日(大月)
+				if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+					if (day < 1 || day > 31) {
+						layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
+						return false;
+					}
+				}
+				// 根据大小月判断日(大月)
+				if (month == 4 || month == 6 || month == 9 || month == 11) {
+					if (day < 1 || day > 30) {
+						layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
+						return false;
+					}
+				}
+				// 根据大小月判断日(二月)
+				if (month == 2) {
+					// 闰年
+					if (year % 4 == 0 && year % 100 != 0 && year % 400 == 0) {
+						if (day < 1 || day > 29) {
+							layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
+							return false;
+						}
+					}
+					// 平年
+					if (year % 4 != 0 || year % 400 != 0 || (year % 100 == 0 && year % 400 != 0)) {
+						if (day < 1 || day > 28) {
+							layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
+							return false;
+						}
+					}
+				}
 			}
 		}
 		// 身份证唯一性验证
@@ -465,6 +495,19 @@ session.setAttribute("tokenSession", tokenValue);
 		if (isok == 1) {
 			return false;
 		}
+		var workUnit = $("#workUnit").val();
+		if(!workUnit){
+			layer.msg("请填写所在单位 !",{offset: ['300px', '750px']});
+			return false;
+		}
+		if (from == "LOCAL") {
+			var coverNote = $("#coverNote").val();
+			if(!coverNote){
+				layer.msg("请填写缴纳社会保险证明 !",{offset: ['300px', '750px']});
+				return false;
+			}
+		}
+		
 		var id_areaSelect = $("#add").val();
 		if(!id_areaSelect){
 			layer.msg("请选择区域 !",{offset: ['300px', '750px']});
