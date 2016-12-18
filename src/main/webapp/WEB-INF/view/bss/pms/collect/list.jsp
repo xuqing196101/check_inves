@@ -253,6 +253,7 @@
 
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows git" onclick="sub()">受理</button>
+				<button class="btn btn-windows delete" onclick="del()">删除</button>
 			</div>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover table-striped">
