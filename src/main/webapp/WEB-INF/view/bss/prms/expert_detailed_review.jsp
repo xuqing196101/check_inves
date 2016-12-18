@@ -586,121 +586,53 @@
 	<c:forEach items="${packageList }" var="pack" varStatus="vs">
 	  <c:if test="${pack.id eq packageId}">
 		<h3>包名称：${pack.name }</h3>
-	      <div class="mb5 fr">
-		  	<button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
-		 	<button class="btn" onclick="" type="button">汇总</button>
-		    <button class="btn" onclick="" type="button">复核</button>
-		    <button class="btn" onclick="" type="button">结束</button>
-		  </div>
-		  <!--循环供应商  -->
-		  <table class="table table-bordered table-condensed table-hover table-striped">
-			<thead>
-			  <tr>
-			    <th class="info">供应商/专家</th>
-				<c:forEach items="${packExpertExtList }" var="ext">
-				  <c:forEach items="${typeNames }" var="type">
-				    <c:if test="${type.TYPENAME eq '0' && packageId eq type.PACKAGEID}">
-					  <c:set var="type0" value="1" />
-					</c:if>
-					<c:if test="${type.TYPENAME eq '1' && packageId eq type.PACKAGEID}">
-					  <c:set var="type1" value="1" />
-					</c:if>
-				  </c:forEach>
-					<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '1' && type1 eq '1'}">
-					  <th class="info">
-					    ${ext.expert.relName }<input type="hidden" name="expertId_${vs.index }" value="${ext.expert.id }">
-					  </th>
-					</c:if>
-					<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '3' && type0 eq '1'}">
-					  <th class="info">
-					    ${ext.expert.relName }<input type="hidden" name="expertId_${vs.index }" value="${ext.expert.id }">
-					  </th>
-					</c:if>
-				  </c:forEach>
-				  <th class="info">
-				    <input type="button" class="btn" onclick="showViewBySupplierId('${packageId}',this,'${vs.index }')" value="查看明细">
-				  </th>
-			    </tr>
-			  </thead>
-			  <c:set var="TOTAL" value="0"></c:set>
-			  <c:forEach items="${supplierList }" var="supplier">
-				<c:if test="${fn:contains(supplier.packages,packageId)}">
-				<tr class="tc">
-				  <td class="tc">${supplier.suppliers.supplierName }</td>
-				  <c:forEach items="${packExpertExtList }" var="ext">
-					<c:forEach items="${typeNames }" var="type">
-					  <c:if test="${type.TYPENAME eq '0' && packageId eq type.PACKAGEID}">
-						<c:set var="type2" value="1" />
-					  </c:if>
-					  <c:if test="${type.TYPENAME eq '1' && packageId eq type.PACKAGEID}">
-						<c:set var="type3" value="1" />
-					  </c:if>
-					</c:forEach>
-					<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '1' && type3 eq '1'}">
-				      <c:set var="flag" value="0" />
-				      <c:forEach items="${expertScoreList }" var="sco">
-						<c:if test="${sco.expertId eq ext.expert.id && sco.supplierId eq supplier.suppliers.id && sco.packageId eq packageId}">
-						  <c:set var="flag" value="1" />
-						  <td class="tc">${sco.score }</td>
-						</c:if>
-					  </c:forEach>
-					  <c:if test="${flag eq '0'}">
-					    <td class="tc">暂未评分</td>
-					  </c:if>
-					</c:if>
-					<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '3' && type2 eq '1'}">
-					  <c:set var="flag" value="0" />
-					  <c:forEach items="${expertScoreList }" var="sco">
-					    <c:if test="${sco.expertId eq ext.expert.id && sco.supplierId eq supplier.suppliers.id && sco.packageId eq packageId}">
-						  <c:set var="flag" value="1" />
-						  <td class="tc">${sco.score }</td>
-						</c:if>
-					  </c:forEach>
-					  <c:if test="${flag eq '0'}">
-						<td class="tc">暂未评分</td>
-					  </c:if>
-					</c:if>
-				  </c:forEach>
-				  <td width="150px">
-				    <input type="radio" value="${supplier.suppliers.id}" name="supplierView_${vs.index }">
-				  </td>
-				</tr>
+	    <div class="mb5 fr">
+		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
+		  <button class="btn" onclick="" type="button">汇总</button>
+		  <button class="btn" onclick="" type="button">复核</button>
+		  <button class="btn" onclick="" type="button">结束</button>
+		</div>
+		<!--循环供应商  -->
+		<table class="table table-bordered table-condensed table-hover table-striped">
+		  <thead>
+			<tr>
+			  <th class="info">专家/供应商</th>
+			  <c:forEach items="${supplierList}" var="supplier">
+			    <c:if test="${fn:contains(supplier.packages,packageId)}">
+			  	  <th class="info">${supplier.suppliers.supplierName}</th>
+			  	</c:if>
+			  </c:forEach>
+			</tr>	
+		  </thead>
+		  <c:forEach items="${packExpertExtList }" var="ext">
+	        <c:forEach items="${typeNames }" var="type">
+			  <c:if test="${type.TYPENAME eq '0' && packageId eq type.PACKAGEID}">
+			    <c:set var="type0" value="1" />
+			  </c:if>
+			  <c:if test="${type.TYPENAME eq '1' && packageId eq type.PACKAGEID}">
+			    <c:set var="type1" value="1" />
 			  </c:if>
 			</c:forEach>
-			    <tr>
-				  <td class="tc">
-				    <input type="button" class="btn" onclick="showViewByExpertId('${packageId}',this,'${vs.index }')" value="查看明细">
-				  </td>
-				  <c:forEach items="${packExpertExtList }" var="ext">
-					<c:forEach items="${typeNames }" var="type">
-					  <c:if test="${type.TYPENAME eq '0' && packageId eq type.PACKAGEID}">
-						<c:set var="type0" value="1" />
-					  </c:if>
-					  <c:if test="${type.TYPENAME eq '1' && packageId eq type.PACKAGEID}">
-						<c:set var="type1" value="1" />
-					  </c:if>
-					</c:forEach>
-					<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '1' && type1 eq '1'}">
-					  <td class="tc">
-					    <input type="radio" value="${ext.expert.id}" name="expertView_${vs.index }">
-					  </td>
-					</c:if>
-					<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '3' && type0 eq '1'}">
-					  <td class="tc">
-					    <input type="radio" value="${ext.expert.id}" name="expertView_${vs.index }">
-					  </td>
-					</c:if>
-				  </c:forEach>
-				  <td class="tc"></td>
-				</tr>
-			  </table>
+			<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '1' && type1 eq '1'}">
+			  <tr>
+				${ext.expert.relName }
+			  </tr>
+			</c:if>
+			<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '3' && type0 eq '1'}">
+			  <tr>
+			    ${ext.expert.relName }
+			  </tr>
 			</c:if>
 		  </c:forEach>
-		</form>
+		</table>
 	  </c:if>
-	</div>
-    <div align="center">
-	  <input type="button" class="btn btn-windows back" value="返回" onclick="goBack('${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">
-	</div>
-  </body>
+	</c:forEach>
+    </form>
+    </c:if>
+  </div>
+  <div align="center">
+	<input type="button" class="btn btn-windows back" value="返回" onclick="goBack('${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">
+  </div>
+</div>
+</body>
 </html>

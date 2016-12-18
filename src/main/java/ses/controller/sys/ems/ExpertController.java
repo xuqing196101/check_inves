@@ -1329,7 +1329,12 @@ public class ExpertController {
             StringBuffer expertType = new StringBuffer();
             if (exp.getExpertsTypeId() != null) {
                 for (String typeId : exp.getExpertsTypeId().split(",")) {
-                    expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
+                    if (6 == data.getKind()) {
+                        expertType.append(data.getName() + "技术、");
+                    } else {
+                        expertType.append(data.getName() + "、");
+                    }
                 }
                 String expertsType = expertType.toString().substring(0, expertType.length() - 1);
                 exp.setExpertsTypeId(expertsType);
@@ -1342,6 +1347,9 @@ public class ExpertController {
         request.setAttribute("lyTypeList", lyTypeList);
         // 查询数据字典中的专家类别数据
         List<DictionaryData> jsTypeList = DictionaryDataUtil.find(6);
+        for (DictionaryData data : jsTypeList) {
+            data.setName(data.getName() + "技术");
+        }
         List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
         jsTypeList.addAll(jjTypeList);
         request.setAttribute("expTypeList", jsTypeList);
@@ -1832,7 +1840,7 @@ public class ExpertController {
                 "iso-8859-1");// 为了解决中文名称乱码问题
         return service.downloadFile(fileName, filePath, downFileName);
     }
-
+    
     /**
      * 
      * 
