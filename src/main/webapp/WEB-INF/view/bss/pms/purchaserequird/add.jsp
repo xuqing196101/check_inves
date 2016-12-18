@@ -113,15 +113,15 @@
 						s++;
 						$("#count").val(s);
 						// var trs = $(obj).parent().parent();
-						$(detailRow[detailRow.length-1]).after("<tr class='tc'><td><input type='hidden' name='list[" + s + "].id' />" +
+						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + s + "].id' />" +
 							"<input type='text' name='list[" + s + "].seq' /><input value='" + id + "' type='hidden' name='list[" + s + "].parentId' /></td>" +
 							"<td name='department'><input type='text' name='list[" + s + "].department' readonly='readonly' value='"+value+"'/></td>" +
 							"<td><input type='text' name='list[" + s + "].goodsName' /></td>" +
 							"<td><input type='text' name='list[" + s + "].stand' /></td>" +
 							"<td><input type='text' name='list[" + s + "].qualitStand' /></td>" +
 							"<td><input type='text' name='list[" + s + "].item' /> </td>" +
-							"<td><input type='text' name='list[" + s + "].purchaseCount' /></td>" +
-							"<td><input type='text' name='list[" + s + "].price' /></td>" +
+							"<td name='purchaseQuantity'><input type='text' name='list[" + s + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
+							"<td name='unitPrice'><input type='text' name='list[" + s + "].price' onkeyup='checkNum(this,2)'/></td>" +
 							"<td><input type='text' name='list[" + s + "].budget' readonly='readonly' /></td>" +
 							"<td><input type='text' name='list[" + s + "].deliverDate' /></td>" +
 							"<td><select name='list[" + s + "].purchaseType' style='width:90px'> <option value='' >请选择</option>" +
@@ -172,7 +172,6 @@
 			var datas;
 			var treeObj;
 			$(function() {
-
 				var setting = {
 					async: {
 						autoParam: ["id"],
@@ -206,6 +205,9 @@
 					treeObj = $.fn.zTree.init($("#ztree"), setting, datas);
 					$("#ztree").hide();
 				}
+				
+				
+				
 			});
 
 			function typeShow() {
@@ -351,8 +353,8 @@
 			
 			//只能输入数字
 			function checkNum(obj,num){
-				var vals=$(obj).val();
-				var reg= /^\d+\.?\d*$/;  
+				var vals = $(obj).val();
+				var reg = /^\d+\.?\d*$/;  
 				if(!reg.exec(vals)){
 					$(obj).val("");
 				}else{
@@ -364,6 +366,19 @@
 						var count = $(obj).parent().prev().find("input").val();
 						var price = $(obj).val();
 						$(obj).parent().next().find("input").val(count*price);
+					}
+				}
+				var totalPrice = 0;
+				var quantity = document.getElementsByName("purchaseQuantity");
+				var unitPrice = document.getElementsByName("unitPrice");
+				for(var i=0;i<quantity.length;i++){
+					if($(quantity[i]).find("input").val()!=""){
+						totalPrice = totalPrice + $(quantity[i]).find("input").val()*($(quantity[i]).next().find("input").val());
+					}
+				}
+				for(var i=0;i<quantity.length;i++){
+					if($(quantity[i]).find("input").val()==""){
+						$(quantity[i]).next().next().find("input").val(totalPrice);
 					}
 				}
 			}
@@ -494,8 +509,8 @@
 										<td class="tc w100"><input type="text" name="list[0].stand"></td>
 										<td class="tc w100"><input type="text" name="list[0].qualitStand"></td>
 										<td class="tc w100"><input type="text" name="list[0].item"></td>
-										<td class="tc w100"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)"></td>
-										<td class="tc w150"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)"></td>
+										<td class="tc w100" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)"></td>
+										<td class="tc w150" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)"></td>
 										<td class="tc w150"><input type="text" name="list[0].budget" readonly="readonly"></td>
 										<td class="w100"><input type="text" name="list[0].deliverDate"></td>
 										<td class="w120">
