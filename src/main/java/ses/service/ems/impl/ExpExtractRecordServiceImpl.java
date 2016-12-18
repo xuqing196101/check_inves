@@ -12,6 +12,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -140,13 +141,12 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         expert.setIsSubmit("1");
         ExpertService.insertSelective(expert);
         //生成15位随机码
-        String randomCode = generateString(15);
+        String randomCode = RandomStringUtils.randomAlphanumeric(15);
         //根据随机码+密码加密
         Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
         // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
         md5.setEncodeHashAsBase64(false);     
         String pwd = md5.encodePassword(loginPwd, randomCode);
-
         //插入专家抽取关联表
         ProjectExtract extract = new ProjectExtract();
         extract.setExpertId(uuId);
@@ -154,9 +154,7 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         extract.setIsProvisional((short)1);
         ExpExtPackage expExtPackage=new ExpExtPackage();
         expExtPackage.setPackageId(packageId);
-        List<ExpExtPackage> list = expExtPackageService.list(expExtPackage, "0");
-        if (list != null && list.size() !=0 ){}
-        extract.setProjectId(list.get(0).getId());
+        extract.setProjectId(packageId);
         extractService.insertProjectExtract(extract);
         //插入登录表
         User user = new User();
@@ -164,6 +162,7 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         user.setPassword(pwd);
         //        user.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
         user.setTypeId(uuId);
+        user.setRandomCode(randomCode);
         userServiceI.save(user, null);
         //新增权限
         Role role = new Role();

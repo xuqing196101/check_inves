@@ -12,10 +12,13 @@
 		<result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
 		<result column="ID_CARD_NUMBER" jdbcType="VARCHAR" property="idCardNumber" />
 		<result column="COVER_NOTE" jdbcType="VARCHAR" property="coverNote" />
-		<result column="PRODUCT_CATEGORIES" jdbcType="VARCHAR" property="productCategories" />
-		<result column="ACADEMIC_ACHIEVEMENT" jdbcType="VARCHAR" property="academicAchievement" />
+		<result column="PRODUCT_CATEGORIES" jdbcType="VARCHAR"
+			property="productCategories" />
+		<result column="ACADEMIC_ACHIEVEMENT" jdbcType="VARCHAR"
+			property="academicAchievement" />
 		<result column="REVIEW_SITUATION" jdbcType="VARCHAR" property="reviewSituation" />
-		<result column="AVOIDANCE_SITUATION" jdbcType="VARCHAR" property="avoidanceSituation" />
+		<result column="AVOIDANCE_SITUATION" jdbcType="VARCHAR"
+			property="avoidanceSituation" />
 		<result column="BIRTHDAY" jdbcType="DATE" property="birthday" />
 		<result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber" />
 		<result column="EMAIL" jdbcType="VARCHAR" property="email" />
@@ -33,7 +36,8 @@
 		<result column="MAKE_TECH_DATE" jdbcType="DATE" property="makeTechDate" />
 		<result column="HEALTH_STATE" jdbcType="VARCHAR" property="healthState" />
 		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
-		<result column="PROFESS_TECH_TITLES" jdbcType="VARCHAR" property="professTechTitles" />
+		<result column="PROFESS_TECH_TITLES" jdbcType="VARCHAR"
+			property="professTechTitles" />
 		<result column="TIME_TO_WORK" jdbcType="DATE" property="timeToWork" />
 		<result column="TIME_START_WORK" jdbcType="DATE" property="timeStartWork" />
 		<result column="UNIT_ADDRESS" jdbcType="VARCHAR" property="unitAddress" />
@@ -66,9 +70,12 @@
 		EXPERTS_TYPE_ID,
 		PURCHASE_DEP_ID, STATUS,
 		IS_BLACK, HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL,
-		REMARKS, STEP_NUMBER, EMAIL, JOB_EXPERIENCES, ID_CARD_NUMBER,
-		COVER_NOTE, PRODUCT_CATEGORIES, ACADEMIC_ACHIEVEMENT,
-		REVIEW_SITUATION, AVOIDANCE_SITUATION
+		REMARKS,
+		STEP_NUMBER, EMAIL, JOB_EXPERIENCES, ID_CARD_NUMBER,
+		COVER_NOTE,
+		PRODUCT_CATEGORIES, ACADEMIC_ACHIEVEMENT,
+		REVIEW_SITUATION,
+		AVOIDANCE_SITUATION
 	</sql>
 	<!-- 获取所有专家,仅用作定时删除无效专家 -->
 	<select id="getAllExpert" resultMap="BaseResultMap">
@@ -502,16 +509,19 @@
 				JOB_EXPERIENCES = #{jobExperiences,jdbcType=VARCHAR},
 			</if>
 			<if test="productCategories != null">
-				PRODUCT_CATEGORIES = #{productCategories,jdbcType=VARCHAR},
+				PRODUCT_CATEGORIES =
+				#{productCategories,jdbcType=VARCHAR},
 			</if>
 			<if test="academicAchievement != null">
-				ACADEMIC_ACHIEVEMENT = #{academicAchievement,jdbcType=VARCHAR},
+				ACADEMIC_ACHIEVEMENT =
+				#{academicAchievement,jdbcType=VARCHAR},
 			</if>
 			<if test="reviewSituation != null">
 				REVIEW_SITUATION = #{reviewSituation,jdbcType=VARCHAR},
 			</if>
 			<if test="avoidanceSituation != null">
-				AVOIDANCE_SITUATION = #{avoidanceSituation,jdbcType=VARCHAR},
+				AVOIDANCE_SITUATION =
+				#{avoidanceSituation,jdbcType=VARCHAR},
 			</if>
 			<if test="idCardNumber != null">
 				ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
@@ -648,16 +658,19 @@
 				JOB_EXPERIENCES = #{jobExperiences,jdbcType=VARCHAR},
 			</if>
 			<if test="productCategories != null and productCategories != ''">
-				PRODUCT_CATEGORIES = #{productCategories,jdbcType=VARCHAR},
+				PRODUCT_CATEGORIES =
+				#{productCategories,jdbcType=VARCHAR},
 			</if>
 			<if test="academicAchievement != null and academicAchievement != ''">
-				ACADEMIC_ACHIEVEMENT = #{academicAchievement,jdbcType=VARCHAR},
+				ACADEMIC_ACHIEVEMENT =
+				#{academicAchievement,jdbcType=VARCHAR},
 			</if>
 			<if test="reviewSituation != null and reviewSituation != ''">
 				REVIEW_SITUATION = #{reviewSituation,jdbcType=VARCHAR},
 			</if>
 			<if test="avoidanceSituation != null and avoidanceSituation != ''">
-				AVOIDANCE_SITUATION = #{avoidanceSituation,jdbcType=VARCHAR},
+				AVOIDANCE_SITUATION =
+				#{avoidanceSituation,jdbcType=VARCHAR},
 			</if>
 			<if test="idCardNumber != null and idCardNumber != ''">
 				ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
@@ -738,7 +751,8 @@
 				ADDRESS = #{address,jdbcType=VARCHAR},
 			</if>
 			<if test="professTechTitles != null and professTechTitles != ''">
-				PROFESS_TECH_TITLES = #{professTechTitles,jdbcType=VARCHAR},
+				PROFESS_TECH_TITLES =
+				#{professTechTitles,jdbcType=VARCHAR},
 			</if>
 			<if test="timeToWork != null and timeToWork != ''">
 				TIME_TO_WORK = #{timeToWork,jdbcType=DATE},
@@ -809,58 +823,62 @@
 		</if>
 		ORDER BY CREATED_AT DESC
 	</select>
-	
-	 <!-- 专家抽取集合 -->
-<!--    AND ee.ADDRESS = #{address} -->
-  <select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
-    resultMap="BaseResultMap">
-    SELECT
-    *
-    FROM
-    T_SES_EMS_EXPERT ee
-    LEFT JOIN T_SES_EMS_EXPERT_CATEGORY ec
-    ON ee."ID" = EC.EXPERT_ID
-    WHERE
-    ee.IS_DELETE = 0
-    AND ee.STATUS = 1
-    AND ee.IS_BLACK = 0
 
-    <if test="expertsFromSplit != null and expertsFromSplit != ''">
-      AND 
-        <foreach collection="expertsFromSplit" item="fromsplit" close=")" open="(" separator="OR">
-          EE.EXPERTS_FROM = #{fromsplit}  
-        </foreach>
-    </if>
-    <foreach item="item" collection="conTypes">
-      <if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
-        AND (
-          <foreach collection="item.expertsTypeSplit" item="typeId" open="(" close=")" separator="OR">
-            EE.EXPERTS_TYPE_ID = #{typeId}
-          </foreach>
-      </if>
+	<!-- 专家抽取集合 -->
+	<!-- AND ee.ADDRESS = #{address} -->
+	<select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
+		resultMap="BaseResultMap">
+		SELECT
+		*
+		FROM
+		T_SES_EMS_EXPERT ee
+		LEFT JOIN T_SES_EMS_EXPERT_CATEGORY ec
+		ON ee."ID" = EC.EXPERT_ID
+		WHERE
+		ee.IS_DELETE = 0
+		AND ee.STATUS = 1
+		AND
+		ee.IS_BLACK = 0
 
-      <if test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
-        <if test="item.isMulticondition==2">
-          AND
-          <foreach item="ids" collection="item.categorySplit"
-            separator="AND" open="(" close=")">
-            EC.CATEGORY_ID = #{ids}
-          </foreach>
-        </if>
-        <if test="item.isMulticondition==1">
-          AND
-          <foreach item="ids" collection="item.categorySplit" open="(" close=")"
-            separator="OR">
-            EC.CATEGORY_ID=#{ids}
-          </foreach>
-        </if>
-      </if>
-      <if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
-        )
-      </if>
+		<if test="expertsFromSplit != null and expertsFromSplit != ''">
+			AND
+			<foreach collection="expertsFromSplit" item="fromsplit"
+				close=")" open="(" separator="OR">
+				EE.EXPERTS_FROM = #{fromsplit}
+			</foreach>
+		</if>
+		<foreach item="item" collection="conTypes">
+			<if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
+				AND (
+				<foreach collection="item.expertsTypeSplit" item="typeId"
+					open="(" close=")" separator="OR">
+					EE.EXPERTS_TYPE_ID = #{typeId}
+				</foreach>
+			</if>
 
-    </foreach>
-  </select>
+			<if
+				test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
+				<if test="item.isMulticondition==2">
+					AND
+					<foreach item="ids" collection="item.categorySplit"
+						separator="AND" open="(" close=")">
+						EC.CATEGORY_ID = #{ids}
+					</foreach>
+				</if>
+				<if test="item.isMulticondition==1">
+					AND
+					<foreach item="ids" collection="item.categorySplit" open="("
+						close=")" separator="OR">
+						EC.CATEGORY_ID=#{ids}
+					</foreach>
+				</if>
+			</if>
+			<if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
+				)
+			</if>
+
+		</foreach>
+	</select>
 
 
 	<!-- 查询所有专家 可条件查询 -->
@@ -892,78 +910,101 @@
 	</select>
 
 
-    <!-- 关联 -->
-	<select id="getByExpertProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
-		SELECT ee.* FROM T_SES_EMS_PROJECT_EXTRACT pe INNER JOIN T_SES_EMS_EXPERT ee
-		ON PE.EXPERT_ID =ee."ID" WHERE PE.STATUS_COUNT=0  AND PE.OPERATING_TYPE=1 AND PE.PROJECT_ID =#{projectId}
+	<!-- 关联 -->
+	<select id="getByExpertProjectId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT ee.* FROM T_SES_EMS_PROJECT_EXTRACT pe INNER JOIN
+		T_SES_EMS_EXPERT ee
+		ON PE.EXPERT_ID =ee."ID" WHERE PE.STATUS_COUNT=0
+		AND PE.OPERATING_TYPE=1 AND PE.IS_PROVISIONAL=0 AND PE.PROJECT_ID
+		=#{projectId}
 	</select>
+
+	<select id="getByAllExpertProjectId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT ee.* FROM T_SES_EMS_PROJECT_EXTRACT pe INNER JOIN
+		T_SES_EMS_EXPERT ee
+		ON PE.EXPERT_ID =ee."ID" WHERE PE.STATUS_COUNT=0
+		AND
+		PE.OPERATING_TYPE=1 AND PE.PROJECT_ID =#{projectId}
+	</select>
+
+
 	<!-- 手机号唯一性验证 -->
-	<select id="validatePhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="validatePhone" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
 		SELECT ID FROM T_SES_EMS_EXPERT
 		WHERE MOBILE = #{_parameter}
 	</select>
 	<!-- 身份证号唯一性验证 -->
-	<select id="validateIdNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="validateIdNumber" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
 		SELECT ID FROM T_SES_EMS_EXPERT
-		WHERE ID_CARD_NUMBER = #{_parameter}
+		WHERE ID_CARD_NUMBER =
+		#{_parameter}
 	</select>
 	<!-- 注册时点击下一步,将表中的STRP_NUMBER进行同步 -->
 	<update id="updateStepNumber">
 		update T_SES_EMS_EXPERT
 		set STEP_NUMBER = #{param2}
-		where id = #{param1} 
+		where id = #{param1}
 	</update>
-	
+
 	<!-- 专家审核列表 可条件查询 -->
-	<select id="findExpertAuditList" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
+	<select id="findExpertAuditList" resultMap="BaseResultMap"
+		parameterType="ses.model.ems.Expert">
 		select
-			t1.*,
-			t2.NAME as  sex,
-			t3.OPERATING_TYPE
+		t1.*,
+		t2.NAME as sex,
+		t3.OPERATING_TYPE
 		from
-			T_SES_EMS_EXPERT t1
+		T_SES_EMS_EXPERT t1
 		left join
-			T_SES_BMS_DICTIONARY_DATA t2
+		T_SES_BMS_DICTIONARY_DATA t2
 		on
-			t1.GENDER = t2.ID
+		t1.GENDER = t2.ID
 		left join
-		  T_SES_EMS_PROJECT_EXTRACT t3
+		T_SES_EMS_PROJECT_EXTRACT t3
 		on
-		  t3.EXPERT_ID = t1. ID
+		t3.EXPERT_ID = t1. ID
 		where 1=1
-			AND OPERATING_TYPE = '1'
-			<if test="sign == 1">
-				and (STATUS = 0 or STATUS = 2 or STATUS = 3)
-			</if>
-			<if test="sign == 2">
-				and (STATUS = 1 or STATUS = 4 or STATUS = 5)
-			</if>
-			<if test="relName != null and relName !=''">
-				and REAL_NAME like #{relName}
-			</if>
-			<if test="status != null and status !=''">
-				and STATUS = #{status}
-		  </if>
-		  <if test="sign == 1">
-				ORDER BY decode(STATUS,'0',1,'2',2,'3',3)
-			</if>
-			<if test="sign == 2">
-				ORDER BY decode(STATUS,'1',1,'4',2,'5',3)
-			</if> 
+		AND
+		OPERATING_TYPE = '1'
+		<if test="sign == 1">
+			and (STATUS = 0 or STATUS = 2 or STATUS = 3)
+		</if>
+		<if test="sign == 2">
+			and (STATUS = 1 or STATUS = 4 or STATUS = 5)
+		</if>
+		<if test="relName != null and relName !=''">
+			and REAL_NAME like #{relName}
+		</if>
+		<if test="status != null and status !=''">
+			and STATUS = #{status}
+		</if>
+		<if test="sign == 1">
+			ORDER BY decode(STATUS,'0',1,'2',2,'3',3)
+		</if>
+		<if test="sign == 2">
+			ORDER BY decode(STATUS,'1',1,'4',2,'5',3)
+		</if>
 	</select>
-	
+
 	<insert id="insertExpertHistory" parameterType="ses.model.ems.Expert">
-		insert into T_SES_EMS_EXPERT_History
+		insert into
+		T_SES_EMS_EXPERT_History
 		(ID, GENDER,
 		MOBILE, BIRTHDAY,
-		ID_NUMBER, ID_TYPE, EXPERTS_FROM,
+		ID_NUMBER,
+		ID_TYPE, EXPERTS_FROM,
 		POLITICS_STATUS,
 		NATION, GRADUATE_SCHOOL,
 		LAST_EDUCATION, MAJOR, WORK_UNIT,
 		TELEPHONE,
 		FAX, MAKE_TECH_DATE,
 		HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES,
-		TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS,
+		TIME_TO_WORK,
+		TIME_START_WORK, UNIT_ADDRESS,
 		POST_CODE, DEGREE,
 		AT_DUTY,
 		EXPERTS_TYPE_ID, PURCHASE_DEP_ID,
@@ -988,19 +1029,19 @@
 		#{major,jdbcType=VARCHAR},
 		#{workUnit,jdbcType=VARCHAR},
 		#{telephone,jdbcType=VARCHAR},
-		#{fax,jdbcType=VARCHAR}, 
+		#{fax,jdbcType=VARCHAR},
 		#{makeTechDate,jdbcType=DATE},
-		#{healthState,jdbcType=VARCHAR}, 
+		#{healthState,jdbcType=VARCHAR},
 		#{address,jdbcType=VARCHAR},
 		#{professTechTitles,jdbcType=VARCHAR},
 		#{timeToWork,jdbcType=DATE},
-		#{timeStartWork,jdbcType=DATE}, 
+		#{timeStartWork,jdbcType=DATE},
 		#{unitAddress,jdbcType=VARCHAR},
-		#{postCode,jdbcType=VARCHAR}, 
+		#{postCode,jdbcType=VARCHAR},
 		#{degree,jdbcType=VARCHAR},
 		#{atDuty,jdbcType=VARCHAR},
 		#{expertsTypeId,jdbcType=VARCHAR},
-		#{purchaseDepId,jdbcType=DECIMAL}, 
+		#{purchaseDepId,jdbcType=DECIMAL},
 		#{relName,jdbcType=VARCHAR},
 		#{isProvisional,jdbcType=DECIMAL},
 		#{email,jdbcType=VARCHAR},
@@ -1013,33 +1054,52 @@
 		#{avoidanceSituation,jdbcType=VARCHAR}
 		)
 	</insert>
-	
+
 	<delete id="deleteExpertHistory">
-	delete from T_SES_EMS_EXPERT_History
-	where ID = #{_parameter}
+		delete from T_SES_EMS_EXPERT_History
+		where ID =
+		#{_parameter}
 	</delete>
-	
+
 	<select id="selectOldExpertById" resultType="ses.model.ems.ExpertHistory">
-	select 
-		ID id, GENDER gender,
+		select
+		ID id, GENDER
+		gender,
 		MOBILE mobile, BIRTHDAY birthday,
-		ID_NUMBER idNumber, ID_TYPE idType, EXPERTS_FROM expertsFrom,
-		POLITICS_STATUS politicsStatus,
-		NATION nation, GRADUATE_SCHOOL graduateSchool,
-		LAST_EDUCATION hightEducation, MAJOR major, WORK_UNIT workUnit,
+		ID_NUMBER
+		idNumber, ID_TYPE
+		idType, EXPERTS_FROM expertsFrom,
+		POLITICS_STATUS
+		politicsStatus,
+		NATION
+		nation, GRADUATE_SCHOOL graduateSchool,
+		LAST_EDUCATION hightEducation,
+		MAJOR major, WORK_UNIT workUnit,
 		TELEPHONE telephone,
-		FAX fax, MAKE_TECH_DATE makeTechDate,
-		HEALTH_STATE healthState, ADDRESS address, PROFESS_TECH_TITLES professTechTitles,
-		TIME_TO_WORK timeToWork, TIME_START_WORK timeStartWork, UNIT_ADDRESS unitAddress,
-		POST_CODE postCode, DEGREE degree,
+		FAX fax,
+		MAKE_TECH_DATE makeTechDate,
+		HEALTH_STATE
+		healthState, ADDRESS address,
+		PROFESS_TECH_TITLES professTechTitles,
+		TIME_TO_WORK timeToWork,
+		TIME_START_WORK timeStartWork, UNIT_ADDRESS
+		unitAddress,
+		POST_CODE
+		postCode, DEGREE degree,
 		AT_DUTY atDuty,
-		EXPERTS_TYPE_ID expertsTypeId, PURCHASE_DEP_ID purchaseDepId,
-		REAL_NAME relName, IS_PROVISIONAL isProvisional, EMAIL email,
-		JOB_EXPERIENCES jobExperiences, ID_CARD_NUMBER idCardNumber,
-		COVER_NOTE coverNote, PRODUCT_CATEGORIES productCategories,
-		ACADEMIC_ACHIEVEMENT academicAchievement, REVIEW_SITUATION reviewSituation,
+		EXPERTS_TYPE_ID expertsTypeId,
+		PURCHASE_DEP_ID purchaseDepId,
+		REAL_NAME relName, IS_PROVISIONAL
+		isProvisional, EMAIL email,
+		JOB_EXPERIENCES jobExperiences,
+		ID_CARD_NUMBER idCardNumber,
+		COVER_NOTE coverNote, PRODUCT_CATEGORIES
+		productCategories,
+		ACADEMIC_ACHIEVEMENT academicAchievement,
+		REVIEW_SITUATION
+		reviewSituation,
 		AVOIDANCE_SITUATION avoidanceSituation
-	from T_SES_EMS_EXPERT_History
-	where ID = #{_parameter}
+		from T_SES_EMS_EXPERT_History
+		where ID = #{_parameter}
 	</select>
 </mapper>

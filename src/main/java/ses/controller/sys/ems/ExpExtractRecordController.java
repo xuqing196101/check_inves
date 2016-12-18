@@ -815,6 +815,8 @@ public class ExpExtractRecordController extends BaseController {
         model.addAttribute("flowDefineId", flowDefineId);
         //证件类型
         model.addAttribute("idType", DictionaryDataUtil.find(9));
+        //专家类型
+        model.addAttribute("ddList", expExtractRecordService.ddList());
         return "bss/prms/temporary_expert_add";
     }
 
@@ -857,6 +859,9 @@ public class ExpExtractRecordController extends BaseController {
             model.addAttribute("loginPwd", loginPwd);
             model.addAttribute("projectId", projectId);
             model.addAttribute("packageId", packageId);
+            model.addAttribute("flowDefineId", flowDefineId);
+            //专家类型
+            model.addAttribute("ddList", expExtractRecordService.ddList());
             //证件类型
             model.addAttribute("idType", DictionaryDataUtil.find(9));
             return "bss/prms/temporary_expert_add";
@@ -958,6 +963,8 @@ public class ExpExtractRecordController extends BaseController {
         String finish = conditionService.isFinish(condition);
         return JSON.toJSONString(finish);
     }
+    
+
 
     /**
      * 
@@ -1019,6 +1026,5 @@ public class ExpExtractRecordController extends BaseController {
         }
         list = JSON.toJSONString(jList);
         return list;
-
     }
 }

@@ -472,6 +472,7 @@
         if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
         var cityObj = $("#expertsTypeName");
         cityObj.attr("value", v);
+        cityObj.attr("title", v);
         $("#expertsTypeId").val(rid);
         if (v != null && v != ''){
         	$("#dnone").removeClass("dnone");
@@ -479,7 +480,6 @@
         } else{
         	 $("#dnone").addClass("dnone");
         }
-        
         
       }
     </script>
@@ -559,6 +559,7 @@
         if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
         var cityObj = $("#expertsFromName");
         cityObj.attr("value", v);
+        cityObj.attr("title", v);
         $("#expertsFrom").val(rid);
       }
     </script>
@@ -689,7 +690,7 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
-                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家类型：</span>
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家类别：</span>
                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
                   <c:set value="" var="typeId"></c:set>
                 <c:forEach items="${listCon.conTypes[0].expertsTypeSplit}" var="split">

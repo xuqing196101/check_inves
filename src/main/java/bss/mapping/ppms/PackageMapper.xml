@@ -35,6 +35,12 @@
 		<collection property="listExperts" column="ID"
 			select="ses.dao.ems.ExpertMapper.getByExpertProjectId" ofType="ses.model.ems.Expert" />
 	</resultMap>
+	 <resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
+    id="ResultAllExpert">
+    <collection property="listExperts" column="ID"
+      select="ses.dao.ems.ExpertMapper.getByAllExpertProjectId" ofType="ses.model.ems.Expert" />
+  </resultMap>
+	
 	<!-- 供应商 -->
 	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
 		id="ResultSupplier">
@@ -209,24 +215,23 @@
 		from T_BSS_PPMS_PACKAGE
 		where ID = #{id} and IS_DELETED=0
 	</select>
-    
-    <select id="find" parameterType="Object"
-        resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from T_BSS_PPMS_PACKAGE p
-        where p.IS_DELETED=0
-        <if test="projectId != null and projectId !=''">
-            AND p.PROJECT_ID = #{projectId}
-        </if>
-        <if test="id != null and id !=''">
-            AND p.ID = #{id}
-        </if>
-        <if test="name != null and name !=''">
-            AND p.NAME like '%'||#{name}||'%'
-        </if>
-        ORDER BY p.CREATED_AT DESC
-    </select>
+
+	<select id="find" parameterType="Object" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PPMS_PACKAGE p
+		where p.IS_DELETED=0
+		<if test="projectId != null and projectId !=''">
+			AND p.PROJECT_ID = #{projectId}
+		</if>
+		<if test="id != null and id !=''">
+			AND p.ID = #{id}
+		</if>
+		<if test="name != null and name !=''">
+			AND p.NAME like '%'||#{name}||'%'
+		</if>
+		ORDER BY p.CREATED_AT DESC
+	</select>
 
 	<!-- 联合查询 -->
 	<select id="findPackageAndBidMethodById" parameterType="java.util.Map"
@@ -309,34 +314,46 @@
 	</select>
 
 	<!-- 根据包信息返回抽取出的专家 -->
-  <select id="listResultExpert" parameterType="java.lang.String"
-    resultMap="ResultExpert">
-    SELECT 
-    <include refid="Base_Column_List" />
-    FROM T_BSS_PPMS_PACKAGE
-    WHERE
-    IS_DELETED=0
-    AND PROJECT_ID = #{projectId}
-  </select>
+	<select id="listResultExpert" parameterType="java.lang.String"
+		resultMap="ResultExpert">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_BSS_PPMS_PACKAGE
+		WHERE
+		IS_DELETED=0
+		AND PROJECT_ID = #{projectId}
+	</select>
 
-  <!-- 根据包信息返回抽取出的供应商 -->
-  <select id="listResultSupplier" parameterType="java.lang.String"
-    resultMap="ResultSupplier">
-    SELECT
-    <include refid="Base_Column_List" />
-    FROM
-    T_BSS_PPMS_PACKAGE 
-    WHERE IS_DELETED=0
-    AND PROJECT_ID = #{projectId}
-  </select>
+	<!-- 根据包信息返回抽取出的供应商 -->
+	<select id="listResultSupplier" parameterType="java.lang.String"
+		resultMap="ResultSupplier">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_BSS_PPMS_PACKAGE
+		WHERE IS_DELETED=0
+		AND PROJECT_ID = #{projectId}
+	</select>
 
 	<select id="listSupplierCheckPass" parameterType="java.lang.String"
 		resultMap="SupplierCheckPass">
 		SELECT
 		*
 		FROM
-		T_BSS_PPMS_PACKAGE WHERE IS_DELETED=0 AND PROJECT_ID=#{projectId}
+		T_BSS_PPMS_PACKAGE WHERE IS_DELETED=0 AND
+		PROJECT_ID=#{projectId}
 
+	</select>
+
+	<!-- 返回所有专家 -->
+	<select id="listResultAllExpert" parameterType="java.lang.String"
+		resultMap="ResultAllExpert">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_BSS_PPMS_PACKAGE
+		WHERE
+		IS_DELETED=0
+		AND PROJECT_ID = #{projectId}
 	</select>
 
 </mapper>

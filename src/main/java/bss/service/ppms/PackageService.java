@@ -96,6 +96,15 @@ public interface PackageService {
      * @return
      */
     List<Packages> listResultExpert(String projectId);
+    
+    /**
+     * 
+     *〈简述〉根据包返回抽取+临时专家
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    List<Packages> listResultAllExpert(String projectId);
 
     /**
      * 
@@ -124,4 +133,14 @@ public interface PackageService {
      * @return
      */
     List<Packages> findPackageByPage(Packages packages, int i);
+    
+    /**
+     * 
+     *〈简述〉根据id 项目id查询包
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param packages
+     * @return
+     */
+    List<Packages> find(Packages packages);
 }
