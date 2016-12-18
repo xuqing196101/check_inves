@@ -1080,9 +1080,21 @@ table .input_group .add-on{
 	width:20px;
 	display: block;
 	float: left;
+	margin: 0 5px;
+	background-repeat: no-repeat;
+	background-image: url(../images/icons.png);
+	cursor: pointer;
 }
-
-
+/* 评审项添加新增、修改、删除按钮 */
+.addItem {
+	background-position: -168px -782px;
+}
+.editItem{
+	background-position: -42px -420px;
+}
+.deleteItem{
+	background-position: -151px -116px
+}
 /*后台首页公告*/
 .backend_new{
 	list-style-type: none;

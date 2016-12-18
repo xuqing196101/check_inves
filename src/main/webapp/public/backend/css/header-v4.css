@@ -503,9 +503,7 @@
 		display: block;
 	}
 
-.header-v4 .topbar-v1 > ul > li.dropdown:hover > .dropdown-menu {
-		display: block;
-	}
+
 	.header-v4 .open > .dropdown-menu {
 		display: none;
 	}
@@ -1114,13 +1112,6 @@ li.dropdown ul.dropdown-menu > li > .dropdown-menuson{
 .aqtc:hover .aqtc_icon{
 	background:url(../images/top-8-2.png) no-repeat center;
 }
-
-
-
-
-	.header-v4 .topbar-v1 > ul > li.dropdown:hover > .dropdown-menu {
-		display: block;
-	}
 
 .header-v4 .topbar-v1 > ul > li.dropdown:hover > .dropdown-menu {
 		display: block;

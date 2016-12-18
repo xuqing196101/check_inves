@@ -872,10 +872,3 @@ a.redhover:hover{
   display: none;
 }
 
-/* 评审项添加按钮 */
-.addItem {
-	background-repeat: no-repeat;
-	background-image: url(../images/icons.png);
-	background-position: -168px -780px;
-	cursor: pointer;
-}
