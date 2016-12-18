@@ -66,15 +66,15 @@ public class FirstAuditServiceImpl implements FirstAuditService {
      */
 	@Override
 	public int add(FirstAudit record) {
-	  String recordId = WfUtil.createUUID();
+	    String recordId = WfUtil.createUUID();
 		record.setId(recordId);
 		record.setCreatedAt(new Date());
 		PackageFirstAudit record2 = new PackageFirstAudit();
-    record2.setFirstAuditId(recordId);
-    record2.setPackageId(record.getPackageId());
-    record2.setProjectId(record.getProjectId());
-    //添加 包关联
-    packageFirstAuditMapper.insertSelective(record2);
+		record2.setFirstAuditId(recordId);
+		record2.setPackageId(record.getPackageId());
+		record2.setProjectId(record.getProjectId());
+		//添加 包关联
+		packageFirstAuditMapper.insertSelective(record2);
 		return mapper.insertSelective(record);
 	}
 

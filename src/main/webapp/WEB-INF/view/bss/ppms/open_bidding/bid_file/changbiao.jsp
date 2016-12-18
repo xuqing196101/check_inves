@@ -127,7 +127,7 @@ function ycDiv(obj, index){
 }
 </script>
 </head>
-<body>
+<body onload="addTotal()">
 <!-- 表格开始-->  
        <!--  <button class="btn btn-windows git tr" onclick="show()">唱标</button> -->
        <c:if test="${flag == false}">
@@ -243,7 +243,7 @@ function ycDiv(obj, index){
 							</c:forEach>
 							<tr>
 								<td class="tr" colspan="2"><b>总金额(元):</b></td>
-								<td class="tl" colspan="7"></td>
+								<td class="tl" colspan="8"></td>
 							</tr>
 						</table>
 						</div>

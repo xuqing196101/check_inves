@@ -348,40 +348,54 @@ System.out.print(scoreModel);
 	function pageOnLoad(){
 		var model = $("#sm").val();
 		$("#showParamButton").hide();
-		$("#model").val(model);
+		if('${addStatus}' !=1){
+			$("#model").val(model);
+		}
 		//console.dir(model==undefined);
 		if(model !=undefined && model==""){
 			$("#showbutton").hide();
 			$("#show_table tbody tr").remove();
 		}else if(model=="0"){
 			$("#show_table tbody tr").remove();
-			$("#model1 tbody tr").clone().appendTo("#show_table tbody");
+			if('${addStatus}' !=1){
+				$("#model1 tbody tr").clone().appendTo("#show_table tbody");
+			}
 			$("#showbutton").show();
 		}else if(model=="1"){
 			var addSubtractTypeName = $("#sm2").val();
 			$("#addSubtractTypeName").val(addSubtractTypeName);
 			$("#show_table tbody tr").remove();
-			if(addSubtractTypeName!=undefined && addSubtractTypeName=="0"){
-				$("#model21 tbody tr").clone().appendTo("#show_table tbody");
-			}else if(addSubtractTypeName=="1"){
-				$("#model22 tbody tr").clone().appendTo("#show_table tbody");
+			if('${addStatus}' !=1){
+				if(addSubtractTypeName!=undefined && addSubtractTypeName=="0"){
+					$("#model21 tbody tr").clone().appendTo("#show_table tbody");
+				}else if(addSubtractTypeName=="1"){
+					$("#model22 tbody tr").clone().appendTo("#show_table tbody");
+				}
 			}
 			$("#showbutton").show();
 		}else if(model=="2"){
 			$("#show_table tbody tr").remove();
-			$("#model3 tbody tr").clone().appendTo("#show_table tbody");
+			if('${addStatus}' !=1){
+				$("#model3 tbody tr").clone().appendTo("#show_table tbody");
+			}
 			$("#showbutton").show();
 		}else if(model=="3"){
 			$("#show_table tbody tr").remove();
-			$("#model4 tbody tr").clone().appendTo("#show_table tbody");
+			if('${addStatus}' !=1){
+				$("#model4 tbody tr").clone().appendTo("#show_table tbody");
+			}
 			$("#showbutton").show();
 		}else if(model=="4"){
 			$("#show_table tbody tr").remove();
-			$("#model5 tbody tr").clone().appendTo("#show_table tbody");
+			if('${addStatus}' !=1){
+				$("#model5 tbody tr").clone().appendTo("#show_table tbody");
+			}
 			$("#showbutton").show();
 		}else if(model=="5"){
 			$("#show_table tbody tr").remove();
-			$("#model6 tbody tr").clone().appendTo("#show_table tbody");
+			if('${addStatus}' !=1){
+				$("#model6 tbody tr").clone().appendTo("#show_table tbody");
+			}	
 			$("#showbutton").show();
 		}else if(model=="6"){
 			$("#show_table tbody tr").remove();
@@ -390,19 +404,25 @@ System.out.print(scoreModel);
 			if(intervalTypeName71!=undefined && intervalTypeName71=="1"){
 				$("#showParamButton").show();
 				$("#showbutton").hide();
-				$("#model72 tbody tr").clone().appendTo("#show_table tbody");
+				if('${addStatus}' !=1){
+					$("#model72 tbody tr").clone().appendTo("#show_table tbody");
+				}
 				$("#model73").show();
 				$("#model73").append('${scoreStr}');
 			}else if(intervalTypeName71=="0"){
 				$("#showbutton").show();
 				$("#showParamButton").hide();
-				$("#model71 tbody tr").clone().appendTo("#show_table tbody");
+				if('${addStatus}' !=1){
+					$("#model71 tbody tr").clone().appendTo("#show_table tbody");
+				}	
 				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
 				$("#model73").hide();
 			}else{
 				$("#showbutton").show();
 				$("#showParamButton").hide();
-				$("#model71 tbody tr").clone().appendTo("#show_table tbody");
+				if('${addStatus}' !=1){
+					$("#model71 tbody tr").clone().appendTo("#show_table tbody");
+				}
 				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
 				$("#model73").hide();
 			}
@@ -416,19 +436,25 @@ System.out.print(scoreModel);
 			if(intervalTypeName71!=undefined && intervalTypeName71=="1"){
 				$("#showParamButton").show();
 				$("#showbutton").hide();
-				$("#model82 tbody tr").clone().appendTo("#show_table tbody");
+				if('${addStatus}' !=1){
+					$("#model82 tbody tr").clone().appendTo("#show_table tbody");
+				}
 				$("#model73").append('${scoreStr}');
 				$("#model73").show();
 			}else if(intervalTypeName71=="0"){
 				$("#showbutton").show();
 				$("#showParamButton").hide();
-				$("#model81 tbody tr").clone().appendTo("#show_table tbody");
+				if('${addStatus}' !=1){
+					$("#model81 tbody tr").clone().appendTo("#show_table tbody");
+				}
 				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
 				$("#model73").hide();
 			}else{
 				$("#showbutton").show();
 				$("#showParamButton").hide();
-				$("#model81 tbody tr").clone().appendTo("#show_table tbody");
+				if('${addStatus}' !=1){
+					$("#model81 tbody tr").clone().appendTo("#show_table tbody");
+				}
 				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
 				$("#model73").hide();
 			}
@@ -575,12 +601,14 @@ System.out.print(scoreModel);
 	<input type="hidden" id="sm2" value="${scoreModel.addSubtractTypeName }">
 	<input type="hidden" id="sm7" value="${scoreModel.intervalTypeName }">
 	<div>
-		<form
-			action=""
-			method="post"  id="formID">
+		<form action="" method="post"  id="formID">
+		   <div>
+		   <span>评审内容</span>
+		   	<textarea  class="col-md-12 col-sm-12 col-xs-12 h80 mb10" name="name" id="name" >${scoreModel.name}</textarea>
+		   </div>
 			<div class="mt20 mr20">
-				<span>选择模型</span> <select id="model" name="typeName"
-					onchange="choseModel();">
+				<span>选择模型</span>
+				 <select id="model" name="typeName" onchange="choseModel();">
 					<option value="">请选择</option>
 					<option value="0">模型1:是否判断</option>
 					<option value="1">模型2:按项加减分</option>
@@ -595,11 +623,11 @@ System.out.print(scoreModel);
 			<input id="packageId" name="packageId" type="hidden" value="${packageId }">
 			<input id="projectId" name="projectId" type="hidden" value="${projectId }">
 			<input id="markTermId" name="markTermId" type="hidden" value="${markTermId }">
-			<input id="id" type="hidden" name="id" value="${scoreModel.id }">
-			<input id ="" type="hidden" name="name" value="${markTermName }">
+			<c:if test="${addStatus != 1 }">
+				<input id="id" type="hidden" name="id" value="${scoreModel.id }">
+			</c:if>
 			<input type="hidden" id="num2" value="${fn:length(scoreModel.paramIntervalList)}">
-			<table class="table table-striped table-bordered table-hover mt20 "
-				id="show_table">
+			<table class="table table-striped table-bordered table-hover mt20"  id="show_table">
 				<tbody>
 				</tbody>
 			</table>
@@ -638,15 +666,14 @@ System.out.print(scoreModel);
 	<div class="col-md-12" id="showbutton" style="display: none;">
 		<div class="mt40 tc mb50">
 			<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="gernerator();" value="翻译成白话文"> 
-			<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="associate();" value="关联模型">
+			<input type="button" class="btn btn-windows save" onclick="associate();" value="保存">
+			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 		</div>
 	</div>
 	<div class="col-md-12" id="showParamButton" style="display: none;">
 		<div class="mt40 tc mb50">
-			<input type="button" class="btn  padding-right-20 btn_back margin-5"
-				onclick="addParamInterval();" value="添加参数区间"> <input type="button"
-				class="btn  padding-right-20 btn_back margin-5"
-				onclick="associate();" value="关联模型">
+			<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="addParamInterval();" value="添加参数区间"> 
+			<input type="button" class="btn btn-windows save" onclick="associate();" value="保存">
 		</div>
 	</div>
 	<!-- 八大模型 -->
@@ -662,11 +689,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent1" >${scoreModel.easyUnderstandContent }</textarea></td>
+				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent1" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
 			</tr>
 		</tbody>
 	</table>
@@ -698,11 +725,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent21">${scoreModel.easyUnderstandContent }</textarea></td>
+				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent21">${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain"  readonly="readonly">按项加减分.采购文件明确标准分值，加减分项，加减分值和最高最低分值限制，按照加减分项的项目名称，系统自动计算得分。如(正偏离，负偏离)</textarea></td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain"  readonly="readonly">按项加减分.采购文件明确标准分值，加减分项，加减分值和最高最低分值限制，按照加减分项的项目名称，系统自动计算得分。如(正偏离，负偏离)</textarea></td>
 			</tr>
 		</tbody>
 	</table>
@@ -734,11 +761,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent22">${scoreModel.easyUnderstandContent }</textarea></td>
+				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent22">${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea name="standExplain" id="standExplain"  readonly="readonly">按项加减分.采购文件明确标准分值，加减分项，加减分值和最高最低分值限制，按照加减分项的项目名称，系统自动计算得分。如(正偏离，负偏离)</textarea></td>
+				<td><textarea name="standExplain" id="standExplain" class="col-md-12 col-sm-12 col-xs-12 h80" readonly="readonly">按项加减分.采购文件明确标准分值，加减分项，加减分值和最高最低分值限制，按照加减分项的项目名称，系统自动计算得分。如(正偏离，负偏离)</textarea></td>
 			</tr>
 		</tbody>
 	</table>
@@ -770,11 +797,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent3" >${scoreModel.easyUnderstandContent }</textarea></td>
+				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent3" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低值位基准排序递增，采购文件明确标准分值，排序分差和最高最低分限制，评审系统按照评审参数值，由高到低按照分差计算得分</textarea></td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低值位基准排序递增，采购文件明确标准分值，排序分差和最高最低分限制，评审系统按照评审参数值，由高到低按照分差计算得分</textarea></td>
 			</tr>
 		</tbody>
 	</table>
@@ -806,11 +833,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent4" >${scoreModel.easyUnderstandContent }</textarea></td>
+				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent4" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最高值位基准排序递减，采购文件明确标准分值，排序分差和最高最低分限制，评审系统按照评审参数值，由高到低按照分差计算得分</textarea></td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最高值位基准排序递减，采购文件明确标准分值，排序分差和最高最低分限制，评审系统按照评审参数值，由高到低按照分差计算得分</textarea></td>
 			</tr>
 		</tbody>
 	</table>
@@ -830,11 +857,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent5" >${scoreModel.easyUnderstandContent }</textarea></td>
+				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent5" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最高值为基准，系统自动按照公式计算得分，得分=(投标人数值/评审参数的最高数额)*满分值</textarea></td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最高值为基准，系统自动按照公式计算得分，得分=(投标人数值/评审参数的最高数额)*满分值</textarea></td>
 			</tr>
 		</tbody>
 	</table>
@@ -858,11 +885,11 @@ System.out.print(scoreModel);
 			</tr> -->
 			<tr>
 				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent6" >${scoreModel.easyUnderstandContent }</textarea></td>
+				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent6" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低值为基准，系统自动按照公式计算得分，得分=(基准值/评审参数额)*满分值</textarea></td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低值为基准，系统自动按照公式计算得分，得分=(基准值/评审参数额)*满分值</textarea></td>
 			</tr>
 		</tbody>
 	</table>
@@ -910,11 +937,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent7" >${scoreModel.easyUnderstandContent }</textarea></td>
+				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent7" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低区间为基准递增排序，采购文件明确规定标准分值，分差和最低最高分值限制，并按分差计算规则计算得分</textarea></td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低区间为基准递增排序，采购文件明确规定标准分值，分差和最低最高分值限制，并按分差计算规则计算得分</textarea></td>
 			</tr>
 			
 		</tbody>
@@ -979,11 +1006,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent8" >${scoreModel.easyUnderstandContent }</textarea></td>
+				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent8" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低区间为基准递增排序，采购文件明确规定标准分值，分差和最低最高分值限制，并按分差计算规则计算得分</textarea></td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低区间为基准递增排序，采购文件明确规定标准分值，分差和最低最高分值限制，并按分差计算规则计算得分</textarea></td>
 			</tr>
 			
 		</tbody>

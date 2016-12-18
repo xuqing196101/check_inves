@@ -119,8 +119,14 @@
       	<if test="typeName != null and typeName!='' ">
         	and SM.type_name = #{typeName}
       	</if>
-      	<if test="markTerm != null and markTerm.name!='' ">
+      	<!-- <if test="markTerm != null and markTerm.name!='' ">
         	and m.name like '%'||#{markTerm.name}||'%' 
+      	</if> -->
+      	<if test="name != null and name!='' ">
+        	and sm.name like '%${name}%' 
+      	</if>
+      	<if test="markTermId != null and markTermId !='' ">
+        	and sm.mark_term_id = #{markTermId} 
       	</if>
       	<if test="markTerm != null and markTerm.typeName!=''">
         	and m.type_name = #{markTerm.typeName}
@@ -468,6 +474,10 @@
 		<foreach collection="list" item="id" open="(" separator="," close=")">
 			#{id}
 		</foreach>
+	</delete>
+	<!--按照markTermID删除  -->
+	<delete id="deleteScoreModelByMtId">
+		delete from T_BSS_PPMS_SCORE_MODEL s where s.mark_term_id  = #{markTermId}
 	</delete>
 	<!-- 逻辑删除需求部门-->
 	<delete id="delScoreModelByMap" parameterType="java.util.Map">

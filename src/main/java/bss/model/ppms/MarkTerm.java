@@ -38,8 +38,37 @@ public class MarkTerm implements Serializable{
 	private String bidMethodFloatingRatio;
 	private String bidMethodRemark;
 	private String method;//增删改标志位
+	private String rowspan;
+	private String smname;
+	private Integer smtypename;
+	private Double scscore;
 	
-	public MarkTerm() {
+	public String getSmname() {
+        return smname;
+    }
+    public void setSmname(String smname) {
+        this.smname = smname;
+    }
+    
+    public Integer getSmtypename() {
+        return smtypename;
+    }
+    public void setSmtypename(Integer smtypename) {
+        this.smtypename = smtypename;
+    }
+    public Double getScscore() {
+        return scscore;
+    }
+    public void setScscore(Double scscore) {
+        this.scscore = scscore;
+    }
+    public String getRowspan() {
+        return rowspan;
+    }
+    public void setRowspan(String rowspan) {
+        this.rowspan = rowspan;
+    }
+    public MarkTerm() {
 		super();
 	}
 	public MarkTerm(String id, String pid, String name, String pname) {

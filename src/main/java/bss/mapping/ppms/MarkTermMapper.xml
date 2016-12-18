@@ -23,11 +23,15 @@
    			b.TYPE_NAME as bidMethodTypeName,
    			b.MAX_SCORE as bidMethodMaxScore,
    			b.FLOATING_RATIO as bidMethodFloatingRatio,
-   			b.REMARK as bidMethodRemark
-   			
+   			b.REMARK as bidMethodRemark,
+   			sm.name as smname,
+   			sm.EASY_UNDERSTAND_CONTENT as smeu,
+   			nvl(sm.standard_score ,sm.max_score) as scscore,
+   			sm.type_name as smtypename
    		FROM
    			T_BSS_PPMS_MARK_TERM mt
    		left join T_BSS_PPMS_BID_METHOD b on MT.BID_METHOD_ID = b.id
+   		left join T_BSS_PPMS_SCORE_MODEL sm on sm.mark_term_id = mt.id
    		WHERE nvl(mt.is_deleted,0)=0
    		<if test="id != null">
         	and mt.id = #{id}
