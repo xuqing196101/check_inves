@@ -163,21 +163,15 @@ public class PackageExpertController {
      */
     @RequestMapping("/showExpert")
     public String showExpert(Model model, String packageId,String flowDefineId,String execute) {
-        //获取关联信息
-        ExpExtPackage extPackag = new ExpExtPackage();
-        extPackag.setPackageId(packageId);
-        List<ExpExtPackage> list = expExtPackageService.list(extPackag, "0");
         // 项目抽取的专家信息
-        if (list != null && list.size() !=0 ){
             ProjectExtract projectExtract = new ProjectExtract();
-            projectExtract.setProjectId(list.get(0).getId());
+            projectExtract.setProjectId(packageId);
             projectExtract.setIsProvisional((short)1);
             projectExtract.setReason("1");
             List<ProjectExtract> expertList = projectExtractService.list(projectExtract);
             model.addAttribute("expertList", expertList);
             model.addAttribute("packageId", packageId);
             model.addAttribute("flowDefineId", flowDefineId);
-        }
         model.addAttribute("execute", execute);
         return "bss/prms/assign_expert/list";
     }
