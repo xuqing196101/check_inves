@@ -1055,6 +1055,8 @@
 		left join 
 		T_SES_SMS_SUPPLIER_EXT_RELATE t5
 		on t5.SUPPLIER_ID = t1.ID
+		WHERE
+		t5.OPERATING_TYPE = '1'
 	</select>
 
 

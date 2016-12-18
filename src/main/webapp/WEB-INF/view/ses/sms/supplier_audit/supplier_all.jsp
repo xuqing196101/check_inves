@@ -89,12 +89,12 @@
 		        return;
 		      }
 		    //抽取之后的才能复核
-		    if(isExtract !=1 && state == "待复核"){
+		   /*  if(state == "待抽取"){
 		    	layer.msg("该供应商未抽取 !", {
 		        	offset : '100px',
 		        });
 		        return;
-		    } 
+		    }  */
 		    
 		    $("input[name='supplierId']").val(id);
 		    $("#shenhe_form_id").submit();
@@ -214,14 +214,14 @@
 	            <td class="tc">${list.businessTypeName }</td>
 	            <td class="tc w100" id="${list.id}">
 	              <c:if test="${list.status == 0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
-	              <c:if test="${list.status == 1 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
+	              <c:if test="${list.status == 1 }"><span class="label rounded-2x label-dark">待复核</span></c:if>       
 	              <c:if test="${list.status == 7 }"> <span class="label rounded-2x label-dark">审核退回</span></c:if>
 	              <c:if test="${list.status == 8 }"><span class="label rounded-2x label-dark">复核退回</span></c:if>
 	              <c:if test="${list.status == 3 }"><span class="label rounded-2x label-u">已审核</span></c:if>
 	              <c:if test="${list.status == 2 }"><span class="label rounded-2x label-dark">审核核未通过</span></c:if> 
 	              <c:if test="${list.status == 4 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
 	            </td>
-	            <td class="tc" id="${list.id }_isExtract" style="display:none">${list.isExtract}</td>
+	            <%-- <td class="tc" id="${list.id }_isExtract" style="display:none">${list.isExtract}</td> --%>
             </tr>
           </c:forEach>
         </table>
