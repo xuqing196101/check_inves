@@ -1261,9 +1261,21 @@ public class PurchaseContractController extends BaseSupplierController{
 				Supplier su = supplierService.selectOne(pur.getSupplierDepName());
 				PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(pur.getBingDepName());
 				Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(pur.getPurchaseDepName());
-				pur.setShowDemandSector(org.getName());
-				pur.setShowSupplierDepName(su.getSupplierName());
-				pur.setShowPurchaseDepName(purdep.getDepName());
+				if(org.getName()==null){
+					pur.setShowDemandSector("");
+				}else{
+					pur.setShowDemandSector(org.getName());
+				}
+				if(su.getSupplierName()!=null){
+					pur.setShowSupplierDepName(su.getSupplierName());
+				}else{
+					pur.setShowSupplierDepName("");
+				}
+				if(purdep.getDepName()!=null){
+					pur.setShowPurchaseDepName(su.getSupplierName());
+				}else{
+					pur.setShowPurchaseDepName("");
+				}
 			}
 		}
 		BigDecimal contractSum = new BigDecimal(0);
@@ -1623,7 +1635,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 			PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
 			purchaseContractService.updateByPrimaryKeySelective(purCon);
-			purchaseContractService.createWord(pur, requList,request);
+//			purchaseContractService.createWord(pur, requList,request);
 			appraisalContractService.insertPurchaseContract(pur);
 			url="redirect:selectAllPuCon.html";
 		}else{
@@ -1897,6 +1909,12 @@ public class PurchaseContractController extends BaseSupplierController{
 			request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
 			if(datas.size()>0){
 				model.addAttribute("attachtypeId", datas.get(0).getId());
+			}
+			for(String supchid:supcheckids){
+				SupplierCheckPass sup = new SupplierCheckPass();
+				sup.setId(supchid);
+				sup.setIsCreateContract(1);
+				supplierCheckPassService.update(sup);
 			}
 			model.addAttribute("id", id);
 			url = "bss/cs/purchaseContract/transFormaTional";

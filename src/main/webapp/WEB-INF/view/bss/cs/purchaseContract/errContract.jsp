@@ -36,6 +36,30 @@
 	      var putTy = "${purCon.purchaseType}";
 	 	  $("#contractType").val(conTy);
 	 	  $("#purchaseType").val(putTy);
+	 	  
+	 	 var obj = document.getElementById("TANGER_OCX");
+			var st = $("#ope").val();
+			if(st == 'view'){
+				obj.SetReadOnly(true);
+		 }
+	 	  
+	 	 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	          // 获取已激活的标签页的名称
+	          var activeTab = $(e.target).text(); 
+	          // 获取前一个激活的标签页的名称
+	          var previousTab = $(e.relatedTarget).text(); 
+	          if(activeTab=="合同文本"){
+	        	  $.ajax({
+	    	          contentType: "application/json;charset=UTF-8",
+	    	          url: "${pageContext.request.contextPath }/purchaseContract/createPrintPage.do",
+	    	          type: "POST",
+	    	          dataType: "json",
+	    	          success: function(orgs) {
+	    	        	  OpenFile(orgs);
+	    	          }   
+	    	    });
+	          };
+	       });
 	      $.ajax({
 	          contentType: "application/json;charset=UTF-8",
 	          url: "${pageContext.request.contextPath }/purchaseContract/findAllUsefulOrg.do",
@@ -135,6 +159,48 @@
 			}
 		return childNodes;
 	 }
+	 
+	 function OpenFile(fileId) {
+			var obj = document.getElementById("TANGER_OCX");
+			obj.Menubar = true;
+			obj.Caption = "( 双击可放大 ! )"
+			//if(fileId != 0){
+				//obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
+			//} 
+			
+			obj.OpenFromURL("http://localhost:8080/zhbj/contract/"+fileId);
+			
+		}
+		
+		
+		function exportWord() {
+			var obj = document.getElementById("TANGER_OCX");
+			// 参数说明
+			// 1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
+			//obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html", "bidFile", "", "bid.doc", "MyFile");
+		}
+		
+		function queryVersion(){
+		
+			var obj = document.getElementById("TANGER_OCX");
+			var v = obj.GetProductVerString();
+			obj.ShowTipMessage("当前ntko版本",v);
+		}
+		
+		function saveFile(){
+			var projectId = $("#contractId").val();
+			var obj = document.getElementById("TANGER_OCX");
+			var projectName = $("#contract_code").val();
+			//参数说明
+			//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
+			obj.SaveToURL("${pageContext.request.contextPath}/purchaseContract/saveContractFile.html?projectId="+projectId,"ntko", "", projectName+"_合同文件.doc", "MyFile");
+			obj.ShowTipMessage("提示","已上传至服务器");
+		}
+		
+		function closeFile(){
+			var obj = document.getElementById("TANGER_OCX");
+			obj.close();
+		}
 	 
 	 function changeXuqiuDep(){
 		 var purchaseDepId = $("#purchaseDeps").select2("val");
@@ -902,99 +968,21 @@
               </div>
             </div>
             <div class="tab-pane fade " id="tab-3">
-              <div class=" margin-bottom-0">
-                <div class="tml_container padding-top-0">
-				  <div class="dingwei">
-				  <div class="tml_spine">
-					<span class="tml_spine_bg"></span>
-					<span id="timeline_start_point" class="start_point"></span>
-				  </div>
-				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
-                   <div class=" margin-bottom-0">
-                       <h2 class="history_icon">分公司审核</h2>
-				        <div class="padding-left-40">
-				 		  <span>确认并结束审核流程，理由是：同意采购。</span>
-						   <ul>
-						   <li class="margin-left-0">状态：<span>暂存</span></li>
-						   <li>姓名：<span>张洋</span></li>
-						   <li>ID：<span>152260</span></li>
-						   <li>单位：<span>军队采购网</span></li>
-						   <li>IP地址：<span>124.65.26.100｜北京市</span></li>
-						   </ul>
-					    </div>
-                     </div>
-				  </div>
-				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
-				  <span class="ui_left_arrow">
-				    <span class="ui_arrow"></span>
-				  </span>
-				  <div class="clear"></div>
-				 </div>
-                </div>
-               </div>
-			  </div>
-              <div class=" margin-bottom-0">
-                <div class="tml_container">
-				 <div class="dingwei">
-				  <div class="tml_spine">
-					<span class="tml_spine_bg"></span>
-					<span id="timeline_start_point" class="start_point"></span>
-				  </div>
-				  <div class="tml_poster" id="post_area" style=""><div class="poster" id="poster_1">
-                   <div class=" margin-bottom-0">
-                       <h2 class="f16 history_icon">选择中标人</h2>
-				        <div class="padding-left-40">
-				 		  <span>选择中标人成功！请等待分公司审核。选择［****有限公司］为中标单位</span>
-						   <ul class="list-unstyled margin-bottom-0">
-						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
-						   <li class="fl">姓名：<span>张洋</span></li>
-						   <li class="fl">ID：<span>152260</span></li>
-						   <li class="fl">单位：<span>军队采购网</span></li>
-						   <li class="">IP地址：<span>124.65.26.100｜北京市</span></li>
-						   </ul>
-					    </div>
-                   </div>
-				  </div>
-				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
-				  <span class="ui_left_arrow">
-				    <span class="ui_arrow"></span>
-				  </span>
-				  <div class="clear"></div>
-				 </div>
-                </div>
-			   </div>
-              </div>
-              <div class=" margin-bottom-0">
-                <div class="tml_container">
-				  <div class="dingwei">
-				  <div class="tml_spine">
-					<span class="tml_spine_bg"></span>
-					<span id="timeline_start_point" class="start_point"></span>
-				  </div>
-				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
-                   <div class=" margin-bottom-0">
-                       <h2 class="f16 history_icon">报价</h2>
-				        <div class="padding-left-40">
-				 		  <span>［****有限公司］报价成功！</span>
-						   <ul class="list-unstyled margin-bottom-0">
-						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
-						   <li class="fl">姓名：<span>张洋</span></li>
-						   <li class="fl">ID：<span>152260</span></li>
-						   <li class="fl">单位：<span>军队采购网</span></li>
-						   <li class="">IP地址：<span>124.65.26.100｜北京市</span></li>
-						   </ul>
-					    </div>
-                     </div>
-				  </div>
-				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
-				  <span class="ui_left_arrow">
-				    <span class="ui_arrow"></span>
-				  </span>
-				  <div class="clear"></div>
-				 </div>
-                </div>
-               </div>
-			  </div>
+              <div class="mt10 mb10">
+	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
+	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
+	      	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input>
+	      	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
+	      	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
+	     	<!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
+	        <input type="button" class="btn btn-windows save" onclick="saveFile()" value="存至服务器"></input>
+	    	</div>
+            <form id="MyFile" method="post">
+				<input type="hidden" id="ope" value="${ope }">
+    			<input type="hidden" id="contractId" value="${id }">
+    			<input type="hidden" id="contractName" value="">
+				<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
+			</form>
           </div> 
 		</div> 
 		</form>

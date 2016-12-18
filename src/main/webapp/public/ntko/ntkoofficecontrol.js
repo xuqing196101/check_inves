@@ -46,31 +46,15 @@ function OnComplete2(type,code,html)
 {
 	//alert(type);
 	//alert(code);
-<<<<<<< Updated upstream
-	/**
-	 * 以下为开发注释
-	 */
-	/*alert(html);
-	alert("SaveToURL成功回调");*/
-=======
 	alert(html);
 	alert("SaveToURL成功回调");
->>>>>>> Stashed changes
 }
 function OnComplete(type,code,html)
 {
 	//alert(type);
 	//alert(code);
-<<<<<<< Updated upstream
-	/**
-	 * 以下为开发注释
-	 */
-	/*alert(html);
-	alert("BeginOpenFromURL成功回调");*/
-=======
 	alert(html);
 	alert("BeginOpenFromURL成功回调");
->>>>>>> Stashed changes
 }
 function OnComplete3(str,doc)
 {
