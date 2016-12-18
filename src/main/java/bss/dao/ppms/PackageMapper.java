@@ -111,8 +111,18 @@ public interface PackageMapper {
      * @return
      */
     List<Packages> listResultExpert(String projectId);
+    
+    /**
+     * 
+     *〈简述〉根据包返回抽取+临时专家
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    List<Packages> listResultAllExpert(String projectId);
 
 
+    
     /**
      * 
      *〈简述〉根据包返回抽取供应商

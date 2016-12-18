@@ -277,5 +277,13 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
         return res;
     }
 	
-	
+	@Override
+	public List<PurchaseDep> findAllUsefulPurchaseDep() {
+		return purchaseDepMapper.findAllUsefulPurchaseDep();
+	}
+
+	@Override
+	public PurchaseDep selectPurchaseById(String id) {
+		return purchaseDepMapper.selectPurchaseById(id);
+	}
 }

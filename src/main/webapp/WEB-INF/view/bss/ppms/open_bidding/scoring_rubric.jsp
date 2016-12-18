@@ -98,6 +98,11 @@
 		 	       	});
 		 		});
 	      }
+	      
+	  //编辑模板内容
+    function editPackageFirstAudit(packageId,projectId){
+        window.location.href = "${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId="+packageId+"&projectId="+projectId;
+    }
 </script>
   </head>
   
@@ -110,26 +115,26 @@
 				<i></i>
 			</li>
 
-			<li><a
+			<%-- <li><a
 				href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}">02、符合性关联</a>
 				<i></i>
-			</li>
+			</li> --%>
 			<li class="active"><a
-				href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、评标细则</a>
+				href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">02、评标细则</a>
 				<i></i>
 			</li>
 			<li><a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
 			     <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     04、招标文件
+			     03、招标文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'XJCG' }">
-			     04、询价文件
+			     03、询价文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     04、招标文件
+			     03、招标文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
-			     04、竞谈文件
+			     03、竞谈文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'DYLY' }">
 			     04、单一来源文件
@@ -142,30 +147,30 @@
 			   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >01、符合性</a>
 			   <i></i>
 			 </li>
-			 <li>
+			<%--  <li>
 			   <a href="${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${projectId}&flowDefineId=${flowDefineId }">02、符合性关联</a>
 			   <i></i>							  
-			 </li>
+			 </li> --%>
 		     <li class="active">
-			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${projectId}&flowDefineId=${flowDefineId }">03、评标细则</a>
+			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${projectId}&flowDefineId=${flowDefineId }">02、评标细则</a>
 			   <i></i>
 			 </li>
 			 <li>
 			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}&flowDefineId=${flowDefineId }" >
 			     <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     04、招标文件
+			     03、招标文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'XJCG' }">
-			     04、询价文件
+			     03、询价文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     04、招标文件
+			     03、招标文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
-			     04、竞谈文件
+			     03、竞谈文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'DYLY' }">
-			     04、单一来源文件
+			     03、单一来源文件
 			     </c:if>
 			   </a>
 			   <i></i>
@@ -177,24 +182,22 @@
 	   	 	</c:if>
 		</ul>
 	</div>
-	<div class="tab-content clear step_cont">
 		<!--第一个  -->
 		<!--第二个 -->
-		<div class=class= "col-md-12 tab-pane active"  id="tab-1">
-			<h1 class="f16 count_flow">
+			<!-- <h1 class="f16 count_flow">
 				<i>01</i>制定评分细则                    
-			</h1>
-			<c:if test="${ope != 'view' }">
+			</h1> -->
+			<%-- <c:if test="${ope != 'view' }">
 			<div class="fr pr15 mt10">
-				<%-- <button class="btn btn-windows edit" onclick="addBidMethod('${projectId}');">制定评标办法</button> --%>
+				<button class="btn btn-windows edit" onclick="addBidMethod('${projectId}');">制定评标办法</button> 
 				
 				<c:if test="${project.confirmFile==0 || project.confirmFile==null}">
 					<button class="btn btn-windows edit" onclick="addMarkTerm();">制定评分细则</button>
-				</c:if>
+				</c:if> 
 		    </div>
-		    </c:if>
+		    </c:if> --%>
 		   
-			<div class="container clear margin-top-30" id="package">
+			<div id="package">
 				<div>
 					<h2 class="f16 count_flow"><span id="projectName">项目名称:${project.name }</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span id="projectCode">项目编号:${project.projectNumber }</span></h2>
@@ -202,22 +205,26 @@
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
-							<th class="info w30"><input type="checkbox" id="checkAll"
-								onclick="selectAll()" alt=""></th>
+						<!-- 	<th class="info w30"><input type="checkbox" id="checkAll"
+								onclick="selectAll()" alt=""></th> -->
 							<th>序号</th>
 							<th>包名</th>
-							<th>评分办法名称</th>
-							<th>评标方法</th>
+							<th>操作</th>
+							<!-- <th>评分办法名称</th>
+							<th>评标方法</th> -->
 						</tr>
 					</thead>
 					<c:forEach items="${packagesList }" var="p" varStatus="vs">
 						<thead>
 							<tr >
-								<td class="tc w30"><input type="checkbox" value="${p.id }" name="chkItem">
-								</td>
-								<td align="center">${vs.index+1 }</td>
-								<td align="center">${p.name }</td>
-								<td align="center">
+								<%-- <td class="tc w30"><input type="checkbox" value="${p.id }" name="chkItem">
+								</td> --%>
+								<td class="tc w50">${vs.index+1 }</td>
+								<td class="tc">${p.name }</td>
+								 <td class="tc">
+				                    <button class="btn" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+				                </td>
+								<%-- <td align="center">
 									<a href="javascript:void(0)" onclick="show('${p.id}');">${p.bidMethodName }</a>
 								</td>
 								<td align="center">
@@ -228,14 +235,12 @@
 										<c:when test="${p.bidMethodTypeName==3  }">性价比评标法</c:when>
 										<c:otherwise></c:otherwise>
 									</c:choose>
-								</td>
+								</td> --%>
 							</tr>
 						</thead>
 					</c:forEach>
 				</table>
 			</div>
 			<div class="container clear margin-top-30" id="package"></div>
-		</div>
-	</div>
 </body>
 </html>

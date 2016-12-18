@@ -100,4 +100,16 @@ public interface SaleTenderService   {
     public List<SaleTender> getPackegeSupplier(SaleTender record);
     
     
+    /**
+    * @Title: getPackegeSuppliers
+    * @author Shen Zhenfei 
+    * @date 2016-12-18 上午11:10:20  
+    * @Description: 根据项目包名，获取对应的供应商
+    * @param @param record
+    * @param @return      
+    * @return SaleTender
+     */
+    public List<SaleTender> getPackegeSuppliers(SaleTender record);
+    
+    
 }

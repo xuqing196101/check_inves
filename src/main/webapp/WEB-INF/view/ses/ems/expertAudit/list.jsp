@@ -52,7 +52,7 @@
 			}
 			//抽取之后的才能复核
 			if(isExtract != 1 && state == "待复核") {
-				layer.msg("该供应商未抽取 !", {
+				layer.msg("该专家未抽取 !", {
 					offset: '100px',
 				});
 				return;
@@ -60,6 +60,14 @@
 			$("input[name='expertId']").val(id);
 			$("#shenhe_form_id").submit();
 		}
+		
+		 //重置搜索栏
+		
+		  function resetForm(){
+		      $("input[name='relName']").val("");
+		        //还原select下拉列表只需要这一句
+		      $("#status option:selected").removeAttr("selected");
+		    }
 </script>
 	
 </head>
@@ -100,7 +108,7 @@
 				<ul class="demand_list">
 					<li>
 						<label class="fl">专家姓名：</label>
-						<input type="text" name="relName" value="">
+						<input type="text" name="relName" value="${relName }">
 					</li>
 					<li>
 						<label class="fl">审核状态：</label>
@@ -120,7 +128,7 @@
 					</li>
 				</ul>
 				<input class="btn" value="查询" type="submit">
-				<input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
+				<button onclick="resetForm();" class="btn" type="button">重置</button>
 			</form>
 			</div>
 			<!-- 表格开始-->

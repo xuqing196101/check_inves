@@ -257,7 +257,7 @@
                </c:forEach>
             </table>
           </ul>
-	        <c:if test="${status==1 }">
+	        <c:if test="${status == 3}">
 		        <h2 class="count_flow"><i>2</i>供应商考察表</h2>
 			      <ul class="ul_list">
 		          <li class="col-md-6 p0 mb25">

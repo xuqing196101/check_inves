@@ -44,21 +44,21 @@
 		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >01、符合性</a>
 		   <i></i>
 		 </li>
-		 <li class="active">
+		 <%-- <li class="active">
 		   <a  href="${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >02、符合性关联</a>
 		   <i></i>							  
-		 </li>
+		 </li> --%>
 	     <li>
-		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${projectId}&flowDefineId=${flowDefineId }">03、评标细则</a>
+		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${projectId}&flowDefineId=${flowDefineId }">02、评标细则</a>
 		   <i></i>
 		 </li>
 		 <li>
 		   <a href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}&flowDefineId=${flowDefineId }" >
 		         <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     04、招标文件
+			     03、招标文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'XJCG' }">
-			     04、询价文件
+			     03、询价文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'YQZB' }">
 			     04、招标文件

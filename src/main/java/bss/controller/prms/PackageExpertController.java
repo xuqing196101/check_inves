@@ -31,6 +31,7 @@ import ses.model.ems.ProjectExtract;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.service.ems.ExpExtPackageService;
+import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.sms.SupplierQuoteService;
@@ -110,6 +111,8 @@ public class PackageExpertController {
     private FlowMangeService flowMangeService;//环节
     @Autowired
     private ExpExtPackageService expExtPackageService;//项目包关联
+    @Autowired
+    private ExpExtractRecordService expExtractRecordService; //专家抽取记录表
 
     /**
      *〈简述〉跳转分配专家
@@ -137,12 +140,9 @@ public class PackageExpertController {
         List<PackageExpert> selectList = service.selectList(map);
         model.addAttribute("selectList", selectList);
 
-        List<Packages> packages = packageService.listResultExpert(projectId);
+        List<Packages> packages = packageService.listResultAllExpert(projectId);
         Project project = projectService.selectById(projectId);
 
-        List<Packages> expertList  = packageService.listResultExpert(projectId);
-
-        model.addAttribute("expertList", expertList);
         // 包信息
         model.addAttribute("packageList", packages);
         // 项目实体
@@ -163,21 +163,17 @@ public class PackageExpertController {
      */
     @RequestMapping("/showExpert")
     public String showExpert(Model model, String packageId,String flowDefineId,String execute) {
-        //获取关联信息
-        ExpExtPackage extPackag = new ExpExtPackage();
-        extPackag.setPackageId(packageId);
-        List<ExpExtPackage> list = expExtPackageService.list(extPackag, "0");
         // 项目抽取的专家信息
-        if (list != null && list.size() !=0 ){
             ProjectExtract projectExtract = new ProjectExtract();
-            projectExtract.setProjectId(list.get(0).getId());
+            projectExtract.setProjectId(packageId);
             projectExtract.setIsProvisional((short)1);
             projectExtract.setReason("1");
             List<ProjectExtract> expertList = projectExtractService.list(projectExtract);
             model.addAttribute("expertList", expertList);
             model.addAttribute("packageId", packageId);
             model.addAttribute("flowDefineId", flowDefineId);
-        }
+            //专家类型
+            model.addAttribute("ddList", expExtractRecordService.ddList());
         model.addAttribute("execute", execute);
         return "bss/prms/assign_expert/list";
     }
@@ -556,25 +552,25 @@ public class PackageExpertController {
     @RequestMapping("relate")
     public String relate(String packageId, String groupId, RedirectAttributes attr,HttpServletRequest sq,String flowDefineId) {
         //获取关联信息
-        ExpExtPackage extPackag = new ExpExtPackage();
-        extPackag.setPackageId(packageId);
-        List<ExpExtPackage> list = expExtPackageService.list(extPackag, "0");
+        Packages packages = new Packages();
+        packages.setId(packageId);
+        List<Packages> find = packageService.find(packages);
         String projectId = ""; 
+        if (find != null && find.size() !=0 ){
+            projectId=find.get(0).getProjectId();
         // 项目抽取的专家信息
-        if (list != null && list.size() != 0 ){
             ProjectExtract projectExtract = new ProjectExtract();
-            projectExtract.setProjectId(list.get(0).getId());
+            projectExtract.setProjectId(packageId);
             projectExtract.setIsProvisional((short)1);
             projectExtract.setReason("1");
             List<ProjectExtract> expertList = projectExtractService.list(projectExtract);
-            projectId = list.get(0).getProjectId();
             for (ProjectExtract projectExtract2 : expertList) {
 
                 PackageExpert packageExpert = new PackageExpert();
                 // 设置专家id
                 packageExpert.setExpertId(projectExtract2.getExpert().getId());
                 packageExpert.setPackageId(packageId);
-                packageExpert.setProjectId(list.get(0).getProjectId());
+                packageExpert.setProjectId(projectId);
                 // 评审状态 未评审
                 packageExpert.setIsAudit((short) 0);
                 // 初审是否汇总 未汇总
@@ -595,6 +591,7 @@ public class PackageExpertController {
                 maps.put("packageId", packageId);
                 List<PackageExpert> selectList2 = service.selectList(maps);
                 if (selectList2 != null && selectList2.size() != 0 ){
+                    //如果和本次相同就不进行修改
                     if (selectList2.get(0).getIsGroupLeader() != packageExpert.getIsGroupLeader()){
                         service.updateByBean(packageExpert);
                     }  
@@ -1252,7 +1249,7 @@ public class PackageExpertController {
         }
 
         HashMap<String, Object> packmap = new HashMap<String, Object>();
-        packmap.put("packageId", packageId);
+        packmap.put("id", packageId);
         List<Packages> packages = packageService.findPackageById(packmap);
         if (packages != null && packages.size() > 0 ) {
             model.addAttribute("pack", packages.get(0));
@@ -1596,5 +1593,13 @@ public class PackageExpertController {
     @RequestMapping(value = "isGather", produces = "text/html;charset=utf-8")
     public String isGather(String packageIds, String projectId){
         return service.isGather(packageIds, projectId);
+    }
+    
+    @RequestMapping("/auditManage")
+    public String auditManage(Model model, String projectId, String flowDefineId){
+      
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("flowDefineId", flowDefineId);
+      return "bss/prms/audit_manage/manage";
     }
 }

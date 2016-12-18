@@ -17,6 +17,7 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierItem;
@@ -24,6 +25,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -56,6 +58,10 @@ public class SupplierItemController extends BaseController{
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+	
 	/**
 	 * @Title: saveOrUpdate
 	 * @author: Wang Zhaohua
@@ -79,16 +85,16 @@ public class SupplierItemController extends BaseController{
 		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			if(supplier.getProcurementDepId()!=null){
-				map.put("id", supplier.getProcurementDepId());
-				List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
-				if(listOrgnizations1.size()>0){
-					Orgnization orgnization = listOrgnizations1.get(0);
-					List<Area> city = areaService.findAreaByParentId(orgnization.getProvinceId());
-					model.addAttribute("orgnization", orgnization);
-					model.addAttribute("city", city);
-					model.addAttribute("listOrgnizations1", listOrgnizations1);
-				}else{
-					model.addAttribute("orgnization", new Orgnization());
+			       map.put("id", supplier.getProcurementDepId());
+                   map.put("typeName", "1");
+                   // 采购机构
+                   List<PurchaseDep> depList = purchaseOrgnizationService .findPurchaseDepList(map);
+				if (depList != null && depList.size() >0){
+				    Orgnization orgnization = depList.get(0);
+	                List<Area> city = areaService.findAreaByParentId(orgnization.getProvinceId());
+	                model.addAttribute("orgnization", orgnization);
+	                model.addAttribute("city", city);
+	                model.addAttribute("listOrgnizations1", depList);
 				}
 				
 	
@@ -139,13 +145,13 @@ public class SupplierItemController extends BaseController{
 			return "ses/sms/supplier_register/items";	
 		}
 	
-		boolean bool = validataItem(supplierItem);
-		if(bool==false){
-			model.addAttribute("err_item", "请上传产品目录近对应的近三年文件");
-			return "ses/sms/supplier_register/items";	
-		}
+//		boolean bool = validataItem(supplierItem);
+//		if(bool==false){
+//			model.addAttribute("err_item", "请上传产品目录近对应的近三年文件");
+//			return "ses/sms/supplier_register/items";	
+//		}
 		 
-			return "ses/sms/supplier_register/procurement_dep";	
+			 return "ses/sms/supplier_register/aptitude";
 	 
 		
 		

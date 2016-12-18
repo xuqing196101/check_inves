@@ -131,7 +131,10 @@ public class ExpertController {
      * @return String
      */
     @RequestMapping(value = "/toExpert")
-    public String toExpert() {
+    public String toExpert(Model model) {
+        // 查询数据字典中的专家来源配置数据
+        List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+        model.addAttribute("lyTypeList", lyTypeList);        
         return "ses/ems/expert/expert_register";
     }
 
@@ -229,7 +232,7 @@ public class ExpertController {
     @RequestMapping("/register")
     public String register(User user, HttpSession session, Model model,
             HttpServletRequest request, @RequestParam String token2,
-            RedirectAttributes attr) {
+            RedirectAttributes attr, String expertsFrom) {
         Object tokenValue = session.getAttribute("tokenSession");
         if (tokenValue != null && tokenValue.equals(token2)) {
             // 正常提交
@@ -263,6 +266,7 @@ public class ExpertController {
             Expert expert = new Expert();
             expert.setId(expertId);
             expert.setMobile(user.getMobile());
+            expert.setExpertsFrom(expertsFrom);
             service.insertSelective(expert);
             Role role = new Role();
             role.setCode("EXPERT_R");
@@ -340,6 +344,7 @@ public class ExpertController {
             flag = 1;
         }
         Map<String, Object> errorMap = service.Validate(expert, 3, null);
+        expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getCode());
         model.addAttribute("expert", expert);
         model.addAttribute("errorMap", errorMap);
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -778,6 +783,9 @@ public class ExpertController {
         // 查询数据字典中的最高学历配置数据
         List<DictionaryData> xlList = DictionaryDataUtil.find(11);
         model.addAttribute("xlList", xlList);
+        // 查询数据字典中的最高学位配置数据
+        List<DictionaryData> xwList = DictionaryDataUtil.find(21);
+        model.addAttribute("xwList", xwList);
         // 查询数据字典中的专家来源配置数据
         List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
         model.addAttribute("lyTypeList", lyTypeList);
@@ -803,6 +811,7 @@ public class ExpertController {
         model.addAttribute("sysId", id);
         // Constant.EXPERT_SYS_VALUE;
         model.addAttribute("expertKey", expertKey);
+        expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getCode());
         model.addAttribute("expert", expert);
         return "ses/ems/expert/edit_basic_info";
     }
@@ -1088,8 +1097,7 @@ public class ExpertController {
      * @throws IOException
      */
     @RequestMapping("/edit")
-    public String edit(@RequestParam("categoryId") String categoryId,
-            Expert expert, Model model, HttpSession session,
+    public String edit(Expert expert, Model model, HttpSession session,
             @RequestParam("token2") String token2, HttpServletRequest request,
             HttpServletResponse response) throws IOException {
         Object tokenValue = session.getAttribute("tokenSession");
@@ -1101,8 +1109,6 @@ public class ExpertController {
             // 修改时间
             expert.setUpdatedAt(new Date());
             service.updateByPrimaryKeySelective(expert);
-            expertCategoryService.deleteByExpertId(expert.getId());
-            expertCategoryService.save(expert, categoryId);
             return "redirect:findAllExpert.html";
         } else {
             // 重复提交 这里未做重复提醒，只是不重复修改
@@ -1321,11 +1327,15 @@ public class ExpertController {
                 .getDictionaryData(exp.getGender());
             exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
             StringBuffer expertType = new StringBuffer();
-            for (String typeId : exp.getExpertsTypeId().split(",")) {
-                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+            if (exp.getExpertsTypeId() != null) {
+                for (String typeId : exp.getExpertsTypeId().split(",")) {
+                    expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+                }
+                String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                exp.setExpertsTypeId(expertsType);
+            } else {
+                exp.setExpertsTypeId("");
             }
-            String expertsType = expertType.toString().substring(0, expertType.length() - 1);
-            exp.setExpertsTypeId(expertsType);
         }
         // 查询数据字典中的专家来源配置数据
         List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
@@ -1598,6 +1608,36 @@ public class ExpertController {
 
         return "bss/prms/audit/list";
     }
+    
+    /**
+     *〈简述〉
+     * 判断是否通过了符合性审查
+     *〈详细描述〉
+     * 1代表通过,0没通过
+     * @author WangHuijie
+     * @param projectId
+     * @param packageId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/validateIsGrade")
+    public String validateIsGrade(String projectId, String packageId){
+        // 0代表为通过符合性审查
+        String isok = "0";
+        Map<String, Object> mapSearch = new HashMap<String, Object>();
+        mapSearch.put("projectId", projectId);
+        mapSearch.put("packageId", packageId);
+        List<PackageExpert> list = packageExpertService.selectList(mapSearch);
+        if (list.isEmpty()) {
+            PackageExpert packageExpert = list.get(0);
+            if ("1".equals(packageExpert.getIsAudit()) && !"1".equals(packageExpert.getIsGrade())) {
+                // 如果通过则改为1
+                isok = "1";
+            }
+        }
+        return isok;
+    }
+    
     /**
      * 
      * @Title: toFirstAudit
@@ -1754,13 +1794,41 @@ public class ExpertController {
         String filePath = request.getSession().getServletContext()
                 .getRealPath("/WEB-INF/upload_file/");
         // 文件名称
-        String name = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
+        String name = new String(("军队评标专家承诺书.doc").getBytes("UTF-8"),
                 "UTF-8");
         /** 生成word 返回文件名 */
         String fileName = WordUtil.createWord(null, "expertBook.ftl",
                 name, request);
         // 下载后的文件名
         String downFileName = new String("军队评标专家承诺书.doc".getBytes("UTF-8"),
+                "iso-8859-1");// 为了解决中文名称乱码问题
+        return service.downloadFile(fileName, filePath, downFileName);
+    }
+    
+    /**
+     *〈简述〉
+     * 下载专家注册须知
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param id
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/downNotice")
+    public ResponseEntity<byte[]> downNotice(String id,
+            HttpServletRequest request) throws Exception {
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext()
+                .getRealPath("/WEB-INF/upload_file/");
+        // 文件名称
+        String name = new String(("评审专家申请人注册须知.doc").getBytes("UTF-8"),
+                "UTF-8");
+        /** 生成word 返回文件名 */
+        String fileName = WordUtil.createWord(null, "expertNotice.ftl",
+                name, request);
+        // 下载后的文件名
+        String downFileName = new String("评审专家申请人注册须知.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
         return service.downloadFile(fileName, filePath, downFileName);
     }

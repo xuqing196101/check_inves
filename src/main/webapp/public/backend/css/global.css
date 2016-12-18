@@ -28,6 +28,7 @@ p, li, li a, label {
 	clear: both;
 	margin: 5px 0px 10px 20px;
 	line-height: 32px;
+	overflow: hidden;
 }
 
 .table_box {
@@ -124,10 +125,12 @@ p, li, li a, label {
 }
 
 .breadcrumb {
-	top: 10px;
 	padding-right: 0;
 	background: none;
 	position: relative;
+	overflow: hidden;
+	margin-bottom:0px;
+	margin: 5px 0px; 
 }
 
 .breadcrumb a {
@@ -1077,9 +1080,21 @@ table .input_group .add-on{
 	width:20px;
 	display: block;
 	float: left;
+	margin: 0 5px;
+	background-repeat: no-repeat;
+	background-image: url(../images/icons.png);
+	cursor: pointer;
 }
-
-
+/* 评审项添加新增、修改、删除按钮 */
+.addItem {
+	background-position: -168px -782px;
+}
+.editItem{
+	background-position: -42px -420px;
+}
+.deleteItem{
+	background-position: -151px -116px
+}
 /*后台首页公告*/
 .backend_new{
 	list-style-type: none;
@@ -1096,4 +1111,12 @@ table .input_group .add-on{
 	line-height: 25px;
 	float: left;
 	display: inline-block;
+	font-family: Arial;
+}
+
+
+/*ie8*/
+.container{
+	width:85%\9;
+	margin: 0 auto\9;
 }

@@ -148,6 +148,7 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private String  sex;
     
+    
     public String getStepNumber() {
         return stepNumber;
     }
@@ -547,6 +548,6 @@ public class Expert extends ExpertHistory implements Serializable {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-    
+
     
 }

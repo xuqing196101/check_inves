@@ -42,4 +42,13 @@ public interface PurchaseDepMapper {
 	 * @param purchaseDep {@link PurchaseDep}
 	 */
 	void updatePurchById(PurchaseDep purchaseDep);
+	
+	/**
+	 * 
+	 *〈简述〉查询可用采购机构
+	 *〈详细描述〉
+	 * @author Qu Jie
+	 * @param purchaseDep PurchaseDep对象
+	 */
+	List<PurchaseDep> findAllUsefulPurchaseDep();
 }

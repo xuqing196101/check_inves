@@ -19,7 +19,7 @@
 			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
 		} 
 		
-		//obj.OpenFromURL("http://localhost/${pageContext.request.contextPath}/stash/bidFileTemp.doc");
+		//obj.OpenFromURL("http://localhost/${pageContext.request.contextPath}/stash/测试.doc");
 		
 	}
 	
@@ -42,15 +42,23 @@
 		var obj = document.getElementById("TANGER_OCX");
 	}
 	
-	function saveFile(){
+	function saveFile(flag){
 		var projectId = $("#projectId").val();
 		var flowDefineId = $("#flowDefineId").val();
 		var projectName = $("#projectName").val();
 		var obj = document.getElementById("TANGER_OCX");
 		//参数说明
 		//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
-		obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId, "ntko", "", projectName+"_招标文件.doc", "MyFile");
-		obj.ShowTipMessage("提示","招标文件已上传至服务器");
+		obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_招标文件.doc", "MyFile");
+		//obj.ShowTipMessage("提示","招标文件已上传至服务器");
+		if (flag == '0') {
+			alert("招标文件已暂存");
+		}
+		if (flag == '1') {
+			//obj.ShowTipMessage("提示","招标文件已提交");
+			alert("招标文件已提交");
+			$("#handle").attr("class","dnone");
+		}
 	}
 	
 	function closeFile(){
@@ -100,30 +108,30 @@
 			   <i></i>
 			 </li>
 			 
-			 <li >
+			 <%-- <li >
 			   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
 			   <i></i>							  
-			 </li>
+			 </li> --%>
 		     <li>
-			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、评标细则</a>
+			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、评标细则</a>
 			   <i></i>
 			 </li>
 			 <li class="active">
 			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
 			     <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     04、招标文件
+			     03、招标文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'XJCG' }">
-			     04、询价文件
+			     03、询价文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     04、招标文件
+			     03、招标文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
-			     04、竞谈文件
+			     03、竞谈文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'DYLY' }">
-			     04、单一来源文件
+			     03、单一来源文件
 			     </c:if>
 			   </a>
 			 </li>
@@ -133,30 +141,30 @@
 		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${project.id}&flowDefineId=${flowDefineId }" >01、符合性</a>
 		   <i></i>
 		 </li>
-		 <li>
+		 <%-- <li>
 		   <a href="${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">02、符合性关联</a>
 		   <i></i>							  
-		 </li>
+		 </li> --%>
 	     <li>
-		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">03、评标细则</a>
+		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">02、评标细则</a>
 		   <i></i>
 		 </li>
 		 <li class="active">
 		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId }" >
 		         <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     04、招标文件
+			     03、招标文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'XJCG' }">
-			     04、询价文件
+			     03、询价文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     04、招标文件
+			     03、招标文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
-			     04、竞谈文件
+			     03、竞谈文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'DYLY' }">
-			     04、单一来源文件
+			     03、单一来源文件
 			     </c:if>
 		   </a>
 		   <i></i>
@@ -170,14 +178,15 @@
 	 </div>
 	 <!-- 按钮 -->
 	 <c:if test="${project.confirmFile == 0 && ope =='add'}">
-	     <div class="mt10 mb10">
+	     <div class="mt5 mb5 fr" id="handle">
 	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
 	      	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
 	     	<!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
-	        <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
+	        <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存"></input>
+	   		<input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交"></input>
 	    </div>
 	 </c:if>
 	<form id="MyFile" method="post">

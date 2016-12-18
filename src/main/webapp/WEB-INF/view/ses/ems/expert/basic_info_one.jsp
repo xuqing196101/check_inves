@@ -159,8 +159,6 @@ session.setAttribute("tokenSession", tokenValue);
 	function supplierRegist() {
 		if (!validateformExpert()){
 			return;
-		} else if (!validateType()) {
-			return;
 		} else {
 			//暂存无提示
 			submitForm2();
@@ -169,8 +167,6 @@ session.setAttribute("tokenSession", tokenValue);
 	/** 专家完善注册信息页面 */
 	function supplierRegist2() {
 		if (!validateformExpert()){
-			return;
-		} else if (!validateType()) {
 			return;
 		} else {
 			//暂存无提示
@@ -181,8 +177,6 @@ session.setAttribute("tokenSession", tokenValue);
 	function supplierRegist3() {
 		if (!validateformExpert()){
 			return;
-		} else if (!validateType()) {
-			return;
 		} else {
 			//暂存无提示
 			submitForm3();
@@ -192,8 +186,6 @@ session.setAttribute("tokenSession", tokenValue);
 	function supplierRegist4() {
 		if (!validateformExpert()){
 			return;
-		} else if (!validateType()) {
-			return;
 		} else {
 			//暂存无提示
 			submitForm4();
@@ -202,8 +194,6 @@ session.setAttribute("tokenSession", tokenValue);
 	/** 专家完善注册信息页面 */
 	function supplierRegist5() {
 		if (!validateformExpert()){
-			return;
-		} else if (!validateType()) {
 			return;
 		} else {
 			//暂存无提示
@@ -311,11 +301,6 @@ session.setAttribute("tokenSession", tokenValue);
 		var gender = $("#gender").val();
 		if(!gender){
 			layer.msg("请选择性别 !",{offset: ['300px', '750px']});
-			return false;
-		}
-		var expertsFrom = $("#expertsFrom").val();
-		if(!expertsFrom){
-			layer.msg("请选择来源 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		var birthday = $("#birthday").val();
@@ -486,7 +471,7 @@ session.setAttribute("tokenSession", tokenValue);
 			cache: false,
 	        async: false,
 			success:function(data){
-				if(data.length<6){
+				if(data.length<5){
 					layer.msg("还有附件未上传!",{offset: ['300px', '750px']});
 					flag=false;
 				}else{
@@ -549,16 +534,6 @@ session.setAttribute("tokenSession", tokenValue);
 		}
 	    $("#expertsTypeId").val(ids);
 	}
-	//判断专家类型
-	function validateType(){
-		getChildren();
-		var categoryId = $("#expertsTypeId").val();
-		if(categoryId == ""){
-			layer.msg("请选择专家类别 !" ,{offset: ['222px', '390px']});
-			return false;
-		}
-		return true;
-	}
 	$(function(){
 		var typeIds = "${expert.expertsTypeId}";
 		var ids = typeIds.split(",");
@@ -611,7 +586,6 @@ session.setAttribute("tokenSession", tokenValue);
   <input type="hidden" value="${errorMap.hightEducation}" id="error7">
   <input type="hidden" value="${errorMap.graduateSchool}" id="error8">
   <input type="hidden" value="${errorMap.major}" id="error9">
-  <input type="hidden" value="${errorMap.expertsFrom}" id="error10">
   <input type="hidden" value="${errorMap.unitAddress}" id="error11">
   <input type="hidden" value="${errorMap.telephone}" id="error12">
   <input type="hidden" value="${errorMap.mobile}" id="error13">
@@ -623,28 +597,18 @@ session.setAttribute("tokenSession", tokenValue);
   <input type="hidden"  name="token2" value="<%=tokenValue%>"/>
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
 	  <h2 class="padding-20 mt40">
-	    <span id="sp1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+	    <span id="sp1" class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 	    <span id="sp2" class="new_step fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span>
-	    <span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
-	    <span id="sp3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-	    <span id="sp4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">文件下载</span> </span> 
-	    <span id="sp5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">文件上传</span> </span> 
+	    <span id="sp7" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">专家类别</span> </span> 
+	    <span id="ty6" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">产品目录</span> </span>
+	    <span id="sp3" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+	    <span id="sp4" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">文件下载</span> </span> 
+	    <span id="sp5" class="new_step fl"><i class="">7</i> <span class="step_desc_02">文件上传</span> </span> 
 	    <div class="clear"></div>
 	  </h2>
 	    <div class="container container_box">
-		  <h2 class="count_flow"><i>1</i>专家个人信息<font color="red" class="margin-left-30"> (注:军队单位人员，请登录内网进行注册!)</font></h2>
+		  <h2 class="count_flow"><i>1</i>专家个人信息</h2>
 			<ul class="ul_list">
-				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家来源</span>
-					<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-						<select  name="expertsFrom" id="expertsFrom" <c:if test="${fn:contains(errorField,'专家来源')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专家来源')"</c:if>>
-						<option selected="selected" value="">-请选择-</option>
-						<c:forEach items="${lyTypeList}" var="ly" varStatus="vs"> 
-					     	<option <c:if test="${expert.expertsFrom eq ly.id}">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
-						</c:forEach>
-					   </select>
-					</div>
-				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -715,6 +679,7 @@ session.setAttribute("tokenSession", tokenValue);
 						</c:if>
                     </div>
                 </li>
+                <c:if test="${expert.expertsFrom eq 'LOCAL'}">
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 缴纳社会保险证明</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                     	<input  maxlength="30" value="${expert.coverNote}"  name="coverNote" id="coverNote" type="text"  <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明')"</c:if>/>
@@ -732,6 +697,7 @@ session.setAttribute("tokenSession", tokenValue);
 				    <u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
                     </div>
                 </li>
+                </c:if>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 居民身份证号码</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 						<input  maxlength="30" value="${expert.idCardNumber}"  name="idCardNumber" id="idCardNumber" type="text"  <c:if test="${fn:contains(errorField,'居民身份证号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证号码')"</c:if>/>
@@ -749,6 +715,7 @@ session.setAttribute("tokenSession", tokenValue);
 				    <u:show showId="show8" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}"/>
                     </div>
                 </li>
+                <c:if test="${expert.expertsFrom eq 'ARMY'}">
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 军队人员身份证件类型</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                     <select  name="idType" id="idType" <c:if test="${fn:contains(errorField,'军队人员身份证件类型')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('军队人员身份证件类型')"</c:if>>
@@ -776,6 +743,7 @@ session.setAttribute("tokenSession", tokenValue);
 				    <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
                     </div>
                 </li>
+				</c:if>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>手机</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 						<input  maxlength="15" value="${user.mobile}" readonly="readonly" name="mobile" id="mobile" type="text"  <c:if test="${fn:contains(errorField,'手机')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('手机')"</c:if>/>
@@ -993,7 +961,7 @@ session.setAttribute("tokenSession", tokenValue);
 				</li>
 			</ul>
 			<!-- 专家专业信息 -->
-			<h2 class="count_flow"><i>4</i>专家类别</h2>
+			<!-- <h2 class="count_flow"><i>4</i>专家类别</h2>
 			<ul class="ul_list">
 				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					<div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
@@ -1005,7 +973,7 @@ session.setAttribute("tokenSession", tokenValue);
 						</c:forEach>
 					</div>
 				</li>
-			</ul>
+			</ul> -->
 				<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
 			        <button class="btn" onclick='submitformExpert()'  type="button">暂存</button>
 					<button class="btn" id="nextBind"  type="button" onclick='fun()' >下一步</button>

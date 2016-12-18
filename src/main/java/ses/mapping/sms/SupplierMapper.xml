@@ -112,6 +112,22 @@
 		</if>
 		GROUP BY T1.SUPPLIER_ID
 	</select>
+	
+	<select id="findAllUsefulSupplier"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER WHERE SUPPLIER_STATUS = 3
+	</select>
+	
+	<select id="selectOne" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER WHERE SUPPLIER_STATUS = 3
+		AND id = #{id}
+	</select>
+	
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select
@@ -946,6 +962,9 @@
 			and (tt1.SUPPLIER_STATUS = 1 or tt1.SUPPLIER_STATUS = 3 or
 			tt1.SUPPLIER_STATUS = 4)
 		</if>
+		<if test="sign == 3">
+			and tt1.SUPPLIER_STATUS = 3
+		</if>
 		<if test="status != null">
 			and tt1.SUPPLIER_STATUS = #{status}
 		</if>
@@ -1054,7 +1073,8 @@
 		t1.BUSINESS_TYPE = t4. ID
 		left join 
 		T_SES_SMS_SUPPLIER_EXT_RELATE t5
-		on t5.SUPPLIER_ID = t1.ID
+		on 
+		t5.SUPPLIER_ID = t1.ID
 	</select>
 
 

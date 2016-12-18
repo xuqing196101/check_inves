@@ -17,3 +17,8 @@
 <script src="${pageContext.request.contextPath}/public/backend/js/common.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
+
+<!-- portal -->
+<!--[if lt IE 9]>
+  <script src="${pageContext.request.contextPath}/public/common/respond.src.js"></script>
+<![endif]-->

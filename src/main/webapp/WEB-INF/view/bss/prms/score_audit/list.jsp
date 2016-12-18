@@ -89,20 +89,21 @@
 		}
 	}
   	function scoreView(packageId){
-  		window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId=${projectId}';
+  		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId=${projectId}');
+  		//window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId=${projectId}';
   	}
   </script>
 </head>
   <body>
-	    <h2 class="list_title">详细评审</h2>
-	    <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
+	    <h2 class="list_title">经济技术评审</h2>
+	    <!-- <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
 		    <button class="btn" onclick="scoreTotal(this)" type="button">评分汇总</button>
-	   	</div>
+	   	</div> -->
    		<input type="hidden" id="projectId" value="${projectId}">
     	<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>
 			<tr>
-			  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+			  <!-- <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
 			  <th class="w50 info">序号</th>
 			  <th class="info">包名</th>
 			  <th class="info">详审进度</th>
@@ -111,7 +112,7 @@
 			</thead>
 			<c:forEach items="${reviewProgressList}" var="rp" varStatus="vs">
 		       <tr>
-		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${rp.packageId}" /></td>
+		       	<%-- <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${rp.packageId}" /></td> --%>
 		        <td class="tc w30">${vs.count} </td>
 		        <td class="tc">${rp.packageName}</td>
 			    <td class="tc">

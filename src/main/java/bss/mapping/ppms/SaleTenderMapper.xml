@@ -241,5 +241,24 @@
       AND st.STATUS_BID=#{statusBid,jdbcType=DECIMAL}
     </if>
   </select>
+  
+  
+  
+  
+  
+  <!-- 根据报名、项目Id查询供应商-->
+  <select id="getPackegeSuppliers" parameterType="bss.model.ppms.SaleTender"
+    resultMap="BaseResultMap">
+    SELECT
+       st.SUPPLIER_ID
+    FROM
+    T_BSS_PPMS_SALE_TENDER st
+    WHERE
+    1=1
+      AND st.PACKAGR_IDS = #{packages,jdbcType=VARCHAR}
+      AND st.PROJECT_ID = #{project.id,jdbcType=VARCHAR}
+  </select>
+  
+  
 
 </mapper>

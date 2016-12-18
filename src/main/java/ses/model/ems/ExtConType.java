@@ -17,7 +17,7 @@ public class ExtConType {
      * 表字段 : T_SES_EMS_EXP_EXT_CON_TYPE.EXPERTS_TYPE_ID
      * </pre>
      */
-    private Short expertsTypeId;
+    private String expertsTypeId;
 
     /**
      * <pre>
@@ -82,6 +82,8 @@ public class ExtConType {
   
     private String[] categorySplit;
     
+    private String[] expertsTypeSplit;
+    
     /**
      * 已抽取数量
      */
@@ -119,7 +121,7 @@ public class ExtConType {
      *
      * @return T_SES_EMS_EXP_EXT_CON_TYPE.EXPERTS_TYPE_ID：专家类型
      */
-    public Short getExpertsTypeId() {
+    public String getExpertsTypeId() {
         return expertsTypeId;
     }
 
@@ -132,7 +134,11 @@ public class ExtConType {
      * @param expertsTypeId
      *            T_SES_EMS_EXP_EXT_CON_TYPE.EXPERTS_TYPE_ID：专家类型
      */
-    public void setExpertsTypeId(Short expertsTypeId) {
+    public void setExpertsTypeId(String expertsTypeId) {
+        if(expertsTypeId!=null){
+            String[] split = expertsTypeId.split(",");
+            this.expertsTypeSplit =split ;
+        }
         this.expertsTypeId = expertsTypeId;
     }
 
@@ -209,7 +215,7 @@ public class ExtConType {
      */
     public void setCategoryId(String categoryId) {
         if(categoryId!=null){
-            String[] split = categoryId.split("\\^");
+            String[] split = categoryId.split(",");
             this.categorySplit =split ;
         }
         this.categoryId = categoryId == null ? null : categoryId.trim();
@@ -360,4 +366,20 @@ public class ExtConType {
         this.alreadyCount = alreadyCount;
     }
 
+    /**
+     * @return Returns the expertsTypeSplit.
+     */
+    public String[] getExpertsTypeSplit() {
+        return expertsTypeSplit;
+    }
+
+    /**
+     * @param expertsTypeSplit The expertsTypeSplit to set.
+     */
+    public void setExpertsTypeSplit(String[] expertsTypeSplit) {
+        this.expertsTypeSplit = expertsTypeSplit;
+    }
+
+    
+    
 }

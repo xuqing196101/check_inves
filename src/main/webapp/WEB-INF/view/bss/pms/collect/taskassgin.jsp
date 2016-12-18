@@ -237,11 +237,7 @@
 	       
 		<!--  文件名称：<input type="text" name="fileName" value=""><br>
 		 密码:<input type="password" name="password" value=""><br> -->
-		 <div  style="text-align: center;margin-top: 20px;"><span>采购机构:</span>	<select name="purchaseId">
-							<c:forEach items="${org }" var="obj">
-							<option value="${obj.id }">${obj.name }</option>
-							</c:forEach>
-							</select></div>
+		 
 		 
 		 <input type="hidden" name="cid" id="cid" value="">
 		

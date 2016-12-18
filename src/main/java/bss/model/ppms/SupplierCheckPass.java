@@ -19,6 +19,11 @@ public class SupplierCheckPass {
     private List<Packages> packagesList;
     
     /**
+     * 是否已生成合同
+     */
+    private Integer isCreateContract;
+    
+    /**
      * <pre>
      * 表字段 : T_BSS_PPMS_SUPPLIER_CHECK_PASS.ID
      * </pre>
@@ -430,6 +435,14 @@ public class SupplierCheckPass {
     public void setPackagesList(List<Packages> packagesList) {
         this.packagesList = packagesList;
     }
+
+	public Integer getIsCreateContract() {
+		return isCreateContract;
+	}
+
+	public void setIsCreateContract(Integer isCreateContract) {
+		this.isCreateContract = isCreateContract;
+	}
 
 
     

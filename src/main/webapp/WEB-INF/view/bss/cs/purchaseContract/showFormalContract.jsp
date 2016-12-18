@@ -8,10 +8,6 @@
 <html>
 <head>
     <title>正式合同查看</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-    <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -21,19 +17,6 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
   </head>
-  <script type="text/javascript">
-  function showPic(){
-		layer.open({
-			  type: 1,
-			  title: false,
-			  closeBtn: 0,
-			  area: 'auto',
-			  skin: 'layui-layer-nobg', //没有背景色
-			  shadeClose: true,
-			  content: $("#photo")
-			});
-	};
-  </script>
 <body>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -51,7 +34,8 @@
 	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
 	        <div class="padding-top-10">
 	        <ul class="nav nav-tabs bgwhite">
-	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">正式合同详情</a></li>
+	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">正式合同详情</a></li>
+	            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">标的信息</a></li>
             </ul>
    		<div class="tab-content padding-top-20 over_hideen">
 	<div class="tab-pane fade active in" id="tab-1">
@@ -87,6 +71,16 @@
 	            <td class="bggrey" width="13%">合同预算：</td>
 	            <td width="37%">${draftCon.budget}</td>
 	        </tr>
+	        <tr>
+	            <td class="bggrey" width="13%">正式合同提报时间：</td>
+	            <td width="37%"><fmt:formatDate value="${draftCon.formalGitAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+	            <td class="bggrey" width="13%">正式合同报批时间：</td>
+	            <td width="37%"><fmt:formatDate value="${draftCon.formalReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+	        </tr>
+	        <tr>
+	        	<td class="bggrey" width="13%">合同批准文号：</td>
+	            <td width="37%">${draftCon.approvalNumber}</td>
+	        </tr>
 	        </tbody>
 	        </table>
 	        <h2 class="count_flow jbxx">甲方信息</h2>
@@ -94,7 +88,7 @@
 	        <tbody>
 	        <tr>
 	            <td class="bggrey" width="13%">甲方单位：</td>
-	            <td width="37%">${draftCon.purchaseDepName}</td>
+	            <td width="37%">${draftCon.showDemandSector}</td>
 	            <td class="bggrey" width="13%">甲方法人：</td>
 	            <td width="37%">${draftCon.purchaseLegal}</td>
 	        </tr>
@@ -129,7 +123,7 @@
 	        <tbody>
 	        <tr>
 	            <td class="bggrey" width="13%">乙方单位：</td>
-	            <td width="37%">${draftCon.supplierDepName}</td>
+	            <td width="37%">${draftCon.showSupplierDepName}</td>
 	            <td class="bggrey" width="13%">乙方法人：</td>
 	            <td width="37%">${draftCon.supplierLegal}</td>
 	        </tr>
@@ -158,7 +152,34 @@
 	            <td width="37%">${draftCon.supplierBankAccount}</td>
 	        </tr>
 	        </tbody>
-	        </table>  
+	        </table>
+	        <h2 class="count_flow jbxx">丙方信息</h2>
+	        <table class="table table-bordered">
+	        <tbody>
+	        <tr>
+	            <td class="bggrey" width="13%">丙方单位：</td>
+	            <td width="37%">${draftCon.showPurchaseDepName}</td>
+	             <td class="bggrey" width="13%">丙方邮政编码：</td>
+	            <td width="37%">${draftCon.bingUnitpostCode}</td>
+	        </tr>
+	        <tr>
+	            <td class="bggrey" width="13%">丙方联系人：</td>
+	            <td width="37%">${draftCon.bingContact}</td>
+	            <td class="bggrey" width="13%">丙方联系电话：</td>
+	            <td width="37%">${draftCon.bingContactTelephone}</td>
+	        </tr>
+	        <tr>
+	        	<td class="bggrey" width="13%">丙方通讯地址：</td>
+	            <td width="37%">${draftCon.bingContactAddress}</td>
+	        </tr>
+	        </tbody>
+	        </table>
+	        <h2 class="count_flow jbxx">批准文件电子扫描件</h2>
+   			<div class="col-md-12 select_common">
+				<up:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${contractattachsysKey}" typeId="${contractattachId}"/>
+			</div>  
+	        </div>
+	        <div class="tab-pane fade" id="tab-2">
    		 <h2 class="count_flow jbxx">项目明细</h2>
     	<table id="detailtable" name="" class="table table-bordered table-condensed mb0 mt10">
 		 <thead>
@@ -192,36 +213,9 @@
 			</tr>
    		</c:forEach>
 	</table>
-     <h2 class="count_flow jbxx">合同正文</h2>
-   	<div class="mt10">
-       <script id="editor" name="content" type="text/plain" class= ""></script>
-    </div>
-     <h2 class="count_flow jbxx">批准文件电子扫描件</h2>
-   	<div class="col-md-12 select_common">
-		<up:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
 	</div>
   	<div class="col-md-12 tc mt20">
    		<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   	</div>
- </div>
-	<script type="text/javascript">
-   		//实例化编辑器
-   		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-   		var option ={
-  		        toolbars: [[
-	                'undo', 'redo', '|',
-	                'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
-	                 'fontfamily', 'fontsize', '|',
-	                 'indent', '|',
-	                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion'
-  		        ]]
-    		}
-	        var ue = UE.getEditor('editor',option);  
-   		var content='${draftCon.content}';
-   		ue.ready(function(){
-   	  		ue.setContent(content);    
-   	  		ue.setDisabled([]);
-   		});
-	</script>
 </body>
 </html>

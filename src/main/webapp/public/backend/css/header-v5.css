@@ -866,7 +866,7 @@
 }
 
 .header-v5 .mega-menu .dropdown-menu > li {
-    display: block;
+    width:100%;
     position:relative;
     padding:5px 25px 5px 15px;
 }
@@ -999,4 +999,8 @@
 .header-v5 .style-list li .label {
     top: -2px;
     position: relative;
+}
+
+.navbar-header .container .col-md-3{
+	float: left;
 }

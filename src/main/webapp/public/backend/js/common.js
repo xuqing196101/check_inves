@@ -364,12 +364,14 @@ function art_alert(msg){
   d.show();
 };
 
+var hoverTimer, outTimer
 //三级菜单
 $(function(){$(".dropdown .dropdown-menu li").hover(
-        function(){
-        	$(this).find(".dropdown-menuson.dropdown-menu").css("display","block");
-         },
+		function(){
+			$(this).find(".dropdown-menuson.dropdown-menu").show(100);
+		}
+        ,
    		function(){
-   			$(this).find(".dropdown-menuson.dropdown-menu").css("display","none");
+   			$(this).find(".dropdown-menuson.dropdown-menu").hide(10);
         });
 });

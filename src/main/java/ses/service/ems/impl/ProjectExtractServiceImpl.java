@@ -190,4 +190,10 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
         // TODO Auto-generated method stub
         return extractMapper.selectByPrimaryKey(id);
     }
+
+	@Override
+	public List<ProjectExtract> findExtractByExpertId(String expertId) {
+		
+		return extractMapper.findExtractByExpertId(expertId);
+	}
 }

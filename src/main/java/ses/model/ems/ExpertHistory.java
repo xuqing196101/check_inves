@@ -25,7 +25,6 @@ public class ExpertHistory implements Serializable{
     /**性别 M 男  F 女*/
     private String gender;
     /**联系电话*/
-    @NotNull(message = "不能为空") 
     private String mobile;
     /**出生日期*/
     private Date birthday;
@@ -34,10 +33,8 @@ public class ExpertHistory implements Serializable{
     /**居民身份证号码*/
     private String idCardNumber;
     /**军队人员身份证件类型*/
-    @NotNull(message = "不能为空") 
     private String idType;
     /**证件号码*/
-    @NotNull(message = "不能为空") 
     private String idNumber;
     /**专家来源*/
     private String expertsFrom;//军队只能在内网注册,地方在内网和外网都可以注册
@@ -69,7 +66,6 @@ public class ExpertHistory implements Serializable{
     /**传真*/
     private String fax;
     /**取得技术时间*/
-    @DateTimeFormat(pattern="yyyy-MM")
     private Date makeTechDate;
     /**健康状态*/
     private String healthState;
@@ -78,10 +74,8 @@ public class ExpertHistory implements Serializable{
     /**专家技术职称*/
     private String professTechTitles;
     /**参加工作时间*/
-    @DateTimeFormat(pattern="yyyy-MM")
     private Date timeToWork;
     /**从事专业起始时间*/
-    @DateTimeFormat(pattern="yyyy-MM")
     private Date timeStartWork;
     /**主要工作经历*/
     private String jobExperiences;
@@ -92,15 +86,12 @@ public class ExpertHistory implements Serializable{
     /**学位*/
     private String degree;
     /**现任职务*/
-    @NotNull(message = "不能为空") 
     private String atDuty;
     /**专家类型*/
-    @NotNull(message = "不能为空") 
     private String expertsTypeId;
     /**采购机构id*/
     private String purchaseDepId;
     /**真实姓名*/
-    @NotNull(message = "不能为空") 
     private String relName;
     public String getId() {
         return id;

@@ -60,5 +60,16 @@ public interface SupplierFinanceService {
      * @param supplierFinance
      */
     void save(SupplierFinance supplierFinance);
+    
+    /**
+     * 
+    * @Title: add
+    * @Description: 供应商 的添加以及修改
+    * author: Li Xiaoxiao 
+    * @param @param list     
+    * @return void     
+    * @throws
+     */
+   public void add(List<SupplierFinance> list);
 	
 }

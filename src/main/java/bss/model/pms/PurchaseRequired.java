@@ -102,6 +102,10 @@ public class PurchaseRequired {
     
     private String reason;
     
+    private String recorderMobile;
+    
+    private Integer advancedStatus;
+    
     public String getId() {
         return id;
     }
@@ -462,6 +466,22 @@ public class PurchaseRequired {
 		 this.reason = reason == null ? null : reason.trim();
 	}
 
+	public String getRecorderMobile() {
+		return recorderMobile;
+	}
+
+	public void setRecorderMobile(String recorderMobile) {
+		this.recorderMobile = recorderMobile;
+	}
+
+	public Integer getAdvancedStatus() {
+		return advancedStatus;
+	}
+
+	public void setAdvancedStatus(Integer advancedStatus) {
+		this.advancedStatus = advancedStatus;
+	}
+	
 	
 	
 

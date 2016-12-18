@@ -19,11 +19,48 @@
 
   </head>
   <script type="text/javascript">
+  	/** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAllExp");
+		   if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
+	}
+	
+	/** 单选 */
+	function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAllExp");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
+  
   	//返回
   	function goBack(){
   		var projectId = $("#projectId").val();
   		var flowDefineId = $("#flowDefineId").val();
-  		window.location.href="${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId;
+  		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+  		//window.location.href="${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId;
   	}
   	//查看专家对所有供应商的初审明细
 	function viewByExpert(obj, packageId, projectId, flowDefineId){
@@ -48,44 +85,49 @@
 	}
   </script>
   <body>
-	    <h2 class="list_title">${pack.name}初审查看</h2>
-	    <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
+	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
+	    <div class="mb5 fr">
 		    <button class="btn" onclick="window.print();" type="button">打印</button>
+		    <button class="btn" onclick="" type="button">汇总</button>
+		    <button class="btn" onclick="" type="button">复核</button>
+		    <button class="btn" onclick="" type="button">结束</button>
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
-	  	<table class="table table-bordered table-condensed table-hover table-striped">
+	  	<table class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
  		  <thead>
 		      <tr>
+		      	<th class="info w30"><input id="checkAllExp" type="checkbox" onclick="selectAll()" /></th>
 		        <th class="info">评委/供应商</th>
 		        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 		        	<th class="info">${supplier.suppliers.supplierName }</th>
 		        </c:forEach>
-		        <th class="tc w30"><button class="btn" onclick="viewByExpert(this,'${packageId}','${projectId}','${flowDefineId}');" type="button">查看明细</button></th>
+		        <%-- <th class="tc w30"><button class="btn" onclick="viewByExpert(this,'${packageId}','${projectId}','${flowDefineId}');" type="button">查看明细</button></th> --%>
 		      </tr>
 	      </thead>
 	      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
 		       <tr>
+		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 		        <td class="tc">${ext.expert.relName} </td>
-		        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+		        <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
 		        	<td class="tc">
-		        	  <c:forEach items="${supplierExtList }" var="supplierExt">
+		        	  <c:forEach items="${supplierExtList}" var="supplierExt">
 		        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId}">
-		        	  	${supplierExt.suppIsPass }
+		        	  	${supplierExt.suppIsPass}
 		        	  	</c:if>
 		        	  </c:forEach>
 		        	</td>
 	            </c:forEach>
-	            <td class="tc"><input type="radio" name="firstAuditByExpert" value="${ext.expert.id}"></td>
+	           <%--  <td class="tc"><input type="radio" name="firstAuditByExpert" value="${ext.expert.id}"></td> --%>
 		      </tr>
       	 </c:forEach>
-      	 	  <tr>
+      	 	  <%-- <tr>
       	 		<td class="tc"><button class="btn" onclick="viewBySupplier(this,'${packageId}','${projectId}','${flowDefineId}')" type="button">查看明细</button></td>
       	 		 <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
 			       	<td class="tc w30"><input type="radio" name="firstAuditBySupplier" value="${supplier.suppliers.supplierName}"/></td>
 			     </c:forEach>
 			    <td></td>
-	      	  </tr>
+	      	  </tr> --%>
   		</table>
   		<div class="col-md-12 pl20 mt10 tc">
 		    <button class="btn btn-windows back" onclick="goBack();" type="button">返回</button>

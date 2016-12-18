@@ -36,6 +36,10 @@ session.setAttribute("tokenSession", tokenValue);
 		updateStepNumber("two");
 		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
+	function pre2(name, i, position) {
+		updateStepNumber("seven");
+		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+	}
 	function pre1(name, i, position) {
 		updateStepNumber("one");
 		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
@@ -120,10 +124,11 @@ session.setAttribute("tokenSession", tokenValue);
 		  <h2 class="padding-20 mt40">
 			<span id="dy1" class="new_step current fl" onclick='pre1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 			<span id="dy2" class="new_step current fl" onclick='pre2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span> 
-			<span id="ty6" class="new_step current fl" onclick='pre6()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
-			<span id="dy3" class="new_step current fl" onclick='pre3()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-			<span id="dy4" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">文件下载</span> </span> 
-			<span id="dy5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">文件上传</span> </span> 
+			<span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">专家类别</span> </span>
+			<span id="ty6" class="new_step current fl" onclick='pre6()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">产品目录</span> </span>
+			<span id="dy3" class="new_step current fl" onclick='pre3()'><i class="">5</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+			<span id="dy4" class="new_step current fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">文件下载</span> </span> 
+			<span id="dy5" class="new_step fl"><i class="">7</i> <span class="step_desc_02">文件上传</span> </span> 
 			<div class="clear"></div>
 		  </h2>
 <div class="tab-content padding-top-20">
@@ -194,7 +199,7 @@ session.setAttribute("tokenSession", tokenValue);
    </tr>
    <tr>
 	 <td width="25%" class="bggrey">从事专业起始年度</td>
-	 <td width="25%"><fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM-dd" /></td>
+	 <td width="25%"><fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM" /></td>
 	 <td width="25%" class="bggrey">专家来源</td>
 	 <td width="25%" id="expertsFrom"></td>
    </tr>
@@ -202,7 +207,7 @@ session.setAttribute("tokenSession", tokenValue);
 	 <td width="25%" class="bggrey">专业技术职称/执业资格</td>
 	 <td width="25%">${expert.professTechTitles}</td>
 	 <td width="25%" class="bggrey">取得技术职称时间</td>
-	 <td width="25%"><fmt:formatDate value="${expert.makeTechDate}" pattern="yyyy-MM-dd" /></td>
+	 <td width="25%"><fmt:formatDate value="${expert.makeTechDate}" pattern="yyyy-MM" /></td>
    </tr>
    <tr>
 	 <td width="25%" class="bggrey">毕业院校及专业</td>

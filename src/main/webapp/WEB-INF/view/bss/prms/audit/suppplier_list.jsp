@@ -51,18 +51,10 @@
 	  
   }
    //项目评分
-  	function toGrade(){
+	function toGrade(){
 		var projectId = "${projectId}";
 	    var packageId = "${packageId}";
-	    var packageExpert = "${packageExpert}";
-	    if (packageExpert.isAudit == 1 && packageExpert.isGrade != 1) {
-		    window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
-	    } else {
-			layer.alert("符合性审查全部通过之后才可以进行此项操作!", {
-				offset : [ '222px', '390px' ],
-				shade : 0.01
-			});
-	    }
+		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
   	}
    //供应商报价
    function supplierPrice(){
@@ -140,15 +132,19 @@
    </div>
    <div class="container clear">
    <span class="fl option_btn margin-top-10 ml10">
-   	  <!--<c:if test="${packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">-->
-   	  <!--</c:if>-->
+   	  <!-- 需要判断状态才显示时将button放入下面的c:if中 -->
    	  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">评分</button>
-   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toTotal();">评分汇总</button>
-   	  <!--<c:if test="${packageExpert.isGroupLeader == 1 && packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">-->
-   	 <!-- </c:if>-->
-   	   <c:if test="${packageExpert.isAudit != 1  && packageExpert.isGrade == 0}">
-   	  <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>-->
+   	  <c:if test="${packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
    	  </c:if>
+   	  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="Javascript:void();">查看供应商报价</button>
+   	  <!-- 需要判断状态才显示时将button放入下面的c:if中 -->
+   	   <!--<button class="btn padding-left-10 padding-right-10 btn_back" onclick="toTotal();">评分汇总</button>
+   	  	<c:if test="${packageExpert.isGroupLeader == 1 && packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
+   	 	</c:if>-->
+   	 	
+   	  <!--  <c:if test="${packageExpert.isAudit != 1  && packageExpert.isGrade == 0}">
+   	  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>
+   	  </c:if>-->
    	  
        <!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button> -->
         <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="supplierPrice()">查看供应商报价</button>-->
@@ -158,7 +154,7 @@
                <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+          <th class="info"><input type="checkbox" onchange="selectAll()" id="checkAll"></th>
           <th class="info w50">序号</th>
           <th class="info">供应商名称</th>
           <th class="info">联系人姓名</th>
@@ -173,7 +169,7 @@
         	<c:if test="${fn:contains(obj.packages,packageId)}">
         		<c:set var="count" value="${count+1}"></c:set>
 	            <tr style="cursor: pointer;">
-	              <td class="tc w30"><input type="checkbox" value="${obj.suppliers.id }" name="chkItem"   alt=""></td>
+	              <td class="tc"><input type="checkbox" name="chkItem" value="${obj.suppliers.id}"></td>
 	              <td class="tc w50">${count}</td>
 	              <td class="tc">${obj.suppliers.supplierName }</td>
 	              <td class="tc">${obj.suppliers.contactName }</td>

@@ -19,6 +19,7 @@ import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Area;
@@ -47,6 +48,7 @@ import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierBranchService;
+import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -122,6 +124,11 @@ public class SupplierServiceImpl implements SupplierService {
     @Autowired
     private OrgnizationServiceI orgnizationServiceI;
     
+    @Autowired
+    private SupplierFinanceMapper supplierFinanceMapper;
+    
+    @Autowired
+    private SupplierFinanceService supplierFinanceService;
     
     @Override
     public Supplier get(String id) {
@@ -137,7 +144,9 @@ public class SupplierServiceImpl implements SupplierService {
         //		}
         //		supplier.setSupplierTypeNames(supplierTypeNames);
         List<SupplierTypeRelate> relateList = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(id);
-        
+        supplier.setListSupplierFinances(null);
+        List<SupplierFinance> fiance = supplierFinanceMapper.getFinanceBySid(id);
+        supplier.setListSupplierFinances(fiance);
         StringBuffer sb=new StringBuffer();
         if(relateList!=null&&relateList.size()>0){
             for(SupplierTypeRelate s:relateList){
@@ -336,6 +345,9 @@ public class SupplierServiceImpl implements SupplierService {
 		if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
 			supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
 		}
+		if(supplier.getListSupplierFinances()!=null&&supplier.getListSupplierFinances().size()>0){
+			supplierFinanceService.add(supplier.getListSupplierFinances());
+		}
     }
 
     /**
@@ -458,7 +470,7 @@ public class SupplierServiceImpl implements SupplierService {
         	}
            
         } else if (status == 1) {
-            map.put("status", "信息待复审, 请等待审核 !");
+            map.put("status", "success");
         } else if (status == 2) {
             map.put("status", "初审未通过 !");
         } else if (status == 3) {
@@ -599,5 +611,13 @@ public class SupplierServiceImpl implements SupplierService {
 		return lastDate;
 	} 
 
+	@Override
+	public List<Supplier> findAllUsefulSupplier() {
+		return supplierMapper.findAllUsefulSupplier();
+	}
 
+	@Override
+	public Supplier selectOne(String id) {
+		return supplierMapper.selectOne(id);
+	}
 }

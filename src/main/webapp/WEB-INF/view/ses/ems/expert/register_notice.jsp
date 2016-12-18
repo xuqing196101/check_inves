@@ -18,6 +18,9 @@
 			}
 		});
 	});
+	function downNotice(){
+		window.location.href="${pageContext.request.contextPath}/expert/downNotice.html";
+	}
 </script>
 
 </head>
@@ -28,16 +31,22 @@
 		<div class="container content height-350 job-content ">
 			<div class="col-md-12 p20 border1 margin-top-20 mb40">
 				<div class="tab-v1">
-					<h2 class="tc bbgrey">阅读评审专家须知</h2>
+					<!-- <h2 class="tc bbgrey">阅读评审专家须知</h2> -->
 				</div>
 				<div class="tab-content margin-bottom-20 margin-top-20 lh24">
-				${doc }
+				${doc}
+					<div class="mt40">
+						<div class="fl">
+							文件下载：<span class="ml10">评审专家须知</span><a onclick='downNotice()' href="javascript:void(0)" class="download"></a>
+						</div>
+						<div class="clear"></div>
+					</div>
 					<div class="mt40">
 						<input id="registration_input_id" type="checkbox" checked="checked" class="radio_orange"><span class="ml10">我已阅读，并且完全遵守相关规定</span>
 					</div>
 					<div class="mt40 tc">
-					    <a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 						<input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/expert/toExpert.html'" value="开始注册">
+					    <input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location.href='javascript:history.go(-1);'" value="取消">
 					</div>
 				</div>
 			</div>

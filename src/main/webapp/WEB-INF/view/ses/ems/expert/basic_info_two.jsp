@@ -28,26 +28,14 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	//无提示暂存
 	function submitForm2(){
+		updateStepNumber("seven");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
 			type: "post",
-			async: false,
+			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				$.ajax({
-					url:"${pageContext.request.contextPath}/expert/getAllCategory.do",
-					data:{"expertId":$("#id").val()},
-					async:false,
-					dataType:"json",
-					success:function(response){
-						if (!$.isEmptyObject(response)) {
-							updateStepNumber("six");
-						} else {
-							updateStepNumber("three");					
-						}
-					}
-				});
 				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			 }
 		});
@@ -229,10 +217,11 @@ session.setAttribute("tokenSession", tokenValue);
 	  		<h2 class="padding-20 mt40">
 				<span id="ty1" class="new_step current fl"  onclick='pre()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 				<span id="ty2" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span>
-				<span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
-				<span id="ty3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-				<span id="ty4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">文件下载</span> </span> 
-				<span id="ty5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">文件上传</span> </span> 
+				<span id="sp7" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">专家类别</span> </span>
+				<span id="ty6" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">产品目录</span> </span>
+				<span id="ty3" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+				<span id="ty4" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">文件下载</span> </span> 
+				<span id="ty5" class="new_step fl"><i class="">7</i> <span class="step_desc_02">文件上传</span> </span> 
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">

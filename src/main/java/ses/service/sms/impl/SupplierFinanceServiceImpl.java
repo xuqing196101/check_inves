@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -182,11 +183,19 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		yearList.add(year2);
 		yearList.add(year3);
 		SupplierFinance sf1=new SupplierFinance();
+		String id1 = UUID.randomUUID().toString().replaceAll("-", "");
+		sf1.setId(id1);
 		sf1.setYear(String.valueOf(yearList.get(2)));
 		
 		SupplierFinance sf2=new SupplierFinance();
+		String id2 = UUID.randomUUID().toString().replaceAll("-", "");
+		sf2.setId(id2);
+		
 		sf2.setYear(String.valueOf(yearList.get(1)));
 		SupplierFinance sf3=new SupplierFinance();
+		String id3 = UUID.randomUUID().toString().replaceAll("-", "");
+		sf2.setId(id3);
+		
 		sf3.setYear(String.valueOf(yearList.get(0)));
 		List<SupplierFinance> list=new  ArrayList<SupplierFinance>();
 		list.add(sf1);
@@ -244,4 +253,17 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
     public void save(SupplierFinance supplierFinance) {
         supplierFinanceMapper.insertSelective(supplierFinance);        
     }
+
+	@Override
+	public void add(List<SupplierFinance> list) {
+		for(SupplierFinance s:list){
+			SupplierFinance finance = supplierFinanceMapper.selectByPrimaryKey(s.getId());
+			if(finance!=null){
+				supplierFinanceMapper.updateByPrimaryKeySelective(s);
+			}else{
+				supplierFinanceMapper.insertSelective(s);
+;			}
+		}
+		
+	}
 }

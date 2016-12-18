@@ -35,7 +35,10 @@ public class ScoreModelServiceImpl implements ScoreModelService{
 	public int delScoreModelByid(HashMap<String, Object> map) {
 		return scoreModelMapper.delScoreModelByid(map);
 	}
-
+	
+	public void deleteScoreModelByMtId(String id) {
+        scoreModelMapper.deleteScoreModelByMtId(id);
+    }
 	@Override
 	public int delSoftScoreModelByid(HashMap<String, Object> map) {
 		return scoreModelMapper.delSoftScoreModelByid(map);

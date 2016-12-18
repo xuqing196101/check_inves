@@ -39,9 +39,11 @@ import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
 import bss.util.ScoreModelUtil;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierService;
 
@@ -73,6 +75,8 @@ public class ReviewFirstAuditController {
 	private SupplierService supplierService;//供应商查询
 	@Autowired
 	private ExpertScoreService expertScoreService;//供应商查询
+	@Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;//供应商查询
 
 	/**
 	 * 
@@ -168,33 +172,42 @@ public class ReviewFirstAuditController {
 		HashMap<String, Object> map2 = new HashMap<>();
 		map2.put("id", packageId);
 		//查询包信息
-		List<Packages> packages = packageService.findPackageById(map2 );
+		List<Packages> packages = packageService.findPackageById(map2);
 		if(packages!=null && packages.size()>0){
 			model.addAttribute("pack", packages.get(0));
 		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("projectId", projectId);
 		map.put("packageId", packageId);
-		if(expert.getExpertsTypeId().equals("1"))
-		map.put("typeName",expert.getExpertsTypeId());
-		if(expert.getExpertsTypeId().equals("3"))
-			map.put("typeName",0);
-		
+		String[] typeIds = expert.getExpertsTypeId().split(",");
+		List<AuditModelExt> findAllByMap = new ArrayList<AuditModelExt>();
+		for (String id : typeIds) {
+            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(id);
+            // 判断如果kind值为6,代表专家类别有技术类
+            if (dictionaryData.getKind() == 6) {
+                map.put("typeName", "1");
+                findAllByMap.addAll(aduitQuotaService.findAllByMap(map));
+            }
+            // 判断如果kind值为19,代表专家类别有经济类
+            if (dictionaryData.getKind() == 19) {
+                map.put("typeName", "0");
+                findAllByMap.addAll(aduitQuotaService.findAllByMap(map));
+            }
+		}
 		//查询评分信息
-		List<AuditModelExt> findAllByMap = aduitQuotaService.findAllByMap(map);
 		removeAuditModelExt(findAllByMap);
 		model.addAttribute("list", findAllByMap);
 		//查询供应商信息
 		List<Supplier> supplierList = new ArrayList<>();
 		Map<String,Object> supplierMap = new HashMap<>();
-		supplierMap.put("projectId", projectId);
-		supplierMap.put("packageId", packageId);
-		if(findAllByMap!=null && findAllByMap.size()>0){
-			for (AuditModelExt auditModelExt : findAllByMap) {
-				supplierMap.put("supplierId", auditModelExt.getSupplierId());
-				List<ReviewFirstAudit> list = service.selectList(supplierMap);
-				if(list!=null && list.size()>0){
-					//如果有一项不合格 那么就不参加评分
+        supplierMap.put("projectId", projectId);
+        supplierMap.put("packageId", packageId);
+        if(findAllByMap!=null && findAllByMap.size()>0){
+        	for (AuditModelExt auditModelExt : findAllByMap) {
+        		supplierMap.put("supplierId", auditModelExt.getSupplierId());
+        		List<ReviewFirstAudit> list = service.selectList(supplierMap);
+        		if(list!=null && list.size()>0){
+        		    //如果有一项不合格 那么就不参加评分
 					int flag = 0;
 					for (ReviewFirstAudit reviewFirstAudit : list) {
 						if(reviewFirstAudit.getIsPass()==1){

@@ -35,7 +35,7 @@ public class MarkTermServiceImpl implements MarkTermService{
 		markTerm.setRemainScore(markTerm.getMaxScore());
 		int a = markTermMapper.saveMarkTerm(markTerm);
 		//不是根节点  只有在根节点增加的子节点才会减少剩余得分
-		if(markTerm.getPid()!=null && !markTerm.getPid().equals("")){
+		if(!"0".equals(markTerm.getRemainScore()) && markTerm.getPid()!=null && !markTerm.getPid().equals("")){
 			MarkTerm m1 = new MarkTerm();
 			m1.setId(markTerm.getPid());
 			m1 = markTermMapper.findListByMarkTerm(m1).get(0);

@@ -477,7 +477,8 @@ public class AuditSetController {
 	   	        cell.setCellValue(p.getDeliverDate());  
 	   	        
 	   	        cell = row.createCell( 10);  
-	   	        cell.setCellValue(p.getPurchaseType());  
+	   	        DictionaryData dicType = DictionaryDataUtil.findById(p.getPurchaseType());
+	   	        cell.setCellValue(dicType.getName());  
 	   	        
 	   	        
 	   	        cell = row.createCell( 11);  

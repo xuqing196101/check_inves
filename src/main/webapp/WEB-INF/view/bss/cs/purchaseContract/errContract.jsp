@@ -1,0 +1,1050 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="../../../common.jsp"%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>页签</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+  </head>
+  
+  	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+    <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
+  	
+    <script type="text/javascript">
+    var treeid = null , nodeName=null;
+	var datas;
+	 $(document).ready(function(){  
+          $.fn.zTree.init($("#treeDemo"),setting,datas);
+	      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
+	      for(var i=0 ;i<nodes.length;i++){
+		     if (nodes[i].status==1) {
+				 check==true;
+		      }
+	       }
+	      var conTy = "${purCon.contractType}";
+	      var putTy = "${purCon.purchaseType}";
+	 	  $("#contractType").val(conTy);
+	 	  $("#purchaseType").val(putTy);
+	      $.ajax({
+	          contentType: "application/json;charset=UTF-8",
+	          url: "${pageContext.request.contextPath }/purchaseContract/findAllUsefulOrg.do",
+	          type: "POST",
+	          dataType: "json",
+	          success: function(orgs) {
+	            if(orgs) {
+	              $("#purchaseDeps").append("<option></option>");
+	              $.each(orgs, function(i, org) {
+	                if(org.name != null && org.name != '') {
+	                  $("#purchaseDeps").append("<option value=" + org.id + ">" + org.name + "</option>");
+	                }
+	              });
+	            }
+	            $("#purchaseDeps").select2();
+	            $("#purchaseDeps").select2("val", "${purCon.purchaseDepName}");
+	          }
+	    });
+	      
+	    $.ajax({
+	          contentType: "application/json;charset=UTF-8",
+	          url: "${pageContext.request.contextPath }/purchaseContract/findAllUsefulSupplier.do",
+	          type: "POST",
+	          dataType: "json",
+	          success: function(orgs) {
+	            if(orgs) {
+	              $("#supplierDeps").append("<option></option>");
+	              $.each(orgs, function(i, org) {
+	                if(org.supplierName != null && org.supplierName != '') {
+	                  $("#supplierDeps").append("<option value=" + org.id + ">" + org.supplierName + "</option>");
+	                }
+	              });
+	            }
+	            $("#supplierDeps").select2();
+	            $("#supplierDeps").select2("val", "${purCon.supplierDepName}");
+	          }
+	    });
+	    
+	    $.ajax({
+	          contentType: "application/json;charset=UTF-8",
+	          url: "${pageContext.request.contextPath }/purchaseContract/findAllUsefulPurDep.do",
+	          type: "POST",
+	          dataType: "json",
+	          success: function(orgs) {
+	            if(orgs) {
+	              $("#bingDeps").append("<option></option>");
+	              $.each(orgs, function(i, org) {
+	                if(org.depName != null && org.depName != '') {
+	                  $("#bingDeps").append("<option value=" + org.id + ">" + org.depName + "</option>");
+	                }
+	              });
+	            }
+	            $("#bingDeps").select2();
+	            $("#bingDeps").select2("val", "${purCon.bingDepName}");
+	          }
+	    });
+	 }); 
+	 var setting={
+		   async:{
+					autoParam:["id"],
+					enable:true,
+					url:"${pageContext.request.contextPath}/category/createtree.do",
+					otherParam:{"otherParam":"zTreeAsyncTest"},  
+					dataType:"json",
+					datafilter:filter,
+					type:"get",
+				},
+				callback:{
+			    	onClick:zTreeOnClick,//点击节点触发的事件
+       			    
+			    }, 
+				data:{
+					keep:{
+						parent:true
+					},
+					key:{
+						title:"title"
+					},
+					simpleData:{
+						enable:true,
+						idKey:"id",
+						pIdKey:"pId",
+						rootPId:"0",
+					}
+			    },
+			   view:{
+			        selectedMulti: false,
+			        showTitle: false,
+			   },
+         };
+	
+	 
+	 function filter(treeId,parentNode,childNode){
+		 if (!childNodes) return null;
+			for(var i = 0; i<childNodes.length;i++){
+				childNodes[i].name = childNodes[i].name.replace(/\.n/g,'.');
+			}
+		return childNodes;
+	 }
+	 
+	 function changeXuqiuDep(){
+		 var purchaseDepId = $("#purchaseDeps").select2("val");
+		 $.ajax({
+	          contentType: "application/json;charset=UTF-8",
+	          url: "${pageContext.request.contextPath}/purchaseContract/changeXuqiu.do?id="+purchaseDepId,
+	          type: "POST",
+	          dataType: "json",
+	          success: function(org) {
+	        	  $("#purchaseContactTelephone").val(org.telephone);
+	        	  $("#purchaseContactAddress").val(org.address);
+	          }
+	    });
+	 }
+	 
+	 function changeSupplierDep(){
+		 var supplierId = $("#supplierDeps").select2("val");
+		 $.ajax({
+	          contentType: "application/json;charset=UTF-8",
+	          url: "${pageContext.request.contextPath}/purchaseContract/changeSupplierDep.do?id="+supplierId,
+	          type: "POST",
+	          dataType: "json",
+	          success: function(org) {
+	        	  $("#supplierLegal").val(org.legalName);
+	        	  $("#supplierContact").val(org.contactName);
+	        	  $("#supplierContactTelephone").val(org.contactTelephone);
+	        	  $("#supplierContactAddress").val(org.address);
+	        	  $("#supplierUnitpostCode").val(org.postCode);
+	        	  $("#supplierBank").val(org.bankName);
+	        	  $("#supplierBankAccount_string").val(org.bankAccount);
+	          }
+	    });
+	 }
+	 
+	 function createContract(){
+		 $("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?ids=${id}");
+		 $("#contractForm").submit();
+	 }
+	 
+	 function changePurDep(){
+		 var purDepId = $("#bingDeps").select2("val");
+		 $.ajax({
+	          contentType: "application/json;charset=UTF-8",
+	          url: "${pageContext.request.contextPath}/purchaseContract/changePurDep.do?id="+purDepId,
+	          type: "POST",
+	          dataType: "json",
+	          success: function(org) {
+	        	  $("#bingContact").val(org.contact);
+	        	  $("#bingContactTelephone").val(org.contactTelephone);
+	        	  $("#bingContactAddress").val(org.contactAddress);
+	        	  $("#bingUnitpostCode").val(org.unitPostCode);
+	          }
+	    });
+	 }
+	 
+	 /** 判断是否为根节点 */
+	    function isRoot(node){
+	    	if (node.pId == 0){
+	    		return true;
+	    	} 
+	    	return false;
+	    }
+	 
+	 /*点击事件*/
+	    function zTreeOnClick(event,treeId,treeNode){
+	  	  if (isRoot(treeNode)){
+	  		  layer.msg("不可选择根节点");
+	  		  return;
+	  	  }
+    	  if (treeNode) {
+            $("#citySel4").val(treeNode.name);
+            $("#categorieId4").val(treeNode.id);
+            hideMenu();
+    	  }
+	    }
+   	 
+   	function next(){
+   		var ids = "${ids}";
+   		window.location.href="${pageContext.request.contextPath}/purchaseContract/createDetailContract.html?ids="+ids;
+   	}
+   	
+   	
+    /** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 }
+	}
+	
+	/** 单选 */
+	function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
+	
+	function delDetail(){
+		var checkedInp = $('input[name="chkItem"]:checked');
+		if(checkedInp.length>0){
+			$('input[name="chkItem"]:checked').each(function(){
+				$(this).parent().parent().remove();
+			})
+		}else{
+			layer.alert("请选择要删除的信息",{offset: ['50%', '390px'], shade:0.01});
+		}
+    }
+   	
+    function showMenu() {
+		var cityObj = $("#citySel4");
+		var cityOffset = $("#citySel4").offset();
+		$("#menuContent").css({left: "81px", top: "79px"}).slideDown("fast");
+
+		$("body").bind("mousedown", onBodyDown);
+	}
+    function hideMenu() {
+		$("#menuContent").fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDown);
+	}
+	function onBodyDown(event) {
+		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+			hideMenu();
+		}
+	}
+	
+	function bynSub(){
+		
+		var sum1 = $("#purBudgetSum").val()-0;
+		var sumbudget = $("#budget").val();
+		var sum2 = null;
+		var tds = $(".ss");
+		for(var i=0;i<tds.length;i++){
+			var num1 = $(tds[i]).val()-0;
+			sum2 = sum2+num1;
+		}
+		var sumAll = sum1+sum2;
+		if(sumAll>sumbudget){
+			layer.close(index);
+			layer.alert("明细总价不得超过预算",{offset: ['50%', '40%'], shade:0.01});
+			return;
+		}
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/purchaseContract/validAddRe.html",
+			type:"post",
+			dataType:"json",
+			data:$('#myForm').serialize(),
+			success:function(data){
+				if(data==1){
+					var detab = $("#detailtable tr:last td:eq(1)");
+					var vstab = Number(detab.html());
+					if($("#detailtable tr").length<=1){
+						vstab = 0;
+					}
+					var html = "";
+					var tabl = $("#detailtable");
+					html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+					html += "<td class='tc w50'>"+(vstab+1)+"</td>";
+					html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' readonly='readonly' value='"+$('#planNo').val()+"' class='w50'/></td>";
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].goodsName' readonly='readonly' value='"+$('#citySel4').val()+"'/></td>";
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].brand' readonly='readonly' value='"+$('#bra').val()+"'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].stand' readonly='readonly' value='"+$('#model').val()+"' class='w60'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' readonly='readonly' value='"+$('#unit').val()+"' class='w50'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' readonly='readonly' value='"+$('#purNum').val()+"' class='w50'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' readonly='readonly' value='"+$('#univalent').val()+"' class='w50'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' readonly='readonly' value='"+$('#purBudgetSum').val()+"' class='w50'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' readonly='readonly' value='"+$('#givetime').val()+"' class='w100'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].memo' readonly='readonly' value='"+$('#remarks').val()+"'/></td>"
+					html += "<td class='tnone'></td>"
+					tabl.append(html);
+					layer.close(index);
+				}else{
+					var obj = new Function("return" + data)();
+					$("#wzmc").text(obj.wzmc);
+					$("#bh").text(obj.bh);
+					$("#jfsj").text(obj.jfsj);
+					$("#ppsb").text(obj.ppsb);
+					$("#ggxh").text(obj.ggxh);
+					$("#jldw").text(obj.jldw);
+					$("#sl").text(obj.sl);
+					$("#dj").text(obj.dj);
+				}
+			}
+		});
+	}
+	
+	function quxiao(){
+	     layer.close(index);
+	}
+	
+	function sum1(){
+		var budget = $("#univalent").val()-0;
+		var other = $("#purNum").val()-0;
+		var sum = budget*other;
+		$("#purBudgetSum").val(sum);
+	}
+	
+	var index;
+	function openDetail(){
+	  index =  layer.open({
+	    shift: 1, //0-6的动画形式，-1不开启
+	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	    title: ['新增明细','border-bottom:1px solid #e5e5e5'],
+	    shade:0.01, //遮罩透明度
+		type : 1,
+		area : [ '50%', '400px' ], //宽高
+		content : $('#openDiv'),
+		offset: ['10%', '10%']
+	  });
+    }
+	
+	function staging(){
+		$("#status").val("0");
+		$("#contractForm").submit();
+	}
+	
+	var ind = null;
+	function protocol(){
+		ind = layer.open({
+			shift: 1, //0-6的动画形式，-1不开启
+		    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		    title: ['生成草案信息','border-bottom:1px solid #e5e5e5'],
+		    shade:0.01, //遮罩透明度
+			type : 1,
+			skin : 'layui-layer-rim', //加上边框
+			area : [ '40%', '250px' ], //宽高
+			content : $('#numberWin'),
+			offset: ['30%', '25%']
+		});
+		
+	}
+	
+	function save(){
+		var draftGitAt = $("#draftGitAt").val();
+		var draftReviewedAt = $("#draftReviewedAt").val();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/purchaseContract/addDraftGit.html",
+			type:"post",
+			dataType:"json",
+			data:{"draftGitAt":draftGitAt,"draftReviewedAt":draftReviewedAt},
+			success:function(data){
+				if(data==1){
+					$("#status").val("1");
+					var draftGitAt = $("#draftGitAt").val();
+					var draftReviewedAt = $("#draftReviewedAt").val();
+					$("#dga").val(draftGitAt);
+					$("#dra").val(draftReviewedAt);
+					$("#contractForm").submit();
+				}else{
+					var obj = new Function("return" + data)();
+					$("#gitTime").text(obj.gitAt);
+					$("#reviewTime").text(obj.reviewAt);
+					$("#draftGitAt").val(obj.gitStr);
+					$("#draftReviewedAt").val(obj.reviewedStr);
+				}
+			}
+		});
+	}
+	
+	function cancel(){
+		layer.close(ind);
+	}
+	
+	function imTemplet(){
+		var iframeWin;
+        layer.open({
+          type: 2, //page层
+          area: ['800px', '400px'],
+          title: '引用模板',
+          closeBtn: 1,
+          shade:0.01, //遮罩透明度
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['10%', '20%'],
+          shadeClose: false,
+          content: '${pageContext.request.contextPath}/resultAnnouncement/getAll.html',
+          success: function(layero, index){
+            iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+          }
+        });
+    }
+	
+	function printContract(){
+		$("#draftrevi").attr("class","list-unstyled mt10");
+		layer.open({
+		shift: 1, //0-6的动画形式，-1不开启
+	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	    title: ['生成草案信息','border-bottom:1px solid #e5e5e5'],
+	    shade:0.01, //遮罩透明度
+		type : 1,
+		skin : 'layui-layer-rim', //加上边框
+		area : [ '35%', '250px' ], //宽高
+		content : $('#draftrevi'),
+		offset: ['30%', '25%']
+	   });
+	}
+	
+	function toprintmodel(){
+		var text = $("#post_attach_show_disFileId").find("a").text();
+		if(text==null || text==''){
+			layer.alert("请先上传附件",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/printContract.html?ids=${id}");
+			$("#contractForm").submit();
+		}
+	}
+	
+	function abandoned(){
+		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
+	}
+</script>
+<body>
+<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购合同管理</a></li><li class="active"><a href="#">合同文本修改</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+   
+ <!-- 页签开始  -->  
+ <div class="container content pt0">
+ <div class="row magazine-page">
+   <div class="col-md-12 tab-v2">
+        <div class="padding-top-10">
+          <ul class="nav nav-tabs bgwhite">
+            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">基本信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">标的信息</a></li>
+			<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="record f18">合同文本</a></li>
+          </ul>
+          <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/addPurchaseContract.html?ids=${id}" method="post">
+          <div class="tab-content padding-top-20">
+            <div class="tab-pane fade active in" id="tab-1">
+	   		<input type="hidden" name="status" value="" id="status"/>
+	   		<input type="hidden" name="supplierPurId" value="${purCon.supplierPurId}"/>
+	   		<input type="hidden" name="projectName" value="${purCon.projectName}"/>
+	   		<input type="hidden" name="projectId" value="${purCon.projectId}"/>
+	   		<input type="hidden" name="isImport" value="${purCon.isImport}">
+	   		<input type="hidden" name="supcheckid" value="${supcheckid}">
+	   		<input type="hidden" id="dga" name="dga" value=""/>
+	   		<input type="hidden" id="dra" name="dra" value="">
+	   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
+	   		<ul class="list-unstyled ul_list">
+	   			<input type="hidden" class="contract_id" name="contract_id">
+			     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同名称：</span>
+				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			        <input class=" contract_code" id="contract_code" value="${purCon.name}" name="name" type="text">
+			        <div class="cue">${ERR_name}</div>
+			       </div>
+				 </li>
+	    		 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同编号：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="code" value="${purCon.code}" type="text">
+			        	<div class="cue">${ERR_code}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同金额：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="money_string" value="${purCon.money_string}" type="text">
+			        	<div class="cue">${ERR_money}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>计划任务文号：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="documentNumber" value="${purCon.documentNumber}" type="text">
+			        	<div class="cue">${ERR_documentNumber}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>采购机构资格证号：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="quaCode" value="${purCon.quaCode}" type="text">
+			        	<div class="cue">${ERR_quaCode}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>预算：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" id="budget" name="budget_string" value="${purCon.budget_string}" type="text">
+			        	<div class="cue">${ERR_budget}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项级预算科目：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="budgetSubjectItem" value="${purCon.budgetSubjectItem}" type="text">
+			        	<div class="cue">${ERR_budgetSubjectItem}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同类型：</span>
+				     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			        	<select name="contractType" id="contractType" class=" contract_name">
+			        		<option></option>
+			        		<option value="0">正常采购合同</option>
+			        		<option value="1">以厂代储合同</option>
+			        		<option value="2">合同储备合同</option>
+			        	</select>
+			        	<div class="cue">${ERR_contractType}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>采购方式：</span>
+				     <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
+			        	<select name="purchaseType" id="purchaseType"  class="contract_name">
+			        		<option></option>
+			        		<c:forEach items="${kinds}" var="kind">
+			        			<option value="${kind.id}">${kind.name}</option>
+			        		</c:forEach>
+			        	</select>
+			        	<div class="cue">${ERR_purchaseType}</div>
+			        </div>
+			 	</li>
+				 <div class="clear"></div>
+			 </ul>
+	   		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
+			 <ul class="list-unstyled ul_list">
+	    		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方单位：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<select id="purchaseDeps" name="purchaseDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeXuqiuDep()">
+                		</select>
+			        	<!-- <input class=" supplier_id" name="purchaseDepName" value="${project.orgnization.name}" type="text"> -->
+			        	<div class="cue">${ERR_purchaseDepName}</div>
+	       			</div>
+				 </li>
+			     <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方法人：</span>
+				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			        <input class=" supplier_name" name="purchaseLegal" value="${purCon.purchaseLegal}" type="text">
+			        <div class="cue">${ERR_purchaseLegal}</div>
+			       </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方委托代理人：</span>
+				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			        <input class=" supplier_name" name="purchaseAgent" value="${purCon.purchaseAgent}" type="text">
+			        <div class="cue">${ERR_purchaseAgent}</div>
+			       </div>
+				 </li>
+	    		 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方联系人：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" name="purchaseContact" value="${purCon.purchaseContact}" type="text">
+			         <div class="cue">${ERR_purchaseContact}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方联系电话：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="purchaseContactTelephone" name="purchaseContactTelephone" value="${purCon.purchaseContactTelephone}" type="text">
+			         <div class="cue">${ERR_purchaseContactTelephone}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12"><div class="red star_red">*</div>甲方通讯地址：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="purchaseContactAddress" name="purchaseContactAddress" value="${purCon.purchaseContactAddress}" type="text">
+			         <div class="cue">${ERR_purchaseContactAddress}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方邮政编码：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" name="purchaseUnitpostCode" value="${purCon.purchaseUnitpostCode}" type="text">
+			         <div class="cue">${ERR_purchaseUnitpostCode}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方付款单位：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" name="purchasePayDep" value="${purCon.purchasePayDep}" type="text">
+			         <div class="cue">${ERR_purchasePayDep}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方开户银行：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" name="purchaseBank" value="${purCon.purchaseBank}" type="text">
+			         <div class="cue">${ERR_purchaseBank}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方银行账号：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" name="purchaseBankAccount_string" value="${purCon.purchaseBankAccount_string}" type="text">
+			         <div class="cue">${ERR_purchaseBankAccount}</div>
+			        </div>
+				 </li>
+				 <div class="clear"></div>
+			 </ul>
+	
+	   		<h2 class="f16 count_flow mt40"><i>03</i>乙方信息</h2>
+			 <ul class="list-unstyled ul_list">
+				 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<select id="supplierDeps" name="supplierDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeSupplierDep()">
+                		</select>
+			        	<!-- <input class=" supplier_id" name="supplierDepName" type="text" value="${project.dealSupplier.supplierName}"> -->
+			        	<div class="cue">${ERR_supplierDepName}</div>
+	       			</div>
+				 </li>
+			     <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方法人：</span>
+				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			        <input class=" supplier_name" id="supplierLegal" name="supplierLegal" type="text" value="${purCon.supplierLegal}">
+			        <div class="cue">${ERR_supplierLegal}</div>
+			       </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方委托代理人：</span>
+				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			        <input class=" supplier_name" name="supplierAgent" value="${purCon.supplierAgent}" type="text">
+			        <div class="cue">${ERR_supplierAgent}</div>
+			       </div>
+				 </li>
+	    		 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方联系人：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="supplierContact" name="supplierContact" value="${purCon.supplierContact}" type="text">
+			         <div class="cue">${ERR_supplierContact}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方联系电话：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="supplierContactTelephone" name="supplierContactTelephone" value="${purCon.supplierContactTelephone}" type="text">
+			         <div class="cue">${ERR_supplierContactTelephone}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方通讯地址：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="supplierContactAddress" name="supplierContactAddress" value="${purCon.supplierContactAddress}" type="text">
+			         <div class="cue">${ERR_supplierContactAddress}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方邮政编码：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="supplierUnitpostCode" name="supplierUnitpostCode" value="${purCon.supplierUnitpostCode}" type="text">
+			         <div class="cue">${ERR_supplierUnitpostCode}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方开户名称：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="supplierBankName" name="supplierBankName" value="${purCon.supplierBankName}" type="text">
+			         <div class="cue">${ERR_supplierBankName}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方开户银行：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="supplierBank" name="supplierBank" value="${purCon.supplierBank}" type="text">
+			         <div class="cue">${ERR_supplierBank}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方银行账号：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="supplierBankAccount_string" name="supplierBankAccount_string" value="${purCon.supplierBankAccount_string}" type="text">
+			         <div class="cue">${ERR_supplierBankAccount}</div>
+			        </div>
+				 </li>
+				 <div class="clear"></div>
+			</ul>
+			<h2 class="f16 count_flow mt40"><i>04</i>丙方信息</h2>
+			 <ul class="list-unstyled ul_list">
+				 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方单位：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<select id="bingDeps" name="bingDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changePurDep()">
+                		</select>
+			        	<!--  <input class=" supplier_id" name="bingDepName" type="text" value="${project.purchaseDep.depName}">-->
+			        	<div class="cue">${ERR_bingDepName}</div>
+	       			</div>
+				 </li>
+			     <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方联系人：</span>
+				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			        <input class=" supplier_name" id="bingContact" name="bingContact" type="text" value="${purCon.bingContact}">
+			        <div class="cue">${ERR_bingContact}</div>
+			       </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方联系电话：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="bingContactTelephone" name="bingContactTelephone" value="${purCon.bingContactTelephone}" type="text">
+			         <div class="cue">${ERR_bingContactTelephone}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方通讯地址：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="bingContactAddress" name="bingContactAddress" value="${purCon.bingContactAddress}" type="text">
+			         <div class="cue">${ERR_bingContactAddress}</div>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方邮政编码：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			         <input class=" supplier_name" id="bingUnitpostCode" name="bingUnitpostCode" value="${purCon.bingUnitpostCode}" type="text">
+			         <div class="cue">${ERR_bingUnitpostCode}</div>
+			        </div>
+				 </li>
+			</ul>
+            </div>
+            <div class="tab-pane fade " id="tab-2">
+              <div class="margin-bottom-0  categories over_hideen">
+				<div class="col-md-12 col-xs-12 col-sm-12 p0">
+					<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
+					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
+				</div>
+					<div class="col-md-12 col-sm-12 col-xs-12 p0">
+			    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 mt10">
+					 <thead>
+						<tr>
+							<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+							<th class="info w50">序号</th>
+							<th class="info">编号</th>
+							<th class="info">物资名称</th>
+							<th class="info">品牌商标</th>
+							<th class="info">规格型号</th>
+							<th class="info">计量单位</th>
+							<th class="info">数量</th>
+							<th class="info">单价(元)</th>
+							<th class="info">合计金额(元)</th>
+							<th class="info">交付时间</th>
+							<th class="info">备注</th>
+						</tr>
+					</thead>
+					<c:forEach items="${requList}" var="reque" varStatus="vs">
+						<tr>
+							<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+				<td class="tc w50">${(vs.index+1)}</td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" readonly="readonly" value="${reque.planNo}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" readonly="readonly" value="${reque.goodsName}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" readonly="readonly" value="${reque.brand}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" readonly="readonly" value="${reque.stand}" class="w60"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" readonly="readonly" value="${reque.item}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" readonly="readonly" value="${reque.purchaseCount}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" readonly="readonly" value="${reque.price}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" readonly="readonly" value="${reque.amount}" class="ss w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" readonly="readonly" value="${reque.deliverDate}" class="w100"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}"/></td>
+						</tr>
+			   		</c:forEach>
+				</table>
+				</form>
+				<div id="openDiv" class="dnone layui-layer-wrap">
+		 		<div id="menuContent" class="menuContent dw188 tree_drop">
+					<ul id="treeDemo" class="ztree slect_option"></ul>
+				</div>
+				<div class="drop_window">
+				<form id="myForm" action="${pageContext.request.contextPath}/purchaseContract/validAddRe.html">
+				  <ul class="list-unstyled">
+				    <li class="mt10 col-md-12 p0">
+		    	      <label class="col-md-12 pl20"><div class="red star_red">*</div>物资名称：</label>
+		    	      <span class="col-md-12">
+		    	      <div class="input-long">
+	                   <input type="hidden" id="categorieId4" name="categoryId" value="">
+					   <input id="citySel4" type="text"  readonly="readonly" name="goodsName"  value=""  class="title col-md-12" onclick=" showMenu(); return false;"/>
+					   <div class="cue" id="wzmc"></div>
+					   </div>
+					  </span>
+		            </li>
+				    <li class="col-md-6">
+		    	      <label class="col-md-12 padding-left-5">
+		    	        <div class="red star_red">*</div>编号：</label>
+		    	        <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
+	                      <input id="planNo" name="planNo" type="text" class="col-md-12 p0">
+	                      <div class="cue" id="bh"></div>
+	                    </div>
+		            </li>
+				    <li class="col-md-6">
+		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>交付时间</label>
+		    	       <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
+	                   <input id="givetime" name="deliverDate" value="" type="text" class="col-md-12 p0">
+	                   <div class="cue" id="jfsj"></div>
+	                   </div>
+	                  </span>
+		            </li>
+				    <li class="col-md-6">
+		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>品牌商标</label>
+		    	       <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
+	                    <input id="bra" name="brand" value="" type="text" class="col-md-12 p0">
+	                    <div class="cue" id="ppsb"></div>
+	                  </div>
+		            </li>
+				    <li class="col-md-6">
+		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>规格型号</label>
+		    	       <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
+	                   <input id="model" name="stand" value="" type="text" class="col-md-12 p0">
+	                   <div class="cue" id="ggxh"></div>
+		            </li> 
+				    <li class="col-md-3">
+		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>计量单位</label>
+	                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
+	                   <input id="unit" name="item" value="" type="text" class="col-md-12 p0">
+	                   <div class="cue" id="jldw"></div>
+	                  </div>
+		            </li>
+					<li class="col-md-3">
+		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>数量</label>
+	                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
+	                   <input id="purNum" name="purchaseCount_string" onblur="sum1()" type="text"class="col-md-12 p0">
+	                   <div class="cue" id="sl"></div>
+		              </div>
+		            </li>
+				    <li class="col-md-3">
+		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>单价</label>
+	                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
+	                   <input id="univalent" name="price_string" onblur="sum1()" value="" type="text" class="col-md-12 p0">
+	                   <div class="cue" id="dj"></div>
+		              </div>
+		            </li>
+				    <li class="col-md-3">
+		    	      <label class="col-md-12 padding-left-5">合计</label>
+	                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
+	                   <input id="purBudgetSum" name="amount_string" value="" readonly="readonly" type="text" class="col-md-12 p0">
+		              </div>
+		            </li> 
+				    <li class="col-md-12">
+		    	      <label class="col-md-12 padding-left-5">备注</label>
+	                  <div class="col-sm-12 col-xs-12 p0 col-md-12">
+	                    <textarea id="remarks" name="memo" class="col-md-12 h80 p0" rows="3" cols="1"></textarea>
+		              </div>
+		            </li> 
+		            <div class="clear"></div>
+				  </ul>
+				</div>
+              <div class="tc  col-md-12 mb20">
+                <input class="btn"  id = "inputb" name="addr"  type="button" onclick="bynSub();" value="确定"> 
+				<input class="btn"  id = "inputa" name="addr"  type="button" onclick="quxiao();" value="取消"> 
+              </div>
+			</div>
+			    </div>
+              </div>
+            </div>
+            <div class="tab-pane fade " id="tab-3">
+              <div class=" margin-bottom-0">
+                <div class="tml_container padding-top-0">
+				  <div class="dingwei">
+				  <div class="tml_spine">
+					<span class="tml_spine_bg"></span>
+					<span id="timeline_start_point" class="start_point"></span>
+				  </div>
+				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
+                   <div class=" margin-bottom-0">
+                       <h2 class="history_icon">分公司审核</h2>
+				        <div class="padding-left-40">
+				 		  <span>确认并结束审核流程，理由是：同意采购。</span>
+						   <ul>
+						   <li class="margin-left-0">状态：<span>暂存</span></li>
+						   <li>姓名：<span>张洋</span></li>
+						   <li>ID：<span>152260</span></li>
+						   <li>单位：<span>军队采购网</span></li>
+						   <li>IP地址：<span>124.65.26.100｜北京市</span></li>
+						   </ul>
+					    </div>
+                     </div>
+				  </div>
+				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <span class="ui_left_arrow">
+				    <span class="ui_arrow"></span>
+				  </span>
+				  <div class="clear"></div>
+				 </div>
+                </div>
+               </div>
+			  </div>
+              <div class=" margin-bottom-0">
+                <div class="tml_container">
+				 <div class="dingwei">
+				  <div class="tml_spine">
+					<span class="tml_spine_bg"></span>
+					<span id="timeline_start_point" class="start_point"></span>
+				  </div>
+				  <div class="tml_poster" id="post_area" style=""><div class="poster" id="poster_1">
+                   <div class=" margin-bottom-0">
+                       <h2 class="f16 history_icon">选择中标人</h2>
+				        <div class="padding-left-40">
+				 		  <span>选择中标人成功！请等待分公司审核。选择［****有限公司］为中标单位</span>
+						   <ul class="list-unstyled margin-bottom-0">
+						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
+						   <li class="fl">姓名：<span>张洋</span></li>
+						   <li class="fl">ID：<span>152260</span></li>
+						   <li class="fl">单位：<span>军队采购网</span></li>
+						   <li class="">IP地址：<span>124.65.26.100｜北京市</span></li>
+						   </ul>
+					    </div>
+                   </div>
+				  </div>
+				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <span class="ui_left_arrow">
+				    <span class="ui_arrow"></span>
+				  </span>
+				  <div class="clear"></div>
+				 </div>
+                </div>
+			   </div>
+              </div>
+              <div class=" margin-bottom-0">
+                <div class="tml_container">
+				  <div class="dingwei">
+				  <div class="tml_spine">
+					<span class="tml_spine_bg"></span>
+					<span id="timeline_start_point" class="start_point"></span>
+				  </div>
+				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
+                   <div class=" margin-bottom-0">
+                       <h2 class="f16 history_icon">报价</h2>
+				        <div class="padding-left-40">
+				 		  <span>［****有限公司］报价成功！</span>
+						   <ul class="list-unstyled margin-bottom-0">
+						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
+						   <li class="fl">姓名：<span>张洋</span></li>
+						   <li class="fl">ID：<span>152260</span></li>
+						   <li class="fl">单位：<span>军队采购网</span></li>
+						   <li class="">IP地址：<span>124.65.26.100｜北京市</span></li>
+						   </ul>
+					    </div>
+                     </div>
+				  </div>
+				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <span class="ui_left_arrow">
+				    <span class="ui_arrow"></span>
+				  </span>
+				  <div class="clear"></div>
+				 </div>
+                </div>
+               </div>
+			  </div>
+          </div> 
+		</div> 
+		</form>
+		<div  class="col-md-12 tc mt20">
+   			<input type="button" class="btn btn-windows save mb20" onclick="staging()" value="暂存"/>
+   			<input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案"/>
+   			<input type="button" class="btn btn-windows save mb20" onclick="createContract()" value="生成合同"/>
+   			<%--<input type="button" class="btn btn-windows save mb20" onclick="printContract()" value="打印"/>
+   			--%><input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
+  		</div>
+  		
+  		<ul class="list-unstyled mt10 dnone" id="numberWin">
+	  		    <li class="col-md-6 col-sm-12 col-xs-12 pl15">
+				   <span class="col-md-12 col-sm-12 col-xs-12"><div class="red star_red">*</div>草案合同上报时间：</span>
+				   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12">
+				     <input type="text" name="draftGitAt" id="draftGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+				     <div id='gitTime' class="cue"></div>
+				   </div>
+				</li>
+				<li class="col-md-6 col-sm-12 col-xs-12">
+				   <span class="col-md-12 col-sm-12 col-xs-12"><div class="red star_red">*</div>草案合同批复时间：</span>
+				   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12">
+				     <input type="text" name="draftReviewedAt" id="draftReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+				     <div id='reviewTime' class="cue"></div>
+				   </div>
+				</li>
+				<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">
+				 <input type="button" class="btn" onclick="save()" value="生成"/>
+				 <input type="button" class="btn" onclick="cancel()" value="取消"/>
+				</li>
+		 </ul>
+  		<ul class="list-unstyled mt10 dis_none" id="draftrevi">
+		 		<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">
+					<span class="col-md-4 col-sm-6 col-xs-6 p0 tc mt5">
+						<div class="red star_red">*</div>草案批复意见上传：
+					</span>
+			    	<div class="col-md-8 col-sm-6 col-xs-6 p0">
+			        <up:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
+					<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+					</div>
+				</li>
+				<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">
+				 <input type="button" class="btn" onclick="toprintmodel()" value="确定"/>
+				</li>
+			</ul>
+     </div>
+  </div>
+</div>
+</div>
+<!-- 页签结束 -->
+
+</body>
+</html>

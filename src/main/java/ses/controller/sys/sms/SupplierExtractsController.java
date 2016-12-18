@@ -106,7 +106,7 @@ public class SupplierExtractsController extends BaseController {
     private DictionaryDataMapper dictionaryDataMapper; // 
     /**包service**/
     @Autowired
-    private PackageService packageService; //
+    private PackageService packageService; 
 
     /**
      * 
@@ -179,7 +179,7 @@ public class SupplierExtractsController extends BaseController {
         model.addAttribute("listArea", listArea);
         model.addAttribute("typeclassId",typeclassId);
         if (projectId != null && !"".equals(projectId)){
-         
+
             //供应商抽取地址
             SupplierExtracts record = new SupplierExtracts();
             record.setProjectId(projectId);
@@ -349,7 +349,7 @@ public class SupplierExtractsController extends BaseController {
             map.put("supervise", "不能为空");
             count=1;
         }
-        
+
         if (extractionSites == null ||  "".equals(extractionSites)){
             map.put("extractionSitesError", "不能为空");
             count=1;
@@ -443,7 +443,6 @@ public class SupplierExtractsController extends BaseController {
         if (id != null && id.length != 0){
             extConType = new ExtConType();
             extConType.setCategoryId(id[0]);
-            extConType.setExpertsTypeId(new Short(id[1]));
             extConType.setExpertsCount(Integer.parseInt(id[2]));
             extConType.setExpertsQualification(id[3]);
         }
