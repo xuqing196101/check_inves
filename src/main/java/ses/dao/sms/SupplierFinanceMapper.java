@@ -124,4 +124,8 @@ public interface SupplierFinanceMapper {
 	List<SupplierFinance> findFinanceBySid(SupplierFinance supplierFinance);
 	
 	
+	List<SupplierFinance> getFinanceBySid(@Param("supplierId")String supplierId );
+	
+	
+	
 }

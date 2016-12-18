@@ -211,7 +211,7 @@
 			<if test="taking != null">
 				TAKING = #{taking},
 			</if>
-			<if test="auditOpinion != null">
+	<!-- 		<if test="auditOpinion != null">
 				AUDIT_OPINION = #{auditOpinion},
 			</if>
 			<if test="liabilitiesList != null">
@@ -225,7 +225,7 @@
 			</if>
 			<if test="changeList != null">
 				CHANGE_LIST = #{changeList},
-			</if>
+			</if> -->
 			<if test="supplierId != null">
 				SUPPLIER_ID = #{supplierId},
 			</if>
@@ -318,6 +318,20 @@
 		from  T_SES_SMS_SUPPLIER_FINANCE
 		where SUPPLIER_ID=#{supplierId} and YEAR=#{year}
 	</select>
+	
+	
+	<select id="getFinanceBySid" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_FINANCE
+		where 1=1
+		<if test="supplierId !=null and supplierId !=''">
+		    and SUPPLIER_ID = #{supplierId}
+		</if>
+		ORDER BY YEAR DESC
+	</select>
+	
+	
 	
 	
 </mapper>

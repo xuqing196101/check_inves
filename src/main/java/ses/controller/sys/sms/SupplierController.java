@@ -46,6 +46,7 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierDictionaryData;
@@ -63,6 +64,7 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
@@ -161,6 +163,8 @@ public class SupplierController extends BaseSupplierController {
 	@Autowired
 	private  SupplierHistoryService supplierHistoryService;
 	
+	@Autowired
+	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
 	
 	/**
 	 * @Title: getIdentity
@@ -238,6 +242,8 @@ public class SupplierController extends BaseSupplierController {
 			supplier.setListSupplierFinances(list);
 			model.addAttribute("currSupplier", supplier);
 			model.addAttribute("company", DictionaryDataUtil.find(17));
+			List<DictionaryData> foregin = DictionaryDataUtil.find(24);
+			model.addAttribute("foregin", foregin);
 			return "ses/sms/supplier_register/basic_info";
 		}
 		if(sup!=null){
@@ -366,7 +372,7 @@ public class SupplierController extends BaseSupplierController {
 			}
 			List<Area> privnce = areaService.findRootArea();
 			model.addAttribute("privnce", privnce);
-			
+		 	model.addAttribute("foregin",DictionaryDataUtil.find(24));
 			
 //			supplier = supplierService.get(supplier.getId());
 			Supplier supplier2 = supplierService.get(supplier.getId());
@@ -447,7 +453,7 @@ public class SupplierController extends BaseSupplierController {
 			
 			 Supplier before = supplierService.get(supplier.getId());
 			if(before.getStatus().equals(7)){
-				 record("", before, supplier, supplier.getId());
+				 record("", before, supplier, supplier.getId());//记录供应商退回修改的内容
 			}
 			
 			supplierService.perfectBasic(supplier);
@@ -616,6 +622,9 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 			model.addAttribute("supplierId", supplier.getId());
+			
+			List<DictionaryData> foregin = DictionaryDataUtil.find(24);
+			model.addAttribute("foregin", foregin);
 			
 			return "ses/sms/supplier_register/basic_info";
 		}
@@ -815,14 +824,18 @@ public class SupplierController extends BaseSupplierController {
 			supplier = supplierService.get(supplier.getId());
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			if(supplier.getProcurementDepId()!=null){
-				map.put("id", supplier.getProcurementDepId());
-				List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
-				if (listOrgnizations1 != null && listOrgnizations1.size() >0){
-				    Orgnization orgnization = listOrgnizations1.get(0);
+			       map.put("id", supplier.getProcurementDepId());
+                   map.put("typeName", "1");
+                   // 采购机构
+                   List<PurchaseDep> depList = purchaseOrgnizationService .findPurchaseDepList(map);
+                   
+                   
+				if (depList != null && depList.size() >0){
+				    Orgnization orgnization = depList.get(0);
 	                List<Area> city = areaService.findAreaByParentId(orgnization.getProvinceId());
 	                model.addAttribute("orgnization", orgnization);
 	                model.addAttribute("city", city);
-	                model.addAttribute("listOrgnizations1", listOrgnizations1);
+	                model.addAttribute("listOrgnizations1", depList);
 				}
 	
 			}
@@ -850,7 +863,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_upload")
 	public String perfectUpload(HttpServletRequest request, Supplier supplier, String jsp,String flag,Model model) throws IOException {
-		this.setSupplierUpload(request, supplier);
+//		this.setSupplierUpload(request, supplier);
 		if (!"commit".equals(jsp)) {
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());
@@ -930,65 +943,7 @@ public class SupplierController extends BaseSupplierController {
 	}
 	
 
-	/**
-	 * @Title: setSupplierUpload
-	 * @author: Wang Zhaohua
-	 * @date: 2016-10-11 下午5:01:10
-	 * @Description: 设置文件上传
-	 * @param: @param request
-	 * @param: @param supplier
-	 * @param: @throws IOException
-	 * @return: void
-	 */
-	public void setSupplierUpload(HttpServletRequest request, Supplier supplier) throws IOException {
-		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-		if (multipartResolver.isMultipart(request)) {// 检查form中是否有enctype="multipart/form-data"
-			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;// 将request变成多部分request
-			Iterator<String> its = multiRequest.getFileNames();// 获取multiRequest 中所有的文件名
-			while (its.hasNext()) {// 循环遍历
-				String str = its.next();
-				MultipartFile file = multiRequest.getFile(str);
-				String fileName = file.getOriginalFilename();
-				if (file != null && file.getSize() > 0) {
-					String path = super.getStashPath(request) + fileName;// 获取暂存路径
-					file.transferTo(new File(path));// 暂存
-					FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));// 连接 ftp 服务器
-					String newfileName = FtpUtil.upload(new File(path));// 上传到 ftp 服务器, 获取新的文件名
-					FtpUtil.closeFtp();// 关闭 ftp
-					super.removeStash(request, fileName);// 移除暂存
 
-					// 上面代码固定, 下面封装名字到对象
-					if (str.equals("taxCertFile")) {
-						supplier.setTaxCert(newfileName);
-					} else if (str.equals("billCertFile")) {
-						supplier.setBillCert(newfileName);
-					} else if (str.equals("securityCertFile")) {
-						supplier.setSecurityCert(newfileName);
-					} else if (str.equals("breachCertFile")) {
-						supplier.setBreachCert(newfileName);
-					} else if (str.equals("supplierLevelFile")) {
-						supplier.setSupplierLevel(newfileName);
-					} else if (str.equals("supplierPledgeFile")) {
-						supplier.setSupplierPledge(newfileName);
-					} else if (str.equals("supplierRegListFile")) {
-						supplier.setSupplierRegList(newfileName);
-					} else if (str.equals("supplierExtractsListFile")) {
-						supplier.setSupplierExtractsList(newfileName);
-					} else if (str.equals("supplierInspectListFile")) {
-						supplier.setSupplierInspectList(newfileName);
-					} else if (str.equals("supplierReviewListFile")) {
-						supplier.setSupplierReviewList(newfileName);
-					} else if (str.equals("supplierChangeListFile")) {
-						supplier.setSupplierChangeList(newfileName);
-					} else if (str.equals("supplierExitListFile")) {
-						supplier.setSupplierExitList(newfileName);
-					} else if (str.equals("businessCertFile")) {
-						supplier.setBusinessCert(newfileName);
-					}
-				}
-			}
-		}
-	}
 
 	/**
 	 * @Title: initBinder
@@ -1064,6 +1019,15 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_foundDate", "不能为空 !");
 			count++;
 		}
+		if(supplier.getFoundDate()!=null){
+			 Date date = supplierService.addDate(supplier.getFoundDate(), 1, 3);
+			 Date now=new Date();
+			 if(date.getTime()>now.getTime()){
+				 model.addAttribute("err_msg_foundDate", "成立日期必须大于三年!");
+				 count++;
+			 }
+		}
+		
 //		supplierService.addDate(supplier.getFoundDate(), 1, -3);
 		if (supplier.getAddress() == null) {
 			model.addAttribute("err_msg_address", "不能为空!");
@@ -1658,32 +1622,38 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("city", city);
 			model.addAttribute("area", area);
 		}
-
-	
+		List<DictionaryData> foregin = DictionaryDataUtil.find(24);
 		
 		List<Area> privnce = areaService.findRootArea();
 		if(supplier.getListSupplierFinances()!=null&&supplier.getListSupplierFinances().size()<1){
 			List<SupplierFinance> list = supplierFinanceService.getYear();
 			supplier.setListSupplierFinances(list);
 		}else{
+ 
 			SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
 			if(finance1==null){
 				SupplierFinance fin1=new SupplierFinance();
+				String id = UUID.randomUUID().toString().replaceAll("-", "");
+				fin1.setId(id);
 				fin1.setYear( String.valueOf(oneYear()));
 				supplier.getListSupplierFinances().add(fin1);	
-			}
+			} 
 			SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
 			if(finance2==null){
 				SupplierFinance fin2=new SupplierFinance();
+				String id = UUID.randomUUID().toString().replaceAll("-", "");
+				fin2.setId(id);
 				fin2.setYear( String.valueOf(twoYear()));
 				supplier.getListSupplierFinances().add(fin2);	
-			}
+			} 
 			SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
 			if(finance3==null){
 				SupplierFinance fin3=new SupplierFinance();
+				String id = UUID.randomUUID().toString().replaceAll("-", "");
+				fin3.setId(id);
 				fin3.setYear( String.valueOf(threeYear()));
 				supplier.getListSupplierFinances().add(fin3);	
-			}
+			} 
 		}
 
  
@@ -1702,7 +1672,7 @@ public class SupplierController extends BaseSupplierController {
               errorField.append(audit.getAuditField() + ",");
           }
           
-          
+      	model.addAttribute("foregin",foregin);
 		model.addAttribute("audit",errorField);
 		return "ses/sms/supplier_register/basic_info";
 	}
@@ -1721,25 +1691,12 @@ public class SupplierController extends BaseSupplierController {
                 } else {
                     typeId = type.getId();
                 }
-                
-                
             }
-            
             CategoryTree ct = new CategoryTree();
             ct.setName( type.getName());
             ct.setId(typeId);
-//            supplierItemService.getSupplierIdCategoryId(supplierId, categoryId)
             ct.setIsParent("true");
             categoryList.add(ct);
-            
-           /* List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
-            
-            for (SupplierItem category : item) {
-                 String parentId = categoryService.selectByPrimaryKey(category.getCategoryId()).getParentId();
-                 if (parentId != null && parentId.equals(ct.getId())) {
-                     ct.setChecked(true);
-                 }
-            }*/
             List<Category> child = getChild(typeId);
             for(Category c:child){
                 CategoryTree ct1 = new CategoryTree();
@@ -1756,46 +1713,9 @@ public class SupplierController extends BaseSupplierController {
                 } else {
                     ct1.setIsParent("false");
                 }
-//                ct1.set
-//                ct1.set  
-//                }
-                
-                // 设置是否回显
-               /* for (SupplierItem category : item) {
-                    if (category.getCategoryId() != null) {
-                        if (category.getCategoryId().equals(c.getId())) {
-                            ct1.setChecked(true);
-                        }
-                    }
-                }*/
                 categoryList.add(ct1);
             }
         } else {
-            /*List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
-            List<ExpertCategory> expertCategory = expertCategoryService.getListByExpertId(expertId);供应商选择的品目
-            List<Category> list = categoryService.findTreeByPid(id);
-            for (Category c : list) {
-                List<Category> list1 = categoryService.findTreeByPid(c.getId());
-                CategoryTree ct1 = new CategoryTree();
-                ct1.setName(c.getName());
-                ct1.setId(c.getId());
-                // 设置是否为父级
-                if (!list1.isEmpty()) {
-                    ct1.setIsParent("true");
-                } else {
-                    ct1.setIsParent("false");
-                }
-                
-                // 设置是否回显
-                for (SupplierItem category : item) {
-                    if (category.getCategoryId() != null) {
-                        if (category.getCategoryId().equals(c.getId())) {
-                            ct1.setChecked(true);
-                        }
-                    }
-                }
-                categoryList.add(ct1);
-            }*/
         }
         return JSON.toJSONString(categoryList);
     }

@@ -51,16 +51,20 @@
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class="margin-bottom-0  categories">
-										<h2 class="f16  mt40">
-										 申请表和承诺书下载
+										<h1 class="f16  mt40">
+										 申请表和承诺书下载 
 										</h2>
-										<table class="table table-bordered">
+										
+									<p style="font-size:15px;">	下载 《供应商入库申请表》<a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i></a> <span style="margin-left:200px;"></span> 下载《军队供应商承诺书》<a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i></a></p>
+										
+										
+										 <!-- <table class="table table-bordered">
 										  <tr>
-										    <td class="info">供应商入库申请表：</td>
-										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
-										    <td class="info">军队供应商承诺书：</td>
-										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
-										  </tr>
+										    <td class="info"></td>
+  										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
+ 										   <td class="info">下载《军队供应商承诺书》：</td> -->
+<!-- 										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
+ -->										  </tr>
 										<!--   <tr>
 										    <td class="info">军队供应商入库申请表：</td>
 										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
@@ -78,9 +82,9 @@
 										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
 										    <td class="info">军队供应商退库申请表：</td>
 										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
-										  </tr> -->
+										  </tr> 
 										
-										</table>
+										</table>-->
 										<%--
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class="zzzx w245"> 军队供应商分级方法：</span>

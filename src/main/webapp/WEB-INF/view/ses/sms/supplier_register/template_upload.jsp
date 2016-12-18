@@ -84,6 +84,10 @@
 							<input name="jsp" type="hidden" />
 								<input name="flag" type="hidden" />
 							<input name="status" type="hidden" value="${currSupplier.status}" />
+							<div>
+							注：将《军队供应商申请表》和《军队供应商承诺书》签字，盖章后上传
+							</div>
+							
 							<div class="tab-content padding-top-20">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
