@@ -6,14 +6,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.PackageExpertMapper;
 import bss.dao.prms.ReviewProgressMapper;
+import bss.model.prms.ExpertScore;
 import bss.model.prms.PackageExpert;
 import bss.model.prms.ReviewProgress;
-import bss.model.prms.ext.ExpertSuppScore;
 import bss.service.prms.PackageExpertService;
 @Service("packageExpertService")
 public class PackageExpertServiceImpl implements PackageExpertService {
@@ -162,9 +161,10 @@ public class PackageExpertServiceImpl implements PackageExpertService {
     public String isGather(String packageIds, String projectId) {
         Map<String, Object> mapSearch = new HashMap<String, Object>();
         mapSearch.put("projectId", projectId);
-        StringBuffer notPass = new StringBuffer();
+        String notPass = new String();
         String ids[] = packageIds.split(",");
         for (String packageId : ids) {
+            // isok == 0 代表满足汇总条件
             int isok = 0;
             mapSearch.put("packageId", packageId);
             // 判断如果该包的评分进度不是100%不能汇总
@@ -176,34 +176,34 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             }  else {
                 isok = 1;
             }
-            List<ExpertSuppScore> expertScores = expertScoreMapper.getScoreByMap(mapSearch);
-            for (int i = 0; i < expertScores.size() - 1; i++ ) {
-                for (int j = i + 1; j < expertScores.size(); j++ ) {
-                    if (expertScores.get(i) != null && expertScores.get(j) != null && expertScores.get(i).getScore() != null && expertScores.get(j).getScore() != null) {
-                        // 循坏判断如果分数不同则不能汇总
-                        if (!expertScores.get(i).getScore().equals(expertScores.get(j).getScore())) {
-                            isok = 1;
-                        }
-                    } else {
-                        // 若某个值为null也不能汇总
+            // 判断如果包内的专家所给出的分数不同的话不能汇总
+            mapSearch.put("packageId", packageId);
+            List<ExpertScore> expertScoreList = expertScoreMapper.selectByMap(mapSearch);
+            for (int i = 0; i < expertScoreList.size() - 1; i++ ) {
+                ExpertScore scoreExp1 = expertScoreList.get(i);
+                for (int j = i+ 1; j < expertScoreList.size(); j++ ) {
+                    ExpertScore scoreExp2 = expertScoreList.get(j);
+                    if (scoreExp1.getSupplierId().equals(scoreExp2.getSupplierId()) && scoreExp1.getScoreModelId().equals(scoreExp2.getScoreModelId()) && !scoreExp1.getExpertId().equals(scoreExp2.getExpertId()) && !scoreExp1.getScore().equals(scoreExp2.getScore())) {
                         isok = 1;
                     }
-                }    
+                } 
+            } 
+            if (isok == 1) {
+                notPass = "notOk"; 
             }
-            if (expertScores.size() == 0) {
-                isok = 1;
-            }
-            if (!reviewList.isEmpty()) {
-                // 判断如果包内的专家所给出的分数不同的话不能汇总
-                mapSearch.put("packageId", packageId);
-                List<PackageExpert> packageExpertList = packageExpertMapper.selectList(mapSearch);
-                if (isok == 1) {
-                    notPass.append("【"+reviewList.get(0).getPackageName()+"】"); 
+            boolean isGather = true;
+            List<PackageExpert> list = packageExpertMapper.selectList(mapSearch);
+            for (PackageExpert pack : list) {
+                if (pack.getIsGatherGather() != 1) {
+                    isGather = false;
                 }
             }
+            if (isGather) {
+                notPass = "【"+reviewList.get(0).getPackageName()+"】"; 
+            }
         }
-        if (notPass.toString() != "") {
-            return notPass.toString();
+        if (!"".equals(notPass)) {
+            return notPass;
         } else {
             return "ok";
         }

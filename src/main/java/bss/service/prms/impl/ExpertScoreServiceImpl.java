@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -174,9 +175,10 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
             map.put("supplierId", supplier.getId());
             List<ExpertScore> list = mapper.selectByMap(map);
             for (ExpertScore expertScore : list) {
-                totalScore.add(expertScore.getScore());
+                totalScore = totalScore.add(expertScore.getScore());
             }
             SupplierCheckPass record = new SupplierCheckPass();
+            record.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());
             record.setPackageId(packageId);
             record.setProjectId(projectId);
             record.setSupplierId(supplier.getId());

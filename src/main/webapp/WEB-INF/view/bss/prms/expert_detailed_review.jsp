@@ -46,8 +46,13 @@
 							 layer.alert("汇总失败,请稍后重试!",{offset: [y, x], shade:0.01});
 						 }
 					 });
+				} else if (response == "notOk") {
+					layer.alert("不满足汇总条件!", {
+						offset : [ y, x ],
+						shade : 0.01
+					});
 				} else {
-					layer.alert(response + "不满足汇总条件!", {
+					layer.alert(response + "已汇总,请勿重复操作!", {
 						offset : [ y, x ],
 						shade : 0.01
 					});
