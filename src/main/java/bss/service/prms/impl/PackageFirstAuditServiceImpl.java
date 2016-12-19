@@ -277,7 +277,7 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
         	double sum = 0.0;
         	for(int i=0;i<jinjiList.size();i++){
         		Map<String, Object> jinjimap = new HashMap<String, Object>();
-        		jinjimap.put("sumber", i+1);
+        		jinjimap.put("sxuhao", i+1);
             	if(jinjiList.get(i).getName()!=null){
             		jinjimap.put("sproject",jinjiList.get(i).getName() );
     			}else{
@@ -307,9 +307,9 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
         		Map<String, Object> jishumap = new HashMap<String, Object>();
         		jishumap.put("jumber", i+1);
             	if(jishuList.get(i).getName()!=null){
-            		jishumap.put("jproject",jishuList.get(i).getName() );
+            		jishumap.put("jpinshen",jishuList.get(i).getName() );
     			}else{
-    				jishumap.put("jproject", "");
+    				jishumap.put("jpinshen", "");
     			}
             	if(jishuList.get(i).getName()!=null){
             		jishumap.put("jcontent",jishuList.get(i).getName());
