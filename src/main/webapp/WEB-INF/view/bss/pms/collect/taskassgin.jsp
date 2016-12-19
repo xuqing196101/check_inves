@@ -192,11 +192,11 @@
 			<tr style="cursor: pointer;">
 			  <td class="tc w30">
 			  <c:if test="${obj.status=='2' }">
-			  <input type="hidden" value="${obj.id }" disabled="disabled" name="chkItem" onclick="check()"  alt="">
+			  	<input type="checkbox" value="${obj.id }"  name="chkItem" onclick="check()"  alt="">
 			  </c:if>
-			  <c:if test="${obj.status=='1' }">
+			  <%-- <c:if test="${obj.status=='1' }">
 			   <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt="">
-			  </c:if>
+			  </c:if> --%>
 			  </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  
@@ -206,12 +206,14 @@
 			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc"  >
-			  <c:if test="${obj.status=='2'}">
+			  <c:if test="${obj.status=='2' }">
 				 未下达
 			  </c:if>
-			 
-			    <c:if test="${obj.status=='3' }">
-				   已下达
+			    <c:if test="${obj.status!='2'&& obj.status!='3' }">
+			   其他
+			  </c:if>  
+			     <c:if test="${obj.status=='3' }">
+			   已下达
 			  </c:if>
 			  </td>
 			</tr>

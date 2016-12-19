@@ -651,7 +651,6 @@
 		</if>
 		</where>
 		ORDER BY CREATED_AT DESC,IS_MASTER ASC
- 
 	</select>
 
 	<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">

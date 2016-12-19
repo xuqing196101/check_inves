@@ -157,14 +157,14 @@
 						dataType: "json",
 						url: "${pageContext.request.contextPath }/look/auditId.do?id=" + id,
 						success: function(data) {
-							if(data==0){
+						/* 	if(data==0){
 								layer.alert("请选择状态为已编制为采购计划的审核", {
 									offset: ['30%', '40%']
 								});
 								$(".layui-layer-shade").remove();
-							}else if(data==1){
+							}else if(data==1){ */
 								window.location.href = "${pageContext.request.contextPath }/look/auditlook.html?id=" + id;
-							}
+							/* } */
 						}
 					});
 					
@@ -277,12 +277,11 @@
 					<c:forEach items="${info.list}" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
 							<td class="tc w30">
-							 <c:if test="${obj.status=='1'}">  
+							 <c:if test="${obj.status=='1' || obj.status==7 || obj.status==8 || obj.status==9 }">  
 								<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 							  </c:if>
 					          <c:if test="${obj.status!='1' }">
-					              <input type="checkbox" disabled="disabled"  value="${obj.id }" name="chkItem" onclick="check()"  alt="">
-					           </c:if>  
+ 					           </c:if>  
 							</td>
 							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 							<td class="tc">${obj.fileName }</td>

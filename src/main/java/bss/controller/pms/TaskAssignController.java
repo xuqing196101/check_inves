@@ -105,7 +105,7 @@ public class TaskAssignController extends BaseController{
 			}
 			task.setCollectId(ids[i]);
 			plan.setTaskId(id);
-			plan.setStatus(2);
+			plan.setStatus(3);
 			 collectPlanService.update(plan);
 			taskservice.add(task);
 		}
