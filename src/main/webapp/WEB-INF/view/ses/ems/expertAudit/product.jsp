@@ -128,6 +128,9 @@
 				if(str == "experience") {
 					action = "${pageContext.request.contextPath}/expertAudit/experience.html";
 				}
+				if(str=="expertType"){
+			    action = "${pageContext.request.contextPath}/expertAudit/expertType.html";
+			  }
 				if(str == "expertFile") {
 					action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
 				}
@@ -197,16 +200,19 @@
 				<div class=" content height-350">
 					<ul class="nav nav-tabs bgdd">
 						<li onclick="jump('basicInfo')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a><i></i>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a>
 						</li>
 						<li onclick="jump('experience')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">经历经验</a><i></i>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">经历经验</a>
+						</li>
+						<li onclick="jump('expertType')">
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a>
 						</li>
 						<li class="active">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品目录</a><i></i>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品目录</a>
 						</li>
 						<li onclick="jump('expertFile')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a><i></i>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a>
 						</li>
 						<li onclick="jump('reasonsList')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
