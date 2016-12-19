@@ -32,7 +32,7 @@
 				layer.close(index);
 			}
 
-			function uploadExcel() {
+			/**function uploadExcel() {
 				layer.open({
 					type: 2, //page层
 					area: ['600px', '500px'],
@@ -44,7 +44,7 @@
 					offset: ['80px', '400px'],
 					content: '${pageContext.request.contextPath}/purchaser/fileUpload.html',
 				});
-			}
+			}*/
 
 			//上传excel文件
 			function upload() {
@@ -481,12 +481,29 @@
 					content: $('#file_div'),
 				});
 			}
+			
 			function gtype(obj){
 				var vals=$(obj).val();
 				("#detailType").val(vals);
-			 
 			}
 			
+		 function fileup(){
+				var name = $("#jhmc").val();
+				var no = $("#jhbh").val();
+				var mobile = $("#mobile").val();
+				var type = $("#wtype").val();
+				var depName = $("#xqbm").val();
+				
+				
+				$("#detailJhmcf").val(name);
+				$("#detailJhbhf").val(no);
+				//$("#detailType").val(type);
+				$("#detailMobilef").val(mobile);
+				$("#detailXqbmf").val(depName);
+				
+				
+				$("#up_form").submit();
+			} 
 		</script>
 	</head>
 
@@ -518,14 +535,14 @@
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span> 计划名称</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" name="name" id="jhmc">
+							<input type="text" class="input_group" name="name" id="jhmc" value="${planName }">
 							<span class="add-on">i</span>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span> 计划编号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" name="no" id="jhbh">
+							<input type="text" class="input_group" name="no" value="${planNo }" id="jhbh">
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -543,7 +560,7 @@
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>需求部门</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" name="depName" id="xqbm" onkeyup="assignDepartment(this)">
+							<input type="text" class="input_group" name="depName" value="${planDepName }" id="xqbm" onkeyup="assignDepartment(this)">
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -765,10 +782,17 @@
 		</div>
 		
 		
-	<div class="container clear margin-top-30" id="file_div"  style="display:none;" >
-    	<form action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
+	<div  class="container clear margin-top-30" id="file_div"  style="display:none;" >
+    	<form id="up_form" action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
     		<input type="file" name="file">
-    		 <input type="submit" value="导入" />
+    			 <input type="hidden" name="planName" id="detailJhmcf">
+							<input type="hidden" name="planNo" id="detailJhbhf">
+							<input type="hidden" name="planType" id="detailTypfef">
+							<input type="hidden" name="recorderMobile" id="detailMobilef">
+							<input type="hidden" name="planDepName" id="detailXqbmf"/>
+							
+							
+    		 <input type="button" onclick="fileup()"   value="导入" />
     	</form>
     </div>
     

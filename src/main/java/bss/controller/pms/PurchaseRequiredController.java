@@ -203,7 +203,7 @@ public class PurchaseRequiredController extends BaseController{
 	 */
  
 	@RequestMapping(value="/upload" )
-	public String uploadFile(@CurrentUser User user,MultipartFile file,String type,String planName,String planNo,Model model) throws IOException{
+	public String uploadFile(@CurrentUser User user,String planDepName,MultipartFile file,String type,String planName,String planNo,Model model) throws IOException{
         ResponseBean bean = new ResponseBean();
         
         if (file == null){
@@ -237,6 +237,7 @@ public class PurchaseRequiredController extends BaseController{
 		StringBuffer sbShow=new StringBuffer("");
 		int count=1;
 		for(int i=0;i<list.size();i++){
+			String id = UUID.randomUUID().toString().replaceAll("-", "");
 			if(i==0){
 				PurchaseRequired p = list.get(0);
 //					String id = UUID.randomUUID().toString().replaceAll("-", "");
@@ -245,7 +246,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setGoodsType(type);
 					p.setPlanNo(planNo);
 					p.setPlanName(planName);
-					//p.setId(did);
+					p.setId(id);
 					p.setPlanType(type);
 					p.setHistoryStatus("0");
 					p.setIsDelete(0);
@@ -270,6 +271,7 @@ public class PurchaseRequiredController extends BaseController{
 				p.setIsMaster(count);
 				p.setCreatedAt(new Date());
 				p.setUserId(user.getId());
+				
 				//p.setOrganization(user.getOrg().getName());
 				p.setDetailStatus(0);
 //			 if(p.getSeq().equals("一")||p.getSeq().equals("二")||p.getSeq().equals("三")){
@@ -284,36 +286,36 @@ public class PurchaseRequiredController extends BaseController{
 					
 //			 	}else 
 			 	if(p.getSeq().equals("（一）")||p.getSeq().equals("(一)")){
-			 		// p.setId(pid);
+			 		 p.setId(id);
 					// p.setParentId(did);
 			 		 
 //					p.setId(cid);//注释
 //					p.setParentId(pid);//注释
 //					purchaseRequiredService.add(p);	
 				}else if(p.getSeq().equals("1")){
-//					p.setId(cid);
+					p.setId(id);
 				///	p.setParentId(pid);
 					
 //					p.setId(ccid);//注释
 //					p.setParentId(cid);//注释
 //					purchaseRequiredService.add(p);	
 				}else if(p.getSeq().equals("（1）")||p.getSeq().equals("(1)")){
-					//p.setId(ccid);
+					p.setId(id);
 					//p.setParentId(cid);
 					
 //					p.setId(cccid);//注释
 //					p.setParentId(ccid);//注释
 //					purchaseRequiredService.add(p);	
 				}else if(p.getSeq().equals("a")){
-					//p.setId(cccid);
+					p.setId(id);
 					///p.setParentId(ccid);
 					
 //					p.setId(ccccid);//注释
 //					p.setParentId(cccid);//注释
 //					purchaseRequiredService.add(p);	
 				}else{
-					//p.setId(ccccid);
-					//p.setParentId(cccid);
+					p.setId(id);
+//					p.setParentId(cccid);
 					
 //					p.setId(id);//注释
 //					p.setParentId(ccccid);//注释
@@ -366,7 +368,8 @@ public class PurchaseRequiredController extends BaseController{
 //		targetFile.delete();
 		model.addAttribute("planName", planName);
 		model.addAttribute("planNo", planNo);
-//		model.addAttribute("", requires);
+		model.addAttribute("user", user);
+		model.addAttribute("planDepName", planDepName);
 		return "bss/pms/purchaserequird/add";
 	}
 	/**
@@ -397,10 +400,8 @@ public class PurchaseRequiredController extends BaseController{
 //							p.setGoodsType(type);
 							p.setPlanNo(planNo);
 							p.setPlanName(planName);
-							if(p.getId()==null){
-								p.setId(id);
-							}
-							parentId.add(id);
+							
+							parentId.add(p.getId());
 							p.setParentId("1");
 							p.setPlanType(planType);
 							p.setHistoryStatus("0");
@@ -419,10 +420,8 @@ public class PurchaseRequiredController extends BaseController{
 //							p.setGoodsType(type);
 							p.setPlanNo(planNo);
 							p.setPlanName(planName);
-							if(p.getId()==null){
-								p.setId(id);
-							}
-							parentId.add(id);
+							
+							parentId.add(p.getId());
 //							if(p.getParentId()==null){
 								
 							

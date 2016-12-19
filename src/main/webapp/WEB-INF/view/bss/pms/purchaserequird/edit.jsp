@@ -241,8 +241,8 @@
                   </td>
                   <td class="tc"><input type="text" name="list[0].supplier" value="${obj.supplier}" disabled="disabled"></td>
                   <td class="tc"><input type="text" name="list[0].isFreeTax" value="${obj.isFreeTax}"></td>
-                  <td class="tc">$<input type="text" name="list[0].goodsUse" value="${obj.goodsUse}"></td>
-                  <td class="tc">$<input type="text" name="list[0].useUnit" value="${obj.useUnit}"></td>
+                  <td class="tc"><input type="text" name="list[0].goodsUse" value="${obj.goodsUse}"></td>
+                  <td class="tc"><input type="text" name="list[0].useUnit" value="${obj.useUnit}"></td>
                   <td class="tc">${obj.memo }
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                      <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
