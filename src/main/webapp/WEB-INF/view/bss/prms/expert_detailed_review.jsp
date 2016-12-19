@@ -34,7 +34,7 @@
 			data:{"packageIds":packageId, "projectId":projectId},
 			async:false,
 			success:function (response) {
-				if (response == "ok") {
+				if (response != "notOk") {
 					$.ajax({
 						 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',
 						 data:{"packageId":packageId,"projectId":projectId},
@@ -51,12 +51,12 @@
 						offset : [ y, x ],
 						shade : 0.01
 					});
-				} else {
+				} /* else {
 					layer.alert(response + "已汇总,请勿重复操作!", {
 						offset : [ y, x ],
 						shade : 0.01
 					});
-				}
+				} */
 			}
 		});
 	}

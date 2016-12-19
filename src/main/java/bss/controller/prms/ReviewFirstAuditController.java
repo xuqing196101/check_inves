@@ -26,6 +26,7 @@ import ses.service.ems.ExpertService;
 import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
+import ses.util.ScoreModelUtil;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -48,7 +49,6 @@ import bss.service.prms.ExpertScoreService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
-import bss.util.ScoreModelUtil;
 
 import com.alibaba.fastjson.JSON;
 

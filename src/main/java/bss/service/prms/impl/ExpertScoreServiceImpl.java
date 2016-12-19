@@ -184,7 +184,7 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
             record.setSupplierId(supplier.getId());
             record.setTotalScore(totalScore);
             //增加供应商报价-start
-            Quote quote = new Quote();
+            /*Quote quote = new Quote();
             quote.setProjectId(projectId);
             quote.setSupplierId(supplier.getId());
             List<Date> listDate = quoteMapper.selectQuoteCount(quote);
@@ -201,7 +201,25 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
                     total=total.add(q.getTotal());
                 }
             }
-            record.setTotalPrice(total.longValue());
+            record.setTotalPrice(total.longValue());*/
+            Quote quote = new Quote();
+            quote.setProjectId(projectId);
+            quote.setPackageId(packageId);
+            quote.setSupplierId(supplier.getId());
+            List<Quote> allQuote = quoteMapper.selectByPrimaryKey(quote);
+            if (allQuote != null && allQuote.size()>0) {
+              record.setTotalPrice(allQuote.get(0).getTotal().longValue());
+            }
+            SupplierCheckPass checkPass = new SupplierCheckPass();
+            checkPass.setPackageId(packageId);
+            checkPass.setSupplierId(supplier.getId());
+            List<SupplierCheckPass> oldList= supplierCheckPassMapper.listCheckPass(checkPass);
+            if (oldList != null && oldList.size() > 0) {
+              for (SupplierCheckPass supplierCheckPass : oldList) {
+                //删除原数据
+                supplierCheckPassMapper.deleteByPrimaryKey(supplierCheckPass.getId());
+              }
+            }
             supplierCheckPassMapper.insert(record);
             //end
             // 3.查询出专家评分和最终成绩
