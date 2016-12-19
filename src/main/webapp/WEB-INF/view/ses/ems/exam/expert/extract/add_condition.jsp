@@ -174,7 +174,9 @@
                    if (list != null && list.length !=0){
                 	    $("#rowdnone").removeClass("dnone");
                         $("#countdnone").addClass("dnone");
+                        var k=0;
                    for(var i=0;i<list.length;i++){
+                	   k=i;
                        if(list[i]!=null){
                         if(list[0]!=null){
                           var html="";
@@ -223,7 +225,7 @@
                    for(var i=0;i<noList.length;i++){
                        
                        tex+="<tr class='cursor'>"+
-                             "<td class='tc' onclick='show();'>"+(i+1)+1+"</td>"+
+                             "<td class='tc' onclick='show();'>"+((i+1)+k)+"</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+

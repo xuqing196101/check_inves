@@ -156,7 +156,7 @@
       <div class="headline-v2">
         <h2>确认中标供应商</h2>
       </div>
-      <c:if test="${execute != 'SCCUESS' }">
+      <c:if test="${view != 1 }">
         <div class="col-md-12 pl20 mt10">
           <button class="btn btn-windows add" onclick="save();" type="button">确定</button>
         </div>
@@ -171,6 +171,11 @@
               <th class="info">总报价（万元）</th>
               <th class="info">总得分</th>
               <th class="info">排名</th>
+              <c:if test="${view == 1 }">
+              <th class="info">中标状态</th>
+              <th class="info">中标金额（万元）</th>
+              <th class="info">占比（%）</th>
+              </c:if>
             </tr>
           </thead>
           <c:forEach items="${supplierCheckPass}" var="checkpass" varStatus="vs">
@@ -183,6 +188,16 @@
               <td class="tc opinter" onclick="">${checkpass.totalPrice}</td>
               <td class="tc opinter" onclick="">${checkpass.totalScore}</td>
               <td class="tc opinter" onclick="">${(vs.index+1)}</td>
+               <c:if test="${view == 1 }">
+               <c:if test="${checkpass.isWonBid == 0}">
+                <td class="tc opinter" >未中标</td>
+               </c:if>
+               <c:if test="${checkpass.isWonBid == 1}">
+                <td class="tc opinter" >已中标</td>
+               </c:if>
+                <td class="tc opinter">${checkpass.wonPrice }</td>
+                <td class="tc opinter">${checkpass.priceRatio}</td>
+              </c:if>
             </tr>
           </c:forEach>
         </table>

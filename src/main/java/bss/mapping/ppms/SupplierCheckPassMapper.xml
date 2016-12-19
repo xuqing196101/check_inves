@@ -15,7 +15,10 @@
 		<result column="IS_SEND_NOTICE" jdbcType="DECIMAL" property="isSendNotice" />
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-		<result column="IS_CREATE_CONTRACT" jdbcType="DECIMAL" property="isCreateContract" />
+		<result column="IS_CREATE_CONTRACT" jdbcType="DECIMAL"
+			property="isCreateContract" />
+		<result column="PRICE_RATIO" jdbcType="DECIMAL" property="priceRatio" />
+		<result column="WON_PRICE" jdbcType="DECIMAL" property="wonPrice" />
 		<association property="supplier" column="SUPPLIER_ID"
 			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
 	</resultMap>
@@ -61,7 +64,7 @@
 		cp.TOTAL_SCORE, cp.PACKAGE_ID,
 		cp.IS_WON_BID,
 		cp.IS_SEND_NOTICE, cp.CREATED_AT,
-		cp.UPDATED_AT,cp.IS_CREATE_CONTRACT
+		cp.UPDATED_AT,cp.IS_CREATE_CONTRACT,cp.PRICE_RATIO,cp.WON_PRICE
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -136,6 +139,12 @@
 			<if test="updatedAt != null">
 				UPDATED_AT,
 			</if>
+			<if test="priceRatio != null">
+        PRICE_RATIO,
+      </if>
+      <if test="wonPrice != null">
+        WON_PRICE,
+      </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -174,6 +183,12 @@
 			<if test="updatedAt != null">
 				#{updatedAt,jdbcType=DATE},
 			</if>
+			 <if test="priceRatio != null">
+        #{priceRatio,jdbcType=DECIMAL},
+      </if>
+       <if test="wonPrice != null">
+        #{wonPrice,jdbcType=DECIMAL},
+      </if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.SupplierCheckPass">
@@ -207,6 +222,13 @@
 			<if test="isCreateContract != null">
 				IS_CREATE_CONTRACT = #{isCreateContract},
 			</if>
+			 <if test="priceRatio != null">
+        PRICE_RATIO = #{priceRatio},
+      </if>
+        <if test="wonPrice != null">
+        WON_PRICE  = #{wonPrice},
+      </if>
+      
 		</set>
 		where 1=1
 		<if test="supplierId != null and supplierId != '' ">
@@ -326,9 +348,11 @@
 	</select>
 
 	<!-- 查询每包是否都选择了中标供应商 -->
-	<select id="selectWonBid" parameterType="java.lang.String" resultType="java.lang.String">
+	<select id="selectWonBid" parameterType="java.lang.String"
+		resultType="java.lang.String">
 		SELECT PACKAGE_ID FROM T_BSS_PPMS_SUPPLIER_CHECK_PASS
-		WHERE IS_WON_BID=1 AND
+		WHERE
+		IS_WON_BID=1 AND
 		PROJECT_ID = #{projectId}
 		GROUP BY PACKAGE_ID
 	</select>

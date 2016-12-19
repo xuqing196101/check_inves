@@ -124,7 +124,7 @@
 				</thead>
 				<tbody id="tbody_contract_id">
 					<c:forEach items="${pager.list}" var="pc" varStatus="vs">
-						<tr>
+						<tr class="pointer">
 							<td class="tc"><input name="checkbox" type="checkbox" value="${pc.id}">
 							</td>
 							<td class="tc">${vs.index + 1}</td>

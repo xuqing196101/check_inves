@@ -7,22 +7,33 @@ import java.util.List;
 import ses.model.sms.Supplier;
 
 public class SupplierCheckPass {
+
+
+    /**
+     * 金额占比
+     */
+    private String priceRatio;
+
+    /**
+     * 中标金额
+     */
+    private Long wonPrice;
     
     /**
      * 供应商
      */
     private Supplier supplier;
-    
+
     /**
      * 选中的供应商
      */
     private List<Packages> packagesList;
-    
+
     /**
      * 是否已生成合同
      */
     private Integer isCreateContract;
-    
+
     /**
      * <pre>
      * 表字段 : T_BSS_PPMS_SUPPLIER_CHECK_PASS.ID
@@ -436,14 +447,42 @@ public class SupplierCheckPass {
         this.packagesList = packagesList;
     }
 
-	public Integer getIsCreateContract() {
-		return isCreateContract;
-	}
+    public Integer getIsCreateContract() {
+        return isCreateContract;
+    }
 
-	public void setIsCreateContract(Integer isCreateContract) {
-		this.isCreateContract = isCreateContract;
-	}
+    public void setIsCreateContract(Integer isCreateContract) {
+        this.isCreateContract = isCreateContract;
+    }
 
+    /**
+     * @return Returns the priceRatio.
+     */
+    public String getPriceRatio() {
+        return priceRatio;
+    }
 
-    
+    /**
+     * @param priceRatio The priceRatio to set.
+     */
+    public void setPriceRatio(String priceRatio) {
+        this.priceRatio = priceRatio;
+    }
+
+    /**
+     * @return Returns the wonPrice.
+     */
+    public Long getWonPrice() {
+        return wonPrice;
+    }
+
+    /**
+     * @param wonPrice The wonPrice to set.
+     */
+    public void setWonPrice(Long wonPrice) {
+        this.wonPrice = wonPrice;
+    }
+
+   
+
 }
