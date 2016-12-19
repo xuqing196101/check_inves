@@ -271,6 +271,7 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 			  ReviewProgress reviewProgress2 = reviewProgressList.get(0);
 			 // Double firstAuditProgress = reviewProgress2.getFirstAuditProgress();
 			  double score = 0;
+			  reviewProgress2.setPackageId(packageId);
 			  if(packageExpertList2!=null && packageExpertList2.size()>0){
 				  score = (double)packageExpertList2.size()/(double)packageExpertList.size()+1/(double)packageExpertList.size();
 			  }else{

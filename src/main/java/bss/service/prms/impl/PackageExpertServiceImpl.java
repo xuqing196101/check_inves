@@ -135,18 +135,30 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         String expertIds = (String) mapSearch.get("expertId");
         String[] ids = expertIds.split(",");
         mapSearch.remove("expertId");
+        // 查询包下有几个专家
+        double length = packageExpertMapper.selectList(mapSearch).size();
         for (String expertId : ids) {
             //mapSearch.remove("expertId");
             //mapSearch.put("expertId", expertId.replace("undefined", ""));
             // 1.EXPERT_SCORE表中IS_HISTORY改为1
             mapSearch.put("expertId", expertId);
             expertScoremapper.backScore(mapSearch);
-            // 2.PACKAGE_EXPERT表中的IS_GRADE改为0
+            // 2.评分进度减去对应的值
+            List<PackageExpert> list = mapper.selectList(mapSearch);
+            // 遍历判断该专家有没有进行打分,如果有就需要减去评分进度
+            boolean isGrade = true;
+            for (PackageExpert packageExpert : list) {
+                if (packageExpert.getIsGrade() == 0) {
+                    isGrade = false;
+                }
+            }
+            if (isGrade) {
+                double score = 1/length;
+                mapSearch.put("score", score);
+            }
+            // 3.PACKAGE_EXPERT表中的IS_GRADE改为0
             mapper.backScore(mapSearch);
         }
-        // 3.评分进度减去对应的值
-        int score = 1/(ids.length);
-        mapSearch.put("score", score);
         reviewProgressMapper.backScore(mapSearch);
     }
     /**
