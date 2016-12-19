@@ -150,7 +150,7 @@
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
 						</li>
 					</ul>
-					<h2 class="count_flow"><i>1</i>参评的产品类别</h2>
+					<%-- <h2 class="count_flow"><i>1</i>参评的产品类别</h2>
 					<ul class="ul_list">
 						<li class="col-md-12 col-sm-12 col-xs-12">
 							<div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -158,10 +158,10 @@
 							</div>
 						</li>
 					</ul>
-
+       --%>
 					<!-- 主要工作经历-->
 					<div class="padding-top-10 clear">
-						<h2 class="count_flow"><i>2</i>主要工作经历</h2>
+						<h2 class="count_flow"><i>1</i>主要工作经历</h2>
 						<ul class="ul_list">
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -172,7 +172,7 @@
 					</div>
 					<!-- 专业学术成果 -->
 					<div class="padding-top-10 clear">
-						<h2 class="count_flow"><i>3</i>专业学术成果</h2>
+						<h2 class="count_flow"><i>2</i>专业学术成果</h2>
 						<ul class="ul_list">
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -183,7 +183,7 @@
 					</div>
 					<!-- 主要工作经历-->
 					<div class="padding-top-10 clear">
-						<h2 class="count_flow"><i>4</i>参加军队地方采购评审情况</h2>
+						<h2 class="count_flow"><i>3</i>参加军队地方采购评审情况</h2>
 						<ul class="ul_list">
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -194,7 +194,7 @@
 					</div>
 					<!-- 主要工作经历-->
 					<div class="padding-top-10 clear">
-						<h2 class="count_flow"><i>5</i>需要申请回避的情况</h2>
+						<h2 class="count_flow"><i>4</i>需要申请回避的情况</h2>
 						<ul class="ul_list">
 							<li class="col-md-12 col-sm-12 col-xs-12">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0">

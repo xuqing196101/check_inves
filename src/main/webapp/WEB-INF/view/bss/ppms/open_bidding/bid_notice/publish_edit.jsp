@@ -40,7 +40,7 @@
                     }
                 },
                 error: function(result){
-                    layer.msg("发布失败",{offset: ['20px']});
+                    layer.msg("提交失败",{offset: ['20px']});
                 }
 			});
        	});

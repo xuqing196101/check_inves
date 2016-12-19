@@ -30,4 +30,6 @@ public interface ReviewFirstAuditMapper {
       * @return void
      */
     void delete(Map<String,Object> map);
+    
+    void  update(ReviewFirstAudit record);
 }

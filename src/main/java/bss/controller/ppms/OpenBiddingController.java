@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,6 +22,7 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -184,6 +184,12 @@ public class OpenBiddingController {
         if (files != null && files.size() > 0){
             model.addAttribute("fileId", files.get(0).getId());
         } else {
+            if (project != null){
+                String filePath = packageFirstAuditService.downLoadBiddingDoc(id, project.getName(), project.getProjectNumber(), request);
+                if (StringUtils.isNotBlank(filePath)){
+                    model.addAttribute("filePath", filePath);
+                }
+            }
             model.addAttribute("fileId", "0");
         }
         model.addAttribute("flowDefineId", flowDefineId);
@@ -220,6 +226,20 @@ public class OpenBiddingController {
     @RequestMapping("/loadFile")
     public void loadFile(HttpServletRequest request, String fileId, HttpServletResponse response){
         downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author myc
+     * @param request
+     * @param fileId
+     * @param response
+     */
+    @RequestMapping("/downloadFile")
+    public void downLoadFile(HttpServletRequest request, String filePath, HttpServletResponse response){
+        downloadService.downLoadFile(request, response, filePath);
     }
     
     /**
@@ -439,11 +459,11 @@ public class OpenBiddingController {
             article.setPublishedAt(ts);
             User user = (User) request.getSession().getAttribute("loginUser");
             article.setPublishedName(user.getRelName());
-            article.setStatus(2);
+            article.setStatus(1);
             articelService.update(article);
             //该环节设置为已执行状态
             flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 1);
-            String msg = "发布成功";
+            String msg = "提交成功";
             String projectId = article.getProjectId();
             response.setContentType("text/html;charset=utf-8");
             response.getWriter()
@@ -1054,6 +1074,13 @@ public class OpenBiddingController {
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+                if (WIN_NOTICE.equals(noticeType)) {
+                    model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
+                }
+                if (PURCHASE_NOTICE.equals(noticeType)) {
+                    model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
+                }
+                
                 return "bss/ppms/open_bidding/bid_notice/view";
             } else {
                 //未发布
@@ -1068,12 +1095,24 @@ public class OpenBiddingController {
             }
         } else {
             model.addAttribute("articleType", articleType);
-            model.addAttribute("articleId",WfUtil.createUUID());
+            String articleId = WfUtil.createUUID();
+            model.addAttribute("articleId",articleId);
             model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
             model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
             model.addAttribute("projectId", projectId);
             model.addAttribute("noticeType", noticeType);
             model.addAttribute("flowDefineId", flowDefineId);
+            
+            if (WIN_NOTICE.equals(noticeType)) {
+                model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
+            }
+            if (PURCHASE_NOTICE.equals(noticeType)) {
+                model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
+            }
+            model.addAttribute("flowDefineId", flowDefineId);
+            model.addAttribute("articleId", articleId);
+            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+            
             return "bss/ppms/open_bidding/bid_notice/add";
         }
     }

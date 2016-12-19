@@ -1,12 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
+<%@ include file="../../../common.jsp"%>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title></title>
 
@@ -17,6 +18,7 @@
 	<meta name="author" content="">
 	<link href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" media="screen" rel="stylesheet">
 </head>
+
 <script type="text/javascript">
 	function cheClick(){
 		var roleIds="";

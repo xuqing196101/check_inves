@@ -2,6 +2,7 @@ package bss.controller.pms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
@@ -51,7 +53,8 @@ public class PurchaseAcceptController extends BaseController{
 	@Autowired
 	private StationMessageService stationMessageService;
 	
-	
+	@Autowired
+	private OrgnizationMapper oargnizationMapper;
 	/**
 	 * 
 	 * @Title: queryPlan
@@ -69,7 +72,9 @@ public class PurchaseAcceptController extends BaseController{
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", purchaseRequired);
-		
+		Map<String,Object> map=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+		model.addAttribute("requires", requires);
 	
 		return "bss/pms/collect/list";
 	}

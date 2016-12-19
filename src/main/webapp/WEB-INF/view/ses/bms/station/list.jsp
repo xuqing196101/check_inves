@@ -2,15 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../../common.jsp"%>
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" type="text/css">
 
   <head>
+<%@ include file="../../../common.jsp"%>
 
-  </head>
   <script type="text/javascript">
     $(function() {
 
@@ -113,7 +113,7 @@
 
     }
   </script>
-
+  </head>
   <body>
     <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">

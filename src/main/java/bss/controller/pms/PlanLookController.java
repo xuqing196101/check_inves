@@ -1,19 +1,24 @@
 package bss.controller.pms;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.AuditParamBean;
@@ -145,7 +150,7 @@ public class PlanLookController extends BaseController {
 				model.addAttribute("bean", bean);	
 				model.addAttribute("all", all);	
 				model.addAttribute("audits", audits);
-				
+				model.addAttribute("kind", DictionaryDataUtil.find(5));	
 		return "bss/pms/collect/print";
 	}
 	
@@ -192,17 +197,21 @@ public class PlanLookController extends BaseController {
 		
 //		CollectPlan plan = collectPlanService.queryById(id);
 		List<String> no = collectPurchaseService.getNo(id);
-		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
+		List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
+		List<String> departMent = new ArrayList<>();
 		if(no!=null&&no.size()>0){
 			for(String s:no){
 				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
 				list.addAll(pur);
+				Map<String,Object> departMap = new HashMap<String,Object>();
+				departMap.put("planNo", s);
+				departMent.add(purchaseRequiredService.getByMap(departMap).get(0).getDepartment());
 			}
 		}
 		model.addAttribute("list", list);
 		model.addAttribute("org",org);
 		model.addAttribute("id", id);
-		
+		model.addAttribute("departMent", departMent);
 		model.addAttribute("all", all);
 		
 		model.addAttribute("bean", bean);
@@ -240,7 +249,6 @@ public class PlanLookController extends BaseController {
 						map.put("id", p.getId());	
 						purchaseRequiredService.update(map);	
 					}
-					
 				}
 			}
 		}
@@ -272,4 +280,29 @@ public class PlanLookController extends BaseController {
 		model.addAttribute("plan", plan);
 		return "bss/pms/collect/pdf";
 	}
+	
+	/**
+	 * 
+	* @Title: auditId
+	* @author ZhaoBo
+	* @date 2016-12-19 下午7:38:45  
+	* @Description: 判断计划能不能审核 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/auditId")
+	@ResponseBody
+	public String auditId(HttpServletRequest request){
+		String str = null;
+		String id = request.getParameter("id");
+		CollectPlan plan = collectPlanService.queryById(id);
+		if(plan.getStatus()==1){
+			str = "1";
+		}else{
+			str = "0";
+		}
+		return str;
+	}
+	
+	
 }

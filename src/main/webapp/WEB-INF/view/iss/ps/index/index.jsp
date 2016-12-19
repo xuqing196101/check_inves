@@ -18,7 +18,7 @@ $(function(){
 			msie_ver = ver_arr[i].substring(5,ver_arr[i].length);
 		}
 	}
-	if ((browser=="Netscape"||browser=="Microsoft Internet Explorer") && (version<=4) && msie_ver < 8 ){
+	if ((browser=="Netscape"||browser=="Microsoft Internet Explorer") && (version<=4) && msie_ver < 7 ){
 		window.location.href="${pageContext.request.contextPath}/browser/index.html";
 	} else {
 		$("#firstPage").attr("Class","active dropdown shouye_li mega-menu-fullwidth");
@@ -388,7 +388,7 @@ function drugs(){
         <div class=" border1 job-content floor_kind">
           <h2>
 		  <span class="col-md-5">采购公告</span>
-		  <ul class="list-unstyled mt0 fr col-md-7 p0">
+		  <ul class="list-unstyled mb0 fr col-md-7 p0">
 		    <li  class="active fl"><a aria-expanded="true" href="#tab-12" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-13" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-14" data-toggle="tab" > 服务</a></li>
@@ -448,7 +448,7 @@ function drugs(){
         <div class=" border1 job-content floor_kind">
           <h2>
 		  <span class="col-md-5">中标公告</span>
-		  <ul class="list-unstyled mt0 fr col-md-7 p0">
+		  <ul class="list-unstyled mb0 fr col-md-7 p0">
 		    <li  class="active fl"><a aria-expanded="true" href="#tab-15" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-16" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-17" data-toggle="tab" > 服务</a></li>
@@ -507,7 +507,7 @@ function drugs(){
         <div class=" border1 job-content floor_kind">
           <h2>
 		  <span class="col-md-5">单一来源公告</span>
-		  <ul class="list-unstyled mt0 fr col-md-7 p0">
+		  <ul class="list-unstyled mb0 fr col-md-7 p0">
 		    <li  class="active fl"><a aria-expanded="true" href="#tab-18" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-19" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-20" data-toggle="tab" > 服务</a></li>

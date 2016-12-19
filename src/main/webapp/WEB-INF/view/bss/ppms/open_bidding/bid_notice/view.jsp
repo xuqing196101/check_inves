@@ -71,9 +71,14 @@
 	         </div><br>
         	 <div class="mt10"><span class="red">*</span><span>公告内容：</span></div>
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
-                           上传附件： 
-             <p:show  showId="b" groups="b,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
-             
+             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="" >文章附件：</span>
+             		 <p:show  showId="b" groups="b,d,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
+              </li>
+              <li class="col-md-3 col-sm-6 col-xs-12">
+	              <span class="" >审批附件: </span>
+                  <p:show  showId="d"  groups="b,d,c" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId_examine }"/>
+              </li>
         </div>
       </form>
 	  <div class="dnone" id="preview">
@@ -91,7 +96,7 @@
 			 </div>
 			 <div class="extra_file">
 			 	<div class="">
-					<p:show  showId="c" groups="b,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
+					<p:show  showId="c" groups="b,d,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
 			 	</div>
 			 </div>
 		</div>		     

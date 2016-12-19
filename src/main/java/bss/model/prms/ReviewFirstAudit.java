@@ -15,6 +15,8 @@ public class ReviewFirstAudit {
     
     private String expertId;
     
+    private Integer isBack;//是否退回 0 ：否 1：退回
+    
 
     public String getExpertId() {
 		return expertId;
@@ -71,4 +73,13 @@ public class ReviewFirstAudit {
     public void setPackageId(String packageId) {
         this.packageId = packageId == null ? null : packageId.trim();
     }
+
+    public Integer getIsBack() {
+      return isBack;
+    }
+
+    public void setIsBack(Integer isBack) {
+      this.isBack = isBack;
+    }
+    
 }

@@ -424,10 +424,6 @@
 
 /*Navbar Menu*/
 .header-v5 .navbar-default .navbar-nav > li > a {
-    color: #687074;
-    font-size: 16px;
-    font-weight: 400;
-    text-transform: uppercase;
 }
 
 .header-v5 .navbar-default .navbar-nav > .active > a {
@@ -440,7 +436,6 @@
     .header-v5 .navbar-header {
         float: none;
     }
-    
     .header-v5 .navbar-toggle {
         display: block;
     }
@@ -452,6 +447,8 @@
     .header-v5 .navbar-collapse.collapse.in {
         display: block ;
         overflow-y: auto ;
+        margin: 0 auto;
+        border:1px solid #dddddd;
     }
     
     .header-v5 .navbar-nav {
@@ -462,12 +459,16 @@
     .header-v5 .navbar-nav > li {
         float: none;
     }
-    
-    .header-v5 .navbar-nav > li > a {
-        padding-top: 30px;
-        padding-bottom: 40px;
-    }
 
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:focus, 
+.navbar-default .navbar-nav > .open > a:hover{
+	color:#333333;
+}
+.navbar-default .navbar-nav > .open{
+	background: #ffffff;
+}
+.navbar-default .navbar-nav > .open
     /*Dropdown Menu Slide Down Effect*/
     .header-v5 .navbar-nav .open .dropdown-menu {
         border: 0;
@@ -494,13 +495,11 @@
     }
 
     .header-v5 .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-        color: #777;
+        color: #555555;
     }
 
     .header-v5 .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
     .header-v5 .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-        color: #333;
-        background-color: transparent;
     }
     
     .header-v5 .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
@@ -524,25 +523,21 @@
     /*Design for max-width: 991px*/
     .header-v5 .navbar-collapse,
     .header-v5 .navbar-collapse .container {
-        padding-left: 0 ;
+        padding-left: 0;
         padding-right: 0 ;
     }
 
     .header-v5 .navbar-default .navbar-nav > li > a {
         font-size: 14px;
-        padding: 9px 10px;
     }
 
     .header-v5 .navbar-default .navbar-nav > li a {
         border-bottom: solid 1px #eee;
     }   
 
-    .header-v5 .navbar-default .navbar-nav > li > a:focus {
-        background: none;
-    }
 
     .header-v5 .navbar-default .navbar-nav > li > a:hover {
-        color: #18ba9b;
+        color: #16888f;
     }
 
     .header-v5 .navbar-default .navbar-nav > .active > a,
@@ -564,45 +559,9 @@
     .header-v5 .navbar-collapse {
         padding: 0;
     }
-
-    .header-v5 .navbar-default .navbar-nav > li > a {
-        line-height: 29px;
-        padding: 23px 18px 24px;
-    }
-
-    .header-v5 .navbar-default .navbar-nav > li > a:last-child {
-        padding-right: 15px;
-    }
-
-    .header-v5 .navbar-default .navbar-nav > li > a,
-    .header-v5 .navbar-default .navbar-nav > li > a:focus {
-        border-top: solid 2px transparent;
-    }
-
-    .header-v5 .navbar-default .navbar-nav > li > a:hover,
-    .header-v5 .navbar-default .navbar-nav > .active > a {
-        border-top: solid 2px #18ba9b;
-    }
-    
-    .header-v5 .navbar-default .navbar-nav > li > a,
-    .header-v5 .navbar-default .navbar-nav > li > a:hover,
-    .header-v5 .navbar-default .navbar-nav > li > a:focus, 
-    .header-v5 .navbar-default .navbar-nav > .active > a, 
-    .header-v5 .navbar-default .navbar-nav > .active > a:hover, 
-    .header-v5 .navbar-default .navbar-nav > .active > a:focus {
-        background: none;
-    }
-
-    .header-v5 .navbar-default .navbar-nav > .open > a,
-    .header-v5 .navbar-default .navbar-nav > .open > a:hover,
-    .header-v5 .navbar-default .navbar-nav > .open > a:focus {
-        color: #18ba9b;
-    }
-
-    .header-v5 .navbar-default .navbar-nav > li:hover > a {
-        color: #18ba9b;
-    }
-
+   .dropdown .dropdown-menu li:hover .dropdown-menuson.dropdown-menu{
+    display: block;
+   }
     /*Dropdown Menu*/
     .header-v5 .dropdown-menu { 
         padding: 0;
@@ -992,7 +951,6 @@
 
 .header-v5 .style-list li a:hover {
     color: #47b2b8;
-    background: none;
     text-decoration: none;
 }
 
@@ -1003,4 +961,20 @@
 
 .navbar-header .container .col-md-3{
 	float: left;
+}
+.container .navbar-header .navbar-toggle:hover,.navbar-header .navbar-toggle:focus{
+	background-color: #ffffff;
+}
+@media (max-width:991px){
+	.top_icon{
+	display: none;
+	}
+	.header-v4 .topbar-v1 .top-v1-data li,
+	.header-v4 .topbar-v1 .top-v1-data li a,
+	.header-v4 .topbar-v1 .top-v1-data li a span{
+	 width:100%;
+	 text-align: left;
+	}
+}
+
 }

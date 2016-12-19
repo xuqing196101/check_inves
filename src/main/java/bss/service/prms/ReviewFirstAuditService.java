@@ -38,4 +38,6 @@ public interface ReviewFirstAuditService {
 	      * @return void
 	     */
 	    void delete(Map<String,Object> map);
+	    
+	    void update(ReviewFirstAudit record);
 }

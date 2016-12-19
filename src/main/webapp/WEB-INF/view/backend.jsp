@@ -91,7 +91,7 @@ if('downloadabiddocument' == uri[0] ){
                             <c:forEach items="${stationMessage}" var="station">
                                 <li><a href="javascript:void(0);" onclick="clickuri('${station.url}^${station.id}');" title="${station.name }"> <c:choose>
                                             <c:when test="${fn:length(station.name) > 10}">  
-                                           <span>●</span>${fn:substring(station.name, 0, 14)}......
+                                           <span>●</span>${fn:substring(station.name, 0, 30)}......
                                         </c:when>
                                             <c:otherwise>  
                                           	<span>●</span>${station.name}

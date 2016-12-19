@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,13 +26,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Category;
-import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.DictionaryDataUtil;
@@ -44,10 +43,13 @@ import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
 import bss.util.Excel;
 import bss.util.ExcelUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
-
-import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 /**
  * 
  * @Title: PurcharseRequiredController
@@ -70,7 +72,8 @@ public class PurchaseRequiredController extends BaseController{
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
-	
+	@Autowired
+	private OrgnizationMapper oargnizationMapper;
 	
 	/**
 	 * 
@@ -89,6 +92,10 @@ public class PurchaseRequiredController extends BaseController{
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", purchaseRequired);
+		
+		Map<String,Object> map=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+		model.addAttribute("requires", requires);
 		return "bss/pms/purchaserequird/list";
 	}
 	/**
@@ -173,6 +180,9 @@ public class PurchaseRequiredController extends BaseController{
 		model.addAttribute("user", user);
 		model.addAttribute("list", DictionaryDataUtil.find(6));
 		model.addAttribute("list2", DictionaryDataUtil.find(5));
+		Map<String,Object> map=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+		model.addAttribute("requires",requires);
 		return "bss/pms/purchaserequird/add";
 	}
 	
@@ -191,21 +201,21 @@ public class PurchaseRequiredController extends BaseController{
 	 * @throws IOException 
 	 * @throws Exception
 	 */
-	@ResponseBody
-	@RequestMapping(value="/upload",produces="application/json;charset=UTF-8")
-	public ResponseBean uploadFile(@CurrentUser User user,@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,HttpServletResponse response,String type,String planName,String planNo) throws IOException{
+ 
+	@RequestMapping(value="/upload" )
+	public String uploadFile(@CurrentUser User user,MultipartFile file,String type,String planName,String planNo,Model model) throws IOException{
         ResponseBean bean = new ResponseBean();
         
         if (file == null){
             bean.setSuccess(false);
-            bean.setObj("文件不能为空");
-            return bean;
+//            bean.setObj("文件不能为空");
+//            return bean;
         }
         String fileName = file.getOriginalFilename();  
         if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){
             bean.setSuccess(false);
             bean.setObj("文件格式不支持");
-        	return bean;
+//        	return bean;
         }  
 		List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
 		try {
@@ -222,7 +232,9 @@ public class PurchaseRequiredController extends BaseController{
 		String cccid = UUID.randomUUID().toString().replaceAll("-", "");
 		String ccccid = UUID.randomUUID().toString().replaceAll("-", "");
 	//	String id = UUID.randomUUID().toString().replaceAll("-", "");
-		
+		int len=list.size()-1;
+		StringBuffer sbUp=new StringBuffer("");
+		StringBuffer sbShow=new StringBuffer("");
 		int count=1;
 		for(int i=0;i<list.size();i++){
 			if(i==0){
@@ -233,7 +245,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setGoodsType(type);
 					p.setPlanNo(planNo);
 					p.setPlanName(planName);
-					p.setId(did);
+					//p.setId(did);
 					p.setPlanType(type);
 					p.setHistoryStatus("0");
 					p.setIsDelete(0);
@@ -243,6 +255,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setUserId(user.getId());
 					//p.setOrganization(user.getOrg().getName());
 					p.setDetailStatus(0);
+					p.setProjectStatus(0);
 //					purchaseRequiredService.add(p);	
 			}else{
 				PurchaseRequired p = list.get(i);
@@ -266,41 +279,41 @@ public class PurchaseRequiredController extends BaseController{
 					
 //					PurchaseRequired required5 = purchaseRequiredService.queryById(ccccid);
 //					if(required5!=null){
-						ccccid = UUID.randomUUID().toString().replaceAll("-", "");
+					//	ccccid = UUID.randomUUID().toString().replaceAll("-", "");
 //					}
 					
 //			 	}else 
 			 	if(p.getSeq().equals("（一）")||p.getSeq().equals("(一)")){
-			 		 p.setId(pid);
-					 p.setParentId(did);
+			 		// p.setId(pid);
+					// p.setParentId(did);
 			 		 
 //					p.setId(cid);//注释
 //					p.setParentId(pid);//注释
 //					purchaseRequiredService.add(p);	
 				}else if(p.getSeq().equals("1")){
-					p.setId(cid);
-					p.setParentId(pid);
+//					p.setId(cid);
+				///	p.setParentId(pid);
 					
 //					p.setId(ccid);//注释
 //					p.setParentId(cid);//注释
 //					purchaseRequiredService.add(p);	
 				}else if(p.getSeq().equals("（1）")||p.getSeq().equals("(1)")){
-					p.setId(ccid);
-					p.setParentId(cid);
+					//p.setId(ccid);
+					//p.setParentId(cid);
 					
 //					p.setId(cccid);//注释
 //					p.setParentId(ccid);//注释
 //					purchaseRequiredService.add(p);	
 				}else if(p.getSeq().equals("a")){
-					p.setId(cccid);
-					p.setParentId(ccid);
+					//p.setId(cccid);
+					///p.setParentId(ccid);
 					
 //					p.setId(ccccid);//注释
 //					p.setParentId(cccid);//注释
 //					purchaseRequiredService.add(p);	
 				}else{
-					p.setId(ccccid);
-					p.setParentId(cccid);
+					//p.setId(ccccid);
+					//p.setParentId(cccid);
 					
 //					p.setId(id);//注释
 //					p.setParentId(ccccid);//注释
@@ -308,15 +321,15 @@ public class PurchaseRequiredController extends BaseController{
 					
 //					PurchaseRequired required = purchaseRequiredService.queryById(pid);
 //					if(required!=null){
-						 pid = UUID.randomUUID().toString().replaceAll("-", "");
+						 //pid = UUID.randomUUID().toString().replaceAll("-", "");
 //					}
 //					PurchaseRequired required2 = purchaseRequiredService.queryById(cid);
 //					if(required2!=null){
-						cid = UUID.randomUUID().toString().replaceAll("-", "");
+						// UUID.randomUUID().toString().replaceAll("-", "");
 //					}
 //					PurchaseRequired required3 = purchaseRequiredService.queryById(ccid);
 //					if(required3!=null){
-						ccid = UUID.randomUUID().toString().replaceAll("-", "");
+						// = UUID.randomUUID().toString().replaceAll("-", "");
 //					}
 //					PurchaseRequired required4 = purchaseRequiredService.queryById(cccid);
 //					if(required4!=null){
@@ -326,13 +339,33 @@ public class PurchaseRequiredController extends BaseController{
 				
 			}
 			count++;
+			
+			sbUp.append("pUp"+i+",");
+			sbShow.append("pShow"+i+",");
+			if(len==i){
+				sbUp.append("pUp"+i);
+				sbShow.append("pShow"+i);
+			}
 		}
-		bean.setSuccess(true);
-		bean.setObj(list);
-		//purchaseRequiredService.batchAdd(list);
-		//targetFile.delete();
+		Map<String,Object> map=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+		Integer sysKey = Constant.TENDER_SYS_KEY;
+		String attchid = DictionaryDataUtil.getId("PURCHASE_DETAIL");
+		model.addAttribute("attchid", attchid);
+		model.addAttribute("sysKey", sysKey);
+		model.addAttribute("plist", list);
+		model.addAttribute("sbUp", sbUp.toString());
+		model.addAttribute("sbShow", sbShow.toString());
 		
-		return bean;
+		model.addAttribute("list", DictionaryDataUtil.find(6));
+		model.addAttribute("list2", DictionaryDataUtil.find(5));
+		model.addAttribute("requires", requires);
+//		bean.setSuccess(true);
+//		bean.setObj(list);
+//		purchaseRequiredService.batchAdd(list);
+//		targetFile.delete();
+		
+		return "bss/pms/purchaserequird/add";
 	}
 	/**
 	 * @throws IOException 
@@ -375,6 +408,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
 							p.setRecorderMobile(recorderMobile);
+							p.setProjectStatus(0);
 //							p.setOrganization(user.getOrg().getName());
 //							purchaseRequiredService.add(p);	
 					}else{
@@ -387,15 +421,19 @@ public class PurchaseRequiredController extends BaseController{
 								p.setId(id);
 							}
 							parentId.add(id);
-							if(p.getPurchaseCount()!=null){
-								if(meanNum==0){
-									endNum = count;
-								}
-								meanNum++;
-								p.setParentId(parentId.get(endNum-2));
-							}else{
-								p.setParentId(parentId.get(count-2));
-							}
+//							if(p.getParentId()==null){
+								
+							
+									if(p.getPurchaseCount()!=null){
+										if(meanNum==0){
+											endNum = count;
+										}
+										meanNum++;
+										p.setParentId(parentId.get(endNum-2));
+									}else{
+										p.setParentId(parentId.get(count-2));
+									}
+//							}
 							p.setPlanType(planType);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
@@ -403,6 +441,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setStatus("1");
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
+							p.setProjectStatus(0);
 							p.setRecorderMobile(recorderMobile);
 //							p.setOrganization(user.getOrg().getName());
 //							purchaseRequiredService.add(p);	
@@ -577,4 +616,26 @@ public class PurchaseRequiredController extends BaseController{
 	    	return list;
 	    }
 	    
+	    /**
+	     * 
+	    * @Title: viewIds
+	    * @author ZhaoBo
+	    * @date 2016-12-19 下午5:04:54  
+	    * @Description: 关联计算 
+	    * @param @param response
+	    * @param @param id
+	    * @param @throws IOException      
+	    * @return void
+	     */
+	    @RequestMapping("/viewIds")
+	    public void viewIds(HttpServletResponse response,String id) throws IOException {
+	          Map<String, Object> map = new HashMap<String, Object>();
+	          map.put("id", id);
+	          List<PurchaseRequired> list = purchaseRequiredService.selectByParent(map);
+	          String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+	          response.setContentType("text/html;charset=utf-8");
+	          response.getWriter().write(json);
+	          response.getWriter().flush();
+	          response.getWriter().close();
+	    }
 }

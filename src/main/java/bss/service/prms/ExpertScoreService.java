@@ -81,6 +81,16 @@ public interface ExpertScoreService {
   * @return List<ExpertScore>
  */
 	    List<ExpertScore> selectByMap(Map<String,Object> map);
+	    
+	    /**
+	     *〈简述〉
+	     * 分数被退回后的回显
+	     *〈详细描述〉
+	     * @author WangHuijie
+	     * @param map
+	     * @return
+	     */
+	    List<ExpertScore> selectInfoByMap(Map<String,Object> map);
 	    /**
 	     * 
 	      * @Title: saveScore

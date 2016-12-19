@@ -137,9 +137,6 @@
 		<!-- @mbggenerated -->
 		update T_SES_SMS_SUPPLIE_CONDITION
 		<set>
-			<if test="projectId != null">
-				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
-			</if>
 			<if test="status != null">
 				STATUS = #{status,jdbcType=DECIMAL},
 			</if>
@@ -162,7 +159,14 @@
 				EXTRACT_ADDRESS = #{extractAddress,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where ID = #{id,jdbcType=VARCHAR}
+		where 
+		<if test="id != null and id != '' ">
+		ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="projectId != null and projectId != ''">
+		  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+		</if>
+		
 	</update>
 	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierCondition">
 		<!-- @mbggenerated -->

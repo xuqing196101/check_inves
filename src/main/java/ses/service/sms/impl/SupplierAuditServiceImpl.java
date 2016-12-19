@@ -632,4 +632,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			supplierAuditMapper.deleteByPrimaryKey(ids[i]);
 		}		
 	}
+	
+	
+	
+	@Override
+	public List<Supplier> selectAllSupplier(Supplier supplier,Integer page) {
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		List<Supplier> listSupplier=supplierMapper.getAllSupplier(supplier);
+		SupplierStars supplierStars = new SupplierStars();
+		supplierStars.setStatus(1);
+		return listSupplier;
+	}
+	
+	
+	
 }

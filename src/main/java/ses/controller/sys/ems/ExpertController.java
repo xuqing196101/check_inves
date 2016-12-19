@@ -1702,7 +1702,7 @@ public class ExpertController {
         reviewProgressService.saveGrade(projectId, packageId, expertId);
         attr.addAttribute("projectId", projectId);
         attr.addAttribute("packageId", packageId);
-        return "redirect:toFirstAudit.html";
+        return "redirect:projectList.html";
     }
 
     /**

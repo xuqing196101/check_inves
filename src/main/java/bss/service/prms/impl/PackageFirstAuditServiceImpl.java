@@ -1,18 +1,60 @@
 package bss.service.prms.impl;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import ses.model.bms.DictionaryData;
+import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import bss.dao.ppms.MarkTermMapper;
+import bss.dao.ppms.PackageMapper;
+import bss.dao.ppms.ProjectDetailMapper;
+import bss.dao.ppms.ProjectMapper;
+import bss.dao.prms.FirstAuditMapper;
 import bss.dao.prms.PackageFirstAuditMapper;
+import bss.model.ppms.MarkTerm;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.ProjectDetail;
+import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.prms.PackageFirstAuditService;
 @Service("packageFirstAuditService")
 public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
 	@Autowired
 	private PackageFirstAuditMapper mapper;
+	
+	@Autowired
+	private ProjectMapper projectMapper;
+	
+	@Autowired
+	private PackageMapper packageMapper;
+	
+	@Autowired
+	private ProjectDetailMapper projectDetailMapper;
+	
+	@Autowired
+	private FirstAuditMapper firmapper;
+	
+	@Autowired
+	private MarkTermMapper markTermMapper;
 	/**
 	 * 
 	  * @Title: save
@@ -71,4 +113,190 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
   public void deleteByFirstAuditId(String id) {
     mapper.deleteByFirstAuditId(id);
   }
+    
+    /**
+     * 
+     * @see bss.service.prms.PackageFirstAuditService#downLoadBiddingDoc(java.lang.String, java.lang.String, java.lang.String, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public String downLoadBiddingDoc(String projectId, String projectName,String projectNo, HttpServletRequest request ) {
+    	Project pro = projectMapper.selectProjectByPrimaryKey(projectId);
+    	HashMap<String, Object> map = new HashMap<String, Object>();
+    	map.put("projectId", projectId);
+    	List<Packages> packages = packageMapper.findPackageById(map);
+    	HashMap<String, Object> map1 = new HashMap<String, Object>();
+    	map1.put("packageId", packages.get(0).getId());
+    	List<ProjectDetail> detaList = projectDetailMapper.selectById(map1);
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        //符合性审查项
+    	  FirstAudit firstAudit1 = new FirstAudit();
+    	  firstAudit1.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
+    	  firstAudit1.setPackageId(packages.get(0).getId());
+    	  List<FirstAudit> items1 = firmapper.find(firstAudit1);
+        //资格性审查项
+    	  FirstAudit firstAudit2 = new FirstAudit();
+        firstAudit2.setKind(DictionaryDataUtil.getId("QUALIFICATION"));
+        firstAudit2.setPackageId(packages.get(0).getId());
+        List<FirstAudit> items2 = firmapper.find(firstAudit2);
+        if(projectName!=null){
+        	dataMap.put("name", projectName);
+        }else{
+        	dataMap.put("name", "");
+        }
+        if(projectNo!=null){
+        	dataMap.put("code", projectNo);
+        }else{
+        	dataMap.put("code", "");
+        }
+        if(packages.get(0).getName()!=null){
+        	dataMap.put("pacn", packages.get(0).getName());
+        }else{
+        	dataMap.put("pacn", "");
+        }
+        dataMap.put("jsum", "1111");
+        dataMap.put("ssum", "2222");
+        List<Map<String, Object>> gaikuang = new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> huowu = new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> zigelist = new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> fuhelist = new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> shangwulist = new ArrayList<Map<String,Object>>();
+        List<Map<String, Object>> jishulist = new ArrayList<Map<String,Object>>();
+        for(ProjectDetail pd:detaList){
+        	Map<String, Object> packmap = new HashMap<String, Object>();
+        	if(packages.get(0).getName()!=null){
+        		packmap.put("pacn", packages.get(0).getName());
+			}else{
+				packmap.put("pacn", "");
+			}
+        	if(pd.getGoodsName()!=null){
+        		packmap.put("goodsName", pd.getGoodsName());
+			}else{
+				packmap.put("goodsName", "");
+			}
+        	if(pd.getStand()!=null){
+        		packmap.put("stand", pd.getStand());
+			}else{
+				packmap.put("stand", "");
+			}
+			map.put("jishu", "");
+        	if(pd.getItem()!=null){
+        		packmap.put("item", pd.getItem());
+			}else{
+				packmap.put("item", "");
+			}
+        	if(pd.getPurchaseCount()!=null){
+        		packmap.put("count", pd.getPurchaseCount());
+			}else{
+				packmap.put("count", "");
+			}
+        	if(pd.getDeliverDate()!=null){
+        		packmap.put("jhsj", pd.getDeliverDate());
+			}else{
+				packmap.put("jhsj", "");
+			}
+			map.put("jhdd", "");
+        	if(pd.getMemo()!=null){
+        		packmap.put("mem", pd.getMemo());
+			}else{
+				packmap.put("mem", "");
+			}
+        	gaikuang.add(packmap);
+        }
+        
+        for(FirstAudit firstA:items1){
+        	Map<String, Object> fuhemap = new HashMap<String, Object>();
+        	if(firstA.getName()!=null){
+        		fuhemap.put("accord", firstA.getName());
+			}else{
+				fuhemap.put("accord", "");
+			}
+        	fuhelist.add(fuhemap);
+        }
+        
+        for(FirstAudit firstB:items2){
+        	Map<String, Object> zigeemap = new HashMap<String, Object>();
+        	if(firstB.getName()!=null){
+        		zigeemap.put("rc", firstB.getName());
+			}else{
+				zigeemap.put("rc", "");
+			}
+        	zigelist.add(zigeemap);
+        }
+        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+        List<MarkTerm> jinjiList = new ArrayList<MarkTerm>();
+        List<MarkTerm> jishuList = new ArrayList<MarkTerm>();
+        for (DictionaryData dictionaryData : ddList) {
+       	 if(dictionaryData.getCode().equals("ECONOMY")){
+       		jinjiList = getList(dictionaryData.getId(), dictionaryData.getName(),projectId,packages.get(0).getId());
+       	 }
+       	 if(dictionaryData.getCode().equals("TECHNOLOGY")){
+       		jishuList = getList(dictionaryData.getId(), dictionaryData.getName(),projectId,packages.get(0).getId());
+       	 }
+        }
+        dataMap.put("gaikuang", gaikuang);
+        dataMap.put("huowu", huowu);
+        dataMap.put("zigelist", zigelist);
+        dataMap.put("fuhelist", fuhelist);
+        dataMap.put("shangwulist", shangwulist);
+        dataMap.put("jishulist", jishulist);
+        return productionDoc(request, dataMap);
+    }
+    
+    public List<MarkTerm> getList(String id, String name ,String projectId, String packageId) {
+        MarkTerm mt = new MarkTerm();
+        mt.setTypeName(id);
+        mt.setProjectId(projectId);
+        mt.setPackageId(packageId);
+        List<MarkTerm> mtList = markTermMapper.findListByMarkTerm(mt);
+        List<MarkTerm> allList = new ArrayList<MarkTerm>();
+        for (MarkTerm mtKey : mtList) {
+            MarkTerm mt1 = new MarkTerm();
+            mt1.setPid(mtKey.getId());
+            mt1.setProjectId(projectId);
+            mt1.setPackageId(packageId);
+            List<MarkTerm> mtValue = markTermMapper.findListByMarkTerm(mt1);
+            allList.addAll(mtValue);
+        }
+        return allList;
+	}
+    
+    /**
+     * 
+     *〈简述〉生成word
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @return 文件名称
+     */
+    private String productionDoc(HttpServletRequest request, Map<String,Object> dataMap){
+        Configuration configuration = new Configuration();
+        configuration.setDefaultEncoding("UTF-8");
+        configuration.setServletContextForTemplateLoading(request.getSession().getServletContext(), "/template");
+        String filePath = "";
+        try {
+            Template t = configuration.getTemplate("biddingdocument.ftl");
+            String basePath = PropUtil.getProperty("file.base.path");
+            String temp = PropUtil.getProperty("file.temp.path");
+            String path = basePath + File.separator + temp;
+            String fileName = System.currentTimeMillis()+ ".doc";
+            File file = new File(path);
+            if (!file.exists()){
+                file.mkdirs();
+            }
+            File rootFile = new File(path,fileName);
+            if(!rootFile.exists()){
+                rootFile.createNewFile();
+            }
+            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(rootFile),"UTF-8"));
+            t.process(dataMap, out);
+            out.flush();
+            out.close();
+            filePath = rootFile.getPath();
+        } catch (IOException | TemplateException e) {
+            e.printStackTrace();
+        }
+        return filePath;
+    }
+  
+  
 }

@@ -206,7 +206,7 @@ public interface PurchaseContractService {
     * @param @return      
     * @return int
      */
-    String createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request);
+    Map createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request);
     
     /**
      * 

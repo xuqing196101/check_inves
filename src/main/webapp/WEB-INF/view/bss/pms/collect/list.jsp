@@ -279,7 +279,11 @@
 								</c:if>
 							</td>
 							<td class="w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td>${obj.department }</td>
+							<td>
+			    			<c:forEach items="${requires }" var="re" >
+					  			<c:if test="${obj.department==re.id }"> ${re.name }</c:if>
+			  				</c:forEach>
+			 				</td>
 							<td>${obj.planName }</td>
 							<td></td>
 							<td>

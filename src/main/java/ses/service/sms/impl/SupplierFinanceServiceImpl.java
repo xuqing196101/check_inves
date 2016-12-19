@@ -194,7 +194,7 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		sf2.setYear(String.valueOf(yearList.get(1)));
 		SupplierFinance sf3=new SupplierFinance();
 		String id3 = UUID.randomUUID().toString().replaceAll("-", "");
-		sf2.setId(id3);
+		sf3.setId(id3);
 		
 		sf3.setYear(String.valueOf(yearList.get(0)));
 		List<SupplierFinance> list=new  ArrayList<SupplierFinance>();
@@ -255,12 +255,13 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
     }
 
 	@Override
-	public void add(List<SupplierFinance> list) {
+	public void add(List<SupplierFinance> list,String supplierId) {
 		for(SupplierFinance s:list){
 			SupplierFinance finance = supplierFinanceMapper.selectByPrimaryKey(s.getId());
 			if(finance!=null){
 				supplierFinanceMapper.updateByPrimaryKeySelective(s);
 			}else{
+				s.setSupplierId(supplierId);
 				supplierFinanceMapper.insertSelective(s);
 ;			}
 		}

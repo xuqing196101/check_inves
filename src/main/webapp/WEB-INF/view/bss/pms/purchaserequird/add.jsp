@@ -114,7 +114,7 @@
 						if(detailRow.length==0){
 							$("#detailZeroRow").html("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + 0 + "].id' />" +
 									"<input type='text' name='list[" + 0 + "].seq' /></td>" +
-									"<td name='department'><input type='text' name='list[" + 0 + "].department' readonly='readonly' value='"+value+"'/></td>" +
+									"<td name='department'><input type='text' name='list[" + 0 + "].department'  value='"+value+"'/></td>" +
 									"<td><input type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
 									"<td><input type='text' name='list[" + 0 + "].stand' /></td>" +
 									"<td><input type='text' name='list[" + 0 + "].qualitStand' /></td>" +
@@ -467,6 +467,26 @@
 					}
 				}
 			}
+			
+			function uploadExcel() {
+				index = layer.open({
+					type: 1, //page层
+					area: ['300px', '200px'],
+					title: '导入需求计划',
+					closeBtn: 1,
+					shade: 0.01, //遮罩透明度
+					moveType: 1, //拖拽风格，0是默认，1是传统拖动
+					shift: 1, //0-6的动画形式，-1不开启
+					offset: ['80px', '400px'],
+					content: $('#file_div'),
+				});
+			}
+			function gtype(obj){
+				var vals=$(obj).val();
+				("#detailType").val(vals);
+			 
+			}
+			
 		</script>
 	</head>
 
@@ -509,17 +529,17 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<%--<li class="col-md-3 col-sm-6 col-xs-12">
+					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-							<select name="planType" id="wtype">
+							<select name="planType" id="wtype" onchange="gtype(this)">
 								<c:forEach items="${list }" var="obj">
 									<option value="${obj.id }">${obj.name }</option>
 								</c:forEach>
 							</select>
 						</div>
 					</li>
-					--%>
+					
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>需求部门</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -571,17 +591,30 @@
 										<th class="w200">物资用途（仅进口）</th>
 										<th class="w200">使用单位（仅进口）</th>
 										<th class="w200">备注</th>
+										<th  style="width:300px;">附件</th>
 										<th class="w100">状态</th>
 										<th class="w100">操作</th>
 									</tr>
 								</thead>
 								<tbody id="detailZeroRow">
+								<c:if test="${plist==null }">
 									<tr name="detailRow">
 										<td class="tc w50">
 											<input type="hidden" name="list[0].id" id="purid" value="">
 											<input type="text" name="list[0].seq" value="">
 										</td>
-										<td class="w100" name="department"><input type="text" name="list[0].department" readonly="readonly"></td>
+										<td class="w100" name="department">
+										
+								<!-- 		<input type="text" name="list[0].department"  > -->
+											<select name="list[0].department" class="pt" id="pType[0]">
+												<option value="">请选择</option>
+												<c:forEach items="${requires }" var="obj">
+													<option value="${obj.id }">${obj.name }</option>
+												</c:forEach>
+											</select>
+											
+											
+										</td>
 										<td class="w200">
 											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()"/>
 										</td>
@@ -590,7 +623,7 @@
 										<td class="tc w100"><input type="text" name="list[0].item"></td>
 										<td class="tc w100" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)"></td>
 										<td class="tc w150" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)"></td>
-										<td class="tc w150"><input type="text" name="list[0].budget" readonly="readonly"></td>
+										<td class="tc w150"><input type="text" name="list[0].budget"  ></td>
 										<td class="w100"><input type="text" name="list[0].deliverDate"></td>
 										<td class="w120">
 											<select name="list[0].purchaseType" class="pt" onchange="changeType(this)" id="pType[0]">
@@ -600,22 +633,88 @@
 												</c:forEach>
 											</select>
 										</td>
-										<td class="tc w200"><input type="text" name="list[0].supplier" disabled="disabled"></td>
+										<td class="tc w200"><input type="text" name="list[0].supplier" ></td>
 										<td class="tc w80"><input type="text" name="list[0].isFreeTax"></td>
 										<td class="tc w200"><input type="text" name="list[0].goodsUse"></td>
 										<td class="tc w200"><input type="text" name="list[0].useUnit"></td>
 										<td class="tc w200"><input type="text" name="list[0].memo"></td>
-										<td class="tc w100"><input type="text" name="list[0].status" value="暂存" readonly="readonly"></td>
+										<td class="tc w100"><input type="text" name="list[0].status" value="暂存"  ></td>
 										<td class="tc w100"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
-								</tbody>
-							</table>
+								</c:if>
+				 
+								<c:if test="${plist!=null }" >
+								<c:forEach items="${plist}" var="objs" varStatus="vs">
+									<tr name="detailRow">
+										<td class="tc w50">
+											<input type="hidden" name="list[${vs.index }].id" id="purid" value="${objs.id}">
+											<input type="hidden" name="list[${vs.index }].parentId" id="purid" value="${objs.parentId}">
+											<input type="text" name="list[${vs.index }].seq" value="${objs.seq}">
+										</td>
+										<td class="w100" >
+										
+									<%-- 	<input type="text" name="list[${vs.index }].department"   value="${obj.department}"> --%>
+											<select name="list[${vs.index }].department" class="pt" id="pType[0]">
+												<option value="">请选择</option>
+												<c:forEach items="${requires }" var="obj">
+													<option value="${obj.id }">${obj.name }</option>
+												</c:forEach>
+											</select>
+											
+											
+										
+										</td>
+										<td class="w200">
+											<input type="text" name="list[${vs.index }].goodsName" onkeyup="listName(this)" onblur="lossValue()" value="${objs.goodsName}" />
+										</td>
+										<td class="tc w100"><input type="text" name="list[${vs.index }].stand" value="${objs.stand}"></td>
+										<td class="tc w100"><input type="text" name="list[${vs.index }].qualitStand" value="${objs.qualitStand}"></td>
+										<td class="tc w100"><input type="text" name="list[${vs.index }].item" value="${objs.item}" ></td>
+										<td class="tc w100" name="purchaseQuantity"><input type="text" name="list[${vs.index }].purchaseCount" onkeyup="checkNum(this,1)" value="${objs.purchaseCount}" ></td>
+										<td class="tc w150" name="unitPrice"><input type="text" name="list[${vs.index }].price" onkeyup="checkNum(this,2)" value="${objs.price}" ></td>
+										<td class="tc w150"><input type="text" name="list[${vs.index }].budget"   value="${objs.budget}" ></td>
+										<td class="w100"><input type="text" name="list[${vs.index }].deliverDate" value="${objs.deliverDate}" ></td>
+										<td class="w120">
+											<select name="list[${vs.index }].purchaseType" class="pt" onchange="changeType(this)" id="pType[0]">
+												<option value="">请选择</option>
+												<c:forEach items="${list2 }" var="objd">
+													<option value="${objd.id }">${objd.name }</option>
+												</c:forEach>
+											</select>
+										</td>
+										<td class="tc w200"><input type="text" name="list[${vs.index }].supplier"  ></td>
+										<td class="tc w80"><input type="text" name="list[${vs.index }].isFreeTax"></td>
+										<td class="tc w200"><input type="text" name="list[${vs.index }].goodsUse"></td>
+										<td class="tc w200"><input type="text" name="list[${vs.index }].useUnit"></td>
+										<td class="tc w200"><input type="text" name="list[${vs.index }].memo" value="${obj.memo}"  ></td>
+										<td style="width:300px;">
+										 <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
+											   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+														 <u:upload id="pUp${vs.index}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${attchid}" auto="true" />
+														<u:show showId="pShow${vs.index}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${attchid}" />
+											   </div>
+										</li>
+											
+										</td>
+										
+										
+										<td class="tc w100"><input type="text" name="list[${vs.index }].status" value="暂存"  ></td>
+										<td class="tc w100"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
+									</tr>
+									</c:forEach>
+								</c:if>
+								
+				 
+								
+							</tbody>
+						</table>
 							
 							<input type="hidden" name="planName" id="detailJhmc">
 							<input type="hidden" name="planNo" id="detailJhbh">
-							<%--<input type="hidden" name="planType" id="detailType">
-							--%><input type="hidden" name="recorderMobile" id="detailMobile">
+							<input type="hidden" name="planType" id="detailType">
+							<input type="hidden" name="recorderMobile" id="detailMobile">
 							<input type="hidden" name="planDepName" id="detailXqbm"/>
+						 
 						</form>
 					</div>
 				</ul>
@@ -625,7 +724,7 @@
 
 			<div id="content" class="dnone">
 				<p align="center">编制说明
-					<p style="margin-left: 20px;">1、请严格按照序号顺序为：一、(一)、1、(1)、a、(a)的顺序填写序号</p>
+					<p style="margin-left: 20px;">1、请严格按照序号顺序为：一、(一)、1、(1)、a、(a)的顺序填写序号，括号为英文括号</p>
 
 					<p style="margin-left: 20px;">2、任务明细最多为六级,请勿多于六级</p>
 
@@ -665,5 +764,14 @@
 				
 		</div>
 		
+		
+	<div class="container clear margin-top-30" id="file_div"  style="display:none;" >
+    	<form action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
+    		<input type="file" name="file">
+    		 <input type="submit" value="导入" />
+    	</form>
+    </div>
+    
+    
 	</body>
 </html>

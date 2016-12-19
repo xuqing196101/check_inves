@@ -1025,6 +1025,10 @@ public class PurchaseContractController extends BaseSupplierController{
 //				model.addAttribute("ERR_bingDepName", "需求部门不能为空");
 //			}
 //		}
+		if(ValidateUtils.isNull(purCon.getDemandSector())){
+			flag = false;
+			model.addAttribute("ERR_demandSector", "需求部门不能为空");
+		}
 		if(ValidateUtils.isNull(purCon.getCode())){
 			flag = false;
 			model.addAttribute("ERR_code", "合同编号不能为空");
@@ -1277,7 +1281,7 @@ public class PurchaseContractController extends BaseSupplierController{
 					pur.setShowSupplierDepName("");
 				}
 				if(purdep.getDepName()!=null){
-					pur.setShowPurchaseDepName(su.getSupplierName());
+					pur.setShowPurchaseDepName(purdep.getDepName());
 				}else{
 					pur.setShowPurchaseDepName("");
 				}
@@ -1921,6 +1925,7 @@ public class PurchaseContractController extends BaseSupplierController{
 				supplierCheckPassService.update(sup);
 			}
 			model.addAttribute("id", id);
+			model.addAttribute("supckid", supcheckids);
 			url = "bss/cs/purchaseContract/transFormaTional";
 //		model.addAttribute("id", id);
 //		
@@ -1987,6 +1992,8 @@ public class PurchaseContractController extends BaseSupplierController{
 	@RequestMapping("/createerrContractPage")
 	public String createerrContractPage(HttpServletRequest request,Model model) throws Exception{
 		String id = request.getParameter("ids");
+		String supckid = request.getParameter("supckid");
+		String[] supcheckids = supckid.split(",");
 		PurchaseContract purCon = purchaseContractService.selectById(id);
 		purCon.setBudget_string(purCon.getBudget().toString());
 		purCon.setMoney_string(purCon.getMoney().toString());
@@ -1999,6 +2006,12 @@ public class PurchaseContractController extends BaseSupplierController{
 		model.addAttribute("requList", requList);
 		model.addAttribute("planNos", purCon.getDocumentNumber());
 		purchaseContractService.deleteRoughByPrimaryKey(id);
+		for(String supchid:supcheckids){
+			SupplierCheckPass sup = new SupplierCheckPass();
+			sup.setId(supchid);
+			sup.setIsCreateContract(0);
+			supplierCheckPassService.update(sup);
+		}
 		return "bss/cs/purchaseContract/errContract";
 	}
 	/**
@@ -2278,10 +2291,10 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @param @throws Exception      
 	* @return void
 	 */
-	@RequestMapping(value="/createPrintPage",produces="application/json;charest=utf-8")
+	@RequestMapping("/createPrintPage")
 	public void createPrintPage(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletResponse response,HttpServletRequest request)throws Exception{
-		String fileName = purchaseContractService.createWord(purCon, proList.getProList(), request);
-		super.writeJson(response, fileName);
+		Map<String, Object> map = purchaseContractService.createWord(purCon, proList.getProList(), request);
+		super.writeJson(response, JSONSerializer.toJSON(map).toString());
 	}
 	
 	/**
@@ -2323,9 +2336,9 @@ public class PurchaseContractController extends BaseSupplierController{
         String url = "";
         PurchaseContract pur = purchaseContractService.selectById(id);
         List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(pur.getId());
-        String fileName = purchaseContractService.createWord(pur, requList, req);
+        Map<String, Object> map = purchaseContractService.createWord(pur, requList, req);
         model.addAttribute("id", id);
-        model.addAttribute("fileName", fileName);
+        model.addAttribute("fileName", map.get("fileName"));
         if(status.equals("0")){
         	url = "bss/cs/purchaseContract/printDraft";
         }else if(status.equals("1")){
@@ -2347,7 +2360,7 @@ public class PurchaseContractController extends BaseSupplierController{
     @RequestMapping("/loadFile")
     public void loadFile(HttpServletRequest request,HttpServletResponse response){
     	String fileName = request.getParameter("fileName");
-    	String filePath = (PathUtil.getWebRoot() + "contract/").replace("\\", "/")+"/"+fileName;
+    	String filePath = request.getParameter("filePath");
     	purchaseContractService.downloadFile(request, response, filePath, fileName);
     }
 }
