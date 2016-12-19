@@ -156,10 +156,10 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                 double score = 1/length;
                 mapSearch.put("score", score);
             }
+            reviewProgressMapper.backScore(mapSearch);
             // 3.PACKAGE_EXPERT表中的IS_GRADE改为0
             mapper.backScore(mapSearch);
         }
-        reviewProgressMapper.backScore(mapSearch);
     }
     /**
      *〈简述〉
