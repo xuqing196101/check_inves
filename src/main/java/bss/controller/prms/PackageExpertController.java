@@ -288,6 +288,9 @@ public class PackageExpertController {
                                 saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
                                 saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
                                 saleTender.setQuoteId(conditionQuote.getId());
+                                if (conditionQuote.getPackages() != null) {
+                                    saleTender.setPackageNames(conditionQuote.getPackages().getName());
+                                }
                             }
                         }
                     }

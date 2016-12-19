@@ -75,7 +75,7 @@ function ycDiv(obj, index){
 <body>
 <!-- 表格开始-->  
 <div class="clear">
-<c:forEach items="${treeMap }" var="treemap" varStatus="vs">
+<c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
 			 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
@@ -108,10 +108,14 @@ function ycDiv(obj, index){
 						</select>
 					</td>
 					<td class="tc">
-					     <%-- <c:set value="${flag}${vs.index}" var="" ></c:set>
-						<c:if test="${flag}"></c:if> --%>
-						<u:upload id="bf${vs.index}" groups="${treemapValue.groupsUpload}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-						<u:show showId="bs${vs.index}" groups="${treemapValue.groupShow}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
+						<c:if test="${fn:length(treemap.value) > 1}">
+							<u:upload id="bf${vs.index}${vsKey.index}" groups="${treemapValue.groupsUpload}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+							<u:show showId="bs${vs.index}${vsKey.index}" groups="${treemapValue.groupShow}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
+						</c:if>
+						<c:if test="${fn:length(treemap.value) == 1}">
+							<u:upload id="bf${vs.index}"  businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+							<u:show showId="bs${vs.index}"  businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
+						</c:if>
 					</td>
 					<td class="tc"><span class="btn btn-windows edit" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')">更新</span></td>
 			    </tr>

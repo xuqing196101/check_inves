@@ -498,9 +498,6 @@ System.out.print(scoreModel);
 					required : true,
 					number:true
 				},
-				unit : {
-					required : true
-				},
 				minScore : {
 					required : true,
 					number:true
@@ -684,7 +681,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>判断内容</td>
-				<td><input name="judgeContent" id="judgeContent" value="${scoreModel.judgeContent }" title="该项内容为判断的唯一依据"></td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="judgeContent" id="judgeContent"  title="该项内容为判断的唯一依据">${scoreModel.judgeContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>

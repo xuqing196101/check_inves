@@ -30,6 +30,7 @@ import bss.model.ppms.ParamInterval;
 import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAuditTemitem;
 import bss.model.prms.FirstAuditTemplat;
+import bss.service.ppms.BidMethodService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.ParamIntervalService;
 import bss.service.ppms.ScoreModelService;
@@ -52,10 +53,40 @@ public class FirstAuditTemplatController extends BaseController{
 	private FirstAuditTemitemService temService;
 	
 	@Autowired
+	private BidMethodService bidMethodService;
+	
+	@Autowired
 	private ScoreModelService scoreModelService;
 	    
 	@Autowired
 	private ParamIntervalService paramIntervalService;
+	
+	@RequestMapping(value = "deleteScoreModel")
+    public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
+        //为2为顶级结点     1 为子节点
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        if (deleteStatus == 1) {
+            scoreModelService.deleteScoreModelByMtId(id);
+            map.put("id", id);
+            markTermService.delMarkTermByid(map);
+        } else {
+            MarkTerm condition = new MarkTerm();
+            condition.setPid(id);
+            //顶级
+            List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
+            for (MarkTerm markTerm : mtList) {
+                scoreModelService.deleteScoreModelByMtId(markTerm.getId());
+                map.put("id", markTerm.getId());
+                markTermService.delMarkTermByid(map);
+            }
+            MarkTerm mt = markTermService.findMarkTermById(id);
+            map.put("id", mt.getBidMethodId());
+            bidMethodService.delBidMethodByMap(map);
+            map.put("id", id);
+            markTermService.delMarkTermByid(map);
+        }
+        return "redirect:editTemplat.html?templetId="+projectId+"&templetKind=1";
+    }
 	
 	/**
 	 * 

@@ -85,7 +85,7 @@
      	var projectId = $("#projectId").val();
         var packageId = $("#packageId").val();
     	//为2 为顶级结点     1 为子节点
-    	window.location.href="${pageContext.request.contextPath}/intelligentScore/deleteScoreModel.html?id="+id+"&deleteStatus="+status+"&projectId="+projectId+"&packageId="+packageId;
+    	window.location.href="${pageContext.request.contextPath}/auditTemplat/deleteScoreModel.html?id="+id+"&deleteStatus="+status+"&projectId="+projectId+"&packageId="+packageId;
     }
     
     //关闭弹窗
@@ -163,8 +163,23 @@
           });
     	
     }
+    
+    function getTotal(){
+		var allTr = document.getElementsByTagName("tr");
+		var totalScore = 0.0 ;
+		for(var i = 1; i < allTr.length; i++) {
+			var score = $(allTr[i]).find("td:last").text();
+			var reg = /^\d+\.?\d*$/;
+			var flag = false;
+			if(!reg.exec(score)) {
+				score = 0;
+			}
+			totalScore += parseFloat(score) ;
+		};
+			$("#totalScore").text(totalScore);
+    }
  </script>
-<body>  
+<body onload="getTotal()">  
  <div class="margin-top-10 breadcrumbs ">
         <div class="container">
             <ul class="breadcrumb margin-left-0">
@@ -192,6 +207,9 @@
             </thead>
                  ${str }
         </table>
+        <div class="tr">
+        	<span class="mr30" ><b>总分:</b></span><span class="mr30" id="totalScore"></span>
+        </div>
         </div>
     </div>
 	    <div class="mt40 tc mb50">

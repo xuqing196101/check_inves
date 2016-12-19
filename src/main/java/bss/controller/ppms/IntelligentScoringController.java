@@ -162,6 +162,11 @@ public class IntelligentScoringController {
                                         sm.setJudgeContent(scoreModel.getJudgeContent());
                                         sm.setReviewParam(scoreModel.getReviewParam());
                                         sm.setMarkTermId(mtChildren.getId());
+                                        sm.setMinScore(scoreModel.getMinScore());
+                                        sm.setMaxScore(scoreModel.getMaxScore());
+                                        sm.setScore(scoreModel.getScore());
+                                        sm.setUnit(scoreModel.getUnit());
+                                        sm.setAddSubtractTypeName(scoreModel.getAddSubtractTypeName());
                                         scoreModelService.saveScoreModel(sm);
                                     }
                                 }

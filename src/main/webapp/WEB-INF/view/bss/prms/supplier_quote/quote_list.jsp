@@ -32,7 +32,8 @@
 			<tr>
 			  <th class="w50 info">序号</th>
 			  <th class="info">供应商名称</th>
-			  <th class="info">报价(单位：元)</th>
+			  <th class="info">包名</th>
+			  <th class="info">报价(单位：万元)</th>
 			  <!-- <th class="info">操作</th> -->
 			</tr>
 			</thead>
@@ -41,6 +42,7 @@
 					<tr>
 					    <td class="tc w50">${vs.index+1}</td>
 					    <td class="tc">${treemapValue.suppliers.supplierName}</td>
+					    <td class="tc">${treemapValue.packageNames}</td>
 						<td class="tc">${treemapValue.total}</td>
 				    </tr>
 			    </c:forEach>

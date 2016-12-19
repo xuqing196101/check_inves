@@ -164,8 +164,23 @@
           });
     	
     }
+    
+        function getTotal(){
+		var allTr = document.getElementsByTagName("tr");
+		var totalScore = 0.0 ;
+		for(var i = 1; i < allTr.length; i++) {
+			var score = $(allTr[i]).find("td:last").text();
+			var reg = /^\d+\.?\d*$/;
+			var flag = false;
+			if(!reg.exec(score)) {
+				score = 0;
+			}
+			totalScore += parseFloat(score) ;
+		};
+			$("#totalScore").text(totalScore);
+    }
  </script>
-<body>  
+<body onload="getTotal()">  
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
   <div class="search_detail">
 	        <ul class="demand_list">
@@ -210,6 +225,9 @@
                 </tr> --%>
                  ${str }
         </table>
+         <div class="tr">
+        	<span class="mr30" ><b>总分:</b></span><span class="mr30" id="totalScore"></span>
+        </div>
     </div>
 	    <div class="mt40 tc mb50">
 	        <button class="btn btn-windows back" onclick="history.go(-1)">返回</button>

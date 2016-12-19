@@ -637,11 +637,11 @@ public class OpenBiddingController {
         SaleTender condition = new SaleTender();
         HashMap<String, Object> map = new HashMap<String, Object>();
         HashMap<String, Object> map1 = new HashMap<String, Object>();
-        StringBuilder sbUpload = new StringBuilder("");
-        StringBuilder show = new StringBuilder("");
         if (packageIds != null) {
             Integer count = 0;
             for (String packageId : packageIds) {
+                StringBuilder sbUpload = new StringBuilder("");
+                StringBuilder show = new StringBuilder("");
                 condition.setProjectId(projectId);
                 condition.setPackages(packageId);
                 condition.setStatusBid(NUMBER_TWO);
@@ -676,23 +676,18 @@ public class OpenBiddingController {
                 //这里是动态生成页面上传文件的groups
                 Integer num = 0;
                 for (SaleTender saleTender : stList) {
-                    int position = num++;
-                    if(position == (stList.size()-1)) {
-                        sbUpload.append("bf"+position);
-                        show.append("bs"+position);
-                    } else {
-                        sbUpload.append("bf"+position+",");
-                        show.append("bs"+position+",");
-                    }
+                        int position = num++;
+                        if(position == (stList.size()-1)) {
+                            sbUpload.append("bf"+position+count);
+                            show.append("bs"+position+count);
+                        } else {
+                            sbUpload.append("bf"+position+count+",");
+                            show.append("bs"+position+count+",");
+                        }
                 }
                 for (SaleTender saleTender : stList) {
                     saleTender.setGroupsUpload(sbUpload.toString());
                     saleTender.setGroupShow(show.toString());
-                    //判断文件上传是一个还是多个
-                    if (num == 1) {
-                        String flag = "1";
-                        model.addAttribute("flag"+count, flag);
-                    }
                 }
                 count ++;
                 map.put("id", packageId);
