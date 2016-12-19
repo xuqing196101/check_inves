@@ -240,12 +240,12 @@
 								</c:forEach>
 							</ul>
 							<c:set var="count" value="0"></c:set>
-							<div class="tag-box tag-box-v3 center" id="content_ul_id">
+							<div class="tag-box tag-box-v3 center" id="content_ul_id" disabled="disabled">
 								<c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
 									<c:if test="${cate.name eq '物资'}">
 										<c:set var="count" value="${count + 1}"></c:set>
 										<ul id="tab-${vs.index + 1}" class="ztree center" style="display: none" ></ul>
-										<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
+										<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden" >
 									</c:if>
 									<c:if test="${cate.name eq '工程'}">
 										<c:set var="count" value="${count + 1}"></c:set>
