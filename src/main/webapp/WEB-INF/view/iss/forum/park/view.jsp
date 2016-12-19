@@ -5,7 +5,6 @@
 <html>
 
 	<head>
-		<title>板块详情</title>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 	</head>
 

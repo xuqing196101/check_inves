@@ -5,7 +5,6 @@
 <html>
 
 	<head>
-		<title>修改版块</title>
 		
 		<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
 		

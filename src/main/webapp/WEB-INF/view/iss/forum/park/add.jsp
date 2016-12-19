@@ -5,8 +5,7 @@
 <html>
 
 	<head>
-		<title>新增版块</title>
-
+	
 		<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
 		
 		<%@ include file="/WEB-INF/view/common.jsp"%>

@@ -5,7 +5,6 @@
 <html>
 
 	<head>
-		<title>板块下的主题</title>
 		
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 		

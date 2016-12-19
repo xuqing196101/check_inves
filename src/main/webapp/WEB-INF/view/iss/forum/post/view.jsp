@@ -5,7 +5,6 @@
 <html>
 
 	<head>
-		<title>查看帖子</title>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 	</head>
 

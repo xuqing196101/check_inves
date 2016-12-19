@@ -5,7 +5,6 @@
 <html>
 
 	<head>
-		<title>帖子管理</title>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 
 		<script type="text/javascript">

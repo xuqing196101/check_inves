@@ -6,8 +6,6 @@
 
 	<head>
 
-		<title>版块管理</title>
-
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 		
 		<script type="text/javascript">

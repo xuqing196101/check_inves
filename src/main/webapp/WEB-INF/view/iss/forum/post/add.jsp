@@ -5,7 +5,6 @@
 <html>
 
 	<head>
-		<title>新增帖子</title>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 		<script type="text/javascript">
 			//实例化编辑器

@@ -5,7 +5,6 @@
 <html>
 
 	<head>
-		<title>修改帖子</title>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 		<script type="text/javascript">
 			$(function() {
