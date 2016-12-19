@@ -3,11 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="up" uri="/tld/upload"%>
-<%@ include file="../../../../common.jsp"%>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
 	<!--<![endif]-->
 	<head>
+		<%@ include file="../../../../common.jsp"%>
 		<script type="text/javascript">
 			function tijiao(str) {
 				var action;

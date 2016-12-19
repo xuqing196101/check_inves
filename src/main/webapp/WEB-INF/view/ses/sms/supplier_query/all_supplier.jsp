@@ -1,11 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="../../../common.jsp"%>
-<%@ include file="/WEB-INF/view/common/map.jsp"%>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
+		<%@ include file="../../../common.jsp"%>
+		<%@ include file="/WEB-INF/view/common/map.jsp"%>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/js/FusionCharts.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/highcharts.js"></script>
 		<script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>

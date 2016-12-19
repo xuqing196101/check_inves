@@ -259,7 +259,7 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 			  //总进度
 			  reviewProgress.setTotalProgress(totalProgress);
 			  //状态
-			  reviewProgress.setAuditStatus("评审中");
+			  reviewProgress.setAuditStatus("1");
 			  reviewProgress.setPackageId(packageId);
 			  reviewProgress.setProjectId(projectId);
 			  //新增
@@ -290,7 +290,7 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 			  //总进度更新
 			 reviewProgress2.setTotalProgress(totalProgress);
 			 if(totalProgress==1){
-				 reviewProgress2.setAuditStatus("评审完成");
+				 reviewProgress2.setAuditStatus("2");
 			 }
 			 //修改进度
 			 updateByMap(reviewProgress2);
