@@ -230,11 +230,31 @@ public class ReviewFirstAuditController {
             }
         }
 		model.addAttribute("markTermList", markTermList);
+		// 计算父节点的子节点个数
+		/*List<Map<String, Object>> childCount = new ArrayList<Map<String, Object>>();
+		for (MarkTerm mark : markTermList) {
+		    int count = 0;
+		    for (MarkTerm allMark : allMarkTerm) {
+		        if (mark.getId().equals(allMark.getPid())) {
+		            count++;
+		        }
+		    }
+		    HashMap<String, Object> tempMap = new HashMap<String, Object>();
+		    tempMap.put("id", mark.getId());
+		    tempMap.put("count", count);
+		    childCount.add(tempMap);
+        }
+		model.addAttribute("childCount", childCount);*/
 		// 查询所有的ScoreModel
 		ScoreModel scoreModel = new ScoreModel();
 		scoreModel.setPackageId(packageId);
 		scoreModel.setProjectId(projectId);
 		List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+		for (ScoreModel score : scoreModelList) {
+            if (score.getStandardScore() == null || "".equals(score.getStandardScore())) {
+                score.setStandardScore(score.getMaxScore());
+            }
+        }
 		model.addAttribute("scoreModelList", scoreModelList);
 		//查询供应商信息
 		SaleTender record = new SaleTender();
@@ -242,10 +262,15 @@ public class ReviewFirstAuditController {
 		record.setProject(project);
 		List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
 		model.addAttribute("supplierList", supplierList);
-		//去重复
+		// 回显
+		map.put("expertId", expertId);
+		List<ExpertScore> scores = expertScoreService.selectByMap(map);
+		model.addAttribute("scores", scores);
+		// 新增参数
 		model.addAttribute("project", project);
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("packageId", packageId);
+		model.addAttribute("length", supplierList.size() * 3 + 2);
 		return "bss/prms/audit/review_first_grade";
 	}
 	/**
