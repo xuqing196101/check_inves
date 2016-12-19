@@ -1,5 +1,6 @@
 package ses.service.sms.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +13,13 @@ import org.springframework.stereotype.Service;
 import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierProductsMapper;
+import ses.model.bms.Category;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierProducts;
+import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierItemService;
+
+import common.constant.StaticVariables;
 
 @Service(value = "supplierItemService")
 public class SupplierItemServiceImpl implements SupplierItemService {
@@ -29,6 +33,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	@Autowired
 	private ProductParamMapper productParamMapper;
 
+	@Autowired
+	private CategoryService categoryService;
+	
 	@Override
 	public void saveSupplierItem(Supplier supplier) {
 		String id = supplier.getId();
@@ -138,4 +145,55 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		// TODO Auto-generated method stub
 		return supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId);
 	}
+	
+	public List<SupplierItem> getCategory(String supplierId,String categoryId){
+		List<SupplierItem> list=new ArrayList<SupplierItem>();
+		//一级节点
+		List<SupplierItem> cateLIst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId);
+//		list.addAll(cateLIst);
+	
+		for(SupplierItem s:cateLIst){
+			//二级节点
+			   List<Category> categorylist = categoryService.findTreeByStatus(s.getCategoryId(),StaticVariables.CATEGORY_PUBLISH_STATUS);
+			   for( Category c:categorylist){
+				   List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(s.getSupplierId(), c.getId());
+				   list.addAll(cateLst);
+				   //三级节点
+				   for( SupplierItem si:cateLst){
+					   List<Category> categorylist2 = categoryService.findTreeByStatus(si.getCategoryId(),StaticVariables.CATEGORY_PUBLISH_STATUS);
+					   for(Category cl:categorylist2){
+						   List<SupplierItem> cateLst2 = supplierItemMapper.getBySupplierIdCategoryId(s.getSupplierId(), cl.getId());
+						   list.addAll(cateLst2);
+					   }
+					   
+				  
+				   }
+				  
+			   }
+		
+	 }
+		return list;		
+	}
+
+	@Override
+	public List<Category> getCategory(String supplierId) {
+		List<Category> cateList=new ArrayList<Category>();
+		List<SupplierItem> list = supplierItemMapper.getSupplierItem(supplierId);
+		for(SupplierItem item:list){
+			List<Category> cate = categoryService.findTreeByStatus(item.getCategoryId(),StaticVariables.CATEGORY_PUBLISH_STATUS);
+			if(cate.size()<1){
+				Category category = categoryService.selectByPrimaryKey(item.getCategoryId());
+				cateList.add(category);	
+			}
+		}
+		
+		
+		return cateList;
+	}
+		 
+		
+ 
+ 
+	
+	
 }

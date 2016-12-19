@@ -19,13 +19,13 @@
 
     	function login() {
     		if ($("#inputEmail").val() == "") {
-    			layer.tips("请输入用户名", "#inputEmail", {
+/*     			layer.tips("请输入用户名", "#inputEmail", {
     				tips : 1
-    			});
+    			}); */
     		} else if ($("#inputPassword").val() == "") {
-    			layer.tips("请输入密码", "#inputPassword", {
+/*     			layer.tips("请输入密码", "#inputPassword", {
     				tips : 1
-    			});
+    			}); */
     		} else if ($("#inputCode").val() == "") {
     			layer.tips("请输入验证码", "#inputCode", {
     				tips : 1
@@ -237,7 +237,7 @@
   													<label class="label col col-md-3 col-sm-12 col-xs-12">用户名</label>
   													<div class="col col-md-8 col-sm-12 col-xs-12">
   														<label class="input"> <input id="inputEmail"
-  															name="" placeholder="用户名" type="text">
+  															name="" placeholder="请输入用户名" type="text">
   														</label>
   													</div>
   												</div>
@@ -248,7 +248,7 @@
   														码</label>
   													<div class="col col-md-8 col-sm-12 col-xs-12">
   														<label class="input"> <input id="inputPassword"
-  															name="" placeholder="密 码" type="password">
+  															name="" placeholder="请输入密码" type="password">
   														</label>
   														<div class="note"></div>
   													</div>

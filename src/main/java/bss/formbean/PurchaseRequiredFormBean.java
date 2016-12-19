@@ -4,6 +4,7 @@ import java.util.List;
 
 import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.ProjectDetail;
 /**
  * 
@@ -19,6 +20,8 @@ public class PurchaseRequiredFormBean {
 	private List<ProjectDetail> lists;
 
 	private List<PurchaseAudit> audit;
+	
+	private List<AdvancedDetail> detail;
 	
 	public List<PurchaseRequired> getList() {
 		return list;
@@ -43,7 +46,13 @@ public class PurchaseRequiredFormBean {
 	public void setAudit(List<PurchaseAudit> audit) {
 		this.audit = audit;
 	}
-	
- 
 
+    public List<AdvancedDetail> getDetail() {
+        return detail;
+    }
+
+    public void setDetail(List<AdvancedDetail> detail) {
+        this.detail = detail;
+    }
+	
 }

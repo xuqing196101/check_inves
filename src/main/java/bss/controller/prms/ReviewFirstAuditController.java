@@ -14,9 +14,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.tags.form.SelectTag;
 
-import com.alibaba.fastjson.JSON;
-
+import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.ems.Expert;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierExtRelate;
+import ses.service.bms.DictionaryDataServiceI;
+import ses.service.ems.ExpertService;
+import ses.service.sms.SupplierExtRelateService;
+import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
+import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
@@ -39,13 +49,8 @@ import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
 import bss.util.ScoreModelUtil;
-import ses.model.bms.DictionaryData;
-import ses.model.bms.User;
-import ses.model.ems.Expert;
-import ses.model.sms.Supplier;
-import ses.service.bms.DictionaryDataServiceI;
-import ses.service.ems.ExpertService;
-import ses.service.sms.SupplierService;
+
+import com.alibaba.fastjson.JSON;
 
 @Controller
 @RequestMapping("reviewFirstAudit")
@@ -74,9 +79,11 @@ public class ReviewFirstAuditController {
 	@Autowired
 	private SupplierService supplierService;//供应商查询
 	@Autowired
-	private ExpertScoreService expertScoreService;//供应商查询
+	private ExpertScoreService expertScoreService;//专家成绩查询
 	@Autowired
-    private DictionaryDataServiceI dictionaryDataServiceI;//供应商查询
+    private DictionaryDataServiceI dictionaryDataServiceI;//数据字典查询
+    @Autowired
+    private SupplierExtRelateService supplierExtRelateService;//供应商分包查询
 
 	/**
 	 * 
@@ -147,6 +154,8 @@ public class ReviewFirstAuditController {
 		model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
 		//把封装的实体放入域中
 		model.addAttribute("extension", extension);
+		List<DictionaryData> dds = DictionaryDataUtil.find(22);
+		model.addAttribute("dds", dds);
 		return "bss/prms/audit/review_first_audit";
 	}
 	/**
@@ -165,7 +174,7 @@ public class ReviewFirstAuditController {
 	public String toGrade(String projectId,String packageId,Model model,HttpSession session){
 		//当前登录用户
 		User user = (User)session.getAttribute("loginUser");
-		String expertId = user.getTypeId();
+ 		String expertId = user.getTypeId();
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		//查询项目信息
 		Project project = projectService.selectById(projectId);
@@ -176,59 +185,64 @@ public class ReviewFirstAuditController {
 		if(packages!=null && packages.size()>0){
 			model.addAttribute("pack", packages.get(0));
 		}
+		//查询评分信息
 		Map<String, Object> map = new HashMap<>();
 		map.put("projectId", projectId);
 		map.put("packageId", packageId);
+		// 专家类别
 		String[] typeIds = expert.getExpertsTypeId().split(",");
-		List<AuditModelExt> findAllByMap = new ArrayList<AuditModelExt>();
-		for (String id : typeIds) {
-            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(id);
-            // 判断如果kind值为6,代表专家类别有技术类
-            if (dictionaryData.getKind() == 6) {
-                map.put("typeName", "1");
-                findAllByMap.addAll(aduitQuotaService.findAllByMap(map));
+		// 查询出所有的评审项类型
+		List<DictionaryData> AllMarkTermType = dictionaryDataServiceI.findByKind("23");
+		List<DictionaryData> markTermTypeList = new ArrayList<DictionaryData>();
+		//根据专家的类别判断显示哪些类型的评分项
+        for (String id : typeIds) {
+            int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
+            if (kind == 6) {
+                // kind值为6代表技术类型
+                loop:for (DictionaryData data : AllMarkTermType) {
+                    if ("TECHNOLOGY".equals(data.getCode())) {
+                        markTermTypeList.add(data);
+                        continue loop;
+                    }
+                }
+            } else if (kind == 19) {
+                // kind值为19表示为经济类型
+                loop:for (DictionaryData data : AllMarkTermType) {
+                    if ("ECONOMY".equals(data.getCode())) {
+                        markTermTypeList.add(data);
+                        continue loop;
+                    }
+                }
             }
-            // 判断如果kind值为19,代表专家类别有经济类
-            if (dictionaryData.getKind() == 19) {
-                map.put("typeName", "0");
-                findAllByMap.addAll(aduitQuotaService.findAllByMap(map));
+        }
+        removeDictionaryData(markTermTypeList);
+		model.addAttribute("markTermTypeList", markTermTypeList);
+		MarkTerm markTerm = new MarkTerm();
+		markTerm.setProjectId(projectId);
+		markTerm.setPackageId(packageId);
+		// 查出该包内所有的markTerm
+		List<MarkTerm> allMarkTerm = markTermService.findListByMarkTerm(markTerm);
+		// 遍历去除pid is not null 的
+		List<MarkTerm> markTermList = new ArrayList<MarkTerm>();
+		for (MarkTerm mark : allMarkTerm) {
+            if ("0".equals(mark.getPid())) {
+                markTermList.add(mark);
             }
-		}
-		//查询评分信息
-		removeAuditModelExt(findAllByMap);
-		model.addAttribute("list", findAllByMap);
+        }
+		model.addAttribute("markTermList", markTermList);
+		// 查询所有的ScoreModel
+		ScoreModel scoreModel = new ScoreModel();
+		scoreModel.setPackageId(packageId);
+		scoreModel.setProjectId(projectId);
+		List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+		model.addAttribute("scoreModelList", scoreModelList);
 		//查询供应商信息
-		List<Supplier> supplierList = new ArrayList<>();
-		Map<String,Object> supplierMap = new HashMap<>();
-        supplierMap.put("projectId", projectId);
-        supplierMap.put("packageId", packageId);
-        if(findAllByMap!=null && findAllByMap.size()>0){
-        	for (AuditModelExt auditModelExt : findAllByMap) {
-        		supplierMap.put("supplierId", auditModelExt.getSupplierId());
-        		List<ReviewFirstAudit> list = service.selectList(supplierMap);
-        		if(list!=null && list.size()>0){
-        		    //如果有一项不合格 那么就不参加评分
-					int flag = 0;
-					for (ReviewFirstAudit reviewFirstAudit : list) {
-						if(reviewFirstAudit.getIsPass()==1){
-							//证明有不合格的数据
-							flag=1;
-							break;
-						}
-					}
-					if(flag==0){
-						Supplier supplier = supplierService.selectById(auditModelExt.getSupplierId());
-						supplierList.add(supplier);
-					}
-				}else{
-				    Supplier supplier = supplierService.selectById(auditModelExt.getSupplierId());
-				    supplierList.add(supplier);
-				}
-			}
-		}	
-		//去重复
-		removeSupplier(supplierList);
+		SaleTender record = new SaleTender();
+		record.setPackages(packageId);
+		record.setProject(project);
+		List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
 		model.addAttribute("supplierList", supplierList);
+		//去重复
 		model.addAttribute("project", project);
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("packageId", packageId);
@@ -244,19 +258,18 @@ public class ReviewFirstAuditController {
 	  * @return void
 	 */
 	private static void removeSupplier(List<Supplier> list)   { 
-	   
-	   for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
-	    for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
-	      if  (list.get(j).getId(). equals(list.get(i).getId()))   { 
-	        list.remove(j); 
-	      } 
+	    for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
+	        for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
+	            if  (list.get(j).getId(). equals(list.get(i).getId()))   { 
+	                list.remove(j); 
+	            } 
+	        } 
 	    } 
-	  } 
 	} 
-	private static void removeAuditModelExt(List<AuditModelExt> list)   { 
+	private static void removeDictionaryData(List<DictionaryData> list)   { 
 		for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
 			for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
-				if  (list.get(j).getScoreModelId(). equals(list.get(i).getScoreModelId()))   { 
+				if  (list.get(j).getId(). equals(list.get(i).getId()))   { 
 					list.remove(j); 
 				} 
 			} 

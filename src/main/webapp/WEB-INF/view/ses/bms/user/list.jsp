@@ -1,13 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
   <head>
+  <jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
   </head>
   <script type="text/javascript">
 	  $(function(){
@@ -274,7 +275,7 @@
 					  <th class="info">联系电话</th>
 					  <th class="info">角色</th>
 					</tr>
-		      <thead>
+		      </thead>
 		      <tbody>
 				<c:forEach items="${list.list}" var="user" varStatus="vs">
 					<tr>

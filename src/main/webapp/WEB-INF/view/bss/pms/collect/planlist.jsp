@@ -72,21 +72,22 @@
 		   }
 	}
     
+	//下载
 	function down(){
 	  	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){   
-			
-			window.location.href="${pageContext.request.contextPath }/set/excel.html?id="+id;
+			$('input[name="chkItem"]:checked').each(function(){ 
+				id.push($(this).val());
+			}); 
+			if(id.length==1){
+				window.location.href="${pageContext.request.contextPath }/set/excel.html?id="+id;
  	  	}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}  
-		 
+				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+			}
 	}
+	
+	//打印
 	function print(){
   	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -103,31 +104,31 @@
 	}
 		
     var index;
-	function sets(){
-		var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){   
-			
-	    	 index=layer.open({
-			  type: 1, //page层
-			  area: ['300px', '200px'],
-			  title: '审核设置',
-			  closeBtn: 1,
-			  shade:0.01, //遮罩透明度
-			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
-			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['80px', '600px'],
-			  content: $('#content'),
+		function sets(){
+			var id=[]; 
+			$('input[name="chkItem"]:checked').each(function(){ 
+				id.push($(this).val());
+			}); 
+			if(id.length==1){
+	    	 	index=layer.open({
+			  	type: 1, //page层
+			  	area: ['300px', '200px'],
+			  	title: '审核设置',
+			  	closeBtn: 1,
+			  	shade:0.01, //遮罩透明度
+			  	moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  	shift: 1, //0-6的动画形式，-1不开启
+			  	offset: ['80px', '600px'],
+			  	content: $('#content'),
 			}); 
 	  	}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}  
-	}
-	 function audit(){
+				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+			}  
+		}
+		
+	 	function audit(){
 			var id=[]; 
 			$('input[name="chkItem"]:checked').each(function(){ 
 				id.push($(this).val());
@@ -138,9 +139,8 @@
 				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 			}else{
 				layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-			}  
-			
-	 }
+			}
+	 	}
 	 
 	 function closeLayer(){
 		 var type=$("#wtype").val();
@@ -157,65 +157,58 @@
 		 
 	 }
 	 
-	 function cant(){
-			layer.close(index);	
-	 }
+	 	function cant(){
+				layer.close(index);	
+	 	}
 	 
-	 function resetQuery(){
-			$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+	 	function resetQuery(){
+				$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 		}
 	 
   </script>
   </head>
   
   <body>
-<!--面包屑导航开始-->
- <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购计划管理</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
-<!-- 录入采购计划开始-->
- <div class="container">
-   <div class="headline-v2 fl">
-      <h2>采购计划列表
-	  </h2>
-   </div> 
+		<!--面包屑导航开始-->
+ 		<div class="margin-top-10 breadcrumbs ">
+      	<div class="container">
+		   		<ul class="breadcrumb margin-left-0">
+		   		<li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购计划管理</a></li>
+		   		</ul>
+					<div class="clear"></div>
+	  		</div>
+   	</div>
    
-   <h2 class="search_detail">
-    <form id="add_form" action="${pageContext.request.contextPath }/look/list.html" class="mb0" method="post" >
-	<input type="hidden" name="page" id="page">
-	   <ul class="demand_list">
+		<!-- 录入采购计划开始-->
+ 		<div class="container">
+   	<div class="headline-v2 fl">
+      <h2>采购计划列表</h2>
+   	</div> 
+   
+   	<h2 class="search_detail">
+    	<form id="add_form" action="${pageContext.request.contextPath }/look/list.html" class="mb0" method="post" >
+					<input type="hidden" name="page" id="page">
+	   			<ul class="demand_list">
 			    	  <li>
-				    	<label class="fl">   采购计划名称：</label><span>
-				  	  <input type="text"   name="fileName" value="${inf.fileName }"/> 
-				    	
-				    	</span>
+				    		<label class="fl">采购计划名称：</label><span>
+				  	  	<input type="text" name="fileName" value="${inf.fileName }"/> 
+				    		</span>
 				      </li>
-				   <li>
-				    	<label class="fl"> 采购方式：</label><span>
-				  	   <input type="text"  name="" value=""/>
-				    	
+				   		<li>
+				    		<label class="fl">采购方式：</label><span>
+				  	   	<input type="text" name="" value=""/>
 				    	</span>
 				      </li>
 				      <li>
-				    	<label class="fl">  采购金额：</label><span>
+				    		<label class="fl">采购金额：</label><span>
 				  	    <input type="text" name="budget" value="${inf.budget }"/> 
-				    	
 				    	</span>
 				      </li>
 			    </ul>
-			    	
-	  
-	 
-	  
-	   	 <input class="btn"   type="submit" name="" value="查询" /> 
-	 <input type="button" onclick="resetQuery()" class="btn" value="重置"/>	
-   </form>
- </h2>
+	   	 		<input class="btn" type="submit" value="查询" /> 
+				 	<input class="btn" type="button" value="重置" onclick="resetQuery()"  />	
+   		</form>
+ 		</h2>
  
  
    <div class="col-md-12 pl20 mt10">

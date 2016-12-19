@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	//经济技术审查
 	function toFirstAudit(projectId, packageId){
 		// 下面代码是判断必须符合性审查通过才可以进入经济技术审查
-		$.ajax({
+		/*$.ajax({
 			url: "${pageContext.request.contextPath}/expert/validateIsGrade.do",
 			data: {"projectId": projectId, "packageId": packageId},
 			success: function(response){
@@ -88,9 +88,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					});
 				}
 			}
-		});
+		});*/
 		// 临时代码,可直接进入经济技术审查
-		//window.location.href="${pageContext.request.contextPath}/expert/toFirstAudit.html?projectId="+projectId+"&packageId="+packageId;
+		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
 	}
 </script>
   </head>
@@ -100,7 +100,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">个人首页</a></li><li><a href="javascript:void(0)">项目评审</a></li>
+           <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">项目评审</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -121,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+          <!-- <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th> -->
           <th class="info w50">序号</th>
           <th class="info">项目名称</th>
           <th class="info">项目编号</th>
@@ -136,14 +136,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         <c:forEach items="${projectExtList}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc w30"><input type="checkbox" value="${obj.id },${obj.packageId}" name="chkItem" onclick="check()"  alt=""></td>
+              <%-- <td class="tc w30"><input type="checkbox" value="${obj.id },${obj.packageId}" name="chkItem" onclick="check()"  alt=""></td> --%>
               <td class="tc w50">${vs.count}</td>
               <td>${obj.name}</td>
-              <td>${obj.projectNumber }</td>
-              <td class="tc">${obj.packageName }</td>
+              <td>${obj.projectNumber}</td>
+              <td class="tc">${obj.packageName}</td>
               <td class="tc">
-              	<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit('${obj.id }','${obj.packageId}');" value="符合性审查">
-              	<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toFirstAudit('${obj.id }','${obj.packageId}');" value="经济技术审查">
+              	<c:forEach items="${obj.packageExperts}" var="pe">
+              		<c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 0}">
+              			<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit('${obj.id }','${obj.packageId}');" value="符合性审查">
+              		</c:if>
+              		<c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGrade == 0}">
+              			<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toFirstAudit('${obj.id }','${obj.packageId}');" value="经济技术审查">
+              		</c:if>
+              		<c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 1 && pe.isGrade == 1 }">
+              			评审结束
+              		</c:if>
+              	</c:forEach>
               </td>
 			    <!-- 
               <td class="w260">

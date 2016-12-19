@@ -95,4 +95,28 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return projectDetailMapper.findNoPackageIdDetail(map);
 	}
 
+	@Override
+	public ProjectDetail getMax(String projectId) {
+		return projectDetailMapper.getmax(projectId);
+	}
+
+	
+	@Override
+	public List<ProjectDetail> selectByRequiredId(Map<String, Object> map) {
+		return projectDetailMapper.selectByRequiredId(map);
+	}
+
+	@Override
+	public List<ProjectDetail> selectByParentIds(Map<String, Object> map) {
+		return projectDetailMapper.selectByParentIds(map);
+	}
+
+	@Override
+	public void deleteByProject(String id) {
+		// TODO Auto-generated method stub
+		projectDetailMapper.deleteByProject(id);
+		
+		
+	}
+
 }

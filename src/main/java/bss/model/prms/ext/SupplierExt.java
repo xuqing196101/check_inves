@@ -7,10 +7,11 @@ public class SupplierExt {
 	private String expertId;
 	//供应商id
 	private String supplierId;
-	//该供应商是否通过评审
+	//该供应商是否通过评审 0:不合格 1：合格 2:未评审
 	private String suppIsPass;
 	//初审是否通过
 	private String isAudit;
+
 	
 	
 	

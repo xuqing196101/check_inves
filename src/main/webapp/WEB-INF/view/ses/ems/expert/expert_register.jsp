@@ -130,7 +130,7 @@ session.setAttribute("tokenSession", tokenValue);
    <ul class="list-unstyled list-flow" style="margin-left: 250px;">
 			<h2 class="count_flow margin-left-30"><font color="red" class="margin-left-30"> 注：军队单位人员，请登录内网进行注册!</font></h2>
 			 <li class="p0">
-			  <span class=""><i class="red mr5">*</i>专家来源：</span>
+			  <span class=""><i class="red mr5">*</i>专家类型：</span>
 			  <div class="input-append">
 		        <select  name="expertsFrom" id="expertsFrom" onblur="validateFrom();">
 				  <option selected="selected" value="">-请选择-</option>

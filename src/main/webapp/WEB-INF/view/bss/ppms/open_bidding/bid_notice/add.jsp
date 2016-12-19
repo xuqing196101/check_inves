@@ -59,7 +59,7 @@
         	$("#pre_name").empty();
         }
         
-        //发布
+        //提交
         function publish(){
         	var articleId = $("#articleId").val();
         	var saveStatus = $("#is_saveNotice").val();
@@ -68,7 +68,28 @@
         	if(saveStatus != 'isok'){
         		layer.alert("请先保存公告",{offset: '222px', shade:0.01});
         	}else{
-	        	var iframeWin;
+        		 $.ajax({
+								    type: 'post',
+								    url: "${pageContext.request.contextPath}/open_bidding/publish.html",
+								    data : $('#form').serializeArray(),
+								    dataType:'json',
+								    success:function(result){
+					                    if(!result.success){
+					                        layer.msg(result.msg,{offset: ['20px']});
+					                    }else{
+					                        parent.window.setTimeout(function(){
+					                            window.location.href = "${pageContext.request.contextPath}/open_bidding/bidNotice.html?projectId="+result.projectId;
+					                        }, 500);
+					                        layer.msg(result.msg,{offset: ['20px']});
+					                    }
+					                },
+					                error: function(result){
+					                    layer.msg("提交失败",{offset: ['20px']});
+					                }
+									}); 
+
+        	
+	        	 /* var iframeWin;
 	            layer.open({
 	              type: 2, //page层
 	              area: ['400px', '200px'],
@@ -83,9 +104,9 @@
 	              success: function(layero, index){
 	                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 	              }
-	            });
+	            }); */
         	}
-        }
+        } 
        
        function save(){
        		$.ajax({
@@ -126,7 +147,7 @@
 	         <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input>
 	         <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>  
 	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
-	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="发布"></input>  
+	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>  
 	    </div>
 	    <input type="hidden" id="is_saveNotice" value="${saveStatus}">
 	    <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId }">
@@ -142,13 +163,27 @@
 	            <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
 	            <label class="ml30 fl"><input type="checkbox" name="ranges" value="1" >外网</label>
 	         </div><br>
+	         
         	 <div class="mt10"><span class="red">*</span><span>公告内容：</span></div>
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
-                          上传附件： 
-             <p:upload id="a" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
-             <p:show  showId="b" groups="b,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
+
+                          <%-- 上传附件： 
+             <p:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
+             <p:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/> --%>
+     				
+     				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="" >文章附件：</span>
+	               <p:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
+             		 <p:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
+              </li>
+              <li class="col-md-3 col-sm-6 col-xs-12">
+	              <span class="" >审批附件: </span>
+	                <p:upload id="c" groups="a,c" businessId="${articleId }"  sysKey="${sysKey }" typeId="${typeId_examine }" auto="true" />
+                  <p:show  showId="d"  groups="b,d,c" businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId_examine }"/>
+              </li>
         </div>
       </form>
+      
 	<div class="dnone" id="preview">
 	   	<!-- <div class="col-md-12 p30_40 border1 margin-top-20"> -->
 	   		<div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
@@ -164,7 +199,7 @@
 			 </div>
 			 <div class="extra_file">
 			 	<div class="">
-					<p:show  showId="c" groups="b,c" delete="false" businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
+					<p:show  showId="e" groups="b,d,c" delete="false" businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
 			 	</div>
 			 </div>
 	</div>

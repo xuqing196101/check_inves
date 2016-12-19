@@ -47,7 +47,7 @@
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
 	     <li class="active">
-		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >01、符合性</a>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >01、资格性和符合性审查</a>
 		   <i></i>
 		 </li>
 		<%--  <li>
@@ -55,7 +55,7 @@
 		   <i></i>							  
 		 </li> --%>
 	     <li>
-		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${projectId}&flowDefineId=${flowDefineId }">02、评标细则</a>
+		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${projectId}&flowDefineId=${flowDefineId }">02、经济和技术评审细则</a>
 		   <i></i>
 		 </li>
 		 <li>

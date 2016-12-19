@@ -62,6 +62,7 @@ import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
+import common.service.DownloadService;
 import common.service.UploadService;
 
 /* 
@@ -120,6 +121,8 @@ public class PurchaseContractController extends BaseSupplierController{
 	@Autowired
 	private UserServiceI userServiceI;
 	
+	@Autowired
+	private DownloadService downloadService;
 	
 	/**
 	 * 
@@ -179,6 +182,8 @@ public class PurchaseContractController extends BaseSupplierController{
 	//				String supplierNames = "";
 					for(SupplierCheckPass su:suList){
 						if(su.getIsCreateContract()==0){
+							Supplier su1 = supplierService.selectOne(su.getId());
+							su.setSupplier(su1);
 							if(su.getSupplier()!=null){
 		//						supplierNames+=su.getSupplier().getSupplierName()+",";
 		//						supplierNames+=su.getSupplier().getSupplierName();
@@ -334,14 +339,14 @@ public class PurchaseContractController extends BaseSupplierController{
 			suchp.setPackageId(pack.getId());
 			suchp.setIsWonBid((short)1);
 			List<SupplierCheckPass> chList = supplierCheckPassService.listCheckPass(suchp);
-			if(chList.size()>1){
-				flag="false";
-				news = "";
-				news+="有多个供应商，无法合并";
-				break;
-			}else{
+//			if(chList.size()>1){
+//				flag="false";
+//				news = "";
+//				news+="有多个供应商，无法合并";
+//				break;
+//			}else{
 				supIdList.add(chList.get(0).getSupplier().getId());
-			}
+//			}
 		}
 		
 		if(flag.equals("true")){
@@ -1010,16 +1015,16 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_purchaseType", "采购方式不能为空");
 		}
-		if(ValidateUtils.isNull(purCon.getBingDepName())){
-			flag = false;
-			model.addAttribute("ERR_bingDepName", "需求部门不能为空");
-		}else{
-			PurchaseDep purDep = purchaseOrgnizationServiceI.selectPurchaseById(purCon.getBingDepName());
-			if(ValidateUtils.isNull(purDep.getDepName())){
-				flag = false;
-				model.addAttribute("ERR_bingDepName", "需求部门不能为空");
-			}
-		}
+//		if(ValidateUtils.isNull(purCon.getBingDepName())){
+//			flag = false;
+//			model.addAttribute("ERR_bingDepName", "需求部门不能为空");
+//		}else{
+//			PurchaseDep purDep = purchaseOrgnizationServiceI.selectPurchaseById(purCon.getBingDepName());
+//			if(ValidateUtils.isNull(purDep.getDepName())){
+//				flag = false;
+//				model.addAttribute("ERR_bingDepName", "需求部门不能为空");
+//			}
+//		}
 		if(ValidateUtils.isNull(purCon.getCode())){
 			flag = false;
 			model.addAttribute("ERR_code", "合同编号不能为空");
@@ -1166,28 +1171,28 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_supplierBankName", "乙方开户名称不能为空");
 		}
-		if(ValidateUtils.isNull(purCon.getBingContact())){
-			flag = false;
-			model.addAttribute("ERR_bingContact", "丙方联系人不能为空");
-		}
-		if(ValidateUtils.isNull(purCon.getBingContactTelephone())){
-			flag = false;
-			model.addAttribute("ERR_bingContactTelephone", "丙方联系电话不能为空");
-		}else if(!ValidateUtils.Tele(purCon.getBingContactTelephone())){
-			flag = false;
-			model.addAttribute("ERR_bingContactTelephone", "请输入正确的联系电话");
-		}
-		if(ValidateUtils.isNull(purCon.getBingContactAddress())){
-			flag = false;
-			model.addAttribute("ERR_bingContactAddress", "丙方地址不能为空");
-		}
-		if(ValidateUtils.isNull(purCon.getBingUnitpostCode())){
-			flag = false;
-			model.addAttribute("ERR_bingUnitpostCode", "丙方邮编不能为空");
-		}else if(!ValidateUtils.Zipcode(purCon.getBingUnitpostCode())){
-			flag = false;
-			model.addAttribute("ERR_bingUnitpostCode", "请输入正确的邮编");
-		}
+//		if(ValidateUtils.isNull(purCon.getBingContact())){
+//			flag = false;
+//			model.addAttribute("ERR_bingContact", "丙方联系人不能为空");
+//		}
+//		if(ValidateUtils.isNull(purCon.getBingContactTelephone())){
+//			flag = false;
+//			model.addAttribute("ERR_bingContactTelephone", "丙方联系电话不能为空");
+//		}else if(!ValidateUtils.Tele(purCon.getBingContactTelephone())){
+//			flag = false;
+//			model.addAttribute("ERR_bingContactTelephone", "请输入正确的联系电话");
+//		}
+//		if(ValidateUtils.isNull(purCon.getBingContactAddress())){
+//			flag = false;
+//			model.addAttribute("ERR_bingContactAddress", "丙方地址不能为空");
+//		}
+//		if(ValidateUtils.isNull(purCon.getBingUnitpostCode())){
+//			flag = false;
+//			model.addAttribute("ERR_bingUnitpostCode", "丙方邮编不能为空");
+//		}else if(!ValidateUtils.Zipcode(purCon.getBingUnitpostCode())){
+//			flag = false;
+//			model.addAttribute("ERR_bingUnitpostCode", "请输入正确的邮编");
+//		}
 		map.put("flag", flag);
 		map.put("model", model);
 		return map;
@@ -1261,9 +1266,21 @@ public class PurchaseContractController extends BaseSupplierController{
 				Supplier su = supplierService.selectOne(pur.getSupplierDepName());
 				PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(pur.getBingDepName());
 				Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(pur.getPurchaseDepName());
-				pur.setShowDemandSector(org.getName());
-				pur.setShowSupplierDepName(su.getSupplierName());
-				pur.setShowPurchaseDepName(purdep.getDepName());
+				if(org.getName()==null){
+					pur.setShowDemandSector("");
+				}else{
+					pur.setShowDemandSector(org.getName());
+				}
+				if(su.getSupplierName()!=null){
+					pur.setShowSupplierDepName(su.getSupplierName());
+				}else{
+					pur.setShowSupplierDepName("");
+				}
+				if(purdep.getDepName()!=null){
+					pur.setShowPurchaseDepName(su.getSupplierName());
+				}else{
+					pur.setShowPurchaseDepName("");
+				}
 			}
 		}
 		BigDecimal contractSum = new BigDecimal(0);
@@ -1283,7 +1300,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(datas.size()>0){
 			model.addAttribute("attachtypeId", datas.get(0).getId());
 		}
-		model.addAttribute("list", new PageInfo<PurchaseContract>(draftConList));
+		PageInfo<PurchaseContract> list = new PageInfo<PurchaseContract>(draftConList);
+		model.addAttribute("list", list);
 		model.addAttribute("draftConList", draftConList);
 		model.addAttribute("contractSum",contractSum);
 		model.addAttribute("purCon", purCon);
@@ -1623,7 +1641,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 			PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
 			purchaseContractService.updateByPrimaryKeySelective(purCon);
-			purchaseContractService.createWord(pur, requList,request);
+//			purchaseContractService.createWord(pur, requList,request);
 			appraisalContractService.insertPurchaseContract(pur);
 			url="redirect:selectAllPuCon.html";
 		}else{
@@ -1686,10 +1704,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		if(flag){
 			purCon.setUpdatedAt(new Date());
-			List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 			PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
 			purchaseContractService.updateByPrimaryKeySelective(purCon);
-			purchaseContractService.createWord(pur, requList,request);
 			appraisalContractService.insertPurchaseContract(pur);
 			url="redirect:selectDraftContract.html";
 		}else{
@@ -1897,6 +1913,12 @@ public class PurchaseContractController extends BaseSupplierController{
 			request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
 			if(datas.size()>0){
 				model.addAttribute("attachtypeId", datas.get(0).getId());
+			}
+			for(String supchid:supcheckids){
+				SupplierCheckPass sup = new SupplierCheckPass();
+				sup.setId(supchid);
+				sup.setIsCreateContract(1);
+				supplierCheckPassService.update(sup);
 			}
 			model.addAttribute("id", id);
 			url = "bss/cs/purchaseContract/transFormaTional";
@@ -2312,5 +2334,20 @@ public class PurchaseContractController extends BaseSupplierController{
         	url = "bss/cs/purchaseContract/printformal";
         }
         return url;
+    }
+    
+    /**
+     *〈简述〉下载附件
+     *〈详细描述〉
+     * @author Qu Jie
+     * @param request
+     * @param fileId 附件id
+     * @param response
+     */
+    @RequestMapping("/loadFile")
+    public void loadFile(HttpServletRequest request,HttpServletResponse response){
+    	String fileName = request.getParameter("fileName");
+    	String filePath = (PathUtil.getWebRoot() + "contract/").replace("\\", "/")+"/"+fileName;
+    	purchaseContractService.downloadFile(request, response, filePath, fileName);
     }
 }

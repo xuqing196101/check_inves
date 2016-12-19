@@ -182,27 +182,25 @@
 			<h2>计划明细</h2>
 		</div>
 		<form id="audit_form" action="${pageContext.request.contextPath}/look/audit.html" method="post">
-		<div class="col-md-12 pl20 mt10">
-	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
-		<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面</a>
-		<div style="float: left">
-                <u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
-                <u:show showId="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
-                </div>
-		<input class="btn btn-windows save" onclick="audits()" value="提交">
-                <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-		</div>
+				<div class="col-md-12 pl20 mt10">
+					<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
+					<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面</a>
+					<div style="float: left">
+             <u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
+             <u:show showId="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
+          </div>
+					<input class="btn btn-windows save" onclick="audits()" value="提交">
+          <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+				</div>
 			 <div class="content table_box">
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
 							<th class="info" colspan="17">事业部门需求</th>
-						 
 							<c:forEach items="${bean }" var="obj">
 								<th class="info" colspan="${obj.size}q">${obj.name }</th>
 							</c:forEach>
 						</tr>
-						
 						<tr>
 							<th class="info w50">序号</th>
 							<th class="info">需求部门</th>
@@ -215,38 +213,30 @@
 							<th class="info">预算金额（万元）</th>
 							<th class="info">交货期限</th>
 							<th class="info">采购方式建议</th>
-							
 							<th class="info">采购机构</th>
 							<th class="info">供应商名称</th>
 							<th class="info">是否申请办理免税</th>
 							<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th>
-							
 							<th class="info">备注</th>
 							<c:forEach items="${all }" var="p">
-											<th class="info">
-											  <c:if test="${p.param=='1'}">
-												  	采购方式
-												  </c:if>
-												   <c:if test="${p.param=='2'}">
-												  	采购机构
-												  </c:if>
-												
-												   <c:if test="${p.param=='3'}">
-												     	其他建议
-														
-												  </c:if>
-												    <c:if test="${p.param=='4'}">
-													 技术参数意见
-										  </c:if>
-					  
-					  
-											</th>
+									<th class="info">
+										<c:if test="${p.param=='1'}">
+												 采购方式
+									 	</c:if>
+										<c:if test="${p.param=='2'}">
+												 采购机构
+										</c:if>
+										<c:if test="${p.param=='3'}">
+												  其他建议
+										</c:if>
+										<c:if test="${p.param=='4'}">
+												技术参数意见
+										</c:if>
+									</th>
 							</c:forEach>
-							
 						</tr>
 					</thead>
-
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
 							<td class="tc w50"><input style="border: 0px;" type="text" name="list[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
@@ -261,7 +251,6 @@
 							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].budget" value="${obj.budget }"></td>
 							<td><input style="border: 0px;" type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"></td>
 							<td>
-							
 							<select  onchange="sel(this)" name="list[${vs.index }].purchaseType">
 								<%-- <option value="gkzb">公开招标</option>
 								<option value="yqzb">邀请招标</option>

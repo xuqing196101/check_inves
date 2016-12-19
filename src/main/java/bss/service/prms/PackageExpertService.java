@@ -94,4 +94,14 @@ public interface PackageExpertService {
          * @return
          */
         String isGather(String packageIds, String projectId);
+
+        /**
+         *〈简述〉符合汇总
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param packageId 包id
+         * @param projectId 项目id
+         * @return
+         */
+        String isFirstGather(String packageId, String projectId);
 }

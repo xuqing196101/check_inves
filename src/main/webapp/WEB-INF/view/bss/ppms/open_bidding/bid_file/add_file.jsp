@@ -18,9 +18,6 @@
 		if(fileId != 0){
 			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
 		} 
-		
-		//obj.OpenFromURL("http://localhost/${pageContext.request.contextPath}/stash/测试.doc");
-		
 	}
 	
 	
@@ -91,11 +88,11 @@
 
 <!-- 打开文档后只读 -->
 <script type="text/javascript" for="TANGER_OCX" event="OnDocumentOpened(a,b)">
-		var obj = document.getElementById("TANGER_OCX");
+		/* var obj = document.getElementById("TANGER_OCX");
 		var st = $("#ope").val();
 		if(st == 'view'){
 			obj.SetReadOnly(true);
-		}
+		} */
 </script>
 </head>
 
@@ -103,8 +100,8 @@
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
 	   	 <c:if test="${ope == 'add' }">
-		     <li >
-			   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >01、符合性</a>
+		     <li>
+			   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >01、资格性和符合性审查</a>
 			   <i></i>
 			 </li>
 			 
@@ -113,7 +110,7 @@
 			   <i></i>							  
 			 </li> --%>
 		     <li>
-			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、评标细则</a>
+			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
 			   <i></i>
 			 </li>
 			 <li class="active">
@@ -138,7 +135,7 @@
 	   	 </c:if>
 	   	 <c:if test="${ope == 'view' }">
 	   	 	<li >
-		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${project.id}&flowDefineId=${flowDefineId }" >01、符合性</a>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${project.id}&flowDefineId=${flowDefineId }" >01、资格性和符合性审查</a>
 		   <i></i>
 		 </li>
 		 <%-- <li>
@@ -146,7 +143,7 @@
 		   <i></i>							  
 		 </li> --%>
 	     <li>
-		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">02、评标细则</a>
+		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">02、经济和技术评审细则</a>
 		   <i></i>
 		 </li>
 		 <li class="active">
