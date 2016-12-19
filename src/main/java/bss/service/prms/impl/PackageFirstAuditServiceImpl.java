@@ -12,16 +12,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister.Pack;
 
 import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
-import ses.util.PathUtil;
 import ses.util.PropUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
