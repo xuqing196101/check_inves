@@ -757,7 +757,7 @@ return false;
             <h2 class="count_flow"><i>2</i>抽取结果</h2>
     <ul class="ul_list">
     <div align="center" id="countdnone" class="f26  ww100 h300 ">满足条件共有<span class="f26 red" id="count">0</span>家</div>
-    <div class="row dnone" id="rowdnone">
+    <div class="row " id="rowdnone">
      <div class=" w300 pl20 ml10 mt10 mb10">
             <button class="btn  " id="save" onclick="finish();" type="button">完成</button>
                <button class="btn btn-windows back" id="save" onclick="javascript:history.back(-1);" type="button">返回</button>

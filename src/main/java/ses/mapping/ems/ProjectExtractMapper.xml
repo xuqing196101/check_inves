@@ -221,6 +221,9 @@
 		<if test="expertConditionId != null and expertConditionId != ''">
 			AND pe.EXPERT_CONDITION_ID =#{expertConditionId}
 		</if>
+		<if test="expertId != null and expertId != '' ">
+			AND pe.EXPERT_ID = #{expertId}
+		</if>
 		<if test="reason != null and reason != ''">
 			AND pe.OPERATING_TYPE in (${reason})
 		</if>
@@ -282,7 +285,7 @@
 			from dual
 		</foreach>
 	</insert>
-	
+
 	<!-- 关联抽取供应商 -->
 	<select id="getBuyConId" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -290,18 +293,21 @@
 		<include refid="Base_Column_List" />
 		FROM
 		T_SES_EMS_PROJECT_EXTRACT WHERE
-		EXPERT_CONDITION_ID=#{expertId}  AND (OPERATING_TYPE =1 OR OPERATING_TYPE =2 OR OPERATING_TYPE =3)
+		EXPERT_CONDITION_ID=#{expertId} AND
+		(OPERATING_TYPE =1 OR OPERATING_TYPE =2 OR OPERATING_TYPE =3)
 	</select>
 
-	<select id="findExtractByExpertId" parameterType="ses.model.ems.ProjectExtract" resultMap="BaseResultMap">
-		select 
-			*
+	<select id="findExtractByExpertId" parameterType="ses.model.ems.ProjectExtract"
+		resultMap="BaseResultMap">
+		select
+		*
 		from
-			T_SES_EMS_PROJECT_EXTRACT
-	  where
-	  	EXPERT_ID = #{expert}
+		T_SES_EMS_PROJECT_EXTRACT
+		where
+		EXPERT_ID =
+		#{expert}
 		and
-		  OPERATING_TYPE = '1'
+		OPERATING_TYPE = '1'
 	</select>
 
 </mapper>

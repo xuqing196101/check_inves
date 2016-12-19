@@ -301,12 +301,16 @@ public class ExpExtractRecordController extends BaseController {
      * @return String
      */ 
     @RequestMapping("/addExtractions")
-    public String addExtraction(Model model,String projectId,String typeclassId, String packageId){
+    public String addExtraction(Model model,String projectId,String typeclassId, String[] packageId){
         List<Area> privnce = areaService.findRootArea();
         model.addAttribute("privnce", privnce);
         model.addAttribute("typeclassId", typeclassId);
         model.addAttribute("projectId", projectId);
-        model.addAttribute("packageId", packageId);
+        String packIds="";
+        for (String packId : packageId) {
+            packIds+=packId+",";
+        }
+        model.addAttribute("packageId", packIds);
 
         //数据字典。专家来源
         model.addAttribute("find", DictionaryDataUtil.find(12));
@@ -315,7 +319,7 @@ public class ExpExtractRecordController extends BaseController {
 
         //获取查询条件类型
         ExpExtCondition condition=new ExpExtCondition();
-        condition.setProjectId(packageId);
+        condition.setProjectId(packageId[0]);
         condition.setStatus((short)1);
 
         List<ExpExtCondition> listCon = conditionService.list(condition,0);
@@ -584,13 +588,14 @@ public class ExpExtractRecordController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/resultextract")
-    public Object resultextract(Model model,String id,String reason,HttpServletRequest sq){
+    public Object resultextract(Model model,String id,String reason,HttpServletRequest sq,String[] packageId){
         //      修改状态
         String[] ids = id.split(",");
         if (reason != null && !"".equals(reason)){
-            extractService.update(new ProjectExtract(ids[0], new Short(ids[2]), reason));
+            extractService.update(new ProjectExtract(ids[0], new Short(ids[2]), reason ,packageId));
+            
         } else {
-            extractService.update(new ProjectExtract(ids[0], new Short(ids[2])));
+            extractService.update(new ProjectExtract(ids[0], new Short(ids[2]) ,packageId));
         }
 
 
@@ -598,6 +603,7 @@ public class ExpExtractRecordController extends BaseController {
 
         return projectExtractListYes;
     }
+    
 
     /**
      *〈简述〉返回专家抽取方法
@@ -998,12 +1004,14 @@ public class ExpExtractRecordController extends BaseController {
                 //获取关联包id
                 for (String  strType : type) {
                     DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(strType);
-                    CategoryTree ct = new CategoryTree();
-                    ct.setId(dictionaryData.getId());
-                    ct.setName(dictionaryData.getName());
-                    ct.setCode(dictionaryData.getCode());
-                    ct.setIsParent("true");
-                    jList.add(ct);
+                    if(dictionaryData.getKind()!=19){
+                        CategoryTree ct = new CategoryTree();
+                        ct.setId(dictionaryData.getId());
+                        ct.setName(dictionaryData.getName());
+                        ct.setCode(dictionaryData.getCode());
+                        ct.setIsParent("true");
+                        jList.add(ct);
+                    }
                 }
             } else {
                 category.setId("0");

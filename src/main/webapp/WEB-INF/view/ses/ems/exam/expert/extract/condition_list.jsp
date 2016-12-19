@@ -97,7 +97,8 @@
 			      }
 
 			function add() {
-				 var packageId= $("#packageId").find("option:selected").val();
+				 var packageId=$("#packageId").val();
+					 // $("#packageId").find("option:selected").val();
 				$.ajax({
 					cache: true,
 					type: "POST",
@@ -182,9 +183,94 @@
 				location.href = '${pageContext.request.contextPath}/ExtCondition/showExtCondition.html?Id=' + id;
 			}
 		</script>
+		
+		  <script type="text/javascript">
+      function showPackageType() {
+        var setting = {
+          check: {
+            enable: true,
+            chkboxType: {
+              "Y": "",
+              "N": ""
+            }
+          },
+          view: {
+            dblClickExpand: false
+          },
+          data: {
+            simpleData: {
+              enable: true,
+              idKey: "id",
+              pIdKey: "parentId"
+            }
+          },
+          callback: {
+            beforeClick: beforeClick,
+            onCheck: onCheck
+          }
+        };
+        
+        $.ajax({
+          type: "GET",
+          async: false,
+          url: "${pageContext.request.contextPath}/SupplierExtracts/getpackage.do?projectId=${projectId}",
+          dataType: "json",
+          success: function(zNodes) {
+            tree = $.fn.zTree.init($("#treePackageType"), setting, zNodes);
+            tree.expandAll(true); //全部展开
+          }
+        });
+        var cityObj = $("#packageName");
+        var cityOffset = $("#packageName").offset();
+        $("#packageContent").css({
+          left: cityOffset.left + "px",
+          top: cityOffset.top + cityObj.outerHeight() + "px"
+        }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDownPackageType);
+      }
+
+      function onBodyDownPackageType(event) {
+        if(!(event.target.id == "menuBtn" || $(event.target).parents("#packageContent").length > 0)) {
+          hidePackageType();
+        }
+      }
+
+      function hidePackageType() {
+        $("#packageContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDownPackageType);
+
+      }
+
+      function beforeClick(treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treePackageType");
+        zTree.checkNode(treeNode, !treeNode.checked, null, true);
+        return false;
+      }
+
+      function onCheck(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treePackageType"),
+          nodes = zTree.getCheckedNodes(true),
+          v = "";
+        var rid = "";
+        for(var i = 0, l = nodes.length; i < l; i++) {
+          v += nodes[i].name + ",";
+          rid += nodes[i].id + ",";
+        }
+        if(v.length > 0) v = v.substring(0, v.length - 1);
+        if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
+        var cityObj = $("#packageName");
+        cityObj.attr("value", v);
+        cityObj.attr("title", v);
+        $("#packageId").val(rid);
+      }
+    </script>
 	</head>
 
 	<body>
+	  <body>
+   <div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul id="treePackageType" class="ztree" style="margin-top:0;"></ul>
+  </div>
 		<!--面包屑导航开始-->
 		<c:if test="${typeclassId!=null && typeclassId !=''  }">
 			<div class="margin-top-10 breadcrumbs ">
@@ -254,7 +340,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 ">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>开标时间:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                <input class="col-md-12 col-sm-12 col-xs-6 p0" onclick="WdatePicker();" id="tenderTimeId" name="tenderTime" value="<fmt:formatDate value='${bidDate}'
+                <input class="col-md-12 col-sm-12 col-xs-6 p0"  id="tenderTimeId" name="tenderTime" value="<fmt:formatDate value='${bidDate}'
                                 pattern='yyyy-MM-dd' />" maxlength="30" type="text">
                 <div class="cue" id="tenderTimeError"></div>
               </div>
@@ -292,13 +378,15 @@
           <h2 class="count_flow "><i>2</i>
                     <div class="ww50 fl">抽取信息</div>
           </h2>
-           <div align="right" class=" pl20 mb10 " >
-           <select class="w200" id="packageId" >
-            <c:forEach items="${listResultExpert}" var="list">
-                <option value="${list.id }" >${list.name }</option>
-            </c:forEach>
-          </select>
-            <button class="btn" 
+           <div align="right" class=" pl20 mb10 "  >
+             <input class=" " readonly id="packageName" value="" onclick="showPackageType();"   type="text">
+              <input  readonly id="packageId"      type="hidden">
+<!--            <select class="w200 dnone" id="packageId"  > -->
+<%--             <c:forEach items="${listResultExpert}" var="list"> --%>
+<%--                 <option value="${list.id }" >${list.name }</option> --%>
+<%--             </c:forEach> --%>
+<!--           </select> -->
+            <button class="btn mb10" 
                 onclick="add();" type="button">抽取</button>
             <button class="btn dnone"
                 onclick="record();" type="button">引用其他包</button>

@@ -301,7 +301,7 @@
          $.ajax({
                type: "POST",
                url: "${pageContext.request.contextPath}/ExpExtract/resultextract.do",
-               data: {id:id,reason:v},
+               data: {id:id,reason:v,packageId:"${packageId}"},
                dataType: "json",
                success: function(data){
                            list=data;
@@ -342,7 +342,6 @@
                                    "<td class='tc' onclick='show();'>"+list[i].expert.professTechTitles+"</td>"+
                                " <td class='tc' >"+
                                  "<select id='select' onchange='operation(this);'>";
-                                 
                                   if(list[i].operatingType==1){
                                       tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1' selected='selected' disabled='disabled'>能参加</option>";
                                   }else if(list[i].operatingType==2){
@@ -370,9 +369,10 @@
        }
        
        function resetQuery(){
-    	   $("#form1").find(":input[type='text']").val("");
            $("#form1").find(":input[type='text']").attr("value","");
+           $("#form1").find(":input[type='text']").val("");
            $("#area").find("option:first").prop("selected", 'selected');
+           $("#dnone").addClass("dnone");
             areas();
          }
 
@@ -648,9 +648,9 @@
       </div>
     </c:if>
     <div class="container">
-      <div class="headline-v2">
-        <h2>抽取条件</h2>
-      </div>
+<!--       <div class="headline-v2"> -->
+<!--         <h2>抽取条件</h2> -->
+<!--       </div> -->
     </div>
     <div class="container">
       <div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">

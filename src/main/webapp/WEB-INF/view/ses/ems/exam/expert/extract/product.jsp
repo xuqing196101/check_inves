@@ -74,7 +74,10 @@
        //是否满足
        var issatisfy=$('input[name="radio"]:checked ').val();
          
-       if(cate!=null){
+       $(cate).val("");
+       $(cate).parent().parent().parent().parent().parent().find("#categoryId").val("");
+       $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val("");
+       if(cate!=null && names != null && names != '' ){
            $(cate).val(names.substring(0,names.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#categoryId").val(ids.substring(0,ids.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy);
