@@ -499,5 +499,13 @@
     delete from T_BSS_PPMS_PROJECTS_DETAIL
     where PROJECT_ID = #{id,jdbcType=VARCHAR}
   </delete>
+  
+  
+  <select id="selectByParentIdTree"  resultMap="BaseResultMap">
+        select * from T_BSS_PPMS_PROJECTS_DETAIL
+        start with REQUIRED_ID = #{requiredId} 
+        connect by prior REQUIRED_ID = PARENT_ID ORDER BY CREATED_AT 
+    </select>
+  
     
 </mapper>

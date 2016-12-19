@@ -46,4 +46,7 @@ public interface ProjectDetailMapper {
 	 
 	 void deleteByProject(String id);
 	 
+	 
+	 List<ProjectDetail> selectByParentIdTree(Map<String, Object> map);
+	 
 }

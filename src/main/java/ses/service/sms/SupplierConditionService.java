@@ -5,6 +5,8 @@ package ses.service.sms;
 
 import java.util.List;
 
+import ses.model.ems.ExpExtCondition;
+import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
 
 /**
@@ -72,4 +74,24 @@ public interface SupplierConditionService {
 	 * 直接删除查询结果的查询条件
 	 */
 	Integer delById(String Id);
+	
+	/**
+	 * 返回满足数量的供应商
+	 *〈简述〉
+	 *〈详细描述〉
+	 * @author Wang Wenshuai
+	 * @param condition
+	 * @param conType
+	 * @return
+	 */
+	Integer selectLikeSupplier(SupplierCondition condition,SupplierConType conType);
+	
+    /**
+     * 
+     *〈简述〉本次抽取是否完成
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    String isFinish(SupplierCondition condition);
 }

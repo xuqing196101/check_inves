@@ -6,6 +6,9 @@ package ses.service.ems;
 import java.util.List;
 
 import ses.model.ems.ExpExtCondition;
+import ses.model.ems.ExtConType;
+import ses.model.sms.SupplierConType;
+import ses.model.sms.SupplierCondition;
 
 /**
  * @Description:专家抽取条件
@@ -86,5 +89,17 @@ public interface ExpExtConditionService {
      * @return
      */
     String isFinish(ExpExtCondition condition);
+    
+   
+    /**
+     * 
+     *〈简述〉满足条件人数
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param condition
+     * @param conType
+     * @return
+     */
+    public Integer selectLikeExpert(ExpExtCondition condition, ExtConType conType);
     
 }
