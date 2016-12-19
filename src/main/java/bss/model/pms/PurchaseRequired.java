@@ -106,7 +106,17 @@ public class PurchaseRequired {
     
     private Integer advancedStatus;
     
-    public String getId() {
+    private Integer projectStatus;
+    
+    public Integer getProjectStatus() {
+		return projectStatus;
+	}
+
+	public void setProjectStatus(Integer projectStatus) {
+		this.projectStatus = projectStatus;
+	}
+
+	public String getId() {
         return id;
     }
 
