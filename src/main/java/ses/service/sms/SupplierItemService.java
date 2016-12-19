@@ -2,6 +2,7 @@ package ses.service.sms;
 
 import java.util.List;
 
+import ses.model.bms.Category;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
 
@@ -14,4 +15,27 @@ public interface SupplierItemService {
 	
 	
 	public List<SupplierItem> getSupplierIdCategoryId(String supplierId,String categoryId);
+	/**
+	 * 
+	* @Title: getCategory
+	* @Description: 查询供应商选择的三级品目
+	* author: Li Xiaoxiao 
+	* @param @param supplierId
+	* @param @param categoryId
+	* @param @return     
+	* @return List<SupplierItem>     
+	* @throws
+	 */
+	public List<SupplierItem> getCategory(String supplierId,String categoryId);
+	/**
+	 * 
+	* @Title: getCategory
+	* @Description:获取末级节点的值。
+	* author: Li Xiaoxiao 
+	* @param @param supplierId
+	* @param @return     
+	* @return List<Category>     
+	* @throws
+	 */
+	public List<Category> getCategory(String supplierId);
 }

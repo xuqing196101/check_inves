@@ -704,10 +704,10 @@ public class SupplierController extends BaseSupplierController {
            }
 		
 		
-		if(pro==true&&server==true&&project==true&&sale==true){
-			if(flag.equals("3")){
-				return "ses/sms/supplier_register/basic_info";
-			}
+//		if(pro==true&&server==true&&project==true&&sale==true){
+//			if(flag.equals("3")){
+//				return "ses/sms/supplier_register/basic_info";
+//			}
 //			else if(flag.equals("2")){
 //				 Map<String, Object> map = supplierService.getCategory(supplier.getId());
 //				 model.addAttribute("server", map.get("server"));
@@ -733,7 +733,7 @@ public class SupplierController extends BaseSupplierController {
 //				return "ses/sms/supplier_register/supplier_type";	
 //			}
 			
-			else{
+		else  {
 				
 				for(String s:str){
 					if (s.equals("PRODUCT")) {
@@ -768,15 +768,14 @@ public class SupplierController extends BaseSupplierController {
 				 int length = split.length;
 				 model.addAttribute("length", length);
 				 model.addAttribute("currSupplier", supplier);
-				return "ses/sms/supplier_register/items";
+				 if(pro==true&&server==true&&project==true&&sale==true){
+					 return "ses/sms/supplier_register/items";
+				 }else{
+					 return "ses/sms/supplier_register/supplier_type";	
+				 }
+				
 			}
-		}else{
-			
-			 model.addAttribute("currSupplier", supplier);
-			return "ses/sms/supplier_register/supplier_type";	
-		}
-		
-		
+		 
 		
 
 	}
@@ -834,10 +833,8 @@ public class SupplierController extends BaseSupplierController {
 		
 		if ("next".equals(flag)) {
 			Integer sysKey = Constant.SUPPLIER_SYS_KEY;
-			 SupplierDictionaryData dictionaryData = dictionaryDataServiceI.getSupplierDictionary();
-			 String typeId = dictionaryData.getSupplierPledge();
 			model.addAttribute("sysKey", sysKey);
-			model.addAttribute("typeId", typeId);
+			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("currSupplier", supplier);
 			return "ses/sms/supplier_register/template_upload";
 		} else{
@@ -884,12 +881,18 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "perfect_upload")
 	public String perfectUpload(HttpServletRequest request, Supplier supplier, String jsp,String flag,Model model) throws IOException {
 //		this.setSupplierUpload(request, supplier);
+		
+		boolean bool = validateUpload(model,supplier.getId());
+		
 		if (!"commit".equals(jsp)) {
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());
 			model.addAttribute("currSupplier", supplier);
 			model.addAttribute("jump.page", jsp);
 			return "ses/sms/supplier_register/template_download";
+		}
+		if(bool!=true){
+			return "ses/sms/supplier_register/template_upload";
 		}
 		supplierService.commit(supplier);
 		request.getSession().removeAttribute("currSupplier");
@@ -1194,9 +1197,9 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_fund", "资金不能小于0或者是格式不正确 !");
 			count++;
 		}
-		if(supplier.getBusinessStartDate()==null){
-			model.addAttribute("err_sDate", "营业开始时间不能为空 !");
-			count++;
+		if(supplier.getBusinessStartDate()==null&&supplier.getBranchName()==null){
+			model.addAttribute("err_sDate", "营业有效期不能为空 !");
+//			count++;
 		}
 	/*	if(supplier.getBusinessEndDate()==null){
 			model.addAttribute("err_eDate", "营业截至时间不能为空 !");
@@ -1269,11 +1272,11 @@ public class SupplierController extends BaseSupplierController {
 			 count++;
 			model.addAttribute("err_business", "请上传文件!");
 		}
-		List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
-		if(finace!=null&&finace.size()<1){
-			    count++;
-				model.addAttribute("finace", "请添加财务信息!");
-		}
+//		List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
+//		if(finace!=null&&finace.size()<1){
+//			    count++;
+//				model.addAttribute("finace", "请添加财务信息!");
+//		}
 		List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
 		if(stock!=null&&stock.size()<1){
 		    count++;
@@ -1546,6 +1549,25 @@ public class SupplierController extends BaseSupplierController {
 		return bool;
 	}
 	
+	
+	public boolean validateUpload(Model model,String supplierId){
+		boolean bool=true;
+		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
+		//* 近三个月完税凭证
+		List<UploadFile> tlist = uploadService.getFilesOther(supplierId, supplierDictionary.getSupplierRegList(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(tlist!=null&&tlist.size()<=0){
+			bool=false;
+			model.addAttribute("err_geglist", "请上传文件!");
+		}
+		List<UploadFile> plist = uploadService.getFilesOther(supplierId, supplierDictionary.getSupplierPledge(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(plist!=null&&plist.size()<=0){
+			bool=false;
+			model.addAttribute("err_pledge", "请上传文件!");
+		}
+		
+				
+		 return bool;
+	}
 	/**
 	 * 
 	* @Title: queryByPid
@@ -1715,6 +1737,12 @@ public class SupplierController extends BaseSupplierController {
             CategoryTree ct = new CategoryTree();
             ct.setName( type.getName());
             ct.setId(typeId);
+            List<SupplierItem> s =  supplierItemService.getSupplierIdCategoryId(supplierId,typeId);
+            if (s != null && s.size() > 0){
+                ct.setChecked(true);
+            }
+            
+            
             ct.setIsParent("true");
             categoryList.add(ct);
             List<Category> child = getChild(typeId);
