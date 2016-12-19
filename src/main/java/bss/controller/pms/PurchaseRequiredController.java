@@ -241,7 +241,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setGoodsType(type);
 					p.setPlanNo(planNo);
 					p.setPlanName(planName);
-					p.setId(did);
+					//p.setId(did);
 					p.setPlanType(type);
 					p.setHistoryStatus("0");
 					p.setIsDelete(0);
@@ -274,41 +274,41 @@ public class PurchaseRequiredController extends BaseController{
 					
 //					PurchaseRequired required5 = purchaseRequiredService.queryById(ccccid);
 //					if(required5!=null){
-						ccccid = UUID.randomUUID().toString().replaceAll("-", "");
+					//	ccccid = UUID.randomUUID().toString().replaceAll("-", "");
 //					}
 					
 //			 	}else 
 			 	if(p.getSeq().equals("（一）")||p.getSeq().equals("(一)")){
-			 		 p.setId(pid);
-					 p.setParentId(did);
+			 		// p.setId(pid);
+					// p.setParentId(did);
 			 		 
 //					p.setId(cid);//注释
 //					p.setParentId(pid);//注释
 //					purchaseRequiredService.add(p);	
 				}else if(p.getSeq().equals("1")){
-					p.setId(cid);
-					p.setParentId(pid);
+//					p.setId(cid);
+				///	p.setParentId(pid);
 					
 //					p.setId(ccid);//注释
 //					p.setParentId(cid);//注释
 //					purchaseRequiredService.add(p);	
 				}else if(p.getSeq().equals("（1）")||p.getSeq().equals("(1)")){
-					p.setId(ccid);
-					p.setParentId(cid);
+					//p.setId(ccid);
+					//p.setParentId(cid);
 					
 //					p.setId(cccid);//注释
 //					p.setParentId(ccid);//注释
 //					purchaseRequiredService.add(p);	
 				}else if(p.getSeq().equals("a")){
-					p.setId(cccid);
-					p.setParentId(ccid);
+					//p.setId(cccid);
+					///p.setParentId(ccid);
 					
 //					p.setId(ccccid);//注释
 //					p.setParentId(cccid);//注释
 //					purchaseRequiredService.add(p);	
 				}else{
-					p.setId(ccccid);
-					p.setParentId(cccid);
+					//p.setId(ccccid);
+					//p.setParentId(cccid);
 					
 //					p.setId(id);//注释
 //					p.setParentId(ccccid);//注释
@@ -316,15 +316,15 @@ public class PurchaseRequiredController extends BaseController{
 					
 //					PurchaseRequired required = purchaseRequiredService.queryById(pid);
 //					if(required!=null){
-						 pid = UUID.randomUUID().toString().replaceAll("-", "");
+						 //pid = UUID.randomUUID().toString().replaceAll("-", "");
 //					}
 //					PurchaseRequired required2 = purchaseRequiredService.queryById(cid);
 //					if(required2!=null){
-						cid = UUID.randomUUID().toString().replaceAll("-", "");
+						// UUID.randomUUID().toString().replaceAll("-", "");
 //					}
 //					PurchaseRequired required3 = purchaseRequiredService.queryById(ccid);
 //					if(required3!=null){
-						ccid = UUID.randomUUID().toString().replaceAll("-", "");
+						// = UUID.randomUUID().toString().replaceAll("-", "");
 //					}
 //					PurchaseRequired required4 = purchaseRequiredService.queryById(cccid);
 //					if(required4!=null){

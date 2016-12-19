@@ -606,7 +606,7 @@
 										<td class="w100" name="department">
 										
 								<!-- 		<input type="text" name="list[0].department"  > -->
-											<select name="list[0].department" class="pt" onchange="changeType(this)" id="pType[0]">
+											<select name="list[0].department" class="pt" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${requires }" var="obj">
 													<option value="${obj.id }">${obj.name }</option>
@@ -654,7 +654,7 @@
 										<td class="w100" >
 										
 									<%-- 	<input type="text" name="list[${vs.index }].department"   value="${obj.department}"> --%>
-											<select name="list[${vs.index }].department" class="pt" onchange="changeType(this)" id="pType[0]">
+											<select name="list[${vs.index }].department" class="pt" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${requires }" var="obj">
 													<option value="${obj.id }">${obj.name }</option>
@@ -670,7 +670,7 @@
 										<td class="tc w100"><input type="text" name="list[${vs.index }].stand" value="${objs.stand}"></td>
 										<td class="tc w100"><input type="text" name="list[${vs.index }].qualitStand" value="${objs.qualitStand}"></td>
 										<td class="tc w100"><input type="text" name="list[${vs.index }].item" value="${objs.item}" ></td>
-										<td class="tc w100" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" value="${objs.purchaseCount}" ></td>
+										<td class="tc w100" name="purchaseQuantity"><input type="text" name="list[${vs.index }].purchaseCount" onkeyup="checkNum(this,1)" value="${objs.purchaseCount}" ></td>
 										<td class="tc w150" name="unitPrice"><input type="text" name="list[${vs.index }].price" onkeyup="checkNum(this,2)" value="${objs.price}" ></td>
 										<td class="tc w150"><input type="text" name="list[${vs.index }].budget"   value="${objs.budget}" ></td>
 										<td class="w100"><input type="text" name="list[${vs.index }].deliverDate" value="${objs.deliverDate}" ></td>
