@@ -45,7 +45,6 @@ import ses.model.oms.OrgLocale;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
-import ses.model.oms.PurchaseOrg;
 import ses.model.oms.PurchaseRoom;
 import ses.model.oms.PurchaseUnit;
 import ses.model.oms.util.AjaxJsonData;
