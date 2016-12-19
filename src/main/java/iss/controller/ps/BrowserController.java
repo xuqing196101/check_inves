@@ -123,15 +123,15 @@ public class BrowserController {
 		 return fileName;
 	}
 	
-	/**
-   * 
-   *〈简述〉ntko文件下载
-   *〈详细描述〉
-   * @author Ye Maolin
-   * @param request {@link HttpServletRequest}
-   * @param response {@link HttpServletResponse}
-   */
-  @RequestMapping("/ntkoDownload")
+  	/**
+     * 
+     *〈简述〉ntko文件下载
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param request {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     */
+    @RequestMapping("/ntkoDownload")
     public void ntkoDownload(HttpServletRequest request, HttpServletResponse response){
      String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.ntko.path");
      UploadUtil.createDir(path);
