@@ -30,6 +30,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpExtPackageService;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
@@ -113,6 +114,8 @@ public class PackageExpertController {
     private ExpExtPackageService expExtPackageService;//项目包关联
     @Autowired
     private ExpExtractRecordService expExtractRecordService; //专家抽取记录表
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI; //数据字典表
 
     /**
      *〈简述〉跳转分配专家
@@ -1369,9 +1372,68 @@ public class PackageExpertController {
         projectExtract.setProjectId(projectId);
         projectExtract.setReason("1");
         // 项目抽取的专家信息
-        List<ProjectExtract> expertList = projectExtractService
-            .list(projectExtract);
-        model.addAttribute("expertList", expertList);
+        //List<ProjectExtract> expertList = projectExtractService.list(projectExtract);
+        // 包中抽取的专家信息
+        Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
+        mapSearch1.put("projectId", projectId);
+        mapSearch1.put("packageId", packageId);
+        List<PackageExpert> expertList = packageExpertService.selectList(mapSearch1);
+        // 遍历进行排序   技术---经济---两者都有
+        List<PackageExpert> expertListCompare = new ArrayList<PackageExpert>();
+        for (PackageExpert expert : expertList) {
+            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
+            // 遍历所有的typeId,如果有kind不等于6(技术)的则暂时不管
+            boolean isTech = true;
+            loop:for (String id : ids) {
+                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
+                if (kind != 6) {
+                    isTech = false;
+                    break loop;
+                }
+            }
+            if (isTech) {
+                // 页面显示需要注明专家类别
+                expert.getExpert().setRelName(expert.getExpert().getRelName() + "(技术)");
+                expertListCompare.add(expert); 
+            }
+        }
+        for (PackageExpert expert : expertList) {
+            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
+            // 遍历所有的typeId,如果有kind不等于19(经济)的则暂时不管
+            boolean isEconomic = true;
+            loop:for (String id : ids) {
+                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
+                if (kind != 19) {
+                    isEconomic = false;
+                    break loop;
+                }
+            }
+            if (isEconomic) {
+                // 页面显示需要注明专家类别
+                expert.getExpert().setRelName(expert.getExpert().getRelName() + "(经济)");
+                expertListCompare.add(expert); 
+            }        
+        }
+        for (PackageExpert expert : expertList) {
+            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
+            // 遍历所有的typeId,如果有kind既有等于19(经济)的又有等于6(技术)的添加进去
+            boolean isEconomic = false;
+            boolean isTech = false;
+            for (String id : ids) {
+                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
+                if (kind == 19) {
+                    isEconomic = true;
+                } else if (kind == 6) {
+                    isTech = true;
+                }
+            }
+            if (isEconomic && isTech) {
+                // 页面显示需要注明专家类别
+                expert.getExpert().setRelName(expert.getExpert().getRelName() + "(经济、技术)");
+                expertListCompare.add(expert); 
+            }
+        }
+        model.addAttribute("expertList", expertListCompare);
         // 包信息
         model.addAttribute("packageList", packages);
         Project project = projectService.selectById(projectId);
@@ -1437,10 +1499,10 @@ public class PackageExpertController {
             }
             packExpertExtList.add(packExpertExt);
         }
-        // 评审项信息
-        List<Map<String, Object>> typeNames = packageExpertService.findMarkTypeByProId(projectId);
         removeAuditModelExt(auditModelListAll);
-        model.addAttribute("typeNames", typeNames);
+        // 评审项信息
+        //List<Map<String, Object>> typeNames = packageExpertService.findMarkTypeByProId(projectId);
+        //model.addAttribute("typeNames", typeNames);
         model.addAttribute("projectId", projectId);
         model.addAttribute("auditModelListAll", auditModelListAll);
         model.addAttribute("packExpertExtList", packExpertExtList);

@@ -192,11 +192,13 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             if (expertScores.size() == 0) {
                 isok = 1;
             }
-            // 判断如果包内的专家所给出的分数不同的话不能汇总
-            mapSearch.put("packageId", packageId);
-            List<PackageExpert> packageExpertList = packageExpertMapper.selectList(mapSearch);
-            if (isok == 1) {
-                notPass.append("【"+reviewList.get(0).getPackageName()+"】"); 
+            if (!reviewList.isEmpty()) {
+                // 判断如果包内的专家所给出的分数不同的话不能汇总
+                mapSearch.put("packageId", packageId);
+                List<PackageExpert> packageExpertList = packageExpertMapper.selectList(mapSearch);
+                if (isok == 1) {
+                    notPass.append("【"+reviewList.get(0).getPackageName()+"】"); 
+                }
             }
         }
         if (notPass.toString() != "") {
