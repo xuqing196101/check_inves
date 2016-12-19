@@ -18,6 +18,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.AuditParamBean;
@@ -149,7 +150,7 @@ public class PlanLookController extends BaseController {
 				model.addAttribute("bean", bean);	
 				model.addAttribute("all", all);	
 				model.addAttribute("audits", audits);
-				
+				model.addAttribute("kind", DictionaryDataUtil.find(5));	
 		return "bss/pms/collect/print";
 	}
 	
