@@ -470,4 +470,42 @@
 				) WHERE PACKAGE_ID IS NULL
 				AND PURCHASE_COUNT IS NOT NULL
     </select>
+    
+    <!-- 获取最大的排序 -->
+    <select id="getmax" parameterType="java.lang.Object" resultType="bss.model.ppms.ProjectDetail">
+        select max(POSITION) as POSITION
+         from T_BSS_PPMS_PROJECTS_DETAIL
+         where PROJECT_ID = #{projectId}
+    </select>
+    
+    
+    <select id="selectByRequiredId" parameterType="java.util.Map" resultMap="BaseResultMap">
+       SELECT 
+       <include refid="Base_Column_List" />
+       from 
+        T_BSS_PPMS_PROJECTS_DETAIL
+        where  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="selectByParentIds"  resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List" />
+       FROM T_BSS_PPMS_PROJECTS_DETAIL
+        start with REQUIRED_ID = #{id} 
+        connect by prior REQUIRED_ID = PARENT_ID 
+  </select>
+    
+    <delete id="deleteByProject" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_PROJECTS_DETAIL
+    where PROJECT_ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  
+  <select id="selectByParentIdTree"  resultMap="BaseResultMap">
+        select * from T_BSS_PPMS_PROJECTS_DETAIL
+        start with REQUIRED_ID = #{requiredId} 
+        connect by prior REQUIRED_ID = PARENT_ID ORDER BY CREATED_AT 
+    </select>
+  
+    
 </mapper>

@@ -137,7 +137,8 @@ var classid="A64E3073-2016-4baf-A89D-FFE1FAA10EC0";
 var codebase= globalPath+"/public/ntko/OfficeControl.cab";
 var codebase64= globalPath+"/public/ntko/OfficeControlx64.cab";
 if (browser=="IE"){
-	//alert(window.navigator.platform);
+	// alert(window.navigator.platform);
+	// alert(navigator.userAgent);
 	if(window.navigator.platform=="Win32"){
 		document.write('<!-- 用来产生编辑状态的ActiveX控件的JS脚本-->   ');
 		document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
@@ -173,7 +174,7 @@ document.write('<param name="ProductKey" value="AB579623F5B4E11E5F61C06579A21F84
 		
 		document.write('<!-- 用来产生编辑状态的ActiveX控件的JS脚本-->   ');
 		document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
-		document.write('<object id="TANGER_OCX" classid="clsid:'+classid+'"');
+		document.write('<object id="TANGER_OCX" classid="clsid:'+classidx64+'"');
 		document.write('codebase="'+codebase64+'" width="100%" height="100%">   ');
 		document.write('<param name="IsUseUTF8URL" value="-1">   ');
 		document.write('<param name="IsUseUTF8Data" value="-1">   ');

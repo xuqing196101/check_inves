@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -58,6 +57,7 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
@@ -459,11 +459,11 @@ public class OpenBiddingController {
             article.setPublishedAt(ts);
             User user = (User) request.getSession().getAttribute("loginUser");
             article.setPublishedName(user.getRelName());
-            article.setStatus(2);
+            article.setStatus(1);
             articelService.update(article);
             //该环节设置为已执行状态
             flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 1);
-            String msg = "发布成功";
+            String msg = "提交成功";
             String projectId = article.getProjectId();
             response.setContentType("text/html;charset=utf-8");
             response.getWriter()
@@ -1067,6 +1067,13 @@ public class OpenBiddingController {
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+                if (WIN_NOTICE.equals(noticeType)) {
+                    model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
+                }
+                if (PURCHASE_NOTICE.equals(noticeType)) {
+                    model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
+                }
+                
                 return "bss/ppms/open_bidding/bid_notice/view";
             } else {
                 //未发布
@@ -1081,12 +1088,24 @@ public class OpenBiddingController {
             }
         } else {
             model.addAttribute("articleType", articleType);
-            model.addAttribute("articleId",WfUtil.createUUID());
+            String articleId = WfUtil.createUUID();
+            model.addAttribute("articleId",articleId);
             model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
             model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
             model.addAttribute("projectId", projectId);
             model.addAttribute("noticeType", noticeType);
             model.addAttribute("flowDefineId", flowDefineId);
+            
+            if (WIN_NOTICE.equals(noticeType)) {
+                model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
+            }
+            if (PURCHASE_NOTICE.equals(noticeType)) {
+                model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
+            }
+            model.addAttribute("flowDefineId", flowDefineId);
+            model.addAttribute("articleId", articleId);
+            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+            
             return "bss/ppms/open_bidding/bid_notice/add";
         }
     }

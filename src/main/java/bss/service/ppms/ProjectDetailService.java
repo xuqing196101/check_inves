@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.ProjectDetail;
 
 public interface ProjectDetailService {
@@ -35,4 +36,16 @@ public interface ProjectDetailService {
 	List<ProjectDetail> findHavePackageIdDetail(HashMap<String,Object> map);
 	
 	List<ProjectDetail> findNoPackageIdDetail(HashMap<String,Object> map);
+	
+	ProjectDetail getMax(String projectId);
+	
+	List<ProjectDetail> selectByRequiredId(Map<String, Object> map);
+	
+	List<ProjectDetail> selectByParentIds(Map<String, Object> map);
+	
+	void deleteByProject(String id);
+	
+	List<ProjectDetail> selectByParentIdTree(Map<String, Object> map);
+	
+	
 }

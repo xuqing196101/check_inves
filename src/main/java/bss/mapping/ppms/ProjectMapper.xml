@@ -855,4 +855,336 @@
         </if>
         ORDER BY CREATED_AT DESC
     </select>
+    
+    
+    
+    
+  <insert id="insertId" parameterType="bss.model.ppms.Project">
+    insert into T_BSS_PPMS_PROJECTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="projectNumber != null">
+        PROJECT_NUMBER,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="principal != null">
+        PRINCIPAL,
+      </if>
+      <if test="ipone != null">
+        IPONE,
+      </if>
+      <if test="linkman != null">
+        LINKMAN,
+      </if>
+      <if test="linkmanIpone != null">
+        LINKMAN_IPONE,
+      </if>
+      <if test="bidUnit != null">
+        BID_UNIT,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="postcode != null">
+        POSTCODE,
+      </if>
+      <if test="supplierNumber != null">
+        SUPPLIER_NUMBER,
+      </if>
+      <if test="offerStandard != null">
+        OFFER_STANDARD,
+      </if>
+      <if test="prIntroduce != null">
+        PR_INTRODUCE,
+      </if>
+      <if test="budgetAmount != null">
+        BUDGET_AMOUNT,
+      </if>
+      <if test="passWord != null">
+        PASS_WORD,
+      </if>
+      <if test="scoringRubric != null">
+        SCORING_RUBRIC,
+      </if>
+      <if test="operator != null">
+        OPERATOR,
+      </if>
+      <if test="divisionOfWork != null">
+        DIVISION_OF_WORK,
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE,
+      </if>
+      <if test="materialsType != null">
+        MATERIALS_TYPE,
+      </if>
+      <if test="sectorOfDemand != null">
+        SECTOR_OF_DEMAND,
+      </if>
+      <if test="purchaseDep != null">
+        PURCHASE_DEP_ID,
+      </if>
+      <if test="deadline != null">
+        DEADLINE,
+      </if>
+      <if test="dateOfEntrustment != null">
+        DATE_OF_ENTRUSTMENT,
+      </if>
+      <if test="bidDate != null">
+        BID_DATE,
+      </if>
+      <if test="bidAddress != null">
+        BID_ADDRESS,
+      </if>
+      <if test="requieredId != null">
+        REQUIERED_ID,
+      </if>
+         <if test="baleNo != null">
+        BALE_NO,
+      </if>
+      <if test="amount != null">
+        AMOUNT,
+      </if>
+      <if test="dealSupplier != null">
+        DEAL_SUPPLIER,
+      </if>
+      <if test="purchaseDepName != null">
+        PURCHASE_DEP_NAME,
+      </if>
+      <if test="executeStatus != null">
+        EXECUTE_STATUS,
+      </if>
+      <if test="isEntrance != null">
+        IS_ENTRANCE,
+      </if>
+      <if test="approvalTime != null">
+        APPROVAL_TIME,
+      </if>
+      <if test="replyTime != null">
+        REPLY_TIME,
+      </if>
+      <if test="demandFromTime != null">
+        DEMAND_FROM_TIME,
+      </if>
+      <if test="IsRehearse != null">
+        IS_REHEARSE,
+      </if>
+      <if test="createAt != null">
+        CREATED_AT,
+      </if>
+      <if test="startTime != null">
+        START_TIME,
+      </if>
+      <if test="noticeNewsTime != null">
+        NOTICE_NEWS_TIME,
+      </if>
+      <if test="appTime != null">
+        APP_TIME,
+      </if>
+      <if test="signUpTime != null">
+        SIGN_UP_TIME,
+      </if>
+      <if test="applyDeanline != null">
+        APPLY_DEADLINE,
+      </if>
+      <if test="noticeTime != null">
+        NOTICE_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
+      </if>
+      <if test="signingTime != null">
+        SIGNING_TIME,
+      </if>
+      <if test="acceptanceTime != null">
+        ACCEPTANCE_TIME,
+      </if>
+      <if test="maintenanceTime != null">
+        MAINTENANCE_TIME,
+      </if>
+      <if test="isImport != null">
+        IS_IMPORT,
+      </if>
+      <if test="isProvisional != null">
+        IS_PROVISIONAL,
+      </if>
+      <if test="planType != null">
+        PLAN_TYPE,
+      </if>
+      <if test="confirmFile != null">
+        CONFIRM_FILE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNumber != null">
+        #{projectNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="principal != null">
+        #{principal,jdbcType=VARCHAR},
+      </if>
+      <if test="ipone != null">
+        #{ipone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanIpone != null">
+        #{linkmanIpone,jdbcType=VARCHAR},
+      </if>
+      <if test="bidUnit != null">
+        #{bidUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierNumber != null">
+        #{supplierNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="offerStandard != null">
+        #{offerStandard,jdbcType=DECIMAL},
+      </if>
+      <if test="prIntroduce != null">
+        #{prIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetAmount != null">
+        #{budgetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="passWord != null">
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="scoringRubric != null">
+        #{scoringRubric,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="divisionOfWork != null">
+        #{divisionOfWork,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="materialsType != null">
+        #{materialsType,jdbcType=VARCHAR},
+      </if>
+      <if test="sectorOfDemand != null">
+        #{sectorOfDemand,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseDep != null">
+        #{purchaseDep.id,jdbcType=VARCHAR},
+      </if>
+      <if test="deadline != null">
+        #{deadline,jdbcType=DATE},
+      </if>
+      <if test="dateOfEntrustment != null">
+        #{dateOfEntrustment,jdbcType=DATE},
+      </if>
+      <if test="bidDate != null">
+        #{bidDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bidAddress != null">
+        #{bidAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="requieredId != null">
+        #{requieredId,jdbcType=VARCHAR},
+      </if>
+        <if test="baleNo != null">
+        #{baleNo},
+      </if>
+      <if test="amount != null">
+        #{amount},
+      </if>
+      <if test="dealSupplier != null">
+        #{dealSupplier.id},
+      </if>
+      <if test="purchaseDepName != null">
+        #{purchaseDepName},
+      </if>
+      <if test="executeStatus != null">
+        #{executeStatus},
+      </if>
+      <if test="isEntrance != null">
+        #{isEntrance},
+      </if>
+      <if test="approvalTime != null">
+        #{approvalTime},
+      </if>
+      <if test="replyTime != null">
+        #{replyTime},
+      </if>
+      <if test="demandFromTime != null">
+        #{demandFromTime},
+      </if>
+      <if test="IsRehearse != null">
+        #{IsRehearse},
+      </if>
+      <if test="createAt != null">
+        #{createAt},
+      </if>
+      <if test="startTime != null">
+        #{startTime},
+      </if>
+      <if test="noticeNewsTime != null">
+        #{noticeNewsTime},
+      </if>
+      <if test="appTime != null">
+        #{appTime},
+      </if>
+      <if test="signUpTime != null">
+        #{signUpTime},
+      </if>
+      <if test="applyDeanline != null">
+        #{applyDeanline},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime},
+      </if>
+      <if test="endTime != null">
+        #{endTime},
+      </if>
+      <if test="signingTime != null">
+        #{signingTime},
+      </if>
+      <if test="acceptanceTime != null">
+        #{acceptanceTime},
+      </if>
+      <if test="maintenanceTime != null">
+        #{maintenanceTime},
+      </if>
+      <if test="isImport != null">
+        #{isImport},
+      </if>
+      <if test="isProvisional != null">
+        #{isProvisional},
+      </if>
+      <if test="planType != null">
+        #{planType},
+      </if>
+      <if test="confirmFile != null">
+        #{confirmFile},
+      </if>
+    </trim>
+  </insert>
+    
+    
+    
 </mapper>

@@ -256,7 +256,7 @@
   <select id="getPackegeSuppliers" parameterType="bss.model.ppms.SaleTender"
     resultMap="BaseResultMap">
     SELECT
-       st.SUPPLIER_ID
+       <include refid="Base_Column_List"/>
     FROM
     T_BSS_PPMS_SALE_TENDER st
     WHERE

@@ -49,6 +49,7 @@
 		<result column="REASON" jdbcType="VARCHAR"  property="reason"/>
 		<result column="RECORDER_MOBILE" jdbcType="VARCHAR"  property="recorderMobile"/>
 		<result column="ADVANCED_STATUS" jdbcType="VARCHAR"  property="advancedStatus"/>
+		<result column="PROJECT_STATUS" jdbcType="VARCHAR"  property="projectStatus"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, PLAN_NAME, PLAN_NO, PLAN_TYPE, DEPARTMENT, MATERIAL_NAME, STAND,
@@ -56,7 +57,7 @@
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		MATERIAL_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
 		STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
-		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS
+		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS,PROJECT_STATUS
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="PurchaseRequired_Map">
@@ -88,7 +89,7 @@
 		IS_FREE_TAX, MATERIAL_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
 		REQ_LEVEL, STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
-		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS
+		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS,PROJECT_STATUS
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
@@ -107,7 +108,7 @@
 		#{isCollect,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{onePurchaseType,jdbcType=VARCHAR}, #{oneOrganiza,jdbcType=VARCHAR}, #{oneAdvice,jdbcType=VARCHAR},
 		#{twoTechAdvice,jdbcType=VARCHAR}, #{twoAdvice,jdbcType=VARCHAR},  
 		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
-		#{userUnit,jdbcType=VARCHAR},#{detailStatus,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR},#{recorderMobile,jdbcType=VARCHAR},#{advancedStatus,jdbcType=VARCHAR}
+		#{userUnit,jdbcType=VARCHAR},#{detailStatus,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR},#{recorderMobile,jdbcType=VARCHAR},#{advancedStatus,jdbcType=VARCHAR},#{projectStatus,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -254,6 +255,9 @@
 			<if test="advancedStatus != null">
 				ADVANCED_STATUS,
 			</if>
+			<if test="projectStatus != null">
+        PROJECT_STATUS,
+      </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -397,6 +401,9 @@
 			<if test="advancedStatus != null">
 				#{ADVANCED_STATUS,jdbcType=VARCHAR},
 			</if>
+			<if test="projectStatus != null">
+        #{PROJECT_STATUS,jdbcType=VARCHAR},
+      </if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -540,6 +547,9 @@
 			<if test="advancedStatus != null">
 				ADVANCED_STATUS=#{advancedStatus,jdbcType=VARCHAR},
 			</if>
+			<if test="projectStatus != null">
+        PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR},
+      </if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -590,7 +600,8 @@
 		DETAIL_STATUS=#{detailStatus,jdbcType=VARCHAR},
 		REASON=#{reason,jdbcType=VARCHAR},
 		RECORDER_MOBILE=#{recorderMobile,jdbcType=VARCHAR},
-		ADVANCED_STATUS=#{advancedStatus,jdbcType=VARCHAR}
+		ADVANCED_STATUS=#{advancedStatus,jdbcType=VARCHAR},
+		PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="query" parameterType="bss.model.pms.PurchaseRequired"

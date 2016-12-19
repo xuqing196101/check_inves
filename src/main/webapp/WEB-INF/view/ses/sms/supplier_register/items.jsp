@@ -276,9 +276,13 @@
 	}
 	
 	function next(flag){
-		 getCategoryId();
-		$("#flag").val(flag);
-		$("#items_info_form_id").submit();
+		var ids =getCategoryId();
+		if(ids.length<0){
+			layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
+		}else{
+			$("#flag").val(flag);
+			$("#items_info_form_id").submit();
+		}
 	}
 	
 	function prev(flag){
@@ -303,7 +307,7 @@
 			}
 		}
 		$("#categoryId").val(ids);
-		//return ids;
+	 	return ids;
 	}
 </script>
 <script type="text/javascript">
