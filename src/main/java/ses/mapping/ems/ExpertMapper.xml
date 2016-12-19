@@ -828,17 +828,21 @@
 
 	<select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
 		resultMap="BaseResultMap">
+		SELECT * FROM T_SES_EMS_EXPERT t1 WHERE T1.id IN (
 		SELECT
-		*
+		EE."ID"
 		FROM
 		T_SES_EMS_EXPERT ee
 		LEFT JOIN T_SES_EMS_EXPERT_CATEGORY ec
-		ON ee."ID" = EC.EXPERT_ID
+		ON ee."ID" =
+		EC.EXPERT_ID
 		WHERE
 		ee.IS_DELETE = 0
 		AND ee.STATUS = 1
 		AND
 		ee.IS_BLACK = 0
+		AND ee.IS_SUBMIT = 1
+		AND ee.STATUS = 1
 
 		<if test="expertsFromSplit != null and expertsFromSplit != ''">
 			AND
@@ -850,17 +854,21 @@
 		<if test="address != null and address != '' ">
 			AND ee.ADDRESS = #{address}
 		</if>
-		<if test="ageMax != null and  ageMax != '' and ageMin != null and ageMin != '' ">
-						AND (
-				  (
-				    TO_CHAR (EE.BIRTHDAY, 'yyyy') &gt;= #{ageMin}
-				    AND TO_CHAR (EE.BIRTHDAY, 'yyyy') &lt;= #{ageMax}
-				  )
-				  OR (
-				    TO_CHAR (EE.BIRTHDAY, 'yyyy') &lt;= #{ageMin}
-				    AND TO_CHAR (EE.BIRTHDAY, 'yyyy') &gt;= #{ageMax}
-				  )
-				)
+		<if
+			test="ageMax != null and  ageMax != '' and ageMin != null and ageMin != '' ">
+			AND (
+			(
+			TO_CHAR (EE.BIRTHDAY, 'yyyy') &gt;= #{ageMin}
+			AND TO_CHAR
+			(EE.BIRTHDAY, 'yyyy') &lt;= #{ageMax}
+			)
+			OR (
+			TO_CHAR (EE.BIRTHDAY,
+			'yyyy') &lt;= #{ageMin}
+			AND TO_CHAR (EE.BIRTHDAY, 'yyyy') &gt;=
+			#{ageMax}
+			)
+			)
 		</if>
 		<foreach item="item" collection="conTypes">
 			<if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
@@ -870,7 +878,8 @@
 					"INSTR"(EE.EXPERTS_TYPE_ID,#{typeId})>0
 				</foreach>
 			</if>
-			<if test="item.expertsQualification != null and  item.expertsQualification != '' ">
+			<if
+				test="item.expertsQualification != null and  item.expertsQualification != '' ">
 				AND PROFESS_TECH_TITLES = #{item.expertsQualification}
 			</if>
 			<if
@@ -893,8 +902,10 @@
 			<if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
 				)
 			</if>
-
 		</foreach>
+		
+		GROUP BY EE."ID"
+		)
 	</select>
 
 

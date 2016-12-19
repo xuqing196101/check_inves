@@ -274,7 +274,7 @@
       
       function operation(select){
           layer.confirm('确定本次操作吗？', {
-            btn: ['确定','取消'],offset: ['40%', '40%'], shade:0.01
+            btn: ['确定','取消'],offset: ['20%', '40%'], shade:0.01
           }, function(index){
             var strs= new Array();
             var v=select.value;
@@ -284,7 +284,7 @@
               layer.prompt({
                   formType: 2,
                   shade:0.01,
-                  offset: ['40%', '40%'],
+                  offset: ['20%', '40%'],
                   title: '不参加理由'
                 }, function(value, index, elem){
                      ajaxs(select.value,value);
@@ -785,20 +785,21 @@
       <div class="col-md-12" id="count" style="min-height: 400px;">
         <div id="extcontype">
         <c:forEach var="con" items="${extConType}">
-            <c:if test="${con.categoryName != null && con.categoryName != ''}">
-                                                                 &nbsp;&nbsp;&nbsp;&nbsp;抽取品目 :${fn:replace(con.categoryName, "^", ",")}
-                    </c:if>
-            <c:if test="${con.isMulticondition != null && isMulticondition != ''}">
+<%--             <c:if test="${con.categoryName != null && con.categoryName != ''}"> --%>
+<%--                                                                  &nbsp;&nbsp;&nbsp;&nbsp;抽取品目 :${fn:replace(con.categoryName, "^", ",")} --%>
+<%--                     </c:if> --%>
+<%--             <c:if test="${con.isMulticondition != null && isMulticondition != ''}"> --%>
 
-              <c:if test="${con.isMulticondition==1}">
-                            满足一个条件,
+<%--               <c:if test="${con.isMulticondition==1}"> --%>
+<!--                             满足一个条件, -->
                                                                
-                    </c:if>
-              <c:if test="${con.isMulticondition==2}">
-                          满足多个条件,                             
-                    </c:if>
-                                                                    抽取数量${con.alreadyCount}/${con.expertsCount }
-                        </c:if>
+<%--                     </c:if> --%>
+<%--               <c:if test="${con.isMulticondition==2}"> --%>
+<!--                           满足多个条件,                              -->
+<%--                     </c:if> --%>
+                                                                   
+<%--                         </c:if> --%>
+                         &nbsp;&nbsp;&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.expertsCount }
             <br />
           </c:forEach>
         </div>
