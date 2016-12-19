@@ -227,6 +227,12 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 	public void busDelPurchase(String id) {
 		purchaseInfoMapper.busDelPurchase(id);
 	}
+
+    @Override
+    public List<PurchaseInfo> findPurchaseUserList(String id) {
+        
+        return purchaseInfoMapper.findPurchaseUserList(id);
+    }
 	
 	
 }

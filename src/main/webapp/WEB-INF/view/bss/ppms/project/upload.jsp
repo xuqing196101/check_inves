@@ -39,15 +39,15 @@
     <div id="openDiv" class="layui-layer-wrap" >
       <div class="drop_window">
         <ul class="list-unstyled">
-          <li class="mt10 col-md-12 p0">
-            <label class="col-md-12 pl20">上传项目批文</label>
-            <span class="col-md-12">
-              <f:upload id="upload_ids" groups="show_ids,upload_ids" multiple="true"  businessId="${project.id}" typeId="${dataIds}" sysKey="2"/>
+           <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+             <label class="col-md-12 pl20 col-xs-12">上传项目批文</label>
+            <span class="col-md-12 col-xs-12">
+              <f:upload id="upload_ids" groups="show_ids,upload_ids" multiple="true" auto="true" businessId="${project.id}" typeId="${dataIds}" sysKey="2"/>
               <f:show showId="show_ids" groups="show_ids,upload_ids" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
             </span>
           </li>
-          <li class="mt10 col-md-12 p0">
-            <label class="col-md-12 pl20">项目负责人</label>
+          <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+             <label class="col-md-12 pl20 col-xs-12">项目负责人</label>
             <span class="col-md-12">
               <select name="principal" class="w180 mb10">
                 <option selected="selected" value="">-请选择-</option>
@@ -57,6 +57,7 @@
               </select>
             </span>
           </li>
+           <div class="clear"></div>
         </ul>
       </div>
     </div>

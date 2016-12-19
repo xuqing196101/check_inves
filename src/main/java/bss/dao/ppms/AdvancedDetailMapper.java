@@ -58,6 +58,10 @@ public interface AdvancedDetailMapper {
      */
     List<AdvancedDetail> selectByParent(Map<String, Object> map);
     
+    List<AdvancedDetail> findNoPackageIdDetail(Map<String, Object> map);
+    
+    List<AdvancedDetail> findHavePackageIdDetail(Map<String, Object> map);
+    
     /**
      * 
      *〈更新〉

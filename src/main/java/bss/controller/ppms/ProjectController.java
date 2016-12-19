@@ -373,7 +373,9 @@ public class ProjectController extends BaseController {
                 }else{
                     project.setIsRehearse(1);
                 }
-                
+                if(list.getList().get(0).getOrganization() != null){
+                    project.setPurchaseDep(new PurchaseDep(list.getList().get(0).getOrganization()));
+                }
                 if(list.getList().get(0).getGoodsUse() != null || list.getList().get(0).getUseUnit() != null){
                     project.setIsImport(1);
                 }else{
@@ -701,11 +703,11 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/startProject")
     public String startProject(String id, Model model) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
         Project project = projectService.selectById(id);
-        map.put("purchaseDepName", project.getPurchaseDepName());
-        List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseList(map);
-        model.addAttribute("purchaseInfo", purchaseInfo);
+        if (project != null){
+           List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseUserList(project.getPurchaseDepId());
+           model.addAttribute("purchaseInfo", purchaseInfo);
+        }
         model.addAttribute("project", project);
         model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
         return "bss/ppms/project/upload";

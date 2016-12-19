@@ -3,6 +3,7 @@ package bss.dao.ppms;
 import java.util.List;
 
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.Project;
 
 public interface AdvancedProjectMapper {
     /**
@@ -54,4 +55,6 @@ public interface AdvancedProjectMapper {
      * @return
      */
     List<AdvancedProject> selectByList(AdvancedProject advancedProject);
+    
+    List<AdvancedProject> verifyByProject(AdvancedProject advancedProject);
 }

@@ -11,6 +11,16 @@ public interface PurchaseInfoMapper {
 	
 	List<PurchaseInfo> findPurchaseList(HashMap<String, Object> map);
 	
+	/**
+	 * 
+	 *〈简述〉根据采购机构id查询采购人信息
+	 *〈详细描述〉
+	 * @author Administrator
+	 * @param id 采购机构Id
+	 * @return
+	 */
+	List<PurchaseInfo> findPurchaseUserList(String id);
+	
 	int  savePurchase(PurchaseInfo purchaseInfo);
 	
 	int updatePurchase(PurchaseInfo purchaseInfo);

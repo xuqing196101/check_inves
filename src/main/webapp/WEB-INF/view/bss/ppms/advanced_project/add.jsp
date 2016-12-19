@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
-<%@ include file="../../../common.jsp"%>
 <%
     String tokenValue = new Date().getTime()
           + UUID.randomUUID().toString() + "";
@@ -12,6 +11,7 @@
 <html>
 
   <head>
+  <jsp:include page="/WEB-INF/view/common.jsp"/>
     <script type="text/javascript">
       /*分页  */
       $(function() {
@@ -89,17 +89,8 @@
       function check(id) {
         var name = $("input[name='name']").val();
         var projectNumber = $("input[name='projectNumber']").val();
-        /* var checkedIds = "";
-        $("#task_id").find(":checkbox:checked").each(function() {
-          if(checkedIds) {
-            checkedIds += ",";
-          }
-          checkedIds += $(this).val();
-        });
-        if($(id).prop("checked")) {
-          window.location.href = "${pageContext.request.contextPath}/project/addDeatil.html?id=" + id + "&checkedIds=" + checkedIds + "&name=" + name + "&projectNumber=" + projectNumber;
-        } */
-        window.location.href = "${pageContext.request.contextPath}/advancedProject/addDetail.html?id=" + id + "&name=" + name + "&projectNumber=" + projectNumber;
+        var projectId = $("#projectId").val();
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/addDetail.html?id=" + id + "&name=" + name + "&projectNumber=" + projectNumber+"&projectId="+projectId;
       }
 
       // 添加
@@ -130,7 +121,8 @@
         $('input[name="chkItem"]').each(function() {
           id.push($(this).val());
         });
-        window.location.href = "${pageContext.request.contextPath}/advancedProject/deleted.html?idss="+id;
+        var projectIds = $("#projectIds").val();
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/deleted.html?idss="+id+"&projectIds="+projectIds;
       }
     </script>
   </head>
@@ -162,6 +154,8 @@
           <h2 class="count_flow"><i>1</i>添加信息</h2>
           <% session.setAttribute("tokenSession", tokenValue); %>
           <input type="hidden" name="token2" value="<%=tokenValue%>">
+          <input type="hidden" id="projectId" name="projectId" value="${projectId}">
+          <input type="hidden" id="projectIds" name="projectIds" value="${projectIds}">
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目名称</span>

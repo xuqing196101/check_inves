@@ -11,24 +11,16 @@
   //表单验证
   var controldate;
   function checkDate(){
+    debugger;
     var flag = true;
     var id = $("#id").val();
     var flowDefineId = $("#flowDefineId").val();
     controldate= $("#bidDate").val();
-    var linkmanIpone = $("#linkmanIpone").val();
-    var linkman = $("#linkman").val();
-    linkman = $.trim(linkman);
     var bidAddress = $("#bidAddress").val();
     var supplierNumber = $("#supplierNumber").val();
     supplierNumber = $.trim(supplierNumber);
     var purchaseType = $("#purchaseType").val();
-    if(linkman==""){
-      layer.tips("请填写联系人姓名","#linkman");
-      flag = false;
-    }else if(!(/^1[34578]\d{9}$/.test(linkmanIpone))){
-      layer.tips("请输入正确的电话","#linkmanIpone");
-      flag = false;
-    }else if(purchaseType=="JZXTP" || purchaseType == "YQZB" || purchaseType == "XJCG" || purchaseType == "GKZB"){
+    if(purchaseType=="JZXTP" || purchaseType == "YQZB" || purchaseType == "XJCG" || purchaseType == "GKZB"){
       if(supplierNumber< 3){
         layer.tips("供应商人数不能小于3人","#supplierNumber");
         flag = false;
@@ -172,7 +164,7 @@
                 </tr>
                  <tr>
                    <td class="bggrey">开标时间:</td>
-                   <td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm:ss"/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
+                   <td><input  readonly="readonly"  value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm:ss"/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                    <td class="bggrey">投标截止时间:</td>
                    <td><fmt:formatDate value='${project.deadline}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                  </tr>

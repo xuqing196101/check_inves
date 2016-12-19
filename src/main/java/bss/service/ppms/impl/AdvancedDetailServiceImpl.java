@@ -70,5 +70,17 @@ public class AdvancedDetailServiceImpl implements AdvancedDetailService {
 
         return advancedDetailMapper.selectByRequiredId(id);
     }
+
+    @Override
+    public List<AdvancedDetail> findNoPackageIdDetail(Map<String, Object> map) {
+
+        return advancedDetailMapper.findNoPackageIdDetail(map);
+    }
+
+    @Override
+    public List<AdvancedDetail> findHavePackageIdDetail(Map<String, Object> map) {
+
+        return advancedDetailMapper.findHavePackageIdDetail(map);
+    }
     
 }
