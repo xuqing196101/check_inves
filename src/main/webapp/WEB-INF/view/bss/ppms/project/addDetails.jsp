@@ -137,13 +137,17 @@
         </thead>
         <tbody>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
+            <c:if test="${obj.organization eq orgId}">
             <c:if test="${obj.projectStatus eq '0'}">
                     <tr style="cursor: pointer;">
                       <td class="tc w50"> ${obj.seq}
                         <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                         <input type="hidden" name="list[${vs.index }].id" value="${obj.id }">
                       </td>
-                      <td class="tc"> ${obj.department}
+                      <td class="tc">
+                       <c:if test="${orgnization.id == obj.department}"> 
+			                     ${orgnization.name}
+			                 </c:if>
                         <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
                       </td>
                       <td class="tc">${obj.goodsName}
@@ -200,6 +204,7 @@
                       </td>
                     </tr>
                     </c:if>
+                    </c:if>
                   </c:forEach>
         </tbody>
       </table>
@@ -214,6 +219,7 @@
     <input name="projectId" type="hidden" value="${projectId }" />
     <input name="id" type="hidden" value="${id}" />
     <input id="uncheckId" name="uncheckId" type="hidden" />
+    <input id="uncheckId" name="orgId" type="hidden" value="${orgId }"/>
     
   </form> 
   

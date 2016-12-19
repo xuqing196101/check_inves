@@ -68,7 +68,11 @@
 				<c:forEach items="${lists}" var="obj" varStatus="vs">
 				  <tr style="cursor: pointer;">
 					<td class="tc w50">${obj.seq}</td>
-					 <td class="tc">${obj.department}</td>
+					 <td class="tc">
+					 <c:if test="${orgnization.id == obj.department}"> 
+					     ${orgnization.name}
+					 </c:if>
+					 </td>
 					 <td class="tc">${obj.goodsName}</td>
 					 <td class="tc">${obj.stand}</td>
 					 <td class="tc">${obj.qualitStand}</td>

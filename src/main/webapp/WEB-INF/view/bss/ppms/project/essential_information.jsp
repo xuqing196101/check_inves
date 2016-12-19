@@ -145,9 +145,13 @@
                 </tr>
                 <tr>
                   <td class="bggrey">采购机构名称:</td>
-                  <td><input name="sectorOfDemand" id="sectorOfDemand" value="${project.sectorOfDemand}"/></td>
+                  <td>
+                  <c:if test="${project.purchaseDepId eq orgnization.id}">
+                  <input name="sectorOfDemand" id="sectorOfDemand" value="${orgnization.name}"/>
+                  </c:if>
+                  </td>
                   <td class="bggrey">预算报价（万元）:</td>
-                  <td><input name="budgetAmount" id="budgetAmount" value="${project.budgetAmount}"/></td>
+                  <td><input name="budgetAmount" id="budgetAmount" value="${budgetAmount}"/></td>
                 </tr>
                  <tr>
                   <td class="bggrey">最少供应商人数:</td>
@@ -299,7 +303,7 @@
         </div>
         <div class="tab-pane fade active" id="tab-5" >
           <div>上传附件：</div>
-          <f:upload id="upload123" groups="upload123,upload_id"  businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
+          <f:upload id="upload123" groups="upload123,upload_id" auto="true"  businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
           <f:show showId="upload123" groups="upload123,upload_id"  businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
         </div>
       </div>

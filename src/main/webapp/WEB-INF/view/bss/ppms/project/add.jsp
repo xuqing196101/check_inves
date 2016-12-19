@@ -313,7 +313,10 @@
                         <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                         <input type="hidden" name="list[${vs.index }].id" value="${obj.id }">
                       </td>
-                      <td class="tc"> ${obj.department}
+                      <td class="tc"> 
+                        <c:if test="${orgnization.id == obj.department}"> 
+						               ${orgnization.name}
+						           </c:if>
                         <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
                       </td>
                       <td class="tc">${obj.goodsName}

@@ -79,7 +79,8 @@
       function chooce(projectId, id, name, projectNumber) {
         var name = $("#name").val();
         var projectNumber = $("#projectNumber").val();
-        window.location.href = "${pageContext.request.contextPath}/project/addDetails.html?projectId=" + projectId + "&id=" + id + "&name=" + name + "&projectNumber=" + projectNumber;
+        var orgId = $("#orgId").val();
+        window.location.href = "${pageContext.request.contextPath}/project/addDetails.html?projectId=" + projectId + "&id=" + id + "&name=" + name + "&projectNumber=" + projectNumber+"&orgId="+orgId;
       };
 
       $(function() {
@@ -135,6 +136,7 @@
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input type="hidden" id="id" class="input_group" name="id" value="${id}" />
                 <input type="text" id="name" class="input_group" name="name" value="${name}" />
+                <input type="hidden" id="orgId" class="input_group" name="orgId" value="${orgId}" />
                 <span class="add-on">i</span>
                 <div class="cue">${ERR_name}</div>
               </div>
@@ -223,7 +225,10 @@
                       <td class="tc w50"> ${obj.serialNumber}
                       <input type="hidden" value="${obj.requiredId }">
                       </td>
-                      <td class="tc"> ${obj.department}
+                      <td class="tc">
+                      <c:if test="${orgnization.id == obj.department}"> 
+						               ${orgnization.name}
+						           </c:if>
                       </td>
                       <td class="tc">${obj.goodsName}
                       </td>

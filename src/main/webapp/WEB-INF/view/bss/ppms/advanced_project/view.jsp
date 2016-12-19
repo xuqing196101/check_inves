@@ -153,7 +153,7 @@
           <th class="info">备注</th>
               </tr>
             </thead>
-            <c:forEach items="${pack.projectDetails}" var="obj">
+            <c:forEach items="${pack.advancedDetails}" var="obj">
               <tr style="cursor: pointer;">
                 <td class="tc w50">${obj.serialNumber}</td>
                 <td class="tc">${obj.department}</td>

@@ -274,7 +274,11 @@
 			  <c:forEach items="${lists}" var="obj" varStatus="vs">
 			    <tr style="cursor: pointer;">
 			      <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-			      <td class="tc"><input type="text" name="list[${vs.index }].department" value="${obj.department }"></td>
+			      <td class="tc">
+			      <c:if test="${obj.department == orgnization.id}">
+			      <input type="text" name="list[${vs.index }].department" value="${orgnization.name }">
+			      </c:if>
+			      </td>
 			      <td class="tc"><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
 			      <td class="tc"><input type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
 			      <td class="tc"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>

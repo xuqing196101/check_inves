@@ -22,7 +22,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 
 import bss.controller.base.BaseController;
@@ -57,6 +59,8 @@ public class TackController extends BaseController{
 	private PurchaseRequiredService purchaseRequiredService;
 	@Autowired
 	private CollectPurchaseService conllectPurchaseService;
+	@Autowired
+    private OrgnizationServiceI orgnizationService;
 	
 	/**
 	 * 
@@ -161,7 +165,6 @@ public class TackController extends BaseController{
 	public String edit(String id,Model model,HttpServletRequest request){
 	    if(id != null){
 	        Task task = taskservice.selectById(id);
-	       // CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
 	        List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
 	        List<String> list = conllectPurchaseService.getNo(task.getCollectId());
 	        if(list != null && list.size()>0){
@@ -173,6 +176,10 @@ public class TackController extends BaseController{
 	                listp.addAll(list2);
 	                }
 	            }
+	        }
+	        for (PurchaseRequired required : listp) {
+	            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getDepartment());
+	            model.addAttribute("orgnization", orgnization);
 	        }
 	        model.addAttribute("kind", DictionaryDataUtil.find(5));
 	        model.addAttribute("dataId", DictionaryDataUtil.getId("CGJH_ADJUST"));
@@ -222,6 +229,10 @@ public class TackController extends BaseController{
             map.put("planNo", s);
             List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
             listp.addAll(list2);
+        }
+        for (PurchaseRequired required : listp) {
+            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getDepartment());
+            model.addAttribute("orgnization", orgnization);
         }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", listp);

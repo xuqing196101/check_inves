@@ -57,6 +57,8 @@ public class AdvancedProject {
     private String sectorOfDemand; //需求部门
 
     private PurchaseDep purchaseDep; //采购机构
+    
+    private String purchaseDepId;
 
     private Date deadline; //投标截止时间
 
@@ -563,4 +565,13 @@ public class AdvancedProject {
     public void setConfirmFile(Integer confirmFile) {
         this.confirmFile = confirmFile;
     }
+
+    public String getPurchaseDepId() {
+        return purchaseDepId;
+    }
+
+    public void setPurchaseDepId(String purchaseDepId) {
+        this.purchaseDepId = purchaseDepId;
+    }
+    
 }

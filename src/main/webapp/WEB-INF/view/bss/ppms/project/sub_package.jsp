@@ -368,8 +368,8 @@
 			}
 			
 			//上一步
-			function prev(){
-				histroy.go(-1);
+			function back(id){
+				window.location.href = "${pageContext.request.contextPath }/project/edit.do?id=" + id;
 			}
 			
 			//下一步
@@ -381,13 +381,21 @@
 					url: "${pageContext.request.contextPath }/project/judgeNext.do?projectId=" + projectId,
 					success: function(data) {
 						if(data==0){
-						  window.location.href = "${pageContext.request.contextPath}/project/startProject.html?id=" + projectId;
+						   layer.alert("项目还有明细未分包，请先分包", {
+                    offset: ['20%', '40%']
+                  });
+                  $(".layui-layer-shade").remove();
 						}else if(data==1){
-							 layer.alert("项目还有明细未分包，请先分包", {
-                offset: ['20%', '40%']
-              });
-              $(".layui-layer-shade").remove();
-              return;
+						   layer.open({
+                      type : 2, //page层
+                      area : [ '800px', '500px' ],
+                      title : '请上传项目批文',
+                      shade : 0.01, //遮罩透明度
+                      moveType : 1, //拖拽风格，0是默认，1是传统拖动
+                      shift : 1, //0-6的动画形式，-1不开启
+                      shadeClose : true,
+                      content : '${pageContext.request.contextPath}/project/startProject.html?id=' + projectId,
+                 });
 						}
 					}
 				});
@@ -553,7 +561,7 @@
 		
 		<!-- 按钮 -->
 		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-			<button class="btn" type="button" onclick="history.go(-1)">上一步</button>
+			<button class="btn" type="button" onclick="back('${project.id}')">上一步</button>
 			<button class="btn" type="button" onclick="next()">下一步</button>
 		</div>
 		

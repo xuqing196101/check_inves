@@ -3,12 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="/tld/upload" prefix="f"%>
-<%@ include file="../../../common.jsp"%>
 
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<jsp:include page="/WEB-INF/view/common.jsp"/>
 <script type="text/javascript">
   function start(){
     layer.confirm('您确认要启动项目吗?',{
@@ -34,7 +34,7 @@
 
 <body>
 <div class="container">
-  <form id="att" action="${pageContext.request.contextPath}/project/start.html"  method="post" name="form1" class="simple" target="_parent">
+  <form id="att" action="${pageContext.request.contextPath}/advancedProject/start.html"  method="post" name="form1" class="simple" target="_parent">
     <input type="hidden" name="id" value="${project.id}"/>
     <div id="openDiv" class="layui-layer-wrap" >
       <div class="drop_window">
@@ -52,7 +52,7 @@
               <select name="principal" class="w180 mb10">
                 <option selected="selected" value="">-请选择-</option>
                   <c:forEach items="${purchaseInfo}" var="info">
-                    <option value="${info.id}">${info.relName}</option>
+                    <option value="${info.relName}">${info.relName}</option>
                   </c:forEach> 
               </select>
             </span>
