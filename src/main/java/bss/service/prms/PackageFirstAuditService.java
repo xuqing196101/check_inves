@@ -3,6 +3,9 @@ package bss.service.prms;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import bss.model.prms.PackageFirstAudit;
 
 public interface PackageFirstAuditService {
@@ -65,4 +68,17 @@ public interface PackageFirstAuditService {
      * @return
      */
     void deleteByFirstAuditId(String id);
+    
+    /**
+     * 
+     *〈简述〉生成word文件
+     *〈详细描述〉
+     * @author myc
+     * @param projectId 项目Id
+     * @param projectName 项目名称
+     * @param projectNo  项目编号
+     * @param response   {@link HttpServletResponse}
+     * @return 文件名称
+     */
+    String downLoadBiddingDoc(String projectId,String projectName,String projectNo, HttpServletRequest request);
 }

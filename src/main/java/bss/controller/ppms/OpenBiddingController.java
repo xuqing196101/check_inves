@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,6 +22,7 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -184,6 +184,12 @@ public class OpenBiddingController {
         if (files != null && files.size() > 0){
             model.addAttribute("fileId", files.get(0).getId());
         } else {
+            if (project != null){
+                String filePath = packageFirstAuditService.downLoadBiddingDoc(id, project.getName(), project.getProjectNumber(), request);
+                if (StringUtils.isNotBlank(filePath)){
+                    model.addAttribute("filePath", filePath);
+                }
+            }
             model.addAttribute("fileId", "0");
         }
         model.addAttribute("flowDefineId", flowDefineId);
@@ -220,6 +226,20 @@ public class OpenBiddingController {
     @RequestMapping("/loadFile")
     public void loadFile(HttpServletRequest request, String fileId, HttpServletResponse response){
         downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author myc
+     * @param request
+     * @param fileId
+     * @param response
+     */
+    @RequestMapping("/downloadFile")
+    public void downLoadFile(HttpServletRequest request, String filePath, HttpServletResponse response){
+        downloadService.downLoadFile(request, response, filePath);
     }
     
     /**
