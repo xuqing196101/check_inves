@@ -86,4 +86,7 @@ public interface ProjectService {
     List<Project>  provisionalList(Integer page, Project project);
     
     List<Project> selectProjectByCode(HashMap<String,Object> map);
+    
+    
+    void insert(Project project);
 }

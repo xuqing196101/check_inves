@@ -32,4 +32,6 @@ public interface ProjectMapper {
     List<Project> provisionalList(Project project);
     
     List<Project> selectProjectByCode(HashMap<String,Object> map);
+    
+    int insertId(Project record);
 }
