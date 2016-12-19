@@ -37,4 +37,13 @@ public interface ProjectDetailMapper {
 	 List<ProjectDetail> findHavePackageIdDetail(HashMap<String,Object> map);
 	 
 	 List<ProjectDetail> findNoPackageIdDetail(HashMap<String,Object> map);
+	 
+	 ProjectDetail getmax(String projectId);
+	 
+	 List<ProjectDetail> selectByRequiredId(Map<String, Object> map);
+	 
+	 List<ProjectDetail> selectByParentIds(Map<String, Object> map);
+	 
+	 void deleteByProject(String id);
+	 
 }

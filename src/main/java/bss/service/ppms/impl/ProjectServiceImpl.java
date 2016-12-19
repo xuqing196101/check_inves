@@ -108,4 +108,9 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.selectProjectByCode(map);
 	}
 
+	@Override
+	public void insert(Project project) {
+		projectMapper.insertId(project);
+	}
+
 }
