@@ -118,28 +118,27 @@ public class AdvancedProject {
     
     private Integer confirmFile; //确认制作招标文件内容。0：未确认  ，1：已确认
 
-    private List<Packages> packagesList;
+    private List<AdvancedPackages> packagesList;
     
-    private DictionaryData dictionary;
     
-    public DictionaryData getDictionary() {
-        return dictionary;
+    public AdvancedProject(String id) {
+        super();
+        this.id = id;
+    }
+    
+    public AdvancedProject(){
+        super();
     }
 
-    public void setDictionary(DictionaryData dictionary) {
-        this.dictionary = dictionary;
-    }
 
-    public List<Packages> getPackagesList() {
+    public List<AdvancedPackages> getPackagesList() {
         return packagesList;
     }
 
-    public void setPackagesList(List<Packages> packagesList) {
+    public void setPackagesList(List<AdvancedPackages> packagesList) {
         this.packagesList = packagesList;
     }
 
-    private List<Task> list; 
-    
     public String getPurchaseDepName() {
         return purchaseDepName;
     }
@@ -395,14 +394,6 @@ public class AdvancedProject {
 
     public void setDealSupplier(Supplier dealSupplier) {
         this.dealSupplier = dealSupplier;
-    }
-
-    public List<Task> getList() {
-        return list;
-    }
-
-    public void setList(List<Task> list) {
-        this.list = list;
     }
 
     public Integer getExecuteStatus() {
