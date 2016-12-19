@@ -675,7 +675,7 @@
 										<td class="tc w150"><input type="text" name="list[${vs.index }].budget"   value="${objs.budget}" ></td>
 										<td class="w100"><input type="text" name="list[${vs.index }].deliverDate" value="${objs.deliverDate}" ></td>
 										<td class="w120">
-											<select name="list[0].department" class="pt" onchange="changeType(this)" id="pType[0]">
+											<select name="list[${vs.index }].purchaseType" class="pt" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="objd">
 													<option value="${objd.id }">${objd.name }</option>

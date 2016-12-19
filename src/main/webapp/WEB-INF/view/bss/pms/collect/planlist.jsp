@@ -158,7 +158,7 @@
 						url: "${pageContext.request.contextPath }/look/auditId.do?id=" + id,
 						success: function(data) {
 							if(data==0){
-								layer.alert("请选择已提交的计划审核", {
+								layer.alert("", {
 									offset: ['30%', '40%']
 								});
 								$(".layui-layer-shade").remove();
