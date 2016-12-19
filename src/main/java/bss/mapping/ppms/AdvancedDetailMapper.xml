@@ -27,9 +27,9 @@
     <result column="POSITION"  property="position" />
     <result column="REQUIRED_ID"  property="requiredId" />
     <result column="PLAN_NO"  property="planNo" />
-   <!--  <association property="advancedProject" column="AD_PROJECT_ID" select="bss.dao.ppms.AdvancedProjectMapper.selectAdvancedProjectByPrimaryKey"/> -->
+    <result column="AD_PROJECT_ID"  property="advancedProject" />
     <association property="purchaseDep" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
-    <association property="packages" column="PACKAGE_ID" select="bss.dao.ppms.PackageMapper.selectByPrimaryKey"/>
+    <association property="packages" column="PACKAGE_ID" select="bss.dao.ppms.AdvancedPackageMapper.selectByPrimaryKey"/> 
   </resultMap>
   <sql id="Base_Column_List">
     ID, SERIAL_NUMBER, DEPARTMENT, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT, 
@@ -59,9 +59,9 @@
     <if test="id != null and id !=''">
         AND ID = #{id}
     </if> 
-  <!--   <if test="ids != null and ids !=''">
-        AND AD_PROJECT_ID = #{ids}
-    </if>  -->
+    <if test="advancedProject != null and advancedProject !=''">
+        AND AD_PROJECT_ID = #{advancedProject}
+    </if>  
     <if test="packageId != null and packageId !=''">
         AND PACKAGE_ID = #{packageId}
      </if> 
@@ -257,7 +257,7 @@
         #{useUnit},
       </if>
       <if test="advancedProject != null">
-        #{advancedProject.id},
+        #{advancedProject},
       </if>
       <if test="purchaseDep != null">
         #{purchaseDep.id},
@@ -343,7 +343,7 @@
         USE_UNIT = #{useUnit},
       </if>
       <if test="advancedProject != null">
-        AD_PROJECT_ID = #{advancedProject.id},
+        AD_PROJECT_ID = #{advancedProject},
       </if>
       <if test="purchaseDep != null">
         PURCHASE_ID = #{purchaseDep.id},

@@ -1237,6 +1237,55 @@ public class ProjectController extends BaseController {
         		str = "1";
         	}
         }
+        if("0".equals(str)){
+            Project project = projectService.selectById(id);
+            HashMap<String,Object> pack = new HashMap<String,Object>();
+            pack.put("projectId",id);
+            List<Packages> packList = packageService.findPackageById(pack);
+            Packages pg = new Packages();
+            pg.setName("第"+(packList.size()+1)+"包");
+            pg.setProjectId(id);
+            pg.setIsDeleted(0);
+            if(project.getIsImport()==1){
+                pg.setIsImport(1);
+            }else{
+                pg.setIsImport(0);
+            }
+            pg.setPurchaseType(project.getPurchaseType());
+            pg.setCreatedAt(new Date());
+            pg.setUpdatedAt(new Date());
+            packageService.insertSelective(pg);
+            List<Packages> wantPackId = packageService.findPackageById(pack);
+            map.put("id", id);
+            //拿到一个项目所有的明细
+            List<ProjectDetail> detail = detailService.selectById(map);
+            for (ProjectDetail projectDetail : detail) {
+                ProjectDetail pDetail = detailService.selectByPrimaryKey(projectDetail.getId());
+                HashMap<String,Object> map1 = new HashMap<String,Object>();
+                map1.put("id", pDetail.getRequiredId());
+                map1.put("projectId", id);
+                List<ProjectDetail> list = detailService.selectByParentId(map1);
+                if(list.size()==1){
+                    ProjectDetail projectDetai = new ProjectDetail();
+                    projectDetai.setId(projectDetail.getId());
+                    projectDetai.setPackageId(wantPackId.get(0).getId());
+                    projectDetai.setUpdateAt(new Date());
+                    detailService.update(projectDetai);
+                }
+            }
+            HashMap<String,Object> map2 = new HashMap<String,Object>();
+            map2.put("packageId", wantPackId.get(0).getId());
+            List<ProjectDetail> detailss = detailService.selectById(map2);
+            Packages p = new Packages();
+            p.setId(wantPackId.get(0).getId());
+            if(detailss.get(0).getStatus().equals("1")){
+                p.setStatus(1);
+                packageService.updateByPrimaryKeySelective(p);
+            }else{
+                p.setStatus(0);
+                packageService.updateByPrimaryKeySelective(p);
+            }
+        }
     	return str;
     }
     

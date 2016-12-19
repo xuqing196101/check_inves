@@ -381,13 +381,13 @@
 					url: "${pageContext.request.contextPath }/project/judgeNext.do?projectId=" + projectId,
 					success: function(data) {
 						if(data==0){
-							layer.alert("项目还有明细未分包，请先分包", {
-								offset: ['20%', '40%']
-							});
-							$(".layui-layer-shade").remove();
-							return;
+						  window.location.href = "${pageContext.request.contextPath}/project/startProject.html?id=" + projectId;
 						}else if(data==1){
-							
+							 layer.alert("项目还有明细未分包，请先分包", {
+                offset: ['20%', '40%']
+              });
+              $(".layui-layer-shade").remove();
+              return;
 						}
 					}
 				});

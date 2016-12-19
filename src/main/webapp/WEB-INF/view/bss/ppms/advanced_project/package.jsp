@@ -386,7 +386,7 @@
               $(".layui-layer-shade").remove();
               return;
             }else if(data==1){
-              
+                 window.location.href = "${pageContext.request.contextPath}/advancedProject/startProject.html?id=" + projectId;
             }
           }
         });
