@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
 
 import bss.controller.base.BaseController;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
@@ -148,10 +153,17 @@ public class SupplierItemController extends BaseController{
 //		boolean bool = validataItem(supplierItem);
 //		if(bool==false){
 //			model.addAttribute("err_item", "请上传产品目录近对应的近三年文件");
-//			return "ses/sms/supplier_register/items";	
+//			return "ses/sms/supplier_register/procurement_dep";	
 //		}
 		 
-			 return "ses/sms/supplier_register/aptitude";
+		if(supplierItem.getCategoryId().trim().length()>0){
+			return "ses/sms/supplier_register/procurement_dep";	
+		}else{
+			model.addAttribute("err_category", "请勾选一个节点");
+			return "ses/sms/supplier_register/items";	
+		}
+			
+//			 return "ses/sms/supplier_register/aptitude";
 	 
 		
 		
@@ -185,5 +197,77 @@ public class SupplierItemController extends BaseController{
 		return bool;
 	}
 	
+	
+	/**
+	 * 
+	* @Title: echoTree
+	* @Description: 供应商资质文件维护，点击上一步
+	* author: Li Xiaoxiao 
+	* @param @param supplierId
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
+	@RequestMapping(value="/category_tree")
+	public String echoTree(String supplierId,Model model){
+		Supplier supplier = supplierService.get(supplierId);
+		// 页面跳转
+		model.addAttribute("currSupplier", supplier);
+		List<Category> category = supplierItemService.getCategory(supplierId);
+		model.addAttribute("category", category);
+		return "ses/sms/supplier_register/items";	
+	}
+	/**
+	 * 
+	* @Title: getCategory
+	* @Description: 查询供应商勾选的三级品目
+	* author: Li Xiaoxiao 
+	* @param @param code
+	* @param @param supplierId
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
+	@RequestMapping(value="/category_type" ,produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String getCategory(String code,String supplierId){
+		List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
+		String   categoryId="";
+		   if (code != null ) {
+			     DictionaryData type = DictionaryDataUtil.get(code);
+               if(code.equals("PRODUCT") || code.equals("SALES")){
+                  
+                   categoryId = DictionaryDataUtil.getId("GOODS");
+               } else {
+            	   categoryId = DictionaryDataUtil.getId(code);
+               }
+               //查询子节点
+               CategoryTree ct = new CategoryTree();
+               ct.setName(type.getName());
+               ct.setId(categoryId);
+               ct.setChecked(true);
+               ct.setIsParent("true");
+               categoryList.add(ct);
+               //查询三级节点
+    		   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId);
+    		     for(SupplierItem c:category){
+    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+    	                CategoryTree ct1 = new CategoryTree();
+    	                ct1.setName(cate.getName());
+    	                ct1.setParentId(cate.getParentId());
+    	                ct1.setId(c.getCategoryId());
+    	                ct1.setChecked(true);
+    	                List<Category> cList = categoryService.findTreeByPid(c.getCategoryId());
+    	                if (cList != null && cList.size() > 0){
+    	                    ct1.setIsParent("true");
+    	                } else {
+    	                    ct1.setIsParent("false");
+    	                }
+    	              
+    	                categoryList.add(ct1);
+    	            }
+           }
+	 return JSON.toJSONString(categoryList);
+	}
 	
 }
