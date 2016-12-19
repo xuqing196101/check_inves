@@ -228,7 +228,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc">
 							<select class="org"  onchange="org(this)" name="list[${vs.index }].organization">
 								<c:forEach items="${org }" var="ss">
-									<option value="${ss.name }" <c:if test="${ss.name==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
+									<option value="${ss.id }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 								</c:forEach>
 							</select>
 							

@@ -176,6 +176,7 @@ public class ReviewFirstAuditController {
 		User user = (User)session.getAttribute("loginUser");
  		String expertId = user.getTypeId();
 		Expert expert = expertService.selectByPrimaryKey(expertId);
+		model.addAttribute("expertId", expertId);
 		//查询项目信息
 		Project project = projectService.selectById(projectId);
 		HashMap<String, Object> map2 = new HashMap<>();
