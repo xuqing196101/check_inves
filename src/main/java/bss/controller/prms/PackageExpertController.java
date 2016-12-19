@@ -1623,26 +1623,28 @@ public class PackageExpertController {
      * @param packageExpert
      * @param supplierId
      * @param model
-     * @return 跳转到
+     * @return 跳转到detailedReview.html
      */
     @RequestMapping("/backScore")
-    public String backScore(String projectId, String packageId, String expertId, String expertIds, String supplierId, Model model){
+    @ResponseBody
+    public String backScore(String projectId, String packageId, String expertId, Model model){
         // 将参数存储到model中以便redirect后取值
         model.addAttribute("projectId", projectId);
         model.addAttribute("packageId", packageId);
-        model.addAttribute("expertIds", expertIds);
-        model.addAttribute("supplierId", supplierId);
+        //model.addAttribute("expertIds", expertIds);
+        //model.addAttribute("supplierId", supplierId);
         // 封装参数到map中
         Map<String, Object> mapSearch = new HashMap<String, Object>();
         mapSearch.put("projectId", projectId);
-        mapSearch.put("supplierId", supplierId);
+        //mapSearch.put("supplierId", supplierId);
         mapSearch.put("packageId", packageId);
         mapSearch.put("expertId", expertId);
         // 退回分数
         packageExpertService.backScore(mapSearch);
         // 跳转到showViewBySupplierId.html重新查询展示
-        return "redirect:showViewBySupplierId.html";
+        return "redirect:detailedReview.html";
     }
+
 
     /**
      *〈简述〉

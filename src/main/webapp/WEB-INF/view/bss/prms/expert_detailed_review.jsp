@@ -77,6 +77,36 @@
 	function goBack(url){
 		$("#tab-6").load(url);
 	}
+	// 复核(退回)
+	function backScore(){
+		var count = 0;
+		var expertIds = "";
+		$("input[name='checkItem']").each(function(i,result){
+			if (result.checked) {
+				expertIds = expertIds + result.value + ",";
+				count++;
+			}
+		});
+		if (count == 0) {
+			layer.alert("请至少选择一项再进行此操作!", {
+				offset : [ y, x ],
+				shade : 0.01
+			});
+		} else {
+			$.ajax({
+				url: "${pageContext.request.contextPath}/packageExpert/backScore.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertIds,
+				async: true,
+				success: function () {
+					layer.alert("复核成功!", {
+						offset : [ y, x ],
+						shade : 0.01
+					});
+					$("#tab-6").load("${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId=${packageId}&projectId=${projectId}");
+				}		
+			});
+			//window.location.href="${pageContext.request.contextPath}/packageExpert/backScore.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertIds;
+		}
+	}
 </script>
 </head>
 <body onload="is_Null('${packExpertExtList.size()}')">
@@ -93,7 +123,7 @@
 	    <div class="mb5 fr">
 		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
 		  <button class="btn" onclick="toTotal()" type="button">汇总</button>
-		  <button class="btn" onclick="" type="button">复核</button>
+		  <button class="btn" onclick="backScore()" type="button">复核</button>
 		  <button class="btn" onclick="" type="button">结束</button>
 		</div>
 		<!--循环供应商  -->
@@ -112,7 +142,7 @@
 		  <!-- 遍历该包内的专家,控制行数 -->
 		  <c:forEach items="${expertList }" var="ext">
 			<tr>
-			  <td><input type="checkbox" name="checkItem" value="${ext.expert.id}"></td>
+			  <td class="tc"><input type="checkbox" name="checkItem" value="${ext.expert.id}"></td>
 			  <td>${ext.expert.relName}</td>
 			  <!-- 遍历该包供应商控制分数的显示 -->
 			  <c:forEach items="${supplierList}" var="supplier">
