@@ -452,6 +452,19 @@
 						$(detailRow[i]).find("td:eq(15)").find("input").attr("name","list["+i+"].memo");
 						$(detailRow[i]).find("td:eq(16)").find("input").attr("name","list["+i+"].status");
 					}
+					var totalPrice = 0;
+					var quantity = document.getElementsByName("purchaseQuantity");
+					var unitPrice = document.getElementsByName("unitPrice");
+					for(var i=0;i<quantity.length;i++){
+						if($(quantity[i]).find("input").val()!=""){
+							totalPrice = totalPrice + $(quantity[i]).find("input").val()*($(quantity[i]).next().find("input").val());
+						}
+					}
+					for(var i=0;i<quantity.length;i++){
+						if($(quantity[i]).find("input").val()==""){
+							$(quantity[i]).next().next().find("input").val(totalPrice);
+						}
+					}
 				}
 			}
 		</script>
