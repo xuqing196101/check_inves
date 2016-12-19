@@ -41,6 +41,8 @@ import ses.util.ComparatorDetail;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
+import bss.dao.pms.PurchaseRequiredMapper;
+import bss.dao.ppms.ProjectDetailMapper;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.FlowDefine;
@@ -117,7 +119,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/list")
     public String list(@CurrentUser User user, Integer page, Model model, Project project, HttpServletRequest request) {
-       /* if(user != null && user.getOrg() != null){
+       if(user != null && user.getOrg() != null){
            PurchaseDep purchaseDep = new PurchaseDep();
             purchaseDep.setId(user.getOrg().getId());
             project.setPurchaseDep(purchaseDep);
@@ -126,16 +128,15 @@ public class ProjectController extends BaseController {
            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
            model.addAttribute("info", info);
             model.addAttribute("projects", project);
-        }*/
+        }
     	
-    	//取出session
-    	request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
-    	
-        List<Project> list = projectService.list(page == null ? 1 : page, project);
+
+       /* List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("info", info);
         model.addAttribute("projects", project);
+        */
         return "bss/ppms/project/list";
     }
     
@@ -1484,14 +1485,16 @@ public class ProjectController extends BaseController {
      * @return String
       */
      @RequestMapping("/save")
-     public String save(String projectId,Project project,String purchaseType,PurchaseRequiredFormBean list,String checkIds,Model model, BindingResult result, HttpServletRequest request){
+     public String save(String projectId,Project project,String purchaseType,PurchaseRequiredFormBean list,String checkIds,int uncheckId,Model model, BindingResult result, HttpServletRequest request){
     	 String id = project.getId();
     	 Project proId = projectService.selectById(project.getId());
     	 int k=1;
     	 if(proId!=null && !proId.equals("")){
     		 //不为空查询最大的排序
     		 ProjectDetail max = detailService.getMax(id);
-    		 k = max.getPosition()+1;
+    		 if(max!=null){
+    			 k = max.getPosition()+1;
+    		 }
     		 
     	 }else{
     		 project.setCreateAt(new Date());
@@ -1505,13 +1508,10 @@ public class ProjectController extends BaseController {
 	         projectTask.setTaskId(projectId);
 	         projectTask.setProjectId(project.getId());
 	         projectTaskService.insertSelective(projectTask);
-	         
-	         
+	         List<PurchaseRequired> sss=new ArrayList<PurchaseRequired>();
 	         if(checkIds.trim().length()!=0){
 	        	 String[] detailIds = checkIds.split(",");
-	             Map<String,Object> detailMap=new HashMap<String,Object>();
-	             detailMap.put("id",  detailIds[0]);
-	             List<ProjectDetail> advance = detailService.selectByParentIds(detailMap);
+	             List<ProjectDetail> advance = detailService.getByPidAndRid(id, detailIds[0]);
 	             //取到同一个父节点下面的子节点
 	             String parId=null ;
 	             if(advance.size() > 0){
@@ -1523,6 +1523,8 @@ public class ProjectController extends BaseController {
 	                     
 	                     if(lists.size() == 1){//查询最底层明细的节点
 	                    	 parId=lists.get(0).getParentId(); 
+	                    	 PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(parId);
+	                    	 sss.add(purchaseRequired);
 	                     }
 	                 }
 	             }
@@ -1530,14 +1532,25 @@ public class ProjectController extends BaseController {
 	             //第二次追加
 	             if(advance.size()>0){
 	                 int position= advance.size()+1;
+	                 ProjectDetail max = detailService.getMax(id);
+	        		 if(max!=null){
+	        			 k = max.getPosition()+1;
+	        		 }
+	                 String planNo = null;
 	                 for(String pid:detailIds){
-	                     PurchaseRequired required = purchaseRequiredService.queryById(pid);
-	                     required.setProjectStatus(1);
-	                     purchaseRequiredService.updateByPrimaryKeySelective(required);
+	                	 PurchaseRequired required = purchaseRequiredService.queryById(pid);
+	                	 planNo = required.getPlanNo();
 	                     if(required.getParentId().equals(parId)){
-	                         insertDeatil(required,position,id);
+		                     required.setProjectStatus(1);
+		                     purchaseRequiredService.updateByPrimaryKeySelective(required);
+	                         insertDeatil(required,k,id);
 	                     } 
-	                 } 
+	                 }
+	                 
+	                 if(uncheckId==0){
+	 		            purchaseRequiredService.updateProjectStatus(planNo);
+	 		         }
+	                 
 	             }else{
 	            	 
 	 	        	//第一次添加
@@ -1557,12 +1570,16 @@ public class ProjectController extends BaseController {
 	 		                 }
 	 		                 lists.add(purchaseRequired);
 	 		             }
-	 		             
+		                 
 	 		             for (PurchaseRequired purchaseRequired:lists) {
 	 		            	PurchaseRequired required = purchaseRequiredService.queryById(purchaseRequired.getId());
-		                     required.setProjectStatus(1);
-		                     purchaseRequiredService.updateByPrimaryKeySelective(required);
-	 		            	 
+	 		            	Map<String,Object> map=new HashMap<String,Object>();
+	 		            	map.put("id", required.getId());
+	 		            	List<PurchaseRequired> list2 = purchaseRequiredService.selectByParentId(map);
+	 		            	if(list2.size()==1){
+	 		            		required.setProjectStatus(1);
+			                     purchaseRequiredService.updateByPrimaryKeySelective(required);
+	 		            	}
 	 	                     ProjectDetail projectDetail = new ProjectDetail();
 	 	                     projectDetail.setRequiredId(purchaseRequired.getId());
 	 	                     projectDetail.setSerialNumber(purchaseRequired.getSeq());
@@ -1610,6 +1627,10 @@ public class ProjectController extends BaseController {
 	 	                     k++;
 	 	                     detailService.insert(projectDetail);
 	 	                 }
+	 		             
+	 		             if(uncheckId==0){
+	 		            	purchaseRequiredService.updateProjectStatus(lists.get(0).getPlanNo());
+	 		             }
 	             }
 	        	 
 	         }

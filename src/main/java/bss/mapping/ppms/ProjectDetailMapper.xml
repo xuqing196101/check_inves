@@ -507,5 +507,12 @@
         connect by prior REQUIRED_ID = PARENT_ID ORDER BY CREATED_AT 
     </select>
   
+  
+  
+  <select id="getByPidAndRid"  resultMap="BaseResultMap">
+        select * from T_BSS_PPMS_PROJECTS_DETAIL
+        where  PROJECT_ID = #{pid} and REQUIRED_ID = #{rid} 
+    </select>
+    
     
 </mapper>

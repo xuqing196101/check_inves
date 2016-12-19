@@ -155,4 +155,18 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	        
 	}
 
+	
+	@Override
+	public List<PurchaseRequired> getByProjectStatus(String id,
+			int projectStatus) {
+		return purchaseRequiredMapper.getByProjectStatus(id, projectStatus);
+	}
+
+	
+	@Override
+	public void updateProjectStatus(String planNo) {
+		purchaseRequiredMapper.updateProjectStatus(planNo);
+	}
+	
+
 }

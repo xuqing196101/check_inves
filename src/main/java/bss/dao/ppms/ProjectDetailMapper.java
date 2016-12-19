@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import bss.model.ppms.ProjectDetail;
 
 public interface ProjectDetailMapper {
@@ -48,5 +50,7 @@ public interface ProjectDetailMapper {
 	 
 	 
 	 List<ProjectDetail> selectByParentIdTree(Map<String, Object> map);
+	 
+	 List<ProjectDetail> getByPidAndRid(@Param("pid")String pid,@Param("rid")String rid);
 	 
 }

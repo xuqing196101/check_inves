@@ -794,4 +794,21 @@
 			</set>
 		where id=#{id}
 	</update>
+	
+	
+	   <select id="getByProjectStatus"  parameterType="java.lang.Object" resultType="bss.model.pms.PurchaseRequired">
+        select * 
+        from T_BSS_PMS_PURCHASE_REQUIRED
+          where ID = #{id} 
+           and PROJECT_STATUS=#{projectStatus}
+    </select>
+    
+    <update id="updateProjectStatus" parameterType="java.lang.String">
+         update T_BSS_PMS_PURCHASE_REQUIRED
+         set PROJECT_STATUS=1
+         where PLAN_NO=#{planNo}
+    </update>
+    
+    
+    
 </mapper>

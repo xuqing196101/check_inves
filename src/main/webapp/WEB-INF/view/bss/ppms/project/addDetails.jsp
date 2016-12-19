@@ -69,6 +69,18 @@
 	    	checkIds.push($(this).val()); 
 	    });
 	    if(checkIds.length>0){
+	    	
+	    	var checked;
+	    	var unCheckedBoxs = [];
+	          $('input[name="chkItem"]:not(:checked)').each(function() {
+	            unCheckedBoxs.push($(this).val());
+	       });
+	       if(unCheckedBoxs<1){
+	    	   checked=0;
+	       }else{
+	    	   checked=1;
+	       }
+	      $("#uncheckId").val(checked);
 	    	var purchaseTypes = $("#purchaseTypes").val();
 	    	$("#purchaseType").val(purchaseTypes);
 	    	$("#detail_id").val(checkIds);
@@ -201,6 +213,8 @@
     <input  name="projectNumber" value="${projectNumber}" type="hidden" />
     <input name="projectId" type="hidden" value="${projectId }" />
     <input name="id" type="hidden" value="${id}" />
+    <input id="uncheckId" name="uncheckId" type="hidden" />
+    
   </form> 
   
   

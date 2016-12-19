@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.ProjectDetail;
 
 /**
  * 
@@ -177,4 +180,11 @@ public interface PurchaseRequiredService {
 	void  batchAdd(List<PurchaseRequired> list) throws IOException;
 //	
 //	void updates();
+	
+	List<PurchaseRequired> getByProjectStatus(String id, int projectStatus);
+	
+	
+	void updateProjectStatus(String planNo);
+	
+	
 }
