@@ -153,8 +153,12 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
         }else{
         	dataMap.put("pacn", "");
         }
-        dataMap.put("jsum", "1111");
-        dataMap.put("ssum", "2222");
+        if(pro.getBidUnit()!=null){
+        	dataMap.put("zhaobiaopeople", pro.getBidUnit());
+        }else{
+        	dataMap.put("zhaobiaopeople", "");
+        }
+        
         List<Map<String, Object>> gaikuang = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> huowu = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> zigelist = new ArrayList<Map<String,Object>>();
@@ -174,11 +178,11 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
 				packmap.put("goodsName", "");
 			}
         	if(pd.getStand()!=null){
-        		packmap.put("stand", pd.getStand());
+        		packmap.put("tand", pd.getStand());
 			}else{
-				packmap.put("stand", "");
+				packmap.put("tand", "");
 			}
-			map.put("jishu", "");
+        	packmap.put("jishu", "");
         	if(pd.getItem()!=null){
         		packmap.put("item", pd.getItem());
 			}else{
@@ -194,13 +198,49 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
 			}else{
 				packmap.put("jhsj", "");
 			}
-			map.put("jhdd", "");
+        	packmap.put("jhdd", "");
         	if(pd.getMemo()!=null){
         		packmap.put("mem", pd.getMemo());
 			}else{
 				packmap.put("mem", "");
 			}
         	gaikuang.add(packmap);
+        }
+        
+        for(ProjectDetail pd:detaList){
+        	Map<String, Object> huowumap = new HashMap<String, Object>();
+        	if(packages.get(0).getName()!=null){
+        		huowumap.put("baohao", packages.get(0).getName());
+			}else{
+				huowumap.put("baohao", "");
+			}
+        	if(pd.getGoodsName()!=null){
+        		huowumap.put("mingcheng", pd.getGoodsName());
+			}else{
+				huowumap.put("mingcheng", "");
+			}
+        	if(pd.getStand()!=null){
+        		huowumap.put("xinghao", pd.getStand());
+			}else{
+				huowumap.put("xinghao", "");
+			}
+        	huowumap.put("canshu", "");
+        	if(pd.getItem()!=null){
+        		huowumap.put("jiliang", pd.getItem());
+			}else{
+				huowumap.put("jiliang", "");
+			}
+        	if(pd.getPurchaseCount()!=null){
+        		huowumap.put("duoshao", pd.getPurchaseCount());
+			}else{
+				huowumap.put("duoshao", "");
+			}
+        	if(pd.getMemo()!=null){
+        		huowumap.put("beizhu", pd.getMemo());
+			}else{
+				huowumap.put("beizhu", "");
+			}
+        	huowu.add(huowumap);
         }
         
         for(FirstAudit firstA:items1){
@@ -232,6 +272,61 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
        	 if(dictionaryData.getCode().equals("TECHNOLOGY")){
        		jishuList = getList(dictionaryData.getId(), dictionaryData.getName(),projectId,packages.get(0).getId());
        	 }
+        }
+        if(jinjiList.size()>0){
+        	double sum = 0.0;
+        	for(int i=0;i<jinjiList.size();i++){
+        		Map<String, Object> jinjimap = new HashMap<String, Object>();
+        		jinjimap.put("sumber", i+1);
+            	if(jinjiList.get(i).getName()!=null){
+            		jinjimap.put("sproject",jinjiList.get(i).getName() );
+    			}else{
+    				jinjimap.put("sproject", "");
+    			}
+            	if(jinjiList.get(i).getName()!=null){
+            		jinjimap.put("scontent",jinjiList.get(i).getName());
+    			}else{
+    				jinjimap.put("scontent", "");
+    			}
+            	if(jinjiList.get(i).getScscore()!=null){
+            		jinjimap.put("sscore",jinjiList.get(i).getScscore());
+            		sum=sum+jinjiList.get(i).getScscore();
+    			}else{
+    				jinjimap.put("sscore", "");
+    			}
+            	shangwulist.add(jinjimap);
+        	}
+        	dataMap.put("ssum", sum);
+        }else{
+        	dataMap.put("ssum", 0.0);
+        }
+        
+        if(jishuList.size()>0){
+        	double sum = 0.0;
+        	for(int i=0;i<jishuList.size();i++){
+        		Map<String, Object> jishumap = new HashMap<String, Object>();
+        		jishumap.put("jumber", i+1);
+            	if(jishuList.get(i).getName()!=null){
+            		jishumap.put("jproject",jishuList.get(i).getName() );
+    			}else{
+    				jishumap.put("jproject", "");
+    			}
+            	if(jishuList.get(i).getName()!=null){
+            		jishumap.put("jcontent",jishuList.get(i).getName());
+    			}else{
+    				jishumap.put("jcontent", "");
+    			}
+            	if(jishuList.get(i).getScscore()!=null){
+            		jishumap.put("jscore",jishuList.get(i).getScscore());
+            		sum=sum+jishuList.get(i).getScscore();
+    			}else{
+    				jishumap.put("jscore", "");
+    			}
+            	jishulist.add(jishumap);
+        	}
+        	dataMap.put("jsum", sum);
+        }else{
+        	dataMap.put("jsum", 0.0);
         }
         dataMap.put("gaikuang", gaikuang);
         dataMap.put("huowu", huowu);
