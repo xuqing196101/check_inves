@@ -97,6 +97,23 @@ public class BrowserController {
 	   }
 	
 	/**
+	   * 
+	   *〈简述〉ntko文件下载
+	   *〈详细描述〉
+	   * @author Ye Maolin
+	   * @param request {@link HttpServletRequest}
+	   * @param response {@link HttpServletResponse}
+	   */
+	  @RequestMapping("/ntkoDownload")
+	  public void ntkoDownload(HttpServletRequest request, HttpServletResponse response){
+	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.ntko.path");
+	     UploadUtil.createDir(path);
+	     String fileName = "NTKO.exe";
+	     String filePath = path + File.separator + fileName;
+	     downloadFile(request, response, filePath, fileName);
+	  }
+	
+	/**
 	 * 
 	 *〈简述〉 根据游览器版本返回文件名称
 	 *〈详细描述〉
@@ -122,22 +139,5 @@ public class BrowserController {
 		 }
 		 return fileName;
 	}
-	
-  	/**
-     * 
-     *〈简述〉ntko文件下载
-     *〈详细描述〉
-     * @author Ye Maolin
-     * @param request {@link HttpServletRequest}
-     * @param response {@link HttpServletResponse}
-     */
-    @RequestMapping("/ntkoDownload")
-    public void ntkoDownload(HttpServletRequest request, HttpServletResponse response){
-     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.ntko.path");
-     UploadUtil.createDir(path);
-     String fileName = "NTKO.exe";
-     String filePath = path + File.separator + fileName;
-     downloadFile(request, response, filePath, fileName);
-    }
 }
 

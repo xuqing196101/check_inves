@@ -232,7 +232,7 @@ document.write('_ProductKey="AB579623F5B4E11E5F61C06579A21F8446416FB7"');
 		document.write('_MenuButtonStyle="7"   ');
 		document.write('_WebUserName="NTKO"   ');
 		document.write('clsid="{'+classid+'}" >');
-		document.write('<SPAN STYLE="color:red">尚未安装NTKO Web FireFox跨浏览器插件。请点击<a href="${pageContext.request.contextPath}/browser/ntkoDownload.do">安装组1件</a></SPAN>   ');
+		document.write('<SPAN STYLE="color:red">尚未安装NTKO Web FireFox跨浏览器插件。请点击<a href="javascript:downloadNtko();">安装组1件</a></SPAN>   ');
 		document.write('</object>   ');
 }else if(browser=="chrome"){
 		document.write('<object id="TANGER_OCX" clsid="{'+classid+'}"  ForOnSaveToURL="OnComplete2" ForOnBeginOpenFromURL="OnComplete" ForOndocumentopened="OnComplete3"');
@@ -263,10 +263,20 @@ document.write('_ProductKey="AB579623F5B4E11E5F61C06579A21F8446416FB7"');
 		document.write('_MenuButtonStyle="7"   ');
 		document.write('_WebUserName="NTKO"   ');
 		document.write('_Caption="NTKO OFFICE文档控件示例演示 http://www.ntko.com">    ');
-		document.write('<SPAN STYLE="color:red">尚未安装NTKO Web Chrome跨浏览器插件。请点击<a href='+globalPath+'/browser/ntkoDownload.do">安装组件</a></SPAN>   ');
+		document.write('<SPAN STYLE="color:red">尚未安装NTKO Web Chrome跨浏览器插件。请点击<a href="javascript:downloadNtko();">安装组件</a></SPAN>   ');
 		document.write('</object>');
 	}else if (Sys.opera){
 		alert("sorry,ntko web印章暂时不支持opera!");
 	}else if (Sys.safari){
 		 alert("sorry,ntko web印章暂时不支持safari!");
 	}
+
+
+function downloadNtko(){
+	  var form = $("<form>");   
+	    form.attr('style', 'display:none');   
+	    form.attr('method', 'post');
+	    form.attr('action', globalPath + '/browser/ntkoDownload.html');
+	    $('body').append(form); 
+	    form.submit();
+}
