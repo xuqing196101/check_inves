@@ -48,7 +48,7 @@ session.setAttribute("tokenSession", tokenValue);
 	        async: false,
 			success:function(data){
 				if(data.length<7){
-					layer.msg("还有附件未上传!",{offset: ['222px', '390px']});
+					layer.msg("还有附件未上传!",{offset: ['400px', '730px']});
 					flag=false;
 				}else{
 					flag=true;

@@ -349,7 +349,10 @@ public class PurchaseRequiredController extends BaseController{
 	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request) throws IOException{
 		User user = (User) request.getSession().getAttribute("loginUser");
 		List<PurchaseRequired> plist = list.getList();
+		List<String> parentId = new ArrayList<>();
 		int count=1;
+		int endNum = 0;//最底层记录数
+		int meanNum = 0;//中间数
 		if(list!=null){
 			if(plist!=null&&plist.size()>0){
 				for(int i=0;i<plist.size();i++){
@@ -362,7 +365,8 @@ public class PurchaseRequiredController extends BaseController{
 							if(p.getId()==null){
 								p.setId(id);
 							}
-							
+							parentId.add(id);
+							p.setParentId("1");
 							p.setPlanType(planType);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
@@ -382,6 +386,16 @@ public class PurchaseRequiredController extends BaseController{
 							if(p.getId()==null){
 								p.setId(id);
 							}
+							parentId.add(id);
+							if(p.getPurchaseCount()!=null){
+								if(meanNum==0){
+									endNum = count;
+								}
+								meanNum++;
+								p.setParentId(parentId.get(endNum-2));
+							}else{
+								p.setParentId(parentId.get(count-2));
+							}
 							p.setPlanType(planType);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
@@ -394,6 +408,7 @@ public class PurchaseRequiredController extends BaseController{
 //							purchaseRequiredService.add(p);	
 					}
 					count++;
+					
 				}
 			}
 	}

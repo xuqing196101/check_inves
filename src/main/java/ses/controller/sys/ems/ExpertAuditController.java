@@ -30,6 +30,7 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertHistory;
+import ses.model.ems.ProjectExtract;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -37,6 +38,7 @@ import ses.service.bms.TodosService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
+import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
@@ -74,6 +76,9 @@ public class ExpertAuditController {
 	@Autowired
 	private TodosService todosService; //待办
 	
+	@Autowired
+	private ProjectExtractService projectExtractService;
+	
 	/**
 	 * 地区
 	 */
@@ -87,8 +92,19 @@ public class ExpertAuditController {
 			expert.setSign(signs);
 			request.getSession().removeAttribute("signs");
 		}
-
+		//是否被抽取
 		List<Expert> expertList = expertService.findExpertAuditList(expert, pageNum==null?1:pageNum);
+		if(expert.getSign() == 2){
+			List<Expert> list = new ArrayList<Expert>();
+			for(Expert e : expertList){
+				List<ProjectExtract>  projectExtractList= projectExtractService.findExtractByExpertId(e.getId());
+				if(!projectExtractList.isEmpty()){
+					list.add(e);
+				}
+			}
+			model.addAttribute("result", new PageInfo<Expert>(list));
+			model.addAttribute("expertList", list);
+		}
 		model.addAttribute("result", new PageInfo<Expert>(expertList));
 		model.addAttribute("expertList", expertList);
 		//初审复审标识（1初审，2复审）
@@ -137,11 +153,11 @@ public class ExpertAuditController {
 			DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(expert.getHightEducation());
 			model.addAttribute("hightEducation", hightEducation.getName());
 		}
-		//最高学位
+		/*//最高学位
 		if(expert.getDegree() != null){
 			DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
 			model.addAttribute("degree", degree.getName());
-		}
+		}*/
 		// 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
@@ -168,6 +184,17 @@ public class ExpertAuditController {
 				model.addAttribute("parentName", parentName);
 			}
 		}
+        
+		
+		// 专家系统key
+        Integer expertKey = Constant.EXPERT_SYS_KEY;
+        Map<String, Object> typeMap = getTypeId();
+        // typrId集合
+        model.addAttribute("typeMap", typeMap);
+        // 业务id就是专家id
+        model.addAttribute("sysId", expertId);
+        // Constant.EXPERT_SYS_VALUE;
+        model.addAttribute("expertKey", expertKey);
         
         
         
@@ -365,9 +392,6 @@ public class ExpertAuditController {
         // typrId集合
         model.addAttribute("typeMap", typeMap);
 		
-		
-		
-		
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		model.addAttribute("expertId", expertId);
@@ -440,6 +464,24 @@ public class ExpertAuditController {
         return typeMap;
     }
 	
+    @RequestMapping("/expertType")
+	public String expertType(ExpertAudit expertAudit, Model model, String expertId){
+    	// 产品类型数据字典
+        List<DictionaryData> spList = DictionaryDataUtil.find(6);
+        model.addAttribute("spList", spList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
+        // 货物类型数据字典
+        List<DictionaryData> hwList = DictionaryDataUtil.find(8);
+        model.addAttribute("hwList", hwList);
+        
+        Expert expert = expertService.selectByPrimaryKey(expertId);
+		model.addAttribute("expert", expert);
+        
+		return "ses/ems/expertAudit/expertType";
+	}
+    
 	@RequestMapping("/reasonsList")
 	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId){
 

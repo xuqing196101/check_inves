@@ -3,7 +3,9 @@
  */
 package ses.service.ems.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,11 +68,20 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
                 BeanUtils.copyProperties(ct, dw, new String[] {"serialVersionUID"});
                 conTypeCopy.add(dw);
             }
+            if(show.getAgeMax() != null && !"".equals(show.getAgeMax()) &&  show.getAgeMin() != null && !"".equals(show.getAgeMin()) ){
+                int max=Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()))-Integer.parseInt(show.getAgeMax());
+                int min=Integer.parseInt(new SimpleDateFormat("yyyy").format(new Date()))-Integer.parseInt(show.getAgeMin());
+                show.setAgeMax(max+"");
+                show.setAgeMin(min+"");
+            }
+           
             //根据不同类型循环查询专家集合
             for (ExtConType extConType : conTypeCopy) {
                 show.getConTypes().clear();
                 show.getConTypes().add(extConType);
                 //查询专家集合
+                
+            
                 List<Expert> selectAllExpert = expertMapper.listExtractionExpert(show);
                 //循环吧查询出的专家集合insert到专家记录表和专家关联的表中
                 ProjectExtract projectExtracts = null;
@@ -190,4 +201,10 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
         // TODO Auto-generated method stub
         return extractMapper.selectByPrimaryKey(id);
     }
+
+	@Override
+	public List<ProjectExtract> findExtractByExpertId(String expertId) {
+		
+		return extractMapper.findExtractByExpertId(expertId);
+	}
 }

@@ -111,5 +111,13 @@ public interface SaleTenderService   {
      */
     public List<SaleTender> getPackegeSuppliers(SaleTender record);
     
+    /**
+     *〈简述〉查询项目下面包信息
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param projectId
+     * @return
+     */
+    public List<String> getPackageIds(String projectId);
     
 }

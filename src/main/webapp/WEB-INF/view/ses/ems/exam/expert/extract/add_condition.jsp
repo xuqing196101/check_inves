@@ -2,11 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../../../../common.jsp"%>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
   <head>
+   <%@ include file="../../../../../common.jsp"%>
     <base href="${pageContext.request.contextPath}/">
 
     <title>抽取条件</title>
@@ -30,6 +31,16 @@
     }else{
         $("#dnone").addClass("dnone");
     }
+    
+    var list= "${extRelateListYes}";  
+    if(list != null && list.length !=0){
+         $("#rowdnone").removeClass("dnone");
+         $("#countdnone").addClass("dnone");
+    }else{
+        $("#countdnone").removeClass("dnone");
+         $("#rowdnone").addClass("dnone");
+       
+    }
     });
   
     
@@ -46,6 +57,34 @@
         }
 
       }
+      /**年龄*/
+      function age(){
+    	 var min = $("#ageMinC").val();
+    	 var max = $("#ageMaxC").val(); 
+    	 if(min != null && min != '' && max != null && max != '' ){
+    		 
+    		 selectLikeExpert();
+    	 }
+      } 
+      
+      
+      function selectLikeExpert(){
+    	    var v = document.getElementById("city").value;    
+    	     $("#address").val(v);
+    	     $.ajax({
+    	         cache: true,
+    	         type: "POST",
+    	         dataType : "json",
+    	         url:'${pageContext.request.contextPath}/ExtCondition/selectLikeExpert.do',
+    	         data:$('#form1').serialize(),// 你的formid
+    	         async: false,
+    	         success: function(data) {
+    	          $("#count").text(data);
+    	         }
+    	     });
+    	     
+    	return false;
+    	}
 
       
 
@@ -70,6 +109,7 @@
                  html +="<option value="+list[i].id+">"+list[i].name+"</option>";
                }
                $("#city").append(html);
+               selectLikeExpert();
           }
       });
     }
@@ -132,6 +172,8 @@
                      var extConType=map.extConType;
                    var tex="";
                    if (list != null && list.length !=0){
+                	    $("#rowdnone").removeClass("dnone");
+                        $("#countdnone").addClass("dnone");
                    for(var i=0;i<list.length;i++){
                        if(list[i]!=null){
                         if(list[0]!=null){
@@ -219,6 +261,8 @@
             	            }, function(index){
             	              layer.close(index);
             	            });
+            	          }else{
+            	        	  window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}"; 
             	          }
             	   }
               
@@ -326,6 +370,7 @@
        }
        
        function resetQuery(){
+    	   $("#form1").find(":input[type='text']").val("");
            $("#form1").find(":input[type='text']").attr("value","");
            $("#area").find("option:first").prop("selected", 'selected');
             areas();
@@ -375,6 +420,7 @@
           btn: ['保存', '重置'],
           yes: function() {
             iframeWin.getChildren(cate);
+            selectLikeExpert();
 
           },
           btn2: function() {
@@ -472,14 +518,17 @@
         if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
         var cityObj = $("#expertsTypeName");
         cityObj.attr("value", v);
+        cityObj.attr("title", v);
         $("#expertsTypeId").val(rid);
         if (v != null && v != ''){
         	$("#dnone").removeClass("dnone");
-        	 $("#dnone").find("input").attr("value","");
+        
         } else{
         	 $("#dnone").addClass("dnone");
         }
-        
+        $("#categoryName").val("");
+        $("#categoryId").val("");
+        selectLikeExpert();
         
       }
     </script>
@@ -559,7 +608,9 @@
         if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
         var cityObj = $("#expertsFromName");
         cityObj.attr("value", v);
+        cityObj.attr("title", v);
         $("#expertsFrom").val(rid);
+        selectLikeExpert();
       }
     </script>
 
@@ -623,7 +674,7 @@
               <li class="col-md-3 col-sm-6 col-xs-12  pl15">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">专家地区：</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                     <select class="col-md-6 col-sm-6 col-xs-6 p0" id="area" onchange="areas();">
+                     <select class="col-md-6 col-sm-6 col-xs-6 p0" id="area" onchange="areas();" >
                      <option value="">全国</option>
                       <c:forEach  items="${privnce }" var="prin">
                    <c:if test="${prin.id==area.parentId }">
@@ -634,7 +685,7 @@
                    </c:if>
                    </c:forEach>
                   </select>
-                  <select name="extractionSites" class="col-md-6 col-sm-6 col-xs-6 p0" id="city">
+                  <select name="extractionSites" class="col-md-6 col-sm-6 col-xs-6 p0" id="city" onchange="selectLikeExpert();">
                      <option value="">全国</option>
                   <c:forEach  items="${city }" var="city">
                    <c:if test="${city.id==listCon.address}">
@@ -651,9 +702,9 @@
                 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">年龄：</span>
                 <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
                
-                  <input class="col-md-5 col-sm-5 col-xs-5" maxlength="2" value="${listCon.ageMin}" id="ageMinC" name="ageMin" type="text"> 
+                  <input class="col-md-5 col-sm-5 col-xs-5" maxlength="2" value="${listCon.ageMin}" onchange="age();" id="ageMinC" name="ageMin" type="text"> 
                   <span class="f14 fl col-md-2 col-sm-2 col-xs-2">至</span>
-                  <input class="col-md-5 col-sm-5 col-xs-5" value="${listCon.ageMax}" maxlength="2" id="ageMaxC" name="ageMax" type="text">
+                  <input class="col-md-5 col-sm-5 col-xs-5" value="${listCon.ageMax}" maxlength="2" onchange="age();" id="ageMaxC" name="ageMax" type="text">
                   
                 </div>
               </li>
@@ -676,7 +727,7 @@
                 <li class="col-md-3 col-sm-6 col-xs-12">
                 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">执业资格：</span>
                  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                    <input   id="expertsQualification"  type="text" name="expertsQualification" value="${listCon.conTypes[0].expertsQualification} " />
+                    <input   id="expertsQualification"  type="text" name="expertsQualification" value="${listCon.conTypes[0].expertsQualification} " onchange="selectLikeExpert();" />
                     <span class="add-on">i</span>
                  </div>
               </li>
@@ -689,7 +740,7 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
-                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家类型：</span>
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家类别：</span>
                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
                   <c:set value="" var="typeId"></c:set>
                 <c:forEach items="${listCon.conTypes[0].expertsTypeSplit}" var="split">
@@ -705,7 +756,7 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12 dnone" id="dnone">
-                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">产品服务/分类：</span>
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">品目：</span>
                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
                   <input class="input_group " readonly id="categoryName" name="categoryName" value="${listCon.conTypes[0].categoryName}"  onclick="opens(this);" type="text">
                     <input  readonly id="categoryId" type="hidden" name="categoryId">
@@ -722,7 +773,8 @@
                <!--=== Content Part ===-->
             <h2 class="count_flow"><i>2</i>抽取结果</h2>
     <ul class="ul_list">
-    <div class="row">
+    <div align="center" id="countdnone" class="f26  ww100 h300 ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+    <div class="row" id="rowdnone">
      <div class=" w300 pl20 ml10 mt10 mb10">
             <button class="btn " id="save" onclick="finish();" type="button">完成</button>
              <button class="btn btn-windows back" id="save" onclick="javascript:history.back(-1);" type="button">返回</button>

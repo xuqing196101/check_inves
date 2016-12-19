@@ -1,11 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
+  <%@ include file="../../../common.jsp"%>
     <base href="${pageContext.request.contextPath}/">
     
     <title>用户管理</title>
@@ -110,7 +111,7 @@
 		</thead>
 		<c:forEach items="${list.list}" var="user" varStatus="vs">
 			<tr>
-				  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}^${user.loginName}"/></td>
+				  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}^${user.relName}"/></td>
 				  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				  <td class="tc" onclick="view(${user.id});">${user.loginName}</td>
 				  <td class="tc">${user.relName}</td>

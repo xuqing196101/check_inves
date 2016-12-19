@@ -139,53 +139,6 @@
 	}
   }
 
-  //项目分包
-  function subPackage() {
-	var status = "";
-    var count = 0;
-	var chkItem = document.getElementsByName("chkItem");
-	var str = "";
-	for ( var i = 0; i < chkItem.length; i++) {
-	  if (chkItem[i].checked == true) {
-	    count++;
-	  }
-	}
-	if (count > 1) {
-	  layer.alert("只能选择一项", {
-		offset : [ '222px', '390px' ],
-	  });
-	  $(".layui-layer-shade").remove();
-	  return;
-	} else if (count == 0) {
-	  layer.alert("请先选择一项", {
-	    offset : [ '222px', '390px' ],
-	  });
-	  $(".layui-layer-shade").remove();
-	  return;
-	} else {
-	  for ( var i = 0; i < chkItem.length; i++) {
-		if (chkItem[i].checked == true) {
-		  str = chkItem[i].value;
-		  status = $(chkItem[i]).prev().val();
-		}
-	  }
-	  if (status == 3) {
-		window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?id=" + str;
-	  } else if (status == 1) {
-		layer.alert("项目在实施中，不可进行分包操作，请重新选择", {
-		  offset : [ '222px', '390px' ],
-		});
-		$(".layui-layer-shade").remove();
-		return;
-	  } else if (status == 2) {
-	    layer.alert("项目已完成，不可进行分包操作，请重新选择", {
-		  offset : [ '222px', '390px' ],
-		});
-		$(".layui-layer-shade").remove();
-		return;
-	  }
-	}
-  }
 
   //修改项目信息
   function edit() {

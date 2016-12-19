@@ -89,17 +89,32 @@
 		        return;
 		      }
 		    //抽取之后的才能复核
-		   /*  if(state == "待抽取"){
+		     if(state == "未抽取"){
 		    	layer.msg("该供应商未抽取 !", {
 		        	offset : '100px',
 		        });
 		        return;
-		    }  */
+		    }
 		    
 		    $("input[name='supplierId']").val(id);
 		    $("#shenhe_form_id").submit();
 		    
-		    } 
+		    }
+		    
+		    //实地考察
+		    function kaocha(){
+		    	var size = $(":radio:checked").size();
+			    if (!size) {
+			      layer.msg("请选择供应商 !", {
+			      	offset : '300px',
+			      });
+			      return;
+			    }
+			   	var id = $(":radio:checked").val();
+			    $("input[name='supplierId']").val(id);
+			    $("#shenhe_form_id").submit();
+		    }
+		    
 		    
 		    
 		    //重置搜索栏
@@ -123,9 +138,18 @@
         <li>
           <a href="#">供应商管理</a>
         </li>
-        <li>
-          <a href="#">供应商审核</a>
-        </li>
+        <c:choose>
+	        <c:when test="${sign == 3}">
+		        <li>
+	            <a href="#">供应商实地考察</a>
+	          </li>
+	       </c:when>
+	       <c:otherwise>
+	          <li>
+	            <a href="#">供应商审核</a>
+	          </li>
+	       </c:otherwise>
+				</c:choose>
         <li class="active">
 	        <c:if test="${sign == 1}">
 	          <a href="#">供应商审核列表</a>
@@ -184,7 +208,8 @@
     </h2>
     <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10">
-        <button class="btn" type="button" onclick="shenhe();" >审核</button>
+ 			<c:if test="${sign == 1 || sign == 2}"><button class="btn" type="button" onclick="shenhe();" >审核</button></c:if>
+ 			<c:if test="${sign == 3}"><button class="btn" type="button" onclick="kaocha();" >考察</button></c:if>   
     </div>
     <div class="content table_box">
       <table class="table table-bordered table-condensed table-hover">
@@ -214,14 +239,17 @@
 	            <td class="tc">${list.businessTypeName }</td>
 	            <td class="tc w100" id="${list.id}">
 	              <c:if test="${list.status == 0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
-	              <c:if test="${list.status == 1 }"><span class="label rounded-2x label-dark">待复核</span></c:if>       
+	              <c:if test="${list.status == 1 }">
+	              	<c:if test="${list.isExtract == 1}"><span class="label rounded-2x label-dark">待复核</span></c:if>     
+	              	<c:if test="${list.isExtract != 1 }"><span class="label rounded-2x label-dark">未抽取</span></c:if> 
+	              </c:if>
 	              <c:if test="${list.status == 7 }"> <span class="label rounded-2x label-dark">审核退回</span></c:if>
 	              <c:if test="${list.status == 8 }"><span class="label rounded-2x label-dark">复核退回</span></c:if>
 	              <c:if test="${list.status == 3 }"><span class="label rounded-2x label-u">已审核</span></c:if>
 	              <c:if test="${list.status == 2 }"><span class="label rounded-2x label-dark">审核核未通过</span></c:if> 
 	              <c:if test="${list.status == 4 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
 	            </td>
-	            <%-- <td class="tc" id="${list.id }_isExtract" style="display:none">${list.isExtract}</td> --%>
+	            <%-- <td class="tc" id="${list.id }_isExtract" >${list.isExtract}</td> --%>
             </tr>
           </c:forEach>
         </table>

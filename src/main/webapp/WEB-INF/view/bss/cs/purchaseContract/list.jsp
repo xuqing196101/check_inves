@@ -125,7 +125,6 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条项目生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				alert(supid);
 				/*$.ajax({
 		  			url:"${pageContext.request.contextPath}/purchaseContract/selectSuppliers.html?packageId="+ids,
 		  			dataType:"text",

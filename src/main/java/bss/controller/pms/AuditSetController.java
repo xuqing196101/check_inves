@@ -392,35 +392,35 @@ public class AuditSetController {
 			cell.setCellValue("序号"); 
 	        cell = row.createCell(1);  
 	        cell.setCellValue("需求部门");
-	        cell = row.createCell( 2);  
+	        cell = row.createCell(2);  
 	        cell.setCellValue("物资名称");
-	        cell = row.createCell(  3);  
+	        cell = row.createCell(3);  
 	        cell.setCellValue("规格型号");
-	        cell = row.createCell( 4);  
+	        cell = row.createCell(4);  
 	        cell.setCellValue("质量技术标准");
-	        cell = row.createCell(  5);  
+	        cell = row.createCell(5);  
 	        cell.setCellValue("计量单位"); 
-	        cell = row.createCell(  6);  
+	        cell = row.createCell(6);  
 	        cell.setCellValue("采购数量");  
 	        
-	        cell = row.createCell( 7);  
+	        cell = row.createCell(7);  
 	        cell.setCellValue("单价（元）");  
 	        
-	        cell = row.createCell(  8);  
+	        cell = row.createCell(8);  
 	        cell.setCellValue("预算金额（万元）");  
 	        
-	        cell = row.createCell( 9);  
+	        cell = row.createCell(9);  
 	        cell.setCellValue("交货期限");  
 	        
-	        cell = row.createCell( 10);  
+	        cell = row.createCell(10);  
 	        cell.setCellValue("采购方式建议");  
 	        
 	        
-	        cell = row.createCell( 11);  
+	        cell = row.createCell(11);  
 	        cell.setCellValue("供应商");  
 	        
 	        
-	        cell = row.createCell( 12);  
+	        cell = row.createCell(12);  
 	        cell.setCellValue("备注");  
 	        
 	        
@@ -443,22 +443,22 @@ public class AuditSetController {
 	   			cell.setCellValue(p.getSeq()); 
 	   	        cell = row.createCell(1);  
 	   	        cell.setCellValue(p.getDepartment());
-	   	        cell = row.createCell( 2);  
+	   	        cell = row.createCell(2);  
 	   	        cell.setCellValue(p.getGoodsName());
-	   	        cell = row.createCell(  3);  
+	   	        cell = row.createCell(3);  
 	   	        cell.setCellValue(p.getStand());
-	   	        cell = row.createCell( 4);  
+	   	        cell = row.createCell(4);  
 	   	        cell.setCellValue(p.getQualitStand());
-	   	        cell = row.createCell(  5);  
+	   	        cell = row.createCell(5);  
 	   	        cell.setCellValue(p.getItem()); 
-	   	        cell = row.createCell(  6); 
+	   	        cell = row.createCell(6); 
 	   	        if(p.getPurchaseCount()!=null){
 	   	        	double d=p.getPurchaseCount().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	   	         cell.setCellValue(d);  
 	   	        }
 	   	       
 	   	        
-	   	        cell = row.createCell( 7); 
+	   	        cell = row.createCell(7); 
 	   	        if(p.getPrice()!=null){
 		   	        double price = p.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		   	        cell.setCellValue(price);
@@ -473,19 +473,19 @@ public class AuditSetController {
 	   	        }
 	   	      
 	   	        
-	   	        cell = row.createCell( 9);  
+	   	        cell = row.createCell(9);  
 	   	        cell.setCellValue(p.getDeliverDate());  
 	   	        
-	   	        cell = row.createCell( 10);  
+	   	        cell = row.createCell(10);  
 	   	        DictionaryData dicType = DictionaryDataUtil.findById(p.getPurchaseType());
 	   	        cell.setCellValue(dicType.getName());  
 	   	        
 	   	        
-	   	        cell = row.createCell( 11);  
+	   	        cell = row.createCell(11);  
 	   	        cell.setCellValue(p.getSupplier());  
 	   	        
 	   	        
-	   	        cell = row.createCell( 12);  
+	   	        cell = row.createCell(12);  
 	   	        cell.setCellValue(p.getMemo());  
 	   	        int an=13;
 	   	        for(AuditParam ap:all){

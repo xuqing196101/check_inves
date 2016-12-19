@@ -1,10 +1,15 @@
 package bss.service.cs.impl;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
@@ -15,6 +20,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +35,7 @@ import bss.model.cs.PurchaseContract;
 import bss.service.cs.PurchaseContractService;
 
 import com.github.pagehelper.PageHelper;
+import common.utils.UploadUtil;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -123,38 +130,145 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	}
 
 	@Override
-	public int createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request) {
+	public String createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request) {
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put("contractname", pur.getName());
-		dataMap.put("contractCode", pur.getCode());
-		dataMap.put("purchaseDepName", pur.getPurchaseDepName());
-		dataMap.put("purchaseL", pur.getPurchaseLegal());
-		dataMap.put("purchaseAgent", pur.getPurchaseAgent());
-		dataMap.put("purchaseContact", pur.getPurchaseContact());
-		dataMap.put("purchaseContactTelephone", pur.getPurchaseContactTelephone());
-		dataMap.put("purchaseContactAddress", pur.getPurchaseContactAddress());
-		dataMap.put("purchaseUnitp", pur.getPurchaseUnitpostCode());
-		dataMap.put("purchasePayDep", pur.getPurchasePayDep());
-		dataMap.put("purchaseBank", pur.getPurchaseBank());
-		dataMap.put("purchaseBankAccount", pur.getPurchaseBankAccount());
-		dataMap.put("supplierDepName", pur.getSupplierDepName());
-		dataMap.put("supplierLegal", pur.getSupplierLegal());
-		dataMap.put("supplierAgent", pur.getSupplierAgent());
-		dataMap.put("supplierContact", pur.getSupplierContact());
-		dataMap.put("supplierContactTelephone", pur.getSupplierContactTelephone());
-		dataMap.put("supplierContactAddress", pur.getSupplierContactAddress());
-		dataMap.put("supplierUnitpostCode", pur.getSupplierUnitpostCode());
-		dataMap.put("supplierBankName", pur.getSupplierBankName());
-		dataMap.put("supplierBank", pur.getSupplierBank());
-		dataMap.put("supplierBankAccount", pur.getSupplierBankAccount());
-		dataMap.put("documentNumber", pur.getDocumentNumber());
-		dataMap.put("approvalNumber", pur.getApprovalNumber());
-		dataMap.put("quaCode", pur.getQuaCode());
-		dataMap.put("sum", pur.getMoney());
-		int firstIndex = pur.getContent().indexOf(">");
-		int lastIndex = pur.getContent().lastIndexOf("<");
-		String content = pur.getContent().substring(firstIndex+1,lastIndex);
-		dataMap.put("content", content);
+		if(pur.getName()!=null){
+			dataMap.put("contractname", pur.getName());
+		}else{
+			dataMap.put("contractname", "");
+		}
+		if(pur.getCode()!=null){
+			dataMap.put("contractCode", pur.getCode());
+		}else{
+			dataMap.put("contractCode", "");
+		}
+		if(pur.getPurchaseDepName()!=null){
+			dataMap.put("purchaseDepName", pur.getPurchaseDepName());
+		}else{
+			dataMap.put("purchaseDepName", "");
+		}
+		if(pur.getPurchaseLegal()!=null){
+			dataMap.put("purchaseL", pur.getPurchaseLegal());
+		}else{
+			dataMap.put("purchaseL", "");
+		}
+		if(pur.getPurchaseAgent()!=null){
+			dataMap.put("purchaseAgent", pur.getPurchaseAgent());
+		}else{
+			dataMap.put("purchaseAgent", "");
+		}
+		if(pur.getPurchaseContact()!=null){
+			dataMap.put("purchaseContact", pur.getPurchaseContact());
+		}else{
+			dataMap.put("purchaseContact", "");
+		}
+		if(pur.getPurchaseContactTelephone()!=null){
+			dataMap.put("purchaseContactTelephone", pur.getPurchaseContactTelephone());
+		}else{
+			dataMap.put("purchaseContactTelephone", "");
+		}
+		if(pur.getPurchaseContactAddress()!=null){
+			dataMap.put("purchaseContactAddress", pur.getPurchaseContactAddress());
+		}else{
+			dataMap.put("purchaseContactAddress", "");
+		}
+		if(pur.getPurchaseUnitpostCode()!=null){
+			dataMap.put("purchaseUnitp", pur.getPurchaseUnitpostCode());
+		}else{
+			dataMap.put("purchaseUnitp", "");
+		}
+		if(pur.getPurchasePayDep()!=null){
+			dataMap.put("purchasePayDep", pur.getPurchasePayDep());
+		}else{
+			dataMap.put("purchasePayDep", "");
+		}
+		if(pur.getPurchaseBank()!=null){
+			dataMap.put("purchaseBank", pur.getPurchaseBank());
+		}else{
+			dataMap.put("purchaseBank", "");
+		}
+		if(pur.getPurchaseBankAccount()!=null){
+			dataMap.put("purchaseBankAccount", pur.getPurchaseBankAccount());
+		}else{
+			dataMap.put("purchaseBankAccount", "");
+		}
+		if(pur.getSupplierDepName()!=null){
+			dataMap.put("supplierDepName", pur.getSupplierDepName());
+		}else{
+			dataMap.put("supplierDepName", "");
+		}
+		if(pur.getSupplierLegal()!=null){
+			dataMap.put("supplierLegal", pur.getSupplierLegal());
+		}else{
+			dataMap.put("supplierLegal", "");
+		}
+		if(pur.getSupplierAgent()!=null){
+			dataMap.put("supplierAgent", pur.getSupplierAgent());
+		}else{
+			dataMap.put("supplierAgent", "");
+		}
+		if(pur.getSupplierContact()!=null){
+			dataMap.put("supplierContact", pur.getSupplierContact());
+		}else{
+			dataMap.put("supplierContact", "");
+		}
+		if(pur.getSupplierContactTelephone()!=null){
+			dataMap.put("supplierContactTelephone", pur.getSupplierContactTelephone());
+		}else{
+			dataMap.put("supplierContactTelephone", "");
+		}
+		if(pur.getSupplierContactAddress()!=null){
+			dataMap.put("supplierContactAddress", pur.getSupplierContactAddress());
+		}else{
+			dataMap.put("supplierContactAddress", "");
+		}
+		if(pur.getSupplierUnitpostCode()!=null){
+			dataMap.put("supplierUnitpostCode", pur.getSupplierUnitpostCode());
+		}else{
+			dataMap.put("supplierUnitpostCode", "");
+		}
+		if(pur.getSupplierBankName()!=null){
+			dataMap.put("supplierBankName", pur.getSupplierBankName());
+		}else{
+			dataMap.put("supplierBankName", "");
+		}
+		if(pur.getSupplierBank()!=null){
+			dataMap.put("supplierBank", pur.getSupplierBank());
+		}else{
+			dataMap.put("supplierBank", "");
+		}
+		if(pur.getSupplierBankAccount()!=null){
+			dataMap.put("supplierBankAccount", pur.getSupplierBankAccount());
+		}else{
+			dataMap.put("supplierBankAccount", "");
+		}
+		if(pur.getDocumentNumber()!=null){
+			dataMap.put("documentNumber", pur.getDocumentNumber());
+		}else{
+			dataMap.put("documentNumber", "");
+		}
+		if(pur.getApprovalNumber()!=null){
+			dataMap.put("approvalNumber", pur.getApprovalNumber());
+		}else{
+			dataMap.put("approvalNumber", "");
+		}
+		if(pur.getQuaCode()!=null){
+			dataMap.put("quaCode", pur.getQuaCode());
+		}else{
+			dataMap.put("quaCode", "");
+		}
+		if(pur.getMoney()!=null){
+			dataMap.put("sum", pur.getMoney());
+		}else{
+			dataMap.put("sum", "");
+		}
+		if(pur.getMoney()!=null){
+			dataMap.put("money", pur.getMoney());
+		}else{
+			dataMap.put("money", "");
+		}
+		
+		
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		if(requList!=null){
 			for(int i=0;i<requList.size();i++){
@@ -224,7 +338,13 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 //		System.out.println(this.getClass());
 		Template t = null;
 		try {
-			t = configuration.getTemplate("test.ftl");
+			if(pur.getStatus()!=null){
+				if(pur.getStatus()==2){
+					t=configuration.getTemplate("formalcontract.ftl");
+				}
+			}else{
+				t = configuration.getTemplate("contract.ftl");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -233,7 +353,8 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		if(!rootFile.exists()){
 			rootFile.mkdirs();
 		}
-		File outFile = new File(rootpath+"/"+UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + pur.getName()+".doc");
+		String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + pur.getName()+".doc";
+		File outFile = new File(rootpath+"/"+fileName);
 		Writer out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
@@ -244,12 +365,14 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		}
 		try {
 			t.process(dataMap, out);
+			out.flush();
+            out.close();
 		} catch (TemplateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return fileName;
 	}
 
 	@Override
@@ -299,6 +422,37 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	@Override
 	public List<PurchaseContract> selectAllContractByStatus(
 			Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return purchaseContractMapper.selectAllContractByStatus(map);
 	}
+	
+	@Override
+	public void downloadFile(HttpServletRequest request, HttpServletResponse response,String filePath ,String fileName){
+        response.reset();
+        String userAgent = request.getHeader("User-Agent"); 
+        try {
+            if (userAgent.contains("MSIE")||userAgent.contains("Trident")) {
+                fileName = java.net.URLEncoder.encode(fileName, "UTF-8");
+            } else {
+                fileName = new String(fileName.getBytes("UTF-8"),"ISO-8859-1");
+            }
+            File files = new File(filePath);
+            response.setContentType("application/octet-stream");   
+            response.setHeader("Content-disposition", String.format("attachment; filename=\"%s\"", fileName));
+            response.addHeader("Content-Length", "" + files.length());
+            response.setCharacterEncoding("UTF-8"); 
+            InputStream fis = new BufferedInputStream(new FileInputStream(files));   
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            UploadUtil.writeFile(fis, toClient);
+            toClient.flush();   
+            toClient.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  
+    }
 }

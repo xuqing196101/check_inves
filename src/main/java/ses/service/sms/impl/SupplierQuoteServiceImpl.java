@@ -132,4 +132,9 @@ public class SupplierQuoteServiceImpl implements SupplierQuoteService {
         List<Quote> listQuote = quoteMapper.selectQuoteHistory(quote);
         return listQuote;
     }
+
+    @Override
+    public void update(List<Quote> listQuote) {
+        quoteMapper.updateByPrimaryKeySelective(listQuote.get(0));
+    }
 }

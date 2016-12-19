@@ -293,6 +293,7 @@ session.setAttribute("tokenSession", tokenValue);
 	
 	//校验基本信息 不能为空的字段
 	function validateformExpert(){
+		var from = "${expert.expertsFrom}";
 		var relName = $("#relName").val();
 		if(!relName){
 			layer.msg("请输入姓名 !",{offset: ['300px', '750px']});
@@ -324,7 +325,9 @@ session.setAttribute("tokenSession", tokenValue);
 				}
 			});
 		}
-		return isAge;
+		if (isAge == false) {
+			return false;
+		}
 		var nation = $("#nation").val();
 		if(!nation){
 			layer.msg("请填写民族 !",{offset: ['300px', '750px']});
@@ -402,15 +405,17 @@ session.setAttribute("tokenSession", tokenValue);
 			layer.msg("邮编格式只能输入数字 !",{offset: ['300px', '750px']});
 			return false;
 		}
-		var idType = $("#idType").val();
-		if(!idType){
-			layer.msg("请选择军队人员身份证件类型 !",{offset: ['300px', '750px']});
-			return false;
-		}
-		var idNumber = $("#idNumber").val();
-		if(!idNumber){
-			layer.msg("请填写证件号码 !",{offset: ['300px', '750px']});
-			return false;
+		if (from == "ARMY") {
+			var idType = $("#idType").val();
+			if(!idType){
+				layer.msg("请选择军队人员身份证件类型 !",{offset: ['300px', '750px']});
+				return false;
+			}
+			var idNumber = $("#idNumber").val();
+			if(!idNumber){
+				layer.msg("请填写证件号码 !",{offset: ['300px', '750px']});
+				return false;
+			}
 		}
 		var professTechTitles = $("#professTechTitles").val();
 		if(!professTechTitles){
@@ -428,16 +433,48 @@ session.setAttribute("tokenSession", tokenValue);
 				layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
 				return false;
 			}
-		}
-		var workUnit = $("#workUnit").val();
-		if(!workUnit){
-			layer.msg("请填写所在单位 !",{offset: ['300px', '750px']});
-			return false;
-		}
-		var coverNote = $("#coverNote").val();
-		if(!coverNote){
-			layer.msg("请填写缴纳社会保险证明 !",{offset: ['300px', '750px']});
-			return false;
+			if (reg.test(idCardNumber) && idCardNumber.length == 18) {
+				// 分别获取到身份证号码中的年月日并转换为数字格式
+				var year = parseInt(idCardNumber.substring(6,10));
+				var month = parseInt(idCardNumber.substring(10,12));
+				var day = parseInt(idCardNumber.substring(12,14));
+				// 月份判断
+				if (month < 1 || month > 12) {
+					layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
+					return false;
+				}
+				// 根据大小月判断日(大月)
+				if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+					if (day < 1 || day > 31) {
+						layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
+						return false;
+					}
+				}
+				// 根据大小月判断日(大月)
+				if (month == 4 || month == 6 || month == 9 || month == 11) {
+					if (day < 1 || day > 30) {
+						layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
+						return false;
+					}
+				}
+				// 根据大小月判断日(二月)
+				if (month == 2) {
+					// 闰年
+					if (year % 4 == 0 && year % 100 != 0 && year % 400 == 0) {
+						if (day < 1 || day > 29) {
+							layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
+							return false;
+						}
+					}
+					// 平年
+					if (year % 4 != 0 || year % 400 != 0 || (year % 100 == 0 && year % 400 != 0)) {
+						if (day < 1 || day > 28) {
+							layer.msg("居民身份证号码格式有误 !",{offset: ['300px', '750px']});
+							return false;
+						}
+					}
+				}
+			}
 		}
 		// 身份证唯一性验证
 		if(idCardNumber != ""){
@@ -458,6 +495,19 @@ session.setAttribute("tokenSession", tokenValue);
 		if (isok == 1) {
 			return false;
 		}
+		var workUnit = $("#workUnit").val();
+		if(!workUnit){
+			layer.msg("请填写所在单位 !",{offset: ['300px', '750px']});
+			return false;
+		}
+		if (from == "LOCAL") {
+			var coverNote = $("#coverNote").val();
+			if(!coverNote){
+				layer.msg("请填写缴纳社会保险证明 !",{offset: ['300px', '750px']});
+				return false;
+			}
+		}
+		
 		var id_areaSelect = $("#add").val();
 		if(!id_areaSelect){
 			layer.msg("请选择区域 !",{offset: ['300px', '750px']});
@@ -472,7 +522,7 @@ session.setAttribute("tokenSession", tokenValue);
 	        async: false,
 			success:function(data){
 				if(data.length<5){
-					layer.msg("还有附件未上传!",{offset: ['300px', '750px']});
+					layer.msg("还有未上传!",{offset: ['300px', '750px']});
 					flag=false;
 				}else{
 					flag=true;
@@ -643,20 +693,6 @@ session.setAttribute("tokenSession", tokenValue);
 					    </c:if>
 					</div>
 				</li> 
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>省</span>
-                   <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-                    <select id="addr" onchange="func123()" <c:if test="${fn:contains(errorField,'省')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('省')"</c:if>>
-                           <option value="">-请选择-</option>
-                    </select>
-                   </div>
-                </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>市</span>
-                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-                     <select  name="address" id="add" <c:if test="${fn:contains(errorField,'市')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('市')"</c:if>>
-                            <option value="">-请选择-</option>
-                     </select>
-                    </div>
-                </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">政治面貌</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                         <select  name="politicsStatus" id="politicsStatus" <c:if test="${fn:contains(errorField,'政治面貌')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('政治面貌')"</c:if>>
@@ -679,6 +715,31 @@ session.setAttribute("tokenSession", tokenValue);
 						</c:if>
                     </div>
                 </li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>健康状态</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+						<input  maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text"  <c:if test="${fn:contains(errorField,'健康状态')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('健康状态')"</c:if>/>
+						<c:if test="${fn:contains(errorField,'健康状态')}">
+							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						</c:if>
+						<c:if test="${!fn:contains(errorField,'健康状态')}">
+							<span class="add-on">i</span>
+						</c:if>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>省</span>
+                   <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                    <select id="addr" onchange="func123()" <c:if test="${fn:contains(errorField,'省')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('省')"</c:if>>
+                           <option value="">-请选择-</option>
+                    </select>
+                   </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>市</span>
+                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                     <select  name="address" id="add" <c:if test="${fn:contains(errorField,'市')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('市')"</c:if>>
+                            <option value="">-请选择-</option>
+                     </select>
+                    </div>
+                </li>
                 <c:if test="${expert.expertsFrom eq 'LOCAL'}">
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 缴纳社会保险证明</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -691,8 +752,8 @@ session.setAttribute("tokenSession", tokenValue);
 						</c:if>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 社保证明附件</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'社保证明附件')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('社保证明附件')"</c:if>>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 社保证明</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'社保证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('社保证明')"</c:if>>
                     <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true"/>
 				    <u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
                     </div>
@@ -709,8 +770,8 @@ session.setAttribute("tokenSession", tokenValue);
 						</c:if>
   					</div>
 				</li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 居民身份证附件</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'居民身份证附件')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证附件')"</c:if>>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 居民身份证</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'居民身份证')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证')"</c:if>>
                     <u:upload id="expert8" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8"  multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}" auto="true"/>
 				    <u:show showId="show8" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}"/>
                     </div>
@@ -726,6 +787,12 @@ session.setAttribute("tokenSession", tokenValue);
                    </select>
                     </div>
                 </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 军队人员身份证件</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'军队人员身份证件')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('军队人员身份证件')"</c:if>>
+                    <u:upload id="expert1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}" auto="true"/>
+				    <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
+                    </div>
+                </li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>证件号码</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 						<input  maxlength="30" value="${expert.idNumber}"  name="idNumber" id="idNumber" type="text"  <c:if test="${fn:contains(errorField,'证件号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('证件号码')"</c:if>/>
@@ -737,12 +804,6 @@ session.setAttribute("tokenSession", tokenValue);
 						</c:if>
   					</div>
 				</li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 军队人员身份证件附件</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'军队人员身份证件附件')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('军队人员身份证件附件')"</c:if>>
-                    <u:upload id="expert1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}" auto="true"/>
-				    <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
-                    </div>
-                </li>
 				</c:if>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>手机</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -791,17 +852,6 @@ session.setAttribute("tokenSession", tokenValue);
 						</c:if>
 					</div>
 				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>健康状态</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-						<input  maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text"  <c:if test="${fn:contains(errorField,'健康状态')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('健康状态')"</c:if>/>
-						<c:if test="${fn:contains(errorField,'健康状态')}">
-							<span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
-						</c:if>
-						<c:if test="${!fn:contains(errorField,'健康状态')}">
-							<span class="add-on">i</span>
-						</c:if>
-					</div>
-				</li>
 			</ul>
 			<!-- 专家学历信息 -->
 			<h2 class="count_flow"><i>2</i>专家学历信息</h2>
@@ -817,8 +867,8 @@ session.setAttribute("tokenSession", tokenValue);
 					  </c:if>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 毕业证书附件</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'毕业证书附件')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业证书附件')"</c:if>>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 毕业证书</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'毕业证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业证书')"</c:if>>
                     <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true"/>
 				    <u:show showId="show2" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
                     </div>
@@ -843,8 +893,8 @@ session.setAttribute("tokenSession", tokenValue);
                        </select>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 学位证书附件</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'学位证书附件')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('学位证书附件')"</c:if>>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 学位证书</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('学位证书')"</c:if>>
                     <u:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true"/>
 				    <u:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}"/>
                     </div>
@@ -931,8 +981,8 @@ session.setAttribute("tokenSession", tokenValue);
 					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
-                    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 技术职称/执业资格证书附件</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'技术职称/执业资格证书附件')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('技术职称/执业资格证书附件')"</c:if>>
+                    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 技术职称/执业资格证书</span>
+                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'技术职称/执业资格证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('技术职称/执业资格证书')"</c:if>>
                     <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true"/>
 				    <u:show  showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
                     </div>

@@ -40,56 +40,13 @@ session.setAttribute("tokenSession", tokenValue);
 			 }
 		});
 	}
-	//无提示暂存
-	function submitForm4(){
-		updateStepNumber("four");
-		$.ajax({
-			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#formExpert").serialize(),
-			type: "post",
-			async: true,
-			success:function(result){
-				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
-			 }
-		});
-	}
-	//无提示暂存
-	function submitForm5(){
-		updateStepNumber("five");
-		$.ajax({
-			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#formExpert").serialize(),
-			type: "post",
-			async: true,
-			success:function(result){
-				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
-			 }
-		});
-	}
 		/** 专家完善注册信息页面 */
 	function supplierRegist() {
-		if (!validateType()){
+		if (!validateField()){
 			return;
 		} else {
 			//暂存无提示
 			submitForm2();
-		}
-	}
-	function supplierRegist4() {
-		if (!validateType()){
-			return;
-		}
-		//暂存无提示
-		submitForm4();
-	}
-	function supplierRegist5() {
-		if (!validateType()){
-			return;
-		} else {
-			//暂存无提示
-			submitForm5();
 		}
 	}
 	function pre() {
@@ -100,29 +57,6 @@ session.setAttribute("tokenSession", tokenValue);
 		//选中的子节点
 		supplierRegist();
 	}
-	function fun4(){
-		//选中的子节点
-		supplierRegist4();
-	}
-	function fun5(){
-		//选中的子节点
-		supplierRegist5();
-	}
-	function tab3(depId){
-		if(depId != ""){
-			fun1();
-		}
-	}
-	function tab4(depId,att){
-		if(depId != "" && att == '1'){
-			fun4();
-		}
-	}
-	function tab5(depId,att){
-		if(depId != "" && att == '1'){
-			fun5();
-		}
-	}
 	function updateStepNumber(stepNumber){
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/updateStepNumber.do",
@@ -131,48 +65,47 @@ session.setAttribute("tokenSession", tokenValue);
 		});
 	}
 	//校验基本信息 不能为空的字段
-	function validateType(){
-		var flag = true;
+	function validateField(){
 		var jobExperiences = $("#jobExperiences").val();
 		if(!jobExperiences){
 			layer.msg("请填写主要工作经历!",{offset: ['300px', '750px']});
-			flag = false;
+			return false;
 		}
 		if(jobExperiences != "" && jobExperiences.length > 999){
 			layer.msg("工作经历不能超过999字!",{offset: ['300px', '750px']});
-			flag = false;
+			return false;
 		}
 
 		var academicAchievement = $("#academicAchievement").val();
 		if(!academicAchievement){
 			layer.msg("请填写专业学术成果!",{offset: ['300px', '750px']});
-			flag = false;
+			return false;
 		}
 		if(academicAchievement != "" && academicAchievement.length > 999){
 			layer.msg("专业学术成果不能超过999字!",{offset: ['300px', '750px']});
-			flag = false;
+			return false;
 		}
 
 		var reviewSituation = $("#reviewSituation").val();
 		if(!reviewSituation){
 			layer.msg("请填写参加军队地方采购评审情况!",{offset: ['300px', '750px']});
-			flag = false;
+			return false;
 		}
 		if(reviewSituation != "" && reviewSituation.length > 999){
 			layer.msg("参加军队地方采购评审情况不能超过999字!",{offset: ['300px', '750px']});
-			flag = false;
+			return false;
 		}
 
 		var avoidanceSituation = $("#avoidanceSituation").val();
 		if(!avoidanceSituation){
 			layer.msg("请填写需要申请回避的情况!",{offset: ['300px', '750px']});
-			flag = false;
+			return false;
 		}
 		if(avoidanceSituation != "" && avoidanceSituation.length > 999){
 			layer.msg("需要申请回避的情况不能超过999字!",{offset: ['300px', '750px']});
-			flag = false;
+			return false;
 		}
-		return flag;
+		return true;
 	} 
 	function errorMsg(auditField){
 		$.ajax({

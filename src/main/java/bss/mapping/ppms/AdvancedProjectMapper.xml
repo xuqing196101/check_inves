@@ -55,7 +55,6 @@
     <result column="CONFIRM_FILE" property="confirmFile"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
-    <association property="dictionary" column="PURCHASE_TYPE" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"/>
   </resultMap>
   
   <sql id="Base_Column_List">
@@ -176,23 +175,8 @@
       </if>
     </trim>
   </sql>
-   <select id="selectProject" parameterType="java.util.Map" resultMap="BaseResultMap">
-   select t1.* from 
-    (SELECT * FROM "JDCG"."T_BSS_PPMS_SALE_TENDER"  where STATUS_BID =2 and STATUS_BOND=2) t2
-     LEFT JOIN
-    ( select * from T_BSS_PPMS_ADVANCED_PROJECTS t ) t1
-    on  t1.id=t2.project_id
-        where 1=1 and IS_PROVISIONAL=0 and t1.id is not null
-    <if test="supplierId != null">
-        AND t2.supplier_id = #{supplierId}
-    </if> 
-    <if test="name != null and name !=''">
-        AND name = #{name}
-    </if> 
-    <if test="projectNumber != null and projectNumber !=''">
-        AND PROJECT_NUMBER = #{projectNumber}
-     </if> 
-   </select>
+  
+  
   <select id="selectAdvancedProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -204,7 +188,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_ADVANCED_PROJECTS
-    where 1=1 and IS_REHEARSE = 1 and IS_PROVISIONAL=0
+    where 1=1 
      <if test="name != null and name != ''">
        and NAME like '%${name}%'
       </if>
@@ -216,86 +200,14 @@
       </if>
       ORDER BY CREATED_AT DESC
   </select>
+
   
-  <!-- 查看成功的项目 -->
-  <select id="selectSuccessProject" parameterType="Map" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_BSS_PPMS_ADVANCED_PROJECTS
-    where STATUS = 2 and IS_PROVISIONAL=0
-    <if test="projectName != null and projectName != ''">
-       and NAME like '%'||#{projectName}||'%'
-      </if>
-       <if test="projectCode != null and projectCode != ''">
-       and PROJECT_NUMBER like '%'||#{projectCode}||'%'
-      </if>
-      <if test="purchaseDep != null and purchaseDep != ''">
-       and PURCHASE_DEP_NAME like '%'||#{purchaseDep}||'%'
-      </if>
-    ORDER BY DATE_OF_ENTRUSTMENT DESC
-  </select>
-  
-   <select id="selectAdvancedProjectByAll" parameterType="bss.model.ppms.AdvancedProject" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_BSS_PPMS_ADVANCED_PROJECTS
-    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
-     <if test="name != null and name != ''">
-       and NAME like '%${name}%'
-      </if>
-       <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER like '%${projectNumber}%'
-      </if>
-      <if test="status != null">
-       and STATUS like '%${status}%'
-      </if>
-      <if test="purchaseDep != null">
-       and PURCHASE_DEP_ID like '%${purchaseDep.id}%'
-      </if>
-      ORDER BY CREATED_AT DESC
-  </select>
-  <select id="verifyByProject" parameterType="bss.model.ppms.AdvancedProject" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_BSS_PPMS_ADVANCED_PROJECTS
-    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
-     <if test="name != null and name != ''">
-       and NAME = #{name}
-      </if>
-       <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER = #{projectNumber}
-      </if>
-      <if test="status != null">
-       and STATUS like '%${status}%'
-      </if>
-      ORDER BY CREATED_AT DESC
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_PPMS_ADVANCED_PROJECTS
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="bss.model.ppms.AdvancedProject">
-    insert into T_BSS_PPMS_ADVANCED_PROJECTS (ID, NAME, PROJECT_NUMBER, 
-      STATUS, PRINCIPAL, IPONE, 
-      LINKMAN, LINKMAN_IPONE, BID_UNIT, 
-      ADDRESS, POSTCODE, SUPPLIER_NUMBER, 
-      OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, 
-      PASS_WORD, SCORING_RUBRIC, OPERATOR, 
-      DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, 
-      SECTOR_OF_DEMAND, PURCHASE_DEP_ID, DEADLINE, 
-      DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, 
-      REQUIERED_ID,BALE_NO,AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{projectNumber,jdbcType=VARCHAR}, 
-      #{status,jdbcType=DECIMAL}, #{principal,jdbcType=VARCHAR}, #{ipone,jdbcType=VARCHAR}, 
-      #{linkman,jdbcType=VARCHAR}, #{linkmanIpone,jdbcType=VARCHAR}, #{bidUnit,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{postcode,jdbcType=DECIMAL}, #{supplierNumber,jdbcType=DECIMAL}, 
-      #{offerStandard,jdbcType=DECIMAL}, #{prIntroduce,jdbcType=VARCHAR}, #{budgetAmount,jdbcType=DECIMAL}, 
-      #{passWord,jdbcType=VARCHAR}, #{scoringRubric,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
-      #{divisionOfWork,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR}, #{materialsType,jdbcType=VARCHAR}, 
-      #{sectorOfDemand,jdbcType=VARCHAR}, #{purchaseDep.id,jdbcType=VARCHAR}, #{deadline,jdbcType=DATE}, 
-      #{dateOfEntrustment,jdbcType=DATE}, #{bidDate,jdbcType=DATE}, #{bidAddress,jdbcType=VARCHAR}, 
-      #{requieredId,jdbcType=VARCHAR}),#{baleNo}, #{amount}, #{dealSupplier.id},#{purchaseDepName})
-  </insert>
+  
+  
   <insert id="insertSelective" parameterType="bss.model.ppms.AdvancedProject">
      <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
@@ -624,6 +536,8 @@
       </if>
     </trim>
   </insert>
+  
+  
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.AdvancedProject">
     update T_BSS_PPMS_ADVANCED_PROJECTS
     <set>
@@ -786,73 +700,4 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="bss.model.ppms.AdvancedProject">
-    update T_BSS_PPMS_ADVANCED_PROJECTS
-    set NAME = #{name,jdbcType=VARCHAR},
-      PROJECT_NUMBER = #{projectNumber,jdbcType=VARCHAR},
-      STATUS = #{status,jdbcType=DECIMAL},
-      PRINCIPAL = #{principal,jdbcType=VARCHAR},
-      IPONE = #{ipone,jdbcType=VARCHAR},
-      LINKMAN = #{linkman,jdbcType=VARCHAR},
-      LINKMAN_IPONE = #{linkmanIpone,jdbcType=VARCHAR},
-      BID_UNIT = #{bidUnit,jdbcType=VARCHAR},
-      ADDRESS = #{address,jdbcType=VARCHAR},
-      POSTCODE = #{postcode,jdbcType=DECIMAL},
-      SUPPLIER_NUMBER = #{supplierNumber,jdbcType=DECIMAL},
-      OFFER_STANDARD = #{offerStandard,jdbcType=DECIMAL},
-      PR_INTRODUCE = #{prIntroduce,jdbcType=VARCHAR},
-      BUDGET_AMOUNT = #{budgetAmount,jdbcType=DECIMAL},
-      PASS_WORD = #{passWord,jdbcType=VARCHAR},
-      SCORING_RUBRIC = #{scoringRubric,jdbcType=VARCHAR},
-      OPERATOR = #{operator,jdbcType=VARCHAR},
-      DIVISION_OF_WORK = #{divisionOfWork,jdbcType=VARCHAR},
-      PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
-      MATERIALS_TYPE = #{materialsType,jdbcType=VARCHAR},
-      SECTOR_OF_DEMAND = #{sectorOfDemand,jdbcType=VARCHAR},
-      PURCHASE_DEP_ID = #{purchaseDep.id,jdbcType=VARCHAR},
-      DEADLINE = #{deadline,jdbcType=DATE},
-      DATE_OF_ENTRUSTMENT = #{dateOfEntrustment,jdbcType=DATE},
-      BID_DATE = #{bidDate,jdbcType=DATE},
-      BID_ADDRESS = #{bidAddress,jdbcType=VARCHAR},
-      REQUIERED_ID = #{requieredId,jdbcType=VARCHAR}
-      BALE_NO = #{bidDate},
-      AMOUNT = #{amount},
-      DEAL_SUPPLIER = #{dealSupplier.id},
-      PURCHASE_DEP_NAME = #{purchaseDepName}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  
-  	<!-- 获取临时项目 -->
-    <select id="provisionalList" parameterType="bss.model.ppms.AdvancedProject"
-        resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from T_BSS_PPMS_ADVANCED_PROJECTS
-        where 1=1 and IS_PROVISIONAL=1
-        <if test="name != null and name != ''">
-            and NAME like '%${name}%'
-        </if>
-        <if test="projectNumber != null and projectNumber != ''">
-            and PROJECT_NUMBER like '%${projectNumber}%'
-        </if>
-        <if test="status != null">
-            and STATUS like '%${status}%'
-        </if>
-        ORDER BY CREATED_AT DESC
-    </select>
-    
-    <!-- 根据项目编号或项目名字查项目 -->
-    <select id="selectProjectByCode" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from T_BSS_PPMS_ADVANCED_PROJECTS
-        where 1=1 
-        <if test="name != null and name != ''">
-            and NAME = #{name}
-        </if>
-        <if test="projectNumber != null and projectNumber != ''">
-            and PROJECT_NUMBER = #{projectNumber}
-        </if>
-        ORDER BY CREATED_AT DESC
-    </select>
 </mapper>

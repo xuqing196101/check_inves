@@ -17,10 +17,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -28,12 +30,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Templet;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TempletService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
@@ -73,6 +77,8 @@ import common.service.UploadService;
 @Scope("prototype")
 @RequestMapping("/open_bidding")
 public class OpenBiddingController {
+    
+    private final static Short NUMBER_TWO = 2;
     
     /**
      * @Fields projectService : 引用项目业务实现接口
@@ -134,6 +140,12 @@ public class OpenBiddingController {
     private TempletService templetService;
     
     /**
+     * 字典表服务层
+     */
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;
+    
+    /**
      * @Fields jsonData : ajax返回数据封装类
      */
     private AjaxJsonData jsonData = new AjaxJsonData();
@@ -172,6 +184,12 @@ public class OpenBiddingController {
         if (files != null && files.size() > 0){
             model.addAttribute("fileId", files.get(0).getId());
         } else {
+            if (project != null){
+                String filePath = packageFirstAuditService.downLoadBiddingDoc(id, project.getName(), project.getProjectNumber(), request);
+                if (StringUtils.isNotBlank(filePath)){
+                    model.addAttribute("filePath", filePath);
+                }
+            }
             model.addAttribute("fileId", "0");
         }
         model.addAttribute("flowDefineId", flowDefineId);
@@ -208,6 +226,20 @@ public class OpenBiddingController {
     @RequestMapping("/loadFile")
     public void loadFile(HttpServletRequest request, String fileId, HttpServletResponse response){
         downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author myc
+     * @param request
+     * @param fileId
+     * @param response
+     */
+    @RequestMapping("/downloadFile")
+    public void downLoadFile(HttpServletRequest request, String filePath, HttpServletResponse response){
+        downloadService.downLoadFile(request, response, filePath);
     }
     
     /**
@@ -427,11 +459,11 @@ public class OpenBiddingController {
             article.setPublishedAt(ts);
             User user = (User) request.getSession().getAttribute("loginUser");
             article.setPublishedName(user.getRelName());
-            article.setStatus(2);
+            article.setStatus(1);
             articelService.update(article);
             //该环节设置为已执行状态
             flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 1);
-            String msg = "发布成功";
+            String msg = "提交成功";
             String projectId = article.getProjectId();
             response.setContentType("text/html;charset=utf-8");
             response.getWriter()
@@ -596,6 +628,111 @@ public class OpenBiddingController {
         }
     }
     
+    @RequestMapping("/changbiao")
+    public String changbiao(String projectId, Model model ,HttpServletRequest req) throws ParseException{
+        //去saletender查出项目对应的所有的包
+        List<String> packageIds = saleTenderService.getPackageIds(projectId);
+        //这里用这个是因为hashMap是无序的
+        TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
+        SaleTender condition = new SaleTender();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map1 = new HashMap<String, Object>();
+        StringBuilder sbUpload = new StringBuilder("");
+        StringBuilder show = new StringBuilder("");
+        if (packageIds != null) {
+            for (String packageId : packageIds) {
+                condition.setProjectId(projectId);
+                condition.setPackages(packageId);
+                condition.setStatusBid(NUMBER_TWO);
+                condition.setStatusBond(NUMBER_TWO);
+                List<SaleTender> stList = saleTenderService.find(condition);
+                map1.put("packageId", packageId);
+                map1.put("projectId", packageId);
+                List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
+                BigDecimal projectBudget = BigDecimal.ZERO;
+                for (ProjectDetail projectDetail : detailList) {
+                    projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+                }
+                //再次点击 查看
+                for (SaleTender saleTender : stList) {
+                    Quote quote = new Quote();
+                    quote.setProjectId(projectId);
+                    quote.setPackageId(packageId);
+                    quote.setSupplierId(saleTender.getSupplierId());
+                    List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+                    if (allQuote != null && allQuote.size() > 0) {
+                        for (Quote conditionQuote : allQuote) {
+                            if (conditionQuote.getSupplier().getId().equals(saleTender.getSuppliers().getId()) &&
+                                conditionQuote.getProject().getId().equals(saleTender.getProject().getId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
+                                saleTender.setTotal(conditionQuote.getTotal());
+                                saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
+                                saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
+                                saleTender.setQuoteId(conditionQuote.getId());
+                            }
+                        }
+                    }
+                }
+                //这里是动态生成页面上传文件的groups
+                Integer num = 0;
+                for (SaleTender saleTender : stList) {
+                    int position = num++;
+                    if(position == (stList.size()-1)) {
+                        sbUpload.append("bf"+position);
+                        show.append("bs"+position);
+                    } else {
+                        sbUpload.append("bf"+position+",");
+                        show.append("bs"+position+",");
+                    }
+                }
+                for (SaleTender saleTender : stList) {
+                    saleTender.setGroupsUpload(sbUpload.toString());
+                    saleTender.setGroupShow(show.toString());
+                }
+                map.put("id", packageId);
+                List<Packages> pack = packageService.findPackageById(map);
+                if (pack != null && pack.size() > 0) {
+                    treeMap.put(pack.get(0).getName()+"|"+projectBudget, stList);
+                } else {
+                    treeMap.put("", stList);
+                };
+            }
+        }
+        DictionaryData dd = new DictionaryData();
+        dd.setCode("OPEN_FILE");
+        List<DictionaryData > list = dictionaryDataServiceI.find(dd);
+        model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+        if (list.size() > 0){
+            model.addAttribute("typeId", list.get(0).getId());
+        }
+        model.addAttribute("treeMap", treeMap);
+        //根据包查出所有的供应商集合 ，然后放在map里面
+        return "bss/ppms/open_bidding/bid_file/cb";
+    }
+    
+    @RequestMapping("/save")
+    @ResponseBody
+    public void save(BigDecimal total ,String deliveryTime ,Integer isTurnUp ,String supplierId, String projectId, String packageId ,String quoteId) throws ParseException{
+        List<Quote> quoteList = new ArrayList<Quote>();
+        Quote quote = new Quote();
+        quote.setSupplierId(supplierId);
+        quote.setTotal(total);
+        quote.setCreatedAt(new Timestamp(new Date().getTime()));
+        quote.setPackageId(packageId);
+        quote.setProjectId(projectId);
+        quote.setIsTurnUp(isTurnUp);
+        if (deliveryTime != null && !"".equals(deliveryTime)) {
+            quote.setDeliveryTime(new Timestamp(new SimpleDateFormat("yyyy-MM-dd").parse(deliveryTime).getTime()));
+        }
+        quoteList.add(quote);
+        if (quoteId == null || "".equals(quoteId)) {
+            supplierQuoteService.insert(quoteList);    
+        } else {
+            quote.setId(quoteId);
+            supplierQuoteService.update(quoteList);
+        }
+        
+    }
+    
     /**
      * @Title: changbiao
      * @author Song Biaowei
@@ -608,8 +745,8 @@ public class OpenBiddingController {
      * @return String
      * @throws ParseException 
      */
-    @RequestMapping("/changbiao")
-    public String changbiao(String projectId, Model model ,HttpServletRequest req) throws ParseException{
+    //@RequestMapping("/changbiao")
+    public String cb(String projectId, Model model ,HttpServletRequest req) throws ParseException{
         Project project = projectService.selectById(projectId);
         model.addAttribute("project", project);
         //参与项目的所有供应商
@@ -739,8 +876,8 @@ public class OpenBiddingController {
      * @return String
      * @throws ParseException 异常处理
      */
-    @RequestMapping(value = "/save")
-    public String save(HttpServletRequest req, Quote quote, Model model, String priceStr) throws ParseException {
+    //@RequestMapping(value = "/save")
+    public String saves(HttpServletRequest req, Quote quote, Model model, String priceStr) throws ParseException {
         List<String> listBd = Arrays.asList(priceStr.split(","));
         User user = (User) req.getSession().getAttribute("loginUser");
         List<Quote> listQuote = new ArrayList<Quote>();
@@ -930,6 +1067,13 @@ public class OpenBiddingController {
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+                if (WIN_NOTICE.equals(noticeType)) {
+                    model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
+                }
+                if (PURCHASE_NOTICE.equals(noticeType)) {
+                    model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
+                }
+                
                 return "bss/ppms/open_bidding/bid_notice/view";
             } else {
                 //未发布
@@ -944,12 +1088,24 @@ public class OpenBiddingController {
             }
         } else {
             model.addAttribute("articleType", articleType);
-            model.addAttribute("articleId",WfUtil.createUUID());
+            String articleId = WfUtil.createUUID();
+            model.addAttribute("articleId",articleId);
             model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
             model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
             model.addAttribute("projectId", projectId);
             model.addAttribute("noticeType", noticeType);
             model.addAttribute("flowDefineId", flowDefineId);
+            
+            if (WIN_NOTICE.equals(noticeType)) {
+                model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
+            }
+            if (PURCHASE_NOTICE.equals(noticeType)) {
+                model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
+            }
+            model.addAttribute("flowDefineId", flowDefineId);
+            model.addAttribute("articleId", articleId);
+            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+            
             return "bss/ppms/open_bidding/bid_notice/add";
         }
     }

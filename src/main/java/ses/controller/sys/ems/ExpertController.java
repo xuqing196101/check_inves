@@ -783,6 +783,9 @@ public class ExpertController {
         // 查询数据字典中的最高学历配置数据
         List<DictionaryData> xlList = DictionaryDataUtil.find(11);
         model.addAttribute("xlList", xlList);
+        // 查询数据字典中的最高学位配置数据
+        List<DictionaryData> xwList = DictionaryDataUtil.find(21);
+        model.addAttribute("xwList", xwList);
         // 查询数据字典中的专家来源配置数据
         List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
         model.addAttribute("lyTypeList", lyTypeList);
@@ -808,6 +811,7 @@ public class ExpertController {
         model.addAttribute("sysId", id);
         // Constant.EXPERT_SYS_VALUE;
         model.addAttribute("expertKey", expertKey);
+        expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getCode());
         model.addAttribute("expert", expert);
         return "ses/ems/expert/edit_basic_info";
     }
@@ -1093,8 +1097,7 @@ public class ExpertController {
      * @throws IOException
      */
     @RequestMapping("/edit")
-    public String edit(@RequestParam("categoryId") String categoryId,
-            Expert expert, Model model, HttpSession session,
+    public String edit(Expert expert, Model model, HttpSession session,
             @RequestParam("token2") String token2, HttpServletRequest request,
             HttpServletResponse response) throws IOException {
         Object tokenValue = session.getAttribute("tokenSession");
@@ -1106,8 +1109,6 @@ public class ExpertController {
             // 修改时间
             expert.setUpdatedAt(new Date());
             service.updateByPrimaryKeySelective(expert);
-            expertCategoryService.deleteByExpertId(expert.getId());
-            expertCategoryService.save(expert, categoryId);
             return "redirect:findAllExpert.html";
         } else {
             // 重复提交 这里未做重复提醒，只是不重复修改
@@ -1326,17 +1327,29 @@ public class ExpertController {
                 .getDictionaryData(exp.getGender());
             exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
             StringBuffer expertType = new StringBuffer();
-            for (String typeId : exp.getExpertsTypeId().split(",")) {
-                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+            if (exp.getExpertsTypeId() != null) {
+                for (String typeId : exp.getExpertsTypeId().split(",")) {
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
+                    if (6 == data.getKind()) {
+                        expertType.append(data.getName() + "技术、");
+                    } else {
+                        expertType.append(data.getName() + "、");
+                    }
+                }
+                String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                exp.setExpertsTypeId(expertsType);
+            } else {
+                exp.setExpertsTypeId("");
             }
-            String expertsType = expertType.toString().substring(0, expertType.length() - 1);
-            exp.setExpertsTypeId(expertsType);
         }
         // 查询数据字典中的专家来源配置数据
         List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
         request.setAttribute("lyTypeList", lyTypeList);
         // 查询数据字典中的专家类别数据
         List<DictionaryData> jsTypeList = DictionaryDataUtil.find(6);
+        for (DictionaryData data : jsTypeList) {
+            data.setName(data.getName() + "技术");
+        }
         List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
         jsTypeList.addAll(jjTypeList);
         request.setAttribute("expTypeList", jsTypeList);
@@ -1592,6 +1605,11 @@ public class ExpertController {
                         } else {
                             projectExt.setReviewProgress(rplist.get(0));
                         }
+                        Map<String, Object> map3 = new HashMap<String, Object>();
+                        map3.put("projectId", projectId);
+                        //查询出关联表中包下已评审的数据
+                        List<PackageExpert> packageExpertList2 = packageExpertService.selectList(map2);
+                        projectExt.setPackageExperts(packageExpertList2);
                         projectExtList.add(projectExt);
                         model.addAttribute("projectExtList", projectExtList);
                     }
@@ -1742,7 +1760,7 @@ public class ExpertController {
         reviewProgressService.saveProgress(projectId, packageId, expertId);
         attr.addAttribute("projectId", projectId);
         attr.addAttribute("packageId", packageId);
-        return "redirect:toFirstAudit.html";
+        return "redirect:projectList.html";
     }
 
     /**
@@ -1827,7 +1845,7 @@ public class ExpertController {
                 "iso-8859-1");// 为了解决中文名称乱码问题
         return service.downloadFile(fileName, filePath, downFileName);
     }
-
+    
     /**
      * 
      * 

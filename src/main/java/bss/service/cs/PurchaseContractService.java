@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import ses.model.oms.Orgnization;
 
@@ -205,7 +206,7 @@ public interface PurchaseContractService {
     * @param @return      
     * @return int
      */
-    int createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request);
+    String createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request);
     
     /**
      * 
@@ -266,4 +267,6 @@ public interface PurchaseContractService {
     * @return List<PurchaseContract>
      */
     List<PurchaseContract> selectAllContractByStatus(Map<String,Object> map);
+    
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response,String filePath ,String fileName);
 }

@@ -420,7 +420,7 @@
       <if test="supplierBankName != null">
         SUPPLIER_BANK_NAME,
       </if>
-      <if test="supplierBankName != null">
+      <if test="supplierPurId != null">
         SUPPLIER_PUR_ID,
       </if>
       <if test="content != null">

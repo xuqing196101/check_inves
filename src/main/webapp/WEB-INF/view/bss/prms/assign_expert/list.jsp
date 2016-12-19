@@ -124,7 +124,7 @@
                  <th class="info">专家类型</th>
                  <th class="info">证件号</th>
                  <th class="info">现任职务</th>
-                 <th class="info">联系地址</th>
+<!--                  <th class="info">联系地址</th> -->
                  <th class="info">联系电话</th>
 			</tr>
 			</thead>
@@ -145,7 +145,7 @@
 	                <td class="tc">${fn:substring(typeId,1,typeId.length() )}</td>
 	                <td class="tc">${expert.expert.idNumber }</td>
 	                <td class="tc">${expert.expert.atDuty }</td>
-	                <td class="tc">${expert.expert.unitAddress }</td>
+<%-- 	                <td class="tc">${expert.expert.unitAddress }</td> --%>
 	                <td class="tc">${expert.expert.mobile }</td>
                    </tr>
 			</c:forEach>

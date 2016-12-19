@@ -98,4 +98,6 @@ public interface ProjectExtractMapper {
      * @author Wang Wenshuai
      */
     void insertList(List<ProjectExtract> list);
+    
+    List<ProjectExtract> findExtractByExpertId (String expertId);
 }

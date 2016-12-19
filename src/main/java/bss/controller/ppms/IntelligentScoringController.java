@@ -175,8 +175,10 @@ public class IntelligentScoringController {
 	public String editPackageScore(String packageId, Model model, String projectId){    
 	    //显示经济技术 和子节点  子节点的子节点就是模型
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
-	    String str1 = getTable(ddList.get(0).getId(), ddList.get(0).getName(), projectId, packageId);
-	    String str2 = getTable(ddList.get(1).getId(), ddList.get(1).getName(), projectId, packageId);
+	    String str ="";
+        for (DictionaryData dictionaryData : ddList) {
+            str += getTable(dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
+        }
 	    //页面需要显示包
 	    HashMap<String, Object> condition = new HashMap<String, Object>();
 	    condition.put("id", packageId);
@@ -191,7 +193,7 @@ public class IntelligentScoringController {
 	    model.addAttribute("packageId", packageId);
 	    model.addAttribute("projectId", projectId);
 	    model.addAttribute("ddList", ddList);
-	    model.addAttribute("str", str1+str2);
+	    model.addAttribute("str", str);
 	    return "bss/prms/score/edit_package_qc";
 	}
 	
@@ -266,7 +268,7 @@ public class IntelligentScoringController {
                             if (count2 ==0) {
                                 //sb.append("<tr><td rowspan=" + map.get(markKey).size() + ">"+markKey.getName()+"</td>");
                                 sb.append("<tr><td rowspan="+map.get(markKey).size()+">");
-                                sb.append("<span class='fl'>" + markValue.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markValue.getName() + "','" + markKey.getId() + "',1); ></a>");
+                                sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markValue.getName() + "','" + markKey.getId() + "',1); ></a>");
                                 sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
                                 sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
                                 
@@ -283,7 +285,7 @@ public class IntelligentScoringController {
                                 
                             } else {
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<tr><td class='tc'><span class='fl'>" + typeName + "</span></td>");
+                                sb.append("<tr><td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore();
                                 if (sscore == null){
                                     sscore = 0.0;

@@ -33,6 +33,9 @@
 		from T_BSS_PPMS_SALE_TENDER
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
+	<select id="getPackageIds" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT DISTINCT(PACKAGR_IDS) FROM "JDCG"."T_BSS_PPMS_SALE_TENDER"  WHERE STATUS_BID = 2 and STATUS_BOND = 2 and PROJECT_ID = #{projectId}
+	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		<!-- @mbggenerated -->
 		delete from T_BSS_PPMS_SALE_TENDER
@@ -193,6 +196,9 @@
 		<if test="supplierId != null  and supplierId != '' ">
 			and st.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
 		</if>
+		<if test="packages != null and packages != ''">
+			and st.PACKAGR_IDS=#{packages,jdbcType=VARCHAR}
+		</if>
 		<if test="statusBid != null  and statusBid != '' ">
 			and st.STATUS_BID=#{statusBid,jdbcType=DECIMAL}
 		</if>
@@ -250,7 +256,7 @@
   <select id="getPackegeSuppliers" parameterType="bss.model.ppms.SaleTender"
     resultMap="BaseResultMap">
     SELECT
-       st.SUPPLIER_ID
+       <include refid="Base_Column_List"/>
     FROM
     T_BSS_PPMS_SALE_TENDER st
     WHERE

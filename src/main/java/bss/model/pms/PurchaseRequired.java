@@ -104,7 +104,19 @@ public class PurchaseRequired {
     
     private String recorderMobile;
     
-    public String getId() {
+    private Integer advancedStatus;
+    
+    private Integer projectStatus;
+    
+    public Integer getProjectStatus() {
+		return projectStatus;
+	}
+
+	public void setProjectStatus(Integer projectStatus) {
+		this.projectStatus = projectStatus;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -470,6 +482,14 @@ public class PurchaseRequired {
 
 	public void setRecorderMobile(String recorderMobile) {
 		this.recorderMobile = recorderMobile;
+	}
+
+	public Integer getAdvancedStatus() {
+		return advancedStatus;
+	}
+
+	public void setAdvancedStatus(Integer advancedStatus) {
+		this.advancedStatus = advancedStatus;
 	}
 	
 	

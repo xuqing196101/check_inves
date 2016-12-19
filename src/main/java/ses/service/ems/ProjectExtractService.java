@@ -89,4 +89,6 @@ public interface ProjectExtractService {
      * @return 
      */
     ProjectExtract getExpExtRelate(String id);
+    
+    List<ProjectExtract> findExtractByExpertId (String expertId);
 }

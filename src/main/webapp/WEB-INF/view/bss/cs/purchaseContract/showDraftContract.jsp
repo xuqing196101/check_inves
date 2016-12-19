@@ -1,15 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="/tld/upload" prefix="up" %>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>合同草稿查看</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-    <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
+    <title>合同草案查看</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -24,7 +21,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购合同管理</a></li><li class="active"><a href="#">合同草稿查看</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购合同管理</a></li><li class="active"><a href="#">合同草案查看</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -36,7 +33,8 @@
 	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
 	        <div class="padding-top-10">
 	        <ul class="nav nav-tabs bgwhite">
-	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">合同草案详情</a></li>
+	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">合同草案详情</a></li>
+	            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">标的信息</a></li>
             </ul>
    		<div class="tab-content padding-top-20 over_hideen">
 	<div class="tab-pane fade active in" id="tab-1">
@@ -48,8 +46,6 @@
 	            <td width="37%">${draftCon.name}</td>
 	            <td class="bggrey" width="13%">合同编号：</td>
 	            <td width="37%"> ${draftCon.code}</td>
-	           
-	           
 	        </tr>
 	        <tr>
 	            <td class="bggrey" width="13%">需求部门：</td>
@@ -69,6 +65,12 @@
 	            <td class="bggrey" width="13%">合同预算：</td>
 	            <td width="37%">${draftCon.budget}</td>
 	        </tr>
+	        <tr>
+	            <td class="bggrey" width="13%">草案上报时间：</td>
+	            <td width="37%"><fmt:formatDate value="${draftCon.draftGitAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+	            <td class="bggrey" width="13%">草案报批时间：</td>
+	            <td width="37%"><fmt:formatDate value="${draftCon.draftReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+	        </tr>
 	        </tbody>
 	        </table>
 		  <h2 class="count_flow jbxx">甲方信息</h2>
@@ -76,7 +78,7 @@
 	        <tbody>
 	        <tr>
 	            <td class="bggrey" width="13%">甲方单位：</td>
-	            <td width="37%">${draftCon.purchaseDepName}</td>
+	            <td width="37%">${draftCon.showDemandSector}</td>
 	            <td class="bggrey" width="13%">甲方法人：</td>
 	            <td width="37%">${draftCon.purchaseLegal}</td>
 	        </tr>
@@ -111,7 +113,7 @@
 	        <tbody>
 	        <tr>
 	            <td class="bggrey" width="13%">乙方单位：</td>
-	            <td width="37%">${draftCon.supplierDepName}</td>
+	            <td width="37%">${draftCon.showSupplierDepName}</td>
 	            <td class="bggrey" width="13%">乙方法人：</td>
 	            <td width="37%">${draftCon.supplierLegal}</td>
 	        </tr>
@@ -140,7 +142,34 @@
 	            <td width="37%">${draftCon.supplierBankAccount}</td>
 	        </tr>
 	        </tbody>
-	        </table>  
+	        </table>
+	        <h2 class="count_flow jbxx">丙方信息</h2>
+	        <table class="table table-bordered">
+	        <tbody>
+	        <tr>
+	            <td class="bggrey" width="13%">丙方单位：</td>
+	            <td width="37%">${draftCon.showPurchaseDepName}</td>
+	             <td class="bggrey" width="13%">丙方邮政编码：</td>
+	            <td width="37%">${draftCon.bingUnitpostCode}</td>
+	        </tr>
+	        <tr>
+	            <td class="bggrey" width="13%">丙方联系人：</td>
+	            <td width="37%">${draftCon.bingContact}</td>
+	            <td class="bggrey" width="13%">丙方联系电话：</td>
+	            <td width="37%">${draftCon.bingContactTelephone}</td>
+	        </tr>
+	        <tr>
+	        	<td class="bggrey" width="13%">丙方通讯地址：</td>
+	            <td width="37%">${draftCon.bingContactAddress}</td>
+	        </tr>
+	        </tbody>
+	        </table>
+	        <h2 class="count_flow jbxx">草案批复意见</h2>  
+	        <div class="col-md-12 select_common">
+				<up:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+			</div>
+	     </div>
+	    <div class="tab-pane fade" id="tab-2">
 		 <h2 class="count_flow jbxx">项目明细</h2>
     	<table id="detailtable" name="" class="table table-bordered table-condensed mb0 mt10">
 		 <thead>
@@ -174,33 +203,9 @@
 			</tr>
    		</c:forEach>
 	</table>
-   <h2 class="count_flow jbxx">合同正文</h2>
-   	<div class="mt10">
-       <script id="editor" name="content" type="text/plain" class= ""></script>
-    </div>
-		<div class="col-md-12 tc mt10">
-   			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
- 		</div>
-  	</form>
- </div>
-	<script type="text/javascript">
-   		//实例化编辑器
-   		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-   		var option ={
-  		        toolbars: [[
-	                'undo', 'redo', '|',
-	                'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
-	                 'fontfamily', 'fontsize', '|',
-	                 'indent', '|',
-	                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion'
-  		        ]]
-    		}
-	        var ue = UE.getEditor('editor',option);  
-   		var content='${draftCon.content}';
-   		ue.ready(function(){
-   	  		ue.setContent(content);    
-   	  		ue.setDisabled([]);
-   		});
-	</script>
+	</div>
+	<div class="col-md-12 tc mt20">
+   		<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+  	</div>
 </body>
 </html>

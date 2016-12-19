@@ -346,7 +346,7 @@ public class SupplierServiceImpl implements SupplierService {
 			supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
 		}
 		if(supplier.getListSupplierFinances()!=null&&supplier.getListSupplierFinances().size()>0){
-			supplierFinanceService.add(supplier.getListSupplierFinances());
+			supplierFinanceService.add(supplier.getListSupplierFinances(),supplier.getId());
 		}
     }
 

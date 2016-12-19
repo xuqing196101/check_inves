@@ -70,6 +70,6 @@ public interface SupplierFinanceService {
     * @return void     
     * @throws
      */
-   public void add(List<SupplierFinance> list);
+   public void add(List<SupplierFinance> list,String supplierId);
 	
 }

@@ -1,36 +1,57 @@
 package bss.dao.ppms;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import bss.model.ppms.AdvancedProject;
-import bss.model.ppms.Project;
 
 public interface AdvancedProjectMapper {
+    /**
+     * 
+     *〈删除〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param id
+     * @return
+     */
     int deleteByPrimaryKey(String id);
 
-    int insert(AdvancedProject record);
-
+    /**
+     * 
+     *〈新增〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param record
+     * @return
+     */
     int insertSelective(AdvancedProject record);
 
+    /**
+     * 
+     *〈根据id查询〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param id
+     * @return
+     */
     AdvancedProject selectAdvancedProjectByPrimaryKey(String id);
 
+    /**
+     * 
+     *〈修改〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param record
+     * @return
+     */
     int updateByPrimaryKeySelective(AdvancedProject record);
 
-    int updateByPrimaryKey(AdvancedProject record);
-    
-    List<AdvancedProject> selectAdvancedProjectByAll(AdvancedProject advancedProject);
-    
+    /**
+     * 
+     *〈集合〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param advancedProject
+     * @return
+     */
     List<AdvancedProject> selectByList(AdvancedProject advancedProject);
-    
-    List<AdvancedProject> verifyByProject(AdvancedProject advancedProject);
-    
-    List<AdvancedProject> selectSuccessProject(Map<String,Object> map);
-    
-    List<AdvancedProject> selectProject(HashMap<String,Object> map);
-    
-    List<AdvancedProject> provisionalList(AdvancedProject advancedProject);
-    
-    List<AdvancedProject> selectProjectByCode(HashMap<String,Object> map);
 }

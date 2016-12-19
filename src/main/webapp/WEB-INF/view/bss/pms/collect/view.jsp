@@ -82,7 +82,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	   });
       } 
 	  
- function ss(){
+	  $(function() {
+				$("td").each(function() {
+					$(this).find("p").hide();
+				});
+			});
+	  
+ /*function ss(){
 	 var value=$("#reson").val();
 
 	 if(value!=null&&value!=""){
@@ -91,7 +97,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 }else{
 			layer.tips("退回理由不允许为空","#reson");
 	 }
- }
+ }*/
+ 
+ function reason(id, auditFieldName) {
+ 				var id = "${planNo}";
+				var supplierId = $("#supplierId").val();
+				var index = layer.prompt({
+						title: '请填写不通过的理由：',
+						formType: 2,
+						offset: '100px'
+					}
+					/**  function(text) {
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+							type: "post",
+							data: "auditType=finance_page" + "&auditFieldName=" + auditFieldName + "&auditContent=" + auditContent + "&suggest=" + text + "&supplierId=" + supplierId + "&auditField=" + id,
+							dataType: "json",
+							success: function(result) {
+								result = eval("(" + result + ")");
+								if(result.msg == "fail") {
+									layer.msg('该条信息已审核过！', {
+										shift: 6, //动画类型
+										offset: '100px'
+									});
+								}
+							}
+						});
+						if(auditFieldName == "财务信息") {
+							$("#" + id + "_hidden1").hide();
+							$("#" + id + "_show").show();
+						} else {
+							$("#" + id + "_hidden2").hide();
+							$("#" + id + "_fileShow").show();
+						}
+						layer.close(index);}*/
+						);
+			}
+ 
  
  /*function org(obj){
 	 
@@ -150,6 +192,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th>
 							<th class="info">备注</th>
+							<th class="info">操作</th>
 						</tr>
 					</thead>
 
@@ -195,20 +238,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc">${obj.isFreeTax }</td>
 							<td class="tc">${obj.goodsUse }</td>
 							<td class="tc">${obj.useUnit }</td>
-							<td class="tc">${obj.memo }
-						
-							</td>
+							<td class="tc">${obj.memo }</td>
+							<td class="tc w50">
+										<a onclick="reason('${f.id}','');" id="${f.id}_hidden1" class="btn">退回</a>
+										<p id="${f.id}_show" class="b red">×</p>
+									</td>
 						</tr>
 
 					</c:forEach>
 				</table>
 				
-				退回理由： <br><textarea   id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>
+				<!--   退回理由： <br><textarea   id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>-->
 				 <input type="hidden" name="planNo" value="${planNo }">
 				  <input type="hidden" id="status" name="status" value="4">
 				 <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="受理"> 
-				<!--  <input class="btn btn-windows save" type="button" onclick="returns();" value="退回">    -->
-				 <button class="btn btn-windows back" type="button" onclick="ss();">退回</button>
+				 <!-- <button class="btn btn-windows back" type="button" onclick="ss();">退回</button> -->
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			</form>
 		</div>

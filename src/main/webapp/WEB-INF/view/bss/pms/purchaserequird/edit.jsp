@@ -192,6 +192,7 @@
 							<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th>
 							<th class="info">备注</th>
+							<th class="w100">状态</th>
 						</tr>
 					</thead>
 
@@ -267,6 +268,7 @@
                      <input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
                      <input type="hidden" name="list[${vs.index }].status" value="${obj.status }">
                    </td>
+                   <td class="tc w100"><input type="text" value="暂存" readonly="readonly"></td>
                  </tr>
 
 					</c:forEach>

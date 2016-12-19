@@ -1,5 +1,6 @@
 package bss.model.ppms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -127,8 +128,89 @@ public class SaleTender {
      */
     private String packageNames;
     
+    //上传文件groups
+    private String groupsUpload;
+    private String groupShow;
+    //报价金额
+    private BigDecimal total;
+    //交货时间
+    private Date deliveryTime;
+    //是否到场
+    private Integer isTurnUp;
+    //报价表ID 判断是新增还是修改
+    private String quoteId;
+    //项目当前包的预算
+    private BigDecimal projectBudget;
     
-    
+    public BigDecimal getProjectBudget() {
+        return projectBudget;
+    }
+
+
+    public void setProjectBudget(BigDecimal projectBudget) {
+        this.projectBudget = projectBudget;
+    }
+
+
+    public String getQuoteId() {
+        return quoteId;
+    }
+
+
+    public void setQuoteId(String quoteId) {
+        this.quoteId = quoteId;
+    }
+
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+
+    public Date getDeliveryTime() {
+        return deliveryTime;
+    }
+
+
+    public void setDeliveryTime(Date deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+
+    public Integer getIsTurnUp() {
+        return isTurnUp;
+    }
+
+
+    public void setIsTurnUp(Integer isTurnUp) {
+        this.isTurnUp = isTurnUp;
+    }
+
+
+    public String getGroupsUpload() {
+        return groupsUpload;
+    }
+
+
+    public void setGroupsUpload(String groupsUpload) {
+        this.groupsUpload = groupsUpload;
+    }
+
+
+    public String getGroupShow() {
+        return groupShow;
+    }
+
+
+    public void setGroupShow(String groupShow) {
+        this.groupShow = groupShow;
+    }
+
     public String getPackageNames() {
         return packageNames;
     }

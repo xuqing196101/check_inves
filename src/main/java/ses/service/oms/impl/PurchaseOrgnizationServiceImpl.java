@@ -235,7 +235,6 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
          purChaseDepOrgService.delByOrgId(orgMap);
          purchaseDepMapper.delPurchaseByOrgId(id);
 	}
-
 	
 	/**
 	 * 
@@ -278,9 +277,6 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
         return res;
     }
 	
-	
-
-
 	@Override
 	public List<PurchaseDep> findAllUsefulPurchaseDep() {
 		return purchaseDepMapper.findAllUsefulPurchaseDep();
@@ -290,5 +286,4 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	public PurchaseDep selectPurchaseById(String id) {
 		return purchaseDepMapper.selectPurchaseById(id);
 	}
-
 }

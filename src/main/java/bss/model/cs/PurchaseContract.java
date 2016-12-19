@@ -129,6 +129,36 @@ public class PurchaseContract {
 
 	private BigDecimal finallyClosed;//最终结算金额
 	
+	private String showDemandSector;
+	
+	private String showPurchaseDepName;
+	
+	private String showSupplierDepName;
+	
+	public String getShowDemandSector() {
+		return showDemandSector;
+	}
+
+	public void setShowDemandSector(String showDemandSector) {
+		this.showDemandSector = showDemandSector;
+	}
+
+	public String getShowPurchaseDepName() {
+		return showPurchaseDepName;
+	}
+
+	public void setShowPurchaseDepName(String showPurchaseDepName) {
+		this.showPurchaseDepName = showPurchaseDepName;
+	}
+
+	public String getShowSupplierDepName() {
+		return showSupplierDepName;
+	}
+
+	public void setShowSupplierDepName(String showSupplierDepName) {
+		this.showSupplierDepName = showSupplierDepName;
+	}
+
 	public String getMoney_string() {
 		return money_string;
 	}

@@ -79,6 +79,17 @@ public class PackageServiceImpl implements PackageService{
     
     /**
      * 
+     *〈简述〉根据包返回抽取专家
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    public List<Packages> listResultExpert(String projectId,Integer isProvisional){
+        return packageMapper.listResultExpert(projectId);
+    }
+    
+    /**
+     * 
      *〈简述〉根据包返回抽取供应商
      *〈详细描述〉
      * @author Wang Wenshuai
@@ -103,6 +114,24 @@ public class PackageServiceImpl implements PackageService{
     public List<Packages> findPackageByPage(Packages packages, int pageNum) {
       PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
       return packageMapper.find(packages);
+    }
+
+    /**
+     * 返回所有专家
+     * @see bss.service.ppms.PackageService#listResultAllExpert(java.lang.String)
+     */
+    @Override
+    public List<Packages> listResultAllExpert(String projectId) {
+        return packageMapper.listResultAllExpert(projectId);
+    }
+
+    /**
+     * 
+     * @see bss.service.ppms.PackageService#find(bss.model.ppms.Packages)
+     */
+    @Override
+    public List<Packages> find(Packages packages) {
+        return packageMapper.find(packages);
     }
 }
 

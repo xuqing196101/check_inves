@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.jsoup.helper.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -57,6 +58,7 @@ import ses.service.ems.ExtConTypeService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.ems.ProjectSupervisorServicel;
 import ses.service.sms.SupplierTypeService;
+import ses.util.DateUtil;
 import ses.util.DictionaryDataUtil;
 
 import com.alibaba.druid.stat.TableStat.Mode;
@@ -206,6 +208,7 @@ public class ExpExtractRecordController extends BaseController {
             con.setStatus((short)2);
             conditionService.update(con);
         }
+        
 
 
         List<Area> listArea = areaService.findTreeByPid("0",null);
@@ -215,7 +218,8 @@ public class ExpExtractRecordController extends BaseController {
             //根据包获取抽取出的专家
             List<Packages> listResultExpert = packagesService.listResultExpert(projectId);
             model.addAttribute("listResultExpert", listResultExpert);
-            model.addAttribute("typeId", 0);
+            
+          
 
             //专家抽取记录
             ExpExtractRecord record = new ExpExtractRecord();
@@ -239,16 +243,27 @@ public class ExpExtractRecordController extends BaseController {
             String userId = "";
             if (listUser != null && listUser.size() != 0){
                 for (User user : listUser) {
-                    userName += user.getLoginName() + ",";
-                    userId += user.getId() + ",";
+                    if (user != null ){
+                        userName += user.getRelName()+ ",";
+                        userId += user.getId() + ",";
+                    }
                 }
+                if(!"".equals(userName)){
                 model.addAttribute("userName", userName.substring(0, userName.length()-1));
                 model.addAttribute("userId", userId.substring(0, userId.length()-1));
+                }
             }
 
             //获取项目信息
             Project project = projectService.selectById(projectId);
             if (project != null){
+                if (project.getBidDate() != null ){
+                    if (new Date().after(project.getBidDate())){
+                        model.addAttribute("typeId", 1);
+                    }else{
+                        model.addAttribute("typeId", 0);
+                    }
+                }
                 model.addAttribute("projectId", project.getId());
                 model.addAttribute("projectName", project.getName());
                 model.addAttribute("projectNumber", project.getProjectNumber());
@@ -777,7 +792,7 @@ public class ExpExtractRecordController extends BaseController {
     public String resetPwd(Model model, String[] eid){
         User user = null;
         for (String id : eid) {
-             user = new User();
+            user = new User();
             user.setTypeId(id);
             List<User> queryByList = userServiceI.queryByList(user);
             if (queryByList != null && queryByList.size() != 0){
@@ -815,6 +830,8 @@ public class ExpExtractRecordController extends BaseController {
         model.addAttribute("flowDefineId", flowDefineId);
         //证件类型
         model.addAttribute("idType", DictionaryDataUtil.find(9));
+        //专家类型
+        model.addAttribute("ddList", expExtractRecordService.ddList());
         return "bss/prms/temporary_expert_add";
     }
 
@@ -857,6 +874,9 @@ public class ExpExtractRecordController extends BaseController {
             model.addAttribute("loginPwd", loginPwd);
             model.addAttribute("projectId", projectId);
             model.addAttribute("packageId", packageId);
+            model.addAttribute("flowDefineId", flowDefineId);
+            //专家类型
+            model.addAttribute("ddList", expExtractRecordService.ddList());
             //证件类型
             model.addAttribute("idType", DictionaryDataUtil.find(9));
             return "bss/prms/temporary_expert_add";
@@ -959,6 +979,8 @@ public class ExpExtractRecordController extends BaseController {
         return JSON.toJSONString(finish);
     }
 
+
+
     /**
      * 
      *〈简述〉获取品目树
@@ -1019,6 +1041,5 @@ public class ExpExtractRecordController extends BaseController {
         }
         list = JSON.toJSONString(jList);
         return list;
-
     }
 }

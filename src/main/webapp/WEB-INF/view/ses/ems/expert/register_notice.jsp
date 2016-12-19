@@ -21,6 +21,10 @@
 	function downNotice(){
 		window.location.href="${pageContext.request.contextPath}/expert/downNotice.html";
 	}
+	function downCategory(){
+		// 不可用
+		//window.location.href="${pageContext.request.contextPath}/expert/downCategory.html";
+	}
 </script>
 
 </head>
@@ -42,10 +46,16 @@
 						<div class="clear"></div>
 					</div>
 					<div class="mt40">
+						<div class="fl">
+							文件下载：<span class="ml10">产品目录</span><a onclick='downNotice()' href="javascript:void(0)" class="download"></a>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="mt40">
 						<input id="registration_input_id" type="checkbox" checked="checked" class="radio_orange"><span class="ml10">我已阅读，并且完全遵守相关规定</span>
 					</div>
 					<div class="mt40 tc">
-						<input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/expert/toExpert.html'" value="注册">
+						<input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/expert/toExpert.html'" value="开始注册">
 					    <input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location.href='javascript:history.go(-1);'" value="取消">
 					</div>
 				</div>

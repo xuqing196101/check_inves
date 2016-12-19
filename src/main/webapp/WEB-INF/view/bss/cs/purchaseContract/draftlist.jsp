@@ -153,20 +153,25 @@
 		}
   	}
   	
-  	function showDraftContract(id){
-  		window.location.href="${pageContext.request.contextPath}/purchaseContract/showDraftContract.html?ids="+id;
+  	function showDraftContract(id,status){
+  		window.location.href="${pageContext.request.contextPath}/purchaseContract/showDraftContract.html?ids="+id+"&status="+status;
   	}
   	
   	var ind;
   	function createContract(){
   		var ids =[];
+  		var status = "";
   		$('input[name="chkItem"]:checked').each(function(){ 
-			ids.push($(this).val()); 
+			ids.push($(this).val());
+			status=($(this).parent().next().text());
 		}); 
 		if(ids.length>0){
 			if(ids.length>1){
-				layer.alert("只可选择一条草稿生成",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("只可选择一条草案生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
+				if(status!=1){
+					layer.alert("只可选择草案合同生成",{offset: ['222px', '390px'], shade:0.01});
+				}else{
 				/*ind = layer.open({
 					shift: 1, //0-6的动画形式，-1不开启
 				    moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -178,7 +183,8 @@
 					content : $('#numberWin'),
 					offset: ['10%', '25%']
 				});*/
-				window.location.href="${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?id="+ids;
+				window.location.href="${pageContext.request.contextPath}/purchaseContract/toFormalContract.html?id="+ids;
+				}
 			}
 		}else{
 			layer.alert("请选择要生成的合同草稿",{offset: ['222px', '390px'], shade:0.01});
@@ -259,11 +265,55 @@
 	function updateModel(){
 		window.location.href="${pageContext.request.contextPath}/templet/search.html?temType=合同模板";
 	}
+	
+	function printContract(){
+		var ids =[];
+  		var status = "";
+  		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+			status=($(this).parent().next().text());
+		}); 
+		if(ids.length>0){
+			if(ids.length>1){
+				layer.alert("只可选择一条合同打印",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				if(status==1){
+					$("#post_attach_up").attr("businessId",ids);
+					$("#post_attach_show").attr("businessId",ids);
+					$("#draftrevi").attr("class","list-unstyled mt10");
+					layer.open({
+					shift: 1, //0-6的动画形式，-1不开启
+				    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				    title: ['生成草案信息','border-bottom:1px solid #e5e5e5'],
+				    shade:0.01, //遮罩透明度
+					type : 1,
+					skin : 'layui-layer-rim', //加上边框
+					area : [ '35%', '250px' ], //宽高
+					content : $('#draftrevi'),
+					offset: ['30%', '25%']
+				   });
+				}else{
+					window.location.href="${pageContext.request.contextPath}/purchaseContract/printContract.html?id="+ids+"&status="+status;
+				}
+			}
+		}else{
+			layer.alert("请选择要打印的合同",{offset: ['222px', '390px'], shade:0.01});
+		}
+	}
+	
+	function toprintmodel(){
+		var ids =[];
+  		var status = "";
+  		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+			status=($(this).parent().next().text());
+		});
+		window.location.href="${pageContext.request.contextPath}/purchaseContract/printContract.html?id="+ids+"&status="+status;
+	}
   </script>
   </head>
   
   <body>
-
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -310,9 +360,12 @@
          <div class="col-md-12 col-xs-12 col-sm-12 pl20 mt10 p0">
    	  	  <button class="btn btn-windows edit" onclick="updateDraft()">修改</button>
    	  	  <button class="btn btn-windows delete" onclick="delDraft()">删除</button>
+   	  	  <button class="btn" onclick="printContract()">打印</button>
 	      <button class="btn" onclick="createContract()">生成正式合同</button>
 	      <button class="btn" onclick="createDraftContract()">生成草案合同</button>
-	      <button class="btn" onclick="updateModel()">更新合同模板</button>
+	      <%--<button class="btn" onclick="updateModel()">更新合同模板</button>
+	      --%>
+	      
 	      <div class="fr mt5 b">
 	      	项目总金额：${contractSum}
 	      </div>
@@ -332,6 +385,9 @@
 				<th class="info">预算</th>
 				<th class="info">年度</th>
 				<th class="info">项级预算科目</th>
+				<th class="info">采购部门</th>
+				<th class="info">需求部门</th>
+				<th class="info">供应商</th>
 				<th class="info">状态</th>
 			</tr>
 		</thead>
@@ -339,37 +395,40 @@
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" /></td>
 				<td class="tnone">${draftCon.status}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${draftCon.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>7}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" title="${code}">${fn:substring(code,0,7)}...</td>
+					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer" title="${code}">${fn:substring(code,0,7)}...</td>
 				</c:if>
 				<c:if test="${length<=7}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" title="${code}">${code}</td>
+					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer" title="${code}">${code}</td>
 				</c:if>
 				<c:set value="${draftCon.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>9}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" title="${name}">${fn:substring(name,0,9)}...</td>
+					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer" title="${name}">${fn:substring(name,0,9)}...</td>
 				</c:if>
 				<c:if test="${length<=9}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" title="${name}">${name}</td>
+					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer" title="${name}">${name}</td>
 				</c:if>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.money}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.projectName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.documentNumber}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.budget}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.year}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.budgetSubjectItem}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.money}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.projectName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.documentNumber}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budget}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.year}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budgetSubjectItem}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showPurchaseDepName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showDemandSector}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showSupplierDepName}</td>
 				<c:if test="${draftCon.status==0}">
-					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">暂存</td>
+					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">暂存</td>
 				</c:if>
 				<c:if test="${draftCon.status==1}">
-					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">草案</td>
+					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">草案</td>
 				</c:if>
 				<c:if test="${draftCon.status==2}">
-					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">正式</td>
+					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">正式</td>
 				</c:if>
 			</tr>
 		</c:forEach>
@@ -401,5 +460,19 @@
 			</li>
 	</ul>
 	</form>
+	<ul class="list-unstyled mt10 dis_none" id="draftrevi">
+		 		<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">
+					<span class="col-md-4 col-sm-6 col-xs-6 p0 tc mt5">
+						<div class="red star_red">*</div>草案批复意见上传：
+					</span>
+			    	<div class="col-md-8 col-sm-6 col-xs-6 p0">
+			        <up:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
+					<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+					</div>
+				</li>
+				<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">
+				 <input type="button" class="btn" onclick="toprintmodel()" value="确定"/>
+				</li>
+			</ul>
 </body>
 </html>
