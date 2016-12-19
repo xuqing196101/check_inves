@@ -389,7 +389,10 @@ public class WinningSupplierController extends BaseController {
             ses.model.bms.User  login = (ses.model.bms.User ) sq.getSession().getAttribute("loginUser");
             if (login != null){
                 StationMessage stationMessage = new StationMessage();
-                stationMessage.setReceiverId(findByTypeId.getId());
+                if(findByTypeId != null){
+                    stationMessage.setReceiverId(findByTypeId.getId());
+                }
+              
                 String pro = PropUtil.getProperty("bidNotice");
                 stationMessage.setName(pro);
                 stationMessage.setUrl("downloadabiddocument");

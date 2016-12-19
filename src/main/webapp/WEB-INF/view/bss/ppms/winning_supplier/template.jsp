@@ -26,7 +26,7 @@
             layer.open({
               type: 2, //page层
               area: ['80%', '50%'],
-              title: '配置权限',
+              title: '模版管理',
               closeBtn: 1,
               shade:0.01, //遮罩透明度
               shift: 1, //0-6的动画形式，-1不开启
@@ -35,25 +35,6 @@
               success: function(layero, index){
                 iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
               },
-              btn: ['引用', '关闭'] 
-              ,yes: function(index, layero){
-            	   var id=[]; 
-            	  var $a=$(layero);
-                   $(a).find('input[name="chkItem"]:checked').each(function(){ 
-                       id.push($(this).val());
-                   }); 
-            	  alert(id);
-                  if(id.length==1){
-                      window.location.href="${pageContext.request.contextPath}/templet/edit.do?id="+id;
-                  }else if(id.length>1){
-                      layer.alert("只能选择一个",{offset: ['200', '200px'], shade:0.01});
-                  }else{
-                      layer.alert("请选择需要修改的用户",{offset: ['200px', '200px'], shade:0.01});
-                  }
-              }
-              ,btn2: function(){
-                layer.closeAll();
-              }
             });
         }
         //导出
