@@ -362,8 +362,12 @@
 			   <input type="hidden" name="department" value="${obj.department }">
 			  </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  
-			    <td class="tc"  >${obj.department }</td>
+			  <td class="tc">
+			    <c:forEach items="${requires }" var="re" >
+					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
+			  	</c:forEach>
+			 	</td>
+			    
 			    
 			  <td class="tc"  >${obj.planName }</td>
 			

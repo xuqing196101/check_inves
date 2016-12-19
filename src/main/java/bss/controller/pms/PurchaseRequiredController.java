@@ -92,6 +92,10 @@ public class PurchaseRequiredController extends BaseController{
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", purchaseRequired);
+		
+		Map<String,Object> map=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+		model.addAttribute("requires", requires);
 		return "bss/pms/purchaserequird/list";
 	}
 	/**
@@ -251,6 +255,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setUserId(user.getId());
 					//p.setOrganization(user.getOrg().getName());
 					p.setDetailStatus(0);
+					p.setProjectStatus(0);
 //					purchaseRequiredService.add(p);	
 			}else{
 				PurchaseRequired p = list.get(i);
@@ -403,6 +408,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
 							p.setRecorderMobile(recorderMobile);
+							p.setProjectStatus(0);
 //							p.setOrganization(user.getOrg().getName());
 //							purchaseRequiredService.add(p);	
 					}else{
@@ -435,6 +441,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setStatus("1");
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
+							p.setProjectStatus(0);
 							p.setRecorderMobile(recorderMobile);
 //							p.setOrganization(user.getOrg().getName());
 //							purchaseRequiredService.add(p);	

@@ -296,7 +296,7 @@ public class PlanLookController extends BaseController {
 		String str = null;
 		String id = request.getParameter("id");
 		CollectPlan plan = collectPlanService.queryById(id);
-		if(plan.getStatus()==2){
+		if(plan.getStatus()==1){
 			str = "1";
 		}else{
 			str = "0";
