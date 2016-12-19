@@ -313,5 +313,6 @@
 			</li>
 	 </ul>
 	  -->
+	  <a href="${pageContext.request.contextPath}/purchaseContract/ntko.html">ntko</a>
 </body>
 </html>

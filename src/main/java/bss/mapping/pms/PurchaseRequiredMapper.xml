@@ -694,7 +694,7 @@
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_REQUIRED
 		<where>
-		HISTORY_STATUS='0'  and IS_DELETE='0'
+		HISTORY_STATUS='0' and IS_DELETE='0'
 			<if test="planNo !=null">
 				and PLAN_NO=#{planNo}
 			</if>
@@ -780,7 +780,7 @@
 	
 	
 	<update id="history" parameterType="Map">
-	update T_BSS_PMS_PURCHASE_REQUIRED
+		update T_BSS_PMS_PURCHASE_REQUIRED
 			<set>
 				<if test="oid!=null">
 					id=#{oid},
@@ -793,6 +793,5 @@
 				</if>
 			</set>
 		where id=#{id}
-		
 	</update>
 </mapper>
