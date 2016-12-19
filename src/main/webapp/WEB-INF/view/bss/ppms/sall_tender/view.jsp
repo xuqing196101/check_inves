@@ -147,16 +147,19 @@
         <c:set value="${p.index}" var="index"></c:set>
 
         <div>
-          <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${pack.name }</span>
-              <button class="btn btn-windows add" onclick="add('${pack.id }')" type="button">登记</button>
-              <button class="btn btn-windows withdraw" onclick="download()" type="button">下载标书</button>
-            </h2>
+          <h2 onclick="ycDiv(this,'${index}')" class="count_flows jbxx hand" style='display:inline'>包名:<span class="f15 blue">${pack.name }</span>
+          </h2>
+          <h2 style='display:inline'>
+             <button class="btn btn-windows add" onclick="add('${pack.id }')" type="button">登记</button>
+             <button class="btn btn-windows withdraw" onclick="download()" type="button">下载标书</button>
+           </h2>
+             
           <input type="hidden" id="packId" value="${pack.id }" />
 
         </div>
 
         <div class="p0${index} hide">
-          <table class="table table-bordered table-condensed table-hover table-striped">
+          <table class="table table-bordered table-condensed table-hover table-striped mt5">
             <thead>
               <tr>
                 <th class="info w50">选择</th>

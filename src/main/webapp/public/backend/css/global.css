@@ -400,6 +400,13 @@ p, li, li a, label {
     margin-top: 20px;
     font-size: 16px;
 }
+
+.count_flows {
+    line-height: 25px;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
 /** 虚线边框样式 */
 .ul_list {
     list-style-type: none;
