@@ -185,6 +185,17 @@ public class ExpertAuditController {
 			}
 		}
         
+		
+		// 专家系统key
+        Integer expertKey = Constant.EXPERT_SYS_KEY;
+        Map<String, Object> typeMap = getTypeId();
+        // typrId集合
+        model.addAttribute("typeMap", typeMap);
+        // 业务id就是专家id
+        model.addAttribute("sysId", expertId);
+        // Constant.EXPERT_SYS_VALUE;
+        model.addAttribute("expertKey", expertKey);
+        
         
         
 		model.addAttribute("expertId", expertId);
