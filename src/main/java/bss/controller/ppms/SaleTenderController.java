@@ -393,7 +393,7 @@ public class SaleTenderController {
     	if (attribute != null){
     		List<String> listIds=Arrays.asList(ids.split(","));
     		for(String str:listIds){
-    			saleTenderService.insert(new SaleTender(projectId, (short)1, str, (short)1, attribute.getId(),packages));
+    			saleTenderService.insert(new SaleTender(projectId, (short)1, str, (short)2, attribute.getId(),packages));
     		}
         }
         return "redirect:list.html?projectId="+projectId;
@@ -418,7 +418,7 @@ public class SaleTenderController {
     	if (attribute != null){
     		List<String> listIds=Arrays.asList(ids.split(","));
     		for(String str:listIds){
-    			saleTenderService.insert(new SaleTender(projectId, (short)2, str, (short)1, attribute.getId(),packages));
+    			saleTenderService.insert(new SaleTender(projectId, (short)2, str, (short)2, attribute.getId(),packages));
     		}
         }
         return "redirect:view.html?projectId="+projectId;
