@@ -448,7 +448,10 @@ public class AuditSetController {
 	   	        cell = row.createCell(1);  
 	   	        if(p.getDepartment()!=null){
 	   	        	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(p.getDepartment());
-	   	         cell.setCellValue(orgnization.getName());
+	   	        	if(orgnization!=null){
+	   	        		cell.setCellValue(orgnization.getName());
+	   	        	}
+	   	        	
 	   	        }
 	   	      
 	   	        cell = row.createCell(2);  
