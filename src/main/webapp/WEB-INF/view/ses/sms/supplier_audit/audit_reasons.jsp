@@ -215,7 +215,7 @@
               <input name="supplierId" value="${supplierId}" type="hidden">
           </form>
           
-          <c:if test="${status==1 }">
+          <c:if test="${status == 3 }">
              <h2 class="count_flow"><i>1</i>问题汇总</h2>
           </c:if>
           
