@@ -371,8 +371,10 @@ public class PurchaseRequiredController extends BaseController{
 //		targetFile.delete();
 		model.addAttribute("planName", planName);
 		model.addAttribute("planNo", planNo);
+//		Orgnization orgnization = oargnizationMapper.findOrgByPrimaryKey(user.getOrgId());
 		model.addAttribute("user", user);
 		model.addAttribute("planDepName", planDepName);
+//		model.addAttribute("orgName", orgnization.getName());
 		return "bss/pms/purchaserequird/add";
 	}
 	/**

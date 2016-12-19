@@ -141,7 +141,7 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String save(String val1, String val2,String collectId,String fname2,String fname){
+	public String save(String val1, String val2,String collectId,String fname2,String fname,String type){
 		String[] field1 = val1.trim().split(",");
 		List<String> list=new LinkedList<String>();
 		
@@ -203,7 +203,19 @@ public class AuditSetController {
 		}
 			
 		}
+		CollectPlan collectPlan = collectPlanService.queryById(collectId);
+		DictionaryData sh = DictionaryDataUtil.findById(type);
+		if(sh.getCode().equals("SH_1")){
+			collectPlan.setStatus(7);
+		}
+		if(sh.getCode().equals("SH_2")){
+			collectPlan.setStatus(8);
+		}
+		if(sh.getCode().equals("SH_3")){
+			collectPlan.setStatus(9);
+		}
 		
+		collectPlanService.update(collectPlan);
 		
 		return "redirect:/look/list.html?";
 	}

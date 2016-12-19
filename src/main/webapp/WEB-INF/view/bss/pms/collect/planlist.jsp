@@ -188,7 +188,7 @@
 					id.push($(this).val());
 				});
 				if(type == 4) {
-					window.location.href = "${pageContext.request.contextPath }/taskassgin/list.html?cid=" + id;
+					window.location.href = "${pageContext.request.contextPath }/look/audit.html?id=" + id+"&status=2";
 				} else {
 					window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + type;
 				}
@@ -277,12 +277,12 @@
 					<c:forEach items="${info.list}" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
 							<td class="tc w30">
-								<%-- 	  <c:if test="${obj.status=='1'}"> --%>
+							 <c:if test="${obj.status=='1'}">  
 								<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
-								<%--    </c:if>
-               <c:if test="${obj.status!='1' }">
-              <input type="checkbox" disabled="disabled"  value="${obj.id }" name="chkItem" onclick="check()"  alt="">
-              </c:if> --%>
+							  </c:if>
+					          <c:if test="${obj.status!='1' }">
+					              <input type="checkbox" disabled="disabled"  value="${obj.id }" name="chkItem" onclick="check()"  alt="">
+					           </c:if>  
 							</td>
 							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 							<td class="tc">${obj.fileName }</td>
@@ -302,8 +302,17 @@
 								<c:if test="${obj.status=='3' }">
 									审核退回
 								</c:if>
-								<c:if test="${obj.status=='4' }">
+							<%-- 	<c:if test="${obj.status=='4' }">
 									已下达
+								</c:if> --%>
+								<c:if test="${obj.status=='7' }">
+									一轮审核设置完毕
+								</c:if>
+								<c:if test="${obj.status=='8' }">
+									二轮审核设置完毕
+								</c:if>
+								<c:if test="${obj.status=='9' }">
+									三轮审核设置完毕
 								</c:if>
 							</td>
 						</tr>

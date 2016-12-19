@@ -359,6 +359,8 @@
 	 	<input type="hidden" name="fname" value="" id="fname" >
 	 	<input type="hidden" name="fname2" value="" id="fname2" >
 	 	<input type="hidden" name="collectId" value="${id }">	
+	 	<input type="hidden" name="type" value="${type }">	
+	 	
 	 </form>
 	 
 	 
