@@ -1,10 +1,15 @@
 package bss.service.cs.impl;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
@@ -15,6 +20,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +35,7 @@ import bss.model.cs.PurchaseContract;
 import bss.service.cs.PurchaseContractService;
 
 import com.github.pagehelper.PageHelper;
+import common.utils.UploadUtil;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -331,10 +338,13 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 //		System.out.println(this.getClass());
 		Template t = null;
 		try {
-			if(pur.getStatus()==2){
-				t=configuration.getTemplate("formalcontract.ftl");
+			if(pur.getStatus()!=null){
+				if(pur.getStatus()==2){
+					t=configuration.getTemplate("formalcontract.ftl");
+				}
+			}else{
+				t = configuration.getTemplate("contract.ftl");
 			}
-			t = configuration.getTemplate("contract.ftl");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -355,6 +365,8 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		}
 		try {
 			t.process(dataMap, out);
+			out.flush();
+            out.close();
 		} catch (TemplateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -414,4 +426,33 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return purchaseContractMapper.selectAllContractByStatus(map);
 	}
+	
+	@Override
+	public void downloadFile(HttpServletRequest request, HttpServletResponse response,String filePath ,String fileName){
+        response.reset();
+        String userAgent = request.getHeader("User-Agent"); 
+        try {
+            if (userAgent.contains("MSIE")||userAgent.contains("Trident")) {
+                fileName = java.net.URLEncoder.encode(fileName, "UTF-8");
+            } else {
+                fileName = new String(fileName.getBytes("UTF-8"),"ISO-8859-1");
+            }
+            File files = new File(filePath);
+            response.setContentType("application/octet-stream");   
+            response.setHeader("Content-disposition", String.format("attachment; filename=\"%s\"", fileName));
+            response.addHeader("Content-Length", "" + files.length());
+            response.setCharacterEncoding("UTF-8"); 
+            InputStream fis = new BufferedInputStream(new FileInputStream(files));   
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            UploadUtil.writeFile(fis, toClient);
+            toClient.flush();   
+            toClient.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  
+    }
 }

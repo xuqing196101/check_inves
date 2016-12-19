@@ -52,8 +52,8 @@
 	    	          url: "${pageContext.request.contextPath }/purchaseContract/createPrintPage.do",
 	    	          type: "POST",
 	    	          dataType: "json",
-	    	          success: function(orgs) {
-	    	        	  OpenFile(orgs);
+	    	          success: function(fileName) {
+	    	        	  OpenFile(fileName);
 	    	          }   
 	    	    });
 	          };
@@ -159,15 +159,15 @@
 		return childNodes;
 	 }
 	 
-	 function OpenFile(fileId) {
+	 function OpenFile(fileName) {
 			var obj = document.getElementById("TANGER_OCX");
 			obj.Menubar = true;
 			obj.Caption = "( 双击可放大 ! )"
-			//if(fileId != 0){
-				//obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
-			//} 
+			if(fileName != 0){
+				obj.BeginOpenFromURL("${pageContext.request.contextPath}/purchaseContract/loadFile.html?fileName="+fileName, true);// 异步加载, 服务器文件路径
+			} 
 			
-			obj.OpenFromURL("http://localhost:8080/zhbj/contract/"+fileId);
+			//obj.OpenFromURL("http://localhost:8080/zhbj/contract/"+fileId);
 			
 		}
 		

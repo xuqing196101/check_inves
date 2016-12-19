@@ -62,6 +62,7 @@ import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
+import common.service.DownloadService;
 import common.service.UploadService;
 
 /* 
@@ -120,6 +121,8 @@ public class PurchaseContractController extends BaseSupplierController{
 	@Autowired
 	private UserServiceI userServiceI;
 	
+	@Autowired
+	private DownloadService downloadService;
 	
 	/**
 	 * 
@@ -1701,10 +1704,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		if(flag){
 			purCon.setUpdatedAt(new Date());
-			List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 			PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
 			purchaseContractService.updateByPrimaryKeySelective(purCon);
-			purchaseContractService.createWord(pur, requList,request);
 			appraisalContractService.insertPurchaseContract(pur);
 			url="redirect:selectDraftContract.html";
 		}else{
@@ -2333,5 +2334,20 @@ public class PurchaseContractController extends BaseSupplierController{
         	url = "bss/cs/purchaseContract/printformal";
         }
         return url;
+    }
+    
+    /**
+     *〈简述〉下载附件
+     *〈详细描述〉
+     * @author Qu Jie
+     * @param request
+     * @param fileId 附件id
+     * @param response
+     */
+    @RequestMapping("/loadFile")
+    public void loadFile(HttpServletRequest request,HttpServletResponse response){
+    	String fileName = request.getParameter("fileName");
+    	String filePath = (PathUtil.getWebRoot() + "contract/").replace("\\", "/")+"/"+fileName;
+    	purchaseContractService.downloadFile(request, response, filePath, fileName);
     }
 }
