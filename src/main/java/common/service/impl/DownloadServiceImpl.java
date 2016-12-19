@@ -179,4 +179,19 @@ public class DownloadServiceImpl implements DownloadService {
             }
         }
     }
+    
+    /**
+     * 
+     * @see common.service.DownloadService#downLoadFile(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String)
+     */
+    @Override
+    public void downLoadFile(HttpServletRequest request,HttpServletResponse response, String filePath) {
+        if (StringUtils.isNotBlank(filePath)){
+            File file = new File(filePath);
+            downloadFile(request, response, filePath, file.getName());
+        }
+    }
+    
+    
+    
 }

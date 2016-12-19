@@ -34,4 +34,15 @@ public interface DownloadService {
      * @param sysKey 系统key
      */
     public void downloadOther(HttpServletRequest request, HttpServletResponse response, String fileId, String sysKey);
+    
+    /**
+     * 
+     *〈简述〉下载文件
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @param response{@link HttpServletResponse}
+     * @param filePath 文件路径
+     */
+    public void downLoadFile(HttpServletRequest request,HttpServletResponse response, String filePath);
 }
