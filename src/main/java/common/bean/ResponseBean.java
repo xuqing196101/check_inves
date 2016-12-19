@@ -14,6 +14,7 @@ public class ResponseBean {
     
     /** 是否成功 **/
     private boolean success = false;
+    
     /** 对象 **/
     private Object obj;
 

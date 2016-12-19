@@ -39,7 +39,14 @@ public class ExpExtCondition implements Cloneable {
 	
 	public ExpExtCondition(String projectId) {
 		super();
-		this.projectId = projectId;
+		if(projectId != null && !"".equals(projectId) && projectId.contains(",")){
+		    String[] proId=projectId.split(",");
+		    this.projectId = proId[0];
+		}else{
+		    this.projectId = projectId;
+		}
+	
+		
 	}
 	
 
@@ -227,7 +234,13 @@ public class ExpExtCondition implements Cloneable {
      *            T_SES_EMS_EXP_EXT_CONDITION.PROJECT_ID：项目id
      */
     public void setProjectId(String projectId) {
-        this.projectId = projectId == null ? null : projectId.trim();
+        if(projectId != null && !"".equals(projectId) && projectId.contains(",")){
+            String[] proId=projectId.split(",");
+            this.projectId = proId[0];
+        }else{
+            this.projectId = projectId == null ? null : projectId.trim();
+        }
+      
     }
 
     /**
