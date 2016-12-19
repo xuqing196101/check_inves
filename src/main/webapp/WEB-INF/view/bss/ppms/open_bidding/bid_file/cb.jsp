@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="u" uri="/tld/upload"%>
-<%@ include file="../../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -17,6 +16,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
+<%@ include file="../../../../common.jsp"%>
 <script type="text/javascript">
 function update(obj, supplierId, packageId, projectId, quoteId){
 	var total = $(obj).parent().parent().find("td").eq("2").find("input").val();
