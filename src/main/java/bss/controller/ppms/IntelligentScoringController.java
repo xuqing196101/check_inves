@@ -94,6 +94,7 @@ public class IntelligentScoringController {
 	        HashMap<String, Object> condition = new HashMap<String, Object>();
 	        condition.put("projectId", projectId);
 	        bidMethodService.delBidMethodByMap(condition);
+	        condition.put("packageId", packageId);
 	        markTermService.delMarkTermByMap(condition);
 	        scoreModelService.delScoreModelByMap(condition);
 	        //然后再来修改模板数据的projectid和packageid

@@ -75,6 +75,7 @@ function ycDiv(obj, index){
 <body>
 <!-- 表格开始-->  
 <div class="clear">
+<c:set value="1" var ="count"></c:set>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
@@ -96,6 +97,7 @@ function ycDiv(obj, index){
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
+				<c:set value="${count+1 }" var="index"></c:set>
 				<tr>
 				    <td class="tc w50">${vs.index+1}</td>
 				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
@@ -109,12 +111,12 @@ function ycDiv(obj, index){
 					</td>
 					<td class="tc">
 						<c:if test="${fn:length(treemap.value) > 1}">
-							<u:upload id="bf${vs.index}${vsKey.index}" groups="${treemapValue.groupsUpload}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-							<u:show showId="bs${vs.index}${vsKey.index}" groups="${treemapValue.groupShow}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
+							<u:upload id="bf${index}" groups="${treemapValue.groupsUpload}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+							<u:show showId="bs${index}" groups="${treemapValue.groupShow}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
 						</c:if>
 						<c:if test="${fn:length(treemap.value) == 1}">
-							<u:upload id="bf${vs.index}"  businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-							<u:show showId="bs${vs.index}"  businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
+							<u:upload id="bf${index}"  businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+							<u:show showId="bs${index}"  businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
 						</c:if>
 					</td>
 					<td class="tc"><span class="btn btn-windows edit" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')">更新</span></td>
