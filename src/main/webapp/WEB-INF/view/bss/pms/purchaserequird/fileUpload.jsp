@@ -44,7 +44,12 @@
   
   <body>  
     <div class="container clear margin-top-30" id="add_div" >
-      <form>
+    	<form action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
+    		<input type="file" name="file">
+    		 <input type="submit" value="导入" />
+    	</form>
+    
+    <!--   <form>
       	<div>
       	  <input id="fileName" type="file" name="file" />
       	</div>
@@ -52,7 +57,7 @@
       	  <button type="button" class="" onclick="uploadFile();">确定</button>
       	  <button type="button" >取消</button>
       	</div>
-      </form>
+      </form> -->
     </div>
   </body>
 </html>

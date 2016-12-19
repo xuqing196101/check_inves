@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,13 +26,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Category;
-import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.DictionaryDataUtil;
@@ -41,15 +40,16 @@ import ses.util.PathUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
-import bss.model.ppms.ProjectDetail;
 import bss.service.pms.PurchaseRequiredService;
 import bss.util.Excel;
 import bss.util.ExcelUtil;
-import common.annotation.CurrentUser;
-import common.bean.ResponseBean;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
+import common.bean.ResponseBean;
+import common.constant.Constant;
 /**
  * 
  * @Title: PurcharseRequiredController
@@ -72,7 +72,8 @@ public class PurchaseRequiredController extends BaseController{
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
-	
+	@Autowired
+	private OrgnizationMapper oargnizationMapper;
 	
 	/**
 	 * 
@@ -175,6 +176,9 @@ public class PurchaseRequiredController extends BaseController{
 		model.addAttribute("user", user);
 		model.addAttribute("list", DictionaryDataUtil.find(6));
 		model.addAttribute("list2", DictionaryDataUtil.find(5));
+		Map<String,Object> map=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+		model.addAttribute("requires",requires);
 		return "bss/pms/purchaserequird/add";
 	}
 	
@@ -193,21 +197,21 @@ public class PurchaseRequiredController extends BaseController{
 	 * @throws IOException 
 	 * @throws Exception
 	 */
-	@ResponseBody
-	@RequestMapping(value="/upload",produces="application/json;charset=UTF-8")
-	public ResponseBean uploadFile(@CurrentUser User user,@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,HttpServletResponse response,String type,String planName,String planNo) throws IOException{
+ 
+	@RequestMapping(value="/upload" )
+	public String uploadFile(@CurrentUser User user,MultipartFile file,String type,String planName,String planNo,Model model) throws IOException{
         ResponseBean bean = new ResponseBean();
         
         if (file == null){
             bean.setSuccess(false);
-            bean.setObj("文件不能为空");
-            return bean;
+//            bean.setObj("文件不能为空");
+//            return bean;
         }
         String fileName = file.getOriginalFilename();  
         if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){
             bean.setSuccess(false);
             bean.setObj("文件格式不支持");
-        	return bean;
+//        	return bean;
         }  
 		List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
 		try {
@@ -224,7 +228,9 @@ public class PurchaseRequiredController extends BaseController{
 		String cccid = UUID.randomUUID().toString().replaceAll("-", "");
 		String ccccid = UUID.randomUUID().toString().replaceAll("-", "");
 	//	String id = UUID.randomUUID().toString().replaceAll("-", "");
-		
+		int len=list.size()-1;
+		StringBuffer sbUp=new StringBuffer("");
+		StringBuffer sbShow=new StringBuffer("");
 		int count=1;
 		for(int i=0;i<list.size();i++){
 			if(i==0){
@@ -328,13 +334,33 @@ public class PurchaseRequiredController extends BaseController{
 				
 			}
 			count++;
+			
+			sbUp.append("pUp"+i+",");
+			sbShow.append("pShow"+i+",");
+			if(len==i){
+				sbUp.append("pUp"+i);
+				sbShow.append("pShow"+i);
+			}
 		}
-		bean.setSuccess(true);
-		bean.setObj(list);
-		//purchaseRequiredService.batchAdd(list);
-		//targetFile.delete();
+		Map<String,Object> map=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+		Integer sysKey = Constant.TENDER_SYS_KEY;
+		String attchid = DictionaryDataUtil.getId("PURCHASE_DETAIL");
+		model.addAttribute("attchid", attchid);
+		model.addAttribute("sysKey", sysKey);
+		model.addAttribute("plist", list);
+		model.addAttribute("sbUp", sbUp.toString());
+		model.addAttribute("sbShow", sbShow.toString());
 		
-		return bean;
+		model.addAttribute("list", DictionaryDataUtil.find(6));
+		model.addAttribute("list2", DictionaryDataUtil.find(5));
+		model.addAttribute("requires", requires);
+//		bean.setSuccess(true);
+//		bean.setObj(list);
+//		purchaseRequiredService.batchAdd(list);
+//		targetFile.delete();
+		
+		return "bss/pms/purchaserequird/add";
 	}
 	/**
 	 * @throws IOException 
@@ -389,15 +415,19 @@ public class PurchaseRequiredController extends BaseController{
 								p.setId(id);
 							}
 							parentId.add(id);
-							if(p.getPurchaseCount()!=null){
-								if(meanNum==0){
-									endNum = count;
-								}
-								meanNum++;
-								p.setParentId(parentId.get(endNum-2));
-							}else{
-								p.setParentId(parentId.get(count-2));
-							}
+//							if(p.getParentId()==null){
+								
+							
+									if(p.getPurchaseCount()!=null){
+										if(meanNum==0){
+											endNum = count;
+										}
+										meanNum++;
+										p.setParentId(parentId.get(endNum-2));
+									}else{
+										p.setParentId(parentId.get(count-2));
+									}
+//							}
 							p.setPlanType(planType);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
