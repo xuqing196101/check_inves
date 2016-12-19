@@ -120,7 +120,7 @@
 			      <c:set var="flag" value="0"/>
 			      <!-- 遍历专家给供应商打的分数 -->
 			  	  <c:forEach items="${expertScoreList}" var="score">
-			  	    <c:if test="${score.packageId eq packageId and score.expertId eq ext.id and score.supplierId eq supplier.suppliers.id}">
+			  	    <c:if test="${score.packageId eq packageId and score.expertId eq ext.expert.id and score.supplierId eq supplier.suppliers.id}">
 			  	      <!-- 如果有分数就设置flag=1 -->
 			  	      <c:set var="flag" value="1"/>
 			  	      <c:set var="scores" value="${score.score}"/>

@@ -43,7 +43,7 @@
    }
 
   //不合格的弹框
-   function isPass(obj){
+   function isPass(obj,position,index){
 	  layer.prompt({title: '请填写理由！',offset: '100px', formType: 2,cancel:function(){$(obj).attr("checked",false);}}, function(text){
 	    layer.msg('您的理由为：'+ text);
 	    var value = $(obj).val();
@@ -56,7 +56,8 @@
 	    	data:{'projectId':projectId,'packageId':packageId,'firstAuditId':ids[0],'supplierId':ids[1],'isPass':ids[2],'rejectReason':text},
 	    	type:'post',
 	    	success:function(obj){
-	    		layer.msg('审核成功');
+	    		layer.msg('审核成功',{offset: '100px'});
+	    		$("#notPassReason_"+position+"_"+index).removeAttr("class");
 	    	},
 	    	error:function(){}
 	    	
@@ -65,7 +66,7 @@
 	  });
 	}
   //合格
-  function pass(obj){
+  function pass(obj,position,index){
 	  var value = $(obj).val();
 	    var ids = new Array();
 	    var ids= value.split(",");
@@ -77,6 +78,7 @@
 	    	type:'post',
 	    	success:function(obj){
 	    		//layer.msg('审核成功');
+	    		$("#notPassReason_"+position+"_"+index).attr("class","dnone");
 	    	},
 	    	error:function(){}
 	    });
@@ -186,10 +188,10 @@
 			   <input type="hidden" id="packageId" name="packageId" value=""/>
 		   	   <input type="hidden" name="projectId" id="projectId" value="${extension.projectId }">
 		   	   <input type="hidden" name="packageId" id="packageId" value="${extension.packageId }">
-		   	   <div class="content table_box">
+		   	   <div class="content table_box over_scroll">
 				   <table class="table table-bordered table-condensed table-hover" id="table2">
 				   		<thead>
-				   		  <th class="info">资格性和符合性审查项</th>
+				   		  <th class="info space_nowrap">资格性和符合性审查项</th>
 				   		  <c:set var="suppliers" value="0" />
 				   		  <c:forEach items="${extension.supplierList}" var="supplier" varStatus="vs">
 				   		  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
@@ -205,21 +207,26 @@
 				   			<c:forEach items="${extension.firstAuditList }" var="first" varStatus="vs">
 					      	<c:if test="${first.kind == d.id}">
 					      	<tr>
-					      	  <td class="w150"><a href="javascript:void(0);" title="${first.content}">${first.name}</a></td>
+					      	  <td class="w260"><a href="javascript:void(0);" title="${first.content}">${first.name}</a></td>
 					      	  <c:forEach items="${extension.supplierList }" var="supplier" varStatus="v">
 					      	  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
-			   		                <td class="tc w200">
-			   		                  <input type="radio" onclick="pass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },0"
+			   		                <td class="tc space_nowrap">
+			   		                  <input type="radio" onclick="pass(this,'${v.index}','${vs.index}');" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },0"
 			   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
 			   		                      <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==0 }">checked</c:if>
 			   		                    </c:forEach>
 			   		                  >合格&nbsp;
-			   		                  <input type="radio" onclick="isPass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },1"
+			   		                  <input type="radio" onclick="isPass(this,'${v.index}','${vs.index}');" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },1"
 			   		                     <c:forEach items="${reviewFirstAuditList }" var="r" >
 			   		                       <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==1 }">checked</c:if>
 			   		                     </c:forEach>
 			   		                  >不合格
-			   		                  <a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${sessionScope.loginUser.typeId}');">查看理由</a>
+			   		                  <c:forEach items="${reviewFirstAuditList }" var="r" >
+		   		                       <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==1 }">
+			   		                  		<a id="notPassReason_${v.index}_${vs.index}" name="notPassReason" href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${sessionScope.loginUser.typeId}');">查看理由</a>
+										</c:if>
+		   		                      </c:forEach>
+		   		                      <a id="notPassReason_${v.index}_${vs.index}" name="notPassReason" class="dnone" href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${sessionScope.loginUser.typeId}');">查看理由</a>
 			   		                </td>
 		   		                </c:if>
 		   		              </c:forEach>
@@ -234,7 +241,7 @@
 		 	              <td class="tc"></td>
 		 	              <c:forEach items="${extension.supplierList }" var="supplier" varStatus="vs">
 			 	            <c:if test="${fn:contains(supplier.packages,extension.packageId)}">
-				 	            <td class="tc">
+				 	            <td class="tc space_nowrap">
 				 	            	<input type="button" class="btn" onclick="addAll(this,'${supplier.suppliers.id  }',0);" name="${vs.index}" value="全部合格">
 				 	            	<input type="button" class="btn" onclick="addNotAll(this,'${supplier.suppliers.id  }',1);" name="${vs.index}" value="全部不合格">
 <%-- 				 	            	<input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },0">全部合格&nbsp;

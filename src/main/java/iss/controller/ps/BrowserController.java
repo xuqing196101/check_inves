@@ -108,7 +108,7 @@ public class BrowserController {
 	  public void ntkoDownload(HttpServletRequest request, HttpServletResponse response){
 	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.ntko.path");
 	     UploadUtil.createDir(path);
-	     String fileName = "NTKO.exe";
+	     String fileName = PropUtil.getProperty("file.ntko");
 	     String filePath = path + File.separator + fileName;
 	     downloadFile(request, response, filePath, fileName);
 	  }

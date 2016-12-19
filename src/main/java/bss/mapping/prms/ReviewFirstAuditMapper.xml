@@ -9,9 +9,10 @@
     <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
     <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
     <result column="REJECT_REASON" jdbcType="VARCHAR" property="rejectReason" />
+    <result column="IS_BACK"  property="isBack" />
   </resultMap>
    <sql id="Base_Column_List">
-  PROJECT_ID, FIRST_AUDIT_ID, SUPPLIER_ID, IS_PASS, PACKAGE_ID,REJECT_REASON,EXPERT_ID
+  PROJECT_ID, FIRST_AUDIT_ID, SUPPLIER_ID, IS_PASS, PACKAGE_ID,REJECT_REASON,EXPERT_ID,IS_BACK
   </sql>
    <!-- 根据传递的条件查询关联表集合 -->
   <select id="selectList"  resultMap="BaseResultMap">
@@ -33,6 +34,9 @@
       <if test="expertId != null and expertId != ''">
        AND EXPERT_ID = #{expertId} 
       </if>
+      <if test="isBack != null">
+       AND IS_BACK = #{isBack} 
+      </if>
   </select>
   <!-- 根据条件删除 -->
    <delete id="delete">
@@ -52,12 +56,15 @@
       <if test="expertId != null and expertId != ''">
        AND EXPERT_ID = #{expertId} 
       </if>
+      <if test="isBack != null and isBack != ''">
+       AND IS_BACK = #{isBack} 
+      </if>
   </delete>
   <insert id="insert" parameterType="bss.model.prms.ReviewFirstAudit">
     insert into T_BSS_PRMS_REVIEW_FIRST_AUDIT (PROJECT_ID, FIRST_AUDIT_ID, SUPPLIER_ID, 
-      IS_PASS, PACKAGE_ID,REJECT_REASON,EXPERT_ID)
+      IS_PASS, PACKAGE_ID,REJECT_REASON,EXPERT_ID,IS_BACK)
     values (#{projectId,jdbcType=VARCHAR}, #{firstAuditId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, 
-      #{isPass,jdbcType=DECIMAL}, #{packageId,jdbcType=VARCHAR},#{rejectReason,jdbcType=VARCHAR},#{expertId,jdbcType=VARCHAR})
+      #{isPass,jdbcType=DECIMAL}, #{packageId,jdbcType=VARCHAR},#{rejectReason,jdbcType=VARCHAR},#{expertId,jdbcType=VARCHAR},#{isBack})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.prms.ReviewFirstAudit">
     insert into T_BSS_PRMS_REVIEW_FIRST_AUDIT
@@ -83,6 +90,9 @@
       <if test="expertId != null">
         EXPERT_ID
       </if>
+      <if test="isBack != null">
+        IS_BACK
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectId != null">
@@ -106,6 +116,55 @@
       <if test="expertId != null">
         #{expertId,jdbcType=VARCHAR},
       </if>
+      <if test="isBack != null">
+        #{isBack},
+      </if>
     </trim>
   </insert>
+  
+  <update id="update" parameterType="bss.model.prms.ReviewFirstAudit">
+    update T_BSS_PRMS_REVIEW_FIRST_AUDIT
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstAuditId != null">
+        FIRST_AUDIT_ID = #{firstAuditId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="isPass != null">
+        IS_PASS =  #{isPass,jdbcType=DECIMAL},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID =  #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="rejectReason != null">
+        REJECT_REASON =  #{rejectReason,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="isBack != null">
+        IS_BACK = #{isBack}
+      </if>
+    </set>
+    where 1=1
+	  <if test="projectId != null and projectId != ''">
+       AND PROJECT_ID = #{projectId}
+      </if>
+      <if test="firstAuditId != null and firstAuditId != ''">
+       AND FIRST_AUDIT_ID = #{firstAuditId} 
+      </if>
+      <if test="supplierId != null and supplierId != ''">
+       AND SUPPLIER_ID = #{supplierId} 
+      </if>
+      <if test="packageId != null and packageId != ''">
+       AND PACKAGE_ID = #{packageId} 
+      </if>
+      <if test="expertId != null and expertId != ''">
+       AND EXPERT_ID = #{expertId} 
+      </if>
+  </update>
 </mapper>

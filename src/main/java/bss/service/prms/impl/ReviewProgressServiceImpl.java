@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import bss.dao.ppms.PackageMapper;
 import bss.dao.prms.PackageExpertMapper;
+import bss.dao.prms.ReviewFirstAuditMapper;
 import bss.dao.prms.ReviewProgressMapper;
 import bss.model.ppms.Packages;
 import bss.model.prms.PackageExpert;
+import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ReviewProgress;
 import bss.service.prms.ReviewProgressService;
 import ses.util.WfUtil;
@@ -25,6 +27,8 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 	private PackageExpertMapper packageExpertMapper;
 	@Autowired
 	private PackageMapper packageMapper;
+	@Autowired
+	private ReviewFirstAuditMapper reviewFirstAuditMapper;
 	
 	@Override
 	public int deleteByPrimaryKey(String id) {
@@ -94,6 +98,17 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
     		 packageExpert.setIsAudit((short) 1);
     		 packageExpertMapper.updateByBean(packageExpert);
     	 }
+    	//将评审结果改为退回状态
+       Map<String, Object> rfaMap = new HashMap<String, Object>();
+       rfaMap.put("expertId", expertId);
+       rfaMap.put("packageId", packageId);
+       rfaMap.put("projectId", projectId);
+       List<ReviewFirstAudit> rfas =  reviewFirstAuditMapper.selectList(rfaMap);
+       for (ReviewFirstAudit reviewFirstAudit : rfas) {
+         //设置状态为未退回
+         reviewFirstAudit.setIsBack(0);
+         reviewFirstAuditMapper.update(reviewFirstAudit);
+       }
     	 Map<String, Object> map2 = new HashMap<String, Object>();
 		 /*map2.put("expertId", expertId);*/
 		 map2.put("projectId", projectId);

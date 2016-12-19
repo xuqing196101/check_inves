@@ -25,6 +25,7 @@ public class ReviewFirstAuditServiceImpl implements ReviewFirstAuditService {
 	  * @return void
 	 */
 	public void save(ReviewFirstAudit record){
+	  record.setIsBack(0);
 		mapper.insert(record);
 	}
 
@@ -53,4 +54,9 @@ public class ReviewFirstAuditServiceImpl implements ReviewFirstAuditService {
 	    public  void delete(Map<String,Object> map){
 	    	mapper.delete(map);
 	    }
+
+      @Override
+      public void update(ReviewFirstAudit record) {
+        mapper.update(record);
+      }
 }
