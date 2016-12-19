@@ -90,5 +90,14 @@ public interface SaleTenderMapper {
      */
     List<SaleTender> getPackegeSuppliers(SaleTender record);
     
+    /**
+     *〈简述〉按照项目id查询所有的包
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param projectId
+     * @return
+     */
+    List<String> getPackageIds(String projectId);
+    
     
 }

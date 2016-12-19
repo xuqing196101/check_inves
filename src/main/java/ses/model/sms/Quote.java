@@ -97,6 +97,17 @@ public class Quote {
      */
     private String totalMoneyNames;
     
+    //是否到场
+    private Integer isTurnUp;
+    
+    public Integer getIsTurnUp() {
+        return isTurnUp;
+    }
+
+    public void setIsTurnUp(Integer isTurnUp) {
+        this.isTurnUp = isTurnUp;
+    }
+
     public String getTotalMoneyNames() {
         return totalMoneyNames;
     }

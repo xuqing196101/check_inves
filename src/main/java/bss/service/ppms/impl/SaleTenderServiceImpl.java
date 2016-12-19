@@ -160,5 +160,10 @@ public class SaleTenderServiceImpl implements SaleTenderService {
 		// TODO Auto-generated method stub
 		return saleTenderMapper.getPackegeSuppliers(record);
 	}
+	
+    @Override
+    public List<String> getPackageIds(String projectId){
+        return saleTenderMapper.getPackageIds(projectId);
+    }
 }
 

@@ -38,6 +38,14 @@ public interface SupplierQuoteService {
      * @param listQuote 保存多个包报价
      */
     void insert(List<Quote> listQuote);
+    
+    /**
+     *〈简述〉保存报价
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param listQuote 保存多个包报价
+     */
+    void update(List<Quote> listQuote);
 
     /**
      *〈简述〉可以报价的项目
