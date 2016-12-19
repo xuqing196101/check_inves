@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,12 +71,15 @@ import bss.service.prms.ReviewFirstAuditService;
 import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
+import common.constant.Constant;
 
 @Controller
 @RequestMapping("packageExpert")
 public class PackageExpertController {
     private final static int ONE = 1;
     private final static short SONE = 1;
+    private final static Short NUMBER_TWO = 2;
+    
     @Autowired
     private PackageExpertService service;
     @Autowired
@@ -245,7 +249,64 @@ public class PackageExpertController {
         return JSON.toJSONString("SCCUESS");
 
     }
-
+    
+    @RequestMapping("/toSupplierQuote")
+    public String supplierQuote(HttpServletRequest req, String projectId, Model model, String flowDefineId) throws ParseException {
+      //去saletender查出项目对应的所有的包
+        List<String> packageIds = saleTenderService.getPackageIds(projectId);
+        //这里用这个是因为hashMap是无序的
+        TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
+        SaleTender condition = new SaleTender();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map1 = new HashMap<String, Object>();
+        if (packageIds != null) {
+            for (String packageId : packageIds) {
+                condition.setProjectId(projectId);
+                condition.setPackages(packageId);
+                condition.setStatusBid(NUMBER_TWO);
+                condition.setStatusBond(NUMBER_TWO);
+                List<SaleTender> stList = saleTenderService.find(condition);
+                map1.put("packageId", packageId);
+                map1.put("projectId", projectId);
+                List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
+                BigDecimal projectBudget = BigDecimal.ZERO;
+                for (ProjectDetail projectDetail : detailList) {
+                    projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+                }
+                //再次点击 查看
+                for (SaleTender saleTender : stList) {
+                    Quote quote = new Quote();
+                    quote.setProjectId(projectId);
+                    quote.setPackageId(packageId);
+                    quote.setSupplierId(saleTender.getSupplierId());
+                    List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+                    if (allQuote != null && allQuote.size() > 0) {
+                        for (Quote conditionQuote : allQuote) {
+                            if (conditionQuote.getSupplier().getId().equals(saleTender.getSuppliers().getId()) &&
+                                conditionQuote.getProject().getId().equals(saleTender.getProject().getId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
+                                saleTender.setTotal(conditionQuote.getTotal());
+                                saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
+                                saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
+                                saleTender.setQuoteId(conditionQuote.getId());
+                            }
+                        }
+                    }
+                }
+                map.put("id", packageId);
+                List<Packages> pack = packageService.findPackageById(map);
+                if (pack != null && pack.size() > 0) {
+                    treeMap.put(pack.get(0).getName()+"|"+projectBudget, stList);
+                } else {
+                    treeMap.put("", stList);
+                };
+            }
+        }
+        model.addAttribute("treeMap", treeMap);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("flowDefineId", flowDefineId);
+        return "bss/prms/supplier_quote/quote_list";
+    }
+    
 
     /**
      *〈简述〉跳转供应商报价
@@ -257,12 +318,10 @@ public class PackageExpertController {
      * @return
      * @throws ParseException 处理异常
      */
-    @RequestMapping("/toSupplierQuote")
+    //@RequestMapping("/toSupplierQuote")
     public String toSupplierQuote(HttpServletRequest req, String projectId, Model model, String flowDefineId) throws ParseException {
-        // 供应商信息
         List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
         List<Packages> packages = packageService.listResultExpert(projectId);
-        //
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
         List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);

@@ -227,6 +227,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		for (SupplierStars ss : listSupplierStars) {
 			for (Supplier s : listSupplier) {
 				Integer score = s.getScore();
+				if (score == null || "".equals(score)) {
+				    score = 0;
+				}
 				Integer oneStars = ss.getOneStars();
 				Integer twoStars = ss.getTwoStars();
 				Integer threeStars = ss.getThreeStars();

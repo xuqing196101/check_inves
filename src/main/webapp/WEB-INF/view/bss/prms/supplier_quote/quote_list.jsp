@@ -33,29 +33,18 @@
 			  <th class="w50 info">序号</th>
 			  <th class="info">供应商名称</th>
 			  <th class="info">报价(单位：元)</th>
-			  <th class="info">操作</th>
+			  <!-- <th class="info">操作</th> -->
 			</tr>
 			</thead>
-			<c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-		       <tr>
-		        <td class="tc w30">${vs.count } </td>
-		        <td class="tc">${supplier.suppliers.supplierName } </td>
-		        <td>
-		        	<table>
-		        	  <c:forEach items="${supplier.money}" var="sm" varStatus="vs">
-		        		<tr>
-		        			<td class="tc">${sm.packageName}： </td>
-		        		    <td class="tl w100">${sm.totalMoney}</td>
-		        		    <td class="tl w230">(${sm.upperName })</td>
-		        		</tr>
-		              </c:forEach>
-		        	</table>
-		        </td>
-		        <td class="tc w100">
-		          <input class="btn" type="button" value="查看" onclick="supplierView('${supplier.suppliers.id}')">
-		        </td>
-		      </tr>
-      	  </c:forEach>
+			<c:forEach items="${treeMap }" var="treemap" varStatus="vs">
+				<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
+					<tr>
+					    <td class="tc w50">${vs.index+1}</td>
+					    <td class="tc">${treemapValue.suppliers.supplierName}</td>
+						<td class="tc">${treemapValue.total}</td>
+				    </tr>
+			    </c:forEach>
+		   </c:forEach>
 		</table>
   </body>
 </html>

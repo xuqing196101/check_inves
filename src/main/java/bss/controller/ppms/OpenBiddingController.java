@@ -620,6 +620,7 @@ public class OpenBiddingController {
         StringBuilder sbUpload = new StringBuilder("");
         StringBuilder show = new StringBuilder("");
         if (packageIds != null) {
+            Integer count = 0;
             for (String packageId : packageIds) {
                 condition.setProjectId(projectId);
                 condition.setPackages(packageId);
@@ -627,7 +628,7 @@ public class OpenBiddingController {
                 condition.setStatusBond(NUMBER_TWO);
                 List<SaleTender> stList = saleTenderService.find(condition);
                 map1.put("packageId", packageId);
-                map1.put("projectId", packageId);
+                map1.put("projectId", projectId);
                 List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
                 BigDecimal projectBudget = BigDecimal.ZERO;
                 for (ProjectDetail projectDetail : detailList) {
@@ -667,7 +668,13 @@ public class OpenBiddingController {
                 for (SaleTender saleTender : stList) {
                     saleTender.setGroupsUpload(sbUpload.toString());
                     saleTender.setGroupShow(show.toString());
+                    //判断文件上传是一个还是多个
+                    if (num == 1) {
+                        String flag = "1";
+                        model.addAttribute("flag"+count, flag);
+                    }
                 }
+                count ++;
                 map.put("id", packageId);
                 List<Packages> pack = packageService.findPackageById(map);
                 if (pack != null && pack.size() > 0) {

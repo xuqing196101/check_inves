@@ -74,10 +74,9 @@
     
     function addModel(obj,kindId,status){
         var projectId = $("#projectId").val();
-        var packageId = $("#packageId").val();
         var name = encodeURI(obj);
 		name = encodeURI(name);
-    	window.location.href="${pageContext.request.contextPath}/intelligentScore/gettreebody.html?projectId="+projectId+"&packageId="+packageId+"&id="+kindId+"&name="+name+"&addStatus="+status;
+    	window.location.href="${pageContext.request.contextPath}/auditTemplat/gettreebody.html?projectId="+projectId+"&id="+kindId+"&name="+name+"&addStatus="+status;
     }
     
     
@@ -110,9 +109,9 @@
                 if(!result.success){
                     layer.msg(result.msg,{offset: ['150px']});
                 }else{
-                    var packageId = $("#packageId").val();
-                    var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+                	var templetKind = $("#templetKind").val();
+                	var projectId = $("#projectId").val();
+                    window.location.href = '${pageContext.request.contextPath}/auditTemplat/editTemplat.html?templetId='+projectId+"&templetKind="+templetKind;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -128,7 +127,7 @@
     	var fatId = $("#fatId").val();
     	$.ajax({   
             type: "POST",  
-            url: "${pageContext.request.contextPath}/intelligentScore/loadTemplat.html",   
+            url: "${pageContext.request.contextPath}/firstAudit/loadTemplat.html",   
             data:{"id":fatId,"projectId":projectId,"packageId":packageId},
             dataType:'json',
             success:function(result){
@@ -137,7 +136,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -166,26 +165,22 @@
     }
  </script>
 <body>  
-    <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
-  <div class="search_detail">
-	        <ul class="demand_list">
-	          <li>
-	            <label class="fl">选择模板：</label>
-	              <select id="fatId">
-	                <option value="">请选择</option>
-	                <c:forEach items="${firstAuditTemplats}" var="fat">
-	                    <option value="${fat.id}">${fat.name}</option>
-	                </c:forEach>
-	              </select>
-	           </li>
-	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定</button>
-	          <%--  <div class="pull-right">
-	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
-	           </div> --%>
-	        </ul>
-	        <div class="clear"></div>
-	     </div>
-    <div class="content">
+ <div class="margin-top-10 breadcrumbs ">
+        <div class="container">
+            <ul class="breadcrumb margin-left-0">
+                <li><a href="javascript:void(0)">首页</a></li>
+                <li><a href="javascript:void(0)">支撑系统</a></li>
+                <li><a href="javascript:void(0)">后台管理</a></li>
+                <li class="active"><a href="javascript:void(0)">模版管理</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="headline-v2">
+            <h2>经济技术审查项编辑</h2>
+        </div>
+        <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover">
             <thead>
                <tr>
@@ -195,21 +190,9 @@
                   <th class="w50">分值</th>
                </tr>
             </thead>
-               <%--  <tr>
-                   <td class="w150"> <span class="fl">${dd.name }</span><a class="addItem item_size" onclick="addItem(this,'${dd.id}');" ></a></td>
-	                    <td class="w150">
- 						    <span class="fl">评标细则一</span><a class="addItem item_size" onclick="addModel('','',1);" ></a>
- 							<a href="javascript:void(0);" title="编辑" onclick="addModel('','',2);"><img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png"></a>
-	                        <a href="javascript:void(0);" title="删除" onclick="delItem('',1)"><img src="${pageContext.request.contextPath}/public/backend/images/sc.png"></a>
-	                    </td>
-	                 	<td class="tc">
-	                 	</td>
-	                 	<td>
-	                 	</td>
-	                 	<td></td>
-                </tr> --%>
                  ${str }
         </table>
+        </div>
     </div>
 	    <div class="mt40 tc mb50">
 	        <button class="btn btn-windows back" onclick="history.go(-1)">返回</button>
@@ -217,8 +200,8 @@
     <div id="openDiv" class="dnone layui-layer-wrap">
       <form id="form2" method="post" >
         <div class="drop_window">
-              <input type="hidden" name="projectId" id="projectId" value="${projectId}">
-              <input type="hidden" name="packageId" id="packageId" value="${packageId}">
+              <input type="hidden" id="projectId" name="projectId" value="${templetId}" />
+              <input type="hidden" id="templetKind" name="templetKind" value="${templetKind}" />
               <input type="hidden" name="typeName" id="typeName">
               <input type="hidden" name="id" id="id">
               <ul class="list-unstyled">

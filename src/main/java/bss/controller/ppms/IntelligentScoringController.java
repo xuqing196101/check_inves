@@ -3,6 +3,7 @@ package bss.controller.ppms;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,6 +37,9 @@ import bss.model.ppms.ParamInterval;
 import bss.model.ppms.Project;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
+import bss.model.prms.FirstAudit;
+import bss.model.prms.FirstAuditTemitem;
+import bss.model.prms.FirstAuditTemplat;
 import bss.service.ppms.BidMethodService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
@@ -81,6 +85,115 @@ public class IntelligentScoringController {
 	private FirstAuditService service;
 	@Autowired
 	private FirstAuditTemplatService firstAuditTemplatService;
+	
+	@RequestMapping("/loadTemplat")
+	  public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
+	    try{
+	        //模板导入前首先给现有的东西删除掉所有的项目id都一样。所以按照项目id删除
+	        HashMap<String, Object> condition = new HashMap<String, Object>();
+	        condition.put("projectId", projectId);
+	        bidMethodService.delBidMethodByMap(condition);
+	        markTermService.delMarkTermByMap(condition);
+	        scoreModelService.delScoreModelByMap(condition);
+	        //然后再来修改模板数据的projectid和packageid
+	        BidMethod bmCondition = new BidMethod();
+	        bmCondition.setProjectId(id);
+	        List<BidMethod> bmList = bidMethodService.findListByBidMethod(bmCondition);
+	        //模板中的数据
+	        MarkTerm mtCondition = new MarkTerm();
+            mtCondition.setProjectId(id);
+            List<MarkTerm> mtList = markTermService.findListByMarkTerm(mtCondition);
+            //模板中数据
+            ScoreModel smCondition = new ScoreModel();
+            smCondition.setProjectId(id);
+            List<ScoreModel> smList = scoreModelService.findListByScoreModel(smCondition);
+	        for (BidMethod bidMethod : bmList) {
+	            //修改之前新增一条
+	            BidMethod bm = new BidMethod();
+	            bm.setId(null);
+	            bm.setName(bidMethod.getName());
+	            bm.setProjectId(id);
+	            bm.setIsDeleted("0");
+	            bm.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+	            bm.setRemainScore(bidMethod.getRemainScore());
+	            bm.setRemark(bidMethod.getRemark());
+	            bidMethodService.save(bm);
+	           
+	            for (MarkTerm markTerm : mtList) {
+	                if (markTerm.getBidMethodId() != null && markTerm.getBidMethodId().equals(bidMethod.getId())) {
+	                    MarkTerm mt = new MarkTerm();
+	                    mt.setId(null);
+	                    mt.setPid("0");
+	                    mt.setName(markTerm.getName());
+	                    mt.setIsDeleted(0);
+	                    mt.setCreatedAt(new Date());
+	                    mt.setMaxScore(markTerm.getMaxScore());
+	                    mt.setProjectId(id);
+	                    mt.setRemainScore(markTerm.getRemainScore());
+	                    mt.setTypeName(markTerm.getTypeName());
+	                    mt.setBidMethodId(bm.getId());
+	                    markTermService.save(mt);
+	                    
+	                    for (MarkTerm markTerm2 : mtList) {
+                            if (markTerm.getId().equals(markTerm2.getPid())) {
+                                MarkTerm mtChildren = new MarkTerm();
+                                mtChildren.setId(null);
+                                mtChildren.setPid(mt.getId());
+                                mtChildren.setName(markTerm2.getName());
+                                mtChildren.setIsDeleted(0);
+                                mtChildren.setCreatedAt(new Date());
+                                mtChildren.setMaxScore(markTerm2.getMaxScore());
+                                mtChildren.setProjectId(id);
+                                mtChildren.setRemainScore(markTerm2.getRemainScore());
+                                mtChildren.setTypeName(markTerm2.getTypeName());
+                                markTermService.saveMarkTerm(mtChildren);
+                                
+                                for (ScoreModel scoreModel : smList) {
+                                    if (scoreModel.getMarkTermId().equals(markTerm2.getId())) {
+                                        ScoreModel sm = new ScoreModel();
+                                        sm.setId(null);
+                                        sm.setProjectId(id);
+                                        sm.setName(scoreModel.getName());
+                                        sm.setTypeName(scoreModel.getTypeName());
+                                        sm.setEasyUnderstandContent(scoreModel.getEasyUnderstandContent());
+                                        sm.setStandardScore(scoreModel.getStandardScore());
+                                        sm.setStandExplain(scoreModel.getStandExplain());
+                                        sm.setJudgeContent(scoreModel.getJudgeContent());
+                                        sm.setReviewParam(scoreModel.getReviewParam());
+                                        sm.setMarkTermId(mtChildren.getId());
+                                        scoreModelService.saveScoreModel(sm);
+                                    }
+                                }
+                            }
+                        }
+	                }
+	            }
+	            bidMethod.setProjectId(projectId);
+                bidMethod.setPackageId(packageId);
+                bidMethodService.updateBidMethod(bidMethod);
+            }
+	        
+            for (MarkTerm markTerm : mtList) {
+                markTerm.setProjectId(projectId);
+                markTerm.setPackageId(packageId);
+                markTermService.updateMarkTerm(markTerm);
+            }
+	        
+	        for (ScoreModel scoreModel : smList) {
+	            scoreModel.setProjectId(projectId);
+	            scoreModel.setPackageId(packageId);
+	            scoreModelService.updateScoreModel(scoreModel);
+	        }
+	      String msg = "引入成功";
+	      response.setContentType("text/html;charset=utf-8");
+	      response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+	      response.getWriter().flush();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally{
+	        response.getWriter().close();
+	    }
+	  }
 	
 	@RequestMapping(value = "deleteScoreModel")
 	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
@@ -187,9 +300,11 @@ public class IntelligentScoringController {
 	        model.addAttribute("packages", packages.get(0));
 	    }
 	    //获取经济技术审查模版
-	    /*HashMap<String, Object> map2 = new HashMap<String, Object>();
+	    HashMap<String, Object> map2 = new HashMap<String, Object>();
 	    map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
-	    List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);*/
+	    //获取资格性和符合性审查模版
+	    List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+	    model.addAttribute("firstAuditTemplats", firstAuditTemplats);
 	    model.addAttribute("packageId", packageId);
 	    model.addAttribute("projectId", projectId);
 	    model.addAttribute("ddList", ddList);
@@ -203,6 +318,8 @@ public class IntelligentScoringController {
         mt.setTypeName(id);
         mt.setProjectId(projectId);
         mt.setPackageId(packageId);
+        //默认顶级节点为0
+        mt.setPid("0");
         List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
         Integer count3 = 0;
         for (MarkTerm mtKey : mtList) {

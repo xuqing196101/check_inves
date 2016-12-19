@@ -52,10 +52,17 @@ public class BidMethodServiceImpl implements BidMethodService{
 		m.setBidMethodId(bidMethod.getId());
 		m.setPackageId(bidMethod.getPackageId());
 		m.setProjectId(bidMethod.getProjectId());
+		//顶级节点默认为0
+		m.setPid("0");
 		markTermMapper.saveMarkTerm(m);
 		return a;
 	}
-
+	
+	@Override
+    public void save(BidMethod bidMethod) {
+	    bidMethodMapper.saveBidMethod(bidMethod);
+	}
+	
 	@Override
 	public int updateBidMethod(BidMethod bidMethod) {
 		int a =0;

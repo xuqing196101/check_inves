@@ -485,6 +485,9 @@
 		<if test="markTermId != null">
          	and mark_term_id = #{markTermId}
       	</if>
+      	<if test="projectId != null">
+         	and PROJECT_ID = #{projectId}
+      	</if>
       	<if test="id != null">
          	and id= #{id}
       	</if>

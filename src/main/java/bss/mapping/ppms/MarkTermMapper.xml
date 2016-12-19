@@ -52,10 +52,10 @@
       	<if test="isRoot != null">
         	and mt.pid is null
       	</if>
-      	<if test="projectId != null">
+      	<if test="projectId != null and projectId != '' ">
         	and mt.PROJECT_ID =#{projectId}
       	</if>
-      	<if test="packageId != null">
+      	<if test="packageId != null and packageId != '' ">
         	and mt.PACKAGE_ID =#{packageId}
       	</if>
       	<if test="bidMethodId != null">
@@ -224,6 +224,9 @@
 		delete from T_BSS_PPMS_MARK_TERM s where 1=1
 		<if test="isRoot != null">
          	and pid is not null
+      	</if>
+      	<if test="projectId != null">
+         	and PROJECT_ID = #{projectId}
       	</if>
       	<if test="id != null">
          	and id= #{id}

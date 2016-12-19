@@ -108,6 +108,8 @@ function ycDiv(obj, index){
 						</select>
 					</td>
 					<td class="tc">
+					     <%-- <c:set value="${flag}${vs.index}" var="" ></c:set>
+						<c:if test="${flag}"></c:if> --%>
 						<u:upload id="bf${vs.index}" groups="${treemapValue.groupsUpload}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 						<u:show showId="bs${vs.index}" groups="${treemapValue.groupShow}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
 					</td>

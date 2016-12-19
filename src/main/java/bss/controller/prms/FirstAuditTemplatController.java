@@ -1,10 +1,14 @@
 package bss.controller.prms;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -12,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -19,8 +24,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.github.pagehelper.PageInfo;
 
 import bss.controller.base.BaseController;
+import bss.model.ppms.MarkTerm;
+import bss.model.ppms.Packages;
+import bss.model.ppms.ParamInterval;
+import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAuditTemitem;
 import bss.model.prms.FirstAuditTemplat;
+import bss.service.ppms.MarkTermService;
+import bss.service.ppms.ParamIntervalService;
+import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditTemitemService;
 import bss.service.prms.FirstAuditTemplatService;
 import ses.model.bms.DictionaryData;
@@ -34,7 +46,16 @@ public class FirstAuditTemplatController extends BaseController{
 	private FirstAuditTemplatService service;
 	
 	@Autowired
+	private MarkTermService markTermService;
+	
+	@Autowired
 	private FirstAuditTemitemService temService;
+	
+	@Autowired
+	private ScoreModelService scoreModelService;
+	    
+	@Autowired
+	private ParamIntervalService paramIntervalService;
 	
 	/**
 	 * 
@@ -169,19 +190,282 @@ public class FirstAuditTemplatController extends BaseController{
 	    //符合性资格性审查项编辑
 	    return "bss/prms/templat/qc_item_templet";
     } 
-	  if (kind != null && kind.getCode().equals("REVIEW_ET")) {
-	    List<DictionaryData> dds = DictionaryDataUtil.find(23);
-      //经济技术审查项类型
-      model.addAttribute("dds", dds);
-      model.addAttribute("kind", kind);
-      model.addAttribute("items", items);
-      model.addAttribute("templetKind", templetKind);
-      model.addAttribute("templetId", templetId);
-      //经济技术审查项编辑
-      return "bss/prms/templat/et_item_templet";
+	if ((kind != null && kind.getCode().equals("REVIEW_ET") || "1".equals(templetKind))) {
+	    //显示经济技术 和子节点  子节点的子节点就是模型
+        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+        String str ="";
+        for (DictionaryData dictionaryData : ddList) {
+            str += getTable(dictionaryData.getId(), dictionaryData.getName(), templetId, "");
+        }
+        model.addAttribute("ddList", ddList);
+        model.addAttribute("str", str);
+        model.addAttribute("templetId", templetId);
+        model.addAttribute("templetKind", templetKind);
+        return "bss/prms/templat/edit_package_qc";
     } 
 	  return null;
 	}
+	
+	@RequestMapping("gettreebody")
+    public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus) throws UnsupportedEncodingException {
+        String packageId = request.getParameter("packageId");
+        ScoreModel scoreModel = new ScoreModel();
+        scoreModel.setName(URLDecoder.decode(markTerm.getName(), "UTF-8"));
+        scoreModel.setMarkTermId(markTerm.getId()==null?"":markTerm.getId());
+        List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+        if (scoreModelList != null && scoreModelList.size()==1) {
+            ParamInterval pi = new ParamInterval();
+            pi.setScoreModelId(scoreModelList.get(0).getId());
+            List<ParamInterval> piList = paramIntervalService.findListByParamInterval(pi);
+            StringBuilder sb = new StringBuilder("");
+            Integer count = 0;
+            for (ParamInterval paramInterval : piList) {
+                count++;
+                sb.append("<tr><td class=tc>" + count + "</td><td class=tc>" + paramInterval.getStartParam());
+                sb.append("</td><td class=tc>" + paramInterval.getEndParam() + "</td>");
+                sb.append("<td class=tc>" + paramInterval.getScore() + "</td>");
+                String explain = paramInterval.getExplain() == null ? "" :paramInterval.getExplain();
+                sb.append("<td class=tc>" + explain + "</td>");
+                sb.append("<td class=tc><a href=javascript:void(0); onclick=delTr(this)>删除</a></td></tr>");
+            }
+            String scoreStr = sb.toString();
+            model.addAttribute("scoreStr", scoreStr);
+        }
+        model.addAttribute("scoreModelList", scoreModelList);
+        model.addAttribute("markTermId", markTerm.getId());
+        String markTermName ="";
+        /*if(markTerm.getName()!=null && !markTerm.getName().equals("")){
+            markTermName = URLDecoder.decode(markTerm.getName(), "UTF-8");
+        }*/
+        model.addAttribute("markTermName",markTermName );
+        if(scoreModelList!=null && scoreModelList.size()>0){
+            
+            model.addAttribute("scoreModel", scoreModelList.get(0));
+        }
+        model.addAttribute("projectId", markTerm.getProjectId());
+        model.addAttribute("addStatus", addStatus);
+        return "bss/prms/templat/treebody";
+    }
+	
+	public String getTable(String id, String name, String projectId, String packageId) {
+        HashMap<MarkTerm ,List<MarkTerm>> map = new HashMap<MarkTerm,List<MarkTerm>>();
+        MarkTerm mt = new MarkTerm();
+        mt.setTypeName(id);
+        mt.setProjectId(projectId);
+        mt.setPackageId(packageId);
+        //默认顶级节点为0
+        mt.setPid("0");
+        List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
+        Integer count3 = 0;
+        for (MarkTerm mtKey : mtList) {
+            MarkTerm mt1 = new MarkTerm();
+            mt1.setPid(mtKey.getId());
+            mt1.setProjectId(projectId);
+            mt1.setPackageId(packageId);
+            List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+            if (mtValue != null && mtValue.size() == 0){
+                count3 += 1;
+            } else {
+                count3 += mtValue.size();
+            }
+            map.put(mtKey, mtValue);
+        }
+        StringBuilder sb = new StringBuilder("");
+        Integer count = 0;
+        if (mtList != null && mtList.size() >0) {
+            for (MarkTerm markKey : map.keySet()) {
+                Integer count1 = 0;//游标
+                if (count ==0) {
+                    if (map.get(markKey) != null && map.get(markKey).size() > 0) {
+                        for (MarkTerm markValue : map.get(markKey)) {
+                            if(count1 == 0) {
+                                sb.append("<tr><td class='w100' rowspan=" + count3 +"><span class='fl'>"+ name +"</span><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></td>");
+                                sb.append("<td class='w150' rowspan="+map.get(markKey).size()+">");
+                                sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markValue.getName() + "','" + markKey.getId() + "',1); ></a>");
+                                sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
+                                sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                                String typeName = getTypeName(markValue.getSmtypename());
+                                sb.append("<td class='tc'>" + typeName + "</td>");
+                                Double sscore = markValue.getScscore() ;
+                                if (sscore == null){
+                                    sscore = 0.0;
+                                }
+                                sb.append("<td>"+ markValue.getName());
+                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                            } else {
+                                String typeName = getTypeName(markValue.getSmtypename());
+                                sb.append("<tr><td class='tc'><span>" + typeName + "</span></td>");
+                                Double sscore = markValue.getScscore();
+                                if (sscore == null){
+                                    sscore = 0.0;
+                                }
+                                sb.append("<td>"+ markValue.getName());
+                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                            }
+                            count1++;
+                        }
+                    } else {
+                        sb.append("<tr><td class='w100' rowspan=" + count3 +"><span class='fl'>"+ name +"</span><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></td>");
+                        sb.append("<td class='w150'><span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
+                        sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
+                        sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                        sb.append("<td></td><td></td><td></td></tr>");
+                    }
+                } else {
+                    Integer count2 = 0;
+                    if (map.get(markKey) != null && map.get(markKey).size() > 0) {
+                        for (MarkTerm markValue : map.get(markKey)) {
+                            if (count2 ==0) {
+                                //sb.append("<tr><td rowspan=" + map.get(markKey).size() + ">"+markKey.getName()+"</td>");
+                                sb.append("<tr><td class='w100' rowspan="+map.get(markKey).size()+">");
+                                sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markValue.getName() + "','" + markKey.getId() + "',1); ></a>");
+                                sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
+                                sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                                
+                                //sb.append("<td>" + markValue.getName() + "</td><td></td><td></td></tr>");
+                                String typeName = getTypeName(markValue.getSmtypename());
+                                sb.append("<td class='tc'>" + typeName + "</td>");
+                                Double sscore = markValue.getScscore();
+                                if (sscore == null){
+                                    sscore = 0.0;
+                                }
+                                sb.append("<td>"+ markValue.getName());
+                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                                
+                            } else {
+                                String typeName = getTypeName(markValue.getSmtypename());
+                                sb.append("<tr><td class='tc'>" + typeName + "</td>");
+                                Double sscore = markValue.getScscore();
+                                if (sscore == null){
+                                    sscore = 0.0;
+                                }
+                                sb.append("<td>"+ markValue.getName());
+                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                                //sb.append("<tr><td>" + markValue.getName() + "</td><td></td><td></td></tr>");
+                            }
+                            count2++;
+                        }
+                    } else {
+                        //sb.append("<tr><td>" + markKey.getName() + "</td><td></td><td></td><td></td></tr>");
+                        sb.append("<tr><td>");
+                        sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
+                        sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
+                        sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                        sb.append("<td></td><td></td><td></td></tr>");
+                    }
+                }
+                count++;
+            }
+        } else {
+            sb.append("<tr><td class='w100'><span class='fl'>"+ name +"</span><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></td>");
+            sb.append("<td></td><td></td><td></td><td></td></tr>");
+        }
+        String str = sb.toString();
+        return str;
+    }
+	
+	public String getTypeName(Integer typename) {
+        String typeName = "";
+        if (typename != null) {
+            if (typename == 0) {
+                typeName = "模型一";
+            }
+            if (typename == 1) {
+                typeName = "模型二";
+            }
+            if (typename == 2) {
+                typeName = "模型三";
+            }
+            if (typename == 3) {
+                typeName = "模型四";
+            }
+            if (typename == 4) {
+                typeName = "模型五";
+            }
+            if (typename == 5) {
+                typeName = "模型六";
+            }
+            if (typename == 6) {
+                typeName = "模型七";
+            }
+            if (typename == 7) {
+                typeName = "模型八";
+            }
+        }
+        return typeName;
+    }
+	
+	@RequestMapping("operatorScoreModel")
+    public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request){
+        String packageId = request.getParameter("id");
+        String[] startParam = request.getParameterValues("pi.startParam");
+        String[] endParam = request.getParameterValues("pi.endParam");
+        String[] score = request.getParameterValues("pi.score");
+        String[] explain = request.getParameterValues("pi.explain");
+        
+        if(scoreModel.getId()!=null && !scoreModel.getId().equals("")){
+            scoreModelService.updateScoreModel(scoreModel);
+            MarkTerm condition = new MarkTerm();
+            condition.setId(scoreModel.getMarkTermId());
+            List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
+            if (mtList != null && mtList.size() > 0) {
+                MarkTerm markTerm = mtList.get(0);
+                markTerm.setName(scoreModel.getName());
+                markTermService.updateMarkTerm(markTerm);
+            }
+            HashMap<String, Object> map  = new HashMap<String,Object>();
+            map.put("scoreModelId", scoreModel.getId());
+            paramIntervalService.delParamIntervalByMap(map);
+            int len = 0;
+            if(startParam!=null){
+                len = startParam.length;
+            }
+            if(startParam!=null && startParam.length>0 && endParam!=null && endParam.length>0 && score!=null && score.length>0){
+                for(int i=0;i<len;i++){
+                    ParamInterval p = new ParamInterval();
+                    p.setScoreModelId(scoreModel.getId());
+                    p.setStartParam(startParam[i]);
+                    p.setEndParam(endParam[i]);
+                    p.setScore(score[i]);
+                    p.setExplain(explain[i]);
+                    paramIntervalService.saveParamInterval(p);
+                }
+            }
+            
+        }else {
+            
+            MarkTerm mt = new MarkTerm();
+            mt.setPid(scoreModel.getMarkTermId());
+            mt.setName(scoreModel.getName());
+            mt.setCreatedAt(new Date());
+            mt.setPackageId(scoreModel.getPackageId());
+            mt.setProjectId(scoreModel.getProjectId());
+            mt.setMaxScore("0");
+            markTermService.saveMarkTerm(mt);
+            scoreModel.setMarkTermId(mt.getId());
+            scoreModelService.saveScoreModel(scoreModel);
+            int len = 0;
+            if(startParam!=null){
+                len = startParam.length;
+            }
+            if(startParam!=null && startParam.length>0 && endParam!=null && endParam.length>0 && score!=null && score.length>0){
+                for(int i=0;i<len;i++){
+                    ParamInterval p = new ParamInterval();
+                    p.setScoreModelId(scoreModel.getId());
+                    p.setStartParam(startParam[i]);
+                    p.setEndParam(endParam[i]);
+                    p.setScore(score[i]);
+                    p.setExplain(explain[i]);
+                    paramIntervalService.saveParamInterval(p);
+                }
+            }
+        }
+        return "redirect:editTemplat.html?templetId="+scoreModel.getProjectId()+"&templetKind=1";
+    }
 	
 	/**
 	 * 
