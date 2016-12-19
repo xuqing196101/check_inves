@@ -38,6 +38,7 @@
       </if>
   </select>
   
+  <!-- 评分信息的回显 -->
   <select id="selectInfoByMap" resultMap="BaseResultMap">
     SELECT 
     <include refid="Base_Column_List" />
@@ -46,9 +47,6 @@
         AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
         AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
         AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
-    GROUP BY
-        PROJECT_ID, PACKAGE_ID, EXPERT_ID, SUPPLIER_ID, SCORE_MODEL_ID
-    HAVING MAX(UPDATE_AT)
   </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

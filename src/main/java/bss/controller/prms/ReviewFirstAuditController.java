@@ -265,7 +265,7 @@ public class ReviewFirstAuditController {
 		model.addAttribute("supplierList", supplierList);
 		// 回显
 		map.put("expertId", expertId);
-		List<ExpertScore> scores = expertScoreService.selectByMap(map);
+		List<ExpertScore> scores = expertScoreService.selectInfoByMap(map);
 		model.addAttribute("scores", scores);
 		// 新增参数
 		model.addAttribute("project", project);

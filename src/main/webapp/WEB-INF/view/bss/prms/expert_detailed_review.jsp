@@ -112,6 +112,29 @@
 			//window.location.href="${pageContext.request.contextPath}/packageExpert/backScore.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertIds;
 		}
 	}
+	function showScoreView(){
+		var count = 0;
+		var expertId = "";
+		$("input[name='checkItem']").each(function(i,result){
+			if (result.checked) {
+				expertId = result.value;
+				count++;
+			}
+		});
+		if (count == 0) {
+			layer.alert("请选择一项再进行此操作!", {
+				offset : [ y, x ],
+				shade : 0.01
+			});
+		} else if (count > 1) {
+			layer.alert("只能选择一项!", {
+				offset : [ y, x ],
+				shade : 0.01
+			});
+		} else {
+			window.location.href="${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertId;
+		}
+	}
 </script>
 </head>
 <body onload="is_Null('${packExpertExtList.size()}')">
@@ -129,7 +152,7 @@
 		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
 		  <button class="btn" onclick="toTotal()" type="button">汇总</button>
 		  <button class="btn" onclick="backScore()" type="button">复核</button>
-		  <button class="btn" onclick="" type="button">结束</button>
+		  <button class="btn" onclick="showScoreView()" type="button">打分详情</button>
 		</div>
 		<!--循环供应商  -->
 		<table class="table table-bordered table-condensed table-hover table-striped">
