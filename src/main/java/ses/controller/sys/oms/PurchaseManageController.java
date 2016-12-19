@@ -1023,7 +1023,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/delPurchaseDep")
+	@RequestMapping(value="/delPurchaseDep",produces="html/text;charset=UTF-8")
 	public String delPurchaseDep(String id){
 		return purchaseOrgnizationServiceI.delPurchaseDep(id);
 	}

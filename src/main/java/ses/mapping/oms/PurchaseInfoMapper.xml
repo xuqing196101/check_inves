@@ -130,7 +130,7 @@
 		  WORK_EXPERIENCE,TRAIN_EXPERIENCE,QUA_CODE,
 		  QUA_LEVEL,QUA_EDNDATE,QUA_CERT,
 		  QUA_RANK,FAX,POST_CODE,
-		  QUA_START_DATE,AGE,CREATED_AT
+		  QUA_START_DATE,AGE,CREATED_AT,USER_ID,IS_DELETED
           )
 		values(
 	      #{id,jdbcType=VARCHAR},#{nation,jdbcType=VARCHAR},
@@ -142,7 +142,7 @@
 		  #{quaCode,jdbcType=VARCHAR},#{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=DATE},
 		  #{quaCert,jdbcType=VARCHAR},#{quaRank,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
 		  #{postCode,jdbcType=VARCHAR},#{quaStartDate,jdbcType=DATE},#{age,jdbcType=NUMERIC},
-		  sysdate
+		  sysdate,#{userId,jdbcType=VARCHAR},#{isDeleted,jdbcType=NUMERIC}
 		 )
 	</insert>
 		<!-- 更新人员-->
@@ -230,6 +230,9 @@
 		 	 <if test="age != null">
 		 		,AGE=#{age,jdbcType=NUMERIC}
 		 	</if>
+		 	<if test="userId != null">
+		 		,USER_ID=#{userId,jdbcType=VARCHAR}
+		 	</if>
 	     where s.id=#{id}    
 	</update>
 	<!-- 删除人员-->
@@ -245,4 +248,12 @@
 	  UPDATE T_SES_OMS_PURCHASER  set IS_DELETED = 1
 	  where ID = #{id}
 	</update>
+	
+	<!--  -->
+	<select id="findPurchaserByOrgId" resultType="java.lang.Integer" >
+	  SELECT COUNT(1) 
+	  FROM T_SES_OMS_PURCHASER
+	  WHERE PURCHASE_DEP_ID = #{orgId}
+	  AND IS_DELETED=0
+	</select>
 </mapper>

@@ -29,6 +29,16 @@ public interface PurchaseInfoMapper {
 	
 	/**
 	 * 
+	 *〈简述〉根据采购机构Id查询采购人员数量
+	 *〈详细描述〉
+	 * @author myc
+	 * @param ordId 组织机构Id
+	 * @return 如果存在返回大于0的数
+	 */
+	Integer findPurchaserByOrgId(@Param("orgId")String ordId);
+	
+	/**
+	 * 
 	 *〈简述〉业务删除
 	 *〈详细描述〉
 	 * @author myc

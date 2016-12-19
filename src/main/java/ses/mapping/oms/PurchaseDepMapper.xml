@@ -821,4 +821,12 @@
       </if>
 	   where ID=#{id}  
 	</update>
+	
+	<!-- 根据主键查询 -->
+	<select id="getPurchaserByPrimaryKey" resultType="java.lang.String">
+	  SELECT   ORG_ID
+	   FROM T_SES_OMS_PURCHASE_DEP
+	   where ID = #{id}
+	   AND IS_DELETED = 0
+	</select>
 </mapper>
