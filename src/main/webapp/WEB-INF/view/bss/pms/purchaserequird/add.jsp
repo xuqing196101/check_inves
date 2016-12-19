@@ -570,7 +570,7 @@
 										</td>
 										<td class="w100" name="department"><input type="text" name="list[0].department" readonly="readonly"></td>
 										<td class="w200">
-											<input type="text" name="list[0].goodsName" onkeyup="listName(this)"/>
+											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()"/>
 										</td>
 										<td class="tc w100"><input type="text" name="list[0].stand"></td>
 										<td class="tc w100"><input type="text" name="list[0].qualitStand"></td>
