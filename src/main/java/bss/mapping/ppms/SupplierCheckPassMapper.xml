@@ -15,6 +15,7 @@
 		<result column="IS_SEND_NOTICE" jdbcType="DECIMAL" property="isSendNotice" />
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="IS_CREATE_CONTRACT" jdbcType="DECIMAL" property="isCreateContract" />
 		<association property="supplier" column="SUPPLIER_ID"
 			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
 	</resultMap>
@@ -60,7 +61,7 @@
 		cp.TOTAL_SCORE, cp.PACKAGE_ID,
 		cp.IS_WON_BID,
 		cp.IS_SEND_NOTICE, cp.CREATED_AT,
-		cp.UPDATED_AT
+		cp.UPDATED_AT,cp.IS_CREATE_CONTRACT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -203,6 +204,9 @@
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt,jdbcType=DATE},
 			</if>
+			<if test="isCreateContract != null">
+				IS_CREATE_CONTRACT = #{isCreateContract},
+			</if>
 		</set>
 		where 1=1
 		<if test="supplierId != null and supplierId != '' ">
@@ -294,6 +298,9 @@
 		1=1
 		<if test="packageId != null and packageId != ''">
 			AND CP.PACKAGE_ID =#{packageId}
+		</if>
+		<if test="supplierId != null and supplierId != ''">
+			AND CP.SUPPLIER_ID =#{supplierId}
 		</if>
 		<if test="isSendNotice != null and isSendNotice != '' ">
 			AND IS_SEND_NOTICE=#{isSendNotice}

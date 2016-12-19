@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.oms.OrgnizationMapper;
+import ses.model.oms.Orgnization;
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.cs.PurchaseContractMapper;
@@ -37,6 +39,9 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	
 	@Autowired
 	private PurchaseContractMapper purchaseContractMapper;
+	
+	@Autowired
+	private OrgnizationMapper orgnizationMapper;
 	
 	@Override
 	public int insert(PurchaseContract record) {
@@ -284,5 +289,16 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	@Override
 	public void insertSelectiveById(PurchaseContract record) {
 		purchaseContractMapper.insertSelectiveById(record);
+	}
+
+	@Override
+	public List<Orgnization> findAllUsefulOrg() {
+		return orgnizationMapper.findAllUsefulOrg();
+	}
+
+	@Override
+	public List<PurchaseContract> selectAllContractByStatus(
+			Map<String, Object> map) {
+		return purchaseContractMapper.selectAllContractByStatus(map);
 	}
 }

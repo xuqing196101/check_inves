@@ -31,3 +31,8 @@
 <script src="${pageContext.request.contextPath}/public/backend/js/main-menu.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
+
+<!-- front -->
+<!--[if lt IE 9]>
+  <script src="${pageContext.request.contextPath}/public/common/respond.src.js"></script>
+<![endif]-->

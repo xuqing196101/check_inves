@@ -39,6 +39,7 @@
       function resetQuery() {
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
       }
+<<<<<<< Updated upstream
 
       function selectAll() {
         var checklist = document.getElementsByName("chkItem");
@@ -102,6 +103,21 @@
         }
 
       }
+=======
+      
+<<<<<<< Updated upstream
+      function shenqing(){
+    	  var appraisal = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
+    	  appraisal = $.trim(appraisal);
+    	  alert(appraisal);
+      }
+      
+=======
+      function transformational(){
+    	  window.location.href="${pageContext.request.contextPath}/purchaseContract/createStraightContract.html";
+      }
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     </script>
 
   </head>
@@ -152,6 +168,7 @@
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows add" type="button" onclick="appraisal()">申请审价</button>
         <button class="btn btn-windows add" type="button" onclick="add()">添加合同</button>
+        <button class="btn" type="button" onclick="transformational()">生成合同</button>
       </div>
 
       <div class="content table_box">

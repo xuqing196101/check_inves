@@ -112,6 +112,22 @@
 		</if>
 		GROUP BY T1.SUPPLIER_ID
 	</select>
+	
+	<select id="findAllUsefulSupplier"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER WHERE SUPPLIER_STATUS = 3
+	</select>
+	
+	<select id="selectOne" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER WHERE SUPPLIER_STATUS = 3
+		AND id = #{id}
+	</select>
+	
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select

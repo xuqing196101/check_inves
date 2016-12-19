@@ -371,8 +371,8 @@
        		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameId" >
        		    	  <input id="cateId" type="text" name='name'/>
        		    	  <span class="add-on">i</span>
-       		    	  <span id="cateTipsId" class="red clear" />
        		    	</div>
+       		    	  <span id="cateTipsId" class="red clear span_style" />
            		  </td>
            		</tr>
            		<tr>
@@ -381,8 +381,8 @@
        				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id ="posNameId">
        				  <input  id="posId" type="text" name='code'/>
        				  <span class="add-on">i</span>
-       				  <span id="posTipsId" class="red clear" />
        				</div>
+       				  <span id="posTipsId" class="red clear span_style" />
        		      </td>
            	    </tr>
            	    <tr>

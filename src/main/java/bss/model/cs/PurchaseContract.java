@@ -82,6 +82,16 @@ public class PurchaseContract {
 	private List<ContractRequired> contractReList;//合同明细list
 
 	private String supplierPurId;//供应商机构组织代码
+	
+	private String bingDepName;//乙方单位
+	
+	private String bingContact;//乙方联系人
+
+	private String bingContactTelephone;//乙方联系电话
+
+	private String bingContactAddress;//乙方联系地址
+
+	private String bingUnitpostCode;//乙方邮编
 
 	private String content;//合同内容
 
@@ -118,7 +128,7 @@ public class PurchaseContract {
 	private String projectId;//项目id
 
 	private BigDecimal finallyClosed;//最终结算金额
-
+	
 	public String getMoney_string() {
 		return money_string;
 	}
@@ -567,4 +577,43 @@ public class PurchaseContract {
 		this.isDeclare = isDeclare;
 	}
 
+	public String getBingDepName() {
+		return bingDepName;
+	}
+
+	public void setBingDepName(String bingDepName) {
+		this.bingDepName = bingDepName;
+	}
+
+	public String getBingContact() {
+		return bingContact;
+	}
+
+	public void setBingContact(String bingContact) {
+		this.bingContact = bingContact;
+	}
+
+	public String getBingContactTelephone() {
+		return bingContactTelephone;
+	}
+
+	public void setBingContactTelephone(String bingContactTelephone) {
+		this.bingContactTelephone = bingContactTelephone;
+	}
+
+	public String getBingContactAddress() {
+		return bingContactAddress;
+	}
+
+	public void setBingContactAddress(String bingContactAddress) {
+		this.bingContactAddress = bingContactAddress;
+	}
+
+	public String getBingUnitpostCode() {
+		return bingUnitpostCode;
+	}
+
+	public void setBingUnitpostCode(String bingUnitpostCode) {
+		this.bingUnitpostCode = bingUnitpostCode;
+	}
 }

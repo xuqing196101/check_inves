@@ -248,4 +248,28 @@ public interface SupplierMapper {
      */
     List<Supplier> query(Map<String,Object> map);
     
+    /**
+     * 
+    * @Title: findAllUsefulSupplier
+    * @Description: 查询可用的供应商
+    * author: QU Jie
+    * @param @param supplier
+    * @param @return     
+    * @return Supplier     
+    * @throws
+     */
+    List<Supplier> findAllUsefulSupplier();
+    
+    /**
+     * 
+    * @Title: selectOne
+    * @Description: 根据id查询
+    * author: QU Jie
+    * @param @param supplier
+    * @param @return     
+    * @return Supplier     
+    * @throws
+     */
+    Supplier selectOne(String id);
+    
 }

@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="/tld/upload" prefix="up" %>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -33,7 +32,10 @@
 				 check==true;
 		      }
 	       }
-	      
+	      var conTy = "${purCon.contractType}";
+	      var putTy = "${purCon.purchaseType}";
+	 	  $("#contractType").val(conTy);
+	 	  $("#purchaseType").val(putTy);
 	      $.ajax({
 	          contentType: "application/json;charset=UTF-8",
 	          url: "${pageContext.request.contextPath }/purchaseContract/findAllUsefulOrg.do",
@@ -49,7 +51,7 @@
 	              });
 	            }
 	            $("#purchaseDeps").select2();
-	            $("#purchaseDeps").select2("val", "${project.orgnization.id}");
+	            $("#purchaseDeps").select2("val", "${purCon.purchaseDepName}");
 	          }
 	    });
 	      
@@ -68,7 +70,7 @@
 	              });
 	            }
 	            $("#supplierDeps").select2();
-	            $("#supplierDeps").select2("val", "${project.dealSupplier.id}");
+	            $("#supplierDeps").select2("val", "${purCon.supplierDepName}");
 	          }
 	    });
 	    
@@ -87,7 +89,7 @@
 	              });
 	            }
 	            $("#bingDeps").select2();
-	            $("#bingDeps").select2("val", "${project.purchaseDep.id}");
+	            $("#bingDeps").select2("val", "${purCon.bingDepName}");
 	          }
 	    });
 	 }); 
@@ -460,8 +462,12 @@
 		}
 	}
 	
+	function update(){
+		$("#contractForm").submit();
+	}
+	
 	function abandoned(){
-		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
+		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html";
 	}
 </script>
 <body>
@@ -485,73 +491,72 @@
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">标的信息</a></li>
 			<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="record f18">合同文本</a></li>
           </ul>
-          <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/addPurchaseContract.html?ids=${id}" method="post">
+          <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateDraftContract.html" method="post">
           <div class="tab-content padding-top-20">
             <div class="tab-pane fade active in" id="tab-1">
-	   		<input type="hidden" name="status" value="0" id="status"/>
-	   		<input type="hidden" name="supplierPurId" value="${project.dealSupplier.procurementDepId}"/>
-	   		<input type="hidden" name="projectName" value="${project.name}"/>
-	   		<input type="hidden" name="projectId" value="${project.id}"/>
-	   		<input type="hidden" name="isImport" value="${project.isImport}">
-	   		<input type="hidden" name="supcheckid" value="${supcheckid}"/>
-	   		<input type="hidden" id="dga" name="dga" value=""/>
-	   		<input type="hidden" id="dra" name="dra" value="">
+	   		<input type="hidden" name="status" value="${purCon.status}" id="status"/>
+	   		<input type="hidden" name="supplierPurId" value="${purCon.supplierPurId}"/>
+	   		<input type="hidden" name="projectName" value="${purCon.projectName}"/>
+	   		<input type="hidden" name="projectId" value="${purCon.projectId}"/>
+	   		<input type="hidden" name="isImport" value="${purCon.isImport}">
+	   		<input type="hidden" name="supcheckid" value="${supcheckid}">
+	   		<input type="hidden" name="id" value="${id}">
 	   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
 	   		<ul class="list-unstyled ul_list">
 	   			<input type="hidden" class="contract_id" name="contract_id">
 			     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同名称：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input class=" contract_code" id="contract_code" value="" name="name" type="text">
+			        <input class=" contract_code" id="contract_code" value="${purCon.name}" name="name" type="text">
 			        <div class="cue">${ERR_name}</div>
 			       </div>
 				 </li>
 	    		 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同编号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" name="code" value="" type="text">
+			        	<input class=" contract_name" name="code" value="${purCon.code}" type="text">
 			        	<div class="cue">${ERR_code}</div>
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同金额：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" name="money_string" value="" type="text">
+			        	<input class=" contract_name" name="money_string" value="${purCon.money_string}" type="text">
 			        	<div class="cue">${ERR_money}</div>
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>计划任务文号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" name="documentNumber" value="${planNos}" type="text">
+			        	<input class=" contract_name" name="documentNumber" value="${purCon.documentNumber}" type="text">
 			        	<div class="cue">${ERR_documentNumber}</div>
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>采购机构资格证号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" name="quaCode" value="${project.purchaseDep.quaCode}" type="text">
+			        	<input class=" contract_name" name="quaCode" value="${purCon.quaCode}" type="text">
 			        	<div class="cue">${ERR_quaCode}</div>
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>预算：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" id="budget" name="budget_string" value="${project.budgetAmount}" type="text">
+			        	<input class=" contract_name" id="budget" name="budget_string" value="${purCon.budget_string}" type="text">
 			        	<div class="cue">${ERR_budget}</div>
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项级预算科目：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" name="budgetSubjectItem" value="" type="text">
+			        	<input class=" contract_name" name="budgetSubjectItem" value="${purCon.budgetSubjectItem}" type="text">
 			        	<div class="cue">${ERR_budgetSubjectItem}</div>
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同类型：</span>
 				     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			        	<select name="contractType" class=" contract_name">
+			        	<select name="contractType" id="contractType" class=" contract_name">
 			        		<option></option>
 			        		<option value="0">正常采购合同</option>
 			        		<option value="1">以厂代储合同</option>
@@ -588,62 +593,62 @@
 			     <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input class=" supplier_name" name="purchaseLegal" value="" type="text">
+			        <input class=" supplier_name" name="purchaseLegal" value="${purCon.purchaseLegal}" type="text">
 			        <div class="cue">${ERR_purchaseLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input class=" supplier_name" name="purchaseAgent" value="" type="text">
+			        <input class=" supplier_name" name="purchaseAgent" value="${purCon.purchaseAgent}" type="text">
 			        <div class="cue">${ERR_purchaseAgent}</div>
 			       </div>
 				 </li>
 	    		 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方联系人：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseContact" value="${project.orgnization.contactName}" type="text">
+			         <input class=" supplier_name" name="purchaseContact" value="${purCon.purchaseContact}" type="text">
 			         <div class="cue">${ERR_purchaseContact}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方联系电话：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchaseContactTelephone" name="purchaseContactTelephone" value="${project.orgnization.contactName}" type="text">
+			         <input class=" supplier_name" id="purchaseContactTelephone" name="purchaseContactTelephone" value="${purCon.purchaseContactTelephone}" type="text">
 			         <div class="cue">${ERR_purchaseContactTelephone}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12"><div class="red star_red">*</div>甲方通讯地址：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchaseContactAddress" name="purchaseContactAddress" value="${project.orgnization.address}" type="text">
+			         <input class=" supplier_name" id="purchaseContactAddress" name="purchaseContactAddress" value="${purCon.purchaseContactAddress}" type="text">
 			         <div class="cue">${ERR_purchaseContactAddress}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方邮政编码：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseUnitpostCode" value="" type="text">
+			         <input class=" supplier_name" name="purchaseUnitpostCode" value="${purCon.purchaseUnitpostCode}" type="text">
 			         <div class="cue">${ERR_purchaseUnitpostCode}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方付款单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchasePayDep" value="" type="text">
+			         <input class=" supplier_name" name="purchasePayDep" value="${purCon.purchasePayDep}" type="text">
 			         <div class="cue">${ERR_purchasePayDep}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方开户银行：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseBank" value="" type="text">
+			         <input class=" supplier_name" name="purchaseBank" value="${purCon.purchaseBank}" type="text">
 			         <div class="cue">${ERR_purchaseBank}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方银行账号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseBankAccount_string" value="" type="text">
+			         <input class=" supplier_name" name="purchaseBankAccount_string" value="${purCon.purchaseBankAccount_string}" type="text">
 			         <div class="cue">${ERR_purchaseBankAccount}</div>
 			        </div>
 				 </li>
@@ -664,63 +669,63 @@
 			     <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input class=" supplier_name" id="supplierLegal" name="supplierLegal" type="text" value="${project.dealSupplier.legalName}">
+			        <input class=" supplier_name" id="supplierLegal" name="supplierLegal" type="text" value="${purCon.supplierLegal}">
 			        <div class="cue">${ERR_supplierLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input class=" supplier_name" name="supplierAgent" value="" type="text">
+			        <input class=" supplier_name" name="supplierAgent" value="${purCon.supplierAgent}" type="text">
 			        <div class="cue">${ERR_supplierAgent}</div>
 			       </div>
 				 </li>
 	    		 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方联系人：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierContact" name="supplierContact" value="${project.dealSupplier.contactName}" type="text">
+			         <input class=" supplier_name" id="supplierContact" name="supplierContact" value="${purCon.supplierContact}" type="text">
 			         <div class="cue">${ERR_supplierContact}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方联系电话：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierContactTelephone" name="supplierContactTelephone" value="${project.dealSupplier.contactTelephone}" type="text">
+			         <input class=" supplier_name" id="supplierContactTelephone" name="supplierContactTelephone" value="${purCon.supplierContactTelephone}" type="text">
 			         <div class="cue">${ERR_supplierContactTelephone}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方通讯地址：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierContactAddress" name="supplierContactAddress" value="${project.dealSupplier.address}" type="text">
+			         <input class=" supplier_name" id="supplierContactAddress" name="supplierContactAddress" value="${purCon.supplierContactAddress}" type="text">
 			         <div class="cue">${ERR_supplierContactAddress}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方邮政编码：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierUnitpostCode" name="supplierUnitpostCode" value="${project.dealSupplier.postCode}" type="text">
+			         <input class=" supplier_name" id="supplierUnitpostCode" name="supplierUnitpostCode" value="${purCon.supplierUnitpostCode}" type="text">
 			         <div class="cue">${ERR_supplierUnitpostCode}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方开户名称：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierBankName" name="supplierBankName" value="" type="text">
+			         <input class=" supplier_name" id="supplierBankName" name="supplierBankName" value="${purCon.supplierBankName}" type="text">
 			         <div class="cue">${ERR_supplierBankName}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方开户银行：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierBank" name="supplierBank" value="${project.dealSupplier.bankName}" type="text">
+			         <input class=" supplier_name" id="supplierBank" name="supplierBank" value="${purCon.supplierBank}" type="text">
 			         <div class="cue">${ERR_supplierBank}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方银行账号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierBankAccount_string" name="supplierBankAccount_string" value="${project.dealSupplier.bankAccount}" type="text">
+			         <input class=" supplier_name" id="supplierBankAccount_string" name="supplierBankAccount_string" value="${purCon.supplierBankAccount_string}" type="text">
 			         <div class="cue">${ERR_supplierBankAccount}</div>
 			        </div>
 				 </li>
@@ -740,28 +745,28 @@
 			     <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方联系人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input class=" supplier_name" id="bingContact" name="bingContact" type="text" value="${project.purchaseDep.contact}">
+			        <input class=" supplier_name" id="bingContact" name="bingContact" type="text" value="${purCon.bingContact}">
 			        <div class="cue">${ERR_bingContact}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方联系电话：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="bingContactTelephone" name="bingContactTelephone" value="${project.purchaseDep.contactTelephone}" type="text">
+			         <input class=" supplier_name" id="bingContactTelephone" name="bingContactTelephone" value="${purCon.bingContactTelephone}" type="text">
 			         <div class="cue">${ERR_bingContactTelephone}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方通讯地址：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="bingContactAddress" name="bingContactAddress" value="${project.purchaseDep.contactAddress}" type="text">
+			         <input class=" supplier_name" id="bingContactAddress" name="bingContactAddress" value="${purCon.bingContactAddress}" type="text">
 			         <div class="cue">${ERR_bingContactAddress}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方邮政编码：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="bingUnitpostCode" name="bingUnitpostCode" value="${project.purchaseDep.unitPostCode}" type="text">
+			         <input class=" supplier_name" id="bingUnitpostCode" name="bingUnitpostCode" value="${purCon.bingUnitpostCode}" type="text">
 			         <div class="cue">${ERR_bingUnitpostCode}</div>
 			        </div>
 				 </li>
@@ -794,17 +799,17 @@
 					<c:forEach items="${requList}" var="reque" varStatus="vs">
 						<tr>
 							<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-							<td class="tc w50">${(vs.index+1)}</td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" readonly="readonly" value="${reque.serialNumber}" class="w50"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" readonly="readonly" value="${reque.goodsName}"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" readonly="readonly" value="${reque.brand}"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" readonly="readonly" value="${reque.stand}" class="w60"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].item" readonly="readonly" value="${reque.item}" class="w50"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" readonly="readonly" value="${reque.purchaseCount}" class="w50"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].price" readonly="readonly" value="${reque.price}" class="w50"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" readonly="readonly" value="${reque.budget}" class="ss w50"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" readonly="readonly" value="${reque.deliverDate}" class="w100"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}"/></td>
+				<td class="tc w50">${(vs.index+1)}</td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" readonly="readonly" value="${reque.planNo}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" readonly="readonly" value="${reque.goodsName}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" readonly="readonly" value="${reque.brand}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" readonly="readonly" value="${reque.stand}" class="w60"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" readonly="readonly" value="${reque.item}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" readonly="readonly" value="${reque.purchaseCount}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" readonly="readonly" value="${reque.price}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" readonly="readonly" value="${reque.amount}" class="ss w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" readonly="readonly" value="${reque.deliverDate}" class="w100"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}"/></td>
 						</tr>
 			   		</c:forEach>
 				</table>
@@ -997,10 +1002,7 @@
 		</div> 
 		</form>
 		<div  class="col-md-12 tc mt20">
-   			<input type="button" class="btn btn-windows save mb20" onclick="staging()" value="暂存"/>
-   			<input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案"/>
-   			<input type="button" class="btn btn-windows save mb20" onclick="createContract()" value="生成合同"/>
-   			<input type="button" class="btn btn-windows save mb20" onclick="printContract()" value="打印"/>
+			<input type="button" class="btn btn-windows save mb20" onclick="update()" value="保存">
    			<input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
   		</div>
   		
@@ -1024,7 +1026,7 @@
 				 <input type="button" class="btn" onclick="cancel()" value="取消"/>
 				</li>
 		 </ul>
-		 	<ul class="list-unstyled mt10 dis_none" id="draftrevi">
+  		<ul class="list-unstyled mt10 dis_none" id="draftrevi">
 		 		<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">
 					<span class="col-md-4 col-sm-6 col-xs-6 p0 tc mt5">
 						<div class="red star_red">*</div>草案批复意见上传：

@@ -7,7 +7,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-  
+ 	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
     <title>生成正式合同</title>
     
 <script type="text/javascript">
@@ -15,8 +19,9 @@ function save(){
 	var text = $("#post_attach_show_disFileId").find("a").text();
 	if(text==null || text==''){
 		layer.alert("请先上传附件",{offset: ['222px', '390px'], shade:0.01});
-	}else{
+	}/*else{
 		var houzhui = text.split(".");
+		alert(houzhui[1]);
 		if(houzhui[1].toLowerCase()=='bmp' || houzhui[1].toLowerCase()=='png' || houzhui[1].toLowerCase()=='gif' || houzhui[1].toLowerCase()=='jpg' || houzhui[1].toLowerCase()=='jpeg'){
 			var fga = $("#formalGitAt").val();
 			var fra = $("#formalReviewedAt").val();
@@ -26,11 +31,17 @@ function save(){
 		}else{
 			layer.alert("上传的附件类型不正确",{offset: ['222px', '390px'], shade:0.01});
 		}
-	}
+	}*/
+	var fga = $("#formalGitAt").val();
+	var fra = $("#formalReviewedAt").val();
+	$("#fga").val(fga);
+	$("#fra").val(fra);
+	$("#contractType").submit();
 }
 
 function cancel(){
-	window.location.href="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html";
+	var id = "${id}";
+	window.location.href="${pageContext.request.contextPath}/purchaseContract/createerrContractPage.html?ids="+id;
 }
 	
 </script>    
@@ -93,12 +104,5 @@ function cancel(){
   </div>
 </form>
   </div>
-    
-<script type="text/javascript">
-    //实例化编辑器
-    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');
-</script>
-     
 </body>
 </html>

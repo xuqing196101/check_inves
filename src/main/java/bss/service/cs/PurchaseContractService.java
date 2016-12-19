@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import ses.model.oms.Orgnization;
+
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 
@@ -239,4 +241,29 @@ public interface PurchaseContractService {
     * @param @return      
      */
     void insertSelectiveById(PurchaseContract record);
+    
+    /**
+     * 
+    * @Title: findAllUsefulOrg
+    * @author QuJie 
+    * @date 2016-9-22 下午2:48:23  
+    * @Description: 查询所有可用的需求部门
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    List<Orgnization> findAllUsefulOrg();
+    
+    /**
+     * 
+    * 〈简述〉 〈详细描述〉
+    * 
+    * @author QuJie 
+    * @date 2016-11-11 下午3:13:59  
+    * @Description: 通过状态查找合同 
+    * @param @param 
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+    List<PurchaseContract> selectAllContractByStatus(Map<String,Object> map);
 }
