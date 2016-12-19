@@ -11,7 +11,7 @@
 		<result column="BID_METHOD_ID" property="bidMethodId" />
 		<result column="PURCHASE_TYPE" property="purchaseType" />
 		<result column="IS_IMPORT" property="isImport" />
-		<association property="projectId" column="AD_AD_PROJECT_ID" select="bss.dao.ppms.AdvancedProjectMapper.selectAdvancedProjectByPrimaryKey" />
+		<association property="project" column="AD_PROJECT_ID" select="bss.dao.ppms.AdvancedProjectMapper.selectAdvancedProjectByPrimaryKey" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -60,7 +60,7 @@
 			<if test="name != null">
 				NAME,
 			</if>
-			<if test="projectId != null">
+			<if test="project != null">
 				AD_PROJECT_ID,
 			</if>
 			<if test="isDeleted != null">
@@ -92,8 +92,8 @@
 			<if test="name != null">
 				#{name},
 			</if>
-			<if test="projectId != null">
-				#{projectId},
+			<if test="project != null">
+				#{project.id},
 			</if>
 			<if test="isDeleted != null">
 				#{isDeleted},
@@ -124,8 +124,8 @@
 			<if test="name != null">
 				NAME = #{name},
 			</if>
-			<if test="projectId != null">
-				AD_PROJECT_ID = #{projectId},
+			<if test="project != null">
+				AD_PROJECT_ID = #{project.id},
 			</if>
 			<if test="isDeleted != null">
 				IS_DELETED = #{isDeleted},

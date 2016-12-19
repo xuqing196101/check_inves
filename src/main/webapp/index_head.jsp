@@ -49,10 +49,10 @@ function importAdd(){
 <body>
 <div class="wrapper">
   <div class="head_top col-md-12 col-xs-12 col-sm-12">
-   <div class="container">
+   <div class="container p0">
     <div class="row">
-    <div class="col-md-9" id="welcome">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a></div> 
-       <div class="col-md-3 head_right"> 
+    <div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a></div> 
+       <div class="col-md-3 col-xs-3 col-sm-3 head_right"> 
     <!-- 根据session判断 -->
     	 <a onclick="myInfo()">我的信息</a>     
 	   </div>

@@ -59,6 +59,8 @@ public class Project {
     private Orgnization orgnization;
 
     private PurchaseDep purchaseDep; //采购机构
+    
+    private String purchaseDepId;
 
     private Date deadline; //投标截止时间
 
@@ -123,6 +125,7 @@ public class Project {
     private List<Packages> packagesList;
     
     private DictionaryData dictionary;
+    
     
     public Orgnization getOrgnization() {
 		return orgnization;
@@ -591,6 +594,14 @@ public class Project {
     public void setConfirmFile(Integer confirmFile) {
         this.confirmFile = confirmFile;
     }
-    
+
+    public String getPurchaseDepId() {
+        return purchaseDepId;
+    }
+
+    public void setPurchaseDepId(String purchaseDepId) {
+        this.purchaseDepId = purchaseDepId;
+    }
+
     
 }

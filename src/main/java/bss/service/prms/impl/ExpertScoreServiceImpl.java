@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -174,15 +175,16 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
             map.put("supplierId", supplier.getId());
             List<ExpertScore> list = mapper.selectByMap(map);
             for (ExpertScore expertScore : list) {
-                totalScore.add(expertScore.getScore());
+                totalScore = totalScore.add(expertScore.getScore());
             }
             SupplierCheckPass record = new SupplierCheckPass();
+            record.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());
             record.setPackageId(packageId);
             record.setProjectId(projectId);
             record.setSupplierId(supplier.getId());
             record.setTotalScore(totalScore);
             //增加供应商报价-start
-            Quote quote = new Quote();
+            /*Quote quote = new Quote();
             quote.setProjectId(projectId);
             quote.setSupplierId(supplier.getId());
             List<Date> listDate = quoteMapper.selectQuoteCount(quote);
@@ -199,7 +201,25 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
                     total=total.add(q.getTotal());
                 }
             }
-            record.setTotalPrice(total.longValue());
+            record.setTotalPrice(total.longValue());*/
+            Quote quote = new Quote();
+            quote.setProjectId(projectId);
+            quote.setPackageId(packageId);
+            quote.setSupplierId(supplier.getId());
+            List<Quote> allQuote = quoteMapper.selectByPrimaryKey(quote);
+            if (allQuote != null && allQuote.size()>0) {
+              record.setTotalPrice(allQuote.get(0).getTotal().longValue());
+            }
+            SupplierCheckPass checkPass = new SupplierCheckPass();
+            checkPass.setPackageId(packageId);
+            checkPass.setSupplierId(supplier.getId());
+            List<SupplierCheckPass> oldList= supplierCheckPassMapper.listCheckPass(checkPass);
+            if (oldList != null && oldList.size() > 0) {
+              for (SupplierCheckPass supplierCheckPass : oldList) {
+                //删除原数据
+                supplierCheckPassMapper.deleteByPrimaryKey(supplierCheckPass.getId());
+              }
+            }
             supplierCheckPassMapper.insert(record);
             //end
             // 3.查询出专家评分和最终成绩
@@ -268,5 +288,20 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
         //mapper.deleteByPrimaryKey(id);
         return mapper.getScoreByMap(map);
     }
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉分数被退回后的回显
+     * @author WangHuijie
+     * @param map
+     * @return
+     */
+    @Override
+    public List<ExpertScore> selectInfoByMap(Map<String, Object> map) {
+        return mapper.selectInfoByMap(map);
+    }
+    
+    
     
 }

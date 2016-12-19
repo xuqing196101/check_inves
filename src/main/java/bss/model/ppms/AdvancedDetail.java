@@ -39,7 +39,7 @@ public class AdvancedDetail {
 
 	private String useUnit;
 
-	private AdvancedProject advancedProject;
+	private String advancedProject;
 
 	private PurchaseDep purchaseDep;
 	
@@ -267,11 +267,12 @@ public class AdvancedDetail {
 		this.useUnit = useUnit;
 	}
 
-	public AdvancedProject getAdvancedProject() {
+
+    public String getAdvancedProject() {
         return advancedProject;
     }
 
-    public void setAdvancedProject(AdvancedProject advancedProject) {
+    public void setAdvancedProject(String advancedProject) {
         this.advancedProject = advancedProject;
     }
 

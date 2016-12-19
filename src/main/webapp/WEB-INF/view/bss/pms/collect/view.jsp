@@ -200,7 +200,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<tr>
 							<td class="tc w50">${obj.seq } <input type="hidden" value="${obj.id }" name="list[${vs.index }].id">
 							</td>
-							<td> ${obj.department }	<input type="hidden" name="list[${vs.index }].userId" value="${obj.userId }">  </td>
+							<td> <%-- ${obj.department }	<input type="hidden" name="list[${vs.index }].userId" value="${obj.userId }"> --%>
+							
+							<c:forEach items="${requires }" var="re">
+								<c:if test="${re.id==obj.department }">${re.name } </c:if>
+							</c:forEach>
+							  </td>
 							<td>${obj.goodsName }</td>
 							<td class="tc"> ${obj.stand }</td>
 							<td class="tc"> ${obj.qualitStand }</td>
@@ -228,7 +233,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc">
 							<select class="org"  onchange="org(this)" name="list[${vs.index }].organization">
 								<c:forEach items="${org }" var="ss">
-									<option value="${ss.name }" <c:if test="${ss.name==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
+									<option value="${ss.id }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 								</c:forEach>
 							</select>
 							

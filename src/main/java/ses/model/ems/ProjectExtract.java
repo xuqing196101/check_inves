@@ -91,6 +91,8 @@ public class ProjectExtract {
      * 表字段 : T_SES_EMS_PROJECT_EXTRACT.IS_PROVISIONAL
      * </pre>
      */
+   private  String[] packageId;
+    
     private Short isProvisional;
 
     private Integer statusCount;
@@ -336,17 +338,18 @@ public class ProjectExtract {
         this.expertConditionId = expertConditionId;
     }
 
-    public ProjectExtract(String id, Short operatingType,String reason) {
+    public ProjectExtract(String id, Short operatingType,String reason,String[] packageId) {
         super();
         this.id = id;
         this.operatingType = operatingType;
         this.reason=reason;
+        this.packageId=packageId;
     }
-    public ProjectExtract(String id, Short operatingType) {
+    public ProjectExtract(String id, Short operatingType,String[] packageId) {
         super();
         this.id = id;
         this.operatingType = operatingType;
-
+        this.packageId=packageId;
     }
     /**
      * <pre>
@@ -421,6 +424,20 @@ public class ProjectExtract {
      */
     public void setIsProvisional(Short isProvisional) {
         this.isProvisional = isProvisional;
+    }
+
+    /**
+     * @return Returns the packageId.
+     */
+    public String[] getPackageId() {
+        return packageId;
+    }
+
+    /**
+     * @param packageId The packageId to set.
+     */
+    public void setPackageId(String[] packageId) {
+        this.packageId = packageId;
     }
 
 

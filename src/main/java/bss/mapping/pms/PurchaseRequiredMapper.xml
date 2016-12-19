@@ -650,7 +650,8 @@
 				and PLAN_TYPE = #{planType}
 		</if>
 		</where>
-		ORDER BY STATUS ASC
+		ORDER BY CREATED_AT DESC,IS_MASTER ASC
+ 
 	</select>
 
 	<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">
@@ -694,7 +695,7 @@
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_REQUIRED
 		<where>
-		HISTORY_STATUS='0'  and IS_DELETE='0'
+		HISTORY_STATUS='0' and IS_DELETE='0'
 			<if test="planNo !=null">
 				and PLAN_NO=#{planNo}
 			</if>
@@ -780,7 +781,7 @@
 	
 	
 	<update id="history" parameterType="Map">
-	update T_BSS_PMS_PURCHASE_REQUIRED
+		update T_BSS_PMS_PURCHASE_REQUIRED
 			<set>
 				<if test="oid!=null">
 					id=#{oid},
@@ -793,6 +794,22 @@
 				</if>
 			</set>
 		where id=#{id}
-		
 	</update>
+	
+	
+	   <select id="getByProjectStatus"  parameterType="java.lang.Object" resultType="bss.model.pms.PurchaseRequired">
+        select * 
+        from T_BSS_PMS_PURCHASE_REQUIRED
+          where ID = #{id} 
+           and PROJECT_STATUS=#{projectStatus}
+    </select>
+    
+    <update id="updateProjectStatus" parameterType="java.lang.String">
+         update T_BSS_PMS_PURCHASE_REQUIRED
+         set PROJECT_STATUS=1
+         where PLAN_NO=#{planNo}
+    </update>
+    
+    
+    
 </mapper>

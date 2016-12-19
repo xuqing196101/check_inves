@@ -1554,7 +1554,7 @@ public class ExpertController {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("expertId", typeId);
                 // map.put("isAudit", 0);
-                map.put("isGather", 0);
+                //map.put("isGather", 0);
                 // 查询出关联表中的项目id和包id
                 List<PackageExpert> pel = packageExpertService.selectList(map);
                 List<PackageExpert> packageExpertList = new ArrayList<PackageExpert>();
@@ -1702,7 +1702,7 @@ public class ExpertController {
         reviewProgressService.saveGrade(projectId, packageId, expertId);
         attr.addAttribute("projectId", projectId);
         attr.addAttribute("packageId", packageId);
-        return "redirect:toFirstAudit.html";
+        return "redirect:projectList.html";
     }
 
     /**

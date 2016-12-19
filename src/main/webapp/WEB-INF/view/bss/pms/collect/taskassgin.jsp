@@ -206,14 +206,12 @@
 			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc"  >
-			  <c:if test="${obj.status=='1' }">
-			   初始化
+			  <c:if test="${obj.status=='2'}">
+				 未下达
 			  </c:if>
-			  <c:if test="${obj.status=='2' }">
-			   已审核
-			  </c:if>
-			     <c:if test="${obj.status=='3' }">
-			   已下达
+			 
+			    <c:if test="${obj.status=='3' }">
+				   已下达
 			  </c:if>
 			  </td>
 			</tr>

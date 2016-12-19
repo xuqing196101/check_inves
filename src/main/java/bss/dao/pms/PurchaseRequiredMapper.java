@@ -214,4 +214,11 @@ public interface PurchaseRequiredMapper {
     
     void batchAdd(List<PurchaseRequired> list);
     
+    
+    List<PurchaseRequired> getByProjectStatus(@Param("id")String id,@Param("projectStatus")int i);
+    
+    
+    void updateProjectStatus(String planNo);
+    
+    
 }

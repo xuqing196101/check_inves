@@ -34,7 +34,7 @@
 			data:{"packageIds":packageId, "projectId":projectId},
 			async:false,
 			success:function (response) {
-				if (response == "ok") {
+				if (response != "notOk") {
 					$.ajax({
 						 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',
 						 data:{"packageId":packageId,"projectId":projectId},
@@ -46,12 +46,17 @@
 							 layer.alert("汇总失败,请稍后重试!",{offset: [y, x], shade:0.01});
 						 }
 					 });
-				} else {
-					layer.alert(response + "不满足汇总条件!", {
+				} else if (response == "notOk") {
+					layer.alert("不满足汇总条件!", {
 						offset : [ y, x ],
 						shade : 0.01
 					});
-				}
+				} /* else {
+					layer.alert(response + "已汇总,请勿重复操作!", {
+						offset : [ y, x ],
+						shade : 0.01
+					});
+				} */
 			}
 		});
 	}
@@ -77,6 +82,59 @@
 	function goBack(url){
 		$("#tab-6").load(url);
 	}
+	// 复核(退回)
+	function backScore(){
+		var count = 0;
+		var expertIds = "";
+		$("input[name='checkItem']").each(function(i,result){
+			if (result.checked) {
+				expertIds = expertIds + result.value + ",";
+				count++;
+			}
+		});
+		if (count == 0) {
+			layer.alert("请至少选择一项再进行此操作!", {
+				offset : [ y, x ],
+				shade : 0.01
+			});
+		} else {
+			$.ajax({
+				url: "${pageContext.request.contextPath}/packageExpert/backScore.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertIds,
+				async: true,
+				success: function () {
+					layer.alert("复核成功!", {
+						offset : [ y, x ],
+						shade : 0.01
+					});
+					$("#tab-6").load("${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId=${packageId}&projectId=${projectId}");
+				}		
+			});
+			//window.location.href="${pageContext.request.contextPath}/packageExpert/backScore.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertIds;
+		}
+	}
+	function showScoreView(){
+		var count = 0;
+		var expertId = "";
+		$("input[name='checkItem']").each(function(i,result){
+			if (result.checked) {
+				expertId = result.value;
+				count++;
+			}
+		});
+		if (count == 0) {
+			layer.alert("请选择一项再进行此操作!", {
+				offset : [ y, x ],
+				shade : 0.01
+			});
+		} else if (count > 1) {
+			layer.alert("只能选择一项!", {
+				offset : [ y, x ],
+				shade : 0.01
+			});
+		} else {
+			window.location.href="${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertId;
+		}
+	}
 </script>
 </head>
 <body onload="is_Null('${packExpertExtList.size()}')">
@@ -93,8 +151,8 @@
 	    <div class="mb5 fr">
 		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
 		  <button class="btn" onclick="toTotal()" type="button">汇总</button>
-		  <button class="btn" onclick="" type="button">复核</button>
-		  <button class="btn" onclick="" type="button">结束</button>
+		  <button class="btn" onclick="backScore()" type="button">复核</button>
+		  <button class="btn" onclick="showScoreView()" type="button">打分详情</button>
 		</div>
 		<!--循环供应商  -->
 		<table class="table table-bordered table-condensed table-hover table-striped">
@@ -112,7 +170,7 @@
 		  <!-- 遍历该包内的专家,控制行数 -->
 		  <c:forEach items="${expertList }" var="ext">
 			<tr>
-			  <td><input type="checkbox" name="checkItem" value="${ext.expert.id}"></td>
+			  <td class="tc"><input type="checkbox" name="checkItem" value="${ext.expert.id}"></td>
 			  <td>${ext.expert.relName}</td>
 			  <!-- 遍历该包供应商控制分数的显示 -->
 			  <c:forEach items="${supplierList}" var="supplier">
@@ -120,7 +178,7 @@
 			      <c:set var="flag" value="0"/>
 			      <!-- 遍历专家给供应商打的分数 -->
 			  	  <c:forEach items="${expertScoreList}" var="score">
-			  	    <c:if test="${score.packageId eq packageId and score.expertId eq ext.id and score.supplierId eq supplier.suppliers.id}">
+			  	    <c:if test="${score.packageId eq packageId and score.expertId eq ext.expert.id and score.supplierId eq supplier.suppliers.id}">
 			  	      <!-- 如果有分数就设置flag=1 -->
 			  	      <c:set var="flag" value="1"/>
 			  	      <c:set var="scores" value="${score.score}"/>

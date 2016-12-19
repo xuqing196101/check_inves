@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.Project;
 
 /**
  * 
@@ -63,4 +64,6 @@ public interface AdvancedProjectService {
      * @return
      */
     List<AdvancedProject> selectByList(AdvancedProject advancedProject);
+    
+    boolean SameNameCheck(AdvancedProject advancedProject);
 }

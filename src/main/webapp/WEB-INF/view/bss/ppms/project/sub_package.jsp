@@ -381,13 +381,13 @@
 					url: "${pageContext.request.contextPath }/project/judgeNext.do?projectId=" + projectId,
 					success: function(data) {
 						if(data==0){
-							layer.alert("项目还有明细未分包，请先分包", {
-								offset: ['20%', '40%']
-							});
-							$(".layui-layer-shade").remove();
-							return;
+						  window.location.href = "${pageContext.request.contextPath}/project/startProject.html?id=" + projectId;
 						}else if(data==1){
-							
+							 layer.alert("项目还有明细未分包，请先分包", {
+                offset: ['20%', '40%']
+              });
+              $(".layui-layer-shade").remove();
+              return;
 						}
 					}
 				});
@@ -612,7 +612,7 @@
 				<!-- 按钮 -->
 				<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 					<button class="btn btn-windows save" type="button" onclick="sureAdd()">确定</button>
-					<input class="btn btn-windows back" value="取消" type="button" onclick="cancel()">
+					<input class="btn btn-windows back" value="取消" type="button" onclick="cancel()"/>
 				</div>
 			</div>
 

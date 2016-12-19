@@ -30,9 +30,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
@@ -100,7 +102,8 @@ public class AuditSetController {
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 
-	
+	@Autowired
+	private OrgnizationMapper orgnizationMapper;
 	/**
 	 * 
 	* @Title: set
@@ -115,26 +118,13 @@ public class AuditSetController {
 	@RequestMapping("/list")
 	public String set(Model model,Integer page,String id,HttpServletRequest request){
 		String type = request.getParameter("type");
-		List<FiledNameEnum> list = updateFiledService.getAllFiled();
-		List<UpdateFiled> list2 = updateFiledService.query(id,null);
-		List<UpdateFiled> listy=new LinkedList<UpdateFiled>();
-		List<UpdateFiled> listn=new LinkedList<UpdateFiled>();
-		if(list2!=null&&list2.size()>0){
-			for(UpdateFiled u:list2){
-				if(u.getIsUpdate()==1){
-					listy.add(u);
-				}else{
-					listn.add(u);
-				}
-			}
-		}else{
-			model.addAttribute("listf", list);
-		}
-		List<AuditPerson> listAudit = auditPersonService.query(new AuditPerson(), page==null?1:page);
+		AuditPerson person = new AuditPerson();
+		person.setCollectId(id);
+		person.setAuditRound(type);
+		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
 		model.addAttribute("info", info);
-		model.addAttribute("listy", listy);
-		model.addAttribute("listn", listn);
+ 
 		model.addAttribute("id", id);
 		model.addAttribute("kind", DictionaryDataUtil.find(4));
 		model.addAttribute("type", type);
@@ -151,7 +141,7 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String save(String val1, String val2,String collectId,String fname2,String fname){
+	public String save(String val1, String val2,String collectId,String fname2,String fname,String type){
 		String[] field1 = val1.trim().split(",");
 		List<String> list=new LinkedList<String>();
 		
@@ -213,7 +203,19 @@ public class AuditSetController {
 		}
 			
 		}
+		CollectPlan collectPlan = collectPlanService.queryById(collectId);
+		DictionaryData sh = DictionaryDataUtil.findById(type);
+		if(sh.getCode().equals("SH_1")){
+			collectPlan.setStatus(7);
+		}
+		if(sh.getCode().equals("SH_2")){
+			collectPlan.setStatus(8);
+		}
+		if(sh.getCode().equals("SH_3")){
+			collectPlan.setStatus(9);
+		}
 		
+		collectPlanService.update(collectPlan);
 		
 		return "redirect:/look/list.html?";
 	}
@@ -318,7 +320,8 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/excel")
-	public void excel(HttpServletRequest request,HttpServletResponse response,CollectPlan collectPlan) throws UnsupportedEncodingException{
+	@ResponseBody
+	public String excel(HttpServletRequest request,HttpServletResponse response,CollectPlan collectPlan) throws UnsupportedEncodingException{
 //		CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
 //		collectPlan.setPlanNo("001");
 		
@@ -424,16 +427,16 @@ public class AuditSetController {
 	        cell.setCellValue("备注");  
 	        
 	        
-	        cell = row.createCell(13);  
-	        cell.setCellValue("采购方式");  
-	        cell = row.createCell(14);  
-	        cell.setCellValue("采购机构"); 
-	        cell = row.createCell(15);  
-	        cell.setCellValue("其他建议"); 
-	        cell = row.createCell(16);  
-	        cell.setCellValue("技术参意见"); 
-	        cell = row.createCell(17);  
-	        cell.setCellValue("其他建议"); 
+//	        cell = row.createCell(13);  
+//	        cell.setCellValue("采购方式");  
+//	        cell = row.createCell(14);  
+//	        cell.setCellValue("采购机构"); 
+//	        cell = row.createCell(15);  
+//	        cell.setCellValue("其他建议"); 
+//	        cell = row.createCell(16);  
+//	        cell.setCellValue("技术参意见"); 
+//	        cell = row.createCell(17);  
+//	        cell.setCellValue("其他建议"); 
 	        
 	        int count=2;
 	        PurchaseAudit purchaseAudit=new PurchaseAudit();
@@ -442,7 +445,14 @@ public class AuditSetController {
 	   	        cell = row.createCell(0);
 	   			cell.setCellValue(p.getSeq()); 
 	   	        cell = row.createCell(1);  
-	   	        cell.setCellValue(p.getDepartment());
+	   	        if(p.getDepartment()!=null){
+	   	        	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(p.getDepartment());
+	   	        	if(orgnization!=null){
+	   	        		cell.setCellValue(orgnization.getName());
+	   	        	}
+	   	        	
+	   	        }
+	   	      
 	   	        cell = row.createCell(2);  
 	   	        cell.setCellValue(p.getGoodsName());
 	   	        cell = row.createCell(3);  
@@ -487,22 +497,22 @@ public class AuditSetController {
 	   	        
 	   	        cell = row.createCell(12);  
 	   	        cell.setCellValue(p.getMemo());  
-	   	        int an=13;
-	   	        for(AuditParam ap:all){
-	   	        	
-	   	        	cell = row.createCell(an);  
-	   	        	purchaseAudit.setAuditParamId(ap.getId());
-	   	        	
-	   	        	purchaseAudit.setPurchaseId(p.getId());
-	   	        	PurchaseAudit audit = purchaseAuditService.query(purchaseAudit);
-	   	        	if(audit!=null){
-	   	        		cell.setCellValue(audit.getParamValue()); 
-	   	        	}
-		   	         
-		   	        an++;
-	   	        }
+//	   	        int an=13;
+//	   	        for(AuditParam ap:all){
+//	   	        	 
+//	   	        	cell = row.createCell(an);  
+//	   	        	purchaseAudit.setAuditParamId(ap.getId());
+//	   	        	
+//	   	        	purchaseAudit.setPurchaseId(p.getId());
+//	   	        	PurchaseAudit audit = purchaseAuditService.query(purchaseAudit);
+//	   	        	if(audit!=null){
+//	   	        		cell.setCellValue(audit.getParamValue()); 
+//	   	        	}
+//		   	         
+//		   	        an++;
+//	   	        }
 	   	        
-	   	     /*   cell = row.createCell(14);  
+	   	     /*   cell = row.createCell(14);
 	   	        cell.setCellValue(p.getOneOrganiza()); 
 	   	        cell = row.createCell(15);  
 	   	        cell.setCellValue(p.getOneAdvice()); 
@@ -524,7 +534,7 @@ public class AuditSetController {
 			}catch(Exception e){	
 		}
 			
-			
+		return "";	
 	}	
 	
 	/**

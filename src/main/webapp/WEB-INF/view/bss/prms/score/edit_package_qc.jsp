@@ -128,7 +128,7 @@
     	var fatId = $("#fatId").val();
     	$.ajax({   
             type: "POST",  
-            url: "${pageContext.request.contextPath}/firstAudit/loadTemplat.html",   
+            url: "${pageContext.request.contextPath}/intelligentScore/loadTemplat.html",   
             data:{"id":fatId,"projectId":projectId,"packageId":packageId},
             dataType:'json',
             success:function(result){
@@ -137,7 +137,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -165,17 +165,24 @@
     	
     }
     
-    function table() {
-    	var allTable = document.getElementsByTagName("tr");
-		for(var i = 0; i < allTable.length; i++) {
-			
-		}
+        function getTotal(){
+		var allTr = document.getElementsByTagName("tr");
+		var totalScore = 0.0 ;
+		for(var i = 1; i < allTr.length; i++) {
+			var score = $(allTr[i]).find("td:last").text();
+			var reg = /^\d+\.?\d*$/;
+			var flag = false;
+			if(!reg.exec(score)) {
+				score = 0;
+			}
+			totalScore += parseFloat(score) ;
+		};
+			$("#totalScore").text(totalScore);
     }
-  </script>
-<body onload="table()">  
+ </script>
+<body onload="getTotal()">  
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
-   <%--  <c:if test="${flag != '1' }">
-	    <div class="search_detail">
+  <div class="search_detail">
 	        <ul class="demand_list">
 	          <li>
 	            <label class="fl">选择模板：</label>
@@ -187,13 +194,12 @@
 	              </select>
 	           </li>
 	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定</button>
-	           <div class="pull-right">
+	          <%--  <div class="pull-right">
 	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
-	           </div>
+	           </div> --%>
 	        </ul>
 	        <div class="clear"></div>
 	     </div>
-    </c:if> --%>
     <div class="content">
         <table class="table table-bordered table-condensed table-hover">
             <thead>
@@ -219,6 +225,9 @@
                 </tr> --%>
                  ${str }
         </table>
+         <div class="tr">
+        	<span class="mr30" ><b>总分:</b></span><span class="mr30" id="totalScore"></span>
+        </div>
     </div>
 	    <div class="mt40 tc mb50">
 	        <button class="btn btn-windows back" onclick="history.go(-1)">返回</button>

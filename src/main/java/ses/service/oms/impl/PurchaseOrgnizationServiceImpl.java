@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import common.constant.StaticVariables;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.oms.PurchaseDepMapper;
+import ses.dao.oms.PurchaseInfoMapper;
 import ses.dao.oms.PurchaseStatusMapper;
 import ses.model.oms.OrgInfo;
 import ses.model.oms.OrgLocale;
@@ -46,6 +47,10 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	
 	@Autowired
     private OrgLocaleService localeService;
+	
+	/** 采购人的mapper **/
+	@Autowired
+	private PurchaseInfoMapper purchaseInfoMapper;
 
 	@Override
 	public List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map) {
@@ -210,15 +215,43 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 			if (ids.contains(StaticVariables.COMMA_SPLLIT)){
 				String [] idArray = ids.split(StaticVariables.COMMA_SPLLIT);
 				for (String id : idArray){
+				    String msg = getPurchaser(id);
+				    if (StringUtils.isNotBlank(msg)){
+				        return msg;
+				    }
 					delPurchaseDept(id);
 				}
 			} else {
+			    String msg = getPurchaser(ids);
+                if (StringUtils.isNotBlank(msg)){
+                    return msg;
+                }
 				delPurchaseDept(ids);
 			}
 		}
 		return StaticVariables.SUCCESS;
 	}
 	
+	/**
+	 * 
+	 *〈简述〉判断采购机构是否可以删除
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 采购机构Id
+	 * @return 可以删除返回空字符串
+	 */
+	private String getPurchaser(String id){
+	    
+	    String orgId = purchaseDepMapper.getPurchaserByPrimaryKey(id);
+	    if (StringUtils.isNotBlank(orgId)){
+	        Integer count = purchaseInfoMapper.findPurchaserByOrgId(orgId);
+	        if (count > 0){
+	            String msg = StaticVariables.ORG_RELATION_EXIST_USER.replace("{0}", count + "");
+	            return msg;
+	        }
+	    }
+	    return "";
+	}
 	
 	/**
 	 * 
@@ -228,12 +261,14 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	 * @param id 组织机构Id
 	 */
 	private void delPurchaseDept(String id){
-		 
-		 orgniztionMapper.delOrgById(id);
-         HashMap<String,Object> orgMap = new HashMap<String, Object>();
-         orgMap.put("org_id", id);
-         purChaseDepOrgService.delByOrgId(orgMap);
-         purchaseDepMapper.delPurchaseByOrgId(id);
+	    String orgId = purchaseDepMapper.getPurchaserByPrimaryKey(id);
+	    if (StringUtils.isNotBlank(orgId)){
+	        orgniztionMapper.delOrgById(orgId);
+	        HashMap<String,Object> orgMap = new HashMap<String, Object>();
+	        orgMap.put("org_id", orgId);
+	        purChaseDepOrgService.delByOrgId(orgMap);
+	        purchaseDepMapper.delPurchaseByOrgId(orgId);
+	    }
 	}
 	
 	/**

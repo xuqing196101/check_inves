@@ -123,4 +123,9 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return projectDetailMapper.selectByParentIdTree(map);
 	}
 
+	@Override
+	public List<ProjectDetail> getByPidAndRid(String pid, String rid) {
+		return projectDetailMapper.getByPidAndRid(pid, rid);
+	}
+
 }

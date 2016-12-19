@@ -18,6 +18,8 @@ public interface PurchaseServiceI {
 	
 	int delPurchaseByMap(HashMap<String, Object> map);
 	
+	List<PurchaseInfo> findPurchaseUserList(String id);
+	
 	/**
 	 * 
 	 *〈简述〉

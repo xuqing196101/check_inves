@@ -59,7 +59,6 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
             //给专家set查询条件
             Expert expert = new Expert();
             expert.setAddress(show.getAddress());
-            //		expert.setBirthday(birthday);
             expert.setExpertsFrom(show.getExpertsFrom());
             //复制对象
             List<ExtConType> conTypeCopy = new ArrayList<ExtConType>();
@@ -74,14 +73,14 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
                 show.setAgeMax(max+"");
                 show.setAgeMin(min+"");
             }
-           
+
             //根据不同类型循环查询专家集合
             for (ExtConType extConType : conTypeCopy) {
                 show.getConTypes().clear();
                 show.getConTypes().add(extConType);
                 //查询专家集合
-                
-            
+
+
                 List<Expert> selectAllExpert = expertMapper.listExtractionExpert(show);
                 //循环吧查询出的专家集合insert到专家记录表和专家关联的表中
                 ProjectExtract projectExtracts = null;
@@ -139,6 +138,33 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
     @Override
     public void update(ProjectExtract projectExtract) {
 
+        if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
+            for (String packageId : projectExtract.getPackageId()) {
+                if (!"".equals(packageId)){
+                    ProjectExtract pe = extractMapper.selectByPrimaryKey(projectExtract.getId());
+                    if(packageId != pe.getProjectId()){
+                        ProjectExtract extract = new ProjectExtract();
+                        extract.setProjectId(packageId);
+                        extract.setExpertId(pe.getExpert().getId());
+                        List<ProjectExtract> list = extractMapper.list(extract);
+                        if(list != null && list.size() != 0){
+                            list.get(0).setOperatingType((short)1);
+                            extractMapper.updateByPrimaryKeySelective(list.get(0));
+                        }else{
+                            ProjectExtract pext = new ProjectExtract();
+                            pext.setExpertId(pe.getExpert().getId());
+                            pext.setProjectId(packageId);
+                            pext.setOperatingType((short)1);
+                            pext.setCreatedAt(new Date());
+                            extractMapper.insertSelective(pext);
+                        }
+
+
+                    }
+                }
+            }
+
+        }
         extractMapper.updateByPrimaryKeySelective(projectExtract);
 
     }
@@ -202,9 +228,9 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
         return extractMapper.selectByPrimaryKey(id);
     }
 
-	@Override
-	public List<ProjectExtract> findExtractByExpertId(String expertId) {
-		
-		return extractMapper.findExtractByExpertId(expertId);
-	}
+    @Override
+    public List<ProjectExtract> findExtractByExpertId(String expertId) {
+
+        return extractMapper.findExtractByExpertId(expertId);
+    }
 }

@@ -2,9 +2,11 @@ package bss.controller.pms;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,7 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
+import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
 import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
@@ -49,7 +53,8 @@ public class CollectPlanController extends BaseController {
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
-	
+	@Autowired
+	private OrgnizationMapper oargnizationMapper;
 		/**
 		 * 
 		* @Title: queryPlan
@@ -70,6 +75,10 @@ public class CollectPlanController extends BaseController {
 			model.addAttribute("inf", purchaseRequired);
 			List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
 			model.addAttribute("dic", dic);
+			
+			Map<String,Object> map=new HashMap<String,Object>();
+			List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+			model.addAttribute("requires", requires);
 			return "bss/pms/collect/collectlist";
 		}
 		/**

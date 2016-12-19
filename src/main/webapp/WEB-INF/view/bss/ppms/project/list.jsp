@@ -108,12 +108,11 @@
 			} else if (flag == true) {
 			  layer.open({
 				type : 2, //page层
-				area : [ '400px', '300px' ],
+				area : [ '800px', '500px' ],
 				title : '请上传项目批文',
 				shade : 0.01, //遮罩透明度
 				moveType : 1, //拖拽风格，0是默认，1是传统拖动
 				shift : 1, //0-6的动画形式，-1不开启
-				offset : [ '220px', '630px' ],
 				shadeClose : true,
 				content : '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
 			  });

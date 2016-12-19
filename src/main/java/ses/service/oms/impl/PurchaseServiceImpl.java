@@ -67,7 +67,6 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		user.setDuties(purchaseInfo.getDuites());
 
 		/*user.setTypeName(purchaseInfo.getTypeName());*/
-		user.setOrgId(purchaseInfo.getOrgId());
 		user.setCreatedAt(new Date());
 		
 		Orgnization org = new Orgnization();
@@ -81,6 +80,10 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		//保存角色
 		saveRoles(user,purchaseInfo.getRoleId());
 		purchaseInfo.setPurchaseDepId(purchaseInfo.getOrgId());
+		if (user != null){
+		    purchaseInfo.setUserId(user.getId());
+		    purchaseInfo.setIsDeleted(StaticVariables.ISNOT_DELETED);
+		}
 		
 		return purchaseInfoMapper.savePurchase(purchaseInfo);
 	}
@@ -116,6 +119,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 			//保存角色
 			saveRoles(user,purchaseInfo.getRoleId());
 		}
+		purchaseInfo.setIsDeleted(StaticVariables.ISNOT_DELETED);
 		purchaseInfo.setPurchaseDepId(purchaseInfo.getOrgId());
 		return purchaseInfoMapper.updatePurchase(purchaseInfo);
 	}
@@ -223,6 +227,12 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 	public void busDelPurchase(String id) {
 		purchaseInfoMapper.busDelPurchase(id);
 	}
+
+    @Override
+    public List<PurchaseInfo> findPurchaseUserList(String id) {
+        
+        return purchaseInfoMapper.findPurchaseUserList(id);
+    }
 	
 	
 }

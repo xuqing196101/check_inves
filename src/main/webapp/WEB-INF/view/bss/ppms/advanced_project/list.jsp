@@ -2,10 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<jsp:include page="/WEB-INF/view/common.jsp"/>
 <script type="text/javascript">
   /*分页  */
   $(function() {
@@ -66,7 +66,7 @@
 
   //查看明细
   function view(id) {
-    window.location.href = "${pageContext.request.contextPath}/project/view.html?id=" + id;
+    window.location.href = "${pageContext.request.contextPath}/advancedProject/view.html?id=" + id;
   }
 
   //进入实施页面
@@ -150,13 +150,13 @@
     status = $.trim(status);
     if (id.length == 1) {
       if(status == "实施中"){
-		layer.alert("实施中的项目不能修改", {
-		  offset : [ '222px', '730px' ],
-		  shade : 0.01,
-	    });
-	  }else{
-	    window.location.href = '${pageContext.request.contextPath}/project/edit.html?id=' + id;
-	  }
+				layer.alert("实施中的项目不能修改", {
+				  offset : [ '222px', '730px' ],
+				  shade : 0.01,
+			    });
+			  }else{
+			    window.location.href = '${pageContext.request.contextPath}/advancedProject/edit.html?id=' + id;
+			  }
     } else if (id.length > 1) {
 	  layer.alert("只能选择一个", {
 	    offset : [ '222px', '730px' ],

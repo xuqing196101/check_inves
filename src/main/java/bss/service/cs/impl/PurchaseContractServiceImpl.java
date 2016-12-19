@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -22,13 +23,19 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.oms.OrgnizationMapper;
+import ses.dao.sms.SupplierMapper;
 import ses.model.oms.Orgnization;
+import ses.model.sms.Supplier;
+import ses.service.oms.OrgnizationServiceI;
 import ses.util.PathUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
+import ses.util.ValidateUtils;
 import bss.dao.cs.PurchaseContractMapper;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
@@ -49,6 +56,12 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	
 	@Autowired
 	private OrgnizationMapper orgnizationMapper;
+	
+	@Autowired
+	private OrgnizationMapper orgnizationmapper;
+	
+	@Autowired
+	private SupplierMapper supplierMapper;
 	
 	@Override
 	public int insert(PurchaseContract record) {
@@ -130,7 +143,7 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	}
 
 	@Override
-	public String createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request) {
+	public Map createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request) {
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		if(pur.getName()!=null){
 			dataMap.put("contractname", pur.getName());
@@ -177,10 +190,16 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		}else{
 			dataMap.put("purchaseUnitp", "");
 		}
-		if(pur.getPurchasePayDep()!=null){
-			dataMap.put("purchasePayDep", pur.getPurchasePayDep());
-		}else{
+		
+		if(ValidateUtils.isNull(pur.getPurchaseDepName())){
 			dataMap.put("purchasePayDep", "");
+		}else{
+			Orgnization org = orgnizationmapper.findOrgByPrimaryKey(pur.getPurchaseDepName());
+			if(ValidateUtils.isNull(org.getName())){
+				dataMap.put("purchasePayDep", "");
+			}else{
+				dataMap.put("purchasePayDep", org.getName());
+			}
 		}
 		if(pur.getPurchaseBank()!=null){
 			dataMap.put("purchaseBank", pur.getPurchaseBank());
@@ -192,11 +211,29 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		}else{
 			dataMap.put("purchaseBankAccount", "");
 		}
-		if(pur.getSupplierDepName()!=null){
-			dataMap.put("supplierDepName", pur.getSupplierDepName());
+		
+		if(ValidateUtils.isNull(pur.getPurchaseDepName())){
+			dataMap.put("purchasePayDep", "");
 		}else{
-			dataMap.put("supplierDepName", "");
+			Orgnization org = orgnizationmapper.findOrgByPrimaryKey(pur.getPurchaseDepName());
+			if(ValidateUtils.isNull(org.getName())){
+				dataMap.put("purchasePayDep", "");
+			}else{
+				dataMap.put("purchasePayDep", org.getName());
+			}
 		}
+		
+		if(ValidateUtils.isNull(pur.getSupplierDepName())){
+			dataMap.put("supplierDepName", "");
+		}else{
+			Supplier su = supplierMapper.selectOne(pur.getSupplierDepName());
+			if(ValidateUtils.isNull(su.getSupplierName())){
+				dataMap.put("supplierDepName", "");
+			}else{
+				dataMap.put("supplierDepName", su.getSupplierName());
+			}
+		}
+		
 		if(pur.getSupplierLegal()!=null){
 			dataMap.put("supplierLegal", pur.getSupplierLegal());
 		}else{
@@ -268,13 +305,9 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 			dataMap.put("money", "");
 		}
 		
-		
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		if(requList!=null){
 			for(int i=0;i<requList.size();i++){
-				if(requList.get(i).getGoodsName()==null){
-					break;
-				}
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("number", i+1);
 				if(requList.get(i).getPlanNo()!=null && requList.get(i).getPlanNo()!=""){
@@ -341,6 +374,8 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 			if(pur.getStatus()!=null){
 				if(pur.getStatus()==2){
 					t=configuration.getTemplate("formalcontract.ftl");
+				}else{
+					t=configuration.getTemplate("formalcontract.ftl");
 				}
 			}else{
 				t = configuration.getTemplate("contract.ftl");
@@ -348,32 +383,58 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String rootpath = (PathUtil.getWebRoot() + "contract/").replace("\\", "/");
-		File rootFile = new File(rootpath);
-		if(!rootFile.exists()){
-			rootFile.mkdirs();
+//		String rootpath = (PathUtil.getWebRoot() + "contract/").replace("\\", "/");
+//		File rootFile = new File(rootpath);
+//		if(!rootFile.exists()){
+//			rootFile.mkdirs();
+//		}
+		String name = "";
+		if(pur.getName()!=null){
+			name = pur.getName();
 		}
-		String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + pur.getName()+".doc";
-		File outFile = new File(rootpath+"/"+fileName);
-		Writer out = null;
-		try {
-			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		try {
-			t.process(dataMap, out);
-			out.flush();
-            out.close();
-		} catch (TemplateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return fileName;
+		String targetFileName = System.currentTimeMillis()+ "."+ name +".doc";
+		String finalPath = PropUtil.getProperty("file.base.path");
+        int type = 2;
+        String fileSysPath = getFileDir(type);
+        File file = null;
+        if (StringUtils.isNotBlank(fileSysPath)){
+        	finalPath = finalPath + fileSysPath + File.separator + UploadUtil.getDataFilePath();
+            UploadUtil.createDir(finalPath);
+            file = UploadUtil.getFile(finalPath, targetFileName);
+    		Writer out = null;
+    		try {
+    			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
+    		} catch (FileNotFoundException e) {
+    			e.printStackTrace();
+    		} catch (UnsupportedEncodingException e) {
+    			e.printStackTrace();
+    		}
+    		try {
+    			t.process(dataMap, out);
+    			out.flush();
+                out.close();
+    		} catch (TemplateException e) {
+    			e.printStackTrace();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("fileName", targetFileName);
+        map.put("filePath", file.getPath());
+		return map;
 	}
+	
+	 public String getFileDir(int type){
+	        String path = "";
+	        switch (type){
+	            case 1 : path = PropUtil.getProperty("file.supplier.system.path"); break;
+	            case 2 : path = PropUtil.getProperty("file.tender.system.path"); break;
+	            case 3 : path = PropUtil.getProperty("file.expert.system.path"); break;
+	            case 4 : path = PropUtil.getProperty("file.forum.system.path"); break;
+	        }
+	        return path;
+	    }
 
 	@Override
 	public List<PurchaseContract> selectFormalByContractType(

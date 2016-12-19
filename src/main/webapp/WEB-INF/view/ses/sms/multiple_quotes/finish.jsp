@@ -1,9 +1,9 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
 	<head>
+		<%@ include file="../../../common.jsp"%>
 		<title>标书管理</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">

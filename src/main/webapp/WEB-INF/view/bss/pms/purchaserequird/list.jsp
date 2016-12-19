@@ -282,8 +282,14 @@
            <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()">
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.planName }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.department }</td>
+			  <td class="tc" onclick="view('${obj.planNo }')">
+			  	${obj.planName }
+				</td>
+			  <td class="tc" onclick="view('${obj.planNo }')">
+			    <c:forEach items="${requires }" var="re" >
+					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
+			  	</c:forEach>
+			  </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.budget }</td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.auditDate }"/> </td>

@@ -58,6 +58,63 @@
     <association property="dictionary" column="PURCHASE_TYPE" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"/>
   </resultMap>
   
+    <resultMap id="ProjectResultMap" type="bss.model.ppms.Project">
+    <id column="ID"  property="id" />
+    <result column="NAME" property="name" />
+    <result column="PROJECT_NUMBER"  property="projectNumber" />
+    <result column="STATUS"  property="status" />
+    <result column="PRINCIPAL"  property="principal" />
+    <result column="IPONE"  property="ipone" />
+    <result column="LINKMAN"  property="linkman" />
+    <result column="LINKMAN_IPONE"  property="linkmanIpone" />
+    <result column="BID_UNIT"  property="bidUnit" />
+    <result column="ADDRESS"  property="address" />
+    <result column="POSTCODE"  property="postcode" />
+    <result column="SUPPLIER_NUMBER"  property="supplierNumber" />
+    <result column="OFFER_STANDARD"  property="offerStandard" />
+    <result column="PR_INTRODUCE" property="prIntroduce" />
+    <result column="BUDGET_AMOUNT" property="budgetAmount" />
+    <result column="PASS_WORD" property="passWord" />
+    <result column="SCORING_RUBRIC" property="scoringRubric" />
+    <result column="OPERATOR"  property="operator" />
+    <result column="DIVISION_OF_WORK" property="divisionOfWork" />
+    <result column="PURCHASE_TYPE"  property="purchaseType" />
+    <result column="MATERIALS_TYPE"  property="materialsType" />
+    <result column="SECTOR_OF_DEMAND" property="sectorOfDemand" />
+    <result column="DEADLINE"  property="deadline" />
+    <result column="DATE_OF_ENTRUSTMENT"  property="dateOfEntrustment" />
+    <result column="BID_DATE"  property="bidDate" jdbcType="TIMESTAMP"/>
+    <result column="BID_ADDRESS" property="bidAddress" />
+    <result column="REQUIERED_ID"  property="requieredId" />
+    <result column="BALE_NO"  property="baleNo" />
+    <result column="AMOUNT" property="amount" />
+    <result column="PURCHASE_DEP_NAME" property="purchaseDepName"/>
+    <result column="EXECUTE_STATUS" property="executeStatus"/>
+    <result column="IS_ENTRANCE" property="isEntrance"/>
+    <result column="APPROVAL_TIME" property="approvalTime"/>
+    <result column="REPLY_TIME" property="replyTime"/>
+    <result column="DEMAND_FROM_TIME" property="demandFromTime"/>
+    <result column="IS_REHEARSE" property="IsRehearse"/>
+    <result column="CREATED_AT" property="createAt"/>
+    <result column="START_TIME" property="startTime"/>
+    <result column="NOTICE_NEWS_TIME" property="noticeNewsTime"/>
+    <result column="APP_TIME" property="appTime"/>
+    <result column="SIGN_UP_TIME" property="signUpTime"/>
+    <result column="APPLY_DEADLINE" property="applyDeanline"/>
+    <result column="NOTICE_TIME" property="noticeTime"/>
+    <result column="END_TIME" property="endTime"/>
+    <result column="SIGNING_TIME" property="signingTime"/>
+    <result column="ACCEPTANCE_TIME" property="acceptanceTime"/>
+    <result column="MAINTENANCE_TIME" property="maintenanceTime"/>
+    <result column="IS_IMPORT" property="isImport"/>
+    <result column="IS_PROVISIONAL" property="isProvisional"/>
+    <result column="PLAN_TYPE" property="planType"/>
+    <result column="CONFIRM_FILE" property="confirmFile"/>
+    <result column="PURCHASE_DEP_ID" property="purchaseDepId"/>
+    <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
+    <association property="dictionary" column="PURCHASE_TYPE" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"/>
+  </resultMap>
+  
   <sql id="Base_Column_List">
     ID, NAME, PROJECT_NUMBER, STATUS, PRINCIPAL, IPONE, LINKMAN, LINKMAN_IPONE, BID_UNIT, ADDRESS, 
     POSTCODE, SUPPLIER_NUMBER, OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, PASS_WORD, 
@@ -193,7 +250,7 @@
         AND PROJECT_NUMBER = #{projectNumber}
      </if> 
    </select>
-  <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="ProjectResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
@@ -250,7 +307,7 @@
        and STATUS like '%${status}%'
       </if>
       <if test="purchaseDep != null">
-       and PURCHASE_DEP_ID like '%${purchaseDep.id}%'
+       and PURCHASE_DEP_ID = #{purchaseDep.id}
       </if>
       ORDER BY CREATED_AT DESC
   </select>

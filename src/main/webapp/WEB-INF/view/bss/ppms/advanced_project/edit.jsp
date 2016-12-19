@@ -2,16 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../../common.jsp"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<jsp:include page="/WEB-INF/view/common.jsp"/>
 <script type="text/javascript">
   function sum2(obj) { //数量
     var id = $(obj).next().val();
   $.ajax({
-    url : "${pageContext.request.contextPath}/project/viewIds.html",
+    url : "${pageContext.request.contextPath}/advancedProject/viewIds.html",
     type : "post",
     data : "id=" + id,
     dataType : "json",
@@ -47,7 +47,7 @@
   function sum1(obj) {
     var id = $(obj).next().val();
   $.ajax({
-    url : "${pageContext.request.contextPath}/project/viewIds.html",
+    url : "${pageContext.request.contextPath}/advancedProject/viewIds.html",
     type : "post",
     data : "id=" + id,
     dataType : "json",
@@ -77,11 +77,11 @@
   });
   }
   
-  var flag = true;
+ var flag = true;
   function verify(){
     var projectNumber = $("input[name='projectNumber']").val();
     $.ajax({
-      url : "${pageContext.request.contextPath}/project/verify.html",
+      url : "${pageContext.request.contextPath}/advancedProject/verify.html",
       type : "post",
       data : "projectNumber=" + projectNumber,
       dataType : "json",
@@ -138,7 +138,7 @@
   //分包
   function subPackage(){
     var id = $("#id").val();
-    window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?id=" + id;
+    window.location.href = "${pageContext.request.contextPath}/advancedProject/subPackage.html?id=" + id;
   }
 </script>
 </head>
@@ -158,7 +158,7 @@
   </div>
   <!-- 录入采购计划开始-->
   <div class="container container_box">
-  <sf:form action="${pageContext.request.contextPath}/project/update.html" id="form1" method="post" modelAttribute="project">
+  <sf:form action="${pageContext.request.contextPath}/advancedProject/update.html" id="form1" method="post" modelAttribute="project">
     <div>
       <h2 class="count_flow"><i>1</i>修改项目内容</h2>
       <ul class="ul_list">
@@ -218,39 +218,39 @@
             <c:if test="${obj.purchaseCount!=null }">
             <input type="hidden" name="ss" value="${obj.id }">
             <input maxlength="11" id="purchaseCount" onblur="sum2(this);" 
-              onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="lists[${vs.index }].purchaseCount"
+              onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="detail[${vs.index }].purchaseCount"
             style="width:50%;" value="${obj.purchaseCount}" />
             <input type="hidden" name="ss" value="${obj.parentId }">
           </c:if> 
           <c:if test="${obj.purchaseCount==null }">
-            <input style="border: 0px;" disabled="disabled" type="text" name="lists[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
+            <input style="border: 0px;" disabled="disabled" type="text" name="detail[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
           </c:if>
           </td>
           <td class="tc">
           <c:if test="${obj.price!=null }">
             <input type="hidden" name="ss" value="${obj.id }">
-              <input maxlength="11" id="price" name="lists[${vs.index }].price" style="width:50%;" onblur="sum1(this);" value="${obj.price}" />
+              <input maxlength="11" id="price" name="detail[${vs.index }].price" style="width:50%;" onblur="sum1(this);" value="${obj.price}" />
             <input type="hidden" name="ss" value="${obj.parentId }">
           </c:if>
             <c:if test="${obj.price==null}">
-            <input style="border: 0px;" readonly="readonly"  type="text" name="lists[${vs.index }].price" value="${obj.price }">
+            <input style="border: 0px;" readonly="readonly"  type="text" name="detail[${vs.index }].price" value="${obj.price }">
           </c:if>
           </td>
           <td class="tc">
             <input type="hidden" name="ss" value="${obj.id }">
-          <input maxlength="11" id="budget" name="lists[${vs.index }].budget" style="width:100%;border-style:none" readonly="readonly" value="${obj.budget}" />
+          <input maxlength="11" id="budget" name="detail[${vs.index }].budget" style="width:100%;border-style:none" readonly="readonly" value="${obj.budget}" />
           <input type="hidden" name="ss" value="${obj.parentId }">
           </td>
           <td class="tc">${obj.deliverDate}</td>
           <td class="tc advice">
           <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
-            <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
+            <select name="detail[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
             <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
             </select> 
           </c:if> 
-          <input type="hidden" id="idss" name="lists[${vs.index }].id" value="${obj.id }">
+          <input type="hidden" id="idss" name="detail[${vs.index }].id" value="${obj.id }">
           </td>
           <td class="tc">${obj.supplier}</td>
           <td class="tc">${obj.isFreeTax}</td>

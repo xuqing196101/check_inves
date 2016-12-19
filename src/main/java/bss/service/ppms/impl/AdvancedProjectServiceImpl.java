@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import bss.dao.ppms.AdvancedProjectMapper;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.Project;
 import bss.service.ppms.AdvancedProjectService;
 
 @Service("advancedProjectService")
@@ -42,6 +43,16 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
     public List<AdvancedProject> selectByList(AdvancedProject advancedProject) {
         
         return advancedProjectMapper.selectByList(advancedProject);
+    }
+
+    @Override
+    public boolean SameNameCheck(AdvancedProject advancedProject) {
+        boolean flag= true;
+        List<AdvancedProject> list = advancedProjectMapper.verifyByProject(advancedProject);
+        if(list != null && list.size()>0){
+            flag = false;
+        }
+        return flag;
     }
     
    

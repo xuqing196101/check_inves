@@ -363,6 +363,7 @@
                         <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
                         <input type="hidden" name="list[${vs.index }].detailStatus" value="${obj.detailStatus}">
                         <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType}">
+                        <input type="hidden" name="list[${vs.index }].organization" value="${obj.organization}">
                       </td>
                       <td class="tc w30">
                         <input type="checkbox" value="${obj.id }" name="chkItems" onclick="checkInfo(this)" alt="">

@@ -18,6 +18,10 @@
 		if(fileId != 0){
 			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
 		} 
+		var filePath = "${filePath}";
+		if (filePath != null && filePath != undefined){
+			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+filePath, true);// 异步加载, 服务器文件路径
+		}
 	}
 	
 	
@@ -174,7 +178,7 @@
 	   </ul>
 	 </div>
 	 <!-- 按钮 -->
-	 <c:if test="${project.confirmFile == 0 && ope =='add'}">
+	 <c:if test="${project.confirmFile != 1 && ope =='add'}">
 	     <div class="mt5 mb5 fr" id="handle">
 	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>

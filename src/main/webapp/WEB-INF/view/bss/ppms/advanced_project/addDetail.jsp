@@ -159,6 +159,7 @@
   <form id="save_form_id" action="${pageContext.request.contextPath}/advancedProject/saveDetail.html" method="post">
     <input id="detail_id" name="id" type="hidden" />
     <input name="name" type="hidden" value="${project.name}" />
+    <input name="projectId" type="hidden" value="${projectId}" />
     <input  name="projectNumber" value="${project.projectNumber}" type="hidden" />
   </form> 
 </body>

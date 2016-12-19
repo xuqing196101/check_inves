@@ -59,7 +59,7 @@
         var flag = $(ele).prop("checked");
         var id = $(ele).val();
         $.ajax({
-          url: "${pageContext.request.contextPath }/project/checkProjectDetail.do?id=" + id + "&projectId=" + projectId,
+          url: "${pageContext.request.contextPath }/advancedProject/checkProjectDetail.do?id=" + id + "&projectId=" + projectId,
           async: false, //请求是否异步，默认为异步
           type: "post",
           dataType: "json",
@@ -109,7 +109,7 @@
         var name = $(obj).parent().prev().find($("span[name='packageName']")).find($("input[name='pack']")).val();
         var packageId = $(obj).next().next().next().val();
         $.ajax({
-          url: "${pageContext.request.contextPath }/project/editPackName.do?name=" + name + "&id=" + packageId,
+          url: "${pageContext.request.contextPath }/advancedProject/editPackName.do?name=" + name + "&id=" + packageId,
           type: "post",
           success: function(data) {
             layer.msg('修改成功', {
@@ -154,12 +154,12 @@
           layer.close(index);
           $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath }/project/deleteDetailById.do?id=" + packageId + "&dId=" + id,
+            url: "${pageContext.request.contextPath }/advancedProject/deleteDetailById.do?id=" + packageId + "&dId=" + id,
             success: function(data) {
               layer.msg('删除成功', {
                 offset: ['45%', '50%']
               });
-              window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId;
+              window.location.href = "${pageContext.request.contextPath }/advancedProject/subPackage.do?id=" + projectId;
             }
           });
         });
@@ -198,13 +198,13 @@
         if(clickState != 1) {
           $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath }/project/addPack.do?id=" + ids + "&projectId=" + projectId,
+            url: "${pageContext.request.contextPath }/advancedProject/addPack.do?id=" + ids + "&projectId=" + projectId,
             success: function(data) {
               clickState = 1;
               layer.msg('添加成功', {
                 offset: ['40%', '45%']
               });
-              window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId;
+              window.location.href = "${pageContext.request.contextPath }/advancedProject/subPackage.do?id=" + projectId;
             }
           });
         }
@@ -212,7 +212,7 @@
 
       //返回
       function back() {
-        window.location.href = "${pageContext.request.contextPath }/project/list.html";
+        window.location.href = "${pageContext.request.contextPath }/advancedProject/list.html";
       }
 
       //包下勾选明细
@@ -221,7 +221,7 @@
         var flag = $(ele).prop("checked");
         var id = $(ele).val();
         $.ajax({
-          url: "${pageContext.request.contextPath }/project/checkProjectDeail.do?id=" + id + "&projectId=" + projectId,
+          url: "${pageContext.request.contextPath }/advancedProject/checkProjectDeail.do?id=" + id + "&projectId=" + projectId,
           type: "post",
           async: false, //请求是否异步，默认为异步
           dataType: "json",
@@ -274,7 +274,7 @@
         var flag = $(ele).prop("checked");
         var id = $(ele).val();
         $.ajax({
-          url: "${pageContext.request.contextPath }/project/checkProjectDeail.do?id=" + id + "&projectId=" + projectId,
+          url: "${pageContext.request.contextPath }/advancedProject/checkProjectDeail.do?id=" + id + "&projectId=" + projectId,
           async: false, //请求是否异步，默认为异步
           type: "post",
           dataType: "json",
@@ -354,13 +354,13 @@
         if(clickState != 1) {
           $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath }/project/addDetailById.do?id=" + id + "&projectId=" + projectId + "&packageId=" + packId,
+            url: "${pageContext.request.contextPath }/advancedProject/addDetailById.do?id=" + id + "&projectId=" + projectId + "&packageId=" + packId,
             success: function(data) {
               clickState = 1;
               layer.msg('添加成功', {
                 offset: ['40%', '45%']
               });
-              window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId;
+              window.location.href = "${pageContext.request.contextPath }/advancedProject/subPackage.do?id=" + projectId;
             }
           });
         }
@@ -377,7 +377,7 @@
         $.ajax({
           type: "POST",
           dataType:"json",
-          url: "${pageContext.request.contextPath }/project/judgeNext.do?projectId=" + projectId,
+          url: "${pageContext.request.contextPath }/advancedProject/judgeNext.do?projectId=" + projectId,
           success: function(data) {
             if(data==0){
               layer.alert("项目还有明细未分包，请先分包", {
@@ -386,7 +386,7 @@
               $(".layui-layer-shade").remove();
               return;
             }else if(data==1){
-              
+                 window.location.href = "${pageContext.request.contextPath}/advancedProject/startProject.html?id=" + projectId;
             }
           }
         });
@@ -519,7 +519,7 @@
 								</c:if>
 							</tr>
 						</thead>
-						<c:forEach items="${pack.projectDetails}" var="obj">
+						<c:forEach items="${pack.advancedDetails}" var="obj">
 							<tr class="tc">
 								<td class="w30"><input type="checkbox" name="info${p.index }" value="${obj.id }" onclick="selectedPackage(this,${p.index})" /></td>
 								<td class="w50">${obj.serialNumber }</td>

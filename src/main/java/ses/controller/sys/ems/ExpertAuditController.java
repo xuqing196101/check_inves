@@ -47,7 +47,12 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 
-
+/**
+ * <p>Title:ExpertAuditController </p>
+ * <p>Description: 专家审核</p>
+ * @author XuQing
+ * @date 2016-12-19下午7:33:27
+ */
 @Controller
 @RequestMapping("/expertAudit")
 public class ExpertAuditController {
@@ -85,6 +90,18 @@ public class ExpertAuditController {
 	@Autowired
 	private AreaServiceI areaService;
 	
+	/**
+	 * @Title: expertAuditList
+	 * @author XuQing 
+	 * @date 2016-12-19 下午7:31:56  
+	 * @Description:审核列表 
+	 * @param @param expert
+	 * @param @param model
+	 * @param @param pageNum
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping("/list")
 	public String expertAuditList(Expert expert, Model model, Integer pageNum, HttpServletRequest request){
 		if(expert.getSign() == null){
@@ -104,9 +121,10 @@ public class ExpertAuditController {
 			}
 			model.addAttribute("result", new PageInfo<Expert>(list));
 			model.addAttribute("expertList", list);
+		}else{
+			model.addAttribute("result", new PageInfo<Expert>(expertList));
+			model.addAttribute("expertList", expertList);
 		}
-		model.addAttribute("result", new PageInfo<Expert>(expertList));
-		model.addAttribute("expertList", expertList);
 		//初审复审标识（1初审，2复审）
 		model.addAttribute("sign", expert.getSign());
 		request.getSession().setAttribute("signs",  expert.getSign());
@@ -123,6 +141,18 @@ public class ExpertAuditController {
 		return "ses/ems/expertAudit/list";
 	}
 	
+	/**
+	 * @Title: basicInfo
+	 * @author XuQing 
+	 * @date 2016-12-19 下午7:35:06  
+	 * @Description:基本信息
+	 * @param @param expert
+	 * @param @param model
+	 * @param @param pageNum
+	 * @param @param expertId
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping("/basicInfo")
 	public String basicInfo(Expert expert, Model model, Integer pageNum, String expertId){
 		expert = expertService.selectByPrimaryKey(expertId);
@@ -184,6 +214,17 @@ public class ExpertAuditController {
 				model.addAttribute("parentName", parentName);
 			}
 		}
+        
+		
+		// 专家系统key
+        Integer expertKey = Constant.EXPERT_SYS_KEY;
+        Map<String, Object> typeMap = getTypeId();
+        // typrId集合
+        model.addAttribute("typeMap", typeMap);
+        // 业务id就是专家id
+        model.addAttribute("sysId", expertId);
+        // Constant.EXPERT_SYS_VALUE;
+        model.addAttribute("expertKey", expertKey);
         
         
         
@@ -299,6 +340,16 @@ public class ExpertAuditController {
         return map;
     }
 	
+    /**
+     * @Title: auditReasons
+     * @author XuQing 
+     * @date 2016-12-19 下午7:35:55  
+     * @Description:记录审核
+     * @param @param expertAudit
+     * @param @param model
+     * @param @param response      
+     * @return void
+     */
 	@RequestMapping("/auditReasons")
 	public void auditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response){
 		//唯一验证
@@ -319,7 +370,17 @@ public class ExpertAuditController {
 		
 	}
 	
-	
+	/**
+	 * @Title: experience
+	 * @author XuQing 
+	 * @date 2016-12-19 下午7:36:21  
+	 * @Description:经历经验
+	 * @param @param expert
+	 * @param @param model
+	 * @param @param expertId
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping("/experience")
 	public String experience(Expert expert, Model model, String expertId){
 		
@@ -346,6 +407,17 @@ public class ExpertAuditController {
 		return "ses/ems/expertAudit/experience";
 	}
 	
+	/**
+	 * @Title: product
+	 * @author XuQing 
+	 * @date 2016-12-19 下午7:36:47  
+	 * @Description:产品信息
+	 * @param @param expert
+	 * @param @param model
+	 * @param @param expertId
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping("/product")
 	public String product(Expert expert, Model model, String expertId){
 		
@@ -370,6 +442,17 @@ public class ExpertAuditController {
 		return "ses/ems/expertAudit/product";
 	}
 	
+	/**
+	 * @Title: expertFile
+	 * @author XuQing 
+	 * @date 2016-12-19 下午7:37:01  
+	 * @Description:附件信息
+	 * @param @param expert
+	 * @param @param model
+	 * @param @param expertId
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping("/expertFile")
 	public String expertFile(Expert expert, Model model, String expertId){
 		
@@ -391,9 +474,9 @@ public class ExpertAuditController {
     /**
      * 
      * @Title: getTypeId
-     * @author ShaoYangYang
+     * @author XuQing
      * @date 2016年11月9日 下午2:32:38
-     * @Description: TODO 封装附件类型
+     * @Description: 封装附件类型
      * @param @return
      * @return Map<String,Object>
      */
@@ -453,6 +536,17 @@ public class ExpertAuditController {
         return typeMap;
     }
 	
+    /**
+     * @Title: expertType
+     * @author XuQing 
+     * @date 2016-12-19 下午7:37:48  
+     * @Description:专家类型
+     * @param @param expertAudit
+     * @param @param model
+     * @param @param expertId
+     * @param @return      
+     * @return String
+     */
     @RequestMapping("/expertType")
 	public String expertType(ExpertAudit expertAudit, Model model, String expertId){
     	// 产品类型数据字典
@@ -471,6 +565,17 @@ public class ExpertAuditController {
 		return "ses/ems/expertAudit/expertType";
 	}
     
+    /**
+     * @Title: reasonsList
+     * @author XuQing 
+     * @date 2016-12-19 下午7:38:05  
+     * @Description:问题汇总
+     * @param @param expertAudit
+     * @param @param model
+     * @param @param expertId
+     * @param @return      
+     * @return String
+     */
 	@RequestMapping("/reasonsList")
 	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId){
 
@@ -487,6 +592,17 @@ public class ExpertAuditController {
 		return "ses/ems/expertAudit/reasonsList";
 	}
 	
+	/**
+	 * @Title: updateStatus
+	 * @author XuQing 
+	 * @date 2016-12-19 下午7:38:19  
+	 * @Description:提交审核
+	 * @param @param expert
+	 * @param @param model
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping("/updateStatus")
     public String updateStatus(Expert expert, Model model, HttpServletRequest request){
         // 如果是退回修改就保存历史信息
@@ -551,6 +667,15 @@ public class ExpertAuditController {
 		}
 	}
 	
+	/**
+	 * @Title: deleteByIds
+	 * @author XuQing 
+	 * @date 2016-12-19 下午7:38:43  
+	 * @Description:批量移除审核问题
+	 * @param @param ids
+	 * @param @param response      
+	 * @return void
+	 */
 	@RequestMapping("/deleteByIds")
 	public void deleteByIds(String[] ids, HttpServletResponse response) {
 		boolean Whether = expertAuditService.deleteByIds(ids);

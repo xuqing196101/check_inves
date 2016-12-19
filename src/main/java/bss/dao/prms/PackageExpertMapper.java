@@ -67,5 +67,5 @@ public interface PackageExpertMapper {
      * @author WangHuijie
      * @param mapSearch
      */
-    void backScore(Map<String, Object> mapSearch);
+    int backScore(Map<String, Object> mapSearch);
 }

@@ -2,13 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../../common.jsp"%>
-
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
 	<!--<![endif]-->
 
 	<head>
+		<%@ include file="../../../../common.jsp"%>
 		<script type="text/javascript">
 			//文件下載
 			function downloadFile(fileName) {

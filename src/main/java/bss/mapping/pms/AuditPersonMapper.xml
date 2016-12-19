@@ -151,6 +151,8 @@
      select 
     <include refid="Base_Column_List" />
     from T_BSS_PMS_AUDIT_PERSON
+    
+    where COLLECT_ID = #{collectId} and  AUDIT_ROUND = #{auditRound}
   </select>
   
   <select id="findUserByCondition" parameterType="java.util.Map" resultType="Integer">

@@ -147,7 +147,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc">${obj.price }</td>
 							<td class="tc">${obj.budget }</td>
 							<td>${obj.deliverDate }</td>
-							<td>${obj.purchaseType }</td>
+							<td>
+								<c:forEach items="${kind}" var="kind">
+									<c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+								</c:forEach>
+							</td>
 							<td class="tc">${obj.supplier }</td>
 							<td class="tc">${obj.memo }
 							

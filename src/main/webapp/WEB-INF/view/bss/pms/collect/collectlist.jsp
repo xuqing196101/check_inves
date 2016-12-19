@@ -362,8 +362,12 @@
 			   <input type="hidden" name="department" value="${obj.department }">
 			  </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  
-			    <td class="tc"  >${obj.department }</td>
+			  <td class="tc">
+			    <c:forEach items="${requires }" var="re" >
+					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
+			  	</c:forEach>
+			 	</td>
+			    
 			    
 			  <td class="tc"  >${obj.planName }</td>
 			
@@ -423,7 +427,7 @@
                  <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
                    <label class="col-md-12 pl20 col-xs-12">计划名称</label>
                     <span class="col-md-12 col-xs-12">
-                        <input class="title col-md-12" name="fileName"  maxlength="3" type="text">
+                        <input class="title col-md-12" name="fileName"   type="text">
                     </span>
                  </li>
                  <li class="mt10 col-md-12 p0 col-xs-12">

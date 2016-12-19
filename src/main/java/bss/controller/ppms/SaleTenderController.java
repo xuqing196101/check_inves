@@ -261,7 +261,7 @@ public class SaleTenderController {
 	    	}
 	    	supplier.setStsupplierIds(stsupplierIds);
     	}
-        List<Supplier> allSupplier = auditService.getAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
+        List<Supplier> allSupplier = auditService.selectAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
     	model.addAttribute("list",new PageInfo<>(allSupplier));
         model.addAttribute("packId", packId);
         model.addAttribute("projectId", projectId);

@@ -32,13 +32,13 @@
         AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
       </if>
       <if test="totalProgress != null">
-        TOTAL_PROGRESS = #{totalProgress,jdbcType=DECIMAL},
+        TOTAL_PROGRESS = TOTAL_PROGRESS + #{totalProgress,jdbcType=DECIMAL},
       </if>
       <if test="firstAuditProgress != null">
-        FIRST_AUDIT_PROGRESS = #{firstAuditProgress,jdbcType=DECIMAL},
+        FIRST_AUDIT_PROGRESS = FIRST_AUDIT_PROGRESS + #{firstAuditProgress,jdbcType=DECIMAL},
       </if>
       <if test="scoreProgress != null">
-        SCORE_PROGRESS = #{scoreProgress,jdbcType=DECIMAL},
+        SCORE_PROGRESS = SCORE_PROGRESS + #{scoreProgress,jdbcType=DECIMAL},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

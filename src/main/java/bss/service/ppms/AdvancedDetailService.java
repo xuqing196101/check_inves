@@ -94,4 +94,8 @@ public interface AdvancedDetailService {
      * @return
      */
     List<AdvancedDetail> selectByAll(HashMap<String,Object> map);
+    
+    List<AdvancedDetail> findNoPackageIdDetail(Map<String, Object> map);
+    
+    List<AdvancedDetail> findHavePackageIdDetail(Map<String, Object> map);
 }

@@ -38,6 +38,17 @@
       </if>
   </select>
   
+  <!-- 评分信息的回显 -->
+  <select id="selectInfoByMap" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PRMS_EXPERT_SCORE
+    WHERE IS_HISTORY = '1'
+        AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+        AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+        AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -178,7 +189,6 @@
   	where PROJECT_ID = #{projectId}
   	and PACKAGE_ID = #{packageId}
   	and EXPERT_ID = #{expertId}
-  	and SUPPLIER_ID = #{supplierId}
   </update>
   <update id="gather" parameterType="java.util.HashMap">
   	update T_BSS_PRMS_PACKAGE_EXPERT

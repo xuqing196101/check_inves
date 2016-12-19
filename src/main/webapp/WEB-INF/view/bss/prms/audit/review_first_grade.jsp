@@ -38,7 +38,7 @@ $(document).ready(function() {
    });  
    });  
    
-	function audit(obj,scoreModelId,supplierId,typeName,markTermId,quotaId){
+	function audit(obj,id,supplierId,typeName,markTermId,quotaId){
 		if(typeName=='2' || typeName=='3' ||typeName=='4' ||typeName=='5' ){
 			var flag = 0;
 			//填写的所有分数
@@ -63,7 +63,7 @@ $(document).ready(function() {
 					$("#markTermId").val(markTermId);
 					$("#supplierIds").val(supplierIds);
 					$("#expertValues").val(expertValues);
-					$("#scoreModelId").val(scoreModelId);
+					$("#id").val(id);
 					$("#typeName").val(typeName);
 					$("#quotaId").val(quotaId);
 					$.ajax({
@@ -89,7 +89,7 @@ $(document).ready(function() {
 			if(expertValue != ""){
 			$("#supplierIds").val(supplierId);
 			$("#expertValues").val(expertValue);
-			$("#scoreModelId").val(scoreModelId);
+			$("#id").val(id);
 			$("#typeName").val(typeName);
 			$("#quotaId").val(quotaId);
 			$.ajax({
@@ -136,7 +136,7 @@ $(document).ready(function() {
   	  <input type="hidden" name="supplierIds" id="supplierIds">
   	  <input type="hidden" name="expertValues" id="expertValues">
   	  <input type="hidden" name="markTermId" id="markTermId">
-      <input type="hidden" name="scoreModelId" id="scoreModelId">
+      <input type="hidden" name="scoreModelId" id="id">
   	  <input type="hidden" name="typeName" id="typeName">
   	  <input type="hidden" name="quotaId" id="quotaId">
   	  <input type="hidden" name="projectId" id="projectId" value="${projectId }">
@@ -162,13 +162,100 @@ $(document).ready(function() {
 	   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
 	   	  <div style="overflow:scroll;">
 	        <table class="table table-bordered table-condensed mt5" id="table2" style="white-space: nowrap;overflow: hidden;word-spacing: keep-all;" >
+			  <tr>
+			    <th  colspan="2"></th>
+			    <c:forEach items="${supplierList}" var="supplier">
+			      <th colspan="3">${supplier.suppliers.supplierName}</th>
+			    </c:forEach>
+			  </tr>
+			  <tr>
+			   	  	  <th>评审项目</th>
+			   	  	  <th>计分模型</th>
+			   	  	  <c:forEach items="${supplierList}" var="supplier">
+			   	    	<th>标准分值</th>
+			        	<th>评委填写</th>
+     		        	<th>评审得分</th>
+	    		  	  </c:forEach>
+			   		</tr>
+			  <c:forEach items="${markTermTypeList}" var="type">
+			    <tr>
+			      <td class="info" colspan="${length}">${type.name}</td>
+			    </tr>
+			    <c:forEach items="${markTermList}" var="markTerm">
+			      <c:if test="${markTerm.typeName eq type.id}">
+			        <tr>
+			          <td class="info" colspan="${length}">${markTerm.name}</td>
+			        </tr>
+			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
+			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
+			    	    <tr>
+			 	  		  <td><a href="javascript:void();" title="${score.easyUnderstandContent}">${score.name}</a></td>
+			 	  		  <td class="tc">
+			 	    	    <c:if test="${score.typeName == 0}">模型1:是否判断</c:if>
+			 	            <c:if test="${score.typeName == 1}">模型2:按项加减分</c:if>
+				 	        <c:if test="${score.typeName == 2}">模型3:评审数额最高递减</c:if>
+				 	        <c:if test="${score.typeName == 3}">模型4:评审数额最低递增</c:if>
+				 	        <c:if test="${score.typeName == 4}">模型5:评审数额高计算</c:if>
+				 	        <c:if test="${score.typeName == 5}">模型6:评审数额低计算</c:if>
+				 	        <c:if test="${score.typeName == 6}">模型7:评审数额低区间递增</c:if>
+				 	        <c:if test="${score.typeName == 7}">模型8:评审数额高区间递减</c:if>
+				 	      </td>
+				 	      <c:forEach items="${supplierList}" var="supplier">
+				 	        <td class="tc">${score.standardScore}</td>
+					 	    <c:choose>
+					 	      <c:when test="${score.typeName == '0'}">
+					 	        <td class="tc">
+					 	          <select name="expertValue" 
+					 	            style="width: 50px;"  onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	          >
+					 	            <option value=""></option>
+					 	            <option value="1" 
+					 	              <c:forEach items="${scores}" var="sco">
+					 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id and sco.expertValue eq '1'}">selected=selected</c:if>
+					 	              </c:forEach>
+					 	            >是</option>
+					 	            <option value="0"
+					 	              <c:forEach items="${scores}" var="sco">
+					 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id and sco.expertValue eq '0'}">selected=selected</c:if>
+					 	              </c:forEach>
+					 	            >否</option>
+					 	          </select>
+					 	        </td>
+					 	      </c:when>
+					 	      <c:otherwise>
+					 	        <td class="tc">
+					 	          <input type="text" name="expertValue" id="ipt5" onpaste="return false;"
+					 	            style="width: 50px; ime-mode:disabled" onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	            <c:forEach items="${scores}" var="sco">
+					 	              <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.expertValue}"</c:if>
+					 	            </c:forEach>
+					 	          >
+					 	        </td>
+					 	      </c:otherwise>
+					 	    </c:choose>
+					 	    <td class="tc">
+					 	      <input type="hidden" name="supplierId"  value="${supplier.suppliers.id}"/>
+					 	      <input type="text" name="expertScore" readonly="readonly" style="width: 50px;"
+					 	        <c:forEach items="${scores}" var="sco">
+					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
+					 	        </c:forEach>
+					 	      />
+					 	    </td>
+				 	      </c:forEach>
+					    </tr> 
+					  </c:if>
+			        </c:forEach>
+			      </c:if>
+			    </c:forEach>
+			  </c:forEach>
+			  <!-- 之前的代码
 			  <thead>
 			    <tr>
 			      <th></th>
 			   	  <th></th>
 			   	  <th></th>
 			   	  <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-			   	    <th colspan="6">${supplier.supplierName }</th>
+			   	    <th colspan="3">${supplier.suppliers.supplierName }</th>
 			   	  </c:forEach>
 			   	</tr>
 			    <tr>
@@ -208,8 +295,8 @@ $(document).ready(function() {
 				 	  <c:when test="${l.typeName == '0' }">
 				 	    <td>
 				 	      <select name="expertValue" 
-				 	        <c:if test="${l.round == 0  }"> style="width: 50px;"  onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
-				 	        <c:if test="${l.round == 1  }"> style="width: 50px; color:red;"  onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
+				 	        <c:if test="${l.round == 0  }"> style="width: 50px;"  onchange="audit(this,'${l.id}','${supplier.suppliers.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
+				 	        <c:if test="${l.round == 1  }"> style="width: 50px; color:red;"  onchange="audit(this,'${l.id}','${supplier.suppliers.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
 				 	        <c:if test="${l.round == 2  }"> disabled="disabled" style="width: 50px;"</c:if>
 				 	      >
 				 	        <option value=""> </option>
@@ -221,23 +308,26 @@ $(document).ready(function() {
 				 	  <c:otherwise>
 				 	    <td>
 				 	      <input type="text"  name="expertValue" id="ipt5" onpaste="return false;" value="${l.expertValue }"
-				 	        <c:if test="${l.round == 0  }">style="width: 50px; ime-mode:disabled" onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
-				 	        <c:if test="${l.round == 1  }">style="width: 50px; color:red; ime-mode:disabled" onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
+				 	        <c:if test="${l.round == 0  }">style="width: 50px; ime-mode:disabled" onchange="audit(this,'${l.id}','${supplier.suppliers.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
+				 	        <c:if test="${l.round == 1  }">style="width: 50px; color:red; ime-mode:disabled" onchange="audit(this,'${l.id}','${supplier.suppliers.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
 				 	        <c:if test="${l.round == 2  }">readonly="readonly" style="width: 50px;"</c:if>
 				 	      >
 				 	    </td>
 				 	  </c:otherwise>
 				 	</c:choose>
 				 	<td>
-				 	  <input type="hidden" name="supplierId"  value="${supplier.id }"/>
+				 	  <input type="hidden" name="supplierId"  value="${supplier.suppliers.id }"/>
 				 	  <input type="text" name="expertScore" readonly="readonly" value="${l.finalScore }"  style="width: 50px;"/>
 				 	</td>
 			 	  </c:forEach>
 				</tr> 
 			  </c:forEach>
+			  -->
 			</table>
-			<input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
-			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/><br/><br/>
+			<div class="tc">
+			  <input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
+			  <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/><br/><br/>
+		    </div>
 		  </div>
 		</form>
 	  </div> 

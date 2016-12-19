@@ -28,7 +28,11 @@ public class MarkTermServiceImpl implements MarkTermService{
 		// TODO Auto-generated method stub
 		return markTermMapper.findListByMarkTerm(markTerm);
 	}
-
+	
+	@Override
+    public void save(MarkTerm markTerm) {
+	    markTermMapper.saveMarkTerm(markTerm);
+	}
 	@Override
 	public int saveMarkTerm(MarkTerm markTerm) {
 		// TODO Auto-generated method stub

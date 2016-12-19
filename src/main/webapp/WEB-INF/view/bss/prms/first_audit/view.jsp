@@ -21,7 +21,7 @@
   <script type="text/javascript">
   	/** 全选全不选 */
 	function selectAll(){
-		 var checklist = document.getElementsByName ("chkItem");
+		 var checklist = document.getElementsByName ("chkItemExp");
 		 var checkAll = document.getElementById("checkAllExp");
 		   if(checkAll.checked){
 			   for(var i=0;i<checklist.length;i++)
@@ -39,7 +39,7 @@
 	/** 单选 */
 	function check(){
 		 var count=0;
-		 var checklist = document.getElementsByName ("chkItem");
+		 var checklist = document.getElementsByName ("chkItemExp");
 		 var checkAll = document.getElementById("checkAllExp");
 		 for(var i=0;i<checklist.length;i++){
 			   if(checklist[i].checked == false){
@@ -84,20 +84,51 @@
 		}
 	}
 	
+	$(function(){ 
+		var html = "<tr><td></td><th class='info'>评审结果</th>";
+		var tdCount = document.getElementById("tabId").rows.item(0).cells.length;
+		for ( var int = 2; int < tdCount; int++) {
+			var isPass = 0;
+			var notPass = 0;
+			var notaudit = 0;
+			$('#tabId tr').find('td').each(function(){
+				if ($(this).index() == int) { // 假设要获取第一列的值
+	                var v = $(this).find("input").val();
+	                if (v == 2){
+	                	notaudit += 1;
+	                }
+	                if (v == 1) {
+						isPass += 1;
+					}
+					if(v == 0){
+						notPass += 1;
+					}
+	            }
+			});
+			if (notaudit > 0) {
+				html += "<th class='info'>评审未完成</th>";
+			} else if (notPass > isPass) {
+				html += "<th class='info'>不合格</th>";
+			} else if (isPass > notPass){
+				html += "<th class='info'>合格</th>";
+			}
+		}
+		html += "</tr>";
+		$("#content").append(html);
+	});
+	
 	//汇总
-	function isFirstGather(projectId, packageId){
+	function isFirstGather(projectId, packageId,flowDefineId){
 		$.ajax({
 			url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
 			data: {"projectId": projectId, "packageId": packageId},
+			dataType:'json',
 			success:function(result){
 			    	if(!result.success){
                     	layer.msg(result.msg,{offset: ['150px']});
 			    	}else{
-			    		var html = "<tr><td>评审结果</td>";
-			    			html += "<td>合格</td>";
-			    			html += "<td>合格</td>";
-			    			html += "<td>不合格</td></tr>";
-			    		$("#content").append(html);
+			    		layer.msg("汇总成功",{offset: ['150px']});
+			    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
 			    	}
                 },
             error: function(result){
@@ -105,18 +136,48 @@
             }
 		});
 	}
+	
+	//退回复核
+	function sendBack(projectId,packageId,flowDefineId){
+		var ids =[]; 
+		$('input[name="chkItemExp"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			layer.confirm('您确定要退回复核吗?', {title:'提示',offset: '100px',shade:0.01}, function(index){
+				$.ajax({
+					url: "${pageContext.request.contextPath}/packageExpert/sendBack.do?expertIds="+ids,
+					data: {"projectId": projectId, "packageId": packageId},
+					dataType:'json',
+					success:function(result){
+					    	if(!result.success){
+		                    	layer.msg(result.msg,{offset: ['100px']});
+					    	}else{
+					    		layer.close(index);
+					    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+					    	}
+		                },
+		            error: function(result){
+		                layer.msg("退回复核失败",{offset: ['100px']});
+		            }
+				});
+			});
+		}else{
+			layer.alert("请选择专家",{offset: '100px', shade:0.01});
+		}
+	}
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
 	    <div class="mb5 fr">
 		    <button class="btn" onclick="window.print();" type="button">打印</button>
-		    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}');" type="button">汇总</button>
-		    <button class="btn" onclick="" type="button">复核</button>
-		    <button class="btn" onclick="" type="button">结束</button>
+		    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">汇总</button>
+		    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核</button>
+		    <!-- <button class="btn" onclick="" type="button">结束</button> -->
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
-	  	<table class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
+	  	<table id="tabId" class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
  		  <thead>
 		      <tr>
 		      	<th class="info w30"><input id="checkAllExp" type="checkbox" onclick="selectAll()" /></th>
@@ -130,7 +191,7 @@
 	      <tbody id="content">
 	      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
 		       <tr>
-		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItemExp" value="${ext.expert.id}" /></td>
 		        <td class="tc">${ext.expert.relName} </td>
 		        <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
 		        	<td class="tc">

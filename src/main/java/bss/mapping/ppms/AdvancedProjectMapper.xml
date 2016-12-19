@@ -176,6 +176,22 @@
     </trim>
   </sql>
   
+  <select id="verifyByProject" parameterType="bss.model.ppms.AdvancedProject" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_ADVANCED_PROJECTS
+    where 1=1 
+     <if test="name != null and name != ''">
+       and NAME = #{name}
+      </if>
+       <if test="projectNumber != null and projectNumber != ''">
+       and PROJECT_NUMBER = #{projectNumber}
+      </if>
+      <if test="status != null">
+       and STATUS like '%${status}%'
+      </if>
+      ORDER BY CREATED_AT DESC
+  </select>
   
   <select id="selectAdvancedProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -209,9 +225,9 @@
   
   
   <insert id="insertSelective" parameterType="bss.model.ppms.AdvancedProject">
-     <selectKey keyProperty="id" resultType="String" order="BEFORE">
+     <!-- <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
-    </selectKey>
+    </selectKey> -->
     insert into T_BSS_PPMS_ADVANCED_PROJECTS
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

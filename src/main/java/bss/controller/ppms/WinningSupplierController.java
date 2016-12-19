@@ -28,6 +28,7 @@ import com.alibaba.fastjson.JSON;
 
 
 
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -126,7 +127,7 @@ public class WinningSupplierController extends BaseController {
      * @return 路径
      */
     @RequestMapping("/packageSupplier")
-    public String selectpackage(Model model, String packageId, String flowDefineId,String projectId,HttpServletRequest sq){
+    public String selectpackage(Model model, String packageId, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
         SupplierCheckPass checkPass = new SupplierCheckPass();
         checkPass.setPackageId(packageId);
         List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPass(checkPass);
@@ -135,9 +136,49 @@ public class WinningSupplierController extends BaseController {
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("projectId", projectId);
         model.addAttribute("packageId", packageId);
+        model.addAttribute("view", view);
+        Integer l=listSupplierCheckPass.size();
+       
+        if(view != null && view == 1){  
+            SupplierCheckPass scp = new SupplierCheckPass();
+            scp.setPackageId(packageId);
+            scp.setIsWonBid((short)1);
+            List<SupplierCheckPass> listCheck = checkPassService.listCheckPass(scp);
+            String[] rat=ratio(listCheck.size());
+            for (int i = 0; i < l; i++ ) {
+                if(listSupplierCheckPass.get(i).getIsWonBid()==1){
+                 double  price = (Double.parseDouble(rat[i])/100)*Double.parseDouble(listSupplierCheckPass.get(0).getTotalPrice().toString());
+                    SupplierCheckPass supplierCheckPass = listSupplierCheckPass.get(i);
+                    supplierCheckPass.setWonPrice((long)price);
+                    supplierCheckPass.setPriceRatio(rat[i]);
+                    checkPassService.update(supplierCheckPass); 
+                }
+              
+            }
+        }
         //             //修改流程状态
         flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
         return "bss/ppms/winning_supplier/supplier_list";
+    }
+
+    private String[] ratio(Integer key){
+        String[] str = null;
+        switch (key) {
+            case 1:
+                str= new String[]{"100"};
+                break;
+            case 2:
+                str= new String[]{"70","30"};
+                break;
+            case 3:
+                str= new String[]{"50","30","20"};
+                break;
+            case 4:
+                str= new String[]{"40","30","20","10"};
+                break;
+        }
+        return str;
+
     }
 
     /**

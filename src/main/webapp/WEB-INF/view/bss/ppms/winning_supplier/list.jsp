@@ -58,31 +58,34 @@
                }
          }
   }
-
+  /**展示信息**/
+  function view(id){
+	  window.location.href="${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId="+id+"&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&view=1";
+  }
       
       /** 确认中标供应商  */
-     function confirm(){
-    	 var id=[]; 
-         $('input[name="chkItem"]:checked').each(function(){ 
-             id.push($(this).val());
-         }); 
-         if(id.length==1){
-        	 <c:forEach items="${packList }" var="pack" varStatus="vs">
-        	  if(id=="${pack.id}"){
-        		  var pass="${pack.listCheckPasses}";
-        		  if(pass.length>2){
-        			  layer.alert("已选择",{offset: ['100px', '300px'], shade:0.01});
-        		  }else{
+     function confirm(id){
+//     	 var id=[]; 
+//          $('input[name="chkItem"]:checked').each(function(){ 
+//              id.push($(this).val());
+//          }); 
+//          if(id.length==1){
+//         	 <c:forEach items="${packList }" var="pack" varStatus="vs">
+//         	  if(id=="${pack.id}"){
+//         		  var pass="${pack.listCheckPasses}";
+//         		  if(pass.length>2){
+//         			  layer.alert("已选择",{offset: ['100px', '300px'], shade:0.01});
+//         		  }else{
         			   window.location.href="${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId="+id+"&&flowDefineId=${flowDefineId}&&projectId=${projectId}";
-        		  }
+//         		  }
         		 
-        	  }
-        	 </c:forEach>
-         }else if(id.length>1){
-             layer.alert("只能选择一个",{offset: ['100px', '300px'], shade:0.01});
-         }else{
-             layer.alert("请选择包",{offset: ['100px', '300px'], shade:0.01});
-         }
+//         	  }
+//         	 </c:forEach>
+//          }else if(id.length>1){
+//              layer.alert("只能选择一个",{offset: ['100px', '300px'], shade:0.01});
+//          }else{
+//              layer.alert("请选择包",{offset: ['100px', '300px'], shade:0.01});
+//          }
      }
       
      /** 执行完成*/
@@ -162,7 +165,6 @@
       </div>
       <c:if test="${execute != 'SCCUESS' }">
         <div class="col-md-12 pl20 mt10">
-          <button class="btn btn-windows add" onclick="confirm();" type="button">选择</button>
             <button class="btn " onclick="finish();" type="button">执行完成</button>
         </div>
       </c:if>
@@ -170,25 +172,26 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr>
-              <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
               <th class="w50 info">序号</th>
               <th class="info">包名</th>
               <th class="info">中标供应商信息</th>
             </tr>
           </thead>
           <c:forEach items="${packList }" var="pack" varStatus="vs">
-            <tr>
-              <td class="tc"><input onclick="check();" type="checkbox" name="chkItem" value="${pack.id}" /></td>
-              <td class="tc w30">${vs.count }</td>
-              <td class="tc">${pack.name }</td>
-              <td class="tc">
+            <tr >
+              <td class="tc w30" >${vs.count }</td>
+              <td class="tc" >${pack.name }</td>
+              <td class="tc" >
               <c:choose>
                 <c:when test="${fn:length(pack.listCheckPasses) != 0}">
+                <a href="javascript:void(0);" onclick="view('${pack.id}');">
                   <c:forEach items="${pack.listCheckPasses}" var="list">
                    ${list.supplier.supplierName}
                   </c:forEach>
+                  </a>
                 </c:when>
                 <c:otherwise>
+                 <button class="btn btn-windows add" onclick="confirm('${pack.id}');" type="button">选择供应商</button>
                  <c:set value="1" var="values" />
                 </c:otherwise>
               </c:choose>

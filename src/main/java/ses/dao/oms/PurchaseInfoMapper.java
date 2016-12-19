@@ -11,11 +11,31 @@ public interface PurchaseInfoMapper {
 	
 	List<PurchaseInfo> findPurchaseList(HashMap<String, Object> map);
 	
+	/**
+	 * 
+	 *〈简述〉根据采购机构id查询采购人信息
+	 *〈详细描述〉
+	 * @author Administrator
+	 * @param id 采购机构Id
+	 * @return
+	 */
+	List<PurchaseInfo> findPurchaseUserList(String id);
+	
 	int  savePurchase(PurchaseInfo purchaseInfo);
 	
 	int updatePurchase(PurchaseInfo purchaseInfo);
 	
 	int delPurchaseByMap(HashMap<String, Object> map);
+	
+	/**
+	 * 
+	 *〈简述〉根据采购机构Id查询采购人员数量
+	 *〈详细描述〉
+	 * @author myc
+	 * @param ordId 组织机构Id
+	 * @return 如果存在返回大于0的数
+	 */
+	Integer findPurchaserByOrgId(@Param("orgId")String ordId);
 	
 	/**
 	 * 

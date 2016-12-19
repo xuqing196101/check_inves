@@ -307,7 +307,7 @@
 			      <td class="tc"><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"></td>
 			      <td class="tc">
 			         <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
-			            <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
+			            <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
 			            <c:forEach items="${kind}" var="kind" >
 			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
 			                        </c:forEach>

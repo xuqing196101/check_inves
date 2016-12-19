@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="u" uri="/tld/upload"%>
-<%@ include file="../../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -17,6 +16,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
+<%@ include file="../../../../common.jsp"%>
 <script type="text/javascript">
 function update(obj, supplierId, packageId, projectId, quoteId){
 	var total = $(obj).parent().parent().find("td").eq("2").find("input").val();
@@ -75,7 +75,8 @@ function ycDiv(obj, index){
 <body>
 <!-- 表格开始-->  
 <div class="clear">
-<c:forEach items="${treeMap }" var="treemap" varStatus="vs">
+<c:set value="1" var ="count"></c:set>
+<c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
 			 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
@@ -96,6 +97,7 @@ function ycDiv(obj, index){
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
+				<c:set value="${count+1 }" var="index"></c:set>
 				<tr>
 				    <td class="tc w50">${vs.index+1}</td>
 				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
@@ -108,8 +110,14 @@ function ycDiv(obj, index){
 						</select>
 					</td>
 					<td class="tc">
-						<u:upload id="bf${vs.index}" groups="${treemapValue.groupsUpload}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-						<u:show showId="bs${vs.index}" groups="${treemapValue.groupShow}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
+						<c:if test="${fn:length(treemap.value) > 1}">
+							<u:upload id="bf${index}" groups="${treemapValue.groupsUpload}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+							<u:show showId="bs${index}" groups="${treemapValue.groupShow}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
+						</c:if>
+						<c:if test="${fn:length(treemap.value) == 1}">
+							<u:upload id="bf${index}"  businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+							<u:show showId="bs${index}"  businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
+						</c:if>
 					</td>
 					<td class="tc"><span class="btn btn-windows edit" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')">更新</span></td>
 			    </tr>

@@ -68,6 +68,56 @@
 			and u.ID= #{userId}
 		</if>    
 	</select>
+	
+	<!-- 查询采购人 -->
+	<select id="findPurchaseUserList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseInfo">
+         select d.id  as id,
+           u.GENDER       as gender,
+           u.LOGIN_NAME   AS loginName,
+           u.MOBILE  AS mobile,
+           u.EMAIL AS email,
+           u.PASSWORD AS password,
+           d.NATION       as nation,
+           o.id     as purchaseDepId,
+           o.name   as purchaseDepName,
+           d.POLITICAL         as political,
+           d.PURCAHSER_TYPE       as purcahserType,
+           d.BIRTH_AT      as birthAt,
+           d.AREA         as area,
+           d.PROVINCE_ID      as provinceId,
+           d.CITY_ID    as cityId,
+           d.TOWN_ID  as townId,
+           d.DETAIL_ADDR   as detailAddr,
+           d.ID_CARD as idCard,
+           d.PROFESSIONAL   as professional,
+           d.TOP_STUDY   as topStudy,
+           d.GRADUATE_SCHOOL   as graduateSchool,
+           d.WORK_EXPERIENCE   as workExperience,
+           d.TRAIN_EXPERIENCE   as trainExperience,
+           d.QUA_CODE   as quaCode,
+           d.QUA_LEVEL   as quaLevel,
+           d.QUA_EDNDATE  as quaEdndate,
+           d.QUA_CERT   as quaCert,
+           d.QUA_RANK   as quaRank,
+           d.FAX   as fax,
+           u.ADDRESS   as address,
+           d.POST_CODE   as postCode,
+           d.QUA_START_DATE   as quaStartDate,
+           u.id      as  userId,
+           u.REL_NAME as relName,
+           d.AGE      as age,
+           u.DUTIES         as duties,
+           u.TELEPHONE           as telephone
+      from T_SES_OMS_PURCHASER     d
+      LEFT JOIN T_SES_BMS_USER u on d.id = u.type_id
+      LEFT JOIN T_SES_OMS_ORG o on o.id = d.purchase_dep_id
+     where d.IS_DELETED = 0
+     <if test="_parameter != null and _parameter != ''">
+      and o.id= #{_parameter}
+    </if>
+   </select>
+     
+	
 	<!-- 保存采购机构 -->
 	<insert id="savePurchase" parameterType="ses.model.oms.PurchaseInfo">
 		
@@ -80,7 +130,7 @@
 		  WORK_EXPERIENCE,TRAIN_EXPERIENCE,QUA_CODE,
 		  QUA_LEVEL,QUA_EDNDATE,QUA_CERT,
 		  QUA_RANK,FAX,POST_CODE,
-		  QUA_START_DATE,AGE,CREATED_AT
+		  QUA_START_DATE,AGE,CREATED_AT,USER_ID,IS_DELETED
           )
 		values(
 	      #{id,jdbcType=VARCHAR},#{nation,jdbcType=VARCHAR},
@@ -92,7 +142,7 @@
 		  #{quaCode,jdbcType=VARCHAR},#{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=DATE},
 		  #{quaCert,jdbcType=VARCHAR},#{quaRank,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
 		  #{postCode,jdbcType=VARCHAR},#{quaStartDate,jdbcType=DATE},#{age,jdbcType=NUMERIC},
-		  sysdate
+		  sysdate,#{userId,jdbcType=VARCHAR},#{isDeleted,jdbcType=NUMERIC}
 		 )
 	</insert>
 		<!-- 更新人员-->
@@ -180,6 +230,9 @@
 		 	 <if test="age != null">
 		 		,AGE=#{age,jdbcType=NUMERIC}
 		 	</if>
+		 	<if test="userId != null">
+		 		,USER_ID=#{userId,jdbcType=VARCHAR}
+		 	</if>
 	     where s.id=#{id}    
 	</update>
 	<!-- 删除人员-->
@@ -195,4 +248,12 @@
 	  UPDATE T_SES_OMS_PURCHASER  set IS_DELETED = 1
 	  where ID = #{id}
 	</update>
+	
+	<!--  -->
+	<select id="findPurchaserByOrgId" resultType="java.lang.Integer" >
+	  SELECT COUNT(1) 
+	  FROM T_SES_OMS_PURCHASER
+	  WHERE PURCHASE_DEP_ID = #{orgId}
+	  AND IS_DELETED=0
+	</select>
 </mapper>

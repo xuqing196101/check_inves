@@ -6,6 +6,7 @@
 <html>
 
 	<head>
+		<%@ include file="../../../common.jsp"%>
 		<script type="text/javascript">
 			$(function() {
 				laypage({

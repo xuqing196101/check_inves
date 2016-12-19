@@ -47,5 +47,7 @@ public interface ProjectDetailService {
 	
 	List<ProjectDetail> selectByParentIdTree(Map<String, Object> map);
 	
+	List<ProjectDetail> getByPidAndRid(String pid,String rid);
+	
 	
 }

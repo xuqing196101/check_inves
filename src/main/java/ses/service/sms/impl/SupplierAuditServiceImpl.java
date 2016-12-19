@@ -227,6 +227,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		for (SupplierStars ss : listSupplierStars) {
 			for (Supplier s : listSupplier) {
 				Integer score = s.getScore();
+				if (score == null || "".equals(score)) {
+				    score = 0;
+				}
 				Integer oneStars = ss.getOneStars();
 				Integer twoStars = ss.getTwoStars();
 				Integer threeStars = ss.getThreeStars();
@@ -629,4 +632,21 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			supplierAuditMapper.deleteByPrimaryKey(ids[i]);
 		}		
 	}
+	
+	
+	
+	@Override
+	public List<Supplier> selectAllSupplier(Supplier supplier,Integer page) {
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		List<Supplier> listSupplier=supplierMapper.getAllSupplier(supplier);
+		SupplierStars supplierStars = new SupplierStars();
+		supplierStars.setStatus(1);
+		return listSupplier;
+	}
+	
+	
+	
 }

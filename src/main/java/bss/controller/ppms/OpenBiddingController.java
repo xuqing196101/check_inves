@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,6 +22,7 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -184,6 +184,12 @@ public class OpenBiddingController {
         if (files != null && files.size() > 0){
             model.addAttribute("fileId", files.get(0).getId());
         } else {
+            if (project != null){
+                String filePath = packageFirstAuditService.downLoadBiddingDoc(id, project.getName(), project.getProjectNumber(), request);
+                if (StringUtils.isNotBlank(filePath)){
+                    model.addAttribute("filePath", filePath);
+                }
+            }
             model.addAttribute("fileId", "0");
         }
         model.addAttribute("flowDefineId", flowDefineId);
@@ -220,6 +226,20 @@ public class OpenBiddingController {
     @RequestMapping("/loadFile")
     public void loadFile(HttpServletRequest request, String fileId, HttpServletResponse response){
         downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author myc
+     * @param request
+     * @param fileId
+     * @param response
+     */
+    @RequestMapping("/downloadFile")
+    public void downLoadFile(HttpServletRequest request, String filePath, HttpServletResponse response){
+        downloadService.downLoadFile(request, response, filePath);
     }
     
     /**
@@ -617,17 +637,18 @@ public class OpenBiddingController {
         SaleTender condition = new SaleTender();
         HashMap<String, Object> map = new HashMap<String, Object>();
         HashMap<String, Object> map1 = new HashMap<String, Object>();
-        StringBuilder sbUpload = new StringBuilder("");
-        StringBuilder show = new StringBuilder("");
         if (packageIds != null) {
+            Integer num = 0;
             for (String packageId : packageIds) {
+                StringBuilder sbUpload = new StringBuilder("");
+                StringBuilder show = new StringBuilder("");
                 condition.setProjectId(projectId);
                 condition.setPackages(packageId);
                 condition.setStatusBid(NUMBER_TWO);
                 condition.setStatusBond(NUMBER_TWO);
                 List<SaleTender> stList = saleTenderService.find(condition);
                 map1.put("packageId", packageId);
-                map1.put("projectId", packageId);
+                map1.put("projectId", projectId);
                 List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
                 BigDecimal projectBudget = BigDecimal.ZERO;
                 for (ProjectDetail projectDetail : detailList) {
@@ -653,16 +674,15 @@ public class OpenBiddingController {
                     }
                 }
                 //这里是动态生成页面上传文件的groups
-                Integer num = 0;
                 for (SaleTender saleTender : stList) {
-                    int position = num++;
-                    if(position == (stList.size()-1)) {
-                        sbUpload.append("bf"+position);
-                        show.append("bs"+position);
-                    } else {
-                        sbUpload.append("bf"+position+",");
-                        show.append("bs"+position+",");
-                    }
+                        int position = num++;
+                        if(position == (stList.size()-1)) {
+                            sbUpload.append("bf"+position);
+                            show.append("bs"+position);
+                        } else {
+                            sbUpload.append("bf"+position+",");
+                            show.append("bs"+position+",");
+                        }
                 }
                 for (SaleTender saleTender : stList) {
                     saleTender.setGroupsUpload(sbUpload.toString());
@@ -1035,7 +1055,9 @@ public class OpenBiddingController {
             }
         }
         article.setProjectId(projectId);
-        article.setArticleType(articleType);
+        if (articleType.getId() != null){
+            article.setArticleType(articleType);
+        }
         //查询公告列表中是否有该项目的招标公告
         List<Article> articles = articelService.selectArticleByProjectId(article);
         //判断该项目是否已经存在该类型公告
@@ -1118,7 +1140,7 @@ public class OpenBiddingController {
           templet.setTemType("中标公告");
           templets = templetService.search(1, templet);
         }
-        if (templets != null) {
+        if (templets != null && templets.size() > 0) {
             String content = templets.get(0).getContent();
             Article article1 = new Article();
             String table = getContent(projectId);
