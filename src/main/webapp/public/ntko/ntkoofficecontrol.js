@@ -134,8 +134,8 @@ alert("第" + menuPos +","+ submenuPos +","+ subsubmenuPos +"个菜单项,menuID
 var classidx64="A64E3073-2016-4baf-A89D-FFE1FAA10EE0";
 
 var classid="A64E3073-2016-4baf-A89D-FFE1FAA10EC0";
-var codebase="officecontrol/OfficeControl.cab#version=5,0,3,9";
-var codebase64="officecontrol/OfficeControlx64.cab#version=5,0,3,9";
+var codebase="OfficeControl.cab#version=5,0,3,9";
+var codebase64="OfficeControlx64.cab#version=5,0,3,9";
 if (browser=="IE"){
 	//alert(window.navigator.platform);
 	if(window.navigator.platform=="Win32"){
@@ -232,7 +232,7 @@ document.write('_ProductKey="AB579623F5B4E11E5F61C06579A21F8446416FB7"');
 		document.write('_MenuButtonStyle="7"   ');
 		document.write('_WebUserName="NTKO"   ');
 		document.write('clsid="{'+classid+'}" >');
-		document.write('<SPAN STYLE="color:red">尚未安装NTKO Web FireFox跨浏览器插件。请点击<a href="ntkoplugins.xpi">安装组1件</a></SPAN>   ');
+		document.write('<SPAN STYLE="color:red">尚未安装NTKO Web FireFox跨浏览器插件。请点击<a href="${pageContext.request.contextPath}/browser/ntkoDownload.do">安装组1件</a></SPAN>   ');
 		document.write('</object>   ');
 }else if(browser=="chrome"){
 		document.write('<object id="TANGER_OCX" clsid="{'+classid+'}"  ForOnSaveToURL="OnComplete2" ForOnBeginOpenFromURL="OnComplete" ForOndocumentopened="OnComplete3"');
@@ -263,7 +263,7 @@ document.write('_ProductKey="AB579623F5B4E11E5F61C06579A21F8446416FB7"');
 		document.write('_MenuButtonStyle="7"   ');
 		document.write('_WebUserName="NTKO"   ');
 		document.write('_Caption="NTKO OFFICE文档控件示例演示 http://www.ntko.com">    ');
-		document.write('<SPAN STYLE="color:red">尚未安装NTKO Web Chrome跨浏览器插件。请点击<a href="ntkoplugins.crx">安装组件</a></SPAN>   ');
+		document.write('<SPAN STYLE="color:red">尚未安装NTKO Web Chrome跨浏览器插件。请点击<a href='+globalPath+'/browser/ntkoDownload.do">安装组件</a></SPAN>   ');
 		document.write('</object>');
 	}else if (Sys.opera){
 		alert("sorry,ntko web印章暂时不支持opera!");
