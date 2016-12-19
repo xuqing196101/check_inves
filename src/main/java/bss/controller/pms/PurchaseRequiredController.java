@@ -364,7 +364,9 @@ public class PurchaseRequiredController extends BaseController{
 //		bean.setObj(list);
 //		purchaseRequiredService.batchAdd(list);
 //		targetFile.delete();
-		
+		model.addAttribute("planName", planName);
+		model.addAttribute("planNo", planNo);
+//		model.addAttribute("", requires);
 		return "bss/pms/purchaserequird/add";
 	}
 	/**

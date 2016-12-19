@@ -118,26 +118,13 @@ public class AuditSetController {
 	@RequestMapping("/list")
 	public String set(Model model,Integer page,String id,HttpServletRequest request){
 		String type = request.getParameter("type");
-		List<FiledNameEnum> list = updateFiledService.getAllFiled();
-		List<UpdateFiled> list2 = updateFiledService.query(id,null);
-		List<UpdateFiled> listy=new LinkedList<UpdateFiled>();
-		List<UpdateFiled> listn=new LinkedList<UpdateFiled>();
-		if(list2!=null&&list2.size()>0){
-			for(UpdateFiled u:list2){
-				if(u.getIsUpdate()==1){
-					listy.add(u);
-				}else{
-					listn.add(u);
-				}
-			}
-		}else{
-			model.addAttribute("listf", list);
-		}
-		List<AuditPerson> listAudit = auditPersonService.query(new AuditPerson(), page==null?1:page);
+		AuditPerson person = new AuditPerson();
+		person.setCollectId(id);
+		person.setAuditRound(type);
+		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
 		model.addAttribute("info", info);
-		model.addAttribute("listy", listy);
-		model.addAttribute("listn", listn);
+ 
 		model.addAttribute("id", id);
 		model.addAttribute("kind", DictionaryDataUtil.find(4));
 		model.addAttribute("type", type);
