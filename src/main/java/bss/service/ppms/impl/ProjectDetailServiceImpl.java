@@ -113,10 +113,14 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 
 	@Override
 	public void deleteByProject(String id) {
-		// TODO Auto-generated method stub
 		projectDetailMapper.deleteByProject(id);
 		
 		
+	}
+
+	@Override
+	public List<ProjectDetail> selectByParentIdTree(Map<String, Object> map) {
+		return projectDetailMapper.selectByParentIdTree(map);
 	}
 
 }

@@ -1695,9 +1695,8 @@ public class ProjectController extends BaseController {
          HashMap<String, Object> map = new HashMap<String, Object>();
          ProjectDetail projectDetail = detailService.selectByPrimaryKey(id);
          if ("1".equals(projectDetail.getParentId())) {
-             map.put("id", projectDetail.getId());
-             map.put("projectId", id);
-             List<ProjectDetail> list = detailService.selectByParentIds(map);
+             map.put("requiredId", projectDetail.getRequiredId());
+             List<ProjectDetail> list = detailService.selectByParentIdTree(map);
              String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
              response.setContentType("text/html;charset=utf-8");
              response.getWriter().write(json);

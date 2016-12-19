@@ -32,6 +32,7 @@
       function checkInfo(ele) {
         var flag = $(ele).prop("checked");
         var id = $(ele).val();
+        
         $.ajax({
           url: "${pageContext.request.contextPath}/project/checkDeailTops.html",
           data: "id=" + id,
@@ -220,6 +221,7 @@
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
                     <tr style="cursor: pointer;">
                       <td class="tc w50"> ${obj.serialNumber}
+                      <input type="hidden" value="${obj.requiredId }">
                       </td>
                       <td class="tc"> ${obj.department}
                       </td>
