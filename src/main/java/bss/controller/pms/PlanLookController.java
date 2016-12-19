@@ -1,5 +1,6 @@
 package bss.controller.pms;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -192,17 +193,21 @@ public class PlanLookController extends BaseController {
 		
 //		CollectPlan plan = collectPlanService.queryById(id);
 		List<String> no = collectPurchaseService.getNo(id);
-		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
+		List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
+		List<String> departMent = new ArrayList<>();
 		if(no!=null&&no.size()>0){
 			for(String s:no){
 				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
 				list.addAll(pur);
+				Map<String,Object> departMap = new HashMap<String,Object>();
+				departMap.put("planNo", s);
+				departMent.add(purchaseRequiredService.getByMap(departMap).get(0).getDepartment());
 			}
 		}
 		model.addAttribute("list", list);
 		model.addAttribute("org",org);
 		model.addAttribute("id", id);
-		
+		model.addAttribute("departMent", departMent);
 		model.addAttribute("all", all);
 		
 		model.addAttribute("bean", bean);
@@ -240,7 +245,6 @@ public class PlanLookController extends BaseController {
 						map.put("id", p.getId());	
 						purchaseRequiredService.update(map);	
 					}
-					
 				}
 			}
 		}

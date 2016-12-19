@@ -41,12 +41,14 @@ import ses.util.PathUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.ProjectDetail;
 import bss.service.pms.PurchaseRequiredService;
 import bss.util.Excel;
 import bss.util.ExcelUtil;
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 /**
  * 
@@ -577,4 +579,26 @@ public class PurchaseRequiredController extends BaseController{
 	    	return list;
 	    }
 	    
+	    /**
+	     * 
+	    * @Title: viewIds
+	    * @author ZhaoBo
+	    * @date 2016-12-19 下午5:04:54  
+	    * @Description: 关联计算 
+	    * @param @param response
+	    * @param @param id
+	    * @param @throws IOException      
+	    * @return void
+	     */
+	    @RequestMapping("/viewIds")
+	    public void viewIds(HttpServletResponse response,String id) throws IOException {
+	          Map<String, Object> map = new HashMap<String, Object>();
+	          map.put("id", id);
+	          List<PurchaseRequired> list = purchaseRequiredService.selectByParent(map);
+	          String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+	          response.setContentType("text/html;charset=utf-8");
+	          response.getWriter().write(json);
+	          response.getWriter().flush();
+	          response.getWriter().close();
+	    }
 }
