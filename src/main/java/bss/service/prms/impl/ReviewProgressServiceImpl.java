@@ -252,7 +252,8 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 		  if(packageExpertList!=null&& packageExpertList.size()>0){
 			  double first =  1/(double)packageExpertList.size();
 			  BigDecimal b = new BigDecimal(first); 
-			  scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+			  //scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+			  scoreProgress = 1/(double)packageExpertList.size();
 			  //评分进度
 			  reviewProgress.setScoreProgress(scoreProgress);
 			  totalProgress = scoreProgress/2;
@@ -279,21 +280,41 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 			  }
 			  
 			  BigDecimal b = new BigDecimal(score); 
-			  scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+			  //scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+			  scoreProgress = 1/(double)packageExpertList.size();
 			  //初审进度更新
 			  reviewProgress2.setScoreProgress(scoreProgress);
 			  //总进度更新
 			  Double firstProgress2 = reviewProgress2.getFirstAuditProgress();
 			 double total2 =  (scoreProgress+firstProgress2)/2;
 			 BigDecimal t = new BigDecimal(total2); 
-			 totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			  //总进度更新
-			 reviewProgress2.setTotalProgress(totalProgress);
+			 //totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+			 totalProgress = (scoreProgress + reviewProgress2.getFirstAuditProgress())/2;
+			 //总进度更新
+			 //reviewProgress2.setTotalProgress(totalProgress);
 			 if(totalProgress==1){
 				 reviewProgress2.setAuditStatus("2");
 			 }
 			 //修改进度
 			 updateByMap(reviewProgress2);
+			 
+			 List<ReviewProgress> list = mapper.selectByMap(map);
+			 // 判断如果所有专家都已打分,则改变scoreProgress的值为1,防止出现99.9%的情况
+			 List<ReviewFirstAudit> reviewList = reviewFirstAuditMapper.selectList(map);
+			 if (reviewList.size() == packageExpertList.size()) {
+			     ReviewProgress review = new ReviewProgress();
+			     review.setId(list.get(0).getId());
+			     review.setScoreProgress((double)1);
+			     updateByMap(review);
+			 }
+			 if(list != null && !list.isEmpty()){
+			     ReviewProgress reviewProgress3 = list.get(0);
+			     reviewProgress3.setTotalProgress((reviewProgress3.getFirstAuditProgress() + reviewProgress3.getScoreProgress())/2);
+			     Map<String, Object> mapSearch = new HashMap<String, Object>();
+			     mapSearch.put("id", reviewProgress3.getId());
+			     mapSearch.put("totalProgress", reviewProgress3.getTotalProgress());
+			     mapper.updateTotalProgress(mapSearch);
+			 }
 		  }
 	  }
     }

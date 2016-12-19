@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.PackageExpertMapper;
+import bss.dao.prms.ReviewFirstAuditMapper;
 import bss.dao.prms.ReviewProgressMapper;
 import bss.model.prms.ExpertScore;
 import bss.model.prms.PackageExpert;
+import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ReviewProgress;
 import bss.service.prms.PackageExpertService;
 @Service("packageExpertService")
@@ -26,6 +28,8 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       private ExpertScoreMapper expertScoreMapper;
       @Autowired
       private PackageExpertMapper packageExpertMapper;
+      @Autowired
+      private ReviewFirstAuditMapper reviewFirstAuditMapper;
 	  /**
 	   * 
 	  * @Title: save
@@ -155,11 +159,21 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             if (isGrade) {
                 double score = 1/length;
                 mapSearch.put("score", score);
+                reviewProgressMapper.backScore(mapSearch);
             }
             // 3.PACKAGE_EXPERT表中的IS_GRADE改为0
             mapper.backScore(mapSearch);
         }
-        reviewProgressMapper.backScore(mapSearch);
+        mapSearch.remove("expertId");
+        List<ReviewProgress> list = reviewProgressMapper.selectByMap(mapSearch);
+        if(list != null && !list.isEmpty()){
+            ReviewProgress reviewProgress3 = list.get(0);
+            reviewProgress3.setTotalProgress((reviewProgress3.getFirstAuditProgress() + reviewProgress3.getScoreProgress())/2);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("id", reviewProgress3.getId());
+            map.put("totalProgress", reviewProgress3.getTotalProgress());
+            reviewProgressMapper.updateTotalProgress(map);
+        }
     }
     /**
      *〈简述〉

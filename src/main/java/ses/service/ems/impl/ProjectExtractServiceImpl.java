@@ -89,7 +89,8 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
                     Map<String, String> map=new HashMap<String, String>();
                     map.put("expertId", expert2.getId());
                     map.put("projectId",show.getProjectId());
-                    if(extractMapper.getexpCount(map)==0){
+                    Integer count = extractMapper.getexpCount(map);
+                    if(count == 0){
                         projectExtracts=new ProjectExtract();
                         //专家id
                         projectExtracts.setExpertId(expert2.getId());
@@ -100,14 +101,15 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
                         projectExtracts.setIsDeleted((short)0);
                         projectExtracts.setOperatingType((short)0);
                         projectExtracts.setConTypeId(extConType.getId());
-                        projectExtracts2.add(projectExtracts);
+                        extractMapper.insertSelective(projectExtracts);
+//                        projectExtracts2.add(projectExtracts);
                     }
 
                 }
                 //插入projectExtracts
-                if(projectExtracts2 != null && projectExtracts2.size() !=0){
-                    extractMapper.insertList(projectExtracts2);
-                }
+//                if(projectExtracts2 != null && projectExtracts2.size() !=0){
+//                    extractMapper.insertList(projectExtracts2);
+//                }
             }
         }
         return "";
@@ -139,31 +141,33 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
     public void update(ProjectExtract projectExtract) {
 
         if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
-            for (String packageId : projectExtract.getPackageId()) {
-                if (!"".equals(packageId)){
-                    ProjectExtract pe = extractMapper.selectByPrimaryKey(projectExtract.getId());
-                    if(packageId != pe.getProjectId()){
-                        ProjectExtract extract = new ProjectExtract();
-                        extract.setProjectId(packageId);
-                        extract.setExpertId(pe.getExpert().getId());
-                        List<ProjectExtract> list = extractMapper.list(extract);
-                        if(list != null && list.size() != 0){
-                            list.get(0).setOperatingType((short)1);
-                            extractMapper.updateByPrimaryKeySelective(list.get(0));
-                        }else{
-                            ProjectExtract pext = new ProjectExtract();
-                            pext.setExpertId(pe.getExpert().getId());
-                            pext.setProjectId(packageId);
-                            pext.setOperatingType((short)1);
-                            pext.setCreatedAt(new Date());
-                            extractMapper.insertSelective(pext);
+            if(projectExtract.getOperatingType() == 1){
+                for (String packageId : projectExtract.getPackageId()) {
+                    if (!"".equals(packageId)){
+                        ProjectExtract pe = extractMapper.selectByPrimaryKey(projectExtract.getId());
+                        if(packageId != pe.getProjectId()){
+                            ProjectExtract extract = new ProjectExtract();
+                            extract.setProjectId(packageId);
+                            extract.setExpertId(pe.getExpert().getId());
+                            List<ProjectExtract> list = extractMapper.list(extract);
+                            if(list != null && list.size() != 0){
+                                list.get(0).setOperatingType((short)1);
+                                extractMapper.updateByPrimaryKeySelective(list.get(0));
+                            }else{
+                                ProjectExtract pext = new ProjectExtract();
+                                pext.setExpertId(pe.getExpert().getId());
+                                pext.setProjectId(packageId);
+                                pext.setOperatingType((short)1);
+                                pext.setCreatedAt(new Date());
+                                extractMapper.insertSelective(pext);
+                            }
+
+
                         }
-
-
                     }
                 }
-            }
 
+            }
         }
         extractMapper.updateByPrimaryKeySelective(projectExtract);
 

@@ -471,7 +471,7 @@
 			function uploadExcel() {
 				index = layer.open({
 					type: 1, //page层
-					area: ['300px', '200px'],
+					area: ['400px', '300px'],
 					title: '导入需求计划',
 					closeBtn: 1,
 					shade: 0.01, //遮罩透明度
@@ -560,7 +560,7 @@
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>需求部门</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" name="depName" value="${planDepName }" id="xqbm" onkeyup="assignDepartment(this)">
+							<input type="text" class="input_group"  readonly="readonly" name="depName" value="${orgName }" id="xqbm" onkeyup="assignDepartment(this)">
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -622,13 +622,15 @@
 										</td>
 										<td class="w100" name="department">
 										
-								<!-- 		<input type="text" name="list[0].department"  > -->
-											<select name="list[0].department" class="pt" id="pType[0]">
+								  		<input type="hidden" name="list[0].department" value="${orgId }" >
+								  		<input type="text"  readonly="readonly" value="${orgName}" >
+								  		  
+										<%-- 	<select name="list[0].department" class="pt" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${requires }" var="obj">
 													<option value="${obj.id }">${obj.name }</option>
 												</c:forEach>
-											</select>
+											</select> --%>
 											
 											
 										</td>
@@ -671,13 +673,8 @@
 										<td class="w100" >
 										
 									<%-- 	<input type="text" name="list[${vs.index }].department"   value="${obj.department}"> --%>
-											<select name="list[${vs.index }].department" class="pt" id="pType[0]">
-												<option value="">请选择</option>
-												<c:forEach items="${requires }" var="obj">
-													<option value="${obj.id }">${obj.name }</option>
-												</c:forEach>
-											</select>
-											
+											<input type="hidden" name="list[${vs.index }].department" value="${orgId }" >
+								  			<input type="text"  readonly="readonly" value="${orgName}" >
 											
 										
 										</td>
@@ -784,15 +781,15 @@
 		
 	<div  class="container clear margin-top-30" id="file_div"  style="display:none;" >
     	<form id="up_form" action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
-    		<input type="file" name="file">
-    			 <input type="hidden" name="planName" id="detailJhmcf">
+    		<input type="file" class="input_group" name="file">
+    			 <input type="hidden"  name="planName" id="detailJhmcf">
 							<input type="hidden" name="planNo" id="detailJhbhf">
 							<input type="hidden" name="planType" id="detailTypfef">
 							<input type="hidden" name="recorderMobile" id="detailMobilef">
 							<input type="hidden" name="planDepName" id="detailXqbmf"/>
 							
 							
-    		 <input type="button" onclick="fileup()"   value="导入" />
+    		 <input type="button" class="btn" onclick="fileup()"   value="导入" />
     	</form>
     </div>
     

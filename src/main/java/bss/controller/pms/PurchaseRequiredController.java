@@ -186,6 +186,7 @@ public class PurchaseRequiredController extends BaseController{
 		Map<String,Object> map=new HashMap<String,Object>();
 		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
 		model.addAttribute("requires",requires);
+	  model.addAttribute("orgName", user.getOrg().getName());
 		return "bss/pms/purchaserequird/add";
 	}
 	
@@ -371,8 +372,11 @@ public class PurchaseRequiredController extends BaseController{
 //		targetFile.delete();
 		model.addAttribute("planName", planName);
 		model.addAttribute("planNo", planNo);
+//    Orgnization orgnization = oargnizationMapper.findOrgByPrimaryKey(user.getOrgId());
 		model.addAttribute("user", user);
 		model.addAttribute("planDepName", planDepName);
+		model.addAttribute("orgName", user.getOrg().getName());
+		model.addAttribute("orgId", user.getOrg().getId());
 		return "bss/pms/purchaserequird/add";
 	}
 	/**

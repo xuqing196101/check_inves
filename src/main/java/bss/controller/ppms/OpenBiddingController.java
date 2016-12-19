@@ -638,7 +638,7 @@ public class OpenBiddingController {
         HashMap<String, Object> map = new HashMap<String, Object>();
         HashMap<String, Object> map1 = new HashMap<String, Object>();
         if (packageIds != null) {
-            Integer count = 0;
+            Integer num = 0;
             for (String packageId : packageIds) {
                 StringBuilder sbUpload = new StringBuilder("");
                 StringBuilder show = new StringBuilder("");
@@ -674,22 +674,20 @@ public class OpenBiddingController {
                     }
                 }
                 //这里是动态生成页面上传文件的groups
-                Integer num = 0;
                 for (SaleTender saleTender : stList) {
                         int position = num++;
                         if(position == (stList.size()-1)) {
-                            sbUpload.append("bf"+position+count);
-                            show.append("bs"+position+count);
+                            sbUpload.append("bf"+position);
+                            show.append("bs"+position);
                         } else {
-                            sbUpload.append("bf"+position+count+",");
-                            show.append("bs"+position+count+",");
+                            sbUpload.append("bf"+position+",");
+                            show.append("bs"+position+",");
                         }
                 }
                 for (SaleTender saleTender : stList) {
                     saleTender.setGroupsUpload(sbUpload.toString());
                     saleTender.setGroupShow(show.toString());
                 }
-                count ++;
                 map.put("id", packageId);
                 List<Packages> pack = packageService.findPackageById(map);
                 if (pack != null && pack.size() > 0) {
@@ -1057,7 +1055,9 @@ public class OpenBiddingController {
             }
         }
         article.setProjectId(projectId);
-        article.setArticleType(articleType);
+        if (articleType.getId() != null){
+            article.setArticleType(articleType);
+        }
         //查询公告列表中是否有该项目的招标公告
         List<Article> articles = articelService.selectArticleByProjectId(article);
         //判断该项目是否已经存在该类型公告
@@ -1140,7 +1140,7 @@ public class OpenBiddingController {
           templet.setTemType("中标公告");
           templets = templetService.search(1, templet);
         }
-        if (templets != null) {
+        if (templets != null && templets.size() > 0) {
             String content = templets.get(0).getContent();
             Article article1 = new Article();
             String table = getContent(projectId);

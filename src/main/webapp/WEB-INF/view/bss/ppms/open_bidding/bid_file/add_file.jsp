@@ -178,7 +178,7 @@
 	   </ul>
 	 </div>
 	 <!-- 按钮 -->
-	 <c:if test="${project.confirmFile == 0 && ope =='add'}">
+	 <c:if test="${project.confirmFile != 1 && ope =='add'}">
 	     <div class="mt5 mb5 fr" id="handle">
 	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>

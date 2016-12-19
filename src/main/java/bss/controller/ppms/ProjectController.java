@@ -138,9 +138,7 @@ public class ProjectController extends BaseController {
             model.addAttribute("info", info);
             model.addAttribute("projects", project);
         }
-    	
-
-       /* List<Project> list = projectService.list(page == null ? 1 : page, project);
+        /*List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("info", info);

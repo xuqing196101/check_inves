@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
@@ -70,6 +71,9 @@ public class PlanLookController extends BaseController {
 	
 	@Autowired
 	private PurchaseAuditService purchaseAuditService;
+	
+	@Autowired
+	private OrgnizationMapper oargnizationMapper;
 	
 	/**
 	 * 
@@ -224,6 +228,11 @@ public class PlanLookController extends BaseController {
 		List<DictionaryData> mType = dictionaryDataServiceI.findByKind("5");
 		model.addAttribute("mType", mType);
 		
+		Map<String,Object> maps=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(maps);
+		model.addAttribute("requires", requires);
+		
+		
 		return "bss/pms/collect/audit";
 	}
 	
@@ -259,7 +268,10 @@ public class PlanLookController extends BaseController {
 				}
 			}
 		}
-		collectPlan.setStatus(2);
+		if(collectPlan.getStatus().equals(4)){
+			collectPlan.setStatus(2);
+		}
+	
 		collectPlanService.update(collectPlan);
 		return "redirect:list.html";
 	}

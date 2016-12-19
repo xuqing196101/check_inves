@@ -118,7 +118,7 @@
 	});
 	
 	//汇总
-	function isFirstGather(projectId, packageId){
+	function isFirstGather(projectId, packageId,flowDefineId){
 		$.ajax({
 			url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
 			data: {"projectId": projectId, "packageId": packageId},
@@ -127,7 +127,8 @@
 			    	if(!result.success){
                     	layer.msg(result.msg,{offset: ['150px']});
 			    	}else{
-			    		
+			    		layer.msg("汇总成功",{offset: ['150px']});
+			    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
 			    	}
                 },
             error: function(result){
@@ -170,7 +171,7 @@
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
 	    <div class="mb5 fr">
 		    <button class="btn" onclick="window.print();" type="button">打印</button>
-		    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}');" type="button">汇总</button>
+		    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">汇总</button>
 		    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核</button>
 		    <!-- <button class="btn" onclick="" type="button">结束</button> -->
 	   	</div>

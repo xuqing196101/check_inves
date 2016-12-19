@@ -427,7 +427,7 @@
                  <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
                    <label class="col-md-12 pl20 col-xs-12">计划名称</label>
                     <span class="col-md-12 col-xs-12">
-                        <input class="title col-md-12" name="fileName"  maxlength="3" type="text">
+                        <input class="title col-md-12" name="fileName"   type="text">
                     </span>
                  </li>
                  <li class="mt10 col-md-12 p0 col-xs-12">
