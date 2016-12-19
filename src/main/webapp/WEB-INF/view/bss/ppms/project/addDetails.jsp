@@ -212,6 +212,13 @@
   </div>
   
   <form id="save_form_id" action="${pageContext.request.contextPath}/project/save.html" method="post">
+  
+    <c:forEach items="${lists}" var="obj" varStatus="vs">
+                    <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
+                        <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
+                        <input type="hidden" name="list[${vs.index }].detailStatus" value="${obj.detailStatus}">
+                        <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType}">
+    </c:forEach>
     <input id="detail_id" name="checkIds" type="hidden" />
      <input name="name" type="hidden" value="${name}" />
     <input name="purchaseType" id="purchaseType" type="hidden"/>

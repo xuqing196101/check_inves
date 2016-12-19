@@ -1526,6 +1526,7 @@ public class ProjectController extends BaseController {
              project.setIsImport(0);
              project.setPurchaseType(purchaseType);
              project.setPurchaseDep(new PurchaseDep(orgId));
+             project.setPlanType(list.getList().get(0).getPlanType());
              projectService.insert(project); 
     	 }
 	    	 ProjectTask projectTask = new ProjectTask();
