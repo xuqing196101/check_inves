@@ -117,7 +117,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/list")
     public String list(@CurrentUser User user, Integer page, Model model, Project project, HttpServletRequest request) {
-        if(user != null && user.getOrg() != null){
+       /* if(user != null && user.getOrg() != null){
            PurchaseDep purchaseDep = new PurchaseDep();
             purchaseDep.setId(user.getOrg().getId());
             project.setPurchaseDep(purchaseDep);
@@ -126,16 +126,16 @@ public class ProjectController extends BaseController {
            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
            model.addAttribute("info", info);
             model.addAttribute("projects", project);
-        }
+        }*/
     	
-    	/*//取出session
+    	//取出session
     	request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
     	
         List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("info", info);
-        model.addAttribute("projects", project);*/
+        model.addAttribute("projects", project);
         return "bss/ppms/project/list";
     }
     

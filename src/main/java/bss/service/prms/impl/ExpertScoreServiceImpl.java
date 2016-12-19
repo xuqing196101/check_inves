@@ -269,4 +269,19 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
         return mapper.getScoreByMap(map);
     }
     
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉分数被退回后的回显
+     * @author WangHuijie
+     * @param map
+     * @return
+     */
+    @Override
+    public List<ExpertScore> selectInfoByMap(Map<String, Object> map) {
+        return mapper.selectInfoByMap(map);
+    }
+    
+    
+    
 }

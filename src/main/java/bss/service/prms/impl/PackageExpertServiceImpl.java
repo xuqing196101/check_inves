@@ -137,9 +137,10 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         String[] ids = expertIds.split(",");
         mapSearch.remove("expertId");
         for (String expertId : ids) {
-            mapSearch.remove("expertId");
-            mapSearch.put("expertId", expertId.replace("undefined", ""));
+            //mapSearch.remove("expertId");
+            //mapSearch.put("expertId", expertId.replace("undefined", ""));
             // 1.EXPERT_SCORE表中IS_HISTORY改为1
+            mapSearch.put("expertId", expertId);
             expertScoremapper.backScore(mapSearch);
             // 2.PACKAGE_EXPERT表中的IS_GRADE改为0
             mapper.backScore(mapSearch);
