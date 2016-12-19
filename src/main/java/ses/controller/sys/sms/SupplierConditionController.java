@@ -4,7 +4,6 @@
 package ses.controller.sys.sms;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bss.model.ppms.Project;
+
+
+
+
+
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
@@ -30,11 +33,10 @@ import ses.dao.sms.SupplierExtUserMapper;
 import ses.dao.sms.SupplierExtractsMapper;
 import ses.model.bms.Area;
 import ses.model.bms.User;
-import ses.model.ems.ExpExtractRecord;
-import ses.model.ems.ExtConTypeArray;
+
+
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
-import ses.model.sms.SupplierExtPackage;
 import ses.model.sms.SupplierExtRelate;
 import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
@@ -44,6 +46,7 @@ import ses.service.sms.SupplierConditionService;
 import ses.service.sms.SupplierExtPackageServicel;
 import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierExtUserServicel;
+import ses.util.ValidateUtils;
 
 /**
  * @Description:查询条件控制
@@ -86,18 +89,32 @@ public class SupplierConditionController {
      */
     @ResponseBody
     @RequestMapping("/saveSupplierCondition")
-    public String saveSupplierCondition(SupplierCondition condition,SupplierConType conType,String[] sids,HttpServletRequest sq,String typeclassId,String extAddress){
-        List<Area> listArea = areaService.findTreeByPid("1",null);
-        sq.setAttribute("listArea", listArea);
-        sq.setAttribute("typeclassId", typeclassId);
+    public String saveSupplierCondition(SupplierCondition condition,SupplierConType conType,HttpServletRequest sq,String typeclassId){
+        
         Map<String, Object> map = new HashMap<String, Object>();
+        if(conType.getSupplierCount() == null || conType.getSupplierCount() == 0 ){
+            map.put("count", "不能为空");
+           return JSON.toJSONString(map);
+        }
+
+        //已抽取
+//        conditionService.update(new SupplierCondition(condition.getProjectId(),(short)2));
         //插入信息
+        condition.setProjectId(condition.getProjectId());
         conditionService.insert(condition);
-        map.put("conId",condition.getId());
+
         //如果有id就修改没有就新增
         conType.setConditionId(condition.getId());
         conTypeService.insert(conType); 
+        
+        
+        
+
+        map.put("conId",condition.getId());
         map.put("sccuess", "sccuess");
+        List<Area> listArea = areaService.findTreeByPid("1",null);
+        sq.setAttribute("listArea", listArea);
+        sq.setAttribute("typeclassId", typeclassId);
 
 
         Map<String, Integer> mapcount = new HashMap<String, Integer>();
@@ -158,6 +175,27 @@ public class SupplierConditionController {
         return JSON.toJSONString(map);
     }
 
+
+    /**
+     * 
+     *〈简述〉返回满足条件的供应商个数
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param condition
+     * @param conType
+     * @param sq
+     * @param typeclassId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("selectLikeSupplier")
+    public String selectLikeSupplier(SupplierCondition condition,SupplierConType conType,HttpServletRequest sq){
+        Integer count = conditionService.selectLikeSupplier(condition,conType);
+        return JSON.toJSONString(count);
+    }
+
+
+
     /**
      * @Description:查询单个
      *
@@ -193,7 +231,7 @@ public class SupplierConditionController {
         String userId="";
         if (listUser != null && listUser.size() != 0){
             for (User user : listUser) {
-                userName += user.getLoginName() + ",";
+                userName += user.getRelName() + ",";
                 userId += user.getId() + ",";
             }
         }

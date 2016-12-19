@@ -34,6 +34,7 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.ems.ExpExtCondition;
 import ses.model.ems.ExtConType;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
@@ -169,7 +170,16 @@ public class SupplierExtractsController extends BaseController {
      * @return String
      */
     @RequestMapping("/Extraction")	
-    public String listExtraction(Model model,String projectId,String page,String typeclassId){
+    public String listExtraction(Model model,String projectId,String page,String typeclassId,String packageId){
+        if (packageId != null && !"".equals(packageId)){
+            //已抽取
+            SupplierCondition con = new SupplierCondition();
+            con.setProjectId(packageId);
+            con.setStatus((short)2);
+            conditionService.update(con);
+        }
+
+        
         //根据包获取抽取出的供应商
         List<Packages> listResultSupplier = packageService.listResultSupplier(projectId);
         model.addAttribute("listResultSupplier", listResultSupplier);
@@ -195,11 +205,16 @@ public class SupplierExtractsController extends BaseController {
             String userId = "";
             if (listUser != null && listUser.size() != 0){
                 for (User user : listUser) {
-                    userName += user.getLoginName() + ",";
-                    userId += user.getId() + ",";
+                    if (user != null) {
+                        userName += user.getRelName() + ",";
+                        userId += user.getId() + ",";
+                    }
                 }
-                model.addAttribute("userName", userName.substring(0, userName.length()-1));
-                model.addAttribute("userId", userId.substring(0, userId.length()-1));
+                if (!"".equals(userId)){
+                    model.addAttribute("userName", userName.substring(0, userName.length()-1));
+                    model.addAttribute("userId", userId.substring(0, userId.length()-1));
+                }
+      
             }
 
             //获取项目信息
@@ -387,7 +402,6 @@ public class SupplierExtractsController extends BaseController {
                 supplierExtracts.setProjectId(projectId);
                 PageHelper.startPage(1, 1);
                 List<SupplierExtracts> listSe = expExtractRecordService.listExtractRecord(supplierExtracts,0);
-                supplierExtracts.setProjectId(null);
                 supplierExtracts.setExtractionSites(extractionSites);
                 User user = (User)sq.getSession().getAttribute("loginUser");
                 if(user != null ){
@@ -427,6 +441,23 @@ public class SupplierExtractsController extends BaseController {
         }
 
 
+    }
+    
+    /**
+     * 
+     *〈简述〉根据项目id获取包信息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param projectId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("getpackage")
+    public String getPackage(String projectId){
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId",projectId);
+        List<Packages> findPackageById = packagesService.findPackageById(map);
+        return  JSON.toJSONString(findPackageById);
     }
 
     /**
@@ -753,11 +784,26 @@ public class SupplierExtractsController extends BaseController {
     public String showSupervise(Model model, Integer page){
         User user = new User();
         //监督人员
-        //        user.setTypeName(DictionaryDataUtil.get("SUPERVISER_U").getId());
-        List<User> users = userServicl.selectUser(user, page == null ? 1 : page);
+//                user.setTypeName(DictionaryDataUtil.get("SUPERVISER_U").getId());
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("code", "SUPERVISER_R");
+        List<User> users = userServicl.findByRole(map);
         model.addAttribute("list", new PageInfo<User>(users));
         return "ses/sms/supplier_extracts/supervise_list";
     }
+    
+    @ResponseBody
+    @RequestMapping("/isFinish")
+    public String isFinish(String packageId){
+        //获取查询条件类型
+        SupplierCondition condition = new SupplierCondition();
+        condition.setProjectId(packageId);
+        condition.setStatus((short)1);
+        String finish = conditionService.isFinish(condition);
+        
+        return JSON.toJSONString(finish);
+    }
+    
 
     /**
      * 
