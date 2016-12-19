@@ -16,6 +16,12 @@
     SCORE_PROGRESS
   </sql>
   
+  <update id="updateTotalProgress" parameterType="java.util.HashMap">
+  	update T_BSS_PRMS_REVIEW_PROGRESS
+  	  set TOTAL_PROGRESS = #{totalProgress}
+  	where ID = #{id}
+  </update>
+  
    <update id="updateByMap" parameterType="bss.model.prms.ReviewProgress">
     update T_BSS_PRMS_REVIEW_PROGRESS
     <set>
@@ -31,11 +37,8 @@
       <if test="auditStatus != null">
         AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
       </if>
-      <if test="totalProgress != null">
-        TOTAL_PROGRESS = TOTAL_PROGRESS + #{totalProgress,jdbcType=DECIMAL},
-      </if>
       <if test="firstAuditProgress != null">
-        FIRST_AUDIT_PROGRESS = FIRST_AUDIT_PROGRESS + #{firstAuditProgress,jdbcType=DECIMAL},
+        FIRST_AUDIT_PROGRESS = #{firstAuditProgress,jdbcType=DECIMAL},
       </if>
       <if test="scoreProgress != null">
         SCORE_PROGRESS = SCORE_PROGRESS + #{scoreProgress,jdbcType=DECIMAL},
@@ -175,7 +178,8 @@
   </update>
   <update id="backScore" parameterType="java.util.HashMap">
   	update T_BSS_PRMS_REVIEW_PROGRESS
-  	set SCORE_PROGRESS = SCORE_PROGRESS - #{score}
+  	set SCORE_PROGRESS = SCORE_PROGRESS - #{score},
+  	TOTAL_PROGRESS = (SCORE_PROGRESS + FIRST_AUDIT_PROGRESS)/2
   	where PROJECT_ID = #{projectId}
   	and PACKAGE_ID = #{packageId}
   </update>

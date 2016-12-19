@@ -161,7 +161,7 @@ $(document).ready(function() {
 		  <!--包id  -->
 	   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
 	   	  <div style="overflow:scroll;">
-	        <table class="table table-bordered table-condensed mt5" id="table2" style="white-space: nowrap;overflow: hidden;word-spacing: keep-all;" >
+	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
 			    <th  colspan="2"></th>
 			    <c:forEach items="${supplierList}" var="supplier">
@@ -189,7 +189,7 @@ $(document).ready(function() {
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			 	  		  <td><a href="javascript:void();" title="${score.easyUnderstandContent}">${score.name}</a></td>
+			 	  		  <td class="w100"><a href="javascript:void();" title="${score.easyUnderstandContent}">${score.name}</a></td>
 			 	  		  <td class="tc">
 			 	    	    <c:if test="${score.typeName == 0}">模型1:是否判断</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型2:按项加减分</c:if>

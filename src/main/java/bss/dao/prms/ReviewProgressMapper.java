@@ -40,4 +40,6 @@ public interface ReviewProgressMapper {
       * @return List<ReviewProgress>
      */
     List<ReviewProgress> selectByMap(Map<String,Object> map);
+    
+    void updateTotalProgress(Map<String,Object> map);
 }
