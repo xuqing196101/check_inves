@@ -825,7 +825,7 @@
 	</select>
 
 	<!-- 专家抽取集合 -->
-	<!-- AND ee.ADDRESS = #{address} -->
+
 	<select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
 		resultMap="BaseResultMap">
 		SELECT
@@ -847,15 +847,32 @@
 				EE.EXPERTS_FROM = #{fromsplit}
 			</foreach>
 		</if>
+		<if test="address != null and address != '' ">
+			AND ee.ADDRESS = #{address}
+		</if>
+		<if test="ageMax != null and  ageMax != '' and ageMin != null and ageMin != '' ">
+						AND (
+				  (
+				    TO_CHAR (EE.BIRTHDAY, 'yyyy') &gt;= #{ageMin}
+				    AND TO_CHAR (EE.BIRTHDAY, 'yyyy') &lt;= #{ageMax}
+				  )
+				  OR (
+				    TO_CHAR (EE.BIRTHDAY, 'yyyy') &lt;= #{ageMin}
+				    AND TO_CHAR (EE.BIRTHDAY, 'yyyy') &gt;= #{ageMax}
+				  )
+				)
+		</if>
 		<foreach item="item" collection="conTypes">
 			<if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
 				AND (
 				<foreach collection="item.expertsTypeSplit" item="typeId"
 					open="(" close=")" separator="OR">
-					EE.EXPERTS_TYPE_ID = #{typeId}
+					"INSTR"(EE.EXPERTS_TYPE_ID,#{typeId})>0
 				</foreach>
 			</if>
-
+			<if test="item.expertsQualification != null and  item.expertsQualification != '' ">
+				AND PROFESS_TECH_TITLES = #{item.expertsQualification}
+			</if>
 			<if
 				test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
 				<if test="item.isMulticondition==2">
@@ -953,15 +970,12 @@
 	<!-- 专家审核列表 可条件查询 -->
 	<select id="findExpertAuditList" resultMap="BaseResultMap"
 		parameterType="ses.model.ems.Expert">
-		select
-			t1.*,
-			t2.NAME as  sex
-		from
+		select t1.*,
+		t2.NAME as sex from
 		T_SES_EMS_EXPERT t1
 		left join
 		T_SES_BMS_DICTIONARY_DATA t2
-		on
-		t1.GENDER = t2.ID
+		on t1.GENDER = t2.ID
 		where 1=1
 		<if test="sign == 1">
 			and (STATUS = 0 or STATUS = 2 or STATUS = 3)

@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bss.controller.base.BaseController;
 import bss.model.ppms.Project;
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.dao.ems.ExpExtPackageMapper;
 import ses.dao.ems.ExpExtractRecordMapper;
 import ses.dao.ems.ProExtSuperviseMapper;
@@ -58,7 +60,7 @@ import ses.util.ValidateUtils;
 @Controller
 @Scope("prototype")
 @RequestMapping("/ExtCondition")
-public class ExpExtConditionController {
+public class ExpExtConditionController extends BaseController {
     @Autowired
     ExpExtConditionService conditionService;
     @Autowired 
@@ -90,16 +92,16 @@ public class ExpExtConditionController {
     @ResponseBody
     @RequestMapping(value="saveExtCondition",produces = "text/html;charset=UTF-8")
     public String saveExtCondition(ExpExtCondition condition,String hour,String minute,
-                                   ExtConType extConType,String[] sids,HttpServletRequest sq,Model model,String typeclassId,String extAddress) throws NoSuchFieldException, SecurityException, UnsupportedEncodingException{
-         if (condition.getProjectId() != null && !"".equals(condition.getProjectId())){
-             //已抽取
-             conditionService.update(new ExpExtCondition(condition.getProjectId(),(short)2));
-         }
+                                   ExtConType extConType,HttpServletRequest sq,Model model,String typeclassId) throws NoSuchFieldException, SecurityException, UnsupportedEncodingException{
+        if (condition.getProjectId() != null && !"".equals(condition.getProjectId())){
+            //已抽取
+            conditionService.update(new ExpExtCondition(condition.getProjectId(),(short)2));
+        }
         List<Area> listArea = areaService.findTreeByPid("1",null);
         model.addAttribute("listArea", listArea);
         model.addAttribute("typeclassId", typeclassId);
         Map<String, Object> map = new HashMap<>();
-        Integer verification = verification(condition, hour, minute, sids, model,extConType,map);
+        Integer verification = verification(condition, hour, minute, model,extConType,map);
         if (verification == 0){
             condition.setResponseTime(hour + "," + minute);
             //插入信息
@@ -161,6 +163,24 @@ public class ExpExtConditionController {
         }
         return JSON.toJSONString(map);
     }
+
+
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉返回满足条件的人数
+     * @author Wang Wenshuai
+     * @param condition
+     * @param extConType
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("selectLikeExpert")
+    public String selectLikeExpert(ExpExtCondition condition,ExtConType extConType){
+        Integer count = conditionService.selectLikeExpert(condition, extConType);
+        return JSON.toJSONString(count);
+    }
+
     /**
      * 
      *〈简述〉 验证消息
@@ -174,7 +194,7 @@ public class ExpExtConditionController {
      * @return
      */
     private Integer verification(ExpExtCondition condition, String hour, String minute,
-                                 String[] sids, Model model,ExtConType extConType,Map<String, Object> map) {
+                                 Model model,ExtConType extConType,Map<String, Object> map) {
         model.addAttribute("ExpExtCondition", condition);
         Integer count = 0;
         //        if (condition.getAgeMax() == null || "".equals(condition.getAgeMax()) || condition.getAgeMin() == null || "".equals(condition.getAgeMax())){
@@ -224,7 +244,7 @@ public class ExpExtConditionController {
             if (listUser != null && listUser.size() != 0){
                 for (User user : listUser) {
                     if (user != null && user.getId() != null){
-                        userName += user.getLoginName() + ",";
+                        userName += user.getRelName() + ",";
                         userId += user.getId() + ",";
                     }
 
@@ -280,4 +300,6 @@ public class ExpExtConditionController {
         }
         return "sccuess";
     }
+
+
 }

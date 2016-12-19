@@ -2,11 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../../../../common.jsp"%>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
 	<head>
+	<%@ include file="../../../../../common.jsp"%>
 		<title>抽取列表</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -299,7 +300,7 @@
           </select>
             <button class="btn" 
                 onclick="add();" type="button">抽取</button>
-            <button class="btn"
+            <button class="btn dnone"
                 onclick="record();" type="button">引用其他包</button>
         </div>
           <div class="ul_list">
