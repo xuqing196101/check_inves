@@ -163,6 +163,7 @@ public class IntelligentScoringController {
                                         sm.setJudgeContent(scoreModel.getJudgeContent());
                                         sm.setReviewParam(scoreModel.getReviewParam());
                                         sm.setMarkTermId(mtChildren.getId());
+                                        sm.setUnitScore(scoreModel.getUnitScore());
                                         sm.setMinScore(scoreModel.getMinScore());
                                         sm.setMaxScore(scoreModel.getMaxScore());
                                         sm.setScore(scoreModel.getScore());
