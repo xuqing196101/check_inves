@@ -166,7 +166,7 @@
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
 				var mobile = $("#mobile").val();
-				//var type = $("#wtype").val();
+				var type = $("#wtype").val();
 				var depName = $("#xqbm").val();
 				if($.trim(name) == "") {
 					layer.tips("计划名称不允许为空", "#jhmc");
@@ -177,7 +177,7 @@
 				}else {
 					$("#detailJhmc").val(name);
 					$("#detailJhbh").val(no);
-					//$("#detailType").val(type);
+					$("#detailType").val(type);
 					$("#detailMobile").val(mobile);
 					$("#detailXqbm").val(depName);
 					$("#add_form").submit();
@@ -715,7 +715,7 @@
 										</td>
 										
 										
-										<td class="tc w100"><input type="text" name="list[${vs.index }].status" value="暂存"  ></td>
+										<td class="tc w100"><input type="hidden"  name="list[${vs.index }].status" value="暂存"  > 暂存</td>
 										<td class="tc w100"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
 									</c:forEach>

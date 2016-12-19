@@ -488,6 +488,9 @@
       	<if test="projectId != null">
          	and PROJECT_ID = #{projectId}
       	</if>
+      	<if test="packageId != null">
+         	and package_id = #{packageId}
+      	</if>
       	<if test="id != null">
          	and id= #{id}
       	</if>

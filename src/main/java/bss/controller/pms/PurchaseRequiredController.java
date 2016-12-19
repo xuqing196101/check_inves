@@ -108,12 +108,15 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/queryByNo")
-	public String getById(String planNo,Model model,String type){
+	public String getById(@CurrentUser User user,String planNo,Model model,String type){
 		PurchaseRequired p=new PurchaseRequired();
 		p.setPlanNo(planNo.trim());
 		List<PurchaseRequired> list = purchaseRequiredService.query(p,0);
 		model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
 		model.addAttribute("list", list);
+		Map<String,Object> map=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+		model.addAttribute("requires", requires);
 		
 		if(type.equals("1")){
 			return "bss/pms/purchaserequird/view";

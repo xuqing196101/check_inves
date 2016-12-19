@@ -108,7 +108,7 @@
 		    		layer.msg("删除成功");
 		    		window.location.href= "${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html";
 		    	} else {
-		    		layer.msg("删除失败");
+		    		layer.msg(msg);
 		    	}
 		       
 		    }
@@ -259,8 +259,40 @@
 										<td class="tc" onclick="show('${p.id}');">${p.address}</td>
 										<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
 										<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
-										<td class="tc" onclick="show('${p.id}');">${p.quaLevel}</td>
-										<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
+										<td class="tc" onclick="show('${p.id}');">
+										  <c:if test="${p.quaLevel == '1'}">
+										        一级
+										  </c:if>
+										  <c:if test="${p.quaLevel == '2'}">
+										        二级
+										  </c:if>
+										  <c:if test="${p.quaLevel == '3'}">
+										        三级
+										  </c:if>
+										  <c:if test="${p.quaLevel == '4'}">
+										        四级
+										  </c:if>
+										  <c:if test="${p.quaLevel == '5'}">
+										        五级
+										  </c:if>
+										  <c:if test="${p.quaLevel == '6'}">
+										        六级
+										  </c:if>
+										</td>
+										<td class="tc" onclick="show('${p.id}');">
+										  <c:if test="${p.quaRange == '1'}">
+										          综合
+										  </c:if>
+										  <c:if test="${p.quaRange == '2'}">
+										          物资
+										  </c:if>
+										  <c:if test="${p.quaRange == '3'}">
+										          工程
+										  </c:if>
+										  <c:if test="${p.quaRange == '4'}">
+										          服务
+										  </c:if>
+										</td>
 										<td class="tc" onclick="show('${p.id}');" id="${p.id }">
 											<c:choose>
 												<c:when test="${p.quaStatus == 0}">

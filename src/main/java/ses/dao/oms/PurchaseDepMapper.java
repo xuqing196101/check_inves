@@ -18,6 +18,16 @@ public interface PurchaseDepMapper {
 	
 	/**
 	 * 
+	 *〈简述〉根据主键查询 PurchaseDep
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 主键
+	 * @return
+	 */
+	String getPurchaserByPrimaryKey(@Param("id")String id);
+	
+	/**
+	 * 
 	 *〈简述〉逻辑删除
 	 *〈详细描述〉
 	 * @author myc

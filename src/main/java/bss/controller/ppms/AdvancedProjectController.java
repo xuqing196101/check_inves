@@ -31,6 +31,7 @@ import com.github.pagehelper.PageInfo;
 import ses.model.bms.User;
 import ses.model.oms.util.CommonConstant;
 import ses.util.ComparatorDetail;
+import ses.util.ComparatorDetails;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 
@@ -109,7 +110,7 @@ public class AdvancedProjectController extends BaseController {
             HashMap<String,Object> detailMap=new HashMap<String,Object>();
             List<AdvancedDetail> details = new ArrayList<>();
             detailMap.put("status",  "2");
-            detailMap.put("ids",  projectId);
+            detailMap.put("advancedProject",  projectId);
             List<AdvancedDetail> advance = detailService.selectByAll(detailMap);
             if(advance != null && advance.size() > 0){
                 int bud = 0;
@@ -261,7 +262,7 @@ public class AdvancedProjectController extends BaseController {
                             detail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
                         }
                         if (projectId != null) {
-                            detail.setAdvancedProject(new AdvancedProject(projectId));
+                            detail.setAdvancedProject(projectId);
                         }
                         if (purchaseRequired.getPrice() != null) {
                             detail.setPrice(purchaseRequired.getPrice().doubleValue());
@@ -355,7 +356,7 @@ public class AdvancedProjectController extends BaseController {
         if(projectIds != null){
             HashMap<String, Object> map1 = new HashMap<>();
             AdvancedProject project = advancedProjectService.selectById(projectIds);
-            map1.put("ids", project.getId());
+            map1.put("advancedProject", project.getId());
             List<AdvancedDetail> details = detailService.selectByAll(map1);
             model.addAttribute("project", project);
             model.addAttribute("kind", DictionaryDataUtil.find(5));
@@ -377,7 +378,7 @@ public class AdvancedProjectController extends BaseController {
     public String edit(Model model, String id){
         HashMap<String, Object> map = new HashMap<String, Object>();
         AdvancedProject project = advancedProjectService.selectById(id);
-        map.put("ids", id);
+        map.put("advancedProject", id);
         List<AdvancedDetail> details = detailService.selectByAll(map);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", details);
@@ -409,7 +410,7 @@ public class AdvancedProjectController extends BaseController {
     @RequestMapping("/update")
     public String update(@Valid AdvancedProject project, BindingResult result, PurchaseRequiredFormBean detail, Model model){
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("ids", project.getId());
+        map.put("advancedProject", project.getId());
         List<AdvancedDetail> details = detailService.selectByAll(map);
         //验证
         if(result.hasErrors()){
@@ -466,7 +467,7 @@ public class AdvancedProjectController extends BaseController {
                             newDetails.add(detailList.get(i));
                         }
                     }
-                    ComparatorDetail comparator = new ComparatorDetail();
+                    ComparatorDetails comparator = new ComparatorDetails();
                     Collections.sort(newDetails, comparator);
                     List<String> newParentId = new ArrayList<>();
                     for(int i=0;i<newDetails.size();i++){
@@ -500,7 +501,7 @@ public class AdvancedProjectController extends BaseController {
                     ps.setAdvancedDetails(newDetails);
                 }
             }else{
-                map.put("ids", id);
+                map.put("advancedProject", id);
                 List<AdvancedDetail> detail = detailService.selectByAll(map);
                 model.addAttribute("lists", detail);
             }
@@ -642,7 +643,7 @@ public class AdvancedProjectController extends BaseController {
     public String subPackage(HttpServletRequest request,Model model){
         String id = request.getParameter("id");
         HashMap<String,Object> map = new HashMap<>();
-        map.put("ids", id);
+        map.put("advancedProject", id);
         //拿到一个项目所有的明细
         List<AdvancedDetail> details = detailService.selectByAll(map);
         //拿到packageId不为null的底层明细
@@ -731,7 +732,7 @@ public class AdvancedProjectController extends BaseController {
                         newDetails.add(detailList.get(i));
                     }
                 }
-                ComparatorDetail comparator = new ComparatorDetail();
+                ComparatorDetails comparator = new ComparatorDetails();
                 Collections.sort(newDetails, comparator);
                 List<String> newParentId = new ArrayList<>();
                 for(int i=0;i<newDetails.size();i++){
@@ -846,7 +847,7 @@ public class AdvancedProjectController extends BaseController {
     public String judgeNext(HttpServletRequest request){
         String id = request.getParameter("projectId");
         HashMap<String,Object> map = new HashMap<>();
-        map.put("ids", id);
+        map.put("advancedProject", id);
         //拿到一个项目所有的明细
         List<AdvancedDetail> details = detailService.selectByAll(map);
         List<AdvancedDetail> bottomDetails = new ArrayList<>();//底层的明细
@@ -936,7 +937,7 @@ public class AdvancedProjectController extends BaseController {
             detail.setPrice(purchaseRequired.getPrice().doubleValue());
         }
         if (projectId != null) {
-            detail.setAdvancedProject(new AdvancedProject(projectId));
+            detail.setAdvancedProject(projectId);
         }
         if (purchaseRequired.getPlanNo() != null) {
             detail.setPlanNo(purchaseRequired.getPlanNo());

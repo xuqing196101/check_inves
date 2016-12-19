@@ -241,7 +241,7 @@
                 	<c:if test="${project.confirmFile == 1}">
                 		<button class="btn" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
                 	</c:if>
-                	<c:if test="${project.confirmFile == 0}">
+                	<c:if test="${project.confirmFile != 1}">
 	                    <button class="btn btn-windows edit" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
                 	</c:if>
                 </td>

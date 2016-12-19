@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
-import bss.util.ScoreModelUtil;
+import ses.util.ScoreModelUtil;
 
 public class TestScore {
     

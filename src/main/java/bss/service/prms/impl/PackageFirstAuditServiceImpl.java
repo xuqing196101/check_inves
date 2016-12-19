@@ -386,7 +386,7 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
             t.process(dataMap, out);
             out.flush();
             out.close();
-            filePath = rootFile.getPath();
+            filePath = rootFile.getPath().replaceAll("\\\\","/");
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }

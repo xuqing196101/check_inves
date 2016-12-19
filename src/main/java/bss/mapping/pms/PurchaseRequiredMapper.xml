@@ -650,7 +650,7 @@
 				and PLAN_TYPE = #{planType}
 		</if>
 		</where>
-		ORDER BY CREATED_AT DESC,PLAN_NO ASC
+		ORDER BY CREATED_AT DESC,IS_MASTER ASC
 	</select>
 
 	<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">

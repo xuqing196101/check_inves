@@ -545,13 +545,42 @@
 		WHERE IS_DELETED = 0 AND TYPE_NAME = 0 AND QUA_STATUS = 1
 	</select>
 	
-	<!-- 根据类型查询 -->
+	<!-- 根据类型查询采购机构 -->
 	<select id="findByType" resultMap="baseOrgnization">
-	   SELECT 
-		<include refid="baseSearchSql"/>
-		FROM T_SES_OMS_ORG
-		WHERE TYPE_NAME = #{typeName}
-		AND IS_DELETED = 0
+			   SELECT A.ID,
+		       A.NAME,
+		       A.TYPE_NAME,
+		       A.ADDRESS,
+		       A.MOBILE,
+		       A.POST_CODE,
+		       A.ORG_CODE,
+		       A.TELEPHONE,
+		       A.AREA_ID,
+		       A.DETAIL_ADDR,
+		       A.FAX,
+		       A.WEBSITE,
+		       A.PRINCINPAL,
+		       A.PRINCINPAL_ID_CARD,
+		       A.NATURE,
+		       A.SHORT_NAME,
+		       A.PARENT_ID,
+		       A.PARENT_NAME,
+		       A.PROVINCE_ID,
+		       A.CITY_ID,
+		       A.ORG_LEVEL,
+		       A.IS_DELETED,
+		       A.DEP_ID,
+		       A.IS_ROOT,
+		       A.EMAIL,
+		       A.STATUS,
+		       A.CREATED_AT,
+		       A.CONTACT_NAME,
+		       A.CONTACT_MOBILE
+		  FROM T_SES_OMS_ORG A, T_SES_OMS_PURCHASE_DEP B
+		 WHERE A.TYPE_NAME = #{TYPENAME}
+		   AND A.IS_DELETED = 0
+		   AND A.ID = B.ORG_ID
+		   AND B.IS_DELETED = 0
 	</select>
 	
 	<!-- 根据PID和类型查询 -->
