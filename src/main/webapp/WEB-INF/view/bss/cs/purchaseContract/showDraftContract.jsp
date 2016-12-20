@@ -5,7 +5,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<%@ include file="/WEB-INF/view/common.jsp"%>
+	<jsp:include page="/WEB-INF/view/common.jsp"/>
     <title>合同草案查看</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -48,8 +48,6 @@
 	            <td width="37%"> ${draftCon.code}</td>
 	        </tr>
 	        <tr>
-	            <td class="bggrey" width="13%">需求部门：</td>
-	            <td width="37%">${draftCon.demandSector}</td>
 	            <td class="bggrey" width="13%">采购机构资质证号：</td>
 	            <td width="37%">${draftCon.quaCode}</td>
 	        </tr>
@@ -143,7 +141,7 @@
 	        </tr>
 	        </tbody>
 	        </table>
-	        <h2 class="count_flow jbxx">丙方信息</h2>
+	        <%--<h2 class="count_flow jbxx">丙方信息</h2>
 	        <table class="table table-bordered">
 	        <tbody>
 	        <tr>
@@ -164,7 +162,7 @@
 	        </tr>
 	        </tbody>
 	        </table>
-	        <h2 class="count_flow jbxx">草案批复意见</h2>  
+	        --%><h2 class="count_flow jbxx">草案批复意见</h2>  
 	        <div class="col-md-12 select_common">
 				<up:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
 			</div>

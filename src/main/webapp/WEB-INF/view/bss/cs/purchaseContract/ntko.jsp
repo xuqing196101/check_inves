@@ -4,7 +4,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <%@ include file="/WEB-INF/view/common.jsp"%>
+    <jsp:include page="/WEB-INF/view/common.jsp"/>
     
     <title>My JSP 'peraseContract.jsp' starting page</title>
     

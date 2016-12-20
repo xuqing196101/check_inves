@@ -166,11 +166,11 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
         List<Map<String, Object>> fuhelist = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> shangwulist = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> jishulist = new ArrayList<Map<String,Object>>();
-        for(Packages pa:packages){
+        for(int i=0;i<packages.size();i++){
         	for(ProjectDetail pd:detaList){
             	Map<String, Object> packmap = new HashMap<String, Object>();
-            	if(packages.get(0).getName()!=null){
-            		packmap.put("pacn", packages.get(0).getName());
+            	if(packages.get(i).getName()!=null){
+            		packmap.put("pacn", packages.get(i).getName());
     			}else{
     				packmap.put("pacn", "");
     			}

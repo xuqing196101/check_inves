@@ -5,7 +5,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-  	<%@ include file="/WEB-INF/view/common.jsp"%>
+  	<jsp:include page="/WEB-INF/view/common.jsp"/>
     <title>正式合同列表</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">

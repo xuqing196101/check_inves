@@ -280,11 +280,11 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
-  <update id="deleteRoughByPrimaryKey" parameterType="java.lang.String">
-    update T_BSS_CS_PURCHASE_CONTRACT set IS_DELETED = '1'
-    where ID = #{id,jdbcType=VARCHAR}
-    and status = '0'
-  </update>
+  <delete id="deleteRoughByPrimaryKey" parameterType="java.lang.String">
+  	delete from T_BSS_CS_PURCHASE_CONTRACT
+  	where ID = #{id}
+  </delete>
+  
   <insert id="insert" parameterType="bss.model.cs.PurchaseContract">
     insert into T_BSS_CS_PURCHASE_CONTRACT (ID, CODE, NAME, 
       MONEY, DEMAND_SECTOR, BUDGET, 

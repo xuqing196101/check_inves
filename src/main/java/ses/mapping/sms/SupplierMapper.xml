@@ -124,7 +124,7 @@
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER WHERE SUPPLIER_STATUS = 3
+		from T_SES_SMS_SUPPLIER WHERE SUPPLIER_STATUS = 1
 		AND id = #{id}
 	</select>
 	
