@@ -1,11 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
    $(function(){
 		  laypage({
