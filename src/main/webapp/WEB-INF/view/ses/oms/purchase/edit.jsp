@@ -1,9 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<%@ include file="/WEB-INF/view/common.jsp"%>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC>
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <link href="${pageContext.request.contextPath}/public/ztree/css/ztree-extend.css" type="text/css" rel="stylesheet" >
 <script src="${pageContext.request.contextPath}/js/oms/purchase/jquery.metadata.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>

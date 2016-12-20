@@ -1,38 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE html>
+<<html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<%@ include file="/WEB-INF/view/common.jsp" %> 
 	<title></title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	
-	
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/public/ztree/css/zTreeStyle.css">
-	
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/ztree/jquery.ztree.core.js"></script>
-    <!--导航js-->
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-    <script src="${pageContext.request.contextPath}/public/oms/js/select-tree.js"></script>
 <script type="text/javascript">
 	$(function(){
 		/*这是要初始化成树的后台数据*/
@@ -344,23 +316,7 @@
                 <!-- End Content -->
             </div>
         </div><!--/container-->
-        <!--=== End Content Part ===-->
-<!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
-      <div class="footer">
-
-            <!-- Address -->
-              <address class="">
-			  Copyright  2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-       </div>
-<!--/footer--> 
-</div>
+      </div>
     </div>
 </body>
 </html>
