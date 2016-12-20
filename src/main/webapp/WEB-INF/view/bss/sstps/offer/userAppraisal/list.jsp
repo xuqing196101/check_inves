@@ -1,13 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML >
 <html>
   <head>
+    <%@ include file="../../../../common.jsp"%>
 
-<script type="text/javascript">
+   <script type="text/javascript">
 
 $(function(){
 	$("#name").val('${name }');
