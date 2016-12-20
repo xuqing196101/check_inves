@@ -123,6 +123,7 @@
 		      $("input[name='supplierName']").val("");
 		        //还原select下拉列表只需要这一句
 		      $("#status option:selected").removeAttr("selected");
+		      $("#businessType option:selected").removeAttr("selected");
 		    }
 		</script>
   </head>
@@ -175,23 +176,35 @@
 	      <label class="fl">供应商名称：</label> 
 	      <input class="" name="supplierName" type="text" value="${supplierName }">
       </li>
-      <li class="fl">
-	      <label class="fl">审核状态：</label> 
-	      <select name="status" class="w178" id="status">
-	        <option value="">全部</option>
-          <c:if test="${sign == 1}">
-            <option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
-            <option <c:if test="${state == 7 }">selected</c:if> value="7">审核退回</option>
-            <option <c:if test="${state == 8 }">selected</c:if> value="8">复核退回</option>
-            <option <c:if test="${state == 2 }">selected</c:if> value="2">审核核未通过</option>
-          </c:if>
-          <c:if test="${sign == 2}">
-            <option <c:if test="${state == 1 }">selected</c:if> value="1">待复核</option>
-            <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
-            <option <c:if test="${state == 4 }">selected</c:if> value="4">复核不通过</option>
-          </c:if>
-	      </select> 
-       </li>
+      <c:if test="${sign == 1 or sign == 2}">
+	      <li class="fl">
+		      <label class="fl">审核状态：</label> 
+		      <select name="status" class="w178" id="status">
+		        <option value="">全部</option>
+	          <c:if test="${sign == 1}">
+	            <option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
+	            <option <c:if test="${state == 7 }">selected</c:if> value="7">审核退回</option>
+	            <option <c:if test="${state == 8 }">selected</c:if> value="8">复核退回</option>
+	            <option <c:if test="${state == 2 }">selected</c:if> value="2">审核核未通过</option>
+	          </c:if>
+	          <c:if test="${sign == 2}">
+	            <option <c:if test="${state == 1 }">selected</c:if> value="1">待复核</option>
+	            <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
+	            <option <c:if test="${state == 4 }">selected</c:if> value="4">复核不通过</option>
+	          </c:if>
+		      </select> 
+	       </li>
+       </c:if>
+       <li class="fl">
+		      <label class="fl">企业性质：</label> 
+		        <select name="businessType" id="businessType" class="mb0 mt5">
+		          <option value="">全部</option>
+		          <c:forEach var="type" varStatus="vs" items="${enterpriseTypeList}">
+		            <option <c:if test="${businessTypeId eq type.id }">selected</c:if> value="${type.id}">${type.name}</option>
+		          </c:forEach>
+		       </select> 
+		    </li>
+       
 		   <%-- <li class="fl">
 		      <label class="fl">企业类型：</label> 
 		        <select name="supplierType" class="mb0 mt5">

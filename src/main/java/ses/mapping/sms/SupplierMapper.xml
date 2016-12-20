@@ -980,6 +980,9 @@
 		<if test="address != null and address !=''">
 			and tt1.ADDRESS like '%${address}%'
 		</if>
+		<if test="businessType != null and businessType !=''">
+			and tt1.BUSINESS_TYPE  = #{businessType}
+		</if>
 		<if test="startScore != null and startScore !=''">
 			and tt1.SCORE &gt; #{startScore}
 		</if>

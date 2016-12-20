@@ -335,7 +335,7 @@
 	              </div>
 	            </li>
 	            <li class="col-md-3 col-sm-6 col-xs-12">
-	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="bankName2">基本账户开户行名称：</span>
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="bankName2">基本账户开户行：</span>
 	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 	                <input id="bankName" class="hand " value="${suppliers.bankName } "  type="text" onclick="reason(this.id,'bankName')" <c:if test="${fn:contains(field,'bankName')}">onMouseOver="isCompare('bankName');"</c:if>>
 	                <div id="bankName3" class="abolish">×</div>

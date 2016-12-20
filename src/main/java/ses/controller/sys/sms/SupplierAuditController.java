@@ -1064,11 +1064,16 @@ public class SupplierAuditController extends BaseSupplierController{
 		PageInfo<Supplier> result = supplierAuditService.supplierList(supplier);
 		request.setAttribute("result", result);
 		
-		//回显名字
+		//企业性质
+		List<DictionaryData> enterpriseTypeList=DictionaryDataUtil.find(17);
+		request.setAttribute("enterpriseTypeList", enterpriseTypeList);
+		
+		//回显
 		String supplierName = supplier.getSupplierName();
 		Integer status = supplier.getStatus();
 		request.setAttribute("supplierName", supplierName);
 		request.setAttribute("state", status);
+		request.setAttribute("businessTypeId", supplier.getBusinessType());
 		
 		//审核、复核标识
 		request.setAttribute("sign",supplier.getSign());
