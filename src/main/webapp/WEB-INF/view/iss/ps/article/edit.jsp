@@ -1,19 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="/tld/upload" prefix="up" %>
-<%@ include file="../../../common.jsp"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
 
   <head>
-    <title>修改</title>
-
+  	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
+    <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
-    <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-
+    
     <script type="text/javascript">
       function cheClick(id, name) {
         $("#articleTypeId").val(id);

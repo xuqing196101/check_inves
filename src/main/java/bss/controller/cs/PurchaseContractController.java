@@ -189,6 +189,9 @@ public class PurchaseContractController extends BaseSupplierController{
 		//						supplierNames+=su.getSupplier().getSupplierName()+",";
 		//						supplierNames+=su.getSupplier().getSupplierName();
 								pack.setSupplier(su.getSupplier());
+								pack.setProject(project);
+								pack.setName(pa.getName());
+								pack.setId(pa.getId());
 								pack.setSupplierCheckPassId(su.getId());
 								pacList.add(pack);
 							}
@@ -325,30 +328,32 @@ public class PurchaseContractController extends BaseSupplierController{
 	@ResponseBody
 	public String createAllCommonContract(HttpServletRequest request) throws Exception{
 		String id = request.getParameter("ids");
+		String suppliers = request.getParameter("suppliers");
 		String[] ids = id.split(",");
+		String[] supplierId = suppliers.split(",");
 		String flag = "true";
 		String news = "";
 		List<String> supIdList = new ArrayList<String>();
 		List<Project> proList = new ArrayList<Project>();
-		for(int i=0;i<ids.length;i++){
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("id", ids[i]);
-			Packages pack = packageService.findPackageById(map).get(0);
-			Project pro = projectService.selectById(pack.getProjectId());
-			proList.add(pro);
-			SupplierCheckPass suchp = new SupplierCheckPass();
-			suchp.setPackageId(pack.getId());
-			suchp.setIsWonBid((short)1);
-			List<SupplierCheckPass> chList = supplierCheckPassService.listCheckPass(suchp);
-//			if(chList.size()>1){
-//				flag="false";
-//				news = "";
-//				news+="有多个供应商，无法合并";
-//				break;
-//			}else{
-				supIdList.add(chList.get(0).getSupplier().getId());
-//			}
-		}
+//		for(int i=0;i<ids.length;i++){
+//			HashMap<String, Object> map = new HashMap<String, Object>();
+//			map.put("id", ids[i]);
+//			Packages pack = packageService.findPackageById(map).get(0);
+//			Project pro = projectService.selectById(pack.getProjectId());
+//			proList.add(pro);
+//			SupplierCheckPass suchp = new SupplierCheckPass();
+//			suchp.setPackageId(pack.getId());
+//			suchp.setIsWonBid((short)1);
+//			List<SupplierCheckPass> chList = supplierCheckPassService.listCheckPass(suchp);
+////			if(chList.size()>1){
+////				flag="false";
+////				news = "";
+////				news+="有多个供应商，无法合并";
+////				break;
+////			}else{
+//				supIdList.add(chList.get(0).getSupplier().getId());
+////			}
+//		}
 		
 		if(flag.equals("true")){
 			out:for(int i=0;i<proList.size()-1;i++){
@@ -364,14 +369,12 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		
 		if(flag.equals("true")){
-			if(!supIdList.isEmpty()){
-				for(int j=0;j<supIdList.size()-1;j++){
-					for(int m=j+1;m<supIdList.size();m++){
-						if(!supIdList.get(j).equals(supIdList.get(m))){
-							flag="false";
-							news = "";
-							news+="供应商不一致";
-						}
+			for(int j=0;j<supplierId.length-1;j++){
+				for(int k=j+1;k<supplierId.length;k++){
+					if(!supplierId[j].equals(supplierId[k])){
+						flag="false";
+						news = "";
+						news+="供应商不一致";
 					}
 				}
 			}
@@ -530,6 +533,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		String id = request.getParameter("id");
 		String[] ids = id.split(",");
 		String supid = request.getParameter("supid");
+		String[] supids = supid.split(",");
 		List<ProjectDetail> allList = new ArrayList<ProjectDetail>();
 		for(int i=0;i<ids.length;i++){
 			HashMap<String, Object> requMap = new HashMap<String, Object>();
@@ -538,7 +542,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			allList.addAll(requList);
 		}
 		model.addAttribute("requList", allList);
-		Supplier supplier = supplierService.selectById(supid);
+		Supplier supplier = supplierService.selectById(supids[0]);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", ids[0]);
 		Packages pack = packageService.findPackageById(map).get(0);

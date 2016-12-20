@@ -1,12 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="/tld/upload" prefix="up" %>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE html>
 <html>
   <head> 
+<%@ include file="../../../common.jsp"%>
   <script type="text/javascript" src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />  

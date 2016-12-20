@@ -1,8 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML >
 <html>
   <head>
   	<jsp:include page="/WEB-INF/view/common.jsp"/>
@@ -179,31 +177,24 @@
   	
   	function someCreateContract(){
   		var ids =[]; 
-  		var chekeds=[];
+  		var suppliers=[];
   		var supcheckid = [];
 		$('input[name="chkItem"]:checked').each(function(){
 			ids.push($(this).val()); 
+			suppliers.push($(this).parent().next().text());
 			supcheckid.push($(this).parent().next().next().text());
 		});
-		
 		if(ids.length>0){
 			if(ids.length>1){
 				$.ajax({
-					url:"${pageContext.request.contextPath}/purchaseContract/createAllCommonContract.html?ids="+ids,
+					url:"${pageContext.request.contextPath}/purchaseContract/createAllCommonContract.html?ids="+ids+"&suppliers="+suppliers,
 					type:"POST",
 					dataType:"text",
 					success:function(data){
 						var dd = data.replace("\"","");
 						var ss = dd.split("=");
 						if(ss[0]=="true"){
-							$.ajax({
-					  			url:"${pageContext.request.contextPath}/purchaseContract/selectSupplierByPId.html?packageId="+ids,
-					  			dataType:"text",
-					  			type:"POST",
-					  			success:function(data){
-									window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id="+ids+"&supid="+data+"&supcheckid="+supcheckid;
-					  			}
-							});
+							window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id="+ids+"&supid="+suppliers+"&supcheckid="+supcheckid;
 						}else if(ss[0]=="false"){
 							layer.alert(ss[1],{offset: ['222px', '390px'], shade:0.01});
 						}

@@ -1,9 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib prefix="up" uri="/tld/upload"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML >
 <html>
   <head>
   	<jsp:include page="/WEB-INF/view/common.jsp"/>
@@ -385,8 +382,7 @@
 				<th class="info">预算</th>
 				<th class="info">年度</th>
 				<th class="info">项级预算科目</th>
-				<th class="info">采购部门</th>
-				<th class="info">需求部门</th>
+				<th class="info">甲方单位</th>
 				<th class="info">供应商</th>
 				<th class="info">状态</th>
 			</tr>
@@ -418,8 +414,7 @@
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budget}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.year}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budgetSubjectItem}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showPurchaseDepName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.demandSector}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showDemandSector}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showSupplierDepName}</td>
 				<c:if test="${draftCon.status==0}">
 					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">暂存</td>

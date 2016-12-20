@@ -1,11 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../../common.jsp"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML >
 <html>
   <head>
+<%@ include file="../../../common.jsp"%>
     <title>采购合同管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -100,7 +98,7 @@
   	
   	function updateEcetion(){
   		var ids =[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
+		、){ 
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length>0){

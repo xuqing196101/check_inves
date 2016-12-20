@@ -1,14 +1,11 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-	<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+
+<!DOCTYPE HTML>
 <html>
-<head>
+	<head>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
+	
 
 
 <title>版块管理</title>
@@ -24,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
  	//跳转到增加页面
     function add(){
-    	window.location.href="<%=basePath%>purchaser/add.html";
+    	window.location.href="${pageContext.request.contextPath}/purchaser/add.html";
     }
     
     
@@ -153,12 +150,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  			 
  		 
  		 $.ajax({
- 			 url:"<%=basePath%>purchaser/adddetail.html",
+ 			 url:"${pageContext.request.contextPath}/purchaser/adddetail.html",
  			 type:"post",
  			 data:$("#add_form").serialize(),
  			 success:function(){
  				 alert("添加成功");
- 				 window.location.href="<%=basePath%>purchaser/list.html";
+ 				 window.location.href="${pageContext.request.contextPath}/purchaser/list.html";
  			 },error:function(){
  				 
  			 }
@@ -172,7 +169,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
  	 
  	 function down(){
- 		 window.location.href="<%=basePath%>purchaser/download.html?filename=模板.xlsx";
+ 		 window.location.href="${pageContext.request.contextPath}/purchaser/download.html?filename=模板.xlsx";
  	 }
  	 
  	 function delets(){
@@ -188,7 +185,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					async:{
 								autoParam:["id"],
 								enable:true,
-								url:"<%=basePath%>category/createtree.do",
+								url:"${pageContext.request.contextPath}/category/createtree.do",
 								dataType:"json",
 								type:"post",
 							},
@@ -292,7 +289,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 
-		<form id="add_form" action="<%=basePath%>purchaser/adddetail.html" method="post">
+		<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 			<input type="hidden" name="planName" id="fjhmc">
 			<input type="hidden" name="planNo" id="fjhbh">
 			<table class="table table-bordered" style="width:800px;">
