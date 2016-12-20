@@ -1,25 +1,10 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
-<head>
-<%@ include file="../../../../../common.jsp"%>
-<base href="${pageContext.request.contextPath}/">
-
+	<head>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 <title>抽取记录</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-</head>
     <link href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
     media="screen" rel="stylesheet">
  <script type="text/javascript"
@@ -167,6 +152,7 @@ $(function(){
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
     }
 </script>
+</head>
 <body>
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">

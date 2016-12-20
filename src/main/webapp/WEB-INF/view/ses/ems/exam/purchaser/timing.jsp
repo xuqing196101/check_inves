@@ -1,11 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-
 <!DOCTYPE HTML>
 <html>
-
 	<head>
-		<%@ include file="/WEB-INF/view/common.jsp"%>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<script type="text/javascript">
 			$(function() {
 				document.getElementById("time").innerHTML = 5 + "分钟" + 0 + "秒";

@@ -2,16 +2,9 @@
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
-
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<title>新增商务类专家题库</title>
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
-		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-		<meta http-equiv="description" content="This is my page">
-		<jsp:include page="/WEB-INF/view/common.jsp" />
 		<script type="text/javascript">
 			var opt = "";
 			var obj = "";
