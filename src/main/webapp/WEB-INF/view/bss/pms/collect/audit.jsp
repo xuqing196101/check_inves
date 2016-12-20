@@ -1,13 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="/tld/upload" prefix="u"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
-
 	<head>
-		<jsp:include page="/WEB-INF/view/common.jsp" />
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<script type="text/javascript">
 			$(function() {
 				$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
@@ -424,7 +420,8 @@
 								</td>
 								<td>
 								<c:forEach items="${requires }" var="re">
-									<c:if test="${re.id==obj.department }">
+								
+				 <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="审核">	<c:if test="${re.id==obj.department }">
 										<input type="hidden"  name="list[${vs.index }].department" value="${obj.id }">
 										<input readonly="readonly" type="text" value="${re.name}">
 									</c:if>

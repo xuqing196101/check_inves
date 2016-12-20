@@ -1,25 +1,9 @@
-<%@page import="bss.model.ppms.ScoreModel"%>
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
-<%@ include file="../../../common.jsp"%>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-       
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-ScoreModel scoreModel = (ScoreModel)request.getAttribute("scoreModel");
-System.out.print(scoreModel);
-%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
 	function choseModel(){
 		var model = $("#model").val();
@@ -460,7 +444,8 @@ System.out.print(scoreModel);
 			}
 		}
 	}
-</script>  
+</script>
+
 <script type="text/javascript">
 	//validate
 	function validteModel(){
