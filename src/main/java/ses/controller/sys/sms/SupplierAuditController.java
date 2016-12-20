@@ -253,17 +253,18 @@ public class SupplierAuditController extends BaseSupplierController{
 		List<SupplierBranch> supplierBranchList= supplierBranchService.findSupplierBranch(supplierId);
 		request.setAttribute("supplierBranchList", supplierBranchList);
 		
-		//地区查询
+		//地址信息里地址
 		List<Area> privnce = areaService.findRootArea();
 		request.setAttribute("privnce", privnce);
+		Area area = new Area();
 		
-		Area area = areaService.listById(supplier.getAddress());
-		String sonName = area.getName();
-		request.setAttribute("sonName", sonName);
+		area = areaService.listById(supplier.getAddress());
+		String sonAddress = area.getName();
+		request.setAttribute("sonAddress", sonAddress);
 		for(int i=0; i<privnce.size(); i++){
 			if(area.getParentId().equals(privnce.get(i).getId())){
-				String parentName = privnce.get(i).getName();
-				request.setAttribute("parentName", parentName);
+				String parentAddress = privnce.get(i).getName();
+				request.setAttribute("parentAddress", parentAddress);
 			}
 		}
 		

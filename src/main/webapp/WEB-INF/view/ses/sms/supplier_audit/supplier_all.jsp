@@ -197,7 +197,7 @@
        </c:if>
        <li class="fl">
 		      <label class="fl">企业性质：</label> 
-		        <select name="businessType" id="businessType" class="mb0 mt5">
+		        <select name="businessType" id="businessType" class="w178">
 		          <option value="">全部</option>
 		          <c:forEach var="type" varStatus="vs" items="${enterpriseTypeList}">
 		            <option <c:if test="${businessTypeId eq type.id }">selected</c:if> value="${type.id}">${type.name}</option>
