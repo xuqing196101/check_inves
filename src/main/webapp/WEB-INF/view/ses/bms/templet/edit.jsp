@@ -1,12 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
-<!DOCTYPE html>
-
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
-<head>
-</head>
+	<head>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
 	/** 全选全不选 */
 	$(function() {
@@ -15,6 +12,7 @@
 
 	});
 </script>
+</head>
 <body>
 
 	<!--面包屑导航开始-->
