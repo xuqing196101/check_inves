@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<%@ include file="/WEB-INF/view/common.jsp"%>
+	<jsp:include page="/WEB-INF/view/common.jsp"/>
     <title>页签</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -97,7 +97,7 @@
 	          }
 	    });
 	    
-	    $.ajax({
+	    /*$.ajax({
 	          contentType: "application/json;charset=UTF-8",
 	          url: "${pageContext.request.contextPath }/purchaseContract/findAllUsefulPurDep.do",
 	          type: "POST",
@@ -114,7 +114,7 @@
 	            $("#bingDeps").select2();
 	            $("#bingDeps").select2("val", "${project.purchaseDep.id}");
 	          }
-	    });
+	    });*/
 	 }); 
 	 var setting={
 		   async:{
@@ -616,7 +616,14 @@
 			        	<div class="cue">${ERR_budgetSubjectItem}</div>
 	       			</div>
 				 </li>
-				 <li class="col-md-3 col-sm-6 col-xs-12">
+				  <%--<li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>需求部门：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="demandSector" value="" type="text">
+			        	<div class="cue">${ERR_demandSector}</div>
+	       			</div>
+				 </li>
+				 --%><li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同类型：</span>
 				     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			        	<select name="contractType" class=" contract_name">
@@ -642,7 +649,7 @@
 			 	</li>
 				 <div class="clear"></div>
 			 </ul>
-	   		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
+	   		<h2 class="f16 count_flow mt40"><i>02</i>信息</h2>
 			 <ul class="list-unstyled ul_list">
 	    		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方单位：</span>
@@ -794,7 +801,7 @@
 				 </li>
 				 <div class="clear"></div>
 			</ul>
-			<h2 class="f16 count_flow mt40"><i>04</i>丙方信息</h2>
+			<%--<h2 class="f16 count_flow mt40"><i>04</i>丙方信息</h2>
 			 <ul class="list-unstyled ul_list">
 				 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方单位：</span>
@@ -834,7 +841,7 @@
 			        </div>
 				 </li>
 			</ul>
-            </div>
+            --%></div>
             <div class="tab-pane fade " id="tab-2">
               <div class="margin-bottom-0  categories over_hideen">
 				<div class="col-md-12 col-xs-12 col-sm-12 p0">

@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-  	<%@ include file="/WEB-INF/view/common.jsp"%>
+  	<jsp:include page="/WEB-INF/view/common.jsp"/>
  	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -41,7 +41,8 @@ function save(){
 
 function cancel(){
 	var id = "${id}";
-	window.location.href="${pageContext.request.contextPath}/purchaseContract/createerrContractPage.html?ids="+id;
+	var supckid = "${supckid}";
+	window.location.href="${pageContext.request.contextPath}/purchaseContract/createerrContractPage.html?ids="+id+"&supckid="+supckid;
 }
 	
 </script>    

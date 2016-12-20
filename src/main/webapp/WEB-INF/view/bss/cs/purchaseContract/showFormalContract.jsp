@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<%@ include file="/WEB-INF/view/common.jsp"%>
+	<jsp:include page="/WEB-INF/view/common.jsp"/>
     <title>正式合同查看</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -45,7 +45,9 @@
 	        <tr>
 	            <td class="bggrey"  width="13%">合同名称：</td>
 	            <td colspan="3" >${draftCon.name}</td>
-	        </tr>
+	            <%--<td class="bggrey" width="13%">需求部门：</td>
+	            <td width="37%">${draftCon.demandSector}</td>
+	        --%></tr>
 	        <tr>
 	            <td class="bggrey" width="13%">合同编号：</td>
 	            <td width="37%">${draftCon.code}</td>
@@ -152,7 +154,7 @@
 	            <td width="37%">${draftCon.supplierBankAccount}</td>
 	        </tr>
 	        </tbody>
-	        </table>
+	        </table><%--
 	        <h2 class="count_flow jbxx">丙方信息</h2>
 	        <table class="table table-bordered">
 	        <tbody>
@@ -174,7 +176,7 @@
 	        </tr>
 	        </tbody>
 	        </table>
-	        <h2 class="count_flow jbxx">批准文件电子扫描件</h2>
+	        --%><h2 class="count_flow jbxx">批准文件电子扫描件</h2>
    			<div class="col-md-12 select_common">
 				<up:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${contractattachsysKey}" typeId="${contractattachId}"/>
 			</div>  

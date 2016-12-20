@@ -153,7 +153,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		map.put("page", page);
 		List<Packages> packList = packageService.selectAllByIsWon(map);
 		model.addAttribute("list", new PageInfo<Packages>(packList));
-		List<Packages> pacList = new ArrayList<Packages>();
+		ArrayList<Packages> pacList = new ArrayList<Packages>();
 		Orgnization or = user.getOrg();
 		
 //		boolean isRole = false;
@@ -182,14 +182,15 @@ public class PurchaseContractController extends BaseSupplierController{
 	//				String supplierNames = "";
 					for(SupplierCheckPass su:suList){
 						if(su.getIsCreateContract()==0){
-							Supplier su1 = supplierService.selectOne(su.getId());
+							Supplier su1 = supplierService.selectOne(su.getSupplierId());
 							su.setSupplier(su1);
 							if(su.getSupplier()!=null){
+								Packages pack = new Packages();
 		//						supplierNames+=su.getSupplier().getSupplierName()+",";
 		//						supplierNames+=su.getSupplier().getSupplierName();
-								pa.setSupplier(su.getSupplier());
-								pa.setSupplierCheckPassId(su.getId());
-								pacList.add(pa);
+								pack.setSupplier(su.getSupplier());
+								pack.setSupplierCheckPassId(su.getId());
+								pacList.add(pack);
 							}
 						}
 					}
@@ -1015,20 +1016,10 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_purchaseType", "采购方式不能为空");
 		}
-//		if(ValidateUtils.isNull(purCon.getBingDepName())){
+//		if(ValidateUtils.isNull(purCon.getDemandSector())){
 //			flag = false;
-//			model.addAttribute("ERR_bingDepName", "需求部门不能为空");
-//		}else{
-//			PurchaseDep purDep = purchaseOrgnizationServiceI.selectPurchaseById(purCon.getBingDepName());
-//			if(ValidateUtils.isNull(purDep.getDepName())){
-//				flag = false;
-//				model.addAttribute("ERR_bingDepName", "需求部门不能为空");
-//			}
+//			model.addAttribute("ERR_demandSector", "需求部门不能为空");
 //		}
-		if(ValidateUtils.isNull(purCon.getDemandSector())){
-			flag = false;
-			model.addAttribute("ERR_demandSector", "需求部门不能为空");
-		}
 		if(ValidateUtils.isNull(purCon.getCode())){
 			flag = false;
 			model.addAttribute("ERR_code", "合同编号不能为空");
@@ -1064,6 +1055,16 @@ public class PurchaseContractController extends BaseSupplierController{
 				model.addAttribute("ERR_purchaseDepName", "甲方单位不能为空");
 			}
 		}
+		/*if(ValidateUtils.isNull(purCon.getBingDepName())){
+			flag = false;
+			model.addAttribute("ERR_bingDepName", "需求部门不能为空");
+		}else{
+			PurchaseDep purDep = purchaseOrgnizationServiceI.selectPurchaseById(purCon.getBingDepName());
+			if(ValidateUtils.isNull(purDep.getDepName())){
+				flag = false;
+				model.addAttribute("ERR_bingDepName", "需求部门不能为空");
+			}
+		}*/
 		if(ValidateUtils.isNull(purCon.getPurchaseLegal())){
 			flag = false;
 			model.addAttribute("ERR_purchaseLegal", "甲方法人不能为空");
@@ -1268,7 +1269,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			draftConList = purchaseContractService.selectAllContractByStatus(map);
 			for(PurchaseContract pur:draftConList){
 				Supplier su = supplierService.selectOne(pur.getSupplierDepName());
-				PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(pur.getBingDepName());
+//				PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(pur.getBingDepName());
 				Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(pur.getPurchaseDepName());
 				if(org.getName()==null){
 					pur.setShowDemandSector("");
@@ -1280,11 +1281,11 @@ public class PurchaseContractController extends BaseSupplierController{
 				}else{
 					pur.setShowSupplierDepName("");
 				}
-				if(purdep.getDepName()!=null){
-					pur.setShowPurchaseDepName(purdep.getDepName());
-				}else{
-					pur.setShowPurchaseDepName("");
-				}
+//				if(purdep.getDepName()!=null){
+//					pur.setShowPurchaseDepName(purdep.getDepName());
+//				}else{
+//					pur.setShowPurchaseDepName("");
+//				}
 			}
 		}
 		BigDecimal contractSum = new BigDecimal(0);
@@ -1508,11 +1509,11 @@ public class PurchaseContractController extends BaseSupplierController{
 		List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
 		draftCon.setContractReList(conRequList);
 		Supplier su = supplierService.selectOne(draftCon.getSupplierDepName());
-		PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(draftCon.getBingDepName());
+//		PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(draftCon.getBingDepName());
 		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(draftCon.getPurchaseDepName());
 		draftCon.setShowDemandSector(org.getName());
 		draftCon.setShowSupplierDepName(su.getSupplierName());
-		draftCon.setShowPurchaseDepName(purdep.getDepName());
+//		draftCon.setShowPurchaseDepName(purdep.getDepName());
 		model.addAttribute("draftCon", draftCon);
 		model.addAttribute("attachuuid", ids);
 		DictionaryData dd=new DictionaryData();
@@ -1925,7 +1926,7 @@ public class PurchaseContractController extends BaseSupplierController{
 				supplierCheckPassService.update(sup);
 			}
 			model.addAttribute("id", id);
-			model.addAttribute("supckid", supcheckids);
+			model.addAttribute("supckid", supcheckid);
 			url = "bss/cs/purchaseContract/transFormaTional";
 //		model.addAttribute("id", id);
 //		

@@ -4,7 +4,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<%@ include file="/WEB-INF/view/common.jsp"%>
+	<jsp:include page="/WEB-INF/view/common.jsp"/>
     <title>暂存合同查看</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -47,9 +47,9 @@
 	            <td width="37%"> ${draftCon.code}</td>
 	        </tr>
 	        <tr>
-	            <td class="bggrey" width="13%">需求部门：</td>
+	            <%--<td class="bggrey" width="13%">需求部门：</td>
 	            <td width="37%">${draftCon.demandSector}</td>
-	            <td class="bggrey" width="13%">采购机构资质证号：</td>
+	            --%><td class="bggrey" width="13%">采购机构资质证号：</td>
 	            <td width="37%">${draftCon.quaCode}</td>
 	        </tr>
 	        <tr>
@@ -136,7 +136,7 @@
 	        </tr>
 	        </tbody>
 	        </table>  
-	        <h2 class="count_flow jbxx">丙方信息</h2>
+	        <%--<h2 class="count_flow jbxx">丙方信息</h2>
 	        <table class="table table-bordered">
 	        <tbody>
 	        <tr>
@@ -157,7 +157,7 @@
 	        </tr>
 	        </tbody>
 	        </table>
-	     </div>
+	     --%></div>
 	    <div class="tab-pane fade" id="tab-2">
 		 <h2 class="count_flow jbxx">项目明细</h2>
     	<table id="detailtable" name="" class="table table-bordered table-condensed mb0 mt10">

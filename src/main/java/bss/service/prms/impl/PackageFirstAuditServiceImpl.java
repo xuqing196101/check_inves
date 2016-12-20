@@ -160,52 +160,57 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
         }
         
         List<Map<String, Object>> gaikuang = new ArrayList<Map<String,Object>>();
+        List<List<Map<String, Object>>> allgaikuang = new ArrayList<List<Map<String, Object>>>();
         List<Map<String, Object>> huowu = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> zigelist = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> fuhelist = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> shangwulist = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> jishulist = new ArrayList<Map<String,Object>>();
-        for(ProjectDetail pd:detaList){
-        	Map<String, Object> packmap = new HashMap<String, Object>();
-        	if(packages.get(0).getName()!=null){
-        		packmap.put("pacn", packages.get(0).getName());
-			}else{
-				packmap.put("pacn", "");
-			}
-        	if(pd.getGoodsName()!=null){
-        		packmap.put("goodsName", pd.getGoodsName());
-			}else{
-				packmap.put("goodsName", "");
-			}
-        	if(pd.getStand()!=null){
-        		packmap.put("tand", pd.getStand());
-			}else{
-				packmap.put("tand", "");
-			}
-        	packmap.put("jishu", "");
-        	if(pd.getItem()!=null){
-        		packmap.put("item", pd.getItem());
-			}else{
-				packmap.put("item", "");
-			}
-        	if(pd.getPurchaseCount()!=null){
-        		packmap.put("count", pd.getPurchaseCount());
-			}else{
-				packmap.put("count", "");
-			}
-        	if(pd.getDeliverDate()!=null){
-        		packmap.put("jhsj", pd.getDeliverDate());
-			}else{
-				packmap.put("jhsj", "");
-			}
-        	packmap.put("jhdd", "");
-        	if(pd.getMemo()!=null){
-        		packmap.put("mem", pd.getMemo());
-			}else{
-				packmap.put("mem", "");
-			}
-        	gaikuang.add(packmap);
+        for(int i=0;i<packages.size();i++){
+        	for(ProjectDetail pd:detaList){
+            	Map<String, Object> packmap = new HashMap<String, Object>();
+            	if(packages.get(i).getName()!=null){
+            		packmap.put("pacn", packages.get(i).getName());
+    			}else{
+    				packmap.put("pacn", "");
+    			}
+            	if(pd.getGoodsName()!=null){
+            		packmap.put("goodsName", pd.getGoodsName());
+    			}else{
+    				packmap.put("goodsName", "");
+    			}
+            	if(pd.getStand()!=null){
+            		packmap.put("tand", pd.getStand());
+    			}else{
+    				packmap.put("tand", "");
+    			}
+            	packmap.put("jishu", "");
+            	if(pd.getItem()!=null){
+            		packmap.put("item", pd.getItem());
+    			}else{
+    				packmap.put("item", "");
+    			}
+            	if(pd.getPurchaseCount()!=null){
+            		packmap.put("count", pd.getPurchaseCount());
+    			}else{
+    				packmap.put("count", "");
+    			}
+            	if(pd.getDeliverDate()!=null){
+            		packmap.put("jhsj", pd.getDeliverDate());
+    			}else{
+    				packmap.put("jhsj", "");
+    			}
+            	packmap.put("jhdd", "");
+            	if(pd.getMemo()!=null){
+            		packmap.put("mem", pd.getMemo());
+    			}else{
+    				packmap.put("mem", "");
+    			}
+            	gaikuang.add(packmap);
+            }
+        	allgaikuang.add(gaikuang);
         }
+        
         
         for(ProjectDetail pd:detaList){
         	Map<String, Object> huowumap = new HashMap<String, Object>();
@@ -328,7 +333,8 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
         }else{
         	dataMap.put("jsum", 0.0);
         }
-        dataMap.put("gaikuang", gaikuang);
+//        dataMap.put("gaikuang", gaikuang);
+        dataMap.put("allgaikuang", allgaikuang);
         dataMap.put("huowu", huowu);
         dataMap.put("zigelist", zigelist);
         dataMap.put("fuhelist", fuhelist);
