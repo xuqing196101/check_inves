@@ -1,19 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
-<!DOCTYPE html>
-<html class=" js cssanimations csstransitions" lang="en">
-<!--<![endif]-->
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
+<!DOCTYPE HTML>
+<html class=" js cssanimations csstransitions" lang="en">
+
+<head>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
 	function save(){
 		var index = parent.layer.getFrameIndex(window.name);

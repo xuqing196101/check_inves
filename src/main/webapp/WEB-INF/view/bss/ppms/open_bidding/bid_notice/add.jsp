@@ -1,11 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="/tld/upload" prefix="p" %>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+
+<!DOCTYPE HTML>
+<html class=" js cssanimations csstransitions" lang="en">
 <head>
 	<%@ include file="/WEB-INF/view/common.jsp"%>
 	

@@ -1,15 +1,10 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="../../../../common.jsp"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+
+<!DOCTYPE HTML>
 <html>
 <head>
-
-<title>编制招标文件</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
 	function OpenFile(fileId) {
 		var obj = document.getElementById("TANGER_OCX");
