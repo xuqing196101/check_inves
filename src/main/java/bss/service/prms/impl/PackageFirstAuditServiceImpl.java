@@ -125,19 +125,7 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
     	map.put("projectId", projectId);
     	List<Packages> packages = packageMapper.findPackageById(map);
     	HashMap<String, Object> map1 = new HashMap<String, Object>();
-    	map1.put("packageId", packages.get(0).getId());
-    	List<ProjectDetail> detaList = projectDetailMapper.selectById(map1);
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        //符合性审查项
-    	  FirstAudit firstAudit1 = new FirstAudit();
-    	  firstAudit1.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
-    	  firstAudit1.setPackageId(packages.get(0).getId());
-    	  List<FirstAudit> items1 = firmapper.find(firstAudit1);
-        //资格性审查项
-    	  FirstAudit firstAudit2 = new FirstAudit();
-        firstAudit2.setKind(DictionaryDataUtil.getId("QUALIFICATION"));
-        firstAudit2.setPackageId(packages.get(0).getId());
-        List<FirstAudit> items2 = firmapper.find(firstAudit2);
         if(projectName!=null){
         	dataMap.put("name", projectName);
         }else{
@@ -161,12 +149,19 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
         
         List<Map<String, Object>> gaikuang = new ArrayList<Map<String,Object>>();
         List<List<Map<String, Object>>> allgaikuang = new ArrayList<List<Map<String, Object>>>();
+        List<List<Map<String, Object>>> allhuowu = new ArrayList<List<Map<String, Object>>>();
+        List<List<Map<String, Object>>> allzigelist = new ArrayList<List<Map<String, Object>>>();
+        List<List<Map<String, Object>>> allfuhelist = new ArrayList<List<Map<String, Object>>>();
         List<Map<String, Object>> huowu = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> zigelist = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> fuhelist = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> shangwulist = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> jishulist = new ArrayList<Map<String,Object>>();
+        List<List<Map<String, Object>>> allshangwulist = new ArrayList<List<Map<String, Object>>>();
+        List<List<Map<String, Object>>> alljishulist = new ArrayList<List<Map<String, Object>>>();
         for(int i=0;i<packages.size();i++){
+        	map1.put("packageId", packages.get(i).getId());
+        	List<ProjectDetail> detaList = projectDetailMapper.selectById(map1);
         	for(ProjectDetail pd:detaList){
             	Map<String, Object> packmap = new HashMap<String, Object>();
             	if(packages.get(i).getName()!=null){
@@ -207,75 +202,86 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
     				packmap.put("mem", "");
     			}
             	gaikuang.add(packmap);
+            	Map<String, Object> huowumap = new HashMap<String, Object>();
+            	if(packages.get(0).getName()!=null){
+            		huowumap.put("baohao", packages.get(0).getName());
+    			}else{
+    				huowumap.put("baohao", "");
+    			}
+            	if(pd.getGoodsName()!=null){
+            		huowumap.put("mingcheng", pd.getGoodsName());
+    			}else{
+    				huowumap.put("mingcheng", "");
+    			}
+            	if(pd.getStand()!=null){
+            		huowumap.put("xinghao", pd.getStand());
+    			}else{
+    				huowumap.put("xinghao", "");
+    			}
+            	huowumap.put("canshu", "");
+            	if(pd.getItem()!=null){
+            		huowumap.put("jiliang", pd.getItem());
+    			}else{
+    				huowumap.put("jiliang", "");
+    			}
+            	if(pd.getPurchaseCount()!=null){
+            		huowumap.put("duoshao", pd.getPurchaseCount());
+    			}else{
+    				huowumap.put("duoshao", "");
+    			}
+            	if(pd.getMemo()!=null){
+            		huowumap.put("beizhu", pd.getMemo());
+    			}else{
+    				huowumap.put("beizhu", "");
+    			}
+            	huowu.add(huowumap);
             }
         	allgaikuang.add(gaikuang);
+        	allhuowu.add(huowu);
         }
         
-        
-        for(ProjectDetail pd:detaList){
-        	Map<String, Object> huowumap = new HashMap<String, Object>();
-        	if(packages.get(0).getName()!=null){
-        		huowumap.put("baohao", packages.get(0).getName());
-			}else{
-				huowumap.put("baohao", "");
-			}
-        	if(pd.getGoodsName()!=null){
-        		huowumap.put("mingcheng", pd.getGoodsName());
-			}else{
-				huowumap.put("mingcheng", "");
-			}
-        	if(pd.getStand()!=null){
-        		huowumap.put("xinghao", pd.getStand());
-			}else{
-				huowumap.put("xinghao", "");
-			}
-        	huowumap.put("canshu", "");
-        	if(pd.getItem()!=null){
-        		huowumap.put("jiliang", pd.getItem());
-			}else{
-				huowumap.put("jiliang", "");
-			}
-        	if(pd.getPurchaseCount()!=null){
-        		huowumap.put("duoshao", pd.getPurchaseCount());
-			}else{
-				huowumap.put("duoshao", "");
-			}
-        	if(pd.getMemo()!=null){
-        		huowumap.put("beizhu", pd.getMemo());
-			}else{
-				huowumap.put("beizhu", "");
-			}
-        	huowu.add(huowumap);
+        for(int i=0;i<packages.size();i++){
+       	 FirstAudit firstAudit1 = new FirstAudit();
+      	  firstAudit1.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
+      	  firstAudit1.setPackageId(packages.get(i).getId());
+      	  List<FirstAudit> items1 = firmapper.find(firstAudit1);
+          //资格性审查项
+      	  FirstAudit firstAudit2 = new FirstAudit();
+          firstAudit2.setKind(DictionaryDataUtil.getId("QUALIFICATION"));
+          firstAudit2.setPackageId(packages.get(i).getId());
+          List<FirstAudit> items2 = firmapper.find(firstAudit2);
+          for(FirstAudit firstA:items1){
+          	Map<String, Object> fuhemap = new HashMap<String, Object>();
+          	if(firstA.getName()!=null){
+          		fuhemap.put("accord", firstA.getName());
+  			}else{
+  				fuhemap.put("accord", "");
+  			}
+          	fuhelist.add(fuhemap);
+          }
+          allfuhelist.add(fuhelist);
+          for(FirstAudit firstB:items2){
+          	Map<String, Object> zigeemap = new HashMap<String, Object>();
+          	if(firstB.getName()!=null){
+          		zigeemap.put("rc", firstB.getName());
+  			}else{
+  				zigeemap.put("rc", "");
+  			}
+          	zigelist.add(zigeemap);
+          }
+          allzigelist.add(zigelist);
         }
         
-        for(FirstAudit firstA:items1){
-        	Map<String, Object> fuhemap = new HashMap<String, Object>();
-        	if(firstA.getName()!=null){
-        		fuhemap.put("accord", firstA.getName());
-			}else{
-				fuhemap.put("accord", "");
-			}
-        	fuhelist.add(fuhemap);
-        }
-        
-        for(FirstAudit firstB:items2){
-        	Map<String, Object> zigeemap = new HashMap<String, Object>();
-        	if(firstB.getName()!=null){
-        		zigeemap.put("rc", firstB.getName());
-			}else{
-				zigeemap.put("rc", "");
-			}
-        	zigelist.add(zigeemap);
-        }
+        for(int j=0;j<packages.size();j++){
         List<DictionaryData> ddList = DictionaryDataUtil.find(23);
         List<MarkTerm> jinjiList = new ArrayList<MarkTerm>();
         List<MarkTerm> jishuList = new ArrayList<MarkTerm>();
         for (DictionaryData dictionaryData : ddList) {
        	 if(dictionaryData.getCode().equals("ECONOMY")){
-       		jinjiList = getList(dictionaryData.getId(), dictionaryData.getName(),projectId,packages.get(0).getId());
+       		jinjiList = getList(dictionaryData.getId(), dictionaryData.getName(),projectId,packages.get(j).getId());
        	 }
        	 if(dictionaryData.getCode().equals("TECHNOLOGY")){
-       		jishuList = getList(dictionaryData.getId(), dictionaryData.getName(),projectId,packages.get(0).getId());
+       		jishuList = getList(dictionaryData.getId(), dictionaryData.getName(),projectId,packages.get(j).getId());
        	 }
         }
         if(jinjiList.size()>0){
@@ -301,6 +307,7 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
     			}
             	shangwulist.add(jinjimap);
         	}
+        	allshangwulist.add(shangwulist);
         	dataMap.put("ssum", sum);
         }else{
         	dataMap.put("ssum", 0.0);
@@ -329,12 +336,19 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
     			}
             	jishulist.add(jishumap);
         	}
+        	alljishulist.add(jishulist);
         	dataMap.put("jsum", sum);
         }else{
         	dataMap.put("jsum", 0.0);
         }
+        }
 //        dataMap.put("gaikuang", gaikuang);
         dataMap.put("allgaikuang", allgaikuang);
+        dataMap.put("allhuowu", allhuowu);
+        dataMap.put("allfuhelist", allfuhelist);
+        dataMap.put("allzigelist", allzigelist);
+        dataMap.put("allshangwulist", allshangwulist);
+        dataMap.put("alljishulist", alljishulist);
         dataMap.put("huowu", huowu);
         dataMap.put("zigelist", zigelist);
         dataMap.put("fuhelist", fuhelist);
