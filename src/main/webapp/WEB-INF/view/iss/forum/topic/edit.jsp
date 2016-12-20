@@ -1,16 +1,15 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
-<!DOCTYPE HTML >
+<!DOCTYPE HTML>
 <html>
   <head>
-    <title>修改主题</title>  
 		<%@ include file="/WEB-INF/view/common.jsp"%>
-  		<script type="text/javascript">
-		//返回到主题列表
-		function back(){
-			window.location.href = "${pageContext.request.contextPath }/topic/backTopic.html";
-		}
+  	<script type="text/javascript">
+			//返回到主题列表
+			function back(){
+				window.location.href = "${pageContext.request.contextPath }/topic/backTopic.html";
+			}
 	</script>
   </head>
   <body>

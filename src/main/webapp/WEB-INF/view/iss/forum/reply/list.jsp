@@ -4,8 +4,6 @@
 <!DOCTYPE HTML>
 <html> 
 	<head>
-
-		<title>回复管理</title>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 
 		<script type="text/javascript">

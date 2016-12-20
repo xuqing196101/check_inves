@@ -5,7 +5,6 @@
 <html>
 
 	<head>
-		<title>主题列表页面</title>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 	</head>
 

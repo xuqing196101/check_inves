@@ -3,19 +3,18 @@
 
 <!DOCTYPE HTML>
 <html>
-  <head>    
-    <title>新增主题</title>
+  <head>
 	  <%@ include file="/WEB-INF/view/common.jsp"%>
-	<script type="text/javascript">
-		$(function(){
-			$("#parkId").val("${topic.park.id}");
-		})
+		<script type="text/javascript">
+			$(function(){
+				$("#parkId").val("${topic.park.id}");
+			})
 		
-		//返回到主题列表
-		function back(){
-			window.location.href = "${pageContext.request.contextPath }/topic/backTopic.html";
-		}
-	</script>
+			//返回到主题列表
+			function back(){
+				window.location.href = "${pageContext.request.contextPath }/topic/backTopic.html";
+			}
+		</script>
   </head>
   <body>
 
