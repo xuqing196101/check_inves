@@ -1,9 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib uri="/tld/upload" prefix="up"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -11,8 +11,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
 	session.setAttribute("tokenSession", tokenValue);
 %>
-<!DOCTYPE html>
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <title>专家个人信息</title>
 <script type="text/javascript">
 	function fun(){

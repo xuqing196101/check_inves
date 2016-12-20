@@ -1,8 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
+	<head>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 <head>
 	<script src="${pageContext.request.contextPath}/public/codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
      <script src="${pageContext.request.contextPath}/public/codebase/locale/recurring/locale_recurring_cn.js" type="text/javascript" charset="utf-8"></script>
