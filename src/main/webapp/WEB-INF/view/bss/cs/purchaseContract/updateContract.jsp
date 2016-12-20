@@ -804,7 +804,7 @@
 				 </li>
 				 <div class="clear"></div>
 			</ul>
-			<h2 class="f16 count_flow mt40"><i>04</i>丙方信息</h2>
+			<%--<h2 class="f16 count_flow mt40"><i>04</i>丙方信息</h2>
 			 <ul class="list-unstyled ul_list">
 				 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方单位：</span>
@@ -844,7 +844,7 @@
 			        </div>
 				 </li>
 			</ul>
-            </div>
+            --%></div>
             <div class="tab-pane fade " id="tab-2">
               <div class="margin-bottom-0  categories over_hideen">
 				<div class="col-md-12 col-xs-12 col-sm-12 p0">

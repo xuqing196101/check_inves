@@ -90,6 +90,7 @@
 	              });
 	            }
 	            $("#supplierDeps").select2();
+	            var supplier = "${project.dealSupplier.id}";
 	            $("#supplierDeps").select2("val", "${project.dealSupplier.id}");
 	          }
 	    });
