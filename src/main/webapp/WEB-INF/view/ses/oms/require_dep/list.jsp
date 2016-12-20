@@ -1,7 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-<%@ include file="/WEB-INF/view/common.jsp"%>
+
+<!DOCTYPE HTML>
 <head>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/oms/purchase/list.js"></script>
 </head>
 <body>

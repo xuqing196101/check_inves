@@ -1,10 +1,10 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="../../../common.jsp"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+
+<!DOCTYPE HTML>
 <html>
 <head>
-
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <title>物资进口申请表</title>
 
 <meta http-equiv="pragma" content="no-cache">
