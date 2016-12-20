@@ -1,24 +1,12 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-<jsp:include page="/WEB-INF/view/common.jsp"/> 
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-//表单标示
-	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
-%>
-<!DOCTYPE html>
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>专家个人信息</title>
-<!-- Meta -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
+
 <script src="${pageContext.request.contextPath}/public/echarts/china.js"></script>
  <script type="text/javascript">
 
@@ -387,9 +375,9 @@ $(function(){
 </sf:form>
 
  	<u:upload id="cs"   businessId="1231" sysKey="2" typeId="12314141"/>
-				<u:show showId="cs"   sysKey="2" typeId="12124124"/>
+				<u:show showId="cs" businessId="111"   sysKey="2" typeId="12124124"/>
 				
-			
+		
 			<div id="main" style="width:800px; height: 100%;"></div>
 			<div id="pipe" style="width:800px; height: 100%;"></div>
 			<div id="bar" style="width:800px; height: 100%;"></div>
