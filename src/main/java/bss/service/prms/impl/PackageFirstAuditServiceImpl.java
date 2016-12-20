@@ -147,12 +147,10 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
         	dataMap.put("zhaobiaopeople", "");
         }
         
-        List<Map<String, Object>> gaikuang = new ArrayList<Map<String,Object>>();
         List<List<Map<String, Object>>> allgaikuang = new ArrayList<List<Map<String, Object>>>();
         List<List<Map<String, Object>>> allhuowu = new ArrayList<List<Map<String, Object>>>();
         List<List<Map<String, Object>>> allzigelist = new ArrayList<List<Map<String, Object>>>();
         List<List<Map<String, Object>>> allfuhelist = new ArrayList<List<Map<String, Object>>>();
-        List<Map<String, Object>> huowu = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> zigelist = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> fuhelist = new ArrayList<Map<String,Object>>();
         List<Map<String, Object>> shangwulist = new ArrayList<Map<String,Object>>();
@@ -160,6 +158,8 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
         List<List<Map<String, Object>>> allshangwulist = new ArrayList<List<Map<String, Object>>>();
         List<List<Map<String, Object>>> alljishulist = new ArrayList<List<Map<String, Object>>>();
         for(int i=0;i<packages.size();i++){
+        	List<Map<String, Object>> gaikuang = new ArrayList<Map<String,Object>>();
+        	 List<Map<String, Object>> huowu = new ArrayList<Map<String,Object>>();
         	map1.put("packageId", packages.get(i).getId());
         	List<ProjectDetail> detaList = projectDetailMapper.selectById(map1);
         	for(ProjectDetail pd:detaList){
@@ -349,7 +349,6 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
         dataMap.put("allzigelist", allzigelist);
         dataMap.put("allshangwulist", allshangwulist);
         dataMap.put("alljishulist", alljishulist);
-        dataMap.put("huowu", huowu);
         dataMap.put("zigelist", zigelist);
         dataMap.put("fuhelist", fuhelist);
         dataMap.put("shangwulist", shangwulist);
