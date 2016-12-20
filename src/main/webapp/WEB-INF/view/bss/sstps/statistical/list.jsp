@@ -1,12 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
 
   <head>
+    <%@ include file="../../../common.jsp"%>
     <script type="text/javascript">
-<%@ include file="../../../common.jsp"%>
       $(function() {
         laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,

@@ -1,11 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="/WEB-INF/view/common.jsp"%>
-<!DOCTYPE html>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
 
 	<head>
+        <%@ include file="/WEB-INF/view/common.jsp"%>
 		<title>采购档案列表</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
