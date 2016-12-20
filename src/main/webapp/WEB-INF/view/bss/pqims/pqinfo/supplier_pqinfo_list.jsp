@@ -1,10 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE html>
 <html>
   <head>
+<%@ include file="../../../common.jsp"%>
   
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
