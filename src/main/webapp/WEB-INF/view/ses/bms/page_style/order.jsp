@@ -114,6 +114,7 @@
 	<button class="btn btn-windows back" type="submit">返回</button>
 	<button class="btn btn-windows check" type="submit">审核</button>
 	<button class="btn btn-windows apply" type="submit">发布</button>
+	<button class="btn btn-windows print" type="submit">打印</button>
 	<button class="btn" type="submit">分配</button>
 	<button class="btn btn-windows input" type="submit">导入</button>
 	<button class="btn btn-windows output" type="submit">导出</button>
