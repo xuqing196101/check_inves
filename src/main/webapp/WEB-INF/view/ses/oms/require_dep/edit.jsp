@@ -50,7 +50,7 @@
 		 var typeName = $("#typeName").val();
 		 if(typeName!=null && typeName!="" && typeName == "2"){
 		 	$(".monitor").show();
-		 	$("#show_org_cont").text("关联采购机构");
+		 	$("#relaDeptId").hide();
 		 }else{
 		 	$(".monitor").hide();
 		 	$("#show_org_cont").text("关联管理部门");
@@ -64,7 +64,7 @@
     	if(typeName!=undefined && typeName==2){
     		title = "添加采购机构";
     	}else{
-    		title = "添加管理部门";
+    		title = "关联采购管理部门";
     	}
     	layer.open({
 			type : 2, //page层
@@ -143,7 +143,7 @@
 		  <li class="active"><a href="javascript:void(0)">编辑需求部门</a></li>
 		</c:if>
 		<c:if test="${orgnization.typeName == '2'}">
-		  <li class="active"><a href="javascript:void(0)">编辑管理部门</a></li>
+		  <li class="active"><a href="javascript:void(0)">编辑采购管理部门</a></li>
 		</c:if>
       </ul>
       <div class="clear"></div>
@@ -155,7 +155,14 @@
     <sf:form action="${pageContext.request.contextPath}/purchaseManage/update.do" method="post" onsubmit="return check();" id="formID" modelAttribute="orgnization">
 	  <input type="hidden" id="typeName" name="typeName" value="${orgnization.typeName}" />
 	  <div>
-		<h2 class="count_flow"><i>1</i>基本信息</h2>
+		 <c:if test="${orgnization.typeName == '0'}">
+	      <h2 class="count_flow "><i>1</i>基本信息</h2>
+	    </c:if>
+	    <c:if test="${orgnization.typeName == '2'}">
+	      <div class="headline-v2">
+	        <h2>基本信息</h2>
+	      </div>
+	    </c:if>
 		<input type="hidden" name="depIds" id="depIds"/>
 		<input type="hidden" name="id" value="${orgnization.id}"/>
 		<ul class="ul_list">
@@ -217,9 +224,9 @@
 		  </li>
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12"> 
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">电话</span>
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">值班室电话</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="mobile" type="text" value="${orgnization.mobile }"> 
+			  <input class="input_group" name="telephone" type="text" value="${orgnization.telephone }"> 
 			  <span class="add-on">i</span>
 			</div>
 		  </li>
@@ -240,21 +247,6 @@
 			</div>
 		  </li>
 		  
-		  <li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> 
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构代码</span>
-			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="orgCode" type="text" value="${orgnization.orgCode}"> 
-			  <span class="add-on">i</span>
-			</div>
-		  </li>
-		  
-		  <li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> 
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">网站地址</span>
-			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="website" type="text" value="${orgnization.website}" > 
-			  <span class="add-on">i</span>
-			</div>
-		  </li>
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> 
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">负责人</span>
@@ -264,29 +256,25 @@
 			</div>
 		  </li>
 		  
-		  <li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> 
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">负责人身份证号</span>
-			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="princinpalIdCard" type="text" value="${orgnization.princinpalIdCard}" > 
-			  <span class="add-on">i</span>
-			</div>
-		  </li>
 		  
-		  <li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> 
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">监管机构性质</span>
-			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="nature" type="text" value="${orgnization.nature}"> 
-			  <span class="add-on">i</span>
+		   <li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> 
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购管理部门等级</span>
+			<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			  <select name="nature">
+			    <c:forEach items="${levelList}" var="level">
+			      <option value="${level.id}" <c:if test="${orgnization.nature == level.id}"> selected="selected" </c:if> >${level.name}</option>
+			    </c:forEach>
+			  </select>
 			</div>
 		  </li>
 		</ul>
-		<div class="padding-top-10 clear">
+		<div class="padding-top-10 clear" id="relaDeptId">
           <h2 class="count_flow"><i>2</i>
             <span id="show_org_cont">
 	          <c:choose>
 	            <c:when test="${orgnization.typeName == '1'}">关联采购机构</c:when>
-	            <c:when test="${orgnization.typeName == '2'}">关联管理部门</c:when>
-	            <c:when test="${orgnization.typeName == '0'}">关联管理部门</c:when>
+	            <c:when test="${orgnization.typeName == '2'}">关联采购管理部门</c:when>
+	            <c:when test="${orgnization.typeName == '0'}">关联采购管理部门</c:when>
 	          </c:choose>
 	         </span>
           </h2>

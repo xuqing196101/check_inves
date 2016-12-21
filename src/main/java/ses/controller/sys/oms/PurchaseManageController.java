@@ -170,6 +170,8 @@ public class PurchaseManageController {
 			if(orglist!=null && orglist.size()>0){
 				Orgnization org = orglist.get(0);
 				initAreaInfo(org);
+				//设置级别名称
+                initLevelName(org);
 				model.addAttribute("orgnization", org);
 			}
 			
@@ -194,6 +196,8 @@ public class PurchaseManageController {
 						org.setCityName(area.getName());
 					}
 				}
+				//设置级别名称
+				initLevelName(org);
 				orgList.add(org);
 			}
 			model.addAttribute("oList", orgList);
@@ -219,7 +223,7 @@ public class PurchaseManageController {
 		List<Area> areaList = areaServiceI.findRootArea();
 		model.addAttribute("areaList", areaList);
 		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(parentId);
-		
+		initManageLevel(model);
 		if (org != null){
 			org.setTypeName(typeName);
 		} else {
@@ -294,6 +298,8 @@ public class PurchaseManageController {
 		//市
 		List<Area> cityList =  areaServiceI.findTreeByPid(org.getProvinceId(),null);
 		model.addAttribute("cityList", cityList);
+		//初始化采购管理部门级别
+		initManageLevel(model);
 		return "ses/oms/require_dep/edit";
 	}
 	
@@ -320,6 +326,34 @@ public class PurchaseManageController {
 		orgnizationServiceI.updateOrgnization(orgnization, depIds);
 		model.addAttribute("typeName", orgnization.getTypeName());
 		return "redirect:list.do";
+	}
+	
+	/**
+	 * 
+	 *〈简述〉初始化采购部门管理级别
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model 
+	 */
+	private  void initManageLevel(Model model){
+	    List<DictionaryData> dictList = DictionaryDataUtil.find(25);
+	    model.addAttribute("levelList", dictList);
+	}
+	
+	/**
+	 * 
+	 *〈简述〉初始化级别信息
+	 *〈详细描述〉
+	 * @author myc
+	 * @param org {@link Orgnization}
+	 */
+	private void initLevelName(Orgnization org){
+	    if (org != null && StringUtils.isNotBlank(org.getNature())){
+            DictionaryData dd = DictionaryDataUtil.findById(org.getNature());
+            if (dd != null){
+                org.setPurchaseLevel(dd.getName());
+            }
+        }
 	}
 	
 	/**
@@ -350,9 +384,12 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("addPurchaseOrg")
-	public String addPurchaseOrg(Model model,Orgnization orgnization, @ModelAttribute PageInfo<Orgnization> page) {
+	public String addPurchaseOrg(Model model,Orgnization orgnization, Integer page) {
 		//每页显示十条
-		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
+	    if (page == null){
+	        page = 1;
+	    }
+		PageHelper.startPage(page,CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if(orgnization.getTypeName()!=null && orgnization.getTypeName().equals(StaticVariables.ORG_TYPE_MANAGE)){
 			map.put("typeName", StaticVariables.ORG_TYPE_PURCHASE);
@@ -363,7 +400,6 @@ public class PurchaseManageController {
 		map.put("name", orgnization.getName());
 		model.addAttribute("orgnization", orgnization);
 		List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
-		model.addAttribute("orgnizationList",orgnizationList);
 		model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
 		return "ses/oms/require_dep/add_purchase_org";
 	}

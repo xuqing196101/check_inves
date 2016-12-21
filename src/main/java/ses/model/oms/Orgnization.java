@@ -100,6 +100,9 @@ public class Orgnization implements Serializable {
     
     /** 品目名称 */
     private transient String cateNames;
+    
+    /**采购等级**/
+    private transient String purchaseLevel;
 
 	public String getId() {
         return id;
@@ -438,5 +441,15 @@ public class Orgnization implements Serializable {
     public void setContactMobile(String contactMobile) {
         this.contactMobile = contactMobile;
     }
+
+    public String getPurchaseLevel() {
+        return purchaseLevel;
+    }
+
+    public void setPurchaseLevel(String purchaseLevel) {
+        this.purchaseLevel = purchaseLevel;
+    }
+    
+    
     
 }

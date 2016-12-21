@@ -155,8 +155,8 @@
 					<tr>
 					  <td class="col-xs-3 bggrey tl">详细地址：</td>
 					  <td class="col-xs-3">${orgnization.address}</td>
-					  <td class="col-xs-3 bggrey tl">电话：</td>
-					  <td class="col-xs-3">${orgnization.mobile}</td>
+					  <td class="col-xs-3 bggrey tl">值班室电话：</td>
+					  <td class="col-xs-3">${orgnization.telephone}</td>
 					</tr>
 					<tr>
 					  <td class="col-xs-3 bggrey tl">邮编：</td>
@@ -165,20 +165,10 @@
 					  <td class="col-xs-3">${orgnization.fax}</td>
 					</tr>
 					<tr class="hide monitor">
-					  <td class="col-xs-3 bggrey tl">组织机构代码：</td>
-					  <td class="col-xs-3">${orgnization.orgCode}</td>
-					  <td class="col-xs-3 bggrey tl">网站地址：</td>
-					  <td class="col-xs-3">${orgnization.website}</td>
-					</tr>
-					<tr class="hide monitor">
 					  <td class="col-xs-3 bggrey tl">负责人：</td>
 					  <td class="col-xs-3">${orgnization.princinpal}</td>
-					  <td class="col-xs-3 bggrey tl">身份证号：</td>
-					  <td class="col-xs-3">${orgnization.princinpalIdCard}</td>
-					</tr>
-					<tr class="hide monitor">
-					  <td class="col-xs-3 bggrey tl">监管机构性质：</td>
-					  <td class="col-xs-3">${orgnization.nature}</td>
+					  <td class="col-xs-3 bggrey tl">采购管理部门等级：</td>
+					  <td class="col-xs-3">${orgnization.purchaseLevel}</td>
 					</tr>
 				  </tbody>
 				</table>
@@ -230,8 +220,8 @@
 			  <h2 class="panel-title heading-sm pull-left">
 				<i class="fa fa-bars"></i> 
 				<c:choose>
-				  <c:when test="${orgnization.typeName!=null && orgnization.typeName == '0'}">管理部门信息</c:when>
-				  <c:when test="${orgnization.typeName!=null && orgnization.typeName == '1'}">管理部门信息</c:when>
+				  <c:when test="${orgnization.typeName!=null && orgnization.typeName == '0'}">关联采购管理部门信息</c:when>
+				  <c:when test="${orgnization.typeName!=null && orgnization.typeName == '1'}">关联采购管理部门信息</c:when>
 				  <c:when test="${orgnization.typeName!=null && orgnization.typeName == '2'}">采购机构信息</c:when>
 				</c:choose> 
 				<span class="label rounded-2x label-u">正常</span>
@@ -242,8 +232,8 @@
 				<h3 class="panel-title">
 				  <i class="fa fa-users"></i> 
 				  <c:choose>
-					<c:when test="${orgnization.typeName!=null && orgnization.typeName == '0' }">管理部门信息</c:when>
-					<c:when test="${orgnization.typeName!=null && orgnization.typeName == '1' }">管理部门信息</c:when>
+					<c:when test="${orgnization.typeName!=null && orgnization.typeName == '0' }">采购管理部门信息</c:when>
+					<c:when test="${orgnization.typeName!=null && orgnization.typeName == '1' }">采购管理部门信息</c:when>
 					<c:when test="${orgnization.typeName!=null && orgnization.typeName == '2'}">采购机构信息</c:when>
 				  </c:choose> 
 				</h3>
@@ -254,17 +244,10 @@
 					<tr>
 					  <th>序号</th>
 					  <th>名称</th>
-					  <th>简称</th>
-					  <th>组织机构代码</th>
-					  <th>电话</th>
+					  <th>值班室电话</th>
 					  <th>所在地市</th>
 					  <th>详细地址</th>
-					  <th>邮编</th>
-					  <th>传真</th>
-					  <th>网站地址</th>
 					  <th>负责人</th>
-					  <th>监管负责人身份证号码</th>
-					  <th>监管机构性质</th>
 					</tr>
 				  </thead>
 				  <tbody>
@@ -272,17 +255,10 @@
 					  <tr class="cursor">
 						<td class="tc">${vs.index+1}</td>
 						<td class="tc">${p.name}</td>
-						<td class="tc">${p.shortName}</td>
-						<td class="tc">${p.orgCode}</td>
-						<td class="tc">${p.mobile}</td>
+						<td class="tc">${p.telephone}</td>
 						<td class="tc">${p.provinceName}${p.cityName}</td>
 						<td class="tc">${p.address}</td>
-						<td class="tc">${p.postCode}</td>
-						<td class="tc">${p.fax}</td>
-						<td class="tc">${p.website}</td>
 						<td class="tc">${p.princinpal}</td>
-						<td class="tc">${p.princinpalIdCard}</td>
-						<td class="tc">${p.nature}</td>
 					  </tr>
 					</c:forEach>
 				  </tbody>
