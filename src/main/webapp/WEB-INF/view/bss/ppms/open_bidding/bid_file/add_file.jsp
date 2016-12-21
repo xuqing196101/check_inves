@@ -11,11 +11,11 @@
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
 		if(fileId != 0){
-			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
+			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true, false, 'word.document');// 异步加载, 服务器文件路径
 		} 
 		var filePath = "${filePath}";
 		if (filePath != null && filePath != undefined){
-			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+filePath, true);// 异步加载, 服务器文件路径
+			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+filePath, true, false, 'word.document');// 异步加载, 服务器文件路径
 		}
 	}
 	
