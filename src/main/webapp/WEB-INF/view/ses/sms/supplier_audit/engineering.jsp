@@ -27,12 +27,11 @@
 	      //默认不显示叉
 	      $(function() {
 			    $("td").each(function() {
-				    $(this).parent("tr").find("td").eq(14).find("a").hide();
+				    $(this).parent("tr").find("td").eq(13).find("a").hide();
 				    $(this).parent("tr").find("td").eq(3).find("a").hide();
 		    });
 	    
 		    $(":input").each(function() {
-		      $(this).parent("div").find("div").hide();
 		      var onmouseover = "this.style.border='solid 1px #FF0000'";
 		      var onmouseout = "this.style.border='solid 1px #D3D3D3'";
 		      $(this).attr("onmouseover",onmouseover);
@@ -41,17 +40,6 @@
 	      });
 			
 				function reason(id,auditContent){
-				  /* var offset = "";
-				  if (window.event) {
-				    e = event || window.event;
-				    var x = "";
-				    var y = "";
-				    x = e.clientX + 20 + "px";
-				    y = e.clientY + 20 + "px";
-				    offset = [y, x];
-				  } else {
-				      offset = "200px";
-				  } */
 				   var supplierId=$("#supplierId").val();
 				   var auditFieldName= auditContent.replace("信息","");
 				   var index = layer.prompt({
@@ -63,7 +51,7 @@
 				$.ajax({
 				  url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 				  type:"post",
-				  data:"auditType=mat_eng_page"+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
+				  data: {"auditType":"mat_eng_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
 				  dataType:"json",
 				  success:function(result){
 				    result = eval("(" + result + ")");
@@ -85,23 +73,17 @@
 				  });
 				}
 			
-				function reason1(id,auditField){
-				  /* var offset = "";
-				  if (window.event) {
-				    e = event || window.event;
-				    var x = "";
-				    var y = "";
-				    x = e.clientX + 20 + "px";
-				    y = e.clientY + 20 + "px";
-				    offset = [y, x];
-				  } else {
-				      offset = "200px";
-				  } */
+				function reason1(obj){
 				  var supplierId=$("#supplierId").val();
-				  var id2=id+"2";
-				  var id3=id+"3";
-				  var auditFieldName=$("#"+id2+"").text().replace("：",""); //审批的字段名字 
-				  var auditContent= document.getElementById(""+id+"").value; //审批的字段内容
+				  var auditField = obj.id;;
+				  var auditContent;
+				  var auditFieldName ;
+				  var html = "<a class='abolish'><img src='/zhbj/public/backend/images/sc.png'></a>";
+			    $("#"+obj.id+"").each(function() {
+			      auditFieldName = $(this).parents("li").find("span").text().replace("：","").trim();
+	          auditContent = $(this).parents("li").find("input").val();
+	    		});
+				  
 				  var index = layer.prompt({
 				  title: '请填写不通过的理由：', 
 				  formType: 2, 
@@ -111,7 +93,7 @@
 				    $.ajax({
 				        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 				        type:"post",
-				        data:"auditType=mat_eng_page"+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+				        data: {"auditType":"mat_eng_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":auditField},
 				        dataType:"json",
 				        success:function(result){
 				        result = eval("(" + result + ")");
@@ -123,8 +105,9 @@
 				        }
 				      }
 				      });
-				     $("#"+id3+"").show();
-				     $("#"+id3+"").parents("li").find("input").css("padding-right","30px");
+				     /* $("#"+id3+"").show();
+				     $("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
+				     $(obj).after(html);
 				     layer.close(index);
 				    });
 				  }
@@ -339,7 +322,7 @@
                   </td> --%>
                   <td class="tc w50">
                     <p onclick="reason('${s.id}','工程-资质证书信息');" id="${s.id}_hidden" class="btn">审核</p>
-                    <a id="${s.id }_show" class="b red">×</a>
+                    <a id="${s.id }_show"><img src='/zhbj/public/backend/images/sc.png'></a>
                   </td>
                 </tr>
               </c:forEach>
@@ -403,7 +386,7 @@
 		              </td> --%>
 		              <td class="tc w50">
 		                <p onclick="reason('${s.id}','工程-资质资格证书信息');" id="${s.id}_hidden1" class="btn">审核</p>
-		                <a id="${s.id }_show1" class="b red">×</a>
+		                <a id="${s.id }_show1"><img src='/zhbj/public/backend/images/sc.png'></a>
 		              </td>
 		            </tr>
 		          </c:forEach>
@@ -428,7 +411,7 @@
                   <td class="tc">${regPrson.regNumber}</td>
                   <td class="tc w50">
                     <p onclick="reason('${regPrson.id}','工程-注册人员登记信息');" id="${regPrson.id}_hidden2" class="btn">审核</p>
-                    <a id="${regPrson.id }_show2" class="b red">×</a>
+                    <a id="${regPrson.id }_show2"><img src='/zhbj/public/backend/images/sc.png'></a>
                   </td>
                 </tr>
               </c:forEach>
@@ -438,38 +421,33 @@
           <ul class="ul_list count_flow">
 	          
 			      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-			        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="orgName2">组织机构：</span>
+			        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
 			        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-			          <input id="orgName" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id,'supplierMatEng.orgName')"/>
-	              <div id="orgName3"  class="abolish">×</div>
+			          <input id="orgName" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this)"/>
 	            </div>
 	          </li>
 	          <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalTech2">技术负责人：</span>
+	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术负责人：</span>
 	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-	              <input id="totalTech" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this.id,'supplierMatEng.totalTech')"/>
-	              <div id="totalTech3" class="abolish">×</div>
+	              <input id="totalTech" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this)"/>
 	            </div>
 	          </li>
 	          <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalGlNormal2">中级及以上职称人员：</span>
+	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">中级及以上职称人员：</span>
 	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-	              <input id="totalGlNormal" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reason1(this.id,'supplierMatEng.totalGlNormal')"/>
-	              <div id="totalGlNormal3"  class="abolish">×</div>
+	              <input id="totalGlNormal" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reason1(this)"/>
 	            </div>
 	          </li>
 	          <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalMange2">管理人员：</span>
+	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-	              <input id="totalMange" type="text"  value="${supplierMatEngs.totalMange }" onclick="reason1(this.id,'supplierMatEng.totalMange')"/>
-	              <div id="totalMange3"  class="abolish">×</div>
+	              <input id="totalMange" type="text"  value="${supplierMatEngs.totalMange }" onclick="reason1(this)"/>
 	            </div>
 	          </li>
 	          <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalTechWorker2">技术工人：</span>
+	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术工人：</span>
 	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-	              <input id="totalTechWorker" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reason1(this.id,'supplierMatEng.totalTechWorker')"/>
-			          <div id="totalTechWorker3"  class="abolish">×</div>
+	              <input id="totalTechWorker" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reason1(this)"/>
 			        </div>
 			      </li>
           </ul>

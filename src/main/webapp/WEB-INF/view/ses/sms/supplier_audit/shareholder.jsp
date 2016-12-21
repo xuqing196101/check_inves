@@ -48,7 +48,7 @@
 		    $.ajax({
 		      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 		      type:"post",
-		      data:"auditType=stockholder_page"+"&auditFieldName=股东信息"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
+		      data: {"auditType":"stockholder_page","auditFieldName":"股东信息","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
 		      dataType:"json",
 		      success:function(result){
 		      result = eval("(" + result + ")");
@@ -242,7 +242,7 @@
 		              <td class="tc" >${s.shares}</td>
 		              <td class="tc" >${s.proportion}%</td>
 		              <td class="tc w50" >
-		                <a  class="b red" id="${s.id}_show">×</a>
+		                <a id="${s.id}_show"><img src='/zhbj/public/backend/images/sc.png'></a>
 		                <p onclick="reason('${s.id}');" id="${s.id}_hidden" class="btn">审核</p>
 		              </td>
 	              </tr>

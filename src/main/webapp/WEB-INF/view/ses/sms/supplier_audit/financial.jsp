@@ -49,7 +49,7 @@
 						$.ajax({
 							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 							type: "post",
-							data: "auditType=finance_page" + "&auditFieldName=" + auditFieldName + "&auditContent=" + auditContent + "&suggest=" + text + "&supplierId=" + supplierId + "&auditField=" + id,
+						  data: {"auditType":"finance_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
 							dataType: "json",
 							success: function(result) {
 								result = eval("(" + result + ")");
@@ -320,7 +320,7 @@
 									<td class="tc">${f.taking}</td>
 									<td class="tc w50">
 										<a onclick="reason('${f.id}','财务信息');" id="${f.id}_hidden1" class="btn">审核</a>
-										<p id="${f.id}_show" class="b red">×</p>
+										<p id="${f.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 									</td>
 								</tr>
 							</table>
@@ -357,7 +357,7 @@
 								  </td>
 								  <td class="tc w50">
 											<a onclick="reason('${f.id}','财务附件');" id="${f.id}_hidden2" class="btn">审核</a>
-											<p id="${f.id}_fileShow" class="b red">×</p>
+											<p id="${f.id}_fileShow"><img src='/zhbj/public/backend/images/sc.png'></p>
 								  </td>
 								</tr>
 							</tbody>

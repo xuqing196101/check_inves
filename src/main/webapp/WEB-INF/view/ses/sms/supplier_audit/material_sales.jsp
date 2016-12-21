@@ -22,8 +22,6 @@
 	   //默认不显示叉
 			$(function() {
 			  $(":input").each(function() {
-			    $(this).parent("div").find("div").hide();
-			    
 			    var onmouseover = "this.style.border='solid 1px #FF0000'";
 			    var onmouseout = "this.style.border='solid 1px #D3D3D3'";
 			     $(this).attr("onmouseover",onmouseover);
@@ -36,17 +34,6 @@
 			});
 		  
 			function reason(id){
-			  /* var offset = "";
-			  if (window.event) {
-			    e = event || window.event;
-			    var x = "";
-			    var y = "";
-			    x = e.clientX + 20 + "px";
-			    y = e.clientY + 20 + "px";
-			    offset = [y, x];
-			  } else {
-			      offset = "200px";
-			  } */
 			  var supplierId=$("#supplierId").val();
 			  var auditContent= "销售-资质证书信息";
 			  var index = layer.prompt({
@@ -55,10 +42,10 @@
 				  offset: '100px'
 			  }, function(text){
 			    $.ajax({
-			      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-			      type:"post",
-			      data:"auditType=mat_sell_page"+"&auditFieldName=销售-资质证书"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
-			      dataType:"json",
+			      url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+			      type: "post",
+			      data: {"auditType":"mat_sell_page","auditFieldName":"销售-资质证书","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+			      dataType: "json",
 			      success:function(result){
 			      result = eval("(" + result + ")");
 			      if(result.msg == "fail"){
@@ -75,23 +62,16 @@
 			    });
 			}
 		
-		function reason1(id,auditField){
-		  /* var offset = "";
-		  if (window.event) {
-		    e = event || window.event;
-		    var x = "";
-		    var y = "";
-		    x = e.clientX + 20 + "px";
-		    y = e.clientY + 20 + "px";
-		    offset = [y, x];
-		  } else {
-		      offset = "200px";
-		  } */
-		  var supplierId=$("#supplierId").val();
-		  var id2=id+"2";
-		  var id3=id+"3";
-		  var auditFieldName=$("#"+id2+"").text().replace("：",""); //审批的字段名字
-		  var auditContent= document.getElementById(""+id+"").value; //审批的字段内容
+		function reason1(obj){
+	    var supplierId=$("#supplierId").val();
+		  var auditField = obj.id;;
+		  var auditContent;
+		  var auditFieldName ;
+		  var html = "<a class='abolish'><img src='/zhbj/public/backend/images/sc.png'></a>";
+	    $("#"+obj.id+"").each(function() {
+	      auditFieldName = $(this).parents("li").find("span").text().replace("：","").trim();
+         auditContent = $(this).parents("li").find("input").val();
+   		});
 		  var index = layer.prompt({
 			    title: '请填写不通过的理由：', 
 			    formType: 2, 
@@ -100,7 +80,7 @@
 		    $.ajax({
 	        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 	        type:"post",
-	        data:"auditType=mat_sell_page"+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+	        data: {"auditType":"mat_sell_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":auditField},
 	        dataType:"json",
 	        success:function(result){
 	        result = eval("(" + result + ")");
@@ -112,8 +92,7 @@
 	         }
 	        }
         });
-		    $("#"+id3+"").show();
-		    $("#"+id3+"").parents("li").find("input").css("padding-right","30px");
+        $(obj).after(html);
 	       layer.close(index);
 		    });
 		  }
@@ -308,7 +287,7 @@
 	                </td> --%>
 	                <td class="tc w50">
 	                  <p onclick="reason('${s.id}');"  id="${s.id}_hidden" class="btn">审核</p>
-	                  <a id="${s.id }_show" class="b red">×</a>
+	                  <a id="${s.id }_show"><img src='/zhbj/public/backend/images/sc.png'></a>
 	                </td>
 	              </tr>
 	            </c:forEach>
@@ -318,38 +297,33 @@
           <h2 class="count_flow"><i>2</i>供应商组织结构和人员</h2>
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="orgName2">组织机构：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="orgName" type="text" value="${supplierMatSells.orgName }" onclick="reason1(this.id,'supplierMatSell.orgName')"/>
-                <div id="orgName3"  class="abolish">×</div>
+                <input id="orgName" type="text" value="${supplierMatSells.orgName }" onclick="reason1(this)"/>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalPerson2">人员总数：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="totalPerson" type="text" value="${supplierMatSells.totalPerson }" onclick="reason1(this.id,'supplierMatSell.totalPerson')"/>
-                <div id="totalPerson3"  class="abolish">×</div>
+                <input id="totalPerson" type="text" value="${supplierMatSells.totalPerson }" onclick="reason1(this)"/>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalMange2">管理人员：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="totalMange" type="text"  value="${supplierMatSells.totalMange }" onclick="reason1(this.id,'supplierMatSell.totalMange')"/>
-              <div id="totalMange3" class="abolish">×</div>
+                <input id="totalMange" type="text"  value="${supplierMatSells.totalMange }" onclick="reason1(this)"/>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalTech2">技术人员：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="totalTech" type="text"  value="${supplierMatSells.totalTech }" onclick="reason1(this.id,'supplierMatSell.totalTech')"/>
-              <div id="totalTech3" class="abolish">×</div>
+                <input id="totalTech" type="text"  value="${supplierMatSells.totalTech }" onclick="reason1(this)"/>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalWorker2">工人(职员)：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="totalWorker" type="text" value="${supplierMatSells.totalWorker }" onclick="reason1(this.id,'supplierMatSell.totalWorker')"/>
-              <div id="totalWorker3" class="abolish">×</div>
+                <input id="totalWorker" type="text" value="${supplierMatSells.totalWorker }" onclick="reason1(this)"/>
               </div>
             </li>
           </ul>
