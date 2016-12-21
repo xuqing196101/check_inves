@@ -116,7 +116,7 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String set(Model model,Integer page,String id,HttpServletRequest request){
+	public String set(Model model,Integer page,String id,HttpServletRequest request,String satff){
 		String type = request.getParameter("type");
 		AuditPerson person = new AuditPerson();
 		person.setCollectId(id);
@@ -128,6 +128,7 @@ public class AuditSetController {
 		model.addAttribute("id", id);
 		model.addAttribute("kind", DictionaryDataUtil.find(4));
 		model.addAttribute("type", type);
+		model.addAttribute("satff", satff);
 		return "bss/pms/collect/auditset";
 	}
 	/**

@@ -61,10 +61,18 @@
 					});
 					$(".layui-layer-shade").remove();
 				}else{
-					
-				//	$(".layui-layer-shade").remove();
-					 parent.location.reload(); // 父页面刷新
-					//parent.layer.close(index);
+// 					$(nature).val("ss");
+// 				//	$(".layui-layer-shade").remove();
+// 					 parent.location.reload(); // 父页面刷新
+// 					 $(nature).val("ss");
+// 					 alert();
+// 					//parent.layer.close(index);
+					    var el = document.createElement("a");
+                      document.body.appendChild(el);
+                      el.href = "${pageContext.request.contextPath}/set/list.html?staff=ss"; //url 是你得到的连接
+                      el.target = '_parent'; //指定在新窗口打开
+                      el.click();
+                      document.body.removeChild(el);
 				}
 			},
 			error: function(message){

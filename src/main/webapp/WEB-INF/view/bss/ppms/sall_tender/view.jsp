@@ -1,7 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -10,6 +11,7 @@
   <!--<![endif]-->
 
   <head>
+  <%@ include file="../../../common.jsp"%>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title></title>
 
@@ -163,28 +165,35 @@
             <thead>
               <tr>
                 <th class="info w50">选择</th>
-                <th class="info w50">供应商名称</th>
-                <th class="info">联系人</th>
-                <th class="info">联系电话</th>
-                <th class="info">发售日期</th>
-                <th class="info">标书费状态</th>
+                <th class="info ">供应商名称</th>
+                <th class="info w100">联系人</th>
+                <th class="info w110">联系电话</th>
+                <th class="info w150">发售日期</th>
+                <th class="info w100">标书费状态</th>
               </tr>
             </thead>
             <tbody>
               <c:forEach items="${pack.saleTenderList}" var="obj" varStatus="vs">
                 <tr>
-                  <td class="tc opinter"><input onclick="check()" type="radio" name="chkItem" value="${obj.id}" /></td>
-                  <td class="tc opinter w200" title="${obj.suppliers.supplierName}">
-                    ${obj.suppliers.supplierName}
+                  <td class="tc opinter w50"><input onclick="check()" type="radio" name="chkItem" value="${obj.id}" /></td>
+                  <td class="tc opinter " title="${obj.suppliers.supplierName}">
+                  <c:choose>
+			              <c:when test="${fn:length(obj.suppliers.supplierName) > 12}">
+			                ${fn:substring({obj.suppliers.supplierName, 0, 10)}......
+			              </c:when>
+			              <c:otherwise>
+			                ${{obj.suppliers.supplierName}
+			              </c:otherwise>
+			            </c:choose>
                   </td>
                   <td class="tc opinter w100">${obj.suppliers.contactName}</td>
 
                   <td class="tc opinter w110">${obj.suppliers.contactTelephone}</td>
 
                   <td class="tc opinter w150">
-                    <fmt:formatDate value='${obj.createdAt}' pattern='yyyy-MM-dd HH:mm:ss' />
+                    <fmt:formatDate value='${obj.createdAt}' pattern='yyyy-MM-dd' />
                   </td>
-                  <td class="tc opinter w60">
+                  <td class="tc opinter w100">
                     <c:if test="${obj.statusBid==1}">
                       未缴纳
                     </c:if>

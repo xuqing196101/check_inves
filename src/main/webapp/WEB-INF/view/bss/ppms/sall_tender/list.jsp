@@ -2,13 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
   <head>
     <base href="${pageContext.request.contextPath}/">
+    <%@ include file="../../../common.jsp"%>
 
     <title>模版管理</title>
 
@@ -194,12 +194,12 @@
       <thead>
         <tr>
           <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-          <th class="info w50">供应商名称</th>
-          <th class="info">包名</th>
-          <th class="info">联系人</th>
-          <th class="info">联系电话</th>
-          <th class="info">发售日期</th>
-          <th class="info">标书费</th>
+          <th class="info ">供应商名称</th>
+          <th class="info w100">包名</th>
+          <th class="info w100">联系人</th>
+          <th class="info w100">联系电话</th>
+          <th class="info w150">发售日期</th>
+          <th class="info w60">标书费</th>
         </tr>
       </thead>
       <c:forEach items="${list.list}" var="sale" varStatus="vs">
@@ -217,7 +217,7 @@
 
           </td>
           <td class="tc opinter w100">${sale.packageNames}</td>
-          <td class="tc opinter w100">${sale.suppliers.contactName}</td>
+          <td class="tc opinter ">${sale.suppliers.contactName}</td>
 
           <td class="tc opinter w110">${sale.suppliers.contactTelephone}</td>
 
