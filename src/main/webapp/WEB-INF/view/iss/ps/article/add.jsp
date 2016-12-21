@@ -124,7 +124,7 @@
                 <div class="cue">${ERR_range}</div>
               </div>
             </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
+            <%--<li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">文章来源：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input id="source" name="source" value="${article.source }" type="text">
@@ -140,7 +140,7 @@
               <div class="cue">${ERR_sourceLink}</div>
               </div>
             </li>
-
+            --%>
             <li class="col-md-3 col-sm-6 col-xs-12" id="picshow" style="display:none">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">图片展示：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -168,7 +168,7 @@
             <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">
               <span class="fl">图片上传：</span>
               <div class="fl">
-                <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+                <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" buttonName="上传图片" auto="true" />
                 <up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
               </div>
             </li>

@@ -102,7 +102,7 @@
                 <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" disabled>外网</label>
               </div>
             </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
+            <%--<li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">文章来源：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input class="span2" id="source" name="source" value="${article.source }" type="text" readonly>
@@ -114,7 +114,7 @@
                 <input class="span2" id="sourceLink" name="sourceLink" type="text" value="${article.sourceLink }" readonly>
               </div>
             </li>
-            
+            --%>
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息正文：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">

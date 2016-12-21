@@ -140,7 +140,7 @@
             </div>
             <div class="cue">${ERR_range}</div>
           </li>
-          <li class="col-md-3 col-sm-6 col-xs-12">
+          <%--<li class="col-md-3 col-sm-6 col-xs-12">
             <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">文章来源：</span>
             <div class="input-append col-md-12 col-xs-12 col-sm-12 input_group p0">
               <input id="source" name="source" value="${article.source }" type="text">
@@ -157,6 +157,7 @@
               <div class="cue">${ERR_sourceLink}</div>
             </div>
           </li>
+          --%>
           <li class="col-md-3 col-sm-6 col-xs-12" id="picshow">
             <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">图片展示：</span>
             <div class="input-append col-md-12 col-xs-12 col-sm-12 input_group p0">
@@ -217,8 +218,14 @@
 
       }
       var ue = UE.getEditor('editor', option);
+<<<<<<< Updated upstream
       var content = '${article.content}';
+=======
+      var content = "${article.content}";
+     
+>>>>>>> Stashed changes
       ue.ready(function() {
+    	  alert(content);
         ue.setContent(content);
       });
     </script>

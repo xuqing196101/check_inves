@@ -82,12 +82,13 @@
                       ${article.articleType.name }
                     </td>
                   </tr>
-                  <tr>
+                  <%--<tr>
                     <td class="bggrey" width="10%">链接来源：</td>
                     <td colspan="3">
                       ${article.sourceLink }
                     </td>
                   </tr>
+                  --%>
                   <tr>
                     <td class="bggrey" width="10%">发布范围：</td>
                     <td>
