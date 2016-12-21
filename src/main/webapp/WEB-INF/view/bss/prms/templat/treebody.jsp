@@ -784,7 +784,7 @@
 			</tr>
 			<tr>
 				<td style="width: 300px;">分差</td>
-				<td><input name="score" id="score" value="${scoreModel.score }" title="依次加多少分"></td>
+				<td><input name="unitScore" id="score" value="${scoreModel.unitScore }" title="依次加多少分"></td>
 			</tr>
 			<tr>
 				<td>加减分类型</td>
@@ -820,7 +820,7 @@
 			</tr>
 			<tr>
 				<td style="width: 300px;">分差</td>
-				<td><input name="score" id="score" value="${scoreModel.score }" title="依次递减多少分"></td>
+				<td><input name="unitScore" id="score" value="${scoreModel.unitScore }" title="依次递减多少分"></td>
 			</tr>
 			<tr>
 				<td>加减分类型</td>
