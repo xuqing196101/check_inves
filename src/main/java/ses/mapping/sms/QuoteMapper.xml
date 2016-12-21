@@ -13,7 +13,6 @@
     <result column="DELIVERY_TIME" jdbcType="DATE" property="deliveryTime" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="IS_TURN_UP" jdbcType="DECIMAL" property="isTurnUp" />
-    <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
     <association property="packages" column="PACKAGE_ID" select="bss.dao.ppms.PackageMapper.findPackageByCondition"/>
     <association property="projectDetail" column="PRODUCT_ID" select="bss.dao.ppms.ProjectDetailMapper.selectByPrimaryKey"/>
     <association property="supplier" column="SUPPLIER_ID" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>

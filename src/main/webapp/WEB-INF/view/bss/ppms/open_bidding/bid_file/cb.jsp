@@ -111,8 +111,8 @@ function ycDiv(obj, index){
 				    	<td class="tc">${treemapValue.total}</td>
 				    	<td class="tc"><fmt:formatDate value="${treemapValue.deliveryTime }" pattern="YYYY-MM-dd" /></td>
 						<td class="tc">
-								<c:if test="${treemapValue.isTurnUp ==1 }">未到场</c:if>
 								<c:if test="${treemapValue.isTurnUp ==2 }">已到场</c:if>
+								<c:if test="${treemapValue.isTurnUp ==1 }">未到场</c:if>
 						</td>
 					</c:if>
 					
@@ -121,8 +121,8 @@ function ycDiv(obj, index){
 						<td class="tc"><input class="w90" value="<fmt:formatDate value="${treemapValue.deliveryTime }" pattern="YYYY-MM-dd" />"  readonly="readonly" onClick="WdatePicker()" /></td>
 						<td class="tc">
 							<select>
-								<option value="1" <c:if test="${treemapValue.isTurnUp ==1 }">selected = "selected"</c:if>>未到场</option>
 								<option value="1" <c:if test="${treemapValue.isTurnUp ==2 }">selected = "selected"</c:if>>已到场</option>
+								<option value="1" <c:if test="${treemapValue.isTurnUp ==1 }">selected = "selected"</c:if>>未到场</option>
 							</select>
 						</td>
 					</c:if>
