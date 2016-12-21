@@ -1,8 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="u" uri="/tld/upload"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
 <head>
 
@@ -92,8 +90,8 @@
 		<div style="text-align:centert">
 			请上传附件：
 		 	<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25">
-			      <u:show showId="business_show"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" /> 
-				  <u:upload id="business_up"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+			      <up:show showId="business_show"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" /> 
+				  <up:upload id="business_up"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 			 </div>
 		 </div>			   
 

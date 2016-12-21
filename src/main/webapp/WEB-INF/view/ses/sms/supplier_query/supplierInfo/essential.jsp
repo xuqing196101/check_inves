@@ -1,8 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib prefix="up" uri="/tld/upload"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
 	<!--<![endif]-->

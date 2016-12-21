@@ -703,10 +703,10 @@
 }
 	
 .delete{
-   background-position: -35px -103px;
+   background-position: -35px -101px;
 }
 .check{
-   background-position: -35px -188px;
+   background-position: -35px -187px;
 }
 .withdraw{
    background-position: -35px -24px;
@@ -730,7 +730,7 @@
    background-position: -35px -213px;
 }
 .add{
-   background-position: -36px 4px;
+   background-position: -36px 5px;
 }
 .input{
    background-position: -35px -240px;
@@ -739,8 +739,12 @@
    background-position: -35px -266px;
 }
 .cancel{
+<<<<<<< Updated upstream
    background-position: -36px -290px;
 }
 .print{
 	 background-position:-42px -1262px; 
+=======
+   background-position: -36px -289px;
+>>>>>>> Stashed changes
 }

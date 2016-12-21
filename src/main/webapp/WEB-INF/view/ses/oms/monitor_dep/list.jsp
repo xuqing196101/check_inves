@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<!DOCTYPE html>
-<<html>
+<!DOCTYPE HTML>
+<html>
 <head>
 <%@ include file="/WEB-INF/view/common.jsp" %> 
 	<title></title>

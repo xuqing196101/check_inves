@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<!DOCTYPE HTML PUBLIC>
+<!DOCTYPE HTML>
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>

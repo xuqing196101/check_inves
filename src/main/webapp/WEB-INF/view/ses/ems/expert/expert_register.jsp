@@ -1,7 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<jsp:include page="/WEB-INF/view/common/tags.jsp"></jsp:include>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <%
 	//表单标示
 String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
@@ -9,6 +7,7 @@ session.setAttribute("tokenSession", tokenValue);
 %>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
+<%@include file="/WEB-INF/view/front.jsp"%>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
  <script type="text/javascript">
    $(function(){

@@ -9,7 +9,8 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <!--导航js-->
-<jsp:include page="/WEB-INF/view/portal.jsp" />
+
+<%@ include file="/WEB-INF/view/portal.jsp" %>
 <script type="text/javascript">
 var user = "${sessionScope.loginUser.relName}";
 $(function(){
@@ -467,7 +468,7 @@ function importAdd(){
 	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
 	      <div class="drop_main">
 	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login">
-	        <a href="${pageContext.request.contextPath}/supplier/registration_page.html" target="_plant">
+	        <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
 		     供应商注册
 		     <i></i>
 		    </a>	  

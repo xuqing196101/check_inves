@@ -1,9 +1,9 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
 <head>
+<%@ include file="/WEB-INF/view/front.jsp"%>
 
 <title>评审专家注册须知</title>
 <script type="text/javascript">

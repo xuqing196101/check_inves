@@ -1,10 +1,10 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<%@ include file="/WEB-INF/view/front.jsp" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
 <head>
+<%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
 	var zTreeObj;
 	var zNodes;
@@ -433,8 +433,8 @@
 				<%-- 		<div>
 						计算机附件
 						 <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25">
-							 <u:show showId="business_show"  businessId="12345678" sysKey="1" typeId="asdhkja1212312" /> 
-				   	   		 <u:upload id="business_up"   businessId="12345678" sysKey="1" typeId="asdhkja1212312" auto="true" />
+							 <up:show showId="business_show"  businessId="12345678" sysKey="1" typeId="asdhkja1212312" /> 
+				   	   		 <up:upload id="business_up"   businessId="12345678" sysKey="1" typeId="asdhkja1212312" auto="true" />
 						   </div>
 				   
 				   

@@ -1,8 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
+<%@ include file="../../../common.jsp"%>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>待办</title>
 <!-- Meta -->

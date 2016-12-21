@@ -1,12 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
-<html>
-	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
+<html class=" js cssanimations csstransitions" lang="en">
+  <head>
+    <%@ include file="../../../common.jsp"%>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>供应商列表</title>
 		<meta charset="utf-8">
