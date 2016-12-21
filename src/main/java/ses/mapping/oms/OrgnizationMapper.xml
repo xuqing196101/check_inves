@@ -249,6 +249,7 @@
        D.IS_ROOT            AS ISROOT,
        D.EMAIL              AS EMAIL,
        D.MOBILE             AS MOBILE,
+       D.TELEPHONE          AS TELEPHONE,
        D.POST_CODE          AS POSTCODE,
        D.ADDRESS            AS ADDRESS,
        D.SHORT_NAME         AS SHORTNAME,
