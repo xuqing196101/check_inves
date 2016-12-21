@@ -68,9 +68,11 @@
 				  <tr style="cursor: pointer;">
 					<td class="tc w50">${obj.seq}</td>
 					 <td class="tc">
-					 <c:if test="${orgnization.id == obj.department}"> 
-					     ${orgnization.name}
+					 <c:forEach items="${list2}" var="list">
+					 <c:if test="${list.id == obj.department}"> 
+					     ${list.name}
 					 </c:if>
+					 </c:forEach>
 					 </td>
 					 <td class="tc">${obj.goodsName}</td>
 					 <td class="tc">${obj.stand}</td>

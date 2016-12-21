@@ -83,7 +83,7 @@ public class TackController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/list")
-	public String list(@CurrentUser User user,  @ModelAttribute PageInfo<AdvancedProject> page,Model model,Task task){
+	public String list(@CurrentUser User user,  @ModelAttribute PageInfo<Task> page,Model model,Task task){
 	    if(user != null && user.getOrg() != null){
 	        HashMap<String, Object> map1 = new HashMap<>();
 	        PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
@@ -251,11 +251,13 @@ public class TackController extends BaseController{
                 List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
                 listp.addAll(list2);
             }
+        }else{
+            
         }
-        for (PurchaseRequired required : listp) {
-            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getDepartment());
-            model.addAttribute("orgnization", orgnization);
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("typeName", "0");
+        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
+        model.addAttribute("list2",orgnizations);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", listp);
         model.addAttribute("task", task);
