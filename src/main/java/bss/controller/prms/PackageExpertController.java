@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.ems.ExpExtPackage;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
@@ -41,11 +42,13 @@ import ses.service.sms.SupplierService;
 import ses.util.CnUpperCaser;
 import ses.util.DictionaryDataUtil;
 import bss.model.ppms.FlowExecute;
+import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Money;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
+import bss.model.ppms.ScoreModel;
 import bss.model.prms.ExpertScore;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageExpert;
@@ -59,10 +62,12 @@ import bss.model.prms.ext.PackExpertExt;
 import bss.model.prms.ext.SupplierExt;
 import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
+import bss.service.ppms.ScoreModelService;
 import bss.service.prms.ExpertScoreService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageExpertService;
@@ -71,7 +76,6 @@ import bss.service.prms.ReviewFirstAuditService;
 import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
-import common.constant.Constant;
 
 @Controller
 @RequestMapping("packageExpert")
@@ -120,6 +124,10 @@ public class PackageExpertController {
     private ExpExtractRecordService expExtractRecordService; //专家抽取记录表
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI; //数据字典表
+    @Autowired
+    private MarkTermService markTermService; //数据字典表
+    @Autowired
+    private ScoreModelService scoreModelService; //数据字典表
 
     /**
      *〈简述〉跳转分配专家
@@ -1587,46 +1595,101 @@ public class PackageExpertController {
      */
     @RequestMapping("showViewByExpertId")
     public String showViewByExpertId(String packageId, String expertId, Model model, String projectId) {
-        // 查询专家名称
+        //当前登录用户
         Expert expert = expertService.selectByPrimaryKey(expertId);
-        model.addAttribute("expertName",expert.getRelName());
-        model.addAttribute("expertId",expertId);
-        // 查询该包内的所有供应商(一行一个)
-        List<SaleTender> supplierList = saleTenderService.list(new SaleTender(
-            projectId), 0);
-        int count = 0;
-        for (SaleTender sale : supplierList) {
-            if (sale.getPackages().contains(packageId)) { 
-                count++;
-            }
+        model.addAttribute("expertId", expertId);
+        //查询项目信息
+        Project project = projectService.selectById(projectId);
+        HashMap<String, Object> map2 = new HashMap<>();
+        map2.put("id", packageId);
+        //查询包信息
+        List<Packages> packages = packageService.findPackageById(map2);
+        if(packages!=null && packages.size()>0){
+            model.addAttribute("pack", packages.get(0));
         }
-        model.addAttribute("listLength", count);
-        model.addAttribute("supplierList", supplierList);
-        // 查询供应商的审查项
-        Map<String, Object> mapSearch = new HashMap<String, Object>();
-        mapSearch.put("projectId", projectId);
-        mapSearch.put("packageId", packageId);
-        List<AuditModelExt> auditModelExtList = aduitQuotaService
-            .findAllByMap(mapSearch);
-        model.addAttribute("auditModelExtList", auditModelExtList);
-        // 去重
-        List<AuditModelExt> auditModelList = aduitQuotaService
-            .findAllByMap(mapSearch);;
-            for (int i = 0; i < auditModelList.size(); i++) {
-                for (int j = auditModelList.size() - 1 ; j > i; j--) {
-                    if (auditModelList.get(i).getMarkTermName().equals(auditModelList.get(j).getMarkTermName())) {
-                        auditModelList.remove(j);
+        //查询评分信息
+        Map<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        map.put("packageId", packageId);
+        // 专家类别
+        String[] typeIds = expert.getExpertsTypeId().split(",");
+        // 查询出所有的评审项类型
+        List<DictionaryData> AllMarkTermType = dictionaryDataServiceI.findByKind("23");
+        List<DictionaryData> markTermTypeList = new ArrayList<DictionaryData>();
+        //根据专家的类别判断显示哪些类型的评分项
+        for (String id : typeIds) {
+            int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
+            if (kind == 6) {
+                // kind值为6代表技术类型
+                loop:for (DictionaryData data : AllMarkTermType) {
+                    if ("TECHNOLOGY".equals(data.getCode())) {
+                        markTermTypeList.add(data);
+                        continue loop;
+                    }
+                }
+            } else if (kind == 19) {
+                // kind值为19表示为经济类型
+                loop:for (DictionaryData data : AllMarkTermType) {
+                    if ("ECONOMY".equals(data.getCode())) {
+                        markTermTypeList.add(data);
+                        continue loop;
                     }
                 }
             }
-            // 查询专家给供应商每项所评分的成绩
-            List<Map<String, Object>> scores = packageExpertService.findScoreByMap(mapSearch);
-            model.addAttribute("scores", scores);
-            model.addAttribute("auditModelList", auditModelList);
-            model.addAttribute("packageId", packageId);
-            model.addAttribute("projectId", projectId);
-            return "bss/prms/view_expert_score";
+        }
+        removeDictionaryData(markTermTypeList);
+        model.addAttribute("markTermTypeList", markTermTypeList);
+        MarkTerm markTerm = new MarkTerm();
+        markTerm.setProjectId(projectId);
+        markTerm.setPackageId(packageId);
+        // 查出该包内所有的markTerm
+        List<MarkTerm> allMarkTerm = markTermService.findListByMarkTerm(markTerm);
+        // 遍历去除pid is not null 的
+        List<MarkTerm> markTermList = new ArrayList<MarkTerm>();
+        for (MarkTerm mark : allMarkTerm) {
+            if ("0".equals(mark.getPid())) {
+                markTermList.add(mark);
+            }
+        }
+        model.addAttribute("markTermList", markTermList);
+        // 查询所有的ScoreModel
+        ScoreModel scoreModel = new ScoreModel();
+        scoreModel.setPackageId(packageId);
+        scoreModel.setProjectId(projectId);
+        List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+        for (ScoreModel score : scoreModelList) {
+            if (score.getStandardScore() == null || "".equals(score.getStandardScore())) {
+                score.setStandardScore(score.getMaxScore());
+            }
+        }
+        model.addAttribute("scoreModelList", scoreModelList);
+        //查询供应商信息
+        SaleTender record = new SaleTender();
+        record.setPackages(packageId);
+        record.setProject(project);
+        List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
+        model.addAttribute("supplierList", supplierList);
+        // 分数
+        map.put("expertId", expertId);
+        List<ExpertScore> scores = expertScoreService.selectInfoByMap(map);
+        model.addAttribute("scores", scores);
+        // 新增参数
+        model.addAttribute("project", project);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("length", supplierList.size() + 1);
+        return "bss/prms/view_expert_score";
     }
+    
+    private static void removeDictionaryData(List<DictionaryData> list)   { 
+        for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
+            for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
+                if  (list.get(j).getId(). equals(list.get(i).getId()))   { 
+                    list.remove(j); 
+                } 
+            } 
+        } 
+    } 
 
     /**
      *〈简述〉

@@ -43,7 +43,7 @@
     SELECT 
     <include refid="Base_Column_List" />
     FROM T_BSS_PRMS_EXPERT_SCORE
-    WHERE <!-- IS_HISTORY = '1' -->
+    WHERE 1=1 <!-- IS_HISTORY = '1' -->
         AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
         AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
         AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
