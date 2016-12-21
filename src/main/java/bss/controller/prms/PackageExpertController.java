@@ -16,6 +16,7 @@ import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1578,42 +1579,58 @@ public class PackageExpertController {
         model.addAttribute("auditModelListAll", auditModelListAll);
         model.addAttribute("packExpertExtList", packExpertExtList);
         model.addAttribute("supplierExtList", supplierExtList);
-        model.addAttribute("expertScoreList", expertScoreAll);
+        List<ExpertSuppScore> expertScoreList = new ArrayList<>();
+        for (ExpertSuppScore score : expertScoreAll) {
+            String expertId = score.getExpertId();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("expertId", expertId);
+            map.put("packageId", packageId);
+            List<PackageExpert> temp = packageExpertService.selectList(map);
+            if (temp.get(0).getIsGrade() == 1) {
+                expertScoreList.add(score);
+            }
+        }
+        model.addAttribute("expertScoreList", expertScoreList);
         // 成功标示
         model.addAttribute("packageId", packageId);
         // 
         Map<String, Object> searchMap = new HashMap<String, Object>();
         searchMap.put("packageId", packageId);
         ReviewProgress reviewProgress = reviewProgressService.selectByMap(searchMap).get(0);
-        model.addAttribute("package", reviewProgress);
+        model.addAttribute("review", reviewProgress);
         // 分数
-        List<ExpertScore> scores = expertScoreService.selectInfoByMap(searchMap);
+        List<ExpertScore> scores = expertScoreService.selectByMap(searchMap);
         removeSame(scores);
         // 供应商经济总分,技术总分,总分
         List<SupplierRank> rankList = new ArrayList<SupplierRank>();
         for (SaleTender supp : supplierList) {
             SupplierRank rank = new SupplierRank();
-            rank.setSupplierId(supp.getSupplierId());
+            rank.setSupplierId(supp.getSuppliers().getId());
             // 查询该供应商的经济总分
             BigDecimal econScore = new BigDecimal(0);
             // 查询该供应商的技术总分
             BigDecimal techScore = new BigDecimal(0);
             for (ExpertScore score : scores) {
-                ScoreModel scoModel = new ScoreModel();
-                scoModel.setId(score.getScoreModelId());
-                // 根据id查看scoreModel对象
-                ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
-                MarkTerm mt = null;
-                if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
-                    mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
-                }
-                DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
-                if ("ECONOMY".equals(data.getCode())) {
-                    // 经济
-                    econScore = econScore.add(score.getScore());
-                } else if ("TECHNOLOGY".equals(data.getCode())) {
-                    // 技术
-                    techScore = techScore.add(score.getScore());
+                if (score.getSupplierId().equals(supp.getSuppliers().getId())) {
+                    ScoreModel scoModel = new ScoreModel();
+                    scoModel.setId(score.getScoreModelId());
+                    // 根据id查看scoreModel对象
+                    ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
+                    MarkTerm mt = null;
+                    if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
+                        mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
+                        if (mt.getTypeName() == null || "".equals(mt.getTypeName())) {
+                            mt = markTermService.findMarkTermById(mt.getPid());
+                        }
+                    }
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
+                    if ("ECONOMY".equals(data.getCode())) {
+                        // 经济
+                        econScore = econScore.add(score.getScore());
+                    } else if ("TECHNOLOGY".equals(data.getCode())) {
+                        // 技术
+                        techScore = techScore.add(score.getScore());
+                    }
                 }
             }
             rank.setEconScore(econScore);
@@ -1625,7 +1642,7 @@ public class PackageExpertController {
         for (SupplierRank rank : rankList) {
             int count = 0;
             for (SupplierRank temp : rankList) {
-                if (rank.getSumScore().compareTo(temp.getSumScore()) == 1) {
+                if (rank.getSumScore().compareTo(temp.getSumScore()) == 1 && rank != temp) {
                     count++;
                 }
             }
@@ -1722,34 +1739,50 @@ public class PackageExpertController {
         model.addAttribute("supplierList", supplierList);
         // 分数
         map.put("expertId", expertId);
-        List<ExpertScore> scores = expertScoreService.selectInfoByMap(map);
-        removeSame(scores);
+        List<ExpertScore> scoresList = expertScoreService.selectInfoByMap(map);
+        removeSame(scoresList);
+        List<ExpertScore> scores = new ArrayList<ExpertScore>();
+        // 判断如果该专家评分被退回就remove
+        for (ExpertScore score : scoresList) {
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("packageId", score.getPackageId());
+            map1.put("expertId", score.getExpertId());
+            List<PackageExpert> temp = packageExpertService.selectList(map1);
+            if (temp.get(0).getIsGrade() == 1) {
+                scores.add(score);
+            }
+        }
         model.addAttribute("scores", scores);
-        // 供应商经济总分,技术总分,总分
+     // 供应商经济总分,技术总分,总分
         List<SupplierRank> rankList = new ArrayList<SupplierRank>();
         for (SaleTender supp : supplierList) {
             SupplierRank rank = new SupplierRank();
-            rank.setSupplierId(supp.getSupplierId());
+            rank.setSupplierId(supp.getSuppliers().getId());
             // 查询该供应商的经济总分
             BigDecimal econScore = new BigDecimal(0);
             // 查询该供应商的技术总分
             BigDecimal techScore = new BigDecimal(0);
             for (ExpertScore score : scores) {
-                ScoreModel scoModel = new ScoreModel();
-                scoModel.setId(score.getScoreModelId());
-                // 根据id查看scoreModel对象
-                ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
-                MarkTerm mt = null;
-                if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
-                    mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
-                }
-                DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
-                if ("ECONOMY".equals(data.getCode())) {
-                    // 经济
-                    econScore = econScore.add(score.getScore());
-                } else if ("TECHNOLOGY".equals(data.getCode())) {
-                    // 技术
-                    techScore = techScore.add(score.getScore());
+                if (score.getSupplierId().equals(supp.getSuppliers().getId())) {
+                    ScoreModel scoModel = new ScoreModel();
+                    scoModel.setId(score.getScoreModelId());
+                    // 根据id查看scoreModel对象
+                    ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
+                    MarkTerm mt = null;
+                    if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
+                        mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
+                        if (mt.getTypeName() == null || "".equals(mt.getTypeName())) {
+                            mt = markTermService.findMarkTermById(mt.getPid());;
+                        }
+                    }
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
+                    if ("ECONOMY".equals(data.getCode())) {
+                        // 经济
+                        econScore = econScore.add(score.getScore());
+                    } else if ("TECHNOLOGY".equals(data.getCode())) {
+                        // 技术
+                        techScore = techScore.add(score.getScore());
+                    }
                 }
             }
             rank.setEconScore(econScore);
@@ -1761,7 +1794,7 @@ public class PackageExpertController {
         for (SupplierRank rank : rankList) {
             int count = 0;
             for (SupplierRank temp : rankList) {
-                if (rank.getSumScore().compareTo(temp.getSumScore()) == 1) {
+                if (rank.getSumScore().compareTo(temp.getSumScore()) != -1 && rank != temp) {
                     count++;
                 }
             }
@@ -1849,7 +1882,19 @@ public class PackageExpertController {
         model.addAttribute("expertList", expertList);
         // 分数
         map.put("supplierId", supplierId);
-        List<ExpertScore> scores = expertScoreService.selectInfoByMap(map);
+        List<ExpertScore> scoresList = expertScoreService.selectInfoByMap(map);
+        removeSame(scoresList);
+        List<ExpertScore> scores = new ArrayList<ExpertScore>();
+        // 判断如果该专家评分被退回就remove
+        for (ExpertScore score : scoresList) {
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("packageId", score.getPackageId());
+            map1.put("expertId", score.getExpertId());
+            List<PackageExpert> temp = packageExpertService.selectList(map1);
+            if (temp.get(0).getIsGrade() == 1) {
+                scores.add(score);
+            }
+        }
         model.addAttribute("scores", scores);
         // 新增参数
         model.addAttribute("project", project);
@@ -2058,7 +2103,7 @@ public class PackageExpertController {
     private List<ExpertScore> removeSame(List<ExpertScore> list){
         for (int i = 0; i < list.size(); i++) {
             for (int j = list.size() - 1 ; j > i; j--) {
-                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId())) {
+                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId()) && list.get(i).getExpertId().equals(list.get(j).getExpertId()) && list.get(i).getSupplierId().equals(list.get(j).getSupplierId())) {
                     list.remove(j);
                 }
             }
@@ -2086,5 +2131,76 @@ public class PackageExpertController {
             result = "1";
         }
         return result;
+    }
+    
+    /**
+     *〈简述〉查看专家符合性审查
+     *〈详细描述〉
+     * @param projectId
+     * @param packageId
+     * @param model
+     * @param expertId
+     * @param session
+     * @return
+     */
+    @RequestMapping("/printView")
+    public String printView(String projectId, String packageId, Model model, String expertId, HttpSession session){
+      //创建封装的实体
+      Extension extension = new Extension();
+      HashMap<String ,Object> map = new HashMap<>();
+      map.put("projectId", projectId);
+      map.put("id", packageId);
+      //查询包信息
+      List<Packages> list = packageService.findPackageById(map);
+      if(list!=null && list.size()>0){
+        Packages packages = list.get(0);
+        //放入包信息
+        extension.setPackageId(packages.getId());
+        extension.setPackageName(packages.getName());
+      }
+      //查询项目信息
+      Project project = projectService.selectById(projectId);
+      if(project!=null){
+        //放入项目信息
+        extension.setProjectId(project.getId());
+        extension.setProjectName(project.getName());
+        extension.setProjectCode(project.getProjectNumber());
+      }
+      
+      //查询改包下的初审项信息
+      Map<String,Object> map2 = new HashMap<>();
+      map2.put("projectId", projectId);
+      map2.put("packageId", packageId);
+      //查询出该包下的初审项id集合
+      List<PackageFirstAudit> packageAuditList = packageFirstAuditService.selectList(map2);
+      //创建初审项的集合
+      List<FirstAudit> firstAuditList = new ArrayList<>();
+      if(packageAuditList!=null && packageAuditList.size()>0){
+        for (PackageFirstAudit packageFirst : packageAuditList) {
+          //根据初审项的id 查询出初审项的信息放入集合
+          FirstAudit firstAudits = firstAuditService.get(packageFirst.getFirstAuditId());
+          firstAuditList.add(firstAudits);
+        }
+      }
+        //放入初审项集合
+      extension.setFirstAuditList(firstAuditList);
+      //查询供应商信息
+      List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+      extension.setSupplierList(supplierList);
+      
+      //查询审核过的信息用于回显
+      Map<String, Object> reviewFirstAuditMap = new HashMap<>();
+      reviewFirstAuditMap.put("projectId", projectId);
+      reviewFirstAuditMap.put("packageId", packageId);
+      reviewFirstAuditMap.put("expertId", expertId);
+      List<ReviewFirstAudit> reviewFirstAuditList = reviewFirstAuditService.selectList(reviewFirstAuditMap);
+      //回显信息放进去
+      model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
+      //把封装的实体放入域中
+      model.addAttribute("extension", extension);
+      List<DictionaryData> dds = DictionaryDataUtil.find(22);
+      model.addAttribute("dds", dds);
+      model.addAttribute("expertId", expertId);
+      return "bss/prms/first_audit/print_view";
     }
 }

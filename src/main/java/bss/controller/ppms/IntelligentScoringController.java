@@ -88,6 +88,45 @@ public class IntelligentScoringController {
 	@Autowired
 	private FirstAuditTemplatService firstAuditTemplatService;
 	
+	@RequestMapping(value = "checkScore")
+	@ResponseBody
+	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId){
+	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+	    Double score = 0.0;
+	    Integer result = 0;
+        for (DictionaryData dictionaryData : ddList) {
+            MarkTerm mt = new MarkTerm();
+            mt.setTypeName(dictionaryData.getId());
+            mt.setProjectId(projectId);
+            mt.setPackageId(packageId);
+            //默认顶级节点为0
+            mt.setPid("0");
+            List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
+            for (MarkTerm mtKey : mtList) {
+                MarkTerm mt1 = new MarkTerm();
+                mt1.setPid(mtKey.getId());
+                mt1.setProjectId(projectId);
+                mt1.setPackageId(packageId);
+                List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+                for (MarkTerm markTerm : mtValue) {
+                    Double scscore = markTerm.getScscore();
+                    score = score + scscore;
+                }
+            }
+        }
+	    if (standScore != null && !"".equals(standScore)) {
+	        double resultScore = Double.parseDouble(standScore) + score;
+	        if (resultScore <= 100){
+	            result = 1;
+	        }
+	    } else {
+	        double resultScore = Double.parseDouble(maxScore) + score;
+            if (resultScore <= 100){
+                result = 1;
+            }
+	    }
+	    return result;
+	}
 	
 	@RequestMapping(value = "addScoreMethod")
     public String addScoreMethod(Model model, String packageId, String projectId, String flowDefineId) {
@@ -343,7 +382,7 @@ public class IntelligentScoringController {
 	    HashMap<String, Object> condition = new HashMap<String, Object>();
 	    condition.put("id", packageId);
 	    List<Packages> packages = packageService.findPackageById(condition);
-	    if (packages != null) {
+	    if (packages != null && packages.size() > 0) {
 	        model.addAttribute("packages", packages.get(0));
 	    }
 	    //获取经济技术审查模版
