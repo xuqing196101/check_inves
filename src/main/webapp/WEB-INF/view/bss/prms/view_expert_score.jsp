@@ -18,14 +18,13 @@
 	}
 </script>
 </head>
-<body onload="getNumScore('${listLength}')">
-  <!-- 我的订单页面开始-->
+<body>
   <div class="container">
   <div class="headline-v2">
-    <h2>${expertName }</h2>
-  </div>   
+    <h2>${expert.relName }</h2>
+  </div>
   <!-- 表格开始-->
-  <div style="overflow:scroll;">
+  <div>
 	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
 			    <th></th>
@@ -69,7 +68,7 @@
 			  </c:forEach>
 			</table>
 			<div class="tc">
-			  <input class="btn btn-windows back" value="返回" type="button" onclick="backUp()"><br/><br/><br/>
+			  <%--<input class="btn btn-windows back" value="返回" type="button" onclick="backUp()">--%>
 		    </div>
 		  </div>
    </div>

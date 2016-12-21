@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ses.model.bms.DictionaryData;
-import ses.model.bms.User;
 import ses.model.ems.ExpExtPackage;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
@@ -1595,8 +1594,8 @@ public class PackageExpertController {
      */
     @RequestMapping("showViewByExpertId")
     public String showViewByExpertId(String packageId, String expertId, Model model, String projectId) {
-        //当前登录用户
         Expert expert = expertService.selectByPrimaryKey(expertId);
+        model.addAttribute("expert", expert);
         model.addAttribute("expertId", expertId);
         //查询项目信息
         Project project = projectService.selectById(projectId);
@@ -1701,43 +1700,67 @@ public class PackageExpertController {
      * @return
      */
     @RequestMapping("showViewBySupplierId")
-    public String showViewBySupplierId(String packageId, String supplierId, Model model, String projectId, String expertIds) {
-        // 查询供应商名称
-        Supplier supplier = supplierService.selectById(supplierId);
-        model.addAttribute("supplierName",supplier.getSupplierName());
-        model.addAttribute("supplierId",supplierId);
-        // 查询该包内的所有专家(一行一个)
+    public String showViewBySupplierId(String packageId, String supplierId, Model model, String projectId) {
+        Supplier supplier = supplierService.get(supplierId);
+        model.addAttribute("supplier", supplier);
+        model.addAttribute("supplierId", supplierId);
+        //查询项目信息
+        Project project = projectService.selectById(projectId);
+        HashMap<String, Object> map2 = new HashMap<>();
+        map2.put("id", packageId);
+        //查询包信息
+        List<Packages> packages = packageService.findPackageById(map2);
+        if(packages!=null && packages.size()>0){
+            model.addAttribute("pack", packages.get(0));
+        }
+        //查询评分信息
+        Map<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        map.put("packageId", packageId);
+        // 查询出所有的评审项类型
+        List<DictionaryData> markTermTypeList = dictionaryDataServiceI.findByKind("23");
+        model.addAttribute("markTermTypeList", markTermTypeList);
+        MarkTerm markTerm = new MarkTerm();
+        markTerm.setProjectId(projectId);
+        markTerm.setPackageId(packageId);
+        // 查出该包内所有的markTerm
+        List<MarkTerm> allMarkTerm = markTermService.findListByMarkTerm(markTerm);
+        // 遍历去除pid is not null 的
+        List<MarkTerm> markTermList = new ArrayList<MarkTerm>();
+        for (MarkTerm mark : allMarkTerm) {
+            if ("0".equals(mark.getPid())) {
+                markTermList.add(mark);
+            }
+        }
+        model.addAttribute("markTermList", markTermList);
+        // 查询所有的ScoreModel
+        ScoreModel scoreModel = new ScoreModel();
+        scoreModel.setPackageId(packageId);
+        scoreModel.setProjectId(projectId);
+        List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+        for (ScoreModel score : scoreModelList) {
+            if (score.getStandardScore() == null || "".equals(score.getStandardScore())) {
+                score.setStandardScore(score.getMaxScore());
+            }
+        }
+        model.addAttribute("scoreModelList", scoreModelList);
+        //查询专家信息
+        List<PackageExpert> packExpertList = packageExpertService.selectList(map);
         List<Expert> expertList = new ArrayList<Expert>();
-        String[] ids = expertIds.split(",");
-        for (String id : ids) {
-            expertList.add(expertService.selectByPrimaryKey(id.replace("undefined", "")));
+        for (PackageExpert packExpert : packExpertList) {
+            expertList.add(expertService.selectByPrimaryKey(packExpert.getExpertId()));
         }
         model.addAttribute("expertList", expertList);
-        model.addAttribute("length", expertList.size());
-        // 查询供应商的审查项
-        Map<String, Object> mapSearch = new HashMap<String, Object>();
-        mapSearch.put("projectId", projectId);
-        mapSearch.put("packageId", packageId);
-        List<AuditModelExt> auditModelExtList = aduitQuotaService
-            .findAllByMap(mapSearch);
-        model.addAttribute("auditModelExtList", auditModelExtList);
-        // 去重
-        List<AuditModelExt> auditModelList = aduitQuotaService
-            .findAllByMap(mapSearch);;
-            for (int i = 0; i < auditModelList.size(); i++) {
-                for (int j = auditModelList.size() - 1 ; j > i; j--) {
-                    if (auditModelList.get(i).getMarkTermName().equals(auditModelList.get(j).getMarkTermName())) {
-                        auditModelList.remove(j);
-                    }
-                }
-            }
-            // 查询专家给供应商每项所评分的成绩
-            List<Map<String, Object>> scores = packageExpertService.findScoreByMap(mapSearch);
-            model.addAttribute("scores", scores);
-            model.addAttribute("auditModelList", auditModelList);
-            model.addAttribute("packageId", packageId);
-            model.addAttribute("projectId", projectId);
-            return "bss/prms/view_supplier_score";
+        // 分数
+        map.put("supplierId", supplierId);
+        List<ExpertScore> scores = expertScoreService.selectInfoByMap(map);
+        model.addAttribute("scores", scores);
+        // 新增参数
+        model.addAttribute("project", project);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("length", expertList.size() + 1);
+        return "bss/prms/view_supplier_score";
     }
 
     /**

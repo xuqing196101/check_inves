@@ -14,121 +14,65 @@
 <jsp:include page="../../ses/bms/page_style/backend_common.jsp"></jsp:include>
 <jsp:include page="../../common.jsp"></jsp:include>	
 <script type="text/javascript">
-	function getNumScore(listLength){
-		for (var i = 1; i <= listLength; i++) {
-			var scores = document.getElementsByName("score_"+i);
-			var scoreNum = 0;
-			for (var j = 0; j < scores.length; j++) {
-				if(scores[j].innerHTML != "暂未评分" && scores[j].innerHTML != ""){
-					scoreNum = scoreNum + parseInt(scores[j].innerHTML);
-				}
-			}
-			document.getElementById("scoreNum_"+i).innerHTML = scoreNum;
-		}
+	function backUp(){
+		$("#tab-6").load("${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId=${packageId}&projectId=${projectId}");
 	}
-	
-	 //退回
-	function isBack(obj){
-		//得到点击坐标。
-	    var x,y;  
-	    oRect = obj.getBoundingClientRect();  
-		x=oRect.left;  
-		y=oRect.top;  
-	    var table = obj.parentNode.parentNode.parentNode.parentNode;
-	    var checkbox = $("input[name='chkItem']");
-		var ids; 
-		var count = 0;
-		$(checkbox).each(function(){ 
-			if($(this).is(":checked")){
-				ids=ids+$(this).val()+",";
-				count++;
-			}
-		});
-		var expertIds; 
-		$(checkbox).each(function(){ 
-			expertIds=expertIds+$(this).val()+",";
-		});
-		if(count>0){
-			var index = layer.confirm('确定退回吗?', {icon: 3, title:'提示',offset: [y, x + 200], shade:0.01}, function(index){
-				var url="${pageContext.request.contextPath}/packageExpert/backScore.html?projectId=${projectId}&expertId="+ids+"&packageId=${packageId}&supplierId=${supplierId}&expertIds="+expertIds;
-				window.location.href=url;
-			});
-		} else {
-			layer.alert("请至少选择一位专家",{offset: [y, x + 200], shade:0.01});
-		}
-		
-	}
-	 // 全选反选
-	 $(function(){
-		 $("#checkAll").change(function(){
-			$("input[name='chkItem']").each(function(i,result){
-				result.checked = !result.checked;
-		 	});
-		 });
-	 });
 </script>
 </head>
-<body onload="getNumScore('${length}')">
+<body>
   <!-- 我的订单页面开始-->
   <div class="container">
   <div class="headline-v2">
-    <h2>${supplierName }</h2>
+    <h2>${supplier.supplierName }</h2>
   </div>
-  <div class="ml20">
-    <input type="button" value="退回" class="btn" onclick="isBack(this)">
-  </div>   
   <!-- 表格开始-->
-  <div class="content table_box">
-    <table class="table table-bordered table-condensed table-hover table-striped">
-	  <tr>
-	    <th class="w150 tc"><span class="mr8">评审项/</span><input type="checkbox" value="" id="checkAll">专家</th>
-		<c:forEach items="${expertList}" var="expert">
-		  <td class="tc"><input type="checkbox" value="${expert.id }" name="chkItem"><span class="ml8">${expert.relName}</span></td>
-        </c:forEach>
-      </tr>
-      <c:forEach items="${auditModelList}" var="auditModel">
-	    <c:if test="${packageId eq auditModel.packageId and projectId eq auditModel.projectId}">
-		  <tr>
-            <th class="tc w150">${auditModel.markTermName}</th>
-            
-            <c:set var="countLength" value="0"/>
-            <c:forEach items="${expertList}" var="expert" varStatus="vs">
-              
-              <c:set var="count1" value="0"/>
-              <c:forEach items="${scores}" var="score">
-                <c:if test="${score.EXPERTID eq expert.id and supplierId eq score.SUPPLIERID and auditModel.markTermId eq score.MARKTERMID}">
-                  <c:set var="count1" value="1"/>
-                  <c:set var="scoreNum" value="${score.SCORE }"></c:set>
-                </c:if>
-              </c:forEach>
-              
-              <c:if test="${count1 ne '1'}">
-                <c:set var="countLength" value="${countLength + 1}"/>
-                <td name="score_${countLength}" class="tc">暂未评分</td>
-              </c:if>
-              
-              <c:if test="${count1 eq '1'}">
-                <c:set var="countLength" value="${countLength + 1}"/>
-                <td name="score_${countLength}" class="tc">${scoreNum }</td>
-              </c:if>
-              
-            </c:forEach>
-            
-		  </tr>
-		</c:if>
-      </c:forEach>
-      <c:forEach items="${expertList}" var="expert" varStatus="vs">
-      </c:forEach>
-      <tr>
-        <th class="tc w150">合计</th>
-        <c:forEach items="${expertList}" var="expert" varStatus="vs">
-          <td class="tc" id="scoreNum_${vs.index+1}"></td>
-        </c:forEach>
-      </tr>
-	</table>
-
-   </div>
-      <div align="center"><input type="button" class="btn btn-windows back" value="返回" onclick="javascript:window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?projectId=${projectId }&packageId=${packageId}'"></div>
+  <div>
+	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
+			  <tr>
+			    <th></th>
+			    <c:forEach items="${expertList}" var="expert">
+			      <th>${expert.relName}</th>
+			    </c:forEach>
+			  </tr>
+			  <tr>
+			   	  	  <th>评审项目</th>
+			   	  	  <c:forEach items="${expertList}" var="expert">
+     		        	<th>评审得分</th>
+	    		  	  </c:forEach>
+			   		</tr>
+			  <c:forEach items="${markTermTypeList}" var="type">
+			    <tr>
+			      <td class="info" colspan="${length}">${type.name}</td>
+			    </tr>
+			    <c:forEach items="${markTermList}" var="markTerm">
+			      <c:if test="${markTerm.typeName eq type.id}">
+			        <tr>
+			          <td class="info" colspan="${length}">${markTerm.name}</td>
+			        </tr>
+			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
+			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
+			    	    <tr>
+			 	  		  <td class="w100"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
+				 	      <c:forEach items="${expertList}" var="expert">
+					 	    <c:set var="expertScore" value=""/>
+					 	    <c:forEach items="${scores}" var="sco">
+					 	      <c:if test="${sco.packageId eq packageId and sco.expertId eq expert.id and sco.supplierId eq supplierId and sco.scoreModelId eq score.id}"><c:set var="expertScore" value="${sco.score}"/></c:if>
+					 	    </c:forEach>
+					 	    <td class="tc">
+					 	      <span>${expertScore}</span>
+					 	    </td>
+				 	      </c:forEach>
+					    </tr> 
+					  </c:if>
+			        </c:forEach>
+			      </c:if>
+			    </c:forEach>
+			  </c:forEach>
+			</table>
+			<div class="tc">
+			  <%--<input class="btn btn-windows back" value="返回" type="button" onclick="backUp()">--%>
+			</div>
+		  </div>
    </div>
 </body>
 </html>

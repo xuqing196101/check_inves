@@ -34,7 +34,7 @@
 			data:{"packageIds":packageId, "projectId":projectId},
 			async:false,
 			success:function (response) {
-				if (response != "notOk") {
+				if (response == "ok") {
 					$.ajax({
 						 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',
 						 data:{"packageId":packageId,"projectId":projectId},
@@ -46,8 +46,8 @@
 							 layer.alert("汇总失败,请稍后重试!",{offset: [y, x], shade:0.01});
 						 }
 					 });
-				} else if (response == "notOk") {
-					layer.alert("不满足汇总条件!", {
+				} else {
+					layer.alert(response, {
 						offset : [ y, x ],
 						shade : 0.01
 					});
@@ -113,10 +113,10 @@
 		}
 	}
 	function showViewByExpertId(expertId){
-		$("#tab-6").load("${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertId);
+		window.open("${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertId, "评分详情");
 	}
 	function showViewBySupplierId(supplierId){
-		$("#tab-6").load("${pageContext.request.contextPath}/packageExpert/showViewBySupplierId.html?projectId=${projectId}&packageId=${packageId}&supplierId=" + supplierId);
+		window.open("${pageContext.request.contextPath}/packageExpert/showViewBySupplierId.html?projectId=${projectId}&packageId=${packageId}&supplierId=" + supplierId, "评分详情");
 	}
 </script>
 </head>
@@ -144,7 +144,7 @@
 			  <th class="info">专家/供应商</th>
 			  <c:forEach items="${supplierList}" var="supplier">
 			    <c:if test="${fn:contains(supplier.packages,packageId)}">
-			  	  <th class="info">${supplier.suppliers.supplierName}</th>
+			  	  <th class="info"><a title="查看评分详情" href="javascript:showViewBySupplierId('${supplier.suppliers.id}');">${supplier.suppliers.supplierName}</a></th>
 			  	</c:if>
 			  </c:forEach>
 			</tr>	
@@ -153,7 +153,7 @@
 		  <c:forEach items="${expertList }" var="ext">
 			<tr>
 			  <td class="tc"><input type="checkbox" name="checkItem" value="${ext.expert.id}"></td>
-			  <td><a href="javascript:showViewByExpertId('${ext.expert.id}');">${ext.expert.relName}</a></td>
+			  <td><a title="查看评分详情" href="javascript:showViewByExpertId('${ext.expert.id}');">${ext.expert.relName}</a></td>
 			  <!-- 遍历该包供应商控制分数的显示 -->
 			  <c:forEach items="${supplierList}" var="supplier">
 			    <c:if test="${fn:contains(supplier.packages,packageId)}">
