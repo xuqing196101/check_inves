@@ -133,7 +133,7 @@ function openViewDIv(businessId,typeId,key,id,obj){
 		  title: '图片查看',
 		  skin: 'layui-layer-pic',
 		  shadeClose: true,
-		  area: [$(document).width(),height],
+		  area: [$(document).width() +'px',height + "px"],
 		  offset:['0px','0px'],
 		  content: html
 		});

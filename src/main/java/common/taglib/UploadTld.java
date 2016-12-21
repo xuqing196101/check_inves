@@ -163,7 +163,7 @@ public class UploadTld extends TagSupport {
             out.println("<input id='"+id+"_autoId' type=\"hidden\"  value=" + auto + " />");
             out.println("<input id='"+id+"_btnNameId' type=\"hidden\"  value=" + buttonName + " />");
             
-            out.println("<div id=\""+id+"_uploader\" class=\"" + uClass + "\">");
+            out.println("<div id=\"uploaderId\" class=\"" + uClass + "\">");
             out.println("<div class=\"" + btnClass + "\">");
             out.println("<div id=\""+id+"_picker\"></div>");
             if (!auto){

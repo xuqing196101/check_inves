@@ -3,8 +3,8 @@
  * 
  */
 (function ($) { 
-	
 	var  GUID = WebUploader.Base.guid();
+	var $wrap = $('#uploaderId');
 	$(function(){
 		webuploadEnv_check();
 		var groups = $("#groupId").val();
@@ -35,7 +35,7 @@
 				init_uploader(eval("var  uploader_" + this),this);
 			});
 	  }
-	
+	  
 	  //webupload环境检查
 	  webuploadEnv_check = function(){
 		  var isSupportBase64 = (function () {
@@ -125,8 +125,7 @@
 	  
 	  //实例初始化
 	  init_uploader = function(uploader,$base){
-		   var $wrap = $('#'+$base+'_uploader'),
-		     $list = $('#'+$base+'_thelist'),
+		   var $list = $('#'+$base+'_thelist'),
 	         $btn = $('#'+$base+'_ctlBtn'),
 	         state = $base+'_pending',
 	         fileCount = 0,
