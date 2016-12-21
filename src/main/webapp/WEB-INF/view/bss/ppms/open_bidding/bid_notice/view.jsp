@@ -62,19 +62,23 @@
         	 <div class="mt10"><span class="red">*</span><span>公告内容：</span></div>
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	              <span class="" >文章附件：</span>
-             		 <u:show  showId="b" groups="b,d,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
+	              <span class="" >公告附件：</span>
+             		 <u:show  showId="b" groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
 	              <span class="" >审批附件: </span>
-                  <u:show  showId="d"  groups="b,d,c" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId_examine }"/>
+                  <u:show  showId="d"  groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${typeId_examine}"/>
+              </li>
+              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="" >保密委员会表: </span>
+                  <u:show  showId="f"  groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${security}"/>
               </li>
         </div>
       </form>
 	  <div class="dnone" id="preview">
 	   	<!-- <div class="col-md-12 p30_40 border1 margin-top-20"> -->
 	   		<div class="col-md-10 tc">
-            <input type="button" class="btn " value="打印" onclick="window.print();" id="print"/>
+            <!-- <input type="button" class="btn " value="打印" onclick="window.print();" id="print"/> -->
             <input class="btn btn-windows back" onclick="pre_back();" value="返回" type="button">
         	</div>
 		     <h3 class="tc f22">
@@ -86,7 +90,10 @@
 			 </div>
 			 <div class="extra_file">
 			 	<div class="">
-					<u:show  showId="c" groups="b,d,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="" >公告附件：</span>
+             		 <u:show  showId="g" groups="b,d,f,g"   businessId="${article.id}" delete="false" sysKey="${sysKey}" typeId="${typeId}"/>
+	              </li>
 			 	</div>
 			 </div>
 		</div>		     

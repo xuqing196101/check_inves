@@ -1123,6 +1123,7 @@ public class OpenBiddingController {
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+                model.addAttribute("security", DictionaryDataUtil.getId("SECURITY_COMMITTEE"));
                 if (WIN_NOTICE.equals(noticeType)) {
                     model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
                 }
@@ -1140,6 +1141,7 @@ public class OpenBiddingController {
                 model.addAttribute("noticeType", noticeType);
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
                 model.addAttribute("flowDefineId", flowDefineId);
+                model.addAttribute("security", DictionaryDataUtil.getId("SECURITY_COMMITTEE"));
                 return "bss/ppms/open_bidding/bid_notice/add";
             }
         } else {
@@ -1151,7 +1153,7 @@ public class OpenBiddingController {
             model.addAttribute("projectId", projectId);
             model.addAttribute("noticeType", noticeType);
             model.addAttribute("flowDefineId", flowDefineId);
-            
+            model.addAttribute("security", DictionaryDataUtil.getId("SECURITY_COMMITTEE"));
             if (WIN_NOTICE.equals(noticeType)) {
                 model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
             }
