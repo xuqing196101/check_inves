@@ -70,6 +70,7 @@
 	  	id.push($(this).val());
 		});
     var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+    status = $.trim(status);
 	if (id.length == 1) {
 		if(status=="已取消"){
 			layer.alert("任务已经取消", {
@@ -166,17 +167,17 @@
   /** 修改任务 */
   function edit() {
     var id = [];
-	$('input[name="chkItem"]:checked').each(function() {
-	  id.push($(this).val());
-	});
-	var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
-	status = $.trim(status);
-	if (id.length == 1) {
-	  if(status == "已取消"){
-	    layer.alert("任务已取消不能修改", {
+		$('input[name="chkItem"]:checked').each(function() {
+	  	id.push($(this).val());
+		});
+		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+		status = $.trim(status);
+		if (id.length == 1) {
+	 	if(status == "已取消"){
+	    	layer.alert("任务已取消不能修改", {
           offset : [ '222px', '730px' ],
-          shade : 0.01
-        });
+         	shade : 0.01
+       	});
 	  }else{
 	    window.location.href = "${pageContext.request.contextPath}/task/edit.html?id=" + id;
 	  }
