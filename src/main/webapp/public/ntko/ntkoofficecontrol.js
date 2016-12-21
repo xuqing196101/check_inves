@@ -46,15 +46,15 @@ function OnComplete2(type,code,html)
 {
 	//alert(type);
 	//alert(code);
-	alert(html);
-	alert("SaveToURL成功回调");
+	//alert(html);
+	//alert("SaveToURL成功回调");
 }
 function OnComplete(type,code,html)
 {
 	//alert(type);
 	//alert(code);
-	alert(html);
-	alert("BeginOpenFromURL成功回调");
+	//alert(html);
+	//alert("BeginOpenFromURL成功回调");
 }
 function OnComplete3(str,doc)
 {
@@ -95,41 +95,41 @@ function OnComplete3(str,doc)
 											fileTypeSimple="unkownfiletype";
 									}
 									
-	alert("ondocumentopened成功回调");
+	//alert("ondocumentopened成功回调");
 }
 function publishashtml(type,code,html){
-	alert(html);
-	alert("Onpublishashtmltourl成功回调");
+	//alert(html);
+	//alert("Onpublishashtmltourl成功回调");
 }
 function publishaspdf(type,code,html){
-alert(html);
-alert("Onpublishaspdftourl成功回调");
+//alert(html);
+//alert("Onpublishaspdftourl成功回调");
 }
 function saveasotherurl(type,code,html){
-alert(html);
-alert("SaveAsOtherformattourl成功回调");
+//alert(html);
+//alert("SaveAsOtherformattourl成功回调");
 }
 function dowebget(type,code,html){
-alert(html);
-alert("OnDoWebGet成功回调");
+//alert(html);
+//alert("OnDoWebGet成功回调");
 }
 function webExecute(type,code,html){
-alert(html);
-alert("OnDoWebExecute成功回调");
+//alert(html);
+//alert("OnDoWebExecute成功回调");
 }
 function webExecute2(type,code,html){
-alert(html);
-alert("OnDoWebExecute2成功回调");
+//alert(html);
+//alert("OnDoWebExecute2成功回调");
 }
 function FileCommand(TANGER_OCX_str,TANGER_OCX_obj){
 	if (TANGER_OCX_str == 3) 
 	{
-		alert("不能保存！");
+		//alert("不能保存！");
 		TANGER_OCX_OBJ.CancelLastCommand = true;
 	}
 }
 function CustomMenuCmd(menuPos,submenuPos,subsubmenuPos,menuCaption,menuID){
-alert("第" + menuPos +","+ submenuPos +","+ subsubmenuPos +"个菜单项,menuID="+menuID+",菜单标题为\""+menuCaption+"\"的命令被执行.");
+//alert("第" + menuPos +","+ submenuPos +","+ subsubmenuPos +"个菜单项,menuID="+menuID+",菜单标题为\""+menuCaption+"\"的命令被执行.");
 }
 var classidx64="A64E3073-2016-4baf-A89D-FFE1FAA10EE0";
 
