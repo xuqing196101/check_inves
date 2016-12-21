@@ -33,12 +33,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Templet;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TempletService;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.CnUpperCaser;
@@ -49,6 +51,7 @@ import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
+import bss.model.ppms.SupplierCheckPass;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.FlowMangeService;
@@ -57,6 +60,7 @@ import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
+import bss.service.ppms.SupplierCheckPassService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 
@@ -159,6 +163,14 @@ public class OpenBiddingController {
     @Autowired
     private ScoreModelService scoreModelService;
     
+    /**
+     * 成交供应商服务接口
+     */
+    @Autowired
+    private SupplierCheckPassService supplierCheckPassService;
+    
+    @Autowired
+    private OrgnizationServiceI orgnizationService;
     /**
      * @Fields jsonData : ajax返回数据封装类
      */
@@ -333,7 +345,7 @@ public class OpenBiddingController {
      */
     @RequestMapping("saveBidNotice")
     @ResponseBody 
-    public AjaxJsonData saveBidNotice(HttpServletRequest request, Article article, String articleTypeId, String flowDefineId) throws Exception{
+    public AjaxJsonData saveBidNotice(HttpServletRequest request, Article article, String articleTypeId, String flowDefineId, Integer flag) throws Exception{
         try {
             String[] ranges = request.getParameterValues("ranges");
             int count = 0;
@@ -372,7 +384,16 @@ public class OpenBiddingController {
                 article.setUpdatedAt(ts1);
                 ArticleType at = articelTypeService.selectTypeByPrimaryKey(articleTypeId);
                 article.setArticleType(at);
-                article.setStatus(0);
+                if (flag == 0) {
+                  //暂存
+                  article.setStatus(0);
+                  jsonData.setMessage("暂存成功");
+                }
+                if (flag == 1) {
+                  //提交
+                  article.setStatus(1);
+                  jsonData.setMessage("提交成功");
+                }
                 if (ranges != null && ranges.length > 0){
                     if (ranges.length > 1){
                         article.setRange(2);
@@ -394,7 +415,7 @@ public class OpenBiddingController {
                     flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 2);
                 }
                 jsonData.setSuccess(true);
-                jsonData.setMessage("保存成功");
+                
                 jsonData.setObj(article);
                 return jsonData;
             }
@@ -1116,10 +1137,9 @@ public class OpenBiddingController {
         List<Article> articles = articelService.selectArticleByProjectId(article);
         //判断该项目是否已经存在该类型公告
         if (articles != null && articles.size() > 0) {
-            //判断该项目的公告是否发布
-            if (articles.get(0).getPublishedAt() != null && articles.get(0).getPublishedName() != null && !"".equals(articles.get(0).getPublishedName())){
-                //已发布公告
-                model.addAttribute("saveStatus", "isok");
+            //判断该项目的公告是否提交
+            if (articles.get(0).getStatus() == 1 || articles.get(0).getStatus() == 2){
+                //已提交或发布公告
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
@@ -1133,8 +1153,7 @@ public class OpenBiddingController {
                 
                 return "bss/ppms/open_bidding/bid_notice/view";
             } else {
-                //未发布
-                model.addAttribute("saveStatus", "isok");
+                //暂存或退回状态
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("articleId", articles.get(0).getId());
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
@@ -1202,16 +1221,40 @@ public class OpenBiddingController {
             String table = getContent(projectId);
             Project p = projectService.selectById(projectId);
             String purchaseTypeName = "";
-            String auditResult = "";
+            StringBuilder auditResult = new StringBuilder();
+            auditResult.append("");
+            //评分结果
+            HashMap<String ,Object> map = new HashMap<String ,Object>();
+            map.put("projectId", projectId);
+            //查询包信息
+            List<Packages> packageList = packageService.findPackageById(map);
+            for (Packages packages : packageList) {
+              SupplierCheckPass checkPass = new SupplierCheckPass();
+              checkPass.setPackageId(packages.getId());
+              List<SupplierCheckPass> supplierCheckPasses = supplierCheckPassService.listCheckPass(checkPass);
+              auditResult.append("<p>"+packages.getName()+"参加供应商排名:</p>");
+              if (supplierCheckPasses != null && supplierCheckPasses.size() > 0) {
+                for (int i = 1; i < supplierCheckPasses.size()+1; i++) {
+                  Supplier supplier = supplierCheckPasses.get(i-1).getSupplier();
+                  if (supplier != null) {
+                    auditResult.append("<p>&nbsp;&nbsp;第"+i+"名:"+supplier.getSupplierName()+"</p>");
+                  }
+                }
+              }
+            }
             if (p.getPurchaseType() != null) {
                purchaseTypeName = DictionaryDataUtil.findById(p.getPurchaseType()).getName();
             }
+            String purchaserName = "";
             PurchaseDep pd = null;
             if (p != null) {
-                pd = p.getPurchaseDep();
+                String purchaseDepId = p.getPurchaseDepId();
+                Orgnization org = orgnizationService.getOrgByPrimaryKey(purchaseDepId);
+                if (org != null) {
+                  purchaserName = org.getName();
+                }
             }
             String contact = "";
-            String purchaserName = "";
             String contactTelephone = "";
             String contactAddress = "";
             String fax = "";
@@ -1231,7 +1274,7 @@ public class OpenBiddingController {
             content = content.replace("projectDetail", table).replace("projectName", p.getName()).replace("projectNum", p.getProjectNumber()).replace("purchaseType", purchaseTypeName);
             content = content.replace("bidDate", bidDate).replace("contact", contact);
             content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
-            content = content.replace("address", contactAddress).replace("fax", fax).replace("bank", bank).replace("auditResult", auditResult);
+            content = content.replace("address", contactAddress).replace("fax", fax).replace("bank", bank).replace("auditResult", auditResult.toString());
             article1.setContent(content);
             model.addAttribute("article", article1);
         }

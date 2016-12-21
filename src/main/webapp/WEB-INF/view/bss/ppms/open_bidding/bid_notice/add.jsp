@@ -62,30 +62,26 @@
         	var saveStatus = $("#is_saveNotice").val();
         	var noticeType = $("#noticeType").val();
         	var flowDefineId = $("#flowDefineId").val();
-        	if(saveStatus != 'isok'){
-        		layer.alert("请先保存公告",{offset: '222px', shade:0.01});
-        	}else{
         		 $.ajax({
-								    type: 'post',
-								    url: "${pageContext.request.contextPath}/open_bidding/publish.html",
-								    data : $('#form').serializeArray(),
-								    dataType:'json',
-								    success:function(result){
-					                    if(!result.success){
-					                        layer.msg(result.msg,{offset: ['20px']});
-					                    }else{
-					                        parent.window.setTimeout(function(){
-					                            window.location.href = "${pageContext.request.contextPath}/open_bidding/bidNotice.html?projectId="+result.projectId;
-					                        }, 500);
-					                        layer.msg(result.msg,{offset: ['20px']});
-					                    }
-					                },
-					                error: function(result){
-					                    layer.msg("提交失败",{offset: ['20px']});
-					                }
-									}); 
+					    type: 'post',
+					    url: "${pageContext.request.contextPath}/open_bidding/saveBidNotice.do?flag=1",
+					    data : $('#form').serializeArray(),
+					    dataType:'json',
+					    success:function(result){
+		                    if(!result.success){
+		                        layer.msg(result.message,{offset: ['220px']});
+		                    }else{
+		                        parent.window.setTimeout(function(){
+		                            window.location.href = "${pageContext.request.contextPath}/open_bidding/bidNotice.html?projectId="+result.obj.projectId;
+		                        }, 500);
+		                        layer.msg(result.message,{offset: ['220px']});
+		                    }
+		                },
+		                error: function(result){
+		                    layer.msg("提交失败",{offset: ['220px']});
+		                }
+						}); 
 
-        	
 	        	 /* var iframeWin;
 	            layer.open({
 	              type: 2, //page层
@@ -102,20 +98,19 @@
 	                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 	              }
 	            }); */
-        	}
         } 
        
        function save(){
        		$.ajax({
 			    type: 'post',
-			    url: "${pageContext.request.contextPath}/open_bidding/saveBidNotice.do",
+			    url: "${pageContext.request.contextPath}/open_bidding/saveBidNotice.do?flag=0",
 			    dataType:'json',
 			    data : $('#form').serialize(),
 			    success: function(data) {
 			    	if(!data.success){
                         layer.msg(data.message,{offset: ['220px']});
                     }else{
-				    	$("#is_saveNotice").val("isok");
+				    	//$("#is_saveNotice").val("isok");
 				        layer.msg(data.message,{offset: '222px'});
                     }
 			    }
