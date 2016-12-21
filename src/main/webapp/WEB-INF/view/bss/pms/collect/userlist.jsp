@@ -34,12 +34,12 @@
   
 	
 	function closeds(){
-		
+		 
 		var nature=parent.nature;
 		var turn=parent.turns;
  		$("#aduit_nature").val(nature);
  		$("#audit_turn").val(turn);
- 		
+ 
  		
 		var id  = $('input[name="chkItem"]:checked').val(); 
 		var index = parent.layer.getFrameIndex(window.name); 
@@ -48,19 +48,28 @@
 		if(id==""||id==null){
 			layer.alert("请选择要汇总的计划",{offset: ['100px', '100px'], shade:0.01});
 		}else{
-			$("#aid").val(id);
+			$("#user_id").val(id);
+		  
 			$.ajax({
-				url: "${pageContext.request.contextPath}/set/addUser.html",
+				url: "${pageContext.request.contextPath}/set/addUser.do",
 				type: "post",
 				data:$("#collected_form").serialize(),
+				//dataType:"json",
 				success: function(result) {
+					alert(result);
 					if(result==1){
 						layer.alert("人员已被添加，请重新选择", {
 							offset: ['30%', '40%']
 						});
 						$(".layui-layer-shade").remove();
 					}else{
-						parent.location.reload(); 
+						  var el = document.createElement("a");
+	                      document.body.appendChild(el);
+	                      el.href = "${pageContext.request.contextPath}/set/list.html?staff="+result+"&&id="+cid;  
+	                      el.target = '_parent'; //指定在新窗口打开
+	                      el.click();
+	                      document.body.removeChild(el);
+						//parent.location.reload(); 
 					/* 	layer.open({
 							type: 1,
 							title: '信息',
@@ -71,6 +80,9 @@
 						});
 						$(".layui-layer-shade").remove(); */
 					}
+				},
+				error: function (){
+					alert(123);
 				}
 			});
 		}
@@ -87,7 +99,7 @@
  	}
  	
  	//保存
- 	function save(){
+/*  	function save(){
  		var auditStaff = $("#auditStaff").val();
  		$.ajax({
 			type: "POST",
@@ -113,7 +125,7 @@
 				}
 			}
 		});
- 	}
+ 	} */
  	
  	//取消
  	function cancelss(){
@@ -177,8 +189,15 @@
 	 <input type="hidden" value="" name="id" id="aid">
 	  <input type="hidden" name="type" value="2">
 	  <input type="hidden" name="collectId" value="" id="cid">
-	  	<input type="hidden" name="auditStaff" id="aduit_nature" value=""/>
-      	<input type="hidden" name="auditRound" id="audit_turn" value=""/>
+	  <input type="hidden" name="auditStaff" id="aduit_nature" value=""/>
+     <input type="hidden" name="auditRound" id="audit_turn" value=""/>
+     
+     <input type="hidden" name="name"   value=""/>
+      <input type="hidden" name="mobile"   value=""/>
+      <input type="hidden" name="userId" id="user_id"  value=""/>
+      <input type="hidden" name="idNumber"   value=""/>
+      <input type="hidden" name="unitName"   value=""/>
+      
 	 </form>
 	 
 	 	<ul class="list-unstyled list-flow dnone mt10" id="audit">

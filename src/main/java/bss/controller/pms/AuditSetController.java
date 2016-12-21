@@ -57,6 +57,7 @@ import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseAuditService;
 import bss.service.pms.UpdateFiledService;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 /***
@@ -116,7 +117,7 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String set(Model model,Integer page,String id,HttpServletRequest request,String satff){
+	public String set(Model model,Integer page,String id,HttpServletRequest request,String staff){
 		String type = request.getParameter("type");
 		AuditPerson person = new AuditPerson();
 		person.setCollectId(id);
@@ -128,7 +129,7 @@ public class AuditSetController {
 		model.addAttribute("id", id);
 		model.addAttribute("kind", DictionaryDataUtil.find(4));
 		model.addAttribute("type", type);
-		model.addAttribute("satff", satff);
+		model.addAttribute("staff", staff);
 		return "bss/pms/collect/auditset";
 	}
 	/**
@@ -237,13 +238,14 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/expert")
-	public String getExpert(Integer page,Expert expert,Model model,HttpServletRequest request){
+	public String getExpert(Integer page,Expert expert,Model model,HttpServletRequest request,String satff){
 		String type = request.getParameter("type");
 		List<Expert> list = expertService.selectAllExpert(page==null?1:page, expert);
 		PageInfo<Expert> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("expert", expert);
 		model.addAttribute("type",type);
+		model.addAttribute("satff", satff);
 		return "bss/pms/collect/expertlist";
 	}
 	/**
@@ -278,7 +280,7 @@ public class AuditSetController {
 	* @return String     
 	* @throws
 	 */
-	@RequestMapping("/add")
+	@RequestMapping(value="/add",produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String add(AuditPerson auditPerson,String id,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -308,7 +310,7 @@ public class AuditSetController {
 			auditPerson.setUserId(expert.getId());
 			auditPersonService.add(auditPerson);
 			auditPerson.setType(1);
-			return "";
+			return JSON.toJSONString(auditPerson.getAuditStaff());
 		}
 		
 	}
@@ -601,12 +603,12 @@ public class AuditSetController {
 	* @param @param request      
 	* @return void
 	 */
-	@RequestMapping("/addUser")
+	@RequestMapping(value="/addUser",produces="application/text;charset=utf-8")
 	@ResponseBody
-	public String addUser(AuditPerson auditPerson,String id,HttpServletRequest request){
+	public String addUser(AuditPerson auditPerson){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		Integer num=0;
-		 User user = userServiceI.getUserById(id);
+		 User user = userServiceI.getUserById(auditPerson.getUserId());
 //		 if(auditPerson.getType()==1){
 			 map.put("auditRound", auditPerson.getAuditRound());
 			 map.put("collectId", auditPerson.getCollectId());
@@ -633,9 +635,10 @@ public class AuditSetController {
 				}
 			}
 			auditPerson.setUserId(user.getId());
+			auditPerson.setType(2);
 			auditPersonService.add(auditPerson);
-			auditPerson.setType(1);
-			return "";
+			
+			return auditPerson.getAuditStaff();
 		}
 			
 	}
@@ -675,7 +678,9 @@ public class AuditSetController {
 			return JSONSerializer.toJSON(map).toString();
 		}else{
 			auditPersonService.add(auditPerson);
-			return "1";
+			map.put("staff", auditPerson.getAuditStaff());
+			map.put("status", 1);
+			return JSON.toJSONString(map);
 		}
 		 
 	}
