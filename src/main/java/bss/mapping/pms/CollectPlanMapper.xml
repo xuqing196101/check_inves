@@ -250,8 +250,12 @@
   	</where>
   order by POSITION desc
   </select>
+  
   <select id="getMax" resultType="Integer">
   	select max(POSITION) from T_BSS_PMS_COLLECT_PLAN
   </select>
   
+  <select id="getDepartmentList" resultMap="CollectPlan_Map">
+  	select DEPARTMENT from T_BSS_PMS_COLLECT_PLAN GROUP BY DEPARTMENT
+  </select>
 </mapper>

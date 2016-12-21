@@ -420,14 +420,11 @@
 								</td>
 								<td>
 								<c:forEach items="${requires }" var="re">
-								
-				        <c:if test="${re.id==obj.department }">
+				        			<c:if test="${re.id==obj.department }">
 										<input type="hidden"  name="list[${vs.index }].department" value="${obj.id }">
 										<input readonly="readonly" type="text" value="${re.name}">
 									</c:if>
 								</c:forEach>
-								
-								
 								</td>
 								<td><input readonly="readonly" type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
 								<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>

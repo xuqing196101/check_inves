@@ -67,4 +67,15 @@ public interface CollectPlanService {
 	* @throws
 	 */
 	Integer getMax();
+	
+	/**
+	 * 
+	 * @Title: getDepartmentList
+	 * @author Liyi 
+	 * @date 2016-12-21 下午7:56:36  
+	 * @Description:获取所有部门
+	 * @param:     
+	 * @return:
+	 */
+	List<CollectPlan> getDepartmentList(Integer pageNum);
 }

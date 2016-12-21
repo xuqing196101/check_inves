@@ -28,6 +28,7 @@ import bss.model.pms.AuditParam;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseRequired;
+import bss.model.pqims.PqInfo;
 import bss.service.pms.AuditParameService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
@@ -170,70 +171,11 @@ public class PlanLookController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/auditlook")
-	public String auditlook(String id,Model model){
-		
-		DictionaryData	dictionaryData=new DictionaryData();
-//		DictionaryData p=new DictionaryData();
-//		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
-//		dictionaryData.setParent(p);
-		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
-		List<AuditParam> all=new LinkedList<AuditParam>();
-		AuditParam auditParam=new AuditParam();
-		
-		List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
-		if(dic!=null&&dic.size()>0){
-			for(DictionaryData d:dic){
-				AuditParamBean s=new AuditParamBean();
-				auditParam.setDictioanryId(d.getId());
-				List<AuditParam> a = auditParameService.query(auditParam, 1);
-				all.addAll(a);
-				s.setId(d.getId());
-				s.setSize(a.size());
-				s.setName(d.getName());
-				bean.add(s);
-			}
-		}
-		
-		
-		HashMap<String,Object> map=new HashMap<String,Object>();
-		map.put("typeName", 1);
-		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
-		
-//		CollectPlan plan = collectPlanService.queryById(id);
-		List<String> no = collectPurchaseService.getNo(id);
-		List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
-		List<String> departMent = new ArrayList<>();
-		if(no!=null&&no.size()>0){
-			for(String s:no){
-				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
-				list.addAll(pur);
-				Map<String,Object> departMap = new HashMap<String,Object>();
-				departMap.put("planNo", s);
-				departMent.add(purchaseRequiredService.getByMap(departMap).get(0).getDepartment());
-			}
-		}
-		model.addAttribute("list", list);
-		model.addAttribute("org",org);
-		model.addAttribute("id", id);
-		model.addAttribute("departMent", departMent);
-		model.addAttribute("all", all);
-		
-		model.addAttribute("bean", bean);
-		
-		DictionaryData dd=new DictionaryData();
-		dd.setCode("CGJH_ADJUST");
-		String did = dictionaryDataServiceI.find(dd).get(0).getId();
-		model.addAttribute("aid", did);
-		
-		List<DictionaryData> mType = dictionaryDataServiceI.findByKind("5");
-		model.addAttribute("mType", mType);
-		
-		Map<String,Object> maps=new HashMap<String,Object>();
-		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(maps);
-		model.addAttribute("requires", requires);
-		
-		
-		return "bss/pms/collect/audit";
+	public String auditlook(String id,Model model,Integer pageNum){
+		List<CollectPlan> departmentList = collectPlanService.getDepartmentList(pageNum==null?1:pageNum);
+		model.addAttribute("departmentList",new PageInfo<CollectPlan>(departmentList));
+		model.addAttribute("id",id);
+		return "bss/pms/collect/departmentList";
 	}
 	
 	/**
@@ -316,5 +258,69 @@ public class PlanLookController extends BaseController {
 		return str;
 	}
 	
-	
+	@RequestMapping("/auditByDepartment")
+	public String auditByDepartment(String id,Model model,Integer pageNum,String depart){
+		
+		DictionaryData	dictionaryData=new DictionaryData();
+//		DictionaryData p=new DictionaryData();
+//		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
+//		dictionaryData.setParent(p);
+		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
+		List<AuditParam> all=new LinkedList<AuditParam>();
+		AuditParam auditParam=new AuditParam();
+		
+		List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
+		if(dic!=null&&dic.size()>0){
+			for(DictionaryData d:dic){
+				AuditParamBean s=new AuditParamBean();
+				auditParam.setDictioanryId(d.getId());
+				List<AuditParam> a = auditParameService.query(auditParam, 1);
+				all.addAll(a);
+				s.setId(d.getId());
+				s.setSize(a.size());
+				s.setName(d.getName());
+				bean.add(s);
+			}
+		}
+		
+		
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("typeName", 1);
+		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+		
+//		CollectPlan plan = collectPlanService.queryById(id);
+		List<String> no = collectPurchaseService.getNo(id);
+		List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
+		List<String> departMent = new ArrayList<>();
+		if(no!=null&&no.size()>0){
+			for(String s:no){
+				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
+				list.addAll(pur);
+				Map<String,Object> departMap = new HashMap<String,Object>();
+				departMap.put("planNo", s);
+				departMent.add(purchaseRequiredService.getByMap(departMap).get(0).getDepartment());
+			}
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("org",org);
+		model.addAttribute("id", id);
+		model.addAttribute("departMent", departMent);
+		model.addAttribute("all", all);
+		
+		model.addAttribute("bean", bean);
+		
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CGJH_ADJUST");
+		String did = dictionaryDataServiceI.find(dd).get(0).getId();
+		model.addAttribute("aid", did);
+		
+		List<DictionaryData> mType = dictionaryDataServiceI.findByKind("5");
+		model.addAttribute("mType", mType);
+		
+		Map<String,Object> maps=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(maps);
+		model.addAttribute("requires", requires);
+		
+		return "bss/pms/collect/audit";
+	}
 }

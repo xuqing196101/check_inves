@@ -53,4 +53,12 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 		return collectPlanMapper.getMax();
 	}
 
+
+	@Override
+	public List<CollectPlan> getDepartmentList(Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return collectPlanMapper.getDepartmentList();
+	}
+
 }
