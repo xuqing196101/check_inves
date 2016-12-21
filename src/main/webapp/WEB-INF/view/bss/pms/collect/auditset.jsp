@@ -109,19 +109,20 @@
     function experts(){
     	 nature=$("#audit_nature").val();
      	  turns=$("#audit_turn").val();
-     	  
-     if(nature==null){
+     	var tp = 0;
+     if(nature==null || nature==''){
     	 layer.alert("请填写审核人员性质", {
 				offset: ['30%', '40%']
-			});  
+			});
+    	 tp = 1;
       }
-     if(turns==null){
-    	 layer.alert("请填写审核轮次", {
-				offset: ['30%', '40%']
-			});  
-    	 
-    	 
-     }
+//      if(turns==null || turns== ''){
+//     	 layer.alert("请填写审核轮次", {
+// 				offset: ['30%', '40%']
+// 			});  
+//     	 tp = 1;
+//      }
+     if(tp != 1){
   	  layer.open({
 		  type: 2, //page层
 		  area: ['900px', '500px'],
@@ -133,21 +134,26 @@
 		  offset: ['200px', '500px'],
 		  content:  "${pageContext.request.contextPath}/set/expert.html?type="+$("#auditRound").val(),
 		});
+     }
     }
     function users(){
     	 nature=$("#audit_nature").val();
     	 turns=$("#audit_turn").val();
-        if(nature==null){
+    	    var tp=0;
+    	    
+        if(nature==null || nature == ''){
        	 layer.alert("请填写审核人员性质", {
    				offset: ['30%', '40%']
    			});  
+       	 tp = 1;
          }
-        if(turns==null){
-       	 layer.alert("请填写审核轮次", {
-   				offset: ['30%', '40%']
-   			});  
-        }
-        
+//         if(turns==null || turns == '' ){
+//        	 layer.alert("请填写审核轮次", {
+//    				offset: ['30%', '40%']
+//    			});  
+//        	 tp = 0;
+//         }
+        if(tp != 1 ){
     	 layer.open({
    		  type: 2, //page层
    		  area: ['900px', '500px'],
@@ -159,6 +165,8 @@
    		  offset: ['200px', '500px'],
    		  content:  "${pageContext.request.contextPath}/set/user.html?type="+$("#auditRound").val(),
    		});
+        	
+        }
     }
     var index;
     function temp(){
@@ -183,6 +191,16 @@
     	 turns=$("#audit_turn").val();
     	 $("#auditStaff_1").val(nature);
     	 $("#auditRound_1").val(turns);
+    	 nature=$("#audit_nature").val();
+         turns=$("#audit_turn").val();
+            var tp=0;
+          if(nature==null || nature == ''){
+           layer.alert("请填写审核人员性质", {
+            offset: ['30%', '40%']
+          });  
+           tp = 1;
+           }
+          if(tp != 1 ){
     	
 		 $.ajax({
 			 url:"${pageContext.request.contextPath}/set/judgeAddUser.do",
@@ -190,12 +208,19 @@
 			 dataType:"json",
 			 data:$("#collect_form").serialize(),
 			 success:function(data){
-				 if(data == 1) {
+			  
+				 if(data.status != null && data.status != '' && data.status == 1) {
 						layer.msg('添加成功', {
 							offset: ['40%', '45%']
 						});
 						layer.close(index);
-						window.location.reload();
+					    var el = document.createElement("a");
+                  document.body.appendChild(el);
+                  el.href = "${pageContext.request.contextPath}/set/list.html?staff="+data.staff+"&&id="+$("#collId").val(); //url 是你得到的连接
+                  el.target = '_parent'; //指定在新窗口打开
+                  el.click();
+                  document.body.removeChild(el);
+// 						window.location.reload();
 					} else {
 						var error = eval(data);
 						if(error.name) {
@@ -221,6 +246,7 @@
 					}
 			 	}
 		 });
+          }
     }
     
     function delet(){
@@ -373,7 +399,7 @@
         <input type="hidden" name="auditStaff" value="" id="auditStaff_1" >
 <!-- 	 	<input type="hidden" name="auditRound" value="" id="auditRound_1" > -->
 	 	
-	 		<input type="hidden" name="collectId" value="${id }">	
+	 		<input type="hidden" id="collId" name="collectId" value="${id }">	
 		 <div class="clear"></div>
 	</ul>
 	<div class="tc mt10 col-md-12 col-xs-12">

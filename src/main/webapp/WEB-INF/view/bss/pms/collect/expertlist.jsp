@@ -54,6 +54,7 @@
 			url: "${pageContext.request.contextPath}/set/add.html",
 			type: "post",
 			data:$("#collected_form").serialize(),
+			dataType:"json",
 			success: function(result) {
 				if(result==1){
 					layer.alert("人员已被添加，请重新选择", {
@@ -69,7 +70,7 @@
 // 					//parent.layer.close(index);
 					    var el = document.createElement("a");
                       document.body.appendChild(el);
-                      el.href = "${pageContext.request.contextPath}/set/list.html?staff=ss"; //url 是你得到的连接
+                      el.href = "${pageContext.request.contextPath}/set/list.html?staff="+result+"&&id="+cid; //url 是你得到的连接
                       el.target = '_parent'; //指定在新窗口打开
                       el.click();
                       document.body.removeChild(el);
