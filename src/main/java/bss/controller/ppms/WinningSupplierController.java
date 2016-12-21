@@ -3,6 +3,7 @@
  */
 package bss.controller.ppms;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,11 +21,9 @@ import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
-
-
-
 
 
 
@@ -39,8 +38,6 @@ import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.SupplierCheckPassService;
-import bss.util.FileUtil;
-import bss.util.PropUtil;
 
 /**
  * @Description: 中标供应商
@@ -53,7 +50,8 @@ import bss.util.PropUtil;
 @Scope("prototype")
 @RequestMapping("/winningSupplier")
 public class WinningSupplierController extends BaseController {
-
+    /** OK */
+    private final static String OK = "ok";
     /** SCCUESS */
     private static final String SUCCESS = "SCCUESS";
     /** ERROR */
@@ -128,6 +126,24 @@ public class WinningSupplierController extends BaseController {
      */
     @RequestMapping("/packageSupplier")
     public String selectpackage(Model model, String packageId, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
+        if(view != null && view == 1){  
+            SupplierCheckPass scp = new SupplierCheckPass();
+            scp.setPackageId(packageId);
+            scp.setIsWonBid((short)1);
+            List<SupplierCheckPass> listCheck = checkPassService.listCheckPass(scp);
+            String[] rat=ratio(listCheck.size());
+            for (int i = 0,l=listCheck.size(); i < l; i++ ) {
+                if(listCheck.get(i).getIsWonBid()==1 && listCheck.get(i).getWonPrice() == null && listCheck.get(i).getPriceRatio() ==null ){
+                    Double  price = (Double.parseDouble(rat[i])/100)*Double.parseDouble(listCheck.get(0).getTotalPrice().toString());
+                    SupplierCheckPass supplierCheckPass = listCheck.get(i);
+                    supplierCheckPass.setWonPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    supplierCheckPass.setPriceRatio(rat[i]);
+                    checkPassService.update(supplierCheckPass); 
+                  
+                }
+              
+            }
+        }
         SupplierCheckPass checkPass = new SupplierCheckPass();
         checkPass.setPackageId(packageId);
         List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPass(checkPass);
@@ -137,24 +153,12 @@ public class WinningSupplierController extends BaseController {
         model.addAttribute("projectId", projectId);
         model.addAttribute("packageId", packageId);
         model.addAttribute("view", view);
-        Integer l=listSupplierCheckPass.size();
-       
-        if(view != null && view == 1){  
-            SupplierCheckPass scp = new SupplierCheckPass();
-            scp.setPackageId(packageId);
-            scp.setIsWonBid((short)1);
-            List<SupplierCheckPass> listCheck = checkPassService.listCheckPass(scp);
-            String[] rat=ratio(listCheck.size());
-            for (int i = 0; i < l; i++ ) {
-                if(listSupplierCheckPass.get(i).getIsWonBid()==1){
-                 double  price = (Double.parseDouble(rat[i])/100)*Double.parseDouble(listSupplierCheckPass.get(0).getTotalPrice().toString());
-                    SupplierCheckPass supplierCheckPass = listSupplierCheckPass.get(i);
-                    supplierCheckPass.setWonPrice((long)price);
-                    supplierCheckPass.setPriceRatio(rat[i]);
-                    checkPassService.update(supplierCheckPass); 
-                }
-              
-            }
+        
+        //获取已有中标供应商的包组
+        String[] packcount = checkPassService.selectWonBid(projectId);
+        List<Packages> packList = packageService.listSupplierCheckPass(projectId);
+        if (packList.size() != packcount.length){
+            model.addAttribute("error", ERROR);
         }
         //             //修改流程状态
         flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
@@ -303,6 +307,12 @@ public class WinningSupplierController extends BaseController {
         List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listSupplierCheckPass(checkPass);
         model.addAttribute("listSupplierCheckPass", listSupplierCheckPass);
         model.addAttribute("projectId", projectId);
+        //获取已有中标供应商的包组
+        String[] packcount = checkPassService.selectWonBid(projectId);
+        List<Packages> packList = packageService.listSupplierCheckPass(projectId);
+        if (packList.size() != packcount.length){
+            model.addAttribute("error", ERROR);
+        }
         return "bss/ppms/winning_supplier/template";
     }
 
@@ -397,10 +407,12 @@ public class WinningSupplierController extends BaseController {
                 stationMessage.setName(pro);
                 stationMessage.setUrl("downloadabiddocument");
                 stationMessage.setSenderId(login.getId());
-                stationMessageService.insertStationMessage(stationMessage);
+                stationMessageService.insertStationMessage(stationMessage); 
                 //招标系统key
                 Integer tenderKey = Constant.TENDER_SYS_KEY;
-                uploadService.uploadFileByContext(stationMessage.getId(), tenderKey.toString(), content); 
+                String uploadFileByContext = uploadService.uploadFileByContext(stationMessage.getId(), tenderKey.toString(), content); 
+                System.out.println(uploadFileByContext);
+               
                 //                }
             }
         }

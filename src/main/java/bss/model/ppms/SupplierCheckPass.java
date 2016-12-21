@@ -17,7 +17,7 @@ public class SupplierCheckPass {
     /**
      * 中标金额
      */
-    private Long wonPrice;
+    private BigDecimal wonPrice;
     
     /**
      * 供应商
@@ -472,17 +472,18 @@ public class SupplierCheckPass {
     /**
      * @return Returns the wonPrice.
      */
-    public Long getWonPrice() {
+    public BigDecimal getWonPrice() {
         return wonPrice;
     }
 
     /**
      * @param wonPrice The wonPrice to set.
      */
-    public void setWonPrice(Long wonPrice) {
+    public void setWonPrice(BigDecimal wonPrice) {
         this.wonPrice = wonPrice;
     }
 
+   
    
 
 }

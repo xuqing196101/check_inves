@@ -30,12 +30,14 @@
       if(checkAll.checked) {
         for(var i = 0; i < checklist.length; i++) {
           checklist[i].checked = true;
+          
         }
       } else {
         for(var j = 0; j < checklist.length; j++) {
           checklist[j].checked = false;
         }
       }
+      ratio();
     }
 
     /** 单选 */
@@ -45,6 +47,7 @@
          var checkAll = document.getElementById("checkAll");
          for(var i=0;i<checklist.length;i++){
                if(checklist[i].checked == false){
+            	    
                    checkAll.checked = false;
                    break;
                }
@@ -53,9 +56,68 @@
                            checkAll.checked = true;
                            count++;
                        }
+                
                  }
            }
+         ratio();
+      
     }
+    
+    function ratio(){
+   
+    	var checklist = document.getElementsByName ("chkItem");
+    	 for(var j = 0; j < checklist.length; j++) {
+             $("#"+checklist[j].value).find("#priceRatio").text("");
+             $("#"+checklist[j].value).find("#wonPrice").text("");
+           }
+    	
+    	   var lengths=$("input[name='chkItem']:checked").length;
+         if(lengths != 0){
+    	   var id = [];
+           var ratio = [];
+            if(lengths == 1){
+              ratio.push("100");
+            }else if(lengths == 2){
+                ratio.push("70");
+                ratio.push("30");
+            }else if(lengths == 3){
+                ratio.push("50");
+                ratio.push("30");
+                ratio.push("20");
+            }else if(lengths == 4){
+                ratio.push("40");
+                ratio.push("30");
+                ratio.push("20");
+                ratio.push("10");
+            }
+            var i=0;
+            
+            $('input[name="chkItem"]:checked').each(function() {
+            	   id.push($(this).val());
+                $("#"+$(this).val()).find("#priceRatio").text(ratio[i]);
+         
+               var totalprice = $("#"+id[0]).find("#totalPrice").text();
+              toDecimal((ratio[i]/100)*totalprice);
+                $("#"+$(this).val()).find("#wonPrice").text( toDecimal((ratio[i]/100)*totalprice));
+                i++;
+              
+                
+              });
+            
+         } 
+    }
+    
+  //保留两位小数  
+    //功能：将浮点数四舍五入，取小数点后2位 
+    function toDecimal(x) { 
+      var f = parseFloat(x); 
+      if (isNaN(f)) { 
+        return; 
+      } 
+      f = Math.round(x*100)/100; 
+      return f; 
+    } 
+  
 
 
       function save() {
@@ -135,21 +197,49 @@
           });
       }
       
+      /** 中标供应商 */
+      function tabone(){
+        window.location.href="${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}";
+      }
+      
+      /** 中标通知 */
+      function tabtwo(){
+        var error = "${error}";
+        if(error != null && error == "ERROR"){
+          layer.alert("请选择中标供应商",{offset: ['100', '300px'], shade:0.01});
+        }else{
+          window.location.href="${pageContext.request.contextPath}/winningSupplier/template.do?projectId=${projectId}";
+        }
+        
+        
+      }
+      
+      /** 未中标通知 */
+      function tabthree(){
+        var error = "${error}";
+        if (error != null && error == "ERROR" ){
+          layer.alert("请选择中标供应商",{offset: ['100', '300px'], shade:0.01});
+        } else{
+            window.location.href="${pageContext.request.contextPath}/winningSupplier/notTemplate.do?projectId=${projectId}";  
+        }
+      }
+      
   </script>
 
   <body>
     <div class="col-md-12 p0">
       <ul class="flow_step">
         <li class="active">
-          <a href="${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}">01、确认中标供应商</a>
+          <a href="javascript:void(0);" onclick="tabone();">01、确认中标供应商</a>
           <i></i>
         </li>
         <li>
-          <a href="javascript:void(0);" class="dhx_move_denied">02、中标通知书</a>
-          <i></i>
+            <a href="javascript:void(0);" onclick="tabtwo();">02、中标通知书</a>
+            <i></i>
         </li>
         <li>
-          <a href="javascript:void(0);">03、未中标通知书</a>
+              <a href="javascript:void(0);" onclick="tabthree();">03、未中标通知书</a>
+            <i></i>
         </li>
       </ul>
     </div>
@@ -158,7 +248,7 @@
       </div>
       <c:if test="${view != 1 }">
         <div class="col-md-12 pl20 mt10">
-          <button class="btn btn-windows add" onclick="save();" type="button">确定</button>
+          <button class="btn " onclick="save();" type="button">确定</button>
         </div>
       </c:if>
       <div class="content table_box">
@@ -171,33 +261,33 @@
               <th class="info">总报价（万元）</th>
               <th class="info">总得分</th>
               <th class="info">排名</th>
-              <c:if test="${view == 1 }">
-              <th class="info">中标状态</th>
-              <th class="info">中标金额（万元）</th>
-              <th class="info">占比（%）</th>
+              <c:if test="${view == 1}">
+                <th class="info">中标状态</th>
               </c:if>
+              <th class="info">占比（%）</th>
+              <th class="info">中标金额（万元）</th>
             </tr>
           </thead>
           <c:forEach items="${supplierCheckPass}" var="checkpass" varStatus="vs">
-            <tr>
+            <tr id="${checkpass.id}">
               <td class="tc opinter"><input onclick="check();" type="checkbox" name="chkItem" value="${checkpass.id}" /></td>
               <td class="tc opinter" onclick="">${checkpass.supplier.supplierName}</td>
               <td class="tc opinter" onclick="">
                 <fmt:formatDate value='${checkpass.joinTime}' pattern="yyyy-MM-dd " />
               </td>
-              <td class="tc opinter" onclick="">${checkpass.totalPrice}</td>
+              <td class="tc opinter" id="totalPrice" onclick="">${checkpass.totalPrice}</td>
               <td class="tc opinter" onclick="">${checkpass.totalScore}</td>
               <td class="tc opinter" onclick="">${(vs.index+1)}</td>
-               <c:if test="${view == 1 }">
+                <c:if test="${view == 1}">
                <c:if test="${checkpass.isWonBid == 0}">
                 <td class="tc opinter" >未中标</td>
                </c:if>
                <c:if test="${checkpass.isWonBid == 1}">
                 <td class="tc opinter" >已中标</td>
                </c:if>
-                <td class="tc opinter">${checkpass.wonPrice }</td>
-                <td class="tc opinter">${checkpass.priceRatio}</td>
-              </c:if>
+               </c:if>
+                 <td class="tc opinter" id="priceRatio">${checkpass.priceRatio}</td>
+                <td class="tc opinter" id="wonPrice">${checkpass.wonPrice }</td>
             </tr>
           </c:forEach>
         </table>

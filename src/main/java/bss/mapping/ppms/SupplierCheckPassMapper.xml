@@ -332,7 +332,7 @@
 		</if>
 
 		ORDER BY
-		CP.TOTAL_SCORE DESC
+		CP.TOTAL_SCORE DESC, CP.TOTAL_PRICE 
 
 	</select>
 

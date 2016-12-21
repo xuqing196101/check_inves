@@ -33,11 +33,13 @@
   	            async: false,
   	            success: function(data) {
   	                var map =data;
-  	                alert(map);
   	                if(map=="SCCUESS"){
-//   	                	 window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}';
-  	                 var a=$("#a").attr("href","${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}");
-  	                 a.click();
+  	                	var el = document.createElement("a");
+  	                	document.body.appendChild(el);
+  	                	el.href = "${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}"; //url 是你得到的连接
+  	                	el.target = '_parent'; //指定在新窗口打开
+  	                	el.click();
+  	                	document.body.removeChild(el);
   	                }else{
   	                  layer.msg("请上传");
   	                }
@@ -51,7 +53,6 @@
 <body>
 	<!-- 表格开始-->
   <div class="content">
-  <a id="a" target="_parent"></a>
     <form  method="post" id="form1">
       <input name="saleId" type="hidden" value="${saleId}"  />
       <input name="projectId" type="hidden" value="${projectId}" />

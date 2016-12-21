@@ -476,6 +476,7 @@ public class UploadServiceImpl implements UploadService {
                     model.setSize(file.length());
                     model.setPath(file.getPath());
                     model.setName(fileName);
+                    model.setTypeId("null");
                     model.setCreateDate(new Date());
                     model.setUpdateDate(new Date());
                     model.setIsDelete(0);
@@ -488,7 +489,7 @@ public class UploadServiceImpl implements UploadService {
         } catch (Exception e) {
         }
         
-        return null;
+        return ERROR;
     }
 
     /**

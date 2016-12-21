@@ -68,29 +68,55 @@
     		   var vl= select.value;
     		   var array=vl.split("^");
     		   $("#bidid").text(array[1]);  
-    		   
-    }
+       }
+    	  /** 中标供应商 */
+          function tabone(){
+            window.location.href="${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}";
+          }
+          
+          /** 中标通知 */
+          function tabtwo(){
+            var error = "${error}";
+            if(error != null && error == "ERROR"){
+              layer.alert("请选择中标供应商",{offset: ['100', '300px'], shade:0.01});
+            }else{
+              window.location.href="${pageContext.request.contextPath}/winningSupplier/template.do?projectId=${projectId}";
+            }
+            
+            
+          }
+          
+          /** 未中标通知 */
+          function tabthree(){
+            var error = "${error}";
+            if (error != null && error == "ERROR" ){
+              layer.alert("请选择中标供应商",{offset: ['100', '300px'], shade:0.01});
+            } else{
+                window.location.href="${pageContext.request.contextPath}/winningSupplier/notTemplate.do?projectId=${projectId}";  
+            }
+          }
 </script>
     
     
 </head>
 
 <body>
-	      <div class="col-md-12 p0">
-                           <ul class="flow_step">
-                             <li >
-                               <a  href="${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}" >01、确认中标供应商</a>
-                               <i></i>
-                             </li>
-                             <li >
-                               <a  href="${pageContext.request.contextPath}/winningSupplier/template.do?projectId=${projectId}" >02、中标通知书</a>
-                               <i></i>                            
-                             </li>
-                              <li class="active">
-                               <a  href="${pageContext.request.contextPath}/winningSupplier/notTemplate.do?projectId=${projectId}">03、未中标通知书</a>
-                             </li>
-                           </ul>
-                         </div>
+	  <div class="col-md-12 p0">
+      <ul class="flow_step">
+        <li >
+          <a href="javascript:void(0);" onclick="tabone();">01、确认中标供应商</a>
+          <i></i>
+        </li>
+        <li>
+            <a href="javascript:void(0);" onclick="tabtwo();">02、中标通知书</a>
+            <i></i>
+        </li>
+        <li class="active">
+              <a href="javascript:void(0);" onclick="tabthree();">03、未中标通知书</a>
+            <i></i>
+        </li>
+      </ul>   
+    </div>
 	<div class="container content height-350">
 		<div class="row">
 			<div class="col-md-12" style="min-height: 400px;">
