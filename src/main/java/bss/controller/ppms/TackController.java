@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -293,14 +294,24 @@ public class TackController extends BaseController{
         if(list!=null){
             if(list.getList()!=null&&list.getList().size()>0){
                 for( PurchaseRequired p:list.getList()){
+                	String oldId = p.getId();
                     if( p.getId()!=null){
-                        purchaseRequiredService.updateByPrimaryKeySelective(p);
-                    }else{
-                        String ids = UUID.randomUUID().toString().replaceAll("-", "");
-                        p.setId(ids);
-                        purchaseRequiredService.add(p);
+                    	Map<String,Object> pMap = new HashMap<String,Object>();
+                    	String idss = UUID.randomUUID().toString().replaceAll("-", "");
+                    	pMap.put("id", oldId);
+                    	pMap.put("newId", idss);
+                        purchaseRequiredService.updateIdById(pMap);
                     }
-                
+//                    else{
+//                        String ids = UUID.randomUUID().toString().replaceAll("-", "");
+//                        p.setId(ids);
+//                        purchaseRequiredService.add(p);
+//                    }
+                    PurchaseRequired pr = new PurchaseRequired();
+                    BeanUtils.copyProperties(p, pr);
+                    pr.setId(oldId);
+                    pr.setHistoryStatus("0");
+                    purchaseRequiredService.add(pr);
                     
                 }
             }
@@ -312,10 +323,17 @@ public class TackController extends BaseController{
 	
 	@ResponseBody
 	@RequestMapping("/verify")
-	public String verify(String name, String documentNumber, Model model){
-	    Task task = new Task();
-	    task.setDocumentNumber(documentNumber);
-	    Boolean flag = taskservice.verify(task);
-        return JSON.toJSONString(flag);
+	public String verify(String name, String documentNumber, Model model,HttpServletRequest request){
+		String taskNum = request.getParameter("taskNum");
+		if(taskNum.equals(documentNumber)){
+			Boolean vf = true;
+			return JSON.toJSONString(vf);
+		}else{
+			Task task = new Task();
+		    task.setDocumentNumber(documentNumber);
+		    Boolean flag = taskservice.verify(task);
+	        return JSON.toJSONString(flag);
+		}
+	    
 	}
 }

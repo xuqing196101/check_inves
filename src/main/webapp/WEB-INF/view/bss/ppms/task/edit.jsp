@@ -133,11 +133,12 @@
   
   var flag = true;
   function verify(){
+	  var taskNum = $("#taskNum").val();
     var documentNumber = $("input[name='documentNumber']").val();
      $.ajax({
       url : "${pageContext.request.contextPath}/task/verify.html",
       type : "post",
-      data : "documentNumber=" + documentNumber,
+      data : "documentNumber=" + documentNumber+"&taskNum=" +taskNum,
       dataType : "json",
       success : function(data) {
          var datas = eval("("+data+")");
@@ -208,7 +209,7 @@
   <div class="margin-top-10 breadcrumbs ">
     <div class="container">
       <ul class="breadcrumb margin-left-0">
-        <li><a href="javascript:void(0)"> 首页</a></li>
+        <li><a href="javascript:void(0)">首页</a></li>
         <li><a href="javascript:void(0)">保障作业系统</a></li>
         <li><a href="javascript:void(0)">采购任务管理</a></li>
         <li class="active"><a href="javascript:void(0)">采购计划调整</a></li>
@@ -216,7 +217,7 @@
       <div class="clear"></div>
     </div>
   </div>
-  
+  <input type="hidden" id="taskNum" value="${task.documentNumber}"/>
 <!-- 录入采购计划开始-->
   <div class="container container_box">
     <sf:form action="${pageContext.request.contextPath}/task/update.html" id="form1" method="post" modelAttribute="task">
@@ -269,7 +270,7 @@
 			    </tr>
 			  </thead>
 			  <c:forEach items="${lists}" var="obj" varStatus="vs">
-			    <tr style="cursor: pointer;">
+			    <tr class="pointer">
 			      <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
 			      <td class="tc">
 			      <c:if test="${obj.department == orgnization.id}">

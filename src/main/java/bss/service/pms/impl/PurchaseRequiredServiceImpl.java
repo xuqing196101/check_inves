@@ -168,5 +168,11 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		purchaseRequiredMapper.updateProjectStatus(planNo);
 	}
 	
+	
+	@Override
+	public void updateIdById(Map<String, Object> map) {
+		purchaseRequiredMapper.updateIdById(map);
+	}
+	
 
 }
