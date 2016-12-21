@@ -67,28 +67,36 @@
   function deleted() {
     var id = [];
     $('input[name="chkItem"]:checked').each(function() {
-	  id.push($(this).val());
-	});
+	  	id.push($(this).val());
+		});
+    var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
 	if (id.length == 1) {
-	  layer.open({
-		type : 2, //page层
-		area : [ '400px', '200px' ],
-		title : '上传附件',
-		shade : 0.01, //遮罩透明度
-		moveType : 1, //拖拽风格，0是默认，1是传统拖动
-		shift : 1, //0-6的动画形式，-1不开启
-		offset : [ '220px', '630px' ],
-		shadeClose : true,
-		content : '${pageContext.request.contextPath}/task/delTask.html?id=' + id,
-	  });
+		if(status=="已取消"){
+			layer.alert("任务已经取消", {
+				offset : [ '30%', '40%' ],
+				shade : 0.01
+			});
+		}else{
+			layer.open({
+				type : 2, //page层
+				area : [ '600px', '400px' ],
+				title : '上传附件',
+				shade : 0.01, //遮罩透明度
+				moveType : 1, //拖拽风格，0是默认，1是传统拖动
+				shift : 1, //0-6的动画形式，-1不开启
+				offset : [ '30%', '40%' ],
+				shadeClose : true,
+				content : '${pageContext.request.contextPath}/task/delTask.html?id=' + id,
+		  });
+		}
 	} else if (id.length > 1) {
 	  layer.alert("只能选择一个", {
-		offset : [ '222px', '390px' ],
+		offset : [ '30%', '40%' ],
 		shade : 0.01
 	  });
 	} else {
 	  layer.alert("请选择需要取消的任务", {
-		offset : [ '222px', '390px' ],
+		offset : [ '30%', '40%' ],
 		shade : 0.01
 	  });
 	}
@@ -96,19 +104,19 @@
   
   /** 受领任务 */
   function start() {
-	var ids = [];
-	$('input[name="chkItem"]:checked').each(function() {
-	  ids.push($(this).val());
-	});
-	var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
-	status = $.trim(status);
-	if (ids.length > 0) {
-	  if (status == "已下达") {
-		layer.confirm('您确定要受领吗?',{
-		  title : '提示',
-		  offset : [ '222px', '360px' ],
-		  shade : 0.01
-		},
+		var ids = [];
+		$('input[name="chkItem"]:checked').each(function() {
+	  	ids.push($(this).val());
+		});
+		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+		status = $.trim(status);
+		if (ids.length == 1) {
+	 	 if (status == "未受领") {
+				layer.confirm('您确定要受领吗?',{
+		  	title : '提示',
+		  	offset: ['30%', '40%'],
+		  	shade : 0.01
+			},
 		function(index) {
 		  layer.close(index);
           $.ajax({
@@ -118,7 +126,7 @@
 			dateType : "json",
 			success : function() {
 			  layer.msg("受领成功", {
-			    offset : [ '222px','390px' ]
+				  offset: ['30%', '40%'],
 			  });
 			  window.setTimeout(function() {
 				location.reload();
@@ -126,21 +134,31 @@
 			},
 			error : function() {
 			  layer.msg("受领失败", {
-				offset : [ '222px','390px' ]
+				  offset: ['30%', '40%'],
 			  });
 			}
 		  });
 		});
-	  } else {
-		layer.alert("任务已经受领", {
-		  offset : [ '222px', '800px' ],
-		  shade : 0.01
-		});
+	  } else if(status=="已受领"){
+			layer.alert("任务已经受领", {
+				offset: ['30%', '40%'],
+		  	shade : 0.01
+			});
+	  }else if(status=="已取消"){
+		  layer.alert("已取消的任务不能受领，请重新选择", {
+			  offset: ['30%', '40%'],
+			  shade : 0.01
+			});
 	  }
-	} else {
+	}else if(ids.length>1){
+		layer.alert("只能选择一项任务", {
+			offset: ['30%', '40%'],
+			shade : 0.01
+		});
+	}else {
 	  layer.alert("请选择要受领的任务", {
-		offset : [ '222px', '800px' ],
-		shade : 0.01
+		  offset: ['30%', '40%'],
+			shade : 0.01
 	  });
 	}
   }

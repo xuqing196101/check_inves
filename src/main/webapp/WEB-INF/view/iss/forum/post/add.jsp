@@ -168,8 +168,8 @@
 
 								<li class="col-md-12 col-sm-12 col-xs-12 mt10">
 									<span class="fl">上传附件：</span>
-									<up:upload id="post_attach_up" multiple="true" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-									<up:show showId="post_attach_show" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
+									<u:upload id="post_attach_up" multiple="true" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+									<u:show showId="post_attach_show" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
 								</li>
 					</ul>
 

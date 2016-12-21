@@ -103,7 +103,7 @@
 
 								<h2 class="count_flow jbxx clear">已上传附件</h2>
 								<div class="col-md-12 col-sm-12 col-cs-12 p0">
-									<up:show showId="post_attach_show" delete="false" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
+									<u:show showId="post_attach_show" delete="false" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
 								</div>
 
 								<!-- 底部按钮 -->

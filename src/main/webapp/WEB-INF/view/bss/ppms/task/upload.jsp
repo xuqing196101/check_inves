@@ -14,11 +14,7 @@
   
   function delTask(id){
     var upload_id = $("#upload_id").val();
-    if(upload_id){
-      $("#myForm").submit();
-    }else{
-      layer.tips("请上传附件", "#uuId");
-    } 
+    $("#myForm").submit();
   }
 </script>  
 </head>
@@ -30,8 +26,8 @@
       <ul class="list-unstyled">
         <li class="mt10 col-md-12 p0">
           <span id="uuId"></span>
-          <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
-          <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
+          <u:upload id="upload_id"  businessId="${task.id}" auto="true" typeId="${dataId}" sysKey="2"/>
+          <u:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
         </li>
 	    <div class="clear"></div>
       </ul>
