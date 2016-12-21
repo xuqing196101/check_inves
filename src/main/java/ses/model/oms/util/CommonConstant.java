@@ -3,7 +3,7 @@ package ses.model.oms.util;
 public class CommonConstant {
 
 	/**分页*/
-	public static final int PAGE_SIZE = 10;
+	public static final int PAGE_SIZE = 20;
 	/** 斜线 */
 	public static final String STR_SLUSH = "/";
 	/** 空格  "*/

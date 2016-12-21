@@ -462,6 +462,10 @@ public class ProjectController extends BaseController {
             map.put("id", pId);
             //拿到一个项目所有的明细
             List<ProjectDetail> details = detailService.selectById(map);
+            for (ProjectDetail projectDetail2 : details) {
+                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail2.getDepartment());
+                model.addAttribute("orgnization", orgnization);
+            }
             model.addAttribute("list", details);
             model.addAttribute("kind", DictionaryDataUtil.find(5));
             model.addAttribute("project", newProject);
@@ -685,24 +689,27 @@ public class ProjectController extends BaseController {
     }
     
     @RequestMapping("/addProject")
-    public String addProject(String id, String bidAddress, String flowDefineId, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
+    public String addProject(String id, String bidAddress, String flowDefineId,String deadline, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
         Project project = projectService.selectById(id);
         project.setLinkman(linkman);
         project.setLinkmanIpone(linkmanIpone);
         project.setSupplierNumber(supplierNumber);
         project.setBidAddress(bidAddress);
         Date date = new Date();   
+        Date date1 = new Date(); 
         //注意format的格式要与日期String的格式相匹配   
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
         try {   
-            date = sdf.parse(bidDate);  
+            date = sdf.parse(bidDate); 
+            date1 = sdf.parse(deadline);
             project.setBidDate(date);
+            project.setDeadline(date1);
         } catch (Exception e) {   
             e.printStackTrace();   
         }  
         projectService.update(project);
         flowExe(request, flowDefineId, project.getId(), 2);
-        return "redirect:excute.html?id="+id;
+        return "redirect:mplement.html?projectId="+id;
     }
 
     /**
@@ -910,7 +917,7 @@ public class ProjectController extends BaseController {
     * @return String
      */
     @RequestMapping("/subPackage")
-    public String subPackage(HttpServletRequest request,Model model){
+    public String subPackage(HttpServletRequest request,Model model,String num){
         String id = request.getParameter("id");
         HashMap<String,Object> map = new HashMap<>();
         map.put("id", id);
@@ -1038,6 +1045,7 @@ public class ProjectController extends BaseController {
             }
         }
         model.addAttribute("packageList", packages);
+        model.addAttribute("num1", num);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         Project project = projectService.selectById(id);
         model.addAttribute("project", project);
@@ -1443,18 +1451,35 @@ public class ProjectController extends BaseController {
     * @return String
      */
     @RequestMapping("/projectList")
-    public String projectList(@CurrentUser User user, Integer page, Model model, String name,String projectNumber,
+    public String projectList(@CurrentUser User user,String id, Integer page, Model model, String name,String projectNumber,
             HttpServletRequest request){
     	//生成ID
     	String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
     	//获取采购明细
     	List<Task> taskList = taskservice.listByTask(null, page==null?1:page);
         PageInfo<Task> list = new PageInfo<Task>(taskList);
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("typeName", "0");
+        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map1);
+        model.addAttribute("list2",orgnizations);
         model.addAttribute("list", list);
     	model.addAttribute("id", uuid);
     	model.addAttribute("orgId", user.getOrg().getId());
     	model.addAttribute("name", name);
         model.addAttribute("projectNumber", projectNumber);
+        if(id != null) {
+            Project project = projectService.selectById(id);
+            HashMap<String , Object> map = new HashMap<>();
+            map.put("id", project.getId());
+            List<ProjectDetail> details = detailService.selectById(map);
+            List<Task> taskList1 = taskservice.listByTask(null, page==null?1:page);
+            PageInfo<Task> list1 = new PageInfo<Task>(taskList1);
+            model.addAttribute("list", list1);
+            model.addAttribute("lists", details);
+            model.addAttribute("orgId", user.getOrg().getId());
+            model.addAttribute("name", project.getName());
+            model.addAttribute("projectNumber", project.getProjectNumber());
+        }
     	return "bss/ppms/project/project";
     }
     
@@ -1663,6 +1688,10 @@ public class ProjectController extends BaseController {
 	         HashMap<String, Object> map = new HashMap<String, Object>();
 	         map.put("id", id);
 	         List<ProjectDetail> detail = detailService.selectById(map);
+	         for (ProjectDetail projectDetail2 : detail) {
+                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail2.getDepartment());
+                model.addAttribute("orgnization", orgnization);
+            }
 	         model.addAttribute("lists", detail);
 	         
 	         Integer page = null;
@@ -1710,7 +1739,7 @@ public class ProjectController extends BaseController {
      
      
      @RequestMapping("/nextStep")
-     public String nextStep(Project project,Model model){
+     public String nextStep(Project project,Model model, String num1){
     	 
     	 project.setStatus(3);
     	 project.setIsRehearse(0);
@@ -1728,7 +1757,8 @@ public class ProjectController extends BaseController {
          model.addAttribute("list", details);
          model.addAttribute("kind", DictionaryDataUtil.find(5));
          model.addAttribute("project", newProject);
-    	 
+         model.addAttribute("num", "1");
+         model.addAttribute("num1", num1);
     	 return "bss/ppms/project/sub_package";
      }
      

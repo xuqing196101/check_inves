@@ -1,5 +1,6 @@
 package bss.service.ppms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.Task;
@@ -91,4 +92,6 @@ public interface TaskService {
 	 List<Task> listByTask(Task task,Integer page);
 	 
 	 boolean verify(Task task);
+	 
+	 List<Task> likeByName(HashMap<String, Object> map);
 }

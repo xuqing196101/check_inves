@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import ses.model.oms.PurchaseDep;
 
 public class Task {
     
@@ -13,7 +12,7 @@ public class Task {
 	@NotBlank(message = "任务名称不能为空") 
     private String name; //任务名称
 	
-    private PurchaseDep purchaseId; //采购部门
+    private String purchaseId; //采购部门
 	
 	@NotBlank(message = "计划编号不能为空") 
     private String documentNumber;
@@ -39,6 +38,8 @@ public class Task {
     private String passWord;
     
     private Integer taskNature;
+    
+    private String orgName;
 
 	public Task(String id) {
 		super();
@@ -65,11 +66,11 @@ public class Task {
 		this.name = name;
 	}
 
-	public PurchaseDep getPurchaseId() {
+    public String getPurchaseId() {
         return purchaseId;
     }
 
-    public void setPurchaseId(PurchaseDep purchaseId) {
+    public void setPurchaseId(String purchaseId) {
         this.purchaseId = purchaseId;
     }
 
@@ -168,6 +169,13 @@ public class Task {
 	public void setTaskNature(Integer taskNature) {
 		this.taskNature = taskNature;
 	}
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
 	
-   
 }

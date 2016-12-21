@@ -1,5 +1,6 @@
 package bss.dao.ppms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.Task;
@@ -20,6 +21,8 @@ public interface TaskMapper {
     List<Task> listByTask(Task task);
     
     List<Task> verifyByTask(Task task);
+    
+    List<Task> likeByName(HashMap<String, Object> map);
     
     void updateByPrimaryKeySelective(Task record);
 

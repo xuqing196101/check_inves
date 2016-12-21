@@ -135,7 +135,6 @@
         </thead>
         <tbody>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
-            <c:if test="${obj.organization eq orgId}">
             <c:if test="${obj.projectStatus eq '0'}">
                     <tr style="cursor: pointer;">
                       <td class="tc w50"> ${obj.seq}
@@ -201,7 +200,6 @@
                         <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this)" alt="">
                       </td>
                     </tr>
-                    </c:if>
                     </c:if>
                   </c:forEach>
         </tbody>

@@ -261,12 +261,8 @@
 		<ul class="demand_list">
 		  <li>
 		    <label class="fl">需求部门：</label>
-			<span><input type="text" name="purchaseRequiredId" id="purchaseRequiredId" value="${task.purchaseRequiredId }" /></span>
+			<span><input type="text" name="name" id="purchaseRequiredId" value="${task.orgName}" /></span>
 		  </li>
-		  <li>
-            <label class="fl">采购机构：</label>
-            <span><input type="text" id="topic" name="purchaseId" id="purchaseId" value="${task.purchaseId }" class=""/></span>
-          </li>
           <li>
             <label class="fl">文件编号：</label>
             <span><input type="text" name="documentNumber" id="documentNumber" value="${task.documentNumber }" class=""/></span>
@@ -279,6 +275,16 @@
                 <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>未受领</option>
                 <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>已受领</option>
                 <option value="2" <c:if test="${'2'==task.status}">selected="selected"</c:if>>已取消</option>
+              </select>
+            </span>
+          </li>
+          <li>
+            <label class="fl">任务性质：</label>
+            <span class="">
+              <select  name="taskNature" id="taskNature">
+                <option selected="selected" value="">请选择</option>
+                <option value="1" <c:if test="${'1'==task.taskNature}">selected="selected"</c:if>>预研任务</option>
+                <option value="0" <c:if test="${'0'==task.taskNature}">selected="selected"</c:if>>正常任务</option>
               </select>
             </span>
           </li>
@@ -310,11 +316,17 @@
 		  </tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
+		  <c:if test="${orgId eq obj.purchaseId}"></c:if>
 		  <tr class="pointer">
 			<td class="tc w30"><input type="checkbox" value="${obj.id }"name="chkItem" onclick="check()" alt=""></td>
 			<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a></td>
-			<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.purchaseId.name}</a></td>
+			<td class="tc">
+			  <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
+			  <c:forEach items="${list2}" var="list" varStatus="vs">
+			   <c:if test="${obj.purchaseRequiredId eq list.id}">${list.name}</c:if>
+			  </c:forEach>
+			  </a></td>
 			<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.documentNumber}</a></td>
 			<td class="tc">
 			  <c:if test="${'1'==obj.status}">

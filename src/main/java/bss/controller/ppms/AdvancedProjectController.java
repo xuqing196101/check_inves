@@ -2,6 +2,7 @@ package bss.controller.ppms;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,17 +32,23 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.ems.Expert;
+import ses.model.ems.ExpertCategory;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
 import ses.model.oms.util.CommonConstant;
+import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.ComparatorDetail;
 import ses.util.ComparatorDetails;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
+import ses.util.WordUtil;
 
 import common.annotation.CurrentUser;
 
@@ -63,6 +71,7 @@ import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.TaskService;
 
 @Controller
 @Scope("prototype")
@@ -88,6 +97,16 @@ public class AdvancedProjectController extends BaseController {
     
     @Autowired
     private OrgnizationServiceI orgnizationService;
+    
+    @Autowired
+    private UserServiceI userService;
+    
+    @Autowired
+    private ExpertService service;// 专家管理
+    
+    @Autowired
+    private TaskService taskService;
+    
     
     /**
      * 
@@ -120,7 +139,7 @@ public class AdvancedProjectController extends BaseController {
      * @param model
      * @return
      */
-    @RequestMapping("/add")
+/*    @RequestMapping("/add")
     public String add(Model model, String name, String projectNumber, String projectId, PurchaseRequired purchaseRequired, Integer page, HttpServletRequest request){
         //查询状态为4的需求计划
         purchaseRequired.setStatus("4");
@@ -160,15 +179,101 @@ public class AdvancedProjectController extends BaseController {
             }
         }else{
             String projectIds = WfUtil.createUUID();
-            AdvancedProject project = new AdvancedProject();
-            project.setId(projectIds);
-            advancedProjectService.save(project);
             model.addAttribute("projectId", projectIds);
         }
         model.addAttribute("info", info);
         model.addAttribute("dic", DictionaryDataUtil.findById("6"));
         return "bss/ppms/advanced_project/add";
+    }*/
+    
+    /**
+     * 
+     *〈新增〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param model
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping("/add")
+    public String add(Model model, String id, HttpServletRequest request){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("planNo", id);
+        List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+        for (PurchaseRequired purchaseRequired : list) {
+            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getDepartment());
+            model.addAttribute("orgnization", orgnization);
+            Orgnization org = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getOrganization());
+            model.addAttribute("org", org);
+        }
+        model.addAttribute("lists", list);
+        model.addAttribute("user", list.get(0).getUserId());
+        model.addAttribute("kind", DictionaryDataUtil.find(5));
+        return "bss/ppms/advanced_project/add_advanced";
     }
+    
+    /**
+     * 
+     *〈预研通知书附件上传〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/attachment")
+    public String attachment(Model model, String projectNumber, String proName, String department,String purchaseType, HttpServletRequest request){
+        model.addAttribute("advancedAdvice", DictionaryDataUtil.getId("ADVANCED_ADVICE"));
+        model.addAttribute("projectId", WfUtil.createUUID());
+        model.addAttribute("projectNumber", projectNumber);
+        model.addAttribute("proName", proName);
+        model.addAttribute("department", department);
+        model.addAttribute("purchaseType", purchaseType);
+        return "bss/ppms/advanced_project/attachment";
+    }
+    
+    @RequestMapping("/transmit")
+    public String transmit(Model model, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType, HttpServletRequest request){
+        //立项 
+        AdvancedProject project = new AdvancedProject();
+        project.setId(id);
+        project.setName(proName);
+        project.setProjectNumber(projectNumber);
+        advancedProjectService.save(project);
+        //下达
+        Task task = new Task();
+        task.setId(WfUtil.createUUID());
+        task.setName(name);
+        task.setDocumentNumber(documentNumber);
+        task.setPurchaseRequiredId(department);
+        task.setStatus(1);
+        task.setIsDeleted(0);
+        task.setGiveTime(new Date());
+        task.setProcurementMethod(purchaseType);
+        task.setTaskNature(1);
+        taskService.add(task);
+        return "redirect:/task/list.html";
+    }
+    
+    @RequestMapping("download")
+    public ResponseEntity<byte[]> download(@CurrentUser User users,String proName, String userId,String seq, String orgName, String orgId, String kindName,
+            HttpServletRequest request) throws Exception {
+        User user = userService.getUserById(userId);
+        String userNames = users.getRelName();
+        String userphone = users.getMobile();
+        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(orgId);
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext()
+                .getRealPath("/WEB-INF/upload_file/");
+        // 文件名称
+        String fileName = createWordMethod(user, proName,userNames,userphone, orgName,orgnization, kindName, seq, request);
+        // 下载后的文件名
+        String downFileName = new String("预研通知书.doc".getBytes("UTF-8"),
+                "iso-8859-1");// 为了解决中文名称乱码问题
+        return service.downloadFile(fileName, filePath, downFileName);
+    }
+    
     
     /**
      * 
@@ -913,18 +1018,6 @@ public class AdvancedProjectController extends BaseController {
         map.put("projectId", projectId);
         AdvancedProject project = advancedProjectService.selectById(projectId);
         Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
-       /* List<ProjectTask> tasks = projectTaskService.queryByNo(map);
-        Set<String> set =new HashSet<String>();
-        for (ProjectTask projectTask : tasks) {
-            if(StringUtils.isNotEmpty(projectTask.getTaskId())){
-                set.add( projectTask.getTaskId());
-                number = projectTask.getTaskId();
-            }
-        }   
-        if(set.size() == 1){
-            Task task = taskservice.selectById(number);
-            model.addAttribute("task", task);
-        }*/
         map.put("projectId", projectId);
         HashMap<String, Object> map1 = new HashMap<String, Object>();
         map1.put("advancedProject", projectId);
@@ -1140,5 +1233,41 @@ public class AdvancedProjectController extends BaseController {
         detail.setPosition(positon);
         detailService.save(detail);
         
+    }
+    
+    
+    /**
+     * 
+     * 
+     * @Title: createWordMethod
+     * @author: lkzx
+     * @date: 2016-9-7 下午3:25:38
+     * @Description: TODO 生成word文件提供下载
+     * @param: @param expert
+     * @return: String
+     * @throws Exception
+     */
+    private String createWordMethod(User user, String proName, String userNames, String userphone,String seq, Orgnization orgnization, String kindName, String orgName,HttpServletRequest request) throws Exception {
+        /** 用于组装word页面需要的数据 */
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("seq", orgName == null ? "" : orgName);
+        dataMap.put("linkman", user.getRelName() == null ? "" : user.getRelName());
+        Date time = new Date();
+        dataMap.put("time",time == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(time));
+        dataMap.put("projectName", proName == null ? "" : proName);
+        dataMap.put("purchaseType", kindName == null ? "" : kindName);
+        dataMap.put("mobile", user.getMobile() == null ? "" : user.getMobile());
+        dataMap.put("purchase", orgnization.getName() == null ? "" : orgnization.getName());
+        dataMap.put("phone", user.getTelephone() == null ? "" : user.getTelephone());
+        dataMap.put("department", seq == null ? "" : seq);
+        dataMap.put("agent", userNames == null ? "" : userNames);
+        dataMap.put("Iphone", userphone == null ? "" : userphone);
+        // 文件名称
+        String fileName = new String(("预研通知书.doc").getBytes("UTF-8"),
+                "UTF-8");
+        /** 生成word 返回文件名 */
+        String newFileName = WordUtil.createWord(dataMap, "advanced.ftl",
+                fileName, request);
+        return newFileName;
     }
 }

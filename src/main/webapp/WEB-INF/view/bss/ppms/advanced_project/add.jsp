@@ -23,7 +23,7 @@
           },
           jump: function(e, first) { //触发分页后的回调
             if(!first) { //一定要加此判断，否则初始时会无限刷新
-              location.href = '${pageContext.request.contextPath}/project/add.html?page=' + e.curr;
+              location.href = '${pageContext.request.contextPath}/advancedProject/add.html?page=' + e.curr;
             }
           }
         });
@@ -33,7 +33,7 @@
             name: {
               remote: {
                 type: "post",
-                url: "${pageContext.request.contextPath}/project/SameNameCheck.html",
+                url: "${pageContext.request.contextPath}/advancedProject/SameNameCheck.html",
                 dataType: "json",
                 data: {
                   name: function() {
@@ -45,7 +45,7 @@
             projectNumber: {
               remote: {
                 type: "post",
-                url: "${pageContext.request.contextPath}/project/SameNameCheck.html",
+                url: "${pageContext.request.contextPath}/advancedProject/SameNameCheck.html",
                 dataType: "json",
                 data: {
                   projectNumber: function() {

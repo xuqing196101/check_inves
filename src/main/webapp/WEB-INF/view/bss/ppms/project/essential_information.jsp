@@ -148,14 +148,13 @@
                   <input name="sectorOfDemand" id="sectorOfDemand" value="${orgnization.name}"/>
                   </c:if>
                   </td>
-                  <td class="bggrey">预算报价（万元）:</td>
-                  <td><input name="budgetAmount" id="budgetAmount" value="${budgetAmount}"/></td>
-                </tr>
-                 <tr>
                   <td class="bggrey">最少供应商人数:</td>
                   <td><input name="supplierNumber" id="supplierNumber" value="${project.supplierNumber}" /></td>
+                </tr>
+                 <tr>
+                  
                   <td class="bggrey">采购方式:</td>
-                   <td>
+                   <td colspan="3">
                      <c:forEach items="${kind}" var="kind" >
                        <c:if test="${kind.id == project.purchaseType}">
                          <input type="hidden" id="purchaseType" value="${kind.code}"/>
@@ -165,10 +164,10 @@
                    </td>
                 </tr>
                  <tr>
+                   <td class="bggrey">投标截止时间:</td>
+                   <td><input  readonly="readonly"  value="<fmt:formatDate type='date' value='${project.deadline }' dateStyle="default" pattern="yyyy-MM-dd HH:mm:ss"/>" name="deadline" id="deadline" type="text"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/></td>
                    <td class="bggrey">开标时间:</td>
                    <td><input  readonly="readonly"  value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm:ss"/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
-                   <td class="bggrey">投标截止时间:</td>
-                   <td><fmt:formatDate value='${project.deadline}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                  </tr>
                  <tr>
                    <td class="bggrey">开标地点:</td>
@@ -255,7 +254,6 @@
                      <th class="info">计量单位</th>
                      <th class="info">采购数量</th>
                      <th class="info">单价（元）</th>
-                     <th class="info">预算金额（万元）</th>
                      <th class="info">交货期限</th>
                      <th class="info">供应商名称</th>
                      <c:if test="${pack.isImport==1 }">
@@ -275,7 +273,6 @@
 		             <td class="tc">${obj.item}</td>
 		             <td class="tc">${obj.purchaseCount}</td>
 		             <td class="tc">${obj.price}</td>
-		             <td class="tc">${obj.budget}</td>
 		             <td class="tc">${obj.deliverDate}</td>
 		             <td class="tc">${obj.supplier}</td>
 		             <c:if test="${pack.isImport==1 }">
@@ -295,14 +292,14 @@
         <div class="tab-pane fade " id="tab-4" >
           <div class="margin-bottom-0  categories">
             <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-               <f:show showId="upload_id"  groups="upload123,upload_id"  delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
+               <u:show showId="upload_id"  groups="upload123,upload_id"  delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
             </form>
           </div>
         </div>
         <div class="tab-pane fade active" id="tab-5" >
           <div>上传附件：</div>
-          <f:upload id="upload123" groups="upload123,upload_id" auto="true"  businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
-          <f:show showId="upload123" groups="upload123,upload_id"  businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
+          <u:upload id="upload123" groups="upload123,upload_id" auto="true"  businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
+          <u:show showId="upload123" groups="upload123,upload_id"  businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
         </div>
       </div>
     </div>

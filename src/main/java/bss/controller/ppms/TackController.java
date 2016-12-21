@@ -2,8 +2,10 @@ package bss.controller.ppms;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +22,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.util.CommonConstant;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
@@ -32,6 +37,7 @@ import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Task;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
@@ -39,7 +45,9 @@ import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.TaskService;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 /**
  * 
@@ -75,11 +83,23 @@ public class TackController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/list")
-	public String list(Integer page,Model model,Task task){
-		List<Task> list = taskservice.listAll(page==null?1:page, task);
-		PageInfo<Task> info = new PageInfo<Task>(list);
-		model.addAttribute("info", info);
-		model.addAttribute("task", task);
+	public String list(@CurrentUser User user,  @ModelAttribute PageInfo<AdvancedProject> page,Model model,Task task){
+	    if(user != null && user.getOrg() != null){
+	        HashMap<String, Object> map1 = new HashMap<>();
+	        PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
+	        map1.put("name", task.getOrgName());
+	        map1.put("documentNumber", task.getDocumentNumber());
+	        map1.put("status", task.getStatus());
+	        map1.put("taskNature", task.getTaskNature());
+	        List<Task> list = taskservice.likeByName(map1);
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("typeName", "0");
+            List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
+            model.addAttribute("list2",orgnizations);
+            model.addAttribute("info", new PageInfo<Task>(list));
+            model.addAttribute("orgId", user.getOrg().getId());
+            model.addAttribute("task", task);
+	    }
 		return "bss/ppms/task/list";
 	}
 	
@@ -222,14 +242,15 @@ public class TackController extends BaseController{
 	@RequestMapping("/view")
 	public String view(String id,Model model){
 		Task task = taskservice.selectById(id);
-        CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
         List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
         List<String> list = conllectPurchaseService.getNo(task.getCollectId());
-        for(String s:list){
-            Map<String,Object> map=new HashMap<String,Object>();
-            map.put("planNo", s);
-            List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-            listp.addAll(list2);
+        if(list != null && list.size() > 0){
+            for(String s:list){
+                Map<String,Object> map=new HashMap<String,Object>();
+                map.put("planNo", s);
+                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+                listp.addAll(list2);
+            }
         }
         for (PurchaseRequired required : listp) {
             Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getDepartment());
@@ -238,7 +259,6 @@ public class TackController extends BaseController{
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", listp);
         model.addAttribute("task", task);
-        model.addAttribute("queryById", queryById);
 		return "bss/ppms/task/view";
 	}
 	

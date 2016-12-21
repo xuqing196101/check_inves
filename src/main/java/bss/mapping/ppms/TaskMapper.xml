@@ -16,7 +16,8 @@
     <result column="ACCEPT_TIME" property="acceptTime" />
     <result column="PASS_WORD" property="passWord" />
     <result column="TASK_NATURE" property="taskNature" />
-    <association property="purchaseId" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.findByOrgId"/>
+    <result property="purchaseId" column="PURCHASE_ID" />
+    <result property="orgName" column="orgName" />
   </resultMap>
   
   <resultMap type="bss.model.ppms.Task" id="ProjectResultMap" extends="BaseResultMap">  
@@ -61,7 +62,7 @@
         and GIVE_TIME =  #{giveTime}
       </if>
       <if test="purchaseId != null and purchaseId !=''">
-        and PURCHASE_ID like '%${purchaseId.id}%'
+        and PURCHASE_ID like '%${purchaseId}%'
       </if> 
       <if test="documentNumber != null and documentNumber !=''">
         and DOCUMENT_NUMBER like '%${documentNumber}%'
@@ -74,6 +75,35 @@
       </if>
      ORDER BY GIVE_TIME DESC
   </select>
+  
+  <select id="likeByName" resultType="bss.model.ppms.Task" parameterType="java.util.Map">
+    select
+    t.ID as id,
+    t.NAME as name,
+    t.PURCHASE_ID as purchaseId,
+    t.PURCHASE_REQUIRED_ID as purchaseRequiredId,
+    t.STATUS as status,
+    t.DOCUMENT_NUMBER as documentNumber,
+    t.TASK_NATURE as taskNature,
+    t.GIVE_TIME as giveTime,
+    t.MATERIALS_TYPE as materialsType,
+    o.NAME as orgName 
+    from T_BSS_PPMS_TASK t left join T_SES_OMS_ORG o on t.PURCHASE_REQUIRED_ID = o.ID where 1=1
+    and t.IS_DELETED = 0 
+    <if test="name != null and name !=''">
+      and o.NAME like CONCAT(CONCAT('%', #{name}), '%')
+    </if>
+    <if test="documentNumber != null and documentNumber !=''">
+       and t.DOCUMENT_NUMBER like CONCAT(CONCAT('%', #{documentNumber}), '%')
+    </if>
+    <if test="status != null">
+       and  t.STATUS = #{status}
+     </if>
+     <if test="taskNature != null">
+       and  t.TASK_NATURE = #{taskNature}
+     </if>
+  </select>
+  
     <select id="likeByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
     select 
     *
@@ -98,7 +128,7 @@
         and GIVE_TIME =  #{giveTime}
       </if>
       <if test="purchaseId != null and purchaseId !=''">
-        and PURCHASE_ID like '%${purchaseId.id}%'
+        and PURCHASE_ID like '%${purchaseId}%'
       </if> 
       <if test="documentNumber != null and documentNumber !=''">
         and DOCUMENT_NUMBER like '%${documentNumber}%'
@@ -135,7 +165,7 @@
         and GIVE_TIME =  #{giveTime}
       </if>
       <if test="purchaseId != null and purchaseId !=''">
-        and PURCHASE_ID like '%${purchaseId.id}%'
+        and PURCHASE_ID like '%${purchaseId}%'
       </if> 
       <if test="documentNumber != null and documentNumber !=''">
         and DOCUMENT_NUMBER = #{documentNumber}
@@ -245,7 +275,7 @@
         #{name},
       </if>
       <if test="purchaseId != null">
-        #{purchaseId.id},
+        #{purchaseId},
       </if>
       <if test="documentNumber != null">
         #{documentNumber},
@@ -292,7 +322,7 @@
         NAME = #{name},
       </if>
       <if test="purchaseId != null">
-        PURCHASE_ID = #{purchaseId.id},
+        PURCHASE_ID = #{purchaseId},
       </if>
       <if test="documentNumber != null">
         DOCUMENT_NUMBER = #{documentNumber},

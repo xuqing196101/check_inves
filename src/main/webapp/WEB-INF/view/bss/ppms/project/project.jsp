@@ -89,6 +89,7 @@
       });
 
       function nextStep() {
+        var num = "0";
         var name = $("#name").val();
         var projectNumber = $("#projectNumber").val();
         if(name == "") {
@@ -96,7 +97,7 @@
         } else if(projectNumber == "") {
           layer.tips("项目编号不允许为空", "#projectNumber");
         } else {
-          window.location.href = "${pageContext.request.contextPath }/project/nextStep.html?id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber;
+          window.location.href = "${pageContext.request.contextPath }/project/nextStep.html?id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber+"&num1="+num;
         }
       }
     </script>
@@ -170,7 +171,13 @@
                     <tr style="cursor: pointer;">
                       <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
                       <td class="tc">${obj.name}</td>
-                      <td class="tc">${obj.purchaseId.name }</td>
+                      <td class="tc">
+                      <c:forEach items="${list2 }" var="list">
+                      <c:if test="${obj.purchaseRequiredId eq list.id}">
+                        ${list.name }
+                      </c:if>
+                      </c:forEach>
+                      </td>
                       <td class="tc">${obj.documentNumber}</td>
                       <td class="tc">
                         <c:if test="${'0'==obj.status}">

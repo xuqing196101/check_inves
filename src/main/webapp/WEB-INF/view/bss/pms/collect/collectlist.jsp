@@ -263,7 +263,17 @@
 			}
 
 			function advanced() {
-				window.location.href = "${pageContext.request.contextPath}/advancedProject/add.html";
+				var id = [];
+        $('input[name="chkItem"]:checked').each(function() {
+          id.push($(this).val());
+        });
+        if(id.length == 1){
+          window.location.href = "${pageContext.request.contextPath}/advancedProject/add.html?id="+id;
+        } else {
+          layer.alert("请选择计划", {
+            shade: 0.01
+          });
+        }
 			}
 			
 			//重置

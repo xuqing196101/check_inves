@@ -371,6 +371,10 @@
 				window.location.href = "${pageContext.request.contextPath }/project/edit.do?id=" + id;
 			}
 			
+			function goback(id){
+			   window.location.href = "${pageContext.request.contextPath }/project/projectList.do?id=" + id;
+			}
+			
 			//下一步
 			function next(){
 				var projectId = $("#projectId").val();
@@ -464,7 +468,9 @@
 							<tr class="tc">
 								<td class="w30"><input type="checkbox" value="${obj.id }" name="info" onclick="selectedBox(this)"></td>
 								<td class="w50">${obj.serialNumber }</td>
-								<td>${obj.department}</td>
+								<td><c:if test="${orgnization.id == obj.department}"> 
+                           ${orgnization.name}
+                       </c:if></td>
 								<td>${obj.goodsName}</td>
 								<td>${obj.stand}</td>
 								<td>${obj.qualitStand}</td>
@@ -531,7 +537,9 @@
 							<tr class="tc">
 								<td class="w30"><input type="checkbox" name="info${p.index }" value="${obj.id }" onclick="selectedPackage(this,${p.index})" /></td>
 								<td class="w50">${obj.serialNumber }</td>
-								<td>${obj.department}</td>
+								<td><c:if test="${orgnization.id == obj.department}"> 
+                           ${orgnization.name}
+                       </c:if></td>
 								<td>${obj.goodsName}</td>
 								<td>${obj.stand}</td>
 								<td>${obj.qualitStand}</td>
@@ -560,10 +568,17 @@
 		
 		<!-- 按钮 -->
 		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-			<button class="btn" type="button" onclick="back('${project.id}')">上一步</button>
+		  <c:if test="${num eq 1}">
+		    <button class="btn" type="button" onclick="goback('${project.id}')">上一步</button>
+		  </c:if>
+		  <c:if test="${num1 eq 0}">
+		    <button class="btn" type="button" onclick="back('${project.id}')">上一步</button>
+		  </c:if>
+			<%--  --%>
+			 
 			<button class="btn" type="button" onclick="next()">下一步</button>
 		</div>
-		
+		<%-- 
 		<c:if test="${!empty list}">
 			<div class="content table_box dnone" id="oddDetail">
 				<table class="table table-bordered table-condensed table-hover table-striped">
@@ -623,7 +638,7 @@
 				</div>
 			</div>
 
-		</c:if>
+		</c:if> --%>
 	</body>
 
 </html>

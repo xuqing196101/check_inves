@@ -1,5 +1,6 @@
 package bss.service.ppms.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,12 @@ public class TaskServiceImpl implements TaskService {
             flag = false;
         }
         return flag;
+    }
+
+    @Override
+    public List<Task> likeByName(HashMap<String, Object> map) {
+        
+        return taskMapper.likeByName(map);
     }
 
 

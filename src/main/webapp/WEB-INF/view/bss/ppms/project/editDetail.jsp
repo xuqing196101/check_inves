@@ -135,8 +135,9 @@
   
   //分包
   function subPackage(){
+    var num = "0";
 	  var id = $("#id").val();
-	  window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?id=" + id;
+	  window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?id=" + id+"&num="+num;
   }
 </script>
 </head>
