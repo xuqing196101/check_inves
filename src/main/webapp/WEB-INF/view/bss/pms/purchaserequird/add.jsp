@@ -731,7 +731,7 @@
 						</form>
 					</div>
 				</ul>
-				<input class="btn btn-windows save" style="margin-left: 500px;" type="button" onclick="incr()" value="提交">
+				<input class="btn btn-windows save" style="margin-left: 500px;" type="button" onclick="incr()" value="保存">
 				<button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</button>
 			</div>
 

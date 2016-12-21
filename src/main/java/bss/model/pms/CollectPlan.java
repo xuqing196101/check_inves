@@ -46,6 +46,11 @@ public class CollectPlan {
      
     private String taskId;
     
+    private Integer totalAudit;
+
+    private Integer auditTurn;
+    
+    
     public String getId() {
         return id;
     }
@@ -164,6 +169,22 @@ public class CollectPlan {
 
 	public void setTaskId(String taskId) {
 		this.taskId = taskId == null ? null : taskId.trim();
+	}
+
+	public Integer getTotalAudit() {
+		return totalAudit;
+	}
+
+	public void setTotalAudit(Integer totalAudit) {
+		this.totalAudit = totalAudit;
+	}
+
+	public Integer getAuditTurn() {
+		return auditTurn;
+	}
+
+	public void setAuditTurn(Integer auditTurn) {
+		this.auditTurn = auditTurn;
 	}
    
 	

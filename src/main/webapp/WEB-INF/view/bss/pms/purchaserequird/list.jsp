@@ -258,7 +258,7 @@
 	    	<button class="btn btn-windows edit"  onclick="edit()">修改</button>
 				<button class="btn btn-windows output" onclick="exports()">下载</button>
 	   		<button class="btn btn-windows delete" onclick="del()">删除</button>
-				<button class="btn btn-windows git" onclick="sub()">提交</button>
+				<button class="btn btn-windows git" onclick="sub()">提交采购管理部门</button>
 	  	</div>
    	<div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
