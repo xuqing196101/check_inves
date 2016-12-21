@@ -44,8 +44,6 @@ import ses.util.ComparatorDetail;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
-import bss.dao.pms.PurchaseRequiredMapper;
-import bss.dao.ppms.ProjectDetailMapper;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.FlowDefine;
@@ -1315,7 +1313,7 @@ public class ProjectController extends BaseController {
                     if (flowDefine.getStep() == willStep) {
                         //将要执行状态
                         flowDefine.setStatus(4);
-                        map.put("url", flowDefine.getUrl()+"?projectId="+projectId+"&flowDefineId="+flowDefine.getId());
+                       // map.put("url", flowDefine.getUrl()+"?projectId="+projectId+"&flowDefineId="+flowDefine.getId());
                     } else {
                         //未执行状态
                         flowDefine.setStatus(3);
@@ -1324,17 +1322,18 @@ public class ProjectController extends BaseController {
             }
             if (flowExecutes.get(0).getStep() == fds.size()) {
                 fds.get(fds.size()-1).setStatus(4);
-                map.put("url", fds.get(fds.size()-1).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(fds.size()-1).getId());
+               // map.put("url", fds.get(fds.size()-1).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(fds.size()-1).getId());
             }
         } else {
             //默认第一个为将要执行状态
             fds.get(0).setStatus(4);
-            map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
+           // map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
         }
-        if (map.get("url") == null || "".equals(map.get("url"))) {
+        /*if (map.get("url") == null || "".equals(map.get("url"))) {
             fds.get(0).setStatus(4);
             map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
-        }
+        }*/
+        map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
         map.put("fds", fds);
         return map;
     }

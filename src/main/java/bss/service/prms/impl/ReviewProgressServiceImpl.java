@@ -230,7 +230,7 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 				map2.put("expertId", expertId);
 				map2.put("projectId", projectId);
 				map2.put("packageId", packageId);
-				map2.put("isAudit", 0);
+				map2.put("isGrade", 1);
 				//查询出关联表中已经评审的数据
 				packageExpertList2 = packageExpertMapper.selectList(map2);
 	  
@@ -250,71 +250,64 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 	  //集合为空证明没有进度信息
 	  if(reviewProgressList==null || reviewProgressList.size()==0){
 		  if(packageExpertList!=null&& packageExpertList.size()>0){
-			  double first =  1/(double)packageExpertList.size();
-			  BigDecimal b = new BigDecimal(first); 
+//			  double first =  1/(double)packageExpertList.size();
+//			  BigDecimal b = new BigDecimal(first); 
 			  //scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 			  scoreProgress = 1/(double)packageExpertList.size();
+			  BigDecimal b = new BigDecimal(scoreProgress); 
+			  scoreProgress  = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
 			  //评分进度
 			  reviewProgress.setScoreProgress(scoreProgress);
+			  //初审进度
+			  double firstProgress = 0;
+			  reviewProgress.setFirstAuditProgress(firstProgress);
 			  totalProgress = scoreProgress/2;
 			  //总进度
 			  reviewProgress.setTotalProgress(totalProgress);
 			  //状态
-			  reviewProgress.setAuditStatus("1");
+			  reviewProgress.setAuditStatus("3");
 			  reviewProgress.setPackageId(packageId);
 			  reviewProgress.setProjectId(projectId);
+			  HashMap<String, Object> packageMap = new HashMap<String, Object>();
+        packageMap.put("projectId", projectId);
+        packageMap.put("id", packageId);
+        List<Packages> packages = packageMapper.findPackageById(packageMap);
+        if (packages != null && packages.size() > 0) {
+            reviewProgress.setPackageName(packages.get(0).getName());
+        }
 			  //新增
 			  save(reviewProgress);
 		  }
 	  }else{
 		//判断关联集合不为空 从而确定该项目下有多少专家
 		  if(packageExpertList!=null&& packageExpertList.size()>0){
-			  ReviewProgress reviewProgress2 = reviewProgressList.get(0);
-			 // Double firstAuditProgress = reviewProgress2.getFirstAuditProgress();
-			  double score = 0;
-			  reviewProgress2.setPackageId(packageId);
-			  if(packageExpertList2!=null && packageExpertList2.size()>0){
-				  score = (double)packageExpertList2.size()/(double)packageExpertList.size()+1/(double)packageExpertList.size();
-			  }else{
-				  score = 1/(double)packageExpertList.size();
-			  }
-			  
-			  BigDecimal b = new BigDecimal(score); 
-			  //scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			  scoreProgress = 1/(double)packageExpertList.size();
-			  //初审进度更新
-			  reviewProgress2.setScoreProgress(scoreProgress);
-			  //总进度更新
-			  Double firstProgress2 = reviewProgress2.getFirstAuditProgress();
-			 double total2 =  (scoreProgress+firstProgress2)/2;
-			 BigDecimal t = new BigDecimal(total2); 
-			 //totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			 totalProgress = (scoreProgress + reviewProgress2.getFirstAuditProgress())/2;
-			 //总进度更新
-			 //reviewProgress2.setTotalProgress(totalProgress);
-			 if(totalProgress==1){
-				 reviewProgress2.setAuditStatus("2");
-			 }
-			 //修改进度
-			 updateByMap(reviewProgress2);
-			 
-			 List<ReviewProgress> list = mapper.selectByMap(map);
-			 // 判断如果所有专家都已打分,则改变scoreProgress的值为1,防止出现99.9%的情况
-			 List<ReviewFirstAudit> reviewList = reviewFirstAuditMapper.selectList(map);
-			 if (reviewList.size() == packageExpertList.size()) {
-			     ReviewProgress review = new ReviewProgress();
-			     review.setId(list.get(0).getId());
-			     review.setScoreProgress((double)1);
-			     updateByMap(review);
-			 }
-			 if(list != null && !list.isEmpty()){
-			     ReviewProgress reviewProgress3 = list.get(0);
-			     reviewProgress3.setTotalProgress((reviewProgress3.getFirstAuditProgress() + reviewProgress3.getScoreProgress())/2);
-			     Map<String, Object> mapSearch = new HashMap<String, Object>();
-			     mapSearch.put("id", reviewProgress3.getId());
-			     mapSearch.put("totalProgress", reviewProgress3.getTotalProgress());
-			     mapper.updateTotalProgress(mapSearch);
-			 }
+		    ReviewProgress reviewProgress2 = reviewProgressList.get(0);
+        // Double firstAuditProgress = reviewProgress2.getFirstAuditProgress();
+         if (packageExpertList2 != null && packageExpertList2.size() > 0) {
+          // first = (double)packageExpertList2.size()/(double)packageExpertList.size()+1/(double)packageExpertList.size();
+           scoreProgress = (double)(packageExpertList2.size())/(double)packageExpertList.size();
+         } else {
+           scoreProgress = 1/(double)packageExpertList.size();
+         }
+         BigDecimal b = new BigDecimal(scoreProgress); 
+         scoreProgress  = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+         //评审进度更新
+         reviewProgress2.setScoreProgress(scoreProgress);
+         //总进度更新
+         double total2 =  (reviewProgress2.getFirstAuditProgress()+scoreProgress)/2;
+         BigDecimal t = new BigDecimal(total2); 
+         totalProgress  = t.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+         //总进度更新
+         reviewProgress2.setTotalProgress(totalProgress);
+         if (packageExpertList2.size() == packageExpertList.size()) {
+             //设置状态为评审完成
+             reviewProgress2.setAuditStatus("4");
+         } else {
+             //设置状态为经济技术评审中
+             reviewProgress2.setAuditStatus("3");
+         }
+         //修改进度
+         updateByMap(reviewProgress2);
 		  }
 	  }
     }

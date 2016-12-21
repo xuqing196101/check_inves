@@ -8,7 +8,7 @@ public class ReviewProgress {
     private String packageName;
     //包id
     private String packageId;
-    //评审状态
+    //评审状态 0：评审未开始1:初审中 2：初审完成 3：经济技术审查中4：评审完成
     private String auditStatus;
     //总进度
     private Double totalProgress;

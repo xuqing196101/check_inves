@@ -1,13 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
+
 <html>
   <head>
-    
+    <%@ include file="/WEB-INF/view/common.jsp"%>
     <title>My JSP 'expert_list.jsp' starting page</title>
     
 	<meta http-equiv="pragma" content="no-cache">
@@ -30,28 +28,29 @@
 			  <th class="info">总进度</th>
 			  <th class="info">符合性审查进度</th>
 			  <th class="info">经济技术审查进度</th>
+			  <th class="info">评审状态</th>
 			</tr>
 			</thead>
 			<c:forEach items="${reviewProgressList}" var="rp" varStatus="vs">
 		       <tr>
 		        <%-- <td class="tc w30">${vs.count} </td> --%>
 		        <td class="tc">${rp.packageName}</td>
-		        <td class="tc ">
+		        <td class="tc w160">
 				  <div class="col-md-12 padding-0">
-				  	  <span class="fl padding-5">
+				  	  <%-- <span class="fl padding-5">
 				  	  	<c:if test="${rp.auditStatus == '0'}">未评审</c:if>
 				  	  	<c:if test="${rp.auditStatus == '1'}">符合性审查审中</c:if>
 				  	  	<c:if test="${rp.auditStatus == '2'}">符合性审完成</c:if>
 				  	  	<c:if test="${rp.auditStatus == '3'}">经济技术审查中</c:if>
 				  	  	<c:if test="${rp.auditStatus == '4'}">评审完成</c:if>
-				  	  </span>
+				  	  </span> --%>
 					  <div class="progress w55p fl margin-left-0">
 			             <div class="progress-bar progress-bar-danger" role="progressbar" 
 			                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
 			                 style="width:${rp.totalProgress*100}%;"> 
 			             </div> 
 			          </div>
-					  <span class="fl padding-5">${rp.totalProgress*100}%</span>
+					  <span class="fl padding-5"><fmt:formatNumber value="${rp.totalProgress*100}" pattern="0"/>%</span>
 				  </div>
 			    </td>
 			    <td class="tc">
@@ -62,7 +61,7 @@
 			                 style="width:${rp.firstAuditProgress*100}%;"> 
 			             </div> 
 			          </div>
-					  <span class="fl padding-5">${rp.firstAuditProgress*100}%</span>
+					  <span class="fl padding-5"><fmt:formatNumber value="${rp.firstAuditProgress*100}" pattern="0"/>%</span>
 				  </div>
 			    </td>
 			    <td class="tc">
@@ -73,9 +72,16 @@
 			                 style="width:${rp.scoreProgress*100}%;"> 
 			             </div> 
 			          </div>
-					  <span class="fl padding-5">${rp.scoreProgress*100}%</span>
+					  <span class="fl padding-5"><fmt:formatNumber value="${rp.scoreProgress*100}" pattern="0"/>%</span>
 				  </div>
 			    </td>
+			    <td class="tc">
+				    <c:if test="${rp.auditStatus == '0'}">未评审</c:if>
+			  	  	<c:if test="${rp.auditStatus == '1'}">符合性审查审中</c:if>
+			  	  	<c:if test="${rp.auditStatus == '2'}">符合性审完成</c:if>
+			  	  	<c:if test="${rp.auditStatus == '3'}">经济技术审查中</c:if>
+			  	  	<c:if test="${rp.auditStatus == '4'}">评审完成</c:if>
+				</td>
 		      </tr>
 			</c:forEach>
 		</table>

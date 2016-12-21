@@ -74,23 +74,23 @@
 	                       <c:forEach items="${fds}" var="fd">
 	                       	  	<c:choose> 
 								  <c:when test="${fd.status == 4}">   
-								    <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" class="active">
+								    <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
 		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li>  
 								  </c:when> 
 								  <c:when test="${fd.status == 1}">
-		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
+		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
 		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:when> 
 								  <c:when test="${fd.status == 2}">
-		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
+		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
 		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:when>
 								  <c:otherwise>   
 								    <%-- <li  onclick="tips(${fd.step})"> --%>
-								    <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
+								    <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
 		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li>  
 								  </c:otherwise> 

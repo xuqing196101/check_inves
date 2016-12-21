@@ -1,5 +1,6 @@
 package bss.service.prms.impl;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,12 +146,12 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             //mapSearch.remove("expertId");
             //mapSearch.put("expertId", expertId.replace("undefined", ""));
             // 1.EXPERT_SCORE表中IS_HISTORY改为1
-            //mapSearch.put("expertId", expertId);
+            mapSearch.put("expertId", expertId);
             //expertScoremapper.backScore(mapSearch);
             // 2.评分进度减去对应的值
             List<PackageExpert> list = mapper.selectList(mapSearch);
             // 遍历判断该专家有没有进行打分,如果有就需要减去评分进度
-            boolean isGrade = true;
+            /*boolean isGrade = true;
             for (PackageExpert packageExpert : list) {
                 if (packageExpert.getIsGrade() == 0) {
                     isGrade = false;
@@ -160,19 +161,56 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                 double score = 1/length;
                 mapSearch.put("score", score);
                 reviewProgressMapper.backScore(mapSearch);
-            }
+            }*/
             // 3.PACKAGE_EXPERT表中的IS_GRADE改为0
             mapper.backScore(mapSearch);
         }
         mapSearch.remove("expertId");
         List<ReviewProgress> list = reviewProgressMapper.selectByMap(mapSearch);
-        if(list != null && !list.isEmpty()){
+        if(list != null && list.size() > 0){
             ReviewProgress reviewProgress3 = list.get(0);
-            reviewProgress3.setTotalProgress((reviewProgress3.getFirstAuditProgress() + reviewProgress3.getScoreProgress())/2);
+           /* reviewProgress3.setTotalProgress((reviewProgress3.getFirstAuditProgress() + reviewProgress3.getScoreProgress())/2);
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("id", reviewProgress3.getId());
             map.put("totalProgress", reviewProgress3.getTotalProgress());
-            reviewProgressMapper.updateTotalProgress(map);
+            reviewProgressMapper.updateTotalProgress(map);*/
+            //设置状态为经济技术评审中
+            reviewProgress3.setAuditStatus("3");
+            //退回专家人数
+            //double backs = (double) expertIdArr.length;
+            //初审进度
+            double firstProgress = 0;
+            //总进度
+            double totalProgress = 0;
+            //评分进度
+            double scoreProgress = 0;
+            // 查询是否已评审
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("packageId", mapSearch.get("packageId"));
+            map1.put("projectId", mapSearch.get("projectId"));
+            map1.put("isGrade", 1);
+            //查询包下已经的评审专家
+            List<PackageExpert> expertAuditeds = mapper.selectList(map1);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map1.put("packageId", mapSearch.get("packageId"));
+            map1.put("projectId", mapSearch.get("projectId"));
+            //查询包下全部评审专家
+            List<PackageExpert> packageExpertList = mapper.selectList(map);
+            double second = 0;
+            second = ((double)expertAuditeds.size())/(double)packageExpertList.size();
+            BigDecimal b = new BigDecimal(second); 
+            scoreProgress = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+            //评审进度更新
+            reviewProgress3.setScoreProgress(scoreProgress);
+            //初审进度
+            firstProgress = reviewProgress3.getFirstAuditProgress();
+            //总进度更新
+            totalProgress =  (firstProgress+scoreProgress)/2;
+            BigDecimal t = new BigDecimal(totalProgress); 
+            totalProgress  = t.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+            //总进度更新
+            reviewProgress3.setTotalProgress(totalProgress);
+            reviewProgressMapper.updateByMap(reviewProgress3);
         }
     }
     /**
