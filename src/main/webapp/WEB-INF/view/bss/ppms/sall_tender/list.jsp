@@ -222,7 +222,7 @@
           <td class="tc opinter w110">${sale.suppliers.contactTelephone}</td>
 
           <td class="tc opinter w150">
-            <fmt:formatDate value='${sale.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss' />
+            <fmt:formatDate value='${sale.createdAt}' pattern='yyyy-MM-dd' />
           </td>
           <td class="tc opinter w60">
             <c:if test="${sale.statusBid==1}">
