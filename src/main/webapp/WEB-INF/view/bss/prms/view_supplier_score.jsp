@@ -38,7 +38,7 @@
 			    </c:forEach>
 			  </tr>
 			  <tr>
-			   	  	  <th>评审项目</th>
+			   	  	  <th>计分模型</th>
 			   	  	  <c:forEach items="${expertList}" var="expert">
      		        	<th>评审得分</th>
 	    		  	  </c:forEach>
@@ -55,7 +55,16 @@
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			 	  		  <td class="w100"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
+			    	      <td class="tc">
+			 	    	    <c:if test="${score.typeName == 0}"><a href="javascript:void();" title="${score.reviewContent}">模型1:是否判断</a></c:if>
+			 	            <c:if test="${score.typeName == 1}"><a href="javascript:void();" title="${score.reviewContent}">模型2:按项加减分</a></c:if>
+				 	        <c:if test="${score.typeName == 2}"><a href="javascript:void();" title="${score.reviewContent}">模型3:评审数额最高递减</a></c:if>
+				 	        <c:if test="${score.typeName == 3}"><a href="javascript:void();" title="${score.reviewContent}">模型4:评审数额最低递增</a></c:if>
+				 	        <c:if test="${score.typeName == 4}"><a href="javascript:void();" title="${score.reviewContent}">模型5:评审数额高计算</a></c:if>
+				 	        <c:if test="${score.typeName == 5}"><a href="javascript:void();" title="${score.reviewContent}">模型6:评审数额低计算</a></c:if>
+				 	        <c:if test="${score.typeName == 6}"><a href="javascript:void();" title="${score.reviewContent}">模型7:评审数额低区间递增</a></c:if>
+				 	        <c:if test="${score.typeName == 7}"><a href="javascript:void();" title="${score.reviewContent}">模型8:评审数额高区间递减</a></c:if>
+				 	      </td>
 				 	      <c:forEach items="${expertList}" var="expert">
 					 	    <c:set var="expertScore" value=""/>
 					 	    <c:forEach items="${scores}" var="sco">

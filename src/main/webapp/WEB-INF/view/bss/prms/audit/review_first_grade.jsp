@@ -164,13 +164,12 @@ $(document).ready(function() {
 	   	  <div style="overflow:scroll;">
 	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
-			    <th  colspan="3"></th>
+			    <th  colspan="2"></th>
 			    <c:forEach items="${supplierList}" var="supplier">
 			      <th colspan="2">${supplier.suppliers.supplierName}</th>
 			    </c:forEach>
 			  </tr>
 			  <tr>
-			   	  	  <th>评审项目</th>
 			   	  	  <th>计分模型</th>
 			   	      <th>标准分值</th>
 			   	  	  <c:forEach items="${supplierList}" var="supplier">
@@ -190,16 +189,15 @@ $(document).ready(function() {
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			 	  		  <td class="w100"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
 			 	  		  <td class="tc">
-			 	    	    <c:if test="${score.typeName == 0}">模型1:是否判断</c:if>
-			 	            <c:if test="${score.typeName == 1}">模型2:按项加减分</c:if>
-				 	        <c:if test="${score.typeName == 2}">模型3:评审数额最高递减</c:if>
-				 	        <c:if test="${score.typeName == 3}">模型4:评审数额最低递增</c:if>
-				 	        <c:if test="${score.typeName == 4}">模型5:评审数额高计算</c:if>
-				 	        <c:if test="${score.typeName == 5}">模型6:评审数额低计算</c:if>
-				 	        <c:if test="${score.typeName == 6}">模型7:评审数额低区间递增</c:if>
-				 	        <c:if test="${score.typeName == 7}">模型8:评审数额高区间递减</c:if>
+			 	    	    <c:if test="${score.typeName == 0}"><a href="javascript:void();" title="${score.reviewContent}">模型1:是否判断</a></c:if>
+			 	            <c:if test="${score.typeName == 1}"><a href="javascript:void();" title="${score.reviewContent}">模型2:按项加减分</a></c:if>
+				 	        <c:if test="${score.typeName == 2}"><a href="javascript:void();" title="${score.reviewContent}">模型3:评审数额最高递减</a></c:if>
+				 	        <c:if test="${score.typeName == 3}"><a href="javascript:void();" title="${score.reviewContent}">模型4:评审数额最低递增</a></c:if>
+				 	        <c:if test="${score.typeName == 4}"><a href="javascript:void();" title="${score.reviewContent}">模型5:评审数额高计算</a></c:if>
+				 	        <c:if test="${score.typeName == 5}"><a href="javascript:void();" title="${score.reviewContent}">模型6:评审数额低计算</a></c:if>
+				 	        <c:if test="${score.typeName == 6}"><a href="javascript:void();" title="${score.reviewContent}">模型7:评审数额低区间递增</a></c:if>
+				 	        <c:if test="${score.typeName == 7}"><a href="javascript:void();" title="${score.reviewContent}">模型8:评审数额高区间递减</a></c:if>
 				 	      </td>
 				 	      <td class="tc">${score.standardScore}</td>
 				 	      <c:forEach items="${supplierList}" var="supplier">
