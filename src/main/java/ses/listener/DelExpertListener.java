@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import ses.model.ems.Expert;
@@ -31,19 +32,22 @@ public class DelExpertListener implements ServletContextListener{
  
     private Timer timer;
 
- 
     public void contextInitialized (ServletContextEvent event) {
-        //WebApplicationContext ctx= WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());
-        //final ExpertService service = (ExpertService) ctx.getBean("ExpertService");
-        // 定义定时器
         timer = new Timer("删除无效专家", true);
+        ServletContext context = event.getServletContext();
+        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);
+        ExpertService expertService = (ExpertService) ctx.getBean("expertService");
+        //WebApplicationContext ctx= WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());
+        //ExpertService service = (ExpertService) ctx.getBean("ExpertService");
+        // 定义定时器
         // 启动删除任务,每天执行一次
-        timer.schedule(new DelExpertTask(), NO_DELAY, PERIOD_DAY);
+        timer.schedule(new DelExpertTask(expertService), NO_DELAY, PERIOD_DAY);
     }
 
  
     public void contextDestroyed (ServletContextEvent event) {
-        timer.cancel();// 定时器销毁
+        // 定时器销毁
+        timer.cancel();
     }
 }
 
@@ -51,6 +55,10 @@ class DelExpertTask extends TimerTask {
     private static boolean isRunning = false;
     private ExpertService expertService;
     
+    public DelExpertTask(ExpertService expertService) {
+        this.expertService = expertService;
+    }
+
     public void run () {
         if (!isRunning) {
             isRunning = true;
