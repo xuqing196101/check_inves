@@ -209,6 +209,7 @@
 
 					id.push($(this).val());
 				});
+				alert(type);
 				$("#goodsType").val(type);
 				$("#plannos").val(id);
 				$("#dep").val(de);
@@ -382,7 +383,7 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
 			  <td class="tc w30">
-			  <input type="hidden" name="department" value="${obj.planType }"> 
+			  <input type="hidden" value="${obj.planType }"> 
 			
 			 <c:if test="${obj.status=='4' }">
               <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
@@ -390,7 +391,7 @@
                <c:if test="${obj.status!='4' }">
               <input type="checkbox" disabled="disabled"  value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
               </c:if>
-			   <input type="hidden" name="department" value="${obj.department }">
+			   <input type="hidden"  value="${obj.department }">
 			  </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  <td class="tc">

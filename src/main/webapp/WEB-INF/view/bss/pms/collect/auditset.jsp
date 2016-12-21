@@ -223,6 +223,28 @@
 		 });
     }
     
+    function delet(){
+    	
+    	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		$("#del_id").val(id);
+		$.ajax({
+			 	url:"${pageContext.request.contextPath}/set/delete.html",
+			 	type:"post",
+			 	data:$("#del_form").serialize(),
+			 	success:function(){
+					layer.msg('删除成功', {
+					offset: ['40%', '45%']
+				});
+			 
+			 	}
+		 });
+		
+		
+		
+    }
     
   </script>
   </head>
@@ -249,7 +271,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>审核人员性质</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                <input id="audit_nature" type="text" class="input_group" name="name" value="" />
+                <input id="audit_nature" type="text" class="input_group" name="name" value="${staff }" />
                 <span class="add-on">i</span>
          <%--        <div class="cue">${ERR_name}</div> --%>
               </div>
@@ -276,7 +298,7 @@
 		<button class="btn btn-windows add" onclick="experts()">专家库添加</button>
 		<button class="btn btn-windows add" onclick="users()">用户库添加</button>
 		<button class="btn btn-windows add" onclick="temp()">临时添加</button>
-		
+		<button class="btn btn-windows add" onclick="delet()">删除</button>
 	  </div>
   <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
@@ -288,12 +310,12 @@
 		  <th>姓名</th>
 		  <th>电话</th>
 		  <th>单位名称</th>
-		  <th>审核人员性质</th>
+		<!--   <th>审核人员性质</th> -->
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
-			<tr class="tc pointer">
-			  <td class="w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+			<tr class="tc pointer" id="person_set">
+			  <td class="w30"><input type="checkbox" value="${obj.id }" name="chkItem"  alt=""></td>
 			  <td class="w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 		<%-- 	  <td>
 			  	<c:forEach items="${kind}" var="kind">
@@ -303,7 +325,7 @@
 			  <td>${obj.name }</td>
 			  <td>${obj.mobile }</td>
 			  <td>${obj.unitName }</td>
-			  <td>${obj.auditStaff }</td>
+			<%--   <td>${obj.auditStaff }</td> --%>
 			</tr>
 		 </c:forEach>
       </table>
@@ -370,6 +392,14 @@
 	 	<input type="hidden" name="fname2" value="" id="fname2" > -->
 	 	<input type="hidden" name="collectId" value="${id }">	
 	 	<input type="hidden" name="type" value="${type }">	
+	 	
+	 </form>
+	 
+	 
+	 <form id="del_form" action="" method="post" >
+ 
+	 	<input type="hidden" name="id" id="del_id" >	
+ 
 	 	
 	 </form>
 	 

@@ -293,7 +293,7 @@
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.auditDate }"/> </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
 				 	<c:if test="${obj.status=='1' }">
-			 		 已编制为采购计划
+			 		未提交
 			  	</c:if>
 			    <c:if test="${obj.status=='2' }">
 			 		已提交
