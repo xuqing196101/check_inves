@@ -183,4 +183,10 @@
   	where PROJECT_ID = #{projectId}
   	and PACKAGE_ID = #{packageId}
   </update>
+  <!-- 根据包id修改该包的评审状态 -->
+  <update id="updateStatusByMap" parameterType="java.util.HashMap">
+    update T_BSS_PRMS_REVIEW_PROGRESS
+    set AUDIT_STATUS = #{auditStatus}
+    where PACKAGE_ID = #{packageId}
+  </update>
 </mapper>
