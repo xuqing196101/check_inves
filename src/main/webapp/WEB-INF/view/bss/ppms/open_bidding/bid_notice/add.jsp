@@ -165,18 +165,18 @@
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
 
                           <%-- 上传附件： 
-             <p:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
-             <p:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/> --%>
+             <u:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
+             <u:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/> --%>
      				
      				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	              <span class="" >文章附件：</span>
-	               <p:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
-             		 <p:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
+	               <u:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
+             		 <u:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
 	              <span class="" >审批附件: </span>
-	                <p:upload id="c" groups="a,c" businessId="${articleId }"  sysKey="${sysKey }" typeId="${typeId_examine }" auto="true" />
-                  <p:show  showId="d"  groups="b,d,c" businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId_examine }"/>
+	                <u:upload id="c" groups="a,c" businessId="${articleId }"  sysKey="${sysKey }" typeId="${typeId_examine }" auto="true" />
+                  <u:show  showId="d"  groups="b,d,c" businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId_examine }"/>
               </li>
         </div>
       </form>
@@ -196,7 +196,7 @@
 			 </div>
 			 <div class="extra_file">
 			 	<div class="">
-					<p:show  showId="e" groups="b,d,c" delete="false" businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
+					<u:show  showId="e" groups="b,d,c" delete="false" businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
 			 	</div>
 			 </div>
 	</div>

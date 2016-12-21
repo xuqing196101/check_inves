@@ -48,6 +48,7 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
+import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.FlowMangeService;
@@ -55,6 +56,7 @@ import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
+import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 
@@ -140,10 +142,22 @@ public class OpenBiddingController {
     private TempletService templetService;
     
     /**
+     * 符合性审查服务接口
+     */
+    @Autowired
+    private FirstAuditService firstAuditService;
+    
+    /**
      * 字典表服务层
      */
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
+    
+    /**
+     * 评分、模型服务层
+     */
+    @Autowired
+    private ScoreModelService scoreModelService;
     
     /**
      * @Fields jsonData : ajax返回数据封装类
@@ -174,23 +188,46 @@ public class OpenBiddingController {
      * @param model
      * @param response
      * @return
+     * @throws IOException 
      */
     @RequestMapping("/bidFile")
-    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId){
+    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId) throws IOException{
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", id);
+        List<Packages> packages = packageService.findPackageById(map);
+        String msg = "";
+        for (Packages p : packages) {
+          //判断各包符合性审查项是否编辑完成
+          FirstAudit firstAudit = new FirstAudit();
+          firstAudit.setPackageId(p.getId());
+          List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
+          if (fas == null || fas.size() <= 0) {
+            msg = "noFirst";
+            return "redirect:/firstAudit/toAdd.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+          }
+          //获取资格性审查项内容
+          ScoreModel smMap = new ScoreModel();
+          smMap.setPackageId(p.getId());
+          List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
+          if (sms == null || sms.size() <= 0) {
+            msg = "noSecond";
+            return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+          }
+        }
         Project project = projectService.selectById(id);
         //判断是否上传招标文件
         String typeId = DictionaryDataUtil.getId("PROJECT_BID");
         List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
         if (files != null && files.size() > 0){
-            model.addAttribute("fileId", files.get(0).getId());
+          model.addAttribute("fileId", files.get(0).getId());
         } else {
-            if (project != null){
-                String filePath = packageFirstAuditService.downLoadBiddingDoc(id, project.getName(), project.getProjectNumber(), request);
-                if (StringUtils.isNotBlank(filePath)){
-                    model.addAttribute("filePath", filePath);
-                }
+          if (project != null){
+            String filePath = packageFirstAuditService.downLoadBiddingDoc(id, project.getName(), project.getProjectNumber(), request);
+            if (StringUtils.isNotBlank(filePath)){
+              model.addAttribute("filePath", filePath);
             }
-            model.addAttribute("fileId", "0");
+          }
+          model.addAttribute("fileId", "0");
         }
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("project", project);

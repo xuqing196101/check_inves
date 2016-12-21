@@ -8,6 +8,10 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
     $(function(){
+    	if ($("#tipMsg").val() == "noSecond") {
+    		$("#tipMsg").val("");
+			layer.msg("请先完成经济、技术审查项的编写",{offset: '50px'});
+		}
     	var packageId=	$("input[name='packageId']").val();
     	var flag="${flag}";
     	if(flag=="success"){
@@ -92,6 +96,7 @@
     function editPackageFirstAudit(packageId,projectId){
         window.location.href = "${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId="+packageId+"&projectId="+projectId;
     }
+    
 </script>
   </head>
   
@@ -185,7 +190,7 @@
 				</c:if> 
 		    </div>
 		    </c:if> --%>
-		   
+		    <input type="hidden" id="tipMsg" value="${msg}">
 			<div id="package">
 				<div>
 					<h2 class="f16 count_flow"><span id="projectName">项目名称:${project.name }</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

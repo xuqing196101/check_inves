@@ -142,10 +142,7 @@
         function jump(url){
       	    $("#open_bidding_main").load(url);
         }
-</script>
-  </head>
-  <script type="text/javascript">
-	  //显示或隐藏各包评审项
+        //显示或隐藏各包评审项
 	  function viewAndHidden(obj,index){
 		  var classNames = $(obj).attr("class");
 		  if (classNames.indexOf("jbxx") != -1) {
@@ -172,7 +169,16 @@
     function view(packageId,projectId){
     	window.open("${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId="+packageId+"&projectId="+projectId+"&flag="+1);   
     }
-  </script>
+    
+    //初始化化加载
+    $(function(){ 
+    	if ($("#tipMsg").val() == "noFirst") {
+    		$("#tipMsg").val("");
+			layer.msg("请先完成各包资格性、符合性审查项的编写",{offset: '50px'});
+		}
+    });
+</script>
+  </head>
   <body>
      <div class="col-md-12 p0">
 	   <ul class="flow_step">
@@ -211,6 +217,7 @@
 	   </ul>
 	 </div>
 	 <h2 class="list_title">拟制符合性审查项</h2>
+	 <input type="hidden" id="tipMsg" value="${msg}">
      <input type="hidden" id="projectId" value="${projectId}">
      <table class="table table-bordered table-condensed table-hover table-striped">
          <thead>

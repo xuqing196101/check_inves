@@ -63,11 +63,11 @@
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	              <span class="" >文章附件：</span>
-             		 <p:show  showId="b" groups="b,d,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
+             		 <u:show  showId="b" groups="b,d,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
 	              <span class="" >审批附件: </span>
-                  <p:show  showId="d"  groups="b,d,c" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId_examine }"/>
+                  <u:show  showId="d"  groups="b,d,c" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId_examine }"/>
               </li>
         </div>
       </form>
@@ -86,7 +86,7 @@
 			 </div>
 			 <div class="extra_file">
 			 	<div class="">
-					<p:show  showId="c" groups="b,d,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
+					<u:show  showId="c" groups="b,d,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
 			 	</div>
 			 </div>
 		</div>		     

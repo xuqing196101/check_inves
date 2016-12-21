@@ -22,27 +22,27 @@
   <body>
 	    <h2 class="list_title">评审进度</h2>
   		<input type="hidden" id="projectId" value="${projectId}">
-	   	<table class="table table-bordered table-condensed table-hover table-striped">
+	   	<table class="table table-bordered table-condensed table-hover table-striped space_nowrap">
 			<thead>
 			<tr>
-			  <th class="w50 info">序号</th>
+			  <!-- <th class="w50 info">序号</th> -->
 			  <th class="info">包名</th>
 			  <th class="info">总进度</th>
-			  <th class="info">初审进度</th>
-			  <th class="info">详审进度</th>
+			  <th class="info">符合性审查进度</th>
+			  <th class="info">经济技术审查进度</th>
 			</tr>
 			</thead>
 			<c:forEach items="${reviewProgressList}" var="rp" varStatus="vs">
 		       <tr>
-		        <td class="tc w30">${vs.count} </td>
+		        <%-- <td class="tc w30">${vs.count} </td> --%>
 		        <td class="tc">${rp.packageName}</td>
-		        <td class="tc w260">
+		        <td class="tc ">
 				  <div class="col-md-12 padding-0">
 				  	  <span class="fl padding-5">
 				  	  	<c:if test="${rp.auditStatus == '0'}">未评审</c:if>
-				  	  	<c:if test="${rp.auditStatus == '1'}">初审中</c:if>
-				  	  	<c:if test="${rp.auditStatus == '2'}">初审完成</c:if>
-				  	  	<c:if test="${rp.auditStatus == '3'}">详审中</c:if>
+				  	  	<c:if test="${rp.auditStatus == '1'}">符合性审查审中</c:if>
+				  	  	<c:if test="${rp.auditStatus == '2'}">符合性审完成</c:if>
+				  	  	<c:if test="${rp.auditStatus == '3'}">经济技术审查中</c:if>
 				  	  	<c:if test="${rp.auditStatus == '4'}">评审完成</c:if>
 				  	  </span>
 					  <div class="progress w55p fl margin-left-0">

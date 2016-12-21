@@ -65,7 +65,7 @@ public class FirstAuditController {
 	  * @return String
 	 */
 	@RequestMapping("/toAdd")
-	public String toAdd(String projectId, Model model, String flowDefineId){
+	public String toAdd(String projectId, Model model, String flowDefineId, String msg){
 		try {
 		  Project project = projectService.selectById(projectId);
 		  HashMap<String, Object> map = new HashMap<String, Object>();
@@ -81,6 +81,7 @@ public class FirstAuditController {
 			model.addAttribute("projectId", projectId);
 			model.addAttribute("flowDefineId", flowDefineId);
 			model.addAttribute("project", project);
+			model.addAttribute("msg", msg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
