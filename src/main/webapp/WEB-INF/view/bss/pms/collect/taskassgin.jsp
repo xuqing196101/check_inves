@@ -209,7 +209,7 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
 			  <td class="tc w30">
-			  <c:if test="${obj.status=='12' }">
+			  <c:if test="${obj.status=='12' || obj.status=='13'}">
 			  	<input type="checkbox" value="${obj.id }"  name="chkItem" onclick="check()"  alt="">
 			  </c:if>
 			  <%-- <c:if test="${obj.status=='1' }">
@@ -224,7 +224,7 @@
 			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc"  >
-			  <c:if test="${obj.status=='12' }">
+			  <c:if test="${obj.status=='12' || obj.status=='13' }">
 					 未下达
 			  </c:if>
 			    <c:if test="${obj.status=='2'}">
