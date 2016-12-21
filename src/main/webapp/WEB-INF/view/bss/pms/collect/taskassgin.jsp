@@ -72,10 +72,17 @@
  
 	var index;
 	function audit(){
+		var no=generateMixed();
+	 $("#aduit_No").val(no);
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
+		if(id.length==1){
+		var td=	 $('input[name="chkItem"]:checked').parent();
+		var val=$(td).next().next().text();
+		  $("#aduit_Name").val(val);
+		}
 		if(id.length>=1){  
 			
 			index=layer.open({
@@ -110,6 +117,19 @@
 	function resetQuery(){
 		$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
+	
+	
+	function generateMixed() {
+		var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+	     var res = "";
+	     for(var i = 0; i < 6 ; i ++) {
+	         var id = Math.ceil(Math.random()*35);
+	         res += chars[id];
+	     }
+	     return res;
+	}
+
+	
 	
   </script>
   </head>
@@ -229,8 +249,8 @@
 	 
 	<form id="collect_form" action="${pageContext.request.contextPath }/taskassgin/add.html" method="post" style="margin-top: 20px;">
 	
-	  	   <div style="text-align: center;"><span>采购任务名称:</span><input  type="text" name="name" value=""></div>
-	       <div  style="text-align: center;margin-top: 20px;"><span>采购任务编号:</span><input  type="text" name="documentNumber" value=""></div>
+	  	   <div style="text-align: center;"><span>采购任务名称:</span><input  type="text" id="aduit_Name"  name="name" value=""></div>
+	       <div  style="text-align: center;margin-top: 20px;"><span>采购任务编号:</span><input id="aduit_No"  type="text" name="documentNumber" value=""></div>
 	       
 	       
 		<!--  文件名称：<input type="text" name="fileName" value=""><br>
