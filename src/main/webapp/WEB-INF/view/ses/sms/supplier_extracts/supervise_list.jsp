@@ -63,32 +63,57 @@
   	}
   	
     function add(){
-    	var ids =[]; 
-    	var nams="";
-    	var id="";
-		$('input[name="chkItem"]:checked').each(function(){ 
-			ids.push($(this).val()); 
-		});
-		if(ids.length>0){
-				for(var i=0;i<ids.length;i++){
-					var name=ids[i].split("^");
-					id+=name[0]+",";
-					nams+=name[1]+",";
-				}
-				  
-				  if(nams!=null && "" != nams){
-					  parent.$('#sids').val(id.substring(0,id.length-1));
-	                  parent.$('#supervises').val(nams.substring(0,nams.length-1));
-	                  parent.$('#supervises').attr("title",nams.substring(0,nams.length-1));
-				  }
-			         var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-				  parent.layer.close(index);
+    	   $.ajax({
+               cache: true,
+               type: "POST",
+               dataType : "json",
+               url:'${pageContext.request.contextPath}/ExpExtract/saveSupervise.do',
+               data:$('#form1').serialize(),// 你的formid
+               async: false,
+               success: function(data) {
+            	   if(data != 'ERROR'){
+            		   parent.$('#supervises').val(data);
+                   parent.$('#supervises').attr(data);
+                   var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                   parent.layer.close(index);
+            	   }else{
+            		  layer.msg("不能为空");
+            	   }
+               },
+               error:function(data){
+            	   layer.msg("不能为空");
+               }
+           });
+// 			      
 		
-		}else{
-			layer.alert("请选择要添加的监督人员",{offset: ['222px', '390px'], shade:0.01});
-		}
+	
     }
- 
+    
+    /**添加*/
+    function addBranch(btn){
+    	var html = "<tr>"+   
+            "<td class='tc'><input type='text'  name='relName' /> </td>"+
+            "<td class='tc'><input type='text' name='company' /></td>"+
+            "<td class='tc'><input type='text' name='phone' /> </td>"+
+            "<td class='tc' style='border: 0px;'>"+
+              "<input type='button' onclick='addBranch(this)' class='btn' value='十'/>"+
+              "<input type='button' onclick='delBranch(this)' class='btn' value='一'/>"+
+            "</td>"+
+        "</tr>";
+    	
+    	$("#tbody").append(html);
+    }
+    
+    /**删除*/
+    function delBranch(btn){
+    	var le=$("#tbody tr").length;
+    	if(le==1){
+    		$("#tbody").find(":input").not(":button,:submit,:reset,:hidden").val("");
+    	}else{
+    		  $(btn).parent().parent().remove();		
+    	}
+    
+    }
     
   </script>
   <body>
@@ -96,39 +121,43 @@
 
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
+     <form id="form1" >
+     <input name="projectId" value="${projectId}" type="hidden">
         <table class="table table-bordered table-condensed">
 		<thead>
 		<tr>
-		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-		  <th class="info w50">序号</th>
-		  <th class="info">用户名</th>
 		  <th class="info">姓名</th>
-		  <th class="info">角色</th>
 		  <th class="info">单位</th>
 		  <th class="info">联系电话</th>
+		  <th class="info">操作</th>
 		</tr>
 		</thead>
-		<c:forEach items="${list.list}" var="user" varStatus="vs">
-			<tr>
-				  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}^${user.relName}"/></td>
-				  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				  <td class="tc" onclick="view(${user.id});">${user.loginName}</td>
-				  <td class="tc">${user.relName}</td>
-				  <td class="tc">
-					<c:forEach items="${user.roles}" var="role" varStatus="vs">
-			     		<c:if test="${user.roles.size()>vs.index+1}">
-			     			${role.name},
-			     		</c:if>
-			     		<c:if test="${user.roles.size()<=vs.index+1}">
-			     			${role.name}
-			     		</c:if>
-			     	</c:forEach>
-				  </td>
-				  <td class="tc">${user.org.name}</td>
-				  <td class="tc">${user.telephone}</td>
-			</tr>
+		<tbody id="tbody">
+		<c:forEach items="${list}" var="list">
+				<tr>		
+					  <td class="tc"><input type="text"  name="relName" value="${list.relName}" /> </td>
+					  <td class="tc"><input type="text" name="company" value="${list.company}" /></td>
+					  <td class="tc"><input type="text" name="phone" value="${list.phone}" /> </td>
+					  <td class="tc">
+					    <input type="button" onclick="addBranch(this)" class="btn" value="十"/>
+	            <input type="button" onclick="delBranch(this)" class="btn" value="一"/>
+					  </td>
+				</tr>
 		</c:forEach>
+		<c:if test="${fn:length(list)==0}">
+		  <tr>    
+            <td class="tc"><input type="text"  name="relName"  /> </td>
+            <td class="tc"><input type="text" name="company" /></td>
+            <td class="tc"><input type="text" name="phone"  /> </td>
+            <td class="tc">
+              <input type="button" onclick="addBranch(this)" class="btn" value="十"/>
+              <input type="button" onclick="delBranch(this)" class="btn" value="一"/>
+            </td>
+        </tr>
+		</c:if>
+		</tbody>
         </table>
+        </form>
      </div>
    </div>
   </body>

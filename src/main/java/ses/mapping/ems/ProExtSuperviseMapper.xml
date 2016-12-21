@@ -10,6 +10,9 @@
 		<result column="SUPERVISOR_ID" jdbcType="VARCHAR" property="supviseId" />
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
+		<result column="COMPANY" jdbcType="VARCHAR" property="company" />
+		<result column="PHONE" jdbcType="VARCHAR" property="phone" />
 	</resultMap>
 
 	<resultMap id="UserBaseMap" type="ses.model.bms.User">
@@ -41,7 +44,7 @@
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, PROJECT_ID, EXPERT_EXTRACT_RECORD_ID, SUPERVISOR_ID, CREATED_AT,
-		UPDATED_AT
+		UPDATED_AT,REL_NAME,COMPANY,PHONE
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -57,19 +60,6 @@
 		where ID =
 		#{id,jdbcType=VARCHAR}
 	</delete>
-	<insert id="insert" parameterType="ses.model.ems.ProExtSupervise">
-		<!-- @mbggenerated -->
-		insert into T_SES_EMS_PRO_EXT_SUPERVISOR ( PROJECT_ID,
-		EXPERT_EXTRACT_RECORD_ID,
-		SUPERVISOR_ID, CREATED_AT, UPDATED_AT
-		)
-		values
-		(#{projectId,jdbcType=VARCHAR},
-		#{expertExtractRecordId,jdbcType=VARCHAR},
-		#{supviseId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE},
-		#{updatedAt,jdbcType=DATE}
-		)
-	</insert>
 	<insert id="insertSelective" parameterType="ses.model.ems.ProExtSupervise">
 		<!-- @mbggenerated -->
 		insert into T_SES_EMS_PRO_EXT_SUPERVISOR
@@ -128,38 +118,49 @@
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt,jdbcType=DATE},
 			</if>
+			<if test="relName != null">
+				REL_NAME = #{relName,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				COMPANY = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				PHONE = #{phone,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="ses.model.ems.ProExtSupervise">
-		<!-- @mbggenerated -->
-		update T_SES_EMS_PRO_EXT_SUPERVISOR
-		set PROJECT_ID =
-		#{projectId,jdbcType=VARCHAR},
-		EXPERT_EXTRACT_RECORD_ID =
-		#{expertExtractRecordId,jdbcType=VARCHAR},
-		SUPERVISOR_ID =
-		#{supviseId,jdbcType=VARCHAR},
-		CREATED_AT = #{createdAt,jdbcType=DATE},
-		UPDATED_AT = #{updatedAt,jdbcType=DATE}
-		where ID =
-		#{id,jdbcType=VARCHAR}
-	</update>
-	<select id="list" resultMap="UserBaseMap" parameterType="ses.model.ems.ProExtSupervise">
+	<select id="list" resultMap="BaseResultMap" parameterType="ses.model.ems.ProExtSupervise">
 
 		SELECT
-		BU.*,ES.PROJECT_ID
+		<include refid="Base_Column_List"/>
 		FROM
-		T_SES_EMS_PRO_EXT_SUPERVISOR es
-		LEFT JOIN T_SES_BMS_USER bu ON es.SUPERVISOR_ID = bu.ID
+		T_SES_EMS_PRO_EXT_SUPERVISOR
 		WHERE
-		es.PROJECT_ID =#{projectId}
+		PROJECT_ID =#{projectId}
 
 	</select>
 	<!-- 根据项目id 删除监督人员 -->
 	<delete id="deleteProjectId" parameterType="java.lang.String">
-		delete from T_SES_EMS_PRO_EXT_SUPERVISOR
-		where PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+		delete from
+		T_SES_EMS_PRO_EXT_SUPERVISOR
+		where PROJECT_ID =
+		#{projectId,jdbcType=VARCHAR}
 	</delete>
 
+	<!-- 批量插入 -->
+	<insert id="listInsert" parameterType="List">
+		INSERT INTO T_SES_EMS_PRO_EXT_SUPERVISOR
+		(PROJECT_ID,REL_NAME,COMPANY,PHONE)
+		<foreach collection="list" item="item" index="index"
+			separator="union" close=")" open="(">
+			select
+			#{item.projectId,jdbcType=VARCHAR},
+			#{item.relName,jdbcType=VARCHAR},
+			#{item.company,jdbcType=VARCHAR},
+			#{item.phone,jdbcType=VARCHAR}
+			from
+			dual
+		</foreach>
+	</insert>
 </mapper>

@@ -18,17 +18,17 @@ import ses.model.sms.SupplierExtUser;
  * @since  JDK 1.7
  */
 public interface ProjectSupervisorServicel {
-	/**
-	 * @Description:集合
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年10月14日 下午7:34:06  
-	 * @param @return      
-	 * @return List<ProjectSupervisor>
-	 */
-	List<User> list(ProExtSupervise extSupervise);
-	
-	/**
+    /**
+     * @Description:集合
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月14日 下午7:34:06  
+     * @param @return      
+     * @return List<ProjectSupervisor>
+     */
+    List<ProExtSupervise> list(ProExtSupervise extSupervise);
+
+    /**
      * @Description:根据项目id删除监督信息
      *
      * @author Wang Wenshuai
@@ -37,7 +37,7 @@ public interface ProjectSupervisorServicel {
      * @return void
      */
     void deleteProjectId(String prjectId);
-    
+
     /**
      * 
      *〈简述〉插入
@@ -45,4 +45,13 @@ public interface ProjectSupervisorServicel {
      * @author Wang Wenshuai
      */
     void insert(ProExtSupervise record);
+
+    /**
+     * 批量插入
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param list
+     */
+    void  listInsert(List<ProExtSupervise> list);
 }

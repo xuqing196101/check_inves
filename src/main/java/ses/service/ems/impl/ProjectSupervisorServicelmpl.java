@@ -37,7 +37,7 @@ public class ProjectSupervisorServicelmpl implements ProjectSupervisorServicel {
 	 * @return List<ProjectSupervisor>
 	 */
 	@Override
-	public List<User> list(ProExtSupervise extSupervise) {
+	public List<ProExtSupervise> list(ProExtSupervise extSupervise) {
 		return extSuperviseMapper.list(extSupervise);
 	}
 	
@@ -66,6 +66,17 @@ public class ProjectSupervisorServicelmpl implements ProjectSupervisorServicel {
     public void insert(ProExtSupervise record) {
         extSuperviseMapper.insertSelective(record);
     }
-
+    
+    /**
+     * 批量插入
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param list
+     */
+    @Override
+    public void listInsert(List<ProExtSupervise> list){
+        extSuperviseMapper.listInsert(list);
+    }
 
 }

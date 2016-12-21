@@ -13,12 +13,7 @@ public interface ProExtSuperviseMapper {
      */
     int deleteByPrimaryKey(String id);
 
-    /**
-     * 插入数据库记录
-     *
-     * @param record
-     */
-    int insert(ProExtSupervise record);
+
 
     /**
      *
@@ -39,12 +34,7 @@ public interface ProExtSuperviseMapper {
      */
     int updateByPrimaryKeySelective(ProExtSupervise record);
 
-    /**
-     * 根据主键来更新数据库记录
-     *
-     * @param record
-     */
-    int updateByPrimaryKey(ProExtSupervise record);
+
    
     /**
      * @Description:集合
@@ -55,7 +45,7 @@ public interface ProExtSuperviseMapper {
      * @param @return      
      * @return List<ProExtSupervise>
      */
-    List<User> list(ProExtSupervise record);
+    List<ProExtSupervise> list(ProExtSupervise record);
     
     /**
      * @Description:根据项目id删除监督信息
@@ -66,4 +56,6 @@ public interface ProExtSuperviseMapper {
      * @return void
      */
     void deleteProjectId(String prjectId);
+    
+    void listInsert(List<ProExtSupervise> list);
 }
