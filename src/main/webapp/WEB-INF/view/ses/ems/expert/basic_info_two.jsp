@@ -23,6 +23,8 @@ session.setAttribute("tokenSession", tokenValue);
 			success:function(result){
 				$("#id").val(result.id);
 				layer.msg("已暂存");
+			},error:function(result){
+				layer.msg("很抱歉,暂存失败!");
 			}
 		});
 	}
