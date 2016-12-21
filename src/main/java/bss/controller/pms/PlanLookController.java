@@ -415,26 +415,26 @@ public class PlanLookController extends BaseController {
 			String flag="0";
 			 DictionaryData data = DictionaryDataUtil.findById(auditTurns);
 		 if(auditTurns.equals("4")){
-				 if(status.equals(7)||status.equals(8)|| status.equals(9)|| status.equals(10)|| status.equals(11)|| status.equals(12)){
+				 if(status!=1||status.equals(7)||status.equals(8)|| status.equals(9)|| status.equals(10)|| status.equals(11)|| status.equals(12)){
 					 flag="1";
 				 }
 			 }
 		if(data!=null){
 		  if(data.getCode().equals("SH_1")){
-				 if(status.equals(7)||status.equals(8)|| status.equals(9)|| status.equals(10)|| status.equals(11)|| status.equals(12)){
+				 if(status!=7&&status!=1){
 					 flag="1";
 				 }
 			 }
 		  if(data.getCode().equals("SH_2")){
-				 if(status.equals(8)|| status.equals(9)|| status.equals(10)|| status.equals(11)|| status.equals(12)){
+				 if(status!=8){
 					 flag="1";
 				 }
 			 }
-			  if(data.getCode().equals("SH_1")){
-				 if( status.equals(9)|| status.equals(10)|| status.equals(11)|| status.equals(12)){
+		  if(data.getCode().equals("SH_3")){
+			if(status !=9){
 					 flag="1";
-				 }
 			 }
+		  }
 		}else if(data==null){
 			flag="1";
 		}
