@@ -113,7 +113,21 @@
 		}
 	}
 	function showViewByExpertId(expertId){
-		window.open("${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertId, "评分详情");
+		$.ajax({
+			url: "${pageContext.request.contextPath}/packageExpert/isGrade.do",
+			async: false,
+			data: {"packageId": packageId, "expertId": expertId},
+			success: function (response) {
+				if (response == '1') {
+					window.open("${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertId, "评分详情");
+				} else {
+					layer.alert("该专家暂未评分!", {
+						offset : [ y, x ],
+						shade : 0.01
+					});
+				}
+			}
+		});
 	}
 	function showViewBySupplierId(supplierId){
 		window.open("${pageContext.request.contextPath}/packageExpert/showViewBySupplierId.html?projectId=${projectId}&packageId=${packageId}&supplierId=" + supplierId, "评分详情");
@@ -122,9 +136,7 @@
 </head>
 <body onload="is_Null('${packExpertExtList.size()}')">
 
-<div class="container">
   <!-- 表格开始-->
-  <div class="container">
     <c:if test="${packExpertExtList.size()>0 }">
     <!-- 循环包 -->
 	<form id="formTable">
@@ -177,15 +189,39 @@
 			  </c:forEach>
 			</tr>
 		  </c:forEach>
+		  <c:if test="${package.isGather == 1 or package.isGather eq '1'}">
+		    <tr>
+			  	<td>合计:</td>
+			  	<c:forEach items="${supplierList}" var="supplier">
+     		      <td>
+     		        <c:forEach items="${rankList}" var="rank">
+     		          <c:if test="${supplier.suppliers.id eq rank.supplierId}">
+     		            <span>${rank.econScore}(经济)+${rank.techScore}(技术)=${rank.sumScore}(总分)</span>
+     		          </c:if>
+     		        </c:forEach>
+     		      </td>
+	    		</c:forEach>
+			  </tr>
+			  <tr>
+			  	<td>排名:</td>
+			  	<c:forEach items="${supplierList}" var="supplier">
+     		      <td>
+     		        <c:forEach items="${rankList}" var="rank">
+     		          <c:if test="${supplier.suppliers.id eq rank.supplierId}">
+     		            <span>第${rank.rank}名</span>
+     		          </c:if>
+     		        </c:forEach>
+     		      </td>
+	    		</c:forEach>
+			  </tr>
+		  </c:if>
 		</table>
 	  </c:if>
 	</c:forEach>
     </form>
     </c:if>
-  </div>
   <div align="center">
 	<input type="button" class="btn btn-windows back" value="返回" onclick="goBack('${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">
   </div>
-</div>
 </body>
 </html>

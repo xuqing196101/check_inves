@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
+	<title>专家评分详情</title>
 
 	<!-- Meta -->
 	<meta charset="utf-8">
@@ -22,6 +22,9 @@
   <div class="container">
   <div class="headline-v2">
     <h2>${expert.relName }</h2>
+  </div>
+  <div align="right">
+	<button class="btn" onclick="window.print();" type="button">打印</button>
   </div>
   <!-- 表格开始-->
   <div>
@@ -63,9 +66,34 @@
 					    </tr> 
 					  </c:if>
 			        </c:forEach>
+			        
 			      </c:if>
 			    </c:forEach>
 			  </c:forEach>
+			  <tr>
+			  	<td>合计:</td>
+			  	<c:forEach items="${supplierList}" var="supplier">
+     		      <td>
+     		        <c:forEach items="${rankList}" var="rank">
+     		          <c:if test="${supplier.suppliers.id eq rank.supplierId}">
+     		            <span>${rank.econScore}(经济)+${rank.techScore}(技术)=${rank.sumScore}(总分)</span>
+     		          </c:if>
+     		        </c:forEach>
+     		      </td>
+	    		</c:forEach>
+			  </tr>
+			  <tr>
+			  	<td>排名:</td>
+			  	<c:forEach items="${supplierList}" var="supplier">
+     		      <td>
+     		        <c:forEach items="${rankList}" var="rank">
+     		          <c:if test="${supplier.suppliers.id eq rank.supplierId}">
+     		            <span>第${rank.rank}名</span>
+     		          </c:if>
+     		        </c:forEach>
+     		      </td>
+	    		</c:forEach>
+			  </tr>
 			</table>
 			<div class="tc">
 			  <%--<input class="btn btn-windows back" value="返回" type="button" onclick="backUp()">--%>
