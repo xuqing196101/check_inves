@@ -16,7 +16,7 @@
 	  total : "${info.total}",
 	  startRow : "${info.startRow}",
       endRow : "${info.endRow}",
-      groups : "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+      groups : "${info.pages}" >= 5 ? 5 : "${info.pages}", //连续显示分页数
 	  curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
 	    return "${info.pageNum}";
 	  }(),
@@ -257,8 +257,8 @@
             <span class="">
               <select  name="status" id="status">
                 <option selected="selected" value="">请选择</option>
-                <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>已下达</option>
-                <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>受领</option>
+                <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>未受领</option>
+                <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>已受领</option>
                 <option value="2" <c:if test="${'2'==task.status}">selected="selected"</c:if>>已取消</option>
               </select>
             </span>
@@ -266,7 +266,7 @@
 		</ul>
 		<div class="col-md-12 clear tc mt10">
 		  <button class="btn" type="submit">查询</button>
-		  <button type="reset" class="btn" onclick="clearSearch();">重置</button>
+		  <button type="reset" class="btn" onclick="clearSearch()">重置</button>
 	    </div>
 		<div class="clear"></div>
       </form>
@@ -286,11 +286,12 @@
 			<th class="info">需求部门</th>
 			<th class="info">下达文件编号</th>
 			<th class="info">状态</th>
+			<th class="info">任务性质</th>
 			<th class="info">下达时间</th>
 		  </tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
-		  <tr style="cursor: pointer;">
+		  <tr class="pointer">
 			<td class="tc w30"><input type="checkbox" value="${obj.id }"name="chkItem" onclick="check()" alt=""></td>
 			<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a></td>
@@ -298,13 +299,21 @@
 			<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.documentNumber}</a></td>
 			<td class="tc">
 			  <c:if test="${'1'==obj.status}">
-				<span class="label rounded-2x label-u">已下达</span>
+				<span class="label rounded-2x label-u">未受领</span>
 			  </c:if> 
 			  <c:if test="${'0'==obj.status}">
-				<span class="label rounded-2x label-u">受领</span>
+				<span class="label rounded-2x label-u">已受领</span>
 			  </c:if>
 			  <c:if test="${'2'==obj.status}">
 				<span class="label rounded-2x label-dark">已取消</span>
+			  </c:if>
+			</td>
+			<td class="tc">
+				<c:if test="${'1'==obj.taskNature}">
+				<span class="label rounded-2x label-u">预研任务</span>
+			  </c:if> 
+			  <c:if test="${'0'==obj.taskNature}">
+				<span class="label rounded-2x label-u">正常任务</span>
 			  </c:if>
 			</td>
 			<td class="tc"><fmt:formatDate value="${obj.giveTime }" /></td>

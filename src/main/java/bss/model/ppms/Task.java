@@ -37,6 +37,8 @@ public class Task {
     private String collectId;
     
     private String passWord;
+    
+    private Integer taskNature;
 
 	public Task(String id) {
 		super();
@@ -159,5 +161,13 @@ public class Task {
 		this.passWord = passWord;
 	}
 
+	public Integer getTaskNature() {
+		return taskNature;
+	}
+
+	public void setTaskNature(Integer taskNature) {
+		this.taskNature = taskNature;
+	}
+	
    
 }

@@ -15,6 +15,7 @@
     <result column="COLLECT_ID" property="collectId" />
     <result column="ACCEPT_TIME" property="acceptTime" />
     <result column="PASS_WORD" property="passWord" />
+    <result column="TASK_NATURE" property="taskNature" />
     <association property="purchaseId" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.findByOrgId"/>
   </resultMap>
   
@@ -28,7 +29,7 @@
   
   <sql id="Base_Column_List">
     ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED,
-    MATERIALS_TYPE,YEAR,ACCEPT_TIME,COLLECT_ID,PASS_WORD
+    MATERIALS_TYPE,YEAR,ACCEPT_TIME,COLLECT_ID,PASS_WORD,TASK_NATURE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -232,6 +233,9 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="taskNature != null">
+        TASK_NATURE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -273,8 +277,11 @@
       <if test="passWord != null">
         #{passWord},
       </if>
-       <if test="isDeleted != null">
+      <if test="isDeleted != null">
         #{isDeleted},
+      </if>
+      <if test="taskNature != null">
+        #{taskNature},
       </if>
     </trim>
   </insert>
@@ -319,6 +326,9 @@
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
+      </if>
+      <if test="taskNature != null">
+        TASK_NATURE = #{taskNature},
       </if>
     </set>
     where ID = #{id}
