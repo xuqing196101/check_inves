@@ -176,7 +176,7 @@
 		</foreach>
 	</delete>
 	<delete id="delBidMethodByMap" parameterType="java.util.Map">
-		delete from T_BSS_PPMS_BID_METHOD s where 1=1
+		delete from T_BSS_PPMS_BID_METHOD s where 1=1 and name is null
 		<if test="projectId != null">
          	and PROJECT_ID = #{projectId}
       	</if>

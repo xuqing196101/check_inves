@@ -129,11 +129,11 @@ function ycDiv(obj, index){
 					<td>
 						  <c:if test="${empty treemapValue.bidFileName && empty treemapValue.total}">
 						    <c:if test="${fn:length(treemap.value) > 1}">
-								<u:upload id="${treemapValue.groupsUpload}" groups="${treemapValue.groupsUploadId}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+								<u:upload id="${treemapValue.groupsUpload}" groups="${treemapValue.groupsUploadId}" buttonName="上传附件" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 								<u:show showId="${treemapValue.groupShow}" groups="${treemapValue.groupShowId}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" />
 						  	</c:if>
 						  	<c:if test="${fn:length(treemap.value) == 1}">
-								<u:upload id="${treemapValue.groupsUpload}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+								<u:upload id="${treemapValue.groupsUpload}" businessId="${treemapValue.id}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 								<u:show showId="${treemapValue.groupShow}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" />
 						  	</c:if>
 						  </c:if>

@@ -291,8 +291,8 @@ public class PackageExpertController {
                     List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
                     if (allQuote != null && allQuote.size() > 0) {
                         for (Quote conditionQuote : allQuote) {
-                            if (conditionQuote.getSupplier().getId().equals(saleTender.getSuppliers().getId()) &&
-                                conditionQuote.getProject().getId().equals(saleTender.getProject().getId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
+                            if (conditionQuote.getSupplier()!=null&&conditionQuote.getSupplier().getId().equals(saleTender.getSuppliers().getId()) &&
+                                conditionQuote.getProjectId().equals(saleTender.getProject().getId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
                                 saleTender.setTotal(conditionQuote.getTotal());
                                 saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
                                 saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
