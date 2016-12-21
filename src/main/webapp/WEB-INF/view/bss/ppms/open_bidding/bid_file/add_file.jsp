@@ -185,7 +185,7 @@
 	   		<input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交"></input>
 	    </div>
 	 </c:if>
-	<form id="MyFile" method="post">
+	<form id="MyFile" method="post" class="h800">
 		<input type="hidden" id="ope" value="${ope }">
 		<input type="hidden" id="confirmFileId" value="${project.confirmFile}">
 		<input type="hidden" id="flowDefineId" value="${flowDefineId }">
