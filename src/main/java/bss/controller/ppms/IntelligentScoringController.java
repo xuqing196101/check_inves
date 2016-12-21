@@ -649,7 +649,7 @@ public class IntelligentScoringController {
 			List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
 			if (mtList != null && mtList.size() > 0) {
 			    MarkTerm markTerm = mtList.get(0);
-			    markTerm.setName(scoreModel.getName());
+			    markTerm.setName(scoreModel.getReviewContent());
 			    markTermService.updateMarkTerm(markTerm);
 			}
 			HashMap<String, Object> map  = new HashMap<String,Object>();
@@ -675,7 +675,7 @@ public class IntelligentScoringController {
 			
 			MarkTerm mt = new MarkTerm();
 			mt.setPid(scoreModel.getMarkTermId());
-			mt.setName(scoreModel.getName());
+			mt.setName(scoreModel.getReviewContent());
 			mt.setCreatedAt(new Date());
 			mt.setPackageId(scoreModel.getPackageId());
 			mt.setProjectId(scoreModel.getProjectId());
