@@ -135,13 +135,13 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 			 if (packageExpertList != null && packageExpertList.size() > 0) {
 			     double first =  1/(double)packageExpertList.size();
 				 BigDecimal b = new BigDecimal(first); 
-				 firstProgress  = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+				 firstProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				 //初审进度
 				 reviewProgress.setFirstAuditProgress(firstProgress);
 				 //总进度
 				 totalProgress = (firstProgress+scoreProgress)/2;
 				 BigDecimal c = new BigDecimal(totalProgress); 
-				 totalProgress = c.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+				 totalProgress = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     			 reviewProgress.setTotalProgress(totalProgress);
     			 //评分进度
     			 reviewProgress.setScoreProgress(scoreProgress);
@@ -178,14 +178,14 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 					  first = 1/(double)packageExpertList.size();
 				  }
 				  BigDecimal b = new BigDecimal(first); 
-				  firstProgress  = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+				  firstProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				  //初审进度更新
 				  reviewProgress2.setFirstAuditProgress(firstProgress);
 				  //总进度更新
 				  Double scoreProgress2 = reviewProgress2.getScoreProgress();
 				  double total2 =  (firstProgress+scoreProgress2)/2;
 				  BigDecimal t = new BigDecimal(total2); 
-				  totalProgress  = t.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+				  totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				  //总进度更新
 				  reviewProgress2.setTotalProgress(totalProgress);
 				  if (packageExpertList2.size() == packageExpertList.size()) {
@@ -227,7 +227,6 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 				  packageExpertMapper.updateByBean(packageExpert);
 			  }
 			  Map<String, Object> map2 = new HashMap<String, Object>();
-				map2.put("expertId", expertId);
 				map2.put("projectId", projectId);
 				map2.put("packageId", packageId);
 				map2.put("isGrade", 1);
@@ -255,7 +254,7 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 			  //scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 			  scoreProgress = 1/(double)packageExpertList.size();
 			  BigDecimal b = new BigDecimal(scoreProgress); 
-			  scoreProgress  = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+			  scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 			  //评分进度
 			  reviewProgress.setScoreProgress(scoreProgress);
 			  //初审进度
@@ -290,13 +289,13 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
            scoreProgress = 1/(double)packageExpertList.size();
          }
          BigDecimal b = new BigDecimal(scoreProgress); 
-         scoreProgress  = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+         scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
          //评审进度更新
          reviewProgress2.setScoreProgress(scoreProgress);
          //总进度更新
          double total2 =  (reviewProgress2.getFirstAuditProgress()+scoreProgress)/2;
          BigDecimal t = new BigDecimal(total2); 
-         totalProgress  = t.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+         totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
          //总进度更新
          reviewProgress2.setTotalProgress(totalProgress);
          if (packageExpertList2.size() == packageExpertList.size()) {

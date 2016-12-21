@@ -1927,14 +1927,14 @@ public class PackageExpertController {
              double first = 0;
              first = ((double)expertAuditeds.size())/(double)packageExpertList.size();
              BigDecimal b = new BigDecimal(first); 
-             firstProgress  = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+             firstProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
              //初审进度更新
              reviewProgress.setFirstAuditProgress(firstProgress);
              //总进度更新
              Double scoreProgress2 = reviewProgress.getScoreProgress();
              double total2 =  (firstProgress+scoreProgress2)/2;
              BigDecimal t = new BigDecimal(total2); 
-             totalProgress  = t.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+             totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
              //总进度更新
              reviewProgress.setTotalProgress(totalProgress);
              reviewProgressService.updateByMap(reviewProgress);

@@ -192,14 +192,14 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             //查询包下已经的评审专家
             List<PackageExpert> expertAuditeds = mapper.selectList(map1);
             Map<String, Object> map = new HashMap<String, Object>();
-            map1.put("packageId", mapSearch.get("packageId"));
-            map1.put("projectId", mapSearch.get("projectId"));
+            map.put("packageId", mapSearch.get("packageId"));
+            map.put("projectId", mapSearch.get("projectId"));
             //查询包下全部评审专家
             List<PackageExpert> packageExpertList = mapper.selectList(map);
             double second = 0;
             second = ((double)expertAuditeds.size())/(double)packageExpertList.size();
             BigDecimal b = new BigDecimal(second); 
-            scoreProgress = b.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+            scoreProgress = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             //评审进度更新
             reviewProgress3.setScoreProgress(scoreProgress);
             //初审进度
@@ -207,7 +207,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             //总进度更新
             totalProgress =  (firstProgress+scoreProgress)/2;
             BigDecimal t = new BigDecimal(totalProgress); 
-            totalProgress  = t.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+            totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             //总进度更新
             reviewProgress3.setTotalProgress(totalProgress);
             reviewProgressMapper.updateByMap(reviewProgress3);

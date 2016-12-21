@@ -1,11 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
   <head>
+  	<%@ include file="/WEB-INF/view/common.jsp" %>
     <title>项目评分</title>
 <script type="text/javascript">
 $(document).ready(function() { 
@@ -77,6 +75,7 @@ $(document).ready(function() {
 									//算出的分数
 									if(data[i].supplierId == $(this).val()){
 										$(this).next().val(data[i].score);
+										$(this).next().next().html(data[i].score);
 									}
 								});
 							}
@@ -237,7 +236,11 @@ $(document).ready(function() {
 					 	    </c:choose>
 					 	    <td class="tc">
 					 	      <input type="hidden" name="supplierId"  value="${supplier.suppliers.id}"/>
-					 	      <input type="hidden" name="expertScore" readonly="readonly" style="width: 50px;"/>
+					 	      <input type="hidden" name="expertScore" readonly="readonly" style="width: 50px;" 
+					 	      	<c:forEach items="${scores}" var="sco">
+					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
+					 	        </c:forEach>
+					 	      />
 					 	      <span><c:forEach items="${scores}" var="sco">
 					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">${sco.score}</c:if>
 					 	        </c:forEach></span>

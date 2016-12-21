@@ -77,7 +77,7 @@
 			    </td>
 			    <td class="tc">
 				    <c:if test="${rp.auditStatus == '0'}">未评审</c:if>
-			  	  	<c:if test="${rp.auditStatus == '1'}">符合性审查审中</c:if>
+			  	  	<c:if test="${rp.auditStatus == '1'}">符合性审查中</c:if>
 			  	  	<c:if test="${rp.auditStatus == '2'}">符合性审完成</c:if>
 			  	  	<c:if test="${rp.auditStatus == '3'}">经济技术审查中</c:if>
 			  	  	<c:if test="${rp.auditStatus == '4'}">评审完成</c:if>
