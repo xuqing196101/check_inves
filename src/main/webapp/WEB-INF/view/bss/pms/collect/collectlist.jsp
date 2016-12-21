@@ -209,7 +209,6 @@
 
 					id.push($(this).val());
 				});
-				alert(type);
 				$("#goodsType").val(type);
 				$("#plannos").val(id);
 				$("#dep").val(de);
