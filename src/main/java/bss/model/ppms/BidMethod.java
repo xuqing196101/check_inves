@@ -1,5 +1,7 @@
 package bss.model.ppms;
 
+import java.math.BigDecimal;
+
 public class BidMethod {
 	private String id ;//
 	private String name ;//
@@ -12,11 +14,24 @@ public class BidMethod {
 	private String createdAt ;//
 	private String updatedAt ;//
 	private String projectId ;//
-	
-	
+	private BigDecimal valid;
+	private BigDecimal business;
 	private String packageId ;//
 	private String markTermId;//瞬态属性  评分项id
-	public String getId() {
+	
+	public BigDecimal getValid() {
+        return valid;
+    }
+    public void setValid(BigDecimal valid) {
+        this.valid = valid;
+    }
+    public BigDecimal getBusiness() {
+        return business;
+    }
+    public void setBusiness(BigDecimal business) {
+        this.business = business;
+    }
+    public String getId() {
 		return id;
 	}
 	public void setId(String id) {

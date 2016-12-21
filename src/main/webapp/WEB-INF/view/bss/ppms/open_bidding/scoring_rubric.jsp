@@ -97,6 +97,15 @@
         window.location.href = "${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId="+packageId+"&projectId="+projectId;
     }
     
+    function editScoreMehtod(packageId,projectId) {
+    	window.location.href = "${pageContext.request.contextPath}/intelligentScore/editScoreMethod.html?packageId="+packageId+"&projectId="+projectId;
+    }
+    function addScoreMethod(packageId,projectId) {
+    	window.location.href = "${pageContext.request.contextPath}/intelligentScore/addScoreMethod.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
+    }
+    function show(packageId, projectId) {
+    	window.location.href = "${pageContext.request.contextPath}/intelligentScore/showScoreMethod.html?packageId="+packageId+"&projectId="+projectId;
+    }
 </script>
   </head>
   
@@ -203,6 +212,7 @@
 								onclick="selectAll()" alt=""></th> -->
 							<th>序号</th>
 							<th>包名</th>
+							<th>评分办法</th>
 							<th>操作</th>
 							<!-- <th>评分办法名称</th>
 							<th>评标方法</th> -->
@@ -214,9 +224,21 @@
 								<%-- <td class="tc w30"><input type="checkbox" value="${p.id }" name="chkItem">
 								</td> --%>
 								<td class="tc w50">${vs.index+1 }</td>
-								<td class="tc">${p.name }</td>
+								<td class="tc">${p.name}</td>
+								<td class="tc">
+									<c:forEach items="${ddList}" var="list" varStatus="vs">
+										<c:if test="${vs.index == p.bidMethodTypeName }"><a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a></c:if>
+										
+									</c:forEach>
+								</td>
 								 <td class="tc">
-				                    <button class="btn" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+								   <c:if test="${p.isHaveScoreMethod == 1}">
+								       <!-- <button class="btn" type="button" onclick="editScoreMethod()">修改评分方法</button> -->
+				                       <button class="btn" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+								   </c:if>
+								   <c:if test="${p.isHaveScoreMethod == 2}">
+				                       <button class="btn" type="button" onclick="addScoreMethod('${p.id}','${projectId}')">选择评分方法</button>
+								   </c:if>
 				                </td>
 								<%-- <td align="center">
 									<a href="javascript:void(0)" onclick="show('${p.id}');">${p.bidMethodName }</a>

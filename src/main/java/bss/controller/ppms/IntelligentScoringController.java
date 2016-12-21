@@ -88,14 +88,50 @@ public class IntelligentScoringController {
 	@Autowired
 	private FirstAuditTemplatService firstAuditTemplatService;
 	
+	
+	@RequestMapping(value = "addScoreMethod")
+    public String addScoreMethod(Model model, String packageId, String projectId, String flowDefineId) {
+	    List<DictionaryData> ddList = DictionaryDataUtil.find(27);
+	    model.addAttribute("projectId", projectId);
+	    model.addAttribute("packageId", packageId);
+	    model.addAttribute("flowDefineId", flowDefineId);
+	    model.addAttribute("ddList", ddList);
+        return "bss/ppms/open_bidding/add_score_method";
+    }
+	
+	@RequestMapping(value = "showScoreMethod")
+    public String showScoreMethod(Model model, BidMethod bm) {
+        List<BidMethod> bidMethod = bidMethodService.findListByBidMethod(bm);
+        if (bidMethod != null && bidMethod.size() > 0){
+            model.addAttribute("bidMethod", bidMethod.get(0));
+        }
+        List<DictionaryData> ddList = DictionaryDataUtil.find(27);
+        model.addAttribute("ddList", ddList);
+        return "bss/ppms/open_bidding/show_score_method";
+    }
+	
+	
+	@RequestMapping(value = "saveScoreMethod")
+	public String saveScoreMethod(BidMethod bm, String packageId, String projectId, String flowDefineId) {
+	    bm.setProjectId(projectId);
+	    bm.setPackageId(packageId);
+	    bidMethodService.save(bm);
+	    return "redirect:packageList.html?flowDefineId=" + flowDefineId + "&projectId=" + projectId;
+	}
+	
+	@RequestMapping(value = "editScoreMethod")
+    public void editScoreMethod(String packageId, String projectId) {
+        
+    }
+	
 	@RequestMapping("/loadTemplat")
-	  public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
+	public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
 	    try{
 	        //模板导入前首先给现有的东西删除掉所有的项目id都一样。所以按照项目id删除
 	        HashMap<String, Object> condition = new HashMap<String, Object>();
 	        condition.put("projectId", projectId);
-	        bidMethodService.delBidMethodByMap(condition);
 	        condition.put("packageId", packageId);
+	        bidMethodService.delBidMethodByMap(condition);
 	        markTermService.delMarkTermByMap(condition);
 	        scoreModelService.delScoreModelByMap(condition);
 	        //然后再来修改模板数据的projectid和packageid
@@ -120,6 +156,7 @@ public class IntelligentScoringController {
 	            bm.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 	            bm.setRemainScore(bidMethod.getRemainScore());
 	            bm.setRemark(bidMethod.getRemark());
+	            bm.setPackageId(packageId);
 	            bidMethodService.save(bm);
 	           
 	            for (MarkTerm markTerm : mtList) {
@@ -332,8 +369,8 @@ public class IntelligentScoringController {
         mt.setPid("0");
         List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
         Integer count3 = 0;
+        int judge = 0;
         for (MarkTerm mtKey : mtList) {
-            int judge = 0;
             MarkTerm mt1 = new MarkTerm();
             mt1.setPid(mtKey.getId());
             mt1.setProjectId(projectId);
@@ -484,6 +521,22 @@ public class IntelligentScoringController {
 		Project project = projectService.selectById(packages.getProjectId());
 		model.addAttribute("project", project);
 		List<Packages> packagesList = packageService.findPackageAndBidMethodById(map);
+		//增加一个字段判断又没有评分办法
+        for (Packages packages2 : packagesList) {
+            BidMethod condition = new BidMethod();
+            condition.setProjectId(packages.getProjectId());
+            condition.setPackageId(packages2.getId());
+            List<BidMethod> bmList = bidMethodService.findListByBidMethod(condition);
+            if (bmList != null && bmList.size() > 0) {
+                packages2.setIsHaveScoreMethod(1);
+                packages2.setBidMethodTypeName(bmList.get(0).getTypeName());
+            } else {
+                packages2.setIsHaveScoreMethod(2);
+            }
+        }
+        List<DictionaryData> ddList = DictionaryDataUtil.find(27);
+        model.addAttribute("ddList", ddList);
+		//
 		model.addAttribute("packagesList", packagesList);
 		model.addAttribute("projectId", packages.getProjectId());
 		model.addAttribute("flowDefineId", flowDefineId);
@@ -588,6 +641,7 @@ public class IntelligentScoringController {
 			mt.setPackageId(scoreModel.getPackageId());
 			mt.setProjectId(scoreModel.getProjectId());
 			mt.setMaxScore("0");
+			//mt.setTypeName();
 			markTermService.saveMarkTerm(mt);
 			scoreModel.setMarkTermId(mt.getId());
 			scoreModelService.saveScoreModel(scoreModel);

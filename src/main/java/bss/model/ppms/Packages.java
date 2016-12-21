@@ -62,8 +62,19 @@ public class Packages {
 	private Supplier supplier;//用于拆分供应商展示
 	
 	private String supplierCheckPassId;
+	
+	//判断是否有评分办法 1 有 2 没有
+	private Integer isHaveScoreMethod;
 
-	public String getSupplierCheckPassId() {
+	public Integer getIsHaveScoreMethod() {
+        return isHaveScoreMethod;
+    }
+
+    public void setIsHaveScoreMethod(Integer isHaveScoreMethod) {
+        this.isHaveScoreMethod = isHaveScoreMethod;
+    }
+
+    public String getSupplierCheckPassId() {
 		return supplierCheckPassId;
 	}
 
