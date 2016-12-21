@@ -264,7 +264,7 @@
 					layer.msg('删除成功', {
 					offset: ['40%', '45%']
 				});
-			 
+					window.location.reload();
 			 	}
 		 });
 		
@@ -324,7 +324,7 @@
 		<button class="btn btn-windows add" onclick="experts()">专家库添加</button>
 		<button class="btn btn-windows add" onclick="users()">用户库添加</button>
 		<button class="btn btn-windows add" onclick="temp()">临时添加</button>
-		<button class="btn btn-windows add" onclick="delet()">删除</button>
+		<button class="btn btn-windows delete" onclick="delet()">删除</button>
 	  </div>
   <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">

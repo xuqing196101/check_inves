@@ -39,6 +39,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
+import bss.dao.pms.AuditPersonMapper;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.AuditParamBean;
 import bss.formbean.FiledNameEnum;
@@ -105,6 +106,9 @@ public class AuditSetController {
 
 	@Autowired
 	private OrgnizationMapper orgnizationMapper;
+	
+	@Autowired
+	private AuditPersonMapper auditPersonMapper;
 	/**
 	 * 
 	* @Title: set
@@ -685,5 +689,14 @@ public class AuditSetController {
 		 
 	}
 	
+	   @RequestMapping(value="/delete")
+	   @ResponseBody
+	public String delete(String id){
+	    String[] ids = id.split(",");
+	    for(String i:ids){
+	        auditPersonMapper.deleteByPrimaryKey(i);
+	    }
+	    return "";
+	}
 	
 }
