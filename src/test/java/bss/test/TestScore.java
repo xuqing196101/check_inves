@@ -11,16 +11,18 @@ import ses.util.ScoreModelUtil;
 
 public class TestScore {
     
+    @Test
     public void testOne() {//测试正常
         ScoreModel scoreModel = new ScoreModel();
         //标准分值standardScore
         scoreModel.setStandardScore("2");
         //不满足0 满足1  
-        Integer flag=1;
+        Integer flag=0;
         double score=ScoreModelUtil.getScoreByModelOne(scoreModel, flag);
         System.out.println(score);
     }
     
+    @Test
     public void testTwo() {//修改后测试正常
         ScoreModel scoreModel = new ScoreModel();
         //0加分1减分
@@ -39,6 +41,7 @@ public class TestScore {
         System.out.println(score);
     }
     
+    @Test
     public void testFive() { //模型图片上面有个乘以2  这个有点疑惑 不过问题不是很大  测试正常
         ArrayList<SupplyMark> supplyMarkList = new ArrayList<SupplyMark>();
         SupplyMark sm = new SupplyMark();
@@ -90,6 +93,7 @@ public class TestScore {
         System.out.println(score);
         
     }
+    
     @Test
     public void testSix() { //精度损失  修改完毕
         ArrayList<SupplyMark> supplyMarkList = new ArrayList<SupplyMark>();
@@ -127,6 +131,7 @@ public class TestScore {
         }
     }
     
+    @Test
     public void testThree() {//测试正常
         ScoreModel scoreModel = new ScoreModel();
         //分差   每个区间的分值差，加  加多少分   减  减多少分
@@ -156,6 +161,7 @@ public class TestScore {
         }
     }
     
+    @Test
     public void testFour() {//测试正常
         ScoreModel scoreModel = new ScoreModel();
         //分差   每个区间的分值差，加  加多少分   减  减多少分

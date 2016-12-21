@@ -1586,7 +1586,7 @@ public class PackageExpertController {
             map.put("expertId", expertId);
             map.put("packageId", packageId);
             List<PackageExpert> temp = packageExpertService.selectList(map);
-            if (temp.get(0).getIsGrade() == 1) {
+            if (temp != null && !temp.isEmpty() && temp.get(0).getIsGrade() == 1) {
                 expertScoreList.add(score);
             }
         }
@@ -1596,7 +1596,11 @@ public class PackageExpertController {
         // 
         Map<String, Object> searchMap = new HashMap<String, Object>();
         searchMap.put("packageId", packageId);
-        ReviewProgress reviewProgress = reviewProgressService.selectByMap(searchMap).get(0);
+        List<ReviewProgress> reviews = reviewProgressService.selectByMap(searchMap);
+        ReviewProgress reviewProgress = new ReviewProgress();
+        if (reviews != null && !reviews.isEmpty()) {
+            reviewProgress = reviews.get(0);
+        }
         model.addAttribute("review", reviewProgress);
         // 分数
         List<ExpertScore> scores = expertScoreService.selectByMap(searchMap);
