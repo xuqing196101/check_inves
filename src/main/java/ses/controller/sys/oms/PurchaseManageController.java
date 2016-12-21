@@ -260,6 +260,8 @@ public class PurchaseManageController {
 	public String create(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
 	    if(result.hasErrors()){
             model.addAttribute("orgnization", orgnization);
+            //初始化采购管理部门级别
+            initManageLevel(model);
             return "ses/oms/require_dep/add";
         }
 	    String depIds = request.getParameter("depIds");
@@ -267,7 +269,6 @@ public class PurchaseManageController {
 		orgnizationServiceI.saveOrgnization(orgnization, depIds);
 		
 		model.addAttribute("typeName", orgnization.getTypeName());
-		
 		return "redirect:list.do";
 	}
 	
@@ -318,6 +319,8 @@ public class PurchaseManageController {
 	public String update(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
 	    
 		if(result.hasErrors()){
+		    //初始化采购管理部门级别
+            initManageLevel(model);
             model.addAttribute("orgnization", orgnization);
             return "ses/oms/require_dep/edit";
         }
@@ -505,6 +508,8 @@ public class PurchaseManageController {
     public String addPurchaseDep(Model model) {
 	    model.addAttribute("purchaseDepIds", WfUtil.createUUID());
 	    initPurchaseType("PURCHASE_QUA_CERT",model);
+	    //初始化采购机构级别
+	    initPurchaseLevel(model);
         return "ses/oms/purchase_dep/add";
     }
 	
@@ -523,6 +528,17 @@ public class PurchaseManageController {
         }
 	}
 	
+	/**
+	 * 
+	 *〈简述〉初始化采购机构级别
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model
+	 */
+	private void initPurchaseLevel(Model model){
+	    List <DictionaryData>  list = DictionaryDataUtil.find(26);
+	    model.addAttribute("unitLevelList", list);
+	}
 	
 	/**
 	 * 
@@ -546,6 +562,7 @@ public class PurchaseManageController {
 	    List<OrgInfo> orgInfos = orgInfoService.selectedInfo(purchaseUnitName,purchaseUnitDuty);
 	    List<OrgLocale> locales = orgLocaleService.selectedInfo(siteType, siteNumber,location,area,crewSize);
 	    initPurchaseType("PURCHASE_QUA_CERT",model);
+	    initPurchaseLevel(model);
 	    if(result.hasErrors()){
 	        List<FieldError> errors = result.getFieldErrors();
 	        for (FieldError fieldError : errors) {
@@ -567,143 +584,7 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/add";
         }
-        if(!ValidateUtils.isNotNull(purchaseDep.getQuaRange())){
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("ERR_quaRange", "请选择");
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        List<UploadFile> list = uploadService.getFilesOther(purchaseDep.getId(), null, "2");
-        if(list.size() < 1){
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("ERR_msg", "请上传附件");
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(purchaseDep.getQuaStartDate() == null){
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("ERR_quaStartDate", "开始时间不能为空");
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(purchaseDep.getQuaEdndate() == null){
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("ERR_quaEdndate", "截止时间不能为空");
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getOfficerCountnum())){
-            model.addAttribute("ERR_officerCountnum", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getOfficerNowCounts())){
-            model.addAttribute("ERR_officerNowCounts", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getSoldierNowCounts())){
-            model.addAttribute("ERR_soldierNowCounts", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getSoldierNum())){
-            model.addAttribute("ERR_soldierNum", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getStaffNum())){
-            model.addAttribute("ERR_staffNum", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getStaffNowCounts())){
-            model.addAttribute("ERR_staffNowCounts", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getPurchasersCount())){
-            model.addAttribute("ERR_purchasersCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getJuniorPurCount())){
-            model.addAttribute("ERR_juniorPurCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getOfficeCount())){
-            model.addAttribute("ERR_officeCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getMettingRoomCount())){
-            model.addAttribute("ERR_mettingRoomCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getInviteRoomCount())){
-            model.addAttribute("ERR_inviteRoomCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getBidRoomCount())){
-            model.addAttribute("ERR_bidRoomCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("purchaseDepIds", purchaseDep.getId());
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-	    if(!ValidateUtils.Zipcode(purchaseDep.getPostCode())){
-	        model.addAttribute("ERR_postCode", "请输入正确的邮编");
-	        model.addAttribute("purchaseDep", purchaseDep);
-	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
-	        model.addAttribute("lists", purchaseOrgList);
-	        model.addAttribute("orgInfos", orgInfos);
-	        return "ses/oms/purchase_dep/add";
-	    }
+       
 	    if(!ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
 	        model.addAttribute("ERR_dutyRoomPhone", "请输入正确的电话号码");
 	        model.addAttribute("purchaseDep", purchaseDep);
@@ -712,7 +593,7 @@ public class PurchaseManageController {
 	        model.addAttribute("orgInfos", orgInfos);
 	        return "ses/oms/purchase_dep/add";
 	    }
-	    if(!ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
+	    if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone()) && !ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
 	        model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
 	        model.addAttribute("purchaseDep", purchaseDep);
 	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
@@ -720,7 +601,7 @@ public class PurchaseManageController {
 	        model.addAttribute("orgInfos", orgInfos);
 	        return "ses/oms/purchase_dep/add";
 	    }
-	    if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
+	    if(ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
 	        model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
 	        model.addAttribute("purchaseDep", purchaseDep);
 	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
@@ -759,6 +640,8 @@ public class PurchaseManageController {
 	    List<OrgInfo> orgInfos = orgInfoService.selectedInfo(purchaseUnitName,purchaseUnitDuty);
 	    purchaseDep.setOrgId(purchaseDep.getOrgnization().getId());
 	    initPurchaseType("PURCHASE_QUA_CERT",model);
+	    //初始化采购机构级别
+        initPurchaseLevel(model);
 	    if(result.hasErrors()){
             List<FieldError> errors = result.getFieldErrors();
             for (FieldError fieldError : errors) {
@@ -777,141 +660,29 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }
-        if(!ValidateUtils.isNotNull(purchaseDep.getQuaRange())){
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("ERR_quaRange", "请选择");
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        List<UploadFile> list = uploadService.getFilesOther(purchaseDep.getId(), null, "2");
-        if(list.size() < 1){
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("ERR_msg", "请上传附件");
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(purchaseDep.getQuaStartDate() == null){
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("ERR_quaStartDate", "开始时间不能为空");
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(purchaseDep.getQuaEdndate() == null){
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("ERR_quaEdndate", "截止时间不能为空");
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getOfficerCountnum())){
-            model.addAttribute("ERR_officerCountnum", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getOfficerNowCounts())){
-            model.addAttribute("ERR_officerNowCounts", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getSoldierNowCounts())){
-            model.addAttribute("ERR_soldierNowCounts", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getSoldierNum())){
-            model.addAttribute("ERR_soldierNum", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getStaffNum())){
-            model.addAttribute("ERR_staffNum", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getStaffNowCounts())){
-            model.addAttribute("ERR_staffNowCounts", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getPurchasersCount())){
-            model.addAttribute("ERR_purchasersCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getJuniorPurCount())){
-            model.addAttribute("ERR_juniorPurCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getOfficeCount())){
-            model.addAttribute("ERR_officeCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getMettingRoomCount())){
-            model.addAttribute("ERR_mettingRoomCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getInviteRoomCount())){
-            model.addAttribute("ERR_inviteRoomCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.isNotNull(purchaseDep.getBidRoomCount())){
-            model.addAttribute("ERR_bidRoomCount", "请输入数字");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(!ValidateUtils.Zipcode(purchaseDep.getPostCode())){
+       
+        if(ValidateUtils.isNotNull(purchaseDep.getPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getPostCode())){
             model.addAttribute("ERR_postCode", "请输入正确的邮编");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }
-        if(!ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
+        if(ValidateUtils.isNotNull(purchaseDep.getDutyRoomPhone()) && !ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
             model.addAttribute("ERR_dutyRoomPhone", "请输入正确的电话号码");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }
-        if(!ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
+        if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone()) && !ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
             model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }
-        if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
+        if(ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
             model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
@@ -1020,13 +791,9 @@ public class PurchaseManageController {
 			purchaseDep = list.get(0);
 		}
 		model.addAttribute("purchaseDep", purchaseDep);
-		if(orgId != null){
-		    map.put("orgId", orgId);
-		}else{
-		    map.put("orgId", purchaseDep.getOrgId());
-		}
+		map.put("purchaseDepId", purchaseDep.getOrgId());
         //需求监管部门  或者  采购机构
-        List<Orgnization> lists = orgnizationServiceI.findPurchaseOrgList(map);
+        List<Orgnization> lists = orgnizationServiceI.getRelaPurchaseOrgList(map);
         model.addAttribute("lists", lists);
         //财务部门信息
         HashMap<String, Object> map1 = new HashMap<String, Object>();
@@ -1047,6 +814,7 @@ public class PurchaseManageController {
         List<OrgLocale> locales = orgLocaleService.listByAll(map2);
         model.addAttribute("locales", locales);
         initPurchaseType("PURCHASE_QUA_CERT",model);
+        initPurchaseLevel(model);
 		return "ses/oms/purchase_dep/edit";
 	}
 	
@@ -1083,9 +851,9 @@ public class PurchaseManageController {
             purchaseDep = list.get(0);
         }
         model.addAttribute("purchaseDep", purchaseDep);
-        map.put("orgId", purchaseDep.getOrgId());
-      //需求监管部门  或者  采购机构
-        List<Orgnization> lists = orgnizationServiceI.findPurchaseOrgList(map);
+        map.put("purchaseDepId", purchaseDep.getOrgId());
+        //需求监管部门  或者  采购机构
+        List<Orgnization> lists = orgnizationServiceI.getRelaPurchaseOrgList(map);
         model.addAttribute("lists", lists);
         //财务部门信息
         HashMap<String, Object> map1 = new HashMap<String, Object>();
@@ -1096,16 +864,16 @@ public class PurchaseManageController {
         map2.put("orgId", purchaseDep.getOrgId());
         List<OrgLocale> list3 = orgLocaleService.listByAll(map2);
         model.addAttribute("locales", list3);
-        Area area = areaServiceI.listById(purchaseDep.getProvinceId());
-        model.addAttribute("area", area);
-        Area area1 = areaServiceI.listById(purchaseDep.getCityId());
-        model.addAttribute("area1", area1);
-      //多文件上传
-        model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-        model.addAttribute("PURCHASE_QUA_CERT_ID", DictionaryDataUtil.getId("PURCHASE_QUA_CERT"));
-        model.addAttribute("PURCHASE_QUA_STATUS_STASH_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_STASH"));
-        model.addAttribute("PURCHASE_QUA_STATUS_NORMAL_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_NORMAL"));
-        model.addAttribute("PURCHASE_QUA_STATUS_TERMINAL_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_TERMINAL"));
+        if (StringUtils.isNotBlank(purchaseDep.getProvinceId())){
+          Area area = areaServiceI.listById(purchaseDep.getProvinceId());
+          model.addAttribute("area", area);
+        }
+        if (StringUtils.isNotBlank(purchaseDep.getCityId())){
+            Area area1 = areaServiceI.listById(purchaseDep.getCityId());
+            model.addAttribute("area1", area1);
+          }
+        initPurchaseType("PURCHASE_QUA_CERT",model);
+        initPurchaseLevel(model);
         return "ses/oms/purchase_dep/show";
     }
 	/**

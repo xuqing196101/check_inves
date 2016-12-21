@@ -275,6 +275,44 @@
       ORDER BY D.CREATED_AT DESC
 	</select>
 	
+	<!-- 获取关联部门信息 -->
+	<select id="getRelaPurchaseOrgList" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
+	  SELECT D.ID                 AS ID,
+       D.ORG_LEVEL          AS ORGLEVEL,
+       D.IS_DELETED         AS ISDELETED,
+       D.PARENT_ID          AS PARENTID,
+       D.NAME               AS NAME,
+       D.DEP_ID             AS DEPID,
+       D.TYPE_NAME          AS TYPENAME,
+       D.IS_ROOT            AS ISROOT,
+       D.EMAIL              AS EMAIL,
+       D.MOBILE             AS MOBILE,
+       D.POST_CODE          AS POSTCODE,
+       D.ADDRESS            AS ADDRESS,
+       D.SHORT_NAME         AS SHORTNAME,
+       D.AREA_ID            AS AREAID,
+       D.DETAIL_ADDR        AS DETAILADDR,
+       D.FAX                AS FAX,
+       D.WEBSITE            AS WEBSITE,
+       D.PRINCINPAL         AS PRINCINPAL,
+       D.STATUS             AS STATUS,
+       D.PRINCINPAL_ID_CARD AS PRINCINPALIDCARD,
+       D.NATURE             AS NATURE,
+       D.ORG_CODE           AS ORGCODE,
+       D.PROVINCE_ID        AS PROVINCEID,
+       D.CONTACT_NAME     AS CONTACTNAME,
+       D.CONTACT_MOBILE     AS CONTACTMOBILE,
+       D.CITY_ID            AS CITYID
+
+       FROM T_SES_OMS_ORG D,
+           (SELECT PO.ORG_ID
+            FROM T_SES_OMS_PURDEP_ORG PO
+            WHERE PO.PURCHASE_DEP_ID = #{purchaseDepId}) M
+      WHERE D.ID = M.ORG_ID
+      AND D.IS_DELETED = 0
+      ORDER BY D.CREATED_AT DESC
+	</select>
+	
 	<!-- 保存机构   需求部门  监管部门-->
 	<insert id="saveOrgnization" parameterType="java.util.Map">
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -642,6 +680,12 @@
       <if test="contactMobile != null and contactMobile != ''">
         CONTACT_MOBILE,
       </if>
+       <if test="fax != null and fax != ''">
+        FAX,
+      </if>
+      <if test="telephone != null and telephone != ''">
+        TELEPHONE
+      </if>
 	  </trim>
 	  <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -676,6 +720,12 @@
       </if>
       <if test="contactMobile != null and contactMobile != ''">
         #{contactMobile},
+      </if>
+      <if test="fax != null and fax != ''">
+        #{fax}
+      </if>
+      <if test="telephone != null and telephone != ''">
+        #{telephone}
       </if>
     </trim>
 	</insert>

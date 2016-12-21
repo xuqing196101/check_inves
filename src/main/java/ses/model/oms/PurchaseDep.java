@@ -16,7 +16,6 @@ public class PurchaseDep extends Orgnization{
 
 	//private String id;
 	@NotBlank(message="级别不能为空")
-	@Length(min=1,max=20,message="长度不可超过20")
     private String levelDep;//采购机构级别
 
     private String subordinateOrgId;
@@ -30,18 +29,16 @@ public class PurchaseDep extends Orgnization{
     private String businessDepId;
 
     @NotBlank(message="不能为空")
-    @Length(min=1,max=800,message="长度不可超过800")
+    @Length(min=0,max=800,message="长度不可超过800")
     private String businessRange;//采购业务范围
     
     @NotBlank(message="电话不能为空")
-    @Length(min=1,max=50,message="长度不可超过50")
+    @Length(min=0,max=50,message="长度不可超过50")
     private String dutyRoomPhone;//值班室电话
 
-    @NotBlank(message="编号不能为空")
-    @Length(min=1,max=50,message="长度不可超过50")
+    @Length(min=0,max=50,message="长度不可超过50")
     private String quaCode;//采购资质编号
 
-    @NotBlank(message="资质等级不能为空")
     private String quaLevel;//采购资质等级 一级----九级
     
     private Date quaStartDate;//采购资质开始日期
@@ -54,7 +51,6 @@ public class PurchaseDep extends Orgnization{
 
     private String quaCert;
     
-    @NotBlank(message="不能为空")
     private String leaderTelephone;//单位主要领导姓名及电话
 
     private Integer officerCountnum;//军官编制人数
@@ -75,44 +71,35 @@ public class PurchaseDep extends Orgnization{
 
     private Integer seniorPurCount;//高级采购师人数
 
-    @NotBlank(message="名称不能为空")
-    @Length(min=1,max=20,message="长度不可超过20")
+    @Length(min=0,max=20,message="长度不可超过20")
     private String depName;//单位名称
 
-    @NotBlank(message="代表人不能为空")
-    @Length(min=1,max=10,message="长度不可超过10")
+    @Length(min=0,max=10,message="长度不可超过10")
     private String legal;//法定代表人
 
-    @NotBlank(message="代理人不能为空")
-    @Length(min=1,max=20,message="长度不可超过20")
+    @Length(min=0,max=20,message="长度不可超过20")
     private String agent;//委托代理人
 
-    @NotBlank(message="联系人不能为空")
-    @Length(min=1,max=20,message="长度不可超过20")
+    @Length(min=0,max=20,message="长度不可超过20")
     private String contact;//联系人
 
-    @NotBlank(message="电话不能为空")
-    @Length(min=1,max=20,message="长度不可超过20")
+    @Length(min=0,max=20,message="长度不可超过20")
     private String contactTelephone;//联系电话
 
-    @NotBlank(message="地址不能为空")
-    @Length(min=1,max=100,message="长度不可超过100")
+    @Length(min=0,max=100,message="长度不可超过100")
     private String contactAddress;//通讯地址
 
     private Integer unitPostCode;//邮政编码
 
-    @NotBlank(message="单位不能为空")
-    @Length(min=1,max=50,message="长度不可超过50")
+    @Length(min=0,max=50,message="长度不可超过50")
     private String payDep;//付款单位
 
-    @NotBlank(message="银行不能为空")
-    @Length(min=1,max=50,message="长度不可超过50")
+    @Length(min=0,max=50,message="长度不可超过50")
     private String bank;//开户银行
 
     private BigDecimal bankAccount;//银行账号
     
-    @NotBlank(message="面积不能为空")
-    @Length(min=1,max=50,message="长度不可超过50")
+    @Length(min=0,max=50,message="长度不可超过50")
     private String officeArea;//办公场地总面积
 
     private Integer officeCount;//办公司数量

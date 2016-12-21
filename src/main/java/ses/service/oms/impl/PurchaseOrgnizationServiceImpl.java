@@ -83,8 +83,9 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	    org.setFax(purchaseDep.getFax());
 	    org.setContactName(purchaseDep.getContactName());
 	    org.setContactMobile(purchaseDep.getContactMobile());
-	    org.setProvinceId(purchaseDep.getOrgnization().getProvinceId());
-	    org.setCityId(purchaseDep.getOrgnization().getCityId());
+	    org.setProvinceId(purchaseDep.getProvinceId());
+	    org.setCityId(purchaseDep.getCityId());
+	    org.setTelephone(purchaseDep.getDutyRoomPhone());
 	    orgniztionMapper.saveOrg(org);
 	    String orgId = org.getId();
 	    purchaseDep.setOrgId(orgId);
@@ -92,21 +93,21 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	    purchaseDep.setCreatedAt(new Date());
 	    HashMap<String, Object> map = new HashMap<String, Object>();
 	    List<PurchaseOrg> purchaseOrgList = new ArrayList<PurchaseOrg>();
-	    map.put("ORG_ID", orgId);
 	    if(ids != null && !ids.equals("")){
 	        String id[] = ids.split(",");
 	        for (int i = 0; i < id.length; i++ ) {
 	            PurchaseOrg pOrg = new PurchaseOrg();
-                pOrg.setPurchaseDepId(id[i]);
+                pOrg.setPurchaseDepId(orgId);
+                pOrg.setOrgId(id[i]);
                 purchaseOrgList.add(pOrg);
             }
 	    }
-	    if(ids != null && !ids.equals("")){
+	    if(purchaseOrgList != null && purchaseOrgList.size() > 0){
 	        map.put("purchaseOrgList", purchaseOrgList);
             purChaseDepOrgService.saveByMap(map);
 	    }
 	    
-	    //添加财务部门
+	    //添加部门
 	    if(purchaseUnitName != null || purchaseUnitDuty != null){
             if(purchaseUnitName.length > 0 || purchaseUnitDuty.length > 0){
                 for (int i = 0; i < purchaseUnitName.length; i++ ) {
@@ -141,31 +142,43 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	public int update(PurchaseDep purchaseDep, String selectedItem, String[] purchaseUnitName, String[] purchaseUnitDuty,
 	                  String[] siteType,String[] siteNumber,String[] location,String[] area,String[] crewSize) {
 	    
-	    String orgId = purchaseDep.getOrgnization().getId();
-	    if(purchaseDep.getId() != null){
-	        purchaseDep.setCityId(purchaseDep.getOrgnization().getCityId());
-	        purchaseDep.setAddress(purchaseDep.getOrgnization().getAddress());
-	        purchaseDep.setId(orgId);
-	        orgniztionMapper.updateOrgnizationById(purchaseDep);
+	    Orgnization org = purchaseDep.getOrgnization();
+	    String orgId = "";
+	    if (org != null){
+	        orgId = org.getId();
+	        HashMap<String, Object> map = new HashMap<>();
+	        map.put("telephone", purchaseDep.getDutyRoomPhone());
+	        map.put("id", org.getId());
+	        map.put("name", purchaseDep.getName());
+	        map.put("shortName", purchaseDep.getShortName());
+	        map.put("address", purchaseDep.getAddress());
+	        map.put("postCode", purchaseDep.getPostCode());
+	        map.put("fax", purchaseDep.getFax());
+	        map.put("contractName", org.getContactName());
+	        map.put("contractMobile", org.getContactMobile());
+	        map.put("pid", purchaseDep.getProvinceId());
+	        map.put("cid", purchaseDep.getCityId());
+	        orgniztionMapper.updateOrgnization(map);
 	    }
+	   
 	    HashMap<String, Object> map = new HashMap<String, Object>();
         List<PurchaseOrg> purchaseOrgList = new ArrayList<PurchaseOrg>();
-        map.put("ORG_ID", purchaseDep.getOrgnization().getId());
         
         HashMap<String, Object> delmap = new HashMap<String, Object>();
-        delmap.put("org_id", orgId);
+        delmap.put("purchaseDepId", orgId);
         purChaseDepOrgService.delByOrgId(delmap);
         
         if(selectedItem != null && !selectedItem.equals("")){
             String id[] = selectedItem.split(",");
             for (int i = 0; i < id.length; i++ ) {
                 PurchaseOrg pOrg = new PurchaseOrg();
-                pOrg.setPurchaseDepId(id[i]);
+                pOrg.setPurchaseDepId(orgId);
+                pOrg.setOrgId(id[i]);
                 purchaseOrgList.add(pOrg);
             }
         }
         
-        if(selectedItem != null && !selectedItem.equals("")){
+        if(purchaseOrgList != null && purchaseOrgList.size() > 0){
             map.put("purchaseOrgList", purchaseOrgList);
             purChaseDepOrgService.saveByMap(map);
         }

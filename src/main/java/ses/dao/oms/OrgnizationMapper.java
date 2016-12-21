@@ -114,4 +114,15 @@ public interface OrgnizationMapper {
     * @return int
      */
     List<Orgnization> findAllUsefulOrg();
+    
+    
+    /**
+     * 
+     *〈简述〉根据chaserDepId 查询
+     *〈详细描述〉
+     * @author myc
+     * @param map
+     * @return
+     */
+    List<Orgnization> getRelaPurchaseOrgList(HashMap<String, Object> map);
 }

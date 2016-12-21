@@ -48,6 +48,16 @@ public interface OrgnizationServiceI {
     
 	
     List<Orgnization> findPurchaseOrgList(HashMap<String, Object> map);
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉根据ppurchaseDepId 查询 
+     * @author myc
+     * @param map
+     * @return
+     */
+    List<Orgnization> getRelaPurchaseOrgList(HashMap<String, Object> map);
 	
     int delOrgnizationByid(HashMap<String, Object> map);
 	
