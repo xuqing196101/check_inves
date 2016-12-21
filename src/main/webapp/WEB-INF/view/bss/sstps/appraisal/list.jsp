@@ -108,12 +108,9 @@
     	  alert(appraisal);
       }
       
-=======
       function transformational(){
     	  window.location.href="${pageContext.request.contextPath}/purchaseContract/createStraightContract.html";
       }
->>>>>>> Stashed changes
->>>>>>> Stashed changes
     </script>
 
   </head>
