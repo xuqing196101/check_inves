@@ -231,7 +231,7 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
                 supplierCheckPassMapper.deleteByPrimaryKey(supplierCheckPass.getId());
               }
             }
-            supplierCheckPassMapper.insert(record);
+            supplierCheckPassMapper.insertSelective(record);
             //end
             // 3.查询出专家评分和最终成绩
             searchMap.put("projectId", projectId);
@@ -271,7 +271,7 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
 	private List<ExpertScore> removeSame(List<ExpertScore> list){
 	    for (int i = 0; i < list.size(); i++) {
             for (int j = list.size() - 1 ; j > i; j--) {
-                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId()) && list.get(i).getExpertId().equals(list.get(j).getExpertId()) && list.get(i).getSupplierId().equals(list.get(j).getSupplierId())) {
+                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId()) && list.get(i).getSupplierId().equals(list.get(j).getSupplierId())) {
                     list.remove(j);
                 }
             }

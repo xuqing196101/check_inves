@@ -182,7 +182,7 @@
 			                ${fn:substring({obj.suppliers.supplierName, 0, 10)}......
 			              </c:when>
 			              <c:otherwise>
-			                ${{obj.suppliers.supplierName}
+			                ${obj.suppliers.supplierName}
 			              </c:otherwise>
 			            </c:choose>
                   </td>
