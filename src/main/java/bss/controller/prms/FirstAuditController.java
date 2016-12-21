@@ -77,6 +77,8 @@ public class FirstAuditController {
       List<DictionaryData> dds = DictionaryDataUtil.find(22);
       //符合性资格性审查项类型
       model.addAttribute("dds", dds);
+      List<DictionaryData> purchaseTypes = DictionaryDataUtil.find(5);
+      model.addAttribute("purchaseTypes", purchaseTypes);
       model.addAttribute("firstAudits", firstAudits);
 			model.addAttribute("projectId", projectId);
 			model.addAttribute("flowDefineId", flowDefineId);
