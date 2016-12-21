@@ -116,7 +116,7 @@
 		$.ajax({
 			url: "${pageContext.request.contextPath}/packageExpert/isGrade.do",
 			async: false,
-			data: {"packageId": packageId, "expertId": expertId},
+			data: {"packageId": "${packageId}", "expertId": expertId},
 			success: function (response) {
 				if (response == '1') {
 					window.open("${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?projectId=${projectId}&packageId=${packageId}&expertId=" + expertId, "评分详情");

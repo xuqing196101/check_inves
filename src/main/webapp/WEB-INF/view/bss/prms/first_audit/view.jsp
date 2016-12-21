@@ -1,13 +1,10 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
   <head>
+    <%@ include file="/WEB-INF/view/common.jsp" %>
     <title>My JSP 'view.jsp' starting page</title>
-    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -170,7 +167,7 @@
   <body>
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
 	    <div class="mb5 fr">
-		    <button class="btn" onclick="window.print();" type="button">打印</button>
+		    <!-- <button class="btn" onclick="window.print();" type="button">打印</button> -->
 		    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">汇总</button>
 		    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核</button>
 		    <!-- <button class="btn" onclick="" type="button">结束</button> -->
@@ -192,7 +189,7 @@
 	      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
 		       <tr>
 		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItemExp" value="${ext.expert.id}" /></td>
-		        <td class="tc">${ext.expert.relName}</td>
+		        <td class="tc"><a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${projectId}&packageId=${pack.id}&expertId=${ext.expert.id}" target="view_window" title="评审明细">${ext.expert.relName}</a></td>
 		        <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
 		        	<td class="tc">
 		        	  <c:forEach items="${supplierExtList}" var="supplierExt">

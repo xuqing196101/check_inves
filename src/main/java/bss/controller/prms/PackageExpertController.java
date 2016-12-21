@@ -16,6 +16,7 @@ import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2120,5 +2121,76 @@ public class PackageExpertController {
             result = "1";
         }
         return result;
+    }
+    
+    /**
+     *〈简述〉查看专家符合性审查
+     *〈详细描述〉
+     * @param projectId
+     * @param packageId
+     * @param model
+     * @param expertId
+     * @param session
+     * @return
+     */
+    @RequestMapping("/printView")
+    public String printView(String projectId, String packageId, Model model, String expertId, HttpSession session){
+      //创建封装的实体
+      Extension extension = new Extension();
+      HashMap<String ,Object> map = new HashMap<>();
+      map.put("projectId", projectId);
+      map.put("id", packageId);
+      //查询包信息
+      List<Packages> list = packageService.findPackageById(map);
+      if(list!=null && list.size()>0){
+        Packages packages = list.get(0);
+        //放入包信息
+        extension.setPackageId(packages.getId());
+        extension.setPackageName(packages.getName());
+      }
+      //查询项目信息
+      Project project = projectService.selectById(projectId);
+      if(project!=null){
+        //放入项目信息
+        extension.setProjectId(project.getId());
+        extension.setProjectName(project.getName());
+        extension.setProjectCode(project.getProjectNumber());
+      }
+      
+      //查询改包下的初审项信息
+      Map<String,Object> map2 = new HashMap<>();
+      map2.put("projectId", projectId);
+      map2.put("packageId", packageId);
+      //查询出该包下的初审项id集合
+      List<PackageFirstAudit> packageAuditList = packageFirstAuditService.selectList(map2);
+      //创建初审项的集合
+      List<FirstAudit> firstAuditList = new ArrayList<>();
+      if(packageAuditList!=null && packageAuditList.size()>0){
+        for (PackageFirstAudit packageFirst : packageAuditList) {
+          //根据初审项的id 查询出初审项的信息放入集合
+          FirstAudit firstAudits = firstAuditService.get(packageFirst.getFirstAuditId());
+          firstAuditList.add(firstAudits);
+        }
+      }
+        //放入初审项集合
+      extension.setFirstAuditList(firstAuditList);
+      //查询供应商信息
+      List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+      extension.setSupplierList(supplierList);
+      
+      //查询审核过的信息用于回显
+      Map<String, Object> reviewFirstAuditMap = new HashMap<>();
+      reviewFirstAuditMap.put("projectId", projectId);
+      reviewFirstAuditMap.put("packageId", packageId);
+      reviewFirstAuditMap.put("expertId", expertId);
+      List<ReviewFirstAudit> reviewFirstAuditList = reviewFirstAuditService.selectList(reviewFirstAuditMap);
+      //回显信息放进去
+      model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
+      //把封装的实体放入域中
+      model.addAttribute("extension", extension);
+      List<DictionaryData> dds = DictionaryDataUtil.find(22);
+      model.addAttribute("dds", dds);
+      model.addAttribute("expertId", expertId);
+      return "bss/prms/first_audit/print_view";
     }
 }
