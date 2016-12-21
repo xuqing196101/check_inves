@@ -271,7 +271,7 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
 	private List<ExpertScore> removeSame(List<ExpertScore> list){
 	    for (int i = 0; i < list.size(); i++) {
             for (int j = list.size() - 1 ; j > i; j--) {
-                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId())) {
+                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId()) && list.get(i).getExpertId().equals(list.get(j).getExpertId()) && list.get(i).getSupplierId().equals(list.get(j).getSupplierId())) {
                     list.remove(j);
                 }
             }

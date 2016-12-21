@@ -1605,27 +1605,32 @@ public class PackageExpertController {
         List<SupplierRank> rankList = new ArrayList<SupplierRank>();
         for (SaleTender supp : supplierList) {
             SupplierRank rank = new SupplierRank();
-            rank.setSupplierId(supp.getSupplierId());
+            rank.setSupplierId(supp.getSuppliers().getId());
             // 查询该供应商的经济总分
             BigDecimal econScore = new BigDecimal(0);
             // 查询该供应商的技术总分
             BigDecimal techScore = new BigDecimal(0);
             for (ExpertScore score : scores) {
-                ScoreModel scoModel = new ScoreModel();
-                scoModel.setId(score.getScoreModelId());
-                // 根据id查看scoreModel对象
-                ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
-                MarkTerm mt = null;
-                if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
-                    mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
-                }
-                DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
-                if ("ECONOMY".equals(data.getCode())) {
-                    // 经济
-                    econScore = econScore.add(score.getScore());
-                } else if ("TECHNOLOGY".equals(data.getCode())) {
-                    // 技术
-                    techScore = techScore.add(score.getScore());
+                if (score.getSupplierId().equals(supp.getSuppliers().getId())) {
+                    ScoreModel scoModel = new ScoreModel();
+                    scoModel.setId(score.getScoreModelId());
+                    // 根据id查看scoreModel对象
+                    ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
+                    MarkTerm mt = null;
+                    if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
+                        mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
+                        if (mt.getTypeName() == null || "".equals(mt.getTypeName())) {
+                            mt = markTermService.findMarkTermById(mt.getPid());
+                        }
+                    }
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
+                    if ("ECONOMY".equals(data.getCode())) {
+                        // 经济
+                        econScore = econScore.add(score.getScore());
+                    } else if ("TECHNOLOGY".equals(data.getCode())) {
+                        // 技术
+                        techScore = techScore.add(score.getScore());
+                    }
                 }
             }
             rank.setEconScore(econScore);
@@ -1637,7 +1642,7 @@ public class PackageExpertController {
         for (SupplierRank rank : rankList) {
             int count = 0;
             for (SupplierRank temp : rankList) {
-                if (rank.getSumScore().compareTo(temp.getSumScore()) == 1) {
+                if (rank.getSumScore().compareTo(temp.getSumScore()) == 1 && rank != temp) {
                     count++;
                 }
             }
@@ -1748,31 +1753,36 @@ public class PackageExpertController {
             }
         }
         model.addAttribute("scores", scores);
-        // 供应商经济总分,技术总分,总分
+     // 供应商经济总分,技术总分,总分
         List<SupplierRank> rankList = new ArrayList<SupplierRank>();
         for (SaleTender supp : supplierList) {
             SupplierRank rank = new SupplierRank();
-            rank.setSupplierId(supp.getSupplierId());
+            rank.setSupplierId(supp.getSuppliers().getId());
             // 查询该供应商的经济总分
             BigDecimal econScore = new BigDecimal(0);
             // 查询该供应商的技术总分
             BigDecimal techScore = new BigDecimal(0);
             for (ExpertScore score : scores) {
-                ScoreModel scoModel = new ScoreModel();
-                scoModel.setId(score.getScoreModelId());
-                // 根据id查看scoreModel对象
-                ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
-                MarkTerm mt = null;
-                if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
-                    mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
-                }
-                DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
-                if ("ECONOMY".equals(data.getCode())) {
-                    // 经济
-                    econScore = econScore.add(score.getScore());
-                } else if ("TECHNOLOGY".equals(data.getCode())) {
-                    // 技术
-                    techScore = techScore.add(score.getScore());
+                if (score.getSupplierId().equals(supp.getSuppliers().getId())) {
+                    ScoreModel scoModel = new ScoreModel();
+                    scoModel.setId(score.getScoreModelId());
+                    // 根据id查看scoreModel对象
+                    ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
+                    MarkTerm mt = null;
+                    if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
+                        mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
+                        if (mt.getTypeName() == null || "".equals(mt.getTypeName())) {
+                            mt = markTermService.findMarkTermById(mt.getPid());;
+                        }
+                    }
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
+                    if ("ECONOMY".equals(data.getCode())) {
+                        // 经济
+                        econScore = econScore.add(score.getScore());
+                    } else if ("TECHNOLOGY".equals(data.getCode())) {
+                        // 技术
+                        techScore = techScore.add(score.getScore());
+                    }
                 }
             }
             rank.setEconScore(econScore);
@@ -1784,7 +1794,7 @@ public class PackageExpertController {
         for (SupplierRank rank : rankList) {
             int count = 0;
             for (SupplierRank temp : rankList) {
-                if (rank.getSumScore().compareTo(temp.getSumScore()) == 1) {
+                if (rank.getSumScore().compareTo(temp.getSumScore()) != -1 && rank != temp) {
                     count++;
                 }
             }
@@ -2093,7 +2103,7 @@ public class PackageExpertController {
     private List<ExpertScore> removeSame(List<ExpertScore> list){
         for (int i = 0; i < list.size(); i++) {
             for (int j = list.size() - 1 ; j > i; j--) {
-                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId())) {
+                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId()) && list.get(i).getExpertId().equals(list.get(j).getExpertId()) && list.get(i).getSupplierId().equals(list.get(j).getSupplierId())) {
                     list.remove(j);
                 }
             }
