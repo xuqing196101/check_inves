@@ -128,6 +128,8 @@
 			var index;
 
 			function collect() {
+				var no=generateMixed();
+				$("#cno").val(no);
 				var flag = true;
 				var ceck = $('input[name="chkItem"]:checked:first').prev().val();
 
@@ -256,6 +258,18 @@
 				var status = document.getElementById("status").options;
 				status[0].selected = true;
 			}
+			
+			function generateMixed() {
+				var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+			     var res = "";
+			     for(var i = 0; i < 6 ; i ++) {
+			         var id = Math.ceil(Math.random()*35);
+			         res += chars[id];
+			     }
+			     return res;
+			}
+			
+			
 		</script>
 	</head>
 
@@ -430,15 +444,15 @@
                  <li class="mt10 col-md-12 p0 col-xs-12">
                    <label class="col-md-12 pl20 col-xs-12">计划编号</label>
                      <span class="col-md-12 col-xs-12">
-                        <input class="col-xs-12 h80 mt6" name="cno" maxlength="300" type="text">
+                        <input class="col-xs-12 h80 mt6" name="cno" id="cno"  maxlength="300" type="text">
                     </span>
                  </li>
-                 <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
+                 <!-- <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
                    <label class="col-md-12 pl20 col-xs-12">密码</label>
                     <span class="col-md-12 col-xs-12">
                         <input class="title col-md-12" name="password" maxlength="200" type="password">
                     </span>
-						</li>
+						</li> -->
 						<div class="clear"></div>
 					</ul>
 				</div>

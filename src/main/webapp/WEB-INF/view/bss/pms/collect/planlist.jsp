@@ -185,7 +185,7 @@
 					id.push($(this).val());
 				});
 				if(type == 4) {
-					window.location.href = "${pageContext.request.contextPath }/look/audit.html?id=" + id+"&status=2";
+					window.location.href = "${pageContext.request.contextPath }/look/audit.html?id=" + id+"&status=12";
 				} else {
 					window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + type;
 				}
@@ -290,14 +290,21 @@
 							</td>
 							<td class="tc">
 								<c:if test="${obj.status=='1' }">
-									已编制为采购计划
+									待审核设置
 								</c:if>
-								<c:if test="${obj.status=='2' }">
+								<%-- <c:if test="${obj.status=='2' }">
 									已审核
+								</c:if> --%>
+								<c:if test="${obj.status==11 }">
+									三轮已审核
 								</c:if>
-								<c:if test="${obj.status=='3' }">
-									审核退回
+									<c:if test="${obj.status==12 }">
+									二轮已审核
 								</c:if>
+							  <c:if test="${obj.status==10 }">
+								一轮已审核
+								</c:if>
+								
 							<%-- 	<c:if test="${obj.status=='4' }">
 									已下达
 								</c:if> --%>

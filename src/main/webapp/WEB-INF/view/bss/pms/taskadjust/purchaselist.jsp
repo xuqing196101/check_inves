@@ -71,18 +71,19 @@
 	}
 	
   	function view(no){
-  		
-  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no+"&&type=1";
+  		var cid=$("#collectId").val();
+  		window.location.href="${pageContext.request.contextPath}/adjust/detail.html?planNo="+no+"&&id="+cid;
   	}
   	
     function edit(){
+    	var cid=$("#collectId").val();
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
 			
-			window.location.href="${pageContext.request.contextPath}/adjust/detail.html?planNo="+id+"&&type=2";;
+			window.location.href="${pageContext.request.contextPath}/adjust/detail.html?planNo="+id+"&&id="+cid;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -281,7 +282,7 @@
 
    </div>
  </div>
-
+	<input id="collectId" value="${id}" type="hidden">
 
  
 	 </body>

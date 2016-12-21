@@ -120,7 +120,7 @@ public class AuditSetController {
 		String type = request.getParameter("type");
 		AuditPerson person = new AuditPerson();
 		person.setCollectId(id);
-		person.setAuditRound(type);
+//		person.setAuditRound(type);
 		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
 		model.addAttribute("info", info);
@@ -142,76 +142,79 @@ public class AuditSetController {
 	 */
 	@RequestMapping("/update")
 	public String save(String val1, String val2,String collectId,String fname2,String fname,String type){
-		String[] field1 = val1.trim().split(",");
-		List<String> list=new LinkedList<String>();
-		
-		for(int i=0;i<field1.length;i++){
-			if(field1[i].trim().length()!=0){
-				list.add(field1[i]);
-			}
-			
-		}
-		List<String> list2=new LinkedList<String>();
-		String[] field2 = val2.trim().split(",");
-		for(int i=0;i<field2.length;i++){
-			if(field2[i].trim().length()!=0){
-				list2.add(field2[i]);
-			}
-		}
-		List<UpdateFiled> filedList=new ArrayList<UpdateFiled>();
-		List<UpdateFiled> filedList2=new ArrayList<UpdateFiled>();
-		if(list.size()>0){
-			filedList = updateFiledService.query(collectId, list);
-		}
-		 if(list2.size()>0){
-			 updateFiledService.query(collectId, list2); 
-		 }
-		 
-		if((filedList!=null&&filedList.size()>0)||(filedList2!=null&&filedList2.size()>0)){
-			
-			updateFiledService.update(1, list,collectId);
-			updateFiledService.update(2, list2,collectId);
-			
-		}else{
-			UpdateFiled u=new UpdateFiled();
-			if(list!=null&&list.size()>0){
-				String[] str = fname.split(",");
-				for(int i=0;i<str.length;i++){
-					
-				
-					String id = UUID.randomUUID().toString().replaceAll("-", "");
-					u.setId(id);
-					u.setCollectId(collectId);
-					u.setFiled(field1[i]);
-					u.setFiledName(str[i]);
-//					u.setFiledName("");
-					u.setIsUpdate(1);
-					updateFiledService.add(u);
-				}
-			}
-		if(list2!=null&&list2.size()>0){
-			String[] str = fname2.split(",");
-			for(int i=0;i<str.length;i++){
-				String id = UUID.randomUUID().toString().replaceAll("-", "");
-				u.setId(id);
-				u.setCollectId(collectId);
-				u.setFiled(field2[i]);
-				u.setFiledName(str[i]);
-				u.setIsUpdate(2);
-				updateFiledService.add(u);
-			}
-		}
-			
-		}
+//		String[] field1 = val1.trim().split(",");
+//		List<String> list=new LinkedList<String>();
+//		
+//		for(int i=0;i<field1.length;i++){
+//			if(field1[i].trim().length()!=0){
+//				list.add(field1[i]);
+//			}
+//			
+//		}
+//		List<String> list2=new LinkedList<String>();
+//		String[] field2 = val2.trim().split(",");
+//		for(int i=0;i<field2.length;i++){
+//			if(field2[i].trim().length()!=0){
+//				list2.add(field2[i]);
+//			}
+//		}
+//		List<UpdateFiled> filedList=new ArrayList<UpdateFiled>();
+//		List<UpdateFiled> filedList2=new ArrayList<UpdateFiled>();
+//		if(list.size()>0){
+//			filedList = updateFiledService.query(collectId, list);
+//		}
+//		 if(list2.size()>0){
+//			 updateFiledService.query(collectId, list2); 
+//		 }
+//		 
+//		if((filedList!=null&&filedList.size()>0)||(filedList2!=null&&filedList2.size()>0)){
+//			
+//			updateFiledService.update(1, list,collectId);
+//			updateFiledService.update(2, list2,collectId);
+//			
+//		}else{
+//			UpdateFiled u=new UpdateFiled();
+//			if(list!=null&&list.size()>0){
+//				String[] str = fname.split(",");
+//				for(int i=0;i<str.length;i++){
+//					
+//				
+//					String id = UUID.randomUUID().toString().replaceAll("-", "");
+//					u.setId(id);
+//					u.setCollectId(collectId);
+//					u.setFiled(field1[i]);
+//					u.setFiledName(str[i]);
+////					u.setFiledName("");
+//					u.setIsUpdate(1);
+//					updateFiledService.add(u);
+//				}
+//			}
+//		if(list2!=null&&list2.size()>0){
+//			String[] str = fname2.split(",");
+//			for(int i=0;i<str.length;i++){
+//				String id = UUID.randomUUID().toString().replaceAll("-", "");
+//				u.setId(id);
+//				u.setCollectId(collectId);
+//				u.setFiled(field2[i]);
+//				u.setFiledName(str[i]);
+//				u.setIsUpdate(2);
+//				updateFiledService.add(u);
+//			}
+//		}
+//			
+//		}
 		CollectPlan collectPlan = collectPlanService.queryById(collectId);
 		DictionaryData sh = DictionaryDataUtil.findById(type);
 		if(sh.getCode().equals("SH_1")){
+			collectPlan.setAuditTurn(1);
 			collectPlan.setStatus(7);
 		}
 		if(sh.getCode().equals("SH_2")){
+			collectPlan.setAuditTurn(2);
 			collectPlan.setStatus(8);
 		}
 		if(sh.getCode().equals("SH_3")){
+			collectPlan.setAuditTurn(3);
 			collectPlan.setStatus(9);
 		}
 		
@@ -278,32 +281,34 @@ public class AuditSetController {
 	@ResponseBody
 	public String add(AuditPerson auditPerson,String id,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		 if(auditPerson.getType()==1){
-			 Expert expert = expertService.selectByPrimaryKey(id);
-			 User user = userServiceI.findByTypeId(expert.getId());
-			 map.put("auditRound", request.getParameter("auditRound"));
+		Integer num=0;
+		 Expert expert = expertService.selectByPrimaryKey(id);
+//		 if(auditPerson.getType()==1){
+			 map.put("auditRound", auditPerson.getAuditRound());
 			 map.put("collectId", auditPerson.getCollectId());
-			 map.put("userId", user.getId());
-			 int num = auditPersonService.findUserByCondition(map);
-			 if(num==0){
-				 return "0";
-			 }else{
-				 return "1";
-			 }
-		 }else if(auditPerson.getType()==2){
-			 User user = userServiceI.getUserById(id);
-			 map.put("auditRound", request.getParameter("auditRound"));
-			 map.put("collectId", auditPerson.getCollectId());
-			 map.put("userId", user.getId());
-			 int num = auditPersonService.findUserByCondition(map);
-			 if(num==0){
-				 return "0";
-			 }else{
-				 return "1";
-			 }
-		 }else{
-			 return "";
-		 }
+			 map.put("userId", expert.getId());
+			 num = auditPersonService.findUserByCondition(map);
+		
+//		 }
+//		 if(auditPerson.getType()==2){
+//			 User user = userServiceI.getUserById(id);
+//			 map.put("auditRound", request.getParameter("auditRound"));
+//			 map.put("collectId", auditPerson.getCollectId());
+//			 map.put("userId", user.getId());
+//			 num = auditPersonService.findUserByCondition(map);
+//		 }
+		 if(num==1){
+			 return "1";
+		}else{
+			auditPerson.setName(expert.getRelName());
+			auditPerson.setMobile(expert.getMobile());
+			auditPerson.setIdNumber(expert.getIdNumber());
+			auditPerson.setUnitName(expert.getWorkUnit());
+			auditPerson.setUserId(expert.getId());
+			auditPersonService.add(auditPerson);
+			auditPerson.setType(1);
+			return "";
+		}
 		
 	}
 	/**
@@ -597,20 +602,41 @@ public class AuditSetController {
 	 */
 	@RequestMapping("/addUser")
 	@ResponseBody
-	public void addUser(AuditPerson auditPerson,String id,HttpServletRequest request){
-		User user = userServiceI.getUserById(id);
-		auditPerson.setName(user.getRelName());
-		if(user.getMobile()!=null){
-			auditPerson.setMobile(user.getMobile());
-		}
-		if(user.getOrg()==null){
-			
+	public String addUser(AuditPerson auditPerson,String id,HttpServletRequest request){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		Integer num=0;
+		 User user = userServiceI.getUserById(id);
+//		 if(auditPerson.getType()==1){
+			 map.put("auditRound", auditPerson.getAuditRound());
+			 map.put("collectId", auditPerson.getCollectId());
+			 map.put("userId", user.getId());
+			 num = auditPersonService.findUserByCondition(map);
+		
+//		 }
+//		 if(auditPerson.getType()==2){
+//			 User user = userServiceI.getUserById(id);
+//			 map.put("auditRound", request.getParameter("auditRound"));
+//			 map.put("collectId", auditPerson.getCollectId());
+//			 map.put("userId", user.getId());
+//			 num = auditPersonService.findUserByCondition(map);
+//		 }
+		 if(num==1){
+			 return "1";
 		}else{
-			auditPerson.setUnitName(user.getOrg().getName());
+			auditPerson.setName(user.getRelName());
+			auditPerson.setMobile(user.getMobile());
+//			auditPerson.setIdNumber(user.get);
+			if(user.getOrg()!=null){
+				if(user.getOrg().getName()!=null){
+					auditPerson.setUnitName(user.getOrg().getName());	
+				}
+			}
+			auditPerson.setUserId(user.getId());
+			auditPersonService.add(auditPerson);
+			auditPerson.setType(1);
+			return "";
 		}
-		auditPerson.setUserId(user.getId());
-		auditPerson.setAuditStaff(request.getParameter("staff"));
-		auditPersonService.add(auditPerson);
+			
 	}
 	
 	/**
@@ -640,10 +666,10 @@ public class AuditSetController {
 			str = "error";
 			map.put("unitName", "单位名称不能为空");
 		}
-		if(auditPerson.getAuditStaff()==null||auditPerson.getAuditStaff().trim().equals("")){
-			str = "error";
-			map.put("auditStaff", "审核人员性质不能为空");
-		}
+//		if(auditPerson.getAuditStaff()==null||auditPerson.getAuditStaff().trim().equals("")){
+//			str = "error";
+//			map.put("auditStaff", "审核人员性质不能为空");
+//		}
 		if(str.equals("error")){
 			return JSONSerializer.toJSON(map).toString();
 		}else{

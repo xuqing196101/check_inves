@@ -100,13 +100,9 @@
 	}
 	
 	function sub(){
-		var file=$("#required").val();
-		if(file==""||file==null){
-			 layer.tips("文件不允许为空","#required");
-		}
-		else if(flag==true){
+	 
 			$("#adjust").submit();
-		}
+		 
 	}
 	
 	
@@ -227,15 +223,7 @@
 		<div class="headline-v2 fl">
 			<h2>计划明细</h2>
 		</div>
-		<div class="col-md-12 pl20 mt10">
-		  <div style="float: left">
-                <u:upload id="cgjh" businessId="${id }" sysKey="2" typeId="${aid }"/>
-                <u:show showId="cgjh"   businessId="${id }" sysKey="2" typeId="${aid }"/>
-                </div>
-                <!-- <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
-                <input class="btn btn-windows save"  type="button" value="提交" onclick="sub()">
-                <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-		  </div>
+	
 		  <div class="content table_box">
 			<form id="adjust" action="${pageContext.request.contextPath}/adjust/update.html" method="post" enctype="multipart/form-data">
 				<!-- 前半部分 -->
@@ -269,7 +257,16 @@
 						<tr>
 							<td class="tc w50"><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
 							</td>
-							<td><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].department" onblur="checks(this)" value="${obj.department }"></td>
+							<td>
+							    <c:forEach items="${requires }" var="re" >
+					  <c:if test="${obj.department==re.id }"> 
+					    <input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].department" onblur="checks(this)" value="${re.name }">
+					  </c:if>
+			  	</c:forEach>
+			  	
+			  	
+							
+							</td>
 							<td><input type="text" name="list[${vs.index }].goodsName"  value="${obj.goodsName }"></td>
 							<td class="tc"><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
 							<td class="tc"><input  type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
@@ -338,16 +335,39 @@
 					</table>	
 				</div>
 				<!-- 后半部分 -->
+				<c:if test="${turns!=null }">
 				<div class="col-md-4 col-sm-4 col-xs-12 over_scroll">
 					<table id="table" class="table table-bordered table-condensed mt5">
 						<thead>
 							<tr>
-								<c:forEach items="${bean }" var="obj">
-									<th class="info" colspan="${obj.size}">${obj.name }</th>
-								</c:forEach>
+										<c:if test="${turns==1 || turns==2 || turns==3 }">
+										<th class="info" colspan="3">一轮审核</th>
+									</c:if>
+									<c:if test="${turns==2 || turns==3 }">
+										<th class="info" colspan="2">二轮审核</th>
+									</c:if>
+										<c:if test="${turns==3 }">
+										<th class="info" colspan="3">二轮审核</th>
+									</c:if>
 							</tr>
-							<tr>
-								<c:forEach items="${all }" var="p">
+							<tr  >
+								<c:if test="${turns==1 || turns==2 || turns==3 }">
+									<th class="info">采购方式</th>
+									<th class="info">采购机构</th>
+									<th class="info">其他建议</th>
+									</c:if>
+									<c:if test="${turns==2 || turns==3 }">
+										 <th class="info">审核技术参数</th>
+										 <th class="info">其他建议</th>
+									</c:if>
+									<c:if test="${turns==3 }">
+										<th class="info">采购方式</th>
+										<th class="info">采购机构</th>
+										<th class="info">其他建议</th>
+									</c:if>
+									
+									
+								<%-- <c:forEach items="${all }" var="p">
 									<th class="info">
 										<c:if test="${p.param=='1'}">
 											采购方式
@@ -362,12 +382,20 @@
 											技术参数意见
 										</c:if>
 									</th>
-								</c:forEach>
+								</c:forEach> --%>
 							</tr>
 						</thead>
 						<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-						
+							<c:if test="${turns==1 || turns==2 || turns==3 }">
+							<td>
+							<select name="list[${vs.index }].onePurchaseType" >
+										<c:forEach items="${dicType }" var="mt">
+											<option value="${mt.id }" <c:if test="${mt.id==obj.onePurchaseType }"> selected="selected"</c:if> >${mt.name}</option>
+										</c:forEach>
+									</select>
+							</td>		
+									
 						<td class="tc">
 									<select name="list[${vs.index}].oneOrganiza">
 										<c:forEach items="${org }" var="ss">
@@ -378,15 +406,18 @@
 								<td class="tc">
 									<input type="text" name="list[${vs.index }].oneAdvice" value="${obj.oneAdvice }" >
 								</td>
+								</c:if>
+								
+							<c:if test="${turns==2 || turns==3 }">
 								<td class="tc">
 									<input type="text" name="list[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
 								</td>
 								<td class="tc">
 									<input type="text" name="list[${vs.index }].twoAdvice" value="${obj.twoAdvice }" >
 								</td>
-								<td class="tc">
-									<input type="text" name="list[${vs.index }].threeAdvice" value="${obj.threeAdvice }">
-								</td>
+							</c:if>
+							<c:if test="${turns==3 }">	
+								
 								<td class="tc">
 									<select name="list[${vs.index }].threePurchaseType">
 										<c:forEach items="${mType }" var="mt">
@@ -401,7 +432,10 @@
 										</c:forEach>
 									</select>
 								</td>
-								
+								<td class="tc">
+									<input type="text" name="list[${vs.index }].threeAdvice" value="${obj.threeAdvice }">
+								</td>
+								</c:if>
 								
 							<%--<c:forEach items="${all }" var="al" varStatus="avs">
 								<td class="tc">
@@ -443,8 +477,15 @@
 						</c:forEach>
 					</table>
 				</div>
+				</c:if>
 			</form>
 		</div>
+			<div class="col-md-12 pl20 mt10">
+                <!-- <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
+                <input class="btn btn-windows save"  type="button" value="修改" onclick="sub()">
+                <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+		  </div>
+		  
 		<!-- <input class="btn btn-windows save"  type="button" value="提交" onclick="sub()">
 			 <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"> -->
 	</div>

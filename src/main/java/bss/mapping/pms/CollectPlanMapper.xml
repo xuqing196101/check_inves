@@ -244,9 +244,13 @@
         BUDGET=#{budget}
       </if>
   	</if>
-  	<if test="status != null and status != '' ">
-  		AND  STATUS=#{status}
+  	<if test="status ==1 ">
+  		AND  STATUS in(1,7,8,9,10,11,12)
   	</if>
+  	<if test="status ==2 ">
+  		AND  STATUS in(2,12)
+  	</if>
+  	
   	</where>
   order by POSITION desc
   </select>

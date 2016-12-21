@@ -34,6 +34,13 @@
   
 	
 	function closeds(){
+		
+		var nature=parent.nature;
+		var turn=parent.turns;
+ 		$("#aduit_nature").val(nature);
+ 		$("#audit_turn").val(turn);
+ 		
+ 		
 		var id  = $('input[name="chkItem"]:checked').val(); 
 		var index = parent.layer.getFrameIndex(window.name); 
 		var cid=parent.id;
@@ -43,7 +50,7 @@
 		}else{
 			$("#aid").val(id);
 			$.ajax({
-				url: "${pageContext.request.contextPath}/set/add.html",
+				url: "${pageContext.request.contextPath}/set/addUser.html",
 				type: "post",
 				data:$("#collected_form").serialize(),
 				success: function(result) {
@@ -53,7 +60,8 @@
 						});
 						$(".layui-layer-shade").remove();
 					}else{
-						layer.open({
+						parent.location.reload(); 
+					/* 	layer.open({
 							type: 1,
 							title: '信息',
 							skin: 'layui-layer-rim',
@@ -61,7 +69,7 @@
 							area: ['580px', '210px'],
 							content: $("#audit")
 						});
-						$(".layui-layer-shade").remove();
+						$(".layui-layer-shade").remove(); */
 					}
 				}
 			});
@@ -169,7 +177,8 @@
 	 <input type="hidden" value="" name="id" id="aid">
 	  <input type="hidden" name="type" value="2">
 	  <input type="hidden" name="collectId" value="" id="cid">
-	  <input type="hidden" name="auditRound" value="${type }"/>
+	  	<input type="hidden" name="auditStaff" id="aduit_nature" value=""/>
+      	<input type="hidden" name="auditRound" id="audit_turn" value=""/>
 	 </form>
 	 
 	 	<ul class="list-unstyled list-flow dnone mt10" id="audit">

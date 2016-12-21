@@ -143,7 +143,7 @@
       <h2>采购任务列表</h2>
    </div> 
    <div class="col-md-12 pl20 mt10">
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="looks()">采购任务调整</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="looks()">调整采购任务</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel()">取消采购任务</button>
  		<!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
  		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>

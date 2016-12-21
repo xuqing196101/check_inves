@@ -816,4 +816,14 @@
          where ID=#{id}
     </update>
     
+    <select id="queryDepartMent" resultType="String">
+    select DEPARTMENT
+	      from T_BSS_PMS_PURCHASE_REQUIRED where PLAN_NO in  
+		 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		  #{item}  
+		 </foreach>  
+	 group by DEPARTMENT
+ 
+    </select>
+    
 </mapper>

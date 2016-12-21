@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
@@ -85,6 +86,8 @@ public class TaskAdjustController extends BaseController{
 	@Autowired
 	private PurchaseAuditService purchaseAuditService;
 	
+	@Autowired
+	private OrgnizationMapper oargnizationMapper;
 	/**
 	 * 
 	 * 
@@ -119,16 +122,16 @@ public class TaskAdjustController extends BaseController{
 	 */
 	@RequestMapping("/all")
 	public String requiredList(String id,Model model){
-		CollectPlan cPlan=collectPlanService.queryById(id);
-		if (cPlan.getStatus()==4) {
-			Integer backInfo=2;
-			List<CollectPlan> list = collectPlanService.queryCollect(new CollectPlan(), 1);
-			PageInfo<CollectPlan> info = new PageInfo<>(list);
-			model.addAttribute("info", info);
-			model.addAttribute("inf", new CollectPlan());
-			model.addAttribute("backInfo", backInfo);
-			return "bss/pms/taskadjust/planlist";
-		}else{
+//		CollectPlan cPlan=collectPlanService.queryById(id);
+//		if (cPlan.getStatus()==4) {
+//			Integer backInfo=2;
+//			List<CollectPlan> list = collectPlanService.queryCollect(new CollectPlan(), 1);
+//			PageInfo<CollectPlan> info = new PageInfo<>(list);
+//			model.addAttribute("info", info);
+//			model.addAttribute("inf", new CollectPlan());
+//			model.addAttribute("backInfo", backInfo);
+//			return "bss/pms/taskadjust/planlist";
+//		}else{
 			List<PurchaseRequired> purList=new LinkedList<PurchaseRequired>();
 			List<String> list = collectPurchaseService.getNo(id);
 			
@@ -140,8 +143,9 @@ public class TaskAdjustController extends BaseController{
 				 purList.addAll(pur);
 			}
 			model.addAttribute("list", purList);
+			model.addAttribute("id", id);
 			return "bss/pms/taskadjust/purchaselist";
-		}
+//		}
 	}
 	
 	/**
@@ -156,7 +160,7 @@ public class TaskAdjustController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/detail")
-	public String detail(String planNo,Model model){
+	public String detail(String planNo,Model model,String id){
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
@@ -215,6 +219,13 @@ public class TaskAdjustController extends BaseController{
 		List<DictionaryData> dicType = dictionaryDataServiceI.findByKind("5");
 		model.addAttribute("dicType", dicType);
 		
+		Map<String,Object> maps=new HashMap<String,Object>();
+		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(maps);
+		model.addAttribute("requires", requires);
+		CollectPlan collectPlan = collectPlanService.queryById(id);
+//		if(collectPlan.getAuditTurn()!=null){
+			model.addAttribute("turns", collectPlan.getAuditTurn());
+//		}
 		
 		return "bss/pms/taskadjust/edit";
 	}

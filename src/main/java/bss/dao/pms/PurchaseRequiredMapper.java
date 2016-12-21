@@ -221,4 +221,6 @@ public interface PurchaseRequiredMapper {
     void updateProjectStatus(String planNo);
     
     void updateIdById(Map<String,Object> map);
+    
+    List<String> queryDepartMent(List<String>  list);
 }

@@ -3,6 +3,7 @@ package bss.controller.pms;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,6 +58,7 @@ public class TaskAssignController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String list(CollectPlan collectPlan,Integer page,Model model){
+		collectPlan.setStatus(2);
 		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 		PageInfo<CollectPlan> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
@@ -105,11 +107,49 @@ public class TaskAssignController extends BaseController{
 			}
 			task.setCollectId(ids[i]);
 			plan.setTaskId(id);
-			plan.setStatus(3);
+			plan.setStatus(2);
 			 collectPlanService.update(plan);
 			taskservice.add(task);
 		}
 		
 		return "redirect:list.html";
 	}
+	
+	public String getRandomString() { //length表示生成字符串的长度  
+	    String chars = "abcdefghijklmnopqrstuvwxyz";     
+	    Random random = new Random();     
+	    StringBuffer sb = new StringBuffer();     
+	    for (int i = 0; i < 3; i++) {     
+	        int number = random.nextInt(chars.length());     
+	        sb.append(chars.charAt(number));     
+	    } 
+	    String num=" 0123456789";
+	    for(int i=0;i<3;i++){
+	    	 int number = random.nextInt(num.length());     
+		        sb.append(chars.charAt(number));     
+	    }
+	   
+	    
+	    System.out.print(sb.toString());
+	    return sb.toString();     
+	 }   
+	
+	public static void main(String[]args){
+		 String chars = "abcdefghijklmnopqrstuvwxyz";     
+		    Random random = new Random();     
+		    StringBuffer sb = new StringBuffer();     
+		    for (int i = 0; i < 3; i++) {     
+		        int number = random.nextInt(chars.length());     
+		        sb.append(chars.charAt(number));     
+		    } 
+		    String num="0123456789";
+		    for(int i=0;i<3;i++){
+		    	 int number = random.nextInt(num.length());     
+			        sb.append(num.charAt(number));     
+		    }
+		   
+		    
+		    System.out.print(sb.toString());
+	}
+	
 }

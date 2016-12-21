@@ -35,6 +35,12 @@
   
   
 	function closede(){
+		var nature=parent.nature;
+		var turn=parent.turns;
+ 		$("#aduit_nature").val(nature);
+ 		$("#audit_turn").val(turn);
+ 		
+ 		
 		var id  = $('input[name="chkItem"]:checked').val(); 
 		var index = parent.layer.getFrameIndex(window.name); 
 
@@ -55,16 +61,9 @@
 					});
 					$(".layui-layer-shade").remove();
 				}else{
-					layer.open({
-						type: 1,
-						title: '信息',
-						skin: 'layui-layer-rim',
-						shadeClose: true,
-						area: ['580px', '210px'],
-						content: $("#audit")
-					});
-					$(".layui-layer-shade").remove();
-					//parent.location.reload(); // 父页面刷新
+					
+				//	$(".layui-layer-shade").remove();
+					 parent.location.reload(); // 父页面刷新
 					//parent.layer.close(index);
 				}
 			},
@@ -189,15 +188,16 @@
      		<input type="hidden" value="" name="id" id="aid">
      		<input type="hidden" value="1"  name="type" >
       	<input type="hidden" name="collectId" value="" id="cid">
-      	<input type="hidden" name="auditRound" value="${type }"/>
+      	<input type="hidden" name="auditStaff" id="aduit_nature" value=""/>
+      	<input type="hidden" name="auditRound" id="audit_turn" value=""/>
      	</form>
      
      <ul class="list-unstyled list-flow dnone mt10" id="audit">
-			<li class="col-md-12 ml15">
+			<!-- <li class="col-md-12 ml15">
 				<span class="span3 fl mt5"><div class="red star_red">*</div>审核人员性质：</span>
 				<input type="text" id="auditStaff"/>
 				<div class="clear red" id="errorType"></div>
-			</li>
+			</li> -->
 			<div class="col-md-12 mt10 tc">
 				<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
 				<button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>

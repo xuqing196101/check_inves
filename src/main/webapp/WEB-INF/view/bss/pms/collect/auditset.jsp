@@ -81,7 +81,7 @@
     });
     
     function save(){
-    	var id1=[];
+  /*   	var id1=[];
     	var name=[];
 		$('#select1 option').each(function(){ 
 			var val=$(this).val().split(",");
@@ -99,11 +99,29 @@
 		$("#fname").val(name);
 		$("#fname2").val(name2);
 		$("#val1").val(id1);
-		$("#val2").val(id2);
+		$("#val2").val(id2); */
+		
+		
 		$("#set_form").submit();
     }
+    var nature;
+    var turns;
     function experts(){
-     
+    	 nature=$("#audit_nature").val();
+     	  turns=$("#audit_turn").val();
+     	  
+     if(nature==null){
+    	 layer.alert("请填写审核人员性质", {
+				offset: ['30%', '40%']
+			});  
+      }
+     if(turns==null){
+    	 layer.alert("请填写审核轮次", {
+				offset: ['30%', '40%']
+			});  
+    	 
+    	 
+     }
   	  layer.open({
 		  type: 2, //page层
 		  area: ['900px', '500px'],
@@ -117,6 +135,19 @@
 		});
     }
     function users(){
+    	 nature=$("#audit_nature").val();
+    	 turns=$("#audit_turn").val();
+        if(nature==null){
+       	 layer.alert("请填写审核人员性质", {
+   				offset: ['30%', '40%']
+   			});  
+         }
+        if(turns==null){
+       	 layer.alert("请填写审核轮次", {
+   				offset: ['30%', '40%']
+   			});  
+        }
+        
     	 layer.open({
    		  type: 2, //page层
    		  area: ['900px', '500px'],
@@ -148,6 +179,11 @@
     }
     
     function qd(){
+     	 nature=$("#audit_nature").val();
+    	 turns=$("#audit_turn").val();
+    	 $("#auditStaff_1").val(nature);
+    	 $("#auditRound_1").val(turns);
+    	
 		 $.ajax({
 			 url:"${pageContext.request.contextPath}/set/judgeAddUser.do",
 			 type:"POST",
@@ -203,13 +239,37 @@
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-	<!-- 项目戳开始 -->
-  <%--<div class="border1 col-md-12 ml30">
-  		审核人员性质： <input type="text" class="mt10" name="auditStaff"/>
-  </div> 
-  --%><div class="container container_box">
+ <div class="container container_box">
+ 
+       <div>
+          <h2 class="count_flow"><i>1</i>审核设置</h2>
+        
+       
+          <ul class="ul_list">
+            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>审核人员性质</span>
+              <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                <input id="audit_nature" type="text" class="input_group" name="name" value="" />
+                <span class="add-on">i</span>
+         <%--        <div class="cue">${ERR_name}</div> --%>
+              </div>
+            </li>
+  <%--           <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>审核轮次</span>
+              <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                <input id="audit_turn" type="text" class="input_group" name="projectNumber" value="" />
+                <span class="add-on">i</span>
+           <div class="cue">${ERR_projectNumber}</div>  
+              </div>
+            </li> --%>
+          </ul>
+        </div>
+        
+        
   <div>
-  <h2 class="list_title">审核人员列表</h2>
+            <h2 class="count_flow"><i>2</i>审核人员列表</h2>
+<!--             
+  <h2 class="list_title">审核人员列表</h2> -->
   <ul class="ul_list">
       
     <div class="col-md-12 pl20 mt10">
@@ -224,7 +284,7 @@
 		<tr class="info">
 		  <th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="w50">序号</th>
-		  <th>审核轮次</th>
+		<!--   <th>审核轮次</th> -->
 		  <th>姓名</th>
 		  <th>电话</th>
 		  <th>单位名称</th>
@@ -235,11 +295,11 @@
 			<tr class="tc pointer">
 			  <td class="w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td>
+		<%-- 	  <td>
 			  	<c:forEach items="${kind}" var="kind">
 						<c:if test="${kind.id == obj.auditRound}">${kind.name}</c:if>
 					</c:forEach>
-				</td>
+				</td> --%>
 			  <td>${obj.name }</td>
 			  <td>${obj.mobile }</td>
 			  <td>${obj.unitName }</td>
@@ -250,56 +310,10 @@
    </div>
     <div id="pagediv" align="right"></div>
  </ul>
- </div><%--
- <div class="padding-top-10 clear">
-    
-      <h2 class="list_title">审核字段设置
-      </h2>
-<ul class="ul_list">
-<div class="content table_box">
-	
-	<div class="selectbox" style="float: left;">
-		<div class="select-bar">
-		    <select multiple="multiple" id="select1">
-		    <c:if test="${listf!=null}">
-		      <c:forEach items="${listf }" var="obj">
-		      		 <option value="${obj.code},${obj.desc}"> ${obj.desc }</option>
-		       </c:forEach>
-		      </c:if>
-		      
-		      <c:if test="${listy!=null}">
-		      <c:forEach items="${listy }" var="obj">
-		      		 <option value="${obj.filed},${obj.filedName}"> ${obj.filedName }</option>
-		       </c:forEach>
-		      </c:if>
-		    </select>
-		</div>
-		<div class="btn-bar">
-		    <p><span id="add"><input type="button" class="btn" value=">" title="移动选择项到右侧"/></span></p>
-		    <p><span id="add_all"><input type="button" class="btn" value=">>" title="全部移到右侧"/></span></p>
-		    <p><span id="remove"><input type="button" class="btn" value="<" title="移动选择项到左侧"/></span></p>
-		    <p><span id="remove_all"><input type="button" class="btn" value="<<" title="全部移到左侧"/></span></p>
-		</div>
-		<div class="select-bar">
-		    <select multiple="multiple" id="select2">
-		   
-		     <c:forEach items="${listn }" var="obj">
-		      		 <option value="${obj.filed},${obj.filedName}"> ${obj.filedName }</option>
-		       </c:forEach>
-		    </select>
-		</div>	
-	</div>
-	
-<br><br>
-	<span style="padding-top: 30px;">
-	 把左边字段移动到右边，代表该字段能修改，如果不移动，则改字段在审核过程中不能修改。
-	</span>
+ </div>
  
-	
-</div>
-</ul>
-</div>
-	--%><div style="margin-top: 50px; margin-bottom: 30px; text-align: center;">
+ 
+ <div style="margin-top: 50px; margin-bottom: 30px; text-align: center;">
 		<button class="btn btn-windows git" onclick="save()">保存</button>
 		<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
@@ -307,7 +321,7 @@
  <div id="content" class="dnone layui-layer-wrap">
 	 
 	<form id="collect_form" action="">
-	<input type="hidden" id="auditRound" value="${type }" name="auditRound">
+	<input type="hidden" id="audit_turn" value="${type }" name="auditRound">
 	   <input type="hidden" name="type" id="type" value="3">
          <input type="hidden" name="id" value="123123123">
 	<div class="drop_window">
@@ -333,13 +347,11 @@
                         <div class="cue" id="userUnitName"></div>
                     </span>
             	</li>
-            	<li class="mt10 col-md-12 p0 col-xs-12">
-                   <label class="col-md-12 pl20 col-xs-12">审核人员性质</label>
-                     <span class="col-md-12 col-xs-12">
-                        <input class="title col-md-12" name="auditStaff"  type="text">
-                        <div class="cue" id="userAuditStaff"></div>
-                    </span>
-            	</li>
+            
+        <input type="hidden" name="auditStaff" value="" id="auditStaff_1" >
+<!-- 	 	<input type="hidden" name="auditRound" value="" id="auditRound_1" > -->
+	 	
+	 		<input type="hidden" name="collectId" value="${id }">	
 		 <div class="clear"></div>
 	</ul>
 	<div class="tc mt10 col-md-12 col-xs-12">
@@ -352,10 +364,10 @@
 </div>
 </div>
 	<form id="set_form" action="${pageContext.request.contextPath}/set/update.html" method="post" >
-		 <input type="hidden" name="val1" value="" id="val1" >
+<!-- 		 <input type="hidden" name="val1" value="" id="val1" >
 	 	<input type="hidden" name="val2" value="" id="val2" >
 	 	<input type="hidden" name="fname" value="" id="fname" >
-	 	<input type="hidden" name="fname2" value="" id="fname2" >
+	 	<input type="hidden" name="fname2" value="" id="fname2" > -->
 	 	<input type="hidden" name="collectId" value="${id }">	
 	 	<input type="hidden" name="type" value="${type }">	
 	 	
