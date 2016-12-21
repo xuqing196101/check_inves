@@ -20,24 +20,23 @@
 
 <script type="text/javascript">
        
-        //导入模板
-        function inputTemplete(){
-        	var iframeWin;
-            layer.open({
-              type: 2, //page层
-              area: ['800px', '500px'],
-              title: '模版管理',
-              closeBtn: 1,
-              shade:0.01, //遮罩透明度
-              shift: 1, //0-6的动画形式，-1不开启
-              offset: ['180px', '550px'],
-              shadeClose: false,
-              content: 'resultAnnouncement/getAll.html',
-              success: function(layero, index){
-                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-              }
-            });
-        }
+				//导入模板
+				function inputTemplete(){
+				  var iframeWin;
+				    layer.open({
+				      type: 2, //page层
+				      area: ['80%', '50%'],
+				      title: '模版管理',
+				      closeBtn: 1,
+				      shade:0.01, //遮罩透明度
+				      shift: 1, //0-6的动画形式，-1不开启
+				      shadeClose: false,
+				      content: '${pageContext.request.contextPath}/resultAnnouncement/getAll.html',
+				      success: function(layero, index){
+				        iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+				      },
+				    });
+				}
         //导出
         function outputAnnouncement(){
             alert("导出");
