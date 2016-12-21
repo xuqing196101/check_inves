@@ -169,14 +169,19 @@
              <u:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/> --%>
      				
      				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	              <span class="" >文章附件：</span>
-	               <u:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
-             		 <u:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
+	              <span class="" >公告附件：</span>
+	               <u:upload id="a" groups="a,c,e" businessId="${articleId}" multiple="true" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+             		 <u:show  showId="b" groups="b,d,f,g"  businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>
-              <li class="col-md-3 col-sm-6 col-xs-12">
+              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	              <span class="" >审批附件: </span>
-	                <u:upload id="c" groups="a,c" businessId="${articleId }"  sysKey="${sysKey }" typeId="${typeId_examine }" auto="true" />
-                  <u:show  showId="d"  groups="b,d,c" businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId_examine }"/>
+	                <u:upload id="c"  groups="a,c,e" businessId="${articleId}"  sysKey="${sysKey}" typeId="${typeId_examine}" auto="true" />
+                  <u:show  showId="d"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId_examine}"/>
+              </li>
+              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="" >保密委员会表: </span>
+	                <u:upload id="e"  groups="a,c,f"  businessId="${articleId}"  sysKey="${sysKey}" typeId="${security}" auto="true" />
+                  <u:show  showId="f"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}"/>
               </li>
         </div>
       </form>
@@ -196,7 +201,10 @@
 			 </div>
 			 <div class="extra_file">
 			 	<div class="">
-					<u:show  showId="e" groups="b,d,c" delete="false" businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
+			 		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="" >公告附件：</span>
+             		 <u:show  showId="g" groups="b,d,f,g"  businessId="${articleId}" delete="false" sysKey="${sysKey}" typeId="${typeId}"/>
+	              </li>
 			 	</div>
 			 </div>
 	</div>
