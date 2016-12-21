@@ -23,30 +23,62 @@
 	    var projectId=$("#projectId").val();
 		location.href="${pageContext.request.contextPath}/packageExpert/supplierQuote.html?projectId="+projectId+"&supplierId="+supplierId;
 	 }
+	 
+function ycDiv(obj, index){
+	if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
+		$(obj).removeClass("jbxx");
+		$(obj).addClass("zhxx");
+	} else {
+		if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
+			$(obj).removeClass("zhxx");
+			$(obj).addClass("jbxx");
+		}
+	}
+	
+	var divObj = new Array();
+	divObj = $(".p0" + index);
+	for (var i =0; i < divObj.length; i++) {
+    	if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
+    		$(divObj[i]).removeClass("hide");
+    	} else {
+    		if ($(divObj[i]).hasClass("p0"+index)) {
+    			$(divObj[i]).addClass("hide");
+    		}
+    	}
+	};
+}
   </script>
   <body>
 	    <h2 class="list_title">供应商报价信息</h2>
-   		<input type="hidden" id="projectId" value="${projectId}">
-    	<table class="table table-bordered table-condensed table-hover table-striped">
+   		<div class="clear">
+<c:set value="1" var ="count"></c:set>
+<c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
+	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
+		<div>
+			 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+			 </h2>
+        </div>
+        <div class="p0${index}">
+		<table class="table table-bordered table-condensed mt5">
 			<thead>
-			<tr>
-			  <th class="w50 info">序号</th>
-			  <th class="info">供应商名称</th>
-			  <th class="info">包名</th>
-			  <th class="info">报价(单位：万元)</th>
-			  <!-- <th class="info">操作</th> -->
-			</tr>
+				<tr>
+					<th class="w50 info">序号</th>
+				  	<th class="info">供应商名称</th>
+				  	<th class="info">报价(单位：万元)</th>
+			    </tr>
 			</thead>
-			<c:forEach items="${treeMap }" var="treemap" varStatus="vs">
-				<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
-					<tr>
-					    <td class="tc w50">${vs.index+1}</td>
-					    <td class="tc">${treemapValue.suppliers.supplierName}</td>
-					    <td class="tc">${treemapValue.packageNames}</td>
-						<td class="tc">${treemapValue.total}</td>
-				    </tr>
-			    </c:forEach>
-		   </c:forEach>
+		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
+				<c:set value="${count+1 }" var="index"></c:set>
+				<tr>
+				    <td class="tc w50">${vs.index+1}</td>
+				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
+					<td class="tc">${treemapValue.total}</td>
+			    </tr>
+		</c:forEach>
 		</table>
+		</div>
+	</c:forEach>
+</c:forEach>
+</div>
   </body>
 </html>

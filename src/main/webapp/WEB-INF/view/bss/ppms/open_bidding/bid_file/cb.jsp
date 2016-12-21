@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML>
 
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
@@ -24,6 +24,10 @@ function update(obj, supplierId, packageId, projectId, quoteId){
 		return;
 	}
 	var deliveryTime = $(obj).parent().parent().find("td").eq("3").find("input").val();
+	if (!deliveryTime) {
+		layer.msg("交货时间为必填",{offset: [y, x]});
+		return;
+	}
 	var isTurnUp = $(obj).parent().parent().find("td").eq("4").find("option:selected").text();
 	if (isTurnUp == '未到场') {
 		isTurnUp = 1;
@@ -35,6 +39,7 @@ function update(obj, supplierId, packageId, projectId, quoteId){
 		 "&supplierId="+ supplierId+ "&deliveryTime="+ deliveryTime+ "&isTurnUp="+ isTurnUp + "&packageId="+ packageId + "&projectId="+ projectId+ "&quoteId="+ quoteId,
 		success:function(data){
 			layer.msg("暂存成功",{offset: [y, x], shade:0.01});
+			window.location.reload();
 		}
 	});
 }
@@ -62,6 +67,15 @@ function ycDiv(obj, index){
     	}
 	};
 }
+
+			function download(id, key) {
+				var form = $("<form>");
+				form.attr('style', 'display:none');
+				form.attr('method', 'post');
+				form.attr('action', globalPath + '/file/download.html?id=' + id + '&key=' + key);
+				$('body').append(form);
+				form.submit();
+			}
 </script>
 </head>
 <body>
@@ -93,25 +107,46 @@ function ycDiv(obj, index){
 				<tr>
 				    <td class="tc w50">${vs.index+1}</td>
 				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
-					<td class="tc"><input class="w60" value="${treemapValue.total}"  maxlength="16" /></td>
-					<td class="tc"><input class="w90" value="<fmt:formatDate value="${treemapValue.deliveryTime }" pattern="YYYY-MM-dd" />"  readonly="readonly" onClick="WdatePicker()" /></td>
-					<td class="tc">
-						<select>
-							<option value="1" <c:if test="${treemapValue.isTurnUp ==1 }">selected = "selected"</c:if>>未到场</option>
-							<option value="1" <c:if test="${treemapValue.isTurnUp ==2 }">selected = "selected"</c:if>>已到场</option>
-						</select>
+					<c:if test="${not empty treemapValue.total}">
+				    	<td class="tc">${treemapValue.total}</td>
+				    	<td class="tc"><fmt:formatDate value="${treemapValue.deliveryTime }" pattern="YYYY-MM-dd" /></td>
+						<td class="tc">
+								<c:if test="${treemapValue.isTurnUp ==1 }">未到场</c:if>
+								<c:if test="${treemapValue.isTurnUp ==2 }">已到场</c:if>
+						</td>
+					</c:if>
+					
+					<c:if test="${empty treemapValue.total}">
+						<td class="tc"><input class="w60"  maxlength="16" /></td>
+						<td class="tc"><input class="w90" value="<fmt:formatDate value="${treemapValue.deliveryTime }" pattern="YYYY-MM-dd" />"  readonly="readonly" onClick="WdatePicker()" /></td>
+						<td class="tc">
+							<select>
+								<option value="1" <c:if test="${treemapValue.isTurnUp ==1 }">selected = "selected"</c:if>>未到场</option>
+								<option value="1" <c:if test="${treemapValue.isTurnUp ==2 }">selected = "selected"</c:if>>已到场</option>
+							</select>
+						</td>
+					</c:if>
+					<td>
+						  <c:if test="${empty treemapValue.bidFileName && empty treemapValue.total}">
+						    <c:if test="${fn:length(treemap.value) > 1}">
+								<u:upload id="${treemapValue.groupsUpload}" groups="${treemapValue.groupsUploadId}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+								<u:show showId="${treemapValue.groupShow}" groups="${treemapValue.groupShowId}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" />
+						  	</c:if>
+						  	<c:if test="${fn:length(treemap.value) == 1}">
+								<u:upload id="${treemapValue.groupsUpload}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+								<u:show showId="${treemapValue.groupShow}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" />
+						  	</c:if>
+						  </c:if>
+						  <c:if test="${not empty treemapValue.bidFileName}">
+								<a class="mt3 color7171C6" href="javascript:download('${treemapValue.bidFileId}', '${sysKey}')">${treemapValue.bidFileName}</a>							
+						  </c:if>
 					</td>
-					<td class="tc">
-						<c:if test="${fn:length(treemap.value) > 1}">
-							<u:upload id="bf${index}" groups="${treemapValue.groupsUpload}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-							<u:show showId="bs${index}" groups="${treemapValue.groupShow}" businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
-						</c:if>
-						<c:if test="${fn:length(treemap.value) == 1}">
-							<u:upload id="bf${index}"  businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-							<u:show showId="bs${index}"  businessId="${treemapValue.suppliers.id}" sysKey="${sysKey}" typeId="${typeId}" />
-						</c:if>
-					</td>
-					<td class="tc"><span class="btn btn-windows edit" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')">更新</span></td>
+					<c:if test="${empty treemapValue.total}">
+						<td class="tc"><span class="btn btn-windows git" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')">提交</span></td>
+			    	</c:if>
+			    	<c:if test="${not empty treemapValue.total}">
+						<td class="tc"><span class="btn btn-windows git" disabled="disabled">提交</span></td>
+			    	</c:if>
 			    </tr>
 		</c:forEach>
 		</table>

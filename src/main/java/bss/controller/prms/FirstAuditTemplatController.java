@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -279,7 +280,7 @@ public class FirstAuditTemplatController extends BaseController{
     }
 	
 	public String getTable(String id, String name, String projectId, String packageId) {
-        HashMap<MarkTerm ,List<MarkTerm>> map = new HashMap<MarkTerm,List<MarkTerm>>();
+        TreeMap<MarkTerm, List<MarkTerm>> map = new TreeMap<MarkTerm, List<MarkTerm>>();
         MarkTerm mt = new MarkTerm();
         mt.setTypeName(id);
         mt.setProjectId(projectId);
@@ -288,7 +289,9 @@ public class FirstAuditTemplatController extends BaseController{
         mt.setPid("0");
         List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
         Integer count3 = 0;
+        int judge = 1;
         for (MarkTerm mtKey : mtList) {
+            //强转为int也是越来越大 所以不会有bug 做法不太好
             MarkTerm mt1 = new MarkTerm();
             mt1.setPid(mtKey.getId());
             mt1.setProjectId(projectId);
@@ -299,6 +302,7 @@ public class FirstAuditTemplatController extends BaseController{
             } else {
                 count3 += mtValue.size();
             }
+            mtKey.setJudge(judge ++);
             map.put(mtKey, mtValue);
         }
         StringBuilder sb = new StringBuilder("");

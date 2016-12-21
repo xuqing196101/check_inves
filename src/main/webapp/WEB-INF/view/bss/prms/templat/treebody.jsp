@@ -586,7 +586,7 @@
 		<form action="" method="post"  id="formID">
 		   <div class="container">
 		   <span>评审内容</span>
-		   	<textarea  class="col-md-12 col-sm-12 col-xs-12 h80 mb10" name="name" id="name" >${scoreModel.name}</textarea>
+		   	<textarea  class="col-md-12 col-sm-12 col-xs-12 h80 mb10" name="reviewContent" id="reviewContent" >${scoreModel.reviewContent}</textarea>
 		   </div>
 			<div class="container">
 				<span>选择模型</span>
@@ -602,6 +602,10 @@
 					<option value="7">模型8:评审数额高区间递减</option>
 				</select>
 			</div>
+			<div class="container">
+			    <span>评审名称</span>
+			   	<input name="name" id="name" value="${scoreModel.name}" >
+		    </div>
 			<input id="projectId" name="projectId" type="hidden" value="${projectId }">
 			<input id="markTermId" name="markTermId" type="hidden" value="${markTermId }">
 			<c:if test="${addStatus != 1 }">

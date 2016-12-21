@@ -10,7 +10,7 @@ import java.util.Date;
  * @author: Tian Kunfeng
  * @date: 2016-10-17下午7:45:13
  */
-public class MarkTerm implements Serializable{
+public class MarkTerm implements Serializable ,java.lang.Comparable{
 	/**
 	 * @Fields serialVersionUID : 
 	 */
@@ -42,8 +42,16 @@ public class MarkTerm implements Serializable{
 	private String smname;
 	private Integer smtypename;
 	private Double scscore;
+	//添加作为比较器 treeMap 
+	private int judge;
 	
-	public String getSmname() {
+	public int getJudge() {
+        return judge;
+    }
+    public void setJudge(int judge) {
+        this.judge = judge;
+    }
+    public String getSmname() {
         return smname;
     }
     public void setSmname(String smname) {
@@ -211,5 +219,19 @@ public class MarkTerm implements Serializable{
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
 	}
+	 @Override
+     public int compareTo(Object o){      // 实现 Comparable 接口的抽象方法，定义排序规则
+            MarkTerm mt = (MarkTerm)o;
+            return this.getJudge() - mt.getJudge();                      // 升序排列，反之降序
+     }
+     @Override
+     public boolean equals(Object o){     //equals
+            boolean flag = false;
+            if(o instanceof MarkTerm){
+                   if(this.getJudge() == ((MarkTerm)o).getJudge())
+                          flag = true;
+            }
+            return flag;          
+     }    
 	
 }

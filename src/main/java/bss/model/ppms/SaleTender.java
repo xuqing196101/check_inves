@@ -131,6 +131,8 @@ public class SaleTender {
     //上传文件groups
     private String groupsUpload;
     private String groupShow;
+    private String groupsUploadId;
+    private String groupShowId;
     //报价金额
     private BigDecimal total;
     //交货时间
@@ -141,7 +143,43 @@ public class SaleTender {
     private String quoteId;
     //项目当前包的预算
     private BigDecimal projectBudget;
+    //判断文件是否可以修改 null可以修改 不为空就不能修改
+    private Integer judgeBidFile;
+    //显示文件名称
+    private String bidFileName;
+    //显示文件名称
+    private String bidFileId;
     
+    public String getBidFileId() {
+        return bidFileId;
+    }
+
+
+    public void setBidFileId(String bidFileId) {
+        this.bidFileId = bidFileId;
+    }
+
+
+    public String getBidFileName() {
+        return bidFileName;
+    }
+
+
+    public void setBidFileName(String bidFileName) {
+        this.bidFileName = bidFileName;
+    }
+
+
+    public Integer getJudgeBidFile() {
+        return judgeBidFile;
+    }
+
+
+    public void setJudgeBidFile(Integer judgeBidFile) {
+        this.judgeBidFile = judgeBidFile;
+    }
+
+
     public BigDecimal getProjectBudget() {
         return projectBudget;
     }
@@ -169,6 +207,26 @@ public class SaleTender {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+    
+
+    public String getGroupsUploadId() {
+        return groupsUploadId;
+    }
+
+
+    public void setGroupsUploadId(String groupsUploadId) {
+        this.groupsUploadId = groupsUploadId;
+    }
+
+
+    public String getGroupShowId() {
+        return groupShowId;
+    }
+
+
+    public void setGroupShowId(String groupShowId) {
+        this.groupShowId = groupShowId;
     }
 
 

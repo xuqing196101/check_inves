@@ -671,14 +671,22 @@ public class OpenBiddingController {
         List<String> packageIds = saleTenderService.getPackageIds(projectId);
         //这里用这个是因为hashMap是无序的
         TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
+        //文件上传类型
+        DictionaryData dd = new DictionaryData();
+        dd.setCode("OPEN_FILE");
+        List<DictionaryData > list = dictionaryDataServiceI.find(dd);
+        model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+        if (list.size() > 0){
+            model.addAttribute("typeId", list.get(0).getId());
+        }
         SaleTender condition = new SaleTender();
         HashMap<String, Object> map = new HashMap<String, Object>();
         HashMap<String, Object> map1 = new HashMap<String, Object>();
+        StringBuilder groupUpload = new StringBuilder("");
+        StringBuilder groupShow = new StringBuilder("");
         if (packageIds != null) {
             Integer num = 0;
             for (String packageId : packageIds) {
-                StringBuilder sbUpload = new StringBuilder("");
-                StringBuilder show = new StringBuilder("");
                 condition.setProjectId(projectId);
                 condition.setPackages(packageId);
                 condition.setStatusBid(NUMBER_TWO);
@@ -693,6 +701,15 @@ public class OpenBiddingController {
                 }
                 //再次点击 查看
                 for (SaleTender saleTender : stList) {
+                    if (list.size() > 0){
+                        List<UploadFile> blist = uploadService.getFilesOther(saleTender.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+                        if (blist != null && blist.size() > 0) {
+                            saleTender.setJudgeBidFile(1);
+                            saleTender.setBidFileName(blist.get(0).getName());
+                            saleTender.setBidFileId(blist.get(0).getId());
+                        }
+                    }
+                   
                     Quote quote = new Quote();
                     quote.setProjectId(projectId);
                     quote.setPackageId(packageId);
@@ -712,18 +729,11 @@ public class OpenBiddingController {
                 }
                 //这里是动态生成页面上传文件的groups
                 for (SaleTender saleTender : stList) {
-                        int position = num++;
-                        if(position == (stList.size()-1)) {
-                            sbUpload.append("bf"+position);
-                            show.append("bs"+position);
-                        } else {
-                            sbUpload.append("bf"+position+",");
-                            show.append("bs"+position+",");
-                        }
-                }
-                for (SaleTender saleTender : stList) {
-                    saleTender.setGroupsUpload(sbUpload.toString());
-                    saleTender.setGroupShow(show.toString());
+                    num ++;
+                    groupUpload = groupUpload.append("bidFileUpload" + num +",");
+                    groupShow = groupShow.append("bidFileShow" + num +",");
+                    saleTender.setGroupsUpload("bidFileUpload"+num);
+                    saleTender.setGroupShow("bidFileShow"+num);
                 }
                 map.put("id", packageId);
                 List<Packages> pack = packageService.findPackageById(map);
@@ -734,12 +744,19 @@ public class OpenBiddingController {
                 };
             }
         }
-        DictionaryData dd = new DictionaryData();
-        dd.setCode("OPEN_FILE");
-        List<DictionaryData > list = dictionaryDataServiceI.find(dd);
-        model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-        if (list.size() > 0){
-            model.addAttribute("typeId", list.get(0).getId());
+        String groupUploadId =  "";
+        String groupShowId = "";
+        if (!"".equals(groupUpload.toString())) {
+             groupUploadId = groupUpload.toString().substring(0, groupUpload.toString().length()-1);
+        }
+        if (!"".equals(groupShow.toString())) {
+             groupShowId = groupShow.toString().substring(0, groupShow.toString().length()-1);
+        }
+        for (List<SaleTender> stList : treeMap.values()) {
+            for (SaleTender st : stList) {
+                st.setGroupsUploadId(groupUploadId);
+                st.setGroupShowId(groupShowId);
+            }
         }
         model.addAttribute("treeMap", treeMap);
         //根据包查出所有的供应商集合 ，然后放在map里面

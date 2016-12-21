@@ -592,12 +592,18 @@ System.out.print(scoreModel);
 	<input type="hidden" id="sm7" value="${scoreModel.intervalTypeName }">
 	<div>
 		<form action="" method="post"  id="formID">
-		   <div>
-		   <span>评审内容</span>
-		   	<textarea  class="col-md-12 col-sm-12 col-xs-12 h80 mb10" name="name" id="name" >${scoreModel.name}</textarea>
+		   <div class="mt10">
+		    	<span>评审名称:</span>
+		   		<input name="name" id="name" class="" type="text" value="${scoreModel.name}" >
 		   </div>
-			<div class="mt20 mr20">
-				<span>选择模型</span>
+		   
+		       <div class="fl">评审内容: </div>
+		       <div>
+		   	   <textarea  class="col-md-12 col-sm-12 col-xs-12 h80 w500" name="reviewContent" id="reviewContent" >${scoreModel.reviewContent}</textarea>
+		       </div>
+		   
+		   <div class="mt5 mb10 mr20">
+				<span>选择模型: </span>
 				 <select id="model" name="typeName" onchange="choseModel();">
 					<option value="">请选择</option>
 					<option value="0">模型1:是否判断</option>
@@ -610,6 +616,7 @@ System.out.print(scoreModel);
 					<option value="7">模型8:评审数额高区间递减</option>
 				</select>
 			</div>
+			
 			<input id="packageId" name="packageId" type="hidden" value="${packageId }">
 			<input id="projectId" name="projectId" type="hidden" value="${projectId }">
 			<input id="markTermId" name="markTermId" type="hidden" value="${markTermId }">
