@@ -200,7 +200,7 @@ session.setAttribute("tokenSession", tokenValue);
    <tr>
 	 <td width="25%" class="bggrey">从事专业起始年度</td>
 	 <td width="25%"><fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM" /></td>
-	 <td width="25%" class="bggrey">专家来源</td>
+	 <td width="25%" class="bggrey">专家类型</td>
 	 <td width="25%" id="expertsFrom"></td>
    </tr>
    <tr>

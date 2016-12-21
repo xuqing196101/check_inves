@@ -23,7 +23,7 @@
 			  //默认不显示叉
 			   $(function() {
 			    $("td").each(function() {
-			    $(this).parent("tr").find("td").eq(7).find("a").hide();
+			    $(this).parent("tr").find("td").eq(6).find("a").hide();
 			    });
 			  });
 			   $(function() {
@@ -276,7 +276,7 @@
               <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
           </form>
 
-          <h2 class="count_flow"><i>1</i>供应商资质证书</h2>
+          <h2 class="count_flow"><i>1</i>供应商资服务质证书</h2>
           <ul class="ul_list count_flow">
             <table class="table table-bordered table-condensed table-hover">
 	            <thead>
@@ -287,7 +287,7 @@
 	                <th class="info">发证机关</th>
 	                <th class="info">有效期(起止时间)</th>
 	                <th class="info">是否年检</th>
-	                <th class="info">附件</th>
+	                <!-- <th class="info">附件</th> -->
 	                <th class="info w50">操作</th>
 	              </tr>
 	            </thead>
@@ -305,8 +305,9 @@
 	                 <c:if test="${s.mot==0 }">否</c:if>
 	                 <c:if test="${s.mot==1 }">是</c:if>
 	                </td>
-	                <td class="tc">
-	                   <a class="mt3 color7171C6" href="javascript:download('${s.attachId}', '${sysKey}')">${s.attach}</a>
+	                <%-- <td class="tc">
+	                  <a class="mt3 color7171C6" href="javascript:download('${s.attachId}', '${sysKey}')">${s.attach}</a>
+	                </td> --%>
 	                <td class="tc w50">
 	                  <p onclick="reason('${s.id}');" id="${s.id}_hidden" class="btn">审核</p>
 	                  <a  id="${s.id}_show" class="b red">×</a>
@@ -316,7 +317,7 @@
             </table>
           </ul>
 
-          <h2 class="count_flow"><i>2</i>供应商组织结构和人员</h2>
+          <h2 class="count_flow"><i>2</i>法人代表信息</h2>
             <ul class="ul_list">
 	            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="orgName2">组织机构：</span>

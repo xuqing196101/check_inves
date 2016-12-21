@@ -313,7 +313,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="website2">公司网址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input class="hand " id="website" value="${suppliers.website } " type="text" <c:if test="${fn:contains(field,'website')}">onMouseOver="isCompare('website');"</c:if>>
+								<input class="hand " id="website" value="${suppliers.website } " type="text" onclick="reason(this.id,'website')" <c:if test="${fn:contains(field,'website')}">onMouseOver="isCompare('website');"</c:if>>
 								<div id="website3" class="abolish">×</div>
 							</div>
 						</li>
@@ -347,7 +347,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 				   		<span class="hand" onclick="reason1(this,'supplierBank');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'">基本账户开户许可证：</span> 
-				      <up:show showId="bank_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
+				      <up:show showId="bank_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
 						</li>
 					</ul>
 
@@ -402,19 +402,19 @@
 					<h2 class="count_flow"><i>3</i>资质资信</h2>
 					<ul class="ul_list hand">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="hand" onclick="reason1(this,'taxCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'">近三个月完税凭证：</span>
-							<up:show showId="taxcert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
+							<up:show showId="taxcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
 							<p class="b f18 ml10 red">×</p>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'billCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'">近三年银行基本账户年末对账单：</span>
-							<up:show showId="billcert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
+							<up:show showId="billcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
 							<p class="b f18 ml10 red">×</p>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'securityCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'">近三个月缴纳社会保险金凭证：</span>
-							<up:show showId="curitycert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
+							<up:show showId="curitycert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
 							<p class="b f18 ml10 red">×</p>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'">近三年内无重大违法记录声明：</span>
-							<up:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+							<up:show showId="bearchcert_show" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 							<p class="b f18 ml10 red">×</p>
 						</li>
 					</ul>
@@ -556,7 +556,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="armyBuinessAddress2">地址：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="armyBuinessAddress2">详细地址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 p0">
 								<input id="armyBuinessAddress" class="hand " value="${suppliers.armyBuinessAddress } " type="text" onclick="reason(this.id,'armyBuinessAddress')">
 								<div id="armyBuinessAddress3" onclick="reason(this.id)" class="abolish">×</div>
@@ -601,13 +601,13 @@
 								<div id="businessStartDate3" onclick="reason(this.id)" class="abolish">×</div>
 							</div>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
+						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="fl" id="businessAddress2">生产或经营地址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="businessAddress" class="hand " value="${suppliers.businessAddress } " type="text" onclick="reason(this.id,'businessAddress')">
 								<div id="businessAddress3" class="abolish">×</div>
 							</div>
-						</li>
+						</li> --%>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="businessPostCode2">邮编：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -627,7 +627,7 @@
                 <div class="b f18 ml10 fl hand red">×</div>
               </div> --%>
 
-							<up:show showId="business_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
+							<up:show showId="business_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
 							<p class="b f18 ml10 red">×</p>
 						</li>
 						<li class="col-md-12 col-sm-12 col-xs-12">

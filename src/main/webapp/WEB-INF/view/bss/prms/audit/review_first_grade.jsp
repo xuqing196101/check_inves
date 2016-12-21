@@ -191,7 +191,7 @@ $(document).ready(function() {
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			 	  		  <td class="w100"><a href="javascript:void();" title="${score.easyUnderstandContent}">${score.markTerm.name}</a></td>
+			 	  		  <td class="w100"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
 			 	  		  <td class="tc">
 			 	    	    <c:if test="${score.typeName == 0}">模型1:是否判断</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型2:按项加减分</c:if>

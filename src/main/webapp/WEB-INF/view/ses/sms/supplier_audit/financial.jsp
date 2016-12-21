@@ -327,7 +327,47 @@
 									</td>
 								</tr>
 							</table>
+							
 							<table class="table table-bordered  table-condensed table-hover">
+							<thead>
+								<tr>
+									<th class="w50 info">年份</th>
+									<th class="info">财务利润表</th>
+									<th class="info">审计报告的审计意见</th>
+									<th class="info">资产负债表</th>
+									<th class="info">现金流量表</th>
+									<th class="info">所有者权益变动表</th>
+									<th class="info w50">操作</th>
+								</tr>
+							</thead>
+							<tbody id="finance_attach_list_tbody_id">
+								<tr>
+									<td class="tc w50">${f.year}</td>
+									<td class="tc">
+										<u:show showId="fina_${vs.index}_pro" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" />
+									</td>
+									<td class="tc">
+										<u:show showId="fina_${vs.index}_audit" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierAuditOpinion}" sysKey="${sysKey}" />
+									</td>
+									<td class="tc">
+										<u:show showId="fina_${vs.index}_lia" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierLiabilities}" sysKey="${sysKey}" />
+									</td>
+									<td class="tc">
+										<u:show showId="fina_${vs.index}_cash" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierCashFlow}" sysKey="${sysKey}" />
+						 		  </td>
+									<td class="tc">
+										<u:show showId="fina_${vs.index}_change" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" />
+								  </td>
+								  <td class="tc w50">
+											<a onclick="reason('${f.id}','财务附件');" id="${f.id}_hidden2" class="btn">审核</a>
+											<p id="${f.id}_fileShow" class="b red">×</p>
+								  </td>
+								</tr>
+							</tbody>
+						</table>
+							
+							
+							<%-- <table class="table table-bordered  table-condensed table-hover">
 								<thead>
 									<tr>
 										<!-- <th class="info">序号</th> -->
@@ -342,7 +382,7 @@
 								</thead>
 								<tbody id="finance_attach_list_tbody_id">
 									<tr>
-										<%-- <td class="tc">${vs.index + 1}</td> --%>
+										<td class="tc">${vs.index + 1}</td>
 										<td class="tc w50">${f.year}</td>
 										<td class="tc">
 											<a class="mt3 color7171C6" href="javascript:download('${f.auditOpinionId}', '${sysKey}')">${f.auditOpinion}</a>
@@ -365,7 +405,7 @@
 										</td>
 									</tr>
 								</tbody>
-							</table>
+							</table> --%>
 						</ul>
 					</c:forEach>
 				</div>

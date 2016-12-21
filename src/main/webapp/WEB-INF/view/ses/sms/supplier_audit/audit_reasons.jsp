@@ -78,13 +78,17 @@
 				      $.ajax({
 				        url:"${pageContext.request.contextPath}/supplierAudit/deleteById.html",
 				        data:"ids="+ids,
-								success:function(){
-		       				layer.msg("删除成功!",{offset : '100px'});
-			       			window.setTimeout(function(){
-			       				var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
-					    			$("#form_id").attr("action",action);
-					    			$("#form_id").submit();
-			       			}, 1000);
+				        dataType:"json",
+								success:function(result){
+									result = eval("(" + result + ")");
+									if(result.msg == "yes"){
+										layer.msg("删除成功!",{offset : '100px'});
+			       			  window.setTimeout(function(){
+				       				var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
+						    			$("#form_id").attr("action",action);
+						    			$("#form_id").submit();
+				       			}, 1000);
+									}
 		       			},
 		       				error: function(message){
 									layer.msg("删除失败",{offset : '100px'});

@@ -627,10 +627,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 
 	@Override
-	public void deleteById(String[] ids) {
+	public boolean deleteById(String[] ids) {
 		for(int i = 0; i<ids.length; i++){
 			supplierAuditMapper.deleteByPrimaryKey(ids[i]);
-		}		
+		}
+		return true;
 	}
 	
 	

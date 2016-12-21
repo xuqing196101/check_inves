@@ -485,6 +485,7 @@ public class ExpertController {
             }
         }
         allCategories.add(ct);*/
+        ct.setChecked(isCheckedById(ct.getId(), expertId));
         allCategories.add(ct);
         // 递归查询出所有节点
         List<Category> categoryTree = getCategoryTree(ct.getId());
@@ -495,17 +496,14 @@ public class ExpertController {
             ct1.setName(c.getName());
             ct1.setParentId(c.getParentId());
             ct1.setId(c.getId());
-            
-            ExpertCategory ec = expertCategoryService.getExpertCategory(expertId, c.getId());
-            if (ec != null){
-                ct1.setChecked(true);
-            }
             // 设置是否为父级
             if (!list1.isEmpty()) {
                 ct1.setIsParent("true");
             } else {
                 ct1.setIsParent("false");
             }
+            ct1.setChecked(isCheckedById(ct1.getId(), expertId));
+            
             // 设置是否回显
             /*for (ExpertCategory category : allCategory) {
                 if (category.getCategoryId() != null) {
@@ -557,6 +555,45 @@ public class ExpertController {
                 }
                 allList.add(ct1);
             }*/
+    
+    /**
+     *〈简述〉
+     * 根据产品id递归判断是否需要被选中
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param id
+     * @return 
+     */
+    public boolean isCheckedById(String id, String expertId){
+        boolean isChecked = false;
+        // 先判断该节点有没有被选中,如果有则直接返回true
+        ExpertCategory expCategory = expertCategoryService.getExpertCategory(expertId, id);
+        if (expCategory != null) {
+            isChecked = true;
+        } else {
+            List<Category> childList = categoryService.findTreeByPid(id);
+            for (Category category : childList) {
+                // 判断该节点有无子节点
+                List<Category> list = categoryService.findTreeByPid(category.getId());
+                if (list.isEmpty()) {
+                    // list为空代表没有子节点
+                    ExpertCategory ec = expertCategoryService.getExpertCategory(expertId, category.getId());
+                    // 判断该节点是否被选中
+                    if (ec != null) {
+                        isChecked = true;
+                        break;
+                    }
+                } else {
+                    // 代表有子节点,递归查询是否有子节点被选中
+                    if (isCheckedById(category.getId(), expertId)) {
+                        // 如果递归结果为true,则代表该节点要被选中
+                        isChecked = true;
+                    }
+                }
+            }
+        }
+        return isChecked;
+    }
     
     /**
      *〈简述〉
