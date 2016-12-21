@@ -218,12 +218,8 @@
 
       }
       var ue = UE.getEditor('editor', option);
-<<<<<<< Updated upstream
-      var content = '${article.content}';
-=======
       var content = "${article.content}";
      
->>>>>>> Stashed changes
       ue.ready(function() {
     	  alert(content);
         ue.setContent(content);

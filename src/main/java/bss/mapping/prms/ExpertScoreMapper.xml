@@ -43,10 +43,15 @@
     SELECT 
     <include refid="Base_Column_List" />
     FROM T_BSS_PRMS_EXPERT_SCORE
-    WHERE <!-- IS_HISTORY = '1' -->
-        AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+    WHERE 1=1 <!-- IS_HISTORY = '1' -->
         AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
         AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+    <if test="expertId != null">
+        AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+    </if>
+    <if test="supplierId != null">
+        AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+    </if>    
   </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

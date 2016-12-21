@@ -2,12 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ include file="../../../common.jsp"%>
 <%@ taglib prefix="up" uri="/tld/upload"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
   <head>
-<%@ include file="../../../common.jsp"%>
     <style type="text/css">
       form div.invalid {
         width: 200px;
@@ -483,7 +483,7 @@
               <a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">场所信息</a>
             </li>
             <li id="li_id_3" class="">
-              <a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">监管部门信息</a>
+              <a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">关联采购部门部门信息</a>
             </li>
           </ul>
           <form action="${pageContext.request.contextPath}/purchaseManage/updatePurchaseDep.do" method="post" id="formID">
@@ -502,7 +502,13 @@
                       <td class="bggrey ">采购机构简称：</td>
                       <td>${purchaseDep.shortName }</td>
                       <td class="bggrey ">采购机构单位级别：</td>
-                      <td>${purchaseDep.levelDep }</td>
+                      <td>
+                        <c:forEach items="${unitLevelList}" var="unitLevel">
+                           <c:if test="${unitLevel.id == purchaseDep.levelDep}">
+                             ${unitLevel.name}
+                           </c:if>
+                        </c:forEach>
+                      </td>
                     </tr>
                     
                     <tr>
@@ -588,7 +594,7 @@
                   <tbody>
                   
                     <tr>
-                      <td class="bggrey">单位主要领导姓名及电话：</td>
+                      <td class="bggrey">单位主要领导姓名：</td>
                       <td>${purchaseDep.leaderTelephone}</td>
                       <td class="bggrey ">军官编制人数：</td>
                       <td>${purchaseDep.officerCountnum}</td>

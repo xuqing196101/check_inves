@@ -186,5 +186,5 @@ public interface PurchaseRequiredService {
 	
 	void updateProjectStatus(String planNo);
 	
-	
+	void updateIdById(Map<String,Object> map);
 }

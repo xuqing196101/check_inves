@@ -42,4 +42,13 @@ public interface ReviewProgressMapper {
     List<ReviewProgress> selectByMap(Map<String,Object> map);
     
     void updateTotalProgress(Map<String,Object> map);
+    
+    /**
+     *〈简述〉
+     * 根据包id修改评审状态
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param map
+     */
+    void updateStatusByMap(Map<String, Object> map);
 }

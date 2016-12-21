@@ -8,10 +8,10 @@
 	<!-- 批量保存-->
 	<insert id="saveByMap" parameterType="java.util.Map">
 		insert into  T_SES_OMS_PURDEP_ORG(ORG_ID,PURCHASE_DEP_ID)
-		 select #{ORG_ID},A.PURCHASE_DEP_ID
+		 select A.ORG_ID,A.PURCHASE_DEP_ID
    		from  (
     	<foreach collection="purchaseOrgList" item="item" index="index" separator="union all" >
-        select  
+        select  #{item.orgId,jdbcType=VARCHAR} as ORG_ID,
          #{item.purchaseDepId,jdbcType=VARCHAR} as PURCHASE_DEP_ID 
        	from dual
    	 </foreach>) A
@@ -25,12 +25,11 @@
 	<!-- 删除-->
 	<delete id="delByOrgId" parameterType="java.util.Map">
 		delete from T_SES_OMS_PURDEP_ORG s
-		 where
 		 <if test="org_id != null and org_id != ''">
-		  s.ORG_ID =#{org_id}
+		  where s.ORG_ID =#{org_id}
 		  </if>
-		  <if test="purchaseDepId != null and purchaseDepId != ''">
-       and s.PURCHASE_DEP_ID =#{purchaseDepId}
+	  <if test="purchaseDepId != null and purchaseDepId != ''">
+       where s.PURCHASE_DEP_ID =#{purchaseDepId}
       </if>
 	</delete>
   <!-- 批量删-->

@@ -330,4 +330,17 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 			updateByMap(reviewProgress);
 		}
    }
+   
+   /**
+    *〈简述〉
+    * 根据包id修改评审状态
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param map
+    */
+    public void updateStatusByMap(Map<String, Object> map) {
+        mapper.updateStatusByMap(map);
+    }
+   
+   
 }

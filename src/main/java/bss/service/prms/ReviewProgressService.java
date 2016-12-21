@@ -116,4 +116,13 @@ public interface ReviewProgressService {
       * @return void
      */
     void updateProgress(Map<String,Object> map);
+    
+    /**
+     *〈简述〉
+     * 根据包id修改评审状态
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param map
+     */
+    void updateStatusByMap(Map<String, Object> map);
 }

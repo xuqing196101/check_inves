@@ -229,42 +229,33 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         String ids[] = packageIds.split(",");
         for (String packageId : ids) {
             // isok == 0 代表满足汇总条件
-            int isok = 0;
             mapSearch.put("packageId", packageId);
             // 判断如果该包的评分进度不是100%不能汇总
-            List<ReviewProgress> reviewList = reviewProgressMapper.selectByMap(mapSearch);
+            /*List<ReviewProgress> reviewList = reviewProgressMapper.selectByMap(mapSearch);
             if (!reviewList.isEmpty()) {
                 if (reviewList.get(0).getTotalProgress() != 1) {
                     isok = 1;
                 }
             }  else {
                 isok = 1;
-            }
+            }*/
             // 判断如果包内的专家所给出的分数不同的话不能汇总
-            mapSearch.put("packageId", packageId);
             List<ExpertScore> expertScoreList = expertScoreMapper.selectByMap(mapSearch);
             for (int i = 0; i < expertScoreList.size() - 1; i++ ) {
                 ExpertScore scoreExp1 = expertScoreList.get(i);
                 for (int j = i+ 1; j < expertScoreList.size(); j++ ) {
                     ExpertScore scoreExp2 = expertScoreList.get(j);
                     if (scoreExp1.getSupplierId().equals(scoreExp2.getSupplierId()) && scoreExp1.getScoreModelId().equals(scoreExp2.getScoreModelId()) && !scoreExp1.getExpertId().equals(scoreExp2.getExpertId()) && !scoreExp1.getScore().equals(scoreExp2.getScore())) {
-                        isok = 1;
+                        notPass = "各专家打分不一致,无法汇总!"; 
                     }
                 } 
             } 
-            if (isok == 1) {
-                notPass = "notOk"; 
-            }
-            boolean isGather = true;
-            List<PackageExpert> list = packageExpertMapper.selectList(mapSearch);
+            /*List<PackageExpert> list = packageExpertMapper.selectList(mapSearch);
             for (PackageExpert pack : list) {
                 if (pack.getIsGatherGather() != 1) {
-                    isGather = false;
+                    notPass = ""; 
                 }
-            }
-            if (isGather) {
-                notPass = "【"+reviewList.get(0).getPackageName()+"】"; 
-            }
+            }*/
         }
         if (!"".equals(notPass)) {
             return notPass;

@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
   <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
@@ -152,7 +152,7 @@
          layer.open({
           type: 2, 
           area : [ '600px', '550px' ],
-          title: '添加采购管理部门',
+          title: '关联采购管理部门',
           offset: ['90px', '630px'],
           shadeClose: true,
           content:"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName=" + typeName
@@ -174,6 +174,7 @@
     	    $("input[name='selectedItem']:checked").each(function(){ 
     	    	 $(this).parents('tr').remove();
     	    }); 
+    	    calIndex('selectedItem');
        }
     
       /** 添加部门信息 **/
@@ -243,7 +244,7 @@
               <a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">场所信息</a>
             </li>
             <li id="li_id_3" class="">
-              <a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">管理部门信息</a>
+              <a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">关联采购管理部门信息</a>
             </li>
           </ul>
           <sf:form action="${pageContext.request.contextPath}/purchaseManage/savePurchaseDep.html" method="post"  id="formID" modelAttribute="purchaseDep">
@@ -284,9 +285,12 @@
                   </li>
 
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购机构单位级别</span>
-                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="levelDep" type="text" value="${purchaseDep.levelDep }"> <span class="add-on">i</span>
-                      <div class="cue">${ERR_levelDep}</div>
+                    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+                      <select name="levelDep">
+                        <c:forEach items="${unitLevelList}" var="unitLevel">
+                          <option value="${unitLevel.id}"<c:if test="${purchaseDep.levelDep == unitLevel.id}">selected="selected"</c:if>>${unitLevel.name}</option>
+                        </c:forEach>
+                      </select>
                     </div>
                   </li>
                   
@@ -301,15 +305,15 @@
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>省</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="provinceId" id="province" onchange="loadCities(this.value);">
-                      </select> <input type="hidden" name="orgnization.provinceId" id="pid" value="${purchaseDep.provinceId }">
+                      </select> <input type="hidden"  id="pid" value="${purchaseDep.provinceId }">
                       <div class="cue">${ERR_provinceId}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>市</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                      <select name="cityId" id="city" onchange="loadTown(this.value);">
-                      </select> <input type="hidden" name="orgnization.cityId" id="cid" value="${purchaseDep.cityId }">
+                      <select name="cityId" id="city" onchange="loadCities(this.value);">
+                      </select> <input type="hidden"  id="cid" value="${purchaseDep.cityId }">
                       <div class="cue">${ERR_cityId}</div>
                     </div>
                   </li>
@@ -337,12 +341,12 @@
 
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>值班室电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="dutyRoomPhone" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
+                      <input class="input_group" name="dutyRoomPhone" type="text"  value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_dutyRoomPhone}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>是否具有审核供应商</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>是否具有审核供应商资格</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="isAuditSupplier">
                        <option  value="" <c:if test="${null eq purchaseDep.isAuditSupplier}">selected="selected" </c:if>>请选择</option>
@@ -364,10 +368,10 @@
                 <h2 class="count_flow"><i>2</i>资质信息</h2>
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资质等级</span>
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质等级</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="quaLevel">
-                         <option  value="" selected="selected">请选择</option>
+                        <option  value="" selected="selected">请选择</option>
                         <option value="1" <c:if test="${'1' eq purchaseDep.quaLevel}">selected="selected" </c:if>>一级</option>
                         <option value="2" <c:if test="${'2' eq purchaseDep.quaLevel}">selected="selected" </c:if>>二级</option>
                         <option value="3" <c:if test="${'3' eq purchaseDep.quaLevel}">selected="selected" </c:if>>三级</option>
@@ -382,7 +386,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资质范围</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质范围</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="quaRange">
                         <option  value="" <c:if test="${null eq purchaseDep.quaRange}">selected="selected" </c:if>>请选择</option>
@@ -395,29 +399,29 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资质开始日期</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质开始日期</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="<fmt:formatDate type='date' value='${purchaseDep.quaStartDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" />
                       <div class="cue">${ERR_quaStartDate}</div>
                     </div>
                   </li>
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资质截止日期</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质截止日期</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()"  name="quaEdndate" value="<fmt:formatDate type='date' value='${purchaseDep.quaEdndate }' dateStyle="default" pattern="yyyy-MM-dd"/>" />
                       <div class="cue">${ERR_quaEdndate}</div>
                     </div>
                   </li>
                                     
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资质编号</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质编号</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="quaCode" type="text" value="${purchaseDep.quaCode}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_quaCode}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资格证书图片</span>
+                  <li class="col-md-5 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资格证书图片</span>
                     <div class="uploader orange m0">
-                      <u:upload id="purchaseQuaFile" businessId="${purchaseDepIds}" typeId="${purchaseTypeId}" multiple="true" exts="png,jpeg,jpg,bmp" sysKey="2" auto="true"/>
+                      <u:upload id="purchaseQuaFile" businessId="${purchaseDepIds}" typeId="${purchaseTypeId}"  multiple="true" exts="png,jpeg,jpg,bmp" sysKey="2" auto="true"/>
                       <u:show showId="pqId" businessId="${purchaseDepIds}" sysKey="2" typeId="${purchaseTypeId}"  />
                     </div>
                     <div class="cue">${ERR_msg}</div>
@@ -427,7 +431,7 @@
                 
                 <h2 class="count_flow"><i>3</i>人员信息</h2>
                 <ul class="ul_list">
-                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>单位主要领导姓名</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单位主要领导姓名</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="leaderTelephone" value="${purchaseDep.leaderTelephone}" type="text">
                       <span class="add-on">i</span>
@@ -435,7 +439,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>军官编制人数</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">军官编制人数</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="officerCountnum" value="${purchaseDep.officerCountnum}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -443,7 +447,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>军官现有人数</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">军官现有人数</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="officerNowCounts" value="${purchaseDep.officerNowCounts}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -451,7 +455,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>士兵现有人数</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">士兵现有人数</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="soldierNowCounts" value="${purchaseDep.soldierNowCounts}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -459,7 +463,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>士兵编制人数</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">士兵编制人数</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="soldierNum" value="${purchaseDep.soldierNum}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -467,14 +471,14 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>职工编制人数</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">职工编制人数</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="staffNum" value="${purchaseDep.staffNum}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_staffNum}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>职工现有人数</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">职工现有人数</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="staffNowCounts" value="${purchaseDep.staffNowCounts}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -482,7 +486,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>具备采购资格人员数量</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">具备采购资格人员数量</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="purchasersCount" value="${purchaseDep.purchasersCount}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -490,7 +494,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>初级采购师人数</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初级采购师人数</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="juniorPurCount" value="${purchaseDep.juniorPurCount}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -498,7 +502,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>高级采购师人数</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级采购师人数</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="seniorPurCount" value="${purchaseDep.seniorPurCount}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -510,35 +514,35 @@
                 
                 <h2 class="count_flow"><i>3</i>甲方信息</h2>
                 <ul class="ul_list">
-                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>单位名称</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单位名称</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="depName" value="${purchaseDep.depName}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_depName}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>法定代表人</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">法定代表人</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="legal" value="${purchaseDep.legal}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_legal}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>委托代理人</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">委托代理人</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="agent" value="${purchaseDep.agent}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_agent}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>联系人</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系人</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="contact" value="${purchaseDep.contact}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_contact}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>联系电话</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="contactTelephone" value="${purchaseDep.contactTelephone}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -546,7 +550,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>通讯地址</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">通讯地址</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="contactAddress" value="${purchaseDep.contactAddress}" type="text">
                       <span class="add-on">i</span>
@@ -554,7 +558,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>邮政编码</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮政编码</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="unitPostCode" value="${purchaseDep.unitPostCode}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -562,21 +566,21 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>付款单位</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">付款单位</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="payDep" value="${purchaseDep.payDep}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_payDep}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>开户银行</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">开户银行</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="bank" value="${purchaseDep.bank}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_bank}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>银行账号</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">银行账号</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="bankAccount" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${purchaseDep.bankAccount}" type="text">
                       <span class="add-on">i</span>
@@ -622,18 +626,18 @@
                 <div class="clear"></div>
               </div>
 
-              <!-- 股东信息 -->
+              <!-- 场所信息 -->
               <div class="tab-pane fade height-200" id="tab-3">
                 <h2 class="count_flow"><i>1</i>基本信息</h2>
                 <ul class="ul_list">
-                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>办公场地总面积(平方米)</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公场地总面积(平方米)</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="officeArea" type="text" value="${purchaseDep.officeArea}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_officeArea}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>办公司数量</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公司数量</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="officeCount" value="${purchaseDep.officeCount}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -641,7 +645,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>会议室数量</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">会议室数量</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="mettingRoomCount" value="${purchaseDep.mettingRoomCount}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -649,7 +653,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>招标室数量</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">招标室数量</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="inviteRoomCount" value="${purchaseDep.inviteRoomCount}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -657,7 +661,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>评标室数量</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">评标室数量</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="bidRoomCount" value="${purchaseDep.bidRoomCount}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
@@ -665,21 +669,21 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class=""><i class="star_red">*</i>是否接入网络</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="">是否接入网络</span>
                     <div class="select_check">
                         <input name="accessNetwork" maxlength="10" type="radio" value="0" <c:if test="${purchaseDep.accessNetwork eq '0' }">checked="true"</c:if>>是
                         <input name="accessNetwork"  maxlength="10" type="radio" value="1" <c:if test="${purchaseDep.accessNetwork eq '1' }">checked="true"</c:if>>否
                     </div>
                 </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>接入方式</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">接入方式</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="accessWay" value="${purchaseDep.accessWay}"  type="text">
                       <span class="add-on">i</span>
                       <div class="cue">${ERR_accessWay}</div>
                     </div>
                   </li>
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class=""><i class="star_red">*</i>是否具备视频监控系统</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="">是否具备视频监控系统</span>
                     <div class="select_check">
                         <input name="videoSurveillance" maxlength="10" type="radio" value="0" <c:if test="${purchaseDep.videoSurveillance eq '0' }">checked="true"</c:if>>是
                         <input name="videoSurveillance"  maxlength="10" type="radio" value="1" <c:if test="${purchaseDep.videoSurveillance eq '1' }">checked="true"</c:if>>否
@@ -736,7 +740,7 @@
                 
                 <div class="tab-pane fade height-200" id="tab-4">
                   <div class="headline-v2">
-                    <h2>关联管理部门</h2>
+                    <h2>采购管理部门</h2>
                   </div>
                   <div class="col-md-12 pl20 mt10">
                     <button type="button" class="btn btn-windows add" id="dynamicAdd" onclick="addManageDept();">关联</button>
@@ -749,7 +753,7 @@
                         <tr>
                           <th class="info w30"><input type="checkbox" id="checkAlls"onclick="selectAll(this,'selectedItem')"></th>
                           <th class="info w50">序号</th>
-                          <th class="info f13">机构名称</th>
+                          <th class="info f13">采购管理部门</th>
                         </tr>
                       </thead>
                       <tbody>

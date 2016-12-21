@@ -809,6 +809,11 @@
          where PLAN_NO=#{planNo}
     </update>
     
-    
+    <update id="updateIdById" parameterType="java.util.Map">
+         update T_BSS_PMS_PURCHASE_REQUIRED
+         set HISTORY_STATUS=1,
+         ID=#{newId}
+         where ID=#{id}
+    </update>
     
 </mapper>

@@ -13,75 +13,64 @@
 	<meta name="author" content="WangHuijie">
  <jsp:include page="../../ses/bms/page_style/backend_common.jsp"></jsp:include>	
 <script type="text/javascript">
-	function getNumScore(listLength){
-		for (var i = 1; i <= listLength; i++) {
-			var scores = document.getElementsByName("score_"+i);
-			var scoreNum = 0;
-			for (var j = 0; j < scores.length; j++) {
-				if(scores[j].innerHTML != "暂未评分"){
-					scoreNum = scoreNum + parseInt(scores[j].innerHTML);
-				}
-			}
-			document.getElementById("scoreNum_"+i).innerHTML = scoreNum;
-		}
+	function backUp(){
+		$("#tab-6").load("${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId=${packageId}&projectId=${projectId}");
 	}
 </script>
 </head>
-<body onload="getNumScore('${listLength}')">
-  <!-- 我的订单页面开始-->
+<body>
   <div class="container">
   <div class="headline-v2">
-    <h2>${expertName }</h2>
-  </div>   
+    <h2>${expert.relName }</h2>
+  </div>
   <!-- 表格开始-->
-  <div class="content table_box">
-    <table class="table table-bordered table-condensed table-hover table-striped">
-	  <tr>
-	    <th class="w150 tc">评审项/供应商</th>
-		<c:forEach items="${supplierList}" var="supplier">
-	      <c:if test="${fn:contains(supplier.packages,packageId)}">
-		    <td class="tc">${supplier.suppliers.supplierName}</td>
-		  </c:if>
-        </c:forEach>
-      </tr>
-      <c:forEach items="${auditModelList}" var="auditModel">
-	    <c:if test="${packageId eq auditModel.packageId and projectId eq auditModel.projectId}">
-		  <tr>
-            <th class="tc w150">${auditModel.markTermName}</td>
-            <c:set var="countLength" value="0"/>
-            <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
-	          <c:if test="${fn:contains(supplier.packages,packageId)}">
-                <c:set var="count1" value="0"/>
-                <c:forEach items="${scores}" var="score">
-                  <c:if test="${fn:contains(supplier.packages,packageId) and fn:contains(supplier.packages,score.PACKAGEID) and score.EXPERTID eq expertId and supplier.suppliers.id eq score.SUPPLIERID and auditModel.markTermId eq score.MARKTERMID}">
-                    <c:set var="count1" value="1"/>
-                    <c:set var="countLength" value="${countLength + 1}"/>
-                    <td class="tc" name="score_${countLength}">${score.SCORE}</td>
-		          </c:if>
-                </c:forEach>
-                <c:if test="${count1 ne '1'}">
-                  <c:set var="countLength" value="${countLength + 1}"/>
-                  <td class="tc" name="score_${countLength}">暂未评分</td>
-                </c:if>
-              </c:if>
-            </c:forEach>
-		  </tr>
-		</c:if>
-      </c:forEach>
-      <tr>
-        <th class="tc w150">合计</th>
-        <c:set var="countLength" value="0"/>
-      	<c:forEach items="${supplierList}" var="supplier" varStatus="vs">
-	      <c:if test="${fn:contains(supplier.packages,packageId)}">
-            <c:set var="countLength" value="${countLength + 1}"/>
-            <td class="tc" id="scoreNum_${countLength}"></td>
-          </c:if>
-        </c:forEach>
-      </tr>
-	</table>
-
-   </div>
-      <div id="pagediv" align="center"><input type="button" class="btn btn-windows back" value="返回" onclick="javascript:window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?projectId=${projectId}&packageId=${packageId}'"></div>
+  <div>
+	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
+			  <tr>
+			    <th></th>
+			    <c:forEach items="${supplierList}" var="supplier">
+			      <th>${supplier.suppliers.supplierName}</th>
+			    </c:forEach>
+			  </tr>
+			  <tr>
+			   	  	  <th>评审项目</th>
+			   	  	  <c:forEach items="${supplierList}" var="supplier">
+     		        	<th>评审得分</th>
+	    		  	  </c:forEach>
+			   		</tr>
+			  <c:forEach items="${markTermTypeList}" var="type">
+			    <tr>
+			      <td class="info" colspan="${length}">${type.name}</td>
+			    </tr>
+			    <c:forEach items="${markTermList}" var="markTerm">
+			      <c:if test="${markTerm.typeName eq type.id}">
+			        <tr>
+			          <td class="info" colspan="${length}">${markTerm.name}</td>
+			        </tr>
+			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
+			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
+			    	    <tr>
+			 	  		  <td class="w100"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
+				 	      <c:forEach items="${supplierList}" var="supplier">
+					 	    <c:set var="expertScore" value=""/>
+					 	    <c:forEach items="${scores}" var="sco">
+					 	      <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><c:set var="expertScore" value="${sco.score}"/></c:if>
+					 	    </c:forEach>
+					 	    <td class="tc">
+					 	      <span>${expertScore}</span>
+					 	    </td>
+				 	      </c:forEach>
+					    </tr> 
+					  </c:if>
+			        </c:forEach>
+			      </c:if>
+			    </c:forEach>
+			  </c:forEach>
+			</table>
+			<div class="tc">
+			  <%--<input class="btn btn-windows back" value="返回" type="button" onclick="backUp()">--%>
+		    </div>
+		  </div>
    </div>
 </body>
 </html>

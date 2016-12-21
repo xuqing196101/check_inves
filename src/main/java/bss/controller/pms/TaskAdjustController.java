@@ -1,5 +1,6 @@
 package bss.controller.pms;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -118,18 +119,29 @@ public class TaskAdjustController extends BaseController{
 	 */
 	@RequestMapping("/all")
 	public String requiredList(String id,Model model){
-		List<PurchaseRequired> purList=new LinkedList<PurchaseRequired>();
-		List<String> list = collectPurchaseService.getNo(id);
-		
-		Map<String,Object> map=new HashMap<String,Object>();
-		for(String str:list){
-			map.put("isMaster", "1");
-			map.put("planNo", str);
-			List<PurchaseRequired> pur = purchaseRequiredService.getByMap(map);
-			 purList.addAll(pur);
+		CollectPlan cPlan=collectPlanService.queryById(id);
+		if (cPlan.getStatus()==4) {
+			Integer backInfo=2;
+			List<CollectPlan> list = collectPlanService.queryCollect(new CollectPlan(), 1);
+			PageInfo<CollectPlan> info = new PageInfo<>(list);
+			model.addAttribute("info", info);
+			model.addAttribute("inf", new CollectPlan());
+			model.addAttribute("backInfo", backInfo);
+			return "bss/pms/taskadjust/planlist";
+		}else{
+			List<PurchaseRequired> purList=new LinkedList<PurchaseRequired>();
+			List<String> list = collectPurchaseService.getNo(id);
+			
+			Map<String,Object> map=new HashMap<String,Object>();
+			for(String str:list){
+				map.put("isMaster", "1");
+				map.put("planNo", str);
+				List<PurchaseRequired> pur = purchaseRequiredService.getByMap(map);
+				 purList.addAll(pur);
+			}
+			model.addAttribute("list", purList);
+			return "bss/pms/taskadjust/purchaselist";
 		}
-		model.addAttribute("list", purList);
-		return "bss/pms/taskadjust/purchaselist";
 	}
 	
 	/**
@@ -206,6 +218,144 @@ public class TaskAdjustController extends BaseController{
 		
 		return "bss/pms/taskadjust/edit";
 	}
+	/**
+   * 
+   * 
+  * @Title: planEditList
+  * @Description: 修改采购计划列表
+  * author: L ChenHao 
+  * @param @param model
+  * @param @param collectPlan
+  * @param @param page
+  * @param @return     
+  * @return String     
+  * @throws
+   */
+  @RequestMapping("/edit")
+  public String planEditList(Model model,CollectPlan collectPlan,Integer page){
+    List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
+    PageInfo<CollectPlan> info = new PageInfo<>(list);
+    model.addAttribute("info", info);
+    model.addAttribute("inf", collectPlan);
+    return "bss/pms/taskadjust/planeditlist";
+    
+  }
+  
+  /**
+   * 
+  * @Title: planEdit
+  * @Description: 根据计划编号查询明细
+  * author: L ChenHao 
+  * @param @param planNo
+  * @param @param model
+  * @param @return     
+  * @return String     
+  * @throws
+   */
+  @RequestMapping("/pledit")
+  public String planEdit(String planNo,Model model,String id){
+    HashMap<String,Object> map=new HashMap<String,Object>();
+    map.put("typeName", 1);
+    
+    List<String> no = collectPurchaseService.getNo(id);
+    List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+    
+    //List<PurchaseRequired> list = purchaseRequiredMapper.queryByNo(planNo);
+    
+    
+    List<PurchaseAudit> audits=new LinkedList<PurchaseAudit>();
+    List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
+    for(PurchaseRequired pr:list){
+      List<PurchaseAudit> audit = purchaseAuditService.queryByPid(pr.getId());
+      audits.addAll(audit);
+      }
+    //查询出所有审核参数
+//        DictionaryData  dictionaryData=new DictionaryData();
+//        DictionaryData dd=new DictionaryData();
+//        dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
+
+        List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
+        List<AuditParam> all=new LinkedList<AuditParam>();
+        AuditParam auditParam=new AuditParam();
+        
+        List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
+        if(dic!=null&&dic.size()>0){
+          for(DictionaryData d:dic){
+            AuditParamBean s=new AuditParamBean();
+            auditParam.setDictioanryId(d.getId());
+            List<AuditParam> a = auditParameService.query(auditParam, 1);
+            all.addAll(a);
+            s.setId(d.getId());
+            s.setSize(a.size());
+            s.setName(d.getName());
+            bean.add(s);
+          }
+        }
+        
+        List<String> departMent = new ArrayList<>();
+        if(no!=null&&no.size()>0){
+          for(String s:no){
+            List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
+            list.addAll(pur);
+            Map<String,Object> departMap = new HashMap<String,Object>();
+            departMap.put("planNo", s);
+            departMent.add(purchaseRequiredService.getByMap(departMap).get(0).getDepartment());
+          }
+        }   
+   
+             
+    model.addAttribute("departMent", departMent);
+    model.addAttribute("bean", bean); 
+    model.addAttribute("all", all); 
+    model.addAttribute("audits", audits);
+        
+        
+       
+    model.addAttribute("list", list);
+    model.addAttribute("planNo", planNo);
+    
+    model.addAttribute("org",org);
+    if(list!=null&&list.size()>0){
+      model.addAttribute("id", list.get(0).getId());
+    }
+    DictionaryData dd=new DictionaryData();
+    dd.setCode("CGJH_AUDIT");
+    String did = dictionaryDataServiceI.find(dd).get(0).getId();
+    model.addAttribute("aid", did);
+    
+    List<DictionaryData> dicType = dictionaryDataServiceI.findByKind("5");
+    model.addAttribute("dicType", dicType);
+    
+    
+    return "bss/pms/taskadjust/planedit";
+  }
+  
+/**
+   * 
+  * @Title: planEdit
+  * @Description: 修改页面
+  * author: L ChenHao 
+  * @param @param id
+  * @param @return     
+  * @return String     
+  * @throws
+   *//*
+  @RequestMapping("/pledit")
+  public String planEdit(String id,Model model){
+    List<PurchaseRequired> purList=new LinkedList<PurchaseRequired>();
+    List<String> list = collectPurchaseService.getNo(id);
+    
+    Map<String,Object> map=new HashMap<String,Object>();
+    for(String str:list){
+      map.put("isMaster", "1");
+      map.put("planNo", str);
+      List<PurchaseRequired> pur = purchaseRequiredService.getByMap(map);
+       purList.addAll(pur);
+    }
+    model.addAttribute("list", purList);
+    return "bss/pms/taskadjust/planedit";
+  }*/
+  
 	
 	/**
 	 * 

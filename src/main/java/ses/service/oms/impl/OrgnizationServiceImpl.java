@@ -176,20 +176,17 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		 * 保存组织机构和关联机构
 		 */
 		String ORG_ID = (String) orgmap.get("id");
-		deporgmap.put("ORG_ID", ORG_ID);
 		List<PurchaseOrg> purchaseOrgList = new ArrayList<PurchaseOrg>();
 		if(depIds!=null && !depIds.equals("")){
 			String[] purchaseDepIds = depIds.split(",");
 			for(int j=0;j<purchaseDepIds.length;j++){
 				PurchaseOrg pOrg = new PurchaseOrg();
 				pOrg.setPurchaseDepId(purchaseDepIds[j]);
+				pOrg.setOrgId(ORG_ID);
 				purchaseOrgList.add(pOrg);
 			}
-		}else {
-			purchaseOrgList.add(new PurchaseOrg());
-			
 		}
-		if(depIds!=null && !depIds.equals("")){
+		if(purchaseOrgList!=null && purchaseOrgList.size() > 0){
 			deporgmap.put("purchaseOrgList", purchaseOrgList);
 			purChaseDepOrgService.saveByMap(deporgmap);
 		}
@@ -260,13 +257,11 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 			for(int j=0;j<purchaseDepIds.length;j++){
 				PurchaseOrg pOrg = new PurchaseOrg();
 				pOrg.setPurchaseDepId(purchaseDepIds[j]);
+                pOrg.setOrgId(orgnization.getId());
 				purchaseOrgList.add(pOrg);
 			}
-		}else {
-			purchaseOrgList.add(new PurchaseOrg());
-			
 		}
-		if(depIds!=null && !depIds.equals("")){
+		if(purchaseOrgList!=null && purchaseOrgList.size() > 0){
 			deporgmap.put("purchaseOrgList", purchaseOrgList);
 			purChaseDepOrgService.saveByMap(deporgmap);
 		}
@@ -281,8 +276,19 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		
 		return orgniztionMapper.findPurchaseOrgList(map);
 	}
-
+	
+	
+	/**
+	 * 
+	 * @see ses.service.oms.OrgnizationServiceI#getRelaPurchaseOrgList(java.util.HashMap)
+	 */
 	@Override
+    public List<Orgnization> getRelaPurchaseOrgList(HashMap<String, Object> map) {
+	    
+        return orgniztionMapper.getRelaPurchaseOrgList(map);
+    }
+
+    @Override
 	public int delOrgnizationByid(HashMap<String, Object> map) {
 		
 		return orgniztionMapper.delOrgnizationByid(map);
