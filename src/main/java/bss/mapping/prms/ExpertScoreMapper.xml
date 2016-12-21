@@ -20,7 +20,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PRMS_EXPERT_SCORE
-    where 1=1 AND IS_HISTORY != 1
+    where 1=1 <!-- AND IS_HISTORY != 1 -->
       <if test="expertId != null and expertId != ''">
        AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
       </if>
@@ -43,7 +43,7 @@
     SELECT 
     <include refid="Base_Column_List" />
     FROM T_BSS_PRMS_EXPERT_SCORE
-    WHERE IS_HISTORY = '1'
+    WHERE <!-- IS_HISTORY = '1' -->
         AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
         AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
         AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
@@ -179,7 +179,7 @@
    from T_BSS_PRMS_EXPERT_SCORE
    where PROJECT_ID = #{projectId}
    and PACKAGE_ID = #{packageId}
-   and IS_HISTORY = '0'
+   <!-- and IS_HISTORY = '0' -->
    group by PACKAGE_ID,EXPERT_ID,SUPPLIER_ID
   </select>
   <!-- 回退分数 -->

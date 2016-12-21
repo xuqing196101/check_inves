@@ -461,7 +461,7 @@ public class ReviewFirstAuditController {
 			list = ScoreModelUtil.getScoreByModelSix(scoreModel2, smList,smCondition);
 		}
 		
-		
+		// 
 		ExpertScore expertScore = new ExpertScore();
 		expertScore.setExpertId(expertId);
 		expertScore.setProjectId(projectId);

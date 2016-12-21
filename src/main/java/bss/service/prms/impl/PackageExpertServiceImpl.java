@@ -145,8 +145,8 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             //mapSearch.remove("expertId");
             //mapSearch.put("expertId", expertId.replace("undefined", ""));
             // 1.EXPERT_SCORE表中IS_HISTORY改为1
-            mapSearch.put("expertId", expertId);
-            expertScoremapper.backScore(mapSearch);
+            //mapSearch.put("expertId", expertId);
+            //expertScoremapper.backScore(mapSearch);
             // 2.评分进度减去对应的值
             List<PackageExpert> list = mapper.selectList(mapSearch);
             // 遍历判断该专家有没有进行打分,如果有就需要减去评分进度

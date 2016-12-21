@@ -102,20 +102,18 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
 			if(expertScoreList!= null && expertScoreList.size()>0){
 				//不为空则修改以前的为历史记录
 				for (ExpertScore expertScore2 : expertScoreList) {
-					if(expertScore2.getIsHistory()!=1){
-						expertScore2.setIsHistory((short) 1);
-						mapper.updateByPrimaryKeySelective(expertScore2);
-					}
+					//expertScore2.setIsHistory((short) 1);
+					mapper.updateByPrimaryKeySelective(expertScore2);
 				}
 				//然后在新增一条新的数据
-				expertScore.setId(WfUtil.createUUID());
+				/*expertScore.setId(WfUtil.createUUID());
 				expertScore.setSupplierId(supplyMark.getSupplierId());
 				BigDecimal expertValue = new BigDecimal(prarm);
 				BigDecimal score2 = new BigDecimal(score);
 				expertScore.setExpertValue(expertValue);
 				expertScore.setScore(score2);
 				expertScore.setIsHistory((short) 0);
-				mapper.insert(expertScore);
+				mapper.insert(expertScore);*/
 			}else{
 				//为空证明是第一个评审的专家 可以直接保存
 				expertScore.setId(WfUtil.createUUID());
@@ -134,15 +132,13 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
 			if(expertScoreList!= null && expertScoreList.size()>0){
 				//不为空则修改以前的为历史记录
 				for (ExpertScore expertScore2 : expertScoreList) {
-					if(expertScore2.getIsHistory()!=1){
-						expertScore2.setIsHistory((short) 1);
-						mapper.updateByPrimaryKeySelective(expertScore2);
-					}
+					//expertScore2.setIsHistory((short) 1);
+					mapper.updateByPrimaryKeySelective(expertScore2);
 				}
 				//然后在新增一条新的数据
-				expertScore.setId(WfUtil.createUUID());
+				/*expertScore.setId(WfUtil.createUUID());
 				expertScore.setIsHistory((short) 0);
-				mapper.insert(expertScore);
+				mapper.insert(expertScore);*/
 			}else{
 				//为空证明是第一个评审的专家 可以直接保存
 				expertScore.setId(WfUtil.createUUID());
