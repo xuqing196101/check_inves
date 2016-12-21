@@ -95,9 +95,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> likeByName(HashMap<String, Object> map) {
-        
-        return taskMapper.likeByName(map);
+    public List<Task> likeByName(HashMap<String, Object> map, Integer page) {
+        List<Task> list = taskMapper.likeByName(map);
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+        return list;
     }
 
 

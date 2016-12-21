@@ -38,6 +38,7 @@ import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.Project;
 import bss.model.ppms.Task;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
@@ -83,20 +84,20 @@ public class TackController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/list")
-	public String list(@CurrentUser User user,  @ModelAttribute PageInfo<Task> page,Model model,Task task){
+	public String list(@CurrentUser User user, Integer page,Model model,Task task){
 	    if(user != null && user.getOrg() != null){
 	        HashMap<String, Object> map1 = new HashMap<>();
-	        PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
 	        map1.put("name", task.getOrgName());
 	        map1.put("documentNumber", task.getDocumentNumber());
 	        map1.put("status", task.getStatus());
 	        map1.put("taskNature", task.getTaskNature());
-	        List<Task> list = taskservice.likeByName(map1);
+	        List<Task> list = taskservice.likeByName(map1,page == null ? 1 : page);
+	        PageInfo<Task> info = new PageInfo<Task>(list);
             HashMap<String, Object> map = new HashMap<>();
             map.put("typeName", "0");
             List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
             model.addAttribute("list2",orgnizations);
-            model.addAttribute("info", new PageInfo<Task>(list));
+            model.addAttribute("info", info);
             model.addAttribute("orgId", user.getOrg().getId());
             model.addAttribute("task", task);
 	    }

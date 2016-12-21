@@ -93,5 +93,5 @@ public interface TaskService {
 	 
 	 boolean verify(Task task);
 	 
-	 List<Task> likeByName(HashMap<String, Object> map);
+	 List<Task> likeByName(HashMap<String, Object> map, Integer page);
 }
