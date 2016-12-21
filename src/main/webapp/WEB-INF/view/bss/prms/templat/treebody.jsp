@@ -320,11 +320,29 @@
 		var str =  reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,没减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
 		$("#easyUnderstandContent8").val(str);
 	}
+
 	function associate(){
+	    var standScore = $("#standardScore").val();
+	    var maxScore = $("#maxScore").val();
 		var s = validteModel().form();
 		console.dir(s);
 		if(s){
-			$("#formID").attr('action','${pageContext.request.contextPath}/auditTemplat/operatorScoreModel.do').submit();
+			$.ajax({   
+	            type: "get",  
+	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
+	            dataType:'json',
+	            success:function(result){
+	                  if (result == 0){
+					     layer.msg("评分项已超过100分,请检查",{offset: ['150px']});     	
+	                  } else {
+	                  	$("#formID").attr('action','${pageContext.request.contextPath}/auditTemplat/operatorScoreModel.do').submit();
+	                  }
+	            },
+	            error: function(result){
+	                layer.msg("添加失败",{offset: ['150px']});
+	            }
+       		});   
+			
 		}else{
 			return;
 		}
