@@ -136,7 +136,11 @@
 	         extension = $("#extensionId").val(),
 	         mimeTypes = $("#mimeTypesId").val(),
 	         duplicate = transBoolean($("#"+$base+"_duplicateId").val()),
-	         auto = transBoolean($("#"+$base+"_autoId").val());
+	         auto = transBoolean($("#"+$base+"_autoId").val()),
+	         buttonName = $("#" + $base + "_btnNameId").val();
+		   if (buttonName == null || buttonName == "" || buttonName == "undefined" || buttonName == "null"){
+			   buttonName = "上传彩色扫描件";
+		   }
 			//实例化
 		  uploader = WebUploader.create({
 				
@@ -145,7 +149,7 @@
 			    server: globalPath + '/file/upload.html',
 			    pick:{
 			    	id:'#'+$base+'_picker',
-			    	label:'上传彩色扫描件',
+			    	label:buttonName,
 			    	multiple: mutiple
 			    }, 
 			    disableGlobalDnd: true,

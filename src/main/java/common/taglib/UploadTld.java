@@ -53,8 +53,6 @@ public class UploadTld extends TagSupport {
     /** 基础单位 */
     private final static int UNIT = 1024;
     
-    /** 选择按钮名称 */
-    private String selectButton = "添加文件";
     /** 上传按钮名称 */
     private String uloadButton = "开始上传";
     /** 选择按钮名称 */
@@ -83,6 +81,9 @@ public class UploadTld extends TagSupport {
     private boolean duplicate = false;
     /** 是否自动上传 */
     private boolean auto = false;
+    /**按钮名称**/
+    private String buttonName;
+    
     /** 唯一的标识 */
     private String id;
     /** 一组按钮的标识,必须为多个按钮的id组成,如:one,two */
@@ -160,10 +161,11 @@ public class UploadTld extends TagSupport {
             out.println("<input id='mimeTypesId' type=\"hidden\"  value=" + mimeTypes + " />");
             out.println("<input id='"+id+"_duplicateId' type=\"hidden\"  value=" + duplicate + " />");
             out.println("<input id='"+id+"_autoId' type=\"hidden\"  value=" + auto + " />");
+            out.println("<input id='"+id+"_btnNameId' type=\"hidden\"  value=" + buttonName + " />");
             
             out.println("<div id=\""+id+"_uploader\" class=\"" + uClass + "\">");
             out.println("<div class=\"" + btnClass + "\">");
-            out.println("<div id=\""+id+"_picker\"> " + selectButton + "</div>");
+            out.println("<div id=\""+id+"_picker\"></div>");
             if (!auto){
                 out.println("<button id=\""+id+"_ctlBtn\" type=\"button\" style='margin-left:10px' class=\"" + upBtnClass + " \">" + uloadButton + "</button>");
             }
@@ -225,14 +227,6 @@ public class UploadTld extends TagSupport {
 
     public void setSysKey(String sysKey) {
         this.sysKey = sysKey;
-    }
-
-    public String getSelectButton() {
-        return selectButton;
-    }
-
-    public void setSelectButton(String selectButton) {
-        this.selectButton = selectButton;
     }
 
     public String getUloadButton() {
@@ -321,6 +315,14 @@ public class UploadTld extends TagSupport {
 
     public void setExts(String exts) {
         this.exts = exts;
+    }
+
+    public String getButtonName() {
+        return buttonName;
+    }
+
+    public void setButtonName(String buttonName) {
+        this.buttonName = buttonName;
     }
     
     

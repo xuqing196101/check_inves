@@ -22,7 +22,7 @@
 	        <rtexprvalue>true</rtexprvalue>
        </attribute>
        <attribute>
-	        <name>selectButton</name>
+	        <name>buttonName</name>
 	        <required>false</required>
 	        <type>java.lang.String</type>
 	        <rtexprvalue>true</rtexprvalue>
