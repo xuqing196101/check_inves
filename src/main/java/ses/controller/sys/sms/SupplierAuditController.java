@@ -302,12 +302,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierId", supplierId);
 		
 		//文件
-		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		if(supplierId!=null){
 			List<SupplierFinance> supplierFinance = supplierService.get(supplierId).getListSupplierFinances();
 			request.setAttribute("financial", supplierFinance);
 		}
 		
+		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
 
 		return "ses/sms/supplier_audit/financial";
 	}
@@ -1084,8 +1085,12 @@ public class SupplierAuditController extends BaseSupplierController{
 	}
 	
 	@RequestMapping(value = "deleteById")
-	public void deleteById (String[] ids){
-		supplierAuditService.deleteById(ids);
+	public void deleteById (HttpServletResponse response, String[] ids){
+		boolean whether = supplierAuditService.deleteById(ids);
+		if(whether){
+			String msg = "{'msg':'yes'}";
+			writeJson(response, msg);
+		}
 	}
 	
 	

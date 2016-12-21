@@ -225,9 +225,9 @@
             <thead>
 		          <tr>
 		            <th class="info w50">序号</th>
-		            <th class="info">出资人</th>
+		            <th class="info">出资人名称或姓名</th>
 		            <th class="info">出资人性质</th>
-		            <th class="info">统一社会信用代码或身份证</th>
+		            <th class="info">统一社会信用代码或身份证号码</th>
 		            <th class="info">出资金额或股份(万元/份)</th>
 		            <th class="info">比例(%)</th>
 		            <th class="info w50">操作</th>

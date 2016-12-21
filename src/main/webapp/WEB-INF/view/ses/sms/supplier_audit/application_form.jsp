@@ -240,12 +240,12 @@
 	                <up:show showId="pledge_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}"/>
 	                <p class="b f18 ml10 red">×</p>
               </li>
-	            <%-- <li class="col-md-3 margin-0 padding-0 ">
-                <span class="" onclick="reason1(this,'supplierRegList');" >军队供应商入库申请表：</span>
+	            <li class="col-md-6 p0 mt10 mb25">
+                <span class="col-md-5 padding-left-5" onclick="reason1(this,'supplierRegList');" >军队供应商入库申请表：</span>
                 <up:show showId="regList_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}"/>
                 <p class="b f18 ml10 red">×</p>
 	            </li>
-	            <li class="col-md-3 margin-0 padding-0 ">
+	            <%-- <li class="col-md-3 margin-0 padding-0 ">
                 <span class="" onclick="reason1(this,'supplierInspectList');" >军队供应商实地考察记录表：</span>
                 <up:show showId="inspectList_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}"/>
                 <p class="b f18 ml10 red">×</p>

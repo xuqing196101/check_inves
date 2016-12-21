@@ -293,7 +293,7 @@ public interface SupplierAuditService {
     
     List<SupplierAudit> findReason(SupplierAudit supplierAudit);
     
-    void deleteById(String[] ids);
+    boolean deleteById(String[] ids);
 
     List<Supplier> selectAllSupplier(Supplier supplier,Integer page);
 } 

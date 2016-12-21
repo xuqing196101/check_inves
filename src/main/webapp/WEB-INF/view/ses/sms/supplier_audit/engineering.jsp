@@ -280,7 +280,7 @@
               <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
           </form>
                   
-          <h2 class="count_flow"><i>1</i>供应商资质证书信息</h2>
+          <h2 class="count_flow"><i>1</i>供应商工程证书信息</h2>
           <div class="ul_list count_flow">
 	          <table class="table table-bordered table-condensed table-hover">
 		          <thead>
@@ -298,7 +298,7 @@
 		              <th class="info">发证日期</th>
 		              <th class="info">有效截止日期</th>
 		              <th class="info">证书状态</th>
-		              <th class="info">附件</th>
+		              <!-- <th class="info">附件</th> -->
 		             <th class="info w50">操作</th>
 		            </tr>
 		          </thead>
@@ -325,15 +325,15 @@
                     <c:if test="${s.certStatus==0 }">无效</c:if>
                     <c:if test="${s.certStatus==1 }">有效</c:if>
                   </td>
-                  <td class="tc" >
+                  <%-- <td class="tc" >
                     <c:if test="${s.attachCert !=null}">
-                        <%-- <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a> --%>
+                        <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
                         <a class="mt3 color7171C6" href="javascript:download('${s.attachCertId}', '${sysKey}')">${s.attachCert}</a>
                       </c:if>
                        <c:if test="${s.attachCert ==null}">
                          <a class="red">无附件下载</a>
                        </c:if>
-                  </td>
+                  </td> --%>
                   <td class="tc w50">
                     <p onclick="reason('${s.id}','工程-资质证书信息');" id="${s.id}_hidden" class="btn">审核</p>
                     <a id="${s.id }_show" class="b red">×</a>
@@ -361,7 +361,7 @@
 		              <th class="info">资质资格状态</th>
 		              <th class="info">资质资格状态变更时间</th>
 		              <th class="info">资质资格状态变更原因</th>
-		              <th class="info">附件</th>
+		              <!-- <th class="info">附件</th> -->
 		              <th class="info w50">操作</th>
 		            </tr>
               </thead>
@@ -389,15 +389,15 @@
 		                <fmt:formatDate value="${s.aptituteChangeAt }" pattern='yyyy-MM-dd'/>
 		              </td>
 		              <td class="tc">${s.aptituteChangeReason }</td>
-		              <td class="tc" >
+		              <%-- <td class="tc" >
 		                <c:if test="${s.attachCert !=null}">
-		                  <%-- <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a> --%>
+		                  <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
 		                  <a class="mt3 color7171C6" href="javascript:download('${s.attachCertId}', '${sysKey}')">${s.attachCert}</a>
 		                </c:if>
 		                <c:if test="${s.attachCert ==null}">
 		                    <a class="red">无附件下载</a>
 		                </c:if>
-		              </td>
+		              </td> --%>
 		              <td class="tc w50">
 		                <p onclick="reason('${s.id}','工程-资质资格证书信息');" id="${s.id}_hidden1" class="btn">审核</p>
 		                <a id="${s.id }_show1" class="b red">×</a>
@@ -431,7 +431,7 @@
               </c:forEach>
             </table>
           </ul>
-          <h2 class="count_flow"><i>4</i>供应商组织机构</h2>
+          <h2 class="count_flow"><i>4</i>法人代表信息</h2>
           <ul class="ul_list count_flow">
 	          
 			      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
