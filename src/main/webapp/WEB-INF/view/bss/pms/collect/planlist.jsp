@@ -184,7 +184,14 @@
 				$('input[name="chkItem"]:checked').each(function() {
 					id.push($(this).val());
 				});
-				if(type == 4) {
+				if(type==""||type==null){
+					layer.alert("您未选择，请重新选择", {
+						offset: ['222px', '390px'],
+						shade: 0.01
+					});
+					layer.close(index);
+				}
+				else if(type == 4) {
 					window.location.href = "${pageContext.request.contextPath }/look/audit.html?id=" + id+"&status=12";
 				} else {
 					window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + type;
@@ -197,6 +204,39 @@
 
 			function resetQuery() {
 				$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+			}
+			
+			function auditturns(obj){
+				var vals=$(obj).val();
+				var id=$('input[name="chkItem"]:checked').val();
+				
+				$.ajax({
+					type: "POST",
+					dataType: "json",
+					url: "${pageContext.request.contextPath }/look/status.do",
+					data:{
+						id:id,
+						auditTurns:vals
+					},
+					success: function(data) {
+						if(data=='1'){
+							layer.alert("审核进行中", {
+								offset: ['222px', '390px'],
+								shade: 0.01
+							});
+							layer.close(index);
+						}
+					/* 	if(data==0){
+							layer.alert("请选择状态为已编制为采购计划的审核", {
+								offset: ['30%', '40%']
+							});
+							$(".layui-layer-shade").remove();
+						}else if(data==1){ */
+							// window.location.href = "${pageContext.request.contextPath }/look/auditlook.html?id=" + id;
+						/* } */
+					}
+				});
+				
 			}
 		</script>
 	</head>
@@ -331,7 +371,8 @@
 		<div id="content" class="dnone" style="text-align: center;">
 			<br>
 			<span style="padding-top:50px;">直接下达采购任务或者设置审核轮次</span>
-			<select style="margin-top: 15px;" name="planType" id="wtype">
+			<select style="margin-top: 15px;" onchange="auditturns(this)" name="planType" id="wtype">
+				<option value="">请选择</option>
 				<option value="4">直接下达任务</option>
 				<c:forEach items="${dic }" var="obj">
 					<option value="${obj.id }">${obj.name }</option>

@@ -46,4 +46,7 @@ public interface CollectPlanMapper {
     Integer getMax();
     
     List<CollectPlan> getDepartmentList();
+    
+    CollectPlan queryPlan(CollectPlan collectPlan);
+    
 }

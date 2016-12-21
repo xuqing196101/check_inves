@@ -182,7 +182,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			if(status == "已编制为采购计划"){
+			if(status == "未提交"){
 			     window.location.href="${pageContext.request.contextPath}/purchaser/submit.html?planNo="+id;
 			}else{
 			     layer.alert("已提交",{offset: ['322px', '790px'], shade:0.01});

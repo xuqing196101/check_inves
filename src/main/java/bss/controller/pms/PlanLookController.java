@@ -21,6 +21,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
+import bss.dao.pms.CollectPlanMapper;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.AuditParamBean;
 import bss.formbean.PurchaseRequiredFormBean;
@@ -77,8 +78,10 @@ public class PlanLookController extends BaseController {
 	private OrgnizationMapper oargnizationMapper;
 	
 	@Autowired
-	
 	private PurchaseRequiredMapper putchaseRequiredMapper;
+	
+	@Autowired
+	private CollectPlanMapper collectPlanMapper;
 	/**
 	 * 
 	 * 
@@ -402,4 +405,42 @@ public class PlanLookController extends BaseController {
 		
 		return "bss/pms/collect/audit";
 	}
+	
+	@RequestMapping(value="/status")
+	@ResponseBody
+	public String getSatus(CollectPlan collectPlan,String auditTurns){
+	
+			CollectPlan plan = collectPlanMapper.queryPlan(collectPlan);
+			Integer status = plan.getStatus();
+			String flag="0";
+			 DictionaryData data = DictionaryDataUtil.findById(auditTurns);
+		 if(auditTurns.equals("4")){
+				 if(status.equals(7)||status.equals(8)|| status.equals(9)|| status.equals(10)|| status.equals(11)|| status.equals(12)){
+					 flag="1";
+				 }
+			 }
+		if(data!=null){
+		  if(data.getCode().equals("SH_1")){
+				 if(status.equals(7)||status.equals(8)|| status.equals(9)|| status.equals(10)|| status.equals(11)|| status.equals(12)){
+					 flag="1";
+				 }
+			 }
+		  if(data.getCode().equals("SH_2")){
+				 if(status.equals(8)|| status.equals(9)|| status.equals(10)|| status.equals(11)|| status.equals(12)){
+					 flag="1";
+				 }
+			 }
+			  if(data.getCode().equals("SH_1")){
+				 if( status.equals(9)|| status.equals(10)|| status.equals(11)|| status.equals(12)){
+					 flag="1";
+				 }
+			 }
+		}else if(data==null){
+			flag="1";
+		}
+		
+		return flag;
+	}
+	
+	
 }

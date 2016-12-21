@@ -262,4 +262,15 @@
   <select id="getDepartmentList" resultMap="CollectPlan_Map">
   	select DEPARTMENT from T_BSS_PMS_COLLECT_PLAN GROUP BY DEPARTMENT
   </select>
+  
+  
+  <select id="queryPlan" parameterType="bss.model.pms.CollectPlan" resultMap="CollectPlan_Map">
+		    select 
+		  <include refid="Base_Column_List"/>
+			  from T_BSS_PMS_COLLECT_PLAN
+			  	 
+				 			WHERE ID=#{id}
+				   
+  </select>
+  
 </mapper>
