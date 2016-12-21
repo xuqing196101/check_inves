@@ -99,6 +99,8 @@ $(document).ready(function() {
 				dataType:"JSON",
 				success:function(data){
 					$(obj).parent().next().find("input[name='expertScore']").val(data);
+					// 修改,将input框改为直接显示,input设置为hidden,将input值传给span
+					$(obj).parent().next().find("input[name='expertScore']").next().html(data);
 				}
 				
 			});
@@ -163,16 +165,16 @@ $(document).ready(function() {
 	   	  <div style="overflow:scroll;">
 	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
-			    <th  colspan="2"></th>
+			    <th  colspan="3"></th>
 			    <c:forEach items="${supplierList}" var="supplier">
-			      <th colspan="3">${supplier.suppliers.supplierName}</th>
+			      <th colspan="2">${supplier.suppliers.supplierName}</th>
 			    </c:forEach>
 			  </tr>
 			  <tr>
 			   	  	  <th>评审项目</th>
 			   	  	  <th>计分模型</th>
+			   	      <th>标准分值</th>
 			   	  	  <c:forEach items="${supplierList}" var="supplier">
-			   	    	<th>标准分值</th>
 			        	<th>评委填写</th>
      		        	<th>评审得分</th>
 	    		  	  </c:forEach>
@@ -189,7 +191,7 @@ $(document).ready(function() {
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			 	  		  <td class="w100"><a href="javascript:void();" title="${score.easyUnderstandContent}">${score.name}</a></td>
+			 	  		  <td class="w100"><a href="javascript:void();" title="${score.easyUnderstandContent}">${score.markTerm.name}</a></td>
 			 	  		  <td class="tc">
 			 	    	    <c:if test="${score.typeName == 0}">模型1:是否判断</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型2:按项加减分</c:if>
@@ -200,8 +202,8 @@ $(document).ready(function() {
 				 	        <c:if test="${score.typeName == 6}">模型7:评审数额低区间递增</c:if>
 				 	        <c:if test="${score.typeName == 7}">模型8:评审数额高区间递减</c:if>
 				 	      </td>
+				 	      <td class="tc">${score.standardScore}</td>
 				 	      <c:forEach items="${supplierList}" var="supplier">
-				 	        <td class="tc">${score.standardScore}</td>
 					 	    <c:choose>
 					 	      <c:when test="${score.typeName == '0'}">
 					 	        <td class="tc">
@@ -235,11 +237,10 @@ $(document).ready(function() {
 					 	    </c:choose>
 					 	    <td class="tc">
 					 	      <input type="hidden" name="supplierId"  value="${supplier.suppliers.id}"/>
-					 	      <input type="text" name="expertScore" readonly="readonly" style="width: 50px;"
-					 	        <c:forEach items="${scores}" var="sco">
-					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
-					 	        </c:forEach>
-					 	      />
+					 	      <input type="hidden" name="expertScore" readonly="readonly" style="width: 50px;"/>
+					 	      <span><c:forEach items="${scores}" var="sco">
+					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">${sco.score}</c:if>
+					 	        </c:forEach></span>
 					 	    </td>
 				 	      </c:forEach>
 					    </tr> 

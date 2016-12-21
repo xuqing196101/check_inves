@@ -271,7 +271,7 @@ public class ReviewFirstAuditController {
 		model.addAttribute("project", project);
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("packageId", packageId);
-		model.addAttribute("length", supplierList.size() * 3 + 2);
+		model.addAttribute("length", supplierList.size() * 2 + 3);
 		return "bss/prms/audit/review_first_grade";
 	}
 	/**
