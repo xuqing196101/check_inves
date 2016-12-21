@@ -435,8 +435,6 @@ public class PlanLookController extends BaseController {
 					 flag="1";
 			 }
 		  }
-		}else if(data==null){
-			flag="1";
 		}
 		
 		return flag;

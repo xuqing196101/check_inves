@@ -248,11 +248,11 @@
   		AND  STATUS in(1,7,8,9,10,11,12)
   	</if>
   	<if test="status ==2 ">
-  		AND  STATUS in(2,12)
+  		AND  STATUS in(2,12,13)
   	</if>
   	
   	</where>
-  order by POSITION desc
+  order by STATUS desc
   </select>
   
   <select id="getMax" resultType="Integer">

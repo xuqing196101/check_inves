@@ -192,7 +192,7 @@
 					layer.close(index);
 				}
 				else if(type == 4) {
-					window.location.href = "${pageContext.request.contextPath }/look/audit.html?id=" + id+"&status=12";
+					window.location.href = "${pageContext.request.contextPath }/look/audit.html?id=" + id+"&status=13";
 				} else {
 					window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + type;
 				}
@@ -335,10 +335,10 @@
 								<%-- <c:if test="${obj.status=='2' }">
 									已审核
 								</c:if> --%>
-								<c:if test="${obj.status==11 }">
+								<c:if test="${obj.status==12 }">
 									三轮已审核
 								</c:if>
-									<c:if test="${obj.status==12 }">
+									<c:if test="${obj.status==11 }">
 									二轮已审核
 								</c:if>
 							  <c:if test="${obj.status==10 }">
