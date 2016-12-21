@@ -85,7 +85,7 @@
 	}
 	
 	$(function(){ 
-		var html = "<tr><th class='info'>评审结果</th>";
+		var html = "<tr><th class='info'colspan='2'>评审结果</th>";
 		var tdCount = document.getElementById("tabId").rows.item(0).cells.length;
 		for ( var int = 2; int < tdCount; int++) {
 			var isPass = 0;
@@ -106,7 +106,7 @@
 	            }
 			});
 			if (notaudit > 0) {
-				html += "<th class='info'colspan='2'>评审未完成</th>";
+				html += "<th class='info'>评审未完成</th>";
 			} else if (notPass > isPass) {
 				html += "<th class='info'>不合格</th>";
 			} else if (isPass > notPass){
@@ -192,7 +192,7 @@
 	      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
 		       <tr>
 		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItemExp" value="${ext.expert.id}" /></td>
-		        <td class="tc">${ext.expert.relName} </td>
+		        <td class="tc">${ext.expert.relName}</td>
 		        <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
 		        	<td class="tc">
 		        	  <c:forEach items="${supplierExtList}" var="supplierExt">

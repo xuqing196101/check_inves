@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
+	<title>供应商评分详情</title>
 
 	<!-- Meta -->
 	<meta charset="utf-8">
@@ -24,6 +24,9 @@
   <div class="container">
   <div class="headline-v2">
     <h2>${supplier.supplierName }</h2>
+  </div>
+  <div align="right">
+	<button class="btn" onclick="window.print();" type="button">打印</button>
   </div>
   <!-- 表格开始-->
   <div>

@@ -379,7 +379,7 @@
         //  iframe层
         layer.open({
           type: 2,
-          title: "选择监督人员",
+          title: "填写监督人员",
           shadeClose: true,
           shade: 0.01,
           offset: '20px',

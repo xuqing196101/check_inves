@@ -237,19 +237,19 @@ public class ExpExtConditionController extends BaseController {
             model.addAttribute("ExpExtCondition", list.get(0));
             model.addAttribute("projectId", list.get(0).getProjectId());
             //获取监督人员
-            List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(list.get(0).getProjectId()));
-            model.addAttribute("listUser", listUser);
-            String userName = "";
-            String userId = "";
-            if (listUser != null && listUser.size() != 0){
-                for (User user : listUser) {
-                    if (user != null && user.getId() != null){
-                        userName += user.getRelName() + ",";
-                        userId += user.getId() + ",";
-                    }
-
-                }
-            }
+//            List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(list.get(0).getProjectId()));
+//            model.addAttribute("listUser", listUser);
+//            String userName = "";
+//            String userId = "";
+//            if (listUser != null && listUser.size() != 0){
+//                for (User user : listUser) {
+//                    if (user != null && user.getId() != null){
+//                        userName += user.getRelName() + ",";
+//                        userId += user.getId() + ",";
+//                    }
+//
+//                }
+//            }
 
             List<DictionaryData> find = DictionaryDataUtil.find(12);
             model.addAttribute("find", find);
@@ -262,8 +262,8 @@ public class ExpExtConditionController extends BaseController {
                 model.addAttribute("extractionSites", listRe.get(0).getExtractionSites());
             }
 
-            model.addAttribute("userName", userName);
-            model.addAttribute("userId", userId);
+//            model.addAttribute("userName", userName);
+//            model.addAttribute("userId", userId);
         }
 
         return "ses/ems/exam/expert/extract/add_condition";

@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import oracle.net.ano.SupervisorService;
+
 import org.jsoup.helper.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -208,7 +210,7 @@ public class ExpExtractRecordController extends BaseController {
             con.setStatus((short)2);
             conditionService.update(con);
         }
-        
+
 
 
         List<Area> listArea = areaService.findTreeByPid("0",null);
@@ -218,8 +220,8 @@ public class ExpExtractRecordController extends BaseController {
             //根据包获取抽取出的专家
             List<Packages> listResultExpert = packagesService.listResultExpert(projectId);
             model.addAttribute("listResultExpert", listResultExpert);
-            
-          
+
+
 
             //专家抽取记录
             ExpExtractRecord record = new ExpExtractRecord();
@@ -237,20 +239,17 @@ public class ExpExtractRecordController extends BaseController {
             }
 
             //获取监督人员
-            List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(projectId));
+            List<ProExtSupervise>  listUser = projectSupervisorServicel.list(new ProExtSupervise(projectId));
             model.addAttribute("listUser", listUser);
             String userName = "";
-            String userId = "";
             if (listUser != null && listUser.size() != 0){
-                for (User user : listUser) {
-                    if (user != null ){
-                        userName += user.getRelName()+ ",";
-                        userId += user.getId() + ",";
+                for (ProExtSupervise ps : listUser) {
+                    if (ps != null ){
+                        userName += ps.getRelName()+ ",";
                     }
                 }
                 if(!"".equals(userName)){
-                model.addAttribute("userName", userName.substring(0, userName.length()-1));
-                model.addAttribute("userId", userId.substring(0, userId.length()-1));
+                    model.addAttribute("userName", userName);
                 }
             }
 
@@ -407,8 +406,8 @@ public class ExpExtractRecordController extends BaseController {
             count = 1;
         }
 
-
-        if (sids == null || sids.length == 0 || "".equals(sids)){
+        List<ProExtSupervise> list = projectSupervisorServicel.list(new ProExtSupervise(project.getId()));
+        if (list == null || list.size() == 0){
             map.put("supervise", "不能为空");
             count = 1;
         }
@@ -593,7 +592,7 @@ public class ExpExtractRecordController extends BaseController {
         String[] ids = id.split(",");
         if (reason != null && !"".equals(reason)){
             extractService.update(new ProjectExtract(ids[0], new Short(ids[2]), reason ,packageId));
-            
+
         } else {
             extractService.update(new ProjectExtract(ids[0], new Short(ids[2]) ,packageId));
         }
@@ -603,7 +602,7 @@ public class ExpExtractRecordController extends BaseController {
 
         return projectExtractListYes;
     }
-    
+
 
     /**
      *〈简述〉返回专家抽取方法
@@ -735,10 +734,10 @@ public class ExpExtractRecordController extends BaseController {
             if (conditionList != null && conditionList.size() != 0){
                 List<User>  listUser = null ;
                 for (ExpExtPackage expExtPackage : conditionList) {
-                    listUser =  projectSupervisorServicel.list(new ProExtSupervise(expExtPackage.getId()));
-                    if (listUser != null ){
-                        break;
-                    }
+                    //                    listUser =  projectSupervisorServicel.list(new ProExtSupervise(expExtPackage.getId()));
+                    //                    if (listUser != null ){
+                    //                        break;
+                    //                    }
                 }
                 model.addAttribute("listUser", listUser);  
             }
@@ -984,6 +983,61 @@ public class ExpExtractRecordController extends BaseController {
         String finish = conditionService.isFinish(condition);
         return JSON.toJSONString(finish);
     }
+
+    /**
+     * 
+     *〈简述〉保存监督人员
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("saveSupervise")
+    public String saveSupervise(String[] relName,String[] company, String[] phone,String projectId){
+        List<ProExtSupervise>  ProExtSupervise = new ArrayList<ProExtSupervise>();
+        String strRelName="";
+        ProExtSupervise ps=null;
+        if(relName.length == 0 || phone.length ==0 || company.length == 0){
+            return ERROR;
+        }
+        for (int i = 0; i < relName.length; i++ ) {
+            ps = new ProExtSupervise();
+            if(company[i] == null || "".equals(company[i])){
+                return ERROR;
+            }
+            if(phone[i] == null || "".equals(phone[i])){
+                return ERROR;
+            }
+            if(relName[i] == null || "".equals(relName[i])){
+                return ERROR;
+            }
+            ps.setCompany(company[i]);
+            ps.setPhone(phone[i]);
+            ps.setRelName(relName[i]);
+            ps.setProjectId(projectId);
+            strRelName+=relName[i]+",";
+            ProExtSupervise.add(ps);
+        }
+        projectSupervisorServicel.deleteProjectId(projectId);
+        projectSupervisorServicel.listInsert(ProExtSupervise);
+        return JSON.toJSONString(strRelName.substring(0, strRelName.length()-1));
+    }
+
+    /**
+     * @Description:显示监督人员
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月25日 09:49:56 
+     * @return String
+     */
+    @RequestMapping("/showSupervise")
+    public String showSupervise(Model model, Integer page,String projectId){
+        model.addAttribute("projectId", projectId);
+        List<ProExtSupervise> list = projectSupervisorServicel.list(new ProExtSupervise(projectId));
+        model.addAttribute("list", list);
+        return "ses/sms/supplier_extracts/supervise_list";
+    }
+
 
 
 

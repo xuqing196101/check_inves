@@ -41,7 +41,7 @@
 		<if test="isGather != null">
 			AND IS_GATHER = #{isGather}
 		</if>
-		<if test="IS_GRADE != null">
+		<if test="isGrade != null">
 			AND IS_GRADE = #{isGrade}
 		</if>
 		<if test="IS_GRADE_GATHER != null">

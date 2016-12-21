@@ -181,6 +181,20 @@
 					layer.closeAll(); //关闭消息框
 				}
 			}
+			
+			function loadplan() {
+				index = layer.open({
+					type: 1, //page层
+					area: ['400px', '300px'],
+					title: '导入需求计划',
+					closeBtn: 1,
+					shade: 0.01, //遮罩透明度
+					moveType: 1, //拖拽风格，0是默认，1是传统拖动
+					shift: 1, //0-6的动画形式，-1不开启
+					offset: ['80px', '400px'],
+					content: $('#file_div'),
+				});
+			}
 
 			function closeLayer() {
 
@@ -259,6 +273,7 @@
 				status[0].selected = true;
 			}
 			
+<<<<<<< HEAD
 			function generateMixed() {
 				var chars = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 			     var res = "";
@@ -270,6 +285,11 @@
 			}
 			
 			
+=======
+			function fileup(){
+				$("#up_form").submit();
+			} 
+>>>>>>> c264d9c1ce3817792e59b044ce24483bb934649c
 		</script>
 	</head>
 
@@ -343,6 +363,7 @@
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">添加至已有计划中</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="advanced()">预研项目</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="loadplan()">导入采购计划</button>
 	 </div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
@@ -465,6 +486,12 @@
 
 			</form>
 		</div>
+		<div  class="container clear margin-top-30" id="file_div"  style="display:none;" >
+    	<form id="up_form" action="${pageContext.request.contextPath}/collect/upload.do" method="post" enctype="multipart/form-data">
+    		<input type="file" class="input_group" name="file">
+    		 <input type="button" class="btn" onclick="fileup()"   value="导入" />
+    	</form>
+    </div>
 	</body>
 
 </html>

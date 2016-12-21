@@ -28,13 +28,10 @@ import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
-import ses.util.PropertiesUtil;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
-import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
 import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 

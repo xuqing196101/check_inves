@@ -170,6 +170,7 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
             //查询改包下的供应商所有评审项的评分信息
             map.put("supplierId", supplier.getId());
             List<ExpertScore> list = mapper.selectByMap(map);
+            removeSame(list);
             for (ExpertScore expertScore : list) {
                 totalScore = totalScore.add(expertScore.getScore());
             }
@@ -244,6 +245,26 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
             }
         }
     }
+	
+	/**
+	 *〈简述〉
+	 * 对List<ExpertScore>去重
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param list
+	 * @return
+	 */
+	private List<ExpertScore> removeSame(List<ExpertScore> list){
+	    for (int i = 0; i < list.size(); i++) {
+            for (int j = list.size() - 1 ; j > i; j--) {
+                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId())) {
+                    list.remove(j);
+                }
+            }
+	    }
+	    return list;
+	}
+	
     /**
      * 
       * @Title: removeDuplicate

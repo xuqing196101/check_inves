@@ -163,7 +163,7 @@
 			obj.Caption = "( 双击可放大 ! )"
 			if(fileName != 0){
 				obj.BeginOpenFromURL("${pageContext.request.contextPath}"
-				+"/purchaseContract/loadFile.html?fileName="+fileName,true);// 异步加载, 服务器文件路径
+				+"/purchaseContract/loadFile.html?fileName="+fileName,true, false, 'word.document');// 异步加载, 服务器文件路径
 			} 
 			
 			//obj.OpenFromURL("http://localhost:8080/zhbj/contract/"+fileId);

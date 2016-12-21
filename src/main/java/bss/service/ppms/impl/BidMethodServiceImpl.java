@@ -31,7 +31,6 @@ public class BidMethodServiceImpl implements BidMethodService{
 
 	@Override
 	public int saveBidMethod(BidMethod bidMethod) {
-		// TODO Auto-generated method stub
 	    String typeName = bidMethod.getTypeName();
 	    bidMethod.setTypeName(null);
 		int a = bidMethodMapper.saveBidMethod(bidMethod);

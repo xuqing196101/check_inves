@@ -89,6 +89,7 @@
 			function add() {
 				 var packageId=$("#packageId").val();
 					 // $("#packageId").find("option:selected").val();
+				
 				$.ajax({
 					cache: true,
 					type: "POST",
@@ -117,11 +118,18 @@
 							});
 						}
 						if(map.sccuess == "SCCUESS") {
-							  var projectId = map.projectId;
+							if(packageId != null && packageId != ''){
+							      var projectId = map.projectId;
 				              window.location.href = '${pageContext.request.contextPath}/ExpExtract/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
-						}
+							  }else{
+						            layer.alert("请选择包", {
+						                    shade: 0.01
+						                  });
+						          }
+							}
 					}
 				});
+			  
 
 			}
 
@@ -148,13 +156,13 @@
 				var iframeWin;
 				layer.open({
 					type: 2,
-					title: "选择监督人员",
+					title: "填写监督人员",
 					shadeClose: true,
 					shade: 0.01,
 					offset: '20px',
 					move: false,
 					area: ['90%', '50%'],
-					content: '${pageContext.request.contextPath}/SupplierExtracts/showSupervise.do',
+					content: '${pageContext.request.contextPath}/ExpExtract/showSupervise.do?projectId=${projectId}',
 					success: function(layero, index) {
 						iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 					},
@@ -292,8 +300,6 @@
 			<form id="form">
 				<!-- 抽取地区 -->
 				<input type="hidden" name="extAddress" id="extAddress" value="${extractionSites}">
-				<!-- 监督人员 -->
-				<input type="hidden" name="sids" id="sids" value="${userId}" />
 				<!-- 打开类型 -->
 				<input type="hidden" value="${typeclassId}" name="typeclassId" />
 				<!-- 项目id  -->

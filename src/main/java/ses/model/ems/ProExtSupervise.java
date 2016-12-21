@@ -60,7 +60,13 @@ public class ProExtSupervise {
      * </pre>
      */
     private Date updatedAt;
-
+    
+    private String relName;
+    
+    private String company;
+    
+    private String phone;
+    
     /**
      * <pre>
      * 获取：null
@@ -210,4 +216,48 @@ public class ProExtSupervise {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    /**
+     * @return Returns the relName.
+     */
+    public String getRelName() {
+        return relName;
+    }
+
+    /**
+     * @param relName The relName to set.
+     */
+    public void setRelName(String relName) {
+        this.relName = relName;
+    }
+
+    /**
+     * @return Returns the company.
+     */
+    public String getCompany() {
+        return company;
+    }
+
+    /**
+     * @param company The company to set.
+     */
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    /**
+     * @return Returns the phone.
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * @param phone The phone to set.
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    
+    
 }
