@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>> 
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){

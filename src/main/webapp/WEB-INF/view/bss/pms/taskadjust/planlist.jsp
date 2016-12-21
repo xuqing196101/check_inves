@@ -9,6 +9,12 @@
   
   /*分页  */
   $(function(){
+	  if("${backInfo}"==2){
+		  layer.alert("该采购任务已取消",{offset: ['222px', '390px'], shade:0.01});
+	  }
+	  if("${backInfo}"==1){
+		  layer.alert("采购任务取消成功",{offset: ['222px', '390px'], shade:0.01});
+	  }
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${info.pages}", //总页数
@@ -100,8 +106,24 @@
 		}  
 		 
 	}
-		
- 
+	function show(id){
+		window.location.href="${pageContext.request.contextPath}/adjust/all.html?id="+id;
+	}	
+ 	
+	function cancel(){
+		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){   
+		  	window.location.href="${pageContext.request.contextPath}/adjust/cancel.html?id="+id;
+	  	}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+		}  
+		 
+	}
   </script>
   </head>
   
@@ -110,7 +132,7 @@
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购任务调整</a></li>
+		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业系统</a></li><li><a href="javascript:void(0)">采购计划管理</a></li><li class="active"><a href="javascript:void(0)">采购任务调整</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -118,22 +140,22 @@
 <!-- 录入采购计划开始-->
  <div class="container">
    <div class="headline-v2 fl">
-      <h2>采购计划列表
-	  </h2>
+      <h2>采购任务列表</h2>
    </div> 
-    <div class="col-md-12 pl20 mt10">
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="looks()">查看需求</button>
+   <div class="col-md-12 pl20 mt10">
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="looks()">采购任务调整</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel()">取消采购任务</button>
  		<!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
+ 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print()">打印</button> -->
-	  </div>
+   </div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">采购计划名称</th>
+		  <th class="info">采购任务名称</th>
 		  <th class="info">预算总金额</th>
 		  <th class="info">汇总时间</th>
 		  <th class="info">状态</th>
@@ -142,37 +164,29 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  
-			  <td class="tc"  >${obj.fileName }</td>
-			
-			
-			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
-			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc"  >
+			  <td class="tc w50" onclick="show('${obj.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  <td class="tc" onclick="show('${obj.id }')">${obj.fileName }</td>
+			  <td class="tc" onclick="show('${obj.id }')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tc" onclick="show('${obj.id }')"><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc" onclick="show('${obj.id }')">
 			  <c:if test="${obj.status=='1' }">
-			   未下达
+			   	未下达
 			  </c:if>
-			     <c:if test="${obj.status=='2' }">
-			   已审核
+			  <c:if test="${obj.status=='2' }">
+			   	已审核
 			  </c:if>
-			     <c:if test="${obj.status=='3' }">
-			   已下达
+			  <c:if test="${obj.status=='3' }">
+			   	已下达
+			  </c:if>
+			  <c:if test="${obj.status=='4' }">
+			   	取消
 			  </c:if>
 			  </td>
 			</tr>
-	 
 		 </c:forEach>
-		 
-
       </table>
-      
       <div id="pagediv" align="right"></div>
    </div>
  </div>
-
-
- 
- 
-	 </body>
+</body>
 </html>

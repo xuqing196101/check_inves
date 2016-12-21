@@ -295,4 +295,22 @@ public class TaskAdjustController extends BaseController{
 		}
 		return null;
 	}
+	
+	@RequestMapping("/cancel")
+	public String cancel(Model model,CollectPlan collectPlan,Integer page){
+		CollectPlan cPlan=collectPlanService.queryById(collectPlan.getId());
+		Integer backInfo = 1;
+		if (cPlan.getStatus()==4) {
+			backInfo=2;
+		}
+		collectPlan.setStatus(4);
+		collectPlanService.update(collectPlan);
+		List<CollectPlan> list = collectPlanService.queryCollect(new CollectPlan(), page==null?1:page);
+		PageInfo<CollectPlan> info = new PageInfo<>(list);
+		model.addAttribute("info", info);
+		model.addAttribute("inf", collectPlan);
+		model.addAttribute("backInfo", backInfo);
+		return "bss/pms/taskadjust/planlist";
+		
+	}
 }
