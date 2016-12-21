@@ -180,16 +180,16 @@
 			  	  </c:forEach>
 			  	  <!-- 根据flag的值判断有没有分数值 -->
 			  	  <c:if test="${flag eq '1'}">
-			  	    <td>${scores}</td>
+			  	    <td class="tc">${scores}</td>
 			  	  </c:if>
 			  	  <c:if test="${flag eq '0'}">
-			  	    <td>暂无分数</td>
+			  	    <td class="tc">暂无分数</td>
 			  	  </c:if>
 			  	</c:if>
 			  </c:forEach>
 			</tr>
 		  </c:forEach>
-		  <c:if test="${package.isGather == 1 or package.isGather eq '1'}">
+		  <c:if test="${review.isGather == 1}">
 		    <tr>
 			  	<td>合计:</td>
 			  	<c:forEach items="${supplierList}" var="supplier">

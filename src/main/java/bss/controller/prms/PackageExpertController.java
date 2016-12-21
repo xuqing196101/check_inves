@@ -1578,16 +1578,27 @@ public class PackageExpertController {
         model.addAttribute("auditModelListAll", auditModelListAll);
         model.addAttribute("packExpertExtList", packExpertExtList);
         model.addAttribute("supplierExtList", supplierExtList);
-        model.addAttribute("expertScoreList", expertScoreAll);
+        List<ExpertSuppScore> expertScoreList = new ArrayList<>();
+        for (ExpertSuppScore score : expertScoreAll) {
+            String expertId = score.getExpertId();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("expertId", expertId);
+            map.put("packageId", packageId);
+            List<PackageExpert> temp = packageExpertService.selectList(map);
+            if (temp.get(0).getIsGrade() == 1) {
+                expertScoreList.add(score);
+            }
+        }
+        model.addAttribute("expertScoreList", expertScoreList);
         // 成功标示
         model.addAttribute("packageId", packageId);
         // 
         Map<String, Object> searchMap = new HashMap<String, Object>();
         searchMap.put("packageId", packageId);
         ReviewProgress reviewProgress = reviewProgressService.selectByMap(searchMap).get(0);
-        model.addAttribute("package", reviewProgress);
+        model.addAttribute("review", reviewProgress);
         // 分数
-        List<ExpertScore> scores = expertScoreService.selectInfoByMap(searchMap);
+        List<ExpertScore> scores = expertScoreService.selectByMap(searchMap);
         removeSame(scores);
         // 供应商经济总分,技术总分,总分
         List<SupplierRank> rankList = new ArrayList<SupplierRank>();
@@ -1722,8 +1733,19 @@ public class PackageExpertController {
         model.addAttribute("supplierList", supplierList);
         // 分数
         map.put("expertId", expertId);
-        List<ExpertScore> scores = expertScoreService.selectInfoByMap(map);
-        removeSame(scores);
+        List<ExpertScore> scoresList = expertScoreService.selectInfoByMap(map);
+        removeSame(scoresList);
+        List<ExpertScore> scores = new ArrayList<ExpertScore>();
+        // 判断如果该专家评分被退回就remove
+        for (ExpertScore score : scoresList) {
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("packageId", score.getPackageId());
+            map1.put("expertId", score.getExpertId());
+            List<PackageExpert> temp = packageExpertService.selectList(map1);
+            if (temp.get(0).getIsGrade() == 1) {
+                scores.add(score);
+            }
+        }
         model.addAttribute("scores", scores);
         // 供应商经济总分,技术总分,总分
         List<SupplierRank> rankList = new ArrayList<SupplierRank>();
@@ -1849,7 +1871,19 @@ public class PackageExpertController {
         model.addAttribute("expertList", expertList);
         // 分数
         map.put("supplierId", supplierId);
-        List<ExpertScore> scores = expertScoreService.selectInfoByMap(map);
+        List<ExpertScore> scoresList = expertScoreService.selectInfoByMap(map);
+        removeSame(scoresList);
+        List<ExpertScore> scores = new ArrayList<ExpertScore>();
+        // 判断如果该专家评分被退回就remove
+        for (ExpertScore score : scoresList) {
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("packageId", score.getPackageId());
+            map1.put("expertId", score.getExpertId());
+            List<PackageExpert> temp = packageExpertService.selectList(map1);
+            if (temp.get(0).getIsGrade() == 1) {
+                scores.add(score);
+            }
+        }
         model.addAttribute("scores", scores);
         // 新增参数
         model.addAttribute("project", project);

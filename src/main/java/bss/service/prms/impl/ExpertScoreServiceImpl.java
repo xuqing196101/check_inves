@@ -1,8 +1,7 @@
 package bss.service.prms.impl;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +18,14 @@ import ses.util.WfUtil;
 import bss.dao.ppms.AduitQuotaMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
 import bss.dao.prms.ExpertScoreMapper;
+import bss.dao.prms.PackageExpertMapper;
 import bss.dao.prms.ReviewFirstAuditMapper;
 import bss.model.ppms.AduitQuota;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.SupplyMark;
 import bss.model.prms.ExpertScore;
+import bss.model.prms.PackageExpert;
 import bss.model.prms.ext.AuditModelExt;
 import bss.model.prms.ext.ExpertSuppScore;
 import bss.service.prms.ExpertScoreService;
@@ -41,6 +42,8 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
 	private ReviewFirstAuditMapper reviewFirstAuditMapper;
 	@Autowired
 	private SupplierCheckPassMapper supplierCheckPassMapper;
+    @Autowired
+    private PackageExpertMapper packageExpertMapper;
 	
 	@Autowired
 	private QuoteMapper quoteMapper;
@@ -97,23 +100,34 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
 		for (SupplyMark supplyMark : supplyMarkList) {
 			map.put("supplierId", supplyMark.getSupplierId());
 			List<ExpertScore> expertScoreList = mapper.selectByMap(map);
+			/*List<ExpertScore> expertScoreList = new ArrayList<ExpertScore>();
+			// 判断如果该专家评分被退回就remove
+	        for (ExpertScore score : scores) {
+	            Map<String, Object> map1 = new HashMap<String, Object>();
+	            map1.put("packageId", score.getPackageId());
+	            map1.put("expertId", score.getExpertId());
+	            List<PackageExpert> temp = packageExpertMapper.selectList(map1);
+	            if (temp.get(0).getIsGrade() == 1) {
+	                expertScoreList.add(score);
+	            }
+	        }*/
 			double prarm = supplyMark.getPrarm();
 			double score = supplyMark.getScore();
 			if(expertScoreList!= null && expertScoreList.size()>0){
 				//不为空则修改以前的为历史记录
 				for (ExpertScore expertScore2 : expertScoreList) {
 					//expertScore2.setIsHistory((short) 1);
-					mapper.updateByPrimaryKeySelective(expertScore2);
+					mapper.deleteByPrimaryKey(expertScore2.getId());
 				}
 				//然后在新增一条新的数据
-				/*expertScore.setId(WfUtil.createUUID());
+				expertScore.setId(WfUtil.createUUID());
 				expertScore.setSupplierId(supplyMark.getSupplierId());
 				BigDecimal expertValue = new BigDecimal(prarm);
 				BigDecimal score2 = new BigDecimal(score);
 				expertScore.setExpertValue(expertValue);
 				expertScore.setScore(score2);
 				expertScore.setIsHistory((short) 0);
-				mapper.insert(expertScore);*/
+				mapper.insert(expertScore);
 			}else{
 				//为空证明是第一个评审的专家 可以直接保存
 				expertScore.setId(WfUtil.createUUID());

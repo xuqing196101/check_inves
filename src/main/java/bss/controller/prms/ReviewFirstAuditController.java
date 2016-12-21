@@ -467,9 +467,9 @@ public class ReviewFirstAuditController {
 		expertScoreService.saveScore(expertScore, list,scoreModelId);
 		
 		
-			
 		return JSON.toJSONString(list);
 	}
+	
 	/**
 	 * 
 	  * @Title: caseGrade
