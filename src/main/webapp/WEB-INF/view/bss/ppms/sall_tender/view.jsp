@@ -1,17 +1,9 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
-<!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
-<html class=" js cssanimations csstransitions" lang="en">
-  <!--<![endif]-->
-
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
+<html>
   <head>
-  <%@ include file="../../../common.jsp"%>
+  <%@ include file="/WEB-INF/view/common.jsp" %>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title></title>
 
@@ -21,10 +13,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <script type="text/javascript">
-      function download() {
-        var projectId = $("#projectId").val();
-        window.location.href = "${pageContext.request.contextPath}/saleTender/downloads.html?projectId=" + projectId;
-      }
 
       function add(packId) {
         var kindName = $("#kindName").val();
@@ -117,7 +105,7 @@
             <input type="text" id="topic" class="w147" value="${contactTelephone}" name="contactTelephone" />
           </span>
           </li>
-          <li><label class="fl">标书费状态：</label>
+          <!-- <li><label class="fl">标书费状态：</label>
             <span>
             <select id="statusBid" name="statusBid" class="w147">
               <option value="" selected="selected" >-请选择-</option>
@@ -125,7 +113,7 @@
               <option value="1">未缴纳</option>
             </select>
           </span>
-          </li>
+          </li> -->
 
         </ul>
         <div class="col-md-12 col-sm-12 col-xs-12 clear tc mt10">
@@ -153,7 +141,7 @@
           </h2>
           <div class="fl mt20 ml10">
              <button class="btn btn-windows add" onclick="add('${pack.id }')" type="button">登记</button>
-             <button class="btn btn-windows withdraw" onclick="download()" type="button">下载标书</button>
+             <button class="btn btn-windows add" onclick="" type="button">添加临时供应商</button>
            </div>
              
           <input type="hidden" id="packId" value="${pack.id }" />
@@ -179,7 +167,7 @@
                   <td class="tc opinter " title="${obj.suppliers.supplierName}">
                   <c:choose>
 			              <c:when test="${fn:length(obj.suppliers.supplierName) > 12}">
-			                ${fn:substring({obj.suppliers.supplierName, 0, 10)}......
+			                ${fn:substring(obj.suppliers.supplierName, 0, 10)}......
 			              </c:when>
 			              <c:otherwise>
 			                ${obj.suppliers.supplierName}

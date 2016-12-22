@@ -82,6 +82,12 @@
 	  	var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
 	  	$("#"+id).load(path);
 	  }
+	  function loadPageSeven(id,url){
+		var projectId = $("#projectId").val();
+	  	var flowDefineId = $("#flowDefineId").val();
+		var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
+		$("#"+id).load(path);
+	  }
 	  
 	  //页面默认加载第一页内容
 	  $(function() { 
@@ -103,7 +109,8 @@
 				<li class="" onclick="loadPageThree('tab-3','packageExpert/toSupplierQuote.html');"><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">供应商报价表</a></li>
 				<li class="" onclick="loadPageFour('tab-4','packageExpert/toAuditProgress.html');"><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">评审进度</a></li>
 	            <li class="" onclick="loadPageFive('tab-5','packageExpert/toFirstAudit.html');"><a aria-expanded="false" href="#tab-5" data-toggle="tab" class="f18">符合性审查</a></li>
-				<li class="" onclick="loadPageSix('tab-6','packageExpert/toScoreAudit.html');"><a aria-expanded="false" href="#tab-6" data-toggle="tab" class="f18">评分审查</a></li>
+				<li class="" onclick="loadPageSix('tab-6','packageExpert/toScoreAudit.html');"><a aria-expanded="false" href="#tab-6" data-toggle="tab" class="f18">经济技术审查</a></li>
+				<li class="" onclick="loadPageSeven('tab-7','packageExpert/supplierRank.html');"><a aria-expanded="false" href="#tab-7" data-toggle="tab" class="f18">供应商排名</a></li>
 	          </ul>
 	          <div class="tab-content padding-top-20">
 	            <div class="tab-pane fade active in" id="tab-1">
@@ -122,7 +129,10 @@
 	            </div>
 	            <div class="tab-pane fade " id="tab-6" style="position：relative">
 				  
-	          	</div> 
+	          	</div>
+	          	<div class="tab-pane fade " id="tab-7">
+	            	
+	            </div> 
 		      </div> 
 	     	</div>
 	  	</div>

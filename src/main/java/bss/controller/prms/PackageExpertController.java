@@ -1382,6 +1382,163 @@ public class PackageExpertController {
         model.addAttribute("flowDefineId", flowDefineId);
         return "bss/prms/score_audit/list";
     }
+    
+    /**
+     *〈简述〉
+     *〈详细描述〉
+     * 供应商总排名(展示分包信息)
+     * @author WangHuijie
+     * @param projectId
+     * @param model
+     * @return
+     */
+    @RequestMapping("supplierRank")
+    public String supplierRank(Packages packages, Model model, String flowDefineId){
+        // 分包信息
+        List<Packages> packagesList = packageService.find(packages);
+        model.addAttribute("packagesList", packagesList);
+        // 供应商信息
+        SaleTender saleTender = new SaleTender();
+        saleTender.setProjectId(packages.getProjectId());
+        List<SaleTender> supplierList = saleTenderService.find(saleTender);
+        model.addAttribute("supplierList", supplierList);
+        // 分数
+        String projectId = packages.getProjectId();
+        Map<String, Object> searchMap = new HashMap<String, Object>();
+        searchMap.put("projectId", projectId);
+        List<ExpertScore> scores = expertScoreService.selectByMap(searchMap);
+        removeRankSame(scores);
+        // 供应商经济总分,技术总分,总分
+        List<SupplierRank> rankList = new ArrayList<SupplierRank>();
+        for (SaleTender supp : supplierList) {
+            SupplierRank rank = new SupplierRank();
+            rank.setSupplierId(supp.getSuppliers().getId());
+            rank.setPackageId(supp.getPackages());
+            // 查询该供应商的经济总分
+            BigDecimal econScore = new BigDecimal(0);
+            // 查询该供应商的技术总分
+            BigDecimal techScore = new BigDecimal(0);
+            for (ExpertScore score : scores) {
+                if (score.getSupplierId().equals(supp.getSuppliers().getId())) {
+                    ScoreModel scoModel = new ScoreModel();
+                    scoModel.setId(score.getScoreModelId());
+                    // 根据id查看scoreModel对象
+                    ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
+                    if (scoreModel1 != null) {
+                        MarkTerm mt = null;
+                        if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
+                            mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
+                            if (mt.getTypeName() == null || "".equals(mt.getTypeName())) {
+                                mt = markTermService.findMarkTermById(mt.getPid());
+                            }
+                        }
+                        DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
+                        if ("ECONOMY".equals(data.getCode())) {
+                            // 经济
+                            econScore = econScore.add(score.getScore());
+                        } else if ("TECHNOLOGY".equals(data.getCode())) {
+                            // 技术
+                            techScore = techScore.add(score.getScore());
+                        }
+                    }
+                }
+            }
+            rank.setEconScore(econScore);
+            rank.setTechScore(techScore);
+            rank.setSumScore(econScore.add(techScore));
+            rankList.add(rank);
+        }
+        // 循环遍历判断名次
+        for (SupplierRank rank : rankList) {
+            int count = 0;
+            int sum = 0;
+            for (SupplierRank temp : rankList) {
+                if (rank.getPackageId().equals(temp.getPackageId())) {
+                    sum++;
+                    if (rank.getSumScore().compareTo(temp.getSumScore()) != -1 && rank != temp) {
+                        count++;
+                    }
+                }
+            }
+            rank.setRank(sum - count);
+        }
+        model.addAttribute("rankList", rankList);
+        // 项目中抽取的专家信息
+        Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
+        mapSearch1.put("projectId", projectId);
+        List<PackageExpert> expertList = packageExpertService.selectList(mapSearch1);
+        // 遍历进行排序   技术---经济---两者都有
+        List<PackageExpert> expertListCompare = new ArrayList<PackageExpert>();
+        for (int i = 0; i < expertList.size(); i++) {
+            PackageExpert expert = expertList.get(i);
+            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
+            // 遍历所有的typeId,如果有kind不等于6(技术)的则暂时不管
+            boolean isTech = true;
+            loop:for (String id : ids) {
+                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
+                if (kind != 6) {
+                    isTech = false;
+                    break loop;
+                }
+            }
+            if (isTech) {
+                // 页面显示需要注明专家类别
+                expert.setProjectId(expert.getExpert().getRelName() + "(技术)");
+                expertListCompare.add(expert); 
+            }
+        }
+        for (int i = 0; i < expertList.size(); i++) {
+            PackageExpert expert = expertList.get(i);
+            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
+            // 遍历所有的typeId,如果有kind不等于19(经济)的则暂时不管
+            boolean isEconomic = true;
+            loop:for (String id : ids) {
+                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
+                if (kind != 19) {
+                    isEconomic = false;
+                    break loop;
+                }
+            }
+            if (isEconomic) {
+                // 页面显示需要注明专家类别
+                expert.setProjectId(expert.getExpert().getRelName() + "(经济)");
+                expertListCompare.add(expert); 
+            }        
+        }
+        for (int i = 0; i < expertList.size(); i++) {
+            PackageExpert expert = expertList.get(i);
+            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
+            // 遍历所有的typeId,如果有kind既有等于19(经济)的又有等于6(技术)的添加进去
+            boolean isEconomic = false;
+            boolean isTech = false;
+            for (String id : ids) {
+                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
+                if (kind == 19) {
+                    isEconomic = true;
+                } else if (kind == 6) {
+                    isTech = true;
+                }
+            }
+            if (isEconomic && isTech) {
+                // 页面显示需要注明专家类别
+                expert.setProjectId(expert.getExpert().getRelName() + "(技术、经济)");
+                expertListCompare.add(expert); 
+            }
+        }
+        model.addAttribute("expertList", expertListCompare);
+        // 专家给每个供应商打得分
+        List<ExpertSuppScore> expertScoreList = new ArrayList<ExpertSuppScore>();
+        for (Packages pack : packagesList) {
+            searchMap.put("packageId", pack.getId());
+            expertScoreList.addAll(expertScoreService.getScoreByMap(searchMap));
+        }
+        model.addAttribute("expertScoreList", expertScoreList);
+        // 跳转
+        model.addAttribute("projectId", projectId); 
+        model.addAttribute("flowDefineId", flowDefineId);        
+        return "bss/prms/rank/supplier_rank";
+    }
+    
     /**
      *〈简述〉
      * 专家详细评审
@@ -1966,6 +2123,24 @@ public class PackageExpertController {
         for (int i = 0; i < list.size(); i++) {
             for (int j = list.size() - 1 ; j > i; j--) {
                 if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId()) && list.get(i).getExpertId().equals(list.get(j).getExpertId()) && list.get(i).getSupplierId().equals(list.get(j).getSupplierId())) {
+                    list.remove(j);
+                }
+            }
+        }
+        return list;
+    }
+    /**
+     *〈简述〉
+     * 对List<ExpertScore>去重(供应商排名)
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param list
+     * @return
+     */
+    private List<ExpertScore> removeRankSame(List<ExpertScore> list){
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = list.size() - 1 ; j > i; j--) {
+                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId()) && list.get(i).getExpertId().equals(list.get(j).getExpertId()) && list.get(i).getSupplierId().equals(list.get(j).getSupplierId()) && list.get(i).getPackageId().equals(list.get(j).getPackageId())) {
                     list.remove(j);
                 }
             }

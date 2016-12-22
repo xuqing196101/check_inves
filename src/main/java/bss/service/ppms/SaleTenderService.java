@@ -3,11 +3,11 @@
  */
 package bss.service.ppms;
 
+import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
+import javax.servlet.http.HttpServletRequest;
 
-import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 
 /**
@@ -119,5 +119,25 @@ public interface SaleTenderService   {
      * @return
      */
     public List<String> getPackageIds(String projectId);
+
+
+    /**
+     *〈简述〉根据供应商下载标书
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param projectId
+     * @param request
+     * @param supplierId
+     */
+    public HashMap<String, String> downloadBidFile(String projectId, HttpServletRequest request, String supplierId);
+
+
+    /**
+     *〈简述〉根据id、projectId、supplierId查询
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param saleTender
+     */
+    public List<SaleTender> findByCon(SaleTender saleTender);
     
 }

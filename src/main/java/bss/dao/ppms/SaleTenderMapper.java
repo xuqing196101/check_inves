@@ -1,5 +1,6 @@
 package bss.dao.ppms;
 
+import java.io.IOException;
 import java.util.List;
 
 import bss.model.ppms.SaleTender;
@@ -98,6 +99,15 @@ public interface SaleTenderMapper {
      * @return
      */
     List<String> getPackageIds(String projectId);
+    
+    /**
+     *〈简述〉 根据供应商和项目查询
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param record
+     * @return
+     */
+    List<SaleTender> find(SaleTender record);
     
     
 }
