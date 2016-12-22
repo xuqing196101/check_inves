@@ -1003,8 +1003,22 @@ li:first-child {
 .dis_hide{
  	position: relative; 
  	opacity: 0; 
- 	filter:Alpha(opacity=0);
+ 	  /* older safari/Chrome browsers */  
+    -webkit-opacity: 0;  
+    /* Netscape and Older than Firefox 0.9 */  
+    -moz-opacity: 0;  
+    /* Safari 1.x (pre WebKit!) 老式khtml内核的Safari浏览器*/  
+    -khtml-opacity: 0;  
+    /* IE9 + etc...modern browsers */  
+    opacity: 0;  
+    /* IE 4-9 */  
+    filter:alpha(opacity=0);  
+    /*This works in IE 8 & 9 too*/  
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";  
+    /*IE4-IE9*/  
+    filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0); 
  }
+
 /** textArea resie none*/
 .textArea_resizeB{
 	resize: none;
