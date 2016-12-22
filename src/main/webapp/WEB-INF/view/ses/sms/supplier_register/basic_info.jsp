@@ -438,7 +438,7 @@ function deleteFinance() {
 
 <body>
 	<c:if test="${currSupplier.status != 7}">
-		<%@ include file="/index_head.jsp"%>
+		<%@ include file="/reg_head.jsp"%>
     </c:if>
    <div class="wrapper">
 	<%@include file="supplierNav.jsp" %>
