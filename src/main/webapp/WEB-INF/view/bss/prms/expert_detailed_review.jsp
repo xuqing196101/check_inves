@@ -126,7 +126,7 @@
 <body>
 		<h3>包名称：${pack.name}</h3>
 	    <div class="mb5 fr">
-		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
+		  <!-- <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button> -->
 		  <button class="btn" onclick="toTotal()" type="button">汇总</button>
 		  <button class="btn" onclick="backScore()" type="button">复核</button>
 		</div>
