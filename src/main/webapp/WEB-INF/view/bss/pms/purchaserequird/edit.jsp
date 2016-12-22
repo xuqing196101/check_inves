@@ -171,7 +171,7 @@
                 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
              </div>
              <div class="content table_box over_scroll">
-                 <table id="table" class="table table-bordered table-condensed table-hover">
+                 <table id="table" class="table table-bordered table-condensed table_input">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
@@ -213,8 +213,8 @@
                     <c:if test="${obj.purchaseCount!=null}">
                      
                       <input   type="hidden" name="ss"   value="${obj.id }" >
-                      <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
-                      <input type="hidden" name="ss"   value="${obj.parentId }">
+                      <input maxlength="11" id="purchaseCount" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
+                      <input type="hidden" name="ss" value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.purchaseCount==null }">
                       <input  class="border0"    type="text" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount }">
@@ -223,7 +223,7 @@
                   <td class="tc">
                     <c:if test="${obj.price!=null}">
                       <input   type="hidden" name="ss"   value="${obj.id }">
-                      <input maxlength="11" id="price"  name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}"/>
+                      <input maxlength="11" id="price"  name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
                       <input type="hidden" name="ss"   value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.price==null}">
@@ -232,7 +232,7 @@
                   </td>
                   <td class="tc">
                     <input   type="hidden" name="ss"   value="${obj.id }">
-                    <input maxlength="11" id="budget" name="list[${vs.index }].budget"  readonly="readonly"  value="${obj.budget}"/>
+                    <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}"/>
                     <input type="hidden" name="ss"   value="${obj.parentId }">
                   </td>
                   <td class="tc"><input type="text" name="list[0].deliverDate" value="${obj.deliverDate}"></td>

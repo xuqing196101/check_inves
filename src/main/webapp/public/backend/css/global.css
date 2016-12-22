@@ -1003,6 +1003,7 @@ li:first-child {
 .dis_hide{
  	position: relative; 
  	opacity: 0; 
+<<<<<<< Updated upstream
  	  /* older safari/Chrome browsers */  
     -webkit-opacity: 0;  
     /* Netscape and Older than Firefox 0.9 */  
@@ -1017,6 +1018,9 @@ li:first-child {
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";  
     /*IE4-IE9*/  
     filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0); 
+=======
+ 	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+>>>>>>> Stashed changes
  }
 
 /** textArea resie none*/
@@ -1143,4 +1147,13 @@ table .input_group .add-on{
 .container{
 	width:85%\9;
 	margin: 0 auto\9;
+}
+
+
+/*table&input*/
+.table_input td{
+	padding:0px!important;
+}
+.table_input input{
+	margin:0px!important;
 }

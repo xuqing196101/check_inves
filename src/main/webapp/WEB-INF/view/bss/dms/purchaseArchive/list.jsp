@@ -347,6 +347,9 @@
 					<li>
 						<a href="#">采购档案管理</a>
 					</li>
+					<li>
+						<a href="#">采购档案列表</a>
+					</li>
 				</ul>
 				<div class="clear"></div>
 			</div>
