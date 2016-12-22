@@ -284,8 +284,10 @@ public class ResultAnnouncementController extends BaseSupplierController{
 					.replace("${bidPrice}","2000")
 					.replace("${bidAmount}", "3000"));
 		}
-		String content = getDefaultTemplate(projectId, templet);
-		templet.setContent(content);
+		if (projectId != null ){
+		    String content = getDefaultTemplate(projectId, templet);
+		    templet.setContent(content);
+		}
 		return templet;
 	}
 
