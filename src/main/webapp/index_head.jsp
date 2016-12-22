@@ -14,12 +14,6 @@
 <script type="text/javascript">
 var user = "${sessionScope.loginUser.relName}";
 $(function(){
-	$(document).keyup(function(event){
-		  if(event.keyCode ==13){
-		    $("#form1").submit();
-		  }
-	});
-	
 	if(user!=null && user!=''){
 		$("#welcome").html(user+"你好，欢迎来到中国军队采购网！");
 	}

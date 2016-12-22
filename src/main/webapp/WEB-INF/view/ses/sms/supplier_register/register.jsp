@@ -13,23 +13,25 @@
 		/** ajax 校验用户名是否存在 */
 		$("#login_input_id").blur(function() {
 			var loginName = $(this).val();
-			$.ajax({
-				url : "${pageContext.request.contextPath}/supplier/check_login_name.do",
-				type : "post",
-				data : {
-					loginName : loginName
-				},
-				dataType : "json",
-				success : function(result) {
-					result = eval("(" + result + ")");
-					if (result.msg == "fail") {
-						$("#login_input_id").next().text("用户名重复 !");
-						$("#submit_button_id").prop("disabled", true);
-					} else {
-						$("#submit_button_id").prop("disabled", false);
+			if (loginName != null && loginName != "" && loginName !="null" && loginName !="undefined"){
+				$.ajax({
+					url : "${pageContext.request.contextPath}/supplier/check_login_name.do",
+					type : "post",
+					data : {
+						loginName : loginName
+					},
+					dataType : "json",
+					success : function(result) {
+						result = eval("(" + result + ")");
+						if (result.msg == "fail") {
+							$("#login_input_id").next().text("用户名重复 !");
+							$("#submit_button_id").prop("disabled", true);
+						} else {
+							$("#submit_button_id").prop("disabled", false);
+						}
 					}
-				},
-			});
+				});
+			}
 		});
 	});
 	var count = 0;
