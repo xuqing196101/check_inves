@@ -536,6 +536,9 @@ public class Supplier implements Serializable {
 	
 	/**投标文件状态*/
 	private String bidFinish;
+	
+    /**是否为临时专家  0不是 1是*/
+    private Short isProvisional;
 	//品目参数
 	private List<CategoryParameter>  categoryParam= new ArrayList<CategoryParameter>();
 	
@@ -1446,6 +1449,20 @@ public class Supplier implements Serializable {
 	public void setArmyCity(List<Area> armyCity) {
 		this.armyCity = armyCity;
 	}
+
+    /**
+     * @return Returns the isProvisional.
+     */
+    public Short getIsProvisional() {
+        return isProvisional;
+    }
+
+    /**
+     * @param isProvisional The isProvisional to set.
+     */
+    public void setIsProvisional(Short isProvisional) {
+        this.isProvisional = isProvisional;
+    }
 	
 	
 	
