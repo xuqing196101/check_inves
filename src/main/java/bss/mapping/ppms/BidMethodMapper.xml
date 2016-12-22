@@ -39,6 +39,24 @@
       	</if>
       	ORDER BY mt.CREATED_AT DESC	
    </select> 
+   
+   <select id="findScoreMethod" parameterType="bss.model.ppms.BidMethod" resultType="bss.model.ppms.BidMethod">
+   		SELECT
+   		    mt.FLOATING_RATIO as floatingRatio,
+   		    mt.type_name as typeName,
+   			mt.business,
+   			mt.valid
+   		FROM
+   			T_BSS_PPMS_BID_METHOD mt
+   		WHERE nvl(mt.is_deleted,0)=0 and type_name is not null
+      	<if test="projectId != null">
+        	and mt.PROJECT_ID = #{projectId}
+      	</if>
+      	<if test="packageId != null">
+        	and mt.PACKAGE_ID = #{packageId}
+      	</if>
+      	
+   </select> 
   <insert id="saveBidMethod" parameterType="bss.model.ppms.BidMethod">
      <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual

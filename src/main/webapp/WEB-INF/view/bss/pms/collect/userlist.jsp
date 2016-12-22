@@ -38,7 +38,7 @@
 		var nature=parent.nature;
 		var turn=parent.turns;
  		$("#aduit_nature").val(nature);
- 		$("#audit_turn").val(turn);
+ 		/* $("#audit_turn").val(turn); */
  
  		
 		var id  = $('input[name="chkItem"]:checked').val(); 
@@ -56,7 +56,6 @@
 				data:$("#collected_form").serialize(),
 				//dataType:"json",
 				success: function(result) {
-					alert(result);
 					if(result==1){
 						layer.alert("人员已被添加，请重新选择", {
 							offset: ['30%', '40%']
@@ -65,7 +64,7 @@
 					}else{
 						  var el = document.createElement("a");
 	                      document.body.appendChild(el);
-	                      el.href = "${pageContext.request.contextPath}/set/list.html?staff="+result+"&&id="+cid;  
+	                      el.href = "${pageContext.request.contextPath}/set/list.html?staff="+result+"&&id="+cid+"&type="+$("#type").val();  
 	                      el.target = '_parent'; //指定在新窗口打开
 	                      el.click();
 	                      document.body.removeChild(el);
@@ -190,8 +189,8 @@
 	  <input type="hidden" name="type" value="2">
 	  <input type="hidden" name="collectId" value="" id="cid">
 	  <input type="hidden" name="auditStaff" id="aduit_nature" value=""/>
-     <input type="hidden" name="auditRound" id="audit_turn" value=""/>
-     
+     <input type="hidden" name="auditRound" id="audit_turn" value="${type }"/>
+     <input type="hidden" value="${type }"  id="type" >
      <input type="hidden" name="name"   value=""/>
       <input type="hidden" name="mobile"   value=""/>
       <input type="hidden" name="userId" id="user_id"  value=""/>

@@ -25,10 +25,12 @@ public class BidMethodServiceImpl implements BidMethodService{
 
 	@Override
 	public List<BidMethod> findListByBidMethod(BidMethod bidMethod) {
-		// TODO Auto-generated method stub
 		return bidMethodMapper.findListByBidMethod(bidMethod);
 	}
-
+	@Override
+    public List<BidMethod> findScoreMethod(BidMethod bidMethod) {
+        return bidMethodMapper.findScoreMethod(bidMethod);
+    }
 	@Override
 	public int saveBidMethod(BidMethod bidMethod) {
 	    String typeName = bidMethod.getTypeName();

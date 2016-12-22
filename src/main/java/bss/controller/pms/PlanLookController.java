@@ -426,12 +426,12 @@ public class PlanLookController extends BaseController {
 				 }
 			 }
 		  if(data.getCode().equals("SH_2")){
-				 if(status!=8){
+				 if(status!=10){
 					 flag="1";
 				 }
 			 }
 		  if(data.getCode().equals("SH_3")){
-			if(status !=9){
+			if(status !=11){
 					 flag="1";
 			 }
 		  }

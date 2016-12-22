@@ -235,7 +235,7 @@
                     <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}"/>
                     <input type="hidden" name="ss"   value="${obj.parentId }">
                   </td>
-                  <td class="tc"><input type="text" name="list[0].deliverDate" value="${obj.deliverDate}"></td>
+                  <td class="tc"><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate}"></td>
                   <td class="tc">
                       <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
                         <c:forEach items="${kind}" var="kind" >
@@ -243,21 +243,21 @@
                         </c:forEach>
                       </select> 
                   </td>
-                  <td class="tc"><input type="text" name="list[0].supplier" value="${obj.supplier}" disabled="disabled"></td>
-                  <td class="tc"><input type="text" name="list[0].isFreeTax" value="${obj.isFreeTax}"></td>
-                  <td class="tc"><input type="text" name="list[0].goodsUse" value="${obj.goodsUse}"></td>
-                  <td class="tc"><input type="text" name="list[0].useUnit" value="${obj.useUnit}"></td>
-                  <td class="tc">${obj.memo }
+                  <td class="tc"><input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}" disabled="disabled"></td>
+                  <td class="tc"><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}"></td>
+                  <td class="tc"><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
+                  <td class="tc"><input type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit}"></td>
+                  <td class="tc">${obj.memo }<%--
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                      <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
                      <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
-                     <input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
+                     --%><input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
                      <input type="hidden" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }">
                      <input type="hidden" name="list[${vs.index }].item" value="${obj.item }">
                      <input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }">
-                     <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }">
+                     <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }"><%--
                      <input type="hidden" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
-                     <input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
+                     --%><input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
                      <input type="hidden" name="list[${vs.index }].useUnit" value="${obj.useUnit }">
                      <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
                      <input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">

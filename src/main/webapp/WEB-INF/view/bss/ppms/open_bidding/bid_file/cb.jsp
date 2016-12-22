@@ -76,11 +76,102 @@ function ycDiv(obj, index){
 				$('body').append(form);
 				form.submit();
 			}
+			
+	$(function(){
+	   if('${date}'>0){
+	 	setInterval("showTime()", 1000);
+	   } else {
+	   	$("#showDiv").removeClass("dis_none");
+	   	$("#showH").addClass("dis_none");
+	   } 
+	 });
+		function showTime(){
+		 if('${date}'>0){
+		    var projectId=$("#projectId").val();
+		   $.ajax({
+			url:"${pageContext.request.contextPath}/open_bidding/showTime.do",
+			type:"post",
+			data:{projectId:projectId},
+			success:function(data){
+					var bidTime=data;
+					if(bidTime<=0){
+						$("#showH").addClass("dis_none");
+						$("#showDiv").removeClass("dis_none");
+					}else{
+						var day=bidTime/(60*60*24*1000);
+						day=parseInt(day);
+						if(day<1){
+						    day=0;
+							var hour=bidTime/(60*60*1000);
+							hour=parseInt(hour);
+							if(hour<1){
+							    hour=0;
+								var minutes=bidTime/(60*1000);
+								minutes=parseInt(minutes);
+								if(minutes<1){
+									var second=bidTime/1000;
+									second=parseInt(second);
+								}else{
+								    second=(bidTime-hour*60*60*1000-60*60*24*1000*day-minutes*60*1000)/1000;
+								    second=parseInt(second);
+								};
+							}else{
+								var minutes=(bidTime-hour*60*60*1000-60*60*24*1000*day)/(60*1000);
+								var second=0;
+								minutes=parseInt(minutes);
+								if(minutes<1){
+								    minutes=0;
+									second=(bidTime-hour*60*60*1000-60*60*24*1000*day)/1000;
+									second=parseInt(second);
+								}else{
+								    second=(bidTime-hour*60*60*1000-60*60*24*1000*day-minutes*60*1000)/1000;
+								    second=parseInt(second);
+								};
+							};
+						}else{
+							var hour=(bidTime-60*60*24*1000*day)/(60*60*1000);
+							hour=parseInt(hour);
+							if(hour<1){
+							    hour=0;
+								var minutes=(bidTime-60*60*24*1000*day)/(60*1000);
+								minutes=parseInt(minutes);
+								if(minutes<1){
+									var second=(bidTime-60*60*24*1000*day)/1000;
+									second=parseInt(second);
+								}else{
+								    second=(bidTime-hour*60*60*1000-60*60*24*1000*day-minutes*60*1000)/1000;
+								    second=parseInt(second);
+								};
+							}else{
+								var minutes=(bidTime-hour*60*60*1000-60*60*24*1000*day)/(60*1000);
+								var second=0;
+								minutes=parseInt(minutes);
+								if(minutes<1){
+								    minutes=0;
+									second=(bidTime-hour*60*60*1000-60*60*24*1000*day)/1000;
+									second=parseInt(second);
+								}else{
+								    second=(bidTime-hour*60*60*1000-60*60*24*1000*day-minutes*60*1000)/1000;
+								    second=parseInt(second);
+								};
+							};
+						};
+						var time=day+"天"+hour+"时"+minutes+"分"+second+"秒";
+						$("#showTime").text(time);
+					};
+					}
+			}); 
+			}
+		};
 </script>
 </head>
 <body>
-<!-- 表格开始-->  
-<div class="clear">
+<!-- 表格开始-->
+<c:if test="${date > 0 }">
+	 <h2 class="tc" id="showH">开标倒计时：<span id="showTime"></span></h2>
+	 <input type="hidden" id ="projectId" value="${projectId}" />
+</c:if>
+<div id="showDiv" class="clear dis_none">
 <c:set value="1" var ="count"></c:set>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
@@ -129,11 +220,11 @@ function ycDiv(obj, index){
 					<td>
 						  <c:if test="${empty treemapValue.bidFileName && empty treemapValue.total}">
 						    <c:if test="${fn:length(treemap.value) > 1}">
-								<u:upload id="${treemapValue.groupsUpload}" groups="${treemapValue.groupsUploadId}" buttonName="上传附件" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+								<u:upload id="${treemapValue.groupsUpload}" exts="txt,rar,zip,doc,docx" groups="${treemapValue.groupsUploadId}" buttonName="上传附件" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 								<u:show showId="${treemapValue.groupShow}" groups="${treemapValue.groupShowId}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" />
 						  	</c:if>
 						  	<c:if test="${fn:length(treemap.value) == 1}">
-								<u:upload id="${treemapValue.groupsUpload}" businessId="${treemapValue.id}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+								<u:upload id="${treemapValue.groupsUpload}" exts="txt,rar,zip,doc,docx" businessId="${treemapValue.id}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 								<u:show showId="${treemapValue.groupShow}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" />
 						  	</c:if>
 						  </c:if>

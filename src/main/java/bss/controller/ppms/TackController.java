@@ -32,6 +32,7 @@ import ses.model.oms.util.CommonConstant;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropertiesUtil;
 
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
@@ -87,17 +88,29 @@ public class TackController extends BaseController{
 	public String list(@CurrentUser User user, Integer page,Model model,Task task){
 	    if(user != null && user.getOrg() != null){
 	        HashMap<String, Object> map1 = new HashMap<>();
-	        map1.put("name", task.getOrgName());
-	        map1.put("documentNumber", task.getDocumentNumber());
-	        map1.put("status", task.getStatus());
-	        map1.put("taskNature", task.getTaskNature());
-	        List<Task> list = taskservice.likeByName(map1,page == null ? 1 : page);
-	        PageInfo<Task> info = new PageInfo<Task>(list);
+	        if(task.getName() !=null && !task.getName().equals("")){
+	        	map1.put("name", task.getName());
+			}
+			if(task.getDocumentNumber() != null && !task.getDocumentNumber().equals("")){
+				map1.put("documentNumber", task.getDocumentNumber());
+			}
+			if(task.getStatus() !=null){
+				map1.put("status", task.getStatus());
+			}
+			if(task.getTaskNature() != null){
+				map1.put("taskNature", task.getTaskNature());
+			}
+	        if(page==null){
+				page = 1;
+			}
+	        map1.put("page", page.toString());
+			PageHelper.startPage(page,Integer.parseInt("20"));
+	        List<Task> list = taskservice.likeByName(map1);
             HashMap<String, Object> map = new HashMap<>();
             map.put("typeName", "0");
             List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
             model.addAttribute("list2",orgnizations);
-            model.addAttribute("info", info);
+            model.addAttribute("info", new PageInfo<Task>(list));
             model.addAttribute("orgId", user.getOrg().getId());
             model.addAttribute("task", task);
 	    }

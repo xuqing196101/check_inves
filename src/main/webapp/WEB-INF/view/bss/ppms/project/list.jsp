@@ -272,40 +272,38 @@
 	<div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped">
 	    <thead>
-		  <tr>
-		    <th class="info w30">
-		      <input type="checkbox" id="checkAll" onclick="selectAll()" alt="" />
+		  <tr class="info">
+		    <th class="w30">
+		      <input type="checkbox" id="checkAll" onclick="selectAll()"/>
 		    </th>
-			<th class="info w50">序号</th>
-			<th class="info">项目名称</th>
-			<th class="info">项目编号</th>
-			<th class="info">采购方式</th>
-			<th class="info">项目状态</th>
+				<th class="w50">序号</th>
+				<th>项目名称</th>
+				<th>项目编号</th>
+				<th>采购方式</th>
+				<th>项目状态</th>
 		  </tr>
 		</thead>
 		<tbody id="tbody_id">
 		  <c:forEach items="${info.list}" var="obj" varStatus="vs">
-		    <tr style="cursor: pointer;">
-			  <td class="tc w30">
-			    <input type="hidden" value="${obj.status }" />
-			    <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
-			  </td>
-			  <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a></td>
-			  <td class="tc"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
-			  <td class="tc">
-			    <a href="javascript:void(0)" onclick="view('${obj.id}');">
-				  <c:forEach items="${kind}" var="kind" >
-                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                  </c:forEach>
-				</a>
-			  </td>
-			  <td class="tc">
-				<c:if test="${'1'==obj.status}">实施中</c:if> 
-				<c:if test="${'2'==obj.status}">已成交</c:if> 
-				<c:if test="${'3'==obj.status}">已立项</c:if>
-			  </td>
-			</tr>
+		    <tr class="pointer">
+			  	<td class="tc w30">
+			    	<input type="hidden" value="${obj.status }" />
+			    	<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
+			  	</td>
+			  	<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  	<td onclick="view('${obj.id}')">${obj.name}</td>
+			  	<td onclick="view('${obj.id}')">${obj.projectNumber}</td>
+			  	<td onclick="view('${obj.id}')">
+					  	<c:forEach items="${kind}" var="kind" >
+	               <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+	            </c:forEach>
+			  	</td>
+			  	<td class="tc">
+						<c:if test="${'1'==obj.status}">实施中</c:if> 
+						<c:if test="${'2'==obj.status}">已成交</c:if> 
+						<c:if test="${'3'==obj.status}">已立项</c:if>
+			  	</td>
+				</tr>
 		  </c:forEach>
 		</tbody>
 	  </table>

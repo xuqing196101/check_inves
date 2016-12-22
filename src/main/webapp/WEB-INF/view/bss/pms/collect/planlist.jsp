@@ -314,7 +314,7 @@
 					<c:forEach items="${info.list}" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
 							<td class="tc w30">
-							 <c:if test="${obj.status=='1' || obj.status==7 || obj.status==8 || obj.status==9 }">  
+							 <c:if test="${obj.status=='1' || obj.status==7 || obj.status==8 || obj.status==9 || obj.status==10 || obj.status==11 || obj.status==12 }">  
 								<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 							  </c:if>
 					          <c:if test="${obj.status!='1' }">
@@ -369,15 +369,15 @@
 		</div>
 
 		<div id="content" class="dnone" style="text-align: center;">
-			<span style="padding-top:50px;">直接下达采购任务或者设置审核轮次</span>
-			<select style="margin-top: 15px;" onchange="auditturns(this)" name="planType" id="wtype">
-				<option value="">请选择</option>
-				<option value="4">直接下达任务</option>
-				<c:forEach items="${dic }" var="obj">
-					<option value="${obj.id }">${obj.name }</option>
-				</c:forEach>
-			</select>
-			<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
+			<span style="padding-top:50px;">直接下达采购任务或者设置审核轮次</span> <select style="margin-top: 15px;" onchange="auditturns(this)"
+			name="planType" id="wtype">
+			<option value="">请选择</option>
+			<option value="4">直接下达任务</option>
+			<c:forEach items="${dic }" var="obj">
+				<option value="${obj.id }">${obj.name }</option>
+			</c:forEach>
+		</select>
+		<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
 			    <button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="closeLayer()">确定</button>
 			    <button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="cant()">取消</button>
 		    </div>

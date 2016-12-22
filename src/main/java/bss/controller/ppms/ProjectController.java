@@ -63,6 +63,7 @@ import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 
@@ -924,7 +925,6 @@ public class ProjectController extends BaseController {
         //拿到一个项目所有的明细
         List<ProjectDetail> details = detailService.selectById(map);
         //拿到packageId不为null的底层明细
-        //List<ProjectDetail> bottomDetails = detailService.selectNotEmptyPackageOfDetail(id);
         List<ProjectDetail> bottomDetails = new ArrayList<>();//底层的明细
         List<String> parentIds = new ArrayList<>();
         for(ProjectDetail detail:details){
@@ -1129,13 +1129,13 @@ public class ProjectController extends BaseController {
         	if(list.size()==1){
         		ProjectDetail projectDetail = new ProjectDetail();
                 projectDetail.setId(id[i]);
-                projectDetail.setPackageId(wantPackId.get(0).getId());
+                projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
                 projectDetail.setUpdateAt(new Date());
                 detailService.update(projectDetail);
         	}
         }
         HashMap<String,Object> map = new HashMap<String,Object>();
-        map.put("packageId", wantPackId.get(0).getId());
+        map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
         List<ProjectDetail> details = detailService.selectById(map);
         Packages p = new Packages();
         p.setId(wantPackId.get(0).getId());
@@ -1456,21 +1456,69 @@ public class ProjectController extends BaseController {
     	//生成ID
     	String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
     	//获取采购明细
-    	List<Task> taskList = taskservice.listByTask(null, page==null?1:page);
-        PageInfo<Task> list = new PageInfo<Task>(taskList);
+    	HashMap<String, Object> map = new HashMap<>();
+    	String planName = request.getParameter("planName");
+    	String orgName = request.getParameter("orgName");
+    	String documentNumber = request.getParameter("documentNumber");
+	    if(planName !=null && !planName.equals("")){
+	    	map.put("name", planName);
+	    }
+	    if(orgName !=null && !orgName.equals("")){
+	    	map.put("orgName", orgName);
+	    }
+		if(documentNumber != null && !documentNumber.equals("")){
+			map.put("documentNumber", documentNumber);
+		}
+	    if(page==null){
+			page = 1;
+		}
+	    map.put("page", page.toString());
+	    PageHelper.startPage(page,Integer.parseInt("10"));
+    	List<Task> taskList = taskservice.listByProjectTask(map);
+//    	if(taskList.size()!=0){
+//    		for(Task tl:taskList){
+//    			List<PurchaseRequired> lists = new ArrayList<>();
+//        		List<String> list = conllectPurchaseService.getNo(tl.getCollectId());
+//        		for(String s:list){
+//        		    Map<String,Object> pMap=new HashMap<String,Object>();
+//        		    pMap.put("planNo", s);
+//        		    List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(pMap);
+//        		    lists.addAll(list2);
+//        		}
+//        		List<PurchaseRequired> bottomDetails = new ArrayList<>();
+//        		for(int i=0;i<lists.size();i++){
+//        			Map<String,Object> bId = new HashMap<String,Object>();
+//        			bId.put("id", lists.get(i).getId());
+//        			List<PurchaseRequired> pr = purchaseRequiredService.selectByParentId(bId);
+//        			if(pr.size()==1){
+//        				bottomDetails.add(lists.get(i));
+//        			}
+//        		}
+//        		for(int i=0;i<bottomDetails.size();i++){
+//        			if(bottomDetails.get(i).getProjectStatus()==0){
+//        				break;
+//        			}else if(i==bottomDetails.size()-1){
+//        				taskList.remove(tl);
+//        			}
+//        		}
+//    		}
+//    	}
         HashMap<String, Object> map1 = new HashMap<>();
         map1.put("typeName", "0");
         List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map1);
         model.addAttribute("list2",orgnizations);
-        model.addAttribute("list", list);
+        model.addAttribute("list", new PageInfo<Task>(taskList));
     	model.addAttribute("id", uuid);
     	model.addAttribute("orgId", user.getOrg().getId());
     	model.addAttribute("name", name);
         model.addAttribute("projectNumber", projectNumber);
+        model.addAttribute("planName", planName);
+        model.addAttribute("orgName", orgName);
+        model.addAttribute("documentNumber", documentNumber);
         if(id != null) {
             Project project = projectService.selectById(id);
-            HashMap<String , Object> map = new HashMap<>();
-            map.put("id", project.getId());
+            HashMap<String , Object> map2 = new HashMap<>();
+            map2.put("id", project.getId());
             List<ProjectDetail> details = detailService.selectById(map);
             List<Task> taskList1 = taskservice.listByTask(null, page==null?1:page);
             PageInfo<Task> list1 = new PageInfo<Task>(taskList1);
@@ -1498,8 +1546,8 @@ public class ProjectController extends BaseController {
       */
      @RequestMapping("/addDetails")
      public String addDetails(String projectId,String id,Model model,String name, String orgId,String projectNumber) {
-     	//根据采购明细ID，获取项目明细
-     	Task task = taskservice.selectById(projectId);
+     	 //根据采购明细ID，获取项目明细
+     	 Task task = taskservice.selectById(projectId);
          List<PurchaseRequired> lists=new LinkedList<PurchaseRequired>();
          List<String> list = conllectPurchaseService.getNo(task.getCollectId());
          for(String s:list){

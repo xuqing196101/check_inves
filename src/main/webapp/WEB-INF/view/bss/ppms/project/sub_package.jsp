@@ -513,7 +513,7 @@
 					<table class="table table-bordered table-condensed table-hover">
 						<thead>
 							<tr class="info">
-								<th class="w30"><input type="checkbox" id="selectAll${p.index }" onclick="selectAllDetail(${p.index})" /></th>
+								<th class="w50">选择</th>
 								<th class="w50">序号</th>
 								<th>需求部门</th>
 								<th>物资名称</th>
@@ -535,7 +535,7 @@
 						</thead>
 						<c:forEach items="${pack.projectDetails}" var="obj">
 							<tr class="tc">
-								<td class="w30"><input type="checkbox" name="info${p.index }" value="${obj.id }" onclick="selectedPackage(this,${p.index})" /></td>
+								<td class="w50"><input type="checkbox" name="info${p.index }" value="${obj.id }" onclick="selectedPackage(this,${p.index})" /></td>
 								<td class="w50">${obj.serialNumber }</td>
 								<td><c:if test="${orgnization.id == obj.department}"> 
                            ${orgnization.name}

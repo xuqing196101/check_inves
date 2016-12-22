@@ -125,7 +125,7 @@ public class AuditSetController {
 		String type = request.getParameter("type");
 		AuditPerson person = new AuditPerson();
 		person.setCollectId(id);
-//		person.setAuditRound(type);
+		person.setAuditRound(type);
 		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
 		model.addAttribute("info", info);

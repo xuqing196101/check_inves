@@ -1380,11 +1380,16 @@
 			<if test="legalTelephone != null">
 				and LEGAL_TELEPHONE = #{legalTelephone}
 			</if>
-			
 	</where>
 	
 	</select>
-
+	
+	<!-- 获取手机的数量 -->
+	<select id="getCountMobile"  resultType="java.lang.Integer">
+	   SELECT count(1) 
+	   FROM T_SES_SMS_SUPPLIER 
+	   WHERE MOBILE= #{mobile}
+	</select>
 
 
 </mapper>

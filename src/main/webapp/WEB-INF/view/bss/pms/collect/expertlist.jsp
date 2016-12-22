@@ -38,7 +38,7 @@
 		var nature=parent.nature;
 		var turn=parent.turns;
  		$("#aduit_nature").val(nature);
- 		$("#audit_turn").val(turn);
+ 	/* 	$("#audit_turn").val(turn); */
  		
  		
 		var id  = $('input[name="chkItem"]:checked').val(); 
@@ -70,7 +70,7 @@
 // 					//parent.layer.close(index);
 					    var el = document.createElement("a");
                       document.body.appendChild(el);
-                      el.href = "${pageContext.request.contextPath}/set/list.html?staff="+result+"&&id="+cid; //url 是你得到的连接
+                      el.href = "${pageContext.request.contextPath}/set/list.html?staff="+result+"&&id="+cid+"&type="+$("#type").val(); //url 是你得到的连接
                       el.target = '_parent'; //指定在新窗口打开
                       el.click();
                       document.body.removeChild(el);
@@ -194,11 +194,12 @@
    <div id="pagediv" align="right"></div>
    </div>
    		<form id="collected_form" action="" method="post">
-     		<input type="hidden" value="" name="id" id="aid">
-     		<input type="hidden" value="1"  name="type" >
+     	<input type="hidden" value="" name="id" id="aid">
+     	<input type="hidden" value="1"  name="type" >
+     	<%-- <input type="hidden" value="${type }"  id="type" > --%>
       	<input type="hidden" name="collectId" value="" id="cid">
       	<input type="hidden" name="auditStaff" id="aduit_nature" value=""/>
-      	<input type="hidden" name="auditRound" id="audit_turn" value=""/>
+      	<input type="hidden" name="auditRound" id="type" value="${type}"/>
      	</form>
      
      <!-- <ul class="list-unstyled list-flow dnone mt10" id="audit">

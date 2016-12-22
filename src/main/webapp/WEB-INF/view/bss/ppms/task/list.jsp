@@ -9,16 +9,22 @@
   /*分页  */
   $(function() {
     laypage({
-      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+      cont : $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
       pages : "${info.pages}", //总页数
       skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
       skip : true, //是否开启跳页
       total : "${info.total}",
       startRow : "${info.startRow}",
       endRow : "${info.endRow}",
-      groups : "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+      groups : "${info.pages}" >= 5 ? 5 : "${info.pages}", //连续显示分页数
       curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
-        return "${info.pageNum}";
+    	  var page = location.search.match(/page=(\d+)/);
+    	  if(page==null){
+	    		page = {};
+	    		page[0]="${info.pageNum}";
+	    		page[1]="${info.pageNum}";
+	    	}
+				return page ? page[1] : 1;
       }(),
       jump : function(e, first) { //触发分页后的回调
         if (!first) { //一定要加此判断，否则初始时会无限刷新
@@ -241,7 +247,7 @@
   <div class="margin-top-10 breadcrumbs ">
 	<div class="container">
 	  <ul class="breadcrumb margin-left-0">
-		<li><a href="javascript:void(0)"> 首页</a></li>
+		<li><a href="javascript:void(0)">首页</a></li>
 		<li><a href="javascript:void(0)">保障作业系统</a></li>
 		<li><a href="javascript:void(0)">采购任务管理</a></li>
 		<li class="active"><a href="javascript:void(0)">采购任务管理</a></li>
@@ -261,7 +267,7 @@
 		<ul class="demand_list">
 		  <li>
 		    <label class="fl">需求部门：</label>
-			<span><input type="text" name="name" id="purchaseRequiredId" value="${task.orgName}" /></span>
+			<span><input type="text" name="name" id="purchaseRequiredId" value="${task.name}" /></span>
 		  </li>
           <li>
             <label class="fl">文件编号：</label>
@@ -272,8 +278,8 @@
             <span class="">
               <select  name="status" id="status">
                 <option selected="selected" value="">请选择</option>
-                <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>未受领</option>
-                <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>已受领</option>
+                <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>未受领</option>
+                <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>已受领</option>
                 <option value="2" <c:if test="${'2'==task.status}">selected="selected"</c:if>>已取消</option>
               </select>
             </span>
@@ -291,7 +297,7 @@
 		</ul>
 		<div class="col-md-12 clear tc mt10">
 		  <button class="btn" type="submit">查询</button>
-		  <button type="reset" class="btn" onclick="clearSearch()">重置</button>
+		  <button class="btn" type="reset" onclick="clearSearch()">重置</button>
 	    </div>
 		<div class="clear"></div>
     </form>
@@ -305,7 +311,7 @@
       <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		  <tr>
-			<th class="info w30"><input type="checkbox" id="checkAll"onclick="selectAll()" alt=""></th>
+			<th class="info w30"><input type="checkbox" id="checkAll"onclick="selectAll()"></th>
 			<th class="info w50">序号</th>
 			<th class="info">采购任务名称</th>
 			<th class="info">需求部门</th>
@@ -318,8 +324,8 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 		  <c:if test="${orgId eq obj.purchaseId}"></c:if>
 		  <tr class="pointer">
-			<td class="tc w30"><input type="checkbox" value="${obj.id }"name="chkItem" onclick="check()" alt=""></td>
-			<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			<td class="tc w30"><input type="checkbox" value="${obj.id }"name="chkItem" onclick="check()"></td>
+			<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			<td><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a></td>
 			<td>
 			  <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
@@ -329,10 +335,10 @@
 			  </a></td>
 			<td><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.documentNumber}</a></td>
 			<td class="tc">
-			  <c:if test="${'1'==obj.status}">
+			  <c:if test="${'0'==obj.status}">
 				<span class="label rounded-2x label-u">未受领</span>
 			  </c:if> 
-			  <c:if test="${'0'==obj.status}">
+			  <c:if test="${'1'==obj.status}">
 				<span class="label rounded-2x label-u">已受领</span>
 			  </c:if>
 			  <c:if test="${'2'==obj.status}">
@@ -352,7 +358,7 @@
 		</c:forEach>
 	  </table>
 	</div>
-	<div id="pagediv" align="right"></div>
+	<div id="pageDiv" align="right"></div>
   </div>
 </body>
 </html>

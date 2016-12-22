@@ -332,12 +332,13 @@ System.out.print(scoreModel);
 	function associate(){
 	    var standScore = $("#standardScore").val();
 	    var maxScore = $("#maxScore").val();
+	    var id = $("#id").val();
 		var s = validteModel().form();
 		console.dir(s);
 		if(s){
 			$.ajax({   
 	            type: "get",  
-	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
+	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
 	            dataType:'json',
 	            success:function(result){
 	                  if (result == 0){
@@ -508,9 +509,7 @@ System.out.print(scoreModel);
 					required : true,
 					number:true
 				},
-				unit : {
-					required : true
-				},
+				
 				minScore : {
 					required : true,
 					number:true
@@ -638,7 +637,7 @@ System.out.print(scoreModel);
 			<input id="projectId" name="projectId" type="hidden" value="${projectId }">
 			<input id="markTermId" name="markTermId" type="hidden" value="${markTermId }">
 			<c:if test="${addStatus != 1 }">
-				<input id="id" type="hidden" name="id" value="${scoreModel.id }">
+				<input id="id" type="hidden" name="id" value="${scoreModel.id}">
 			</c:if>
 			<input type="hidden" id="num2" value="${fn:length(scoreModel.paramIntervalList)}">
 			<table class="table table-striped table-bordered table-hover mt20"  id="show_table">
@@ -679,7 +678,7 @@ System.out.print(scoreModel);
 	</div>
 	<div class="col-md-12" id="showbutton" style="display: none;">
 		<div class="mt40 tc mb50">
-			<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="gernerator();" value="翻译成白话文"> 
+			<!-- <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="gernerator();" value="翻译成白话文">  -->
 			<input type="button" class="btn btn-windows save" onclick="associate();" value="保存">
 			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 		</div>
@@ -695,11 +694,11 @@ System.out.print(scoreModel);
 		<tbody>
 			<tr>
 				<td style="">标准分值</td>
-				<td><input name="standardScore" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少"></td>
+				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少"></td>
 			</tr>
 			<tr>
 				<td>判断内容</td>
-				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="judgeContent" id="judgeContent"  title="该项内容为判断的唯一依据">${scoreModel.judgeContent }</textarea></td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" onkeyup="gernerator();" name="judgeContent" id="judgeContent"  title="该项内容为判断的唯一依据">${scoreModel.judgeContent }</textarea></td>
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
@@ -715,7 +714,7 @@ System.out.print(scoreModel);
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分"></td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分"></td>
 			</tr>
 			<tr>
 				<td>加减分类型</td>
@@ -723,15 +722,15 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">起始参数</td>
-				<td><input name="reviewStandScore" id="reviewStandScore" value="${scoreModel.reviewStandScore }" title="该项的起始分值为多少，默认是0"></td>
+				<td><input name="reviewStandScore" onkeyup="gernerator();" id="reviewStandScore" value="${scoreModel.reviewStandScore }" title="该项的起始分值为多少，默认是0"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" id="maxScore" value="${scoreModel.maxScore }" title="该项的满分值是多少"></td>
+				<td><input name="maxScore" onkeyup="gernerator();" id="maxScore" value="${scoreModel.maxScore }" title="该项的满分值是多少"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">每单位分值</td>
-				<td><input name="unitScore" id="unitScore" value="${scoreModel.unitScore }" title="每项单位得分值是多少"></td>
+				<td><input name="unitScore" onkeyup="gernerator();" id="unitScore" value="${scoreModel.unitScore }" title="每项单位得分值是多少"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">单位</td>
@@ -751,7 +750,7 @@ System.out.print(scoreModel);
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分"></td>
+				<td><input name="reviewParam" id="reviewParam" onkeyup="gernerator();" value="${scoreModel.reviewParam }" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分"></td>
 			</tr>
 			<tr>
 				<td>加减分类型</td>
@@ -759,15 +758,15 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">基准分值</td>
-				<td><input name="reviewStandScore" id="reviewStandScore" value="${scoreModel.reviewStandScore }"  title="该项从基准分值往下开始扣分"></td>
+				<td><input name="reviewStandScore" onkeyup="gernerator();" id="reviewStandScore" value="${scoreModel.reviewStandScore }"  title="该项从基准分值往下开始扣分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" id="minScore" title="该项的最低分是多少" value="${scoreModel.minScore }"></td>
+				<td><input name="minScore" id="minScore" onkeyup="gernerator();" title="该项的最低分是多少" value="${scoreModel.minScore }"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">每单位分值</td>
-				<td><input name="unitScore" id="unitScore" value="${scoreModel.unitScore }" title="每项单位减分值是多少"></td>
+				<td><input name="unitScore" onkeyup="gernerator();" id="unitScore" value="${scoreModel.unitScore }" title="每项单位减分值是多少"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">单位</td>
@@ -795,7 +794,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">分差</td>
-				<td><input name="unitScore" id="score" value="${scoreModel.unitScore }" title="依次加多少分"></td>
+				<td><input name="unitScore" onkeyup="gernerator();" id="score" value="${scoreModel.unitScore }" title="依次加多少分"></td>
 			</tr>
 			<tr>
 				<td>加减分类型</td>
@@ -803,11 +802,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" id="maxScore" value="${scoreModel.maxScore }" title="该项的最高值是多少"></td>
+				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }" title="该项的最高值是多少"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" id="minScore" value="${scoreModel.minScore }" title="该项的最低分是多少"></td>
+				<td><input name="minScore" id="minScore" onkeyup="gernerator();" value="${scoreModel.minScore }" title="该项的最低分是多少"></td>
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
@@ -823,7 +822,7 @@ System.out.print(scoreModel);
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例如自行车重量从小到大排序，第一名得最高分，依次递减分值"></td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例如自行车重量从小到大排序，第一名得最高分，依次递减分值"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">单位</td>
@@ -831,7 +830,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">分差</td>
-				<td><input name="unitScore" id="score" value="${scoreModel.unitScore }" title="依次递减多少分"></td>
+				<td><input name="unitScore" id="score" onkeyup="gernerator();" value="${scoreModel.unitScore }" title="依次递减多少分"></td>
 			</tr>
 			<tr>
 				<td>加减分类型</td>
@@ -839,11 +838,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" id="maxScore" value="${scoreModel.maxScore }" title="该项的最高值是多少"></td>
+				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }" title="该项的最高值是多少"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" id="minScore" value="${scoreModel.minScore }" title="该项的最低值是多少"></td>
+				<td><input name="minScore" id="minScore" onkeyup="gernerator();" value="${scoreModel.minScore }" title="该项的最低值是多少"></td>
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
@@ -859,11 +858,11 @@ System.out.print(scoreModel);
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例：根据企业近三年平均资产总额评分，最高值为基准分值,得分=(企业资产总额/基准值)*标准分值"></td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例：根据企业近三年平均资产总额评分，最高值为基准分值,得分=(企业资产总额/基准值)*标准分值"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">标准分值</td>
-				<td><input name="standardScore" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少"></td>
+				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">单位</td>
@@ -883,11 +882,11 @@ System.out.print(scoreModel);
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例:满足招标文件要求且报价最低为基准值，得分=(基准值/最低报价)*标准分值 "></td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例:满足招标文件要求且报价最低为基准值，得分=(基准值/最低报价)*标准分值 "></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">标准分值</td>
-				<td><input name="standardScore" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少"></td>
+				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">单位</td>
@@ -911,7 +910,7 @@ System.out.print(scoreModel);
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数"></td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">单位</td>
@@ -923,11 +922,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">评审基准数</td>
-				<td><input name="reviewStandScore" id="reviewStandScore" value="${scoreModel.reviewStandScore }" title="该项内容为评审参数参照值"></td>
+				<td><input name="reviewStandScore" onkeyup="gernerator();" id="reviewStandScore" value="${scoreModel.reviewStandScore }" title="该项内容为评审参数参照值"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">每区间等差额</td>
-				<td><input name="intervalNumber" id="intervalNumber" value="${scoreModel.intervalNumber }" title="每个区间之间的差额"></td>
+				<td><input name="intervalNumber" onkeyup="gernerator();" id="intervalNumber" value="${scoreModel.intervalNumber }" title="每个区间之间的差额"></td>
 			</tr>
 			<tr>
 				<td>加减分类型</td>
@@ -935,19 +934,19 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">加减分分值</td>
-				<td><input name="score" id="score" value="${scoreModel.score }" title="加减多少分"></td>
+				<td><input name="score"  id="score" onkeyup="gernerator();" value="${scoreModel.score }" title="加减多少分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">评审参数截止数</td>
-				<td><input name="deadlineNumber" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，高于截止数为满分，如果减分，高于截止数为0分"></td>
+				<td><input name="deadlineNumber" onkeyup="gernerator();" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，高于截止数为满分，如果减分，高于截止数为0分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" id="maxScore" value="${scoreModel.maxScore }" title="该项的满分值是多少"></td>
+				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }" title="该项的满分值是多少"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" id="minScore" value="${scoreModel.minScore }" title="该项的最低分是多少"></td>
+				<td><input name="minScore" id="minScore" onkeyup="gernerator();" value="${scoreModel.minScore }" title="该项的最低分是多少"></td>
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
@@ -980,7 +979,7 @@ System.out.print(scoreModel);
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数"></td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">单位</td>
@@ -996,7 +995,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">每区间等差额</td>
-				<td><input name="intervalNumber" id="intervalNumber" value="${scoreModel.intervalNumber }" title="每个区间之间的差额"></td>
+				<td><input name="intervalNumber" onkeyup="gernerator();" id="intervalNumber" value="${scoreModel.intervalNumber }" title="每个区间之间的差额"></td>
 			</tr>
 			<tr>
 				<td>加减分类型</td>
@@ -1004,19 +1003,19 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">加减分分值</td>
-				<td><input name="score" id="score" value="${scoreModel.score }" title="加减多少分"></td>
+				<td><input name="score" id="score" onkeyup="gernerator();" value="${scoreModel.score }" title="加减多少分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">评审参数截止数</td>
-				<td><input name="deadlineNumber" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，低于截止数为满分，如果减分，低于截止数为0分"></td>
+				<td><input name="deadlineNumber" onkeyup="gernerator();" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，低于截止数为满分，如果减分，低于截止数为0分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" id="maxScore" value="${scoreModel.maxScore }" title="该项的满分值是多少"></td>
+				<td><input name="maxScore" onkeyup="gernerator();" id="maxScore" value="${scoreModel.maxScore }" title="该项的满分值是多少"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" id="minScore" value="${scoreModel.minScore }" title="该项的最低分是多少"></td>
+				<td><input name="minScore" onkeyup="gernerator();" id="minScore" value="${scoreModel.minScore }" title="该项的最低分是多少"></td>
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>

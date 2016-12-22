@@ -117,9 +117,7 @@ public class CollectPlanController extends BaseController {
 			model.addAttribute("info", info);
 			model.addAttribute("inf", collectPlan);
 			model.addAttribute("type", type);
-			
-			List<DictionaryData> mType = dictionaryDataServiceI.findByKind("6");
-			model.addAttribute("mType", mType);
+			model.addAttribute("mType", DictionaryDataUtil.find(6));
 			
 			return "bss/pms/collect/contentlist";
 		}
@@ -137,7 +135,7 @@ public class CollectPlanController extends BaseController {
 		public String queryCollect(CollectPlan collectPlan,String cno,String goodsType){
 			PurchaseRequired p=new PurchaseRequired();
 			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
-			Set<String> set=new HashSet<String>();
+			//Set<String> set=new HashSet<String>();
 			if(collectPlan.getPlanNo()!=null){
 				String[] plano = collectPlan.getPlanNo().split(",");
 				for(String no:plano){
@@ -145,20 +143,20 @@ public class CollectPlanController extends BaseController {
 					p.setIsMaster(1);
 					List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
 //					p.setIsCollect(2);//修改
-					p.setStatus("5");//修改
+					p.setStatus("4");//修改
 					p.setIsMaster(null);
 					purchaseRequiredService.updateStatus(p);
 					list.addAll(one);
 				}
 			}
-			if(collectPlan.getDepartment()!=null){
-				String[] department = collectPlan.getDepartment().split(",");
-				for(String dep:department){
-						set.add(dep);
-				}
-			}
-			if(set!=null&&set.size()>0){
-				for(String dep:set){
+//			if(collectPlan.getDepartment()!=null){
+//				String[] department = collectPlan.getDepartment().split(",");
+//				for(String dep:department){
+//						set.add(dep);
+//				}
+//			}
+//			if(set!=null&&set.size()>0){
+//				for(String dep:set){
 					BigDecimal budget=BigDecimal.ZERO;
 					for(PurchaseRequired pr:list){
 						budget=budget.add(pr.getBudget());
@@ -168,7 +166,7 @@ public class CollectPlanController extends BaseController {
 					collectPlan.setStatus(1);
 					collectPlan.setBudget(budget);
 					collectPlan.setCreatedAt(new Date());
-					collectPlan.setDepartment(dep);
+//					collectPlan.setDepartment(dep);
 					Integer max = collectPlanService.getMax();
 					if(max!=null){
 						max+=1;
@@ -187,8 +185,8 @@ public class CollectPlanController extends BaseController {
 					collectPlan.setPlanNo(cno);
 					collectPlan.setGoodsType(goodsType);
 					collectPlanService.add(collectPlan);
-				}
-			}
+//				}
+//			}
 			
 			
 			
@@ -222,7 +220,7 @@ public class CollectPlanController extends BaseController {
 				p.setIsMaster(1);
 				List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
 //				p.setIsCollect(2);//修改
-				p.setStatus("5");//修改
+				p.setStatus("4");//修改
 				p.setIsMaster(null);
 				purchaseRequiredService.updateStatus(p);
 				list.addAll(one);

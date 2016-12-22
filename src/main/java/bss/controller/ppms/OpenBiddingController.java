@@ -780,7 +780,16 @@ public class OpenBiddingController {
             }
         }
         model.addAttribute("treeMap", treeMap);
-        //根据包查出所有的供应商集合 ，然后放在map里面
+        //开标时间
+        Project project = projectService.selectById(projectId);
+        long bidDate = 0;
+        if (project.getBidDate() != null) {
+            bidDate = project.getBidDate().getTime();
+        }
+        long nowDate = new Date().getTime();
+        long date = bidDate - nowDate;
+        model.addAttribute("date", date);
+        model.addAttribute("projectId", project.getId());
         return "bss/ppms/open_bidding/bid_file/cb";
     }
     

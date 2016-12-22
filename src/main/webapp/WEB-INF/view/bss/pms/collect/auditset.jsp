@@ -109,6 +109,7 @@
     function experts(){
     	 nature=$("#audit_nature").val();
      	  turns=$("#audit_turn").val();
+     	  var type="${type }";
      	var tp = 0;
      if(nature==null || nature==''){
     	 layer.alert("请填写审核人员性质", {
@@ -132,7 +133,7 @@
 		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 		  shift: 1, //0-6的动画形式，-1不开启
 		  offset: ['200px', '500px'],
-		  content:  "${pageContext.request.contextPath}/set/expert.html?type="+$("#auditRound").val(),
+		  content:  "${pageContext.request.contextPath}/set/expert.html?type="+type,
 		});
      }
     }
@@ -140,7 +141,7 @@
     	 nature=$("#audit_nature").val();
     	 turns=$("#audit_turn").val();
     	    var tp=0;
-    	    
+    	    var type="${type }";
         if(nature==null || nature == ''){
        	 layer.alert("请填写审核人员性质", {
    				offset: ['30%', '40%']
@@ -163,7 +164,7 @@
    		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
    		  shift: 1, //0-6的动画形式，-1不开启
    		  offset: ['200px', '500px'],
-   		  content:  "${pageContext.request.contextPath}/set/user.html?type="+$("#auditRound").val(),
+   		  content:  "${pageContext.request.contextPath}/set/user.html?type="+type,
    		});
         	
         }
@@ -193,6 +194,7 @@
     	 $("#auditRound_1").val(turns);
     	 nature=$("#audit_nature").val();
          turns=$("#audit_turn").val();
+         var type="${type}";
             var tp=0;
           if(nature==null || nature == ''){
            layer.alert("请填写审核人员性质", {
@@ -213,11 +215,10 @@
 						layer.msg('添加成功', {
 							offset: ['40%', '45%']
 						});
-						layer.close(index);
 					    var el = document.createElement("a");
                   document.body.appendChild(el);
-                  el.href = "${pageContext.request.contextPath}/set/list.html?staff="+data.staff+"&&id="+$("#collId").val(); //url 是你得到的连接
-                  el.target = '_parent'; //指定在新窗口打开
+                  el.href = "${pageContext.request.contextPath}/set/list.html?staff="+data.staff+"&&id="+$("#collId").val()+"&&type="+type; //url 是你得到的连接
+                  //el.target = '_parent'; //指定在新窗口打开
                   el.click();
                   document.body.removeChild(el);
 // 						window.location.reload();
@@ -366,7 +367,7 @@
 
  <div id="content" class="dnone layui-layer-wrap mt20"> 
 	<form id="collect_form" action="">
-	 <input type="hidden" id="audit_turn" value="${type }" name="auditRound">
+	 <input type="hidden" id="auditRound" value="${type }" name="auditRound">
 	   <input type="hidden" name="type" id="type" value="3">
          <input type="hidden" name="id" value="123123123">
 	     <div class="drop_window">
@@ -412,7 +413,7 @@
 	 	<input type="hidden" name="fname" value="" id="fname" >
 	 	<input type="hidden" name="fname2" value="" id="fname2" > -->
 	 	<input type="hidden" name="collectId" value="${id }">	
-	 	<input type="hidden" name="type" value="${type }">	
+	 	<input type="hidden" name="type" value="${type}">	
 	 	
 	 </form>
 	 

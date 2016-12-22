@@ -99,7 +99,7 @@ public class TaskAssignController extends BaseController{
 				task.setPurchaseId(user.getOrg().getName());
 			}*/
 //			task.setYear(plan.getCreatedAt());
-			task.setStatus(1);
+			task.setStatus(0);
 			task.setIsDeleted(0);
 			task.setGiveTime(new Date());
 			if(plan.getGoodsType()!=null){
