@@ -187,6 +187,9 @@
 		}
 		
 	}
+	function goback(){
+		window.location.href="${pageContext.request.contextPath}/adjust/list.html";
+	}
   </script>
   </head>
   
@@ -229,7 +232,7 @@
    	  <div class="col-md-12 pl20 mt10">
 <!-- 	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">需求计划录入</button> -->
 	    <button class="btn btn-windows edit"  onclick="edit()">修改</button>
-	    <input type="button"  class="btn btn-windows back" value="返回"  onclick="location.href='javascript:history.go(-1);'"> 
+	    <input type="button"  class="btn btn-windows back" value="返回"  onclick="goback()"> 
 	<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="exports()">下载</button>
 	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="del()">删除</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">提交</button> -->

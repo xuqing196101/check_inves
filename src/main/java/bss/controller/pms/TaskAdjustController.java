@@ -122,19 +122,20 @@ public class TaskAdjustController extends BaseController{
 	 */
 	@RequestMapping("/all")
 	public String requiredList(String id,Model model){
-//		CollectPlan cPlan=collectPlanService.queryById(id);
-//		if (cPlan.getStatus()==4) {
-//			Integer backInfo=2;
-//			List<CollectPlan> list = collectPlanService.queryCollect(new CollectPlan(), 1);
-//			PageInfo<CollectPlan> info = new PageInfo<>(list);
-//			model.addAttribute("info", info);
-//			model.addAttribute("inf", new CollectPlan());
-//			model.addAttribute("backInfo", backInfo);
-//			return "bss/pms/taskadjust/planlist";
-//		}else{
+		CollectPlan cPlan=collectPlanService.queryById(id);
+		int backInfo=0;
+		if (cPlan.getStatus()!=null && cPlan.getStatus()==4) {
+			backInfo=2;
+			List<CollectPlan> list = collectPlanService.queryCollect(new CollectPlan(), 1);
+			PageInfo<CollectPlan> info = new PageInfo<>(list);
+			model.addAttribute("info", info);
+			model.addAttribute("inf", new CollectPlan());
+			model.addAttribute("backInfo", backInfo);
+			return "bss/pms/taskadjust/planlist";
+		}else{
 			List<PurchaseRequired> purList=new LinkedList<PurchaseRequired>();
 			List<String> list = collectPurchaseService.getNo(id);
-			
+			model.addAttribute("backInfo", backInfo);
 			Map<String,Object> map=new HashMap<String,Object>();
 			for(String str:list){
 				map.put("isMaster", "1");
@@ -145,7 +146,7 @@ public class TaskAdjustController extends BaseController{
 			model.addAttribute("list", purList);
 			model.addAttribute("id", id);
 			return "bss/pms/taskadjust/purchaselist";
-//		}
+		}
 	}
 	
 	/**
