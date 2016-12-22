@@ -15,6 +15,8 @@ public class SupplierBranch {
 
     private String defaultValue;
     
+    private String countryName;  //境外分支中的国家
+    
     public String getId() {
         return id;
     }
@@ -69,6 +71,14 @@ public class SupplierBranch {
 
 	public void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+
+	public String getCountryName() {
+		return countryName;
+	}
+
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
 	}
     
     

@@ -270,7 +270,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		List<SupplierAddress> supplierAddress= supplierAddressService.getBySupplierId(supplierId);
 		request.setAttribute("supplierAddress", supplierAddress);
-		
+
 		//查出全部修改的
 		SupplierHistory supplierHistory = new SupplierHistory();
 		supplierHistory.setSupplierId(supplierId);

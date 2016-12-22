@@ -105,9 +105,16 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <select id="queryBySupplierId" parameterType="String" resultMap="BaseResultMap">
-	  select <include refid="Base_Column_List"/>
-	   from T_SES_SMS_SUPPLIER_BRANCH
-	 where  SUPPLIER_ID = #{supplierId}
+	  select 
+	  	t1.*,
+	  	t2.NAME as countryName
+	  from 
+	  	T_SES_SMS_SUPPLIER_BRANCH t1
+	  left join
+	  	T_SES_BMS_DICTIONARY_DATA t2
+	  on
+	  	t1.COUNTRY = t2.ID
+	 	where  t1.SUPPLIER_ID = #{supplierId}
   </select>
   
   

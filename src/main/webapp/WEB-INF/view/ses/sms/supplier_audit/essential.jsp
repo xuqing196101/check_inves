@@ -508,13 +508,13 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">固定电话：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="contactTelephone" class="hand " value="${suppliers.contactTelephone } " type="text" onclick="reason(this)">
+								<input id="contactTelephone" class="hand " value="${suppliers.contactMobile } " type="text" onclick="reason(this)">
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="contactMobile" class="hand " value="${suppliers.contactMobile } " type="text" onclick="reason(this)">
+								<input id="contactMobile" class="hand " value="${suppliers.mobile } " type="text" onclick="reason(this)">
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
@@ -599,17 +599,17 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业开始时间：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业有效期 ：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="businessEndDate" class="hand " onclick="reason(this)" value="<fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/>" type="text" />
 							</div>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
+						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业截止时间：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="businessStartDate" class="hand " onclick="reason(this)" value="<fmt:formatDate value='${suppliers.businessEndDate}' pattern='yyyy-MM-dd'/>" type="text" />
 							</div>
-						</li>
+						</li> --%>
 						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="fl" id="businessAddress2">生产或经营地址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -649,9 +649,20 @@
 					<ul class="ul_list">
 						<c:forEach items="${supplierBranchList }" var="supplierBranch" varStatus="vs">
 							<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+              	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">境外分支机构：</span>
+              	<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <c:if test="${suppliers.overseasBranch == 0}">
+	                  <input id="overseasBranch" class="hand " value="无" type="text" onclick="reason(this)" >
+	                </c:if>
+	                <c:if test="${suppliers.overseasBranch == 1}">
+	                  <input id="overseasBranch" class="hand " value="有" type="text" onclick="reason(this)" >
+	                </c:if>
+              	</div>
+            	</li>
+							<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所在国家(地区)：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input id="branchCountry" class="hand " value="${supplierBranch.country } " type="text" onclick="reason(this)">
+									<input id="branchCountry" class="hand " value="${supplierBranch.countryName } " type="text" onclick="reason(this)">
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12">
