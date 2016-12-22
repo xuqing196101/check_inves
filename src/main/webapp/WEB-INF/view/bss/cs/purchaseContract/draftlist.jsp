@@ -275,19 +275,17 @@
 				layer.alert("只可选择一条合同打印",{offset: ['222px', '390px'], shade:0.01});
 			}else{
 				if(status==1){
-					$("#post_attach_up").attr("businessId",ids);
-					$("#post_attach_show").attr("businessId",ids);
-					$("#draftrevi").attr("class","list-unstyled mt10");
 					layer.open({
 					shift: 1, //0-6的动画形式，-1不开启
 				    moveType: 1, //拖拽风格，0是默认，1是传统拖动
 				    title: ['生成草案信息','border-bottom:1px solid #e5e5e5'],
 				    shade:0.01, //遮罩透明度
-					type : 1,
+					type : 2,
 					skin : 'layui-layer-rim', //加上边框
 					area : [ '35%', '250px' ], //宽高
-					content : $('#draftrevi'),
-					offset: ['30%', '25%']
+					content : '${pageContext.request.contextPath}/purchaseContract/filePage.html?id='+ids+'&status='+status,
+					offset: ['30%', '25%'],
+					shadeClose : true
 				   });
 				}else{
 					window.location.href="${pageContext.request.contextPath}/purchaseContract/printContract.html?id="+ids+"&status="+status;
@@ -461,8 +459,8 @@
 						<div class="red star_red">*</div>草案批复意见上传：
 					</span>
 			    	<div class="col-md-8 col-sm-6 col-xs-6 p0">
-			        <up:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
-					<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+			        <u:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
+					<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
 					</div>
 				</li>
 				<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">

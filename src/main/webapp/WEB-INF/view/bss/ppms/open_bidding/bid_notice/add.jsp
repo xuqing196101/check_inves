@@ -9,7 +9,7 @@
     <script type="text/javascript">
        
   	//导入模板
-    function inputTemplete(){
+    function inputTemplete(projectId){
         var iframeWin;
         layer.open({
           type: 2, //page层
@@ -20,7 +20,7 @@
           shift: 1, //0-6的动画形式，-1不开启
           offset: '70px',
           shadeClose: false,
-          content: '${pageContext.request.contextPath}/resultAnnouncement/getAll.html',
+          content: '${pageContext.request.contextPath}/resultAnnouncement/getAll.html?projectId='+projectId,
           success: function(layero, index){
             iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
           }
@@ -135,7 +135,7 @@
 	 <form  method="post" id="form" > 
         <!-- 按钮 -->
         <div class="fr pr15 mt10">
-		     <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
+		     <input type="button" class="btn btn-windows input" onclick="inputTemplete('${projectId }')" value="模板导入"></input>
 	         <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input>
 	         <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>  
 	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>

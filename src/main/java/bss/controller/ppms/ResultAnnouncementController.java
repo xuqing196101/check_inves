@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,8 +43,20 @@ import com.github.pagehelper.PageInfo;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Templet;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
+import ses.model.sms.Supplier;
 import ses.service.bms.TempletService;
+import ses.service.oms.OrgnizationServiceI;
+import ses.util.DictionaryDataUtil;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.SupplierCheckPass;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectDetailService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.SupplierCheckPassService;
 
 /**
  * @Title:PreBiddingDocController 
@@ -55,6 +68,10 @@ import bss.model.ppms.Project;
 @Scope("prototype")
 @RequestMapping("/resultAnnouncement")
 public class ResultAnnouncementController extends BaseSupplierController{
+    /** 公告类型 - 采购公告*/
+    private static final String  PURCHASE_NOTICE= "purchase";
+    /** 公告类型 - 中标公告*/
+    private static final String  WIN_NOTICE= "win";
 	@Autowired
 	private ArticleService articelService;
 	@Autowired
@@ -63,6 +80,30 @@ public class ResultAnnouncementController extends BaseSupplierController{
 	private TempletService templetService;
 	@Autowired
 	private ArticleAttachmentsService attachmentsService;
+    /**
+     * @Fields detailService : 引用项目详细业务接口
+     */
+    @Autowired
+    private ProjectDetailService detailService;
+    /**
+     * @Fields packageService : 引用分包业务逻辑接口
+     */
+    @Autowired
+    private PackageService packageService;
+    /**
+     * @Fields projectService : 引用项目业务实现接口
+     */
+    @Autowired
+    private ProjectService projectService;
+    
+    /**
+     * 成交供应商服务接口
+     */
+    @Autowired
+    private SupplierCheckPassService supplierCheckPassService;
+    
+    @Autowired
+    private OrgnizationServiceI orgnizationService;
 	/**
 	 * 
 	 * @Title: addBidAnnouncement
@@ -164,9 +205,10 @@ public class ResultAnnouncementController extends BaseSupplierController{
 	 * @return: String
 	 */
 	@RequestMapping("/getAll")
-	public String getAll(Model model,Integer page){
+	public String getAll(Model model,Integer page, String projectId){
 		List<Templet> templets = templetService.getAll(page==null?1:page);
 		model.addAttribute("list",new PageInfo<Templet>(templets));
+		model.addAttribute("projectId", projectId);
 		return "bss/ppms/result/list";
 	}
 
@@ -181,7 +223,7 @@ public class ResultAnnouncementController extends BaseSupplierController{
 	 */
 	@ResponseBody
 	@RequestMapping("/view")
-	public Object view(Model model,String[] id){
+	public Object view(Model model,String[] id, String projectId){
 		List<User> list=new ArrayList<User>();
 		User user=new User();
 		user.setAddress("asdf");
@@ -242,9 +284,79 @@ public class ResultAnnouncementController extends BaseSupplierController{
 					.replace("${bidPrice}","2000")
 					.replace("${bidAmount}", "3000"));
 		}
+		String content = getDefaultTemplate(projectId, templet);
+		templet.setContent(content);
 		return templet;
 	}
 
+	 public String getContent(String projectId) {
+	        HashMap<String, Object> map = new HashMap<String, Object>();
+	        map.put("projectId", projectId);
+	        List<Packages> list = packageService.findPackageById(map);
+	        if(list != null && list.size()>0){
+	            for(Packages ps:list){
+	                HashMap<String,Object> packageId = new HashMap<String,Object>();
+	                packageId.put("packageId", ps.getId());
+	                List<ProjectDetail> detailList = detailService.selectById(packageId);
+	                ps.setProjectDetails(detailList);
+	            }
+	        }
+	        StringBuilder sb = articelService.getContent(list);
+	        return sb.toString();
+	    }
+	    
+	    public String getDefaultTemplate(String projectId ,Templet templet) {
+	            String content = templet.getContent();
+	            String table = getContent(projectId);
+	            Project p = projectService.selectById(projectId);
+	            String purchaseTypeName = "";
+	            StringBuilder auditResult = new StringBuilder();
+	            auditResult.append("");
+	            //评分结果
+	            HashMap<String ,Object> map = new HashMap<String ,Object>();
+	            map.put("projectId", projectId);
+	            //查询包信息
+	            List<Packages> packageList = packageService.findPackageById(map);
+	            for (Packages packages : packageList) {
+	              SupplierCheckPass checkPass = new SupplierCheckPass();
+	              checkPass.setPackageId(packages.getId());
+	              List<SupplierCheckPass> supplierCheckPasses = supplierCheckPassService.listCheckPass(checkPass);
+	              auditResult.append("<p>"+packages.getName()+"参加供应商排名:</p>");
+	              if (supplierCheckPasses != null && supplierCheckPasses.size() > 0) {
+	                for (int i = 1; i < supplierCheckPasses.size()+1; i++) {
+	                  Supplier supplier = supplierCheckPasses.get(i-1).getSupplier();
+	                  if (supplier != null) {
+	                    auditResult.append("<p>&nbsp;&nbsp;第"+i+"名:"+supplier.getSupplierName()+"</p>");
+	                  }
+	                }
+	              }
+	            }
+	            if (p.getPurchaseType() != null) {
+	               purchaseTypeName = DictionaryDataUtil.findById(p.getPurchaseType()).getName();
+	            }
+	            String purchaserName = "";
+	            if (p != null) {
+	                String purchaseDepId = p.getPurchaseDepId();
+	                Orgnization org = orgnizationService.getOrgByPrimaryKey(purchaseDepId);
+	                if (org != null) {
+	                  purchaserName = org.getName();
+	                }
+	            }
+	            String contact = "";
+	            String contactTelephone = "";
+	            String contactAddress = "";
+	            String fax = "";
+	            String bank = "";
+	            String bidDate = "";
+	            if (p.getBidDate() != null) {
+	              bidDate = new SimpleDateFormat("yyyy年MM月dd日").format(p.getBidDate());
+	            }
+	            content = content.replace("projectDetail", table).replace("projectName", p.getName()).replace("projectNum", p.getProjectNumber()).replace("purchaseType", purchaseTypeName);
+	            content = content.replace("bidDate", bidDate).replace("contact", contact);
+	            content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
+	            content = content.replace("address", contactAddress).replace("fax", fax).replace("bank", bank).replace("auditResult", auditResult.toString());
+	            return content;
+	    }
 
 	/**	 
 	* @Title: save

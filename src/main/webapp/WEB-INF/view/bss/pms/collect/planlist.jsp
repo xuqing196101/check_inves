@@ -256,7 +256,7 @@
 						<a href="#">采购计划管理</a>
 					</li>
 					<li class="active">
-						<a href="#">采购计划管理</a>
+						<a href="#">采购计划列表</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
@@ -288,8 +288,8 @@
 				    	</span>
 				      </li>
 			    </ul>
-	   	 		<input class="btn" type="submit" value="查询" /> 
-				 	<input class="btn" type="button" value="重置" onclick="resetQuery()"  />	
+	   	 		<input class="btn fl" type="submit" value="查询" /> 
+				<input class="btn fl" type="button" value="重置" onclick="resetQuery()"  />	
    		</form>
  		</h2>
 
@@ -369,7 +369,6 @@
 		</div>
 
 		<div id="content" class="dnone" style="text-align: center;">
-			<br>
 			<span style="padding-top:50px;">直接下达采购任务或者设置审核轮次</span>
 			<select style="margin-top: 15px;" onchange="auditturns(this)" name="planType" id="wtype">
 				<option value="">请选择</option>
@@ -378,9 +377,10 @@
 					<option value="${obj.id }">${obj.name }</option>
 				</c:forEach>
 			</select>
-			<br>
-			<button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="closeLayer()">确定</button>
-			<button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="cant()">取消</button>
+			<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
+			    <button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="closeLayer()">确定</button>
+			    <button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="cant()">取消</button>
+		    </div>
 		</div>
 
 	</body>

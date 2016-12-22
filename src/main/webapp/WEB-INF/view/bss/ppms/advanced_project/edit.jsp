@@ -181,9 +181,8 @@
     </div>
     <div>
     <h2 class="count_flow"><i>2</i>修改项目明细</h2>
-    <ul class="ul_list">
-      <div class="content table_box">
-      <table id="table" class="table table-bordered table-condensed table-hover table-striped">
+    <div class="ul_list">
+      <table id="table" class="table table-bordered table-condensed">
         <thead>
           <tr>
           <th class="info w50">序号</th>
@@ -194,7 +193,7 @@
             <th class="info">计量单位</th>
           <th class="info">采购数量</th>
           <th class="info">单价（元）</th>
-          <th class="info">预算金额（万元）</th>
+          <th class="info">预算金额<br>（万元）</th>
           <th class="info">交货期限</th>
             <th class="info">采购方式建议</th>
           <th class="info">供应商名称</th>
@@ -212,35 +211,35 @@
           <td class="tc">${obj.stand}</td>
           <td class="tc">${obj.qualitStand}</td>
           <td class="tc">${obj.item}</td>
-          <td class="tc">
+          <td class="tc p0">
             <c:if test="${obj.purchaseCount!=null }">
             <input type="hidden" name="ss" value="${obj.id }">
-            <input maxlength="11" id="purchaseCount" onblur="sum2(this);" 
+            <input maxlength="11" class=" m0 w80" id="purchaseCount" onblur="sum2(this);" type="text"
               onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="detail[${vs.index }].purchaseCount"
-            style="width:50%;" value="${obj.purchaseCount}" />
+           value="${obj.purchaseCount}" />
             <input type="hidden" name="ss" value="${obj.parentId }">
           </c:if> 
           <c:if test="${obj.purchaseCount==null }">
-            <input style="border: 0px;" disabled="disabled" type="text" name="detail[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
+            <input class="m0 w80" disabled="disabled" type="text" name="detail[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
           </c:if>
           </td>
-          <td class="tc">
+          <td class="tc p0">
           <c:if test="${obj.price!=null }">
             <input type="hidden" name="ss" value="${obj.id }">
-              <input maxlength="11" id="price" name="detail[${vs.index }].price" style="width:50%;" onblur="sum1(this);" value="${obj.price}" />
+              <input maxlength="11" id="price" name="detail[${vs.index }].price" type="text" class="m0 w80"  onblur="sum1(this);" value="${obj.price}" />
             <input type="hidden" name="ss" value="${obj.parentId }">
           </c:if>
             <c:if test="${obj.price==null}">
-            <input style="border: 0px;" readonly="readonly"  type="text" name="detail[${vs.index }].price" value="${obj.price }">
+            <input class=" m0 w80"  readonly="readonly"  type="text" name="detail[${vs.index }].price" value="${obj.price }">
           </c:if>
           </td>
-          <td class="tc">
+          <td class="tc p0">
             <input type="hidden" name="ss" value="${obj.id }">
-          <input maxlength="11" id="budget" name="detail[${vs.index }].budget" style="width:100%;border-style:none" readonly="readonly" value="${obj.budget}" />
+          <input maxlength="11" id="budget" name="detail[${vs.index }].budget" class=" m0 w80" readonly="readonly" value="${obj.budget}" type="text"/>
           <input type="hidden" name="ss" value="${obj.parentId }">
           </td>
           <td class="tc">${obj.deliverDate}</td>
-          <td class="tc advice">
+          <td class="tc advice p0">
           <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
             <select name="detail[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
             <c:forEach items="${kind}" var="kind" >
@@ -259,7 +258,6 @@
         </c:forEach>
       </table>
       </div>
-    </ul>
     </div>
     <div class="col-md-12 tc">
     <button class="btn" type="button" onclick="subPackage()">分包</button>

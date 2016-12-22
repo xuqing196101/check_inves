@@ -175,7 +175,7 @@
 	        </table>
 	        --%><h2 class="count_flow jbxx">批准文件电子扫描件</h2>
    			<div class="col-md-12 select_common">
-				<up:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${contractattachsysKey}" typeId="${contractattachId}"/>
+				<u:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${contractattachsysKey}" typeId="${contractattachId}"/>
 			</div>  
 	        </div>
 	        <div class="tab-pane fade" id="tab-2">

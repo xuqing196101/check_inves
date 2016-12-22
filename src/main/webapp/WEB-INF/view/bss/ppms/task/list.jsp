@@ -320,14 +320,14 @@
 		  <tr class="pointer">
 			<td class="tc w30"><input type="checkbox" value="${obj.id }"name="chkItem" onclick="check()" alt=""></td>
 			<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a></td>
-			<td class="tc">
+			<td><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a></td>
+			<td>
 			  <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
 			  <c:forEach items="${list2}" var="list" varStatus="vs">
 			   <c:if test="${obj.purchaseRequiredId eq list.id}">${list.name}</c:if>
 			  </c:forEach>
 			  </a></td>
-			<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.documentNumber}</a></td>
+			<td><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.documentNumber}</a></td>
 			<td class="tc">
 			  <c:if test="${'1'==obj.status}">
 				<span class="label rounded-2x label-u">未受领</span>

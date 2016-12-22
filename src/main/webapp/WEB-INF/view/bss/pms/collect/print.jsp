@@ -173,9 +173,10 @@
 
 					</c:forEach>
 				</table>
-			 
-				<input class="btn btn-windows save" type="button" onclick="window.print()" value="打印"> 
-				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+			 <div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
+				<input class="btn btn-windows print" type="button" onclick="window.print()" value="打印"> 
+				<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+			 </div>
 			</form>
 		</div>
 	</div>

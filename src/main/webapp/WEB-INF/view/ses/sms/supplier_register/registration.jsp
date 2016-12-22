@@ -27,9 +27,6 @@
 		<div class="container content height-350 job-content ">
 
 			<div class="col-md-12 p20 border1 margin-top-20 mb40">
-				<div class="tab-v1">
-					<h2 class="tc bbgrey">阅读军队物资供应商须知</h2>
-				</div>
 				<div class="tab-content margin-bottom-20 margin-top-20 lh24">
 					${doc}
 					<div class="mt40">
