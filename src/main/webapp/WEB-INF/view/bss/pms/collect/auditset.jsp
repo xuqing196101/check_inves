@@ -215,11 +215,10 @@
 						layer.msg('添加成功', {
 							offset: ['40%', '45%']
 						});
-						layer.close(index);
 					    var el = document.createElement("a");
                   document.body.appendChild(el);
                   el.href = "${pageContext.request.contextPath}/set/list.html?staff="+data.staff+"&&id="+$("#collId").val()+"&&type="+type; //url 是你得到的连接
-                  el.target = '_parent'; //指定在新窗口打开
+                  //el.target = '_parent'; //指定在新窗口打开
                   el.click();
                   document.body.removeChild(el);
 // 						window.location.reload();
