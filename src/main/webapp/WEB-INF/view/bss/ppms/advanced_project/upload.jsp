@@ -59,7 +59,7 @@
     </div>
     <div class="tc mt10 col-md-12">
       <a class="btn btn-windows save" onclick="start();">确认</a>
-      <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
+      <input class="btn btn-windows cancel" value="取消" type="button" onclick="cancel();">
     </div>
   </form>
 </div>
