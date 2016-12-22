@@ -69,9 +69,11 @@
         }
       }
 
+      
       function view(id) {
         window.location.href = "${ pageContext.request.contextPath }/article/view.html?id=" + id;
       }
+      
 
       function add() {
         window.location.href = "${ pageContext.request.contextPath }/article/add.html";

@@ -121,10 +121,24 @@
                 <script id="editor" type="text/plain" class="col-md-12 p0"></script>
               </div>
             </li>
-            <li class="col-md-6 col-sm-6 col-xs-12 mt10">
-              <span class="fl">已上传的附件：</span>
-              <div class="fl mt5">
-                <up:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+            <li class="col-md-6 col-xs-6 col-sm-12 mt10">
+            <span class="fl">已上传的附件：</span>
+            <div class="fl">
+              <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+            </div>
+          </li>
+
+          <li class="col-md-6 col-sm-6 col-xs-12 mt10">
+              <span class="fl">审价文件上传：</span>
+              <div>
+                <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+              </div>
+            </li>
+            
+            <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">
+              <span class="fl">图片上传：</span>
+              <div>
+                <u:show showId="artice_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
               </div>
             </li>
             

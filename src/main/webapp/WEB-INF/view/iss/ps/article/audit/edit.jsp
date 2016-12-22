@@ -89,7 +89,7 @@
       }
 
       function goBack() {
-        window.location.href = "${pageContext.request.contextPath }/article/getAll.html";
+    	  window.location.href = "${pageContext.request.contextPath }/article/auditlist.html?status=1";
       }
     </script>
   </head>
@@ -118,7 +118,7 @@
     </div>
 
     <div class="container container_box">
-      <form id="newsForm" action="${pageContext.request.contextPath }/article/update.html" enctype="multipart/form-data" method="post">
+      <form id="newsForm" action="${pageContext.request.contextPath }/article/updateApply.html" enctype="multipart/form-data" method="post">
         <input type="hidden" id="ids" name="ids" />
         <h2 class="list_title">修改信息</h2>
 
@@ -161,7 +161,7 @@
             </div>
           </li>
 
-          <li class="col-md-12 col-xs-12 col-s  m-12">
+          <li class="col-md-12 col-xs-12 col-sm-12">
             <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><div class="star_red">*</div>信息正文：</span>
             <div class="col-md-12 col-xs-12 col-sm-12 p0">
               <script id="editor" name="content" type="text/plain" class="col-md-12 col-xs-12 col-sm-12 p0"></script>
@@ -169,15 +169,15 @@
             <div class="red f14 clear col-ms-12 col-xs-12 col-sm-12 p0">${ERR_content}</div>
           </li>
 
+          <li class="col-md-6 col-xs-6 col-sm-12 mt10">
+            <span class="fl">已上传的附件：</span>
+            <div class="fl">
+              <u:upload id="artice_file_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+              <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+            </div>
+          </li>
+
           <li class="col-md-6 col-sm-6 col-xs-12 mt10">
-              <span class="fl">附件上传：</span>
-              <div>
-                <u:upload id="artice_file_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
-                <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
-              </div>
-            </li>
-            
-            <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">审价文件上传：</span>
               <div>
                 <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" auto="true" />

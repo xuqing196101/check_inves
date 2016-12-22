@@ -110,28 +110,30 @@
                 </tbody>
               </table>
               <h2 class="count_flow jbxx">信息正文</h2>
-              <div class="col-md-12 col-xs-12 col-sm-12 border1">${article.content}</div>
+              <div class="col-md-12 col-xs-12 col-sm-12 border1 h80">${article.content}</div>
               <c:if test="${article.status==2 }">
                 <h2 class="count_flow jbxx clear">审核结果:审核通过</h2>
               </c:if>
               <c:if test="${article.status==3 }">
                 <h2 class="count_flow jbxx clear">退回理由</h2>
-                <div class="col-md-12 col-xs-12 col-sm-12 border1">${article.content}</div>
+                <div class="col-md-12 col-xs-12 col-sm-12 border1 h80">${article.content}</div>
               </c:if>
 
               <ul class="clear p0 col-md-12 col-xs-12 col-sm-12 ">
                 <li class="col-md-6 col-sm-12 col-xs-12 mt10">
                   <span class="fl">已上传的附件：</span>
-                  <div class="fl mt5">
-                    <c:forEach items="${article.articleAttachments}" var="a">
-                      ${fn:split(a.fileName, '_')[1]},
-                    </c:forEach>
-                  </div>
+                  <u:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
                 </li>
-                <li class="col-md-6 col-sm-12 col-xs-12 mt10" id="picNone">
+                
+                <li class="col-md-6 col-sm-12 col-xs-12 mt10">
+                  <span class="fl">审价扫描件：</span>
+                  <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                </li>
+                
+                <li class="col-md-6 col-sm-12 col-xs-12 mt10 pl0" id="picNone">
                   <span class="fl">已上传的图片：</span>
                   <div class="fl">
-                    <up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }" />
+                    <u:show showId="artice_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }" />
                   </div>
                 </li>
               </ul>

@@ -145,6 +145,7 @@
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">图片展示：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input id="isPicShow" name="isPicShow" value="${article.isPicShow }" type="text">
+                <span class="add-on">i</span>
                 <div class="cue">${ERR_isPicShow}</div>
               </div>
             </li>
@@ -159,17 +160,25 @@
 
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">附件上传：</span>
-              <div class="fl">
-                <up:upload id="artice_file_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
-                <up:show showId="artice_file_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+              <div>
+                <u:upload id="artice_file_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+                <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
               </div>
             </li>
-
+            
+            <li class="col-md-6 col-sm-6 col-xs-12 mt10">
+              <span class="fl">审价文件上传：</span>
+              <div>
+                <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" auto="true" />
+                <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+              </div>
+            </li>
+            
             <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">
               <span class="fl">图片上传：</span>
-              <div class="fl">
-                <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" buttonName="上传图片" auto="true" />
-                <up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
+              <div>
+                <u:upload id="artice_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+                <u:show showId="artice_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
               </div>
             </li>
 

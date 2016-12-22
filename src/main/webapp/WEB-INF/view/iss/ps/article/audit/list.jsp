@@ -25,7 +25,7 @@
           }(),
           jump: function(e, first) { //触发分页后的回调
             if(!first) { //一定要加此判断，否则初始时会无限刷新
-              location.href = '${ pageContext.request.contextPath }/article/auditlist.html?status=&page=' + e.curr;
+              location.href = '${ pageContext.request.contextPath }/article/auditlist.html?status=1&page=' + e.curr;
             }
           }
         });
@@ -127,6 +127,28 @@
         $("#range").val("${articlesRange}");
         $("#status").val("${articlesStatus}");
       })
+      
+      
+      function edit() {
+          var id = [];
+          $('input[name="chkItem"]:checked').each(function() {
+            id.push($(this).val());
+          });
+          if(id.length == 1) {
+            window.location.href = "${pageContext.request.contextPath }/article/auditEdit.html?id=" + id;
+          } else if(id.length > 1) {
+            layer.alert("只能选择一个", {
+              offset: ['222px', '390px'],
+              shade: 0.01
+            });
+          } else {
+            layer.alert("请选择需要修改的信息", {
+              offset: ['222px', '390px'],
+              shade: 0.01
+            });
+          }
+        }
+      
     </script>
 
   </head>
@@ -196,7 +218,7 @@
 
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows check" type="button" onclick="audit()">发布</button>
-        <button class="btn btn-windows check" type="button" onclick="edit()">编辑</button>
+        <button class="btn btn-windows edit" type="button" onclick="edit()">编辑</button>
       </div>
 
       <div class="content table_box">
@@ -209,6 +231,7 @@
               <th class="info">发布范围</th>
               <th class="info">发布时间</th>
               <th class="info">信息栏目</th>
+              <th class="info">发布依据</th>
             </tr>
           </thead>
           <c:forEach items="${list.list}" var="article" varStatus="vs">
@@ -236,6 +259,9 @@
                 <fmt:formatDate value='${article.publishedAt }' pattern="yyyy年MM月dd日   HH:mm:ss" />
               </td>
               <td class="tc" onclick="view('${article.id }')">${article.articleType.name }</td>
+              <td>
+                <u:show showId="artice_secret_show" delete="false"  businessId="${article.id}" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+              </td>
             </tr>
           </c:forEach>
         </table>

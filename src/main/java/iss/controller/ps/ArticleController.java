@@ -18,7 +18,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -114,6 +113,15 @@ public class ArticleController extends BaseSupplierController{
     if(dlists.size()>0){
       model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
     }
+    
+    DictionaryData sj=new DictionaryData();
+    sj.setCode("SHWJ");
+    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    if(secrets.size()>0){
+      model.addAttribute("secretTypeId", secrets.get(0).getId());
+    }
+    
     return "iss/ps/article/add";
   }
 
@@ -297,6 +305,7 @@ public class ArticleController extends BaseSupplierController{
     List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
     article.setArticleAttachments(articleAttaList);
     model.addAttribute("article",article);
+    //图片
     DictionaryData dd=new DictionaryData();
     dd.setCode("POST_ATTACHMENT");
     List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
@@ -304,8 +313,8 @@ public class ArticleController extends BaseSupplierController{
     if(lists.size()>0){
       model.addAttribute("attachTypeId", lists.get(0).getId());
     }
-
     model.addAttribute("articleId", article.getId());
+    //附件上传
     DictionaryData da=new DictionaryData();
     da.setCode("GGWJ");
     List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
@@ -313,7 +322,50 @@ public class ArticleController extends BaseSupplierController{
     if(dlists.size()>0){
       model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
     }
+    //审价文件
+    DictionaryData sj=new DictionaryData();
+    sj.setCode("SHWJ");
+    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    if(secrets.size()>0){
+      model.addAttribute("secretTypeId", secrets.get(0).getId());
+    }
     return "iss/ps/article/edit";
+  }
+  
+  
+  @RequestMapping("/auditEdit")
+  public String auditEdit(Model model,String id,HttpServletRequest request){
+    Article article = articleService.selectArticleById(id);
+    List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
+    article.setArticleAttachments(articleAttaList);
+    model.addAttribute("article",article);
+    //图片
+    DictionaryData dd=new DictionaryData();
+    dd.setCode("POST_ATTACHMENT");
+    List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+    request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+    if(lists.size()>0){
+      model.addAttribute("attachTypeId", lists.get(0).getId());
+    }
+    model.addAttribute("articleId", article.getId());
+    //附件上传
+    DictionaryData da=new DictionaryData();
+    da.setCode("GGWJ");
+    List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+    request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
+    if(dlists.size()>0){
+      model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
+    }
+    //审价文件
+    DictionaryData sj=new DictionaryData();
+    sj.setCode("SHWJ");
+    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    if(secrets.size()>0){
+      model.addAttribute("secretTypeId", secrets.get(0).getId());
+    }
+    return "iss/ps/article/audit/edit";
   }
 
   /**
@@ -493,6 +545,13 @@ public class ArticleController extends BaseSupplierController{
     if(lists.size()>0){
       model.addAttribute("attachTypeId", lists.get(0).getId());
     }
+    DictionaryData sj=new DictionaryData();
+    sj.setCode("SHWJ");
+    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    if(secrets.size()>0){
+      model.addAttribute("secretTypeId", secrets.get(0).getId());
+    }
     return "iss/ps/article/look";
   }
 
@@ -538,6 +597,16 @@ public class ArticleController extends BaseSupplierController{
     PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 
     List<Article> list = articleService.selectArticleByStatus(map);
+    
+    
+    DictionaryData sj=new DictionaryData();
+    sj.setCode("SHWJ");
+    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    if(secrets.size()>0){
+      model.addAttribute("secretTypeId", secrets.get(0).getId());
+    }
+    
     model.addAttribute("list", new PageInfo<Article>(list));
     model.addAttribute("articleName", name);
     model.addAttribute("articlesRange", range);
@@ -609,6 +678,15 @@ public class ArticleController extends BaseSupplierController{
     if(dlists.size()>0){
       model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
     }
+    
+    DictionaryData sj=new DictionaryData();
+    sj.setCode("SHWJ");
+    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    if(secrets.size()>0){
+      model.addAttribute("secretTypeId", secrets.get(0).getId());
+    }
+    
     return "iss/ps/article/audit/audit";
   }
 
@@ -745,6 +823,106 @@ public class ArticleController extends BaseSupplierController{
 	      solrNewsService.deleteIndex(str);
 	    }
     return "redirect:getAll.html";
+  }
+  
+  
+  @RequestMapping("/updateApply")
+  public String updateApply(String[] ranges,HttpServletRequest request,
+      HttpServletResponse response,Article article,Model model){
+    String name = request.getParameter("name");
+    String ids = request.getParameter("ids");
+    if(ids!=null && ids!=""){
+      String[] attaids = ids.split(",");
+      for(String id : attaids){
+        articleAttachmentsService.softDeleteAtta(id);
+      }
+    }
+    if(ValidateUtils.isNull(article.getName())){
+      model.addAttribute("ERR_name", "标题名称不能为空");
+      model.addAttribute("article.id", article.getId());
+      Article artc = articleService.selectArticleById(article.getId());
+      List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+      artc.setArticleAttachments(articleAttaList);
+      model.addAttribute("article",artc);
+      List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+      model.addAttribute("list", list);
+      return "iss/ps/article/edit";
+    }
+    if(article.getName().length()>50){
+      model.addAttribute("ERR_name", "标题名称不得超过50字符");
+      model.addAttribute("article.id", article.getId());
+      Article artc = articleService.selectArticleById(article.getId());
+      List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+      artc.setArticleAttachments(articleAttaList);
+      model.addAttribute("article",artc);
+      List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+      model.addAttribute("list", list);
+      return "iss/ps/article/edit";
+    }
+    
+    List<Article> check = articleService.checkName(article);
+    for(Article ar:check){
+      if(ar.getName().equals(name)){
+        model.addAttribute("ERR_name", "标题名称不能重复");
+        model.addAttribute("article.id", article.getId());
+        model.addAttribute("article.name", name);
+        Article artc = articleService.selectArticleById(article.getId());
+        List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+        artc.setArticleAttachments(articleAttaList);
+        model.addAttribute("article",article);
+        List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+        model.addAttribute("list", list);
+        return "iss/ps/article/edit";
+      }
+    }
+
+    if(ranges!=null&&!ranges.equals("")){
+      if(ranges.length>1){
+        article.setRange(2);
+      }else{
+        for(int i=0;i<ranges.length;i++){
+          article.setRange(Integer.valueOf(ranges[i]));
+        }
+      }
+    }else{
+      model.addAttribute("ERR_range", "发布范围不能为空");
+      model.addAttribute("article.id", article.getId());
+      Article artc = articleService.selectArticleById(article.getId());
+      List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+      artc.setArticleAttachments(articleAttaList);
+      model.addAttribute("article",article);
+      List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+      model.addAttribute("list", list);
+      return "iss/ps/article/edit";
+    }
+    if(ValidateUtils.isNull(article.getContent())){
+      model.addAttribute("ERR_content", "信息正文不能为空");
+      model.addAttribute("article.id", article.getId());
+      Article artc = articleService.selectArticleById(article.getId());
+      List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+      artc.setArticleAttachments(articleAttaList);
+      model.addAttribute("article",article);
+      List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+      model.addAttribute("list", list);
+      return "iss/ps/article/edit";
+    }
+    if(article.getStatus()!=null&&article.getStatus()==2){
+      solrNewsService.deleteIndex(article.getId());
+    }
+
+    String isPicShow = request.getParameter("isPicShow");
+    if(isPicShow!=null&&!isPicShow.equals("")){
+      articleService.updateisPicShow(isPicShow);
+    }
+
+    article.setUpdatedAt(new Date());
+    article.setStatus(2);
+    articleService.update(article);
+    
+    Article findOneArticle = articleService.selectArticleById(article.getId());
+    solrNewsService.addIndex(findOneArticle);
+    
+    return "redirect:auditlist.html";
   }
 
 }
