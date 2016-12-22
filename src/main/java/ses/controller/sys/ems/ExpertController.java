@@ -1913,7 +1913,7 @@ public class ExpertController {
         dataMap.put("nation", expert.getNation() == null ? "" : expert.getNation());
         dataMap.put("healthState", expert.getHealthState() == null ? "" : expert.getHealthState());
         dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
-        dataMap.put("coverNote", expert.getCoverNote() == null ? "" : expert.getCoverNote());
+        dataMap.put("coverNote", expert.getCoverNote() == null ? "(不必填)" : expert.getCoverNote());
         dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
         dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
         dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
