@@ -1048,9 +1048,9 @@ public class ProjectController extends BaseController {
                 ps.setProjectDetails(newDetails);
             }
         }
-        String num1 = request.getParameter("num");
+        String num = request.getParameter("num");
         model.addAttribute("packageList", packages);
-        model.addAttribute("num1", num1);
+        model.addAttribute("num", num);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         Project project = projectService.selectById(id);
         model.addAttribute("project", project);
