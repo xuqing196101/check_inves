@@ -90,7 +90,7 @@
 	                  <td width="35%">${pqinfo.conclusion}</td>
 	                  <td width=15% class="bggrey ">质检报告：</td>
 	                  <td width="35%">
-	                  	<button type="button" onclick="view('${pqinfo.report}',this)" class="btn">质检报告</button>
+	                  	<button type="button" onclick="openViewDIv('${pqinfo.id}','${pqinfo.report}','2','artice_show','this')" class="btn">质检报告</button>
 					  </td>
 	                 </tr>
 	                 <tr>

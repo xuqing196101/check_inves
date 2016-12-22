@@ -121,6 +121,7 @@
 		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 		        	<input class="span5" name="unit" value = '${pqinfo.unit}' type="text">
 		        	<span class="add-on">i</span>
+		        	<span class="input-tip">填写质检单位</span>
 		        	<div class="cue">${ERR_unit}</div>
        			</div>
 			 </li>
@@ -159,6 +160,7 @@
 		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 		        	<input  name="inspectors"  value = '${pqinfo.inspectors}'  type="text">
 		        	<span class="add-on">i</span>
+		        	<span class="input-tip">填写质检人员</span>
 		        	<div class="cue">${ERR_inspectors}</div>
        			</div>
 			 </li>
@@ -167,6 +169,7 @@
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input  name="condition" type="text" value = '${pqinfo.condition}'  >
 		        <span class="add-on">i</span>
+		        <span class="input-tip">填写质检情况</span>
 		        <div class="cue">${ERR_condition}</div>
 		       </div>
 			 </li>
@@ -192,8 +195,8 @@
 			 <li class="col-md-12 col-sm-12 col-xs-12 mt10" id="picNone" >
 	   			<span class="fl">质检报告：</span>
 	    		<div class="fl">
-	        		<up:upload id="artice_up"  businessId="${pqinfoId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" exts="png,jpeg,jpg,bmp,git" />
-					<up:show showId="artice_show"  businessId="${pqinfoId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+	        		<u:upload id="artice_up"  businessId="${pqinfoId }" sysKey="${sysKey}" typeId="${attachTypeId }" buttonName="上传质检报告图片" auto="true" exts="png,jpeg,jpg,bmp,git" />
+					<u:show showId="artice_show"  businessId="${pqinfoId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
 				</div>
 	 		</li>
 		     <%--

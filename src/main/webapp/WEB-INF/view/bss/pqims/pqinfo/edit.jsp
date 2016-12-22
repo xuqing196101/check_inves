@@ -101,16 +101,18 @@ function goback(){
 		        	<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        	<input class="span5 procurementId" id="procurementId" name="procurementId"  value = '${pqinfo.contract.supplierPurId}' type="text"  readonly="readonly">
 		        	<span class="add-on">i</span>
+		        	<span class="input-tip">填写合同编号合同信息自动生成</span>
        			</div>
 			 </li>
 			 
 		    	<li class="col-md-3 col-sm-6 col-xs-12">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商名称：</span>
 			   		<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        <input class="span5 supplier_name" id="supplierName" name="supplier_name" value = '${pqinfo.contract.supplierDepName}' type="text"  readonly="readonly">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
+			        <input class="span5 supplier_name" id="supplierName" name="supplier_name" value = '${pqinfo.contract.supplierDepName}' type="text"  readonly="readonly">
+			        <span class="add-on">i</span>
+			        <span class="input-tip">填写合同编号合同信息自动生成</span>
+		       		</div>
+			 	</li>
 			 </ul>
 			</div>
 			 
@@ -123,6 +125,7 @@ function goback(){
 		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 		        	<input class="span5" name="unit" value = '${pqinfo.unit}'  type="text">
 		        	<span class="add-on">i</span>
+		        	<span class="input-tip">填写质检单位</span>
 		        	<div class="cue">${ERR_unit}</div>
        			</div>
 			 </li>
@@ -144,7 +147,8 @@ function goback(){
 		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 		        	<input name="place" value = '${pqinfo.place}'  type="text">
 		        	<span class="add-on">i</span>
-		        <div class="cue">${ERR_place}</div>
+		        	<span class="input-tip">填写质检地点</span>
+		        	<div class="cue">${ERR_place}</div>
        			</div>
 			 </li>
 			<li class="col-md-3 col-sm-6 col-xs-12">
@@ -159,7 +163,8 @@ function goback(){
 		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 		        	<input name="inspectors" value = '${pqinfo.inspectors}'  type="text">
 		        	<span class="add-on">i</span>
-		        <div class="cue">${ERR_inspectors}</div>
+		        	<span class="input-tip">填写质检人员</span>
+		        	<div class="cue">${ERR_inspectors}</div>
        			</div>
 			 </li>
 			 <li class="col-md-3 col-sm-6 col-xs-12">
@@ -167,7 +172,8 @@ function goback(){
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input name="condition" value = '${pqinfo.condition}'  type="text">
 		        <span class="add-on">i</span>
-		       <div class="cue">${ERR_condition}</div>
+		        <span class="input-tip">填写质检情况</span>
+		        <div class="cue">${ERR_condition}</div>
 		       </div>
 			 </li>
     		 <li class="col-md-3 col-sm-6 col-xs-12">
@@ -192,8 +198,8 @@ function goback(){
 			 <li class="col-md-12 col-sm-12 col-xs-12 mt10" id="picNone" >
 	   			<span class="fl">图片上传：</span>
 	    		<div class="fl">
-	        		<up:upload id="artice_up"  businessId="${pqinfoID }" sysKey="${pqinfoKey}" typeId="${attachtypeId }" auto="true" exts="png,jpeg,jpg,bmp,git"/>
-					<up:show showId="artice_show"  businessId="${pqinfoID }" sysKey="${pqinfoKey}" typeId="${attachtypeId }"/>
+	        		<u:upload id="artice_up"  businessId="${pqinfoID }" sysKey="${pqinfoKey}" typeId="${attachtypeId }" buttonName="上传质检报告图片" auto="true" exts="png,jpeg,jpg,bmp,git"/>
+					<u:show showId="artice_show"  businessId="${pqinfoID }" sysKey="${pqinfoKey}" typeId="${attachtypeId }"/>
 				</div>
 	 		</li>
    		</ul>
