@@ -65,7 +65,7 @@
 					}else{
 						  var el = document.createElement("a");
 	                      document.body.appendChild(el);
-	                      el.href = "${pageContext.request.contextPath}/set/list.html?staff="+result+"&&id="+cid;  
+	                      el.href = "${pageContext.request.contextPath}/set/list.html?staff="+result+"&&id="+cid+"&type="+$("#type").val();  
 	                      el.target = '_parent'; //指定在新窗口打开
 	                      el.click();
 	                      document.body.removeChild(el);
@@ -191,7 +191,7 @@
 	  <input type="hidden" name="collectId" value="" id="cid">
 	  <input type="hidden" name="auditStaff" id="aduit_nature" value=""/>
      <input type="hidden" name="auditRound" id="audit_turn" value=""/>
-     
+     <input type="hidden" value="${type }"  id="type" >
      <input type="hidden" name="name"   value=""/>
       <input type="hidden" name="mobile"   value=""/>
       <input type="hidden" name="userId" id="user_id"  value=""/>
