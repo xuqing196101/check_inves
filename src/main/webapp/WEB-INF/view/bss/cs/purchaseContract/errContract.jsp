@@ -49,12 +49,13 @@
 	          var previousTab = $(e.relatedTarget).text(); 
 	          if(activeTab=="合同文本"){
 	        	  $.ajax({
-	    	          contentType: "application/json;charset=UTF-8",
 	    	          url: "${pageContext.request.contextPath }/purchaseContract/createPrintPage.do",
 	    	          type: "POST",
 	    	          dataType: "json",
-	    	          success: function(orgs) {
-	    	        	  OpenFile(orgs);
+	    	          data: $("#contractForm").serialize(),
+	    	          success: function(data) {
+	    	        	  var obj = new Function("return" + data)();
+	    	        	  OpenFile(obj.filePath);
 	    	          }   
 	    	    });
 	          };
@@ -159,16 +160,14 @@
 		return childNodes;
 	 }
 	 
-	 function OpenFile(fileId) {
+	 function OpenFile(filePath) {
 			var obj = document.getElementById("TANGER_OCX");
 			obj.Menubar = true;
 			obj.Caption = "( 双击可放大 ! )"
-			//if(fileId != 0){
-				//obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true, false, 'word.document');// 异步加载, 服务器文件路径
-			//} 
-			
-			obj.OpenFromURL("http://localhost:8080/zhbj/contract/"+fileId);
-			
+			if(filePath != 0){
+				obj.BeginOpenFromURL("${pageContext.request.contextPath}"
+				+"/purchaseContract/loadFile.html?filePath="+filePath,true,false, 'word.document');// 异步加载, 服务器文件路径
+			} 			
 		}
 		
 		
@@ -434,6 +433,7 @@
 	
 	function staging(){
 		$("#status").val("0");
+		$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/addzancun.html?ids=${id}");
 		$("#contractForm").submit();
 	}
 	
@@ -1026,8 +1026,8 @@
 						<div class="red star_red">*</div>草案批复意见上传：
 					</span>
 			    	<div class="col-md-8 col-sm-6 col-xs-6 p0">
-			        <up:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
-					<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+			        <u:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
+					<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
 					</div>
 				</li>
 				<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">

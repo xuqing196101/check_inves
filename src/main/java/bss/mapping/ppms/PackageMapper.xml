@@ -291,13 +291,13 @@
 
 	<select id="selectAllByIsWon" parameterType="Map" resultMap="BaseResultMap">
 		select distinct pa.id as id,pa.PROJECT_ID projectId,pa.NAME
-		name,pa.updated_at FROM
+		name,pa.updated_at,ch.supplier_id supplierId,ch.CONTRACT_ID contractId,ch.id supplierCheckPassId,ch.IS_CREATE_CONTRACT isCreateContract FROM
 		T_BSS_PPMS_PACKAGE pa,
 		T_BSS_PPMS_SUPPLIER_CHECK_PASS ch
 		where
 		pa.project_id in (
 		select pc.id
-		from T_BSS_PPMS_PROJECTS pc where pa.IS_DELETED=0
+		from T_BSS_PPMS_PROJECTS pc
 		<if test="projectName != null and projectName != ''">
 			and pc.NAME like '%'||#{projectName}||'%'
 		</if>
@@ -309,8 +309,11 @@
 		</if>
 		) and pa.id = ch.package_id
 		and ch.is_won_bid = 1
-		order by UPDATED_AT
-		DESC
+		and pa.IS_DELETED=0
+		<if test="isCreateContract != null and isCreateContract != ''">
+			and is_CreateContract = #{isCreateContract}
+		</if>
+		order by isCreateContract 
 	</select>
 
 	<!-- 根据包信息返回抽取出的专家 -->

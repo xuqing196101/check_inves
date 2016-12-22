@@ -392,36 +392,62 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		if(pur.getName()!=null){
 			name = pur.getName();
 		}
-		String targetFileName = System.currentTimeMillis()+ "."+ name +".doc";
-		String finalPath = PropUtil.getProperty("file.base.path");
-        int type = 2;
-        String fileSysPath = getFileDir(type);
-        File file = null;
-        if (StringUtils.isNotBlank(fileSysPath)){
-        	finalPath = finalPath + fileSysPath + File.separator + UploadUtil.getDataFilePath();
-            UploadUtil.createDir(finalPath);
-            file = UploadUtil.getFile(finalPath, targetFileName);
-    		Writer out = null;
-    		try {
-    			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
-    		} catch (FileNotFoundException e) {
-    			e.printStackTrace();
-    		} catch (UnsupportedEncodingException e) {
-    			e.printStackTrace();
-    		}
-    		try {
-    			t.process(dataMap, out);
-    			out.flush();
-                out.close();
-    		} catch (TemplateException e) {
-    			e.printStackTrace();
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}
-        }
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("fileName", targetFileName);
-        map.put("filePath", file.getPath());
+//		String targetFileName = System.currentTimeMillis()+ "_"+ name +".doc";
+//		String finalPath = PropUtil.getProperty("file.base.path");
+//        int type = 2;
+//        String fileSysPath = getFileDir(type);
+//        File file = null;
+//        if (StringUtils.isNotBlank(fileSysPath)){
+//        	finalPath = finalPath + fileSysPath + File.separator + UploadUtil.getDataFilePath();
+//            UploadUtil.createDir(finalPath);
+//            file = UploadUtil.getFile(finalPath, targetFileName);
+//    		Writer out = null;
+//    		try {
+//    			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
+//    		} catch (FileNotFoundException e) {
+//    			e.printStackTrace();
+//    		} catch (UnsupportedEncodingException e) {
+//    			e.printStackTrace();
+//    		}
+//    		try {
+//    			t.process(dataMap, out);
+//    			out.flush();
+//                out.close();
+//    		} catch (TemplateException e) {
+//    			e.printStackTrace();
+//    		} catch (IOException e) {
+//    			e.printStackTrace();
+//    		}
+//        }
+		String fileName = System.currentTimeMillis()+".doc";
+		String filePath = "";
+            try {
+            	String basePath = PropUtil.getProperty("file.base.path");
+                String temp = PropUtil.getProperty("file.temp.path");
+                String path = basePath + File.separator + temp;
+                File file = new File(path);
+                if (!file.exists()){
+                    file.mkdirs();
+                }
+                File rootFile = new File(path,fileName);
+                if(!rootFile.exists()){
+                	rootFile.createNewFile();
+                }
+                	Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(rootFile),"UTF-8"));
+                    t.process(dataMap, out);
+                    out.flush();
+                    out.close();
+                    filePath = rootFile.getPath().replaceAll("\\\\","/");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TemplateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("fileName", fileName);
+            map.put("filePath", filePath);
 		return map;
 	}
 	

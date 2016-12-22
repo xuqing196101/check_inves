@@ -161,7 +161,7 @@
 	        </table>
 	        --%><h2 class="count_flow jbxx">草案批复意见</h2>  
 	        <div class="col-md-12 select_common">
-				<up:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+				<u:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
 			</div>
 	     </div>
 	    <div class="tab-pane fade" id="tab-2">

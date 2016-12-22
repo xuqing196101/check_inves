@@ -118,6 +118,13 @@ public class SupplierCheckPass {
      * </pre>
      */
     private Date updatedAt;
+    
+    /**
+     * <pre>
+     * 表字段 : T_BSS_PPMS_SUPPLIER_CHECK_PASS.CONTRACT_ID
+     * </pre>
+     */
+    private String contractId;
 
     /**
      * <pre>
@@ -483,7 +490,11 @@ public class SupplierCheckPass {
         this.wonPrice = wonPrice;
     }
 
-   
-   
+	public String getContractId() {
+		return contractId;
+	}
 
+	public void setContractId(String contractId) {
+		this.contractId = contractId;
+	}
 }

@@ -56,6 +56,7 @@
     <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType"/>
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId"/>
     <result column="FINALLY_CLOSED" jdbcType="DECIMAL" property="finallyClosed"/>
+    <result column="SUPPLIER_CHECK_IDS" jdbcType="VARCHAR" property="supplierCheckIds"/>
   </resultMap>
   
   <resultMap extends="purContractMap" id="purContractBlob" type="bss.model.cs.PurchaseContract">
@@ -489,6 +490,9 @@
       <if test="bingUnitpostCode != null">
         BING_UNITPOST_CODE,
       </if>
+      <if test="supplierCheckIds != null">
+        SUPPLIER_CHECK_IDS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -655,6 +659,9 @@
       </if>
       <if test="bingUnitpostCode != null">
         #{bingUnitpostCode},
+      </if>
+      <if test="supplierCheckIds != null">
+        #{supplierCheckIds},
       </if>
     </trim>
   </insert>

@@ -135,6 +135,16 @@ public class PurchaseContract {
 	
 	private String showSupplierDepName;
 	
+	private String supplierCheckIds;
+	
+	public String getSupplierCheckIds() {
+		return supplierCheckIds;
+	}
+
+	public void setSupplierCheckIds(String supplierCheckIds) {
+		this.supplierCheckIds = supplierCheckIds;
+	}
+
 	public String getShowDemandSector() {
 		return showDemandSector;
 	}
