@@ -164,11 +164,12 @@
 	      <li>
 	    	<label class="fl">须知文档类型：</label>
 	    	<span>
-	    		<select id="searchType" name =docType class="w150" >
-					<option value="-请选择-">-请选择-</option>
-			  	 	<option value="供应商须知文档">供应商须知文档</option>
-			  	 	<option value="专家须知文档">专家须知文档</option>
-	  			</select>
+	  			<select id="searchType" name ="docType" class="w150">
+	  			  <option value="">-请选择-</option>
+       			    <c:forEach items="${noticeType}" var="type">
+       			      <option value="${type.id}" <c:if test="${type.id == noticeDocument.docType}"> selected="selected"</c:if>>${type.name}</option>
+       			    </c:forEach>
+ 				 </select>
 	  		</span>
 	      </li>
 	    	<button type="submit" class="btn">查询</button>
@@ -206,7 +207,16 @@
 				
 				<td class="tc pointer" onclick="view('${noticeDocument.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-				<td class="tc pointer" onclick="view('${noticeDocument.id}')">${noticeDocument.docType}</td>
+				<td class="tc pointer" onclick="view('${noticeDocument.id}')">
+					
+					<c:forEach items="${noticeType}" var="type">
+       			      <c:if test="${type.id == noticeDocument.docType}"> 
+       			        ${type.name}
+       			      </c:if>
+       			    </c:forEach>
+					${noticeDocument.docType}
+					
+			    </td>
 				
 				<td class="tc pointer" onclick="view('${noticeDocument.id}')">${noticeDocument.name}</td>
 			
