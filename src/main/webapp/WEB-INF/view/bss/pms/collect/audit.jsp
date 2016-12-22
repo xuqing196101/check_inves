@@ -320,51 +320,47 @@
 		</script>
 	</head>
 
-	<body>
-		<!--面包屑导航开始-->
-		<div class="margin-top-10 breadcrumbs ">
-			<div class="container">
-				<ul class="breadcrumb margin-left-0">
-					<li>
-						<a href="#"> 首页</a>
-					</li>
-					<li>
-						<a href="#">保障作业系统</a>
-					</li>
-					<li>
-						<a href="#">采购计划管理</a>
-					</li>
-					<li class="active">
-						<a href="#">采购计划审核</a>
-					</li>
-				</ul>
-				<div class="clear"></div>
-			</div>
+<body>
+<!--面包屑导航开始-->
+<div class="margin-top-10 breadcrumbs ">
+	<div class="container">
+		<ul class="breadcrumb margin-left-0">
+			<li>
+				<a href="#"> 首页</a>
+			</li>
+			<li>
+				<a href="#">保障作业系统</a>
+			</li>
+			<li>
+				<a href="#">采购计划管理</a>
+			</li>
+			<li class="active">
+				<a href="#">采购计划审核</a>
+			</li>
+		</ul>
+		<div class="clear"></div>
 		</div>
+</div>
 		
-		
-		
-			<div class="container">
-				<div class="col-md-12 pl20 mt10 tab-v2">
-					<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
-					<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面</a>
-				<%-- 	<div class="fl">
-						<u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }" />
-						<u:show showId="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }" />
-					</div> --%>
-				</div>
-		 
-		  <div class="tab-content mt10">
-          <div class="tab-v2">
-				<ul class="nav nav-tabs bgwhite">
-					<li class="active">
-						<a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">所有明细</a>
-					</li>
-					<li>
-						<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">按需求部门</a>
-					</li>
-				</ul>
-				
+<div class="container">
+	<div class="col-md-12 mt10 tab-v2">
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
+		<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面</a>
+		<%-- 	<div class="fl">
+		<u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }" />
+		<u:show showId="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }" />
+		</div> --%>
+	</div>	 
+	<div class="tab-content mt10">
+		<div class="col-md-12 mt10 tab-v2">
+			<ul class="nav nav-tabs bgwhite">
+				<li class="active">
+					<a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">所有明细</a>
+				</li>
+				<li>
+					<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">按需求部门</a>
+				</li>
+			</ul>	
 			<form id="audit_form" action="${pageContext.request.contextPath}/look/audit.html" method="post">
 				<div class="tab-content">
 				<div class="tab-pane fade active in" id="tab-1">
