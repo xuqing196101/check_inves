@@ -167,4 +167,13 @@ public interface ArticleService {
 	 */
 	StringBuilder getContent(List<Packages> listPackages);
 	
+	/**
+	* @Title: updateisPicShow
+	* @author Shen Zhenfei 
+	* @date 2016-12-22 上午9:18:32  
+	* @Description: 首页信息发布、撤回
+	* @param @param isPicShow      
+	* @return void
+	 */
+	void updateStatus(Article article);
 }
