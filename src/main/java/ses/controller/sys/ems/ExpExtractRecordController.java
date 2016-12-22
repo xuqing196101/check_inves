@@ -4,6 +4,7 @@
 package ses.controller.sys.ems;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -257,7 +258,9 @@ public class ExpExtractRecordController extends BaseController {
             Project project = projectService.selectById(projectId);
             if (project != null){
                 if (project.getBidDate() != null ){
-                    if (new Date().after(project.getBidDate())){
+                    Long currentTime = System.currentTimeMillis();
+                    Long currentBidDate = project.getBidDate().getTime()-(30*60*1000);
+                    if (currentTime > currentBidDate){
                         model.addAttribute("typeId", 1);
                     }else{
                         model.addAttribute("typeId", 0);
@@ -265,7 +268,6 @@ public class ExpExtractRecordController extends BaseController {
                 }
                 model.addAttribute("projectId", project.getId());
                 model.addAttribute("projectName", project.getName());
-                model.addAttribute("projectNumber", project.getProjectNumber());
                 model.addAttribute("projectNumber", project.getProjectNumber());
                 model.addAttribute("bidDate", project.getBidDate());
                 //获取采购方式
@@ -361,6 +363,7 @@ public class ExpExtractRecordController extends BaseController {
             model.addAttribute("extConType", conTypes);
 
             if (projectExtractListNo.size() != 0){
+                Collections.shuffle(projectExtractListNo);
                 projectExtractListYes.add(projectExtractListNo.get(0));
                 projectExtractListNo.remove(0);
             }
@@ -568,6 +571,7 @@ public class ExpExtractRecordController extends BaseController {
         model.addAttribute("extConType", conTypes);
 
         if (projectExtractListNo.size() != 0){
+            Collections.shuffle(projectExtractListNo);
             projectExtractListYes.add(projectExtractListNo.get(0));
             projectExtractListNo.remove(0);
         }
@@ -643,6 +647,7 @@ public class ExpExtractRecordController extends BaseController {
         }
         projectExtractListYes.get(0).setConType(conTypes);
         if (projectExtractListNo.size() != 0){
+            Collections.shuffle(projectExtractListNo);
             projectExtractListYes.add(projectExtractListNo.get(0));
         }else{
             //已抽取

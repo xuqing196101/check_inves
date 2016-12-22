@@ -842,7 +842,7 @@
 		AND
 		ee.IS_BLACK = 0
 		AND ee.IS_SUBMIT = 1
-		AND ee.STATUS = 1
+		AND IS_PROVISIONAL = 0
 
 		<if test="expertsFromSplit != null and expertsFromSplit != ''">
 			AND
