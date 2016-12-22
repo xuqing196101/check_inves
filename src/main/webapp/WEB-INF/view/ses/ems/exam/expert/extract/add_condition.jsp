@@ -124,6 +124,7 @@
                            btn: ['确定','取消'],offset: ['40%', '40%'], shade:0.01
                          }, function(index){
                         	 ext();
+                        	 layer.close(index);
                          }, function(index){
                            layer.close(index);
                          });
@@ -192,10 +193,10 @@
                         } 
                        tex+="<tr class='cursor'>"+
                            "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
-                           "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
+                           "<td class='tc' onclick='show();'>*****</td>"+
                            "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>"+
-                           "<td class='tc' onclick='show();'>"+list[i].expert.workUnit+"</td>"+
-                           "<td class='tc' onclick='show();'>"+list[i].expert.professTechTitles+"</td>"+
+                           "<td class='tc' onclick='show();'>*****</td>"+
+                           "<td class='tc' onclick='show();'>*****</td>"+
                        " <td class='tc' >"+
                          "<select id='select' onchange='operation(this);'>";
                          
@@ -289,6 +290,9 @@
                 }, function(value, index, elem){
                      ajaxs(select.value,value);
                      layer.close(index);
+                },function(value, index, elem){
+                  select.options[0].selected = true;
+                  layer.close(index);
                 });
             }else{
             select.disabled=true;
@@ -340,10 +344,10 @@
                                 } 
                                tex+="<tr class='cursor'>"+
                                    "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
-                                   "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
+                                   "<td class='tc' onclick='show();'>*****</td>"+
                                    "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>"+
-                                   "<td class='tc' onclick='show();'>"+list[i].expert.workUnit+"</td>"+
-                                   "<td class='tc' onclick='show();'>"+list[i].expert.professTechTitles+"</td>"+
+                                   "<td class='tc' onclick='show();'>*****</td>"+
+                                   "<td class='tc' onclick='show();'>*****</td>"+
                                " <td class='tc' >"+
                                  "<select id='select' onchange='operation(this);'>";
                                   if(list[i].operatingType==1){

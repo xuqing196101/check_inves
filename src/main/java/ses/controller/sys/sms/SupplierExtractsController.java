@@ -836,11 +836,7 @@ public class SupplierExtractsController extends BaseController {
     @RequestMapping("/AddtemporarySupplier")
     public  Object addTemporaryExpert(Supplier supplier,  Model model, String projectId,String packageId, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq){
         Integer type = 0;
-        if (supplier.getAddress() == null || "".equals(supplier.getAddress())){
-            model.addAttribute("addressError", "不能为空");
-            type = 1;
-        }
-
+     
         if (supplier.getSupplierName() == null || "".equals(supplier.getSupplierName())){
             model.addAttribute("supplierNameError", "不能为空");
             type = 1;
