@@ -290,7 +290,7 @@
 			  </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.budget }</td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.auditDate }"/> </td>
+			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.deliverDate }"/> </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
 				 	<c:if test="${obj.status=='1' }">
 			 		未提交

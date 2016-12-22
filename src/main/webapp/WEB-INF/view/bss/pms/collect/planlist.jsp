@@ -154,13 +154,14 @@
 						dataType: "json",
 						url: "${pageContext.request.contextPath }/look/auditId.do?id=" + id,
 						success: function(data) {
-						/* 	if(data==0){
-								layer.alert("请选择状态为已编制为采购计划的审核", {
+						 if(data!=1){
+								layer.alert("请选择状态需要审核的", {
 									offset: ['30%', '40%']
 								});
-								$(".layui-layer-shade").remove();
-							}else if(data==1){ */
+							}
+							if(data==1){ 
 								window.location.href = "${pageContext.request.contextPath }/look/auditlook.html?id=" + id;
+								}
 							/* } */
 						}
 					});

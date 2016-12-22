@@ -150,9 +150,9 @@ public class PurchaseRequiredController extends BaseController{
 						map.put("historyStatus", s);
 						map.put("id", p.getId());
 						purchaseRequiredService.update(map);
-						if(p.getParentId()!=null){
-							p.setParentId(p.getParentId());
-						}
+//						if(p.getParentId()!=null){
+//							p.setParentId(p.getParentId());
+//						}
 //						queryById.setId(p.getId());
 						p.setHistoryStatus("0");
 						purchaseRequiredService.add(p);	

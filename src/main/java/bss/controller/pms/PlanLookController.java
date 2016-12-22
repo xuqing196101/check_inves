@@ -332,7 +332,7 @@ public class PlanLookController extends BaseController {
 		String str = null;
 		String id = request.getParameter("id");
 		CollectPlan plan = collectPlanService.queryById(id);
-		if(plan.getStatus()==1){
+		if(plan.getStatus()==7||plan.getStatus()==8||plan.getStatus()==9){
 			str = "1";
 		}else{
 			str = "0";

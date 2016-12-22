@@ -235,6 +235,7 @@
                   <td class="tc"><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate}"></td>
                   <td class="tc">
                       <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
+                        <option value="">请选择</option>
                         <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
@@ -248,9 +249,9 @@
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                      <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
                      <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
-                     --%><input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
+                    <input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
                      <input type="hidden" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }">
-                 <%--     <input type="hidden" name="list[${vs.index }].item" value="${obj.item }"> 
+                   <input type="hidden" name="list[${vs.index }].item" value="${obj.item }"> 
                      <input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"> 
                      <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }"> 
                      <input type="hidden" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
@@ -268,6 +269,10 @@
                      <input type="hidden" name="list[${vs.index }].isMaster" value="${obj.isMaster }">
                      <input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
                      <input type="hidden" name="list[${vs.index }].status" value="${obj.status }">
+                     <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq}">
+                     <input type="hidden" name="list[${vs.index }].userId" value="${obj.userId}">
+                     <input type="hidden" name="list[${vs.index }].createdAt" value="${obj.createdAt}">
+                     <input type="hidden" name="list[${vs.index }].department" value="${obj.department}"> 
                    </td>
                    <td class="tc w100"><input type="text" value="暂存" readonly="readonly"></td>
                  </tr>
