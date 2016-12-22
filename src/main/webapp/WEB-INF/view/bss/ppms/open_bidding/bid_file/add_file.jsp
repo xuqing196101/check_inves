@@ -95,7 +95,7 @@
 </script>
 </head>
 
-<body onload="OpenFile('${fileId}')">
+<body onload="OpenFile(${fileId})">
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
 	   	 <c:if test="${ope == 'add' }">

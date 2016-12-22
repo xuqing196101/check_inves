@@ -46,15 +46,15 @@ function OnComplete2(type,code,html)
 {
 	//alert(type);
 	//alert(code);
-	//alert(html);
-	//alert("SaveToURL成功回调");
+	alert(html);
+	alert("SaveToURL成功回调");
 }
 function OnComplete(type,code,html)
 {
 	//alert(type);
 	//alert(code);
-	//alert(html);
-	//alert("BeginOpenFromURL成功回调");
+	alert(html);
+	alert("BeginOpenFromURL成功回调");
 }
 function OnComplete3(str,doc)
 {
@@ -95,41 +95,41 @@ function OnComplete3(str,doc)
 											fileTypeSimple="unkownfiletype";
 									}
 									
-	//alert("ondocumentopened成功回调");
+	alert("ondocumentopened成功回调");
 }
 function publishashtml(type,code,html){
-	//alert(html);
-	//alert("Onpublishashtmltourl成功回调");
+	alert(html);
+	alert("Onpublishashtmltourl成功回调");
 }
 function publishaspdf(type,code,html){
-//alert(html);
-//alert("Onpublishaspdftourl成功回调");
+alert(html);
+alert("Onpublishaspdftourl成功回调");
 }
 function saveasotherurl(type,code,html){
-//alert(html);
-//alert("SaveAsOtherformattourl成功回调");
+alert(html);
+alert("SaveAsOtherformattourl成功回调");
 }
 function dowebget(type,code,html){
-//alert(html);
-//alert("OnDoWebGet成功回调");
+alert(html);
+alert("OnDoWebGet成功回调");
 }
 function webExecute(type,code,html){
-//alert(html);
-//alert("OnDoWebExecute成功回调");
+alert(html);
+alert("OnDoWebExecute成功回调");
 }
 function webExecute2(type,code,html){
-//alert(html);
-//alert("OnDoWebExecute2成功回调");
+alert(html);
+alert("OnDoWebExecute2成功回调");
 }
 function FileCommand(TANGER_OCX_str,TANGER_OCX_obj){
 	if (TANGER_OCX_str == 3) 
 	{
-		//alert("不能保存！");
+		alert("不能保存！");
 		TANGER_OCX_OBJ.CancelLastCommand = true;
 	}
 }
 function CustomMenuCmd(menuPos,submenuPos,subsubmenuPos,menuCaption,menuID){
-//alert("第" + menuPos +","+ submenuPos +","+ subsubmenuPos +"个菜单项,menuID="+menuID+",菜单标题为\""+menuCaption+"\"的命令被执行.");
+alert("第" + menuPos +","+ submenuPos +","+ subsubmenuPos +"个菜单项,menuID="+menuID+",菜单标题为\""+menuCaption+"\"的命令被执行.");
 }
 var classidx64="A64E3073-2016-4baf-A89D-FFE1FAA10EE0";
 
@@ -137,9 +137,10 @@ var classid="A64E3073-2016-4baf-A89D-FFE1FAA10EC0";
 var codebase= globalPath+"/public/ntko/OfficeControl.cab";
 var codebase64= globalPath+"/public/ntko/OfficeControlx64.cab";
 if (browser=="IE"){
-	// alert(window.navigator.platform);
-	// alert(navigator.userAgent);
+	//alert(window.navigator.platform);
+	//alert(navigator.userAgent);
 	if(window.navigator.platform=="Win32"){
+		//alert(32)
 		document.write('<!-- 用来产生编辑状态的ActiveX控件的JS脚本-->   ');
 		document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
 		document.write('<object id="TANGER_OCX" classid="clsid:'+classid+'"');
@@ -171,10 +172,10 @@ document.write('<param name="ProductKey" value="AB579623F5B4E11E5F61C06579A21F84
 		document.write('</object>');	
 	}
 	if(window.navigator.platform=="Win64"){
-		
+		//alter(64)
 		document.write('<!-- 用来产生编辑状态的ActiveX控件的JS脚本-->   ');
 		document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
-		document.write('<object id="TANGER_OCX" classid="clsid:'+classidx64+'"');
+		document.write('<object id="TANGER_OCX" classid="clsid:'+classid+'"');
 		document.write('codebase="'+codebase64+'" width="100%" height="100%">   ');
 		document.write('<param name="IsUseUTF8URL" value="-1">   ');
 		document.write('<param name="IsUseUTF8Data" value="-1">   ');
