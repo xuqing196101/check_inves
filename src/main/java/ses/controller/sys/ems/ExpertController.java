@@ -212,10 +212,13 @@ public class ExpertController {
      */
     @RequestMapping(value = "/toRegisterNotice")
     public String toRegisterNotice(Model model) {
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("docType", "专家须知文档");
-        String doc = noticeDocumentService.findDocByMap(param);
-        model.addAttribute("doc", doc);
+        DictionaryData dd = DictionaryDataUtil.get("EXPERT_REGISTER_NOTICE");
+        if (dd != null){
+            Map<String, Object> param = new HashMap<String, Object>();
+            param.put("docType", dd.getId());
+            String doc = noticeDocumentService.findDocByMap(param);
+            model.addAttribute("doc", doc);
+        }
         return "ses/ems/expert/register_notice";
     }
 
@@ -1910,7 +1913,7 @@ public class ExpertController {
         dataMap.put("nation", expert.getNation() == null ? "" : expert.getNation());
         dataMap.put("healthState", expert.getHealthState() == null ? "" : expert.getHealthState());
         dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
-        dataMap.put("coverNote", expert.getCoverNote() == null ? "" : expert.getCoverNote());
+        dataMap.put("coverNote", expert.getCoverNote() == null ? "(不必填)" : expert.getCoverNote());
         dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
         dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
         dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());

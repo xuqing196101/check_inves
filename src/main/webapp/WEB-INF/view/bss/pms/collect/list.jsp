@@ -293,14 +293,14 @@
 							</td>
 							<td>
 								<c:if test="${obj.status=='2' }">
-									未受理
+									待受理
 								</c:if>
 								<c:if test="${obj.status=='3' }">
-									受理退回
+									   已受理
 								</c:if>
-								<c:if test="${obj.status=='4'||obj.status=='5'||obj.status=='6' }">
+							<%-- 	<c:if test="${obj.status=='4'||obj.status=='5'||obj.status=='6' }">
 									已受理
-								</c:if>
+								</c:if> --%>
 							</td>
 						</tr>
 					</c:forEach>

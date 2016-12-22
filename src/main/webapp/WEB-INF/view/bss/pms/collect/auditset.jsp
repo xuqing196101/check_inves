@@ -366,7 +366,7 @@
 
  <div id="content" class="dnone layui-layer-wrap mt20"> 
 	<form id="collect_form" action="">
-	 <input type="hidden" id="audit_turn" value="${type }" name="auditRound">
+	 <input type="hidden" id="auditRound" value="${type }" name="auditRound">
 	   <input type="hidden" name="type" id="type" value="3">
          <input type="hidden" name="id" value="123123123">
 	     <div class="drop_window">
@@ -412,7 +412,7 @@
 	 	<input type="hidden" name="fname" value="" id="fname" >
 	 	<input type="hidden" name="fname2" value="" id="fname2" > -->
 	 	<input type="hidden" name="collectId" value="${id }">	
-	 	<input type="hidden" name="type" value="${type }">	
+	 	<input type="hidden" name="type" value="${type}">	
 	 	
 	 </form>
 	 

@@ -352,8 +352,8 @@
             <label class="col-md-12 pl20" id="uuId"></label>
             <span class="col-md-12">
                <input type="hidden" name="id" value="${task.id}"/>
-         <f:upload id="upload_id" businessId="${task.id}" multiple="true" typeId="${dataId}" exts="png,jpeg,jpg,bmp,gif" sysKey="2"/>
-         <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
+         <u:upload id="upload_id" businessId="${task.id}" multiple="true" typeId="${dataId}" exts="png,jpeg,jpg,bmp,gif" sysKey="2"/>
+         <u:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
             </span>
           </li>
         </ul>

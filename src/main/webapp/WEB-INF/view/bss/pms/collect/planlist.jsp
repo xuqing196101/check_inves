@@ -369,15 +369,15 @@
 		</div>
 
 		<div id="content" class="dnone" style="text-align: center;">
-			<span style="padding-top:50px;">直接下达采购任务或者设置审核轮次</span>
-			<select style="margin-top: 15px;" onchange="auditturns(this)" name="planType" id="wtype">
-				<option value="">请选择</option>
-				<option value="4">直接下达任务</option>
-				<c:forEach items="${dic }" var="obj">
-					<option value="${obj.id }">${obj.name }</option>
-				</c:forEach>
-			</select>
-			<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
+			<span style="padding-top:50px;">直接下达采购任务或者设置审核轮次</span> <select style="margin-top: 15px;" onchange="auditturns(this)"
+			name="planType" id="wtype">
+			<option value="">请选择</option>
+			<option value="4">直接下达任务</option>
+			<c:forEach items="${dic }" var="obj">
+				<option value="${obj.id }">${obj.name }</option>
+			</c:forEach>
+		</select>
+		<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
 			    <button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="closeLayer()">确定</button>
 			    <button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="cant()">取消</button>
 		    </div>

@@ -5,6 +5,7 @@ package ses.controller.sys.ems;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -149,6 +150,7 @@ public class ExpExtConditionController extends BaseController {
             map.put("extConType", conTypes);
 
             if (projectExtractListNo.size() != 0) {
+                Collections.shuffle(projectExtractListNo);
                 projectExtractListYes.add(projectExtractListNo.get(0));
                 projectExtractListNo.remove(0);
             }
