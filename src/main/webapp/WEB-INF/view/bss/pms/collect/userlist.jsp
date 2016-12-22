@@ -200,16 +200,18 @@
       
 	 </form>
 	 
-	 	<ul class="list-unstyled list-flow dnone mt10" id="audit">
-			<li class="col-md-12 ml15">
-				<span class="span3 fl mt5"><div class="red star_red">*</div>审核人员性质：</span>
-				<input type="text" id="auditStaff"/>
-				<div class="clear red" id="errorType"></div>
+	 	<ul class="list-unstyled dnone mt10" id="audit">
+			<li class="col-md-12 col-sm-12 col-xs-12 pl15">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><div class="red star_red">*</div>审核人员性质：</span>
+				<div class="col-md-3 col-xs-3 col-sm-3 input-append input_group">
+				    <input type="text" id="auditStaff"/>
+				    <div class="cue" id="errorType"></div>
+				</div>
 			</li>
-			<div class="col-md-12 mt10 tc">
+		</ul>
+			<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 				<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
 				<button class="btn btn-windows cancel" type="button" onclick="cancelss()">取消</button>
 			</div>
-		</ul>
 	 </body>
 </html>

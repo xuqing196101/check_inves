@@ -182,8 +182,8 @@
 				      </li>
 			    	</ul>
 		 
-	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" />
-	  <input type="button" onclick="resetQuery()" class="btn" value="重置"/>
+	   	 <input class="btn fl"   type="submit" name="" value="查询" />
+	  <input type="button" onclick="resetQuery()" class="btn fl" value="重置"/>
    </form>
   </h2>
  
@@ -243,7 +243,7 @@
    </div>
  </div>
 
- <div id="content" class="dnone">
+ <div id="content" class="dnone col-md-12 col-xs-12 col-sm-12 tc mt10">
 	 
 	<form id="collect_form" action="${pageContext.request.contextPath }/taskassgin/add.html" method="post" style="margin-top: 20px;">
 	
@@ -256,10 +256,10 @@
 		 
 		 
 		 <input type="hidden" name="cid" id="cid" value="">
-		
-	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" onclick="closeLayer()" >确认</button>
-	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 30px" onclick="cancels()" >取消</button>
-	   
+		<div class="col-md-12 col-xs-12 col-sm-12 tc">
+	     	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" onclick="closeLayer()" >确认</button>
+	   	    <button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 30px" onclick="cancels()" >取消</button>
+	    </div>
 	 </form>   
  </div>
  

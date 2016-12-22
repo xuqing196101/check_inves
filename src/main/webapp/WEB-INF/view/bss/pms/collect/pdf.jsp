@@ -281,18 +281,11 @@
 			
 		</div> -->
 	</div>
-
-
-
-
 	<div class="container clear margin-top-30" id="add_div">
-	
-	
-
 		<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 			<input type="hidden" name="planName" id="fjhmc">
 			<input type="hidden" name="planNo" id="fjhbh">
-			<table class="table table-bordered" style="width:800px;">
+			<table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
@@ -300,7 +293,7 @@
 		 
 					</tr>
 				</thead>
-
+                <tbody>
 				<tr>
 					<td class="tc w50">1</td>
 					<td class="tc w50"><textarea style="width: 650px;height: 100px;border: 0px"></textarea></td>
@@ -336,9 +329,12 @@
 					 <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd()" value="添加">
 					 <input class="btn btn-windows delete" name="delt" type="button" onclick="delets()" value="删除"></td>
 				</tr> --%>
+				</tbody>
 			</table>
-			<input class="btn btn-windows save" type="button" onclick="window.print()" value="打印"> 
-			<button class="btn btn-windows git" onclick="history.go(-1)" type="button">取消</button>
+			<div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+			  <input class="btn btn-windows save" type="button" onclick="window.print()" value="打印"> 
+			  <button class="btn btn-windows git" onclick="history.go(-1)" type="button">取消</button>
+			</div>
 		</form>
 	</div>
 
