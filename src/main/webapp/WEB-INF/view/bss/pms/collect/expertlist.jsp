@@ -38,7 +38,7 @@
 		var nature=parent.nature;
 		var turn=parent.turns;
  		$("#aduit_nature").val(nature);
- 		$("#audit_turn").val(turn);
+ 	/* 	$("#audit_turn").val(turn); */
  		
  		
 		var id  = $('input[name="chkItem"]:checked').val(); 
@@ -196,10 +196,10 @@
    		<form id="collected_form" action="" method="post">
      	<input type="hidden" value="" name="id" id="aid">
      	<input type="hidden" value="1"  name="type" >
-     	<input type="hidden" value="${type }"  id="type" >
+     	<%-- <input type="hidden" value="${type }"  id="type" > --%>
       	<input type="hidden" name="collectId" value="" id="cid">
       	<input type="hidden" name="auditStaff" id="aduit_nature" value=""/>
-      	<input type="hidden" name="auditRound" id="audit_turn" value=""/>
+      	<input type="hidden" name="auditRound" id="type" value="${type}"/>
      	</form>
      
      <!-- <ul class="list-unstyled list-flow dnone mt10" id="audit">

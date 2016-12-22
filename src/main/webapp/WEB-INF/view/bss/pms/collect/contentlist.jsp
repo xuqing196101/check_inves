@@ -18,7 +18,9 @@
 		var planNo=parent.ids;
 		var index = parent.layer.getFrameIndex(window.name); 
 		var  ctype  = $('input[name="chkItem"]:checked').next().val(); 
-		var ptype=$("#ctype").val();
+		alert(ctype);
+		var ptype="${type}";
+		alert(ptype);
 	      if(ctype!=ptype){
 	    	  layer.alert("物资类别不一样",{offset: ['100px', '100px'], shade:0.01});
 	      }
@@ -34,7 +36,7 @@
 			data:$("#collected_form").serialize(),
 			success: function(result) {
 				parent.location.reload(); // 父页面刷新
-				parent.layer.close(index);
+				//parent.layer.close(index);
 			
 		
 			},
@@ -100,7 +102,7 @@
 			    <td class="tc"  >${obj.fileName }</td>
 			      <td class="tc"  >
 					    <c:forEach items="${dicType }" var="mt">
-								  <option value="${mt.id }"<c:if test="${mt.id==obj.goodsType }"> selected="selected"</c:if> >${mt.name}</option>
+								<c:if test="${mt.id==obj.goodsType }"> ${mt.name} </c:if> 
 					    </c:forEach>
 								
 								
@@ -116,11 +118,12 @@
    <div class="col-md-12 tc">
  <button class="btn btn-windows git"  onclick="closed()" >确定</button>
       		<button class="btn btn-windows cancel"  onclick="cancel()" >取消</button>
- 		<input type="hidden" id="ctype" vlaue="${type }">
+ 		
  		</div>
  <form id="collected_form" action="${pageContext.request.contextPath }collect/add.html" method="post" >
 	 <input type="hidden" value="" name="id" id="id">
 	 <input type="hidden" value=""  name="planNo" id="planNo">
+	 <input type="hidden" name="tt" id="cltype" vlaue="${type }">
  </form>
 	 </div>
 	 </body>

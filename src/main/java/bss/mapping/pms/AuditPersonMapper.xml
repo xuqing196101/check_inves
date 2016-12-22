@@ -153,6 +153,9 @@
     from T_BSS_PMS_AUDIT_PERSON
     
     where COLLECT_ID = #{collectId} 
+    <if test="auditRound!=null">
+    and AUDIT_ROUND = #{auditRound}
+    </if>
   </select>
   
   <select id="findUserByCondition" parameterType="java.util.Map" resultType="Integer">

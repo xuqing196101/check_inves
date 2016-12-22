@@ -314,7 +314,7 @@
 					<c:forEach items="${info.list}" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
 							<td class="tc w30">
-							 <c:if test="${obj.status=='1' || obj.status==7 || obj.status==8 || obj.status==9 }">  
+							 <c:if test="${obj.status=='1' || obj.status==7 || obj.status==8 || obj.status==9 || obj.status==10 || obj.status==11 || obj.status==12 }">  
 								<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 							  </c:if>
 					          <c:if test="${obj.status!='1' }">
