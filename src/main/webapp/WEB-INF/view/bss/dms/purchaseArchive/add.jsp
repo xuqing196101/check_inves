@@ -72,9 +72,9 @@
 									type: 1,
 									title: '信息',
 									skin: 'layui-layer-rim',
-									offset: ['50px', '400px'],
+									offset: ['20%', '30%'],
 									shadeClose: true,
-									area: ['580px', '310px'],
+									area: ['40%', '310px'],
 									content: $('#news')
 								});
 								$(".layui-layer-shade").remove();
@@ -155,6 +155,8 @@
 					<li>
 						<a href="#">采购档案管理</a>
 					</li>
+					<li class="active"><a href="#">采购机构管理</a>
+					</li>
 				</ul>
 				<div class="clear"></div>
 			</div>
@@ -209,20 +211,24 @@
 			<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
 		</div>
 
-		<ul class="list-unstyled list-flow dnone mt10" id="news">
-			<li class="col-md-12 ml15">
-				<span class="span3 fl mt5"><div class="red star_red">*</div>档案名称：</span>
-				<input type="text" id="name" name="name" class="mb0 w220" />
-				<div class="clear red" id="errorName"></div>
+		<ul class="list-unstyled dnone mt10" id="news">
+			<li class="col-md-6 col-sm-6 col-xs-12 pl15">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><div class="red star_red">*</div>档案名称：</span>
+				<div class="col-md-12 col-xs-12 col-sm-12 padding-left-5 p0 input-append input_group">
+				    <input type="text" id="name" name="name"/>
+				    <div class="cue" id="errorName"></div>
+				</div>
 			</li>
 
-			<li class="col-md-12 ml15">
-				<span class="span3 fl mt5"><div class="red star_red">*</div>档案编号：</span>
-				<input type="text" id="archiveCode" name="archiveCode" class="mb0 w220" />
-				<div class="clear red" id="errorCode"></div>
+			<li class="col-md-6 col-sm-6 col-xs-12">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><div class="red star_red">*</div>档案编号：</span>
+				<div class="col-md-12 col-xs-12 col-sm-12 padding-left-5 p0 input-append input_group">
+				    <input type="text" id="archiveCode" name="archiveCode"/>
+				    <div class="clear red" id="errorCode"></div>
+				</div>
 			</li>
 
-			<div class="col-md-12 mt10 tc">
+			<div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
 				<input type="button" value="保存" class="btn btn-windows save" onclick="save()" />
 				<input type="button" value="取消" class="btn btn-windows cancel" onclick="cancel()" />
 			</div>
