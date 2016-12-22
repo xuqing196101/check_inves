@@ -164,7 +164,13 @@
 						<tr>
 							<td class="tc w50">${obj.seq } 
 							</td>
-							<td> ${obj.department }</td>
+							<td>
+						
+							    <c:forEach items="${requires }" var="re" >
+									  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
+							  	</c:forEach>
+			  	
+							</td>
 							<td>${obj.goodsName }</td>
 							<td class="tc"> ${obj.stand }</td>
 							<td class="tc"> ${obj.qualitStand }</td>

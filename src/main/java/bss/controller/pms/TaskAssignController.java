@@ -102,6 +102,7 @@ public class TaskAssignController extends BaseController{
 			task.setStatus(0);
 			task.setIsDeleted(0);
 			task.setGiveTime(new Date());
+			task.setNotDetail(0);
 			if(plan.getGoodsType()!=null){
 				task.setMaterialsType(plan.getGoodsType());
 			}
