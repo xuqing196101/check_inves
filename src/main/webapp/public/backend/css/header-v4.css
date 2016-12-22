@@ -30,7 +30,6 @@
 }
 
 .header-v4 .topbar-v1 .top-v1-data li {
-	display: inline-block;
 }
 .header-v4 .topbar-v1 .top-v1-data li:hover{
 	background:#ffffff;
@@ -273,7 +272,7 @@
 
     .header-v4 .navbar-collapse.collapse.in {
         display: block ;
-  		overflow-y: auto ;
+  		  overflow-y: auto ;
     }
 
     .header-v4 .navbar-nav {
@@ -383,12 +382,6 @@
 @media (min-width: 992px) {
 	.header-v4 {
 		border-bottom: none;
-	}
-
-	.header-v4 .navbar-collapse {
-		/*border-top: 1px solid #eee;
-		border-bottom: 1px solid #eee;*/
-		background-color:#2c9fa6;
 	}
 
 	/*Navbar Nav*/
