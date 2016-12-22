@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
-<jsp:include page="/index_head.jsp"></jsp:include>
+<jsp:include page="/reg_head.jsp"></jsp:include>
 <script type="text/javascript">
 $(function(){
 	var browser=navigator.appName;
