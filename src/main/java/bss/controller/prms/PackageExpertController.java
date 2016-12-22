@@ -2140,7 +2140,7 @@ public class PackageExpertController {
     private List<ExpertScore> removeRankSame(List<ExpertScore> list){
         for (int i = 0; i < list.size(); i++) {
             for (int j = list.size() - 1 ; j > i; j--) {
-                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId()) && list.get(i).getExpertId().equals(list.get(j).getExpertId()) && list.get(i).getSupplierId().equals(list.get(j).getSupplierId()) && list.get(i).getPackageId().equals(list.get(j).getPackageId())) {
+                if (list.get(i).getScoreModelId().equals(list.get(j).getScoreModelId()) && list.get(i).getSupplierId().equals(list.get(j).getSupplierId()) && list.get(i).getPackageId().equals(list.get(j).getPackageId())) {
                     list.remove(j);
                 }
             }
