@@ -129,6 +129,16 @@ session.setAttribute("tokenSession", tokenValue);
 			}	
 		}
 	}); 
+	function errorMsg(auditField){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/expert/findAuditReason.do",
+			data: {"expertId": $("#id").val(), "auditField": auditField},
+			dataType: "json",
+			success: function(response){
+				layer.msg("不通过理由:" + response.auditReason ,{offset: ['400px', '730px']});
+			}
+		});
+	}
 </script>
 </head>
 <body>
@@ -175,10 +185,10 @@ session.setAttribute("tokenSession", tokenValue);
 				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					<div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
 						<c:forEach items="${spList}" var="sp" >
-					      <span class="margin-left-30"><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
+					      <span <c:if test="${fn:contains(errorField,sp.id)}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('${sp.id}')"</c:if> class="margin-left-30"><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
 					    </c:forEach>
 					    <c:forEach items="${jjList}" var="jj" >
-							<span class="margin-left-30"><input type="checkbox" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
+							<span <c:if test="${fn:contains(errorField,jj.id)}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('${jj.id}')"</c:if> class="margin-left-30"><input type="checkbox" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
 						</c:forEach>
 					</div>
 				</li>

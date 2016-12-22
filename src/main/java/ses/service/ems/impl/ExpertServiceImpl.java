@@ -325,7 +325,7 @@ public class ExpertServiceImpl implements ExpertService {
 			//查出当前登录的用户个人信息
 			Expert expert = mapper.selectByPrimaryKey(typeId);
 			if(expert!=null){
-				if(expert.getIsSubmit().equals("0")&&!expert.getIsBlack().equals("1")){
+				if(expert.getIsSubmit().equals("0") && !expert.getIsBlack().equals("1") && !expert.getStatus().equals("3")){
 					//未提交
 					map.put("expert", "4");
 				} else if(expert.getStatus().equals("2")){

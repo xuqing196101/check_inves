@@ -21,6 +21,8 @@ session.setAttribute("tokenSession", tokenValue);
 		});
 	}
 	$(function(){
+		var expertStatus = "${expert.status}";
+		var errorField = "${errorField}";
 		$("#tab-1").attr("style", "");
 		$("#tab-2").attr("style", "display: none");
 		$("#tab-3").attr("style", "display: none");
@@ -54,8 +56,20 @@ session.setAttribute("tokenSession", tokenValue);
 			            data: {"id":result.id,"expertId":$("#id").val()},
 			            dataType: "json",
 			            success: function(zNodes){
-							zTreeObj = $.fn.zTree.init($("#tab-" + (parseInt(i) + 1)), setting, zNodes);
+							$.fn.zTree.init($("#tab-" + (parseInt(i) + 1)), setting, zNodes);
+							zTreeObj = $.fn.zTree.getZTreeObj("tab-" + (parseInt(i) + 1));
 							zTreeObj.expandAll(true);//全部展开
+							// 如果状态是为退回才进行判断
+							if (expertStatus == '3' || expertStatus　== 3) {
+								for (var j=0, l=zNodes.length; j<l; j++) {
+									zTreeObj.setting.view.fontCss = {};
+									// 如果错误字段中包含该node,则更新为红色
+									if (errorField.indexOf(zNodes[j].name) != -1) {
+										zTreeObj.setting.view.fontCss["color"] = "red";
+									}
+									zTreeObj.updateNode(zNodes[j]);
+								}
+							}
 			            }
 			         });
 				});
@@ -182,6 +196,16 @@ function one(){
 function fun1(count){
 	updateStepNumber("three");
 	nextCategory(count);
+}
+function errorMsg(auditField){
+	$.ajax({
+		url: "${pageContext.request.contextPath}/expert/findAuditReason.do",
+		data: {"expertId": $("#id").val(), "auditField": auditField},
+		dataType: "json",
+		success: function(response){
+			layer.msg("不通过理由:" + response.auditReason ,{offset: ['400px', '730px']});
+		}
+	});
 }
 </script>
 </head>
