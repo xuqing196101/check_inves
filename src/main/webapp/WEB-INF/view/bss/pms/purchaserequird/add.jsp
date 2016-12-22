@@ -179,7 +179,19 @@
 					$("#detailType").val(type);
 					$("#detailMobile").val(mobile);
 					$("#detailXqbm").val(depName);
-					$("#add_form").submit();
+					$.ajax({
+						url: "${pageContext.request.contextPath}/purchaser/queryNo.html",
+						data:{no:no},
+						type: "post",
+						success: function(data) {
+							if(data!='1'){
+								$("#add_form").submit();
+							}else{
+								layer.tips("计划编号已存在", "#jhbh");
+							}
+						}
+					});
+					
 				}
 				
 				
@@ -607,7 +619,7 @@
 										<th class="w200">物资用途（仅进口）</th>
 										<th class="w200">使用单位（仅进口）</th>
 										<th class="w200">备注</th>
-										<th  style="width:300px;">附件</th>
+										<!-- <th  style="width:300px;">附件</th> -->
 									<!-- 	<th class="w100">状态</th> -->
 										<th class="w100">操作</th>
 									</tr>
@@ -707,12 +719,12 @@
 										<td class="tc w200 p0"><input type="text" name="list[${vs.index }].goodsUse" class="m0"></td>
 										<td class="tc w200 p0"><input type="text" name="list[${vs.index }].useUnit" class="m0"></td>
 										<td class="tc w200 p0"><input type="text" name="list[${vs.index }].memo" value="${obj.memo}" class="m0" ></td>
-										<td style="width:300px;" class="p0">
+									<%-- 	<td style="width:300px;" class="p0">
 											   <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 													<u:upload id="pUp${vs.index}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${attchid}" auto="true" />
 													<u:show showId="pShow${vs.index}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${attchid}" />
 											   </div>											
-										</td>
+										</td> --%>
 										
 										
 <%-- 										<td class="tc w100 "><input type="hidden"  name="list[${vs.index }].status" value="暂存" class="m0" > 暂存</td>

@@ -223,4 +223,15 @@ public interface PurchaseRequiredMapper {
     void updateIdById(Map<String,Object> map);
     
     List<String> queryDepartMent(List<String>  list);
+    /**
+     * 
+    * @Title: seqAgain
+    * @Description: 查询需求计划
+    * author: Li Xiaoxiao 
+    * @param @param purchaseRequired
+    * @param @return     
+    * @return PurchaseRequired     
+    * @throws
+     */
+    PurchaseRequired seqAgain(PurchaseRequired purchaseRequired);
 }

@@ -660,14 +660,15 @@
 								</div>
 							</div>
 						</div>
-					</form>			
-					</div>
-				</div>
 				<input type="hidden" name="id" value="${id }"> 
 				<input type="hidden" name="planNo" value="${planNo }">
 				<input type="hidden" id="status" name="status" value="${status }">
 				<input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="保存">
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+					</form>			
+					</div>
+				</div>
+		
 		</div>
 	</body>
 </html>

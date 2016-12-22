@@ -166,10 +166,7 @@
 			<h2>计划明细</h2>
 		</div>
 			<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
-			<div class="col-md-12 pl20 mt10">
-			 <input class="btn btn-windows git" type="submit" value="提交">
-                <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-             </div>
+			
              <div class="content table_box over_scroll">
                  <table id="table" class="table table-bordered table-condensed table_input">
 					<thead>
@@ -253,13 +250,13 @@
                      <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
                      --%><input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
                      <input type="hidden" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }">
-                     <input type="hidden" name="list[${vs.index }].item" value="${obj.item }">
-                     <input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }">
-                     <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }"><%--
+                 <%--     <input type="hidden" name="list[${vs.index }].item" value="${obj.item }"> 
+                     <input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"> 
+                     <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }"> 
                      <input type="hidden" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
-                     --%><input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
+                     <input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
                      <input type="hidden" name="list[${vs.index }].useUnit" value="${obj.useUnit }">
-                     <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
+                     <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">--%>
                      <input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
                      <input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
                      <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
@@ -280,6 +277,11 @@
 				</table>
 				<div { overflow: scroll; height: 100px; width: 100px; } ></div>
 				</div>
+				
+				<div class="col-md-12 pl20 mt10">
+			 <input class="btn btn-windows git" type="submit" value="提交">
+                <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+             </div>
 			</form>
 		</div>
 

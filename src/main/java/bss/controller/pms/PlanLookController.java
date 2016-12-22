@@ -421,7 +421,7 @@ public class PlanLookController extends BaseController {
 			 }
 		if(data!=null){
 		  if(data.getCode().equals("SH_1")){
-				 if(status!=7&&status!=1){
+				 if(status!=1){
 					 flag="1";
 				 }
 			 }

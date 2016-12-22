@@ -2,8 +2,12 @@ package bss.service.pms.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.ExecutorType;
@@ -14,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.util.PropertiesUtil;
+import bss.dao.pms.CollectPlanMapper;
+import bss.dao.pms.CollectPurchaseMapper;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
@@ -37,6 +43,8 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory; 
 	
+	@Autowired
+	private CollectPurchaseMapper collectPurchaseMapper;
 	
 	@Override
 	public void add(PurchaseRequired purcharseRequired) {
@@ -172,6 +180,47 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	@Override
 	public void updateIdById(Map<String, Object> map) {
 		purchaseRequiredMapper.updateIdById(map);
+	}
+
+	@Override
+	public List<PurchaseRequired> seqAgain(String id) {
+		List<String> list = collectPurchaseMapper.getNo(id);
+		Map<String,Object> map=new HashMap<String,Object>(); 
+		Set<String> set=new HashSet<String>();
+//		List<String> depList=new ArrayList<String>();
+		List<String> uq=new ArrayList<String>();
+		List<PurchaseRequired>  prs=new ArrayList<PurchaseRequired >();
+		Map<String,Object> mapAll=new HashMap<String,Object>();
+		for(String no:list){
+			map.put("isMaster", 1);
+			map.put("planNo", no);
+			List<PurchaseRequired> pr = purchaseRequiredMapper.getByMap(map);
+			set.add(pr.get(0).getDepartment());
+//			depList.add(pr.get(0).getDepartment());
+		
+			mapAll.put("planNo", no);
+			List<PurchaseRequired> prList = purchaseRequiredMapper.getByMap(mapAll);
+			prs.addAll(prList);
+		}
+		for(String str:set){
+			uq.add(str);
+		}
+		for(PurchaseRequired p:prs){
+			if(p.getIsMaster()==2){
+				if(p.getDepartment().equals(uq.get(0))){
+					
+				}	
+			}
+			
+			
+		}
+		
+//		先查出所有的部门；然后去重；
+//		然后重新遍历需求部门，如果，有多个存在就给序号重新复制
+		//如果不存在就给序号加一
+		
+		
+		return null;
 	}
 	
 

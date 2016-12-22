@@ -187,4 +187,16 @@ public interface PurchaseRequiredService {
 	void updateProjectStatus(String planNo);
 	
 	void updateIdById(Map<String,Object> map);
+	
+	/**
+	 * 
+	* @Title: seqAgain
+	* @Description: 需求计划序号排序
+	* author: Li Xiaoxiao 
+	* @param @param id
+	* @param @return     
+	* @return List<PurchaseRequired>     
+	* @throws
+	 */
+	public List<PurchaseRequired> seqAgain(String id);
 }

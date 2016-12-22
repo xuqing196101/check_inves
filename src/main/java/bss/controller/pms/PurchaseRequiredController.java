@@ -47,7 +47,6 @@ import bss.util.ExcelUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 import common.constant.Constant;
@@ -662,4 +661,19 @@ public class PurchaseRequiredController extends BaseController{
 	          response.getWriter().flush();
 	          response.getWriter().close();
 	    }
+	    
+	    
+		@RequestMapping(value="/queryNo")
+		@ResponseBody
+		public String line(String no){
+			Map<String,Object> map=new HashMap<String,Object>();
+			map.put("planNo", no);
+			List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+			if(list.size()>0){
+				return "1";
+			}
+			return "0";
+		}
+		
+		
 }
