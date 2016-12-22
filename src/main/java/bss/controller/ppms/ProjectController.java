@@ -924,7 +924,6 @@ public class ProjectController extends BaseController {
         //拿到一个项目所有的明细
         List<ProjectDetail> details = detailService.selectById(map);
         //拿到packageId不为null的底层明细
-        //List<ProjectDetail> bottomDetails = detailService.selectNotEmptyPackageOfDetail(id);
         List<ProjectDetail> bottomDetails = new ArrayList<>();//底层的明细
         List<String> parentIds = new ArrayList<>();
         for(ProjectDetail detail:details){
@@ -1129,13 +1128,13 @@ public class ProjectController extends BaseController {
         	if(list.size()==1){
         		ProjectDetail projectDetail = new ProjectDetail();
                 projectDetail.setId(id[i]);
-                projectDetail.setPackageId(wantPackId.get(0).getId());
+                projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
                 projectDetail.setUpdateAt(new Date());
                 detailService.update(projectDetail);
         	}
         }
         HashMap<String,Object> map = new HashMap<String,Object>();
-        map.put("packageId", wantPackId.get(0).getId());
+        map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
         List<ProjectDetail> details = detailService.selectById(map);
         Packages p = new Packages();
         p.setId(wantPackId.get(0).getId());

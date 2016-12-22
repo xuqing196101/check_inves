@@ -102,7 +102,7 @@
      <if test="taskNature != null">
        and  t.TASK_NATURE = #{taskNature}
      </if>
-     ORDER BY GIVE_TIME DESC
+     ORDER BY STATUS ASC,GIVE_TIME DESC
   </select>
   
     <select id="likeByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
@@ -209,7 +209,7 @@
     <!-- 受领 -->
   <update id="startTask" parameterType="java.lang.String">
     update T_BSS_PPMS_TASK
-    set STATUS = 0 where ID = #{id}
+    set STATUS = 1 where ID = #{id}
   </update>
   <insert id="insert" parameterType="bss.model.ppms.Task">
     insert into T_BSS_PPMS_TASK (ID, NAME, 

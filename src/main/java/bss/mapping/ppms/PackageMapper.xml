@@ -196,7 +196,7 @@
 			AND ID = #{id}
 		</if>
 		ORDER BY
-		CREATED_AT DESC
+		CREATED_AT ASC
 	</select>
 	<select id="selectByPrimaryKey" parameterType="java.util.Map"
 		resultMap="BaseResultMap">
