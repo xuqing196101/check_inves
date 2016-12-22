@@ -24,7 +24,7 @@
     <result column="PURCHASE_TYPE"  property="purchaseType" />
     <result column="MATERIALS_TYPE"  property="materialsType" />
     <result column="SECTOR_OF_DEMAND" property="sectorOfDemand" />
-    <result column="DEADLINE"  property="deadline" />
+    <result column="DEADLINE"  property="deadline" jdbcType="TIMESTAMP"/>
     <result column="DATE_OF_ENTRUSTMENT"  property="dateOfEntrustment" />
     <result column="BID_DATE"  property="bidDate" jdbcType="TIMESTAMP"/>
     <result column="BID_ADDRESS" property="bidAddress" />
@@ -198,7 +198,7 @@
         and p.PURCHASE_DEP_ID = #{purchaseDep.id}
       </if>
       <if test="deadline != null">
-        and p.DEADLINE = #{deadline} 
+        and p.DEADLINE = #{deadline,jdbcType=TIMESTAMP} 
       </if>
       <if test="dateOfEntrustment != null">
         and p.DATE_OF_ENTRUSTMENT = #{dateOfEntrustment} 
@@ -589,7 +589,7 @@
         #{purchaseDep.id,jdbcType=VARCHAR},
       </if>
       <if test="deadline != null">
-        #{deadline,jdbcType=DATE},
+        #{deadline,jdbcType=TIMESTAMP},
       </if>
       <if test="dateOfEntrustment != null">
         #{dateOfEntrustment,jdbcType=DATE},
@@ -750,7 +750,7 @@
         PURCHASE_DEP_ID = #{purchaseDep.id,jdbcType=VARCHAR},
       </if>
       <if test="deadline != null">
-        DEADLINE = #{deadline,jdbcType=DATE},
+        DEADLINE = #{deadline,jdbcType=TIMESTAMP},
       </if>
       <if test="dateOfEntrustment != null">
         DATE_OF_ENTRUSTMENT = #{dateOfEntrustment,jdbcType=DATE},
@@ -1149,7 +1149,7 @@
         #{purchaseDep.id,jdbcType=VARCHAR},
       </if>
       <if test="deadline != null">
-        #{deadline,jdbcType=DATE},
+        #{deadline,jdbcType=TIMESTAMP},
       </if>
       <if test="dateOfEntrustment != null">
         #{dateOfEntrustment,jdbcType=DATE},
