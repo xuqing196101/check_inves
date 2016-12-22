@@ -9,13 +9,13 @@
     <script type="text/javascript">
       //表单验证
       var controldate;
-
+      var deadline;
       function checkDate() {
 
         var flag = true;
         var id = $("#id").val();
         var flowDefineId = $("#flowDefineId").val();
-        var deadline = $("#deadline").val();
+        deadline = $("#deadline").val();
         controldate = $("#bidDate").val();
         var bidAddress = $("#bidAddress").val();
         var supplierNumber = $("#supplierNumber").val();
@@ -52,13 +52,7 @@
         if(deadline == "") {
           layer.tips("时间不能为空", "#deadline");
           flag = false;
-        }
-
-        if(controldate == "") {
-          layer.tips("时间不能为空", "#bidDate");
-          flag = false;
-        } else {
-          alert("aa");
+        }else {
           //验证时间不能小于当前时间
           var day = new Date();
           var Year = 0;
@@ -81,7 +75,43 @@
           } else {
             CurrentDate += "0" + Day;
           }
-          alert(CurrentDate); //当前日期
+          //alert(CurrentDate); //当前日期
+          var startDate = new Date(CurrentDate.replace("-", ",")).getTime();
+          var endDate = new Date(deadline.replace("-", ",")).getTime();
+          if(startDate > endDate) {
+            layer.tips("选择日期不能小于当前日期!", "#deadline");
+            flag = false;
+          }
+
+        }
+
+        if(controldate == "") {
+          layer.tips("时间不能为空", "#bidDate");
+          flag = false;
+        } else {
+          //验证时间不能小于当前时间
+          var day = new Date();
+          var Year = 0;
+          var Month = 0;
+          var Day = 0;
+          var CurrentDate = "";
+          //初始化时间
+          Year = day.getFullYear();
+          Month = day.getMonth() + 1;
+          Day = day.getDate();
+          CurrentDate += Year + "-";
+          if(Month >= 10) {
+            CurrentDate += Month + "-";
+          } else {
+            CurrentDate += "0" + Month + "-";
+          }
+          if(Day >= 10) {
+            CurrentDate += Day;
+
+          } else {
+            CurrentDate += "0" + Day;
+          }
+          //alert(CurrentDate); //当前日期
           var startDate = new Date(CurrentDate.replace("-", ",")).getTime();
           var endDate = new Date(controldate.replace("-", ",")).getTime();
           if(startDate > endDate) {
@@ -91,7 +121,6 @@
 
         }
         if(flag == true) {
-          alert("submit");
           $("#save_form_id").submit();
         }
       }
