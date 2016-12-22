@@ -91,7 +91,7 @@ public class IntelligentScoringController extends BaseController{
 	
 	@RequestMapping(value = "checkScore")
 	@ResponseBody
-	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId){
+	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id){
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
 	    Double score = 0.0;
 	    Integer result = 0;
@@ -110,6 +110,9 @@ public class IntelligentScoringController extends BaseController{
                 mt1.setPackageId(packageId);
                 List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
                 for (MarkTerm markTerm : mtValue) {
+                    if (markTerm.getSmId().equals(id)){
+                        continue;
+                    }
                     Double scscore = markTerm.getScscore();
                     score = score + scscore;
                 }
@@ -141,7 +144,7 @@ public class IntelligentScoringController extends BaseController{
 	
 	@RequestMapping(value = "showScoreMethod")
     public String showScoreMethod(Model model, BidMethod bm) {
-        List<BidMethod> bidMethod = bidMethodService.findListByBidMethod(bm);
+        List<BidMethod> bidMethod = bidMethodService.findScoreMethod(bm);
         if (bidMethod != null && bidMethod.size() > 0){
             model.addAttribute("bidMethod", bidMethod.get(0));
         }
@@ -566,7 +569,7 @@ public class IntelligentScoringController extends BaseController{
             BidMethod condition = new BidMethod();
             condition.setProjectId(packages.getProjectId());
             condition.setPackageId(packages2.getId());
-            List<BidMethod> bmList = bidMethodService.findListByBidMethod(condition);
+            List<BidMethod> bmList = bidMethodService.findScoreMethod(condition);
             if (bmList != null && bmList.size() > 0) {
                 packages2.setIsHaveScoreMethod(1);
                 packages2.setBidMethodTypeName(bmList.get(0).getTypeName());

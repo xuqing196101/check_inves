@@ -324,12 +324,13 @@
 	function associate(){
 	    var standScore = $("#standardScore").val();
 	    var maxScore = $("#maxScore").val();
+	    var id = $("#id").val();
 		var s = validteModel().form();
 		console.dir(s);
 		if(s){
 			$.ajax({   
 	            type: "get",  
-	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
+	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",
 	            dataType:'json',
 	            success:function(result){
 	                  if (result == 0){

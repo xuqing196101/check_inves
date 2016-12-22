@@ -332,12 +332,13 @@ System.out.print(scoreModel);
 	function associate(){
 	    var standScore = $("#standardScore").val();
 	    var maxScore = $("#maxScore").val();
+	    var id = $("#id").val();
 		var s = validteModel().form();
 		console.dir(s);
 		if(s){
 			$.ajax({   
 	            type: "get",  
-	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
+	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
 	            dataType:'json',
 	            success:function(result){
 	                  if (result == 0){
@@ -638,7 +639,7 @@ System.out.print(scoreModel);
 			<input id="projectId" name="projectId" type="hidden" value="${projectId }">
 			<input id="markTermId" name="markTermId" type="hidden" value="${markTermId }">
 			<c:if test="${addStatus != 1 }">
-				<input id="id" type="hidden" name="id" value="${scoreModel.id }">
+				<input id="id" type="hidden" name="id" value="${scoreModel.id}">
 			</c:if>
 			<input type="hidden" id="num2" value="${fn:length(scoreModel.paramIntervalList)}">
 			<table class="table table-striped table-bordered table-hover mt20"  id="show_table">

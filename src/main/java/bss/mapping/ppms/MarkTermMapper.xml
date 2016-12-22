@@ -27,7 +27,8 @@
    			sm.name as smname,
    			sm.EASY_UNDERSTAND_CONTENT as smeu,
    			nvl(sm.standard_score ,sm.max_score) as scscore,
-   			sm.type_name as smtypename
+   			sm.type_name as smtypename,
+   			sm.id as smId
    		FROM
    			T_BSS_PPMS_MARK_TERM mt
    		left join T_BSS_PPMS_BID_METHOD b on MT.BID_METHOD_ID = b.id

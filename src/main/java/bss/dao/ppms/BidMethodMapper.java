@@ -12,4 +12,5 @@ public interface BidMethodMapper {
 	public int delBidMethodByid(HashMap<String, Object> map);
 	public int delBidMethodByMap(HashMap<String, Object> map);
 	public int delSoftBidMethodByid(HashMap<String, Object> map);
+	public List<BidMethod> findScoreMethod(BidMethod bidMethod);
 }

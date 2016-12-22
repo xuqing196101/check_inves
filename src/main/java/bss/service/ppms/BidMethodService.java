@@ -13,4 +13,5 @@ public interface BidMethodService {
 	public int delBidMethodByMap(HashMap<String, Object> map);
 	public int delSoftBidMethodByid(HashMap<String, Object> map);
 	public void save(BidMethod bidMethod);
+	public List<BidMethod> findScoreMethod(BidMethod bidMethod);
 }
