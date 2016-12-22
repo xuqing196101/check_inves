@@ -257,13 +257,14 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 	@Override
 	public void add(List<SupplierFinance> list,String supplierId) {
 		for(SupplierFinance s:list){
+		    
 			SupplierFinance finance = supplierFinanceMapper.selectByPrimaryKey(s.getId());
 			if(finance!=null){
 				supplierFinanceMapper.updateByPrimaryKeySelective(s);
 			}else{
 				s.setSupplierId(supplierId);
 				supplierFinanceMapper.insertSelective(s);
-;			}
+			}
 		}
 		
 	}

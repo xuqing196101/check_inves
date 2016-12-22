@@ -65,7 +65,7 @@ public class ValidateUtils {
     private static final String V_COLOR = "^[a-fA-F0-9]{6}$";  
   
     /** url */  
-    private static final String V_URL = "^http[s]?:\\/\\/([\\w-]+\\.)+[\\w-]+([\\w-./?%&=]*)?$";  
+    private static final String V_URL = "^([\\w-]+\\.)+[\\w-]+([\\w-./?%&=]*)?$";  
   
     /** 仅中文 */  
     private static final String V_CHINESE = "^[\\u4E00-\\u9FA5\\uF900-\\uFA2D]+$";  

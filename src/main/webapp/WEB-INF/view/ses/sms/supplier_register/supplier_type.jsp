@@ -5,195 +5,105 @@
 <head>
 <%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
- function checks(obj){
-	 var bool=$(obj).is(':checked');
 
-	 var val=$(obj).val();	 
- 	if(bool==true){
- 		$("#tab_div").show();
- 		 $("#tab_content_div_id").show();
- 	}
- 
-	 if(bool==true&&val=='PROJECT'){
-		 $("#li_id_3").show();
-			// $("#production_div").attr("style", "");
-		  /* $("#project").show();
- 		 $("#project_seach").val(name); 
-		 $("#project_seach").next().val(val); */
-	 }else if(bool!=true&&val=='PROJECT'){
-		/*  $("#project_div").hide();
-		 $("#project").hide(); */
-		
-		 $("#li_id_3").hide();
+ //显示生产的信息
+ function product(obj){
+	 if (obj =="PRODUCT"){
+		 $("#productId").show();
+	 } 
+ }
+ //显示销售的信息
+ function sales(obj){
+	 if (obj =="SALES"){
+		 $("#salesId").show();
+	 } 
+ }
+ //显示工程的信息
+ function project(obj){
+	 if (obj =="PROJECT"){
+		 $("#projectId").show();
 	 }
-	 if(bool==true&&val=='SERVICE'){
-		 $("#li_id_4").show();
-		 /*  $("#server_div").show();
-		 $("#server").show();
-		 $("#server_seach").val(name);
-		 $("#server_seach").next().val(val);  */
-	 }else if(bool!=true&&val=='SERVICE'){
-		 $("#li_id_4").hide();
-		 /* $("#server").hide();
-	 	 $("#server_seach").val();
-		 $("#server_seach").next().val(); */
-	 }
-	 if(bool==true&&val=='GOODS'){
-		/*  $("#material").show();   */
-	 }else if(bool!=true&&val=='GOODS'){
- 
-/*  	 var checklist = document.getElementsByName ("chkItem");
-			 for(var i=0;i<checklist.length;i++)
-			   {
-		 			var vals=checklist[i].value;
-		 			if(vals=='SALES'){
-		 				checklist[i].checked = false;
-		 			}
-		 			if(vals=='PRODUCT'){
-		 				checklist[i].checked = false;
-		 			} 
-			   }   
- 	 	$("#material").hide();
- 	 	$("#production_div").hide();
- 	 	$("#production").hide();
- 	 	$("#sale_div").hide();  
- 	 	$("#sale").hide();  
- 	 	 $("#sale_seach").val();
-		 $("#sale_seach").next().val();
-		 $("#production_seach").val();
-		 $("#production_seach").next().val();*/
-	 }
-	 if(bool==true&&val=='PRODUCT'){
- 
-		 $("#li_id_1").show();  
-		 /* 	 $("#production").show();
-		 $("#production_seach").val(name);
-		 $("#production_seach").next().val(val); */
-	 }else if(bool!=true&&val=='PRODUCT'){
-	 	 $("#li_id_1").hide();  
-	 /* 	 $("#production").hide();
-	 	 $("#production_seach").val();
-		 $("#production_seach").next().val(); */
-	 }
-	 if(bool==true&&val=='SALES'){
-	 
-		 $("#li_id_2").show();  
-		 /* $("#sale").show(); 
-	 	 $("#sale_seach").val(name); 
-		 $("#sale_seach").next().val(val);*/
-	 }else if(bool!=true&&val=='SALES'){
-	 	 $("#li_id_2").hide();
-		 $("#sale_div").attr("class", "tab-pane fade height-300");
-	 	/*  $("#sale").hide(); 
-	  	 $("#sale_seach").val();
-		 $("#sale_seach").next().val(); */
-	 }
-	 var  sflag=true;
-	 var  pflag=true;
-	 var  svflag=true;
-	 var  prflag=true;
-	 var count=0;
-	 $('input[name="chkItem"]').each(function(){ 
-		 var s=$(this).val();
-		 if(s=='SALES'){
-			 sflag=$(this).is(':checked');
-			 if(sflag==true){
-				 count++;
-			 }
-			
-		 }
-		 if(s=='PRODUCT'){
-			 pflag=$(this).is(':checked');
-			 if(pflag==true){
-				 count++;
-			 }
-		 }
-		 if(s=='SERVICE'){
-			 svflag=$(this).is(':checked');
-			 if(svflag==true){
-				 count++;
-			 }
-		 }
-		 if(s=='PROJECT'){
-			 prflag=$(this).is(':checked');
-			 if(prflag==true){
-				 count++;
-			 }
-		 }
-		}); 
-	 
-	 if(sflag==false&&pflag==false&&svflag==false&&prflag==false){
-		 $("#tab_div").hide();
-		 $("#tab_content_div_id").hide();
-	 }
-
-	if(count>=1){
-	
-	 $("#tab_content_div_id").find(".tab-pane").each(function(index) {
-		 	if(val != 'PRODUCT'){
-		 		$("#production_div").attr("class", "tab-pane fade height-300");
-		 	}
-			if(val != 'SALES'){
-		 		$("#sale_div").attr("class", "tab-pane fade height-300");
-		 	}
-			if(val != 'PROJECT'){
-		 		$("#project_div").attr("class", "tab-pane fade height-300");
-		 	}
-			if(val != 'SERVICE'){
-		 		$("#server_div").attr("class", "tab-pane fade height-300");
-		 	}
-		 	
-			if (val == 'PRODUCT'&&bool==true) {
-		 
-				$("#production_div").attr("class", "tab-pane fade height-300 active in");
-				//$("#sale_div").attr("class", "tab-pane fade height-300 ");
-			} else if(val == 'PRODUCT'&&bool==false){
-				alert("生产未选中");
-				$("#production_div").attr("class", "tab-pane fade height-300");
-				//$("#sale_div").attr("class", "tab-pane fade height-300 active in");
-			}
-			
-			
-			if (val == 'SALES'&&bool==true) {
-				$("#sale_div").attr("class", "tab-pane fade height-300 active in");
-			} else if(val == 'SALES'&&bool==false){
-				/*  $("#li_id_1").attr("class","active");   */
-				$("#sale_div").attr("class", "tab-pane fade height-300");
-				// $("#production_div").attr("class", "tab-pane fade height-300 active in");
-			}
-			
-			
-			if (val == 'PROJECT'&&bool==true) {
-				$("#project_div").attr("class", "tab-pane fade height-300 active in");
-			} else if(val == 'PROJECT'&&bool==false){
-				$("#project_div").attr("class", "tab-pane fade height-300");
-			//	$("#sale_div").attr("class", "tab-pane fade height-300 active in");
-			/* 	 $("#li_id_2").attr("class","active");   */
-			}
-			
-			
-			if (val == 'SERVICE'&&bool==true) {
-				$("#server_div").attr("class", "tab-pane fade height-300 active in");
-			} else if(val == 'SERVICE'&&bool==false){
-				/*  $("#li_id_3").attr("class","active");   */
-				$("#server_div").attr("class", "tab-pane fade height-300");
-				//$("#project_div").attr("class", "tab-pane fade height-300 active in");
-			}
-		});
-	}
-	 
+ }
+ //显示服务的信息
+ function services(obj){
+	 if (obj =="SERVICE"){
+		 $("#serviceId").show();
+	 } 
  }
  
- function prev(obj){
-	   var id =[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val()); 
-		}); 
-		
-		$("input[name='supplierTypeIds']").val(id);
-		
-	    $("input[name='flag']").val(obj);
-		$("#save_pro_form_id").submit();
+ //初始化所有的tab标题
+ function hideTabTitle(){
+	 $("#productId").hide();
+	 $("#salesId").hide();
+	 $("#projectId").hide();
+	 $("#serviceId").hide();
+ }
+ 
+ //初始化tab的标题样式
+ function initTabTitleCss(){
+	 $("#productId").removeClass("active");
+	 $("#salesId").removeClass("active");
+	 $("#projectId").removeClass("active");
+	 $("#serviceId").removeClass("active");
+ }
+
+ //选中信息头
+ function checks(obj){
+	 var selectedArray = [];
+	 hideTabTitle();
+	 $("input[name='chkItem']:checked").each(function(){
+		 var value = $(this).val();
+		 $("#tab_div").show();
+		 selectedArray.push(value);
+		 product(value);
+		 sales(value);
+		 project(value);
+		 services(value)
+	 });
+	 
+	 if (selectedArray.length == 0){
+		 $("#tab_div").hide();
+	 }
+	 var first = selectedArray[0] ;
+	 
+	 if (first != null && first !="" && first !="undefined"){
+		 loadTab(first);
+	 }
+ }
+ 
+ //选中对应的信息
+ function loadTab(val){
+	 initTabTitleCss();
+	 $("#tab_content_div_id").find(".tab-pane").each(function(index) {
+		 $("#production_div").attr("class", "tab-pane fade height-300");
+		 $("#sale_div").attr("class", "tab-pane fade height-300");
+		 $("#project_div").attr("class", "tab-pane fade height-300");
+		 $("#server_div").attr("class", "tab-pane fade height-300");
+		 
+		 if (val == 'PRODUCT') {
+			 $("#productId").addClass("active");
+			 $("#production_div").attr("class", "tab-pane fade height-300 active in");
+		 }
+		 if (val == 'SALES') {
+			 $("#salesId").addClass("active");
+			 $("#sale_div").attr("class", "tab-pane fade height-300 active in");
+		 } 
+		 if (val == 'PROJECT') {
+			 $("#projectId").addClass("active");
+		 	 $("#project_div").attr("class", "tab-pane fade height-300 active in");
+		 } 
+		 if (val == 'SERVICE') {
+			 $("#serviceId").addClass("active");
+			 $("#server_div").attr("class", "tab-pane fade height-300 active in");
+		 } 
+		});
+ }
+ 
+ 
+ //上一步
+ function prev(){
+		var id = $("#sid").val();
+		window.location.href="${pageContext.request.contextPath}/supplier/register.html?id=" + id;
  }
  function store(obj){
 	 
@@ -554,40 +464,22 @@
 				                      
 				                      if(arrays[i]=='PRODUCT'){
 				                    	  
-				                    		 $("#li_id_1").show();
-				                    	//	 $("#li_id_1").attr("class", "active");
+				                    		 $("#productId").show();
 				                    		$("#production_div").attr("class", "tab-pane fade height-300 active in");
-				                    		 /*  $("#production").show();
-				                    	   $("#production_seach").next().val(arrays[i]);
-				                       $("# li_id_1").show(); */
 				                    	  
 				                      }
 				                      else if(arrays[i]=='SALES'){
-				                    		 $("#li_id_2").show();
-				                    	//	 $("#li_id_2").attr("class", "active");
+				                        $("#salesId").show();
 				                    	$("#sale_div").attr("class", "tab-pane fade height-300 active in");
-				                    	  /*  $("#sale").show();
-				                    	  $("#sale_div").show();
-				                    	  $("#sale_seach").next().val(arrays[i]);
-				                    	  ("# li_id_2").show(); */
 				                      }
 				                      else if(arrays[i]=='PROJECT'){
-				                    	  $("#li_id_3").show();
-				                    	//  $("#li_id_3").attr("class", "active");
-				                    	    $("#project_div").attr("class", "tab-pane fade height-300 active in");
-				                    	  /* $("#project_div").show();
-				                    	  $("#project").show();
-				                    	  $("#project_seach").next().val(arrays[i]);
-				                    	   ("# li_id_3").show(); */
+				                    	  $("#projectId").show();
+				                    	  $("#project_div").attr("class", "tab-pane fade height-300 active in");
 				                      }
 				                        else  if(arrays[i]=='SERVICE'){
-				                    		 $("#li_id_4").show();
-				                    		 $("#li_id_4").attr("class", "active");
+				                    		 $("#serviceId").show();
+				                    		 $("#serviceId").attr("class", "active");
 				                    	 	$("#server_div").attr("class", "tab-pane fade height-300 active in");
-				                    		 /* $("#server_div").show();
-				                    	  $("#server").show();
-				                    	  $("#server_seach").next().val(arrays[i]);
-				                      ("# li_id_4").show(); */
 				                      }
 				                        
 				               }
@@ -785,10 +677,10 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
 					   <ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-							 <li id="li_id_1" style="display:none;" class=""><a aria-expanded="true" href="#production_div" data-toggle="tab" class=" f18">物资-生产型专业信息</a></li>
-							 <li id="li_id_2" style="display:none;" class=""><a aria-expanded="false" href="#sale_div" data-toggle="tab" class="f18">物资-销售型专业信息</a></li>
-							 <li id="li_id_3" style="display:none;" class=""><a aria-expanded="false" href="#project_div" data-toggle="tab" class="  f18">工程专业信息</a></li>
-							 <li id="li_id_4" style="display:none;"class=""><a aria-expanded="false" href="#server_div" data-toggle="tab" class="  f18">服务专业信息</a></li>
+							 <li id="productId" style="display:none;" ><a aria-expanded="true" href="#production_div" data-toggle="tab" class=" f18">物资-生产型专业信息</a></li>
+							 <li id="salesId" style="display:none;" ><a aria-expanded="false" href="#sale_div" data-toggle="tab" class="f18">物资-销售型专业信息</a></li>
+							 <li id="projectId" style="display:none;" ><a aria-expanded="false" href="#project_div" data-toggle="tab" class="  f18">工程专业信息</a></li>
+							 <li id="serviceId" style="display:none;"><a aria-expanded="false" href="#server_div" data-toggle="tab" class="  f18">服务专业信息</a></li>
 					  </ul>			
 						
  
@@ -825,7 +717,7 @@
 													</div>
 												</li>
 												
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员数量：</span>
 													<div class="input-append co-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalMange}" />
 												     	<span class="add-on cur_point">i</span>
@@ -833,14 +725,14 @@
 													</div>
 												</li>
 												
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalTech}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${tech } </div>
 													</div>
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalWorker}" />
 													   <span class="add-on cur_point">i</span>
@@ -854,14 +746,14 @@
 	 											<legend>产品研发能力 </legend>
 	 			
 										<!-- 	<ul class="list-unstyled list-flow"> -->
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员比例(%)：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员数量比例(%)：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.scaleTech" value="${currSupplier.supplierMatPro.scaleTech}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${stech } </div>
 													</div>
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>高级技术人员比例(%)：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>高级技术人员数量比例(%)：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.scaleHeightTech" value="${currSupplier.supplierMatPro.scaleHeightTech}" />
 													   <span class="add-on cur_point">i</span>
@@ -912,14 +804,14 @@
 										<fieldset class="col-md-12 border_font mt20">
 	 											<legend>供应商生产能力  </legend>
 											 
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>生产线名称数量：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>生产线数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalBeltline" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalBeltline}" />
 														   <span class="add-on cur_point">i</span>
 														   <div class="cue"> ${line } </div>
 													</div>
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>生产设备名称数量：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>生产设备数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalDevice" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalDevice}" />
 													  	   <span class="add-on cur_point">i</span>
@@ -1044,7 +936,7 @@
 													</div>
 												
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSell.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalMange}" />
 													    <span class="add-on cur_point">i</span>
@@ -1052,7 +944,7 @@
 													</div>
 													
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSell.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatSell.totalTech}" />
 														   <span class="add-on cur_point">i</span>
@@ -1060,7 +952,7 @@
 													</div>
 												
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人（职员）：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人（职员）数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSell.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalWorker}" />
 														   <span class="add-on cur_point">i</span>
@@ -1161,14 +1053,14 @@
 													</div>
 													
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>中级以上职称人员：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>中级以上职称人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatEng.totalGlNormal" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalGlNormal}" />
 												        <span class="add-on cur_point">i</span>
 												        <div class="cue"> ${eng_normal } </div>
 													</div>
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>现场管理人员：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>现场管理人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatEng.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatEng.totalMange}" />
 													    <span class="add-on cur_point">i</span>
@@ -1176,7 +1068,7 @@
 													</div>
 													
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术和工人：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术和工人数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatEng.totalTechWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTechWorker}" />
 													    <span class="add-on cur_point">i</span>
@@ -1407,7 +1299,7 @@
 													</div>
 													
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSe.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalMange}" />
 													    <span class="add-on cur_point">i</span>
@@ -1415,7 +1307,7 @@
 													</div>
 													
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSe.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalTech}" />
 													     <span class="add-on cur_point">i</span>
@@ -1423,7 +1315,7 @@
 													</div>
 												
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人（职员）：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人（职员）数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSe.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalWorker}" />
 													    <span class="add-on cur_point">i</span>
@@ -1503,7 +1395,7 @@
 		
 	 <div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
-	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev(3)">上一步</button>
+	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev();">上一步</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="store(2)">暂存</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
 	  	  </div>

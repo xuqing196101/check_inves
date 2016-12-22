@@ -1,6 +1,5 @@
 package ses.controller.sys.sms;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +26,6 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -51,6 +46,7 @@ import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
@@ -84,6 +80,7 @@ import ses.util.FtpUtil;
 import ses.util.IdentityCode;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
+import ses.util.WfUtil;
 
 /**
  * @Title: supplierController
@@ -216,7 +213,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping("register_page")
 	public String registerPage(HttpServletRequest request) {
  
-		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		String id = WfUtil.createUUID();
 		request.setAttribute("id",id);
 		
 		return "ses/sms/supplier_register/register";
@@ -235,55 +232,96 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "register")
 	public String register(HttpServletRequest request, Model model, Supplier supplier) {
+	    
+	    //页面过期处理
+	    if (StringUtils.isEmpty(supplier.getId())){
+	        String id = WfUtil.createUUID();
+	        request.setAttribute("id",id);
+	        return "ses/sms/supplier_register/register";
+	    }
 		Supplier sup = supplierService.selectById(supplier.getId());
-		boolean bool = validateRegister(request, model, supplier);
-		List<Area> privnce = areaService.findRootArea();
-		model.addAttribute("privnce", privnce);
-		if (bool==true&&sup==null) {
-			supplier = supplierService.register(supplier);
-			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-			model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
-			List<SupplierFinance> list = supplierFinanceService.getYear();
-			supplier.setListSupplierFinances(list);
-			model.addAttribute("currSupplier", supplier);
-			model.addAttribute("company", DictionaryDataUtil.find(17));
-			List<DictionaryData> foregin = DictionaryDataUtil.find(24);
-			model.addAttribute("foregin", foregin);
-			return "ses/sms/supplier_register/basic_info";
+		
+		//未注册供应商
+		if (sup == null){
+		    boolean flag = validateRegister(request, model, supplier);
+		    if (flag){
+		        supplier = supplierService.register(supplier);
+		        List<SupplierFinance> list = supplierFinanceService.getYear();
+	            supplier.setListSupplierFinances(list);
+	            initCompanyType(model, supplier);
+		        return "ses/sms/supplier_register/basic_info";
+		    }
 		}
-		if(sup!=null){
+		
+		//已注册供应商
+		if(sup != null){
 			List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
 			if(finace!=null&&finace.size()>0){
 				List<SupplierFinance> finaceList = supplierFinanceService.getList(finace);
-				supplier.setListSupplierFinances(finaceList);
-			}
+				sup.setListSupplierFinances(finaceList);
+			} 
 			List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
 			if(stock!=null&&stock.size()>0){
-				supplier.setListSupplierStockholders(stock);
+			    sup.setListSupplierStockholders(stock);
 			}
-			model.addAttribute("currSupplier", supplier);
-			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-			model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
-			model.addAttribute("company", DictionaryDataUtil.find(17));
+		    List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
+	        model.addAttribute("relate", relate);
+	       
+	        if(sup.getAddress()!=null){
+	            Area area = areaService.listById(sup.getAddress());
+	            List<Area> city = areaService.findAreaByParentId(area.getParentId());
+	            model.addAttribute("city", city);
+	            model.addAttribute("area", area);
+	        }
+	        
+	        if(sup.getAddressList()!=null && sup.getAddressList().size()>0){
+                for(SupplierAddress b:supplier.getAddressList()){
+                    if (StringUtils.isNotBlank(b.getProvinceId())){
+                        List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
+                        b.setAreaList(city);
+                    }
+                }
+             
+            }
+            if(sup.getConcatProvince()!=null){
+                List<Area> concity = areaService.findAreaByParentId(sup.getConcatProvince());
+                sup.setConcatCityList(concity);
+            }
+            if(sup.getArmyBuinessProvince()!=null){
+                List<Area> armcity = areaService.findAreaByParentId(sup.getArmyBuinessProvince());
+                sup.setArmyCity(armcity);
+            }
+            List<SupplierBranch> branchList =  supplierBranchService.findSupplierBranch(supplier.getId());
+            if (branchList != null && branchList.size() > 0){
+                sup.setBranchList(branchList);
+            }
+			initCompanyType(model, sup);
 			return "ses/sms/supplier_register/basic_info";
 		}
-		else{
-			List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
-			if(finace!=null&&finace.size()>0){
-				
-				supplier.setListSupplierFinances(finace);
-			}
-			List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
-			if(stock!=null&&stock.size()>0){
-				supplier.setListSupplierStockholders(stock);
-			}
-			model.addAttribute("id",supplier.getId());
-			model.addAttribute("company", DictionaryDataUtil.find(17));
-			// Supplier supp = supplierService.get(supplier.getId());
-			model.addAttribute("currSupplier", supplier);
-			return "ses/sms/supplier_register/register";
-		}
+		return "ses/sms/supplier_register/register";
+	}
 	
+	/**
+	 * 
+	 *〈简述〉初始化常量
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model
+	 * @param supplier 供应商
+	 */
+	private void initCompanyType(Model model, Supplier supplier){
+	    //初始化省份
+	    List<Area> privnce = areaService.findRootArea();
+        model.addAttribute("privnce", privnce);
+        //初始化当前供应商
+	    model.addAttribute("currSupplier", supplier);
+	    //初始化供应商注册附件类型
+	    model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+	    model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+	    //初始化公司性质
+	    model.addAttribute("company", DictionaryDataUtil.find(17));
+	    //初始化所在国家
+        model.addAttribute("foregin", DictionaryDataUtil.find(24));
 	}
 
 	/**
@@ -336,7 +374,29 @@ public class SupplierController extends BaseSupplierController {
 		}
 		super.removeStash(request, fileName);
 	}
-
+	
+	/**
+	 * 
+	 *〈简述〉临时保存
+	 *〈详细描述〉
+	 * @author myc
+	 * @param request {@link HttpServletRequest}
+	 * @param supplier {@link Supplier}
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/temporarySave",produces="html/text;charset=UTF-8")
+	public String temporarySave(HttpServletRequest request, Supplier supplier){
+	    String res = StaticVariables.SUCCESS;
+	    try {
+            supplierService.perfectBasic(supplier);
+        } catch (Exception e) {
+            res = StaticVariables.FAILED;
+            e.printStackTrace();
+        }
+	    return res;
+	}
+	
 	/**
 	 * @Title: basic
 	 * @author: Wang Zhaohua
@@ -350,221 +410,55 @@ public class SupplierController extends BaseSupplierController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "perfect_basic")
-	public String perfectBasic(HttpServletRequest request,Model model, Supplier supplier,String flag) throws Exception {
-		// this.setSupplierUpload(request, supplier);
-	//	supplierService.perfectBasic(supplier);// 保存供应商详细信息
-//		supplier = supplierService.get(supplier.getId());
-		
-		if(flag==null){
-			flag="3";
-		}
-		
-		
-		if(flag.equals("2")){
-			supplierService.perfectBasic(supplier);
-			supplier = supplierService.get(supplier.getId());
-			if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
-				supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
-			}
-			if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
-				supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
-			}
-			if(supplier.getAddress()!=null){
-				Area area = areaService.listById(supplier.getAddress());
-				List<Area> city = areaService.findAreaByParentId(area.getParentId());
-				model.addAttribute("city", city);
-				model.addAttribute("area", area);
-			}
-			List<Area> privnce = areaService.findRootArea();
-			model.addAttribute("privnce", privnce);
-		 	model.addAttribute("foregin",DictionaryDataUtil.find(24));
-			
-//			supplier = supplierService.get(supplier.getId());
-			Supplier supplier2 = supplierService.get(supplier.getId());
-			DictionaryData dd=new DictionaryData();
-			dd.setKind(6);
-			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
-			model.addAttribute("supplieType", list);
-			DictionaryData dd2=new DictionaryData();
-			dd2.setKind(8);
-			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
-			model.addAttribute("wlist", wlist);
-			
-			 if(supplier2.getListSupplierFinances()!=null&&supplier2.getListSupplierFinances().size()>0){
-	                supplier.setListSupplierFinances(supplier2.getListSupplierFinances());  
-	            }
-	            if(supplier2.getListSupplierStockholders()!=null&&supplier2.getListSupplierStockholders().size()>0){
-	                supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders()); 
-	            }
-	            
-	        if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
-					supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
-			}
-				if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
-					supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
-			}  
-				SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
-				if(finance1==null){
-					SupplierFinance fin1=new SupplierFinance();
-					fin1.setYear( String.valueOf(oneYear()));
-					supplier.getListSupplierFinances().add(fin1);	
-				}
-				SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
-				if(finance2==null){
-					SupplierFinance fin2=new SupplierFinance();
-					fin2.setYear( String.valueOf(twoYear()));
-					supplier.getListSupplierFinances().add(fin2);	
-				}
-				SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
-				if(finance3==null){
-					SupplierFinance fin3=new SupplierFinance();
-					fin3.setYear( String.valueOf(threeYear()));
-					supplier.getListSupplierFinances().add(fin3);	
-				}
-				
-				
-			model.addAttribute("currSupplier", supplier);
-			
-			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-			request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
-			
-			return "ses/sms/supplier_register/basic_info";
-			
-		}
-		
-		
-		
-		
-		
+	public String perfectBasic(HttpServletRequest request,Model model, Supplier supplier) throws Exception {
 		
 		boolean info = validateBasicInfo(request,model,supplier);
+		
 		List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
-		model.addAttribute("relate", relate);
-		List<DictionaryData> company = DictionaryDataUtil.find(17);
-		model.addAttribute("company", company);
+        model.addAttribute("relate", relate);
+       
+        if(supplier.getAddress()!=null){
+            Area area = areaService.listById(supplier.getAddress());
+            List<Area> city = areaService.findAreaByParentId(area.getParentId());
+            model.addAttribute("city", city);
+            model.addAttribute("area", area);
+        }
 		
-		
-		List<Area> privnce = areaService.findRootArea();
-		model.addAttribute("privnce", privnce);
-		if(supplier.getAddress()!=null){
-			Area area = areaService.listById(supplier.getAddress());
-			List<Area> city = areaService.findAreaByParentId(area.getParentId());
-			model.addAttribute("city", city);
-			model.addAttribute("area", area);
-		}
-		
-	
-		if(flag.equals("1")&&info==true){
-			
-			 Supplier before = supplierService.get(supplier.getId());
-			if(before.getStatus().equals(7)){
-				 record("", before, supplier, supplier.getId());//记录供应商退回修改的内容
-			}
-			
-			supplierService.perfectBasic(supplier);
-			supplier = supplierService.get(supplier.getId());
-//			if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
-//				supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
-//			}
-//			if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
-//				supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
-//			}
-			DictionaryData dd=new DictionaryData();
-			dd.setKind(6);
-			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
-			for(int i=0;i<list.size();i++){
-				 String code = list.get(i).getCode();
-				 if(code.equals("GOODS")){
-					 list.remove(list.get(i));
-				 }
-			}
-			model.addAttribute("supplieType", list);
-			DictionaryData dd2=new DictionaryData();
-			dd2.setKind(8);
-			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
-			model.addAttribute("wlist", wlist);
-			model.addAttribute("currSupplier", supplier);
-			 Map<String, Object> map = supplierService.getCategory(supplier.getId());
-			 model.addAttribute("server", map.get("server"));
-			 model.addAttribute("product", map.get("product"));
-			 model.addAttribute("sale", map.get("sale"));
-			 model.addAttribute("project", map.get("project"));
-			 
-			return "ses/sms/supplier_register/supplier_type";
-			
-		}
-//		else if(flag.equals("2")){
-//			supplierService.perfectBasic(supplier);
-//			supplier = supplierService.get(supplier.getId());
-//			if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
-//				supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
-//			}
-//			if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
-//				supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
-//			}
-//			
-////			supplier = supplierService.get(supplier.getId());
-//			Supplier supplier2 = supplierService.get(supplier.getId());
-//			DictionaryData dd=new DictionaryData();
-//			dd.setKind(6);
-//			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
-//			model.addAttribute("supplieType", list);
-//			DictionaryData dd2=new DictionaryData();
-//			dd2.setKind(8);
-//			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
-//			model.addAttribute("wlist", wlist);
-//			
-//			 if(supplier2.getListSupplierFinances()!=null&&supplier2.getListSupplierFinances().size()>0){
-//	                supplier.setListSupplierFinances(supplier2.getListSupplierFinances());  
-//	            }
-//	            if(supplier2.getListSupplierStockholders()!=null&&supplier2.getListSupplierStockholders().size()>0){
-//	                supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders()); 
-//	            }
-//	            
-//	        if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
-//					supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
-//			}
-//				if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
-//					supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
-//			}  
-//				SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
-//				if(finance1==null){
-//					SupplierFinance fin1=new SupplierFinance();
-//					fin1.setYear( String.valueOf(oneYear()));
-//					supplier.getListSupplierFinances().add(fin1);	
-//				}
-//				SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
-//				if(finance2==null){
-//					SupplierFinance fin2=new SupplierFinance();
-//					fin2.setYear( String.valueOf(twoYear()));
-//					supplier.getListSupplierFinances().add(fin2);	
-//				}
-//				SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
-//				if(finance3==null){
-//					SupplierFinance fin3=new SupplierFinance();
-//					fin3.setYear( String.valueOf(threeYear()));
-//					supplier.getListSupplierFinances().add(fin3);	
-//				}
-//				
-//				
-//			model.addAttribute("currSupplier", supplier);
-//			
-//			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-//			request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
-//			
-//			return "ses/sms/supplier_register/basic_info";
-//		}
-		
-		else{
+		if (info){
+		    Supplier before = supplierService.get(supplier.getId());
+            if(before.getStatus().equals(7)){
+                 record("", before, supplier, supplier.getId());//记录供应商退回修改的内容
+            }
+            supplierService.perfectBasic(supplier);
+            supplier = supplierService.get(supplier.getId());
+            
+            List<DictionaryData> list = DictionaryDataUtil.find(6);
+            for(int i=0;i<list.size();i++){
+                 String code = list.get(i).getCode();
+                 if(code.equals("GOODS")){
+                     list.remove(list.get(i));
+                 }
+            }
+            model.addAttribute("supplieType", list);
+            List<DictionaryData> wlist = DictionaryDataUtil.find(8);
+            model.addAttribute("wlist", wlist);
+            
+            model.addAttribute("currSupplier", supplier);
+            Map<String, Object> map = supplierService.getCategory(supplier.getId());
+            model.addAttribute("server", map.get("server"));
+            model.addAttribute("product", map.get("product"));
+            model.addAttribute("sale", map.get("sale"));
+            model.addAttribute("project", map.get("project"));
+            
+            List<DictionaryData> company = DictionaryDataUtil.find(17);
+            model.addAttribute("company", company);
+            List<Area> privnce = areaService.findRootArea();
+            model.addAttribute("privnce", privnce);
+            
+           return "ses/sms/supplier_register/supplier_type";
+            
+		} else{
 		    Supplier supplier2 = supplierService.get(supplier.getId());
-			DictionaryData dd=new DictionaryData();
-			dd.setKind(6);
-			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
-			model.addAttribute("supplieType", list);
-			DictionaryData dd2=new DictionaryData();
-			dd2.setKind(8);
-			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
-			model.addAttribute("wlist", wlist);
 			 if(supplier2.getListSupplierFinances()!=null&&supplier2.getListSupplierFinances().size()>0){
                  supplier.setListSupplierFinances(supplier2.getListSupplierFinances());  
              }
@@ -589,13 +483,7 @@ public class SupplierController extends BaseSupplierController {
              	supplier.setArmyCity(armcity);
              }
              
- 			List<DictionaryData> foregin = DictionaryDataUtil.find(24);
- 			model.addAttribute("foregin", foregin);
-             
-			model.addAttribute("currSupplier", supplier);
-			
-			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-			request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+ 			 initCompanyType(model, supplier);
 			return "ses/sms/supplier_register/basic_info";
 		}
  
@@ -938,7 +826,7 @@ public class SupplierController extends BaseSupplierController {
 	
 	@RequestMapping(value = "return_edit")
 	public String returnEdit(HttpServletRequest request, Supplier supplier,Model model ) {
-		supplier = supplierService.get(supplier.getId());
+	    supplier = supplierService.get(supplier.getId());
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("currSupplier", supplier);
@@ -986,8 +874,6 @@ public class SupplierController extends BaseSupplierController {
 
 	//注册登记校验
 	public boolean validateRegister(HttpServletRequest request, Model model, Supplier supplier) {
-//		Supplier valiadteSup=new Supplier();
-		Map<String,Object> map=new HashMap<String,Object>();
 		String identifyCode = (String) request.getSession().getAttribute("img-identity-code");// 验证码
 		int count = 0;
 		if (supplier.getLoginName() == null || !supplier.getLoginName().matches("^\\w{6,20}$")) {
@@ -1016,12 +902,12 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_code", "验证码错误 !");
 			count++;
 		}
-//		valiadteSup.setMobile(supplier.getMobile());
-		map.put("mobile", supplier.getMobile());
-		List<Supplier> sup = supplierService.query(map);
-		if(sup!=null&&sup.size()>0){
-			count++;
-			model.addAttribute("err_msg_mobile", "手机号已存在 !");
+		if (StringUtils.isNotBlank(supplier.getMobile())){
+		    Integer mobileCount = supplierService.getCountMobile(supplier.getMobile());
+	        if(mobileCount > 0){
+	            count++;
+	            model.addAttribute("err_msg_mobile", "手机号已存在 !");
+	        }
 		}
 		if (count > 0) {
 			return false;
@@ -1031,7 +917,6 @@ public class SupplierController extends BaseSupplierController {
 
 	 //基本信息校验
 	public boolean validateBasicInfo(HttpServletRequest request, Model model, Supplier supplier) {
-		Map<String,Object> map=new HashMap<String,Object>();
 		int count = 0;
 		if (supplier.getSupplierName() == null || !supplier.getSupplierName().trim().matches("^.{1,80}$")) {
 			model.addAttribute("err_msg_supplierName", "不能为空!");

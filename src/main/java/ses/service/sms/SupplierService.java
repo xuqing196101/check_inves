@@ -161,4 +161,14 @@ public interface SupplierService {
    * @throws
     */
    Supplier selectOne(String id);
+   
+   /**
+    * 
+    *〈简述〉查询手机号码是否存在
+    *〈详细描述〉
+    * @author myc
+    * @param mobile 手机号码
+    * @return
+    */
+   Integer getCountMobile(String mobile);
 }

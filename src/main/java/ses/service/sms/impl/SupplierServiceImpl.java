@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import common.model.UploadFile;
+import common.service.UploadService;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
@@ -54,8 +56,6 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
-import common.model.UploadFile;
-import common.service.UploadService;
 
 
 /**
@@ -325,27 +325,30 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public void perfectBasic(Supplier supplier) {
-        //Supplier oldSupplier = supplierMapper.selectByPrimaryKey(supplier.getId());
-        //BeanUtils.copyProperties(supplier, oldSupplier, new String[] {"serialVersionUID", "id", "loginName", "mobile", "password", "createdAt"});
+        
+        //更新供应商
         supplier.setUpdatedAt(new Date());
         supplierMapper.updateByPrimaryKeySelective(supplier);
+        
+        //更新用户
         User user = userService.findByTypeId(supplier.getId());
         user.setRelName(supplier.getContactName());
         user.setAddress(supplier.getContactAddress());
         user.setEmail(supplier.getContactEmail());
         user.setMobile(supplier.getContactTelephone());
         user.setTelephone(supplier.getContactTelephone());
-//        String id = DictionaryDataUtil.get("SUPPLIER_U").getId();
-//        user.setTypeName(id);
         userService.update(user);
-
-    	if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
+        
+        //更新地址
+    	if(supplier.getAddressList()!=null && supplier.getAddressList().size()>0){
 			supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
 		}
-		if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
+    	//更新供应商境外分支
+		if(supplier.getBranchList()!=null && supplier.getBranchList().size()>0){
 			supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
 		}
-		if(supplier.getListSupplierFinances()!=null&&supplier.getListSupplierFinances().size()>0){
+		//财务信息
+		if(supplier.getListSupplierFinances()!=null && supplier.getListSupplierFinances().size()>0){
 			supplierFinanceService.add(supplier.getListSupplierFinances(),supplier.getId());
 		}
     }
@@ -581,7 +584,6 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public List<Supplier> query(Map<String,Object> map) {
-        // TODO Auto-generated method stub
         return supplierMapper.query(map);
     }
 
@@ -620,4 +622,16 @@ public class SupplierServiceImpl implements SupplierService {
 	public Supplier selectOne(String id) {
 		return supplierMapper.selectOne(id);
 	}
+	
+	/**
+	 * 
+	 * @see ses.service.sms.SupplierService#getCount(java.lang.String)
+	 */
+    @Override
+    public Integer getCountMobile(String mobile) {
+        
+        return supplierMapper.getCountMobile(mobile);
+    }
+	
+	
 }
