@@ -66,17 +66,6 @@
 		location.href = "${pageContext.request.contextPath}/packageExpert/supplierQuote.html?projectId="
 				+ projectId + "&supplierId=" + supplierId;
 	}
-	function is_Null(size){
-		if (size == "0" || size == 0) {
-			layer.confirm('暂无数据', {
-				btn : [ '返回' ],
-				shade: false //不显示遮罩
-			//按钮
-			}, function() {
-				window.location.href='${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}';
-			});		
-		}
-	}
 	
 	//返回
 	function goBack(url){
@@ -134,15 +123,8 @@
 	}
 </script>
 </head>
-<body onload="is_Null('${packExpertExtList.size()}')">
-
-  <!-- 表格开始-->
-    <c:if test="${packExpertExtList.size()>0 }">
-    <!-- 循环包 -->
-	<form id="formTable">
-	<c:forEach items="${packageList }" var="pack" varStatus="vs">
-	  <c:if test="${pack.id eq packageId}">
-		<h3>包名称：${pack.name }</h3>
+<body>
+		<h3>包名称：${pack.name}</h3>
 	    <div class="mb5 fr">
 		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
 		  <button class="btn" onclick="toTotal()" type="button">汇总</button>
@@ -216,10 +198,6 @@
 			  </tr>
 		  </c:if>
 		</table>
-	  </c:if>
-	</c:forEach>
-    </form>
-    </c:if>
   <div align="center">
 	<input type="button" class="btn btn-windows back" value="返回" onclick="goBack('${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">
   </div>
