@@ -82,13 +82,13 @@
   	function view(id){
   		window.location.href="${pageContext.request.contextPath}/templet/view.do?id="+id;
   	}
-    function save(){
+    function save(projectId){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			 $.post("${pageContext.request.contextPath}/resultAnnouncement/view.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
+			 $.post("${pageContext.request.contextPath}/resultAnnouncement/view.do?projectId="+projectId+"&id="+id,{email:$('#email').val(),address:$('#address').val()},
 					  function(data){
 					    var tem=data;
 					    var ue = parent.UE.getEditor('editor'); 
@@ -168,7 +168,7 @@
 		<div class="tc mt20 clear col-md-12">
 			<input type="button"
 				class="btn padding-left-10 padding-right-10 btn_back"
-				onclick="save()" value="引用"></input> <input type="button"
+				onclick="save('${projectId}')" value="引用"></input> <input type="button"
 				class="btn padding-left-10 padding-right-10 btn_back"
 				onclick="cancle();" value="取消"></input>
 		</div>

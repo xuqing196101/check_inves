@@ -32,6 +32,7 @@ import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
 import ses.util.DictionaryDataUtil;
 import ses.util.FloatUtil;
+import bss.controller.base.BaseController;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
@@ -66,7 +67,7 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @Scope("prototype")
 @RequestMapping("/intelligentScore")
-public class IntelligentScoringController {
+public class IntelligentScoringController extends BaseController{
     private AjaxJsonData ajaxJsonData = new AjaxJsonData();
 	@Autowired
 	private PackageService packageService;
