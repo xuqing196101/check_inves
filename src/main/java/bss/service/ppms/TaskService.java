@@ -94,4 +94,6 @@ public interface TaskService {
 	 boolean verify(Task task);
 	 
 	 List<Task> likeByName(HashMap<String, Object> map);
+	 
+	 List<Task> listByProjectTask(HashMap<String,Object> map);
 }

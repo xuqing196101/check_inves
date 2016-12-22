@@ -364,4 +364,32 @@
     </set>
     where ID = #{id}
   </update>
+  
+   <select id="listByProjectTask" resultType="bss.model.ppms.Task" parameterType="java.util.Map">
+    select
+    t.ID as id,
+    t.NAME as name,
+    t.PURCHASE_ID as purchaseId,
+    t.PURCHASE_REQUIRED_ID as purchaseRequiredId,
+    t.STATUS as status,
+    t.DOCUMENT_NUMBER as documentNumber,
+    t.TASK_NATURE as taskNature,
+    t.GIVE_TIME as giveTime,
+    t.MATERIALS_TYPE as materialsType,
+    o.NAME as orgName 
+    from T_BSS_PPMS_TASK t left join T_SES_OMS_ORG o on t.PURCHASE_REQUIRED_ID = o.ID 
+    where 1=1
+    and t.IS_DELETED = 0
+    and t.STATUS = '1'
+    <if test="name != null and name !=''">
+      	and t.NAME like CONCAT(CONCAT('%', #{name}), '%')
+    </if>
+    <if test="orgName != null and orgName !=''">
+      	and o.NAME like CONCAT(CONCAT('%', #{orgName}), '%')
+    </if>
+    <if test="documentNumber != null and documentNumber !=''">
+       	and t.DOCUMENT_NUMBER like CONCAT(CONCAT('%', #{documentNumber}), '%')
+    </if>
+     ORDER BY GIVE_TIME DESC
+  </select>
 </mapper>
