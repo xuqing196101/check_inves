@@ -369,7 +369,7 @@
 				<div class="tab-content">
 				<div class="tab-pane fade active in" id="tab-1">
 				<div class="col-md-8 col-sm-8 col-xs-12 over_scroll">
-					<table class="table table-bordered table-condensed mt5">
+					<table class="table table-bordered table-condensed mt5 table_input">
 						<thead>
 							<tr>
 								<th class="info" colspan="17">事业部门需求</th>
@@ -575,7 +575,7 @@
 					
 			<c:if test="${audit!=null ||audit!=0 }">
 				<div class="col-md-4 col-sm-4 col-xs-12 over_scroll">
-					<table id="table" class="table table-bordered table-condensed mt5">
+					<table id="table" class="table table-bordered table-condensed mt5 table_input">
 						<thead>
 							<tr>
 										<c:if test="${audit==1 || audit==2 || audit==3 }">

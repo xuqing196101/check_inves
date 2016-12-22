@@ -296,7 +296,7 @@
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>审核人员性质</span>
-              <div class="input-append input_group col-sm-12 col-xs-12 p0">
+              <div class="input-append input_group col-sm-12 col-md-12 col-xs-12 p0">
                 <input id="audit_nature" type="text" class="input_group" name="name" value="${staff }" />
                 <span class="add-on">i</span>
          <%--        <div class="cue">${ERR_name}</div> --%>
@@ -318,15 +318,15 @@
             <h2 class="count_flow"><i>2</i>审核人员列表</h2>
 <!--             
   <h2 class="list_title">审核人员列表</h2> -->
-  <ul class="ul_list">
+  <div class="ul_list">
       
-    <div class="col-md-12 pl20 mt10">
+      <div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10">
 		<button class="btn btn-windows add" onclick="experts()">专家库添加</button>
 		<button class="btn btn-windows add" onclick="users()">用户库添加</button>
 		<button class="btn btn-windows add" onclick="temp()">临时添加</button>
 		<button class="btn btn-windows delete" onclick="delet()">删除</button>
 	  </div>
-  <div class="content table_box">
+      <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr class="info">
@@ -357,56 +357,51 @@
       </table>
    </div>
     <div id="pagediv" align="right"></div>
- </ul>
  </div>
- 
- 
- <div style="margin-top: 50px; margin-bottom: 30px; text-align: center;">
-		<button class="btn btn-windows git" onclick="save()">保存</button>
-		<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-	</div>
+ </div>
+<div class="mt20 tc col-md-12 col-xs-12 col-sm-12">
+	<button class="btn btn-windows git" onclick="save()">保存</button>
+	<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+</div>
 
- <div id="content" class="dnone layui-layer-wrap">
-	 
+ <div id="content" class="dnone layui-layer-wrap mt20"> 
 	<form id="collect_form" action="">
-	<input type="hidden" id="audit_turn" value="${type }" name="auditRound">
+	 <input type="hidden" id="audit_turn" value="${type }" name="auditRound">
 	   <input type="hidden" name="type" id="type" value="3">
          <input type="hidden" name="id" value="123123123">
-	<div class="drop_window">
-	   <ul class="list-unstyled">
-	           <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                   <label class="col-md-12 pl20 col-xs-12">姓名</label>
-                    <span class="col-md-12 col-xs-12">
-                       <input id="citySel" class="title col-md-12" name="name" type="text"/>
+	     <div class="drop_window">
+	       <ul class="list-unstyled">
+	           <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">姓名</span>
+                    <div class="col-md-12 col-xs-12 col-sm-12 input-append input_group p0">
+                       <input id="citySel" class="title" name="name" type="text"/>
                        <div class="cue" id="userName"></div>
-                    </span>
+                    </div>
                  </li>
-                 <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
-                   <label class="col-md-12 pl20 col-xs-12">电话</label>
-                    <span class="col-md-12 col-xs-12">
-                       <input id="citySel" class="title col-md-12" name="mobile" type="text"/>
+                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">电话</span>
+                    <div class="col-md-12 col-xs-12 col-sm-12 input-append input_group p0">
+                       <input id="citySel" class="title" name="mobile" type="text"/>
                        <div class="cue" id="userPhone"></div>
-                    </span>
+                    </div>
                  </li>
-	           <li class="mt10 col-md-12 p0 col-xs-12">
-                   <label class="col-md-12 pl20 col-xs-12">单位名称</label>
-                     <span class="col-md-12 col-xs-12">
-                        <input class="title col-md-12" name="unitName"  type="text">
+	             <li class="col-md-12 col-xs-12 col-sm-12">
+                  <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">单位名称</span>
+                  <div class="col-md-12 col-xs-12 col-sm-12 input-append input_group p0">
+                        <input class="title" name="unitName"  type="text">
                         <div class="cue" id="userUnitName"></div>
-                    </span>
-            	</li>
-            
-        <input type="hidden" name="auditStaff" value="" id="auditStaff_1" >
-<!-- 	 	<input type="hidden" name="auditRound" value="" id="auditRound_1" > -->
-	 	
-	 		<input type="hidden" id="collId" name="collectId" value="${id }">	
-		 <div class="clear"></div>
-	</ul>
-	<div class="tc mt10 col-md-12 col-xs-12">
+                    </div>
+            	 </li>
+                 <input type="hidden" name="auditStaff" value="" id="auditStaff_1" >
+<!-- 	     	 <input type="hidden" name="auditRound" value="" id="auditRound_1" > -->
+	 		     <input type="hidden" id="collId" name="collectId" value="${id }">	
+		         <div class="clear"></div>
+	       </ul>
+	       <div class="tc mt10 col-md-12 col-xs-12 col-sm-12">
                 <button class="btn btn-windows save" id="save" type="button" onclick="qd()">添加</button>
                 <button class="btn btn-windows cancel"  onclick="cancel()" type="button">取消</button>
-          </div>
-	</div>
+           </div>
+	  </div>
 	 </form>   
  </div>
 </div>
@@ -423,10 +418,7 @@
 	 
 	 
 	 <form id="del_form" action="" method="post" >
- 
 	 	<input type="hidden" name="id" id="del_id" >	
- 
-	 	
 	 </form>
 	 
 	 
