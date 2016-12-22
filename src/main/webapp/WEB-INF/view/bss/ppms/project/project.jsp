@@ -19,7 +19,13 @@
 					endRow: "${list.endRow}",
 					groups: "${list.pages}" >= 5 ? 5 : "${list.pages}", //连续显示分页数
           curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
-						return "${list.pageNum}";
+        	  var page = location.search.match(/page=(\d+)/);
+        	  if(page==null){
+    	    		page = {};
+    	    		page[0]="${list.pageNum}";
+    	    		page[1]="${list.pageNum}";
+    	    	}
+    				return page ? page[1] : 1;
           },
           jump: function(e, first) { //触发分页后的回调
             if(!first) { //一定要加此判断，否则初始时会无限刷新
@@ -106,7 +112,17 @@
       
       //重置
       function resetResult(){
-    	  
+    	  $("#planName").val("");
+    	  $("#orgName").val("");
+    	  $("#documentNumber").val("");
+      }
+      
+      //查询
+      function query(){
+    	  var planName = $("#planName").val();
+    	  var orgName = $("#orgName").val();
+    	  var documentNumber = $("#documentNumber").val();
+    	  window.location.href = "${pageContext.request.contextPath }/project/projectList.do?planName="+planName+"&orgName="+orgName+"&documentNumber="+documentNumber;
       }
     </script>
   </head>
@@ -161,25 +177,23 @@
           <h2 class="count_flow"><i>2</i>选择采购明细</h2>
           <!-- 项目戳开始 -->
 				<h2 class="search_detail">
-			  	<form id="form1" action="${pageContext.request.contextPath}/project/projectList.html" method="post" class="mb0">
 						<ul class="demand_list">
 					  	<li>
 					    	<label class="fl">采购任务名称：</label>
-								<span><input type="text" name="name" id="purchaseRequiredId" value="${task.orgName}" /></span>
+								<span><input type="text" name="planName" id="planName" value="${planName}" /></span>
 					  	</li>
 			        <li>
 			          <label class="fl">需求部门：</label>
-			          <span><input type="text" name="documentNumber" id="documentNumber" value="${task.documentNumber }" class=""/></span>
+			          <span><input type="text" name="orgName" id="orgName" value="${orgName }"/></span>
 			        </li>
 			        <li>
 			          <label class="fl">下达文件编号：</label>
-			          <span><input type="text" name="documentNumber" id="documentNumber" value="${task.documentNumber }" class=""/></span>
+			          <span><input type="text" name="documentNumber" id="documentNumber" value="${documentNumber }"/></span>
 			        </li>
 						</ul>
-					  <button class="btn" type="submit">查询</button>
+					  <button class="btn" type="button" onclick="query()">查询</button>
 					  <button class="btn" type="button" onclick="resetResult()">重置</button>
 						<div class="clear"></div>
-		    	</form>
 				</h2>
           <ul class="ul_list">
             <div class="content table_box">

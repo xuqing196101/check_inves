@@ -100,5 +100,11 @@ public class TaskServiceImpl implements TaskService {
         return list;
     }
 
+	
+	@Override
+	public List<Task> listByProjectTask(HashMap<String, Object> map) {
+		return taskMapper.listByProjectTask(map);
+	}
+
 
 }
