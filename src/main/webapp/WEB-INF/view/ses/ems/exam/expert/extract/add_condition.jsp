@@ -831,10 +831,10 @@
               varStatus="vs">
               <tr class='cursor '>
                 <td class='tc'>${vs.index+1}</td>
-                <td class='tc'>${listyes.expert.relName}</td>
+                <td class='tc'>*****</td>
                 <td class='tc'>${listyes.expert.mobile}</td>
-                <td class='tc'>${listyes.expert.workUnit}</td>
-                <td class='tc'>${listyes.expert.professTechTitles}</td>
+                <td class='tc'>*****</td>
+                <td class='tc'>*****</td>
                 <td class='tc'><select id='select'
                   onchange='operation(this);'>
                     <c:choose>

@@ -36,31 +36,6 @@ function sumbits(){
     });
 	}
 	
-//专家地址
-function areas(){
-var areas=$("#area").find("option:selected").val();
-$.ajax({
-   type:"POST",
-   url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
-   data:{area:areas},
-   dataType:"json",
-   success: function(data){
-        var list = data;
-        $("#city").empty();
-        
-        var  html="";
-        var areas=$("#area").find("option:selected").text();
-        if(areas == '全国'){
-          html="<option value=''>全国</option>";
-        }
-        for(var i=0;i<list.length;i++){
-          html +="<option value="+list[i].id+">"+list[i].name+"</option>";
-        }
-        $("#city").append(html);
-        selectLikeExpert();
-   }
-});
-}
 </script>
 
 <script type="text/javascript">
@@ -192,35 +167,6 @@ $.ajax({
              <div class="cue" >${creditCodeError}</div>
         </div>
   </li>
-	      <li class="col-md-3 col-sm-6 col-xs-12 ">
-       <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">注册地址：</span>
-        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-           <select class="col-md-6 col-sm-6 col-xs-6 p0" id="area" onchange="areas();" >
-                     <option value="">全国</option>
-                      <c:forEach  items="${privnce }" var="prin">
-                   <c:if test="${prin.id==area.parentId }">
-                    <option value="${prin.id }" selected="selected" >${prin.name }</option>
-                   </c:if>
-                   <c:if test="${prin.id!=area.parentId }">
-                    <option value="${prin.id }"  >${prin.name }</option>
-                   </c:if>
-                   </c:forEach>
-                  </select>
-                  <select name="address" class="col-md-6 col-sm-6 col-xs-6 p0" id="city" onchange="selectLikeExpert();">
-                     <option value="">全国</option>
-                  <c:forEach  items="${city }" var="city">
-                   <c:if test="${city.id==listCon.address}">
-                    <option value="${city.id }" selected="selected" >${city.name }</option>
-                   </c:if>
-                   <c:if  test="${city.id!=listCon.address }">
-                    <option value="${city.id }"  >${city.name }</option>
-                   </c:if>
-                </c:forEach>
-                  </select>
-            <div class="cue">${addressError}</div>
-        </div>
-     
-  </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12 ">
 	    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">分配账户：</span>
 	      <div class="input-append input_group col-sm-12 col-xs-12 p0">

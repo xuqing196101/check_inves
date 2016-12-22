@@ -848,7 +848,7 @@ public class SupplierExtractsController extends BaseController {
         }
 
         if(supplier.getContactTelephone() == null || "".equals(supplier.getContactTelephone())){
-            model.addAttribute("contactTelephone", "不能为空");
+            model.addAttribute("contactTelephoneError", "不能为空");
             type = 1;
         }
 
