@@ -14,6 +14,8 @@
 	  <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
+	  var status = "${isCreate}";
+	  $("#status").val(status);
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${list.pages}", //总页数
@@ -101,7 +103,8 @@
   		var projectName = $("#projectName").val();
   		var projectCode = $("#projectCode").val();
   		var purchaseDep = $("#purchaseDep").val();
-  		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep;
+  		var isCreate = $("#isCreate").val();
+  		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep+"&isCreate="+isCreate;
   	}
   	
   	function reset(){
@@ -114,15 +117,20 @@
   		var ids =[]; 
   		var supid = [];
   		var supcheckid = [];
+  		var isCreateContract = [];
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
 			supid.push($(this).parent().next().text());
 			supcheckid.push($(this).parent().next().next().text());
+			isCreateContract.push($(this).parent().next().next().next().text());
 		}); 
 		if(ids.length>0){
 			if(ids.length>1){
 				layer.alert("只可选择一条项目生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
+				if(isCreateContract==1){
+					layer.alert("已生成过",{offset: ['222px', '390px'], shade:0.01});
+				}else{
 				/*$.ajax({
 		  			url:"${pageContext.request.contextPath}/purchaseContract/selectSuppliers.html?packageId="+ids,
 		  			dataType:"text",
@@ -144,6 +152,7 @@
 		  			}
 		  		});*/
 		  		window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids+"&supcheckid="+supcheckid;
+				}
 			}
 		}else{
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
@@ -179,33 +188,68 @@
   		var ids =[]; 
   		var suppliers=[];
   		var supcheckid = [];
+  		var isCreateContract = [];
+  		var flag = true;
 		$('input[name="chkItem"]:checked').each(function(){
 			ids.push($(this).val()); 
 			suppliers.push($(this).parent().next().text());
 			supcheckid.push($(this).parent().next().next().text());
+			isCreateContract.push($(this).parent().next().next().next().text());
 		});
 		if(ids.length>0){
 			if(ids.length>1){
-				$.ajax({
-					url:"${pageContext.request.contextPath}/purchaseContract/createAllCommonContract.html?ids="+ids+"&suppliers="+suppliers,
-					type:"POST",
-					dataType:"text",
-					success:function(data){
-						var dd = data.replace("\"","");
-						var ss = dd.split("=");
-						if(ss[0]=="true"){
-							window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id="+ids+"&supid="+suppliers+"&supcheckid="+supcheckid;
-						}else if(ss[0]=="false"){
-							layer.alert(ss[1],{offset: ['222px', '390px'], shade:0.01});
-						}
+				for(var i=0;i<isCreateContract.length;i++){
+					if(isCreateContract[i]==1){
+						flag = false;
+						layer.alert("已生成过",{offset: ['222px', '390px'], shade:0.01});
 					}
-				});
+				}
+				if(flag){
+					$.ajax({
+						url:"${pageContext.request.contextPath}/purchaseContract/createAllCommonContract.html?ids="+ids+"&suppliers="+suppliers,
+						type:"POST",
+						dataType:"text",
+						success:function(data){
+							var dd = data.replace("\"","");
+							var ss = dd.split("=");
+							if(ss[0]=="true"){
+								window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id="+ids+"&supid="+suppliers+"&supcheckid="+supcheckid;
+							}else if(ss[0]=="false"){
+								layer.alert(ss[1],{offset: ['222px', '390px'], shade:0.01});
+							}
+						}
+					});
+				}
 			}else if(ids.length==1){
 				layer.alert("请至少选择两条",{offset: ['222px', '390px'], shade:0.01});
 			}
 			//layer.alert("请选择相同的供应商",{offset: ['222px', '390px'], shade:0.01});
 		}else if(ids.length==0){
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
+		}
+  	}
+  	
+  	function updateZanCun(){
+  		var ids =[]; 
+  		var supcheckid = [];
+  		var isCreateContract =[] ;
+		$('input[name="chkItem"]:checked').each(function(){
+			ids.push($(this).val()); 
+			supcheckid.push($(this).parent().next().next().text());
+			isCreateContract.push($(this).parent().next().next().next().text());
+		});
+		if(ids.length>0){
+			if(ids.length>1){
+				layer.alert("只可选择一条修改",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				if(isCreateContract==2){
+					window.location.href="${pageContext.request.contextPath}/purchaseContract/updateZanCun.html?supcheckid="+supcheckid+"&isCreateContract="+isCreateContract;
+				}else{
+					layer.alert("只可选择暂存的修改",{offset: ['222px', '390px'], shade:0.01});
+				}
+			}
+		}else{
+			layer.alert("请选择要修改的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
   	}
   </script>
@@ -233,6 +277,15 @@
           <li class="fl"><label class="fl">采购项目名称：</label><span><input type="text" value="${projectName }" id="projectName" class=""/></span></li>
 	      <li class="fl"><label class="fl">编号：</label><span><input type="text" value="${projectCode }" id="projectCode" class=""/></span></li>
 	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="${purchaseDep }" id="purchaseDep" class=""/></span></li>
+	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="${purchaseDep }" id="purchaseDep" class=""/></span></li>
+	      <li class="fl"><label class="fl">状态：</label><span>
+	      	<select id="isCreate" name="isCreateContract" class="mb0 mt5 w100">
+	      		<option value="">--请选择--</option>
+	      		<option value="2">暂存</option>
+	      		<option value="0">未生成</option>
+	      		<option value="1">已生成</option>
+	      	</select>
+	      </span></li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" onclick="reset()" class="btn">重置</button>  	
     	</ul>
@@ -241,12 +294,14 @@
     <div class="col-md-12 pl20 mt10">
 		<button class="btn" onclick="createContract()">生成</button>
 		<button class="btn" onclick="someCreateContract()">合并生成</button>
+		<button class="btn" onclick="updateZanCun()">修改暂存</button>
 	</div>
    <div class="content table_box">
    	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+				<th class="tnone"></th>
 				<th class="tnone"></th>
 				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
@@ -256,6 +311,7 @@
 				<th class="info">成交金额</th>
 				<th class="info">成交供应商</th>
 				<th class="info">采购机构</th>
+				<th class="info">状态</th>
 			</tr>
 		</thead>
 		<c:forEach items="${packageList}" var="pack" varStatus="vs">
@@ -263,6 +319,7 @@
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
 				<td class="tnone">${pack.supplier.id}</td>
 				<td class="tnone">${pack.supplierCheckPassId}</td>
+				<td class="tnone">${pack.isCreateContract}</td>
 				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${pack.project.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -284,6 +341,11 @@
 				<td class="tc pointer">${pack.project.amount}</td>
 				<td class="tc pointer">${pack.supplier.supplierName}</td>
 				<td class="tc pointer">${pack.project.purchaseDep.depName}</td>
+				<td>
+					<c:if test="${pack.isCreateContract==2}">暂存</c:if>
+					<c:if test="${pack.isCreateContract==1}">已生成</c:if>
+					<c:if test="${pack.isCreateContract==0}">未生成</c:if>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

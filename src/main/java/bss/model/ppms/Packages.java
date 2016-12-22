@@ -61,8 +61,30 @@ public class Packages {
 	
 	private Supplier supplier;//用于拆分供应商展示
 	
+	private String supplierId;
+	
 	private String supplierCheckPassId;
 	
+	private String isCreateContract;
+	
+	private String contractId;
+	
+	public String getContractId() {
+		return contractId;
+	}
+
+	public void setContractId(String contractId) {
+		this.contractId = contractId;
+	}
+
+	public String getIsCreateContract() {
+		return isCreateContract;
+	}
+
+	public void setIsCreateContract(String isCreateContract) {
+		this.isCreateContract = isCreateContract;
+	}
+
 	//判断是否有评分办法 1 有 2 没有
 	private Integer isHaveScoreMethod;
 
@@ -74,7 +96,15 @@ public class Packages {
         this.isHaveScoreMethod = isHaveScoreMethod;
     }
 
-    public String getSupplierCheckPassId() {
+	public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public String getSupplierCheckPassId() {
 		return supplierCheckPassId;
 	}
 

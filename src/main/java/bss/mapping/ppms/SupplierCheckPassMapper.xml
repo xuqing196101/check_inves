@@ -17,7 +17,9 @@
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
 		<result column="IS_CREATE_CONTRACT" jdbcType="DECIMAL"
 			property="isCreateContract" />
+		<result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId"/>
 		<result column="PRICE_RATIO" jdbcType="DECIMAL" property="priceRatio" />
+		<result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId"/>
 		<result column="WON_PRICE" jdbcType="DECIMAL" property="wonPrice" />
 		<association property="supplier" column="SUPPLIER_ID"
 			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
@@ -64,14 +66,14 @@
 		cp.TOTAL_SCORE, cp.PACKAGE_ID,
 		cp.IS_WON_BID,
 		cp.IS_SEND_NOTICE, cp.CREATED_AT,
-		cp.UPDATED_AT,cp.IS_CREATE_CONTRACT,cp.PRICE_RATIO,cp.WON_PRICE
+		cp.UPDATED_AT,cp.IS_CREATE_CONTRACT,cp.PRICE_RATIO,cp.WON_PRICE,cp.CONTRACT_ID
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		<!-- @mbggenerated -->
 		select
 		<include refid="Base_Column_List" />
-		from T_BSS_PPMS_SUPPLIER_CHECK_PASS
+		from T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -221,6 +223,9 @@
 			</if>
 			<if test="isCreateContract != null">
 				IS_CREATE_CONTRACT = #{isCreateContract},
+			</if>
+			<if test="contractId != null">
+				CONTRACT_ID = #{contractId},
 			</if>
 			 <if test="priceRatio != null">
         PRICE_RATIO = #{priceRatio},

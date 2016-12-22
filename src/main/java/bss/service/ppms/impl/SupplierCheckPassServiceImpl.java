@@ -111,4 +111,8 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
         return checkPassMapper.selectWonBid(projectId);
     }
 
+	@Override
+	public SupplierCheckPass findByPrimaryKey(String id) {
+		return checkPassMapper.selectByPrimaryKey(id);
+	}
 }

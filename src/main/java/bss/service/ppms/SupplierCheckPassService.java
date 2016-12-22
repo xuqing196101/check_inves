@@ -81,4 +81,17 @@ public interface SupplierCheckPassService {
      * @return 集合
      */
     String[] selectWonBid(String prijectId);
+    
+    /**
+     * 
+    * 〈简述〉 〈详细描述〉
+    * 
+    * @author QuJie 
+    * @date 2016-12-22 下午7:40:58  
+    * @Description: 根据id查找 
+    * @param @param id
+    * @param @return      
+    * @return SupplierCheckPass
+     */
+    SupplierCheckPass findByPrimaryKey(String id);
 }
