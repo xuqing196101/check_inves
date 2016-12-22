@@ -212,13 +212,10 @@ public class ExpertController {
      */
     @RequestMapping(value = "/toRegisterNotice")
     public String toRegisterNotice(Model model) {
-        DictionaryData dd = DictionaryDataUtil.get("SUPPLIER_REGISTER_NOTICE");
-        if (dd != null){
-            Map<String, Object> param = new HashMap<String, Object>();
-            param.put("docType", dd.getId());
-            String doc = noticeDocumentService.findDocByMap(param);
-            model.addAttribute("doc", doc);
-        }
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("docType", "专家须知文档");
+        String doc = noticeDocumentService.findDocByMap(param);
+        model.addAttribute("doc", doc);
         return "ses/ems/expert/register_notice";
     }
 

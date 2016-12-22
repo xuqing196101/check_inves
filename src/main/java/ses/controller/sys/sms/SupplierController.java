@@ -194,12 +194,9 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping("registration_page")
 	public String registrationPage(Model model) {
-	    DictionaryData dd = DictionaryDataUtil.get("SUPPLIER_REGISTER_NOTICE");
-	    if (dd != null){
-	        Map<String, Object> param = new HashMap<String, Object>();
-	        param.put("docType", dd.getId());
-	        model.addAttribute("doc", noticeDocumentService.findDocByMap(param));
-	    }
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("docType", "供应商须知文档");
+		model.addAttribute("doc", noticeDocumentService.findDocByMap(param));
 		return "ses/sms/supplier_register/registration";
 	}
 
