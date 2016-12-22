@@ -360,22 +360,22 @@
 			 	   	   		</select>
 				    		</span>
 				      </li>
-				      <button type="submit" class="btn">查询</button>
-	 						<button type="button" onclick="resetQuery()" class="btn">重置</button>
 			    	</ul>
+			    	<button type="submit" class="btn fl">查询</button>
+	 				<button type="button" onclick="resetQuery()" class="btn fl">重置</button>
 			    	<div class="clear"></div>
    
    </form>
   	</h2>
    
-   <div class="col-md-12 pl20 mt10">
+   <div class="col-md-12 col-xs-12 col-sm-12 pl20 mt10">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">添加至已有计划中</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="advanced()">预研项目</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="loadplan()">导入采购计划</button>
 	 </div>
    <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover table-striped">
+        <table class="table table-bordered table-condensed table-hover table-striped ">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -465,20 +465,20 @@
 	<div class="drop_window">
 	<ul class="list-unstyled">
 	   
-                 <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
-                   <label class="col-md-12 pl20 col-xs-12">计划名称</label>
-                    <span class="col-md-12 col-xs-12">
+                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">计划名称</span>
+                   <div class="col-md-12 col-xs-12 col-sm-12 input-append input_group p0">
                         <input class="title col-md-12" name="fileName"   type="text">
-                    </span>
+                   </div>
                  </li>
-                 <li class="mt10 col-md-12 p0 col-xs-12">
-                   <label class="col-md-12 pl20 col-xs-12">计划编号</label>
-                     <span class="col-md-12 col-xs-12">
+                 <li class="mt10 col-md-12 col-sm-12 col-xs-12">
+                  <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">计划编号</span>
+                  <div class="col-md-12 col-xs-12 col-sm-12 input-append input_group p0">
                         <input class="col-xs-12 h80 mt6" name="cno" id="cno"  maxlength="300" type="text">
-                    </span>
+                    </div>
                  </li>
                  <!-- <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
-                   <label class="col-md-12 pl20 col-xs-12">密码</label>
+                  <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">密码</label>
                     <span class="col-md-12 col-xs-12">
                         <input class="title col-md-12" name="password" maxlength="200" type="password">
                     </span>
@@ -486,7 +486,7 @@
 						<div class="clear"></div>
 					</ul>
 				</div>
-				<div class="tc mt10 col-md-12 col-xs-12">
+				<div class="tc mt10 col-md-12 col-xs-12 col-dm-12">
 					<input type="hidden" name="planNo" id="plannos" value="">
 					<input type="hidden" name="department" id="dep" value="">
 					<input type="hidden" name="goodsType" id="goodsType" value="">
