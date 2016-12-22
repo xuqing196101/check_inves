@@ -149,16 +149,18 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(page==null){
 			page=1;
 		}
+		List<Packages> packList = new ArrayList<Packages>();
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("projectName", projectName);
 		map.put("projectCode", projectCode);
 		map.put("purchaseDep", purchaseDep);
 		map.put("isCreateContract", isCreate);
 		map.put("page", page);
-		List<Packages> packList = packageService.selectAllByIsWon(map);
+		Orgnization or = user.getOrg();
+		if(or.getTypeName().equals("0")){
+		packList = packageService.selectAllByIsWon(map);
 		model.addAttribute("list", new PageInfo<Packages>(packList));
 		ArrayList<Packages> pacList = new ArrayList<Packages>();
-		Orgnization or = user.getOrg();
 		
 //		boolean isRole = false;
 //		for(Role r:roleList){
@@ -176,7 +178,7 @@ public class PurchaseContractController extends BaseSupplierController{
 						flag = false;
 					}
 				}
-//				if(or.getTypeName().equals("0")&&or.getDepId().equals(project.getPurchaseDep().getId())
+				
 //						||or.getTypeName().equals("1")&&or.getDepId().equals(project.getPurchaseDep().getId())
 //						||or.getTypeName().equals("2")&&or.getId().equals(project.getSectorOfDemand())){
 					pa.setProject(project);
@@ -205,6 +207,7 @@ public class PurchaseContractController extends BaseSupplierController{
 //					}
 //				}
 			}
+		}
 //		}else{
 //			model.addAttribute("list", new PageInfo<Packages>(pacList));
 //		}

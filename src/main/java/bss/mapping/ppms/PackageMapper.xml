@@ -311,7 +311,7 @@
 		and ch.is_won_bid = 1
 		and pa.IS_DELETED=0
 		<if test="isCreateContract != null and isCreateContract != ''">
-			and is_CreateContract = #{isCreateContract}
+			and ch.is_Create_Contract = #{isCreateContract}
 		</if>
 		order by isCreateContract 
 	</select>
