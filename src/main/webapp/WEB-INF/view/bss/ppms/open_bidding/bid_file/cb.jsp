@@ -81,8 +81,8 @@ function ycDiv(obj, index){
 	   if('${date}'>0){
 	 	setInterval("showTime()", 1000);
 	   } else {
-	   	$("#showDiv").removeClass("hide");
-	   	$("#showH").addClass("hide");
+	   	$("#showDiv").removeClass("dis_none");
+	   	$("#showH").addClass("dis_none");
 	   } 
 	 });
 		function showTime(){
@@ -95,8 +95,8 @@ function ycDiv(obj, index){
 			success:function(data){
 					var bidTime=data;
 					if(bidTime<=0){
-						$("#showH").addClass("hide");
-						$("#showDiv").removeClass("hide");
+						$("#showH").addClass("dis_none");
+						$("#showDiv").removeClass("dis_none");
 					}else{
 						var day=bidTime/(60*60*24*1000);
 						day=parseInt(day);
@@ -171,7 +171,7 @@ function ycDiv(obj, index){
 	 <h2 class="tc" id="showH">开标倒计时：<span id="showTime"></span></h2>
 	 <input type="hidden" id ="projectId" value="${projectId}" />
 </c:if>
-<div id="showDiv" class="clear hide">
+<div id="showDiv" class="clear dis_none">
 <c:set value="1" var ="count"></c:set>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
