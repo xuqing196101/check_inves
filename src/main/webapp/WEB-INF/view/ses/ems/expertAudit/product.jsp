@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
@@ -107,6 +106,7 @@
 		
 		/** 点击tree **/
 		function ztreeOnClick(event, treeId, treeNode){
+		alert(treeId);
 			if (treeNode != null){
 				if (!treeNode.isParent){
 					reason(treeNode.name);

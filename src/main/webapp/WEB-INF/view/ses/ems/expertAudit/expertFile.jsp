@@ -112,12 +112,12 @@
 						<li class="col-md-6 p0 mt10 mb25">
 							<span class="col-md-5 padding-left-5" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="application" onclick="reason(this);">专家申请表：</span>
 								<up:show showId="show1" groups="show1,show2" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" />
-								<a class="b f18 ml10 red" style="visibility:hidden" id="application1">×</a>
+								<a style="visibility:hidden" id="application1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 						</li>
 						<li class="col-md-6 p0 mt10 mb25">
 							<span class="col-md-5 padding-left-5" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="contract" onclick="reason(this);">专家承诺书：</span>
 								<up:show showId="show2" groups="show1,show2" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" />
-								<a class="b f18 ml10 red" style="visibility:hidden" id="contract1">×</a>
+								<a style="visibility:hidden" id="contract1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 						</li>
 					</ul>
 				</div>

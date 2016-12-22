@@ -37,7 +37,7 @@
 			  var expertId = $("#expertId").val();
 			  var auditField;
 			  var auditContent;
-			  var html = "<div class='abolish' style='padding-right;30px'>×</div>";
+			  var html = "<div class='abolish'><img src='/zhbj/public/backend/images/sc.png'></div>";
 		    $("#"+obj.id+"").each(function() {
 		      auditField = $(this).parents("li").find("span").text().replace("：","").trim();
           auditContent = $(this).parents("li").find("input").val();
@@ -63,8 +63,9 @@
 				        }
 				      }
 				    });
-					$(obj).after(html);
-		      layer.close(index);
+				    $("#"+obj.id+"").css('border-color','#FF0000');
+						$(obj).after(html);
+		      	layer.close(index);
 			    });
 		  	}
 		  	
@@ -278,7 +279,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="idCardNumberFile" onclick="reasonFile(this);">居民身份证：</span>
               <up:show showId="show1" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}"/>
-              <a class="b f18 ml10 red" style="visibility:hidden" id="idCardNumberFile1">×</a>
+              <a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
             </li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证件号码：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -297,7 +298,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="idTypeFile" onclick="reasonFile(this);">军队人员身份证件</span>
 							<up:show showId="show2" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
-            	<a class="b f18 ml10 red" style="visibility:hidden" id="idTypeFile1">×</a>
+            	<a style="visibility:hidden" id="idTypeFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
             </li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">固定电话：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -325,7 +326,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="graduateSchoolFile" onclick="reasonFile(this);">毕业证书：</span>
               <up:show showId="show3" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
-              <a class="b f18 ml10 red" style="visibility:hidden" id="graduateSchoolFile1">×</a>
+              <a style="visibility:hidden" id="graduateSchoolFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
             </li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">最高学历：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -339,7 +340,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="degreeFile" onclick="reasonFile(this);">学位证书：</span>
               <up:show showId="show4" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}"/>
-              <a class="b f18 ml10 red" style="visibility:hidden" id="degreeFile1">×</a>
+              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
             </li>
 					</ul>
 					
@@ -392,7 +393,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" onclick="reasonFile(this);" id="professTechTitlesFile">技术职称/执业资格证书：</span>
               <up:show showId="show5" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
-              <a class="b f18 ml10 red" style="visibility:hidden" id="professTechTitlesFile1">×</a>
+              <a style="visibility:hidden" id="professTechTitlesFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
             </li>
 					</ul>
 					

@@ -35,7 +35,7 @@
 			function reason(obj, auditField) {
 				var expertId = $("#expertId").val();
 				var auditContent;
-				var html = "<div class='abolish' style='padding-right;30px'>×</div>";
+				var html = "<a class='abolish'><img src='/zhbj/public/backend/images/sc.png'></a>";
 				$("#" + obj.id + "").each(function() {
 					auditContent = $(this).parents("li").find("textarea").text();
 				});
