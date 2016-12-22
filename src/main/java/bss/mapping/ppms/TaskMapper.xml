@@ -18,6 +18,7 @@
     <result column="TASK_NATURE" property="taskNature" />
     <result property="purchaseId" column="PURCHASE_ID" />
     <result property="orgName" column="orgName" />
+    <result property="notDetail" column="NOT_DETAIL" />
   </resultMap>
   
   <resultMap type="bss.model.ppms.Task" id="ProjectResultMap" extends="BaseResultMap">  
@@ -30,7 +31,7 @@
   
   <sql id="Base_Column_List">
     ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED,
-    MATERIALS_TYPE,YEAR,ACCEPT_TIME,COLLECT_ID,PASS_WORD,TASK_NATURE
+    MATERIALS_TYPE,YEAR,ACCEPT_TIME,COLLECT_ID,PASS_WORD,TASK_NATURE,NOT_DETAIL
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -267,6 +268,9 @@
       <if test="taskNature != null">
         TASK_NATURE,
       </if>
+      <if test="notDetail != null">
+        NOT_DETAIL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -314,6 +318,9 @@
       <if test="taskNature != null">
         #{taskNature},
       </if>
+       <if test="notDetail != null">
+        #{notDetail},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Task">
@@ -360,6 +367,9 @@
       </if>
       <if test="taskNature != null">
         TASK_NATURE = #{taskNature},
+      </if>
+      <if test="notDetail != null">
+        NOT_DETAIL = #{notDetail},
       </if>
     </set>
     where ID = #{id}

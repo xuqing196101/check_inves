@@ -256,6 +256,22 @@ public class AdvancedProjectController extends BaseController {
         return "redirect:/task/list.html";
     }
     
+    /**
+     * 
+     *〈文件上传〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param users
+     * @param proName
+     * @param userId
+     * @param seq
+     * @param orgName
+     * @param orgId
+     * @param kindName
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("download")
     public ResponseEntity<byte[]> download(@CurrentUser User users,String proName, String userId,String seq, String orgName, String orgId, String kindName,
             HttpServletRequest request) throws Exception {

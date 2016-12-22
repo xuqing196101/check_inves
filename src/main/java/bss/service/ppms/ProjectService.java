@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
+
 import bss.model.ppms.Project;
 
 /**
@@ -89,4 +91,6 @@ public interface ProjectService {
     
     
     void insert(Project project);
+    
+    ResponseEntity<byte[]> downloadFile(String fileName,String filePath,String downFileName);
 }

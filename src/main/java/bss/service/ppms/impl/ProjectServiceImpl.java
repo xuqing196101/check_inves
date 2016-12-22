@@ -1,10 +1,16 @@
 package bss.service.ppms.impl;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ses.dao.oms.PurchaseDepMapper;
@@ -112,4 +118,20 @@ public class ProjectServiceImpl implements ProjectService {
 		projectMapper.insertId(project);
 	}
 
+    @Override
+    public ResponseEntity<byte[]> downloadFile(String fileName, String filePath, String downFileName) {
+        try {
+            File file=new File(filePath+"/"+fileName);  
+                HttpHeaders headers = new HttpHeaders(); 
+                headers.setContentDispositionFormData("attachment", downFileName);   
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+                ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED); 
+                file.delete();
+                return entity;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
 }
