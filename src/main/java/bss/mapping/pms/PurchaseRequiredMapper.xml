@@ -624,9 +624,16 @@
 			<if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
 			</if>
-			<if test="status != null">
-				and STATUS = #{status}
+			<if test="status==1">
+				and STATUS in('1','2')
 			</if>
+			<if test="status== 2 ">
+				and STATUS in('2','3')
+			</if>
+			<if test="status==3 ">
+				and STATUS in('3','4')
+			</if>
+			
 			<if test="isCollect != null">
 				and IS_COLLECT = #{isCollect}
 			</if>

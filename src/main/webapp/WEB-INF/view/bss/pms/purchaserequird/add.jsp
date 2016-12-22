@@ -608,7 +608,7 @@
 										<th class="w200">使用单位（仅进口）</th>
 										<th class="w200">备注</th>
 										<th  style="width:300px;">附件</th>
-										<th class="w100">状态</th>
+									<!-- 	<th class="w100">状态</th> -->
 										<th class="w100">操作</th>
 									</tr>
 								</thead>
@@ -647,6 +647,7 @@
 											<select name="list[0].purchaseType" class="pt m0" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
+												
 													<option value="${obj.id }">${obj.name }</option>
 												</c:forEach>
 											</select>
@@ -656,7 +657,8 @@
 										<td class="tc w200 p0"><input type="text" name="list[0].goodsUse" class="m0"></td>
 										<td class="tc w200 p0"><input type="text" name="list[0].useUnit" class="m0"></td>
 										<td class="tc w200 p0"><input type="text" name="list[0].memo" class="m0"></td>
-										<td class="tc w100 p0"><input type="text" name="list[0].status" value="暂存" class="m0" ></td>
+										<td class="tc w100 p0"></td>
+									<!-- 	<td class="tc w100 p0"></td> -->
 										<td class="tc w100 p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
 								</c:if>
@@ -691,7 +693,12 @@
 											<select name="list[${vs.index }].purchaseType" class="pt" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="objd">
+												<c:if test="${objd.id ==objs.purchaseType }">
+													<option value="${objd.id }" selected="selected">${objd.name }</option>
+													</c:if>
+													<c:if test="${objd.id !=objs.purchaseType }">
 													<option value="${objd.id }">${objd.name }</option>
+													</c:if>
 												</c:forEach>
 											</select>
 										</td>
@@ -708,8 +715,8 @@
 										</td>
 										
 										
-										<td class="tc w100 "><input type="hidden"  name="list[${vs.index }].status" value="暂存" class="m0" > 暂存</td>
-										<td class="tc w100"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
+<%-- 										<td class="tc w100 "><input type="hidden"  name="list[${vs.index }].status" value="暂存" class="m0" > 暂存</td>
+ --%>										<td class="tc w100"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
 									</c:forEach>
 								</c:if>
