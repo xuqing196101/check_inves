@@ -22,7 +22,7 @@
 </head>
 
 <body>
-   <jsp:include page="/index_head.jsp" />
+   <jsp:include page="/reg_head.jsp" />
 	<div class="wrapper">
 		<div class="container content height-350 job-content ">
 

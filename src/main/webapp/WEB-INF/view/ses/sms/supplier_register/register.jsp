@@ -44,7 +44,7 @@
 </head>
 
 <body>
-<jsp:include page="/index_head.jsp"></jsp:include>
+<jsp:include page="/reg_head.jsp"></jsp:include>
 	<div class="wrapper">
 		<div class="container clear margin-top-30">
 			<div class="col-md-12 col-sm-12 col-xs-12 margin-top-40">
