@@ -299,7 +299,7 @@
 										<th class="info">会计事务所名称</th>
 										<th class="info">事务所联系电话</th>
 										<th class="info">审计人姓名</th>
-										<th class="info">指标</th>
+										<!-- <th class="info">指标</th> -->
 										<th class="info">资产总额(万元)</th>
 										<th class="info">负债总额(万元)</th>
 										<th class="info">净资产总额(万元)</th>
@@ -313,7 +313,7 @@
 									<td class="tc">${f.name }</td>
 									<td class="tc">${f.telephone }</td>
 									<td class="tc">${f.auditors }</td>
-									<td class="tc">${f.quota }</td>
+									<%-- <td class="tc">${f.quota }</td> --%>
 									<td class="tc">${f.totalAssets }</td>
 									<td class="tc">${f.totalLiabilities }</td>
 									<td class="tc">${f.totalNetAssets}</td>
