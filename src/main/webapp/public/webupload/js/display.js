@@ -82,15 +82,15 @@ function displayName(params,data,id,del){
 	$ul.empty();
 	if (data != null){
 		if (data.picture){
-			var li = '<li class="file_view"><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'>查看</a></li>';
+			var li = '<li class="file_view"><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+key+'","'+id+'","this");\'></a></li>';
 			$ul.append(li);
 		}
 		if (data.success){
-			var li = '<li class="file_load"><a href=\javascript:download("'+data.fileIds+'",'+key+');>下载</a></li>';
+			var li = '<li class="file_load"><a href=\javascript:download("'+data.fileIds+'",'+key+');></a></li>';
 			$ul.append(li);
 		}
 		if (del && data.success){
-			var li = '<li class="file_delete"><a href=\javascript:removeFile("'+data.fileIds+'",'+key+',"'+id+'");>删除</a></li>';
+			var li = '<li class="file_delete"><a href=\javascript:removeFile("'+data.fileIds+'",'+key+',"'+id+'");></a></li>';
 			$ul.append(li);
 		}
 		
