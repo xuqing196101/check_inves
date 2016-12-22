@@ -250,13 +250,14 @@
 
 					</c:forEach>
 				</table>
-				
-				<!--   退回理由： <br><textarea   id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>-->
-				 <input type="hidden" name="planNo" value="${planNo }">
-				  <input type="hidden" id="status" name="status" value="4">
-				 <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="受理"> 
-				 <!-- <button class="btn btn-windows back" type="button" onclick="ss();">退回</button> -->
-				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+				<div class="col-md-12 col-xs-12 col-sm-12 tc">
+				   <!--   退回理由： <br><textarea   id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>-->
+				   <input type="hidden" name="planNo" value="${planNo }">
+				    <input type="hidden" id="status" name="status" value="4">
+				   <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="受理"> 
+				   <!-- <button class="btn btn-windows back" type="button" onclick="ss();">退回</button> -->
+				   <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+			     </div>
 			</form>
 		</div>
 	</div>
