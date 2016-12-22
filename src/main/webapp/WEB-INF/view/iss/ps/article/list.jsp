@@ -304,6 +304,36 @@
               });
             }
       }
+      
+      function editor() {
+          var id = [];
+          $('input[name="chkItem"]:checked').each(function() {
+            id.push($(this).val());
+          });
+          var editor = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
+          if(id.length == 1) {
+        	  if($.trim(editor) == "发布") {
+        		  layer.alert("请先撤回发布信息", {
+                      offset: ['180px', '200px'],
+                      shade: 0.01,
+                    });
+            } else {
+            	window.location.href = "${pageContext.request.contextPath }/article/editor.html?id=" + id;
+             }
+            
+          } else if(id.length > 1) {
+            layer.alert("只能选择一个", {
+              offset: ['222px', '390px'],
+              shade: 0.01
+            });
+          } else {
+            layer.alert("请选择需要编辑的信息", {
+              offset: ['222px', '390px'],
+              shade: 0.01
+            });
+          }
+        }
+      
     </script>
 
   </head>
@@ -390,6 +420,7 @@
         <button class="btn btn-windows git" type="button" onclick="sub()">提交</button>
         <button class="btn btn-windows apply" type="button" onclick="apply()">发布</button>
         <button class="btn btn-windows withdraw" type="button" onclick="withdraw()">撤回</button>
+        <button class="btn btn-windows edit" type="button" onclick="editor()">编辑</button>
       </div>
 
       <div class="content table_box">
