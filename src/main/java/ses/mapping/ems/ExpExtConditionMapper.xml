@@ -34,9 +34,9 @@
 			<result column="IS_MULTICONDITION" jdbcType="DECIMAL"
 				property="isMulticondition" />
 		</collection>
-		    <!-- 关联抽取过的专家 -->
-    <collection property="extRelatesList" column="ID"
-      ofType="ses.model.ems.ProjectExtract" select="ses.dao.ems.ProjectExtractMapper.getBuyConId" />
+		<!-- 关联抽取过的专家 -->
+		<collection property="extRelatesList" column="ID"
+			ofType="ses.model.ems.ProjectExtract" select="ses.dao.ems.ProjectExtractMapper.getBuyConId" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
@@ -239,15 +239,15 @@
 				EXTRACT_ADDRESS = #{extractAddress,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where 
+		where
 		1=1
 		<if test="id != null and id != '' ">
-		AND ID= #{id,jdbcType=VARCHAR}  
+			AND ID= #{id,jdbcType=VARCHAR}
 		</if>
 		<if test="projectId != null and projectId !='' ">
-		 AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+			AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
 		</if>
-		
+
 	</update>
 	<update id="updateByPrimaryKey" parameterType="ses.model.ems.ExpExtCondition">
 		<!-- @mbggenerated -->
@@ -288,11 +288,11 @@
 			<if test="id != null and id !='' ">
 				AND EC."ID"=#{id}
 			</if>
-			 <if test="status != null and status != ''">
-       AND EC.STATUS=#{status}
-      </if>
+			<if test="status != null and status != ''">
+				AND EC.STATUS=#{status}
+			</if>
 		</trim>
-		   ORDER BY EC.CREATED_AT 
+		ORDER BY EC.CREATED_AT
 	</sql>
 	<select id="list" parameterType="ses.model.ems.ExpExtCondition"
 		resultMap="BaseResultListMap">
@@ -308,27 +308,36 @@
 		EC."ID"=CT.CONDITION_ID
 		<include refid="condition" />
 	</select>
-	
-	<!--根据关联包id查询是否有未抽取的条件 -->
-    <select id="getCount" resultType="java.lang.Integer"
-        parameterType="java.lang.String">
-        SELECT "COUNT"(*) FROM T_SES_EMS_EXP_EXT_CONDITION WHERE
-        PROJECT_ID=#{projectId} AND ( STATUS=1 OR STATUS =2 )
-    </select>
 
-    <!-- 关联 -->
-    <select id="getExtractsByProjectId" parameterType="java.lang.String"
-        resultMap="BaseResultListMap">
-         SELECT
-        EC.*, CT."ID" AS ctid,
-        CT.CATEGORY_NAME,CT.EXPERTS_COUNT,CT.EXPERTS_QUALIFICATION,CT.EXPERTS_TYPE_ID
-        as cttypeid,CT.CATEGORY_ID AS gid ,CT.IS_MULTICONDITION
-        FROM
-        T_SES_EMS_EXP_EXT_CONDITION ec
-        LEFT JOIN
-        T_SES_EMS_EXP_EXT_CON_TYPE ct
-        ON
-        EC."ID"=CT.CONDITION_ID where
-           EC.PROJECT_ID =#{projectId}
-    </select>
+	<!--根据关联包id查询是否有未抽取的条件 -->
+	<select id="getCount" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		SELECT "COUNT"(*) FROM T_SES_EMS_EXP_EXT_CONDITION WHERE
+		PROJECT_ID=#{projectId} AND ( STATUS=1 OR STATUS =2 )
+	</select>
+
+	<!-- 关联 -->
+	<select id="getExtractsByProjectId" parameterType="java.lang.String"
+		resultMap="BaseResultListMap">
+		SELECT
+		EC.*, CT."ID" AS ctid,
+		CT.CATEGORY_NAME,CT.EXPERTS_COUNT,CT.EXPERTS_QUALIFICATION,CT.EXPERTS_TYPE_ID
+		as cttypeid,CT.CATEGORY_ID AS gid ,CT.IS_MULTICONDITION
+		FROM
+		T_SES_EMS_EXP_EXT_CONDITION ec
+		LEFT JOIN
+		T_SES_EMS_EXP_EXT_CON_TYPE ct
+		ON
+		EC."ID"=CT.CONDITION_ID where
+		EC.PROJECT_ID =#{projectId}
+	</select>
+
+	<!-- 删除未操作的信息 -->
+	<delete id="deleteInfo" parameterType="java.lang.String">
+		<if test="_parameter != null and _parameter != '' ">
+			DELETE
+			T_SES_EMS_PROJECT_EXTRACT WHERE EXPERT_CONDITION_ID = #{_parameter}
+			AND OPERATING_TYPE = 0
+		</if>
+	</delete>
 </mapper>

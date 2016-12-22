@@ -212,8 +212,6 @@ public class ExpExtractRecordController extends BaseController {
             conditionService.update(con);
         }
 
-
-
         List<Area> listArea = areaService.findTreeByPid("0",null);
         model.addAttribute("listArea", listArea);
         model.addAttribute("typeclassId",typeclassId);
@@ -257,7 +255,7 @@ public class ExpExtractRecordController extends BaseController {
             //获取项目信息
             Project project = projectService.selectById(projectId);
             if (project != null){
-                if (project.getBidDate() != null ){
+                if (project.getBidDate() != null && !"".equals(project.getBidDate()) ){
                     Long currentTime = System.currentTimeMillis();
                     Long currentBidDate = project.getBidDate().getTime()-(30*60*1000);
                     if (currentTime > currentBidDate){
@@ -363,9 +361,12 @@ public class ExpExtractRecordController extends BaseController {
             model.addAttribute("extConType", conTypes);
 
             if (projectExtractListNo.size() != 0){
-                Collections.shuffle(projectExtractListNo);
+//                Collections.shuffle(projectExtractListNo);
                 projectExtractListYes.add(projectExtractListNo.get(0));
                 projectExtractListNo.remove(0);
+            }else{
+                //已抽取
+                conditionService.update(new ExpExtCondition(condition.getId(), (short)2));
             }
             model.addAttribute("extRelateListYes", projectExtractListYes);
             model.addAttribute("extRelateListNo", projectExtractListNo);
@@ -571,9 +572,12 @@ public class ExpExtractRecordController extends BaseController {
         model.addAttribute("extConType", conTypes);
 
         if (projectExtractListNo.size() != 0){
-            Collections.shuffle(projectExtractListNo);
+//            Collections.shuffle(projectExtractListNo);
             projectExtractListYes.add(projectExtractListNo.get(0));
             projectExtractListNo.remove(0);
+        }else{
+            //已抽取
+            conditionService.update(new ExpExtCondition(listCondition.get(0).getId(), (short)2));
         }
         model.addAttribute("extRelateListYes", projectExtractListYes);
         model.addAttribute("extRelateListNo", projectExtractListNo);
@@ -647,7 +651,7 @@ public class ExpExtractRecordController extends BaseController {
         }
         projectExtractListYes.get(0).setConType(conTypes);
         if (projectExtractListNo.size() != 0){
-            Collections.shuffle(projectExtractListNo);
+//            Collections.shuffle(projectExtractListNo);
             projectExtractListYes.add(projectExtractListNo.get(0));
         }else{
             //已抽取

@@ -71,9 +71,9 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
     @Autowired
     ExpExtPackageService expExtPackageService; //项目和包关联
     @Autowired
-    RoleServiceI roleService;
+    RoleServiceI roleService; //权限
     @Autowired
-    private PreMenuServiceI menuService;// 地区查询
+    private PreMenuServiceI menuService;// 菜单
     @Autowired
     ExtConTypeService conTypeService;//条件
 

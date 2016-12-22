@@ -172,7 +172,7 @@
                         $("#countdnone").addClass("dnone");
                         var k=0;
                    for(var i=0;i<list.length;i++){
-                	   k=i;
+                	       k=i;
                        if(list[i]!=null){
                         if(list[0]!=null){
                           var html="";
@@ -221,7 +221,7 @@
                    for(var i=0;i<noList.length;i++){
                        
                        tex+="<tr class='cursor'>"+
-                             "<td class='tc' onclick='show();'>"+((i+1)+k)+"</td>"+
+                             "<td class='tc' onclick='show();'>"+((i+1)+(k+1))+"</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+
@@ -269,8 +269,12 @@
       }
       
       function operation(select){
+    	   var x,y;
+    	  var oRect =select.getBoundingClientRect();
+    	   x=oRect.left -450;
+     	  y=oRect.top -150;
           layer.confirm('确定本次操作吗？', {
-            btn: ['确定','取消'],offset: ['20%', '40%'], shade:0.01
+            btn: ['确定','取消'],offset: [y,x], shade:0.01
           }, function(index){
             var strs= new Array();
             var v=select.value;
@@ -280,7 +284,7 @@
               layer.prompt({
                   formType: 2,
                   shade:0.01,
-                  offset: ['20%', '40%'],
+                  offset: [y, x],
                   title: '不参加理由'
                 }, function(value, index, elem){
                      ajaxs(select.value,value);
@@ -291,7 +295,9 @@
                ajaxs(select.value,'');
             }
           }, function(index){
+        	  select.options[0].selected = true;
             layer.close(index);
+            
           });
         }
         
@@ -367,7 +373,7 @@
        }
        
        function resetQuery(){
-           $("#form1").find(":input[type='text']").attr("value","");
+           $("#form1").find(":input[type='text']").removeAttr("title");
            $("#form1").find(":input[type='text']").val("");
            $("#area").find("option:first").prop("selected", 'selected');
            $("#dnone").addClass("dnone");
@@ -508,22 +514,26 @@
           nodes = zTree.getCheckedNodes(true),
           v = "";
         var rid = "";
+        var code = "";
         for(var i = 0, l = nodes.length; i < l; i++) {
           v += nodes[i].name + ",";
           rid += nodes[i].id + ",";
+          code += nodes[i].code;
         }
         if(v.length > 0) v = v.substring(0, v.length - 1);
         if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
-        var cityObj = $("#expertsTypeName");
-        cityObj.attr("value", v);
-        cityObj.attr("title", v);
+        $("#expertsTypeName").val(v);
+        $("#expertsTypeName").attr("title", v);
         $("#expertsTypeId").val(rid);
         if (v != null && v != ''){
         	$("#dnone").removeClass("dnone");
-        
+         if('GOODS_SERVER' == code || 'GOODS_PROJECT' == code || 'GOODS_SERVERGOODS_PROJECT' == code){
+        	   $("#dnone").addClass("dnone");	
+         }
         } else{
         	 $("#dnone").addClass("dnone");
         }
+        
         $("#categoryName").val("");
         $("#categoryId").val("");
         selectLikeExpert();
@@ -604,9 +614,8 @@
         }
         if(v.length > 0) v = v.substring(0, v.length - 1);
         if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
-        var cityObj = $("#expertsFromName");
-        cityObj.attr("value", v);
-        cityObj.attr("title", v);
+        	$("#expertsFromName").val(v);
+        	   $("#expertsFromName").attr("title",v);
         $("#expertsFrom").val(rid);
         selectLikeExpert();
       }
@@ -717,7 +726,7 @@
                     </c:if> 
                       </c:forEach> 
                     </c:forEach>
-                    <input   id="expertsFromName"  type="text" readonly name="expertsFromName" value="${fn:substring(froms,1,froms.length()) }" onclick="showExpertsFromType();" />
+                    <input   id="expertsFromName"  type="text" readonly name="expertsFromName" value="" onclick="showExpertsFromType();" />
                     <input type="hidden" name="expertsFrom" id="expertsFrom" value="" />
                     <span class="add-on">i</span>
                  </div>

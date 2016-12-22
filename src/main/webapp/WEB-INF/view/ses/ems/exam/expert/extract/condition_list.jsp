@@ -308,7 +308,7 @@
 					<h2 class="count_flow"><i>1</i>必填项</h2>
 					<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><i class="red">*</i>项目名称:</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span>项目名称:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                 <input class="span5" id="projectName" name="name" value="${projectName}" type="text">
                 <span class="add-on">i</span>
@@ -316,7 +316,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>项目编号:</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>项目编号:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                 <input class="span5" id="projectNumber" name="projectNumber" value="${projectNumber}" type="text">
                 <span class="add-on">i</span>
@@ -324,7 +324,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 ">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>采购方式:</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>采购方式:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                 <select class="col-md-12 col-sm-12 col-xs-6 p0" name="purchaseType">
                   <c:forEach items="${findByMap}" var="map">
@@ -334,7 +334,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 ">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>开标时间:</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>开标时间:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                 <input class="col-md-12 col-sm-12 col-xs-6 p0"  id="tenderTimeId" readonly="readonly"  name="tenderTime" value="<fmt:formatDate value='${bidDate}'
                                 pattern='yyyy-MM-dd' />" maxlength="30" type="text">
@@ -342,7 +342,7 @@
               </div>
             </li>
 						<li class="col-md-3 col-sm-6 col-xs-12 ">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>监督人员:</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>监督人员:</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="span5" readonly id="supervises" title="${userName}" value="${userName}" onclick="supervise();" type="text">
 								<span class="add-on">i</span>
@@ -350,7 +350,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12 ">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>响应时间:</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>响应时间:</span>
 							<div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
 								<input class="col-md-5 col-sm-5 col-xs-5" name="hour" value="${hour}" maxlength="3" type="text">
 								<span class="f14   fl">时</span>
@@ -360,7 +360,7 @@
 							</div>
 						</li>
 						  <li class="col-md-12 col-sm-6 col-xs-12 ">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><i class="red">*</i>抽取地区:</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span>抽取地区:</span>
                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                 <input class="span5" id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
                 <span class="add-on">i</span>
@@ -396,7 +396,7 @@
               <div>
                 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listResultExpert[index].name }</span></h2>
               </div>
-              <div class="p0${index}">
+              <div class="p0${index} ">
 							  <table id="table" class="table table-bordered table-condensed">
 							          <thead>
 							            <tr>

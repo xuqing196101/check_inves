@@ -52,32 +52,37 @@
       }
 
       function ycDiv(obj, index) {
-        if($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
-          $(obj).removeClass("jbxx");
-          $(obj).addClass("zhxx");
-        } else {
-          if($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
-            $(obj).removeClass("zhxx");
-            $(obj).addClass("jbxx");
-          }
-        }
-
-        var divObj = new Array();
-        divObj = $(".p0" + index);
-        for(var i = 0; i < divObj.length; i++) {
-          if($(divObj[i]).hasClass("p0" + index) && $(divObj[i]).hasClass("hide")) {
-            $(divObj[i]).removeClass("hide");
-          } else {
-            if($(divObj[i]).hasClass("p0" + index)) {
-              $(divObj[i]).addClass("hide");
+    	  if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
+              $(obj).removeClass("jbxx");
+              $(obj).addClass("zhxx");
+            } else {
+              if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
+                $(obj).removeClass("zhxx");
+                $(obj).addClass("jbxx");
+              }
             }
-          }
-        };
+            
+            var divObj = new Array();
+            divObj = $(".p0" + index);
+            for (var i =0; i < divObj.length; i++) {
+                if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
+                  $(divObj[i]).removeClass("hide");
+                } else {
+                  if ($(divObj[i]).hasClass("p0"+index)) {
+                    $(divObj[i]).addClass("hide");
+                  };
+                };
+            };
       }
 
       function resetQuery() {
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
       }
+      
+     function provisional(packId) {
+    	   var projectId = $("#projectId").val();
+    	  window.location.href = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}";
+     }
 
       $(function() {
         $("#statusBid").find("option[value='${statusBid}']").attr("selected", true);
@@ -137,11 +142,11 @@
         <c:set value="${p.index}" var="index"></c:set>
 
         <div>
-          <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand fl clear">包名:<span class="f15 blue">${pack.name }</span>
+          <h2 onclick="ycDiv(this,'${index}')" class="count_flow zhxx hand fl clear">包名:<span class="f15 blue">${pack.name }</span>
           </h2>
           <div class="fl mt20 ml10">
              <button class="btn btn-windows add" onclick="add('${pack.id }')" type="button">登记</button>
-             <button class="btn btn-windows add" onclick="" type="button">添加临时供应商</button>
+             <button class="btn btn-windows add" onclick="provisional('${pack.id}');" type="button">添加临时供应商</button>
            </div>
              
           <input type="hidden" id="packId" value="${pack.id }" />

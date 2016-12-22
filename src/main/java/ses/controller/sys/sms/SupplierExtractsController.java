@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,7 +37,9 @@ import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
+import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtPackage;
@@ -179,7 +183,7 @@ public class SupplierExtractsController extends BaseController {
             conditionService.update(con);
         }
 
-        
+
         //根据包获取抽取出的供应商
         List<Packages> listResultSupplier = packageService.listResultSupplier(projectId);
         model.addAttribute("listResultSupplier", listResultSupplier);
@@ -214,7 +218,7 @@ public class SupplierExtractsController extends BaseController {
                     model.addAttribute("userName", userName.substring(0, userName.length()-1));
                     model.addAttribute("userId", userId.substring(0, userId.length()-1));
                 }
-      
+
             }
 
             //获取项目信息
@@ -442,7 +446,7 @@ public class SupplierExtractsController extends BaseController {
 
 
     }
-    
+
     /**
      * 
      *〈简述〉根据项目id获取包信息
@@ -784,14 +788,14 @@ public class SupplierExtractsController extends BaseController {
     public String showSupervise(Model model, Integer page){
         User user = new User();
         //监督人员
-//                user.setTypeName(DictionaryDataUtil.get("SUPERVISER_U").getId());
+        //                user.setTypeName(DictionaryDataUtil.get("SUPERVISER_U").getId());
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("code", "SUPERVISER_R");
         List<User> users = userServicl.findByRole(map);
         model.addAttribute("list", new PageInfo<User>(users));
         return "ses/sms/supplier_extracts/supervise_list";
     }
-    
+
     @ResponseBody
     @RequestMapping("/isFinish")
     public String isFinish(String packageId){
@@ -800,10 +804,101 @@ public class SupplierExtractsController extends BaseController {
         condition.setProjectId(packageId);
         condition.setStatus((short)1);
         String finish = conditionService.isFinish(condition);
-        
+
         return JSON.toJSONString(finish);
     }
-    
+
+    /**
+     * @Description:展示添加临时专家页面
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月14日 下午7:29:36  
+     * @param model  实体
+     * @param  id 专家id
+     */
+    @RequestMapping("/showTemporarySupplier")
+    public  String showTemporaryExpert(Model model,String packageId,String projectId,String flowDefineId){
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("expert", new Expert());
+        model.addAttribute("flowDefineId", flowDefineId);
+        return "bss/ppms/sall_tender/temporary_supplier_add";
+    }
+
+    /**
+     * @Description:添加临时供应商
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月14日 下午7:29:36  
+     * @param model  实体
+     * @param  id 专家id
+     */
+    @RequestMapping("/AddtemporarySupplier")
+    public  Object addTemporaryExpert(Supplier supplier,  Model model, String projectId,String packageId, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq){
+        Integer type = 0;
+        if (supplier.getAddress() == null || "".equals(supplier.getAddress())){
+            model.addAttribute("addressError", "不能为空");
+            type = 1;
+        }
+
+        if (supplier.getSupplierName() == null || "".equals(supplier.getSupplierName())){
+            model.addAttribute("supplierNameError", "不能为空");
+            type = 1;
+        }
+
+        if(supplier.getContactName() == null || "".equals(supplier.getContactName())){
+            model.addAttribute("contactNameError", "不能为空");
+            type = 1;
+        }
+
+        if(supplier.getContactTelephone() == null || "".equals(supplier.getContactTelephone())){
+            model.addAttribute("contactTelephone", "不能为空");
+            type = 1;
+        }
+
+        if(supplier.getCreditCode() == null || "".equals(supplier.getCreditCode())){
+            model.addAttribute("creditCodeError", "不能为空");
+            type = 1;
+        }
+
+        if (loginName == null || "".equals(loginName)){
+            model.addAttribute("loginNameError", "不能为空");
+            type = 1;
+        }else{
+            //校验用户名是否存在
+            List<User> users = userServicl.findByLoginName(loginName);
+            if (users.size() > 0){
+                type = 1;
+                model.addAttribute("loginNameError", "用户名已存在");
+            }
+        }
+
+        if (loginPwd == null || "".equals(loginPwd)){
+            model.addAttribute("loginPwdError", "不能为空");
+            type = 1;
+        }
+
+        if (type == 1){
+            model.addAttribute("supplier", supplier);
+            model.addAttribute("loginName", loginName);
+            model.addAttribute("loginPwd", loginPwd);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("packageId", packageId);
+            model.addAttribute("flowDefineId", flowDefineId);
+            //专家类型
+            //            model.addAttribute("ddList", expExtractRecordService.ddList());
+            //证件类型
+            //            model.addAttribute("idType", DictionaryDataUtil.find(9));
+            return "bss/ppms/sall_tender/temporary_supplier_add";
+        }
+
+
+        expExtractRecordService.addTemporaryExpert(supplier, projectId,packageId, loginName, loginPwd,sq);
+
+        return  "redirect:/saleTender/view.html?projectId=" + projectId + "&&flowDefineId=" + flowDefineId;
+    }
+
+
 
     /**
      * 

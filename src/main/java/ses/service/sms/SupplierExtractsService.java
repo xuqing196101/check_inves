@@ -4,7 +4,12 @@
 package ses.service.sms;
 
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import ses.model.ems.Expert;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierExtracts;
 
 /**
@@ -43,5 +48,16 @@ public interface SupplierExtractsService {
 	 * @author Wang Wenshuai
 	 */
 	void update(SupplierExtracts extracts);
+	
+    /**
+     * 
+     *〈简述〉添加临时供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param expExtractRecordService
+     * @return
+     */
+    Map<String, String> addTemporaryExpert(Supplier supplier,String projectId,String packageId,String loginName,String loginPwd,HttpServletRequest request);
+
 	
 }

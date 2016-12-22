@@ -1,6 +1,7 @@
 package ses.dao.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.ems.ExpExtCondition;
 
@@ -65,4 +66,12 @@ public interface ExpExtConditionMapper {
      * @return
      */
     public Integer getCount(String packId);
+
+    /**
+     * 
+     *〈简述〉抽取完成后删除未操作的信息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    public void deleteInfo(String conditionId);
 }

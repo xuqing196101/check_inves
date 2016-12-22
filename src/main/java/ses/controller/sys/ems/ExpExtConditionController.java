@@ -150,9 +150,12 @@ public class ExpExtConditionController extends BaseController {
             map.put("extConType", conTypes);
 
             if (projectExtractListNo.size() != 0) {
-                Collections.shuffle(projectExtractListNo);
+//                Collections.shuffle(projectExtractListNo);
                 projectExtractListYes.add(projectExtractListNo.get(0));
                 projectExtractListNo.remove(0);
+            }else{
+                //已抽取
+                conditionService.update(new ExpExtCondition(condition.getId(), (short)2));
             }
             map.put("extRelateListYes", projectExtractListYes);
             map.put("extRelateListNo", projectExtractListNo);

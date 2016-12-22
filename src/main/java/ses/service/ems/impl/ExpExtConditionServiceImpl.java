@@ -68,6 +68,13 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
      * @return void
      */
     public void update(ExpExtCondition condition){
+        ExpExtCondition cond=new ExpExtCondition();
+        cond.setProjectId(condition.getProjectId());
+        cond.setStatus((short)1);
+        List<ExpExtCondition> list = conditionMapper.list(cond);
+        if(list != null && list.size() != 0){
+            conditionMapper.deleteInfo(list.get(0).getId());
+        }
         conditionMapper.updateByPrimaryKeySelective(condition);
     }
 
