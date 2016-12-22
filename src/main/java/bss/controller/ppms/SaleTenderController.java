@@ -485,25 +485,43 @@ public class SaleTenderController {
       Project project = projectService.selectById(projectId);
       SaleTender saleTender = new SaleTender();
       saleTender.setProject(project);
-      List<SaleTender> sds = saleTenderService.findByCon(saleTender);
-      for (SaleTender saleTender2 : sds) {
-        String packageName = "";
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("id", saleTender2.getPackages());
-        List<Packages> list = packageService.findPackageById(map);
-        if (list != null && list.size() > 0) {
-          for (int i = 0; i < list.size(); i++) {
-            String pName = list.get(i).getName();
-            if (i == 0) {
-              packageName += pName;
-            } else {
-              packageName += ","+pName;
-            }
+      //去重后的供应商
+      List<SaleTender> saleTenders = saleTenderService.findByCon(saleTender);
+      for (int i = 0; i < saleTenders.size()-1; i++) {
+        SaleTender st = saleTenders.get(i);
+        for (int j = saleTenders.size()-1; j > i; j--) {
+          SaleTender st2 = saleTenders.get(j);
+          if (st.getSuppliers().getId().equals(st2.getSuppliers().getId())) {
+            saleTenders.remove(st2);
           }
-          saleTender2.setPackageNames(packageName);
         }
       }
-      model.addAttribute("sds", sds);
+      
+      for (SaleTender saleTender2 : saleTenders) {
+        String packageName = "";
+        SaleTender st = new SaleTender();
+        st.setSuppliers(saleTender2.getSuppliers());
+        st.setProject(project);
+        //该供应商参与的包
+        List<SaleTender> ls = saleTenderService.findByCon(st);
+        if (ls != null && ls.size() > 0) {
+          for (int i = 0; i < ls.size(); i++) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("id", ls.get(i).getPackages());
+            List<Packages> list = packageService.findPackageById(map);
+            if (list != null && list.size() > 0) {
+              String pName = list.get(0).getName();
+              if (i == 0) {
+                packageName += pName;
+              } else {
+                packageName += ","+pName;
+              }
+            }
+          }
+        }
+        saleTender2.setPackageNames(packageName);
+      }
+      model.addAttribute("sds", saleTenders);
       return "bss/ppms/sall_tender/download_list";
     }
     
