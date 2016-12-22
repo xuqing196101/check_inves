@@ -10,11 +10,11 @@
 		var obj = document.getElementById("TANGER_OCX");
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
-		if(fileId != 0){
+		if(fileId != '0'){
 			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true, false, 'word.document');// 异步加载, 服务器文件路径
 		} 
 		var filePath = "${filePath}";
-		if (filePath != null && filePath != undefined){
+		if (filePath != null && filePath != undefined && filePath != ""){
 			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+filePath, true, false, 'word.document');// 异步加载, 服务器文件路径
 		}
 	}
@@ -95,7 +95,7 @@
 </script>
 </head>
 
-<body onload="OpenFile(${fileId})">
+<body onload="OpenFile('${fileId}')">
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
 	   	 <c:if test="${ope == 'add' }">

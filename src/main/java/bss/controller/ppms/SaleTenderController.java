@@ -3,6 +3,7 @@
  */
 package bss.controller.ppms;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -120,7 +121,7 @@ public class SaleTenderController {
     * @return String
      */
     @RequestMapping("/view")
-    public String view(String projectId, Model model,String supplierName,String contactTelephone,Integer statusBid){
+    public String view(String projectId, Model model,String supplierName,String contactTelephone,Integer statusBid, String flowDefineId){
     	//项目信息
         Project project=projectService.selectById(projectId);
 
@@ -170,6 +171,7 @@ public class SaleTenderController {
         model.addAttribute("supplierName",supplierName);
         model.addAttribute("contactTelephone",contactTelephone);
         model.addAttribute("statusBid",statusBid);
+        model.addAttribute("flowDefineId", flowDefineId);
         return "bss/ppms/sall_tender/view";
     }
     
@@ -440,17 +442,75 @@ public class SaleTenderController {
         return "redirect:list.html?projectId="+projectId;
     }
     
-    
+    /**
+     *〈简述〉 根据供应商下载标书
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param id 项目id
+     * @param model
+     * @param response
+     * @return
+     * @throws IOException 
+     */
     @RequestMapping("/downloads")
-    public String downloads(HttpServletRequest request, HttpServletResponse response, String projectId,String id){
+    public void downloads(HttpServletRequest request, HttpServletResponse response, String projectId, String id){
         String typeId = DictionaryDataUtil.getId("PROJECT_BID");
         List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+        
         if (files != null && files.size() > 0) {
             downloadService.downloadOther(request, response, files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
+            /*
+             * 按包下载
+             * SaleTender saleTender = new SaleTender();
+            saleTender.setId(id);
+            List<SaleTender> sts = saleTenderService.findByCon(saleTender);
+            if (sts != null && sts.size() > 0) {
+              Supplier supplier = sts.get(0).getSuppliers();
+              if (supplier != null) {
+                HashMap<String, String> returnMap = saleTenderService.downloadBidFile(projectId, request, supplier.getId());
+                String filePath = returnMap.get("filePath");
+                String fileName = returnMap.get("fileName");
+                downloadService.downLoadFile(request, response, filePath);
+              }
+            }*/
         }
         //saleTenderService.download(projectId,id);
-        return "redirect:view.html?projectId="+projectId;
+        //return "redirect:view.html?projectId="+projectId;
     }
     
     
+    @RequestMapping("/downList")
+    public String downList(Model model, String projectId, String flowDefineId){
+      Project project = projectService.selectById(projectId);
+      SaleTender saleTender = new SaleTender();
+      saleTender.setProject(project);
+      List<SaleTender> sds = saleTenderService.findByCon(saleTender);
+      for (SaleTender saleTender2 : sds) {
+        String packageName = "";
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("id", saleTender2.getPackages());
+        List<Packages> list = packageService.findPackageById(map);
+        if (list != null && list.size() > 0) {
+          for (int i = 0; i < list.size(); i++) {
+            String pName = list.get(i).getName();
+            if (i == 0) {
+              packageName += pName;
+            } else {
+              packageName += ","+pName;
+            }
+          }
+          saleTender2.setPackageNames(packageName);
+        }
+      }
+      model.addAttribute("sds", sds);
+      return "bss/ppms/sall_tender/download_list";
+    }
+    
+    @RequestMapping("/manage")
+    public String manage(Model model, String projectId, String flowDefineId){
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("flowDefineId", flowDefineId);
+      return "bss/ppms/sall_tender/manage";
+    }
 }

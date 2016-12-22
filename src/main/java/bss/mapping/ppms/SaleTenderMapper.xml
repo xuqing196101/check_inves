@@ -265,6 +265,24 @@
       AND st.PROJECT_ID = #{project.id,jdbcType=VARCHAR}
   </select>
   
-  
+  <!-- 根据项目id和供应商id查询供应商参与的包 -->
+  <select id="find" parameterType="bss.model.ppms.SaleTender"
+    resultMap="BaseResultMap">
+    SELECT
+       <include refid="Base_Column_List"/>
+    FROM
+    T_BSS_PPMS_SALE_TENDER st
+    WHERE
+    STATUS_BID = 2
+    <if test="suppliers != null">
+      AND st.SUPPLIER_ID = #{suppliers.id,jdbcType=VARCHAR}
+    </if>
+    <if test="project != null">
+      AND st.PROJECT_ID = #{project.id,jdbcType=VARCHAR}
+    </if>
+    <if test="id != null">
+      AND st.ID = #{id,jdbcType=VARCHAR}
+    </if>
+  </select>
 
 </mapper>
