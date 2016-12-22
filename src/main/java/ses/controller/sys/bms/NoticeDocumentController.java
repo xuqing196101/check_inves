@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.pagehelper.PageInfo;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.NoticeDocument;
 import ses.service.bms.NoticeDocumentService;
+import ses.util.DictionaryDataUtil;
 
 /**
  * @Title:NoticeDocumentController 
@@ -46,6 +49,7 @@ public class NoticeDocumentController {
 	 */
 	@RequestMapping("/getAll")
 	public String getAll(Model model,Integer page){
+	    initDocType(model);
 		List<NoticeDocument> noticeDocuments = noticeDocumentService.getAll(page==null?1:page);
 		model.addAttribute("list",new PageInfo<NoticeDocument>(noticeDocuments));
 		return "ses/bms/noticeDocument/list";
@@ -62,6 +66,7 @@ public class NoticeDocumentController {
 	 */
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request,Model model){	
+	    initDocType(model);
 		return "ses/bms/noticeDocument/add";
 	}
 	
@@ -78,7 +83,8 @@ public class NoticeDocumentController {
 	public String save(HttpServletRequest request,@Valid NoticeDocument noticeDocument,BindingResult result,Model model){
 		Boolean flag = true;
 		String url = "";
-		if(noticeDocument.getDocType().equals("-请选择-")){
+		initDocType(model);
+		if(!StringUtils.isNotBlank(noticeDocument.getDocType())){
 			flag = false;
 			model.addAttribute("ERR_docType", "请选择须知文档类型");
 		}
@@ -110,8 +116,21 @@ public class NoticeDocumentController {
 	 */
 	@RequestMapping("/edit")
 	public String edit(Model model,String id){
+	    initDocType(model);
 		model.addAttribute("noticeDocument",noticeDocumentService.get(id));
 		return "ses/bms/noticeDocument/edit";
+	}
+	
+	/**
+	 * 
+	 *〈简述〉初始化类型
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model
+	 */
+	private void initDocType(Model model){
+	    List<DictionaryData> list = DictionaryDataUtil.find(28);
+        model.addAttribute("noticeType", list);
 	}
 	
 	/**
@@ -127,7 +146,8 @@ public class NoticeDocumentController {
 	public String update(HttpServletRequest request,@Valid NoticeDocument noticeDocument,BindingResult result,Model model){
 		Boolean flag = true;
 		String url = "";
-		if(noticeDocument.getDocType().equals("-请选择-")){
+		initDocType(model);
+		if(!StringUtils.isNotBlank(noticeDocument.getDocType())){
 			flag = false;
 			model.addAttribute("ERR_docType", "请选择须知文档类型");
 		}
@@ -177,6 +197,7 @@ public class NoticeDocumentController {
 	 */
 	@RequestMapping("/view")
 	public String view(Model model,String id){
+	    initDocType(model);
 		model.addAttribute("noticeDocument",noticeDocumentService.get(id));
 		return "ses/bms/noticeDocument/view";
 	}
@@ -192,6 +213,7 @@ public class NoticeDocumentController {
 	 */
 	@RequestMapping("/search")
 	public String search(Model model,HttpServletRequest request,NoticeDocument noticeDocument,Integer page){
+	    initDocType(model);
 		List<NoticeDocument> noticeDocuments = noticeDocumentService.search(page==null?1:page,noticeDocument);
 		model.addAttribute("list",new PageInfo<NoticeDocument>(noticeDocuments));
 		model.addAttribute("noticeDocument",noticeDocument);

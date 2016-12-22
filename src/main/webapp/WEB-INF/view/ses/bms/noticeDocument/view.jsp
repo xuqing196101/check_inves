@@ -33,7 +33,11 @@
 	                  <td class="bggrey " width="12%">须知文档名称：</td>
 	                  <td width="38%">${noticeDocument.name}</td>
 	                  <td class="bggrey " width="12%">须知文档类型：</td>
-	                  <td width="38%">${noticeDocument.docType}</td>
+	                  <td width="38%">
+	                    <c:forEach items="${noticeType}" var="type">
+       			          <c:if test="${type.id == noticeDocument.docType}">${type.name} </c:if>
+       			        </c:forEach>
+	                  </td>
 	                 </tr>
 	                 <tr>
 	                  <td class="bggrey " width="12%">创建时间：</td>
@@ -46,7 +50,6 @@
                  <h2 class="count_flow jbxx">须知文档内容</h2>
                  <div class="col-md-12 col-sm-12 col-cs-12 p0">
                      <script id="editor" name="content" type="text/plain" class="mt20"></script>
-                    <!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
                 </div>
                  </div>
                  	<!-- 底部按钮 -->			          
