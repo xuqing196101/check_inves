@@ -272,4 +272,14 @@ public interface SupplierMapper {
      */
     Supplier selectOne(String id);
     
+    /**
+     * 
+     *〈简述〉获取手机号码的数量
+     *〈详细描述〉
+     * @author myc
+     * @param mobile 手机号码
+     * @return 存在返回大于0的值，不存在返回0
+     */
+    Integer getCountMobile(@Param("mobile")String mobile);
+    
 }
