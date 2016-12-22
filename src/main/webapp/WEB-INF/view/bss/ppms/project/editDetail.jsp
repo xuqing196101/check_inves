@@ -139,6 +139,10 @@
 	  var id = $("#id").val();
 	  window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?id=" + id+"&num="+num;
   }
+  
+  function goBack(){
+    window.location.href = "${pageContext.request.contextPath }/project/list.html";
+  }
 </script>
 </head>
 
@@ -269,7 +273,7 @@
 	  <div class="col-md-12 tc">
 	  <button class="btn" type="button" onclick="subPackage()">分包</button>
 		<button class="btn btn-windows git" type="button" onclick="edit()">修改</button>
-		<button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
+		<button class="btn btn-windows back" type="button" onclick="goBack();">返回</button>
 	  </div>
     </sf:form>
   </div>

@@ -168,6 +168,7 @@
 			//添加分包
 			function addPack() {
 				var projectId = $("#projectId").val();
+				var num = $("#num").val();
 				var count = 0;
 				var ids = "";
 				var info = document.getElementsByName("info");
@@ -198,13 +199,13 @@
 				if(clickState != 1) {
 					$.ajax({
 						type: "POST",
-						url: "${pageContext.request.contextPath }/project/addPack.do?id=" + ids + "&projectId=" + projectId,
+						url: "${pageContext.request.contextPath }/project/addPack.do?id=" + ids + "&projectId=" + projectId+"&num="+num,
 						success: function(data) {
 							clickState = 1;
 							layer.msg('添加成功', {
 								offset: ['40%', '45%']
 							});
-							window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId;
+							window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId+"&num="+num;
 						}
 					});
 				}
@@ -568,10 +569,11 @@
 		
 		<!-- 按钮 -->
 		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+		  <input type="hidden" id="num" value="${num}"/>
 		  <c:if test="${num eq 1}">
 		    <button class="btn" type="button" onclick="JavaScript:history.go(-1)">上一步</button>
 		  </c:if>
-		  <c:if test="${num1 eq 0}">
+		  <c:if test="${num eq 0}">
 		    <button class="btn" type="button" onclick="backs('${project.id}')">上一步</button>
 		  </c:if>
 			<%--  --%>
