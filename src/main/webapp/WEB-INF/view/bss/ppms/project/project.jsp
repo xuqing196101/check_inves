@@ -98,7 +98,7 @@
       });
 
       function nextStep() {
-        var num = "0";
+        var num = "1";
         var name = $("#name").val();
         var projectNumber = $("#projectNumber").val();
         if(name == "") {
@@ -106,7 +106,7 @@
         } else if(projectNumber == "") {
           layer.tips("项目编号不允许为空", "#projectNumber");
         } else {
-          window.location.href = "${pageContext.request.contextPath }/project/nextStep.html?id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber+"&num1="+num;
+          window.location.href = "${pageContext.request.contextPath }/project/nextStep.html?id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber+"&num="+num;
         }
       }
       

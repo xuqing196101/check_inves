@@ -39,6 +39,13 @@
     from T_BSS_PPMS_TASK
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectByCollectId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_TASK
+    where COLLECT_ID = #{id,jdbcType=VARCHAR}
+  </select>
   <select id="listByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
     select 
     *
@@ -390,7 +397,7 @@
     from T_BSS_PPMS_TASK t left join T_SES_OMS_ORG o on t.PURCHASE_REQUIRED_ID = o.ID 
     where 1=1
     and t.IS_DELETED = 0
-    and t.STATUS = '1'
+    and t.STATUS = '1' and t.NOT_DETAIL = 0
     <if test="name != null and name !=''">
       	and t.NAME like CONCAT(CONCAT('%', #{name}), '%')
     </if>

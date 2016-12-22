@@ -96,4 +96,6 @@ public interface TaskService {
 	 List<Task> likeByName(HashMap<String, Object> map);
 	 
 	 List<Task> listByProjectTask(HashMap<String,Object> map);
+	 
+	 Task selectByCollectId(String id);
 }

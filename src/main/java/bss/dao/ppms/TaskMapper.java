@@ -8,6 +8,8 @@ import bss.model.ppms.Task;
 public interface TaskMapper {
     void deleteByPrimaryKey(String id);
     
+    Task selectByCollectId(String id);
+    
     void softDelete(String id);
 
     void insert(Task record);

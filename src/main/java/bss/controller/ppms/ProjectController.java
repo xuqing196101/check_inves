@@ -47,6 +47,7 @@ import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
+import bss.model.pms.CollectPurchase;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
@@ -117,6 +118,7 @@ public class ProjectController extends BaseController {
     
     @Autowired
     private OrgnizationServiceI orgnizationService;
+    
 
     /**
      * 〈简述〉 
@@ -920,7 +922,7 @@ public class ProjectController extends BaseController {
     * @return String
      */
     @RequestMapping("/subPackage")
-    public String subPackage(HttpServletRequest request,Model model,String num){
+    public String subPackage(HttpServletRequest request,Model model){
         String id = request.getParameter("id");
         HashMap<String,Object> map = new HashMap<>();
         map.put("id", id);
@@ -1046,8 +1048,9 @@ public class ProjectController extends BaseController {
                 ps.setProjectDetails(newDetails);
             }
         }
+        String num1 = request.getParameter("num");
         model.addAttribute("packageList", packages);
-        model.addAttribute("num1", num);
+        model.addAttribute("num1", num1);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         Project project = projectService.selectById(id);
         model.addAttribute("project", project);
@@ -1477,7 +1480,7 @@ public class ProjectController extends BaseController {
 	    map.put("page", page.toString());
 	    PageHelper.startPage(page,Integer.parseInt("10"));
     	List<Task> taskList = taskservice.listByProjectTask(map);
-    	if(taskList.size()!=0){
+/*    	if(taskList.size()!=0){
     		for(Task tl:taskList){
     			List<PurchaseRequired> lists = new ArrayList<>();
     			if(tl.getCollectId() != null){
@@ -1507,7 +1510,7 @@ public class ProjectController extends BaseController {
     			}
     			
     		}
-    	}
+    	}*/
         HashMap<String, Object> map1 = new HashMap<>();
         map1.put("typeName", "0");
         List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map1);
@@ -1585,7 +1588,7 @@ public class ProjectController extends BaseController {
      * @return String
       */
      @RequestMapping("/save")
-     public String save(String projectId,Project project,String orgId,String purchaseType,PurchaseRequiredFormBean list,String checkIds,int uncheckId,Model model, BindingResult result, HttpServletRequest request){
+     public String save(String projectId,Project project,String orgId, Integer page,String purchaseType,PurchaseRequiredFormBean list,String checkIds,int uncheckId,Model model, BindingResult result, HttpServletRequest request){
     	 String id = project.getId();
     	 Project proId = projectService.selectById(project.getId());
     	 int k=1;
@@ -1648,6 +1651,44 @@ public class ProjectController extends BaseController {
 	                         insertDeatil(required,k,id);
 	                     } 
 	                 }
+	                 String ids = request.getParameter("projectId");
+                     Task task = taskservice.selectById(ids);
+                     if(task.getCollectId() != null){
+                         List<String> list5 = conllectPurchaseService.getNo(task.getCollectId());
+                         List<PurchaseRequired> list3 = new ArrayList<>();
+                          for(String s:list5){
+                              Map<String,Object> pMap=new HashMap<String,Object>();
+                              pMap.put("planNo", s);
+                              List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(pMap);
+                              list3.addAll(list2);
+                          }
+                         if(list3 != null && list3.size() > 0){
+                              
+                              List<PurchaseRequired> bottomDetails = new ArrayList<>();
+                              for(int i=0;i<list3.size();i++){
+                                  Map<String,Object> bId = new HashMap<String,Object>();
+                                  bId.put("id", list3.get(i).getId());
+                                  List<PurchaseRequired> pr = purchaseRequiredService.selectByParentId(bId);
+                                  if(pr.size()==1){
+                                      bottomDetails.add(list3.get(i));
+                                  }
+                              }
+                              for(int i=0;i<bottomDetails.size();i++){
+                                  if(bottomDetails.get(i).getProjectStatus()==0){
+                                      break;
+                                  }else if(i==bottomDetails.size()-1){
+                                      List<String> purchase = conllectPurchaseService.getId(bottomDetails.get(0).getPlanNo());
+                                      if(purchase.size() > 0){
+                                          Task task1 = taskservice.selectByCollectId(purchase.get(0));
+                                          task1.setNotDetail(1);
+                                          taskservice.update(task1);
+                                      }
+                                      
+                                  }
+                              }
+                               
+                           }
+                      }
 	                 
 	                 if(uncheckId==0){
 	 		            purchaseRequiredService.updateProjectStatus(planNo);
@@ -1672,7 +1713,7 @@ public class ProjectController extends BaseController {
 	 		                 }
 	 		                 lists.add(purchaseRequired);
 	 		             }
-		                 
+	 		             
 	 		             for (PurchaseRequired purchaseRequired:lists) {
 	 		            	PurchaseRequired required = purchaseRequiredService.queryById(purchaseRequired.getId());
 	 		            	Map<String,Object> map=new HashMap<String,Object>();
@@ -1730,6 +1771,46 @@ public class ProjectController extends BaseController {
 	 	                     detailService.insert(projectDetail);
 	 	                 }
 	 		             
+	 		             String ids = request.getParameter("projectId");
+	 		             Task task = taskservice.selectById(ids);
+	 		             if(task.getCollectId() != null){
+	 		                List<String> list5 = conllectPurchaseService.getNo(task.getCollectId());
+	                        List<PurchaseRequired> list3 = new ArrayList<>();
+	                         for(String s:list5){
+	                             Map<String,Object> pMap=new HashMap<String,Object>();
+	                             pMap.put("planNo", s);
+	                             List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(pMap);
+	                             list3.addAll(list2);
+	                         }
+	                        if(list3 != null && list3.size() > 0){
+	                             
+	                             List<PurchaseRequired> bottomDetails = new ArrayList<>();
+	                             for(int i=0;i<list3.size();i++){
+	                                 Map<String,Object> bId = new HashMap<String,Object>();
+	                                 bId.put("id", list3.get(i).getId());
+	                                 List<PurchaseRequired> pr = purchaseRequiredService.selectByParentId(bId);
+	                                 if(pr.size()==1){
+	                                     bottomDetails.add(list3.get(i));
+	                                 }
+	                             }
+	                             for(int i=0;i<bottomDetails.size();i++){
+	                                 if(bottomDetails.get(i).getProjectStatus()==0){
+	                                     break;
+	                                 }else if(i==bottomDetails.size()-1){
+	                                     List<String> purchase = conllectPurchaseService.getId(bottomDetails.get(0).getPlanNo());
+	                                     if(purchase.size() > 0){
+	                                         Task task1 = taskservice.selectByCollectId(purchase.get(0));
+	                                         task1.setNotDetail(1);
+	                                         taskservice.update(task1);
+	                                     }
+	                                     
+	                                 }
+	                             }
+	                              
+	                          }
+	 		             }
+	 		         
+	 		             
 	 		             if(uncheckId==0){
 	 		            	purchaseRequiredService.updateProjectStatus(lists.get(0).getPlanNo());
 	 		             }
@@ -1747,8 +1828,13 @@ public class ProjectController extends BaseController {
             }
 	         model.addAttribute("lists", detail);
 	         
-	         Integer page = null;
-	         List<Task> taskList = taskservice.listByTask(null, page==null?1:page);
+	         if(page == null){
+	             page = 1;
+	         }
+	         HashMap<String, Object> map2 = new HashMap<>();
+	         map2.put("page", page.toString());
+	         PageHelper.startPage(page,Integer.parseInt("10"));
+	         List<Task> taskList = taskservice.listByProjectTask(map2);
 	         PageInfo<Task> listT = new PageInfo<Task>(taskList);
 	         model.addAttribute("list", listT);
 	         
@@ -1792,7 +1878,7 @@ public class ProjectController extends BaseController {
      
      
      @RequestMapping("/nextStep")
-     public String nextStep(Project project,Model model, String num1){
+     public String nextStep(Project project,Model model, String num){
     	 
     	 project.setStatus(3);
     	 project.setIsRehearse(0);
@@ -1810,8 +1896,7 @@ public class ProjectController extends BaseController {
          model.addAttribute("list", details);
          model.addAttribute("kind", DictionaryDataUtil.find(5));
          model.addAttribute("project", newProject);
-         model.addAttribute("num", "1");
-         model.addAttribute("num1", num1);
+         model.addAttribute("num", num);
     	 return "bss/ppms/project/sub_package";
      }
      

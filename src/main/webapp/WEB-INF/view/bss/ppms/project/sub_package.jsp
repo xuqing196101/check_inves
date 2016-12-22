@@ -367,13 +367,13 @@
 			}
 			
 			//上一步
-			function back(id){
+			function backs(id){
 				window.location.href = "${pageContext.request.contextPath }/project/edit.do?id=" + id;
 			}
 			
-			function goback(id){
+			/* function goback(id){
 			   window.location.href = "${pageContext.request.contextPath }/project/projectList.do?id=" + id;
-			}
+			} */
 			
 			//下一步
 			function next(){
@@ -569,14 +569,14 @@
 		<!-- 按钮 -->
 		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 		  <c:if test="${num eq 1}">
-		    <button class="btn" type="button" onclick="goback('${project.id}')">上一步</button>
+		    <button class="btn" type="button" onclick="JavaScript:history.go(-1)">上一步</button>
 		  </c:if>
 		  <c:if test="${num1 eq 0}">
-		    <button class="btn" type="button" onclick="back('${project.id}')">上一步</button>
+		    <button class="btn" type="button" onclick="backs('${project.id}')">上一步</button>
 		  </c:if>
 			<%--  --%>
 			 
-			<button class="btn" type="button" onclick="next()">下一步</button>
+			<button class="btn" type="button" onclick="next();">下一步</button>
 		</div>
 		<%-- 
 		<c:if test="${!empty list}">
