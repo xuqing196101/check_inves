@@ -298,22 +298,7 @@
 			    <c:if test="${obj.status=='2' }">
 			 		已提交
 			  	</c:if>
-			  	<c:if test="${obj.status=='3' }">
-			 		受理退回
-			  	</c:if>
-			    <c:if test="${obj.status=='4' }">
-			 		已受理
-			  	</c:if>
-			   	<c:if test="${obj.status=='5' }">
-			 		已汇总
-			  	</c:if>
-			  	<c:if test="${obj.status=='6' }">
-			 		审核通过
-			  	</c:if>
-			   	<c:if test="${obj.status=='7' }">
-			 		审核暂存
-			  	</c:if>
-			  </td>
+
 			</tr>
 		 	</c:forEach>
       </table>

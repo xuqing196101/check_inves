@@ -3,6 +3,7 @@ package bss.controller.pms;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,6 +89,7 @@ public class PurchaseRequiredController extends BaseController{
 	@RequestMapping("/list")
 	public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
 		purchaseRequired.setIsMaster(1);
+		purchaseRequired.setStatus("1");
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
@@ -240,6 +242,7 @@ public class PurchaseRequiredController extends BaseController{
 		StringBuffer sbUp=new StringBuffer("");
 		StringBuffer sbShow=new StringBuffer("");
 		int count=1;
+		BigDecimal budget=BigDecimal.ZERO;
 		for(int i=0;i<list.size();i++){
 			String id = UUID.randomUUID().toString().replaceAll("-", "");
 			if(i==0){
@@ -258,6 +261,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setParentId("1");
 					p.setCreatedAt(new Date());
 					p.setUserId(user.getId());
+//					p.setPurchaseType(DictionaryDataUtil.getId(p.getPurchaseType()));
 					//p.setOrganization(user.getOrg().getName());
 					p.setDetailStatus(0);
 					p.setProjectStatus(0);
@@ -275,9 +279,16 @@ public class PurchaseRequiredController extends BaseController{
 				p.setIsMaster(count);
 				p.setCreatedAt(new Date());
 				p.setUserId(user.getId());
-				
+//				p.setPurchaseType(DictionaryDataUtil.getId(p.getPlanType()));
 				//p.setOrganization(user.getOrg().getName());
 				p.setDetailStatus(0);
+				
+				if(p.getBudget()!=null){
+					budget=budget.add(p.getBudget());
+			 
+				 
+				}
+				
 //			 if(p.getSeq().equals("一")||p.getSeq().equals("二")||p.getSeq().equals("三")){
 //					 p.setId(pid);//注释
 //					 p.setParentId(did);//注释
@@ -359,6 +370,11 @@ public class PurchaseRequiredController extends BaseController{
 		String attchid = DictionaryDataUtil.getId("PURCHASE_DETAIL");
 		model.addAttribute("attchid", attchid);
 		model.addAttribute("sysKey", sysKey);
+		for(PurchaseRequired p:list){
+			if(p.getBudget()==null){
+				p.setBudget(budget);
+			}
+		}
 		model.addAttribute("plist", list);
 		model.addAttribute("sbUp", sbUp.toString());
 		model.addAttribute("sbShow", sbShow.toString());

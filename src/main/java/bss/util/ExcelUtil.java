@@ -2,11 +2,13 @@ package bss.util;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -14,6 +16,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
+
+
+
 
 
 
@@ -51,6 +56,7 @@ public class ExcelUtil {
 	       /* if (fis != null) {
 	            fis.close();
 	        }*/
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	        Sheet sheet = workbook.getSheetAt(0);
 	        for (Row row : sheet) {
 	        	PurchaseRequired rq=new PurchaseRequired();
@@ -103,7 +109,17 @@ public class ExcelUtil {
 	        				 }
 	        			 }
 	        			 if(cell.getColumnIndex()==9){
-	        				 rq.setDeliverDate(cell.getStringCellValue());
+	        				 
+	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+	        					 boolean bool = HSSFDateUtil.isCellDateFormatted(cell);
+	        					 if(bool){
+	        						 String date = sdf.format(HSSFDateUtil.getJavaDate(cell.getNumericCellValue()));
+	        						 rq.setDeliverDate(date);
+	        					 }
+	        				 }
+	        				 
+	        				 
+	        				 
 	        			 }
 	        			 if(cell.getColumnIndex()==10){
 	        				 rq.setPurchaseType(cell.getStringCellValue());

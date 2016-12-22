@@ -84,7 +84,7 @@ public class CollectPlanController extends BaseController {
 		@RequestMapping("/list")
 		public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
 			purchaseRequired.setIsMaster(1);
-//			purchaseRequired.setIsCollect(1);
+			purchaseRequired.setStatus("3");
 			List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
 			PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 			model.addAttribute("info", info);
