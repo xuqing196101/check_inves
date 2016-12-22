@@ -66,7 +66,7 @@
       }
 
       function view(id) {
-        window.location.href = "${ pageContext.request.contextPath }/article/auditInfo.html?id=" + id;
+        window.location.href = "${pageContext.request.contextPath }/article/auditInfo.html?id=" + id;
       }
 
       function audit() {
@@ -196,6 +196,7 @@
 
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows check" type="button" onclick="audit()">发布</button>
+        <button class="btn btn-windows check" type="button" onclick="edit()">编辑</button>
       </div>
 
       <div class="content table_box">

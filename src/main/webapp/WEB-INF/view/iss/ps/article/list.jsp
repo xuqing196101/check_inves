@@ -197,6 +197,111 @@
         $("#range").val("${articlesRange}");
         $("#status").val("${articlesStatus}");
       })
+      
+      //发布
+      function apply(){
+    	  var applys = [];
+    	  var ids = [];
+          $('input[name="chkItem"]:checked').each(function() {
+            ids.push($(this).val());
+          });
+          
+          $("input[name='chkItem']:checked").each(function() {
+              applys.push($.trim($(this).parents("tr").find("td").eq(6).text()));
+           });
+          
+          if(ids.length > 0) {
+        	  
+        	  if($.inArray("待发布", applys)>-1){
+        		  layer.alert("请选择需要发布的信息", {
+                      offset: ['222px', '390px'],
+                      shade: 0.01
+               });
+        	  }else if($.inArray("待提交", applys)>-1){
+        		  layer.alert("请选择需要发布的信息", {
+                      offset: ['222px', '390px'],
+                      shade: 0.01
+               });
+        	  }else if($.inArray("审核未通过", applys)>-1){
+        		  layer.alert("请选择需要发布的信息", {
+                      offset: ['222px', '390px'],
+                      shade: 0.01
+               });
+            }else if($.inArray("发布", applys)>-1){
+            	layer.alert("请选择需要发布的信息", {
+                    offset: ['222px', '390px'],
+                    shade: 0.01
+             });
+            }else{
+            	layer.confirm('您确定要发布吗?', {
+                    title: '提示',
+                    offset: ['222px', '360px'],
+                    shade: 0.01
+                  }, function(index) {
+                    layer.close(index);
+                    window.location.href = "${pageContext.request.contextPath }/article/apply.html?ids=" + ids;
+                  });
+        	  }
+        	  
+          } else {
+            layer.alert("请选择要提交的信息", {
+              offset: ['222px', '390px'],
+              shade: 0.01
+            });
+          }
+      }
+      
+      //撤回
+      function withdraw(){
+    	  var applys = [];
+          var ids = [];
+            $('input[name="chkItem"]:checked').each(function() {
+              ids.push($(this).val());
+            });
+            
+            $("input[name='chkItem']:checked").each(function() {
+                applys.push($.trim($(this).parents("tr").find("td").eq(6).text()));
+             });
+            
+            if(ids.length > 0) {
+              if($.inArray("待发布", applys)>-1){
+                layer.alert("请选择需要撤回的信息", {
+                        offset: ['222px', '390px'],
+                        shade: 0.01
+                 });
+              }else if($.inArray("待提交", applys)>-1){
+                layer.alert("请选择需要撤回的信息", {
+                        offset: ['222px', '390px'],
+                        shade: 0.01
+                 });
+              }else if($.inArray("审核未通过", applys)>-1){
+                layer.alert("请选择需要撤回的信息", {
+                        offset: ['222px', '390px'],
+                        shade: 0.01
+                 });
+              }else if($.inArray("撤回", applys)>-1){
+                layer.alert("请选择需要撤回的信息", {
+                      offset: ['222px', '390px'],
+                      shade: 0.01
+               });
+              }else{
+                layer.confirm('您确定要撤回吗?', {
+                      title: '提示',
+                      offset: ['222px', '360px'],
+                      shade: 0.01
+                    }, function(index) {
+                      layer.close(index);
+                      window.location.href = "${pageContext.request.contextPath }/article/withdraw.html?ids=" + ids;
+                    });
+              }
+              
+            } else {
+              layer.alert("请选择要撤回的信息", {
+                offset: ['222px', '390px'],
+                shade: 0.01
+              });
+            }
+      }
     </script>
 
   </head>
@@ -257,10 +362,11 @@
               <span>
               <select id ="status" name="status" class="w100">
                 <option></option>
-                <option value="0">暂存</option>
-                <option value="1">已提交</option>
+                <option value="0">待提交</option>
+                <option value="1">待发布</option>
                 <option value="2">发布</option>
                 <option value="3">审核未通过</option>
+                <option value="4">撤回</option>
                </select>
            </span>
             </li>
@@ -280,6 +386,8 @@
         <button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
         <button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
         <button class="btn btn-windows git" type="button" onclick="sub()">提交</button>
+        <button class="btn btn-windows apply" type="button" onclick="apply()">发布</button>
+        <button class="btn btn-windows withdraw" type="button" onclick="withdraw()">撤回</button>
       </div>
 
       <div class="content table_box">
@@ -325,16 +433,19 @@
               <td class="tc" onclick="view('${article.id }')">${article.articleType.name }</td>
               <td class="tc">
                 <c:if test="${article.status=='0' }">
-                  <input type="hidden" name="status" value="${article.status }">暂存
+                  <input type="hidden" name="status" value="${article.status }">待提交
                 </c:if>
                 <c:if test="${article.status=='1' }">
-                  <input type="hidden" name="status" value="${article.status }">已提交
+                  <input type="hidden" name="status" value="${article.status }">待发布
                 </c:if>
                 <c:if test="${article.status=='2' }">
                   <input type="hidden" name="status" value="${article.status }">发布
                 </c:if>
                 <c:if test="${article.status=='3' }">
                   <input type="hidden" name="status" value="${article.status }">审核未通过
+                </c:if>
+                <c:if test="${article.status=='4' }">
+                  <input type="hidden" name="status" value="${article.status }">撤回
                 </c:if>
               </td>
               <td class="tc">${article.showCount }</td>

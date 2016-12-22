@@ -180,4 +180,15 @@ public interface ArticleMapper {
 	 * @exception IOException
 	 */
 	List<Article> selectArticleByProjectId(Article article);
+	
+	/**
+	* @Title: updateStatus
+	* @author Shen Zhenfei 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 撤回、发布
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	int updateStatus(Article article);
 }

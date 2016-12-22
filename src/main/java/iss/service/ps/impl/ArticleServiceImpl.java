@@ -170,5 +170,10 @@ public class ArticleServiceImpl implements ArticleService {
                 sb.append("<tr><td>说明</td><td colspan=8>1. 投标人须对所投包内所有产品和数量进行投标报价，否则视为无效投标。<br/>2. 运杂费：</td></tr></table>");
                 return sb;
             }
+
+	@Override
+	public void updateStatus(Article article) {
+		articleMapper.updateStatus(article);
+	}
         	
-        }
+}

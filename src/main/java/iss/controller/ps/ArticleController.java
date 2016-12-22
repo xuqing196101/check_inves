@@ -698,5 +698,53 @@ public class ArticleController extends BaseSupplierController{
     model.addAttribute("article", article);
     return "iss/ps/article/list";
   }
+  
+  
+  /**
+  * @Title: apply
+  * @author Shen Zhenfei 
+  * @date 2016-12-22 上午9:16:15  
+  * @Description: 发布按钮
+  * @param @param request
+  * @param @param ids
+  * @param @return      
+  * @return String
+   */
+  @RequestMapping("apply")
+  public String apply(HttpServletRequest request,String ids){
+    String[] id=ids.split(",");
+    Article article = new Article();
+    article.setStatus(2);
+    for (String str : id) {
+      article.setId(str);
+      articleService.update(article);
+      Article findOneArticle = articleService.selectArticleById(str);
+      solrNewsService.addIndex(findOneArticle);
+    }
+    return "redirect:getAll.html";
+  }
+  
+  /**
+  * @Title: withdraw
+  * @author Shen Zhenfei 
+  * @date 2016-12-22 上午9:16:27  
+  * @Description: 撤回按钮
+  * @param @param request
+  * @param @param ids
+  * @param @return      
+  * @return String
+   */
+  @RequestMapping("withdraw")
+  public String withdraw(HttpServletRequest request,String ids){
+	  String[] id=ids.split(",");
+	    Article article = new Article();
+	    article.setStatus(4);
+	    for (String str : id) {
+	      article.setId(str);
+	      articleService.update(article);
+	      solrNewsService.deleteIndex(str);
+	    }
+    return "redirect:getAll.html";
+  }
 
 }
