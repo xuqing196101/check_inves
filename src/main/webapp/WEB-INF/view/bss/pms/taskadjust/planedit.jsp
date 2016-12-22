@@ -354,7 +354,7 @@
 		
 		
 			<div class="container">
-				<div class="col-md-12 pl20 mt10 tab-v2">
+				<div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10 tab-v2">
 <%-- 					<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面</a>
  --%>					<div class="fl">
 						 <u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }" /> 
@@ -377,7 +377,7 @@
 				<div class="tab-content">
 				<div class="tab-pane fade active in" id="tab-1">
 				<div class="content table_box ">
-					<table class="table table-bordered table-condensed mt5">
+					<table class="table table-bordered table-condensed mt5 table_input">
 						<thead>
 							<tr>
 								<th class="info" colspan="17">事业部门需求</th>
@@ -577,7 +577,7 @@
 				<div class="tab-pane fade in" id="tab-2">
 					<c:forEach items="${departMent }" var="dep" varStatus="depart">
 							<div class="content table_box ">
-					<table class="table table-bordered table-condensed mt5">
+					<table class="table table-bordered table-condensed mt5 table_input">
 						<thead>
 							<tr>
 								<th class="info" colspan="17">事业部门需求</th>
@@ -750,14 +750,12 @@
 				</div>
 				 </div>
 				 </div>
-					 
-					<br>
-						
-					<br>
+				<div class="col-md-12 col-sm-12 col-xs-12 tc">
 					<input type="hidden" name="planNo" value="${planNo }">
 					<input type="hidden" id="status" name="status" value="4">
-					<input class="btn btn-windows save"  type="button" value="提交" onclick="sub()">
-					<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+					<input class="btn btn-windows git"  type="button" value="提交" onclick="sub()">
+					<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+			     </div>
 			</form>
 			
 		</div>
