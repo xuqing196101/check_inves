@@ -211,7 +211,7 @@ function errorMsg(auditField){
 </head>
 <body>
 <form method="post" action="">
-  <jsp:include page="/index_head.jsp"></jsp:include>
+  <jsp:include page="/reg_head.jsp"></jsp:include>
   <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
   <input type="hidden" name="userId" value="${user.id}"/>
   <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
