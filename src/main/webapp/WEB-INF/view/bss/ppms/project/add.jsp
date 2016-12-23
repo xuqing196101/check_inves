@@ -236,7 +236,7 @@
         </div>
         <div>
           <h2 class="count_flow"><i>2</i>选择采购明细</h2>
-          <ul class="ul_list">
+          <div class="ul_list">
             <div class="content table_box">
               <table class="table table-bordered table-condensed table-hover">
                 <thead>
@@ -373,7 +373,7 @@
                 </table>
               </div>
             </div>
-          </ul>
+          </div>
         </div>
         <div class="col-md-12 tc">
           <button class="btn" onclick="add()" type="button">下一步</button>

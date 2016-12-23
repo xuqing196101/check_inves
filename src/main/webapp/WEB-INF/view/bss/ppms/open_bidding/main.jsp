@@ -52,10 +52,10 @@
 </script>
 </head>
 
-<body onload="initLoad()">
+<body onload="initLoad()" id="iframe_special">
   
    <!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
+   <div class="margin-top-10 breadcrumbs " id="bread_crumbs">
       <div class="container">
 		<ul class="breadcrumb margin-left-0">
 		   <li><a href="#">首页</a></li><li><a href="">保障作业</a></li><li><a href="">采购项目管理</a></li><li><a href="">采购项目实施</a></li> 
@@ -103,21 +103,23 @@
 					  <!-- <div class="tag-box tag-box-v4 col-md-9 "  id="open_bidding_main">
 					  		
 					  </div> -->
-					  <script type="text/javascript" language="javascript">   
-                        function iFrameHeight() {   
-                        var ifm= document.getElementById("open_bidding_iframe");   
-                        var subWeb = document.frames ? document.frames["open_bidding_iframe"].document : ifm.contentDocument;   
-                        if(ifm != null && subWeb != null) {
-                           ifm.height = subWeb.body.scrollHeight;
-                           /*ifm.width = subWeb.body.scrollWidth;*/
-                        }   
-                        }   
-                        </script>
+                        <script type="text/javascript" language="javascript">   
+                          function getContentSize() {
+	         				var he = document.documentElement.clientHeight;
+							var btn = $("#iframe_btns").outerHeight(true);
+	   						var body = $("#iframe_special").outerHeight(true) ;
+	   						var bread= $("#bread_crumbs").outerHeight(true) ;
+							ch = (body - btn - bread) + "px";
+							document.getElementById("open_bidding_iframe").style.height = ch;
+							}
+							window.onload = getContentSize;
+							window.onresize = getContentSize;
+ 					  </script>
                       <!-- 右侧内容开始-->
                       <div class="tag-box tag-box-v4 col-md-9" >
                          <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe"  scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="${pageContext.request.contextPath}/${url}"></iframe>
                       </div>
-					  <div class="col-md-12 tc mt20" >
+					  <div class="col-md-12 tc mt20" id="iframe_btns">
 					  		<button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
        	   			  </div>
 				  </div>

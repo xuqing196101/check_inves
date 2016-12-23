@@ -176,7 +176,7 @@
         <div>
           <h2 class="count_flow"><i>2</i>选择采购明细</h2>
           <!-- 项目戳开始 -->
-				<h2 class="search_detail">
+				<h2 class="search_detail ml0">
 						<ul class="demand_list">
 					  	<li>
 					    	<label class="fl">采购任务名称：</label>
@@ -195,7 +195,7 @@
 					  <button class="btn" type="button" onclick="resetResult()">重置</button>
 						<div class="clear"></div>
 				</h2>
-          <ul class="ul_list">
+          <div class="ul_list">
             <div class="content table_box">
               <table class="table table-bordered table-condensed table-hover">
                 <thead>
@@ -318,9 +318,9 @@
                 </table>
               </div>
             </div>
-          </ul>
+          </div>
         </div>
-        <div class="col-md-12 tc">
+        <div class="col-md-12 col-xs-12 col-sm-12 tc">
           <button class="btn" onclick="nextStep()" type="button">下一步</button>
           <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
         </div>

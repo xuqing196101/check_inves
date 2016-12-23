@@ -343,7 +343,7 @@
 </div>
 		
 <div class="container">
-	<div class="col-md-12 mt10 tab-v2">
+	<div class="col-md-12 mt10 tab-v2 col-xs-12 col-sm-12 p0">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
 		<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面</a>
 		<%-- 	<div class="fl">
@@ -362,7 +362,7 @@
 				</li>
 			</ul>	
 			<form id="audit_form" action="${pageContext.request.contextPath}/look/audit.html" method="post">
-				<div class="tab-content">
+				<div class="tab-content over_hideen">
 					<div class="tab-pane fade active in" id="tab-1">
 						<div class="col-md-8 col-sm-8 col-xs-12 over_scroll">
 							<table class="table table-bordered table-condensed mt5 table_input">
@@ -407,7 +407,7 @@
 								<tbody id="table">
 									<c:forEach items="${list }" var="obj" varStatus="vs">
 										<tr>
-											<td class="tc w50"><input readonly="readonly" type="text" name="list[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
+											<td class="tc w50"><input readonly="readonly" type="text" class="w50" name="list[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
 											<td>
 												<c:forEach items="${requires }" var="re">
 								        			<c:if test="${re.id==obj.department }">
@@ -419,35 +419,35 @@
 											<td><input readonly="readonly" type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
 											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
 											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
-											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].item" value="${obj.item }"></td>
+											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].item" value="${obj.item }" class="w50"></td>
 											<td class="tc">
 												<c:if test="${obj.purchaseCount!=null }">
 								  				<input type="hidden" name="ss" value="${obj.id }">
 								  				<input readonly="readonly" maxlength="11" id="purchaseCount" onblur="sum2(this)" 
 								    			onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="lists[${vs.index }].purchaseCount"
-													value="${obj.purchaseCount}" />
+													value="${obj.purchaseCount}" type="text" class="w80"/>
 								  				<input type="hidden" name="ss" value="${obj.parentId }">
 												</c:if> 
 												<c:if test="${obj.purchaseCount==null }">
-								  				<input disabled="disabled" type="text" name="lists[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
+								  				<input disabled="disabled" type="text" name="lists[${vs.index }].purchaseCount" value="${obj.purchaseCount }" class="w80">
 												</c:if>
 											</td>
 											<td class="tc">
 												<c:if test="${obj.price!=null }">
 									  				<input type="hidden" name="ss" value="${obj.id }">
-								      				<input readonly="readonly" maxlength="11" id="price" name="lists[${vs.index }].price" onblur="sum1(this)" value="${obj.price}" />
+								      				<input readonly="readonly" maxlength="11" id="price" name="lists[${vs.index }].price" onblur="sum1(this)" value="${obj.price}" type="text" class="w80"/>
 									  				<input type="hidden" name="ss" value="${obj.parentId }">
 												</c:if>
 							    				<c:if test="${obj.price==null}">
-								  					<input readonly="readonly"  type="text" name="lists[${vs.index }].price" value="${obj.price }">
+								  					<input readonly="readonly"  type="text" name="lists[${vs.index }].price" value="${obj.price }" class="w80">
 												</c:if>
 											</td>
 											<td class="tc">
 												<input type="hidden" name="ss" value="${obj.id }">
-												<input type="text" name="list[${vs.index }].budget" value="${obj.budget }" readonly="readonly">
+												<input type="text" name="list[${vs.index }].budget" value="${obj.budget }" readonly="readonly" class="w80">
 												<input type="hidden" name="ss" value="${obj.parentId }">
 											</td>
-											<td><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }" readonly="readonly"></td>
+											<td><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }" readonly="readonly" class="w100"></td>
 											<td>
 												<select name="list[${vs.index }].purchaseType" >
 													<c:forEach items="${mType }" var="mt">
@@ -660,11 +660,13 @@
 								</div>
 							</div>
 						</div>
-				<input type="hidden" name="id" value="${id }"> 
-				<input type="hidden" name="planNo" value="${planNo }">
-				<input type="hidden" id="status" name="status" value="${status }">
-				<input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="保存">
-				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+						<div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+							<input type="hidden" name="id" value="${id }"> 
+							<input type="hidden" name="planNo" value="${planNo }">
+							<input type="hidden" id="status" name="status" value="${status }">
+							<input class="btn btn-windows save" type="submit" value="保存">
+							<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+					</div>
 					</form>			
 					</div>
 				</div>
