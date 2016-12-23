@@ -101,18 +101,18 @@
 
   <body>
     <!--面包屑导航开始-->
-    <h2 class="search_detail">
+    <div class="search_detail ml0">
         <form action="" method="post" id="form" class="mb0">
           <ul class="demand_list">
             <input type="hidden" id="page"  name="page" />
             <li class="fl"><label class="fl">供应商名称：</label><span><input
                 type="text" id="supplierName" class="" value="${supplierName}"  name="supplierName"/></span></li>
-            <input type="submit" onclick="query()" class="btn" value="查询"/>
-            <input type="reset" class="btn" onclick="resetQuery();" value="重置">
           </ul>
+            <input type="submit" onclick="query()" class="btn fl" value="查询"/>
+            <input type="reset" class="btn fl" onclick="resetQuery();" value="重置">
           <div class="clear"></div>
         </form>
-      </h2>
+      </div>
 
     <input type="hidden" name="packages" value="${packId }" />
     <input type="hidden" name="projectId" value="${projectId }" />
