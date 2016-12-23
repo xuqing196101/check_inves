@@ -131,6 +131,8 @@
 			}else{
 				if(isCreateContract==1){
 					layer.alert("已生成过",{offset: ['222px', '390px'], shade:0.01});
+				}else if(isCreateContract==2){
+					layer.alert("暂存文件请在修改暂存中生成",{offset: ['222px', '390px'], shade:0.01});
 				}else{
 				/*$.ajax({
 		  			url:"${pageContext.request.contextPath}/purchaseContract/selectSuppliers.html?packageId="+ids,

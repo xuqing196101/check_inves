@@ -201,7 +201,7 @@
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
   		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
   	</if>
-  	order by UPDATED_AT DESC
+  	order by status
   </select>
   
   <select id="selectRoughContract" parameterType="Map" resultMap="purContractMap">

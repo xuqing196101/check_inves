@@ -10,13 +10,13 @@
   <title>My JSP 'expert_list.jsp' starting page</title>
   <script type="text/javascript">
 	function ycDiv(obj, index){
-		if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
-	    	$(obj).removeClass("jbxx");
-	    	$(obj).addClass("zhxx");
+		if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+	    	$(obj).removeClass("shrink");
+	    	$(obj).addClass("shrink");
 	  	} else {
-	    	if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
-	      		$(obj).removeClass("zhxx");
-	      		$(obj).addClass("jbxx");
+	    	if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+	      		$(obj).removeClass("shrink");
+	      		$(obj).addClass("spread");
 	   		}
 	    }
 
@@ -38,7 +38,7 @@
     <h2 class="list_title">供应商排名</h2>
 	  <div class="tab-pane fade active in" id="tab-1">
         <c:forEach items="${packagesList}" var="pack" varStatus="vs">
-          <h2 onclick="ycDiv(this,'${vs.index}')" class="count_flow jbxx hand">${pack.name}</h2>
+          <h2 onclick="ycDiv(this,'${vs.index}')" class="count_flow spread hand">${pack.name}</h2>
           <div class="p0${vs.index}">
             <table class="table table-bordered table-condensed table-hover table-striped">
               <tr>

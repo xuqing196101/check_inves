@@ -25,13 +25,13 @@
 	 }
 	 
 function ycDiv(obj, index){
-	if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
-		$(obj).removeClass("jbxx");
-		$(obj).addClass("zhxx");
+	if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+		$(obj).removeClass("spread");
+		$(obj).addClass("shrink");
 	} else {
-		if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
-			$(obj).removeClass("zhxx");
-			$(obj).addClass("jbxx");
+		if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+			$(obj).removeClass("shrink");
+			$(obj).addClass("spread");
 		}
 	}
 	
@@ -55,7 +55,7 @@ function ycDiv(obj, index){
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
-			 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+			 <h2 onclick="ycDiv(this,'${index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
 			 </h2>
         </div>
         <div class="p0${index}">
