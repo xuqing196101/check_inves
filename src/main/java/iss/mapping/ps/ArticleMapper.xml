@@ -90,7 +90,7 @@
   	,
     <include refid="Article_BlOB_Column_List" />
     from T_ISS_PS_ARTICLE
-    where IS_DELETED = 0
+    where IS_DELETED = 0 AND STATUS !=0
 	  	<if test="name != null">
 	  	  AND NAME LIKE #{name}
 	  	</if>
@@ -100,9 +100,6 @@
 	  	<if test="range != null">
 	  	  AND RANGE = #{range}
 	  	</if>
-	  	<if test="status != null">
-        AND STATUS = #{status}
-      </if>
     order by UPDATED_AT DESC
   </select>
   

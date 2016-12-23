@@ -6,25 +6,25 @@
 
   <head>
     <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-		<%@ include file="/WEB-INF/view/common.jsp"%>
-		<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+    <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <script type="text/javascript">
       $(function() {
         laypage({
-          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-          pages: "${list.pages}", //总页数
-          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-          skip: true, //是否开启跳页
+          cont: $("#pagediv"), 
+          pages: "${list.pages}", 
+          skin: '#2c9fA6',
+          skip: true, 
           total: "${list.total}",
           startRow: "${list.startRow}",
           endRow: "${list.endRow}",
-          groups: "${list.pages}" >= 5 ? 5 : "${list.pages}", //连续显示分页数
-          curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
+          groups: "${list.pages}" >= 5 ? 5 : "${list.pages}", 
+          curr: function() { 
             var page = location.search.match(/page=(\d+)/);
             return page ? page[1] : 1;
           }(),
-          jump: function(e, first) { //触发分页后的回调
-            if(!first) { //一定要加此判断，否则初始时会无限刷新
+          jump: function(e, first) {
+            if(!first) {
               var articleTypeId = "${articlesArticleTypeId}";
               var range = "${articlesRange}";
               var status = "${articlesStatus}";
@@ -69,11 +69,9 @@
         }
       }
 
-      
       function view(id) {
         window.location.href = "${ pageContext.request.contextPath }/article/view.html?id=" + id;
       }
-      
 
       function add() {
         window.location.href = "${ pageContext.request.contextPath }/article/add.html";
@@ -199,141 +197,140 @@
         $("#range").val("${articlesRange}");
         $("#status").val("${articlesStatus}");
       })
-      
+
       //发布
-      function apply(){
-    	  var applys = [];
-    	  var ids = [];
-          $('input[name="chkItem"]:checked').each(function() {
-            ids.push($(this).val());
-          });
-          
-          $("input[name='chkItem']:checked").each(function() {
-              applys.push($.trim($(this).parents("tr").find("td").eq(6).text()));
-           });
-          
-          if(ids.length > 0) {
-        	  
-        	  if($.inArray("待发布", applys)>-1){
-        		  layer.alert("请选择需要发布的信息", {
-                      offset: ['222px', '390px'],
-                      shade: 0.01
-               });
-        	  }else if($.inArray("待提交", applys)>-1){
-        		  layer.alert("请选择需要发布的信息", {
-                      offset: ['222px', '390px'],
-                      shade: 0.01
-               });
-        	  }else if($.inArray("审核未通过", applys)>-1){
-        		  layer.alert("请选择需要发布的信息", {
-                      offset: ['222px', '390px'],
-                      shade: 0.01
-               });
-            }else if($.inArray("发布", applys)>-1){
-            	layer.alert("请选择需要发布的信息", {
-                    offset: ['222px', '390px'],
-                    shade: 0.01
-             });
-            }else{
-            	layer.confirm('您确定要发布吗?', {
-                    title: '提示',
-                    offset: ['222px', '360px'],
-                    shade: 0.01
-                  }, function(index) {
-                    layer.close(index);
-                    window.location.href = "${pageContext.request.contextPath }/article/apply.html?ids=" + ids;
-                  });
-        	  }
-        	  
-          } else {
-            layer.alert("请选择要提交的信息", {
+      function apply() {
+        var applys = [];
+        var ids = [];
+        $('input[name="chkItem"]:checked').each(function() {
+          ids.push($(this).val());
+        });
+
+        $("input[name='chkItem']:checked").each(function() {
+          applys.push($.trim($(this).parents("tr").find("td").eq(6).text()));
+        });
+
+        if(ids.length > 0) {
+
+          if($.inArray("待发布", applys) > -1) {
+            layer.alert("请选择需要发布的信息", {
               offset: ['222px', '390px'],
               shade: 0.01
             });
-          }
-      }
-      
-      //撤回
-      function withdraw(){
-    	  var applys = [];
-          var ids = [];
-            $('input[name="chkItem"]:checked').each(function() {
-              ids.push($(this).val());
+          } else if($.inArray("待提交", applys) > -1) {
+            layer.alert("请选择需要发布的信息", {
+              offset: ['222px', '390px'],
+              shade: 0.01
             });
-            
-            $("input[name='chkItem']:checked").each(function() {
-                applys.push($.trim($(this).parents("tr").find("td").eq(6).text()));
-             });
-            
-            if(ids.length > 0) {
-              if($.inArray("待发布", applys)>-1){
-                layer.alert("请选择需要撤回的信息", {
-                        offset: ['222px', '390px'],
-                        shade: 0.01
-                 });
-              }else if($.inArray("待提交", applys)>-1){
-                layer.alert("请选择需要撤回的信息", {
-                        offset: ['222px', '390px'],
-                        shade: 0.01
-                 });
-              }else if($.inArray("审核未通过", applys)>-1){
-                layer.alert("请选择需要撤回的信息", {
-                        offset: ['222px', '390px'],
-                        shade: 0.01
-                 });
-              }else if($.inArray("撤回", applys)>-1){
-                layer.alert("请选择需要撤回的信息", {
-                      offset: ['222px', '390px'],
-                      shade: 0.01
-               });
-              }else{
-                layer.confirm('您确定要撤回吗?', {
-                      title: '提示',
-                      offset: ['222px', '360px'],
-                      shade: 0.01
-                    }, function(index) {
-                      layer.close(index);
-                      window.location.href = "${pageContext.request.contextPath }/article/withdraw.html?ids=" + ids;
-                    });
-              }
-              
-            } else {
-              layer.alert("请选择要撤回的信息", {
-                offset: ['222px', '390px'],
-                shade: 0.01
-              });
-            }
-      }
-      
-      function editor() {
-          var id = [];
-          $('input[name="chkItem"]:checked').each(function() {
-            id.push($(this).val());
-          });
-          var editor = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
-          if(id.length == 1) {
-        	  if($.trim(editor) == "发布") {
-        		  layer.alert("请先撤回发布信息", {
-                      offset: ['180px', '200px'],
-                      shade: 0.01,
-                    });
-            } else {
-            	window.location.href = "${pageContext.request.contextPath }/article/editor.html?id=" + id;
-             }
-            
-          } else if(id.length > 1) {
-            layer.alert("只能选择一个", {
+          } else if($.inArray("审核未通过", applys) > -1) {
+            layer.alert("请选择需要发布的信息", {
+              offset: ['222px', '390px'],
+              shade: 0.01
+            });
+          } else if($.inArray("发布", applys) > -1) {
+            layer.alert("请选择需要发布的信息", {
               offset: ['222px', '390px'],
               shade: 0.01
             });
           } else {
-            layer.alert("请选择需要编辑的信息", {
-              offset: ['222px', '390px'],
+            layer.confirm('您确定要发布吗?', {
+              title: '提示',
+              offset: ['222px', '360px'],
               shade: 0.01
+            }, function(index) {
+              layer.close(index);
+              window.location.href = "${pageContext.request.contextPath }/article/apply.html?ids=" + ids;
             });
           }
+
+        } else {
+          layer.alert("请选择要提交的信息", {
+            offset: ['222px', '390px'],
+            shade: 0.01
+          });
         }
-      
+      }
+
+      //撤回
+      function withdraw() {
+        var applys = [];
+        var ids = [];
+        $('input[name="chkItem"]:checked').each(function() {
+          ids.push($(this).val());
+        });
+
+        $("input[name='chkItem']:checked").each(function() {
+          applys.push($.trim($(this).parents("tr").find("td").eq(6).text()));
+        });
+
+        if(ids.length > 0) {
+          if($.inArray("待发布", applys) > -1) {
+            layer.alert("请选择需要撤回的信息", {
+              offset: ['222px', '390px'],
+              shade: 0.01
+            });
+          } else if($.inArray("待提交", applys) > -1) {
+            layer.alert("请选择需要撤回的信息", {
+              offset: ['222px', '390px'],
+              shade: 0.01
+            });
+          } else if($.inArray("审核未通过", applys) > -1) {
+            layer.alert("请选择需要撤回的信息", {
+              offset: ['222px', '390px'],
+              shade: 0.01
+            });
+          } else if($.inArray("撤回", applys) > -1) {
+            layer.alert("请选择需要撤回的信息", {
+              offset: ['222px', '390px'],
+              shade: 0.01
+            });
+          } else {
+            layer.confirm('您确定要撤回吗?', {
+              title: '提示',
+              offset: ['222px', '360px'],
+              shade: 0.01
+            }, function(index) {
+              layer.close(index);
+              window.location.href = "${pageContext.request.contextPath }/article/withdraw.html?ids=" + ids;
+            });
+          }
+
+        } else {
+          layer.alert("请选择要撤回的信息", {
+            offset: ['222px', '390px'],
+            shade: 0.01
+          });
+        }
+      }
+
+      function editor() {
+        var id = [];
+        $('input[name="chkItem"]:checked').each(function() {
+          id.push($(this).val());
+        });
+        var editor = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
+        if(id.length == 1) {
+          if($.trim(editor) == "发布") {
+            layer.alert("请先撤回发布信息", {
+              offset: ['180px', '200px'],
+              shade: 0.01,
+            });
+          } else {
+            window.location.href = "${pageContext.request.contextPath }/article/editor.html?id=" + id;
+          }
+
+        } else if(id.length > 1) {
+          layer.alert("只能选择一个", {
+            offset: ['222px', '390px'],
+            shade: 0.01
+          });
+        } else {
+          layer.alert("请选择需要编辑的信息", {
+            offset: ['222px', '390px'],
+            shade: 0.01
+          });
+        }
+      }
     </script>
 
   </head>
