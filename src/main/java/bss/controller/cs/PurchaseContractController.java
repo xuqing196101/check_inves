@@ -1427,18 +1427,28 @@ public class PurchaseContractController extends BaseSupplierController{
 //        if(isRole){
             draftConList = purchaseContractService.selectAllContractByStatus(map);
             for(PurchaseContract pur:draftConList){
-                Supplier su = supplierService.selectOne(pur.getSupplierDepName());
+            	Supplier su = null;
+            	Orgnization org = null;
+            	if(pur.getSupplierDepName()!=null){
+            		su = supplierService.selectOne(pur.getSupplierDepName());
+            	}
                 //				PurchaseDep purdep = purchaseOrgnizationServiceI.selectPurchaseById(pur.getBingDepName());
-                Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(pur.getPurchaseDepName());
-                if(org.getName()==null){
-                    pur.setShowDemandSector("");
-                }else{
-                    pur.setShowDemandSector(org.getName());
-                }
-                if(su.getSupplierName()!=null){
-                    pur.setShowSupplierDepName(su.getSupplierName());
-                }else{
-                    pur.setShowSupplierDepName("");
+            	if(pur.getPurchaseDepName()!=null){
+            		org = orgnizationServiceI.getOrgByPrimaryKey(pur.getPurchaseDepName());
+            	}
+            	if(org!=null){
+	                if(org.getName()==null){
+	                    pur.setShowDemandSector("");
+	                }else{
+	                    pur.setShowDemandSector(org.getName());
+	                }
+            	}
+                if(su!=null){
+	                if(su.getSupplierName()!=null){
+	                    pur.setShowSupplierDepName(su.getSupplierName());
+	                }else{
+	                    pur.setShowSupplierDepName("");
+	                }
                 }
                 //				if(purdep.getDepName()!=null){
                 //					pur.setShowPurchaseDepName(purdep.getDepName());
