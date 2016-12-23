@@ -129,7 +129,7 @@
           </li>
 
           <li class="col-md-6 col-sm-6 col-xs-12 mt10">
-              <span class="fl">审价文件上传：</span>
+              <span class="fl">单位及保密委员会审核表：</span>
               <div>
                 <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
               </div>
