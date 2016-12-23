@@ -277,7 +277,6 @@
           <li class="fl"><label class="fl">采购项目名称：</label><span><input type="text" value="${projectName }" id="projectName" class=""/></span></li>
 	      <li class="fl"><label class="fl">编号：</label><span><input type="text" value="${projectCode }" id="projectCode" class=""/></span></li>
 	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="${purchaseDep }" id="purchaseDep" class=""/></span></li>
-	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="${purchaseDep }" id="purchaseDep" class=""/></span></li>
 	      <li class="fl"><label class="fl">状态：</label><span>
 	      	<select id="isCreate" name="isCreateContract" class="mb0 mt5 w100">
 	      		<option value="">--请选择--</option>
