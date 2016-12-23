@@ -1149,3 +1149,10 @@ table .input_group .add-on{
 .table_input input{
 	margin:0px!important;
 }
+.left_table .bggrey {
+	padding: 0 10px!important;
+}
+.left_table td input{
+	width: 100%!important;
+	margin: 0px!important;
+}

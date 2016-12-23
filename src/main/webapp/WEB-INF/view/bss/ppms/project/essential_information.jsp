@@ -126,29 +126,28 @@
       }
 
       function ycDiv(obj, index) {
-        if($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
-          $(obj).removeClass("jbxx");
-          $(obj).addClass("zhxx");
-        } else {
-          if($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
-            $(obj).removeClass("zhxx");
-            $(obj).addClass("jbxx");
-          }
-        }
-
-        var divObj = new Array();
-        divObj = $(".p0" + index);
-        for(var i = 0; i < divObj.length; i++) {
-          if($(divObj[i]).hasClass("p0" + index) && $(divObj[i]).hasClass("hide")) {
-            $(divObj[i]).removeClass("hide");
-          } else {
-            if($(divObj[i]).hasClass("p0" + index)) {
-              $(divObj[i]).addClass("hide");
+    	  if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+              $(obj).removeClass("shrink");
+              $(obj).addClass("spread");
+            } else {
+              if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+                $(obj).removeClass("spread");
+                $(obj).addClass("shrink");
+              }
             }
-          }
-        };
+            
+            var divObj = new Array();
+            divObj = $(".p0" + index);
+            for (var i =0; i < divObj.length; i++) {
+                if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
+                  $(divObj[i]).removeClass("hide");
+                } else {
+                  if ($(divObj[i]).hasClass("p0"+index)) {
+                    $(divObj[i]).addClass("hide");
+                  };
+                };
+            };
       }
-
       function purchaseEmbodiment(id) {
         var type = "1";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
@@ -261,31 +260,31 @@
         <div class="tab-content">
           <div class="tab-pane fade active in" id="tab-1">
             <form id="save_form_id" action="${pageContext.request.contextPath}/project/addProject.html" method="post">
-              <h2 onclick="ycDiv(this,'${1}')" class="count_flow jbxx hand">基本信息</h2>
+              <h2 onclick="ycDiv(this,'${1}')" class="count_flow shrink hand">基本信息</h2>
               <div class="p0${1}">
-                <table class="table table-bordered">
+                <table class="table table-bordered left_table">
                   <tbody>
                     <tr>
                       <td class="bggrey">项目编号:</td>
-                      <td><input name="projectNumber" id="projectNumber" value="${project.projectNumber}" /><input type="hidden" name="id" id="id" value="${project.id}" /></td>
+                      <td class="p0"><input name="projectNumber" class="m0" id="projectNumber" value="${project.projectNumber}" type="text" class="m0"/><input type="hidden" name="id" id="id" value="${project.id}" /></td>
                       <td class="bggrey">项目名称:</td>
-                      <td><input name="name" id="name" value="${project.name}" /><input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}" /></td>
+                      <td class="p0"><input name="name" class="m0" id="name" value="${project.name}" type="text"/><input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}" /></td>
                     </tr>
                     <tr>
                       <td class="bggrey">项目经办人:</td>
-                      <td><input name="principal" id="principal" value="${project.principal}" /></td>
+                      <td class="p0"><input name="principal" class="m0" id="principal" value="${project.principal}" type="text"/></td>
                       <td class="bggrey">经办人手机:</td>
-                      <td><input name="ipone" id="ipone" value="${project.ipone}" /></td>
+                      <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text"/></td>
                     </tr>
                     <tr>
                       <td class="bggrey">采购机构名称:</td>
-                      <td>
+                      <td class="p0">
                         <c:if test="${project.purchaseDepId eq orgnization.id}">
-                          <input name="sectorOfDemand" id="sectorOfDemand" value="${orgnization.name}" />
+                          <input name="sectorOfDemand" class="m0" id="sectorOfDemand" value="${orgnization.name}" type="text"/>
                         </c:if>
                       </td>
                       <td class="bggrey">最少供应商人数:</td>
-                      <td><input name="supplierNumber" id="supplierNumber" value="${project.supplierNumber}" /></td>
+                      <td class="p0"><input name="supplierNumber" class="m0" id="supplierNumber" value="${project.supplierNumber}" type="text"/></td>
                     </tr>
                     <tr>
 
@@ -293,25 +292,25 @@
                       <td colspan="3">
                         <c:forEach items="${kind}" var="kind">
                           <c:if test="${kind.id == project.purchaseType}">
-                            <input type="hidden" id="purchaseType" value="${kind.code}" /> ${kind.name}
+                            <input type="hidden" id="purchaseType" value="${kind.code}" type="text"/> ${kind.name}
                           </c:if>
                         </c:forEach>
                       </td>
                     </tr>
                     <tr>
                       <td class="bggrey">投标截止时间:</td>
-                      <td><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" /></td>
+                      <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" /></td>
                       <td class="bggrey">开标时间:</td>
-                      <td><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
+                      <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                     </tr>
                     <tr>
                       <td class="bggrey">开标地点:</td>
-                      <td colspan="3"><input name="bidAddress" id="bidAddress" value="${project.bidAddress}" /></td>
+                      <td colspan="3" class="p0"><input name="bidAddress" id="bidAddress" value="${project.bidAddress}" type="text" class="m0"/></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <h2 onclick="ycDiv(this,'${2}')" class="count_flow jbxx hand">时间信息</h2>
+              <h2 onclick="ycDiv(this,'${2}')" class="count_flow shrink hand">时间信息</h2>
               <div class="p0${2}">
                 <table class="table table-bordered">
                   <tbody>
@@ -469,7 +468,7 @@
               </form>
             </div>
           </div>
-          <div class="tab-pane fade active" id="tab-5">
+          <div class="tab-pane fade active over_hideen" id="tab-5">
             <div>上传附件：</div>
             <u:upload id="upload123" groups="upload123,upload_id" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" />
             <u:show showId="upload123" groups="upload123,upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}" />
