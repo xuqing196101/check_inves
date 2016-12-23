@@ -573,6 +573,15 @@ li:first-child {
   background-repeat:no-repeat!important;
 }
 
+.spread{
+  background: url(../images/show.png) no-repeat 5px !important;
+  padding-left: 40px !important;
+}
+
+.shrink{
+  background: url(../images/hide.png) no-repeat 5px !important;
+  padding-left: 40px !important;
+}
 .history_icon{
   background-position: -44px -755px;
   background-image:url(../images/icons.png);

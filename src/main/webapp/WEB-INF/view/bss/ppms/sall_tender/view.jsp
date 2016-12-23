@@ -52,13 +52,13 @@
       }
 
       function ycDiv(obj, index) {
-    	  if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
-              $(obj).removeClass("jbxx");
-              $(obj).addClass("zhxx");
+    	  if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+              $(obj).removeClass("shrink");
+              $(obj).addClass("spread");
             } else {
-              if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
-                $(obj).removeClass("zhxx");
-                $(obj).addClass("jbxx");
+              if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+                $(obj).removeClass("spread");
+                $(obj).addClass("shrink");
               }
             }
             
@@ -89,6 +89,8 @@
         var index=0;
         var divObj = $(".p0" + index);
         $(divObj).removeClass("hide");
+        $("#package").removeClass("shrink");        
+        $("#package").addClass("spread");
       })
     </script>
   </head>
@@ -121,9 +123,9 @@
           </li> -->
 
         </ul>
-        <div class="col-md-12 col-sm-12 col-xs-12 clear tc mt10">
-          <input type="submit" class="btn" value="查询" />
-          <button type="button" onclick="resetQuery();" class="btn">重置</button>
+        <div class="fl">
+          <input type="submit" class="btn fl" value="查询" />
+          <button type="button" onclick="resetQuery();" class="btn fl">重置</button>
         </div>
         <div class="clear"></div>
       </form>
@@ -141,8 +143,8 @@
 
         <c:set value="${p.index}" var="index"></c:set>
 
-        <div>
-          <h2 onclick="ycDiv(this,'${index}')" class="count_flow zhxx hand fl clear">包名:<span class="f15 blue">${pack.name }</span>
+        <div class="over_hideen">
+          <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand fl clear" id="package">包名:<span class="f15 blue">${pack.name }</span>
           </h2>
           <div class="fl mt20 ml10">
              <button class="btn btn-windows add" onclick="add('${pack.id }')" type="button">登记</button>
