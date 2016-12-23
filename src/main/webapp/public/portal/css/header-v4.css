@@ -1057,6 +1057,9 @@
 	margin:0 auto;
 	background:url(../images/newtop_bg.jpg) no-repeat center #2c9fa6;
 }
+.head_main.reg_head{
+	background:url(../images/logo_right.jpg) no-repeat right #2c9fa6;
+}
 .search-group{
   position: relative;
   display: table;

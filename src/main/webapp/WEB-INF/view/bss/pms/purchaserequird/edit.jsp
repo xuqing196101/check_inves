@@ -204,35 +204,35 @@
                   <td class="tc"><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName}"></td>
                   <td class="tc"><input type="text" name="list[${vs.index }].stand" value="${obj.stand}"></td>
                   <td class="tc"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}"></td>
-                  <td class="tc"><input type="text" name="list[${vs.index }].item" value="${obj.item}"></td>
+                  <td class="tc"><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="w80"></td>
                   
                   <td class="tc">
                     <c:if test="${obj.purchaseCount!=null}">
                      
                       <input   type="hidden" name="ss"   value="${obj.id }" >
-                      <input maxlength="11" id="purchaseCount" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
+                      <input maxlength="11" class="w80" id="purchaseCount" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.purchaseCount==null }">
-                      <input  class="border0"    type="text" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount }">
+                      <input class="w80 border0" type="text" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount }">
                     </c:if>
                   </td>
                   <td class="tc">
                     <c:if test="${obj.price!=null}">
                       <input   type="hidden" name="ss"   value="${obj.id }">
-                      <input maxlength="11" id="price"  name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
+                      <input maxlength="11" class="w80" id="price"  name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
                       <input type="hidden" name="ss"   value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.price==null}">
-                      <input class="border0"  readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
+                      <input class="w80" readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
                     </c:if>
                   </td>
                   <td class="tc">
                     <input   type="hidden" name="ss"   value="${obj.id }">
-                    <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}"/>
+                    <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="w80"/>
                     <input type="hidden" name="ss"   value="${obj.parentId }">
                   </td>
-                  <td class="tc"><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate}"></td>
+                  <td class="tc"><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate}" class="w100"></td>
                   <td class="tc">
                       <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
                         <option value="">请选择</option>

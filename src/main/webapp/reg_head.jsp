@@ -72,7 +72,7 @@
     <div class="header-v4 clear">
       <!-- Navbar -->
       <div class="navbar navbar-default mega-menu" role="navigation">
-        <div class="head_main">
+        <div class="head_main reg_head">
           <div class="container">
             <!-- logo和搜索 -->
             <div class="navbar-header">
