@@ -3,12 +3,8 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %> <head>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<title>物资-销售型专业信息</title>
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
-		
 		<style type="text/css">
 			td {
 			  cursor:pointer;

@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
+	<%@ include file="/WEB-INF/view/common.jsp" %>
 	<title>审核汇总</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">

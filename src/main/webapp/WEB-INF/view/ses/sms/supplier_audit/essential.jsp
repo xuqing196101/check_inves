@@ -1,8 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="up" uri="/tld/upload"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp"%>
 <!DOCTYPE HTML>
 
 <html>
@@ -634,7 +631,7 @@
                 </c:if>
                 <div class="b f18 ml10 fl hand red">×</div>
               </div> --%>
-							<up:show showId="business_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
+							<u:show showId="business_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
 							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
 						<li class="col-md-12 col-sm-12 col-xs-12">

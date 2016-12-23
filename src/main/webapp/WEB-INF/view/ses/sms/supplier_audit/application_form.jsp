@@ -3,11 +3,8 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
+	<%@ include file="/WEB-INF/view/common.jsp" %>
     <title>申请表</title>
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="0">
 		<script type="text/javascript">
 		  $(function() {
 		    $("li").each(function() {

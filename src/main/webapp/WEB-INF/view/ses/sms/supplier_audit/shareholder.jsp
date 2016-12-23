@@ -2,11 +2,8 @@
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
-	<head>
-
-<html>
   <head>
-      <%@ include file="../../../common.jsp"%>
+     <%@ include file="/WEB-INF/view/common.jsp" %>
 		<title>股东信息</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">

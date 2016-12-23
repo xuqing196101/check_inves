@@ -1,10 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<!--<![endif]-->
 <head>
 <%@ include file="/WEB-INF/view/common.jsp" %> 
+
 <script type="text/javascript">
 	
 	var setting = {

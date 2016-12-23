@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <!DOCTYPE html>
-<html class=" js cssanimations csstransitions" lang="en">
+<html>
 <head>
 <%@ include file="../../../common.jsp"%>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">

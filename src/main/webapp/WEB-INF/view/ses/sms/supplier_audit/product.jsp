@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <%@ include file="../../../common.jsp"%>
+    <%@ include file="/WEB-INF/view/common.jsp" %>
     <script type="text/javascript">
 		  //默认不显示叉
 		   $(function() {

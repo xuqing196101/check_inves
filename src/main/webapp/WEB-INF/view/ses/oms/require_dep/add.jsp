@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
@@ -11,6 +10,7 @@
 <script src="${pageContext.request.contextPath}/js/oms/purchase/validate-extend.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/oms/purchase/province.js"></script>
 <head>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
 	
 	//初始化tree

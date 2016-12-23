@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
 <link href="${pageContext.request.contextPath}/public/ztree/css/ztree-extend.css" type="text/css" rel="stylesheet" >
@@ -11,6 +10,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/oms/purchase/province.js"></script>
 <!--<![endif]-->
 <head>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
 	$(document).ready(function() {
 		var typeName = $("#typeName").val();
