@@ -157,7 +157,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		map.put("isCreateContract", isCreate);
 		map.put("page", page);
 		Orgnization or = user.getOrg();
-		if(or.getTypeName().equals("0")){
+//		if(or.getTypeName().equals("0")){
 		packList = packageService.selectAllByIsWon(map);
 		model.addAttribute("list", new PageInfo<Packages>(packList));
 		ArrayList<Packages> pacList = new ArrayList<Packages>();
@@ -206,7 +206,7 @@ public class PurchaseContractController extends BaseSupplierController{
 //						}
 //					}
 //				}
-			}
+//			}
 		}
 //		}else{
 //			model.addAttribute("list", new PageInfo<Packages>(pacList));
@@ -851,6 +851,10 @@ public class PurchaseContractController extends BaseSupplierController{
 		model.addAttribute("kinds", DictionaryDataUtil.find(5));
 		model.addAttribute("id", contractuuid);
 		PurchaseContract purCon = purchaseContractService.selectById(supChkPa.getContractId());
+		purCon.setMoney_string(purCon.getMoney().toString());
+		purCon.setBudget_string(purCon.getBudget().toString());
+		purCon.setSupplierBankAccount_string(purCon.getSupplierBankAccount().toString());
+		purCon.setPurchaseBankAccount_string(purCon.getPurchaseBankAccount().toString());
 		List<ContractRequired> resultList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 		model.addAttribute("requList", resultList);
 		model.addAttribute("purCon", purCon);

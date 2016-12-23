@@ -15,7 +15,7 @@
   <script type="text/javascript">
   $(function(){
 	  var status = "${isCreate}";
-	  $("#status").val(status);
+	  $("#isCreate").val(status);
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${list.pages}", //总页数
@@ -284,10 +284,12 @@
 	      		<option value="0">未生成</option>
 	      		<option value="1">已生成</option>
 	      	</select>
-	      </span></li>
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" onclick="reset()" class="btn">重置</button>  	
+	      </span></li>	
     	</ul>
+	      <div class="col-md-12 col-sm-12 col-xs-12 tc">
+	    	<button type="button" onclick="query()" class="btn">查询</button>
+	    	<button type="reset" onclick="reset()" class="btn">重置</button>
+	      </div>  
     	  <div class="clear"></div>
      </div>
     <div class="col-md-12 pl20 mt10">
@@ -316,7 +318,7 @@
 		<c:forEach items="${packageList}" var="pack" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
-				<td class="tnone">${pack.supplier.id}</td>
+				<td class="tnone">${pack.supplierId}</td>
 				<td class="tnone">${pack.supplierCheckPassId}</td>
 				<td class="tnone">${pack.isCreateContract}</td>
 				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>

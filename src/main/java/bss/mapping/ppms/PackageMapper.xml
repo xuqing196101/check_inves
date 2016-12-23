@@ -297,7 +297,7 @@
 		where
 		pa.project_id in (
 		select pc.id
-		from T_BSS_PPMS_PROJECTS pc
+		from T_BSS_PPMS_PROJECTS pc where 1=1
 		<if test="projectName != null and projectName != ''">
 			and pc.NAME like '%'||#{projectName}||'%'
 		</if>
