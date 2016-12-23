@@ -195,14 +195,14 @@
 							<input type="hidden" name="status" id="status" />
 								<div class="col-md-12 add_regist tc">
 									<div class="col-md-12 add_regist tc">
-										<c:if test="${(status eq '0') or (status eq '3' and isSubmit eq '1')}">
+										<c:if test="${status eq '0'}">
 											<input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审通过 " id="tongguo">
 											<input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不通过">
-											<input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回" id="tuihui">
+											<input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
 										</c:if>
-										<c:if test="${status == 1 }">
-											<input class="btn btn-windows git" type="button" onclick="shenhe(4);" value="复审通过 " id="tongguo">
-											<input class="btn btn-windows edit" type="button" onclick="shenhe(5);" value="踢出">
+										<c:if test="${status eq '4'}">
+											<input class="btn btn-windows git" type="button" onclick="shenhe(5);" value="复审通过 " id="tongguo">
+											<input class="btn btn-windows edit" type="button" onclick="shenhe(6);" value="踢出">
 											<!-- <input class="btn btn-windows reset" type="button" onclick="shenhe(6);" value="退回" id="tuihui"> -->
 										</c:if>
 									</div>

@@ -1,10 +1,10 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
-<html class=" js cssanimations csstransitions" lang="en">
+<html>
 
 	<head>
-		<%@ include file="../../../common.jsp"%>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<title>供应商列表</title>
 		<meta charset="utf-8">
@@ -104,7 +104,8 @@
 					return;
 				}
 				var id = $(":radio:checked").val();
-				var state = $("#" + id).parents("tr").find("td").eq(5).text().trim();
+				var state = $("#" + id +"").parents("tr").find("td").eq(5).text().trim();
+				/* var state = $("#"+id+"").text().trim(); */
 				var isExtract = $("#" + id + "_isExtract").text();
 				if(state == "审核通过" || state == "审核退回" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
 					layer.msg("请选择待审核项 !", {
@@ -248,7 +249,7 @@
     </h2>
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
-				<c:if test="${sign == 1 || sign == 2}"><button class="btn" type="button" onclick="shenhe();">审核</button></c:if>
+				<c:if test="${sign == 1 || sign == 2}"><button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button></c:if>
 				<c:if test="${sign == 3}"><button class="btn" type="button" onclick="kaocha();">考察</button></c:if>
 			</div>
 			<div class="content table_box">

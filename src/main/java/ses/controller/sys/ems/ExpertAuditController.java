@@ -111,7 +111,7 @@ public class ExpertAuditController {
 		}
 		//是否被抽取
 		List<Expert> expertList = expertService.findExpertAuditList(expert, pageNum==null?1:pageNum);
-		if(expert.getSign() == 2){
+		/*if(expert.getSign() == 2){
 			List<Expert> list = new ArrayList<Expert>();
 			for(Expert e : expertList){
 				List<ProjectExtract>  projectExtractList= projectExtractService.findExtractByExpertId(e.getId());
@@ -124,7 +124,11 @@ public class ExpertAuditController {
 		}else{
 			model.addAttribute("result", new PageInfo<Expert>(expertList));
 			model.addAttribute("expertList", expertList);
-		}
+		}*/
+		
+		model.addAttribute("result", new PageInfo<Expert>(expertList));
+		model.addAttribute("expertList", expertList);
+		
 		//初审复审标识（1初审，2复审）
 		model.addAttribute("sign", expert.getSign());
 		request.getSession().setAttribute("signs",  expert.getSign());
@@ -630,14 +634,14 @@ public class ExpertAuditController {
 			/**
 			 * 推送
 			 */
-		    todos.setCreatedAt(new Date());
+		    /*todos.setCreatedAt(new Date());
 		    todos.setIsDeleted((short)0);
 		    todos.setIsFinish((short)0);
 		    //待办名称
 		    todos.setName(expertName+"专家复审");
 		    //todos.setReceiverId();
 		    //接受人id
-		    /*todos.setOrgId(record.getPurchaseDepId());*/
+		    todos.setOrgId(record.getPurchaseDepId());
 		    //权限id
 		    PropertiesUtil config = new PropertiesUtil("config.properties");
 		    todos.setPowerId(config.getString("zjdb"));
@@ -649,7 +653,7 @@ public class ExpertAuditController {
 		    todos.setSenderName(expert.getRelName());
 		    //审核地址
 		    todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
-		    todosService.insert(todos );
+		    todosService.insert(todos );*/
 		}
         
         return "redirect:list.html";

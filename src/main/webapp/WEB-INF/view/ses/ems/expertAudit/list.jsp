@@ -40,21 +40,21 @@
 				return;
 			}
 			var id = $(":radio:checked").val();
-			var state = $("#" + id).parent("tr").find("td").eq(8).text().trim();
+			var state = $("#" + id +"").parent("tr").find("td").eq(8).text().trim();
 			var isExtract = $("#" + id + "_isExtract").text();
-			if(state == "已审核" || state == "初审未通过" || state == "复核踢出" || state == "初审退回") {
+			if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复审踢除") {
 				layer.msg("请选择待审核项 !", {
 					offset: '100px',
 				});
 				return;
 			}
-			//抽取之后的才能复核
+			/* //抽取之后的才能复核
 			if(isExtract != 1 && state == "待复核") {
 				layer.msg("该专家未抽取 !", {
 					offset: '100px',
 				});
 				return;
-			}
+			} */
 			$("input[name='expertId']").val(id);
 			$("#shenhe_form_id").submit();
 		}
@@ -109,18 +109,19 @@
 						<input type="text" name="relName" value="${relName }">
 					</li>
 					<li>
-						<label class="fl">审核状态：</label>
+						<label class="fl">状态：</label>
 						<select name="status" class="w178" id="status">
 			        <option value="">全部</option>
 		          <c:if test="${sign == 1}">
-		            <option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
-		            <option <c:if test="${state == 2 }">selected</c:if> value="2">初审未通过</option>
-		            <option <c:if test="${state == 3 }">selected</c:if> value="3">初审退回</option>
+		            <option <c:if test="${state eq '0'}">selected</c:if> value="0">待审核</option>
+		            <option <c:if test="${state eq '1'}">selected</c:if> value="1">初审通过</option>
+		            <option <c:if test="${state eq '3'}">selected</c:if> value="3">退回修改</option>
+		            <option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未通过</option>
 		          </c:if>
 		          <c:if test="${sign == 2}">
-		            <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
-		            <option <c:if test="${state == 4 }">selected</c:if> value="4">复审通过</option>
-		            <option <c:if test="${state == 5 }">selected</c:if> value="5">复审踢除</option>
+		            <option <c:if test="${state eq '4'}">selected</c:if> value="4">待复审</option>
+		            <option <c:if test="${state eq '3'}">selected</c:if> value="5">复审通过</option>
+		            <option <c:if test="${state eq '6'}">selected</c:if> value="6">复审踢除</option>
 		          </c:if>
 			      </select> 
 					</li>
@@ -174,22 +175,25 @@
 								<fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td>
 							<td  class="tc" id="${expert.id}">${expert.honestyScore }</td>
-							<c:if test="${(expert.status eq '0') or (expert.status eq '3' and expert.isSubmit eq '1')}">
-								<td  class="tc"><span class="label rounded-2x label-dark">待初审</span></td>
+							<c:if test="${(expert.status eq '0')}">
+								<td  class="tc"><span class="label rounded-2x label-u">待初审</span></td>
 							</c:if>
 							<c:if test="${expert.status eq '1' }">
-								<td  class="tc"><span class="label rounded-2x label-u">待复审</span></td>
+								<td  class="tc"><span class="label rounded-2x label-dark">初审通过</span></td>
 							</c:if>
 							<c:if test="${expert.status eq '2' }">
-								<td  class="tc"><span class="label rounded-2x label-u">初审未通过</span></td>
+								<td  class="tc"><span class="label rounded-2x label-dark">初审未通过</span></td>
 							</c:if>
-							<c:if test="${expert.status eq '3' and expert.isSubmit eq '0'}">
-								<td  class="tc"><span class="label rounded-2x label-u">初审退回</span></td>
+							<c:if test="${expert.status eq '3' }">
+								<td  class="tc"><span class="label rounded-2x label-dark">退回修改</span></td>
 							</c:if>
 							<c:if test="${expert.status eq '4' }">
-								<td  class="tc"><span class="label rounded-2x label-dark">复审通过</span></td>
+								<td  class="tc"><span class="label rounded-2x label-u">待复审</span></td>
 							</c:if>
 							<c:if test="${expert.status eq '5' }">
+								<td  class="tc"><span class="label rounded-2x label-dark">复审通过</span></td>
+							</c:if>
+							<c:if test="${expert.status eq '6' }">
 								<td  class="tc"><span class="label rounded-2x label-dark">复审踢除</span></td>
 							</c:if>
 						</tr>
