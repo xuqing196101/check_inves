@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
-<<<<<<< Updated upstream
 <html class=" js cssanimations csstransitions" lang="en">
 
 	<head>
@@ -10,7 +9,6 @@
 		<title>供应商列表</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-=======
 <html>
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
@@ -38,7 +36,6 @@
         });
       });
     </script>
->>>>>>> Stashed changes
 		<script type="text/javascript">
 			$(function() {
 				laypage({
