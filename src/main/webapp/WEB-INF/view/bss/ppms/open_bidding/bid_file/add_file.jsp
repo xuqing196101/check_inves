@@ -7,6 +7,10 @@
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
 	function OpenFile(fileId) {
+		setTimeout(open_file(fileId),5000);
+	}
+	
+	function open_file(fileId) {
 		var obj = document.getElementById("TANGER_OCX");
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
