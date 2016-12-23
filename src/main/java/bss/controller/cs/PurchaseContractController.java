@@ -736,11 +736,22 @@ public class PurchaseContractController extends BaseSupplierController{
 					contractRequiredService.insertSelective(conRequ);
 				}
 			}
-			for(String supchid:supcheckids){
-				SupplierCheckPass sup = new SupplierCheckPass();
-				sup.setId(supchid);
-				sup.setIsCreateContract(1);
-				supplierCheckPassService.update(sup);
+			if(pur!=null){
+				String supchid = pur.getSupplierCheckIds();
+				String[] supchids = supchid.split(",");
+				for(String supid:supchids){
+					SupplierCheckPass sup = new SupplierCheckPass();
+					sup.setId(supid);
+					sup.setIsCreateContract(1);
+					supplierCheckPassService.update(sup);
+				}
+			}else{
+				for(String supchid:supcheckids){
+					SupplierCheckPass sup = new SupplierCheckPass();
+					sup.setId(supchid);
+					sup.setIsCreateContract(1);
+					supplierCheckPassService.update(sup);
+				}
 			}
 			url = "redirect:selectAllPuCon.html";
 		}
@@ -1396,14 +1407,14 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         List<PurchaseContract> draftConList = new ArrayList<PurchaseContract>();
         User user = (User) request.getSession().getAttribute("loginUser");
-        List<Role> roleList = user.getRoles();
-        boolean isRole = false;
-        for(Role r:roleList){
-            if(r.getCode().equals("PURCHASE_ORG_R")||r.getCode().equals("ADMIN_R")){
-                isRole = true;
-            }
-        }
-        if(isRole){
+//        List<Role> roleList = user.getRoles();
+//        boolean isRole = false;
+//        for(Role r:roleList){
+//            if(r.getCode().equals("PURCHASE_ORG_R")||r.getCode().equals("ADMIN_R")){
+//                isRole = true;
+//            }
+//        }
+//        if(isRole){
             draftConList = purchaseContractService.selectAllContractByStatus(map);
             for(PurchaseContract pur:draftConList){
                 Supplier su = supplierService.selectOne(pur.getSupplierDepName());
@@ -1425,7 +1436,7 @@ public class PurchaseContractController extends BaseSupplierController{
                 //					pur.setShowPurchaseDepName("");
                 //				}
             }
-        }
+//        }
         BigDecimal contractSum = new BigDecimal(0);
         if(draftConList.size()>0){
             for(int i=0;i<draftConList.size();i++){
@@ -2060,7 +2071,13 @@ public class PurchaseContractController extends BaseSupplierController{
             purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
             purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
             purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
-            purchaseContractService.insertSelective(purCon);
+            purCon.setSupplierCheckIds(supcheckid);
+    		PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
+    		if(pur==null){
+    			purchaseContractService.insertSelective(purCon);
+    		}else{
+    			purchaseContractService.updateByPrimaryKeySelective(purCon);
+    		}
             List<ContractRequired> requList = proList.getProList();
             if(requList!=null){
                 for(int i=0;i<requList.size();i++){
@@ -2175,6 +2192,7 @@ public class PurchaseContractController extends BaseSupplierController{
             sup.setIsCreateContract(0);
             supplierCheckPassService.update(sup);
         }
+        model.addAttribute("supcheckid", supckid);
         return "bss/cs/purchaseContract/errContract";
     }
     /**

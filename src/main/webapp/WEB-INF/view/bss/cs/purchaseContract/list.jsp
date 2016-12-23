@@ -111,6 +111,7 @@
   		$("#projectName").val("");
   		$("#projectCode").val("");
   		$("#purchaseDep").val("");
+  		$("#isCreate").val("");
   	}
   	
   	function createContract(){
