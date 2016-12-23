@@ -345,12 +345,13 @@ public class PurchaseContractController extends BaseSupplierController{
 		String news = "";
 		List<String> supIdList = new ArrayList<String>();
 		List<Project> proList = new ArrayList<Project>();
-//		for(int i=0;i<ids.length;i++){
-//			HashMap<String, Object> map = new HashMap<String, Object>();
-//			map.put("id", ids[i]);
-//			Packages pack = packageService.findPackageById(map).get(0);
-//			Project pro = projectService.selectById(pack.getProjectId());
-//			proList.add(pro);
+		for(int i=0;i<ids.length;i++){
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("id", ids[i]);
+			Packages pack = packageService.findPackageById(map).get(0);
+			Project pro = projectService.selectById(pack.getProjectId());
+			proList.add(pro);
+		}
 //			SupplierCheckPass suchp = new SupplierCheckPass();
 //			suchp.setPackageId(pack.getId());
 //			suchp.setIsWonBid((short)1);
@@ -723,13 +724,13 @@ public class PurchaseContractController extends BaseSupplierController{
 			List<ContractRequired> requList = proList.getProList();
 			List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 			if(requList!=null){
+				if(conRequList.size()>0){
+					contractRequiredService.deleteByContractId(purCon.getId());
+				}
 				for(int i=0;i<requList.size();i++){
 					if(requList.get(i).getPlanNo()==null){
 						requList.remove(i);
 					}
-				}
-				if(conRequList.size()>0){
-					contractRequiredService.deleteByContractId(purCon.getId());
 				}
 				for(ContractRequired conRequ:requList){
 					conRequ.setContractId(id);
@@ -862,13 +863,22 @@ public class PurchaseContractController extends BaseSupplierController{
 		model.addAttribute("kinds", DictionaryDataUtil.find(5));
 		model.addAttribute("id", contractuuid);
 		PurchaseContract purCon = purchaseContractService.selectById(supChkPa.getContractId());
-		purCon.setMoney_string(purCon.getMoney().toString());
-		purCon.setBudget_string(purCon.getBudget().toString());
-		purCon.setSupplierBankAccount_string(purCon.getSupplierBankAccount().toString());
-		purCon.setPurchaseBankAccount_string(purCon.getPurchaseBankAccount().toString());
+        if(purCon.getMoney()!=null){
+        	purCon.setMoney_string(purCon.getMoney().toString());
+        }
+        if(purCon.getBudget()!=null){
+        	purCon.setBudget_string(purCon.getBudget().toString());
+        }
+        if(purCon.getSupplierBankAccount()!=null){
+        	purCon.setSupplierBankAccount_string(purCon.getSupplierBankAccount().toString());
+        }
+        if(purCon.getPurchaseBankAccount()!=null){
+        	purCon.setPurchaseBankAccount_string(purCon.getPurchaseBankAccount().toString());
+        }
 		List<ContractRequired> resultList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 		model.addAttribute("requList", resultList);
 		model.addAttribute("purCon", purCon);
+		model.addAttribute("supcheckid", supcheckid);
 		return "bss/cs/purchaseContract/errContract";
 	}
 	

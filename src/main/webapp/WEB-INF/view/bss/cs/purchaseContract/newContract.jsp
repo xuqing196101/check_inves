@@ -847,7 +847,7 @@
 					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 				</div>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-			    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 mt10">
+			    	<table id="detailtable" name="proList" class="table table_input table-bordered table-condensed mb0 mt10">
 					 <thead>
 						<tr>
 							<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -874,8 +874,8 @@
 							<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" readonly="readonly" value="${reque.stand}" class="w60"/></td>
 							<td class="tc"><input type="text" name="proList[${(vs.index)}].item" readonly="readonly" value="${reque.item}" class="w50"/></td>
 							<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" readonly="readonly" value="${reque.purchaseCount}" class="w50"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].price" readonly="readonly" value="${reque.price}" class="w50"/></td>
-							<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" readonly="readonly" value="${reque.budget}" class="ss w50"/></td>
+							<td class="tc"><input type="text" name="proList[${(vs.index)}].price" readonly="readonly" value="${reque.price}" class="w80"/></td>
+							<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" readonly="readonly" value="${reque.budget}" class="w100"/></td>
 							<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" readonly="readonly" value="${reque.deliverDate}" class="w100"/></td>
 							<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}"/></td>
 						</tr>
