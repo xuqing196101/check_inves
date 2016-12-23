@@ -5,7 +5,6 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 	<title>审核汇总</title>
-	<%@ include file="../../../common.jsp"%>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">
@@ -23,6 +22,7 @@
        }
        if(num != 0){
          $("#tongguo").attr("disabled", true);
+         $("#hege").attr("disabled", true);
          };
        });
 
@@ -248,7 +248,7 @@
                      <c:if test="${reasons.auditType == 'mat_sell_page'}">销售信息</c:if>
                      <c:if test="${reasons.auditType == 'mat_eng_page'}">工程信息</c:if>
                      <c:if test="${reasons.auditType == 'mat_serve_page'}">服务信息</c:if>
-                     <%-- <c:if test="${list.auditType == 'mat_serve_page' || list.auditType == 'item_sell_page' || list.auditType == 'item_eng_page' || list.auditType == 'item_serve_page'}">品目信息</c:if> --%>
+                     <c:if test="${reasons.auditType == 'mat_serve_page' || reasons.auditType == 'item_sell_page' || reasons.auditType == 'item_eng_page' || reasons.auditType == 'item_serve_page'}">品目信息</c:if>
                      <c:if test="${reasons.auditType == 'products_page'}">产品信息</c:if>
                      <c:if test="${reasons.auditType == 'upload_page'}">申请表</c:if>
                    </td>
@@ -259,15 +259,15 @@
                </c:forEach>
             </table>
           </ul>
-	        <c:if test="${status == 3}">
+	        <c:if test="${status == 5}">
 		        <h2 class="count_flow"><i>2</i>供应商考察表</h2>
 			      <ul class="ul_list">
 		          <li class="col-md-6 p0 mb25">
 		            <input name="supplierId" value="${supplierId}" type="hidden">
-		            <span class="col-md-5 padding-left-5" ><a class="star_red">*</a>上传考察表:</span>
+		            <span class="col-md-5 padding-left-5" ><a class="star_red">*</a>考察表:</span>
 		            <div style="margin-bottom: 25px">
-		              <up:upload id="inspect" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
-		              <up:show showId="inspect_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
+		              <u:upload id="inspect" businessId="${suppliers.id}" buttonName="上传考察表" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
+		              <u:show showId="inspect_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
 		            </div>
 		          </li>
 	          </ul>
@@ -281,15 +281,18 @@
 	              <div class="col-md-12 add_regist tc">
 	              <div class="col-md-12 add_regist tc">
           			<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
-		            <c:if test="${status==0 || status==5  || status==8}">
-		              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 " id="tongguo">
-		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
-		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(7)" value="退回修改" id="tuihui">
+		            <c:if test="${status == 0}">
+		              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="审核通过 " id="tongguo">
+		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
+		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(3)" value="审核不通过">
 		            </c:if>
-		            <c:if test="${status==1 || status==6}">
-		              <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 " id="tongguo">
-		              <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过">
-		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(8)" value="退回修改" id="tuihui">
+		            <c:if test="${status == 4}">
+		              <input class="btn btn-windows git"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
+		              <input class="btn btn-windows edit"  type="button" onclick="shenhe(6)" value="复核不通过">
+		            </c:if>
+		            <c:if test="${status == 5}">
+		              <input class="btn btn-windows git"  type="button" onclick="shenhe(7)" value="合格 " id="hege">
+		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(8)" value="不合格">
 		            </c:if>
 	              </div>
 	            </div>

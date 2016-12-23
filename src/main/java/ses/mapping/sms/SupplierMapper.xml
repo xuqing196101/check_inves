@@ -959,16 +959,13 @@
 			and tt1.SUPPLIER_NAME like '%${supplierName}%'
 		</if>
 		<if test="sign == 1">
-			and (tt1.SUPPLIER_STATUS = 0 or tt1.SUPPLIER_STATUS = 2 or
-			tt1.SUPPLIER_STATUS = 7 or
-			tt1.SUPPLIER_STATUS = 8)
+			and (tt1.SUPPLIER_STATUS = 0 or tt1.SUPPLIER_STATUS = 1 or tt1.SUPPLIER_STATUS = 2 or tt1.SUPPLIER_STATUS = 3)
 		</if>
 		<if test="sign == 2">
-			and (tt1.SUPPLIER_STATUS = 1 or tt1.SUPPLIER_STATUS = 3 or
-			tt1.SUPPLIER_STATUS = 4)
+			and (tt1.SUPPLIER_STATUS = 4 or tt1.SUPPLIER_STATUS = 5 or tt1.SUPPLIER_STATUS = 6)
 		</if>
 		<if test="sign == 3">
-			and tt1.SUPPLIER_STATUS = 3
+			and (tt1.SUPPLIER_STATUS = 5 or tt1.SUPPLIER_STATUS = 7 or tt1.SUPPLIER_STATUS = 8)
 		</if>
 		<if test="status != null">
 			and tt1.SUPPLIER_STATUS = #{status}
@@ -998,10 +995,13 @@
 			</foreach>
 		</if>
 		<if test="sign == 1">
-			ORDER BY decode(SUPPLIER_STATUS,'0',1,'8',2,'7',3,'2',4)
+			ORDER BY decode(tt1.SUPPLIER_STATUS,'0',1,'1',2,'2',3,'3',4)
 		</if>
 		<if test="sign == 2">
-			ORDER BY decode(SUPPLIER_STATUS,'1',1,'3',2,'4',3)
+			ORDER BY decode(tt1.SUPPLIER_STATUS,'4',1,'5',2,'6',3)
+		</if>
+		<if test="sign == 3">
+			ORDER BY decode(tt1.SUPPLIER_STATUS,'5',1,'7',2,'8',3)
 		</if>
 
 	</sql>

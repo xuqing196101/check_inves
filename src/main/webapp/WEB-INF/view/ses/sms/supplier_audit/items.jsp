@@ -18,32 +18,21 @@
 			}
 
 			//填写原因
-			function reason(id, auditType) {
-				var offset = "";
-				if(window.event) {
-					e = event || window.event;
-					var x = "";
-					var y = "";
-					x = e.clientX + 20 + "px";
-					y = e.clientY + 20 + "px";
-					offset = [y, x];
-				} else {
-					offset = "200px";
-				}
+			function reason(str,id,type) {
 				var supplierId = $("#supplierId").val();
-				var id1 = id + "1";
-				var id2 = id + "2";
-				var auditFieldName = $("#" + id2 + "").text().replace("：", ""); //审批的字段名字
+				var type = type+"_name";
+				var auditType = $("#"+type+"").val();
+				var auditContent = str + "目录信息";
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
-						offset: offset
+						offset: '100px'
 					},
 					function(text) {
 						$.ajax({
 							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 							type: "post",
-							data: "auditType=" + auditType + "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditField=品目树" + "&auditContent=品目树",
+							data: {"auditType":auditType,"auditFieldName":str,"suggest":text,"supplierId":supplierId,"auditField":id,"auditContent":auditContent},
 							dataType: "json",
 							success: function(result) {
 								result = eval("(" + result + ")");
@@ -55,7 +44,6 @@
 								}
 							}
 						});
-						$("#" + id1).show();
 						layer.close(index);
 					});
 			}
@@ -127,11 +115,6 @@
 					}
 					loadZtree(id, kind);
 				});
-
-				if("${currSupplier.status}" == 7) {
-					showReason();
-				}
-
 			});
 
 			/* 	alert(kind); */
@@ -157,10 +140,7 @@
 				check: {
 					enable: true,
 					chkStyle: "checkbox",
-					chkboxType: {
-						"Y": "ps",
-						"N": "ps"
-					}, //勾选checkbox对于父子节点的关联关系  
+					chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
 				},
 				data: {
 					simpleData: {
@@ -189,20 +169,13 @@
 			}
 
 			function zTreeOnClick(event, treeId, treeNode) {
-				var categoryId = treeNode.id;
+				if (!treeNode.isParent){
+									reason(treeNode.name,treeNode.id,treeId);
+								} else {
+									layer.msg("请选择末级节点进行审核");
+								}
+							}
 
-				layer.open({
-					type: 2,
-					title: '品目文件上传',
-					// skin : 'layui-layer-rim', //加上边框
-					area: ['300px', '280px'], //宽高
-					offset: '100px',
-					scrollbar: false,
-					content: '${pageContext.request.contextPath}/supplier_item/getCategory.html?categoryId=' + categoryId, //url
-					closeBtn: 1, //不显示关闭按钮
-				});
-
-			};
 			/* 	function onCheck(e, treeId, treeNode) {
 				var ids = "";
 				var flag = treeNode.checked;
@@ -237,27 +210,6 @@
 				nodes[i].checkedOld = nodes[i].checked;
 			}*/
 			/* 	} */
-
-
-
-			function saveItems(flag) {
-				getCategoryId();
-				$("#flag").val(flag);
-				$("#items_info_form_id").submit();
-			}
-
-			function next(flag) {
-				getCategoryId();
-				$("#flag").val(flag);
-				$("#items_info_form_id").submit();
-			}
-
-			function prev(flag) {
-				getCategoryId();
-				$("#flag").val(flag);
-				$("#items_info_form_id").submit();
-			}
-
 			function getCategoryId() {
 				var ids = [];
 				for(var i = 1; i < 5; i++) {
@@ -397,22 +349,26 @@
 							<ul id="page_ul_id" class="nav nav-tabs bgwhite">
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 									<li id="li_id_1" class="active">
-										<a aria-expanded="true" href="#tab-1" data-toggle="tab" id="production2">物资-生产型品目信息</a>
+										<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a>
+										<input type="hidden" id="tree_ul_id_1_name" value="mat_serve_page">
 									</li>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
 									<li id="li_id_2" class="">
-										<a aria-expanded="false" href="#tab-2" data-toggle="tab" id="sale2">物资-销售型品目信息</a>
+										<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型品目信息</a>
+										<input type="hidden" id="tree_ul_id_2_name" value="item_sell_page">
 									</li>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<li id="li_id_3" class="">
-										<a aria-expanded="false" href="#tab-3" data-toggle="tab" id="engineering2">工程品目信息</a>
+										<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a>
+										<input type="hidden" id="tree_ul_id_3_name" value="item_eng_page">
 									</li>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
 									<li id="li_id_4" class="">
-										<a aria-expanded="false" href="#tab-4" data-toggle="tab" id="service2">服务品目信息</a>
+										<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务品目信息</a>
+										<input type="hidden" id="tree_ul_id_4_name" value="item_serve_page">
 									</li>
 								</c:if>
 							</ul>
@@ -424,36 +380,32 @@
 							<c:if test="${fn:contains(supplierTypeNames, '生产型')}">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
-									<div class="lr0_tbauto w200" onclick="reason(this.id,'item_pro_page')" id="production">
+									<div class="lr0_tbauto w200" onclick="reason(this.id,'item_pro_page')">
 										<ul id="tree_ul_id_1" class="ztree mt30"></ul>
-										<div id="production1" class="b f18 fl ml10 hand red" style="display: none">×</div>
 									</div>
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '销售型')}">
 								<!-- 物资销售型 -->
 								<div class="tab-pane fade height-300" id="tab-2">
-									<div class="lr0_tbauto w200" onclick="reason(this.id,'item_sell_page')" id="sale">
+									<div class="lr0_tbauto w200">
 										<ul id="tree_ul_id_2" class="ztree mt30"></ul>
-										<div id="sale1" class="b f18 fl ml10 hand red" style="display: none">×</div>
 									</div>
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 								<!-- 服务 -->
 								<div class="tab-pane fade height-200" id="tab-3">
-									<div class="lr0_tbauto w200" onclick="reason(this.id,'item_eng_page')" id="engineering">
+									<div class="lr0_tbauto w200">
 										<ul id="tree_ul_id_3" class="ztree mt30"></ul>
-										<div id="engineering1" class="b f18 fl ml10 hand red" style="display: none">×</div>
 									</div>
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 								<!-- 生产 -->
 								<div class="tab-pane fade height-200" id="tab-4">
-									<div class="lr0_tbauto w200" onclick="reason(this.id,'item_serve_page')" id="service">
+									<div class="lr0_tbauto w200">
 										<ul id="tree_ul_id_4" class="ztree mt30"></ul>
-										<div id="service1" class="b f18 fl ml10 hand red" style="display: none">×</div>
 									</div>
 								</div>
 							</c:if>

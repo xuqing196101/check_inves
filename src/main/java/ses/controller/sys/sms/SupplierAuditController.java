@@ -660,20 +660,20 @@ public class SupplierAuditController extends BaseSupplierController{
 		supplier.setAuditDate(new Date());
 		supplierAuditService.updateStatus(supplier);
 		//更新待办
-		supplier = supplierAuditService.supplierById(supplierId);
+		/*supplier = supplierAuditService.supplierById(supplierId);
 		String supplierName = supplier.getSupplierName();
 		
 		if(supplier.getStatus() == 1){
-			/*todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
+			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
 			todos.setName("供应商复核");
-			todosService.updateByUrl(todos);*/
+			todosService.updateByUrl(todos);
 			
 			//待办已完成
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId=" + supplierId);
 			
-			/**
+			*//**
 			 * 推送代办
-			 */
+			 *//*
 			//推送者id
 			todos.setSenderId(user.getId());
 			//待办名称
@@ -693,24 +693,24 @@ public class SupplierAuditController extends BaseSupplierController{
 			// 待办已完成
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
 			
-			/*todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
+			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
 			todos.setName("供应商审核");
-			todosService.updateByUrl(todos);*/
+			todosService.updateByUrl(todos);
 		}
-		/*if(supplier.getStatus() == 4 || supplier.getStatus() == 3){
+		if(supplier.getStatus() == 4 || supplier.getStatus() == 3){
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
 			
 			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
 			todos.setName("供应商复核");
 			todosService.updateByUrl(todos);
-		}*/
+		}
 		
 		if(supplier.getStatus() == 8){
 			// 待办已完成
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
-			/**
+			*//**
 			 *  复核退回修改 ，推送代办
-			 */
+			 *//*
 			//推送者id
 			todos.setSenderId(user.getId());
 			//待办名称
@@ -729,9 +729,9 @@ public class SupplierAuditController extends BaseSupplierController{
 		if(supplier.getStatus() == 7){
 			// 待办已完成
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
-			/**
+			*//**
 			 * 审核退回修改 ，推送消息
-			 */
+			 *//*
 			//推送者id
 			todos.setSenderId(user.getId());
 			//待办名字
@@ -748,7 +748,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			//类型
 			todos.setUndoType((short) 1);
 			todosService.insert(todos);
-		}
+		}*/
 		
 		
 		//审核完更新状态
@@ -773,7 +773,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @return void
 	 */
 	@RequestMapping("temporaryAudit")
-	public void temporaryAudit(HttpServletRequest request,HttpServletResponse response,Supplier supplier) throws IOException{
+/*	public void temporaryAudit(HttpServletRequest request,HttpServletResponse response,Supplier supplier) throws IOException{
 		String supplierId  = supplier.getId();
 		supplier = supplierAuditService.supplierById(supplier.getId());
 		Integer status = supplier.getStatus();
@@ -807,7 +807,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}
 		
 		
-	}
+	}*/
 	
 	
 	/**

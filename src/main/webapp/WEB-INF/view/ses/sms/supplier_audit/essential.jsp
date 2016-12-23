@@ -648,7 +648,7 @@
 					<h2 class="count_flow"><i>8</i>境外分支</h2>
 					<ul class="ul_list">
 						<c:forEach items="${supplierBranchList }" var="supplierBranch" varStatus="vs">
-							<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+							<%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">境外分支机构：</span>
               	<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 	                <c:if test="${suppliers.overseasBranch == 0}">
@@ -658,7 +658,7 @@
 	                  <input id="overseasBranch" class="hand " value="有" type="text" onclick="reason(this)" >
 	                </c:if>
               	</div>
-            	</li>
+            	</li> --%>
 							<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所在国家(地区)：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
