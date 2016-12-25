@@ -295,11 +295,12 @@ function deleteFinance() {
 		var reg= /^\d+\.?\d*$/;  
 		if(!reg.exec(vals)){
 			$(obj).val("");
-			 $("#err_fund").text("数字非法");
-		}else{
+			layer.msg("非法的数字");
+			 //$("#err_fund").text("数字非法");
+		}/* else{
 			$("#err_fund").text();
 			$("#err_fund").empty();
-		}
+		} */
 	}
 	
 	function increaseAddress(obj){

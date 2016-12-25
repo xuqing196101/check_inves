@@ -255,18 +255,18 @@ public class SupplierController extends BaseSupplierController {
 		
 		//已注册供应商
 		if(sup != null){
-			List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
-			if(finace!=null&&finace.size()>0){
-				List<SupplierFinance> finaceList = supplierFinanceService.getList(finace);
-				sup.setListSupplierFinances(finaceList);
-			} 
-			List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
-			if(stock!=null&&stock.size()>0){
+		    //初始化近三年的财务信息
+		    initFinance(sup);
+		    
+		    //股东信息
+			List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(sup.getId());
+			if(stock != null && stock.size()>0){
 			    sup.setListSupplierStockholders(stock);
-			}
-		    List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
-	        model.addAttribute("relate", relate);
+			} 
+		   /* List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(sup.getId());
+	        model.addAttribute("relate", relate);*/
 	       
+			//供应商地址信息
 	        if(sup.getAddress()!=null){
 	            Area area = areaService.listById(sup.getAddress());
 	            List<Area> city = areaService.findAreaByParentId(area.getParentId());
@@ -274,6 +274,7 @@ public class SupplierController extends BaseSupplierController {
 	            model.addAttribute("area", area);
 	        }
 	        
+	        //生产经营地址
 	        if(sup.getAddressList()!=null && sup.getAddressList().size()>0){
                 for(SupplierAddress b:supplier.getAddressList()){
                     if (StringUtils.isNotBlank(b.getProvinceId())){
@@ -282,7 +283,14 @@ public class SupplierController extends BaseSupplierController {
                     }
                 }
              
+            } else {
+                List<SupplierAddress> addressList = new ArrayList<SupplierAddress>();
+                SupplierAddress address = new SupplierAddress();
+                addressList.add(address);
+                sup.setAddressList(addressList);
             }
+	        
+	        //省份
             if(sup.getConcatProvince()!=null){
                 List<Area> concity = areaService.findAreaByParentId(sup.getConcatProvince());
                 sup.setConcatCityList(concity);
@@ -291,14 +299,41 @@ public class SupplierController extends BaseSupplierController {
                 List<Area> armcity = areaService.findAreaByParentId(sup.getArmyBuinessProvince());
                 sup.setArmyCity(armcity);
             }
+            
+            //境外分支
             List<SupplierBranch> branchList =  supplierBranchService.findSupplierBranch(supplier.getId());
             if (branchList != null && branchList.size() > 0){
                 sup.setBranchList(branchList);
+            } else {
+                branchList = new ArrayList<SupplierBranch>();
+                SupplierBranch branch = new SupplierBranch();
+                branchList.add(branch);
+                sup.setBranchList(branchList);
             }
-			initCompanyType(model, sup);
+            
+ 			initCompanyType(model, sup);
 			return "ses/sms/supplier_register/basic_info";
 		}
 		return "ses/sms/supplier_register/register";
+	}
+	
+	
+	/**
+	 * 
+	 *〈简述〉初始化近三年的财务信息
+	 *〈详细描述〉
+	 * @author myc
+	 * @param sup {@link Supplier}
+	 */
+	private void initFinance(Supplier sup){
+	    List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(sup.getId());
+        if(finace!=null&&finace.size()>0){
+            List<SupplierFinance> finaceList = supplierFinanceService.getList(finace);
+            sup.setListSupplierFinances(finaceList);
+        } else {
+            List<SupplierFinance> list = supplierFinanceService.getYear();
+            sup.setListSupplierFinances(list);
+        }
 	}
 	
 	/**
@@ -311,7 +346,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	private void initCompanyType(Model model, Supplier supplier){
 	    //初始化省份
-	    List<Area> privnce = areaService.findRootArea();
+ 	    List<Area> privnce = areaService.findRootArea();
         model.addAttribute("privnce", privnce);
         //初始化当前供应商
 	    model.addAttribute("currSupplier", supplier);
@@ -489,6 +524,41 @@ public class SupplierController extends BaseSupplierController {
  
 
 	}
+	
+	/**
+	 * 
+	 *〈简述〉ajax保存供应商类型
+	 *〈详细描述〉
+	 * @author myc
+	 * @param supplier {@link Supplier}
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/saveSupplierType",produces="html/text;charset=UTF-8")
+	public String saveSupplierType(Supplier supplier){
+	    
+	    if (supplier != null){
+	        if (StringUtils.isNotBlank(supplier.getSupplierTypeIds())){
+	            String[] supplierTypeArray = supplier.getSupplierTypeIds().trim().split(",");
+	            for(String supplierType : supplierTypeArray){
+	                if (supplierType.equals("PRODUCT")) {
+	                    supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+	                } 
+	                if (supplierType.equals("SALES")) {
+	                    supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+	                }
+	                if (supplierType.equals("PROJECT")) {
+	                    supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+	                }
+	                if (supplierType.equals("SERVICE")) {
+	                    supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+	                }
+	            }
+	        }
+	        supplierTypeRelateService.saveSupplierTypeRelate(supplier);
+	    }
+	    return StaticVariables.SUCCESS;
+	}
 
 	/**
 	 * @Title: perfectProfessional
@@ -512,162 +582,46 @@ public class SupplierController extends BaseSupplierController {
 		boolean pro=true;
 		boolean server=true;
 		boolean project=true;
-		if(flag==null){
-			flag="refesh";
-		}
-		if(flag.equals("3")){
-			supplier = supplierService.get(supplier.getId());
-			if(supplier.getAddress()!=null){
-				Area area = areaService.listById(supplier.getAddress());
-				List<Area> city = areaService.findAreaByParentId(area.getParentId());
-				model.addAttribute("city", city);
-				model.addAttribute("area", area);
-			}
-			List<Area> privnce = areaService.findRootArea();
-			model.addAttribute("privnce", privnce);
-//			supplier = supplierService.get(supplier.getId());
-			model.addAttribute("currSupplier", supplier);
-			List<DictionaryData> company = DictionaryDataUtil.find(17);
-			model.addAttribute("company", company);
-			
-			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-			model.addAttribute("supplierId", supplier.getId());
-			
-			List<DictionaryData> foregin = DictionaryDataUtil.find(24);
-			model.addAttribute("foregin", foregin);
-			
-			return "ses/sms/supplier_register/basic_info";
-		}
-			
 		
 		String[] str = supplier.getSupplierTypeIds().trim().split(",");
+				
 		for(String s:str){
 			if (s.equals("PRODUCT")) {
-				//pro = validatePro(request, supplier.getSupplierMatPro(), model);
-				  //f(info==true){
+				pro = validatePro(request, supplier.getSupplierMatPro(), model);
+				  if(info==true){
 					  supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-				  //}
+				  }
 			} 
 			if (s.equals("SALES")) {
-				// sale = validateSale(request, supplier.getSupplierMatSell(), model);
-				 // if(info==true){
+				sale = validateSale(request, supplier.getSupplierMatSell(), model);
+				  if(info==true){
 					  supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-				//  }
+				  }
 			}
 			if (s.equals("PROJECT")) {
-			//	project = validateEng(request, supplier.getSupplierMatEng(), model);
-				  //if(info==true){
+				project = validateEng(request, supplier.getSupplierMatEng(), model);
+				  if(info==true){
 					  supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
-				//  }
+				  }
 			}
 			if (s.equals("SERVICE")) {
-				//server = validateServer(request, supplier.getSupplierMatSe(), model);
-				  //if(info==true){
+				server = validateServer(request, supplier.getSupplierMatSe(), model);
+				  if(info==true){
 					  supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-			//	  }
+				  }
 			}
 		}
-		supplierTypeRelateService.saveSupplierTypeRelate(supplier);
-		List<DictionaryData> list = DictionaryDataUtil.find(6);
-		List<DictionaryData> wlist =DictionaryDataUtil.find(8);
-		for(int i=0;i<list.size();i++){
-			 String code = list.get(i).getCode();
-			 if(code.equals("GOODS")){
-				 list.remove(list.get(i));
-			 }
-		}
-		model.addAttribute("wlist", wlist);
-		model.addAttribute("supplieType", list);
- 
-
-		model.addAttribute("currSupplier", supplier);
- 
-		if(flag.equals("2")){
-//			 Map<String, Object> map = supplierService.getCategory(supplier.getId());
-//			 model.addAttribute("server", map.get("server"));
-//			 model.addAttribute("product", map.get("product"));
-//			 model.addAttribute("sale", map.get("sale"));
-//			 model.addAttribute("project", map.get("project"));
-//			 supplier = supplierService.get(supplier.getId());
-           model.addAttribute("currSupplier", supplier);
-           return "ses/sms/supplier_register/supplier_type";	
-           }
-		
-		
-//		if(pro==true&&server==true&&project==true&&sale==true){
-//			if(flag.equals("3")){
-//				return "ses/sms/supplier_register/basic_info";
-//			}
-//			else if(flag.equals("2")){
-//				 Map<String, Object> map = supplierService.getCategory(supplier.getId());
-//				 model.addAttribute("server", map.get("server"));
-//				 model.addAttribute("product", map.get("product"));
-//				 model.addAttribute("sale", map.get("sale"));
-//				 model.addAttribute("project", map.get("project"));
-//				 supplier = supplierService.get(supplier.getId());
-//                 model.addAttribute("currSupplier", supplier);
-//                 
-//                 HashMap<String, Object> maps= new HashMap<String, Object>();
-//     			if(supplier.getProcurementDepId()!=null){
-//     				map.put("id", supplier.getProcurementDepId());
-//     				List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(maps);
-//     				Orgnization orgnization = listOrgnizations1.get(0);
-//     				List<Area> city = areaService.findAreaByParentId(orgnization.getProvinceId());
-//     				model.addAttribute("Orgnization", orgnization);
-//     				model.addAttribute("city", city);
-//     				model.addAttribute("listOrgnizations1", listOrgnizations1);
-//     	
-//     			}
-//     			List<Area> privnce = areaService.findRootArea();
-//     			model.addAttribute("privnce", privnce);
-//				return "ses/sms/supplier_register/supplier_type";	
-//			}
-			
-		else  {
-				
-				for(String s:str){
-					if (s.equals("PRODUCT")) {
-						pro = validatePro(request, supplier.getSupplierMatPro(), model);
-						  if(info==true){
-							  supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-						  }
-					} 
-					if (s.equals("SALES")) {
-						sale = validateSale(request, supplier.getSupplierMatSell(), model);
-						  if(info==true){
-							  supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-						  }
-					}
-					if (s.equals("PROJECT")) {
-						project = validateEng(request, supplier.getSupplierMatEng(), model);
-						  if(info==true){
-							  supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
-						  }
-					}
-					if (s.equals("SERVICE")) {
-						server = validateServer(request, supplier.getSupplierMatSe(), model);
-						  if(info==true){
-							  supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-						  }
-					}
-				}
-				
-				
-				 supplier = supplierService.get(supplier.getId());
-				 String[] split = supplier.getSupplierTypeIds().split(",");
-				 int length = split.length;
-				 model.addAttribute("length", length);
-				 model.addAttribute("currSupplier", supplier);
-				 if(pro==true&&server==true&&project==true&&sale==true){
-					 return "ses/sms/supplier_register/items";
-				 }else{
-					 return "ses/sms/supplier_register/supplier_type";	
-				 }
-				
-			}
-		 
-		
+		 supplierTypeRelateService.saveSupplierTypeRelate(supplier);
+		 supplier = supplierService.get(supplier.getId());
+		 String[] split = supplier.getSupplierTypeIds().split(",");
+		 int length = split.length;
+		 model.addAttribute("length", length);
+		 model.addAttribute("currSupplier", supplier);
+		 if(pro==true&&server==true&&project==true&&sale==true){
+			 return "ses/sms/supplier_register/items";
+		 }else{
+			 return "ses/sms/supplier_register/supplier_type";	
+		 }
 
 	}
 	
@@ -686,7 +640,6 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "perfect_dep")
 	public String perfectDep(HttpServletRequest request, Supplier supplier, String flag,Model model) {
 	
-//		model.addAttribute("jump.page", jsp);
 		if(flag.equals("next")){
 			supplierService.updateSupplierProcurementDep(supplier);
 			supplier = supplierService.get(supplier.getId());
@@ -1607,9 +1560,9 @@ public class SupplierController extends BaseSupplierController {
 		return "ses/sms/supplier_register/basic_info";
 	}
   	
-	@RequestMapping(value="/category_type" ,produces = "text/html;charset=UTF-8")
+	@RequestMapping(value="/category_type" ,produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getCategory(String id,String name,String code,String supplierId){
+    public List<CategoryTree> getCategory(String id,String name,String code,String supplierId){
         List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
         String typeId ="";
         if(code != null) {
@@ -1651,9 +1604,8 @@ public class SupplierController extends BaseSupplierController {
                 }
                 categoryList.add(ct1);
             }
-        } else {
-        }
-        return JSON.toJSONString(categoryList);
+        } 
+        return categoryList;
     }
 
 	@RequestMapping("/audit_org")

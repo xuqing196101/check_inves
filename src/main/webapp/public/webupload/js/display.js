@@ -64,7 +64,7 @@ function fileExist(params,id,del){
 	$.ajax({
 		url: globalPath + '/file/fileExist.do',
 		data: params,
-		async:false,
+		async:true,
 		dataType: 'json',
 		success:function(data){
 			displayName(params,data,id,del);
@@ -154,7 +154,7 @@ function display(businessId,typeId,key,id){
 	$.ajax({
 		url: globalPath + '/file/displayFile.do',
 		data: params,
-		async:false,
+		async:true,
 		dataType: 'json',
 		success:function(datas){
 			disFiles(datas,key,id);

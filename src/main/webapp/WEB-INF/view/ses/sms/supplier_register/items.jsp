@@ -364,16 +364,16 @@
 					<div class="padding-top-10" >
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
-								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">物资-生产型品目信息</a></li>
+								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
-								<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class=" f18">物资-销售型品目信息</a></li>
+								<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
-								<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class=" f18">工程品目信息</a></li>
+								<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
-								<li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class=" f18">服务品目信息</a></li>
+								<li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
 							</c:if>
 						</ul>
 						<div class="tab-content padding-top-20" id="tab_content_div_id" style="float:left;width:300px;">

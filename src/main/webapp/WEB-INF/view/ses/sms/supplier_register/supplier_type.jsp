@@ -102,43 +102,41 @@
  
  //上一步
  function prev(){
-		var id = $("#sid").val();
-		window.location.href="${pageContext.request.contextPath}/supplier/register.html?id=" + id;
+	var id = $("#sid").val();
+	window.location.href="${pageContext.request.contextPath}/supplier/register.html?id=" + id;
  }
- function store(obj){
-	 
-	    var id =[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val()); 
-		}); 
-	 	var bool=false;
-	 	var boo=false;
-		 for(var i=0;i<id.length;i++){
-			if(id[i]=='GOODS'){
-				bool=true;
-			}
-			if(id[i]=='SALES'||id[i]=='PRODUCT'){
-				boo=true;
-			} 
-		 }
  
-		$("input[name='supplierTypeIds']").val(id);
-		
-		
-	    $("input[name='flag']").val(obj);
-	    if(bool==true&&boo!=true){
-	    	layer.alert("请勾选产品货物类属性",{offset: ['222px', '390px'], shade:0.01});
-	    }else{
-	    	 if(id.length>0){
-	    		 
-	    		 $("#save_pro_form_id").submit();
-	    	    }else{
-	    	    	layer.alert("请选择供应商类型",{offset: ['222px', '390px'], shade:0.01});
-	    	    	
-	    	    }
-	    }
+ 
+ //暂存
+ function ajaxSave(){
+	 var id =[]; 
+	 $('input[name="chkItem"]:checked').each(function(){ 
+		id.push($(this).val()); 
+	 }); 
+	 $("input[name='supplierTypeIds']").val(id);
 	 
-}
+	 if (id.length == 0){
+		 layer.msg("请选择供应商类型");
+		 return false;
+	 }
+	
+	 $.ajax({
+			url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
+			type : "post",
+			data : $("#save_pro_form_id").serializeArray(),
+			contextType: "application/x-www-form-urlencoded",
+			success:function(msg){
+				if (msg == 'ok'){
+					layer.msg('暂存成功');
+				}
+				if (msg == 'failed'){
+					layer.msg('暂存失败');
+				}
+			}
+		});
+ }
+ 
+ 
  function next(obj){
 	 
 	  var id =[]; 
@@ -158,12 +156,12 @@
 		$("input[name='supplierTypeIds']").val(id);
 	    $("input[name='flag']").val(obj);
 	    if(bool==true&&boo!=true){
-	    	layer.alert("请勾选产品货物类属性",{offset: ['222px', '390px'], shade:0.01});
+	    	layer.msg("请勾选产品货物类属性");
 	    }else{
 	    	 if(id.length>0){
 	    		 $("#save_pro_form_id").submit();
 	    	    }else{
-	    	    	layer.alert("请选择供应商类型",{offset: ['222px', '390px'], shade:0.01});
+	    	    	layer.msg("请选择供应商类型");
 	    	    }
 	   		 }
     }
@@ -438,10 +436,10 @@
 			 		$("#tab_content_div_id").show();
 				}
 	 		  var arrays =checkeds.split(",");
+	 		  var checkedArray = [];
 	 		   var checkBoxAll = $("input[name='chkItem']"); 
 	 		   if(arrays.length>0){
-	 				 
-	 		  
+	 			  initTabTitleCss();
 			  for(var i=0;i<arrays.length;i++){
 				  $.each(checkBoxAll,function(j,checkbox){
 					    //获取复选框的value属性
@@ -449,22 +447,20 @@
 					            if(arrays[i]==checkValue){
 				                      $(checkbox).attr("checked",true);
 				                      if(arrays[i]!='PROJECT'){
-					                    		$("#project_div").attr("class", "tab-pane fade height-300");
+					                     $("#project_div").attr("class", "tab-pane fade height-300");
 					                  }
 				                      if(arrays[i]!='PRODUCT'){
 				                    	  $("#production_div").attr("class", "tab-pane fade height-300");
 				                      }
 				                      if(arrays[i]!='SALES'){
-					                     $("#sale_div").attr("class", "tab-pane fade height-300");
-					                    	 
+					                      $("#sale_div").attr("class", "tab-pane fade height-300");
 					                  }
 				                      if(arrays[i]!='SERVICE'){
-				                    		  $("#server_div").attr("class", "tab-pane fade height-300");
+				                          $("#server_div").attr("class", "tab-pane fade height-300");
 				                      }
 				                      
 				                      if(arrays[i]=='PRODUCT'){
-				                    	  
-				                    		 $("#productId").show();
+				                    		$("#productId").show();
 				                    		$("#production_div").attr("class", "tab-pane fade height-300 active in");
 				                    	  
 				                      }
@@ -478,14 +474,25 @@
 				                      }
 				                        else  if(arrays[i]=='SERVICE'){
 				                    		 $("#serviceId").show();
-				                    		 $("#serviceId").attr("class", "active");
 				                    	 	$("#server_div").attr("class", "tab-pane fade height-300 active in");
 				                      }
-				                        
+				                      checkedArray.push(arrays[i]);     
 				               }
 				      });
 			  }
+			  
+			  
 	 		 }
+	 		   
+	 		 if (checkedArray.length == 0){
+	 			 $("#tab_div").hide();
+	 		 }
+	 		 var first = checkedArray[0] ;
+	 		 
+	 		 if (first != null && first !="" && first !="undefined"){
+	 			 loadTab(first);
+	 		 }
+	 		   
 			if ("${currSupplier.status}" == 7) {
 				showReason();
 			}
@@ -1396,7 +1403,7 @@
 	 <div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev();">上一步</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="store(2)">暂存</button>
+				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="ajaxSave();">暂存</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
 	  	  </div>
 	</div>

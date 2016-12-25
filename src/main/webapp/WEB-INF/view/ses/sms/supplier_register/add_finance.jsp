@@ -218,8 +218,8 @@
 												<div class="cue" id="finace_cash_file"></div>
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所有者权益变动表：</span>
-												<up:upload  multiple="true" id="ownerchange_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" />
-												<up:show showId="ownerchange_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}"/>
+												<u:upload  multiple="true" id="ownerchange_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" />
+												<u:show showId="ownerchange_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}"/>
 											</li>
 											<div class="clear"></div>
 										</ul>
