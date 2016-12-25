@@ -12,7 +12,7 @@
     <result column="PURCHASE_COUNT"  property="purchaseCount" />
     <result column="PRICE"  property="price" />
     <result column="BUDGET"  property="budget" />
-    <result column="DELIVER_DATE"  property="deliverDate" />
+    <result column="DELIVER_DATE"  property="deliverDate" jdbcType="TIMESTAMP"/>
     <result column="PURCHASE_TYPE"  property="purchaseType" />
     <result column="SUPPLIER"  property="supplier" />
     <result column="IS_FREE_TAX"  property="isFreeTax" />
@@ -21,9 +21,9 @@
     <result column="BRAND"  property="brand" />
     <result column="MEMO"  property="memo" />
     <result column="PARENT_ID"  property="parentId" />
-    <result column="CREATED_AT"  property="createdAt" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
     <result column="STATUS"  property="status" />
-    <result column="UPDATED_AT"  property="updateAt" />
+    <result column="UPDATED_AT"  property="updateAt" jdbcType="TIMESTAMP"/>
     <result column="POSITION"  property="position" />
     <result column="REQUIRED_ID"  property="requiredId" />
     <result column="PLAN_NO"  property="planNo" />
@@ -239,7 +239,7 @@
         #{budget},
       </if>
       <if test="deliverDate != null">
-        #{deliverDate},
+        #{deliverDate,jdbcType=TIMESTAMP},
       </if>
       <if test="purchaseType != null">
         #{purchaseType},
@@ -275,10 +275,10 @@
         #{parentId},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updateAt != null">
-        #{updateAt},
+        #{updateAt,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status},
@@ -325,7 +325,7 @@
         BUDGET = #{budget},
       </if>
       <if test="deliverDate != null">
-        DELIVER_DATE = #{deliverDate},
+        DELIVER_DATE = #{deliverDate,jdbcType=TIMESTAMP},
       </if>
       <if test="purchaseType != null">
         PURCHASE_TYPE = #{purchaseType},
@@ -361,10 +361,10 @@
         PARENT_ID = #{parentId},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updateAt != null">
-        UPDATED_AT = #{updateAt},
+        UPDATED_AT = #{updateAt,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         STATUS = #{status},

@@ -11,7 +11,7 @@
     <result column="PURCHASE_COUNT" jdbcType="DECIMAL" property="purchaseCount" />
     <result column="PRICE" jdbcType="DECIMAL" property="price" />
     <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
-    <result column="DELIVER_DATE" jdbcType="VARCHAR" property="deliverDate" />
+    <result column="DELIVER_DATE" jdbcType="TIMESTAMP" property="deliverDate" />
     <result column="MEMO" jdbcType="VARCHAR" property="memo" />
     <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
@@ -53,7 +53,7 @@
     values (#{id,jdbcType=VARCHAR}, #{planNo,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
       #{brand,jdbcType=VARCHAR}, #{stand,jdbcType=VARCHAR}, #{item,jdbcType=VARCHAR}, 
       #{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
-      #{deliverDate,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{purchaseContract.id,jdbcType=VARCHAR},
+      #{deliverDate,jdbcType=TIMESTAMP}, #{memo,jdbcType=VARCHAR}, #{purchaseContract.id,jdbcType=VARCHAR},
       #{isDeleted}
       )
   </insert>
@@ -91,7 +91,7 @@
         AMOUNT,
       </if>
       <if test="deliverDate != null">
-        DELIVER_DATE,
+        ,
       </if>
       <if test="memo != null">
         MEMO,
@@ -173,7 +173,7 @@
         AMOUNT = #{amount,jdbcType=DECIMAL},
       </if>
       <if test="deliverDate != null">
-        DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
+        DELIVER_DATE = #{deliverDate,jdbcType=TIMESTAMP},
       </if>
       <if test="memo != null">
         MEMO = #{memo,jdbcType=VARCHAR},
@@ -197,7 +197,7 @@
       PURCHASE_COUNT = #{purchaseCount,jdbcType=DECIMAL},
       PRICE = #{price,jdbcType=DECIMAL},
       AMOUNT = #{amount,jdbcType=DECIMAL},
-      DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
+      DELIVER_DATE = #{deliverDate,jdbcType=TIMESTAMP},
       MEMO = #{memo,jdbcType=VARCHAR},
       CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
       IS_DELETED = #{isDeleted}

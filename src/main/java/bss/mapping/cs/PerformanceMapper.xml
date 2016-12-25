@@ -5,14 +5,14 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="DELIVERY_SCHEDULE" jdbcType="VARCHAR" property="deliverySchedule" />
     <result column="FUNDS_PAID" jdbcType="VARCHAR" property="fundsPaid" />
-    <result column="DRAFT_SIGNED_AT" property="draftSignedAt" />
-    <result column="FORMAL_SIGNED_AT" property="formalSignedAt" />
-    <result column="DELIVERY" property="delivery" />
+    <result column="DRAFT_SIGNED_AT" property="draftSignedAt" jdbcType="TIMESTAMP" />
+    <result column="FORMAL_SIGNED_AT" property="formalSignedAt" jdbcType="TIMESTAMP" />
+    <result column="DELIVERY" property="delivery" jdbcType="TIMESTAMP" />
     <result column="COMPLETED_STATUS" jdbcType="DECIMAL" property="completedStatus" />
     <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
     <result column="CHECK_MASS" jdbcType="VARCHAR" property="checkMass"/>
-    <result column="CREATED_AT" property="createdAt"/>
-    <result column="UPDATED_AT" property="updatedAt"/>
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, DELIVERY_SCHEDULE, FUNDS_PAID, DRAFT_SIGNED_AT, FORMAL_SIGNED_AT, DELIVERY, COMPLETED_STATUS, 
@@ -52,9 +52,9 @@
       DRAFT_SIGNED_AT, FORMAL_SIGNED_AT, DELIVERY, 
       COMPLETED_STATUS, CONTRACT_ID,CHECK_MASS,CREATED_AT,UPDATED_AT)
     values (#{id,jdbcType=VARCHAR}, #{deliverySchedule,jdbcType=VARCHAR}, #{fundsPaid,jdbcType=VARCHAR}, 
-      #{draftSignedAt,jdbcType=DATE}, #{formalSignedAt,jdbcType=DATE}, #{delivery,jdbcType=DATE}, 
+      #{draftSignedAt,jdbcType=TIMESTAMP}, #{formalSignedAt,jdbcType=TIMESTAMP}, #{delivery,jdbcType=TIMESTAMP}, 
       #{completedStatus,jdbcType=DECIMAL}, #{contractId,jdbcType=VARCHAR}, #{checkMass,jdbcType=VARCHAR},
-      #{createdAt,jdbcType=DATE},#{updatedAt,jdbcType=DATE})
+      #{createdAt,jdbcType=TIMESTAMP},#{updatedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.Performance">
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
@@ -107,13 +107,13 @@
         #{fundsPaid,jdbcType=VARCHAR},
       </if>
       <if test="draftSignedAt != null">
-        #{draftSignedAt},
+        #{draftSignedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="formalSignedAt != null">
-        #{formalSignedAt},
+        #{formalSignedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="delivery != null">
-        #{delivery},
+        #{delivery,jdbcType=TIMESTAMP},
       </if>
       <if test="completedStatus != null">
         #{completedStatus,jdbcType=DECIMAL},
@@ -125,10 +125,10 @@
         #{checkMass,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -142,13 +142,13 @@
         FUNDS_PAID = #{fundsPaid,jdbcType=VARCHAR},
       </if>
       <if test="draftSignedAt != null">
-        DRAFT_SIGNED_AT = #{draftSignedAt,jdbcType=DATE},
+        DRAFT_SIGNED_AT = #{draftSignedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="formalSignedAt != null">
-        FORMAL_SIGNED_AT = #{formalSignedAt,jdbcType=DATE},
+        FORMAL_SIGNED_AT = #{formalSignedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="delivery != null">
-        DELIVERY = #{delivery,jdbcType=DATE},
+        DELIVERY = #{delivery,jdbcType=TIMESTAMP},
       </if>
       <if test="completedStatus != null">
         COMPLETED_STATUS = #{completedStatus,jdbcType=DECIMAL},
@@ -160,10 +160,10 @@
         CHECK_MASS = #{checkMass,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -172,14 +172,14 @@
     update T_BSS_CS_PERFORMANCE
     set DELIVERY_SCHEDULE = #{deliverySchedule,jdbcType=VARCHAR},
       FUNDS_PAID = #{fundsPaid,jdbcType=VARCHAR},
-      DRAFT_SIGNED_AT = #{draftSignedAt,jdbcType=DATE},
-      FORMAL_SIGNED_AT = #{formalSignedAt,jdbcType=DATE},
-      DELIVERY = #{delivery,jdbcType=DATE},
+      DRAFT_SIGNED_AT = #{draftSignedAt,jdbcType=TIMESTAMP},
+      FORMAL_SIGNED_AT = #{formalSignedAt,jdbcType=TIMESTAMP},
+      DELIVERY = #{delivery,jdbcType=TIMESTAMP},
       COMPLETED_STATUS = #{completedStatus,jdbcType=DECIMAL},
       CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
       CHECK_MASS = #{checkMass,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt},
-      UPDATED_AT = #{updatedAt}
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

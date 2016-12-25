@@ -156,7 +156,7 @@
 	
 	
 	  <div class="btmfix">
-	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  <div class="mt15 tc" >
 			  <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="otherPage('prve')">上一步</button>
 			  <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="otherPage('next')">下一步</button>
 	  	  </div>

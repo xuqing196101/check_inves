@@ -8,8 +8,8 @@
 		<result column="STATUS_BID" jdbcType="DECIMAL" property="statusBid" />
 		<result column="" jdbcType="VARCHAR" property="supplierId" />
 		<result column="STATUS_BOND" jdbcType="DECIMAL" property="statusBond" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
 		<result column="BID_FINISH" jdbcType="DECIMAL" property="bidFinish" />
 		<result column="PACKAGR_IDS" jdbcType="VARCHAR" property="packages" />
 		<association property="user" column="USER_ID"
@@ -50,8 +50,8 @@
 		(#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
 		#{statusBid,jdbcType=DECIMAL},
 		#{supplierId,jdbcType=VARCHAR},
-		#{statusBond,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE},
-		#{updatedAt,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}),#{bidFinish,jdbcType=DECIMAL},#{packages,jdbcType=VARCHAR})
+		#{statusBond,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}),#{bidFinish,jdbcType=DECIMAL},#{packages,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.ppms.SaleTender">
 		<!-- @mbggenerated -->
@@ -105,10 +105,10 @@
 				#{statusBond,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=DATE},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="userId != null">
 				#{userId,jdbcType=VARCHAR},
@@ -138,10 +138,10 @@
 				STATUS_BOND = #{statusBond,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="userId != null">
 				USER_ID = #{userId,jdbcType=VARCHAR},
@@ -167,8 +167,8 @@
 		STATUS_BOND =
 		#{statusBond,jdbcType=DECIMAL},
 		CREATED_AT =
-		#{createdAt,jdbcType=DATE},
-		UPDATED_AT = #{updatedAt,jdbcType=DATE},
+		#{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 		USER_ID = #{userId,jdbcType=VARCHAR},
 		BID_FINISH = #{bidFinish,jdbcType=DECIMAL},
 		PACKAGR_IDS = #{packages,jdbcType=VARCHAR},
