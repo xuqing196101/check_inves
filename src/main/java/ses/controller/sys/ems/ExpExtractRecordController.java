@@ -36,26 +36,32 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.ExpExtPackage;
 import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExtConType;
 import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtPackage;
+import ses.model.sms.SupplierExtRelate;
 import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtConditionService;
 import ses.service.ems.ExpExtPackageService;
 import ses.service.ems.ExpExtractRecordService;
+import ses.service.ems.ExpertAttachmentService;
+import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ExtConTypeService;
 import ses.service.ems.ProjectExtractService;
@@ -63,6 +69,7 @@ import ses.service.ems.ProjectSupervisorServicel;
 import ses.service.sms.SupplierTypeService;
 import ses.util.DateUtil;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropertiesUtil;
 
 import com.alibaba.druid.stat.TableStat.Mode;
 import com.alibaba.fastjson.JSON;
@@ -75,6 +82,7 @@ import bss.model.ppms.Project;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
+import bss.util.PropUtil;
 
 /**
  * @Description:专家抽取
@@ -139,6 +147,16 @@ public class ExpExtractRecordController extends BaseController {
 
     @Autowired
     private CategoryService categoryService; //品目
+
+    /**待办消息**/
+    @Autowired
+    private TodosService todosService;
+
+    @Autowired
+    ExpertAuditService expertAuditService;
+    
+    @Autowired
+    ExpertService  expertServices;
 
 
     /**
@@ -361,7 +379,7 @@ public class ExpExtractRecordController extends BaseController {
             model.addAttribute("extConType", conTypes);
 
             if (projectExtractListNo.size() != 0){
-//                Collections.shuffle(projectExtractListNo);
+                //                Collections.shuffle(projectExtractListNo);
                 projectExtractListYes.add(projectExtractListNo.get(0));
                 projectExtractListNo.remove(0);
             }else{
@@ -415,14 +433,14 @@ public class ExpExtractRecordController extends BaseController {
             map.put("supervise", "不能为空");
             count = 1;
         }
-        //时
-        String hour = rq.getParameter("hour");
-        //分
-        String minute = rq.getParameter("minute");
-        if (hour == null || "".equals(hour) || minute == null || "".equals(minute)){
-            map.put("responseTimeError", "不能为空");
-            count = 1;
-        }
+//        //时
+//        String hour = rq.getParameter("hour");
+//        //分
+//        String minute = rq.getParameter("minute");
+//        if (hour == null || "".equals(hour) || minute == null || "".equals(minute)){
+//            map.put("responseTimeError", "不能为空");
+//            count = 1;
+//        }
         //        String tenderTime = rq.getParameter("tenderTime");
         //        if (tenderTime == null || "".equals(tenderTime)){
         //            map.put("tenderTimeError", "不能为空");
@@ -463,7 +481,7 @@ public class ExpExtractRecordController extends BaseController {
                 PageHelper.startPage(1, 1);
                 List<ExpExtractRecord> listSe = expExtractRecordService.listExtractRecord(extractRecord,0);
                 extractRecord.setExtractionSites(extractionSites);
-                extractRecord.setResponseTime(hour + "," + minute);
+//                extractRecord.setResponseTime(hour + "," + minute);
                 User user = (User)rq.getSession().getAttribute("loginUser");
                 if(user != null ){
                     extractRecord.setExtractsPeople(user.getId());
@@ -572,7 +590,7 @@ public class ExpExtractRecordController extends BaseController {
         model.addAttribute("extConType", conTypes);
 
         if (projectExtractListNo.size() != 0){
-//            Collections.shuffle(projectExtractListNo);
+            //            Collections.shuffle(projectExtractListNo);
             projectExtractListYes.add(projectExtractListNo.get(0));
             projectExtractListNo.remove(0);
         }else{
@@ -604,7 +622,41 @@ public class ExpExtractRecordController extends BaseController {
         } else {
             extractService.update(new ProjectExtract(ids[0], new Short(ids[2]) ,packageId));
         }
-
+        if ("1".equals(ids[2])){
+            ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
+            if ("1".equals(expExtRelate.getExpert().getStatus())){
+                /**
+                 * 推送
+                 */
+                Todos todos = new Todos();
+                todos.setCreatedAt(new Date());
+                todos.setIsDeleted((short)0);
+                todos.setIsFinish((short)0);
+                //待办名称
+                todos.setName(expExtRelate.getExpert().getRelName()+"专家复审");
+                //todos.setReceiverId();
+                //接受人id
+                todos.setOrgId(expExtRelate.getExpert().getPurchaseDepId());
+                //权限id
+                PropertiesUtil config = new PropertiesUtil("config.properties");
+                todos.setPowerId(config.getString("zjdb"));
+                //发送人id
+                User user = (User)sq.getSession().getAttribute("loginUser");
+                todos.setSenderId(user.getId());
+                //类型
+                todos.setUndoType((short)2);
+                //发送人姓名
+                todos.setSenderName(expExtRelate.getExpert().getRelName());
+                //审核地址
+                todos.setUrl("expertAudit/basicInfo.html?expertId=" + expExtRelate.getExpert().getId());
+                todosService.insert(todos );
+                
+                Expert expert = new Expert();
+                expert.setId(id);
+                expert.setStatus("4");
+                expertServices.updateByPrimaryKeySelective(expert);
+            }
+        }
 
         List<ProjectExtract> projectExtractListYes = resultProjectExtract(sq, ids);
 
@@ -651,12 +703,13 @@ public class ExpExtractRecordController extends BaseController {
         }
         projectExtractListYes.get(0).setConType(conTypes);
         if (projectExtractListNo.size() != 0){
-//            Collections.shuffle(projectExtractListNo);
+            //            Collections.shuffle(projectExtractListNo);
             projectExtractListYes.add(projectExtractListNo.get(0));
         }else{
             //已抽取
             conditionService.update(new ExpExtCondition(ids[1],(short)2));
         }
+
         return projectExtractListYes;
     }
     /**

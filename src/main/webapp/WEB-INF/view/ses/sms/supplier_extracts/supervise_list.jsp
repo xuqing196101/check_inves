@@ -128,7 +128,8 @@
 		<tr>
 		  <th class="info">姓名</th>
 		  <th class="info">单位</th>
-		  <th class="info">联系电话</th>
+		  <th class="info">职务</th>
+		  <th class="info">手机号</th>
 		  <th class="info">操作</th>
 		</tr>
 		</thead>
@@ -137,6 +138,7 @@
 				<tr>		
 					  <td class="tc"><input type="text"  name="relName" value="${list.relName}" /> </td>
 					  <td class="tc"><input type="text" name="company" value="${list.company}" /></td>
+					   <td class="tc"><input type="text" name="" value="" /> </td>
 					  <td class="tc"><input type="text" name="phone" value="${list.phone}" /> </td>
 					  <td class="tc">
 					    <input type="button" onclick="addBranch(this)" class="btn" value="十"/>
