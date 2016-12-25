@@ -190,23 +190,23 @@
 		  <div class="content table_box">
 			<table id="table" class="table table-bordered table-condensed table-hover table-striped">
 			  <thead>
-			    <tr>
-				  <th class="info w50">序号</th>
-				  <th class="info">需求部门</th>
-				  <th class="info">物资名称</th>
-				  <th class="info">规格型号</th>
-				  <th class="info">质量技术标准</th>
-			      <th class="info">计量单位</th>
-				  <th class="info">采购数量</th>
-				  <th class="info">单价（元）</th>
-				  <th class="info">预算金额（万元）</th>
-				  <th class="info">交货期限</th>
-			   	  <th class="info">采购方式建议</th>
-				  <th class="info">供应商名称</th>
-				  <th class="info">是否申请办理免税</th>
-				  <th class="info">物资用途（进口）</th>
-				  <th class="info">使用单位（进口）</th>
-				  <th class="info">备注</th>
+			    <tr class="info">
+				  <th class="w50">序号</th>
+				  <th>需求部门</th>
+				  <th>物资名称</th>
+				  <th>规格型号</th>
+				  <th>质量技术标准</th>
+			    <th>计量单位</th>
+				  <th>采购数量</th>
+				  <th>单价（元）</th>
+				  <th>预算金额（万元）</th>
+				  <th>交货期限</th>
+			   	<th>采购方式建议</th>
+				  <th>供应商名称</th>
+				  <th>是否申请办理免税</th>
+				  <th>物资用途（进口）</th>
+				  <th>使用单位（进口）</th>
+				  <th>备注</th>
 			    </tr>
 			  </thead>
 			  <c:forEach items="${lists}" var="obj" varStatus="vs">
@@ -251,11 +251,19 @@
 				  <td class="tc">${obj.deliverDate}</td>
 				  <td class="tc advice">
 					<c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
-					  <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
-						<c:forEach items="${kind}" var="kind" >
-                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
-                        </c:forEach>
-					  </select> 
+						<c:choose>
+							<c:when test="${obj.detailStatus==0 }">
+							
+							</c:when>
+							<c:otherwise>
+									<select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
+										<c:forEach items="${kind}" var="kind" >
+                       <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
+                    </c:forEach>
+					  			</select>
+							</c:otherwise>
+						</c:choose>
+					   
 					</c:if> 
 					<input type="hidden" id="idss" name="lists[${vs.index }].id" value="${obj.id }">
 				  </td>

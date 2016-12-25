@@ -695,6 +695,13 @@ public class ProjectController extends BaseController {
         for (ProjectDetail projectDetail : detail) {
             Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail.getDepartment());
             model.addAttribute("orgnization", orgnization);
+            HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",projectDetail.getRequiredId());
+            detailMap.put("projectId", id);
+            List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+            if(dlist.size()>1){
+                projectDetail.setDetailStatus(0);
+            }
         }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", detail);
