@@ -38,12 +38,17 @@ import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Project;
+import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.AdvancedDetailService;
+import bss.service.ppms.AdvancedProjectService;
+import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
 
 import com.alibaba.fastjson.JSON;
@@ -72,6 +77,12 @@ public class TackController extends BaseController{
 	private CollectPurchaseService conllectPurchaseService;
 	@Autowired
     private OrgnizationServiceI orgnizationService;
+	@Autowired
+	private ProjectTaskService projectTaskService;
+	@Autowired
+	private AdvancedDetailService detailService;
+	@Autowired
+	private AdvancedProjectService advancedProjectService;
 	
 	/**
 	 * 
@@ -169,20 +180,32 @@ public class TackController extends BaseController{
 	        for (int i = 0; i < ide.length; i++) {
 	             taskservice.startTask(ide[i]);
 	             Task task = taskservice.selectById(ide[i]);
-	             List<String> list = conllectPurchaseService.getNo(task.getCollectId());
-	             if(list != null && list.size()>0){
-	                 for (String s : list) {
-	                     Map<String,Object> map=new HashMap<String,Object>();
-	                        map.put("planNo", s);
-	                        List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-	                        for (PurchaseRequired purchaseRequired : list2) {
-	                            purchaseRequired.setDetailStatus(1);
-	                            purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired);
-	                        }
-    	                 task.setAcceptTime(new Date());
-    	                 taskservice.update(task);
+	             if(task.getCollectId() != null){
+	                 List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+	                 if(list != null && list.size()>0){
+	                     for (String s : list) {
+	                         Map<String,Object> map=new HashMap<String,Object>();
+	                            map.put("planNo", s);
+	                            List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+	                            for (PurchaseRequired purchaseRequired : list2) {
+	                                purchaseRequired.setDetailStatus(1);
+	                                purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired);
+	                            }
+	                         task.setAcceptTime(new Date());
+	                         taskservice.update(task);
+	                     }
+	                 }
+	             }else{
+	                 HashMap<String, Object> map1 = new HashMap<>();
+	                 map1.put("taskId", task.getId());
+	                 List<ProjectTask> projectTask = projectTaskService.queryByNo(map1);
+	                 if(projectTask != null && projectTask.size()>0){
+	                     AdvancedProject project = advancedProjectService.selectById(projectTask.get(0).getProjectId());
+	                     project.setStatus(3);
+	                     advancedProjectService.update(project);
 	                 }
 	             }
+	            
 	        }
 	    }
 	}
@@ -201,17 +224,33 @@ public class TackController extends BaseController{
 	    if(id != null){
 	        Task task = taskservice.selectById(id);
 	        List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
-	        List<String> list = conllectPurchaseService.getNo(task.getCollectId());
-	        if(list != null && list.size()>0){
-	            for(String s:list){
-	                Map<String,Object> map=new HashMap<String,Object>();
-	                map.put("planNo", s);
-	                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-	                if(list2 != null && list2.size()>0){
-	                listp.addAll(list2);
+	        if(task.getCollectId() != null){
+	            List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+	            if(list != null && list.size()>0){
+	                for(String s:list){
+	                    Map<String,Object> map=new HashMap<String,Object>();
+	                    map.put("planNo", s);
+	                    List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+	                    if(list2 != null && list2.size()>0){
+	                    listp.addAll(list2);
+	                    }
 	                }
 	            }
 	        }
+	        
+	        
+	        HashMap<String, Object> map = new HashMap<>();
+	        map.put("taskId", task.getId());
+	        List<ProjectTask> projectTask = projectTaskService.queryByNo(map);
+	        if(projectTask != null && projectTask.size()>0){
+	            map.put("advancedProject", projectTask.get(0).getProjectId());
+	            List<AdvancedDetail> details = detailService.selectByAll(map);
+	            model.addAttribute("lists", details);
+	            model.addAttribute("kind", DictionaryDataUtil.find(5));
+	            model.addAttribute("task", task);
+	            return "bss/ppms/task/edit_advanced";
+	        }
+	        
 	        for (PurchaseRequired required : listp) {
 	            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getDepartment());
 	            model.addAttribute("orgnization", orgnization);
@@ -219,8 +258,9 @@ public class TackController extends BaseController{
 	        model.addAttribute("kind", DictionaryDataUtil.find(5));
 	        model.addAttribute("dataId", DictionaryDataUtil.getId("CGJH_ADJUST"));
 	        model.addAttribute("task", task);
-	        model.addAttribute("lists", listp);
-	       // model.addAttribute("queryById", queryById);
+	        if(listp.size() > 0){
+	            model.addAttribute("lists", listp);
+	        }
 	    }
 		return "bss/ppms/task/edit";
 	}
@@ -244,6 +284,19 @@ public class TackController extends BaseController{
             response.getWriter().flush();
             response.getWriter().close();
     }
+	
+	@RequestMapping("/viewDetail")
+    public void viewDetail(HttpServletResponse response,String id,String projectId) throws IOException {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("projectId", projectId);
+            map.put("id", id);
+            List<AdvancedDetail> list = detailService.selectByParent(map);
+            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write(json);
+            response.getWriter().flush();
+            response.getWriter().close();
+    }
 	/**
 	 * 
 	 *〈跳转查看页面〉
@@ -256,24 +309,34 @@ public class TackController extends BaseController{
 	@RequestMapping("/view")
 	public String view(String id,Model model){
 		Task task = taskservice.selectById(id);
+		if(task.getCollectId() != null){
         List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
-        List<String> list = conllectPurchaseService.getNo(task.getCollectId());
-        if(list != null && list.size() > 0){
-            for(String s:list){
-                Map<String,Object> map=new HashMap<String,Object>();
-                map.put("planNo", s);
-                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-                listp.addAll(list2);
+            List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+            if(list != null && list.size() > 0){
+                for(String s:list){
+                    Map<String,Object> map=new HashMap<String,Object>();
+                    map.put("planNo", s);
+                    List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+                    listp.addAll(list2);
+                }
             }
-        }else{
-            
+            model.addAttribute("lists", listp);
         }
+		 HashMap<String, Object> map1 = new HashMap<>();
+         map1.put("taskId", task.getId());
+         List<ProjectTask> projectTask = projectTaskService.queryByNo(map1);
+         if(projectTask != null && projectTask.size()>0){
+             map1.put("advancedProject", projectTask.get(0).getProjectId());
+             List<AdvancedDetail> details = detailService.selectByAll(map1);
+             model.addAttribute("list", details);
+         }
+            
         HashMap<String, Object> map = new HashMap<>();
         map.put("typeName", "0");
         List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
         model.addAttribute("list2",orgnizations);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
-        model.addAttribute("lists", listp);
+        
         model.addAttribute("task", task);
 		return "bss/ppms/task/view";
 	}
@@ -338,11 +401,6 @@ public class TackController extends BaseController{
                     	pMap.put("newId", idss);
                         purchaseRequiredService.updateIdById(pMap);
                     }
-//                    else{
-//                        String ids = UUID.randomUUID().toString().replaceAll("-", "");
-//                        p.setId(ids);
-//                        purchaseRequiredService.add(p);
-//                    }
                     PurchaseRequired pr = new PurchaseRequired();
                     BeanUtils.copyProperties(p, pr);
                     pr.setId(oldId);
@@ -355,7 +413,47 @@ public class TackController extends BaseController{
         return "redirect:list.html";
     }
 	
-	
+	   @RequestMapping("/updateAdvanced")
+	    public String updateAdvanced(@Valid Task task, BindingResult result, String id, PurchaseRequiredFormBean detail, Model model){
+	       HashMap<String, Object> map = new HashMap<>();
+           map.put("taskId", task.getId());
+           List<ProjectTask> projectTask = projectTaskService.queryByNo(map);
+           map.put("advancedProject", projectTask.get(0).getProjectId());
+           List<AdvancedDetail> details = detailService.selectByAll(map);
+           model.addAttribute("lists", details);
+	        if(result.hasErrors()){
+	            List<FieldError> errors=result.getFieldErrors();
+	            for(FieldError fieldError:errors){
+	                model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+	            }
+	            model.addAttribute("lists", details);
+	            model.addAttribute("task", task);
+	            return "bss/ppms/task/edit_advanced";
+	        }
+	        if(task.getName().length()>12){
+	            model.addAttribute("ERR_name", "字符太大");
+	            model.addAttribute("lists", details);
+	            model.addAttribute("task", task);
+	            return "bss/ppms/task/edit";
+	        }
+	        if(task.getDocumentNumber().length()>12){
+	            model.addAttribute("ERR_documentNumber", "字符太大");
+	            model.addAttribute("lists", details);
+	            model.addAttribute("task", task);
+	            return "bss/ppms/task/edit";
+	        }
+	        taskservice.update(task);
+	        if(detail != null){
+	            if(detail.getDetail() != null && detail.getDetail().size()>0){
+	                for(AdvancedDetail advancedDetail : detail.getDetail()){
+	                    if(advancedDetail.getId() != null){
+	                       detailService.update(advancedDetail);
+	                    }
+	                }
+	            }
+	        }
+	        return "redirect:list.html";
+	    }
 	
 	@ResponseBody
 	@RequestMapping("/verify")

@@ -384,12 +384,11 @@
   
   
   <select id="selectByParentId"  resultMap="BaseResultMap">
-  		SELECT
-			<include refid="Base_Column_List" />
-			  FROM 
-			  T_BSS_PPMS_ADVANCED_DETAIL
-        start with REQUIRED_ID = #{id} 
-        connect by prior REQUIRED_ID = PARENT_ID 
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    (select * from T_BSS_PPMS_ADVANCED_DETAIL where AD_PROJECT_ID = #{projectId})
+    START WITH REQUIRED_ID = #{id} CONNECT BY PRIOR REQUIRED_ID = PARENT_ID
   </select>
   
   
@@ -397,7 +396,7 @@
       SELECT
 			<include refid="Base_Column_List" />
 			FROM
-			T_BSS_PPMS_ADVANCED_DETAIL
+			(select * from T_BSS_PPMS_ADVANCED_DETAIL where AD_PROJECT_ID = #{projectId})
 			start with REQUIRED_ID = #{id} 
 			connect by prior PARENT_ID = REQUIRED_ID  
     </select>

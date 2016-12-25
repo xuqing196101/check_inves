@@ -91,6 +91,10 @@
       
       function upload(){
         var id = $("input[name='chkItem']").prop("checked");
+        var ids = [];
+        $('input[name="chkItem"]:checked').each(function() {
+          ids.push($(this).val());
+        });
         var proName = $("#proName").val();
         var projectNumber = $("#projectNumber").val();
         var department = $("#department").val();
@@ -110,7 +114,7 @@
 	          moveType : 1, //拖拽风格，0是默认，1是传统拖动
 	          shift : 1, //0-6的动画形式，-1不开启
 	          shadeClose : true,
-	          content : '${pageContext.request.contextPath}/advancedProject/attachment.html?proName='+proName+'&projectNumber='+projectNumber+'&department='+department+'&purchaseType='+purchaseType,
+	          content : '${pageContext.request.contextPath}/advancedProject/attachment.html?proName='+proName+'&projectNumber='+projectNumber+'&department='+department+'&purchaseType='+purchaseType+'&ids='+ids,
           });
         }
         
@@ -232,6 +236,7 @@
           </ul>
         </div>
         <div class="col-md-12 tc">
+          (请先下载预研通知书)
           <button class="btn btn-windows output" type="button" onclick="download()">下载预研通知书</button>
           <button class="btn" onclick="upload()" type="button">下达</button>
           <button class="btn btn-windows back" onclick="goBack()" type="button">返回</button>

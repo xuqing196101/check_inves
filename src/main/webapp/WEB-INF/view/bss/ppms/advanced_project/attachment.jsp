@@ -46,6 +46,7 @@
 	              <input type="hidden" name="projectNumber" value="${projectNumber}"/>
 	              <input type="hidden" name="department" value="${department}"/>
 	              <input type="hidden" name="purchaseType" value="${purchaseType}"/>
+	              <input type="hidden" name="ids" value="${ids}"/>
 	              <div class="center" ><span>预研通知书上传:</span></div>
 	              <u:upload id="upload_id" businessId="${projectId}" multiple="true" buttonName="上传文档"  auto="true" typeId="${advancedAdvice}" sysKey="2"/>
 	               <u:show showId="upload_id" businessId="${projectId}" sysKey="2" typeId="${advancedAdvice}"/>
