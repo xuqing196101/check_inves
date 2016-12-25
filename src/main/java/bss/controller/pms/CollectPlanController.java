@@ -38,9 +38,9 @@ import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.impl.CollectPlanServiceImpl;
-import bss.util.ExcelUtil;
-
 import com.github.pagehelper.PageInfo;
+
+import bss.util.ExcelUtil;
 
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
@@ -246,6 +246,16 @@ public class CollectPlanController extends BaseController {
 			return "";
 		}
 		
+		
+		/**
+     * 
+    * @Title: upload
+    * @Description: 采购计划导入
+    * author: L ChenHao 
+    * @param @return     
+    * @return String     
+    * @throws
+     */
 		@RequestMapping(value="/upload" )
 	  public String uploadFile(@CurrentUser User user, MultipartFile file,Model model) throws IOException{
 	        ResponseBean bean = new ResponseBean();
@@ -265,6 +275,7 @@ public class CollectPlanController extends BaseController {
 	    try {
 	      Workbook workbook = WorkbookFactory.create(file.getInputStream());
         
+          //表头导入
         Sheet sheet = workbook.getSheetAt(0);
         Row firstRow = sheet.getRow(0);
         CollectPlan collect = new CollectPlan();
@@ -278,45 +289,61 @@ public class CollectPlanController extends BaseController {
         int endNum = 0;//最底层记录数
         int meanNum = 0;//中间数
         List<String> parentId = new ArrayList<String>();
+        //表内容
         for(int i=2;i<sheet.getPhysicalNumberOfRows();i++){
           Row row = sheet.getRow(i);
           String pId = UUID.randomUUID().toString().replaceAll("-", "");
           parentId.add(pId);
           PurchaseRequired pr=new PurchaseRequired();
           pr.setId(pId);
-          Cell xh = row.getCell(0);
+          Cell xh = row.getCell(0);//序号
           if(xh.toString()!=null){
             pr.setSeq(xh.toString());
           }
-          Cell xqbm = row.getCell(1);
-          if(xh.toString()!=null){
+          Cell xqbm = row.getCell(1);//需求部门
+          if(xqbm.toString()!=null){
             pr.setDepartment(xqbm.toString());
           }
-          Cell wzmc = row.getCell(2);
-          if(xh.toString()!=null){
+          Cell wzmc = row.getCell(2);//物资类别及名称
+          if(wzmc.toString()!=null){
             pr.setGoodsName(wzmc.toString());
           }
-          Cell ggxh = row.getCell(3);
+          Cell ggxh = row.getCell(3);//规格型号
+          if(ggxh.toString()!=null){
+            pr.setPurchaseType(ggxh.toString());
+          }
+          Cell zlbz = row.getCell(4);//质量技术标准
          
-          Cell zlbz = row.getCell(4);
-         
-          Cell jldw = row.getCell(5);
+          Cell jldw = row.getCell(5);//计量单位
           
-          Cell cgsl = row.getCell(6);
+          Cell cgsl = row.getCell(6);//采购数量
           
-          Cell dj = row.getCell(7);
+          Cell dj = row.getCell(7);//单价
           
-          Cell ysje = row.getCell(8);
+          Cell ysje = row.getCell(8);//预算金额（万）
           
-          Cell jhqx = row.getCell(9);
           
-          Cell gysm = row.getCell(10);
+          Cell jhqx = row.getCell(9);//交货期限
+          if(jhqx.toString()!=null){
+            pr.setDeliverDate(jhqx.toString());
+          }
           
-          Cell cgfs = row.getCell(11);
+          Cell gysm = row.getCell(10);//供应商名称
+          if(gysm.toString()!=null){
+            pr.setDeliverDate(gysm.toString());
+          }
           
-          Cell cgjg = row.getCell(12);
+          Cell cgfs = row.getCell(11);//采购方式
           
-          Cell bz = row.getCell(13);
+          Cell cgjg = row.getCell(12);//采购机构
+          if(cgjg.toString()!=null){
+            pr.setOrganization(cgjg.toString());
+          }
+          
+          Cell bz = row.getCell(13);//备注
+          /*if(bz.toString()!=null){
+            pr.setGoodsName(bz.toString());
+          }*/
          
           if(i==2){
             pr.setParentId("1");
