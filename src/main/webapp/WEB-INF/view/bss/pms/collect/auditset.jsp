@@ -303,14 +303,13 @@
          <%--        <div class="cue">${ERR_name}</div> --%>
               </div>
             </li>
-  <%--           <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>审核轮次</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input id="audit_turn" type="text" class="input_group" name="projectNumber" value="" />
                 <span class="add-on">i</span>
-           <div class="cue">${ERR_projectNumber}</div>  
               </div>
-            </li> --%>
+            </li>
           </ul>
         </div>
         
