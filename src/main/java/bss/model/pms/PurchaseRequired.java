@@ -20,9 +20,9 @@ public class PurchaseRequired {
 
     private String planType;
 
-    private String department;
+    private String department;//需求部门
 
-    private String goodsName;
+    private String goodsName;//物资类别及名称
 
     private String stand;
 
@@ -34,11 +34,11 @@ public class PurchaseRequired {
 
     private BigDecimal price;
 
-    private BigDecimal budget;
+    private BigDecimal budget;//预算
 
-    private String deliverDate;
+    private String deliverDate;//交货期限
 
-    private String purchaseType;
+    private String purchaseType;//购买型号
 
     private String supplier;
 
@@ -60,13 +60,13 @@ public class PurchaseRequired {
 
     private String memo;
 
-    private String seq;
+    private String seq;//序号
     
     private String historyStatus;
     
     private String goodsType;
     
-    private String organization;
+    private String organization;//采购机构
     
     private Date auditDate;
     
