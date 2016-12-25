@@ -35,7 +35,6 @@
       function resetQuery() {
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
       }
-<<<<<<< Updated upstream
 
       function selectAll() {
         var checklist = document.getElementsByName("chkItem");
@@ -99,9 +98,7 @@
         }
 
       }
-=======
       
-<<<<<<< Updated upstream
       function shenqing(){
     	  var appraisal = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
     	  appraisal = $.trim(appraisal);
