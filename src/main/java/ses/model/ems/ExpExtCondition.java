@@ -14,51 +14,44 @@ import javax.validation.constraints.NotNull;
  * @since  JDK 1.7
  */
 public class ExpExtCondition implements Cloneable {
-	
-	
-	
+
+
+
     public ExpExtCondition() {
-		super();
-	}
- 
-    
-    
-	public ExpExtCondition(String id,String s) {
-		super();
-		this.id = id;
-	}
+        super();
+    }
 
 
 
-	public ExpExtCondition(String id, Short status) {
-		super();
-		this.id = id;
-		this.status = status;
-	}
+    public ExpExtCondition(String id,String s) {
+        super();
+        this.id = id;
+    }
 
-	
-	public ExpExtCondition(String projectId) {
-		super();
-		if(projectId != null && !"".equals(projectId) && projectId.contains(",")){
-		    String[] proId=projectId.split(",");
-		    this.projectId = proId[0];
-		}else{
-		    this.projectId = projectId;
-		}
-	
-		
-	}
-	
 
-	private String[]  expertsFromSplit;
-    
+
+    public ExpExtCondition(String id, Short status) {
+        super();
+        this.id = id;
+        this.status = status;
+    }
+
+
+    public ExpExtCondition(String projectId) {
+        super();
+        this.projectId = projectId;
+    }
+
+
+    private String[]  expertsFromSplit;
+
     private List<ExtConType> conTypes;
-    
+
     /**
      * 专家抽取
      */
     private List<ProjectExtract> extRelatesList;
-  
+
     /**
      * <pre>
      * 表字段 : T_SES_EMS_EXP_EXT_CONDITION.ID
@@ -104,7 +97,7 @@ public class ExpExtCondition implements Cloneable {
      * 表字段 : T_SES_EMS_EXP_EXT_CONDITION.TENDER_TIME
      * </pre>
      */
-   
+
     private Date tenderTime;
 
     /**
@@ -234,13 +227,7 @@ public class ExpExtCondition implements Cloneable {
      *            T_SES_EMS_EXP_EXT_CONDITION.PROJECT_ID：项目id
      */
     public void setProjectId(String projectId) {
-        if(projectId != null && !"".equals(projectId) && projectId.contains(",")){
-            String[] proId=projectId.split(",");
-            this.projectId = proId[0];
-        }else{
-            this.projectId = projectId == null ? null : projectId.trim();
-        }
-      
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 
     /**
@@ -599,21 +586,21 @@ public class ExpExtCondition implements Cloneable {
 
 
 
-	/**
-	 * @return the conTypes
-	 */
-	public List<ExtConType> getConTypes() {
-		return conTypes;
-	}
+    /**
+     * @return the conTypes
+     */
+    public List<ExtConType> getConTypes() {
+        return conTypes;
+    }
 
 
 
-	/**
-	 * @param conTypes the conTypes to set
-	 */
-	public void setConTypes(List<ExtConType> conTypes) {
-		this.conTypes = conTypes;
-	}
+    /**
+     * @param conTypes the conTypes to set
+     */
+    public void setConTypes(List<ExtConType> conTypes) {
+        this.conTypes = conTypes;
+    }
 
 
 
@@ -628,8 +615,8 @@ public class ExpExtCondition implements Cloneable {
         }catch(CloneNotSupportedException e) {  
             e.printStackTrace();  
         }  
-  
-         return condition;
+
+        return condition;
     }
 
 

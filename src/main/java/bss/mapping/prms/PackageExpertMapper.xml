@@ -10,12 +10,13 @@
 		<result column="IS_GATHER" jdbcType="DECIMAL" property="isGather" />
 		<result column="IS_GRADE" jdbcType="DECIMAL" property="isGrade" />
 		<result column="IS_GRADE_GATHER" jdbcType="DECIMAL" property="isGatherGather" />
+		<result column="REVIEW_TYPE_ID" jdbcType="VARCHAR" property="reviewTypeTd" />
 		<association property="expert" column="EXPERT_ID"
 			select="ses.dao.ems.ExpertMapper.selectByPrimaryKey"></association>
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		PACKAGE_ID,EXPERT_ID,PROJECT_ID,IS_GROUP_LEADER,IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER
+		PACKAGE_ID,EXPERT_ID,PROJECT_ID,IS_GROUP_LEADER,IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER,REVIEW_TYPE_ID
 	</sql>
 	<!-- 根据项目id和包id 以及查询关联表集合 -->
 	<select id="selectList" resultMap="BaseResultMap">
@@ -50,8 +51,10 @@
 	</select>
 	<!-- 根据包id删除 -->
 	<delete id="deleteByPackageId" parameterType="java.lang.String">
-		delete from T_BSS_PRMS_PACKAGE_EXPERT
-		where PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+		delete from
+		T_BSS_PRMS_PACKAGE_EXPERT
+		where PACKAGE_ID =
+		#{packageId,jdbcType=VARCHAR}
 	</delete>
 	<!-- 根据条件修改 -->
 	<update id="updateByBean" parameterType="bss.model.prms.PackageExpert">
@@ -96,12 +99,15 @@
 
 
 	<insert id="insert" parameterType="bss.model.prms.PackageExpert">
-		insert into T_BSS_PRMS_PACKAGE_EXPERT (PACKAGE_ID, EXPERT_ID, PROJECT_ID,
-		IS_GROUP_LEADER, IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER)
-		values (#{packageId,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR},
+		insert into
+		T_BSS_PRMS_PACKAGE_EXPERT (PACKAGE_ID, EXPERT_ID, PROJECT_ID,
+		IS_GROUP_LEADER, IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER,REVIEW_TYPE_ID)
+		values
+		(#{packageId,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR},
 		#{projectId,jdbcType=VARCHAR},
-		#{isGroupLeader,jdbcType=DECIMAL}, #{isAudit,jdbcType=DECIMAL},#{isGather,jdbcType=DECIMAL},
-		#{isGrade,jdbcType=DECIMAL}, #{isGatherGather,jdbcType=DECIMAL})
+		#{isGroupLeader,jdbcType=DECIMAL},
+		#{isAudit,jdbcType=DECIMAL},#{isGather,jdbcType=DECIMAL},
+		#{isGrade,jdbcType=DECIMAL}, #{isGatherGather,jdbcType=DECIMAL}),#{reviewTypeId,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.prms.PackageExpert">
 		insert into T_BSS_PRMS_PACKAGE_EXPERT
@@ -127,8 +133,11 @@
 			<if test="IS_GRADE != null">
 				IS_GRADE,
 			</if>
-			<if test="IS_GRADE_GATHER != null">
+			<if test="isGatherGather != null">
 				IS_GRADE_GATHER,
+			</if>
+			<if test="reviewTypeId != null">
+			  REVIEW_TYPE_ID,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -156,12 +165,17 @@
 			<if test="isGatherGather != null">
 				#{isGatherGather,jdbcType=DECIMAL}
 			</if>
+			 <if test="reviewTypeId != null">
+        #{reviewTypeId,jdbcType=VARCHAR}
+      </if>
 		</trim>
 	</insert>
 	<select id="findMarkTypeByProId" resultType="java.util.HashMap">
-		select PACKAGE_ID packageId,TYPE_NAME typeName
+		select PACKAGE_ID
+		packageId,TYPE_NAME typeName
 		from T_BSS_PPMS_MARK_TERM
-		where PROJECT_ID = #{_parameter}
+		where PROJECT_ID
+		= #{_parameter}
 	</select>
 	<select id="findScoreByMap" resultType="java.util.HashMap"
 		parameterType="java.util.HashMap">
@@ -170,16 +184,20 @@
 		sd.MARK_TERM_ID marktermId,es.SCORE score
 		from T_BSS_PRMS_EXPERT_SCORE es
 		left join T_BSS_PPMS_SCORE_MODEL sd
-		on es.SCORE_MODEL_ID = sd.ID
+		on
+		es.SCORE_MODEL_ID = sd.ID
 		where es.PROJECT_ID = #{projectId}
-		and es.PACKAGE_ID = #{packageId}
+		and
+		es.PACKAGE_ID = #{packageId}
 		and es.IS_HISTORY = '0'
 	</select>
 	<!-- 回退分数 -->
 	<update id="backScore" parameterType="java.util.HashMap">
-		update T_BSS_PRMS_PACKAGE_EXPERT
+		update
+		T_BSS_PRMS_PACKAGE_EXPERT
 		set IS_GRADE = 0
-		where PACKAGE_ID = #{packageId}
+		where PACKAGE_ID =
+		#{packageId}
 		and PROJECT_ID = #{projectId}
 		and EXPERT_ID = #{expertId}
 	</update>

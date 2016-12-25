@@ -25,6 +25,8 @@ public class PackageExpert implements Serializable{
     private Short isGrade;
     //评分是否汇总0否1是
     private Short isGatherGather;
+    //评审类型id 
+    private String reviewTypeTd;
     //专家实体
     private Expert expert;
     
@@ -106,6 +108,20 @@ public class PackageExpert implements Serializable{
      */
     public void setExpert(Expert expert) {
         this.expert = expert;
+    }
+
+    /**
+     * @return Returns the reviewTypeTd.
+     */
+    public String getReviewTypeTd() {
+        return reviewTypeTd;
+    }
+
+    /**
+     * @param reviewTypeTd The reviewTypeTd to set.
+     */
+    public void setReviewTypeTd(String reviewTypeTd) {
+        this.reviewTypeTd = reviewTypeTd;
     }
     
     
