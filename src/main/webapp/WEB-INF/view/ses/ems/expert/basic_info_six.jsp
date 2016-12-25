@@ -13,6 +13,23 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
 session.setAttribute("tokenSession", tokenValue);
 %>
 <script type="text/javascript">
+	var expertStatus = "${expert.status}";
+	var errorField = "${errorField}";
+	// 如果状态为退回,判断品目有没有被退回
+	function isNotPass(zNodes, zTreeObj){
+		// 如果状态是为退回才进行判断
+		if (expertStatus == '3' || expertStatus　== 3) {
+			for (var j=0, l=zNodes.length; j<l; j++) {
+				zTreeObj.setting.view.fontCss = {};
+				// 如果错误字段中包含该node,则更新为红色
+				if (errorField.indexOf(zNodes[j].id) != -1) {
+					zTreeObj.setting.view.fontCss["color"] = "red";
+					zNodes[j].
+				}
+				zTreeObj.updateNode(zNodes[j]);
+			}
+		}
+	}
 	function updateStepNumber(stepNumber){
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/updateStepNumber.do",
@@ -21,8 +38,6 @@ session.setAttribute("tokenSession", tokenValue);
 		});
 	}
 	$(function(){
-		var expertStatus = "${expert.status}";
-		var errorField = "${errorField}";
 		$("#tab-1").attr("style", "");
 		$("#tab-2").attr("style", "display: none");
 		$("#tab-3").attr("style", "display: none");
@@ -38,7 +53,10 @@ session.setAttribute("tokenSession", tokenValue);
 					simpleData: {
 						enable: true,
 						idKey: "id",
-						pIdKey: "parentId",
+						pIdKey: "parentId"
+					},
+					key: {
+						title: "auditAdvise"
 					}
 				}
 			};
@@ -50,7 +68,7 @@ session.setAttribute("tokenSession", tokenValue);
 			success:function(response){
 				$.each(response,function(i, result){
 					$.ajax({
-			            type: "GET",
+			            type: "post",
 			            async: false, 
 			            url: "${pageContext.request.contextPath}/expert/getCategory.do",
 			            data: {"id":result.id,"expertId":$("#id").val()},
@@ -59,17 +77,7 @@ session.setAttribute("tokenSession", tokenValue);
 							$.fn.zTree.init($("#tab-" + (parseInt(i) + 1)), setting, zNodes);
 							zTreeObj = $.fn.zTree.getZTreeObj("tab-" + (parseInt(i) + 1));
 							zTreeObj.expandAll(true);//全部展开
-							// 如果状态是为退回才进行判断
-							if (expertStatus == '3' || expertStatus　== 3) {
-								for (var j=0, l=zNodes.length; j<l; j++) {
-									zTreeObj.setting.view.fontCss = {};
-									// 如果错误字段中包含该node,则更新为红色
-									if (errorField.indexOf(zNodes[j].name) != -1) {
-										zTreeObj.setting.view.fontCss["color"] = "red";
-									}
-									zTreeObj.updateNode(zNodes[j]);
-								}
-							}
+							isNotPass(zNodes, zTreeObj);
 			            }
 			         });
 				});
@@ -93,7 +101,7 @@ session.setAttribute("tokenSession", tokenValue);
 					"categoryIds": id,
 				},
 				dataType: "json",
-				type: "post"
+				type: "get"
 			},
 			check: {
 				enable : true,
