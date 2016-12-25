@@ -9,9 +9,9 @@
     <result column="BUDGET" jdbcType="DECIMAL" property="budget" />
     <result column="STATUS" jdbcType="DECIMAL" property="status" />
     <result column="PURCHASE_ID" jdbcType="VARCHAR" property="purchaseId" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="ORDER_AT" jdbcType="DATE" property="orderAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" jdbcType="TIMESTAMP " />
+    <result column="ORDER_AT" jdbcType="DATE" property="orderAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="POSITION" jdbcType="DECIMAL" property="position" />
     <result column="PLAN_NUMBER" jdbcType="VARCHAR" property="planNo" />
     <result column="GOODS_TYPE" jdbcType="VARCHAR" property="goodsType" />
@@ -42,8 +42,8 @@
       UPDATED_AT, POSITION,PLAN_NUMBER,TOTAL_AUDIT,AUDIT_TURN)
     values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{department,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
-      #{purchaseId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{orderAt,jdbcType=DATE}, 
-      #{updatedAt,jdbcType=DATE}, #{position,jdbcType=DECIMAL}, #{PLAN_NUMBER,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, 
+      #{purchaseId,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{orderAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{position,jdbcType=DECIMAL}, #{PLAN_NUMBER,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, 
       #{purchaseType,jdbcType=VARCHAR},#{TASK_ID,jdbcType=VARCHAR}, #{totalAudit,jdbcType=DECIMAL},#{auditTurn,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.pms.CollectPlan">
@@ -125,13 +125,13 @@
         #{purchaseId,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="orderAt != null">
-        #{orderAt,jdbcType=DATE},
+        #{orderAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="position != null">
         #{position,jdbcType=DECIMAL},
@@ -178,13 +178,13 @@
         PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="orderAt != null">
-        ORDER_AT = #{orderAt,jdbcType=DATE},
+        ORDER_AT = #{orderAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="position != null">
         POSITION = #{position,jdbcType=DECIMAL},
@@ -219,9 +219,9 @@
       BUDGET = #{budget,jdbcType=DECIMAL},
       STATUS = #{status,jdbcType=DECIMAL},
       PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      ORDER_AT = #{orderAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      ORDER_AT = #{orderAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       POSITION = #{position,jdbcType=DECIMAL},
       PLAN_NUMBER = #{planNo,jdbcType=VARCHAR},
       GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},

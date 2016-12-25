@@ -1,13 +1,10 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="../../../common.jsp"%>
-<%@ taglib prefix="up" uri="/tld/upload"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
 
   <head>
+<%@ include file="../../../common.jsp"%>
     <style type="text/css">
       form div.invalid {
         width: 200px;
@@ -497,11 +494,11 @@
                   <tbody>
                   
                     <tr>
-                      <td class="bggrey">采购机构名称：</td>
+                      <td class="bggrey w14" >采购机构名称：</td>
                       <td>${purchaseDep.name }</td>
-                      <td class="bggrey ">采购机构简称：</td>
+                      <td class="bggrey w14">采购机构简称：</td>
                       <td>${purchaseDep.shortName }</td>
-                      <td class="bggrey ">采购机构单位级别：</td>
+                      <td class="bggrey w14">采购机构单位级别：</td>
                       <td>
                         <c:forEach items="${unitLevelList}" var="unitLevel">
                            <c:if test="${unitLevel.id == purchaseDep.levelDep}">
@@ -512,29 +509,29 @@
                     </tr>
                     
                     <tr>
-                      <td class="bggrey">行政隶属单位：</td>
+                      <td class="bggrey w14">行政隶属单位：</td>
                       <td>${purchaseDep.subordinateOrgName }</td>
-                      <td class="bggrey ">采购业务范围：</td>
+                      <td class="bggrey w14">采购业务范围：</td>
                       <td>${purchaseDep.businessRange }</td>
-                      <td class="bggrey ">采购机构地址：</td>
+                      <td class="bggrey w14">采购机构地址：</td>
                       <td>${purchaseDep.address }</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey">邮编：</td>
+                      <td class="bggrey w14">邮编：</td>
                       <td>${purchaseDep.postCode }</td>
-                      <td class="bggrey ">省：</td>
+                      <td class="bggrey w14">省：</td>
                       <td>${area.name }</td>
-                      <td class="bggrey">市：</td>
+                      <td class="bggrey w14">市：</td>
                       <td>${area1.name }</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey ">值班室电话：</td>
+                      <td class="bggrey w14">值班室电话：</td>
                       <td>${purchaseDep.dutyRoomPhone }</td>
-                      <td class="bggrey ">传真号：</td>
+                      <td class="bggrey w14">传真号：</td>
                       <td>${purchaseDep.fax }</td>
-                      <td class="bggrey ">是否具有审核供应商：</td>
+                      <td class="bggrey w14">是否具有审核供应商：</td>
                       <td>
                         <c:if test="${'1' eq purchaseDep.isAuditSupplier}">是 </c:if>
                         <c:if test="${'0' eq purchaseDep.isAuditSupplier}">否 </c:if>
@@ -583,7 +580,7 @@
                       </td>
                       <td class="bggrey ">采购资格证书图片：</td>
                       <td>
-                        <up:show delete="false" showId="cert_show_id" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_CERT_ID }" sysKey="2" />
+                        <u:show delete="false" showId="cert_show_id" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_CERT_ID }" sysKey="2" />
                       </td>
                     </tr>
                     
