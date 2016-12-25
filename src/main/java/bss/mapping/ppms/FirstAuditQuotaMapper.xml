@@ -9,8 +9,8 @@
     <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
     <result column="VALUE" jdbcType="DECIMAL" property="value" />
     <result column="PAGE" jdbcType="DECIMAL" property="page" />
-    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" jdbcType="TIMESTAMP"/>
-    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" jdbcType="TIMESTAMP"/>
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
   </resultMap>
   

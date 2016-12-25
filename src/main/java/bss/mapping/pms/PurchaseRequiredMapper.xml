@@ -14,13 +14,13 @@
 		<result column="PURCHASE_COUNT" jdbcType="DECIMAL" property="purchaseCount" />
 		<result column="PRICE" jdbcType="DECIMAL" property="price" />
 		<result column="BUDGET" jdbcType="DECIMAL" property="budget" />
-		<result column="DELIVER_DATE" jdbcType="TIMESTAMP" property="deliverDate" />
+		<result column="DELIVER_DATE" jdbcType="VARCHAR" property="deliverDate" />
 		<result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
 		<result column="SUPPLIER" jdbcType="VARCHAR" property="supplier" />
 		<result column="IS_FREE_TAX" jdbcType="VARCHAR" property="isFreeTax" />
 		<result column="MATERIAL_USE" jdbcType="VARCHAR" property="goodsUse" />
 		<result column="USE_UNIT" jdbcType="VARCHAR" property="useUnit" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
 		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
 		<result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
 		<result column="REQ_LEVEL" jdbcType="VARCHAR" property="reqLevel" />
@@ -97,7 +97,7 @@
 		#{stand,jdbcType=VARCHAR}, #{qualitStand,jdbcType=VARCHAR},
 		#{item,jdbcType=VARCHAR},
 		#{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{budget,jdbcType=DECIMAL},
-		#{deliverDate,jdbcType=TIMESTAMP}, #{purchaseType,jdbcType=VARCHAR},
+		#{deliverDate,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR},
 		#{supplier,jdbcType=VARCHAR},
 		#{isFreeTax,jdbcType=VARCHAR}, #{goodsUse,jdbcType=VARCHAR}, #{useUnit,jdbcType=VARCHAR},
 		#{createdAt,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR},
@@ -443,7 +443,7 @@
 				BUDGET = #{budget,jdbcType=DECIMAL},
 			</if>
 			<if test="deliverDate != null">
-				DELIVER_DATE = #{deliverDate,jdbcType=TIMESTAMP},
+				DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
 			</if>
 			<if test="purchaseType != null">
 				PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
@@ -566,7 +566,7 @@
 		PURCHASE_COUNT = #{purchaseCount,jdbcType=DECIMAL},
 		PRICE = #{price,jdbcType=DECIMAL},
 		BUDGET = #{budget,jdbcType=DECIMAL},
-		DELIVER_DATE = #{deliverDate,jdbcType=TIMESTAMP},
+		DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
 		PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
 		SUPPLIER = #{supplier,jdbcType=VARCHAR},
 		IS_FREE_TAX = #{isFreeTax,jdbcType=VARCHAR},

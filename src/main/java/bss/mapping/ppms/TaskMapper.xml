@@ -323,7 +323,7 @@
         #{purchaseRequiredId},
       </if>
       <if test="acceptTime != null">
-        #{acceptTime,jdbcType=TIMESTAMP},
+        #{ACCEPT_TIME,jdbcType=TIMESTAMP},
       </if>
       <if test="collectId != null">
         #{collectId},

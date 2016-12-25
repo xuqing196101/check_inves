@@ -159,9 +159,7 @@
       <if test="checkMass != null">
         CHECK_MASS = #{checkMass,jdbcType=VARCHAR},
       </if>
-      <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      </if>
+    
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>

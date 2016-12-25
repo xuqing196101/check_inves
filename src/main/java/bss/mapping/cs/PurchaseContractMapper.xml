@@ -1115,11 +1115,8 @@
       <if test="approvePic != null">
         APPROVE_PIC = #{approvePic},
       </if>
-        <if test="createdAt != null">
-        UPDATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      </if>
       <if test="updatedAt != null">
-        CREATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
@@ -1212,12 +1209,12 @@
       APPROVE_PIC = #{approvePic},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-      IS_DELETED = #{isDeleted,},
+      IS_DELETED = #{isDeleted},
       CONTRACT_TYPE = #{contractType},
       DRAFT_GIT_AT = #{draftGitAt,jdbcType=TIMESTAMP},
       DRAFT_REVIEWED_AT = #{draftReviewedAt,jdbcType=TIMESTAMP},
       FORMAL_GIT_AT = #{formalGitAt,jdbcType=TIMESTAMP},
-      FORMAL_REVIEWED_AT = #{formalReviewedAt,jdbcType=TIMESTAMP}
+      FORMAL_REVIEWED_AT = #{formalReviewedAt,jdbcType=TIMESTAMP},
       IS_IMPORT = #{isImport},
       IS_DECLARE = ${isDeclare},
       PURCHASE_TYPE = ${purchaseType},

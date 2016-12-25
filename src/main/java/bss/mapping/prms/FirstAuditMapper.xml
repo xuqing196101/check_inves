@@ -5,9 +5,9 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="KIND" jdbcType="VARCHAR" property="kind" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="CREATER" jdbcType="VARCHAR" property="creater" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
     <result column="IS_CONFIRM" jdbcType="DECIMAL" property="isConfirm" />
     <result column="POSITION" jdbcType="DECIMAL" property="position" />
@@ -40,7 +40,7 @@
       CREATED_AT, CREATER, UPDATED_AT, 
       PROJECT_ID, IS_CONFIRM, POSITION, CONTENT, PACKAGEID)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=DATE}, #{creater,jdbcType=VARCHAR}, #{updatedAt,jdbcType=DATE}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, #{updatedAt,jdbcType=TIMESTAMP}, 
       #{projectId,jdbcType=VARCHAR}, #{isConfirm,jdbcType=DECIMAL}, #{position,jdbcType=DECIMAL}, 
       #{content,jdbcType=VARCHAR},#{packageId,jdbcType=VARCHAR})
   </insert>
@@ -92,13 +92,13 @@
         #{kind,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="creater != null">
         #{creater,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="projectId != null">
         #{projectId,jdbcType=VARCHAR},
@@ -127,13 +127,13 @@
         KIND = #{kind,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="creater != null">
         CREATER = #{creater,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIEMSTAMP},
       </if>
       <if test="projectId != null">
         PROJECT_ID = #{projectId,jdbcType=VARCHAR},
@@ -157,9 +157,9 @@
     update T_BSS_PRMS_FIRST_AUDIT
     set NAME = #{name,jdbcType=VARCHAR},
       KIND = #{kind,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIEMSTAMP},
       CREATER = #{creater,jdbcType=VARCHAR},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       IS_CONFIRM = #{isConfirm,jdbcType=DECIMAL}
       POSITION = #{position},

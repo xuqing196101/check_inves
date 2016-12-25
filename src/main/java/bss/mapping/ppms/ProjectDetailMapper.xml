@@ -12,7 +12,7 @@
     <result column="PURCHASE_COUNT"  property="purchaseCount" />
     <result column="PRICE"  property="price" />
     <result column="BUDGET"  property="budget" />
-    <result column="DELIVER_DATE"  property="deliverDate"  jdbcType="TIMESTAMP"/>
+    <result column="DELIVER_DATE"  property="deliverDate"  jdbcType="VARCHAR"/>
     <result column="PURCHASE_TYPE"  property="purchaseType" />
     <result column="SUPPLIER"  property="supplier" />
     <result column="IS_FREE_TAX"  property="isFreeTax" />
@@ -117,7 +117,7 @@
     values (#{id,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
       #{goodsName,jdbcType=VARCHAR}, #{stand,jdbcType=VARCHAR}, #{qualitStand,jdbcType=VARCHAR}, 
       #{item,jdbcType=VARCHAR}, #{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
-      #{budget,jdbcType=DECIMAL}, #{deliverDate,jdbcType=TIMESTAMP}, #{purchaseType,jdbcType=VARCHAR}, 
+      #{budget,jdbcType=DECIMAL}, #{deliverDate,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR}, 
       #{supplier,jdbcType=VARCHAR}, #{isFreeTax,jdbcType=VARCHAR}, #{goodsUse,jdbcType=VARCHAR}, 
       #{useUnit,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
       #{purchaseId,jdbcType=VARCHAR})
@@ -245,7 +245,7 @@
         #{budget},
       </if>
       <if test="deliverDate != null">
-        #{deliverDate,jdbcType=TIMESTAMP},
+        #{deliverDate,jdbcType=VARCHAR},
       </if>
       <if test="purchaseType != null">
         #{purchaseType},
@@ -331,7 +331,7 @@
         BUDGET = #{budget},
       </if>
       <if test="deliverDate != null">
-        DELIVER_DATE = #{deliverDate,jdbcType=TIMESTAMP},
+        DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
       </if>
       <if test="purchaseType != null">
         PURCHASE_TYPE = #{purchaseType},
@@ -398,7 +398,7 @@
       PURCHASE_COUNT = #{purchaseCount,jdbcType=DECIMAL},
       PRICE = #{price,jdbcType=DECIMAL},
       BUDGET = #{budget,jdbcType=DECIMAL},
-      DELIVER_DATE = #{deliverDate,jdbcType=TIMESTAMP},
+      DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
       PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
       SUPPLIER = #{supplier,jdbcType=VARCHAR},
       IS_FREE_TAX = #{isFreeTax,jdbcType=VARCHAR},

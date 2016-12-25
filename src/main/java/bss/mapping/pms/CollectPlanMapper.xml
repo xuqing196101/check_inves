@@ -9,9 +9,9 @@
     <result column="BUDGET" jdbcType="DECIMAL" property="budget" />
     <result column="STATUS" jdbcType="DECIMAL" property="status" />
     <result column="PURCHASE_ID" jdbcType="VARCHAR" property="purchaseId" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" jdbcType="TIMESTAMP " />
-    <result column="ORDER_AT" jdbcType="DATE" property="orderAt" jdbcType="TIMESTAMP"/>
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" jdbcType="TIMESTAMP"/>
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP " />
+    <result column="ORDER_AT" property="orderAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="POSITION" jdbcType="DECIMAL" property="position" />
     <result column="PLAN_NUMBER" jdbcType="VARCHAR" property="planNo" />
     <result column="GOODS_TYPE" jdbcType="VARCHAR" property="goodsType" />

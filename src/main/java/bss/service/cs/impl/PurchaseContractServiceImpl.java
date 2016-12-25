@@ -371,6 +371,7 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 //		System.out.println(this.getClass());
 		Template t = null;
 		try {
+
 			if(pur.getStatus()!=null){
 				if(pur.getStatus()==2){
 					t=configuration.getTemplate("formalcontract.ftl");
@@ -380,6 +381,14 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 			}else{
 				t = configuration.getTemplate("contract.ftl");
 			}
+
+			if(pur.getStatus()==null){
+				t = configuration.getTemplate("contract.ftl");
+			}else if (pur.getStatus()==2) {
+				
+				t=configuration.getTemplate("formalcontract.ftl");
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

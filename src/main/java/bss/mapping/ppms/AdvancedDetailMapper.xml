@@ -12,7 +12,7 @@
     <result column="PURCHASE_COUNT"  property="purchaseCount" />
     <result column="PRICE"  property="price" />
     <result column="BUDGET"  property="budget" />
-    <result column="DELIVER_DATE"  property="deliverDate" jdbcType="TIMESTAMP"/>
+    <result column="DELIVER_DATE"  property="deliverDate" jdbcType="VARCHAR"/>
     <result column="PURCHASE_TYPE"  property="purchaseType" />
     <result column="SUPPLIER"  property="supplier" />
     <result column="IS_FREE_TAX"  property="isFreeTax" />
@@ -325,7 +325,7 @@
         BUDGET = #{budget},
       </if>
       <if test="deliverDate != null">
-        DELIVER_DATE = #{deliverDate,jdbcType=TIMESTAMP},
+        DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
       </if>
       <if test="purchaseType != null">
         PURCHASE_TYPE = #{purchaseType},
