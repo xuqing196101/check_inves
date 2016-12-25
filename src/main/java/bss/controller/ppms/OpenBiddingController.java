@@ -686,7 +686,7 @@ public class OpenBiddingController {
         }
     }
     
-    @RequestMapping("/changbiao")
+    @RequestMapping("/changtotal")
     public String changbiao(String projectId, Model model ,HttpServletRequest req) throws ParseException{
         //去saletender查出项目对应的所有的包
         List<String> packageIds = saleTenderService.getPackageIds(projectId);
@@ -780,6 +780,11 @@ public class OpenBiddingController {
             }
         }
         model.addAttribute("treeMap", treeMap);
+        return "bss/ppms/open_bidding/bid_file/chang_total";
+    }
+    
+    @RequestMapping("/changbiao")
+    public String chooseChangBiaoType(String projectId, Model model) {
         //开标时间
         Project project = projectService.selectById(projectId);
         long bidDate = 0;
@@ -789,7 +794,34 @@ public class OpenBiddingController {
         long nowDate = new Date().getTime();
         long date = bidDate - nowDate;
         model.addAttribute("date", date);
-        model.addAttribute("projectId", project.getId());
+        model.addAttribute("project", project);
+        
+        if (date < 0) {
+            //去saletender查出项目对应的所有的包
+            List<String> packageIds = saleTenderService.getPackageIds(projectId);
+            if (packageIds != null && packageIds.size() > 0) {
+                SaleTender condition = new SaleTender();
+                condition.setProjectId(projectId);
+                condition.setPackages(packageIds.get(0));
+                condition.setStatusBid(NUMBER_TWO);
+                condition.setStatusBond(NUMBER_TWO);
+                List<SaleTender> stList = saleTenderService.find(condition);
+                if (stList != null && stList.size() > 0) {
+                    Quote quote = new Quote();
+                    quote.setProjectId(projectId);
+                    quote.setPackageId(packageIds.get(0));
+                    quote.setSupplierId(stList.get(0).getSupplierId());
+                    List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+                    if (allQuote != null && allQuote.size() > 0) {
+                        if (allQuote.get(0).getQuotePrice() == null) {
+                            return "redirect:changtotal.html?projectId=" + projectId;
+                        } else {
+                            return "redirect:changmingxi.html?projectId=" + projectId;
+                        }
+                    }
+                }
+            }
+        }
         return "bss/ppms/open_bidding/bid_file/cb";
     }
     
@@ -829,7 +861,7 @@ public class OpenBiddingController {
      * @return String
      * @throws ParseException 
      */
-    //@RequestMapping("/changbiao")
+    @RequestMapping("/changmingxi")
     public String cb(String projectId, Model model ,HttpServletRequest req) throws ParseException{
         Project project = projectService.selectById(projectId);
         model.addAttribute("project", project);
