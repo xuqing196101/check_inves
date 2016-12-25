@@ -522,9 +522,9 @@
 								<th>质量技术标准</th>
 								<th>计量单位</th>
 								<th>采购数量</th>
-								<th>单价（元）</th>
+								<%--<th>单价（元）</th>
 								<th>预算金额（万元）</th>
-								<th>交货期限</th>
+								--%><th>交货期限</th>
 								<th>采购方式建议</th>
 								<th>供应商名称</th>
 								<c:if test="${pack.isImport==1 }">
@@ -546,9 +546,9 @@
 								<td>${obj.qualitStand}</td>
 								<td>${obj.item}</td>
 								<td>${obj.purchaseCount}</td>
-								<td>${obj.price}</td>
+								<%--<td>${obj.price}</td>
 								<td>${obj.budget}</td>
-								<td>${obj.deliverDate}</td>
+								--%><td>${obj.deliverDate}</td>
 								<td>
 									<c:forEach items="${kind}" var="kind">
 										<c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>

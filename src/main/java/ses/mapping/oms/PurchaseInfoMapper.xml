@@ -70,7 +70,7 @@
 	</select>
 	
 	<!-- 查询采购人 -->
-	<select id="findPurchaseUserList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseInfo">
+	<select id="findPurchaseUserList" parameterType="java.lang.String" resultType="ses.model.oms.PurchaseInfo">
          select d.id  as id,
            u.GENDER       as gender,
            u.LOGIN_NAME   AS loginName,
@@ -112,9 +112,7 @@
       LEFT JOIN T_SES_BMS_USER u on d.id = u.type_id
       LEFT JOIN T_SES_OMS_ORG o on o.id = d.purchase_dep_id
      where d.IS_DELETED = 0
-     <if test="_parameter != null and _parameter != ''">
-      and o.id= #{_parameter}
-    </if>
+     and o.id= #{purchaseDepId}
    </select>
      
 	

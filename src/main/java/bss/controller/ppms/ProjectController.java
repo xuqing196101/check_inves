@@ -34,10 +34,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
+import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
@@ -119,6 +121,8 @@ public class ProjectController extends BaseController {
     @Autowired
     private OrgnizationServiceI orgnizationService;
     
+    @Autowired
+	private RoleServiceI roleService;
 
     /**
      * 〈简述〉 
@@ -141,12 +145,17 @@ public class ProjectController extends BaseController {
             model.addAttribute("info", info);
             model.addAttribute("projects", project);
         }
+       	//判断是不是监管人员
+       	HashMap<String,Object> roleMap = new HashMap<String,Object>();
+		roleMap.put("userId", user.getId());
+		roleMap.put("code", "SUPERVISER_R");
+		BigDecimal i = roleService.checkRolesByUserId(roleMap);
         /*List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("info", info);
         model.addAttribute("projects", project);*/
-        
+        model.addAttribute("admin", i);
         return "bss/ppms/project/list";
     }
     
@@ -752,8 +761,9 @@ public class ProjectController extends BaseController {
     @RequestMapping("/start")
     public String start(String id, String principal,HttpServletRequest request) {
         Project project = projectService.selectById(id);
-        User user = userService.findByTypeId(principal);
-        project.setPrincipal(user.getRelName());
+        //User user = userService.findByTypeId(principal);
+        User user = userService.getUserById(principal);
+        project.setPrincipal(principal);
         project.setIpone(user.getMobile());
         project.setStatus(1);
         project.setStartTime(new Date());
@@ -1475,43 +1485,13 @@ public class ProjectController extends BaseController {
 		if(documentNumber != null && !documentNumber.equals("")){
 			map.put("documentNumber", documentNumber);
 		}
+		map.put("userId", user.getId());
 	    if(page==null){
 			page = 1;
 		}
 	    map.put("page", page.toString());
 	    PageHelper.startPage(page,Integer.parseInt("10"));
     	List<Task> taskList = taskservice.listByProjectTask(map);
-/*    	if(taskList.size()!=0){
-    		for(Task tl:taskList){
-    			List<PurchaseRequired> lists = new ArrayList<>();
-    			if(tl.getCollectId() != null){
-    			    List<String> list = conllectPurchaseService.getNo(tl.getCollectId());
-                    for(String s:list){
-                        Map<String,Object> pMap=new HashMap<String,Object>();
-                        pMap.put("planNo", s);
-                        List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(pMap);
-                        lists.addAll(list2);
-                    }
-                    List<PurchaseRequired> bottomDetails = new ArrayList<>();
-                    for(int i=0;i<lists.size();i++){
-                        Map<String,Object> bId = new HashMap<String,Object>();
-                        bId.put("id", lists.get(i).getId());
-                        List<PurchaseRequired> pr = purchaseRequiredService.selectByParentId(bId);
-                        if(pr.size()==1){
-                            bottomDetails.add(lists.get(i));
-                        }
-                    }
-                    for(int i=0;i<bottomDetails.size();i++){
-                        if(bottomDetails.get(i).getProjectStatus()==0){
-                            break;
-                        }else if(i==bottomDetails.size()-1){
-                            taskList.remove(tl);
-                        }
-                    }
-    			}
-    			
-    		}
-    	}*/
         HashMap<String, Object> map1 = new HashMap<>();
         map1.put("typeName", "0");
         List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map1);
@@ -2173,4 +2153,26 @@ public class ProjectController extends BaseController {
          }
          return newFileName;
      }
+     
+    /**
+     * 
+    * @Title: getUserForSelect
+    * @author ZhaoBo
+    * @date 2016-12-25 下午3:57:38  
+    * @Description: 获取项目对应采购机构下的人员 
+    * @param @param response
+    * @param @return      
+    * @return List<PurchaseInfo>
+     */
+    @RequestMapping(value="/getUserForSelect" )	
+    @ResponseBody
+ 	public List<PurchaseInfo> getUserForSelect(HttpServletRequest request) {
+    	String id = request.getParameter("id");
+ 		Project project = projectService.selectById(id);
+ 		List<PurchaseInfo> purchaseInfo = new ArrayList<>();
+        if (project != null){
+           purchaseInfo = purchaseService.findPurchaseUserList(project.getPurchaseDepId());
+        }
+ 		return purchaseInfo;
+ 	}
 }
