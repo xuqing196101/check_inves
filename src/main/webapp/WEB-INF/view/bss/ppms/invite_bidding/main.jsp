@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
         }
 </script>
-<body id="iframe_special">
+<body>
   
    <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs " id="bread_crumbs">
@@ -97,15 +97,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <script type="text/javascript" language="javascript">   
                           function getContentSize() {
 	         				var he = document.documentElement.clientHeight;
-							var btn = $("#iframe_btns").outerHeight(true);
-	   						var body = $("#iframe_special").outerHeight(true) ;
 	   						var bread= $("#bread_crumbs").outerHeight(true) ;
-							ch = (body - btn - bread) + "px";
+							ch = (he - bread) + "px";
 							document.getElementById("open_bidding_iframe").style.height = ch;
 							}
 							window.onload = getContentSize;
 							window.onresize = getContentSize;
- 					  </script
+ 					  </script>
                       <!-- 右侧内容开始-->
                       <div class="tag-box tag-box-v4 col-md-9">
                          <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="<%=basePath%>project/mplement.html?id=${project.id}"></iframe>

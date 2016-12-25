@@ -62,9 +62,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                           function getContentSize() {
 	         				var he = document.documentElement.clientHeight;
 							var btn = $("#iframe_btns").outerHeight(true);
-	   						var body = $("#iframe_special").outerHeight(true) ;
 	   						var bread= $("#bread_crumbs").outerHeight(true) ;
-							ch = (body - btn - bread) + "px";
+							ch = (he - btn - bread) + "px";
 							document.getElementById("open_bidding_iframe").style.height = ch;
 							}
 							window.onload = getContentSize;

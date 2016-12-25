@@ -52,7 +52,7 @@
 </script>
 </head>
 
-<body onload="initLoad()" id="iframe_special">
+<body onload="initLoad()">
   
    <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs " id="bread_crumbs">
@@ -107,9 +107,8 @@
                           function getContentSize() {
 	         				var he = document.documentElement.clientHeight;
 							var btn = $("#iframe_btns").outerHeight(true);
-	   						var body = $("#iframe_special").outerHeight(true) ;
 	   						var bread= $("#bread_crumbs").outerHeight(true) ;
-							ch = (body - btn - bread) + "px";
+							ch = (he - btn - bread) + "px";
 							document.getElementById("open_bidding_iframe").style.height = ch;
 							}
 							window.onload = getContentSize;
