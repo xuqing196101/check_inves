@@ -249,6 +249,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
+     *〈简述〉
+     * 根据主键查询
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param id
+     * @return
+     */
+    public Category findById(String id) {
+        // TODO Auto-generated method stub
+        return categoryMapper.findById(id);
+    }
+
+    /**
      * @Title: findCategoryByType
      * @author: Wang Zhaohua
      * @date: 2016-10-3 下午4:12:18

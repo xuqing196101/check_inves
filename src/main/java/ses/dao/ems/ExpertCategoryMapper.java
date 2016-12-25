@@ -1,6 +1,7 @@
 package ses.dao.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -31,6 +32,15 @@ public interface ExpertCategoryMapper {
       * @return void
      */
     void deleteByExpertId(String expertId);
+    
+    /**
+     *〈简述〉
+     * 根据专家id和品目id删除
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param map
+     */
+    void deleteByMap(Map<String, Object> map);
     
     /**
      * 

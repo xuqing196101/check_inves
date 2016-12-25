@@ -29,6 +29,16 @@ import ses.model.sms.SupplierTypeTree;
 	* 
 	*/
 	public List<Category> listByParent(String pid);
+	
+	/**
+	 *〈简述〉
+	 * 根据主键查询
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param id
+	 * @return
+	 */
+	public Category findById(String id);
 
 	/**   
 	* @Title: readExcel
