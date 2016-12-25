@@ -71,6 +71,7 @@ import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
 
 @Controller
@@ -107,6 +108,9 @@ public class AdvancedProjectController extends BaseController {
     @Autowired
     private TaskService taskService;
     
+    @Autowired
+    private ProjectTaskService projectTaskService;
+    
     
     /**
      * 
@@ -131,60 +135,6 @@ public class AdvancedProjectController extends BaseController {
         return "bss/ppms/advanced_project/list";
     }
     
-    /**
-     * 
-     *〈跳转新增页面〉
-     *〈详细描述〉
-     * @author Administrator
-     * @param model
-     * @return
-     */
-/*    @RequestMapping("/add")
-    public String add(Model model, String name, String projectNumber, String projectId, PurchaseRequired purchaseRequired, Integer page, HttpServletRequest request){
-        //查询状态为4的需求计划
-        purchaseRequired.setStatus("4");
-        purchaseRequired.setIsMaster(1);
-        List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page == null ? 1 : page);
-        PageInfo<PurchaseRequired> info = new PageInfo<>(list);
-        if(StringUtils.isNotBlank(projectId)){
-            HashMap<String,Object> detailMap=new HashMap<String,Object>();
-            List<AdvancedDetail> details = new ArrayList<>();
-            detailMap.put("status",  "2");
-            detailMap.put("advancedProject",  projectId);
-            List<AdvancedDetail> advance = detailService.selectByAll(detailMap);
-            if(advance != null && advance.size() > 0){
-                int bud = 0;
-                for (AdvancedDetail advancedDetail : advance) {
-                    detailMap.put("id", advancedDetail.getRequiredId());
-                    List<AdvancedDetail> lists = detailService.selectByParentId(detailMap);
-                    if(lists.size() == 1){//查询最底层明细的金额
-                        for (AdvancedDetail detail : lists) {
-                            bud+=detail.getBudget().intValue();
-                        }
-                    }
-                    details.add(advancedDetail);
-                }
-                List<AdvancedDetail> list1 = new ArrayList<>();
-                for (AdvancedDetail advancedDetail : details) {
-                    detailMap.put("id", advancedDetail.getRequiredId());
-                    List<AdvancedDetail> lists = detailService.selectByParentId(detailMap);
-                    if(lists.size() > 1){
-                        advancedDetail.setBudget(Double.valueOf(bud));
-                        detailService.update(advancedDetail);
-                    }
-                    list1.add(advancedDetail);
-                }
-                model.addAttribute("lists", list1);
-                model.addAttribute("projectIds", projectId);
-            }
-        }else{
-            String projectIds = WfUtil.createUUID();
-            model.addAttribute("projectId", projectIds);
-        }
-        model.addAttribute("info", info);
-        model.addAttribute("dic", DictionaryDataUtil.findById("6"));
-        return "bss/ppms/advanced_project/add";
-    }*/
     
     /**
      * 
@@ -223,36 +173,103 @@ public class AdvancedProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/attachment")
-    public String attachment(Model model, String projectNumber, String proName, String department,String purchaseType, HttpServletRequest request){
+    public String attachment(Model model,String ids, String projectNumber, String proName, String department,String purchaseType, HttpServletRequest request){
         model.addAttribute("advancedAdvice", DictionaryDataUtil.getId("ADVANCED_ADVICE"));
         model.addAttribute("projectId", WfUtil.createUUID());
         model.addAttribute("projectNumber", projectNumber);
         model.addAttribute("proName", proName);
         model.addAttribute("department", department);
         model.addAttribute("purchaseType", purchaseType);
+        model.addAttribute("ids", ids);
         return "bss/ppms/advanced_project/attachment";
     }
     
     @RequestMapping("/transmit")
-    public String transmit(Model model, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType, HttpServletRequest request){
+    public String transmit(Model model, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType, HttpServletRequest request){
         //立项 
         AdvancedProject project = new AdvancedProject();
         project.setId(id);
         project.setName(proName);
         project.setProjectNumber(projectNumber);
+        project.setPurchaseType(purchaseType);
+        project.setStatus(0);
         advancedProjectService.save(project);
+        
         //下达
         Task task = new Task();
         task.setId(WfUtil.createUUID());
         task.setName(name);
         task.setDocumentNumber(documentNumber);
         task.setPurchaseRequiredId(department);
-        task.setStatus(1);
+        task.setStatus(0);
         task.setIsDeleted(0);
         task.setGiveTime(new Date());
         task.setProcurementMethod(purchaseType);
         task.setTaskNature(1);
+        task.setNotDetail(0);
         taskService.add(task);
+        
+        //中间表
+        ProjectTask projectTask = new ProjectTask();
+        projectTask.setProjectId(id);
+        projectTask.setTaskId(task.getId());
+        projectTaskService.insertSelective(projectTask);
+        
+        //项目明细
+        int j = 1;
+        String[] idss = ids.split(",");
+        for (int i = 0; i < idss.length; i++ ) {
+            PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(idss[i]);
+            AdvancedDetail detail = new AdvancedDetail();
+            detail.setRequiredId(purchaseRequired.getId());
+            detail.setSerialNumber(purchaseRequired.getSeq());
+            detail.setDepartment(purchaseRequired.getDepartment());
+            detail.setGoodsName(purchaseRequired.getGoodsName());
+            detail.setStand(purchaseRequired.getStand());
+            detail.setQualitStand(purchaseRequired.getQualitStand());
+            detail.setItem(purchaseRequired.getItem());
+            detail.setCreatedAt(new Date());
+            if (purchaseRequired.getPurchaseCount() != null) {
+                detail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
+            }
+            if (id != null) {
+                detail.setAdvancedProject(id);
+            }
+            if (purchaseRequired.getPrice() != null) {
+                detail.setPrice(purchaseRequired.getPrice().doubleValue());
+            }
+            if (purchaseRequired.getPlanNo() != null) {
+                detail.setPlanNo(purchaseRequired.getPlanNo());
+            }
+            if (purchaseRequired.getBudget() != null) {
+                detail.setBudget(purchaseRequired.getBudget().doubleValue());
+            }
+            if (purchaseRequired.getDeliverDate() != null) {
+                detail.setDeliverDate(purchaseRequired.getDeliverDate());
+            }
+            if (purchaseRequired.getPurchaseType() != null) {
+                detail.setPurchaseType(purchaseRequired.getPurchaseType());
+            }
+            if (purchaseRequired.getSupplier() != null) {
+                detail.setSupplier(purchaseRequired.getSupplier());
+            }
+            if (purchaseRequired.getIsFreeTax() != null) {
+                detail.setIsFreeTax(purchaseRequired.getIsFreeTax());
+            }
+            if (purchaseRequired.getGoodsUse() != null) {
+                detail.setGoodsUse(purchaseRequired.getGoodsUse());
+            }
+            if (purchaseRequired.getUseUnit() != null) {
+                detail.setUseUnit(purchaseRequired.getUseUnit());
+            }
+            if (purchaseRequired.getParentId() != null) {
+                detail.setParentId(purchaseRequired.getParentId());
+            }
+            detail.setStatus("2");
+            detail.setPosition(j);
+            j++;
+            detailService.save(detail);
+        }
         return "redirect:/task/list.html";
     }
     
@@ -291,163 +308,7 @@ public class AdvancedProjectController extends BaseController {
     }
     
     
-    /**
-     * 
-     *〈跳转新增明细页面〉
-     *〈详细描述〉
-     * @author Administrator
-     * @param model
-     * @param project
-     * @param id
-     * @return
-     */
-    @RequestMapping("/addDetail")
-    public String addDeatil(Model model, AdvancedProject project, String projectId, String id){
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("planNo", id);
-        //查询计划明细
-        List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-        model.addAttribute("list", list);
-        model.addAttribute("project", project);
-        model.addAttribute("projectId", projectId);
-        model.addAttribute("kind", DictionaryDataUtil.find(5));
-        return "bss/ppms/advanced_project/addDetail";
-    }
     
-    @RequestMapping("/saveDetail")
-    public String saveDetail(Model model, String id, String name, String projectNumber, String projectId, HttpServletRequest request){
-        if(id.trim().length()!=0){
-            String[] detailIds = id.split(",");
-            Map<String,Object> detailMap=new HashMap<String,Object>();
-            detailMap.put("id",  detailIds[0]);
-            List<AdvancedDetail> advance = detailService.selectByParentId(detailMap);
-            //取到同一个父节点下面的子节点
-            String parId=null ;
-            if(advance.size() > 0){
-                for (int i = 0; i < detailIds.length; i++ ) {
-                    HashMap<String, Object> map = new HashMap<String, Object>();
-                    PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(detailIds[i]);
-                    AdvancedDetail detail = detailService.selectByRequiredId(detailIds[i]);
-                    map.put("id", purchaseRequired.getId());
-                    List<PurchaseRequired> lists = purchaseRequiredService.selectByParentId(map);
-                    if(lists.size() == 1){//查询最底层明细的节点
-                        for (PurchaseRequired purchaseRequired2 : lists) {
-                            if(detail != null){
-                                if(!detail.getRequiredId().equals(purchaseRequired2.getId())){
-                                    parId = purchaseRequired2.getParentId();
-                                }
-                            }else{
-                                parId = purchaseRequired2.getParentId();
-                            }
-                            
-                            
-                            
-                        }
-                    }
-                }
-            }
-            //第二次添加
-            
-            if(advance.size()>0){
-               int xx= advance.size()+1;
-                for(String pid:detailIds){
-                    PurchaseRequired required = purchaseRequiredService.queryById(pid);
-                    required.setAdvancedStatus(1);
-                    purchaseRequiredService.updateByPrimaryKeySelective(required);
-                    if(required.getParentId().equals(parId)){
-                        insertDeatil(required,xx,projectId);
-                    } 
-                } 
-            }else{
-                //第一次添加
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                List<PurchaseRequired> list  = new ArrayList<>();
-               
-                String[] ids = id.split(",");
-                int bud = 0;
-                for (int i = 0; i < ids.length; i++ ) {
-                    PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
-                    map.put("id", purchaseRequired.getId());
-                    List<PurchaseRequired> lists = purchaseRequiredService.selectByParentId(map);
-                    if(lists.size() == 1){//查询最底层明细的金额
-                        for (PurchaseRequired purchaseRequired2 : lists) {
-                            bud+=purchaseRequired2.getBudget().intValue();
-                            purchaseRequired2.setAdvancedStatus(1);
-                            purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired2);
-                        }
-                    }
-                    list.add(purchaseRequired);
-                }
-                List<PurchaseRequired> list1 = new ArrayList<>();
-                for (PurchaseRequired purchaseRequired2 : list) {
-                    map.put("id", purchaseRequired2.getId());
-                    List<PurchaseRequired> lists = purchaseRequiredService.selectByParentId(map);
-                    if(lists.size() > 1){
-                        purchaseRequired2.setBudget(new BigDecimal(bud));
-                    }
-                    list1.add(purchaseRequired2);
-                }
-                //新增项目明细
-                int i=1;
-                if(list1 != null && list1.size() > 0){
-                    for (PurchaseRequired purchaseRequired : list1) {
-                        AdvancedDetail detail = new AdvancedDetail();
-                        detail.setRequiredId(purchaseRequired.getId());
-                        detail.setSerialNumber(purchaseRequired.getSeq());
-                        detail.setDepartment(purchaseRequired.getDepartment());
-                        detail.setGoodsName(purchaseRequired.getGoodsName());
-                        detail.setStand(purchaseRequired.getStand());
-                        detail.setQualitStand(purchaseRequired.getQualitStand());
-                        detail.setItem(purchaseRequired.getItem());
-                        detail.setCreatedAt(new Date());
-                        if (purchaseRequired.getPurchaseCount() != null) {
-                            detail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
-                        }
-                        if (projectId != null) {
-                            detail.setAdvancedProject(projectId);
-                        }
-                        if (purchaseRequired.getPrice() != null) {
-                            detail.setPrice(purchaseRequired.getPrice().doubleValue());
-                        }
-                        if (purchaseRequired.getPlanNo() != null) {
-                            detail.setPlanNo(purchaseRequired.getPlanNo());
-                        }
-                        if (purchaseRequired.getBudget() != null) {
-                            detail.setBudget(purchaseRequired.getBudget().doubleValue());
-                        }
-                        if (purchaseRequired.getDeliverDate() != null) {
-                            detail.setDeliverDate(purchaseRequired.getDeliverDate());
-                        }
-                        if (purchaseRequired.getPurchaseType() != null) {
-                            detail.setPurchaseType(purchaseRequired.getPurchaseType());
-                        }
-                        if (purchaseRequired.getSupplier() != null) {
-                            detail.setSupplier(purchaseRequired.getSupplier());
-                        }
-                        if (purchaseRequired.getIsFreeTax() != null) {
-                            detail.setIsFreeTax(purchaseRequired.getIsFreeTax());
-                        }
-                        if (purchaseRequired.getGoodsUse() != null) {
-                            detail.setGoodsUse(purchaseRequired.getGoodsUse());
-                        }
-                        if (purchaseRequired.getUseUnit() != null) {
-                            detail.setUseUnit(purchaseRequired.getUseUnit());
-                        }
-                        if (purchaseRequired.getParentId() != null) {
-                            detail.setParentId(purchaseRequired.getParentId());
-                        }
-                        detail.setStatus("2");
-                        detail.setPosition(i);
-                        i++;
-                        detailService.save(detail);
-                    }
-                }
-            }
-            
-        }
-        
-        return "redirect:add.html?name="+name+"&projectNumber="+projectNumber+"&projectId="+projectId;
-    }
     
     
     /**
@@ -1199,57 +1060,6 @@ public class AdvancedProjectController extends BaseController {
         }
     }
     
-    public void insertDeatil(PurchaseRequired purchaseRequired,Integer positon,String projectId){
-        AdvancedDetail detail = new AdvancedDetail();
-        detail.setRequiredId(purchaseRequired.getId());
-        detail.setSerialNumber(purchaseRequired.getSeq());
-        detail.setDepartment(purchaseRequired.getDepartment());
-        detail.setGoodsName(purchaseRequired.getGoodsName());
-        detail.setStand(purchaseRequired.getStand());
-        detail.setQualitStand(purchaseRequired.getQualitStand());
-        detail.setItem(purchaseRequired.getItem());
-        detail.setCreatedAt(new Date());
-        if (purchaseRequired.getPurchaseCount() != null) {
-            detail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
-        }
-        if (purchaseRequired.getPrice() != null) {
-            detail.setPrice(purchaseRequired.getPrice().doubleValue());
-        }
-        if (projectId != null) {
-            detail.setAdvancedProject(projectId);
-        }
-        if (purchaseRequired.getPlanNo() != null) {
-            detail.setPlanNo(purchaseRequired.getPlanNo());
-        }
-        if (purchaseRequired.getBudget() != null) {
-            detail.setBudget(purchaseRequired.getBudget().doubleValue());
-        }
-        if (purchaseRequired.getDeliverDate() != null) {
-            detail.setDeliverDate(purchaseRequired.getDeliverDate());
-        }
-        if (purchaseRequired.getPurchaseType() != null) {
-            detail.setPurchaseType(purchaseRequired.getPurchaseType());
-        }
-        if (purchaseRequired.getSupplier() != null) {
-            detail.setSupplier(purchaseRequired.getSupplier());
-        }
-        if (purchaseRequired.getIsFreeTax() != null) {
-            detail.setIsFreeTax(purchaseRequired.getIsFreeTax());
-        }
-        if (purchaseRequired.getGoodsUse() != null) {
-            detail.setGoodsUse(purchaseRequired.getGoodsUse());
-        }
-        if (purchaseRequired.getUseUnit() != null) {
-            detail.setUseUnit(purchaseRequired.getUseUnit());
-        }
-        if (purchaseRequired.getParentId() != null) {
-            detail.setParentId(purchaseRequired.getParentId());
-        }
-        detail.setStatus("2");
-        detail.setPosition(positon);
-        detailService.save(detail);
-        
-    }
     
     
     /**

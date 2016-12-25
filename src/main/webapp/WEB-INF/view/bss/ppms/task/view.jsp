@@ -64,6 +64,7 @@
 					<th class="info">备注</th>
 				  </tr>
 				</thead>
+				<c:if test="${lists != null}">
 				<c:forEach items="${lists}" var="obj" varStatus="vs">
 				  <tr style="cursor: pointer;">
 					<td class="tc w50">${obj.seq}</td>
@@ -94,6 +95,39 @@
 					 <td class="tc">${obj.memo}</td>
 					</tr>
 				  </c:forEach>  
+				  </c:if>
+				  <c:if test="${list != null}">
+				    <c:forEach items="${list}" var="obj" varStatus="vs">
+          <tr style="cursor: pointer;">
+          <td class="tc w50">${obj.serialNumber}</td>
+           <td class="tc">
+           <c:forEach items="${list2}" var="list">
+           <c:if test="${list.id == obj.department}"> 
+               ${list.name}
+           </c:if>
+           </c:forEach>
+           </td>
+           <td class="tc">${obj.goodsName}</td>
+           <td class="tc">${obj.stand}</td>
+           <td class="tc">${obj.qualitStand}</td>
+           <td class="tc">${obj.item}</td>
+           <td class="tc">${obj.purchaseCount}</td>
+           <td class="tc">${obj.price}</td>
+           <td class="tc">${obj.budget}</td>
+           <td class="tc">${obj.deliverDate}</td>
+           <td class="tc">
+               <c:forEach items="${kind}" var="kind" >
+                         <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                       </c:forEach>
+               </td>
+           <td class="tc">${obj.supplier}</td>
+           <td class="tc">${obj.isFreeTax}</td>
+           <td class="tc">${obj.goodsUse}</td>
+           <td class="tc">${obj.useUnit}</td>
+           <td class="tc">${obj.memo}</td>
+          </tr>
+          </c:forEach> 
+				  </c:if>
                 </table>
               </div>        
 	        </div>

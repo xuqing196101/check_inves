@@ -110,7 +110,7 @@
      <if test="taskNature != null">
        and  t.TASK_NATURE = #{taskNature}
      </if>
-     ORDER BY STATUS ASC,GIVE_TIME DESC
+     ORDER BY GIVE_TIME DESC, STATUS ASC
   </select>
   
     <select id="likeByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
