@@ -14,7 +14,7 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-          <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">个人首页</a></li><li><a href="javascript:void(0)">项目评审</a></li><li><a href="javascript:void(0)">包内供应商信息</a></li>
+          <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">个人首页</a></li><li><a href="javascript:void(0)">项目评审</a></li><li><a href="javascript:void(0)">项目(包)详情</a></li>
         </ul>
         <div class="clear"></div>
       </div>

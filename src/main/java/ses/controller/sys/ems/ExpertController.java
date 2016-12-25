@@ -445,7 +445,7 @@ public class ExpertController {
         }
         a:for (int i = 0; i < allTypeId.size(); i++ ) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
-            if (dictionaryData != null && dictionaryData.getName().contains("经济")) {
+            if (dictionaryData != null && dictionaryData.getKind() == 19) {
                 allTypeId.remove(i);
                 continue a;
             };
@@ -470,10 +470,165 @@ public class ExpertController {
         return JSON.toJSONString(audit.get(0));
     }
     
+    /**
+     *〈简述〉
+     * 保存品目信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @param categoryId
+     * @param type
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/saveCategory")
+    public void saveCategory(String expertId, String categoryId, String type){
+        if ("1".equals(type)) {
+            // 1代表增加
+            // 判断是否是子节点,如果是父节点被选中则添加该节点的所有子节点
+            List<Category> list = categoryService.findTreeByPid(categoryId);
+            Expert expert = new Expert();
+            expert.setId(expertId);
+            if (list == null || list.size() == 0) {
+                ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, categoryId);
+                if (expertCategory == null) {
+                    expertCategoryService.save(expert, categoryId);
+                }
+            } else {
+                for (Category cate : list) {
+                    List<Category> list1 = categoryService.findTreeByPid(cate.getId());
+                    if (list1 == null || list1.size() == 0) {
+                        expertCategoryService.save(expert, cate.getId());
+                    }
+                }
+            }
+        } else if ("0".equals(type)) {
+            // 0代表删除
+            // 判断是否是子节点,如果是父节点被取消则删除该节点的所有子节点
+            List<Category> list = categoryService.findTreeByPid(categoryId);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("expertId", expertId);
+            if (list == null || list.size() == 0) {
+                // 代表是子节点,只需要在中间表中删除自身即可
+                map.put("categoryId", categoryId);
+                expertCategoryService.deleteByMap(map);
+            } else {
+                // 需要删除所有的子节点
+                List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expertId);
+                Expert expert = new Expert();
+                expert.setId(expertId);
+                for (ExpertCategory category : allList) {
+                    String id = category.getCategoryId();
+                    boolean isDel = false;
+                    a:while (true) {
+                        Category cate1 = categoryService.findById(id);
+                        if (cate1 != null) {
+                            if (cate1.getParentId().equals(categoryId)) {
+                                isDel = true;
+                                break a;
+                            } else {
+                                id = cate1.getParentId();
+                            }
+                        } else {
+                            if (id.equals(categoryId)) {
+                                isDel = true;
+                            }
+                            break a;
+                        }
+                    }
+                    if (isDel) {
+                        map.put("categoryId", id);
+                        expertCategoryService.deleteByMap(map); 
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     *〈简述〉
+     * 异步加载zTree
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @param id
+     * @param categoryId
+     * @return
+     */
     @RequestMapping(value = "getCategory", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getCategory(String expertId, String id){
-        Expert expert = service.selectByPrimaryKey(expertId);
+    public String getCategory(String expertId, String id, String categoryId){
+        List<CategoryTree> allCategories = new ArrayList<CategoryTree>();
+        if (id == null) {
+            DictionaryData parent = dictionaryDataServiceI.getDictionaryData(categoryId);    
+            CategoryTree ct = new CategoryTree();
+            ct.setName(parent.getName());
+            ct.setId(parent.getId());
+            ct.setIsParent("true");
+            // 设置是否被选中
+            ct.setChecked(isChecked(ct.getId(), expertId));
+            allCategories.add(ct);
+        } else {
+            List<Category> childNodes = categoryService.findTreeByPid(id);
+            if (childNodes != null && childNodes.size() > 0) {
+                for (Category category : childNodes) {
+                    CategoryTree ct = new CategoryTree();
+                    ct.setName(category.getName());
+                    ct.setId(category.getId());
+                    ct.setParentId(category.getParentId());
+                    // 判断是否为父级节点
+                    List<Category> nodesList = categoryService.findTreeByPid(category.getId());
+                    if (nodesList != null && nodesList.size() > 0) {
+                        ct.setIsParent("true");
+                    }
+                    // 判断是否被选中
+                    ct.setChecked(isChecked(ct.getId(), expertId));
+                    allCategories.add(ct);
+                }
+            }
+        }
+        return JSON.toJSONString(allCategories);
+    }
+    
+    /**
+     *〈简述〉
+     * 判断该节点是否需要被选中
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param categoryId
+     * @param expertId
+     * @return
+     */
+    public boolean isChecked (String categoryId, String expertId) {
+        List<ExpertCategory> allCategoryList = expertCategoryService.getListByExpertId(expertId);
+        boolean isChecked = false;
+        for (ExpertCategory expertCategory : allCategoryList) {
+            String id = expertCategory.getCategoryId();
+            if (categoryId.equals(id)) {
+                isChecked = true;
+                break;
+            } else {
+                while (true) {
+                    Category cate = categoryService.findById(id);
+                    if (cate != null) {
+                        if (cate.getParentId().equals(categoryId)) {
+                            isChecked = true; 
+                            break;
+                        } else {
+                            id = cate.getParentId();
+                        }
+                    } else {
+                        if (id.equals(categoryId)) {
+                            isChecked = true;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return isChecked;
+    }
+    /*Expert expert = service.selectByPrimaryKey(expertId);
         List<CategoryTree> allCategories = new ArrayList<CategoryTree>();
         DictionaryData parent = dictionaryDataServiceI.getDictionaryData(id);    
         CategoryTree ct = new CategoryTree();
@@ -481,14 +636,14 @@ public class ExpertController {
         ct.setId(parent.getId());
         ct.setIsParent("true");
         // 判断是否被选中
-        /*List<ExpertCategory> allCategory = expertCategoryService.getListByExpertId(expertId);
+        List<ExpertCategory> allCategory = expertCategoryService.getListByExpertId(expertId);
         for (ExpertCategory expertCategory : allCategory) {
             String parentId = categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getParentId();
             if (parentId != null && parentId.equals(ct.getId())) {
                 ct.setChecked(true);
             }
         }
-        allCategories.add(ct);*/
+        allCategories.add(ct);
         ct.setChecked(isCheckedById(ct.getId(), expertId));
         allCategories.add(ct);
         // 递归查询出所有节点
@@ -520,47 +675,8 @@ public class ExpertController {
             }
             allCategories.add(ct1);
         }
-        return JSON.toJSONString(allCategories);
-    }
-        /*if(id == null && categoryIds != null) {
-            DictionaryData type = dictionaryDataServiceI.getDictionaryData(categoryIds);
-            CategoryTree ct = new CategoryTree();
-            ct.setName(type.getName().substring(0, type.getName().length() - 2));
-            ct.setId(type.getId());
-            ct.setIsParent("true");
-            // 判断是否被选中
-            List<ExpertCategory> allCategory = expertCategoryService.getListByExpertId(expertId);
-            for (ExpertCategory expertCategory : allCategory) {
-                String parentId = categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getParentId();
-                if (parentId != null && parentId.equals(ct.getId())) {
-                    ct.setChecked(true);
-                }
-            }
-            allList.add(ct);
-        } else {
-            List<ExpertCategory> expertCategory = expertCategoryService.getListByExpertId(expertId);
-            List<Category> list = categoryService.findTreeByPid(id);
-            for (Category c : list) {
-                List<Category> list1 = categoryService.findTreeByPid(c.getId());
-                CategoryTree ct1 = new CategoryTree();
-                ct1.setName(c.getName());
-                ct1.setId(c.getId());
-                // 设置是否为父级
-                if (!list1.isEmpty()) {
-                    ct1.setIsParent("true");
-                } else {
-                    ct1.setIsParent("false");
-                }
-                // 设置是否回显
-                for (ExpertCategory category : expertCategory) {
-                    if (category.getCategoryId() != null) {
-                        if (category.getCategoryId().equals(c.getId())) {
-                            ct1.setChecked(true);
-                        }
-                    }
-                }
-                allList.add(ct1);
-            }*/
+        return JSON.toJSONString(allCategories);*/
+        
     
     /**
      *〈简述〉
@@ -1597,6 +1713,8 @@ public class ExpertController {
                 String typeId = user.getTypeId();
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("expertId", typeId);
+                Expert expert = service.selectByPrimaryKey(typeId);
+                model.addAttribute("expert", expert);
                 // map.put("isAudit", 0);
                 //map.put("isGather", 0);
                 // 查询出关联表中的项目id和包id

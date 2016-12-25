@@ -11,6 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<%@ include file="/WEB-INF/view/common.jsp" %>
     <title>评标管理</title>  
   <script type="text/javascript">
+  var expert = "${expert}";
   /** 全选全不选 */
   function selectAll(){
        var checklist = document.getElementsByName ("chkItem");
@@ -68,7 +69,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   }*/
 	//符合性审查
  	function toAudit(projectId, packageId){
- 		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
+	  	if (expert.status == '4' || expert.status == 4) {
+			layer.msg("抱歉,您暂未通过复审,无法进行此项操作!");
+	  	} else if (expert.status == '6' || expert.status == 6) {
+	  		layer.confirm("抱歉,您已被剔除!", {
+				btn : [ '确定' ]
+			//按钮
+			}, function() {
+				window.location.href = "${pageContext.request.contextPath}/login/loginOut.html";
+			});
+	  	} else {
+	 		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
+	  	}
  	}
 	//经济技术审查
 	function toFirstAudit(projectId, packageId){
@@ -88,11 +100,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			}
 		});*/
-		// 临时代码,可直接进入经济技术审查
+		// 直接进入经济技术审查
 		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
 	}
 	function showView (packageId) {
-		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/showPackView.html?packageId="+packageId;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/reviewFirstAudit/isShowView.do",
+			data: {"packageId": packageId},
+			success: function(response){
+				if (response == '1') {
+					window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/showPackView.html?packageId="+packageId;
+				} else {
+					layer.msg("只有评审结束的项目(包)才可以进行查看!");
+				}
+			}			
+		});
 	}
 </script>
   </head>

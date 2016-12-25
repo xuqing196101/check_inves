@@ -416,4 +416,11 @@
 		</where>
 	</select>
 	
+	<!-- 根据主键id查询 -->
+	<select id="findById" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY
+		WHERE ID = #{_parameter}
+	</select>
 </mapper>
