@@ -7,8 +7,8 @@
     <result column="CODE" property="code" />
   	<result column="PURCHASE_CONTRACT_ID" property="purchaseContractId" />
 	<result column="STATUS" property="status" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="CONTRACT_CODE" property="contractCode" />
     <result column="PROJECT_CODE" property="projectCode" />
     <result column="YEAR" property="year" />
@@ -20,12 +20,12 @@
     <result column="TYPE" property="type" />
     <result column="REASON" property="reason" />
     <result column="PROJECT_ID" property="projectId" />
-    <result column="DRAFT_GIT_AT" property="draftGitAt" />
-    <result column="DRAFT_REVIEWED_AT" property="draftReviewedAt" />
-    <result column="FORMAL_GIT_AT" property="formalGitAt" />
-    <result column="FORMAL_REVIEWED_AT" property="formalReviewedAt" />
-    <result column="REPORT_AT" property="reportAt" />
-    <result column="APPLY_AT" property="applyAt" />
+    <result column="DRAFT_GIT_AT" property="draftGitAt" jdbcType="TIMESTAMP"/>
+    <result column="DRAFT_REVIEWED_AT" property="draftReviewedAt" jdbcType="TIMESTAMP"/>
+    <result column="FORMAL_GIT_AT" property="formalGitAt"  jdbcType="TIMESTAMP"/>
+    <result column="FORMAL_REVIEWED_AT" property="formalReviewedAt" jdbcType="TIMESTAMP"/>
+    <result column="REPORT_AT" property="reportAt"  jdbcType="TIMESTAMP"/>
+    <result column="APPLY_AT" property="applyAt" jdbcType="TIMESTAMP"/>
   </resultMap>
   
   <sql id="Base_Column_List">
@@ -138,10 +138,10 @@
         #{status},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="contractCode != null">
         #{contractCode},
@@ -177,22 +177,22 @@
         #{projectId},
       </if>
       <if test="draftGitAt != null">
-        #{draftGitAt},
+        #{draftGitAt,jdbcType=TIMESTAMP},
       </if>
       <if test="draftReviewedAt != null">
-        #{draftReviewedAt},
+        #{draftReviewedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="formalGitAt != null">
-        #{formalGitAt},
+        #{formalGitAt,jdbcType=TIMESTAMP},
       </if>
       <if test="formalReviewedAt != null">
-        #{formalReviewedAt},
+        #{formalReviewedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="reportAt != null">
-        #{reportAt},
+        #{reportAt,jdbcType=TIMESTAMP},
       </if>
       <if test="applyAt != null">
-        #{applyAt},
+        #{applyAt,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -212,10 +212,10 @@
         STATUS = #{status},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="contractCode != null">
         CONTRACT_CODE = #{contractCode},
@@ -251,22 +251,22 @@
         PROJECT_ID = #{projectId},
       </if>
       <if test="draftGitAt != null">
-        DRAFT_GIT_AT = #{draftGitAt},
+        DRAFT_GIT_AT = #{draftGitAt,jdbcType=TIMESTAMP},
       </if>
       <if test="draftReviewedAt != null">
-        DRAFT_REVIEWED_AT = #{draftReviewedAt},
+        DRAFT_REVIEWED_AT = #{draftReviewedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="formalGitAt != null">
-        FORMAL_GIT_AT = #{formalGitAt},
+        FORMAL_GIT_AT = #{formalGitAt,jdbcType=TIMESTAMP},
       </if>
       <if test="formalReviewedAt != null">
-        FORMAL_REVIEWED_AT = #{formalReviewedAt},
+        FORMAL_REVIEWED_AT = #{formalReviewedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="reportAt != null">
-        REPORT_AT = #{reportAt},
+        REPORT_AT = #{reportAt,jdbcType=TIMESTAMP},
       </if>
       <if test="applyAt != null">
-        APPLY_AT = #{applyAt},
+        APPLY_AT = #{applyAt,jdbcType=TIMESTAMP},
       </if>
     </set>
     where ID = #{id}

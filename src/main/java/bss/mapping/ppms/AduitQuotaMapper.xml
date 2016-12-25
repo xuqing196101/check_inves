@@ -11,8 +11,8 @@
     <result column="INIT_SCORE" jdbcType="DECIMAL" property="initScore" />
     <result column="EXPERT_VALUE" jdbcType="DECIMAL" property="expertValue" />
     <result column="FINAL_SCORE" jdbcType="DECIMAL" property="finalScore" />
-    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <result column="ROUND" jdbcType="DECIMAL" property="round" />
     <result column="PAGE" property="page" />
