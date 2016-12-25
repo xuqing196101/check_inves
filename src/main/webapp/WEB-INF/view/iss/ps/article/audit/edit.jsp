@@ -172,7 +172,7 @@
           <li class="col-md-6 col-xs-6 col-sm-12 mt10">
             <span class="fl">已上传的附件：</span>
             <div class="fl">
-              <u:upload id="artice_file_up" buttonName="文档类型" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+              <u:upload id="artice_file_up" buttonName="上传文档" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
               <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
             </div>
           </li>
