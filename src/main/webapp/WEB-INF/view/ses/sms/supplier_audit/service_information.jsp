@@ -110,7 +110,7 @@
 				
 				//下一步
 				function nextStep(){
-				  var action = "${pageContext.request.contextPath}/supplierAudit/product.html";
+				  var action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 				  $("#form_id").attr("action",action);
 				  $("#form_id").submit();
 				}

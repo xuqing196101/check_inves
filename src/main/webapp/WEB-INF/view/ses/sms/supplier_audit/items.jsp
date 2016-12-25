@@ -10,13 +10,20 @@
 				$("#status").val(status);
 				form1.submit();
 			}
-
+			
+			//下一步
 			function nextStep() {
-				var action = "${pageContext.request.contextPath}/supplierAudit/product.html";
+				var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
-
+			
+			//上一步
+			function lastStep(lastUrl){
+				  $("#form_id").attr("action",lastUrl);
+				  $("#form_id").submit();
+				}
+			
 			//填写原因
 			function reason(str,id,type) {
 				var supplierId = $("#supplierId").val();
@@ -414,7 +421,8 @@
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
 					<!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-					<input class="btn btn-windows" type="button" onclick="nextStep();" value="下一步">
+					<a class="btn"  type="button" onclick="lastStep('${lastUrl}');">上一步</a>
+					<a class="btn"  type="button" onclick="nextStep();">下一步</a>
 				</div>
 			</div>
 		</div>
