@@ -238,6 +238,7 @@
 		</thead>
 		<tbody id="tbody_id">
 		  <c:forEach items="${info.list}" var="obj" varStatus="vs">
+		    <c:if test="${'0' != obj.status}">
 		    <tr style="cursor: pointer;">
 			  <td class="tc w30">
 			    <input type="hidden" value="${obj.status }" />
@@ -259,6 +260,7 @@
 				<c:if test="${'3'==obj.status}">已立项</c:if>
 			  </td>
 			</tr>
+			</c:if>
 		  </c:forEach>
 		</tbody>
 	  </table>

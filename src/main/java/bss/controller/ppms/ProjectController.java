@@ -1174,6 +1174,7 @@ public class ProjectController extends BaseController {
         pk.setUpdatedAt(new Date());
         packageService.updateByPrimaryKeySelective(pk);
     }
+    
     /**
      * 
     * @Title: deleteDetailById
