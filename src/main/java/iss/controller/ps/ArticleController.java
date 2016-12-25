@@ -30,6 +30,7 @@ import ses.controller.sys.bms.LoginController;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.sms.SupplierDictionaryData;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
@@ -41,6 +42,8 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 /**
  * @Title:ArticleController
@@ -67,6 +70,9 @@ public class ArticleController extends BaseSupplierController{
 
   @Autowired
   private DictionaryDataServiceI dictionaryDataServiceI;
+  
+  @Autowired
+  private UploadService uploadService;
 
   private Logger logger = Logger.getLogger(LoginController.class); 
 
@@ -154,6 +160,7 @@ public class ArticleController extends BaseSupplierController{
     List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
     model.addAttribute("list", list);
     String id = request.getParameter("id");
+    String articleId =request.getParameter("articleId");
     String url = "";
     boolean flag = true;
 
@@ -210,6 +217,12 @@ public class ArticleController extends BaseSupplierController{
       flag = false;
       model.addAttribute("ERR_content", "信息正文不能为空");
     }
+    
+    UploadFile auditDoc = uploadService.findBybusinessId(id,Constant.FORUM_SYS_KEY);
+	if(auditDoc==null){
+		flag = false;
+		model.addAttribute("ERR_auditDoc", "请上传文件!");
+	}
 
     if(flag==false){
       model.addAttribute("article", article);
@@ -435,6 +448,20 @@ public class ArticleController extends BaseSupplierController{
         return "iss/ps/article/edit";
       }
     }
+    
+    UploadFile auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+	if(auditDoc==null){
+        model.addAttribute("article.id", article.getId());
+        model.addAttribute("article.name", name);
+        Article artc = articleService.selectArticleById(article.getId());
+        List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+        artc.setArticleAttachments(articleAttaList);
+        model.addAttribute("article",article);
+        List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+        model.addAttribute("list", list);
+        model.addAttribute("ERR_auditDoc", "请上传文件!");
+        return "iss/ps/article/edit";
+	}
 
     if(ranges!=null&&!ranges.equals("")){
       if(ranges.length>1){
@@ -856,7 +883,7 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("article",artc);
       List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
       model.addAttribute("list", list);
-      return "iss/ps/article/edit";
+      return "iss/ps/article/audit/edit";
     }
     if(article.getName().length()>50){
       model.addAttribute("ERR_name", "标题名称不得超过50字符");
@@ -867,7 +894,7 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("article",artc);
       List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
       model.addAttribute("list", list);
-      return "iss/ps/article/edit";
+      return "iss/ps/article/audit/edit";
     }
     
     List<Article> check = articleService.checkName(article);
@@ -882,9 +909,23 @@ public class ArticleController extends BaseSupplierController{
         model.addAttribute("article",article);
         List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
         model.addAttribute("list", list);
-        return "iss/ps/article/edit";
+        return "iss/ps/article/audit/edit";
       }
     }
+    
+    UploadFile auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+	if(auditDoc==null){
+        model.addAttribute("article.id", article.getId());
+        model.addAttribute("article.name", name);
+        Article artc = articleService.selectArticleById(article.getId());
+        List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+        artc.setArticleAttachments(articleAttaList);
+        model.addAttribute("article",article);
+        List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+        model.addAttribute("list", list);
+        model.addAttribute("ERR_auditDoc", "请上传文件!");
+        return "iss/ps/article/audit/edit";
+	}
 
     if(ranges!=null&&!ranges.equals("")){
       if(ranges.length>1){
@@ -903,7 +944,7 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("article",article);
       List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
       model.addAttribute("list", list);
-      return "iss/ps/article/edit";
+      return "iss/ps/article/audit/edit";
     }
     if(ValidateUtils.isNull(article.getContent())){
       model.addAttribute("ERR_content", "信息正文不能为空");
@@ -914,7 +955,7 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("article",article);
       List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
       model.addAttribute("list", list);
-      return "iss/ps/article/edit";
+      return "iss/ps/article/audit/edit";
     }
     if(article.getStatus()!=null&&article.getStatus()==2){
       solrNewsService.deleteIndex(article.getId());
@@ -1001,7 +1042,7 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("article",artc);
       List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
       model.addAttribute("list", list);
-      return "iss/ps/article/edit";
+      return "iss/ps/article/editor";
     }
     if(article.getName().length()>50){
       model.addAttribute("ERR_name", "标题名称不得超过50字符");
@@ -1012,8 +1053,22 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("article",artc);
       List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
       model.addAttribute("list", list);
-      return "iss/ps/article/edit";
+      return "iss/ps/article/editor";
     }
+    
+    UploadFile auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+	if(auditDoc==null){
+        model.addAttribute("article.id", article.getId());
+        model.addAttribute("article.name", name);
+        Article artc = articleService.selectArticleById(article.getId());
+        List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+        artc.setArticleAttachments(articleAttaList);
+        model.addAttribute("article",article);
+        List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+        model.addAttribute("list", list);
+        model.addAttribute("ERR_auditDoc", "请上传文件!");
+        return "iss/ps/article/editor";
+	}
     
     List<Article> check = articleService.checkName(article);
     for(Article ar:check){
@@ -1027,7 +1082,7 @@ public class ArticleController extends BaseSupplierController{
         model.addAttribute("article",article);
         List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
         model.addAttribute("list", list);
-        return "iss/ps/article/edit";
+        return "iss/ps/article/editor";
       }
     }
 
@@ -1048,7 +1103,7 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("article",article);
       List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
       model.addAttribute("list", list);
-      return "iss/ps/article/edit";
+      return "iss/ps/article/editor";
     }
     if(ValidateUtils.isNull(article.getContent())){
       model.addAttribute("ERR_content", "信息正文不能为空");
@@ -1059,7 +1114,7 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("article",article);
       List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
       model.addAttribute("list", list);
-      return "iss/ps/article/edit";
+      return "iss/ps/article/editor";
     }
     if(article.getStatus()!=null&&article.getStatus()==2){
       solrNewsService.deleteIndex(article.getId());

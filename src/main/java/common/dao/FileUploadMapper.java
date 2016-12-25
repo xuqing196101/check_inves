@@ -96,4 +96,6 @@ public interface FileUploadMapper {
      * @return UploadFile
      */
     UploadFile findById(@Param("id")String id,@Param("tableName")String tableName);
+    
+    UploadFile findBybusinessId(@Param("businessId")String businessId,@Param("tableName")String tableName);
 }
