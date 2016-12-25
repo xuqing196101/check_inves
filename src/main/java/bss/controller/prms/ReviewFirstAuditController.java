@@ -82,6 +82,33 @@ public class ReviewFirstAuditController {
     @Autowired
     private SupplierExtRelateService supplierExtRelateService;//供应商分包查询
 
+    /**
+     *〈简述〉
+     * 项目评审list页面中的查看详情
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param packageId
+     * @param model
+     * @return
+     */
+    @RequestMapping("showPackView")
+    public String showPackView (String packageId, Model model) {
+        Packages pack = new Packages();
+        pack.setId(packageId);
+        List<Packages> list = packageService.find(pack);
+        Packages packages = null;
+        if (list != null && !list.isEmpty()) {
+            packages = list.get(0);
+        }
+        model.addAttribute("packages", packages);
+        // 查询包内供应商list
+        SaleTender saleTender = new SaleTender();
+        saleTender.setPackages(packageId);
+        List<SaleTender> supplierList = saleTenderService.find(saleTender);
+        model.addAttribute("supplierList", supplierList);
+        return "bss/prms/audit/packages_view";
+    }
+    
 	/**
 	 * 
 	  * @Title: toAudit

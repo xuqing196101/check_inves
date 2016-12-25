@@ -473,6 +473,7 @@ public class ExpertController {
     @RequestMapping(value = "getCategory", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String getCategory(String expertId, String id){
+        Expert expert = service.selectByPrimaryKey(expertId);
         List<CategoryTree> allCategories = new ArrayList<CategoryTree>();
         DictionaryData parent = dictionaryDataServiceI.getDictionaryData(id);    
         CategoryTree ct = new CategoryTree();
@@ -506,15 +507,17 @@ public class ExpertController {
                 ct1.setIsParent("false");
             }
             ct1.setChecked(isCheckedById(ct1.getId(), expertId));
-            
-            // 设置是否回显
-            /*for (ExpertCategory category : allCategory) {
-                if (category.getCategoryId() != null) {
-                    if (category.getCategoryId().equals(c.getId())) {
-                        ct1.setChecked(true);
-                    }
+            // 判断是否被退回(不通过)
+            if ("3".equals(expert.getStatus())) {
+                // 判断该节点有没有被退回
+                ExpertAudit expertAudit = new ExpertAudit();
+                expertAudit.setSuggestType("six");
+                expertAudit.setAuditField(c.getId());
+                List<ExpertAudit> audit = expertAuditService.selectFailByExpertId(expertAudit);
+                if (audit != null && !audit.isEmpty() && audit.get(0) != null) {
+                    ct1.setAuditAdvise(audit.get(0).getAuditReason());
                 }
-            }*/
+            }
             allCategories.add(ct1);
         }
         return JSON.toJSONString(allCategories);

@@ -242,8 +242,8 @@
 		 	              <c:forEach items="${extension.supplierList }" var="supplier" varStatus="vs">
 			 	            <c:if test="${fn:contains(supplier.packages,extension.packageId)}">
 				 	            <td class="tc space_nowrap">
-				 	            	<input type="button" class="btn" onclick="addAll(this,'${supplier.suppliers.id  }',0);" name="${vs.index}" value="全部合格">
-				 	            	<input type="button" class="btn" onclick="addNotAll(this,'${supplier.suppliers.id  }',1);" name="${vs.index}" value="全部不合格">
+				 	            	<input type="button" class="btn" onclick="addAll(this,'${supplier.suppliers.id  }',0);" name="${vs.index}" value="全合格">
+				 	            	<input type="button" class="btn" onclick="addNotAll(this,'${supplier.suppliers.id  }',1);" name="${vs.index}" value="全不合格">
 <%-- 				 	            	<input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },0">全部合格&nbsp;
 				 	            	<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },1">全部不合格  --%>
 				 	            </td>
