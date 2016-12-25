@@ -91,4 +91,13 @@
   	 WHERE IS_DELETED = 0 
   	 AND ID = #{id}
   </select>
+  
+  <!-- 根据businessId查询 -->
+  <select id="findBybusinessId"  parameterType="java.lang.String" resultMap="BaseResultMap_File">
+     SELECT 
+     <include refid="BASE_FILE_LIST" />
+     FROM ${tableName}
+     WHERE IS_DELETED = 0 
+     AND BUSINESS_ID = #{businessId}
+  </select>
 </mapper>

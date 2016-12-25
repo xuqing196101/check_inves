@@ -70,7 +70,7 @@
     <include refid="Article_BlOB_Column_List" />
     from T_ISS_PS_ARTICLE
     where IS_DELETED = 0
-    order by UPDATED_AT DESC
+    order by decode(STATUS,4,0,0,1,1,2,3,3,2,4), UPDATED_AT DESC
   </select>
   
   <!-- 查询附件 -->
@@ -100,7 +100,7 @@
 	  	<if test="range != null">
 	  	  AND RANGE = #{range}
 	  	</if>
-    order by UPDATED_AT DESC
+    order by decode(STATUS,4,0,1,1,3,2,2,3), UPDATED_AT DESC
   </select>
   
   <!-- 根据标题查询查询 -->
