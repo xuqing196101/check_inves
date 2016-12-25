@@ -5,8 +5,8 @@
 		<id column="ID" property="id" />
 		<result column="NAME" property="name" />
 		<result column="IS_DELETED" property="isDeleted" />
-		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
-		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+		<result column="CREATED_AT" property="createdAt" />
+		<result column="UPDATED_AT" property="updatedAt" />
 		<result column="STATUS" property="status" />
 		<result column="BID_METHOD_ID" property="bidMethodId" />
 		<result column="PURCHASE_TYPE" property="purchaseType" />
@@ -99,10 +99,10 @@
 				#{isDeleted},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=TIMESTAMP},
+				#{createdAt},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=TIMESTAMP},
+				#{updatedAt},
 			</if>
 			<if test="status != null">
 				#{status},
@@ -131,10 +131,10 @@
 				IS_DELETED = #{isDeleted},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+				CREATED_AT = #{createdAt},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+				UPDATED_AT = #{updatedAt},
 			</if>
 			<if test="status != null">
 				STATUS = #{status},

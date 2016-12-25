@@ -12,7 +12,7 @@
     <result column="PURCHASE_COUNT"  property="purchaseCount" />
     <result column="PRICE"  property="price" />
     <result column="BUDGET"  property="budget" />
-    <result column="DELIVER_DATE"  property="deliverDate"  jdbcType="VARCHAR"/>
+    <result column="DELIVER_DATE"  property="deliverDate" />
     <result column="PURCHASE_TYPE"  property="purchaseType" />
     <result column="SUPPLIER"  property="supplier" />
     <result column="IS_FREE_TAX"  property="isFreeTax" />
@@ -22,9 +22,9 @@
     <result column="BRAND"  property="brand" />
     <result column="MEMO"  property="memo" />
     <result column="PARENT_ID"  property="parentId" />
-    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="CREATED_AT"  property="createdAt" />
     <result column="STATUS"  property="status" />
-    <result column="UPDATED_AT"  property="updateAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT"  property="updateAt" />
     <result column="POSITION"  property="position" />
     <result column="REQUIRED_ID"  property="requiredId" />
     <result column="PACKAGE_ID"  property="packageId" />
@@ -117,7 +117,7 @@
     values (#{id,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
       #{goodsName,jdbcType=VARCHAR}, #{stand,jdbcType=VARCHAR}, #{qualitStand,jdbcType=VARCHAR}, 
       #{item,jdbcType=VARCHAR}, #{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
-      #{budget,jdbcType=DECIMAL}, #{deliverDate,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR}, 
+      #{budget,jdbcType=DECIMAL}, #{deliverDate,jdbcType=DATE}, #{purchaseType,jdbcType=VARCHAR}, 
       #{supplier,jdbcType=VARCHAR}, #{isFreeTax,jdbcType=VARCHAR}, #{goodsUse,jdbcType=VARCHAR}, 
       #{useUnit,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
       #{purchaseId,jdbcType=VARCHAR})
@@ -245,7 +245,7 @@
         #{budget},
       </if>
       <if test="deliverDate != null">
-        #{deliverDate,jdbcType=VARCHAR},
+        #{deliverDate},
       </if>
       <if test="purchaseType != null">
         #{purchaseType},
@@ -284,10 +284,10 @@
         #{parentId},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=TIMESTAMP},
+        #{createdAt},
       </if>
       <if test="updateAt != null">
-        #{updateAt,jdbcType=TIMESTAMP},
+        #{updateAt},
       </if>
       <if test="status != null">
         #{status},
@@ -331,7 +331,7 @@
         BUDGET = #{budget},
       </if>
       <if test="deliverDate != null">
-        DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
+        DELIVER_DATE = #{deliverDate},
       </if>
       <if test="purchaseType != null">
         PURCHASE_TYPE = #{purchaseType},
@@ -370,10 +370,10 @@
         PARENT_ID = #{parentId},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+        CREATED_AT = #{createdAt},
       </if>
       <if test="updateAt != null">
-        UPDATED_AT = #{updateAt,jdbcType=TIMESTAMP},
+        UPDATED_AT = #{updateAt},
       </if>
       <if test="status != null">
         STATUS = #{status},
@@ -398,7 +398,7 @@
       PURCHASE_COUNT = #{purchaseCount,jdbcType=DECIMAL},
       PRICE = #{price,jdbcType=DECIMAL},
       BUDGET = #{budget,jdbcType=DECIMAL},
-      DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
+      DELIVER_DATE = #{deliverDate,jdbcType=DATE},
       PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
       SUPPLIER = #{supplier,jdbcType=VARCHAR},
       IS_FREE_TAX = #{isFreeTax,jdbcType=VARCHAR},

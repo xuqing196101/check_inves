@@ -25,7 +25,7 @@
     <result column="MATERIALS_TYPE"  property="materialsType" />
     <result column="SECTOR_OF_DEMAND" property="sectorOfDemand" />
     <result column="DEADLINE"  property="deadline" />
-    <result column="DATE_OF_ENTRUSTMENT"  property="dateOfEntrustment"  jdbcType="TIMESTAMP"/>
+    <result column="DATE_OF_ENTRUSTMENT"  property="dateOfEntrustment" />
     <result column="BID_DATE"  property="bidDate" jdbcType="TIMESTAMP"/>
     <result column="BID_ADDRESS" property="bidAddress" />
     <result column="REQUIERED_ID"  property="requieredId" />
@@ -34,21 +34,21 @@
     <result column="PURCHASE_DEP_NAME" property="purchaseDepName"/>
     <result column="EXECUTE_STATUS" property="executeStatus"/>
     <result column="IS_ENTRANCE" property="isEntrance"/>
-    <result column="APPROVAL_TIME" property="approvalTime" jdbcType="TIMESTAMP"/>
-    <result column="REPLY_TIME" property="replyTime" jdbcType="TIMESTAMP"/>
-    <result column="DEMAND_FROM_TIME" property="demandFromTime" jdbcType="TIMESTAMP"/>
+    <result column="APPROVAL_TIME" property="approvalTime"/>
+    <result column="REPLY_TIME" property="replyTime"/>
+    <result column="DEMAND_FROM_TIME" property="demandFromTime"/>
     <result column="IS_REHEARSE" property="IsRehearse"/>
-    <result column="CREATED_AT" property="createAt" jdbcType="TIMESTAMP"/>
-    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP"/>
-    <result column="NOTICE_NEWS_TIME" property="noticeNewsTime" jdbcType="TIMESTAMP"/>
-    <result column="APP_TIME" property="appTime" jdbcType="TIMESTAMP"/>
-    <result column="SIGN_UP_TIME" property="signUpTime" jdbcType="TIMESTAMP"/>
+    <result column="CREATED_AT" property="createAt"/>
+    <result column="START_TIME" property="startTime"/>
+    <result column="NOTICE_NEWS_TIME" property="noticeNewsTime"/>
+    <result column="APP_TIME" property="appTime"/>
+    <result column="SIGN_UP_TIME" property="signUpTime"/>
     <result column="APPLY_DEADLINE" property="applyDeanline"/>
-    <result column="NOTICE_TIME" property="noticeTime" jdbcType="TIMESTAMP"/>
-    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP"/>
-    <result column="SIGNING_TIME" property="signingTime" jdbcType="TIMESTAMP"/>
-    <result column="ACCEPTANCE_TIME" property="acceptanceTime" jdbcType="TIMESTAMP"/>
-    <result column="MAINTENANCE_TIME" property="maintenanceTime" jdbcType="TIMESTAMP"/>
+    <result column="NOTICE_TIME" property="noticeTime"/>
+    <result column="END_TIME" property="endTime"/>
+    <result column="SIGNING_TIME" property="signingTime"/>
+    <result column="ACCEPTANCE_TIME" property="acceptanceTime"/>
+    <result column="MAINTENANCE_TIME" property="maintenanceTime"/>
     <result column="IS_IMPORT" property="isImport"/>
     <result column="IS_PROVISIONAL" property="isProvisional"/>
     <result column="PLAN_TYPE" property="planType"/>
@@ -80,8 +80,8 @@
     <result column="PURCHASE_TYPE"  property="purchaseType" />
     <result column="MATERIALS_TYPE"  property="materialsType" />
     <result column="SECTOR_OF_DEMAND" property="sectorOfDemand" />
-    <result column="DEADLINE"  property="deadline" /> 
-    <result column="DATE_OF_ENTRUSTMENT"  property="dateOfEntrustment" jdbcType="TIMESTAMP" />
+    <result column="DEADLINE"  property="deadline" />
+    <result column="DATE_OF_ENTRUSTMENT"  property="dateOfEntrustment" />
     <result column="BID_DATE"  property="bidDate" jdbcType="TIMESTAMP"/>
     <result column="BID_ADDRESS" property="bidAddress" />
     <result column="REQUIERED_ID"  property="requieredId" />
@@ -90,21 +90,21 @@
     <result column="PURCHASE_DEP_NAME" property="purchaseDepName"/>
     <result column="EXECUTE_STATUS" property="executeStatus"/>
     <result column="IS_ENTRANCE" property="isEntrance"/>
-    <result column="APPROVAL_TIME" property="approvalTime" jdbcType="TIMESTAMP"/>
-    <result column="REPLY_TIME" property="replyTime" jdbcType="TIMESTAMP"/>
-    <result column="DEMAND_FROM_TIME" property="demandFromTime" jdbcType="TIMESTAMP"/>
+    <result column="APPROVAL_TIME" property="approvalTime"/>
+    <result column="REPLY_TIME" property="replyTime"/>
+    <result column="DEMAND_FROM_TIME" property="demandFromTime"/>
     <result column="IS_REHEARSE" property="IsRehearse"/>
-    <result column="CREATED_AT" property="createAt" jdbcType="TIMESTAMP"/>
-    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP"/>
-    <result column="NOTICE_NEWS_TIME" property="noticeNewsTime" jdbcType="TIMESTAMP"/>
-    <result column="APP_TIME" property="appTime" jdbcType="TIMESTAMP"/>
-    <result column="SIGN_UP_TIME" property="signUpTime" jdbcType="TIMESTAMP"/>
+    <result column="CREATED_AT" property="createAt"/>
+    <result column="START_TIME" property="startTime"/>
+    <result column="NOTICE_NEWS_TIME" property="noticeNewsTime"/>
+    <result column="APP_TIME" property="appTime"/>
+    <result column="SIGN_UP_TIME" property="signUpTime"/>
     <result column="APPLY_DEADLINE" property="applyDeanline"/>
-    <result column="NOTICE_TIME" property="noticeTime" jdbcType="TIMESTAMP"/>
-    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP"/>
-    <result column="SIGNING_TIME" property="signingTime" jdbcType="TIMESTAMP"/>
-    <result column="ACCEPTANCE_TIME" property="acceptanceTime" jdbcType="TIMESTAMP"/>
-    <result column="MAINTENANCE_TIME" property="maintenanceTime" jdbcType="TIMESTAMP"/>
+    <result column="NOTICE_TIME" property="noticeTime"/>
+    <result column="END_TIME" property="endTime"/>
+    <result column="SIGNING_TIME" property="signingTime"/>
+    <result column="ACCEPTANCE_TIME" property="acceptanceTime"/>
+    <result column="MAINTENANCE_TIME" property="maintenanceTime"/>
     <result column="IS_IMPORT" property="isImport"/>
     <result column="IS_PROVISIONAL" property="isProvisional"/>
     <result column="PLAN_TYPE" property="planType"/>
@@ -517,10 +517,10 @@
         #{purchaseDep.id,jdbcType=VARCHAR},
       </if>
       <if test="deadline != null">
-        #{deadline,jdbcType=TIMESTAMP},
+        #{deadline,jdbcType=DATE},
       </if>
       <if test="dateOfEntrustment != null">
-        #{dateOfEntrustment,jdbcType=TIMESTAMP},
+        #{dateOfEntrustment,jdbcType=DATE},
       </if>
       <if test="bidDate != null">
         #{bidDate,jdbcType=TIMESTAMP},
@@ -550,49 +550,49 @@
         #{isEntrance},
       </if>
       <if test="approvalTime != null">
-        #{approvalTime,jdbcType=TIMESTAMP},
+        #{approvalTime},
       </if>
       <if test="replyTime != null">
-        #{replyTime,jdbcType=TIMESTAMP},
+        #{replyTime},
       </if>
       <if test="demandFromTime != null">
-        #{demandFromTime,jdbcType=TIMESTAMP},
+        #{demandFromTime},
       </if>
       <if test="IsRehearse != null">
         #{IsRehearse},
       </if>
       <if test="createAt != null">
-        #{createAt,jdbcType=TIMESTAMP},
+        #{createAt},
       </if>
       <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
+        #{startTime},
       </if>
       <if test="noticeNewsTime != null">
-        #{noticeNewsTime,jdbcType=TIMESTAMP},
+        #{noticeNewsTime},
       </if>
       <if test="appTime != null">
-        #{appTime,jdbcType=TIMESTAMP},
+        #{appTime},
       </if>
       <if test="signUpTime != null">
-        #{signUpTime,jdbcType=TIMESTAMP},
+        #{signUpTime},
       </if>
       <if test="applyDeanline != null">
         #{applyDeanline},
       </if>
       <if test="noticeTime != null">
-        #{noticeTime,jdbcType=TIMESTAMP},
+        #{noticeTime},
       </if>
       <if test="endTime != null">
-        #{endTime,jdbcType=TIMESTAMP},
+        #{endTime},
       </if>
       <if test="signingTime != null">
-        #{signingTime,jdbcType=TIMESTAMP},
+        #{signingTime},
       </if>
       <if test="acceptanceTime != null">
-        #{acceptanceTime,jdbcType=TIMESTAMP},
+        #{acceptanceTime},
       </if>
       <if test="maintenanceTime != null">
-        #{maintenanceTime,jdbcType=TIMESTAMP},
+        #{maintenanceTime},
       </if>
       <if test="isImport != null">
         #{isImport},
@@ -680,10 +680,10 @@
         PURCHASE_DEP_ID = #{purchaseDep.id,jdbcType=VARCHAR},
       </if>
       <if test="deadline != null">
-        DEADLINE = #{deadline,jdbcType=TIMESTAMP},
+        DEADLINE = #{deadline,jdbcType=DATE},
       </if>
       <if test="dateOfEntrustment != null">
-        DATE_OF_ENTRUSTMENT = #{dateOfEntrustment,jdbcType=TIMESTAMP},
+        DATE_OF_ENTRUSTMENT = #{dateOfEntrustment,jdbcType=DATE},
       </if>
       <if test="bidDate != null">
         BID_DATE = #{bidDate,jdbcType=TIMESTAMP},
@@ -713,49 +713,49 @@
         IS_ENTRANCE = #{isEntrance},
       </if>
       <if test="approvalTime != null">
-        APPROVAL_TIME = #{approvalTime,jdbcType=TIMESTAMP},
+        APPROVAL_TIME = #{approvalTime},
       </if>
       <if test="replyTime != null">
-        REPLY_TIME = #{replyTime,jdbcType=TIMESTAMP},
+        REPLY_TIME = #{replyTime},
       </if>
       <if test="demandFromTime != null">
-        DEMAND_FROM_TIME = #{demandFromTime,jdbcType=TIMESTAMP},
+        DEMAND_FROM_TIME = #{demandFromTime},
       </if>
       <if test="IsRehearse != null">
         IS_REHEARSE = #{IsRehearse},
       </if>
       <if test="createAt != null">
-        CREATED_AT = #{createAt,jdbcType=TIMESTAMP},
+        CREATED_AT = #{createAt},
       </if>
       <if test="startTime != null">
-        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+        START_TIME = #{startTime},
       </if>
       <if test="noticeNewsTime != null">
-        NOTICE_NEWS_TIME = #{noticeNewsTime,jdbcType=TIMESTAMP},
+        NOTICE_NEWS_TIME = #{noticeNewsTime},
       </if>
       <if test="appTime != null">
-        APP_TIME = #{appTime,jdbcType=TIMESTAMP},
+        APP_TIME = #{appTime},
       </if>
       <if test="signUpTime != null">
-        SIGN_UP_TIME = #{signUpTime,jdbcType=TIMESTAMP},
+        SIGN_UP_TIME = #{signUpTime},
       </if>
       <if test="applyDeanline != null">
-        APPLY_DEADLINE = #{applyDeanline,jdbcType=TIMESTAMP},
+        APPLY_DEADLINE = #{applyDeanline},
       </if>
       <if test="noticeTime != null">
-        NOTICE_TIME = #{noticeTime,jdbcType=TIMESTAMP},
+        NOTICE_TIME = #{noticeTime},
       </if>
       <if test="endTime != null">
-        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+        END_TIME = #{endTime},
       </if>
       <if test="signingTime != null">
-        SIGNING_TIME = #{signingTime,jdbcType=TIMESTAMP},
+        SIGNING_TIME = #{signingTime},
       </if>
       <if test="acceptanceTime != null">
-        ACCEPTANCE_TIME = #{acceptanceTime,jdbcType=TIMESTAMP},
+        ACCEPTANCE_TIME = #{acceptanceTime},
       </if>
       <if test="maintenanceTime != null">
-        MAINTENANCE_TIME = #{maintenanceTime,jdbcType=TIMESTAMP},
+        MAINTENANCE_TIME = #{maintenanceTime},
       </if>
       <if test="isImport != null">
         IS_IMPORT = #{isImport},

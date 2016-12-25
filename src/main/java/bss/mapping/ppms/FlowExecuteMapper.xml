@@ -8,7 +8,7 @@
     <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
     <result column="STATUS" jdbcType="DECIMAL" property="status" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt"/>
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="OPERATOR_ID" jdbcType="VARCHAR" property="operatorId" />
     <result column="OPERATOR_NAME" jdbcType="VARCHAR" property="operatorName" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />

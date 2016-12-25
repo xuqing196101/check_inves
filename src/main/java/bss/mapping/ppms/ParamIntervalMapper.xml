@@ -11,8 +11,8 @@
 		<result column="score" property="score" />
 		<result column="explain" property="explain" />
 		<result column="IS_DELETED" property="isDeleted" />
-		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
-		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+		<result column="CREATED_AT" property="createdAt" />
+		<result column="UPDATED_AT" property="updatedAt" />
 	</resultMap>
 	<!-- t_bss_ppms_param_interval 参数区间表-->
 	<select id="findListByParamInterval" parameterType="bss.model.ppms.ParamInterval" resultMap="BaseResultMap">

@@ -104,7 +104,7 @@
       #{unit}, #{type}, #{place}, 
       #{pqdate}, #{inspectors}, #{condition}, 
       #{conclusion}, #{detail}, #{report}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+      #{createdAt}, #{updatedAt})
   </insert>
   
   <!-- 4.插入不为空数据 -->
@@ -192,10 +192,10 @@
         #{report},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=TIMESTAMP},
+        #{createdAt},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=TIMESTAMP},
+        #{updatedAt},
       </if>
     </trim>
   </insert>
@@ -238,10 +238,10 @@
         REPORT = #{report,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+        CREATED_AT = #{createdAt,jdbcType=DATE},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -261,8 +261,8 @@
       CONCLUSION = #{conclusion,jdbcType=VARCHAR},
       DETAIL = #{detail,jdbcType=VARCHAR},
       REPORT = #{report,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

@@ -7,8 +7,8 @@
     <result column="TYPE" jdbcType="VARCHAR" property="type" />
     <result column="SIZE" jdbcType="FLOAT" property="size" />
     <result column="PATH" jdbcType="VARCHAR" property="path" />
-    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
-    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <association column="ARTICLE_ID" property="article" select="iss.dao.ps.ArticleMapper.selectById"></association>
   </resultMap>

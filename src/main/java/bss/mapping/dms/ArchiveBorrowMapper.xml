@@ -5,8 +5,8 @@
     <id column="ID"  property="id" />
     <result column="USER_ID" property="userId"/>
    	<result column="AUTHORIZE_TIME" property="authorizeTime"/>
-   	<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
-   	<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+   	<result column="CREATED_AT" property="createdAt"/>
+   	<result column="UPDATED_AT" property="updatedAt"/>
    	<result column="ARCHIVE_ID" property="archiveId"/>
    	<result column="NAME" property="name"/>
    	<result column="PATH" property="path"/>
@@ -66,10 +66,10 @@
         #{authorizeTime},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=TIMESTAMP},
+        #{createdAt},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=TIMESTAMP},
+        #{updatedAt},
       </if>
       <if test="archiveId != null">
         #{archiveId},
@@ -98,10 +98,10 @@
         AUTHORIZE_TIME = #{authorizeTime},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+        CREATED_AT = #{createdAt},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+        UPDATED_AT = #{updatedAt},
       </if>
       <if test="archiveId != null">
         ARCHIVE_ID = #{archiveId},

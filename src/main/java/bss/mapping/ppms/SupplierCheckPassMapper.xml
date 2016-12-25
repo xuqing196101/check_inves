@@ -13,8 +13,8 @@
 		<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
 		<result column="IS_WON_BID" jdbcType="DECIMAL" property="isWonBid" />
 		<result column="IS_SEND_NOTICE" jdbcType="DECIMAL" property="isSendNotice" />
-		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
 		<result column="IS_CREATE_CONTRACT" jdbcType="DECIMAL"
 			property="isCreateContract" />
 		<result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId"/>
@@ -52,8 +52,8 @@
 			<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
 			<result column="IS_WON_BID" jdbcType="DECIMAL" property="isWonBid" />
 			<result column="IS_SEND_NOTICE" jdbcType="DECIMAL" property="isSendNotice" />
-			<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-			<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+			<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+			<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
 			<association property="supplier" column="SUPPLIER_ID"
 				select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
 		</collection>
@@ -98,7 +98,7 @@
 		#{totalScore,jdbcType=DECIMAL}, #{packageId,jdbcType=VARCHAR},
 		#{isWonBid,jdbcType=DECIMAL},
 		#{isSendNotice,jdbcType=DECIMAL},
-		#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+		#{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.ppms.SupplierCheckPass">
@@ -180,10 +180,10 @@
 				#{isSendNotice,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=TIMESTAMP},
+				#{createdAt,jdbcType=DATE},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=TIMESTAMP},
+				#{updatedAt,jdbcType=DATE},
 			</if>
 			 <if test="priceRatio != null">
         #{priceRatio,jdbcType=DECIMAL},
@@ -216,10 +216,10 @@
 				IS_SEND_NOTICE = #{isSendNotice,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+				CREATED_AT = #{createdAt,jdbcType=DATE},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+				UPDATED_AT = #{updatedAt,jdbcType=DATE},
 			</if>
 			<if test="isCreateContract != null">
 				IS_CREATE_CONTRACT = #{isCreateContract},
@@ -266,8 +266,8 @@
 		IS_SEND_NOTICE =
 		#{isSendNotice,jdbcType=DECIMAL},
 		CREATED_AT =
-		#{createdAt,jdbcType=TIMESTAMP},
-		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+		#{createdAt,jdbcType=DATE},
+		UPDATED_AT = #{updatedAt,jdbcType=DATE}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<!-- 获取包id和包name -->

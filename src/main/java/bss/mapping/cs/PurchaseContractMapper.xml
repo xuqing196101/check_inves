@@ -47,10 +47,10 @@
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted"/>
     <result column="CONTRACT_TYPE" jdbcType="DECIMAL" property="contractType"/>
-    <result column="DRAFT_GIT_AT" property="draftGitAt" jdbcType="TIMESTAMP"/>
-    <result column="DRAFT_REVIEWED_AT" property="draftReviewedAt" jdbcType="TIMESTAMP"/>
-    <result column="FORMAL_GIT_AT" property="formalGitAt" jdbcType="TIMESTAMP"/>
-    <result column="FORMAL_REVIEWED_AT" property="formalReviewedAt" jdbcType="TIMESTAMP"/>
+    <result column="DRAFT_GIT_AT" property="draftGitAt"/>
+    <result column="DRAFT_REVIEWED_AT" property="draftReviewedAt"/>
+    <result column="FORMAL_GIT_AT" property="formalGitAt"/>
+    <result column="FORMAL_REVIEWED_AT" property="formalReviewedAt"/>
     <result column="IS_IMPORT" jdbcType="DECIMAL" property="isImport"/>
     <result column="IS_DECLARE" jdbcType="DECIMAL" property="isDeclare"/>
     <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType"/>
@@ -316,8 +316,8 @@
       #{supplierContact,jdbcType=VARCHAR}, #{supplierContactTelephone,jdbcType=VARCHAR}, 
       #{supplierContactAddress,jdbcType=VARCHAR}, #{supplierUnitpostCode,jdbcType=VARCHAR}, 
       #{supplierBank,jdbcType=VARCHAR}, #{supplierBankAccount,jdbcType=DECIMAL}, #{supplierBankName,jdbcType=VARCHAR},
-      #{supplierPurId,jdbcType=VARCHAR},#{content},#{projectName},#{appeal},#{approvePic},#{createdAt,jdbcType=TIMESTAMP},#{updatedAt,jdbcType=TIMESTAMP},#{isDeleted},
-      #{contractType},#{draftGitAt,jdbcType=TIMESTAMP},#{draftReviewedAt,jdbcType=TIMESTAMP},#{formalGitAt,jdbcType=TIMESTAMP},#{formalReviewedAt,jdbcType=TIMESTAMP},
+      #{supplierPurId,jdbcType=VARCHAR},#{content},#{projectName},#{appeal},#{approvePic},#{createdAt},#{updatedAt},#{isDeleted},
+      #{contractType},#{draftGitAt},#{draftReviewedAt},#{formalGitAt},#{formalReviewedAt},
       #{contractType},#{isImport},#{isDeclare},#{purchaseType},#{projectId}.#{finallyClosed},
       #{bingDepName},#{bingContact},#{bingContactTelephone},#{bingContactAddress},#{bingUnitpostCode}
       )
@@ -607,10 +607,10 @@
         #{approvePic},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=TIMESTAMP},
+        #{createdAt},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=TIMESTAMP},
+        #{updatedAt},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -619,16 +619,16 @@
         #{contractType},
       </if>
       <if test="draftGitAt != null">
-        #{draftGitAt,jdbcType=TIMESTAMP},
+        #{draftGitAt},
       </if>
       <if test="draftReviewedAt != null">
-        #{draftReviewedAt,jdbcType=TIMESTAMP},
+        #{draftReviewedAt},
       </if>
       <if test="formalGitAt != null">
-        #{formalGitAt,jdbcType=TIMESTAMP},
+        #{formalGitAt},
       </if>
       <if test="formalReviewedAt != null">
-        #{formalReviewedAt,jdbcType=TIMESTAMP},
+        #{formalReviewedAt},
 	  </if>
       <if test="isImport != null">
         #{isImport},
@@ -948,10 +948,10 @@
         #{approvePic},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=TIMESTAMP},
+        #{createdAt},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=TIMESTAMP},
+        #{updatedAt},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -960,16 +960,16 @@
         #{contractType},
       </if>
       <if test="draftGitAt != null">
-        #{draftGitAt,jdbcType=TIMESTAMP},
+        #{draftGitAt},
       </if>
       <if test="draftReviewedAt != null">
-        #{draftReviewedAt,jdbcType=TIMESTAMP},
+        #{draftReviewedAt},
       </if>
       <if test="formalGitAt != null">
-        #{formalGitAt,jdbcType=TIMESTAMP},
+        #{formalGitAt},
       </if>
       <if test="formalReviewedAt != null">
-        #{formalReviewedAt,jdbcType=TIMESTAMP},
+        #{formalReviewedAt},
 	  </if>
       <if test="isImport != null">
         #{isImport},
@@ -1116,7 +1116,7 @@
         APPROVE_PIC = #{approvePic},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+        UPDATED_AT = #{updatedAt},
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
@@ -1125,16 +1125,16 @@
         CONTRACT_TYPE = #{contractType},
       </if>
       <if test="draftGitAt != null">
-        DRAFT_GIT_AT = #{draftGitAt,jdbcType=TIMESTAMP},
+        DRAFT_GIT_AT = #{draftGitAt},
       </if>
       <if test="draftReviewedAt != null">
-        DRAFT_REVIEWED_AT = #{draftReviewedAt,jdbcType=TIMESTAMP},
+        DRAFT_REVIEWED_AT = #{draftReviewedAt},
       </if>
       <if test="formalGitAt != null">
-        FORMAL_GIT_AT = #{formalGitAt,jdbcType=TIMESTAMP},
+        FORMAL_GIT_AT = #{formalGitAt},
       </if>
       <if test="formalReviewedAt != null">
-        FORMAL_REVIEWED_AT = #{formalReviewedAt,jdbcType=TIMESTAMP},
+        FORMAL_REVIEWED_AT = #{formalReviewedAt},
       </if>
       <if test="isImport != null">
         IS_IMPORT = #{isImport},
@@ -1207,14 +1207,14 @@
       PROJECT_NAME = #{projectName},
       IS_APPEAL = #{isAppeal},
       APPROVE_PIC = #{approvePic},
-      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      CREATED_AT = #{createdAt},
+      UPDATED_AT = #{updatedAt},
       IS_DELETED = #{isDeleted},
       CONTRACT_TYPE = #{contractType},
-      DRAFT_GIT_AT = #{draftGitAt,jdbcType=TIMESTAMP},
-      DRAFT_REVIEWED_AT = #{draftReviewedAt,jdbcType=TIMESTAMP},
-      FORMAL_GIT_AT = #{formalGitAt,jdbcType=TIMESTAMP},
-      FORMAL_REVIEWED_AT = #{formalReviewedAt,jdbcType=TIMESTAMP},
+      DRAFT_GIT_AT = #{draftGitAt},
+      DRAFT_REVIEWED_AT = #{draftReviewedAt},
+      FORMAL_GIT_AT = #{formalGitAt},
+      FORMAL_REVIEWED_AT = #{formalReviewedAt}
       IS_IMPORT = #{isImport},
       IS_DECLARE = ${isDeclare},
       PURCHASE_TYPE = ${purchaseType},

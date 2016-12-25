@@ -3,12 +3,12 @@
 <mapper namespace="bss.dao.ppms.BidDocumentMapper">
   <resultMap id="BidDocumentResultMap" type="bss.model.ppms.BidDocument">
     <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="SALE_START_AT"  property="saleStartAt" jdbcType="TIMESTAMP"/>
-    <result column="SALE_END_AT"  property="saleEndAt" jdbcType="TIMESTAMP"/>
+    <result column="SALE_START_AT" jdbcType="DATE" property="saleStartAt" />
+    <result column="SALE_END_AT" jdbcType="DATE" property="saleEndAt" />
     <result column="SALE_ADDRESS" jdbcType="VARCHAR" property="saleAddress" />
     <result column="STATUS" jdbcType="DECIMAL" property="status" />
-    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
-    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <result column="CONTENT" jdbcType="CLOB" property="content" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
