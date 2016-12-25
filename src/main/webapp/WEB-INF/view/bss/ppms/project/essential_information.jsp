@@ -233,6 +233,11 @@
         var type = "17";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
+      
+      function getValue(){
+    	  var date = $("#deadline").val();
+    	  $("#bidDate").val(date);
+      }
     </script>
   </head>
 
@@ -271,8 +276,8 @@
                       <td class="p0"><input name="name" class="m0" id="name" value="${project.name}" type="text"/><input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}" /></td>
                     </tr>
                     <tr>
-                      <td class="bggrey">项目经办人:</td>
-                      <td class="p0"><input name="principal" class="m0" id="principal" value="${project.principal}" type="text"/></td>
+                      <td class="bggrey">项目承办人:</td>
+                      <td class="p0"><input name="principal" class="m0" id="principal" value="${user.relName}" type="text"/></td>
                       <td class="bggrey">经办人手机:</td>
                       <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text"/></td>
                     </tr>
@@ -299,9 +304,9 @@
                     </tr>
                     <tr>
                       <td class="bggrey">投标截止时间:</td>
-                      <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" /></td>
+                      <td class="p0"><input value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" onfocus="getValue()" class="Wdate" /></td>
                       <td class="bggrey">开标时间:</td>
-                      <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
+                      <td class="p0"><input value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                     </tr>
                     <tr>
                       <td class="bggrey">开标地点:</td>
@@ -464,13 +469,13 @@
           <div class="tab-pane fade " id="tab-4">
             <div class="margin-bottom-0  categories">
               <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-                <u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}" />
+                <u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
               </form>
             </div>
           </div>
           <div class="tab-pane fade active over_hideen" id="tab-5">
             <div>上传附件：</div>
-            <u:upload id="upload123" groups="upload123,upload_id" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" />
+            <u:upload id="upload123" groups="upload123,upload_id" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" buttonName="上传附件"/>
             <u:show showId="upload123" groups="upload123,upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}" />
           </div>
         </div>
