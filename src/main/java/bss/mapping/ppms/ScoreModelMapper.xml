@@ -28,7 +28,7 @@
    	<result column="interval_number"  property="intervalNumber" />
    	<result column="is_deleted"  property="isDeleted" />
    	<result column="created_at"  property="createdAt" jdbcType="TIMESTAMP"/>
-   	<result column="updated_at"  property="updatedAt"jdbcType="TIMESTAMP" />
+   	<result column="updated_at"  property="updatedAt" jdbcType="TIMESTAMP" />
    	<result column="status"  property="status" />
    	<result column="judge_number"  property="judgeNumber" />
    	<!-- <association property="markTerm" column="mark_term_id" select="bss.dao.ppms.MarkTermMapper.findMarkTermById"/> -->
