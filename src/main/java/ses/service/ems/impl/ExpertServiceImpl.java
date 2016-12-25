@@ -340,7 +340,7 @@ public class ExpertServiceImpl implements ExpertService {
 				}else if(expert.getStatus().equals("3") && !expert.getIsBlack().equals("1")){
 				    // 退回修改
 				    map.put("expert", "2");
-				}else if(expert.getStatus().equals("5")){
+				}else if(expert.getStatus().equals("6")){
                     // 复审踢除
                     map.put("expert", "6");
                 }

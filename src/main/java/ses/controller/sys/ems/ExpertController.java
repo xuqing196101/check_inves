@@ -1227,6 +1227,7 @@ public class ExpertController {
         if ("3".equals(temp.getStatus())) {
             //未审核
             expert.setStatus("0");
+            expert.setIsDelete((short) 1);
         }
         //修改时间
         expert.setUpdatedAt(new Date());

@@ -42,7 +42,7 @@
           <div class="p0${vs.index}">
             <table class="table table-bordered table-condensed table-hover table-striped">
               <tr>
-                <td class="tc">排名/供应商</td>
+                <td class="tc">专家/供应商</td>
                 <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
 	                <td class="tc">${supplier.suppliers.supplierName}</td>

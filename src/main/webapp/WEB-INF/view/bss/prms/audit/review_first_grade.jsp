@@ -239,9 +239,9 @@ $(document).ready(function() {
 					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
 					 	        </c:forEach>
 					 	      />
-					 	      <span><c:forEach items="${scores}" var="sco">
+					 	      <font color="red"><c:forEach items="${scores}" var="sco">
 					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">${sco.score}</c:if>
-					 	        </c:forEach></span>
+					 	        </c:forEach></font>
 					 	    </td>
 				 	      </c:forEach>
 					    </tr> 
