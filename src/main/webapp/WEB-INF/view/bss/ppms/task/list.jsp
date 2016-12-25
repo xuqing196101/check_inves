@@ -207,7 +207,7 @@
   
   /** 重置任务 */
   function clearSearch() {
-	$("#purchaseRequiredId").attr("value", "");
+	$("#name").attr("value", "");
 	$("#documentNumber").attr("value", "");
 	$("#purchaseId").attr("value", "");
 	//还原select下拉列表只需要这一句
@@ -265,12 +265,17 @@
 	  <form id="form1" action="${pageContext.request.contextPath}/task/list.html" method="post" class="mb0">
 		<input type="hidden" name="page" id="page">
 		<ul class="demand_list">
-		  <li>
+		  <%--<li>
 		    <label class="fl">需求部门：</label>
-			<span><input type="text" name="name" id="purchaseRequiredId" value="${task.name}" /></span>
+				<span><input type="text" name="name" id="purchaseRequiredId" value="${task.name}" /></span>
 		  </li>
+          --%>
+      		<li>
+		    		<label class="fl">采购任务名称：</label>
+						<span><input type="text" name="name" id="name" value="${task.name}" /></span>
+		  		</li>
           <li>
-            <label class="fl">文件编号：</label>
+            <label class="fl">采购任务文号：</label>
             <span><input type="text" name="documentNumber" id="documentNumber" value="${task.documentNumber }" class=""/></span>
           </li>
           <li>
@@ -302,23 +307,25 @@
 		<div class="clear"></div>
     </form>
 	</h2>
-	<div class="col-md-12 pl20 mt10">
-	  <button class="btn btn-windows edit" onclick="edit()" type="button">任务调整</button>
-	  <button class="btn btn-windows delete" onclick="deleted()">任务取消</button>
-	  <button class="btn btn-windows git" onclick="start()">受领</button>
-	</div>
+	<c:if test="${admin!=1 }">
+		<div class="col-md-12 pl20 mt10">
+	  	<button class="btn btn-windows edit" onclick="edit()" type="button">任务调整</button>
+	  	<button class="btn btn-windows delete" onclick="deleted()">任务取消</button>
+	  	<button class="btn btn-windows git" onclick="start()">受领</button>
+		</div>
+	</c:if>
 	<div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
-		  <tr>
-			<th class="info w30"><input type="checkbox" id="checkAll"onclick="selectAll()"></th>
-			<th class="info w50">序号</th>
-			<th class="info">采购任务名称</th>
-			<th class="info">需求部门</th>
-			<th class="info">下达文件编号</th>
-			<th class="info">状态</th>
-			<th class="info">任务性质</th>
-			<th class="info">下达时间</th>
+		  <tr class="info">
+				<th class="w30"><input type="checkbox" id="checkAll"onclick="selectAll()"></th>
+				<th class="w50">序号</th>
+				<th>采购任务名称</th>
+				<th>采购管理部门</th>
+				<th>采购任务文号</th>
+				<th>状态</th>
+				<th>任务性质</th>
+				<th>下达时间</th>
 		  </tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">

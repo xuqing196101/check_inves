@@ -183,11 +183,11 @@
 								<span><input type="text" name="planName" id="planName" value="${planName}" /></span>
 					  	</li>
 			        <li>
-			          <label class="fl">需求部门：</label>
+			          <label class="fl">采购管理部门：</label>
 			          <span><input type="text" name="orgName" id="orgName" value="${orgName }"/></span>
 			        </li>
 			        <li>
-			          <label class="fl">下达文件编号：</label>
+			          <label class="fl">采购任务文号：</label>
 			          <span><input type="text" name="documentNumber" id="documentNumber" value="${documentNumber }"/></span>
 			        </li>
 						</ul>
@@ -202,9 +202,8 @@
                   <tr class="info">
                     <th class="w50">序号</th>
                     <th>采购任务名称</th>
-                    <th>需求部门</th>
-                    <th>下达文件编号</th>
-                    <th>状态</th>
+                    <th>采购管理部门</th>
+                    <th>采购任务文号</th>
                     <th>下达时间</th>
                     <th>
                       <div class="star_red">*</div>操作
@@ -224,12 +223,12 @@
                       	</c:forEach>
                       </td>
                       <td>${obj.documentNumber}</td>
-                      <td class="tc">
-                        <c:if test="${'0'==obj.status}">
+                      <%--<td class="tc">
+                        <c:if test="${'1'==obj.status}">
                           <span class="label rounded-2x label-u">受领</span>
                         </c:if>
                       </td>
-                      <td class="tc">
+                      --%><td class="tc">
                         <fmt:formatDate value="${obj.giveTime }" />
                       </td>
                       <td class="tc w30">

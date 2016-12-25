@@ -2,6 +2,7 @@ package bss.controller.ppms;
 
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.util.CommonConstant;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.RoleServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
@@ -83,7 +85,8 @@ public class TackController extends BaseController{
 	private AdvancedDetailService detailService;
 	@Autowired
 	private AdvancedProjectService advancedProjectService;
-	
+	@Autowired
+	private RoleServiceI roleService;
 	/**
 	 * 
 	* @Title: listAll
@@ -111,12 +114,18 @@ public class TackController extends BaseController{
 			if(task.getTaskNature() != null){
 				map1.put("taskNature", task.getTaskNature());
 			}
+			map1.put("userId", user.getId());
 	        if(page==null){
 				page = 1;
 			}
 	        map1.put("page", page.toString());
 			PageHelper.startPage(page,Integer.parseInt("20"));
 	        List<Task> list = taskservice.likeByName(map1);
+	        //判断是不是监管人员
+	        HashMap<String,Object> roleMap = new HashMap<String,Object>();
+			roleMap.put("userId", user.getId());
+			roleMap.put("code", "SUPERVISER_R");
+			BigDecimal i = roleService.checkRolesByUserId(roleMap);
             HashMap<String, Object> map = new HashMap<>();
             map.put("typeName", "0");
             List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
@@ -124,6 +133,7 @@ public class TackController extends BaseController{
             model.addAttribute("info", new PageInfo<Task>(list));
             model.addAttribute("orgId", user.getOrg().getId());
             model.addAttribute("task", task);
+            model.addAttribute("admin", i);//判断是不是监管人员
 	    }
 		return "bss/ppms/task/list";
 	}
