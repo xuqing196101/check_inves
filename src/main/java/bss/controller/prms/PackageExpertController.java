@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.ems.ExpExtPackage;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
@@ -77,6 +78,7 @@ import bss.service.prms.ReviewFirstAuditService;
 import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
+import common.annotation.CurrentUser;
 
 @Controller
 @RequestMapping("packageExpert")
@@ -1258,6 +1260,7 @@ public class PackageExpertController {
         Map<String, Object> packageExpertmap = new HashMap<String, Object>();
         packageExpertmap.put("packageId", packageId);
         packageExpertmap.put("projectId", projectId);
+        //查询已提交符合性审查的专家
         List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
         // 供应商信息
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
@@ -1298,17 +1301,29 @@ public class PackageExpertController {
                     }
                     // 如果变量大于0 说明有不合格的数据
                     if (count2 > 0) {
-                        supplierExt.setSupplierId(saleTender.getSuppliers()
-                            .getId());
+                        supplierExt.setSupplierId(saleTender.getSuppliers().getId());
                         supplierExt.setExpertId(packageExpert.getExpertId());
                         supplierExt.setPackageId(packageExpert.getPackageId());
-                        supplierExt.setSuppIsPass("0");
+                        //判断专家是否提交
+                        if (packageExpert.getIsAudit() == 1) {
+                          //已提交的话显示评审结果
+                          supplierExt.setSuppIsPass("0");
+                        } else {
+                          //未提交的话显示为未提交
+                          supplierExt.setSuppIsPass("2");
+                        }
                     } else {
-                        supplierExt.setSupplierId(saleTender.getSuppliers()
-                            .getId());
+                        supplierExt.setSupplierId(saleTender.getSuppliers().getId());
                         supplierExt.setExpertId(packageExpert.getExpertId());
                         supplierExt.setPackageId(packageExpert.getPackageId());
-                        supplierExt.setSuppIsPass("1");
+                        //判断专家是否提交
+                        if (packageExpert.getIsAudit() == 1) {
+                          //已提交的话显示评审结果
+                          supplierExt.setSuppIsPass("1");
+                        } else {
+                          //未提交的话显示为未提交
+                          supplierExt.setSuppIsPass("2");
+                        }
                     }
                 } else {
                     supplierExt
@@ -1977,7 +1992,7 @@ public class PackageExpertController {
     }
     
     /**
-     *〈简述〉符合性审查汇总
+     *〈简述〉符合性审查结束
      *〈详细描述〉
      * @author Ye MaoLin
      * @param packageId 包id
@@ -1986,10 +2001,13 @@ public class PackageExpertController {
      * @throws IOException 
      */
     @RequestMapping("/isFirstGather")
-    public void isFirstGather(HttpServletResponse response, String projectId, String packageId) throws IOException{
+    public void isFirstGather(HttpServletRequest request, HttpServletResponse response, String projectId, String packageId, String flowDefineId) throws IOException{
       try {
+        //结束包的符合性审查
         String msg = service.isFirstGather(projectId,packageId);
         if ("SUCCESS".equals(msg)) {
+          //组织专家评审流程执行中
+          flowMangeService.flowExe(request, flowDefineId, projectId, 2);
           response.setContentType("text/html;charset=utf-8");
           response.getWriter()
                   .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
@@ -2007,6 +2025,112 @@ public class PackageExpertController {
     }
     
     /**
+     *〈简述〉符合性审查结束提示
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param projectId
+     * @param packageId
+     * @param expertIds
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/isSendBack")
+    public void isSendBack(String projectId, String packageId, String expertIds, HttpServletResponse response) throws IOException{
+      try {
+        String msg = "";
+        int flag = 0;
+        String[] expertIdArr = expertIds.split(",");
+        if (expertIdArr != null && expertIdArr.length > 0) {
+          for (int i = 0; i < expertIdArr.length; i++) {
+             // 查询是否已评审
+             Map<String, Object> map = new HashMap<String, Object>();
+             map.put("expertId", expertIdArr[i]);
+             map.put("packageId", packageId);
+             map.put("projectId", projectId);
+             List<PackageExpert> selectList = service.selectList(map);
+             Expert expert = expertService.selectByPrimaryKey(expertIdArr[i]);
+             if (selectList != null && selectList.size() > 0) {
+               PackageExpert packageExpert = selectList.get(0);
+               // 必须是已评审
+               if (packageExpert.getIsAudit() != SONE) {
+                 msg += "【"+expert.getRelName()+"】未提交评审内容.";
+                 //操作失败提示
+                 flag += 1;
+               }
+             }
+          }
+        }
+        if (flag > 0) {
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter()
+                  .print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+        }  
+        if (flag == 0 && expertIdArr != null && expertIdArr.length > 0){
+            for (int i = 0; i < expertIdArr.length; i++) {
+              // 查询是否已评审
+              Map<String, Object> map = new HashMap<String, Object>();
+              map.put("expertId", expertIdArr[i]);
+              map.put("packageId", packageId);
+              map.put("projectId", projectId);
+              List<PackageExpert> selectList = service.selectList(map);
+              Expert expert = expertService.selectByPrimaryKey(expertIdArr[i]);
+              if (selectList != null && selectList.size() > 0) {
+                PackageExpert packageExpert = selectList.get(0);
+                if (packageExpert.getIsGrade() == SONE || packageExpert.getIsGrade() == NUMBER_TWO) {
+                  msg += "【"+expert.getRelName()+"】经济技术评分内容将会清空.";
+                }
+              }
+            }
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter()
+                    .print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
+        }
+        response.getWriter().flush();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally {
+        response.getWriter().close();
+      }
+    }
+     
+    /**
+     *〈简述〉暂存符合性审查内容
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param user
+     * @param response
+     * @param projectId
+     * @param packageId
+     * @throws IOException
+     */
+    @RequestMapping("/tempSave")
+    public void tempSave(@CurrentUser User user, HttpServletResponse response, String projectId, String packageId) throws IOException{
+      try {
+        String msg = "";
+        String expertId = user.getTypeId();
+        String result = reviewProgressService.tempSaveFirstAudit(projectId, packageId, expertId);
+        if ("SUCCESS".equals(result)) {
+          msg = "暂存成功";
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter()
+                  .print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
+        }
+        if ("ERROR".equals(result)) {
+          msg = "暂存失败";
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter()
+                  .print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+        }
+        response.getWriter().flush();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally {
+        response.getWriter().close();
+      }
+      
+    }
+    
+    /**
      *〈简述〉符合性审查退回复核
      *〈详细描述〉
      * @author Ye MaoLin
@@ -2019,25 +2143,31 @@ public class PackageExpertController {
         String msg = "";
         int flag = 0;
         String[] expertIdArr = expertIds.split(",");
-        for (int i = 0; i < expertIdArr.length; i++) {
-            if (expertIdArr != null && expertIdArr.length > 0) {
+        if (expertIdArr != null && expertIdArr.length > 0) {
+           for (int i = 0; i < expertIdArr.length; i++) {
               // 查询是否已评审
               Map<String, Object> map = new HashMap<String, Object>();
               map.put("expertId", expertIdArr[i]);
               map.put("packageId", packageId);
               map.put("projectId", projectId);
               List<PackageExpert> selectList = service.selectList(map);
+              Expert expert = expertService.selectByPrimaryKey(expertIdArr[i]);
               if (selectList != null && selectList.size() > 0) {
-                PackageExpert packageExpert = selectList.get(0);
-                // 必须是已评审 但未评分的数据才能退回
-                if (packageExpert.getIsAudit() != SONE || packageExpert.getIsGrade() == SONE) {
-                  msg = "必须是已评审 但未评分的数据才能退回";
-                  flag = 1;
-                } else {
-                  //改为评审未提交状态
+                  PackageExpert packageExpert = selectList.get(0);
+                  //如果该专家已提交或暂存评分内容或，则退回并清空评分内容
+                  if (packageExpert.getIsGrade() == SONE || packageExpert.getIsGrade() == NUMBER_TWO) {
+                    //改为经济技术评审未提交和未结束状态
+                    packageExpert.setIsGrade((short)0);
+                    packageExpert.setIsGatherGather((short)0);
+                    packageExpertService.updateByBean(packageExpert);
+                    //评分内容清空
+                    
+                  }
+                  //改为符合性评审未提交和未结束状态
                   packageExpert.setIsAudit((short)0);
+                  packageExpert.setIsGather((short)0);
                   packageExpertService.updateByBean(packageExpert);
-                  //将评审结果改为退回状态
+                  //将符合性审查改为退回状态
                   Map<String, Object> map2 = new HashMap<String, Object>();
                   map2.put("expertId", expertIdArr[i]);
                   map2.put("packageId", packageId);
@@ -2047,63 +2177,64 @@ public class PackageExpertController {
                     reviewFirstAudit.setIsBack(1);
                     reviewFirstAuditService.update(reviewFirstAudit);
                   }
-                }
               }
             }
          }
-         if (flag == 1) {
+         //初审进度
+         double firstProgress = 0;
+         //总进度
+         double totalProgress = 0;
+         //评分进度
+         double scoreProgress = 0;
+         Map<String, Object> map2 = new HashMap<String, Object>();
+         map2.put("packageId", packageId);
+         map2.put("projectId", projectId);
+         List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map2);
+         if (reviewProgressList != null && reviewProgressList.size() > 0) {
+           ReviewProgress reviewProgress = reviewProgressList.get(0);
+           //设置状态为初审中
+           reviewProgress.setAuditStatus("1");
+           // 查询提交符合性评审的专家数
+           Map<String, Object> map1 = new HashMap<String, Object>();
+           map1.put("packageId", packageId);
+           map1.put("projectId", projectId);
+           map1.put("isAudit", 1);
+           List<PackageExpert> expertAuditeds = service.selectList(map1);
+           // 查询提交经济技术评审的专家数
+           Map<String, Object> map3 = new HashMap<String, Object>();
+           map3.put("packageId", packageId);
+           map3.put("projectId", projectId);
+           map3.put("isGrade", 1);
+           List<PackageExpert> secondExperts = service.selectList(map3);
+           Map<String, Object> map = new HashMap<String, Object>();
+           map.put("packageId", packageId);
+           map.put("projectId", projectId);
+           //查询包下全部评审专家
+           List<PackageExpert> packageExpertList = service.selectList(map);
+           double first = 0;
+           double second = 0;
+           //初审进度更新
+           first = ((double)expertAuditeds.size())/(double)packageExpertList.size();
+           BigDecimal b = new BigDecimal(first); 
+           firstProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+           reviewProgress.setFirstAuditProgress(firstProgress);
+           //经济技术进度更新
+           second = ((double)secondExperts.size())/(double)packageExpertList.size();
+           BigDecimal s = new BigDecimal(second); 
+           scoreProgress  = s.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+           reviewProgress.setScoreProgress(scoreProgress);
+           //总进度更新
+           double total2 =  (firstProgress+scoreProgress)/2;
+           BigDecimal t = new BigDecimal(total2); 
+           totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+           reviewProgress.setTotalProgress(totalProgress);
+           //更新数据库
+           reviewProgressService.updateByMap(reviewProgress);
+           msg = "ok";
            response.setContentType("text/html;charset=utf-8");
            response.getWriter()
-                   .print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
-         } else {
-           //初审进度
-           double firstProgress = 0;
-           //总进度
-           double totalProgress = 0;
-           //评分进度
-           double scoreProgress = 0;
-           Map<String, Object> map2 = new HashMap<String, Object>();
-           map2.put("packageId", packageId);
-           map2.put("projectId", projectId);
-           List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map2);
-           if (reviewProgressList != null && reviewProgressList.size() > 0) {
-             ReviewProgress reviewProgress = reviewProgressList.get(0);
-             //设置状态为初审中
-             reviewProgress.setAuditStatus("1");
-             //退回专家人数
-             //double backs = (double) expertIdArr.length;
-             // 查询是否已评审
-             Map<String, Object> map1 = new HashMap<String, Object>();
-             map1.put("packageId", packageId);
-             map1.put("projectId", projectId);
-             map1.put("isAudit", 1);
-             //查询包下全部评审专家
-             List<PackageExpert> expertAuditeds = service.selectList(map1);
-             Map<String, Object> map = new HashMap<String, Object>();
-             map.put("packageId", packageId);
-             map.put("projectId", projectId);
-             //查询包下全部评审专家
-             List<PackageExpert> packageExpertList = service.selectList(map);
-             double first = 0;
-             first = ((double)expertAuditeds.size())/(double)packageExpertList.size();
-             BigDecimal b = new BigDecimal(first); 
-             firstProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-             //初审进度更新
-             reviewProgress.setFirstAuditProgress(firstProgress);
-             //总进度更新
-             Double scoreProgress2 = reviewProgress.getScoreProgress();
-             double total2 =  (firstProgress+scoreProgress2)/2;
-             BigDecimal t = new BigDecimal(total2); 
-             totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-             //总进度更新
-             reviewProgress.setTotalProgress(totalProgress);
-             reviewProgressService.updateByMap(reviewProgress);
-             msg = "ok";
-             response.setContentType("text/html;charset=utf-8");
-             response.getWriter()
-                     .print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
-          }
-         }
+                   .print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
+       }
       } catch (Exception e) {
         e.printStackTrace();
       } finally{
@@ -2240,4 +2371,5 @@ public class PackageExpertController {
       model.addAttribute("expertId", expertId);
       return "bss/prms/first_audit/print_view";
     }
+    
 }

@@ -125,4 +125,13 @@ public interface ReviewProgressService {
      * @param map
      */
     void updateStatusByMap(Map<String, Object> map);
+    
+    /**
+     *〈简述〉暂存符合性审查内容
+     *〈详细描述〉
+     * @param projectId
+     * @param packageId
+     * @param expertId
+     */
+    String tempSaveFirstAudit(String projectId, String packageId, String expertId);
 }

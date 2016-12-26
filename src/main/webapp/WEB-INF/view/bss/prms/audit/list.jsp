@@ -167,15 +167,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc" onclick="showView('${obj.packageId}')">${obj.packageName}</td>
               <td class="tc">
               	<c:forEach items="${obj.packageExperts}" var="pe">
+              	  <!-- 符合性审查未开始 -->
               	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 0}">
               	    <input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit('${obj.id }','${obj.packageId}');" value="符合性审查">
               	  </c:if>
-              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGrade == 0 && pe.isGather == 1}">
+              	  <!-- 符合性审查暂存 -->
+              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 2}">
+              	    <input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit('${obj.id }','${obj.packageId}');" value="符合性审查">
+              	  </c:if>
+              	  <!-- 符合性审查已提交未结束 -->
+              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 1 && pe.isGather == 0}">
+              	   	符合性审查已提交
+              	  </c:if>
+              	  <!-- 符合性审查结束，经济技术审查未开始 -->
+              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGrade == 0 && pe.isGather == 1 && pe.isAudit == 1}">
               		<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toFirstAudit('${obj.id }','${obj.packageId}');" value="经济技术审查">
               	  </c:if>
-              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 1 && pe.isGrade == 1 }">
+              	  <!-- 符合性审查结束，经济技术审查暂存 -->
+              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGrade == 2 && pe.isGather == 1 && pe.isAudit == 1}">
+              		<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toFirstAudit('${obj.id }','${obj.packageId}');" value="经济技术审查">
+              	  </c:if>
+              	  <!-- 符合性审查结束，经济技术审查已提交 -->
+              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGrade == 1 && pe.isGather == 1 && pe.isGatherGather == 0}">
+              		经济技术审查已提交
+              	  </c:if>
+              	  <!-- 符合性审查结束，经济技术审查结束 -->
+              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGatherGather == 1 && pe.isGather == 1}">
               		评审结束
               	  </c:if>
+              	  <%-- <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 1 && pe.isGrade == 1 }">
+              		评审结束
+              	  </c:if> --%>
               	</c:forEach>
               </td>
 			    <!-- 

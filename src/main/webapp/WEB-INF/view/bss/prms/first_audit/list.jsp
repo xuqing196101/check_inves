@@ -133,7 +133,7 @@
 			  <!-- <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
 			  <th class="w50 info">序号</th>
 			  <th class="info">包名</th>
-			  <th class="info">是否汇总</th>
+			  <th class="info">状态</th>
 			  <th class="info">初审进度</th>
 			  <th class="info">操作</th>
 			</tr>
@@ -146,8 +146,8 @@
 		        <td class="tc">${rp.packageName}</td>
 		        <td class="tc">
 		        	<input type="hidden" value="${rp.isGather}">
-		        	<c:if test="${rp.isGather == 0}">未汇总</c:if>
-		        	<c:if test="${rp.isGather == 1}">已汇总</c:if>
+		        	<c:if test="${rp.isGather == 0}">符合性审查中</c:if>
+		        	<c:if test="${rp.isGather == 1}">符合性审查结束</c:if>
 		        </td>
 			    <td class="tc">
 				  <div class="col-md-12 padding-0">

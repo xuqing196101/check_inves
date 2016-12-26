@@ -12,6 +12,10 @@
 		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
 		<result column="BID_FINISH" jdbcType="DECIMAL" property="bidFinish" />
 		<result column="PACKAGR_IDS" jdbcType="VARCHAR" property="packages" />
+		<result column="IS_FIRST_PASS" property="isFirstPass" />
+		<result column="ECONOMIC_SCORE" jdbcType="DECIMAL" property="economicScore" />
+		<result column="TECHNOLOGY_SCORE" jdbcType="DECIMAL" property="technologyScore" />
+		<result column="REVIEW_RESULT" jdbcType="VARCHAR" property="reviewResult" />
 		<association property="user" column="USER_ID"
 			select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
 		<association property="suppliers" column="SUPPLIER_ID"
@@ -23,7 +27,8 @@
 		<!-- @mbggenerated -->
 		st.ID, st.PROJECT_ID, st.STATUS_BID, st.SUPPLIER_ID, st.STATUS_BOND,
 		st.CREATED_AT,
-		st.UPDATED_AT, st.USER_ID,st.BID_FINISH,st.PACKAGR_IDS
+		st.UPDATED_AT, st.USER_ID,st.BID_FINISH,st.PACKAGR_IDS,st.IS_FIRST_PASS,st.ECONOMIC_SCORE,
+		st.TECHNOLOGY_SCORE,st.REVIEW_RESULT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -45,13 +50,16 @@
 		<!-- @mbggenerated -->
 		insert into T_BSS_PPMS_SALE_TENDER (ID, PROJECT_ID, STATUS_BID,
 		SUPPLIER_ID, STATUS_BOND, CREATED_AT,
-		UPDATED_AT, USER_ID,BID_FINISH,PACKAGR_IDS)
+		UPDATED_AT, USER_ID,BID_FINISH,PACKAGR_IDS,
+		IS_FIRST_PASS,ECONOMIC_SCORE,
+		TECHNOLOGY_SCORE,REVIEW_RESULT)
 		values
 		(#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
 		#{statusBid,jdbcType=DECIMAL},
 		#{supplierId,jdbcType=VARCHAR},
 		#{statusBond,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP},
-		#{updatedAt,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}),#{bidFinish,jdbcType=DECIMAL},#{packages,jdbcType=VARCHAR})
+		#{updatedAt,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}),#{bidFinish,jdbcType=DECIMAL}
+		,#{packages,jdbcType=VARCHAR},#{isFirstPass}, #{economicScore,jdbcType=DECIMAL},#{technologyScore,jdbcType=DECIMAL}, #{reviewResult,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.ppms.SaleTender">
 		<!-- @mbggenerated -->
@@ -87,6 +95,18 @@
 			<if test="packages != null">
 			     PACKAGR_IDS,
 			</if>
+			<if test="isFirstPass != null">
+				IS_FIRST_PASS,
+			</if>
+			<if test="economicScore != null">
+				ECONOMIC_SCORE,
+			</if>
+			<if test="technologyScore != null">
+			     TECHNOLOGY_SCORE,
+			</if>
+			<if test="reviewResult != null and reviewResult != ''">
+			     REVIEW_RESULT,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -118,6 +138,18 @@
             </if>
             <if test="packages != null">
 				#{packages,jdbcType=VARCHAR},
+			</if>
+			<if test="isFirstPass != null">
+				#{isFirstPass},
+			</if>
+			<if test="economicScore != null">
+				#{economicScore,jdbcType=DECIMAL},
+			</if>
+			 <if test="technologyScore != null">
+                #{technologyScore,jdbcType=DECIMAL},
+            </if>
+            <if test="reviewResult != null and reviewResult != ''">
+				#{reviewResult,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -152,6 +184,18 @@
 			<if test="packages != null">
 				PACKAGR_IDS = #{packages,jdbcType=VARCHAR},
 			</if>
+			<if test="isFirstPass != null">
+				IS_FIRST_PASS = #{isFirstPass},
+			</if>
+			<if test="economicScore != null">
+				ECONOMIC_SCORE = #{economicScore,jdbcType=DECIMAL},
+			</if>
+			<if test="technologyScore">
+			    TECHNOLOGY_SCORE=#{technologyScore,jdbcType=DECIMAL},
+			</if>
+			<if test="reviewResult != null and reviewResult != ''">
+				REVIEW_RESULT = #{reviewResult,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -166,12 +210,15 @@
 		#{supplierId,jdbcType=VARCHAR},
 		STATUS_BOND =
 		#{statusBond,jdbcType=DECIMAL},
-		CREATED_AT =
-		#{createdAt,jdbcType=TIMESTAMP},
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 		USER_ID = #{userId,jdbcType=VARCHAR},
 		BID_FINISH = #{bidFinish,jdbcType=DECIMAL},
 		PACKAGR_IDS = #{packages,jdbcType=VARCHAR},
+		IS_FIRST_PASS = #{isFirstPass},
+		ECONOMIC_SCORE = #{economicScore,jdbcType=DECIMAL},
+		TECHNOLOGY_SCORE = #{technologyScore,jdbcType=DECIMAL},
+		REVIEW_RESULT = #{reviewResult,jdbcType=VARCHAR},
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 

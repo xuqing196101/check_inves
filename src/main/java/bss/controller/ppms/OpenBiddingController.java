@@ -1281,6 +1281,7 @@ public class OpenBiddingController {
                 return "bss/ppms/open_bidding/bid_notice/view";
             } else {
                 //暂存或退回状态
+                model.addAttribute("project", project);
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("articleId", articles.get(0).getId());
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);

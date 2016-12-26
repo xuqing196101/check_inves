@@ -114,22 +114,22 @@
 		$("#content").append(html);
 	});
 	
-	//汇总
+	//结束符合性审查
 	function isFirstGather(projectId, packageId,flowDefineId){
 		$.ajax({
 			url: "${pageContext.request.contextPath}/packageExpert/isFirstGather.do",
-			data: {"projectId": projectId, "packageId": packageId},
+			data: {"projectId": projectId, "packageId": packageId, "flowDefineId":flowDefineId},
 			dataType:'json',
 			success:function(result){
 			    	if(!result.success){
                     	layer.msg(result.msg,{offset: ['150px']});
 			    	}else{
-			    		layer.msg("汇总成功",{offset: ['150px']});
+			    		layer.msg("符合性审查结束",{offset: ['150px']});
 			    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
 			    	}
                 },
             error: function(result){
-                layer.msg("汇总失败",{offset: ['222px']});
+                layer.msg("符合性审查结束失败",{offset: ['222px']});
             }
 		});
 	}
@@ -143,15 +143,50 @@
 		if(ids.length>0){
 			layer.confirm('您确定要退回复核吗?', {title:'提示',offset: '100px',shade:0.01}, function(index){
 				$.ajax({
-					url: "${pageContext.request.contextPath}/packageExpert/sendBack.do?expertIds="+ids,
+					url: "${pageContext.request.contextPath}/packageExpert/isSendBack.do?expertIds="+ids,
 					data: {"projectId": projectId, "packageId": packageId},
 					dataType:'json',
 					success:function(result){
 					    	if(!result.success){
 		                    	layer.msg(result.msg,{offset: ['100px']});
 					    	}else{
-					    		layer.close(index);
-					    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+					    		if (result.msg == '' || result.msg == null) {
+									$.ajax({
+										url: "${pageContext.request.contextPath}/packageExpert/sendBack.do?expertIds="+ids,
+										data: {"projectId": projectId, "packageId": packageId},
+										dataType:'json',
+										success:function(result){
+										    	if(!result.success){
+							                    	layer.msg(result.msg,{offset: ['100px']});
+										    	}else{
+										    		layer.close(index);
+										    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+										    	}
+							                },
+							            error: function(result){
+							                layer.msg("退回复核失败",{offset: ['100px']});
+							            }
+									});
+								} else {
+						    		layer.confirm(result.msg, {title:'提示',offset: '100px',shade:0.01}, function(index){
+							    		$.ajax({
+											url: "${pageContext.request.contextPath}/packageExpert/sendBack.do?expertIds="+ids,
+											data: {"projectId": projectId, "packageId": packageId},
+											dataType:'json',
+											success:function(result){
+											    	if(!result.success){
+								                    	layer.msg(result.msg,{offset: ['100px']});
+											    	}else{
+											    		layer.close(index);
+											    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
+											    	}
+								                },
+								            error: function(result){
+								                layer.msg("退回复核失败",{offset: ['100px']});
+								            }
+										});
+									});
+								}
 					    	}
 		                },
 		            error: function(result){
@@ -163,14 +198,14 @@
 			layer.alert("请选择专家",{offset: '100px', shade:0.01});
 		}
 	}
+	
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
 	    <div class="mb5 fr">
-		    <!-- <button class="btn" onclick="window.print();" type="button">打印</button> -->
-		    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">汇总</button>
 		    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核</button>
-		    <!-- <button class="btn" onclick="" type="button">结束</button> -->
+		    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束</button>
+		    <button class="btn" onclick="window.print();" type="button">打印</button>
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
@@ -204,7 +239,7 @@
 			        	  	</c:if>
 		        	  		<c:if test="${supplierExt.suppIsPass == 2}">
 				        	  	<input type="hidden" value="${supplierExt.suppIsPass}">
-				        	  	未评审
+				        	  	未提交
 			        	  	</c:if>
 		        	  	</c:if>
 		        	  </c:forEach>

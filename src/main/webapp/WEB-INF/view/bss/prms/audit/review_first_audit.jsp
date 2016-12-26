@@ -125,6 +125,8 @@
 	    });
 	  });
   }
+  
+  //提交
   function submit1(){
 	  var ll = $("#table2 tr").length;
 	  var aaa = ll-1;
@@ -163,6 +165,23 @@
 		 <%-- window.location.href="${pageContext.request.contextPath}/expert/toFirstAudit.html?projectId="+projectId+"&packageId="+packageId; --%>
 		 window.location.href="${pageContext.request.contextPath}/expert/saveProgress.html?projectId="+projectId+"&packageId="+packageId;
 	 }
+  }
+  
+  //暂存
+  function tempSave(){
+  	var projectId = "${extension.projectId}";
+	var packageId = "${extension.packageId}";
+  	$.ajax({
+		url: "${pageContext.request.contextPath}/packageExpert/tempSave.html",
+		data: {"projectId": projectId, "packageId": packageId},
+		dataType:'json',
+		success:function(result){
+		   	layer.msg(result.msg,{offset: ['100px']});
+        },
+        error: function(result){
+            layer.msg("暂存失败",{offset: ['100px']});
+        }
+	});
   }
   </script>
   </head>
@@ -252,8 +271,8 @@
 		 	           </tr>
 				   </table>
 			       <div class="col-md-12 clear tc mt10">
+				       <input type="button" onclick="tempSave();"  value="暂存"  class="btn btn-windows save">
 				       <input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
-				       <input type="button" onclick="window.print();"  value="打印"  class="btn btn-windows input">
 				       <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/>
 			   	   </div>
 			   </div>

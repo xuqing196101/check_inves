@@ -17,13 +17,13 @@ public class PackageExpert implements Serializable{
     private String projectId;
     //是否为组长0否1是
     private Short isGroupLeader;
-    //是否评审0否1是
+    //符合性评审状态0未评审1提交评审结果2暂存评审
     private Short isAudit;
-    //初审是否汇总0否1是
+    //初审是否汇总（结束）0否1是
     private Short isGather;
-    //是否评分 0否1是
+    //是否评分 0未评审1提交评审结果2暂存评审
     private Short isGrade;
-    //评分是否汇总0否1是
+    //评分是否汇总（结束）0否1是
     private Short isGatherGather;
     //评审类型id 
     private String reviewTypeTd;

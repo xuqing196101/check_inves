@@ -214,7 +214,7 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
      */
     public void saveGrade(String projectId,String packageId,String expertId){
         List<PackageExpert> packageExpertList2 = null;
-			Map<String,Object> map1 = new HashMap<String,Object>(); 
+        Map<String,Object> map1 = new HashMap<String,Object>(); 
 			  map1.put("projectId", projectId);
 			  map1.put("packageId", packageId);
 			  map1.put("expertId", expertId);
@@ -340,6 +340,23 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
     public void updateStatusByMap(Map<String, Object> map) {
         mapper.updateStatusByMap(map);
     }
+
+  @Override
+  public String tempSaveFirstAudit(String projectId, String packageId, String expertId) {
+    Map<String,Object> map1 = new HashMap<String,Object>(); 
+    map1.put("projectId", projectId);
+    map1.put("packageId", packageId);
+    map1.put("expertId", expertId);
+    List<PackageExpert> selectList = packageExpertMapper.selectList(map1);
+    if(selectList!=null && selectList.size()>0){
+      PackageExpert packageExpert = selectList.get(0);
+      //设置专家符合性审查结果为暂存状态
+      packageExpert.setIsAudit((short)2);
+      packageExpertMapper.updateByBean(packageExpert);
+      return "SUCCESS";
+    }
+    return "ERROR";
+  }
    
    
 }

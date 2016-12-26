@@ -277,10 +277,11 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       //查询出关联表中包下所有的数据
       List<PackageExpert> packageExpertList2 = packageExpertMapper.selectList(map2);
       if (packageExpertList.size() < packageExpertList2.size() ) {
-        return "评审未完成不能汇总！";
+        return "符合性审查未完成不能结束！";
       } else {
         for (PackageExpert packageExpert : packageExpertList) {
           packageExpert.setIsGather((short)1);
+          //更新专家对该包的评审状态为结束
           packageExpertMapper.updateByBean(packageExpert);
         }
         return "SUCCESS";

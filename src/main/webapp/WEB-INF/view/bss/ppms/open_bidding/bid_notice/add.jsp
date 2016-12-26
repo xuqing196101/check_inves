@@ -142,14 +142,17 @@
 	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>  
 	    </div>
 	    <input type="hidden" id="is_saveNotice" value="${saveStatus}">
-	    <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId }">
-	    <input type="hidden" id="noticeType" value="${noticeType }">
-	    <input type="hidden" name="articleTypeId" id="articleTypeId" value="${articleType.id }">
-	    <input type="hidden" name="id" id="articleId" value="${articleId }">
-	    <input type="hidden" name="projectId" value="${projectId }">
+	    <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}">
+	    <input type="hidden" id="noticeType" value="${noticeType}">
+	    <input type="hidden" name="articleTypeId" id="articleTypeId" value="${articleType.id}">
+	    <input type="hidden" name="id" id="articleId" value="${articleId}">
+	    <input type="hidden" name="projectId" value="${projectId}">
 		<div class="col-md-12 clear">
 			 <span class="red">*</span>公告标题：<br>
-			 <input class="col-md-12 w100p" id="name" name="name" value="${article.name }" type="text"><br>
+			 <input class="col-md-12 w100p" id="name" name="name" 
+			 	value="<c:if test="${article.name == null}">${project.name}采购公告(${project.projectNumber})</c:if>
+			 	<c:if test="${article.name != null}">${article.name}</c:if>
+			 	" type="text"><br>
 			 <span class="red">*</span>发布范围：<br>
 			 <div >
 	            <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
@@ -165,17 +168,17 @@
      				
      				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	              <span class="" >公告附件：</span>
-	               <u:upload id="a" groups="a,c,e" businessId="${articleId}" multiple="true" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+	               <u:upload id="a" groups="a,c,e"  buttonName="上传附件" businessId="${articleId}" multiple="true" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
              		 <u:show  showId="b" groups="b,d,f,g"  businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>
-              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+              <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	              <span class="" >审批附件: </span>
 	                <u:upload id="c"  groups="a,c,e" businessId="${articleId}"  sysKey="${sysKey}" typeId="${typeId_examine}" auto="true" />
                   <u:show  showId="d"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId_examine}"/>
-              </li>
+              </li> --%>
               <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	              <span class="" >保密委员会表: </span>
-	                <u:upload id="e"  groups="a,c,f"  businessId="${articleId}"  sysKey="${sysKey}" typeId="${security}" auto="true" />
+	              <span class="" >单位及保密委员会审核表: </span>
+	                <u:upload id="e"  groups="a,c,f" businessId="${articleId}"  sysKey="${sysKey}" typeId="${security}" auto="true" />
                   <u:show  showId="f"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}"/>
               </li>
         </div>

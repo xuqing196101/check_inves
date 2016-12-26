@@ -65,10 +65,10 @@
 	              <span class="" >公告附件：</span>
              		 <u:show  showId="b" groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>
-              <li class="col-md-3 col-sm-6 col-xs-12">
+              <%-- <li class="col-md-3 col-sm-6 col-xs-12">
 	              <span class="" >审批附件: </span>
                   <u:show  showId="d"  groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${typeId_examine}"/>
-              </li>
+              </li> --%>
               <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	              <span class="" >保密委员会表: </span>
                   <u:show  showId="f"  groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${security}"/>

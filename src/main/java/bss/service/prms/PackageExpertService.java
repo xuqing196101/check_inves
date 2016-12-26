@@ -96,7 +96,7 @@ public interface PackageExpertService {
         String isGather(String packageIds, String projectId);
 
         /**
-         *〈简述〉符合汇总
+         *〈简述〉符合性审查结束
          *〈详细描述〉
          * @author Ye MaoLin
          * @param packageId 包id
@@ -104,4 +104,5 @@ public interface PackageExpertService {
          * @return
          */
         String isFirstGather(String packageId, String projectId);
+        
 }

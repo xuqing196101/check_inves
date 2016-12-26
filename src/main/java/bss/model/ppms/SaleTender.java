@@ -124,6 +124,26 @@ public class SaleTender {
     private List<Money> money;
     
     /**
+     * 符合性审查是否通过 0：未通过 1：通过
+     */
+    private Integer isFirstPass;
+    
+    /**
+     * 经济得分
+     */
+    private BigDecimal economicScore;
+    
+    /**
+     * 技术得分
+     */
+    private BigDecimal technologyScore;
+    
+    /**
+     * 评审结果
+     */
+    private String reviewResult;
+    
+    /**
      * 包名字符串
      */
     private String packageNames;
@@ -556,4 +576,46 @@ public class SaleTender {
     public void setPackages(String packages) {
         this.packages = packages;
     }
+
+
+    public Integer getIsFirstPass() {
+      return isFirstPass;
+    }
+
+
+    public void setIsFirstPass(Integer isFirstPass) {
+      this.isFirstPass = isFirstPass;
+    }
+
+
+    public BigDecimal getEconomicScore() {
+      return economicScore;
+    }
+
+
+    public void setEconomicScore(BigDecimal economicScore) {
+      this.economicScore = economicScore;
+    }
+
+
+    public BigDecimal getTechnologyScore() {
+      return technologyScore;
+    }
+
+
+    public void setTechnologyScore(BigDecimal technologyScore) {
+      this.technologyScore = technologyScore;
+    }
+
+
+    public String getReviewResult() {
+      return reviewResult;
+    }
+
+
+    public void setReviewResult(String reviewResult) {
+      this.reviewResult = reviewResult;
+    }
+    
+    
 }
