@@ -710,7 +710,7 @@
 				<td><input name="reviewParam" id="reviewParam" onkeyup="gernerator();" value="${scoreModel.reviewParam }" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分"></td>
 			</tr>
 			<tr>
-				<td>加减分类型</td>
+				<td>加减分类型<input type="hidden" name="judgeModel" value="2" /></td>
 				<td><select name="addSubtractTypeName" id="addSubtractTypeName" onchange="modelTwoAddSubstact21();"><option value="0" selected="selected">加分</option><option value="1">减分</option></select></td>
 			</tr>
 			<tr>
@@ -742,7 +742,7 @@
 	<table id="model22" style="display: none;" class="w499">
 		<tbody>
 			<tr>
-				<td style="width: 300px;">评审参数</td>
+				<td style="width: 300px;">评审参数<input type="hidden" name="judgeModel" value="2" /></td>
 				<td><input name="reviewParam" id="reviewParam" onkeyup="gernerator();"  value="${scoreModel.reviewParam }" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分"></td>
 			</tr>
 			<tr>

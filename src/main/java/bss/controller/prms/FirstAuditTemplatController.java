@@ -435,7 +435,7 @@ public class FirstAuditTemplatController extends BaseController{
     }
 	
 	@RequestMapping("operatorScoreModel")
-    public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request){
+    public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request, String judgeModel){
         String packageId = request.getParameter("id");
         String[] startParam = request.getParameterValues("pi.startParam");
         String[] endParam = request.getParameterValues("pi.endParam");
@@ -446,13 +446,18 @@ public class FirstAuditTemplatController extends BaseController{
          }
         if(scoreModel.getId()!=null && !scoreModel.getId().equals("")){
             //0加分 1减分
-            if("0".equals(scoreModel.getAddSubtractTypeName())) {
-                scoreModelService.updateScoreModel(scoreModel);
-            }else {
-                scoreModel.setMaxScore(scoreModel.getReviewStandScore());
-                scoreModel.setReviewStandScore(scoreModel.getReviewStandScore());
+            if ("2".equals(judgeModel)) {
+                if("0".equals(scoreModel.getAddSubtractTypeName())) {
+                    scoreModelService.updateScoreModel(scoreModel);
+                }else {
+                    scoreModel.setMaxScore(scoreModel.getReviewStandScore());
+                    scoreModel.setReviewStandScore(scoreModel.getReviewStandScore());
+                    scoreModelService.updateScoreModel(scoreModel);
+                }
+            } else {
                 scoreModelService.updateScoreModel(scoreModel);
             }
+           
             MarkTerm condition = new MarkTerm();
             condition.setId(scoreModel.getMarkTermId());
             List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
@@ -491,7 +496,18 @@ public class FirstAuditTemplatController extends BaseController{
             mt.setMaxScore("0");
             markTermService.saveMarkTerm(mt);
             scoreModel.setMarkTermId(mt.getId());
-            scoreModelService.saveScoreModel(scoreModel);
+            //scoreModelService.saveScoreModel(scoreModel);
+            if ("2".equals(judgeModel)) {
+                if("0".equals(scoreModel.getAddSubtractTypeName())) {
+                    scoreModelService.saveScoreModel(scoreModel);
+                }else {
+                    scoreModel.setMaxScore(scoreModel.getReviewStandScore());
+                    scoreModel.setReviewStandScore(scoreModel.getReviewStandScore());
+                    scoreModelService.saveScoreModel(scoreModel);
+                }
+            } else {
+                scoreModelService.saveScoreModel(scoreModel);
+            }
             int len = 0;
             if(startParam!=null){
                 len = startParam.length;

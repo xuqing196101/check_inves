@@ -712,7 +712,7 @@ System.out.print(scoreModel);
 	<table id="model21" style="display: none;" class="w499">
 		<tbody>
 			<tr>
-				<td style="width: 300px;">评审参数</td>
+				<td style="width: 300px;">评审参数<input type="hidden" name="judgeModel" value="2" /></td>
 				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分"></td>
 			</tr>
 			<tr>
@@ -748,7 +748,7 @@ System.out.print(scoreModel);
 	<table id="model22" style="display: none;" class="w499">
 		<tbody>
 			<tr>
-				<td style="width: 300px;">评审参数</td>
+				<td style="width: 300px;">评审参数<input type="hidden" name="judgeModel" value="2" /></td>
 				<td><input name="reviewParam" id="reviewParam" onkeyup="gernerator();" value="${scoreModel.reviewParam }" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分"></td>
 			</tr>
 			<tr>
