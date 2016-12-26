@@ -204,6 +204,7 @@ public class ReviewFirstAuditController {
 		User user = (User)session.getAttribute("loginUser");
  		String expertId = user.getTypeId();
 		Expert expert = expertService.selectByPrimaryKey(expertId);
+		model.addAttribute("expert", expert);
 		model.addAttribute("expertId", expertId);
 		//查询项目信息
 		Project project = projectService.selectById(projectId);
@@ -246,7 +247,8 @@ public class ReviewFirstAuditController {
         removeDictionaryData(markTermTypeList);*/
 		// 专家可以打分的类型
 		List<DictionaryData> markTermTypeList = new ArrayList<DictionaryData>();
-		String typeId = null;
+		map.put("expertId", expertId);
+		String typeId = packageExpertService.selectList(map).get(0).getReviewTypeTd();
 		markTermTypeList.add(dictionaryDataServiceI.getDictionaryData(typeId));
 		model.addAttribute("markTermTypeList", markTermTypeList);
 		MarkTerm markTerm = new MarkTerm();
@@ -292,6 +294,7 @@ public class ReviewFirstAuditController {
 		SaleTender record = new SaleTender();
 		record.setPackages(packageId);
 		record.setProject(project);
+		record.setIsFirstPass(1);
 		List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
 		model.addAttribute("supplierList", supplierList);
 		// 回显

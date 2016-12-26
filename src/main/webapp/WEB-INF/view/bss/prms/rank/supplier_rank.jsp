@@ -42,7 +42,7 @@
           <div class="p0${vs.index}">
             <table class="table table-bordered table-condensed table-hover table-striped">
               <tr>
-                <td class="tc">专家/供应商</td>
+                <td class="tc" colspan="2">专家/供应商</td>
                 <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
 	                <td class="tc">${supplier.suppliers.supplierName}</td>
@@ -68,7 +68,7 @@
                 </c:if>
               </c:forEach>
               <tr>
-                <td class="tc">总分</td>
+                <td class="tc" colspan="2">总分</td>
                 <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
 	                <td class="tc">
@@ -82,7 +82,7 @@
                 </c:forEach>
               </tr>
               <tr>
-                <td class="tc">排名</td>
+                <td class="tc" colspan="2">排名</td>
                 <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
 	                <td class="tc">

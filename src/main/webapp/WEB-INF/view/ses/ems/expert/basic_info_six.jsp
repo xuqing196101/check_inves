@@ -65,7 +65,6 @@ session.setAttribute("tokenSession", tokenValue);
 				onCheck: saveCategory
 			},
 			view: {
-				showLine: false,
 				fontCss: setFontCss
 			},
 		};

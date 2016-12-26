@@ -1,5 +1,7 @@
 package ses.listener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,7 +43,7 @@ public class DelExpertListener implements ServletContextListener{
         //ExpertService service = (ExpertService) ctx.getBean("ExpertService");
         // 定义定时器
         // 启动删除任务,每天执行一次
-        timer.schedule(new DelExpertTask(expertService), NO_DELAY, PERIOD_DAY);
+        timer.schedule(new DelExpertTask(expertService), NO_DELAY, PERIOD_DAY/6);
     }
 
  
@@ -76,19 +78,23 @@ class DelExpertTask extends TimerTask {
      * @throws Exception 
      */
     void delExpert () {
-        List<Expert> allExpert = expertService.getAllExpert();
-        int daysBetween;
-        try {
-            for (Expert expert : allExpert) {
-                // 判断多长时间没有进行操作
-                daysBetween = expertService.daysBetween(expert.getUpdatedAt());
-                if (("0".equals(expert.getIsSubmit()) && daysBetween > 90) || ("1".equals(expert.getIsSubmit()) && "3".equals(expert.getStatus()) && daysBetween > 60)) {
-                    expertService.deleteByPrimaryKey(expert.getId());
+        String time = new SimpleDateFormat("HH").format(new Date());
+        int hour = Integer.parseInt(time);
+        if (hour >= 0 && hour < 5) {
+            List<Expert> allExpert = expertService.getAllExpert();
+            int daysBetween;
+            try {
+                for (Expert expert : allExpert) {
+                    // 判断多长时间没有进行操作
+                    daysBetween = expertService.daysBetween(expert.getUpdatedAt());
+                    if (("0".equals(expert.getIsSubmit()) && daysBetween > 90) || ("1".equals(expert.getIsSubmit()) && "3".equals(expert.getStatus()) && daysBetween > 60)) {
+                        expertService.deleteByPrimaryKey(expert.getId());
+                    }
                 }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 }
