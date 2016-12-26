@@ -86,7 +86,7 @@
 				});
 			});
 	  
- /*function ss(){
+ function ss(){
 	 var value=$("#reson").val();
 
 	 if(value!=null&&value!=""){
@@ -95,7 +95,7 @@
 	 }else{
 			layer.tips("退回理由不允许为空","#reson");
 	 }
- }*/
+ }
  
  function reason(id, auditFieldName) {
  				var id = "${planNo}";
@@ -190,7 +190,7 @@
 							<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th>
 							<th class="info">备注</th>
-							<th class="info">操作</th>
+							<!-- <th class="info">操作</th> -->
 						</tr>
 					</thead>
 
@@ -242,10 +242,10 @@
 							<td class="tc">${obj.goodsUse }</td>
 							<td class="tc">${obj.useUnit }</td>
 							<td class="tc">${obj.memo }</td>
-							<td class="tc w50">
+							<%-- <td class="tc w50">
 										<a onclick="reason('${f.id}','');" id="${f.id}_hidden1" class="btn">退回</a>
 										<p id="${f.id}_show" class="b red">×</p>
-									</td>
+									</td> --%>
 						</tr>
 
 					</c:forEach>
@@ -255,7 +255,7 @@
 				   <input type="hidden" name="planNo" value="${planNo }">
 				    <input type="hidden" id="status" name="status" value="3">
 				   <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="受理"> 
-				   <!-- <button class="btn btn-windows back" type="button" onclick="ss();">退回</button> -->
+				    <button class="btn btn-windows back" type="button" onclick="ss();">退回</button> 
 				   <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			     </div>
 			</form>

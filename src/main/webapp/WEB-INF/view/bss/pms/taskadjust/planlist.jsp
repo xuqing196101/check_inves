@@ -103,8 +103,7 @@
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
 			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}  
-		 
+		}
 	}
 	function show(id){
 		window.location.href="${pageContext.request.contextPath}/adjust/all.html?id="+id;
@@ -115,7 +114,7 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){   
+		if(id.length==1){
 		  	window.location.href="${pageContext.request.contextPath}/adjust/cancel.html?id="+id;
 	  	}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});

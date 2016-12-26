@@ -107,7 +107,6 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			
 			window.location.href="${pageContext.request.contextPath}/adjust/pledit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
