@@ -23,6 +23,12 @@
     <result column="SOURCE" property="source" />
     <result column="SOURCE_LINK" property="sourceLink" />
     
+    <result column="SECOND_TYPE" property="secondType" />
+    <result column="THREE_TYPE" property="threeType" />
+    <result column="FOUR_TYPE" property="fourType" />
+    <result column="OVER_TYPE" property="overType" />
+    
+    
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
     <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
   </resultMap> 
@@ -37,7 +43,8 @@
   
   <sql id="Article_Column_List">
     ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, DOWNLOAD_COUNT,
-    STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON,SOURCE,SOURCE_LINK
+    STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON,SOURCE,SOURCE_LINK,
+    SECOND_TYPE,THREE_TYPE,FOUR_TYPE,OVER_TYPE
   </sql>
   
   <sql id="Article_BlOB_Column_List">
@@ -235,6 +242,18 @@
       <if test="sourceLink != null">
         SOURCE_LINK,
       </if>
+      <if test="secondType != null">
+        SECOND_TYPE,
+      </if>
+      <if test="threeType != null">
+        THREE_TYPE,
+      </if>
+      <if test="fourType != null">
+        FOUR_TYPE,
+      </if>
+      <if test="overType != null">
+        OVER_TYPE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -305,6 +324,18 @@
       </if>
       <if test="sourceLink != null">
         #{sourceLink},
+      </if>
+      <if test="secondType != null">
+        #{secondType},
+      </if>
+      <if test="threeType != null">
+        #{threeType},
+      </if>
+      <if test="fourType != null">
+        #{fourType},
+      </if>
+      <if test="overType != null">
+        #{overType},
       </if>
     </trim>
   </insert>
@@ -379,6 +410,18 @@
       <if test="sourceLink != null">
      	 SOURCE_LINK = #{sourceLink},
       </if>
+      <if test="secondType != null">
+       SECOND_TYPE = #{secondType},
+      </if>
+      <if test="threeType != null">
+       THREE_TYPE = #{threeType},
+      </if>
+      <if test="fourType != null">
+       FOUR_TYPE = #{fourType},
+      </if>
+      <if test="overType != null">
+       OVER_TYPE = #{overType},
+      </if>
     </set>
     where ID = #{id}
   </update>
@@ -389,14 +432,15 @@
   	<include refid="Article_Column_List"/>
   	,
     <include refid="Article_BlOB_Column_List" />
-    from T_ISS_PS_ARTICLE
+    from T_ISS_PS_ARTICLE a
+    LEFT JOIN T_ISS_PS_ARTICLE_TYPE at
     where IS_DELETED = 0
     	AND PROJECT_ID = #{projectId}
 	  	<if test="status != null">
-	  	  AND STATUS = #{status}
+	  	  AND a.STATUS = #{status}
 	  	</if>
 	  	<if test="articleType != null">
-	  	  AND ARTICLE_TYPE_ID = #{articleType.id}
+	  	  AND a.ARTICLE_TYPE_ID = #{articleType.id}
 	  	</if>
   </select>
   
