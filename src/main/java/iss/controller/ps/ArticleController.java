@@ -574,15 +574,19 @@ public class ArticleController extends BaseSupplierController{
     List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
     article.setArticleAttachments(articleAttaList);
     model.addAttribute("article",article);
-  //  List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
     
-    ArticleType second = articleTypeService.selectTypeByPrimaryKey(article.getSecondType());
-    model.addAttribute("second", second.getName());
-    ArticleType three = articleTypeService.selectTypeByPrimaryKey(article.getThreeType());
-    model.addAttribute("three", three.getName());
-    ArticleType four = articleTypeService.selectTypeByPrimaryKey(article.getFourType());
-    model.addAttribute("four", four.getName());
-    
+    if(article.getSecondType()!=null){
+    	ArticleType second = articleTypeService.selectTypeByPrimaryKey(article.getSecondType());
+        model.addAttribute("second", second.getName());
+    }
+    if(article.getThreeType()!=null){
+    	ArticleType three = articleTypeService.selectTypeByPrimaryKey(article.getThreeType());
+        model.addAttribute("three", three.getName());
+    }
+    if(article.getFourType()!=null){
+    	ArticleType four = articleTypeService.selectTypeByPrimaryKey(article.getFourType());
+        model.addAttribute("four", four.getName());
+    }
     DictionaryData dd=new DictionaryData();
     dd.setCode("POST_ATTACHMENT");
     List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
