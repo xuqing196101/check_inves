@@ -5,6 +5,7 @@ package bss.service.ppms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -142,5 +143,14 @@ public interface SaleTenderService   {
 
 
     public void updateResult(HashMap<String, Object> stMap);
+    
+    /**
+     *〈简述〉
+     * 更改SaleTender的移除状态
+     *〈详细描述〉
+     * @author Dell
+     * @param map
+     */
+    void removeSaleTender(Map<String, Object> map);
     
 }

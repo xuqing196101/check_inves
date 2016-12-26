@@ -513,5 +513,16 @@ public class SaleTenderServiceImpl implements SaleTenderService {
     public void updateResult(HashMap<String, Object> stMap) {
       saleTenderMapper.updateResult(stMap);
     }
+    /**
+     *〈简述〉
+     * 更改SaleTender的移除状态
+     *〈详细描述〉
+     * @author Dell
+     * @param map
+     */
+    @Override
+    public void removeSaleTender(Map<String, Object> map) {
+        saleTenderMapper.removeSaleTender(map);
+    }
 }
 

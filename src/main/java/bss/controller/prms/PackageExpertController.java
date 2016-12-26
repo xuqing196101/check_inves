@@ -2342,4 +2342,18 @@ public class PackageExpertController {
       return "bss/prms/first_audit/print_view";
     }
     
+    /**
+     *〈简述〉
+     * 确定供应商
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param projectId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/confirmSupplier")
+    public String confirmSupplier (String projectId, Model model) {
+        
+        return null;
+    }
 }

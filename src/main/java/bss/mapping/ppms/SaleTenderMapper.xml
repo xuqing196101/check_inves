@@ -39,9 +39,11 @@
 		<include refid="Base_Column_List" />
 		from T_BSS_PPMS_SALE_TENDER
 		where ID = #{id,jdbcType=VARCHAR}
+		and IS_REMOVED = '0'
 	</select>
 	<select id="getPackageIds" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT DISTINCT(PACKAGR_IDS) FROM "JDCG"."T_BSS_PPMS_SALE_TENDER"  WHERE STATUS_BID = 2 and STATUS_BOND = 2 and PROJECT_ID = #{projectId}
+		and IS_REMOVED = '0'
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		<!-- @mbggenerated -->
@@ -198,6 +200,12 @@
 			<if test="reviewResult != null and reviewResult != ''">
 				REVIEW_RESULT = #{reviewResult,jdbcType=VARCHAR},
 			</if>
+			<if test="isRemoved != null and isRemoved != ''">
+				IS_REMOVED = #{isRemoved,jdbcType=VARCHAR},
+			</if>
+			<if test="removedReason != null and removedReason != ''">
+				REMOVED_REASON = #{removedReason,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -221,6 +229,8 @@
 		ECONOMIC_SCORE = #{economicScore,jdbcType=DECIMAL},
 		TECHNOLOGY_SCORE = #{technologyScore,jdbcType=DECIMAL},
 		REVIEW_RESULT = #{reviewResult,jdbcType=VARCHAR},
+		IS_REMOVED = #{isRemoved,jdbcType=VARCHAR},
+		REMOVED_REASON = #{removedReason,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 
@@ -354,4 +364,12 @@
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	
+	<update id="removeSaleTender" parameterType="java.util.Map">
+		update T_BSS_PPMS_SALE_TENDER
+		set 
+		IS_REMOVED = #{isRemoved,jdbcType=VARCHAR},
+		REMOVED_REASON = #{removedReason,jdbcType=VARCHAR},
+		where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+		and PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+	</update>
 </mapper>

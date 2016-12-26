@@ -1,8 +1,8 @@
 package bss.dao.ppms;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bss.model.ppms.SaleTender;
 
@@ -111,4 +111,13 @@ public interface SaleTenderMapper {
     List<SaleTender> find(SaleTender record);
     
     void updateResult(HashMap<String, Object> stMap);
+    
+    /**
+     *〈简述〉
+     * 更改SaleTender的移除状态
+     *〈详细描述〉
+     * @author Dell
+     * @param map
+     */
+    void removeSaleTender(Map<String, Object> map);
 }
