@@ -78,7 +78,7 @@
 				     <tr>
 					   <td class="tc"><input  type="checkbox" name="chkItem" value="${qualification.id}" /></td>
 					   <td class="tc">${vs.index+1}</td>
-					   <td class="tc">${qualification.name}</td>
+					   <td class="textl">${qualification.name}</td>
 					  </tr>
 				    </c:forEach>
 				  </tbody>

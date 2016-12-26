@@ -105,6 +105,15 @@ public class Category {
    /** 审核意见 */
    private String auditAdvise;
    
+   /** 通用资质Ids **/
+   private transient String generalQuaIds;
+   /** 通用资质names **/
+   private transient String generalQuaNames;
+   /** 专业资质ids **/
+   private transient String profileQuaIds;
+   /** 专业资质names **/
+   private transient String profileQuaNames;
+   
    
    
 public Orgnization getOrgnization() {
@@ -315,6 +324,38 @@ public void setOrgnization(Orgnization orgnization) {
 
     public void setAuditAdvise(String auditAdvise) {
         this.auditAdvise = auditAdvise;
+    }
+
+    public String getGeneralQuaIds() {
+        return generalQuaIds;
+    }
+
+    public void setGeneralQuaIds(String generalQuaIds) {
+        this.generalQuaIds = generalQuaIds;
+    }
+
+    public String getGeneralQuaNames() {
+        return generalQuaNames;
+    }
+
+    public void setGeneralQuaNames(String generalQuaNames) {
+        this.generalQuaNames = generalQuaNames;
+    }
+
+    public String getProfileQuaIds() {
+        return profileQuaIds;
+    }
+
+    public void setProfileQuaIds(String profileQuaIds) {
+        this.profileQuaIds = profileQuaIds;
+    }
+
+    public String getProfileQuaNames() {
+        return profileQuaNames;
+    }
+
+    public void setProfileQuaNames(String profileQuaNames) {
+        this.profileQuaNames = profileQuaNames;
     }
 
 	

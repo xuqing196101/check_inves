@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.CategoryQuaMapper">
+	
+	<!-- 结果集 -->
+	<resultMap id="categoryQuaMap" type="ses.model.bms.CategoryQua">
+		<id column="ID"  property="id" />
+	    <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+	    <result column="QUA_ID" jdbcType="VARCHAR"  property="quaId" />
+	    <result column="QUA_TYPE"  jdbcType="NUMERIC"  property="quaType" />
+	</resultMap>
+	
+	<!-- 查询基础 -->
+	<sql id="BASE_COLUMN_SQL">
+		    ID, CATEGORY_ID, QUA_ID, QUA_TYPE 	    
+    </sql>
+    
+    <!-- 查询 -->
+    <select id="findList" resultMap="categoryQuaMap">
+      SELECT 
+      <include refid="BASE_COLUMN_SQL" />
+      FROM T_SES_BMS_CATEGORY_QUA
+      WHERE CATEGORY_ID = #{categoryId}
+    </select>
+	
+	<!-- 保存 -->
+	<insert id="save" parameterType="ses.model.bms.CategoryQua" >
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+        	select sys_guid() from dual
+    	</selectKey>
+		INSERT INTO T_SES_BMS_CATEGORY_QUA 
+		  (ID, CATEGORY_ID,QUA_ID ,QUA_TYPE ) values 
+		  (#{id}, #{categoryId,jdbcType=VARCHAR},#{quaId,jdbcType=VARCHAR}, 
+		   #{quaType,jdbcType=NUMERIC})
+	</insert>
+	
+	<!-- 删除 -->
+	<delete id="delQuaByCategoryId">
+	  DELETE  FROM T_SES_BMS_CATEGORY_QUA
+	  WHERE CATEGORY_ID = #{categoryId}
+	</delete>	
+</mapper>

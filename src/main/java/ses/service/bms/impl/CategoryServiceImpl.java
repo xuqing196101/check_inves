@@ -15,20 +15,24 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
+import common.bean.ResBean;
+import common.constant.StaticVariables;
 import ses.dao.bms.CategoryMapper;
+import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.bms.QualificationMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.model.bms.Category;
+import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
 import ses.util.PropertiesUtil;
 import ses.util.StringUtil;
-
-import com.github.pagehelper.PageHelper;
-import common.bean.ResBean;
-import common.constant.StaticVariables;
 
 /**
  * 
@@ -49,6 +53,14 @@ public class CategoryServiceImpl implements CategoryService {
     
     @Autowired
     private DictionaryDataMapper dictionaryDataMapper;
+    
+    /** 品目资质关联表 **/
+    @Autowired
+    private CategoryQuaMapper categoryQuaMapper;
+    
+    /** 企业资质 **/
+    @Autowired
+    private QualificationMapper quaMapper;
     
     /** 操作类型 - 添加 */
     private static final String OPERA_ADD = "add";
@@ -89,7 +101,51 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public Category selectByPrimaryKey(String id) {
-        return categoryMapper.selectByPrimaryKey(id);
+        Category category = categoryMapper.selectByPrimaryKey(id);
+        return category;
+    }
+    
+    /**
+     * 
+     * @see ses.service.bms.CategoryService#getCategoryQuaById(java.lang.String)
+     */
+    @Override
+    public Category getCategoryQuaById(String id) {
+        Category category = categoryMapper.selectByPrimaryKey(id);
+        if (category != null && StringUtils.isNotBlank(category.getId())){
+            List<CategoryQua> list = categoryQuaMapper.findList(category.getId());
+            String generalIds = "";
+            String generalNames = "";
+            String profileIds = "";
+            String profileNames = "";
+            for (CategoryQua cq : list){
+                if (StringUtils.isNotBlank(cq.getQuaId())){
+                    Qualification  qua = quaMapper.getQualification(cq.getQuaId());
+                    if (qua != null){
+                        
+                        if (cq.getQuaType() == StaticVariables.CATEGORY_QUALIFICATION_GENERAL){
+                            generalIds += cq.getQuaId() + ",";
+                            generalNames += qua.getName() + ",";
+                        }
+                        
+                        if (cq.getQuaType() == StaticVariables.CATEGORY_QUALIFICATION_PROFILE){
+                            profileIds += cq.getQuaId() + ",";
+                            profileNames += qua.getName() + ",";
+                        }
+                    }
+                }
+            }
+            if (generalIds.contains(StaticVariables.COMMA_SPLLIT)){
+                category.setGeneralQuaIds(generalIds.substring(0, generalIds.length() -1));
+                category.setGeneralQuaNames(generalNames.substring(0, generalNames.length() -1));
+            }
+            
+            if (profileIds.contains(StaticVariables.COMMA_SPLLIT)){
+                category.setProfileQuaIds(profileIds.substring(0, profileIds.length() -1));
+                category.setProfileQuaNames(profileNames.substring(0, profileNames.length() -1));
+            }
+        }
+        return category;
     }
 
     public void updateNameById(String id) {
@@ -125,6 +181,19 @@ public class CategoryServiceImpl implements CategoryService {
         String code = request.getParameter("code");
         String operaType = request.getParameter("opera");
         String desc = request.getParameter("description");
+        String generalIds = request.getParameter("generalQuaIds");
+        String profileIds = request.getParameter("profileQuaIds");
+        String isPublish = request.getParameter("isPublish");
+        String classify = request.getParameter("classify");
+        
+        Integer isPublished = null;
+        Integer classified = null;
+        if (StringUtils.isNotBlank(isPublish)){
+            isPublished = Integer.parseInt(isPublish);
+        }
+        if (StringUtils.isNotBlank(classify)){
+            classified = Integer.parseInt(classify);
+        }
         
         ResBean res = new ResBean();
         if (StringUtils.isEmpty(name)) {
@@ -169,7 +238,15 @@ public class CategoryServiceImpl implements CategoryService {
             category.setCreatedAt(new Date());
             category.setIsDeleted(0);
             category.setParamStatus(StaticVariables.CATEGORY_NEW_STATUS);
+            if (classified != null){
+                category.setClassify(classified);
+            }
+            if (isPublished != null){
+                category.setIsPublish(isPublished);;
+            }
             insertSelective(category);
+            saveGeneral(id, generalIds);
+            saveProfile(id, profileIds);
             res.setSuccess(true);
         }
         /**
@@ -182,14 +259,90 @@ public class CategoryServiceImpl implements CategoryService {
                 category.setDescription(desc);
                 category.setName(name);
                 category.setUpdatedAt(new Date());
+                if (classified != null){
+                    category.setClassify(classified);
+                }
+                if (isPublished != null){
+                    category.setIsPublish(isPublished);;
+                }
                 updateByPrimaryKeySelective(category);
+                delCategoryQua(id);
+                saveGeneral(id, generalIds);
+                saveProfile(id, profileIds);
                 res.setSuccess(true);
             }
         }
         return res;
     }
     
+    /**
+     * 
+     *〈简述〉根据品目Id删除品目资质信息
+     *〈详细描述〉
+     * @author myc
+     * @param categoryId 品目Id
+     */
+    private void delCategoryQua(String categoryId){
+        categoryQuaMapper.delQuaByCategoryId(categoryId);
+    }
     
+    
+    /**
+     * 
+     *〈简述〉批量保存通用品目和资质
+     *〈详细描述〉
+     * @author myc
+     */
+    private void saveGeneral(String categorId,String generalIds){
+        if (StringUtils.isNotBlank(generalIds)){
+            if (generalIds.contains(StaticVariables.COMMA_SPLLIT)){
+                String [] generalArray = generalIds.split(",");
+                for (String generalId : generalArray){
+                    saveCategoryQua(categorId, generalId, StaticVariables.CATEGORY_QUALIFICATION_GENERAL);
+                }
+            } else {
+                saveCategoryQua(categorId, generalIds, StaticVariables.CATEGORY_QUALIFICATION_GENERAL);
+            }
+        }
+    }
+    
+    /**
+     * 
+     *〈简述〉批量保存专业
+     *〈详细描述〉
+     * @author myc 
+     * @param categorId 品目Id
+     * @param profileIds 资质Id
+     */
+    private void saveProfile(String categorId, String profileIds){
+        if (StringUtils.isNotBlank(profileIds)){
+            if (profileIds.contains(StaticVariables.COMMA_SPLLIT)){
+                String [] profileArray = profileIds.split(",");
+                for (String profileId : profileArray){
+                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                }
+            } else {
+                saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+            }
+        }
+    }
+    
+    /**
+     * 
+     *〈简述〉保存资质和品目关系
+     *〈详细描述〉
+     * @author myc
+     * @param categorId 品目Id
+     * @param generalId 资质Id
+     * @param quraType  资质类型
+     */
+    private void saveCategoryQua(String categorId, String generalId, Integer quraType) {
+        CategoryQua cq = new CategoryQua();
+        cq.setCategoryId(categorId);
+        cq.setQuaId(generalId);
+        cq.setQuaType(quraType);
+        categoryQuaMapper.save(cq);
+    }
     
     /**
      * 
@@ -217,7 +370,7 @@ public class CategoryServiceImpl implements CategoryService {
     public String estimate(String id, String opera,String stepMsg ,Integer status) {
         String msg = StaticVariables.SUCCESS;
         Category cate = selectByPrimaryKey(id);
-        if (cate != null){
+        if (cate != null && cate.getParamStatus() != null){
             if (cate.getParamStatus() >= status){
                 msg = cate.getName() + stepMsg;
                 msg = msg + getOperaStatusMsg(opera);

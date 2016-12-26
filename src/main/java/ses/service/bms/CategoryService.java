@@ -275,4 +275,14 @@ import ses.model.sms.SupplierTypeTree;
     * @throws
      */
     public List<Category> findCategory(Map<String, Object> map,Integer page);
+    
+    /**
+     * 
+     *〈简述〉根据品目Id查询品目和资质信息
+     *〈详细描述〉
+     * @author myc
+     * @param id 品目Id
+     * @return Category
+     */
+    public Category getCategoryQuaById(String id);
 }

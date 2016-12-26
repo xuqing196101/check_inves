@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/view/common.jsp" %> 
  <title>产品目录管理</title>   
 <script type="text/javascript">
-	var treeid = null , nodeName=null;
+	var treeid = null , nodeName=null, level = null, typesObj = null;
 	var datas;
 	 $(document).ready(function(){  
           $.fn.zTree.init($("#ztree"),setting,datas);
@@ -17,6 +17,8 @@
 				 check==true;
 		      }
 	       }
+	    //初始化类型
+		typesObj = initTypes();
 	 }); 
 	 var setting={
 		   async:{
@@ -66,6 +68,7 @@
     	treeid = treeNode.id;
     	var node = treeNode.getParentNode();
     	if (node && node != null ) {
+    		level = node.level + 2;
     		resetTips();
     		$("#tableDivId").removeClass("dis_none");
     		$("#uploadBtnId").addClass("dis_none");
@@ -92,14 +95,18 @@
     
     /**新增 */
     function add(){
+    	hideQua();
 		if (treeid==null) {
-			layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
+			layer.msg("请选择一个节点");
 			return;		
 		}else{
     	    var zTree = $.fn.zTree.getZTreeObj("ztree");
 			nodes = zTree.getSelectedNodes();
 			var node = nodes[0];
 			$("#operaFlag").val('add');
+			if (level == 3){
+				showQua();
+			}
 			if (node) {
 				$.ajax({
 					url:"${pageContext.request.contextPath}/category/add.do",
@@ -133,9 +140,12 @@
 
 	/**修改节点信息*/
     function update(){
- 		if (treeid==null){
- 			layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
+    	hideQua();
+ 	    if (treeid==null){
+ 			layer.msg("请选择一个节点");
 		}else{
+		$("#typeId").empty();
+		$("#openId").empty();
 		  $.ajax({
 			url:"${pageContext.request.contextPath}/category/update.do?id="+treeid,
 			dataType:"json",
@@ -149,6 +159,11 @@
 					$("#posId").val(cate.code);
 					$("#descId").val(cate.description);
 					showInit();
+					if (level == 3){
+						showQua(cate);
+					}
+					loadcheckbox(cate.classify);
+					loadRadioHtml(cate.isPublish);
 		      }
             });
         }
@@ -157,6 +172,24 @@
 	/** 保存 */
 	function save(){
 		var operaValue = $("#operaFlag").val();
+		var types = getTypeValue();
+		var open = getOpenValue();
+		if (types.length == 0){
+			layer.msg("类型不能为空");
+			return ;
+		}
+		if (types.length == 2){
+			$("#classify").val(3);
+		}
+		if (types.length == 1){
+			if (types[0] == 'PRODUCT'){
+				$("#classify").val(1);
+			}
+			if (types[0] == 'SALES'){
+				$("#classify").val(2);
+			}
+		}
+		
     	$.ajax({
     		dataType:"json",
     		type:"post",
@@ -324,7 +357,140 @@
 	  		}
 	  	});
   }
-	
+
+  //显示资质要求
+ function showQua(cate){
+	 $("#generaQuaTr").show();
+	 $("#profileQuaTr").show();
+	 if (cate != null && cate !="" && cate !="undefined" && cate !="null"){
+		 $("#generalIQuaId").val(cate.generalQuaIds);
+		 $("#generalIQuaName").val(cate.generalQuaNames);
+		 $("#profileIQuaId").val(cate.profileQuaIds);
+		 $("#profileIQuaName").val(cate.profileQuaNames);
+	 }
+ }
+  
+ //隐藏 
+ function hideQua(){
+	 $("#generaQuaTr").hide();
+	 $("#profileQuaTr").hide();
+ }
+ 
+ //初始化类型
+ function openLayer(type){
+	 var title ="";
+	 var ids ="";
+	 if (type == 1){
+		 ids = $("#generalIQuaId").val();
+		 title ="添加通用资质要求";
+	 }
+	 if (type == 2){
+		 ids = $("#profileIQuaId").val();
+		 title ="添加专业资质要求";
+	 }
+	 layer.open({
+			type : 2, 
+			area : [ '800px', '590px' ],
+			title : title,
+			shadeClose : true,
+			content : '${pageContext.request.contextPath}/qualification/initLayer.html?type=' + type +"&ids=" + ids
+		 });
+ }
+ 
+ //添加通用的
+ function addGeneralValue(ids,name){
+	 $("#generalIQuaId").val(ids);
+	 $("#generalIQuaName").val(name);
+ }
+ 
+ //添加专用的
+ function addProfileValue(ids,name){
+	 $("#profileIQuaId").val(ids);
+	 $("#profileIQuaName").val(name);
+ }
+ 
+ //获取数量
+ function getTypeValue(){
+	 var typeArray = [];
+	 $("input[name='smallClass']:checked").each(function(){
+		 var value = $(this).val();
+		 typeArray.push(value);
+	 });
+	 return typeArray;
+ }
+ 
+ //获取是否公开
+ function getOpenValue(){
+	 var isPublish = null;
+	 $("input[name='isOPen']:checked").each(function(){
+		 isPublish = $(this).val();
+	 });
+	 $("#isPublish").val(isPublish);
+	 return isPublish;
+ }
+ 
+ /**
+  * 加载checkbox
+  * @param checkedVal 判断选中的值
+  */
+ function loadcheckbox(checkedVal){
+ 	
+ 	var html = "";
+ 	for (var i =0;i<typesObj.length;i++){
+ 		 if (checkedVal == 1 && typesObj[i].code == 'PRODUCT'){
+ 			 html+="<input name='smallClass' type='checkbox'  checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+ 		 } else if (checkedVal == 2 && typesObj[i].code == 'SALES'){
+ 			 html+="<input name='smallClass' type='checkbox'  checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+ 		 }else if (checkedVal == 3){
+ 			 html+="<input name='smallClass' type='checkbox'  checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+ 		 } else {
+ 			 html+="<input name='smallClass' type='checkbox'  value='"+typesObj[i].code+"' />" +typesObj[i].name;
+ 		 }
+ 		
+ 	}
+   $("#typeId").append(html);
+ }
+ 
+ //加载radio
+ function loadRadioHtml(checked){
+		var  yes_checked = false,no_checked = false;
+		if (checked == 0){
+			yes_checked = true;
+		}
+		if (checked == 1){
+			no_checked = true;
+		}
+		var html ="";
+		if (yes_checked){
+			html += "  <input type='radio'  checked='checked'   name='isOPen' value='0' >是    " 
+			html += "  <input type='radio'     name='isOPen' value='1' /> 否    "
+		}else if (no_checked){
+			html += "  <input type='radio'     name='isOPen' value='0' >是    " 
+			html += "  <input type='radio'   checked='checked'  name='isOPen' value='1' /> 否    "
+		} else {
+			html += "  <input type='radio'     name='isOPen' value='0' >是    " 
+			html += "  <input type='radio'    name='isOPen'  value='1'/> 否    "
+		}
+		$("#openId").append(html);
+	}
+ 
+ /**
+  * 初始化数据类型
+  * @returns 返回类型数据
+  */
+ function initTypes(){
+ 	var typeData;
+ 	$.ajax({
+ 		type:"post",
+ 		dataType:"json",
+ 		async: false ,
+ 		url: globalPath + "/cateParam/initTypes.do" ,
+ 		success:function(data){
+ 			typeData = data;
+ 		}
+ 	});
+ 	return typeData;
+ }
 </script>
 
 </head>
@@ -359,6 +525,8 @@
        		<input type="hidden" id="pid" name="parentId" />
        		<input type="hidden" id="mainId" name="id" />
        		<input type="hidden" id="operaId" name="opera" />
+       		<input type="hidden" id="isPublish" name="isPublish" />
+       		<input type="hidden" id="classify" name="classify" />
             <table id="result"  class="table table-bordered table-condensedb" >
            	  <tbody>
            	 	<tr>
@@ -383,6 +551,42 @@
        				  <span class="add-on">i</span>
        				</div>
        				  <span id="posTipsId" class="red clear span_style" />
+       		      </td>
+           	    </tr>
+           	    <tr id="generaQuaTr" class="dnone">
+       			  <td class='info'>通用资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" >
+       				  <input id="generalIQuaId" type="hidden" name="generalQuaIds" />
+       				  <input id="generalIQuaName" readonly="readonly" type="text" name='generalQuaNames' onclick="openLayer(1);" />
+       				  <span class="add-on">i</span>
+       				</div>
+       				  <span id="posTipsId" class="red clear span_style" />
+       		      </td>
+           	    </tr>
+           	    <tr id="profileQuaTr" class="dnone">
+       			  <td class='info'>专业资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" >
+       				  <input id="profileIQuaId" type="hidden" name="profileQuaIds" />
+       				  <input id="profileIQuaName" readonly="readonly" type="text" name='profileQuaNames' onclick="openLayer(2);" />
+       				  <span class="add-on">i</span>
+       				</div>
+       				  <span id="posTipsId" class="red clear span_style" />
+       		      </td>
+           	    </tr>
+           	    <tr>
+       			  <td class='info'>类型<span class="red">*</span></td>
+       			  <td>
+       				<div class="col-md-8 col-sm-8 col-xs-7" id="typeId" >
+       				</div>
+       		      </td>
+           	    </tr>
+           	    <tr>
+       			  <td class='info'>是否公开<span class="red">*</span></td>
+       			  <td>
+       				<div class="col-md-8 col-sm-8 col-xs-7" id="openId" >
+       				</div>
        		      </td>
            	    </tr>
            	    <tr>

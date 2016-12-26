@@ -13,7 +13,7 @@ function list(curr){
 		success:function(res){
 			if (res.success){
 				var obj = res.obj;
-				loadList(obj.list);
+				loadList(obj.list,obj.pageNum,obj.pageSize);
 				loadPage(obj.pages,obj.total,obj.startRow,obj.endRow,curr);
 			}
 		}
@@ -53,11 +53,11 @@ function loadPage(pages,total,start,end, current){
  * @param data
  * @returns
  */
-function loadList(data){
+function loadList(data,pageNum,pageSize){
 	$("#dataTable tbody").empty();
 	if (data != null && data.length > 0){
 		for (var i =0;i<data.length; i++){
-			loadData(data[i]);
+			loadData(data[i],i,pageNum,pageSize);
 		}
 	}
 }
@@ -201,7 +201,7 @@ function save(){
 				layer.msg("保存成功");
 				if (res.obj != null){
 					if (operaType == "add"){
-						loadData(res.obj);
+						list(1);
 					}
 					if (operaType == "edit"){
 						updateTableData(res.obj);
@@ -215,37 +215,16 @@ function save(){
 }
 
 /**
- * 新增计算编号
- * @returns
- */
-function calIndex(){
-	var indexArray = [];
-	var count  = 1;
-	$("input[name='chkItem']").each(function(){
-		indexArray.push($(this).parents('tr').find('td').eq(1).text());
-	});
-	
-	if (indexArray.length > 0){
-		var parentIndex = Math.max.apply(null, indexArray);
-		if (parentIndex != 0){
-			count = count + parentIndex;
-		}
-	}
-	return count;
-}
-
-/**
  * 新增加载数据
  * @param data 
  * @returns
  */
-function loadData(data){
-	var count = calIndex();
+function loadData(data,index,pageNum,pageSize){
 	var html = "<tr> "
 		     + "  <td class='tc'>"
 	         + "    <input  type='checkbox' name='chkItem' value='"+data.id+"' />"
 		     + "  </td>"
-		     + "  <td class='tc'>"+count+"</td>"
+		     + "  <td class='tc'>"+((index+1) +  (pageNum -1) * pageSize) +"</td>"
 		     + "  <td class='tc'>"+data.name+"</td>"
 		     + "</tr>";
 	$("#dataTable tbody").append(html);
@@ -304,6 +283,7 @@ function ajaxDel(ids){
  * @returns
  */
 function reLoadTableData(){
+	list(1);
 	$("input[name='chkItem']:checked").each(function(){
 		$(this).parents('tr').remove();
 	});

@@ -137,4 +137,9 @@ public class StaticVariables {
     /** 采购机构终止说明 **/
     public static final String PURCHASER_STATUS_RESON="原因说明不能为空";
     
+    /** 企业资质-通用 **/
+    public static final Integer CATEGORY_QUALIFICATION_GENERAL = 1;
+    /** 企业资质-专业 **/
+    public static final Integer CATEGORY_QUALIFICATION_PROFILE = 2;
+    
 }

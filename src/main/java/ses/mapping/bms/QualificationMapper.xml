@@ -29,6 +29,7 @@
       <if test="type != null">
         AND TYPE = #{type,jdbcType=NUMERIC}
       </if>
+      ORDER BY CREATED_AT DESC
     </select>
 	
 	<!-- 保存 -->

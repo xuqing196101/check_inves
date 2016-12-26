@@ -13,8 +13,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONSerializer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -22,6 +20,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+
+import common.bean.ResBean;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import net.sf.json.JSONSerializer;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -31,12 +35,6 @@ import ses.service.bms.CategoryAttachmentService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.WfUtil;
-
-import com.alibaba.fastjson.JSON;
-
-import common.bean.ResBean;
-import common.constant.Constant;
-import common.constant.StaticVariables;
 
 /**
  * 
@@ -176,8 +174,7 @@ public class CategoryController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping(value = "/update", produces = "application/json;charset=UTF-8")
     public Category update (String id) {
-        
-        Category cate = categoryService.selectByPrimaryKey(id);
+        Category cate = categoryService.getCategoryQuaById(id);
         return cate;
     }
     

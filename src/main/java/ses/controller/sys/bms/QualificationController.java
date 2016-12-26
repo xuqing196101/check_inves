@@ -144,4 +144,20 @@ public class QualificationController {
         return  quaService.del(id);
     }
     
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author myc
+     * @param model {@link Model} 
+     * @param type {@link type} 类型
+     * @return 
+     */
+    @RequestMapping("/initLayer")
+    public String initOpenLayer(Model model, String type, String ids){
+        model.addAttribute("type", type);
+        model.addAttribute("ids", ids);
+        return "/ses/bms/qualification/quaLayer";
+    }
+    
 }
