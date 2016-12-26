@@ -228,6 +228,18 @@ public interface CategoryMapper {
      * @throws
       */
      public List<Category> findCategory(Map<String,Object> map);
+
+     
+     /**
+      * 
+      *〈简述〉根据父级节点id和状态查询已经发布的品目信息,如果状态为空查询所有的
+      *〈详细描述〉
+      * @author myc
+      * @param id 父节点Id
+      * @param status 状态
+      * @return  Category 集合
+      */
+     public List<Category> findPublishTree(@Param("id")String id, @Param("status")Integer status);
      
      
 }

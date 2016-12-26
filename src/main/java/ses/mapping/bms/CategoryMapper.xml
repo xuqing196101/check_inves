@@ -388,6 +388,21 @@
 		ORDER BY POSITION
 	</select>
 	
+	<!-- 按照状态查询 -->
+	<select id="findPublishTree" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY
+		WHERE IS_DELETED=0 
+		AND PARENT_ID = #{id} 
+		AND IS_PUBLISH = 0
+		<if test="status != null">
+		 AND CLASSIFY_STATUS in (#{status},3)
+		</if>
+		ORDER BY CODE
+	</select>
+	
+	
 	<select id="findCategory" parameterType="Map" resultMap="CateMap">
 	    SELECT
 		<include refid="Base_Column_List" />
