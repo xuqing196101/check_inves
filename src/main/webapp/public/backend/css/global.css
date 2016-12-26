@@ -1156,3 +1156,31 @@ table .input_group .add-on{
 	width: 100%!important;
 	margin: 0px!important;
 }
+
+
+
+/*倒计时样式*/
+.kaibiao_time{
+	height:35px;
+	line-height: 35px;
+	display: block;
+	margin:0px auto;
+	padding-top:60px;
+	font-size:19px;
+	
+}
+.kb_title{
+	font-weight:bold;
+	margin-bottom: 20px;
+	text-align: center;
+}
+.yomi{
+	padding:10px;
+	background-color: #99cc33;
+	line-height: 30px;
+	border-radius:100%!important;
+	margin: 0 10px;
+	font-size: 16px;
+	font-weight:bold;
+	color:#ffffff;
+}

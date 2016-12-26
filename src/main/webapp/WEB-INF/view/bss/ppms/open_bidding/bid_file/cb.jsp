@@ -88,8 +88,8 @@
 							};
 						};
 					};
-					var time=day+"天"+hour+"时"+minutes+"分"+second+"秒";
-					$("#showTime").text(time);
+					var time="<span class='yomi'>"+day+"</span>"+"天"+"<span class='yomi'>"+hour+"</span>"+"时"+"<span class='yomi'>"+minutes+"</span>"+"分"+"<span class='yomi'>"+second+"</span>"+"秒";
+					$("#showTime").html(time);
 				};
 				}
 		}); 
@@ -125,15 +125,25 @@
 <body>
 <!-- 表格开始-->
 <c:if test="${date > 0 }">
-	 <h2 class="tc" id="showH">项目名称：${project.name}&nbsp;项目编号：${project.projectNumber}&nbsp;<br/>开标倒计时：<span id="showTime"></span></h2>
+   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+	   <div class="col-md-6 col-sm-6 col-xs-6 tc f18" id="showH">项目名称：${project.name}</div>
+	   <div class="col-md-6 col-sm-6 col-xs-6 tc f18">项目编号：${project.projectNumber}</div>
+   </div>
+   <div class="kaibiao_time clear">
+       <span class="col-md-12 col-xs-12 col-sm-12 kb_title">开标倒计时：</span>
+       <div id="showTime" class="col-md-12 col-xs-12 col-sm-12 tc"></div>
+   </div>
 </c:if>
-<div id="showDiv" class="clear hide">
-	 <input type="hidden" id ="projectId" value="${project.id}" />
-	 <h2 class="tc">项目名称：${project.name}&nbsp;项目编号：${project.projectNumber}</h2>
-	 <h3 class="tc">
+    <div id="showDiv" class="clear hide">
+	 <div class="col-md-12 col-sm-12 col-xs-12 p0">
+	  <input type="hidden" id ="projectId" value="${project.id}" />
+	 <div class="col-md-6 col-sm-6 col-xs-6 tc f18" id="showH">项目名称：${project.name}</div>
+	 <div class="col-md-6 col-sm-6 col-xs-6 tc f18">项目编号：${project.projectNumber}</div>
+   </div>
+	 <div class="tc col-md-12 col-sm-12 col-xs-12">
 	 	<button class="btn hand" onclick="changtotal(this)">唱总价</button>
 	 	<button class="btn hand" onclick="changmingxi(this)">唱明细</button>
-	 </h3>
+	 </div>
 </div>
 </body>
 </html>
