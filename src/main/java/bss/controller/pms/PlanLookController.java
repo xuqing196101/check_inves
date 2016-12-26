@@ -286,14 +286,22 @@ public class PlanLookController extends BaseController {
 				}
 			}
 		}
+		if(collectPlan.getStatus().equals(3)){
+			if(collectPlan.getAuditTurn()==1){
+				collectPlan.setStatus(2);
+			}else{
+				collectPlan.setStatus(4);
+			}
+		}
+		if(collectPlan.getStatus().equals(5)){
+			if(collectPlan.getAuditTurn()==2){
+				collectPlan.setStatus(2);
+			}else{
+				collectPlan.setStatus(6);
+			}
+		}
 		if(collectPlan.getStatus().equals(7)){
-			collectPlan.setStatus(10);
-		}
-		if(collectPlan.getStatus().equals(8)){
-			collectPlan.setStatus(11);
-		}
-		if(collectPlan.getStatus().equals(9)){
-			collectPlan.setStatus(12);
+			collectPlan.setStatus(2);
 		}
 	
 		collectPlanService.update(collectPlan);
@@ -332,7 +340,7 @@ public class PlanLookController extends BaseController {
 		String str = null;
 		String id = request.getParameter("id");
 		CollectPlan plan = collectPlanService.queryById(id);
-		if(plan.getStatus()==7||plan.getStatus()==8||plan.getStatus()==9){
+		if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7){
 			str = "1";
 		}else{
 			str = "0";
@@ -410,12 +418,12 @@ public class PlanLookController extends BaseController {
 	@ResponseBody
 	public String getSatus(CollectPlan collectPlan,String auditTurns){
 	
-			CollectPlan plan = collectPlanMapper.queryPlan(collectPlan);
-			Integer status = plan.getStatus();
-			String flag="0";
-			 DictionaryData data = DictionaryDataUtil.findById(auditTurns);
+		CollectPlan plan = collectPlanMapper.queryPlan(collectPlan);
+		Integer status = plan.getStatus();
+		String flag="0";
+		DictionaryData data = DictionaryDataUtil.findById(auditTurns);
 		 if(auditTurns.equals("4")){
-				 if(status!=1||status.equals(7)||status.equals(8)|| status.equals(9)|| status.equals(10)|| status.equals(11)|| status.equals(12)){
+				 if(status!=1){
 					 flag="1";
 				 }
 			 }
@@ -426,15 +434,15 @@ public class PlanLookController extends BaseController {
 				 }
 			 }
 		  if(data.getCode().equals("SH_2")){
-				 if(status!=10){
+				 if(status!=4&&status!=1){
 					 flag="1";
 				 }
 			 }
 		  if(data.getCode().equals("SH_3")){
-			if(status !=11){
-					 flag="1";
-			 }
-		  }
+				if(status !=6&&status!=1){
+					flag="1";
+				}
+			}
 		}
 		
 		return flag;

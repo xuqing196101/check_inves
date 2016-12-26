@@ -155,7 +155,7 @@
 						url: "${pageContext.request.contextPath }/look/auditId.do?id=" + id,
 						success: function(data) {
 						 if(data!=1){
-								layer.alert("请选择状态需要审核的", {
+								layer.alert("请设置审核人员", {
 									offset: ['30%', '40%']
 								});
 							}
@@ -193,7 +193,7 @@
 					layer.close(index);
 				}
 				else if(type == 4) {
-					window.location.href = "${pageContext.request.contextPath }/look/audit.html?id=" + id+"&status=13";
+					window.location.href = "${pageContext.request.contextPath }/look/audit.html?id=" + id+"&status=12";
 				} else {
 					window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + type;
 				}
@@ -319,11 +319,7 @@
 					<c:forEach items="${info.list}" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
 							<td class="tc w30">
-							 <c:if test="${obj.status=='1' || obj.status==7 || obj.status==8 || obj.status==9 || obj.status==10 || obj.status==11 || obj.status==12 }">  
-								<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
-							  </c:if>
-					          <c:if test="${obj.status!='1' }">
- 					           </c:if>  
+								<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">  
 							</td>
 							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 							<td class="tc">${obj.fileName }</td>
@@ -340,27 +336,24 @@
 								<%-- <c:if test="${obj.status=='2' }">
 									已审核
 								</c:if> --%>
-								<c:if test="${obj.status==12 }">
-									三轮已审核
+								<c:if test="${obj.status==3 }">
+									待第一轮审核
 								</c:if>
-									<c:if test="${obj.status==11 }">
-									二轮已审核
+									<c:if test="${obj.status==4 }">
+									待第二轮审核设置
 								</c:if>
-							  <c:if test="${obj.status==10 }">
-								一轮已审核
+							    <c:if test="${obj.status==5 }">
+									待第二轮审核
 								</c:if>
 								
 							<%-- 	<c:if test="${obj.status=='4' }">
 									已下达
 								</c:if> --%>
+								<c:if test="${obj.status=='6' }">
+									待第三轮审核设置
+								</c:if>
 								<c:if test="${obj.status=='7' }">
-									一轮审核设置完毕
-								</c:if>
-								<c:if test="${obj.status=='8' }">
-									二轮审核设置完毕
-								</c:if>
-								<c:if test="${obj.status=='9' }">
-									三轮审核设置完毕
+									待第三轮审核
 								</c:if>
 							</td>
 						</tr>
@@ -375,15 +368,16 @@
 
 		<div id="content" class="dnone" style="text-align: center;">
  
-			<span style="padding-top:50px;">直接下达采购任务或者设置审核轮次</span> <select style="margin-top: 15px;" onchange="auditturns(this)"
-			name="planType" id="wtype">
-			<option value="">请选择</option>
-			<option value="4">直接下达任务</option>
-			<c:forEach items="${dic }" var="obj">
-				<option value="${obj.id }">${obj.name }</option>
-			</c:forEach>
-		</select>
-		<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
+			<span style="padding-top:50px;">直接下达采购任务或者设置审核轮次</span> 
+			<select style="margin-top: 15px;" onchange="auditturns(this)"
+				name="planType" id="wtype">
+				<option value="">请选择</option>
+				<option value="4">直接下达任务</option>
+				<c:forEach items="${dic }" var="obj">
+					<option value="${obj.id }">${obj.name }</option>
+				</c:forEach>
+			</select>
+			<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
 			    <button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="closeLayer()">确定</button>
 			    <button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="cant()">取消</button>
 		    </div>

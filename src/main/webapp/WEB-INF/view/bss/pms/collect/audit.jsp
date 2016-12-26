@@ -490,27 +490,27 @@
 							<table id="table" class="table table-bordered table-condensed mt5 table_input">
 								<thead>
 									<tr>
-										<c:if test="${audit==1 || audit==2 || audit==3 }">
+										<c:if test="${status==3 || status==5 || status==7 }">
 											<th class="info" colspan="3">一轮审核</th>
 										</c:if>
-										<c:if test="${audit==2 || audit==3 }">
+										<c:if test="${status==5 || status==7 }">
 											<th class="info" colspan="2">二轮审核</th>
 										</c:if>
-											<c:if test="${audit==3 }">
-											<th class="info" colspan="3">二轮审核</th>
+										<c:if test="${status==7 }">
+											<th class="info" colspan="3">三轮审核</th>
 										</c:if>
 									</tr>
 									<tr class="h91">
-										<c:if test="${audit==1 || audit==2 || audit==3 }">
+										<c:if test="${status==3 || status==5 || status==7 }">
 											<th>采购方式</th>
 											<th>采购机构</th>
 											<th>其他建议</th>
 										</c:if>
-										<c:if test="${audit==2 || audit==3 }">
+										<c:if test="${status==5 || status==7 }">
 											 <th>审核技术参数</th>
 											 <th>其他建议</th>
 										</c:if>
-										<c:if test="${audit==3 }">
+										<c:if test="${status==7 }">
 											<th>采购方式</th>
 											<th>采购机构</th>
 											<th>其他建议</th>
@@ -537,7 +537,7 @@
 						</thead>
 						<c:forEach items="${list }" var="objs" varStatus="vs">
 							<tr>
-								<c:if test="${audit==1 || audit==2 || audit==3 }">
+								<c:if test="${status==3 || status==5 || status==7 }">
 								<td>
 									<select name="list[${vs.index }].onePurchaseType" >
 										<c:forEach items="${mType }" var="mt">
@@ -558,7 +558,7 @@
 								</td>
 								</c:if>
 								
-							<c:if test="${audit==2 || audit==3 }">
+							<c:if test="${status==5 || status==7 }">
 								<td class="tc">
 									<input type="text" name="list[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
 								</td>
@@ -566,7 +566,7 @@
 									<input type="text" name="list[${vs.index }].twoAdvice" value="${obj.twoAdvice }" >
 								</td>
 							</c:if>
-							<c:if test="${audit==3 }">	
+							<c:if test="${status==7 }">	
 								
 								<td class="tc">
 									<select name="list[${vs.index }].threePurchaseType">
@@ -663,6 +663,7 @@
 						<div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
 							<input type="hidden" name="id" value="${id }"> 
 							<input type="hidden" name="planNo" value="${planNo }">
+							<input type="hidden" name="auditTurn" value="${audit }">
 							<input type="hidden" id="status" name="status" value="${status }">
 							<input class="btn btn-windows save" type="submit" value="保存">
 							<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">

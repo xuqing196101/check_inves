@@ -24,7 +24,17 @@ public class AuditPerson {
     
     private String auditRound;
     
-    public String getId() {
+    private String duty;
+    
+    public String getDuty() {
+		return duty;
+	}
+
+	public void setDuty(String duty) {
+		this.duty = duty;
+	}
+
+	public String getId() {
         return id;
     }
 

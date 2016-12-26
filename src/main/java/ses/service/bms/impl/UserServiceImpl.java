@@ -246,6 +246,14 @@ public class UserServiceImpl implements UserServiceI {
         
       return userMapper.getUserCountByOrgId(orgId);
     }
+
+
+	@Override
+	public List<User> listWithoutSupplier(int pageNum) {
+	    PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+		List<User> users = userMapper.listWithoutSupplier();
+		return users;
+	}
   
   
     

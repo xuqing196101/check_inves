@@ -226,4 +226,15 @@ public interface UserServiceI {
    * @return 存在用户
    */
   Long getUserCountByOrgId(String orgId);
+  
+  /**
+   * 
+   * @Title: listWithoutSupplier
+   * @author Liyi 
+   * @date 2016-12-26 下午2:25:49  
+   * @Description:查询所有非供应商用户
+   * @param:     
+   * @return:
+   */
+  List<User> listWithoutSupplier(int pageNum);
 }

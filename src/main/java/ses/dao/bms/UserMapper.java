@@ -210,4 +210,14 @@ public interface UserMapper {
      */
     Long getUserCountByOrgId(@Param("orgId")String orgId);
 	
+    /**
+     * 
+     * @Title: listWithoutSupplier
+     * @author Liyi 
+     * @date 2016-12-26 下午2:24:48  
+     * @Description: 查询所有非供应商用户
+     * @param:     
+     * @return:
+     */
+    List<User> listWithoutSupplier();
 }

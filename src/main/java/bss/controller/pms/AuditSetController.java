@@ -25,6 +25,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +48,7 @@ import bss.model.dms.ProbationaryArchive;
 import bss.model.dms.PurchaseArchive;
 import bss.model.pms.AuditParam;
 import bss.model.pms.AuditPerson;
+import bss.model.pms.AuditPersonList;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseRequired;
@@ -70,6 +72,7 @@ import com.github.pagehelper.PageInfo;
  *
  */
 @Controller
+@Scope
 @RequestMapping("/set")
 public class AuditSetController {
 
@@ -122,14 +125,43 @@ public class AuditSetController {
 	 */
 	@RequestMapping("/list")
 	public String set(Model model,Integer page,String id,HttpServletRequest request,String staff){
-		String type = request.getParameter("type");
+		CollectPlan plan = collectPlanService.queryById(id);
+		String type = "";
+		if(plan.getStatus()==1){
+			type = request.getParameter("type");
+			String auditTurn = "";
+			auditTurn=DictionaryDataUtil.findById(type).getCode();
+			if(auditTurn.equals("SH_1")){
+				plan.setAuditTurn(1);
+			}else if (auditTurn.equals("SH_2")) {
+				plan.setAuditTurn(2);
+			}else {
+				plan.setAuditTurn(3);
+			}
+			collectPlanService.update(plan);
+			type = DictionaryDataUtil.getId("SH_1");
+		}else{
+			type = request.getParameter("type");
+		}
 		AuditPerson person = new AuditPerson();
 		person.setCollectId(id);
 		person.setAuditRound(type);
 		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
 		model.addAttribute("info", info);
- 
+		try {
+			String auditRound="";
+			if(plan.getStatus()==1){
+				auditRound="第一轮审核设置";
+			}else if (plan.getStatus()==4) {
+				auditRound="第二轮审核设置";
+			}else if (plan.getStatus()==6) {
+				auditRound="第三轮审核设置";
+			}
+			model.addAttribute("auditRound", auditRound);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		model.addAttribute("id", id);
 		model.addAttribute("kind", DictionaryDataUtil.find(4));
 		model.addAttribute("type", type);
@@ -212,16 +244,13 @@ public class AuditSetController {
 		CollectPlan collectPlan = collectPlanService.queryById(collectId);
 		DictionaryData sh = DictionaryDataUtil.findById(type);
 		if(sh.getCode().equals("SH_1")){
-			collectPlan.setAuditTurn(1);
-			collectPlan.setStatus(7);
+			collectPlan.setStatus(3);
 		}
 		if(sh.getCode().equals("SH_2")){
-			collectPlan.setAuditTurn(2);
-			collectPlan.setStatus(8);
+			collectPlan.setStatus(5);
 		}
 		if(sh.getCode().equals("SH_3")){
-			collectPlan.setAuditTurn(3);
-			collectPlan.setStatus(9);
+			collectPlan.setStatus(7);
 		}
 		
 		collectPlanService.update(collectPlan);
@@ -267,7 +296,7 @@ public class AuditSetController {
 	@RequestMapping("/user")
 	public String getUser(Integer page,User user,Model model,HttpServletRequest request){
 		String type = request.getParameter("type");
-		List<User> list = userServiceI.list(user, page==null?1:page);
+		List<User> list = userServiceI.listWithoutSupplier(page==null?1:page);
 		PageInfo<User> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("user", user);
@@ -657,36 +686,58 @@ public class AuditSetController {
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping(value="/judgeAddUser",produces="application/json;charset=utf-8")
+	@RequestMapping(value="/judgeAddUser",produces="application/text;charset=utf-8")
 	@ResponseBody
-	public String judgeAddUser(HttpServletRequest request,AuditPerson auditPerson){
+	public String judgeAddUser(HttpServletRequest request,AuditPersonList auditPersonList,String index,String collectId,String auditNature,String turns){
+		List<AuditPerson> auditPersons = auditPersonList.getAuditPersons();
 		String str = "无";
+		int ind=Integer.parseInt(index);
 		Map<String,Object> map = new HashMap<String,Object>();
-		if(auditPerson.getName()==null||auditPerson.getName().trim().equals("")){
+		if(auditNature==null||auditNature.equals("")){
 			str = "error";
-			map.put("name", "姓名不能为空");
+			map.put("auditNatureErr", "审核人员性质不能为空");
 		}
-		if(auditPerson.getMobile()==null||auditPerson.getMobile().trim().equals("")){
-			str = "error";
-			map.put("phone", "电话不能为空");
+		for (AuditPerson auditPerson : auditPersons) {
+			
+			if(auditPerson.getName()==null||auditPerson.getName().trim().equals("")){
+				str = "error";
+				map.put("name"+ind, "姓名不能为空");
+			}
+			if(auditPerson.getMobile()==null||auditPerson.getMobile().trim().equals("")){
+				str = "error";
+				map.put("phone"+ind, "电话不能为空");
+			}
+			if(auditPerson.getDuty()==null||auditPerson.getDuty().trim().equals("")){
+				str = "error";
+				map.put("duty"+ind, "职务不能为空");
+			}
+			if(auditPerson.getUnitName()==null||auditPerson.getUnitName().trim().equals("")){
+				str = "error";
+				map.put("unitName"+ind, "单位名称不能为空");
+			}
+			ind++;
 		}
-		if(auditPerson.getUnitName()==null||auditPerson.getUnitName().trim().equals("")){
-			str = "error";
-			map.put("unitName", "单位名称不能为空");
+		if(str.equals("error")){
+			map.put("isErr", str);
+			map.put("length",auditPersons.size());
+			return JSONSerializer.toJSON(map).toString();
+		}else{
+			for (AuditPerson auditPerson2 : auditPersons) {
+				auditPerson2.setCollectId(collectId);
+				auditPerson2.setAuditRound(turns);
+				auditPerson2.setType(3);
+				auditPersonService.add(auditPerson2);
+				map.put("staff", auditPerson2.getAuditStaff());
+			}
+			map.put("isErr", str);
+			map.put("status", 1);
+			return JSON.toJSONString(map);
 		}
 //		if(auditPerson.getAuditStaff()==null||auditPerson.getAuditStaff().trim().equals("")){
 //			str = "error";
 //			map.put("auditStaff", "审核人员性质不能为空");
 //		}
-		if(str.equals("error")){
-			return JSONSerializer.toJSON(map).toString();
-		}else{
-			auditPersonService.add(auditPerson);
-			map.put("staff", auditPerson.getAuditStaff());
-			map.put("status", 1);
-			return JSON.toJSONString(map);
-		}
-		 
+		
 	}
 	
 	   @RequestMapping(value="/delete")

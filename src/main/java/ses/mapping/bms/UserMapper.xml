@@ -591,4 +591,18 @@
  	  WHERE ORG_ID = #{orgId}
       AND IS_DELETED = '0'
     </select>
+    
+   <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
+   <select id="listWithoutSupplier" resultMap="UserBaseMap">
+        SELECT 
+           u.*
+        FROM
+            T_SES_BMS_USER u
+			LEFT JOIN T_SES_BMS_USER_ROLE ur ON u. ID = ur.USER_ID
+			LEFT JOIN T_SES_BMS_ROLE r ON ur.ROLE_ID = r . ID
+		WHERE
+		    u.IS_DELETED = 0
+		    AND
+		    r.CODE != 'SUPPLIER_R'
+    </select>
 </mapper>

@@ -12,9 +12,10 @@
     <result column="AUDIT_STAFF" jdbcType="VARCHAR" property="auditStaff" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
     <result column="AUDIT_ROUND" jdbcType="VARCHAR" property="auditRound" />
+    <result column="DUTY" jdbcType="VARCHAR" property="duty" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, MOBILE, ID_NUMBER, COLLECT_ID,TYPE,UNIT_NAME,AUDIT_STAFF,USER_ID,AUDIT_ROUND
+    ID, NAME, MOBILE, ID_NUMBER, COLLECT_ID,TYPE,UNIT_NAME,AUDIT_STAFF,USER_ID,AUDIT_ROUND,DUTY
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="AuditPerson_Map">
     select 
@@ -28,10 +29,10 @@
   </delete>
   <insert id="insert" parameterType="bss.model.pms.AuditPerson">
     insert into T_BSS_PMS_AUDIT_PERSON (ID, NAME, MOBILE, 
-      ID_NUMBER, COLLECT_ID,TYPE,UNIT_NAME)
+      ID_NUMBER, COLLECT_ID,TYPE,UNIT_NAME,DUTY)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{idNumber,jdbcType=VARCHAR}, #{collectId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{unitName,jdbcType=VARCHAR},#{auditStaff,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},#{auditRound,jdbcType=VARCHAR})
+      #{unitName,jdbcType=VARCHAR},#{duty,jdbcType=VARCHAR},#{auditStaff,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},#{auditRound,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.pms.AuditPerson">
     insert into T_BSS_PMS_AUDIT_PERSON
@@ -66,6 +67,9 @@
       <if test="auditRound != null">
         AUDIT_ROUND,
       </if>
+      <if test="duty != null">
+        DUTY,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -97,6 +101,9 @@
       </if>
       <if test="auditRound != null">
         #{auditRound,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null">
+        #{duty,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -130,6 +137,9 @@
       <if test="auditRound != null">
         AUDIT_ROUND = #{auditRound,jdbcType=VARCHAR},
       </if>
+      <if test="duty != null">
+        DUTY = #{duty,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -144,6 +154,7 @@
       AUDIT_STAFF = #{auditStaff,jdbcType=VARCHAR},
       USER_ID = #{userId,jdbcType=VARCHAR},
       AUDIT_ROUND = #{auditRound,jdbcType=VARCHAR},
+      DUTY = #{duty,jdbcType=VARCHAR},
    	 where ID = #{id,jdbcType=VARCHAR}
   </update>
   
