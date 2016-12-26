@@ -45,6 +45,7 @@ session.setAttribute("tokenSession", tokenValue);
 					"categoryId": id,
 					"expertId": expertId
 				},
+				dataFilter: ajaxDataFilter,
 				dataType: "json",
 				type: "get"
 			},
@@ -70,6 +71,18 @@ session.setAttribute("tokenSession", tokenValue);
 		};
 		zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
 		zTreeObj.expandAll(true);//全部展开
+	}
+	function ajaxDataFilter(treeId, parentNode, childNodes) {
+		// 判断是否为空
+		if (childNodes) {
+			// 判断如果父节点是第三极,则将查询出来的子节点全部改为isParent = false
+	    	if (parentNode != null && parentNode != "undefined" && parentNode.level == 2) {
+				for(var i =0; i < childNodes.length; i++) {
+		        	childNodes[i].isParent += false;
+		      	}
+	    	}
+	    }	
+	    return childNodes;
 	}
 	function saveCategory(event, treeId, treeNode) {
 		var clickFlag;
@@ -119,24 +132,20 @@ function zancunCategory(count){
 	$("#categoryId").val(ids);
 	zancunMsg();
 }
-function nextCategory(count){
-	var cateCount = 0;
-	for (var i = 1; i <= count; i++) {
-		var id = "tab-" + i;
-		var tree = $.fn.zTree.getZTreeObj(id);
-		if (tree != null) {
-			nodes = tree.getCheckedNodes(true);
-			for (var j = 0; j < nodes.length; j++) {
-				cateCount++;
+function nextCategory(){
+	var expertId = "${expert.id}";
+	$.ajax({
+		url: "${pageContext.request.contextPath}/expert/isHaveCategory.do",
+		data: {"expertId" : expertId},
+		success: function(response){
+			if (response == '0') {
+				layer.msg("请至少选择一项!");	
+			} else if (response == '1') {
+				updateStepNumber("three");
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			}
 		}
-	}
-	if (cateCount == 0) {
-		layer.msg("请至少选择一项!");	
-	} else {
-		//zancun();
-		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
-	}
+	});
 }
 // 有提示msg暂存
 function zancunMsg(){
@@ -174,10 +183,6 @@ function pre7(name, i, position) {
 function one(){
 	updateStepNumber("one");
 	window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
-}
-function fun1(count){
-	updateStepNumber("three");
-	nextCategory(count);
 }
 function errorMsg(auditField){
 	$.ajax({
@@ -269,7 +274,7 @@ function errorMsg(auditField){
 	<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
 	  <button class="btn"  type="button" onclick="pre()">上一步</button>
 	  <!-- <button class="btn" onclick="zancunCategory('${count}')"  type="button">暂存</button> -->
-	  <button class="btn"  type="button" onclick="fun1('${count}')">下一步</button>
+	  <button class="btn"  type="button" onclick="nextCategory()">下一步</button>
     </div>
   </div>
   <div></div>

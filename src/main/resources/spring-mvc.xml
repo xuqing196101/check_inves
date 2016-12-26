@@ -60,6 +60,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
  			<mvc:exclude-mapping path="/expert/initData.*" />
  			<mvc:exclude-mapping path="/expert/findAuditReason.*" />
  			<mvc:exclude-mapping path="/expert/saveCategory.*" />
+ 			<mvc:exclude-mapping path="/expert/isHaveCategory.*" />
  			<mvc:exclude-mapping path="/expert/findAllLoginName.*" />
  			<mvc:exclude-mapping path="/expert/findAttachment.*" />
  			<mvc:exclude-mapping path="/expert/getCategoryByExpertId.*" />
