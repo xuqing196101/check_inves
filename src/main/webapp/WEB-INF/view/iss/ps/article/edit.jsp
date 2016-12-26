@@ -303,20 +303,21 @@
              if(second==null||second==""){
                $("#ERR_secondType").html("栏目属性不能为空");
                return false;
-             }
-            }else if($("#three").is(":visible")){
-                if(three==null||three==""){
-                  $("#ERR_threeType").html("采购类型不能为空");
-                    return false;
-                  }
-           }else if($("#four").is(":visible")){
-               if(four==null||four==""){
-                  $("#ERR_fourType").html("采购方式不能为空");
-                   return false;
+             }else if($("#three").is(":visible")){
+                      if(three==null||three==""){
+                        $("#ERR_threeType").html("采购类型不能为空");
+                          return false;
+                        }else if($("#four").is(":visible")){
+                            if(four==null||four==""){
+                                $("#ERR_fourType").html("采购方式不能为空");
+                                 return false;
+                               }
+                        }
                  }
-          } else{
+             
+            }else{
               return true;
-            }
+          }
          }
       
     </script>
@@ -346,7 +347,7 @@
     </div>
 
     <div class="container container_box">
-      <form id="newsForm" action="${pageContext.request.contextPath }/article/update.html" enctype="multipart/form-data" method="post">
+      <form id="newsForm" action="${pageContext.request.contextPath }/article/update.html" onsubmit="return clk()" enctype="multipart/form-data" method="post">
         <input type="hidden" id="ids" name="ids" />
         <h2 class="list_title">修改信息</h2>
 
