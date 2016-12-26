@@ -100,7 +100,7 @@ public class ExcelUtil {
 			        				rq.setSeq(String.valueOf((int)cell.getNumericCellValue()));
 			        				 continue;
 			        			}
-			        		    if(cell.getCellType()!=3){
+			        			else {
 			        					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，请输入文本类型 ！";
 				        				 map.put("errMsg", errMsg);
 				        				 bool=false;
