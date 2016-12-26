@@ -128,19 +128,6 @@ public class SupplierItemController extends BaseController{
 			 
 		// 页面跳转
 		model.addAttribute("currSupplier", supplier);
-		
-		
-//		supplierService.get(id)
-/*		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
-		
-		if ("items".equals(jsp))
-			request.getSession().setAttribute("defaultPage", defaultPage);
-		else
-			request.getSession().removeAttribute("defaultPage");
-		
-		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", jsp);*/
-//		return  "redirect:../supplier/page_jump.html";
 		if(flag.equals("3")){
 			return "ses/sms/supplier_register/supplier_type";
 		}
@@ -148,14 +135,7 @@ public class SupplierItemController extends BaseController{
 		
 		if(flag.equals("2")){
 			return "ses/sms/supplier_register/items";	
-		}
-	
-//		boolean bool = validataItem(supplierItem);
-//		if(bool==false){
-//			model.addAttribute("err_item", "请上传产品目录近对应的近三年文件");
-//			return "ses/sms/supplier_register/procurement_dep";	
-//		}
-		 
+		} 
 		if(supplierItem.getCategoryId().trim().length()>0){
 			return "ses/sms/supplier_register/procurement_dep";	
 		}else{
@@ -163,7 +143,8 @@ public class SupplierItemController extends BaseController{
 			return "ses/sms/supplier_register/items";	
 		}
 			
-//			 return "ses/sms/supplier_register/aptitude";
+		   //跳到供应商资质证书维护页面
+//			 return "ses/sms/supplier_register/aptitude"; 
 	 
 		
 		

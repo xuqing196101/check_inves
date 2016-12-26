@@ -101,7 +101,7 @@ public class ExcelUtil {
 			        				 continue;
 			        			}
 			        			else {
-			        					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，请输入文本类型 ！";
+			        					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不允许为空！";
 				        				 map.put("errMsg", errMsg);
 				        				 bool=false;
 			        				}

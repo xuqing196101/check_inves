@@ -131,7 +131,7 @@
 									"<td><input type='text' name='list[" + 0 + "].goodsUse' /></td>" +
 									"<td><input type='text' name='list[" + 0 + "].useUnit' /></td>" +
 									"<td><input type='text' name='list[" + 0 + "].memo' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].status' value='暂存' readonly='readonly' /></td>" +
+								/* 	"<td><input type='text' name='list[" + 0 + "].status' value='暂存' readonly='readonly' /></td>" + */
 									"<td><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 									"<tr/>");
 						}else{
@@ -153,7 +153,7 @@
 							"<td><input type='text' name='list[" + s + "].goodsUse' /></td>" +
 							"<td><input type='text' name='list[" + s + "].useUnit' /></td>" +
 							"<td><input type='text' name='list[" + s + "].memo' /></td>" +
-							"<td><input type='text' name='list[" + s + "].status' value='暂存' readonly='readonly' /></td>" +
+							/* "<td><input type='text' name='list[" + s + "].status' value='暂存' readonly='readonly' /></td>" + */
 							"<td><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 							"<tr/>");
 						}
@@ -684,7 +684,7 @@
 										<td class="tc w200 p0"><input type="text" name="list[0].goodsUse" class="m0"></td>
 										<td class="tc w200 p0"><input type="text" name="list[0].useUnit" class="m0"></td>
 										<td class="tc w200 p0"><input type="text" name="list[0].memo" class="m0"></td>
-										<td class="tc w100 p0"></td>
+										<!-- <td class="tc w100 p0"></td> -->
 									<!-- 	<td class="tc w100 p0"></td> -->
 										<td class="tc w100 p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>

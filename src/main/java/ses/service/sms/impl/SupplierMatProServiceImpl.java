@@ -1,6 +1,8 @@
 package ses.service.sms.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierMatProMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierMatPro;
 import ses.service.sms.SupplierMatProService;
 
@@ -34,5 +37,18 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 			
 		}
 
+	}
+
+	@Override
+	public SupplierMatPro init() {
+	     SupplierCertPro proCert=new SupplierCertPro();
+         List<SupplierCertPro> priList=new ArrayList<SupplierCertPro>();
+         priList.add(proCert);
+         SupplierMatPro pro = new  SupplierMatPro();
+	     String id = UUID.randomUUID().toString().replaceAll("-", "");
+	     pro.setId(id);
+         pro.setListSupplierCertPros(priList);
+         
+		return pro;
 	}
 }
