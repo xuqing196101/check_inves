@@ -22,7 +22,7 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				layer.msg("已暂存",{offset: ['300px', '750px']});
+				//layer.msg("已暂存",{offset: ['300px', '750px']});
 			 }
 		});
 	}
@@ -107,6 +107,7 @@ session.setAttribute("tokenSession", tokenValue);
 		return true;
 	}
 	$(function(){
+		$("input").bind("change", submitformExpert);
 		var typeIds = "${expert.expertsTypeId}";
 		var ids = typeIds.split(",");
 		//回显
@@ -195,7 +196,7 @@ session.setAttribute("tokenSession", tokenValue);
 			</ul>
 				<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
 					<button class="btn" id="nextBind"  type="button" onclick='pre()' >上一步</button>
-			        <button class="btn" onclick='submitformExpert()'  type="button">暂存</button>
+			        <!-- <button class="btn" onclick='submitformExpert()'  type="button">暂存</button> -->
 					<button class="btn" id="nextBind"  type="button" onclick='fun()' >下一步</button>
 				</div>
 				</div>

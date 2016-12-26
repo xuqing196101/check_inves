@@ -22,9 +22,9 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				layer.msg("已暂存");
+				//layer.msg("已暂存");
 			},error:function(result){
-				layer.msg("很抱歉,暂存失败!");
+				layer.msg("抱歉,字数超过限制,暂存失败!");
 			}
 		});
 	}
@@ -119,6 +119,9 @@ session.setAttribute("tokenSession", tokenValue);
 			}
 		});
 	}
+	$(function(){
+		$("textarea").bind("change", submitformExpert);
+	});
 </script>
 </head>
 <body>
@@ -199,7 +202,7 @@ session.setAttribute("tokenSession", tokenValue);
    			   
 		    <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
 				<button class="btn"  type="button" onclick="pre()">上一步</button>
-				<button class="btn" onclick='submitformExpert()'  type="button">暂存</button>
+				<!-- <button class="btn" onclick='submitformExpert()'  type="button">暂存</button> -->
 				<button class="btn"  type="button" onclick='fun1()'>下一步</button>
 			</div>
 		</div>
