@@ -228,18 +228,18 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("articleId", id);
       url = "iss/ps/article/add";
     }else{
-      if(ValidateUtils.isNull(article.getFourType())){
-    	  if(ValidateUtils.isNull(article.getThreeType())){
-    		  if(ValidateUtils.isNull(article.getSecondType())){
+      if(ValidateUtils.isNull(article.getPurchaseWay())){
+    	  if(ValidateUtils.isNull(article.getPurchaseType())){
+    		  if(ValidateUtils.isNull(article.getAttributeType())){
     			  article.setOverType(contype);
     		  }else{
-    			  article.setOverType(article.getSecondType());
+    			  article.setOverType(article.getAttributeType());
     		  }
     	  }else{
-    		  article.setOverType(article.getThreeType());
+    		  article.setOverType(article.getPurchaseType());
     	  }
       }else{
-    	  article.setOverType(article.getFourType());
+    	  article.setOverType(article.getPurchaseWay());
       }
       User user = (User) request.getSession().getAttribute("loginUser");
       article.setUser(user);
@@ -516,18 +516,18 @@ public class ArticleController extends BaseSupplierController{
       articleService.updateisPicShow(isPicShow);
     }
 
-    if(ValidateUtils.isNull(article.getFourType())){
-  	  if(ValidateUtils.isNull(article.getThreeType())){
-  		  if(ValidateUtils.isNull(article.getSecondType())){
+    if(ValidateUtils.isNull(article.getPurchaseWay())){
+  	  if(ValidateUtils.isNull(article.getPurchaseType())){
+  		  if(ValidateUtils.isNull(article.getAttributeType())){
   			  article.setOverType(article.getArticleType().getId());
   		  }else{
-  			  article.setOverType(article.getSecondType());
+  			  article.setOverType(article.getAttributeType());
   		  }
   	  }else{
-  		  article.setOverType(article.getThreeType());
+  		  article.setOverType(article.getPurchaseType());
   	  }
     }else{
-  	  article.setOverType(article.getFourType());
+  	  article.setOverType(article.getPurchaseWay());
     }
     article.setUpdatedAt(new Date());
     articleService.update(article);
@@ -575,16 +575,16 @@ public class ArticleController extends BaseSupplierController{
     article.setArticleAttachments(articleAttaList);
     model.addAttribute("article",article);
     
-    if(article.getSecondType()!=null){
-    	ArticleType second = articleTypeService.selectTypeByPrimaryKey(article.getSecondType());
+    if(article.getAttributeType()!=null){
+    	ArticleType second = articleTypeService.selectTypeByPrimaryKey(article.getAttributeType());
         model.addAttribute("second", second.getName());
     }
-    if(article.getThreeType()!=null){
-    	ArticleType three = articleTypeService.selectTypeByPrimaryKey(article.getThreeType());
+    if(article.getPurchaseType()!=null){
+    	ArticleType three = articleTypeService.selectTypeByPrimaryKey(article.getPurchaseType());
         model.addAttribute("three", three.getName());
     }
-    if(article.getFourType()!=null){
-    	ArticleType four = articleTypeService.selectTypeByPrimaryKey(article.getFourType());
+    if(article.getPurchaseWay()!=null){
+    	ArticleType four = articleTypeService.selectTypeByPrimaryKey(article.getPurchaseWay());
         model.addAttribute("four", four.getName());
     }
     DictionaryData dd=new DictionaryData();

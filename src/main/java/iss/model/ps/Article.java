@@ -134,11 +134,11 @@ public class Article{
      */
     private String sourceLink;
     
-    private String threeType;
+    private String purchaseType;
     
-    private String secondType;
+    private String attributeType;
     
-    private String fourType;
+    private String purchaseWay;
     
     private String overType;
     
@@ -345,28 +345,28 @@ public class Article{
 		this.sourceLink = sourceLink;
 	}
 
-	public String getThreeType() {
-		return threeType;
+	public String getPurchaseType() {
+		return purchaseType;
 	}
 
-	public void setThreeType(String threeType) {
-		this.threeType = threeType;
+	public void setPurchaseType(String purchaseType) {
+		this.purchaseType = purchaseType;
 	}
 
-	public String getSecondType() {
-		return secondType;
+	public String getAttributeType() {
+		return attributeType;
 	}
 
-	public void setSecondType(String secondType) {
-		this.secondType = secondType;
+	public void setAttributeType(String attributeType) {
+		this.attributeType = attributeType;
 	}
 
-	public String getFourType() {
-		return fourType;
+	public String getPurchaseWay() {
+		return purchaseWay;
 	}
 
-	public void setFourType(String fourType) {
-		this.fourType = fourType;
+	public void setPurchaseWay(String purchaseWay) {
+		this.purchaseWay = purchaseWay;
 	}
 
 	public String getOverType() {

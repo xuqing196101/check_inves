@@ -23,9 +23,9 @@
     <result column="SOURCE" property="source" />
     <result column="SOURCE_LINK" property="sourceLink" />
     
-    <result column="SECOND_TYPE" property="secondType" />
-    <result column="THREE_TYPE" property="threeType" />
-    <result column="FOUR_TYPE" property="fourType" />
+    <result column="ATTRIBUTE_TYPE" property="attributeType" />
+    <result column="PURCHASE_TYPE" property="purchaseType" />
+    <result column="PURCHASE_WAY" property="purchaseWay" />
     <result column="OVER_TYPE" property="overType" />
     
     
@@ -44,7 +44,7 @@
   <sql id="Article_Column_List">
     ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, DOWNLOAD_COUNT,
     STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON,SOURCE,SOURCE_LINK,
-    SECOND_TYPE,THREE_TYPE,FOUR_TYPE,OVER_TYPE
+    ATTRIBUTE_TYPE,PURCHASE_TYPE,PURCHASE_WAY,OVER_TYPE
   </sql>
   
   <sql id="Article_BlOB_Column_List">
@@ -242,14 +242,14 @@
       <if test="sourceLink != null">
         SOURCE_LINK,
       </if>
-      <if test="secondType != null">
-        SECOND_TYPE,
+      <if test="attributeType != null">
+        ATTRIBUTE_TYPE,
       </if>
-      <if test="threeType != null">
-        THREE_TYPE,
+      <if test="purchaseType != null">
+        PURCHASE_TYPE,
       </if>
-      <if test="fourType != null">
-        FOUR_TYPE,
+      <if test="purchaseWay != null">
+        PURCHASE_WAY,
       </if>
       <if test="overType != null">
         OVER_TYPE,
@@ -325,14 +325,14 @@
       <if test="sourceLink != null">
         #{sourceLink},
       </if>
-      <if test="secondType != null">
-        #{secondType},
+      <if test="attributeType != null">
+        #{attributeType},
       </if>
-      <if test="threeType != null">
-        #{threeType},
+      <if test="purchaseType != null">
+        #{purchaseType},
       </if>
-      <if test="fourType != null">
-        #{fourType},
+      <if test="purchaseWay != null">
+        #{purchaseWay},
       </if>
       <if test="overType != null">
         #{overType},
@@ -410,14 +410,14 @@
       <if test="sourceLink != null">
      	 SOURCE_LINK = #{sourceLink},
       </if>
-      <if test="secondType != null">
-       SECOND_TYPE = #{secondType},
+      <if test="attributeType != null">
+       ATTRIBUTE_TYPE = #{attributeType},
       </if>
-      <if test="threeType != null">
-       THREE_TYPE = #{threeType},
+      <if test="purchaseType != null">
+       PURCHASE_TYPE = #{purchaseType},
       </if>
-      <if test="fourType != null">
-       FOUR_TYPE = #{fourType},
+      <if test="purchaseWay != null">
+       PURCHASE_WAY = #{purchaseWay},
       </if>
       <if test="overType != null">
        OVER_TYPE = #{overType},
