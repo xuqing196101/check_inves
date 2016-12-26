@@ -151,7 +151,7 @@
 		)
 		WHERE PROJECT_ID = #{projectId} GROUP BY SUPPLIER_ID
 		) t1 
-		LEFT JOIN T_SES_SMS_SUPPLIER T3 ON T3.ID=T1.SUPPLIER_ID
+		LEFT JOIN T_SES_SMS_SUPPLIER T3 ON T3.ID=T1.SUPPLIER_ID where id is not null
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from
