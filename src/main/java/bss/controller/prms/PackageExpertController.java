@@ -1409,6 +1409,7 @@ public class PackageExpertController {
      */
     @RequestMapping("supplierRank")
     public String supplierRank(Packages packages, Model model, String flowDefineId){
+        String projectId = packages.getProjectId();
         // 分包信息
         List<Packages> packagesList = packageService.find(packages);
         model.addAttribute("packagesList", packagesList);
@@ -1416,9 +1417,14 @@ public class PackageExpertController {
         SaleTender saleTender = new SaleTender();
         saleTender.setProjectId(packages.getProjectId());
         List<SaleTender> supplierList = saleTenderService.find(saleTender);
-        model.addAttribute("supplierList", supplierList);
+        List<SaleTender> suppList = new ArrayList<SaleTender>();
+        for (SaleTender supp : supplierList) {
+            if (supp.getIsFirstPass() == 1) {
+                suppList.add(supp);
+            }
+        }
+        model.addAttribute("supplierList", suppList);
         // 分数
-        String projectId = packages.getProjectId();
         Map<String, Object> searchMap = new HashMap<String, Object>();
         searchMap.put("projectId", projectId);
         List<ExpertScore> scores = expertScoreService.selectByMap(searchMap);
@@ -1482,65 +1488,10 @@ public class PackageExpertController {
         Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
         mapSearch1.put("projectId", projectId);
         List<PackageExpert> expertList = packageExpertService.selectList(mapSearch1);
-        // 遍历进行排序   技术---经济---两者都有
-        List<PackageExpert> expertListCompare = new ArrayList<PackageExpert>();
-        for (int i = 0; i < expertList.size(); i++) {
-            PackageExpert expert = expertList.get(i);
-            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
-            // 遍历所有的typeId,如果有kind不等于6(技术)的则暂时不管
-            boolean isTech = true;
-            loop:for (String id : ids) {
-                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
-                if (kind != 6) {
-                    isTech = false;
-                    break loop;
-                }
-            }
-            if (isTech) {
-                // 页面显示需要注明专家类别
-                expert.setProjectId(expert.getExpert().getRelName() + "(技术)");
-                expertListCompare.add(expert); 
-            }
-        }
-        for (int i = 0; i < expertList.size(); i++) {
-            PackageExpert expert = expertList.get(i);
-            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
-            // 遍历所有的typeId,如果有kind不等于19(经济)的则暂时不管
-            boolean isEconomic = true;
-            loop:for (String id : ids) {
-                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
-                if (kind != 19) {
-                    isEconomic = false;
-                    break loop;
-                }
-            }
-            if (isEconomic) {
-                // 页面显示需要注明专家类别
-                expert.setProjectId(expert.getExpert().getRelName() + "(经济)");
-                expertListCompare.add(expert); 
-            }        
-        }
-        for (int i = 0; i < expertList.size(); i++) {
-            PackageExpert expert = expertList.get(i);
-            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
-            // 遍历所有的typeId,如果有kind既有等于19(经济)的又有等于6(技术)的添加进去
-            boolean isEconomic = false;
-            boolean isTech = false;
-            for (String id : ids) {
-                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
-                if (kind == 19) {
-                    isEconomic = true;
-                } else if (kind == 6) {
-                    isTech = true;
-                }
-            }
-            if (isEconomic && isTech) {
-                // 页面显示需要注明专家类别
-                expert.setProjectId(expert.getExpert().getRelName() + "(技术、经济)");
-                expertListCompare.add(expert); 
-            }
-        }
-        model.addAttribute("expertList", expertListCompare);
+        model.addAttribute("expertList", expertList);
+        // 获取所有评审类型
+        List<DictionaryData> typeList = dictionaryDataServiceI.findByKind("23");
+        model.addAttribute("typeList", typeList);
         // 专家给每个供应商打得分
         List<ExpertSuppScore> expertScoreList = new ArrayList<ExpertSuppScore>();
         for (Packages pack : packagesList) {
@@ -1594,8 +1545,10 @@ public class PackageExpertController {
             expertScoreAll.addAll(expertList);
         }
         // 供应商信息
-        List<SaleTender> supplierList = saleTenderService.list(new SaleTender(
-            projectId), 0);
+        SaleTender record = new SaleTender();
+        record.setPackages(packageId);
+        record.setIsFirstPass(1);
+        List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
         model.addAttribute("supplierList", supplierList);
         // 查询条件
         ProjectExtract projectExtract = new ProjectExtract();
@@ -1769,6 +1722,7 @@ public class PackageExpertController {
         SaleTender record = new SaleTender();
         record.setPackages(packageId);
         record.setProject(project);
+        record.setIsFirstPass(1);
         List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
         model.addAttribute("supplierList", supplierList);
         // 分数
@@ -1787,7 +1741,7 @@ public class PackageExpertController {
             }
         }
         model.addAttribute("scores", scores);
-     // 供应商经济总分,技术总分,总分
+        // 供应商经济总分,技术总分,总分
         List<SupplierRank> rankList = new ArrayList<SupplierRank>();
         for (SaleTender supp : supplierList) {
             SupplierRank rank = new SupplierRank();
