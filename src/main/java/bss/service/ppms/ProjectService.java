@@ -93,4 +93,6 @@ public interface ProjectService {
     void insert(Project project);
     
     ResponseEntity<byte[]> downloadFile(String fileName,String filePath,String downFileName);
+    
+    List<Project> selectProjectsByConition(HashMap<String,Object> map);
 }
