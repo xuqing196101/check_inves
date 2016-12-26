@@ -133,7 +133,7 @@
 			}
  
  
- /*function org(obj){
+ function org(obj){
 	 
  	   var val=$(obj).val();
  
@@ -144,7 +144,7 @@
  			   $(this).attr("selected", "selected");  
  		   }
  	   });
-    } */
+    }
  
  
 </script>
@@ -212,6 +212,7 @@
 							<td class="tc">${obj.price }</td>
 							<td class="tc">${obj.budget }</td>
 							<td>${obj.deliverDate } </td>
+							
 							<td>
 							<select onchange="sel(this)" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
 	                               <%-- <c:forEach items="${list2 }" var="purtype">
@@ -226,15 +227,14 @@
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
 			                </select>
-			                
 							</td>
 							<td class="tc">
 							<select class="org"  onchange="org(this)" name="list[${vs.index }].organization">
+							<option value="">请选择</option>
 								<c:forEach items="${org }" var="ss">
 									<option value="${ss.id }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 								</c:forEach>
 							</select>
-							
 							</td>
 							
 							<td class="tc">${obj.supplier }</td>
@@ -251,7 +251,8 @@
 					</c:forEach>
 				</table>
 				<div class="col-md-12 col-xs-12 col-sm-12 tc">
-				   <!--   退回理由： <br><textarea   id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>-->
+				   退回理由：
+				    <br><textarea   id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>
 				   <input type="hidden" name="planNo" value="${planNo }">
 				    <input type="hidden" id="status" name="status" value="3">
 				   <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="受理"> 
