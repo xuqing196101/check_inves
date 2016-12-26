@@ -72,4 +72,9 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 		
 		return articleTypeMapper.selectArticleTypeByCode(code);
 	}
+
+	@Override
+	public List<ArticleType> selectByParentId(String parentId) {
+		return articleTypeMapper.selectByParentId(parentId);
+	}
 }

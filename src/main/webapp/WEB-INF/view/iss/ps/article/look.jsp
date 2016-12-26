@@ -78,20 +78,27 @@
                   </tr>
                   <tr>
                     <td class="bggrey" width="10%">信息栏目：</td>
-                    <td colspan="3">
+                    <td width="40%">
                       ${article.articleType.name }
                     </td>
-                  </tr>
-                  <%--<tr>
-                    <td class="bggrey" width="10%">链接来源：</td>
-                    <td colspan="3">
-                      ${article.sourceLink }
+                    <td class="bggrey" width="10%">栏目属性：</td>
+                    <td width="40%">
+                      ${second}
                     </td>
                   </tr>
-                  --%>
+                  <tr>
+                    <td class="bggrey" width="10%">采购类型：</td>
+                    <td width="40%">
+                      ${three }
+                    </td>
+                    <td class="bggrey" width="10%">采购方式：</td>
+                    <td width="40%">
+                      ${four }
+                    </td>
+                  </tr>
                   <tr>
                     <td class="bggrey" width="10%">发布范围：</td>
-                    <td>
+                    <td width="40%">
                       <c:if test="${article.range=='0' }">
                         内网
                       </c:if>
@@ -105,7 +112,7 @@
                     <td class="bggrey" width="10%">
                       图片展示：
                     </td>
-                    <td>${article.isPicShow }</td>
+                    <td width="40%">${article.isPicShow }</td>
                   </tr>
                 </tbody>
               </table>

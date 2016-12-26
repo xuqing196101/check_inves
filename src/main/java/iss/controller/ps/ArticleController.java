@@ -160,7 +160,6 @@ public class ArticleController extends BaseSupplierController{
     List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
     model.addAttribute("list", list);
     String id = request.getParameter("id");
-    String articleId =request.getParameter("articleId");
     String url = "";
     boolean flag = true;
 
@@ -229,6 +228,19 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("articleId", id);
       url = "iss/ps/article/add";
     }else{
+      if(ValidateUtils.isNull(article.getFourType())){
+    	  if(ValidateUtils.isNull(article.getThreeType())){
+    		  if(ValidateUtils.isNull(article.getSecondType())){
+    			  article.setOverType(contype);
+    		  }else{
+    			  article.setOverType(article.getSecondType());
+    		  }
+    	  }else{
+    		  article.setOverType(article.getThreeType());
+    	  }
+      }else{
+    	  article.setOverType(article.getFourType());
+      }
       User user = (User) request.getSession().getAttribute("loginUser");
       article.setUser(user);
       article.setCreatedAt(new Date());
@@ -482,31 +494,7 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("list", list);
       return "iss/ps/article/edit";
     }
-    
-    if (article.getSource() != null  && article.getSource().length()>50){
-      model.addAttribute("ERR_source", "文章来源不得超过50字符");
-      model.addAttribute("article.id", article.getId());
-      Article artc = articleService.selectArticleById(article.getId());
-      List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
-      artc.setArticleAttachments(articleAttaList);
-      model.addAttribute("article",article);
-      List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
-      model.addAttribute("list", list);
-      return "iss/ps/article/edit";
-    }
-    
-    if(article.getSourceLink() != null && article.getSourceLink().length()>100){
-      model.addAttribute("ERR_sourceLink", "连接来源不得超过100字符");
-      model.addAttribute("article.id", article.getId());
-      Article artc = articleService.selectArticleById(article.getId());
-      List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
-      artc.setArticleAttachments(articleAttaList);
-      model.addAttribute("article",article);
-      List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
-      model.addAttribute("list", list);
-      return "iss/ps/article/edit";
-    }
-    
+  
     if(ValidateUtils.isNull(article.getContent())){
       model.addAttribute("ERR_content", "信息正文不能为空");
       model.addAttribute("article.id", article.getId());
@@ -528,6 +516,19 @@ public class ArticleController extends BaseSupplierController{
       articleService.updateisPicShow(isPicShow);
     }
 
+    if(ValidateUtils.isNull(article.getFourType())){
+  	  if(ValidateUtils.isNull(article.getThreeType())){
+  		  if(ValidateUtils.isNull(article.getSecondType())){
+  			  article.setOverType(article.getArticleType().getId());
+  		  }else{
+  			  article.setOverType(article.getSecondType());
+  		  }
+  	  }else{
+  		  article.setOverType(article.getThreeType());
+  	  }
+    }else{
+  	  article.setOverType(article.getFourType());
+    }
     article.setUpdatedAt(new Date());
     articleService.update(article);
     return "redirect:getAll.html";
@@ -573,8 +574,15 @@ public class ArticleController extends BaseSupplierController{
     List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
     article.setArticleAttachments(articleAttaList);
     model.addAttribute("article",article);
-    List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
-    model.addAttribute("list", list);
+  //  List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+    
+    ArticleType second = articleTypeService.selectTypeByPrimaryKey(article.getSecondType());
+    model.addAttribute("second", second.getName());
+    ArticleType three = articleTypeService.selectTypeByPrimaryKey(article.getThreeType());
+    model.addAttribute("three", three.getName());
+    ArticleType four = articleTypeService.selectTypeByPrimaryKey(article.getFourType());
+    model.addAttribute("four", four.getName());
+    
     DictionaryData dd=new DictionaryData();
     dd.setCode("POST_ATTACHMENT");
     List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
@@ -1130,5 +1138,29 @@ public class ArticleController extends BaseSupplierController{
     articleService.update(article);
     return "redirect:getAll.html";
   }
+  
+  
+  /**
+  * @Title: selectAritcleType
+  * @author Shen Zhenfei 
+  * @date 2016-12-26 上午10:36:17  
+  * @Description: 查询栏目节点
+  * @param @param response
+  * @param @param request
+  * @param @throws Exception      
+  * @return void
+   */
+  @RequestMapping(value="/aritcleTypeParentId",produces="application/json;charest=utf-8")
+  public void aritcleTypeParentId(HttpServletResponse response,String parentId,HttpServletRequest request) throws Exception{
+    List<ArticleType> list = articleTypeService.selectByParentId(parentId);
+    super.writeJson(response, list);
+  }
+  
+  
+  
+  
+  
+  
+  
 
 }

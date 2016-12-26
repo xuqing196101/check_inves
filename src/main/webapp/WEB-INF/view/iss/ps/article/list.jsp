@@ -174,7 +174,7 @@
       $(function() {
         $.ajax({
           contentType: "application/json;charset=UTF-8",
-          url: "${pageContext.request.contextPath }/article/selectAritcleType.do",
+          url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=0",
           type: "POST",
           dataType: "json",
           success: function(articleTypes) {
@@ -316,7 +316,7 @@
               shade: 0.01,
             });
           } else {
-            window.location.href = "${pageContext.request.contextPath }/article/editor.html?id=" + id;
+            window.location.href = "${pageContext.request.contextPath }/article/edit.html?id=" + id;
           }
 
         } else if(id.length > 1) {

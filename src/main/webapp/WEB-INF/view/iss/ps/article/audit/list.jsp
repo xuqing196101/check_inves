@@ -101,7 +101,7 @@
       $(function() {
         $.ajax({
           contentType: "application/json;charset=UTF-8",
-          url: "${pageContext.request.contextPath }/article/selectAritcleType.do",
+          url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=0",
           type: "POST",
           dataType: "json",
           success: function(articleTypes) {

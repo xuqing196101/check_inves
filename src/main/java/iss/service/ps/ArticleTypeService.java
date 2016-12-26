@@ -78,4 +78,15 @@ public interface ArticleTypeService {
     * @return ArticleType
      */
     ArticleType selectArticleTypeByCode(String code);
+    
+    /**
+    * @Title: selectByParentId
+    * @author Shen Zhenfei 
+    * @date 2016-12-26 上午10:34:31  
+    * @Description: 根据parentId获取栏目
+    * @param @param parentId
+    * @param @return      
+    * @return ArticleType
+     */
+    List<ArticleType> selectByParentId(String parentId);
 }

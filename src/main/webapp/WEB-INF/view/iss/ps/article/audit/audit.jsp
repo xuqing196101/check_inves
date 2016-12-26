@@ -5,7 +5,9 @@
 <html>
 
   <head>
-   	<%@ include file="/WEB-INF/view/common.jsp"%>
+    <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
+    <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
 
     <script type="text/javascript">
       $(function() {
@@ -46,6 +48,124 @@
       function goBack() {
         window.location.href = "${pageContext.request.contextPath }/article/auditlist.html?status=1";
       }
+
+      $(function() {
+        var typeId;
+        $("#secondType").empty();
+        $("#secondType").select2("val", "");
+        $("#threeType").empty();
+        $("#threeType").select2("val", "");
+        $("#fourType").empty();
+        $("#fourType").select2("val", "");
+        $("#picshow").hide();
+        $.ajax({
+          contentType: "application/json;charset=UTF-8",
+          url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=0",
+          type: "POST",
+          dataType: "json",
+          success: function(articleTypes) {
+            if(articleTypes) {
+              $("#articleTypes").append("<option></option>");
+              $.each(articleTypes, function(i, articleType) {
+                if(articleType.name != null && articleType.name != '') {
+                  $("#articleTypes").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                }
+              });
+            }
+            $("#articleTypes").select2();
+            $("#articleTypes").select2("val", "${article.articleType.id }");
+            var typeId = $("#articleTypes").select2("data").text;
+            if(typeId == "工作动态") {
+              document.getElementById("picshow").style.display = "";
+            } else if(typeId == "采购公告") {
+              $("#second").show();
+              $("#three").show();
+              $("#four").show();
+            } else if(typeId == "中标公示") {
+              $("#second").show();
+              $("#three").show();
+              $("#four").show();
+            } else if(typeId == "单一来源公示") {
+              $("#second").show();
+              $("#three").show();
+              $("#four").hide();
+            } else if(typeId == "商城竞价公告") {
+              $("#second").show();
+              $("#three").hide();
+              $("#four").hide();
+            } else if(typeId == "网上竞价公告") {
+              $("#second").show();
+              $("#three").hide();
+              $("#four").hide();
+            } else if(typeId == "采购法规") {
+              $("#second").show();
+              $("#three").hide();
+              $("#four").hide();
+            }
+          }
+        });
+
+        var parentId = "${article.articleType.id }";
+        $.ajax({
+          contentType: "application/json;charset=UTF-8",
+          url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=" + parentId,
+          type: "POST",
+          dataType: "json",
+          success: function(articleTypes) {
+            if(articleTypes) {
+              $("#secondType").append("<option></option>");
+              $.each(articleTypes, function(i, articleType) {
+                if(articleType.name != null && articleType.name != '') {
+                  $("#secondType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                }
+              });
+            }
+            $("#secondType").select2();
+            $("#secondType").select2("val", "${article.secondType }");
+          }
+        });
+
+        var sparentId = "${article.secondType }";
+        $.ajax({
+          contentType: "application/json;charset=UTF-8",
+          url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=" + sparentId,
+          type: "POST",
+          dataType: "json",
+          success: function(articleTypes) {
+            if(articleTypes) {
+              $("#threeType").append("<option></option>");
+              $.each(articleTypes, function(i, articleType) {
+                if(articleType.name != null && articleType.name != '') {
+                  $("#threeType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                }
+              });
+            }
+            $("#threeType").select2();
+            $("#threeType").select2("val", "${article.threeType }");
+          }
+        });
+
+        var fparentId = "${article.threeType }";
+        $.ajax({
+          contentType: "application/json;charset=UTF-8",
+          url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=" + fparentId,
+          type: "POST",
+          dataType: "json",
+          success: function(articleTypes) {
+            if(articleTypes) {
+              $("#fourType").append("<option></option>");
+              $.each(articleTypes, function(i, articleType) {
+                if(articleType.name != null && articleType.name != '') {
+                  $("#fourType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                }
+              });
+            }
+            $("#fourType").select2();
+            $("#fourType").select2("val", "${article.fourType }");
+          }
+        });
+
+      })
     </script>
   </head>
 
@@ -87,14 +207,41 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息栏目：</span>
-              <select id="articleTypeId" name="articleType.id" class="select_common col-md-12 col-sm-12 col-xs-12" disabled>
-                <option></option>
-                <c:forEach items="${list}" var="list" varStatus="vs">
-                  <option value="${list.id }">${list.name }</option>
-                </c:forEach>
-              </select>
+              <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><div class="star_red">*</div>信息栏目：</span>
+              <div class="select_common col-md-12 col-xs-12 col-sm-12 input_group p0">
+                <select id="articleTypes" name="articleType.id" class="p0 select col-md-12 col-xs-12 col-sm-12 " onchange="typeInfo()">
+                </select>
+                <div class="cue">${ERR_typeId}</div>
+              </div>
             </li>
+
+            <li class="col-md-3 col-sm-6 col-xs-12 hide" id="second">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>栏目属性：</span>
+              <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
+                <select id="secondType" name="secondType" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="secondTypeInfo()">
+                </select>
+                <div class="cue" id="ERR_secondType"></div>
+              </div>
+            </li>
+
+            <li class="col-md-3 col-sm-6 col-xs-12 hide" id="three">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>栏目类型：</span>
+              <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
+                <select id="threeType" name="threeType" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="threeTypeInfo()">
+                </select>
+                <div class="cue" id="ERR_threeType"></div>
+              </div>
+            </li>
+
+            <li class="col-md-3 col-sm-6 col-xs-12 hide" id="four">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购方式：</span>
+              <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
+                <select id="fourType" name="fourType" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="fourTypeInfo()">
+                </select>
+                <div class="cue" id="ERR_fourType"></div>
+              </div>
+            </li>
+
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发布范围：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
@@ -102,19 +249,6 @@
                 <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" disabled>外网</label>
               </div>
             </li>
-            <%--<li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">文章来源：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input class="span2" id="source" name="source" value="${article.source }" type="text" readonly>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">链接来源：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input class="span2" id="sourceLink" name="sourceLink" type="text" value="${article.sourceLink }" readonly>
-              </div>
-            </li>
-            --%>
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息正文：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -122,26 +256,26 @@
               </div>
             </li>
             <li class="col-md-6 col-xs-6 col-sm-12 mt10">
-            <span class="fl">已上传的附件：</span>
-            <div class="fl">
-              <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
-            </div>
-          </li>
+              <span class="fl">已上传的附件：</span>
+              <div class="fl">
+                <u:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+              </div>
+            </li>
 
-          <li class="col-md-6 col-sm-6 col-xs-12 mt10">
+            <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">单位及保密委员会审核表：</span>
               <div>
                 <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
               </div>
             </li>
-            
+
             <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">
               <span class="fl">图片上传：</span>
               <div>
                 <u:show showId="artice_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
               </div>
             </li>
-            
+
           </ul>
         </div>
         <div class="padding-top-10 clear">

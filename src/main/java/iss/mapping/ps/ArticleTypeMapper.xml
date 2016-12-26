@@ -8,11 +8,13 @@
     <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
     <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="CODE"  property="code" />
+    <result column="PARENT_ID"  property="parentId" />
     <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
+    <association column="PARENT_ID" property="articleType" select="selectTypeByPrimaryKey"/>
   </resultMap>
   
   <sql id="ArticleType_Column_List">
-    ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE,CODE
+    ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE,CODE,PARENT_ID
   </sql>
   
   <!-- 根据id查询栏目类型 -->
@@ -70,5 +72,15 @@
     from T_ISS_PS_ARTICLE_TYPE
     where CODE = #{code}
   </select>
+  
+  
+   <!-- 根据parent_id获取栏目 -->
+  <select id="selectByParentId" parameterType="java.lang.String" resultMap="ArticleTypeMapper">
+    select 
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_PS_ARTICLE_TYPE
+    where PARENT_ID = #{parentId}
+  </select>
+  
     
 </mapper>

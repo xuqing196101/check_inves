@@ -47,8 +47,30 @@ public class ArticleType implements Serializable{
      */
     private String code;
 
-      
-    public String getId() {
+    /**
+     * @Fidlds parentId:父级节点
+     */
+    private String parentId; 
+    
+    private ArticleType articleType;
+    
+    public ArticleType getArticleType() {
+		return articleType;
+	}
+
+	public void setArticleType(ArticleType articleType) {
+		this.articleType = articleType;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public String getId() {
 		return id;
 	}
 
