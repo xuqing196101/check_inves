@@ -24,7 +24,7 @@ public class ExpertAudit implements Serializable{
     //审核时间
     private Date auditAt;
     //是否删除0否  1是
-    private Long isDelete;
+    private Integer isDelete = 0;
     //审批类型(StepNumber)
     private String suggestType;
     //审核字段
@@ -95,13 +95,15 @@ public class ExpertAudit implements Serializable{
         this.isHistory = isHistory == null ? null : isHistory.trim();
     }
 
-    public Long getIsDelete() {
-        return isDelete;
-    }
+    
 
-    public void setIsDelete(Long isDelete) {
-        this.isDelete = isDelete;
-    }
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
+	}
 
 	public String getSuggestType() {
 		return suggestType;

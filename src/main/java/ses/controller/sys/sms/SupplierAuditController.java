@@ -374,6 +374,17 @@ public class SupplierAuditController extends BaseSupplierController{
 
 		//文件
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		//查出全部修改的
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+		 StringBuffer field = new StringBuffer();
+		for(int i=0; i<editList.size(); i++){
+			String beforeField = editList.get(i).getBeforeField();
+			field.append( beforeField + ",");	
+		}
+		request.setAttribute("field", field);
 
 		//下一步的跳转页面
 		String url = null;
@@ -414,6 +425,17 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		//文件
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		//查出全部修改的
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+		 StringBuffer field = new StringBuffer();
+		for(int i=0; i<editList.size(); i++){
+			String beforeField = editList.get(i).getBeforeField();
+			field.append( beforeField + ",");	
+		}
+		request.setAttribute("field", field);
 		
 		//下一步的跳转页面
 		String url = null;
@@ -473,6 +495,17 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		request.setAttribute("supplierId", supplierId);
 		
+		//查出全部修改的
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+		 StringBuffer field = new StringBuffer();
+		for(int i=0; i<editList.size(); i++){
+			String beforeField = editList.get(i).getBeforeField();
+			field.append( beforeField + ",");	
+		}
+		request.setAttribute("field", field);
+		
 		//文件
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
@@ -524,6 +557,17 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierTypeNames", supplierTypeName);		
 		//文件
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		//查出全部修改的
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+		 StringBuffer field = new StringBuffer();
+		for(int i=0; i<editList.size(); i++){
+			String beforeField = editList.get(i).getBeforeField();
+			field.append( beforeField + ",");	
+		}
+		request.setAttribute("field", field);
 		
 		//上一步
 		String lastUrl = null;

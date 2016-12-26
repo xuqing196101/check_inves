@@ -353,7 +353,14 @@ public class ExpertAuditController {
      * @return void
      */
 	@RequestMapping("/auditReasons")
-	public void auditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response){
+	public void auditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response, HttpServletRequest request){
+			User user=(User) request.getSession().getAttribute("loginUser");
+			if(user != null){
+				expertAudit.setAuditUserId(user.getId());
+				expertAudit.setAuditUserName(user.getRelName());
+			}
+			expertAudit.setAuditAt(new Date());
+			
 		//唯一验证
 		List<ExpertAudit> reasonsList = expertAuditService.getListByExpertId(expertAudit.getExpertId());	
 		boolean same= true;

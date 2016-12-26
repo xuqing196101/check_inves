@@ -6,7 +6,7 @@ public class SupplierHistory {
 	private String id;
 	private String supplierId;  //供应商Id
 	private String beforeField;  //修改之前字段
-	private String afterField;  //修改之后字段
+	private String modifyType;  //修改之后字段
 	private String beforeContent;  //修改之后内容
 	private String afterContent;  //修改之前内容
 	private String relationId;  //关联ID
@@ -23,11 +23,11 @@ public class SupplierHistory {
 	public void setBeforeField(String beforeField) {
 		this.beforeField = beforeField;
 	}
-	public String getAfterField() {
-		return afterField;
+	public String getmodifyType() {
+		return modifyType;
 	}
-	public void setAfterField(String afterField) {
-		this.afterField = afterField;
+	public void setmodifyType(String modifyType) {
+		this.modifyType = modifyType;
 	}
 	public String getBeforeContent() {
 		return beforeContent;
