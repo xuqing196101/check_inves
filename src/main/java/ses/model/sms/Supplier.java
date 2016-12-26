@@ -589,7 +589,93 @@ public class Supplier implements Serializable {
 	
 	private List<Area> armyCity=new ArrayList<Area>();
 	
-	public String getScoreStart() {
+	private String packageName;
+	
+	//上传文件groups
+    private String groupsUpload;
+    private String groupShow;
+    private String groupsUploadId;
+    private String groupShowId;
+    //显示文件名称
+    private String bidFileName;
+    //显示文件名称
+    private String bidFileId;
+    private String isturnUp;
+    private String proSupFile;
+	
+	public String getProSupFile() {
+        return proSupFile;
+    }
+
+    public void setProSupFile(String proSupFile) {
+        this.proSupFile = proSupFile;
+    }
+
+    public String getIsturnUp() {
+        return isturnUp;
+    }
+
+    public void setIsturnUp(String isturnUp) {
+        this.isturnUp = isturnUp;
+    }
+
+    public String getGroupsUpload() {
+        return groupsUpload;
+    }
+
+    public void setGroupsUpload(String groupsUpload) {
+        this.groupsUpload = groupsUpload;
+    }
+
+    public String getGroupShow() {
+        return groupShow;
+    }
+
+    public void setGroupShow(String groupShow) {
+        this.groupShow = groupShow;
+    }
+
+    public String getGroupsUploadId() {
+        return groupsUploadId;
+    }
+
+    public void setGroupsUploadId(String groupsUploadId) {
+        this.groupsUploadId = groupsUploadId;
+    }
+
+    public String getGroupShowId() {
+        return groupShowId;
+    }
+
+    public void setGroupShowId(String groupShowId) {
+        this.groupShowId = groupShowId;
+    }
+
+    public String getBidFileName() {
+        return bidFileName;
+    }
+
+    public void setBidFileName(String bidFileName) {
+        this.bidFileName = bidFileName;
+    }
+
+    public String getBidFileId() {
+        return bidFileId;
+    }
+
+    public void setBidFileId(String bidFileId) {
+        this.bidFileId = bidFileId;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getScoreStart() {
         return scoreStart;
     }
 

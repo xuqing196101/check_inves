@@ -135,15 +135,23 @@
 		from T_SES_SMS_SUPPLIER
 		where ID = #{id}
 	</select>
-	<select id="selectByProjectId" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		SELECT T2.* FROM (
-		SELECT SUPPLIER_ID FROM
-		"JDCG"."T_BSS_PPMS_SALE_TENDER"
+
+	<select id="selectByProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		<!-- SELECT T2.* FROM (
+		SELECT SUPPLIER_ID FROM "JDCG"."T_BSS_PPMS_SALE_TENDER"
 		where PROJECT_ID =#{projectId} GROUP
 		BY SUPPLIER_ID) T1
 		LEFT JOIN T_SES_SMS_SUPPLIER T2 ON T2.ID
 		=T1.SUPPLIER_ID
+		 -->
+		select * from(
+		select SUPPLIER_ID,wm_concat(NAME) AS packageName  from 
+		(select T1.PROJECT_ID,T1.SUPPLIER_ID,T2.NAME from T_BSS_PPMS_SALE_TENDER T1
+		LEFT JOIN T_BSS_PPMS_PACKAGE T2 on T1.PACKAGR_IDS = T2."ID"
+		)
+		WHERE PROJECT_ID = #{projectId} GROUP BY SUPPLIER_ID
+		) t1 
+		LEFT JOIN T_SES_SMS_SUPPLIER T3 ON T3.ID=T1.SUPPLIER_ID
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from
