@@ -144,6 +144,16 @@ public class SaleTender {
     private String reviewResult;
     
     /**
+     * 是否移除
+     */
+    private String isRemoved;
+    
+    /**
+     * 移除理由
+     */
+    private String removedReason;
+    
+    /**
      * 包名字符串
      */
     private String packageNames;
@@ -614,6 +624,26 @@ public class SaleTender {
 
     public void setReviewResult(String reviewResult) {
       this.reviewResult = reviewResult;
+    }
+
+
+    public String getIsRemoved() {
+        return isRemoved;
+    }
+
+
+    public void setIsRemoved(String isRemoved) {
+        this.isRemoved = isRemoved;
+    }
+
+
+    public String getRemovedReason() {
+        return removedReason;
+    }
+
+
+    public void setRemovedReason(String removedReason) {
+        this.removedReason = removedReason;
     }
     
     

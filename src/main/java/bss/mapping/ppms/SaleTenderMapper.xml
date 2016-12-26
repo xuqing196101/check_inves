@@ -16,6 +16,8 @@
 		<result column="ECONOMIC_SCORE" jdbcType="DECIMAL" property="economicScore" />
 		<result column="TECHNOLOGY_SCORE" jdbcType="DECIMAL" property="technologyScore" />
 		<result column="REVIEW_RESULT" jdbcType="VARCHAR" property="reviewResult" />
+		<result column="IS_REMOVED" jdbcType="VARCHAR" property="isRemoved" />
+		<result column="REMOVED_REASON" jdbcType="VARCHAR" property="removedReason" />
 		<association property="user" column="USER_ID"
 			select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
 		<association property="suppliers" column="SUPPLIER_ID"
@@ -28,7 +30,7 @@
 		st.ID, st.PROJECT_ID, st.STATUS_BID, st.SUPPLIER_ID, st.STATUS_BOND,
 		st.CREATED_AT,
 		st.UPDATED_AT, st.USER_ID,st.BID_FINISH,st.PACKAGR_IDS,st.IS_FIRST_PASS,st.ECONOMIC_SCORE,
-		st.TECHNOLOGY_SCORE,st.REVIEW_RESULT
+		st.TECHNOLOGY_SCORE,st.REVIEW_RESULT,st.IS_REMOVED,st.REMOVED_REASON
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
