@@ -9,8 +9,8 @@
 		<result column="IDENTITY" property="identity" />
 		<result column="SHARES" property="shares" />
 		<result column="PROPORTION" property="proportion" />
-		<result column="CREATED_AT" property="createdAt" />
-		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, SUPPLIER_ID, NAME, NATURE, IDENTITY, SHARES, PROPORTION, CREATED_AT, UPDATED_AT
@@ -32,7 +32,7 @@
 		)
 		values (#{id}, #{supplierId}, #{name},
 		#{nature}, #{identity}, #{shares},
-		#{proportion}, #{createdAt}, #{updatedAt}
+		#{proportion}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierStockholder">
@@ -89,10 +89,10 @@
 				#{proportion},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 <!-- 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -121,10 +121,10 @@
 				PROPORTION = #{proportion},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where ID = #{id}
@@ -137,8 +137,8 @@
 		IDENTITY = #{identity},
 		SHARES = #{shares},
 		PROPORTION = #{proportion},
-		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt}
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
 		where ID = #{id}
 	</update>
 	

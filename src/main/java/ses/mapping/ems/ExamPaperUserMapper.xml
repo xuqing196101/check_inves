@@ -7,8 +7,8 @@
     <result column="PAPER_ID" property="paperId" />
     <result column="IS_DO" property="isDo" />
     <result column="UNIT_NAME" property="unitName"/>
-    <result column="CREATED_AT" property="createdAt"/>
-    <result column="UPDATED_AT" property="updatedAt"/>
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="CARD" property="card"/>
     <result column="CODE" property="code"/>
   </resultMap>
@@ -79,10 +79,10 @@
         #{isDo},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="unitName != null">
         #{unitName},
@@ -110,10 +110,10 @@
         IS_DO = #{isDo},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="unitName != null">
         UNIT_NAME = #{unitName},

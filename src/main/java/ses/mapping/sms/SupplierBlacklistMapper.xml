@@ -4,8 +4,8 @@
 	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierBlacklist">
 		<id column="ID" property="id" />
 		<result column="SUPPLIER_ID" property="supplierId" />
-		<result column="START_TIME" property="startTime" />
-		<result column="END_TIME" property="endTime" />
+		<result column="START_TIME" property="startTime" jdbcType="TIMESTAMP"/>
+		<result column="END_TIME" property="endTime" jdbcType="TIMESTAMP"/>
 		<result column="PUNISH_TYPE" property="punishType" />
 		<result column="RELEASE_TYPE" property="releaseType" />
 		<result column="STATUS" property="status" />
@@ -30,8 +30,8 @@
 		insert into T_SES_SMS_SUPPLIER_BLACKLIST (ID, SUPPLIER_ID, START_TIME,
 		END_TIME, PUNISH_TYPE, RELEASE_TYPE,
 		STATUS, REASON, SUPPLIER_NAME, TERM)
-		values (#{id}, #{supplierId}, #{startTime},
-		#{endTime}, #{punishType}, #{releaseType},
+		values (#{id}, #{supplierId}, #{startTime,jdbcType=TIMESTAMP},
+		#{endTime,jdbcType=TIMESTAMP}, #{punishType}, #{releaseType},
 		#{status}, #{reason}, #{supplierName}. #{term})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierBlacklist">
@@ -76,10 +76,10 @@
 				#{supplierId},
 			</if>
 			<if test="startTime != null">
-				#{startTime},
+				#{startTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="endTime != null">
-				#{endTime},
+				#{endTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="punishType != null">
 				#{punishType},
@@ -111,10 +111,10 @@
 				SUPPLIER_ID = #{supplierId},
 			</if>
 			<if test="startTime != null">
-				START_TIME = #{startTime},
+				START_TIME = #{startTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="endTime != null">
-				END_TIME = #{endTime},
+				END_TIME = #{endTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="punishType != null">
 				PUNISH_TYPE = #{punishType},
@@ -140,8 +140,8 @@
 	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierBlacklist">
 		update T_SES_SMS_SUPPLIER_BLACKLIST
 		set SUPPLIER_ID = #{supplierId},
-		START_TIME = #{startTime},
-		END_TIME = #{endTime},
+		START_TIME = #{startTime,jdbcType=TIMESTAMP},
+		END_TIME = #{endTime,jdbcType=TIMESTAMP},
 		PUNISH_TYPE = #{punishType},
 		RELEASE_TYPE = #{releaseType},
 		STATUS = #{status},
@@ -158,10 +158,10 @@
 				and SUPPLIER_NAME like #{supplierName}
 			</if>
 			<if test="startTime != null and startTime != ''">
-				and START_TIME &gt; #{startTime}
+				and START_TIME &gt; #{startTime,jdbcType=TIMESTAMP}
 			</if>
 			<if test="endTime != null and endTime != ''">
-				and END_TIME &lt; #{endTime}
+				and END_TIME &lt; #{endTime,jdbcType=TIMESTAMP}
 			</if>
 		</where>
 		 order by START_TIME desc

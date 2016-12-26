@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="ses.model.ems.ExamQuestionType">
     <id column="ID" property="id" />
     <result column="NAME" property="name" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, NAME, CREATED_AT, UPDATED_AT

@@ -12,10 +12,10 @@
 		<result column="IS_MAJOR_FUND" property="isMajorFund" />
 		<result column="APTITUTE_CONTENT" property="aptituteContent" />
 		<result column="APTITUTE_CODE" property="aptituteCode" />
-		<result column="APTITUTE_DATE" property="aptituteDate" />
+		<result column="APTITUTE_DATE" property="aptituteDate" jdbcType="TIMESTAMP"/>
 		<result column="APTITUTE_WAY" property="aptituteWay" />
 		<result column="APTITUTE_STATUS" property="aptituteStatus" />
-		<result column="APTITUTE_CHANGE_AT" property="aptituteChangeAt" />
+		<result column="APTITUTE_CHANGE_AT" property="aptituteChangeAt" jdbcType="TIMESTAMP"/>
 		<result column="APTITUTE_CHANGE_REASON" property="aptituteChangeReason" />
 		<result column="FILE_NAME" property="attachCert" />
 		<result column="ID_" property="attachCertId" />
@@ -45,8 +45,8 @@
 		values (#{id}, #{matEngId}, #{certType},
 		#{certCode}, #{aptituteSequence}, #{professType},
 		#{aptituteLevel}, #{isMajorFund}, #{aptituteContent},
-		#{aptituteCode}, #{aptituteDate}, #{aptituteWay},
-		#{aptituteStatus}, #{aptituteChangeAt}, #{aptituteChangeReason},
+		#{aptituteCode}, #{aptituteDate,jdbcType=TIMESTAMP}, #{aptituteWay},
+		#{aptituteStatus}, #{aptituteChangeAt,jdbcType=TIMESTAMP}, #{aptituteChangeReason},
 		#{attachCert})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierAptitute">
@@ -133,7 +133,7 @@
 				#{aptituteCode},
 			</if>
 			<if test="aptituteDate != null">
-				#{aptituteDate},
+				#{aptituteDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="aptituteWay != null">
 				#{aptituteWay},
@@ -142,7 +142,7 @@
 				#{aptituteStatus},
 			</if>
 			<if test="aptituteChangeAt != null">
-				#{aptituteChangeAt},
+				#{aptituteChangeAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="aptituteChangeReason != null">
 				#{aptituteChangeReason},
@@ -184,7 +184,7 @@
 				APTITUTE_CODE = #{aptituteCode},
 			</if>
 			<if test="aptituteDate != null">
-				APTITUTE_DATE = #{aptituteDate},
+				APTITUTE_DATE = #{aptituteDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="aptituteWay != null">
 				APTITUTE_WAY = #{aptituteWay},
@@ -193,7 +193,7 @@
 				APTITUTE_STATUS = #{aptituteStatus},
 			</if>
 			<if test="aptituteChangeAt != null">
-				APTITUTE_CHANGE_AT = #{aptituteChangeAt},
+				APTITUTE_CHANGE_AT = #{aptituteChangeAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="aptituteChangeReason != null">
 				APTITUTE_CHANGE_REASON = #{aptituteChangeReason},
@@ -215,10 +215,10 @@
 		IS_MAJOR_FUND = #{isMajorFund},
 		APTITUTE_CONTENT = #{aptituteContent},
 		APTITUTE_CODE = #{aptituteCode},
-		APTITUTE_DATE = #{aptituteDate},
+		APTITUTE_DATE = #{aptituteDate,jdbcType=TIMESTAMP},
 		APTITUTE_WAY = #{aptituteWay},
 		APTITUTE_STATUS = #{aptituteStatus},
-		APTITUTE_CHANGE_AT = #{aptituteChangeAt},
+		APTITUTE_CHANGE_AT = #{aptituteChangeAt,jdbcType=TIMESTAMP},
 		APTITUTE_CHANGE_REASON = #{aptituteChangeReason},
 		ATTACH_CERT = #{attachCert}
 		where ID = #{id}

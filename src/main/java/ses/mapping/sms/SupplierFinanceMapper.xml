@@ -18,8 +18,8 @@
 		<result column="CASH_FLOW_STATEMENT_LIST" property="cashFlowStatement" />
 		<result column="CHANGE_LIST" property="changeList" />
 		<result column="SUPPLIER_ID" property="supplierId" />
-		<result column="CREATED_AT" property="createdAt" />
-		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 		<result column="IS_DELETED" property="isDeleted" />
 		<result column="STATUS" property="status" />
 	</resultMap>
@@ -51,7 +51,7 @@
 		#{totalAssets}, #{totalLiabilities}, #{totalNetAssets},
 		#{taking}, #{auditOpinion}, #{liabilitiesList},
 		#{profitList}, #{cashFlowStatement}, #{changeList},
-		#{supplierId}, #{createdAt}, #{updatedAt}
+		#{supplierId}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierFinance">
@@ -168,10 +168,10 @@
 				#{supplierId},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="status != null">
 				#{status},
@@ -230,10 +230,10 @@
 				SUPPLIER_ID = #{supplierId},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="status != null">
 				STATUS = #{status},
@@ -261,8 +261,8 @@
 		CASH_FLOW_STATEMENT_LIST = #{cashFlowStatement},
 		CHANGE_LIST = #{changeList},
 		SUPPLIER_ID = #{supplierId},
-		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt}
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
 		where ID = #{id}
 	</update>
 	

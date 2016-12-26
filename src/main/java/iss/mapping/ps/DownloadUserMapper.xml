@@ -85,7 +85,7 @@
     insert into T_ISS_PS_DOWNLOAD_INFO (ID, ARTICLE_ID, USER_ID, 
       CREATED_AT, UPDATED_AT,IS_DELETED,USER_NAME)
     values (#{id}, #{article.id}, #{user.id}, 
-      #{createdAt}, #{updatedAt},#{isDeleted},#{userName})
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{isDeleted},#{userName})
   </insert>
   
   <!-- 根据条件新增 -->
@@ -128,10 +128,10 @@
         #{user.id},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -153,10 +153,10 @@
         USER_ID = #{user.id},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         IS_DELETED  = #{isDeleted},
@@ -173,8 +173,8 @@
     update T_ISS_PS_DOWNLOAD_INFO
     set ARTICLE_ID = #{article.id},
       USER_ID = #{user.id},
-      CREATED_AT = #{createdAt},
-      UPDATED_AT = #{updatedAt},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       IS_DELETED = #{isDeleted},
       USER_NAME = #{userName}
     where ID = #{id}

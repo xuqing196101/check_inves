@@ -112,10 +112,10 @@
         #{description,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -143,10 +143,10 @@
         DESCRIPTION = #{description,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},

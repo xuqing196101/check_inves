@@ -247,7 +247,7 @@
         #{articleType.id},
       </if>
       <if test="publishedAt != null">
-        #{publishedAt},
+        #{publishedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isPicShow != null">
         #{isPicShow},
@@ -283,10 +283,10 @@
         #{projectId},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null">
         #{content},
@@ -320,7 +320,7 @@
         ARTICLE_TYPE_ID = #{articleType.id},
       </if>
       <if test="publishedAt != null">
-        PUBLISHED_AT = #{publishedAt},
+        PUBLISHED_AT = #{publishedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isPicShow != null">
         IS_PIC_SHOW = #{isPicShow},
@@ -356,10 +356,10 @@
         PROJECT_ID = #{projectId},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null">
         CONTENT = #{content},

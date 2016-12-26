@@ -6,7 +6,7 @@
 		<id column="ID" jdbcType="VARCHAR" property="id" />
 		<result column="SUPPLIER_CONDITION_ID" jdbcType="VARCHAR"
 			property="supplierConditionId" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
@@ -49,7 +49,7 @@
 		values
 		(#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR},
 		#{supplierConditionId,jdbcType=VARCHAR},
-		#{createdAt,jdbcType=DATE},
+		#{createdAt,jdbcType=TIMESTAMP},
 		#{operatingType,jdbcType=DECIMAL}, #{isDeleted,jdbcType=DECIMAL},
 		#{reason,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
 		#{updatedAt,jdbcType=VARCHAR},
@@ -105,7 +105,7 @@
 				#{supplierConditionId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="operatingType != null">
 				#{operatingType,jdbcType=DECIMAL},
@@ -142,7 +142,7 @@
 				#{supplierConditionId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="operatingType != null">
 				OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
@@ -176,7 +176,7 @@
 		SUPPLIER_CONDITION_ID =
 		#{supplierConditionId,jdbcType=VARCHAR},
 		CREATED_AT =
-		#{createdAt,jdbcType=DATE},
+		#{createdAt,jdbcType=TIMESTAMP},
 		OPERATING_TYPE =
 		#{operatingType,jdbcType=DECIMAL},
 		IS_DELETED =

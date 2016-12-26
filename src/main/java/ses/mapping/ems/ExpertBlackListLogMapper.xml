@@ -5,11 +5,11 @@
     <id column="ID" property="id" />
     <result column="OPERATOR" property="operator" />
     <result column="OPERATION_TYPE" property="operationType" />
-    <result column="OPERATION_DATE" property="operationDate" />
+    <result column="OPERATION_DATE" property="operationDate"  jdbcType="TIMESTAMP"/>
     <result column="EXPERT_ID" property="expertId" />
     
-    <result column="DATE_OF_PUNISHMENT" property="dateOfPunishment" />
-    <result column="PUNISH_DATE" property="punishDate" />
+    <result column="DATE_OF_PUNISHMENT" property="dateOfPunishment" jdbcType="TIMESTAMP"/>
+    <result column="PUNISH_DATE" property="punishDate" jdbcType="TIMESTAMP"/>
     <result column="PUNISH_TYPE" property="punishType" />
     <result column="REASON" property="reason" />
   </resultMap>
@@ -56,17 +56,17 @@
         #{operationType},
       </if>
       <if test="operationDate != null">
-        #{operationDate},
+        #{operationDate,jdbcType=TIMESTAMP},
       </if>
       <if test="expertId != null">
         #{expertId},
       </if>
       
       <if test="dateOfPunishment != null">
-        #{dateOfPunishment},
+        #{dateOfPunishment,jdbcType=TIMESTAMP},
       </if>
       <if test="punishDate != null">
-        #{punishDate},
+        #{punishDate,jdbcType=TIMESTAMP},
       </if>
       <if test="punishType != null">
         #{punishType},

@@ -6,8 +6,8 @@
 		<result column="NAME" property="name" />
 		<result column="PARENT_ID" property="parentId" />
 		<result column="POSITION" property="position" />
-		<result column="CREATED_AT" property="createdAt" />
-		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, NAME, PARENT_ID, POSITION, CREATED_AT, UPDATED_AT
@@ -27,7 +27,7 @@
 		POSITION, CREATED_AT, UPDATED_AT
 		)
 		values (#{id}, #{name}, #{parentId},
-		#{position}, #{createdAt}, #{updatedAt}
+		#{position}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierType">
@@ -66,10 +66,10 @@
 				#{position},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 	</insert>
@@ -86,10 +86,10 @@
 				POSITION = #{position},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where ID = #{id}
@@ -99,8 +99,8 @@
 		set NAME = #{name},
 		PARENT_ID = #{parentId},
 		POSITION = #{position},
-		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt}
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
 		where ID = #{id}
 	</update>
 	

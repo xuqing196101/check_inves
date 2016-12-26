@@ -10,8 +10,8 @@
     <result column="BUSINESS_ID" jdbcType="VARCHAR" property="businessId" />
     <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
     <result column="FILE_SIZE" jdbcType="INTEGER"  property="size" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createDate" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updateDate" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="IS_DELETED"  property="isDelete"/>
   </resultMap> 
   

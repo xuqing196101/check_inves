@@ -8,7 +8,7 @@
 		<result column="PASSWORD" property="password" />
 		<result column="SUPPLIER_NAME" property="supplierName" />
 		<result column="WEBSITE" property="website" />
-		<result column="FOUND_DATE" property="foundDate" />
+		<result column="FOUND_DATE" property="foundDate" jdbcType="TIMESTAMP"/>
 		<result column="BUSINESS_TYPE" property="businessType" />
 		<result column="BUSINESS_CERT" property="businessCert" />
 		<result column="ADDRESS" property="address" />
@@ -33,8 +33,8 @@
 		<result column="CREDIT_CODE" property="creditCode" />
 		<result column="REGIST_AUTHORITY" property="registAuthority" />
 		<result column="REGIST_FUND" property="registFund" />
-		<result column="BUSINESS_START_DATE" property="businessStartDate" />
-		<result column="BUSINESS_END_DATE" property="businessEndDate" />
+		<result column="BUSINESS_START_DATE" property="businessStartDate" jdbcType="TIMESTAMP"/>
+		<result column="BUSINESS_END_DATE" property="businessEndDate" jdbcType="TIMESTAMP"/>
 		<result column="BUSINESS_SCOPE" property="businessScope" />
 		<result column="BUSINESS_ADDRESS" property="businessAddress" />
 		<result column="BUSINESS_POST_CODE" property="businessPostCode" />
@@ -54,8 +54,8 @@
 		<result column="SUPPLIER_REVIEW_LIST" property="supplierReviewList" />
 		<result column="SUPPLIER_CHANGE_LIST" property="supplierChangeList" />
 		<result column="SUPPLIER_EXIT_LIST" property="supplierExitList" />
-		<result column="CREATED_AT" property="createdAt" />
-		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 		<result column="SCORE" property="score" />
 		<result column="NAME" property="name" />
 		<result column="DETAIL_ADDRESS" property="detailAddress" />
@@ -65,7 +65,7 @@
 		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
 		<result column="ARMY_BUSINESS_EMAIL" property="armyBuinessEmail" />
 		<result column="ARMY_BUSINESS_ADDRESS" property="armyBuinessAddress" />
-		<result column="AUDIT_DATE" property="auditDate" />
+		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
 		<result column="BUSINESSTYPENAME" property="businessTypeName" />
 		<result column="ISEXTRACT" property="isExtract" />
 
@@ -193,8 +193,8 @@
 		#{contactEmail},
 		#{contactAddress}, #{creditCode},
 		#{registAuthority}, #{registFund},
-		#{businessStartDate},
-		#{businessEndDate}, #{businessScope},
+		#{businessStartDate,jdbcType=TIMESTAMP},
+		#{businessEndDate,jdbcType=TIMESTAMP}, #{businessScope},
 		#{businessAddress},
 		#{businessPostCode}, #{overseasBranch},
 		#{branchCountry},
@@ -207,7 +207,7 @@
 		#{supplierExtractsList}, #{supplierInspectList},
 		#{supplierReviewList}, #{supplierChangeList},
 		#{supplierExitList},
-		#{createdAt}, #{updatedAt}, #{score}, #{businessCert}
+		#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{score}, #{businessCert}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.Supplier">
@@ -436,7 +436,7 @@
 				#{website},
 			</if>
 			<if test="foundDate != null">
-				#{foundDate},
+				#{foundDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="businessType != null">
 				#{businessType},
@@ -505,10 +505,10 @@
 				#{registFund},
 			</if>
 			<if test="businessStartDate != null">
-				#{businessStartDate},
+				#{businessStartDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="businessEndDate != null">
-				#{businessEndDate},
+				#{businessEndDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="businessScope != null">
 				#{businessScope},
@@ -568,10 +568,10 @@
 				#{supplierExitList},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="score != null">
 				#{score},
@@ -641,7 +641,7 @@
 				WEBSITE = #{website},
 			</if>
 			<if test="foundDate != null">
-				FOUND_DATE = #{foundDate},
+				FOUND_DATE = #{foundDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="businessType != null">
 				BUSINESS_TYPE = #{businessType},
@@ -710,10 +710,10 @@
 				REGIST_FUND = #{registFund},
 			</if>
 			<if test="businessStartDate != null">
-				BUSINESS_START_DATE = #{businessStartDate},
+				BUSINESS_START_DATE = #{businessStartDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="businessEndDate != null">
-				BUSINESS_END_DATE = #{businessEndDate},
+				BUSINESS_END_DATE = #{businessEndDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="businessScope != null">
 				BUSINESS_SCOPE = #{businessScope},
@@ -770,10 +770,10 @@
 				SUPPLIER_EXIT_LIST = #{supplierExitList},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="businessCert != null">
 				BUSINESS_CERT = #{businessCert},
@@ -889,8 +889,8 @@
 		#{supplierReviewList},
 		SUPPLIER_CHANGE_LIST = #{supplierChangeList},
 		SUPPLIER_EXIT_LIST = #{supplierExitList},
-		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt},
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 		BUSINESS_CERT = #{businessCert},
 		DETAIL_ADDRESS=#{detailAddress}
 		where ID =
@@ -923,10 +923,10 @@
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>
 		<if test="startDate != null">
-			AND CREATED_AT &gt;= #{startDate}
+			AND CREATED_AT &gt;= #{startDate,jdbcType=TIMESTAMP}
 		</if>
 		<if test="endDate != null">
-			AND CREATED_AT &lt;= #{endDate}
+			AND CREATED_AT &lt;= #{endDate,jdbcType=TIMESTAMP}
 		</if>
 		<if test="contactName != null and contactName != ''">
 			AND CONTACT_NAME = #{contactName}
@@ -974,10 +974,10 @@
 			and tt1.SUPPLIER_STATUS = #{status}
 		</if>
 		<if test="startDate != null">
-			and tt1.CREATED_AT &gt;= #{startDate}
+			and tt1.CREATED_AT &gt;= #{startDate,jdbcType=TIMESTAMP}
 		</if>
 		<if test="endDate != null">
-			and tt1.CREATED_AT &lt;= #{endDate}
+			and tt1.CREATED_AT &lt;= #{endDate,jdbcType=TIMESTAMP}
 		</if>
 		<if test="contactName != null and contactName != ''">
 			and tt1.CONTACT_NAME = #{contactName}
@@ -1176,10 +1176,10 @@
 			and t4.SUPPLIER_NAME like '%${supplierName}%'
 		</if>
 		<if test="startDate != null">
-			AND t4.CREATED_AT &gt;= #{startDate}
+			AND t4.CREATED_AT &gt;= #{startDate,jdbcType=TIMESTAMP}
 		</if>
 		<if test="endDate != null">
-			AND t4.CREATED_AT &lt;= #{endDate}
+			AND t4.CREATED_AT &lt;= #{endDate,jdbcType=TIMESTAMP}
 		</if>
 		<if test="contactName != null and contactName != ''">
 			AND t4.CONTACT_NAME = #{contactName}
@@ -1205,7 +1205,7 @@
 				SUPPLIER_STATUS = #{status},
 			</if>
 			<if test="auditDate != null">
-				AUDIT_DATE=#{auditDate},
+				AUDIT_DATE=#{auditDate,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where ID = #{id}

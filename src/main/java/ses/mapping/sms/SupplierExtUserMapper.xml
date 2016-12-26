@@ -6,7 +6,7 @@
 		<id column="ID" jdbcType="VARCHAR" property="id" />
 		<result column="EXTRACTS_ID" jdbcType="VARCHAR" property="extractsId" />
 		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 	</resultMap>
 
@@ -60,7 +60,7 @@
 		values (#{id,jdbcType=VARCHAR},
 		#{extractsId,jdbcType=VARCHAR},
 		#{userId,jdbcType=VARCHAR},
-		#{createdAt,jdbcType=DATE}, #{projectId,jdbcType=VARCHAR})
+		#{createdAt,jdbcType=TIMESTAMP}, #{projectId,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierExtUser">
 		<!-- @mbggenerated -->
@@ -93,7 +93,7 @@
 				#{userId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="projectId != null">
 				#{projectId,jdbcType=VARCHAR},
@@ -111,7 +111,7 @@
 				USER_ID = #{userId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="projectId != null">
 				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
@@ -125,7 +125,7 @@
 		set EXTRACTS_ID =
 		#{extractsId,jdbcType=VARCHAR},
 		USER_ID = #{userId,jdbcType=VARCHAR},
-		CREATED_AT = #{createdAt,jdbcType=DATE},
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 		PROJECT_ID =
 		#{projectId,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}

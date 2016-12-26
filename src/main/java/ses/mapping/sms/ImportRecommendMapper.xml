@@ -12,8 +12,8 @@
     <result column="STATUS" jdbcType="DECIMAL" property="status" />
     <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
     <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
     <result column="ATTACHMENT" jdbcType="VARCHAR" property="attachment" />
   </resultMap>
@@ -50,7 +50,7 @@
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{legalName,jdbcType=VARCHAR}, #{recommendDep,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
       #{useCount,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{loginName,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, 
+      #{password,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
       #{creator,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.sms.ImportRecommend">
@@ -131,10 +131,10 @@
         #{password,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="creator != null">
         #{creator,jdbcType=VARCHAR},
@@ -178,10 +178,10 @@
         PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="creator != null">
         CREATOR = #{creator,jdbcType=VARCHAR},
@@ -203,8 +203,8 @@
       STATUS = #{status,jdbcType=DECIMAL},
       LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
       PASSWORD = #{password,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       CREATOR = #{creator,jdbcType=VARCHAR},
       ATTACHMENT = #{attachment,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}

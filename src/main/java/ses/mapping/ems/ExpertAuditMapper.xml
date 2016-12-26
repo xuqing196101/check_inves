@@ -8,7 +8,7 @@
     <result column="AUDIT_USER_NAME" jdbcType="VARCHAR" property="auditUserName" />
     <result column="AUDIT_REASON" jdbcType="VARCHAR" property="auditReason" />
     <result column="AUDIT_RESULT" jdbcType="VARCHAR" property="auditResult" />
-    <result column="AUDIT_AT" property="auditAt" />
+    <result column="AUDIT_AT" property="auditAt" jdbcType="TIMESTAMP"/>
     <result column="IS_HISTORY" jdbcType="VARCHAR" property="isHistory" />
     <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
     <result column="SUGGEST_TYPE" jdbcType="VARCHAR" property="suggestType" />
@@ -59,7 +59,7 @@
       )
     values (#{id}, #{expertId}, #{auditUserId}, 
       #{auditUserName}, #{auditReason}, #{auditResult}, 
-      #{auditAt}, #{isDelete}, #{suggestType}, #{auditField}, #{auditContent}, #{isHistory}
+      #{auditAt,jdbcType=TIMESTAMP}, #{isDelete}, #{suggestType}, #{auditField}, #{auditContent}, #{isHistory}
       )
   </insert>
   
@@ -124,7 +124,7 @@
         #{auditResult},
       </if>
       <if test="auditAt != null">
-        #{auditAt},
+        #{auditAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDelete != null">
         #{isDelete},
@@ -165,7 +165,7 @@
         AUDIT_RESULT = #{auditResult},
       </if>
       <if test="auditAt != null">
-        AUDIT_AT = #{auditAt},
+        AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDelete != null">
         IS_DELETE = #{isDelete},
@@ -192,7 +192,7 @@
       AUDIT_USER_NAME = #{auditUserName},
       AUDIT_REASON = #{auditReason},
       AUDIT_RESULT = #{auditResult},
-      AUDIT_AT = #{auditAt},
+      AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
       IS_HISTORY = #{isHistory},
       IS_DELETE = #{isDelete}
       SUGGEST_TYPE = #{suggestType},

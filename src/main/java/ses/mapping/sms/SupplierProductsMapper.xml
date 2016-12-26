@@ -15,8 +15,8 @@
 		<result column="REFERENCE_PRICE" property="referencePrice" />
 		<result column="PRODUCT_PIC" property="productPic" />
 		<result column="QR_CODE" property="qrCode" />
-		<result column="CREATED_AT" property="createdAt" />
-		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 		<result column="CATEGORY_NAME" property="categoryName" />
 	</resultMap>
 	<sql id="Base_Column_List">
@@ -45,7 +45,7 @@
 		#{name}, #{brand}, #{models},
 		#{proSize}, #{orgin}, #{expirationDate},
 		#{producer}, #{referencePrice}, #{productPic},
-		#{qrCode}, #{createdAt}, #{updatedAt}
+		#{qrCode}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierProducts">
@@ -138,10 +138,10 @@
 				#{qrCode},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -188,10 +188,10 @@
 				QR_CODE = #{qrCode},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where ID = #{id}
@@ -210,8 +210,8 @@
 		REFERENCE_PRICE = #{referencePrice},
 		PRODUCT_PIC = #{productPic},
 		QR_CODE = #{qrCode},
-		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt}
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
 		where ID = #{id}
 	</update>
 	

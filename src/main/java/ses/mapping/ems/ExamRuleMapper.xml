@@ -6,8 +6,8 @@
     <result column="PASS_STANDARD" property="passStandard" />
     <result column="PAPER_SCORE" property="paperScore" />
     <result column="TYPE_DISTRIBUTION" property="typeDistribution" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="STATUS" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -78,10 +78,10 @@
         #{typeDistribution},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status},
@@ -103,10 +103,10 @@
         TYPE_DISTRIBUTION = #{typeDistribution},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         STATUS = #{status},
