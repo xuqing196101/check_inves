@@ -91,6 +91,7 @@ public class CategoryController extends BaseSupplierController {
                 ct.setId(dictionaryData.getId());
                 ct.setName(dictionaryData.getName());
                 ct.setIsParent("true");
+                ct.setClassify(dictionaryData.getCode());
                 jList.add(ct);
             }
             return JSON.toJSONString(jList);
