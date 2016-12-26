@@ -58,8 +58,8 @@
       <ul class="breadcrumb margin-left-0">
         <li><a href="javascript:void(0)"> 首页</a></li>
         <li><a href="javascript:void(0)">保障作业系统</a></li>
-        <li><a href="javascript:void(0)">采购项目管理</a></li>
-        <li class="active"><a href="javascript:void(0)">查看项目</a></li>
+        <li><a href="javascript:void(0)">预研项目管理</a></li>
+        <li class="active"><a href="javascript:void(0)">查看预研项目</a></li>
       </ul>
       <div class="clear"></div>
     </div>
@@ -68,7 +68,7 @@
   <div class="container">
     <!-- 项目戳开始 -->
     <div class="headline-v2 fl">
-      <h2>查看项目明细</h2>
+      <h2>查看预研项目明细</h2>
     </div> 
     <div class="col-md-12 pl20 mt10">
       <button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</button>

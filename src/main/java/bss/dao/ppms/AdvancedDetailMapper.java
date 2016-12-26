@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.ProjectDetail;
 
 public interface AdvancedDetailMapper {
 	/**
@@ -98,5 +99,6 @@ public interface AdvancedDetailMapper {
      * @return
      */
 	List<AdvancedDetail> selectByAll(HashMap<String,Object> map);
+	
 	
 }

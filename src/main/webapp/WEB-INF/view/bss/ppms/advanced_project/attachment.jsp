@@ -6,10 +6,10 @@
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
-  $(function(){
+ /*  $(function(){
    var no = generateMixed();
     $("#documentNumber").val(no);
-  });
+  }); */
   function start(){
    
     $("#form1").submit();
@@ -39,13 +39,14 @@
       <div class="drop_window">
         <ul class="list-unstyled">
            <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-             <div class="center" ><span>采购任务名称:</span><input  type="text" name="name" ></div>
-             <div  class="center"><span>采购任务编号:</span><input id="documentNumber"  type="text" name="documentNumber"></div>
+             <div class="center" ><span>采购任务名称:</span><input  type="text" name="name" value="${planName}"></div>
+             <div  class="center"><span>采购任务编号:</span><input id="documentNumber"  type="text" name="documentNumber" value="${planNo}"></div>
 	              <input type="hidden" name="id" value="${projectId}"/>
 	              <input type="hidden" name="proName" value="${proName}"/>
 	              <input type="hidden" name="projectNumber" value="${projectNumber}"/>
 	              <input type="hidden" name="department" value="${department}"/>
 	              <input type="hidden" name="purchaseType" value="${purchaseType}"/>
+	              <input type="hidden" name="planType" value="${planType}"/>
 	              <input type="hidden" name="ids" value="${ids}"/>
 	              <div class="center" ><span>预研通知书上传:</span></div>
 	              <u:upload id="upload_id" businessId="${projectId}" multiple="true" buttonName="上传文档"  auto="true" typeId="${advancedAdvice}" sysKey="2"/>

@@ -46,6 +46,8 @@
     <if test="isImport != null and isImport != ''">
       IS_IMPORT = #{isImport}
     </if>
+    ORDER BY
+    CREATED_AT ASC
   </select>
 
 	<insert id="insertSelective" parameterType="bss.model.ppms.AdvancedPackages">

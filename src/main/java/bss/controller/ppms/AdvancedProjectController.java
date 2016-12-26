@@ -174,6 +174,8 @@ public class AdvancedProjectController extends BaseController {
      */
     @RequestMapping("/attachment")
     public String attachment(Model model,String ids, String projectNumber, String proName, String department,String purchaseType, HttpServletRequest request){
+        String planType = request.getParameter("planType");
+        model.addAttribute("planType", planType);
         model.addAttribute("advancedAdvice", DictionaryDataUtil.getId("ADVANCED_ADVICE"));
         model.addAttribute("projectId", WfUtil.createUUID());
         model.addAttribute("projectNumber", projectNumber);
@@ -188,10 +190,12 @@ public class AdvancedProjectController extends BaseController {
     public String transmit(Model model, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType, HttpServletRequest request){
         //立项 
         AdvancedProject project = new AdvancedProject();
+        String planType = request.getParameter("planType");
         project.setId(id);
         project.setName(proName);
         project.setProjectNumber(projectNumber);
         project.setPurchaseType(purchaseType);
+        project.setPlanType(planType);
         project.setStatus(0);
         advancedProjectService.save(project);
         
@@ -258,6 +262,11 @@ public class AdvancedProjectController extends BaseController {
             }
             if (purchaseRequired.getGoodsUse() != null) {
                 detail.setGoodsUse(purchaseRequired.getGoodsUse());
+                project.setIsImport(1);
+                advancedProjectService.update(project);
+            }else{
+                project.setIsImport(0);
+                advancedProjectService.update(project);
             }
             if (purchaseRequired.getUseUnit() != null) {
                 detail.setUseUnit(purchaseRequired.getUseUnit());
@@ -386,6 +395,10 @@ public class AdvancedProjectController extends BaseController {
         AdvancedProject project = advancedProjectService.selectById(id);
         map.put("advancedProject", id);
         List<AdvancedDetail> details = detailService.selectByAll(map);
+        for (AdvancedDetail advancedDetail : details) {
+            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(advancedDetail.getDepartment());
+            model.addAttribute("orgnization", orgnization);
+        }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", details);
         model.addAttribute("project", project);
@@ -588,8 +601,9 @@ public class AdvancedProjectController extends BaseController {
     }
     
     @RequestMapping("/viewIds")
-    public void viewIds(HttpServletResponse response,String id) throws IOException {
+    public void viewIds(HttpServletResponse response,String id,String projectId) throws IOException {
             HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("projectId", projectId);
             map.put("id", id);
             List<AdvancedDetail> list = detailService.selectByParent(map);
             String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
@@ -772,7 +786,9 @@ public class AdvancedProjectController extends BaseController {
                 ps.setAdvancedDetails(newDetails);
             }
         }
+        String num = request.getParameter("num");
         model.addAttribute("packageList", packages);
+        model.addAttribute("num", num);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         AdvancedProject project = advancedProjectService.selectById(id);
         model.addAttribute("project", project);
@@ -795,19 +811,19 @@ public class AdvancedProjectController extends BaseController {
         HashMap<String,Object> pack = new HashMap<String,Object>();
         pack.put("projectId",projectId);
         List<AdvancedPackages> packList = packageService.selectByAll(pack);
-        AdvancedPackages packages = new AdvancedPackages();
-        packages.setName("第"+(packList.size()+1)+"包");
-        packages.setProject(new AdvancedProject(projectId));
-        packages.setIsDeleted(0);
+        AdvancedPackages pg = new AdvancedPackages();
+        pg.setName("第"+(packList.size()+1)+"包");
+        pg.setProject(new AdvancedProject(projectId));
+        pg.setIsDeleted(0);
         if(project.getIsImport()==1){
-            packages.setIsImport(1);
+            pg.setIsImport(1);
         }else{
-            packages.setIsImport(0);
+            pg.setIsImport(0);
         }
-        packages.setPurchaseType(project.getPurchaseType());
-        packages.setCreatedAt(new Date());
-        packages.setUpdatedAt(new Date());
-        packageService.save(packages);
+        pg.setPurchaseType(project.getPurchaseType());
+        pg.setCreatedAt(new Date());
+        pg.setUpdatedAt(new Date());
+        packageService.save(pg);
         List<AdvancedPackages> wantPackId = packageService.selectByAll(pack);
         for(int i=0;i<id.length;i++){
             AdvancedDetail pDetail = detailService.selectById(id[i]);
@@ -818,10 +834,22 @@ public class AdvancedProjectController extends BaseController {
             if(list.size()==1){
                 AdvancedDetail projectDetail = new AdvancedDetail();
                 projectDetail.setId(id[i]);
-                projectDetail.setPackageId(wantPackId.get(0).getId());
+                projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
                 projectDetail.setUpdateAt(new Date());
                 detailService.update(projectDetail);
             }
+        }
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
+        List<AdvancedDetail> details = detailService.selectByAll(map);
+        AdvancedPackages p = new AdvancedPackages();
+        p.setId(wantPackId.get(0).getId());
+        if(details.get(0).getStatus().equals("1")){
+            p.setStatus(1);
+            packageService.update(p);
+        }else{
+            p.setStatus(0);
+            packageService.update(p);
         }
     }
     
@@ -880,16 +908,12 @@ public class AdvancedProjectController extends BaseController {
     public String execute(String id, Model model, Integer page) {
         AdvancedProject project = advancedProjectService.selectById(id);
         model.addAttribute("project", project);
-        model.addAttribute("page", page);
-        HashMap<String, Object> map = (HashMap<String, Object>)getFlowDefine(project.getPurchaseType(), id);
-        model.addAttribute("fds", map.get("fds"));
-        model.addAttribute("url", map.get("url"));
-        System.out.println(map.get("url"));
-        return "bss/ppms/open_bidding/main";
+        model.addAttribute("url", "advancedProject/mplement.html?projectId="+id);
+        return "bss/ppms/advanced_project/main";
     }
     
     @RequestMapping("/mplement")
-    public String starts(String projectId, String flowDefineId, Model model, Integer page) {
+    public String starts(String projectId, Model model) {
         String number = "";
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
@@ -912,11 +936,10 @@ public class AdvancedProjectController extends BaseController {
         model.addAttribute("packageList", list);
         model.addAttribute("project", project);
         model.addAttribute("orgnization", orgnization);
-        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("budgetAmount", details.get(0).getBudget());
         model.addAttribute("dataId", DictionaryDataUtil.getId("PROJECT_IMPLEMENT"));
         model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
-        return "bss/ppms/project/essential_information";
+        return "bss/ppms/advanced_project/essential_information";
     }
     
     /**

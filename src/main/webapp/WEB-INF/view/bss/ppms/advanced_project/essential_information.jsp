@@ -5,21 +5,13 @@
 <html>
 
   <head>
-  	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
-<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>	
     <script type="text/javascript">
       //表单验证
       var controldate;
       var deadline;
       function checkDate() {
-    	  layer.confirm('您确定要保存吗?', {
-				title: '提示',
-				offset: ['30%', '40%'],
-				shade: 0.01
-				}, function(index) {
-				layer.close(index);
+
         var flag = true;
         var id = $("#id").val();
         var flowDefineId = $("#flowDefineId").val();
@@ -131,11 +123,8 @@
         if(flag == true) {
           $("#save_form_id").submit();
         }
-				});
       }
-     
-				
-				
+
       function ycDiv(obj, index) {
     	  if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
               $(obj).removeClass("shrink");
@@ -159,112 +148,91 @@
                 };
             };
       }
-        function bidRegister(id) {
+     /*  function purchaseEmbodiment(id) {
         var type = "1";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+
       }
-            
-      function bidRecord(id) {
+
+      function biddingAnnouncement(id) {
         var type = "2";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function validInspect(id) {
+      function organizationalDocument(id) {
         var type = "3";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function host(id) {
+      function biddingNotice(id) {
         var type = "4";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function cashDeposit(id) {
+      function reviewFile(id) {
         var type = "5";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function singleConstruction(id) {
+      function ExOfEvalExperts(id) {
         var type = "6";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function confidentiality(id) {
+      function EvalExpertsInLetter(id) {
         var type = "7";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function cover(id) {
+      function bidOpening(id) {
         var type = "8";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function biddingDocument(id) {
+      function NotarizedInvitation(id) {
         var type = "9";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
-      
-      function expertsSignIn(id) {
+
+      function bidDocuments(id) {
         var type = "10";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function bidReport(id) {
+      function bidBond(id) {
         var type = "11";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function bidNotice(id) {
+      function bidOpeningAttendance(id) {
         var type = "12";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function bidReports(id) {
+      function preparatory(id) {
         var type = "13";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function bidReportss(id) {
+      function bidAssessmentRecord(id) {
         var type = "14";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-
-       function issueRegistration(id) {
+      function bidReport(id) {
         var type = "15";
         window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
-      
-      function getValue(){
-    	  var date = $("#deadline").val();
-    	  $("#bidDate").val(date);
+
+      function winningSupplier(id) {
+        var type = "16";
+        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
-      
-      $(function(){
-    	  var id = "${project.id}";
-    	  $.ajax({
-					url: "${ pageContext.request.contextPath }/project/getUserForSelect.do?id="+id,
-					contentType: "application/json;charset=UTF-8",
-					dataType: "json", //返回格式为json
-					type: "POST", //请求方式           
-					success: function(users) {
-						if(users) {
-							$("#principal").html("<option></option>");
-							$.each(users, function(i, user) {
-								if(user.relName != null && user.relName != '') {
-									$("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
-								}
-							});
-						}
-						$("#principal").select2();
-						$("#principal").select2("val", "${project.principal}");
-					}
-				});
-      })
-      
-      function change(id) {
-				$("#userId").val(id);
-			}
+
+      function procurement(id) {
+        var type = "17";
+        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+      } */
     </script>
   </head>
 
@@ -292,7 +260,7 @@
         <div class="tab-content">
           <div class="tab-pane fade active in" id="tab-1">
             <form id="save_form_id" action="${pageContext.request.contextPath}/project/addProject.html" method="post">
-              <h2 onclick="ycDiv(this,'${1}')" class="count_flow spread hand">基本信息</h2>
+              <h2 onclick="ycDiv(this,'${1}')" class="count_flow shrink hand">基本信息</h2>
               <div class="p0${1}">
                 <table class="table table-bordered left_table">
                   <tbody>
@@ -303,8 +271,8 @@
                       <td class="p0"><input name="name" class="m0" id="name" value="${project.name}" type="text"/><input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}" /></td>
                     </tr>
                     <tr>
-                      <td class="bggrey">项目承办人:</td>
-                      <td class="p0"><input type="hidden" name="userId" id="userId" value="${project.principal}"/><select id="principal" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select></td>
+                      <td class="bggrey">项目经办人:</td>
+                      <td class="p0"><input name="principal" class="m0" id="principal" value="${project.principal}" type="text"/></td>
                       <td class="bggrey">经办人手机:</td>
                       <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text"/></td>
                     </tr>
@@ -331,9 +299,9 @@
                     </tr>
                     <tr>
                       <td class="bggrey">投标截止时间:</td>
-                      <td class="p0"><input value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" onfocus="getValue()" class="Wdate" /></td>
+                      <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" /></td>
                       <td class="bggrey">开标时间:</td>
-                      <td class="p0"><input value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
+                      <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                     </tr>
                     <tr>
                       <td class="bggrey">开标地点:</td>
@@ -342,7 +310,7 @@
                   </tbody>
                 </table>
               </div>
-              <h2 onclick="ycDiv(this,'${2}')" class="count_flow spread hand">时间信息</h2>
+              <h2 onclick="ycDiv(this,'${2}')" class="count_flow shrink hand">时间信息</h2>
               <div class="p0${2}">
                 <table class="table table-bordered">
                   <tbody>
@@ -409,7 +377,7 @@
                   </tbody>
                 </table>
                 <div class="col-md-12 tc mt20">
-                  <button class="btn btn-windows git" type="button" onclick="checkDate();">保存</button>
+                  <button class="btn btn-windows git" type="button" onclick="checkDate();">更新</button>
                 </div>
               </div>
             </form>
@@ -442,7 +410,7 @@
                       <th class="info">备注</th>
                     </tr>
                   </thead>
-                  <c:forEach items="${pack.projectDetails}" var="obj">
+                  <c:forEach items="${pack.advancedDetails}" var="obj">
                     <tr>
                       <td class="tc w50">${obj.serialNumber}</td>
                       <td class="tc">${obj.goodsName}</td>
@@ -466,38 +434,43 @@
             </table>
           </div>
           <div class="tab-pane fade " id="tab-3">
-            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}')">投标登记表</button>
-            <button class="btn btn-windows input" type="button" onclick="bidRecord('${project.id}')">开标记录</button>
-            <button class="btn btn-windows input" type="button" onclick="validInspect('${project.id}')">有效监标词</button>
-            <button class="btn btn-windows input" type="button" onclick="host('${project.id}')">大会主持词</button>
-            <button class="btn btn-windows input" type="button" onclick="cashDeposit('${project.id}')">保证金登记表</button>
-            <button class="btn btn-windows input" type="button" onclick="singleConstruction('${project.id}')">送审单</button>
-            <button class="btn btn-windows input" type="button" onclick="confidentiality('${project.id}')">保密审查单</button>
-            <div class="mt10"></div>
-            <button class="btn btn-windows input" type="button" onclick="cover('${project.id}')">公告封面</button>
-            <button class="btn btn-windows input" type="button" onclick="biddingDocument('${project.id}')">招标文件</button>
-            <button class="btn btn-windows input" type="button" onclick="expertsSignIn('${project.id}')">专家签到表</button>
-            <button class="btn btn-windows input" type="button" onclick="bidReport('${project.id}')">评标报告</button>
-            <button class="btn btn-windows input" type="button" onclick="bidNotice('${project.id}')">中标通知书</button>
-            <button class="btn btn-windows input" type="button" onclick="bidReports('${project.id}')">评标报告（综合）</button>
-            <div class="mt10"></div>
-            <button class="btn btn-windows input" type="button" onclick="bidReportss('${project.id}')">评标报告（最低）</button>
-            <button class="btn btn-windows input" type="button" onclick="issueRegistration('${project.id}')">劳务发放登记表</button>
-           <%--  <h2 class="count_flow"><i>8</i>拟制中标公告 </h2>
+            <h2 class="count_flow"><i>1</i>项目信息 </h2>
+            <button class="btn btn-windows output" type="button" onclick="purchaseEmbodiment('${project.id}')">采购实施方案</button>
+            <h2 class="count_flow"><i>2</i>拟制招标文件 </h2>
+            <button class="btn btn-windows output" type="button" onclick="biddingAnnouncement('${project.id}')">招标文件</button>
+            <h2 class="count_flow"><i>3</i>确认招标文件 </h2>
+            <button class="btn btn-windows output" type="button" onclick="organizationalDocument('${project.id}')">组织文件</button>
+            <h2 class="count_flow"><i>4</i>拟制招标公告 </h2>
+            <button class="btn btn-windows output" type="button" onclick="biddingNotice('${project.id}')">招标公告</button>
+            <h2 class="count_flow"><i>5</i>抽取评审专家 </h2>
+            <button class="btn btn-windows output" type="button" onclick="reviewFile('${project.id}')">评审文件</button>
+            <button class="btn btn-windows output" type="button" onclick="ExOfEvalExperts('${project.id}')">评审专家抽取记录</button>
+            <button class="btn btn-windows output" type="button" onclick="EvalExpertsInLetter('${project.id}')">评审专家邀请函</button>
+            <h2 class="count_flow"><i>6</i>开标唱标 </h2>
+            <button class="btn btn-windows output" type="button" onclick="bidOpening('${project.id}')">开标记录</button>
+            <button class="btn btn-windows output" type="button" onclick="NotarizedInvitation('${project.id}')">公正邀请函</button>
+            <button class="btn btn-windows output" type="button" onclick="bidDocuments('${project.id}')">投标文件受领登记表</button>
+            <button class="btn btn-windows output" type="button" onclick="bidBond('${project.id}')">投标保证金收取登记表</button>
+            <button class="btn btn-windows output" type="button" onclick="bidOpeningAttendance('${project.id}')">投标人开标签到表</button>
+            <h2 class="count_flow"><i>7</i>组织专家评审 </h2>
+            <button class="btn btn-windows output" type="button" onclick="preparatory('${project.id}')">预备会议记录</button>
+            <button class="btn btn-windows output" type="button" onclick="bidAssessmentRecord('${project.id}')">评标记录</button>
+            <button class="btn btn-windows output" type="button" onclick="bidReport('${project.id}')">评标报告</button>
+            <h2 class="count_flow"><i>8</i>拟制中标公告 </h2>
             <button class="btn btn-windows output" type="button" onclick="winningSupplier('${project.id}')">中标供应商审批书</button>
             <h2 class="count_flow"><i>9</i>确认中标供应商 </h2>
-            <button class="btn btn-windows output" type="button" onclick="procurement('${project.id}')">采购合同审批表</button> --%>
+            <button class="btn btn-windows output" type="button" onclick="procurement('${project.id}')">采购合同审批表</button>
           </div>
           <div class="tab-pane fade " id="tab-4">
             <div class="margin-bottom-0  categories">
               <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-                <u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
+                <u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}" />
               </form>
             </div>
           </div>
           <div class="tab-pane fade active over_hideen" id="tab-5">
             <div>上传附件：</div>
-            <u:upload id="upload123" groups="upload123,upload_id" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" buttonName="上传附件"/>
+            <u:upload id="upload123" groups="upload123,upload_id" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" />
             <u:show showId="upload123" groups="upload123,upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}" />
           </div>
         </div>

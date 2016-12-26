@@ -80,10 +80,10 @@
 	var currPage = ${info.pageNum};
 	if (id.length == 1) {
 	  if (status == "实施中") {
-		window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
+		window.location.href = "${pageContext.request.contextPath}/advancedProject/excute.html?id=" + id + "&page=" + currPage;
 	  } else if (status == "已立项") {
 		$.ajax({
-		  url : "${pageContext.request.contextPath}/project/viewPackage.html",
+		  url : "${pageContext.request.contextPath}/advancedProject/viewPackage.html",
 		  data : "id=" + id,
 		  type : "post",
 		  dataType : "json",
@@ -107,14 +107,13 @@
 			} else if (flag == true) {
 			  layer.open({
 				type : 2, //page层
-				area : [ '45%', '300px' ],
+				area : [ '800px', '500px' ],
 				title : '请上传项目批文',
 				shade : 0.01, //遮罩透明度
 				moveType : 1, //拖拽风格，0是默认，1是传统拖动
 				shift : 1, //0-6的动画形式，-1不开启
-				offset : ['10%', '20%' ],
 				shadeClose : true,
-				content : '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
+				content : '${pageContext.request.contextPath}/advancedProject/startProject.html?id=' + id,
 			  });
 			}
 		  },
@@ -193,21 +192,21 @@
   <!-- 录入采购计划开始-->
   <div class="container">
     <div class="headline-v2">
-	  <h2>立项列表</h2>
+	  <h2>预研立项列表</h2>
 	</div>
 	<!-- 项目戳开始 -->
     <h2 class="search_detail">
 	  <form action="${pageContext.request.contextPath}/advancedProject/list.html" id="form1" method="post" class="mb0">
 	    <ul class="demand_list">
 		  <li>
-		    <label class="fl">项目名称： </label>
+		    <label class="fl">预研项目名称： </label>
 		    <span>
 		      <input type="hidden" name="page" id="page">
 		      <input type="text" name="name" id="proName" value="${project.name }" /> 
 		    </span>
 		  </li>
 		  <li>
-		    <label class="fl">项目编号：</label> 
+		    <label class="fl">预研项目编号：</label> 
 		    <span>
 		      <input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }" /> 
 		    </span>
