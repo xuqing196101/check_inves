@@ -486,7 +486,7 @@ public class ExpertController {
         if ("1".equals(type)) {
             // 1代表增加
             // 判断是否是子节点,如果是父节点被选中则添加该节点的所有子节点
-            List<Category> list = categoryService.findTreeByPid(categoryId);
+            List<Category> list = categoryService.findPublishTree(categoryId, null);
             Expert expert = new Expert();
             expert.setId(expertId);
             if (list == null || list.size() == 0) {
@@ -496,7 +496,7 @@ public class ExpertController {
                 }
             } else {
                 for (Category cate : list) {
-                    List<Category> list1 = categoryService.findTreeByPid(cate.getId());
+                    List<Category> list1 = categoryService.findPublishTree(cate.getId(),null);
                     if (list1 == null || list1.size() == 0) {
                         expertCategoryService.save(expert, cate.getId());
                     }
@@ -505,7 +505,7 @@ public class ExpertController {
         } else if ("0".equals(type)) {
             // 0代表删除
             // 判断是否是子节点,如果是父节点被取消则删除该节点的所有子节点
-            List<Category> list = categoryService.findTreeByPid(categoryId);
+            List<Category> list = categoryService.findPublishTree(categoryId, null);
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("expertId", expertId);
             if (list == null || list.size() == 0) {
@@ -570,7 +570,7 @@ public class ExpertController {
             ct.setChecked(isChecked(ct.getId(), expertId));
             allCategories.add(ct);
         } else {
-            List<Category> childNodes = categoryService.findTreeByPid(id);
+            List<Category> childNodes = categoryService.findPublishTree(id, null);
             if (childNodes != null && childNodes.size() > 0) {
                 for (Category category : childNodes) {
                     CategoryTree ct = new CategoryTree();
@@ -578,7 +578,7 @@ public class ExpertController {
                     ct.setId(category.getId());
                     ct.setParentId(category.getParentId());
                     // 判断是否为父级节点
-                    List<Category> nodesList = categoryService.findTreeByPid(category.getId());
+                    List<Category> nodesList = categoryService.findPublishTree(category.getId(), null);
                     if (nodesList != null && nodesList.size() > 0) {
                         ct.setIsParent("true");
                     }
@@ -668,7 +668,7 @@ public class ExpertController {
         List<Category> categoryTree = getCategoryTree(ct.getId());
         // 遍历所有节点添加到list中
         for (Category c : categoryTree) {
-            List<Category> list1 = categoryService.findTreeByPid(c.getId());
+            List<Category> list1 = categoryService.findPublishTree(c.getId());
             CategoryTree ct1 = new CategoryTree();
             ct1.setName(c.getName());
             ct1.setParentId(c.getParentId());
@@ -711,10 +711,10 @@ public class ExpertController {
         if (expCategory != null) {
             isChecked = true;
         } else {
-            List<Category> childList = categoryService.findTreeByPid(id);
+            List<Category> childList = categoryService.findPublishTree(id, null);
             for (Category category : childList) {
                 // 判断该节点有无子节点
-                List<Category> list = categoryService.findTreeByPid(category.getId());
+                List<Category> list = categoryService.findPublishTree(category.getId(), null);
                 if (list.isEmpty()) {
                     // list为空代表没有子节点
                     ExpertCategory ec = expertCategoryService.getExpertCategory(expertId, category.getId());

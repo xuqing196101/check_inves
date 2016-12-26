@@ -1565,15 +1565,20 @@ public class SupplierController extends BaseSupplierController {
     public List<CategoryTree> getCategory(String id,String name,String code,String supplierId){
         List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
         String typeId ="";
+        Integer status = null;
         if(code != null) {
             DictionaryData type = DictionaryDataUtil.get(code);
             if (type != null ) {
-                if(type.getCode().equals("PRODUCT") || type.getCode().equals("SALES")){
+                if(type.getCode().equals("PRODUCT")){
                     DictionaryData dd = DictionaryDataUtil.get("GOODS");
                     typeId = dd.getId();
-                } else {
-                    typeId = type.getId();
-                }
+                    status = 1;
+                } 
+                if(type.getCode().equals("SALES")){
+                    DictionaryData dd = DictionaryDataUtil.get("GOODS");
+                    typeId = dd.getId();
+                    status = 2;
+                } 
             }
             CategoryTree ct = new CategoryTree();
             ct.setName( type.getName());
@@ -1586,7 +1591,7 @@ public class SupplierController extends BaseSupplierController {
             
             ct.setIsParent("true");
             categoryList.add(ct);
-            List<Category> child = getChild(typeId);
+            List<Category> child = getChild(typeId,status);
             for(Category c:child){
                 CategoryTree ct1 = new CategoryTree();
                 ct1.setName(c.getName());
@@ -1654,12 +1659,12 @@ public class SupplierController extends BaseSupplierController {
 		return yearThree;
 		}
 		
-		public List<Category> getChild(String id){
-            List<Category> list = categoryService.findTreeByStatus(id,StaticVariables.CATEGORY_PUBLISH_STATUS);
+		public List<Category> getChild(String id, Integer status){
+            List<Category> list = categoryService.findPublishTree(id,status);
                List<Category> childList = new ArrayList<Category>();
                childList.addAll(list);
                for (Category cate : list) {
-                   childList.addAll(getChild(cate.getId()));
+                   childList.addAll(getChild(cate.getId(),status));
                }
                return childList;
        }

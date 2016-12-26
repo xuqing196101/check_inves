@@ -88,6 +88,18 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return 返回 Category 集合
 	 */
 	public List<Category> findTreeByStatus(String id, Integer status);
+	
+	/**
+	 * 
+	 *〈简述〉获取发布的
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 父节点Id
+	 * @param classfy 状态 
+	 * @return
+	 */
+	public List<Category> findPublishTree(String id, Integer status);
+	
 	/**
 	 * 
 	* @Title: updateByPrimaryKey

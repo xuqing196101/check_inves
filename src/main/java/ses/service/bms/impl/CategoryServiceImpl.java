@@ -95,6 +95,15 @@ public class CategoryServiceImpl implements CategoryService {
         
         return categoryMapper.findTreeByStatus(id, status);
     }
+    
+    /**
+     * 
+     * @see ses.service.bms.CategoryService#findPublishTree(java.lang.String, java.lang.Integer)
+     */
+    @Override
+    public List<Category> findPublishTree(String id, Integer status) {
+        return categoryMapper.findPublishTree(id, status);
+    }
 
     public void updateByPrimaryKey(Category category) {
         categoryMapper.updateByPrimaryKey(category);

@@ -34,4 +34,6 @@ public interface ProjectMapper {
     List<Project> selectProjectByCode(HashMap<String,Object> map);
     
     int insertId(Project record);
+    
+    List<Project> selectProjectsByConition(HashMap<String,Object> map);
 }
