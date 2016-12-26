@@ -22,9 +22,9 @@
     <result column="BRAND"  property="brand" />
     <result column="MEMO"  property="memo" />
     <result column="PARENT_ID"  property="parentId" />
-    <result column="CREATED_AT"  property="createdAt" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
     <result column="STATUS"  property="status" />
-    <result column="UPDATED_AT"  property="updateAt" />
+    <result column="UPDATED_AT"  property="updateAt" jdbcType="TIMESTAMP"/>
     <result column="POSITION"  property="position" />
     <result column="REQUIRED_ID"  property="requiredId" />
     <result column="PACKAGE_ID"  property="packageId" />
@@ -117,7 +117,7 @@
     values (#{id,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
       #{goodsName,jdbcType=VARCHAR}, #{stand,jdbcType=VARCHAR}, #{qualitStand,jdbcType=VARCHAR}, 
       #{item,jdbcType=VARCHAR}, #{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
-      #{budget,jdbcType=DECIMAL}, #{deliverDate,jdbcType=DATE}, #{purchaseType,jdbcType=VARCHAR}, 
+      #{budget,jdbcType=DECIMAL}, #{deliverDate,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR}, 
       #{supplier,jdbcType=VARCHAR}, #{isFreeTax,jdbcType=VARCHAR}, #{goodsUse,jdbcType=VARCHAR}, 
       #{useUnit,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
       #{purchaseId,jdbcType=VARCHAR})
@@ -284,10 +284,10 @@
         #{parentId},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updateAt != null">
-        #{updateAt},
+        #{updateAt,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status},
@@ -370,10 +370,10 @@
         PARENT_ID = #{parentId},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updateAt != null">
-        UPDATED_AT = #{updateAt},
+        UPDATED_AT = #{updateAt,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         STATUS = #{status},

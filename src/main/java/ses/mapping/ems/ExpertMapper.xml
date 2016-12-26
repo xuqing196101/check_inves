@@ -6,9 +6,9 @@
 		<result column="IS_SUBMIT" jdbcType="VARCHAR" property="isSubmit" />
 		<result column="IS_DO" jdbcType="VARCHAR" property="isDo" />
 		<result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="GENDER" jdbcType="CHAR" property="gender" />
-		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
 		<result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
 		<result column="ID_CARD_NUMBER" jdbcType="VARCHAR" property="idCardNumber" />
 		<result column="COVER_NOTE" jdbcType="VARCHAR" property="coverNote" />
@@ -19,7 +19,7 @@
 		<result column="REVIEW_SITUATION" jdbcType="VARCHAR" property="reviewSituation" />
 		<result column="AVOIDANCE_SITUATION" jdbcType="VARCHAR"
 			property="avoidanceSituation" />
-		<result column="BIRTHDAY" jdbcType="DATE" property="birthday" />
+		<result column="BIRTHDAY" jdbcType="TIMESTAMP" property="birthday" />
 		<result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber" />
 		<result column="EMAIL" jdbcType="VARCHAR" property="email" />
 		<result column="JOB_EXPERIENCES" jdbcType="VARCHAR" property="jobExperiences" />
@@ -33,13 +33,13 @@
 		<result column="WORK_UNIT" jdbcType="VARCHAR" property="workUnit" />
 		<result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
 		<result column="FAX" jdbcType="VARCHAR" property="fax" />
-		<result column="MAKE_TECH_DATE" jdbcType="DATE" property="makeTechDate" />
+		<result column="MAKE_TECH_DATE" jdbcType="TIMESTAMP" property="makeTechDate" />
 		<result column="HEALTH_STATE" jdbcType="VARCHAR" property="healthState" />
 		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
 		<result column="PROFESS_TECH_TITLES" jdbcType="VARCHAR"
 			property="professTechTitles" />
-		<result column="TIME_TO_WORK" jdbcType="DATE" property="timeToWork" />
-		<result column="TIME_START_WORK" jdbcType="DATE" property="timeStartWork" />
+		<result column="TIME_TO_WORK" jdbcType="TIMESTAMP" property="timeToWork" />
+		<result column="TIME_START_WORK" jdbcType="TIMESTAMP" property="timeStartWork" />
 		<result column="UNIT_ADDRESS" jdbcType="VARCHAR" property="unitAddress" />
 		<result column="POST_CODE" jdbcType="VARCHAR" property="postCode" />
 		<result column="DEGREE" jdbcType="VARCHAR" property="degree" />
@@ -182,11 +182,11 @@
 		#{isSubmit,jdbcType=VARCHAR},
 		#{isDo,jdbcType=VARCHAR},
 		#{isDelete,jdbcType=DECIMAL},
-		#{createdAt,jdbcType=DATE},
+		#{createdAt,jdbcType=TIMESTAMP},
 		#{gender,jdbcType=CHAR},
-		#{updatedAt,jdbcType=DATE},
+		#{updatedAt,jdbcType=TIMESTAMP},
 		#{mobile,jdbcType=VARCHAR},
-		#{birthday,jdbcType=DATE},
+		#{birthday,jdbcType=TIMESTAMP},
 		#{idNumber,jdbcType=VARCHAR},
 		#{idType,jdbcType=VARCHAR},
 		#{expertsFrom,jdbcType=VARCHAR},
@@ -196,11 +196,11 @@
 		#{hightEducation,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR},
 		#{workUnit,jdbcType=VARCHAR},
 		#{telephone,jdbcType=VARCHAR},
-		#{fax,jdbcType=VARCHAR}, #{makeTechDate,jdbcType=DATE},
+		#{fax,jdbcType=VARCHAR}, #{makeTechDate,jdbcType=TIMESTAMP},
 		#{healthState,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
 		#{professTechTitles,jdbcType=VARCHAR},
-		#{timeToWork,jdbcType=DATE},
-		#{timeStartWork,jdbcType=DATE}, #{unitAddress,jdbcType=VARCHAR},
+		#{timeToWork,jdbcType=TIMESTAMP},
+		#{timeStartWork,jdbcType=TIMESTAMP}, #{unitAddress,jdbcType=VARCHAR},
 		#{postCode,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR},
 		#{atDuty,jdbcType=VARCHAR},
 		#{expertsTypeId,jdbcType=VARCHAR},
@@ -399,19 +399,19 @@
 				#{isProvisional,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="gender != null">
 				#{gender,jdbcType=CHAR},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=DATE},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="mobile != null">
 				#{mobile,jdbcType=VARCHAR},
 			</if>
 			<if test="birthday != null">
-				#{birthday,jdbcType=DATE},
+				#{birthday,jdbcType=TIMESTAMP},
 			</if>
 			<if test="idNumber != null">
 				#{idNumber,jdbcType=VARCHAR},
@@ -447,7 +447,7 @@
 				#{fax,jdbcType=VARCHAR},
 			</if>
 			<if test="makeTechDate != null">
-				#{makeTechDate,jdbcType=DATE},
+				#{makeTechDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="healthState != null">
 				#{healthState,jdbcType=VARCHAR},
@@ -459,10 +459,10 @@
 				#{professTechTitles,jdbcType=VARCHAR},
 			</if>
 			<if test="timeToWork != null">
-				#{timeToWork,jdbcType=DATE},
+				#{timeToWork,jdbcType=TIMESTAMP},
 			</if>
 			<if test="timeStartWork != null">
-				#{timeStartWork,jdbcType=DATE},
+				#{timeStartWork,jdbcType=TIMESTAMP},
 			</if>
 			<if test="unitAddress != null">
 				#{unitAddress,jdbcType=VARCHAR},
@@ -545,19 +545,19 @@
 				IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="gender != null">
 				GENDER = #{gender,jdbcType=CHAR},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="mobile != null">
 				MOBILE = #{mobile,jdbcType=VARCHAR},
 			</if>
 			<if test="birthday != null">
-				BIRTHDAY = #{birthday,jdbcType=DATE},
+				BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
 			</if>
 			<if test="idNumber != null">
 				ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
@@ -593,7 +593,7 @@
 				FAX = #{fax,jdbcType=VARCHAR},
 			</if>
 			<if test="makeTechDate != null">
-				MAKE_TECH_DATE = #{makeTechDate,jdbcType=DATE},
+				MAKE_TECH_DATE = #{makeTechDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="healthState != null">
 				HEALTH_STATE = #{healthState,jdbcType=VARCHAR},
@@ -606,10 +606,10 @@
 				#{professTechTitles,jdbcType=VARCHAR},
 			</if>
 			<if test="timeToWork != null">
-				TIME_TO_WORK = #{timeToWork,jdbcType=DATE},
+				TIME_TO_WORK = #{timeToWork,jdbcType=TIMESTAMP},
 			</if>
 			<if test="timeStartWork != null">
-				TIME_START_WORK = #{timeStartWork,jdbcType=DATE},
+				TIME_START_WORK = #{timeStartWork,jdbcType=TIMESTAMP},
 			</if>
 			<if test="unitAddress != null">
 				UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
@@ -694,19 +694,19 @@
 				IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null and createdAt != ''">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="gender != null and gender != ''">
 				GENDER = #{gender,jdbcType=CHAR},
 			</if>
 			<if test="updatedAt != null and updatedAt != ''">
-				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="mobile != null and mobile != ''">
 				MOBILE = #{mobile,jdbcType=VARCHAR},
 			</if>
 			<if test="birthday != null and birthday != ''">
-				BIRTHDAY = #{birthday,jdbcType=DATE},
+				BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
 			</if>
 			<if test="idNumber != null and idNumber != ''">
 				ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
@@ -742,7 +742,7 @@
 				FAX = #{fax,jdbcType=VARCHAR},
 			</if>
 			<if test="makeTechDate != null and makeTechDate != ''">
-				MAKE_TECH_DATE = #{makeTechDate,jdbcType=DATE},
+				MAKE_TECH_DATE = #{makeTechDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="healthState != null and healthState != ''">
 				HEALTH_STATE = #{healthState,jdbcType=VARCHAR},
@@ -755,10 +755,10 @@
 				#{professTechTitles,jdbcType=VARCHAR},
 			</if>
 			<if test="timeToWork != null and timeToWork != ''">
-				TIME_TO_WORK = #{timeToWork,jdbcType=DATE},
+				TIME_TO_WORK = #{timeToWork,jdbcType=TIMESTAMP},
 			</if>
 			<if test="timeStartWork != null and timeStartWork != ''">
-				TIME_START_WORK = #{timeStartWork,jdbcType=DATE},
+				TIME_START_WORK = #{timeStartWork,jdbcType=TIMESTAMP},
 			</if>
 			<if test="unitAddress != null and unitAddress != ''">
 				UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
@@ -1037,7 +1037,7 @@
 		(#{id,jdbcType=VARCHAR},
 		#{gender,jdbcType=CHAR},
 		#{mobile,jdbcType=VARCHAR},
-		#{birthday,jdbcType=DATE},
+		#{birthday,jdbcType=TIMESTAMP},
 		#{idNumber,jdbcType=VARCHAR},
 		#{idType,jdbcType=VARCHAR},
 		#{expertsFrom,jdbcType=VARCHAR},
@@ -1049,12 +1049,12 @@
 		#{workUnit,jdbcType=VARCHAR},
 		#{telephone,jdbcType=VARCHAR},
 		#{fax,jdbcType=VARCHAR},
-		#{makeTechDate,jdbcType=DATE},
+		#{makeTechDate,jdbcType=TIMESTAMP},
 		#{healthState,jdbcType=VARCHAR},
 		#{address,jdbcType=VARCHAR},
 		#{professTechTitles,jdbcType=VARCHAR},
-		#{timeToWork,jdbcType=DATE},
-		#{timeStartWork,jdbcType=DATE},
+		#{timeToWork,jdbcType=TIMESTAMP},
+		#{timeStartWork,jdbcType=TIMESTAMP},
 		#{unitAddress,jdbcType=VARCHAR},
 		#{postCode,jdbcType=VARCHAR},
 		#{degree,jdbcType=VARCHAR},

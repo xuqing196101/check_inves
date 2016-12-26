@@ -45,7 +45,7 @@
         and URL = #{url}
       </if>
       <if test="createdAt != null">
-        and CREATED_AT = #{createdAt}
+        and CREATED_AT = #{createdAt,jdbcType=TIMESTAMP}
       </if>
       <if test="position != null and position != ''">
         and POSITION = #{position}
@@ -57,7 +57,7 @@
         and PARENT_ID = #{parentId.id}
       </if>
       <if test="updatedAt != null">
-        and UPDATED_AT = #{updatedAt}
+        and UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
       </if>
       <if test="kind != null">
         and KIND = #{kind}

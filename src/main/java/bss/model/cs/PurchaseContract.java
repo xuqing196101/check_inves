@@ -1,4 +1,4 @@
-package bss.model.cs;
+ package bss.model.cs;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -10,7 +10,7 @@
 		<result column="IS_PUBLISH" property="isPublish" />
 		<result column="CLASSIFY_STATUS" property="classify" />
 		<result column="PARAM_STATUS" property="paramStatus"/>
-		<result column="AUDIT_DATE" property="auditDate"/>
+		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
 		<result column="AUDIT_ADVISE" property="auditAdvise"/>
 	</resultMap>
 	

@@ -20,7 +20,7 @@
 		<result column="IS_FREE_TAX" jdbcType="VARCHAR" property="isFreeTax" />
 		<result column="MATERIAL_USE" jdbcType="VARCHAR" property="goodsUse" />
 		<result column="USE_UNIT" jdbcType="VARCHAR" property="useUnit" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
 		<result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
 		<result column="REQ_LEVEL" jdbcType="VARCHAR" property="reqLevel" />
@@ -29,7 +29,7 @@
 		<result column="SEQ" jdbcType="VARCHAR" property="seq" />
 		<result column="HISTORY_STATUS" jdbcType="VARCHAR" property="historyStatus" />
 		<result column="MATERIAL_TYPE" jdbcType="VARCHAR" property="goodsType" />
-		<result column="AUDIT_DATE" jdbcType="DATE" property="auditDate" />
+		<result column="AUDIT_DATE" jdbcType="TIMESTAMP" property="auditDate" />
 		<result column="ORGANIZATION" jdbcType="VARCHAR" property="organization" />
 		<result column="IS_MASTER" jdbcType="DECIMAL" property="isMaster" />
 		<result column="IS_DELETE" jdbcType="INTEGER"  property="isDelete" />
@@ -100,11 +100,11 @@
 		#{deliverDate,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR},
 		#{supplier,jdbcType=VARCHAR},
 		#{isFreeTax,jdbcType=VARCHAR}, #{goodsUse,jdbcType=VARCHAR}, #{useUnit,jdbcType=VARCHAR},
-		#{createdAt,jdbcType=DATE}, #{userId,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR},
 		#{parentId,jdbcType=VARCHAR},
 		#{reqLevel,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
 		#{memo,jdbcType=VARCHAR},#{seq,jdbcType=VARCHAR},#{historyStatus,jdbcType=VARCHAR},#{goodsType,jdbcType=VARCHAR},
-		#{auditDate,jdbcType=DATE},#{organization,jdbcType=VARCHAR},#{isMaster,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER},
+		#{auditDate,jdbcType=TIMESTAMP},#{organization,jdbcType=VARCHAR},#{isMaster,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER},
 		#{isCollect,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{onePurchaseType,jdbcType=VARCHAR}, #{oneOrganiza,jdbcType=VARCHAR}, #{oneAdvice,jdbcType=VARCHAR},
 		#{twoTechAdvice,jdbcType=VARCHAR}, #{twoAdvice,jdbcType=VARCHAR},  
 		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
@@ -315,7 +315,7 @@
 				#{useUnit,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="userId != null">
 				#{userId,jdbcType=VARCHAR},
@@ -342,7 +342,7 @@
 				#{goodsType,jdbcType=VARCHAR},
 			</if>
 			<if test="auditDate != null">
-				#{auditDate,jdbcType=DATE},
+				#{auditDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="organization != null">
 				#{organization,jdbcType=VARCHAR},
@@ -461,7 +461,7 @@
 				USE_UNIT = #{useUnit,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="userId != null">
 				USER_ID = #{userId,jdbcType=VARCHAR},
@@ -488,7 +488,7 @@
 				MATERIAL_TYPE = #{goodsType,jdbcType=VARCHAR},
 			</if>
 			<if test="auditDate != null">
-				AUDIT_DATE = #{auditDate,jdbcType=DATE},
+				AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="organization != null">
 				ORGANIZATION = #{organization,jdbcType=VARCHAR},
@@ -572,7 +572,7 @@
 		IS_FREE_TAX = #{isFreeTax,jdbcType=VARCHAR},
 		MATERIAL_USE = #{goodsUse,jdbcType=VARCHAR},
 		USE_UNIT = #{useUnit,jdbcType=VARCHAR},
-		CREATED_AT = #{createdAt,jdbcType=DATE},
+		CREATED_AT = #{createdAt,jdbcType=DATTIMESTAMPE},
 		USER_ID = #{userId,jdbcType=VARCHAR},
 		PARENT_ID = #{parentId,jdbcType=VARCHAR},
 		REQ_LEVEL = #{reqLevel,jdbcType=VARCHAR},
@@ -581,7 +581,7 @@
 		SEQ = #{seq,jdbcType=VARCHAR},
 		HISTORY_STATUS = #{historyStatus,jdbcType=VARCHAR},
 		MATERIAL_TYPE = #{goodsType,jdbcType=VARCHAR},
-		AUDIT_DATE = #{auditDate,jdbcType=VARCHAR},
+		AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
 		ORGANIZATION = #{organization,jdbcType=VARCHAR},
 		IS_MASTER = #{isMaster,jdbcType=DECIMAL},
 		IS_DELETE = #{isDelete,jdbcType=INTEGER},

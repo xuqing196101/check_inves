@@ -5,8 +5,8 @@
 		<id column="ID" property="id" />
 		<result column="SUPPLIER_ID" property="supplierId" />
 		<result column="SUPPLIER_TYPE_ID" property="supplierTypeId" />
-		<result column="CREATED_AT" property="createdAt" />
-		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 		<result column="SUPPLIER_TYPE_NAME" property="supplierTypeName" />
 	</resultMap>
 	<sql id="Base_Column_List">
@@ -26,7 +26,7 @@
 		insert into T_SES_SMS_SUPPLIER_TYPE_RELATE (ID, SUPPLIER_ID, SUPPLIER_TYPE_ID,
 		CREATED_AT, UPDATED_AT)
 		values (#{id}, #{supplierId}, #{supplierTypeId},
-		#{createdAt}, #{updatedAt})
+		#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierTypeRelate">
 		insert into T_SES_SMS_SUPPLIER_TYPE_RELATE
@@ -58,10 +58,10 @@
 				#{supplierTypeId},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -78,10 +78,10 @@
 				SUPPLIER_TYPE_ID = #{supplierTypeId},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where ID = #{id}
@@ -90,8 +90,8 @@
 		update T_SES_SMS_SUPPLIER_TYPE_RELATE
 		set SUPPLIER_ID = #{supplierId},
 		SUPPLIER_TYPE_ID = #{supplierTypeId},
-		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt}
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
 		where ID = #{id}
 	</update>
 

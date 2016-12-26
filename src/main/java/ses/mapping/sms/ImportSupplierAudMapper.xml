@@ -17,8 +17,8 @@
     <result column="WEBSITE_REASON" jdbcType="VARCHAR" property="websiteReason" />
     <result column="PLEDGE_REASON" jdbcType="VARCHAR" property="pledgeReason" />
     <result column="REGLIST_REASON" jdbcType="VARCHAR" property="reglistReason" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="LEGAL_NAME_REASON" jdbcType="VARCHAR" property="legalNameReason" />
     <result column="SUPPLIER_TYPE_REASON" jdbcType="VARCHAR" property="supplierTypeReason" />
     <result column="MOBILE_REASON" jdbcType="VARCHAR" property="mobileReason" />
@@ -60,7 +60,7 @@
       #{byproductReason,jdbcType=VARCHAR}, #{producerNameReason,jdbcType=VARCHAR}, #{contactPersonReason,jdbcType=VARCHAR}, 
       #{telephoneReason,jdbcType=VARCHAR}, #{faxReason,jdbcType=VARCHAR}, #{emailReason,jdbcType=VARCHAR}, 
       #{websiteReason,jdbcType=VARCHAR}, #{pledgeReason,jdbcType=VARCHAR}, #{reglistReason,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{legalNameReason,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{legalNameReason,jdbcType=VARCHAR}, 
       #{supplierTypeReason,jdbcType=VARCHAR}, #{mobileReason,jdbcType=VARCHAR}, #{auditCount,jdbcType=DECIMAL}, 
       #{postCodeReason,jdbcType=VARCHAR}, #{civilAchievementReason,jdbcType=VARCHAR}, 
       #{remarkReason,jdbcType=VARCHAR}, #{importSupplierId,jdbcType=VARCHAR})
@@ -191,10 +191,10 @@
         #{reglistReason,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="legalNameReason != null">
         #{legalNameReason,jdbcType=VARCHAR},
@@ -268,10 +268,10 @@
         REGLIST_REASON = #{reglistReason,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="legalNameReason != null">
         LEGAL_NAME_REASON = #{legalNameReason,jdbcType=VARCHAR},
@@ -316,8 +316,8 @@
       WEBSITE_REASON = #{websiteReason,jdbcType=VARCHAR},
       PLEDGE_REASON = #{pledgeReason,jdbcType=VARCHAR},
       REGLIST_REASON = #{reglistReason,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       LEGAL_NAME_REASON = #{legalNameReason,jdbcType=VARCHAR},
       SUPPLIER_TYPE_REASON = #{supplierTypeReason,jdbcType=VARCHAR},
       MOBILE_REASON = #{mobileReason,jdbcType=VARCHAR},

@@ -167,11 +167,12 @@
             </li>
             
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
-              <span class="fl">单位及保密委员会审核表：</span>
+              <span class="fl"><div class="star_red">*</div>单位及保密委员会审核表：</span>
               <div>
                 <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" auto="true" />
                 <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
               </div>
+              <div class="cue">${ERR_auditDoc}</div>
             </li>
             
             <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">

@@ -695,6 +695,13 @@ public class ProjectController extends BaseController {
         for (ProjectDetail projectDetail : detail) {
             Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail.getDepartment());
             model.addAttribute("orgnization", orgnization);
+            HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",projectDetail.getRequiredId());
+            detailMap.put("projectId", id);
+            List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+            if(dlist.size()>1){
+                projectDetail.setDetailStatus(0);
+            }
         }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", detail);
@@ -777,6 +784,10 @@ public class ProjectController extends BaseController {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
         Project project = projectService.selectById(projectId);
+        User user = null;
+        if(project.getPrincipal()!=null){
+        	user = userService.getUserById(project.getPrincipal());
+        }
         Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
         List<ProjectTask> tasks = projectTaskService.queryByNo(map);
         Set<String> set =new HashSet<String>();
@@ -803,6 +814,7 @@ public class ProjectController extends BaseController {
                 ps.setProjectDetails(detailList);
             }
         }
+        model.addAttribute("user", user);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("packageList", list);
         model.addAttribute("project", project);

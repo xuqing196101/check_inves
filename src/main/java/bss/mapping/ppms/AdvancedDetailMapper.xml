@@ -21,9 +21,9 @@
     <result column="BRAND"  property="brand" />
     <result column="MEMO"  property="memo" />
     <result column="PARENT_ID"  property="parentId" />
-    <result column="CREATED_AT"  property="createdAt" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP" />
     <result column="STATUS"  property="status" />
-    <result column="UPDATED_AT"  property="updateAt" />
+    <result column="UPDATED_AT"  property="updateAt" jdbcType="TIMESTAMP"/>
     <result column="POSITION"  property="position" />
     <result column="REQUIRED_ID"  property="requiredId" />
     <result column="PLAN_NO"  property="planNo" />
@@ -275,10 +275,10 @@
         #{parentId},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updateAt != null">
-        #{updateAt},
+        #{updateAt,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status},
@@ -361,10 +361,10 @@
         PARENT_ID = #{parentId},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updateAt != null">
-        UPDATED_AT = #{updateAt},
+        UPDATED_AT = #{updateAt,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         STATUS = #{status},

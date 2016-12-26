@@ -90,6 +90,11 @@ public class ProjectDetail {
      * 供应商id
      */
     private String supplierId;
+    
+    /**
+     * 修改项目的时候是否展示明细状态
+     */
+    private Integer detailStatus;
 
 	public String getSupplierId() {
         return supplierId;
@@ -362,5 +367,15 @@ public class ProjectDetail {
     public void setRequiredId(String requiredId) {
         this.requiredId = requiredId;
     }
+
+	public Integer getDetailStatus() {
+		return detailStatus;
+	}
+
+	public void setDetailStatus(Integer detailStatus) {
+		this.detailStatus = detailStatus;
+	}
+    
+    
 	
 }

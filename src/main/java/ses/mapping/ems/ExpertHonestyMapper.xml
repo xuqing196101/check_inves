@@ -6,9 +6,9 @@
     <result column="EXPERT_ID" jdbcType="DECIMAL" property="expertId" />
     <result column="EXPERT_NAME" jdbcType="VARCHAR" property="expertName" />
     <result column="BAD_BEHAVIOR" jdbcType="VARCHAR" property="badBehavior" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-    <result column="IN_STORAGE_AT" jdbcType="DATE" property="inStorageAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="IN_STORAGE_AT" jdbcType="TIMESTAMP" property="inStorageAt" />
     <result column="EXPERT_NATURE" jdbcType="VARCHAR" property="expertNature" />
     <result column="EXPERT_CALL" jdbcType="VARCHAR" property="expertCall" />
   </resultMap>
@@ -32,8 +32,8 @@
       IN_STORAGE_AT, EXPERT_NATURE, EXPERT_CALL
       )
     values (#{id,jdbcType=VARCHAR}, #{expertId,jdbcType=DECIMAL}, #{expertName,jdbcType=VARCHAR}, 
-      #{badBehavior,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, 
-      #{inStorageAt,jdbcType=DATE}, #{expertNature,jdbcType=VARCHAR}, #{expertCall,jdbcType=VARCHAR}
+      #{badBehavior,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{inStorageAt,jdbcType=TIMESTAMP}, #{expertNature,jdbcType=VARCHAR}, #{expertCall,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertHonesty">
@@ -81,13 +81,13 @@
         #{badBehavior,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="inStorageAt != null">
-        #{inStorageAt,jdbcType=DATE},
+        #{inStorageAt,jdbcType=TIMESTAMP},
       </if>
       <if test="expertNature != null">
         #{expertNature,jdbcType=VARCHAR},
@@ -110,13 +110,13 @@
         BAD_BEHAVIOR = #{badBehavior,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="inStorageAt != null">
-        IN_STORAGE_AT = #{inStorageAt,jdbcType=DATE},
+        IN_STORAGE_AT = #{inStorageAt,jdbcType=TIMESTAMP},
       </if>
       <if test="expertNature != null">
         EXPERT_NATURE = #{expertNature,jdbcType=VARCHAR},
@@ -132,9 +132,9 @@
     set EXPERT_ID = #{expertId,jdbcType=DECIMAL},
       EXPERT_NAME = #{expertName,jdbcType=VARCHAR},
       BAD_BEHAVIOR = #{badBehavior,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      IN_STORAGE_AT = #{inStorageAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      IN_STORAGE_AT = #{inStorageAt,jdbcType=TIMESTAMP},
       EXPERT_NATURE = #{expertNature,jdbcType=VARCHAR},
       EXPERT_CALL = #{expertCall,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}

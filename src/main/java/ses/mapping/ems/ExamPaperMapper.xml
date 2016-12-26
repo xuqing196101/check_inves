@@ -6,14 +6,14 @@
     <result column="NAME" property="name" />
     <result column="CODE" property="code" />
     <result column="SCORE" property="score" />
-    <result column="START_TIME" property="startTime" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP"/>
     <result column="YEAR" property="year" />
     <result column="TYPE_DISTRIBUTION" property="typeDistribution" />
     <result column="TEST_TIME" property="testTime" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="PASS_STANDARD" property="passStandard" />
-    <result column="OFF_TIME" property="offTime" />
+    <result column="OFF_TIME" property="offTime" jdbcType="TIMESTAMP"/>
   </resultMap>
   
   <sql id="Base_Column_List">
@@ -93,7 +93,7 @@
         #{score},
       </if>
       <if test="startTime != null">
-        #{startTime},
+        #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="year != null">
         #{year},
@@ -105,16 +105,16 @@
         #{testTime},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="passStandard != null">
         #{passStandard},
       </if>
       <if test="offTime != null">
-        #{offTime},
+        #{offTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -133,7 +133,7 @@
         SCORE = #{score},
       </if>
       <if test="startTime != null">
-        START_TIME = #{startTime},
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="year != null">
         YEAR = #{year},
@@ -145,16 +145,15 @@
         TEST_TIME = #{testTime},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="passStandard != null">
         PASS_STANDARD = #{passStandard},
       </if>
       <if test="offTime != null">
-        OFF_TIME = #{offTime},
       </if>
     </set>
     where ID = #{id}

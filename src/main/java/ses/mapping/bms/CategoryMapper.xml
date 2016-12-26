@@ -6,8 +6,8 @@
 		<result column="NAME" property="name" />
 		<result column="STATUS" property="status" />
 		<result column="PARENT_ID" property="parentId" />
-		<result column="CREATED_AT" property="createdAt" />
-		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 		<result column="DESCRIPTION" property="description" />
 		<result column="CLASSIFY_STATUS" property="classify" />
 		<result column="CODE" property="code" />
@@ -18,7 +18,7 @@
 		<result column="PARAM_STATUS" property="paramStatus" />
 		<result column="ACCEPT_RANGE" property="acceptRange" />
 		<result column="PARAM_PUBLISH_RANGE" property="paramPublishRange" />
-		<result column="AUDIT_DATE" property="auditDate"/>
+		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
 		<result column="AUDIT_ADVISE" property="auditAdvise" />
 
 		<!-- <association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
@@ -142,8 +142,8 @@
 		CODE,
 		POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE)
 		values (#{id}, #{name}, #{status},
-		#{parentId}, #{createdAt},
-		#{updatedAt},
+		#{parentId}, #{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP},
 		#{description}, #{classify},
 		#{code},
 		#{position},#{is_deleted},#{isPublish},#{kind},#{paramStatus},#{acceptRange},#{paramPublishRange})
@@ -221,10 +221,10 @@
 				#{parentId},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="description != null">
 				#{description},
@@ -279,10 +279,10 @@
 				PARENT_ID= #{parentId},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 
 			<if test="description != null">
@@ -416,4 +416,11 @@
 		</where>
 	</select>
 	
+	<!-- 根据主键id查询 -->
+	<select id="findById" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY
+		WHERE ID = #{_parameter}
+	</select>
 </mapper>

@@ -76,7 +76,6 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
             for (ExpExtCondition expExtCondition : list) {
                 conditionMapper.deleteInfo(expExtCondition.getId());
             }
-           
         }
         conditionMapper.updateByPrimaryKeySelective(condition);
     }

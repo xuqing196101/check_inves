@@ -53,4 +53,11 @@
       </if>
     </trim>
   </insert>
+  
+  <!-- 根据专家id和品目id删除 -->
+  <delete id="deleteByMap">
+  	delete from T_SES_EMS_EXPERT_CATEGORY
+   	where EXPERT_ID = #{expertId}
+   	and CATEGORY_ID = #{categoryId}
+  </delete>
 </mapper>

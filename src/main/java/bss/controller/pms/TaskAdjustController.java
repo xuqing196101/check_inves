@@ -234,7 +234,7 @@ public class TaskAdjustController extends BaseController{
    * 
    * 
   * @Title: planEditList
-  * @Description: 修改采购计划列表
+  * @Description: 采购计划修改列表
   * author: L ChenHao 
   * @param @param model
   * @param @param collectPlan
@@ -265,15 +265,12 @@ public class TaskAdjustController extends BaseController{
   * @throws
    */
   @RequestMapping("/pledit")
-  public String planEdit(String planNo,Model model,String id){
-    HashMap<String,Object> map=new HashMap<String,Object>();
+  public String planEdit(String planNo,Model model,String id) {
+    HashMap<String,Object> map = new HashMap<String,Object>();
     map.put("typeName", 1);
     
     List<String> no = collectPurchaseService.getNo(id);
     List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
-    
-    //List<PurchaseRequired> list = purchaseRequiredMapper.queryByNo(planNo);
-    
     
     List<PurchaseAudit> audits=new LinkedList<PurchaseAudit>();
     List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
@@ -327,10 +324,10 @@ public class TaskAdjustController extends BaseController{
     model.addAttribute("planNo", planNo);
     
     model.addAttribute("org",org);
-    if(list!=null&&list.size()>0){
+    if (list != null && list.size() > 0) {
       model.addAttribute("id", list.get(0).getId());
     }
-    DictionaryData dd=new DictionaryData();
+    DictionaryData dd = new DictionaryData();
     dd.setCode("CGJH_AUDIT");
     String did = dictionaryDataServiceI.find(dd).get(0).getId();
     model.addAttribute("aid", did);
@@ -343,7 +340,6 @@ public class TaskAdjustController extends BaseController{
   }
   
 /**
-   * 
   * @Title: planEdit
   * @Description: 修改页面
   * author: L ChenHao 

@@ -5,8 +5,8 @@
     <id column="ID" property="id" />
     <result column="NAME" property="name" />
     <result column="DESCRIBE" property="describe" />
-    <result column="CREATED_AT"  property="createdAt" />
-    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="CODE"  property="code" />
     <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
   </resultMap>
@@ -57,7 +57,7 @@
         DESCRIBE = #{describe},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
     where ID = #{id}

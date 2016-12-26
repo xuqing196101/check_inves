@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import bss.model.ppms.SaleTender;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
+import bss.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -35,11 +37,13 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtPackage;
@@ -49,7 +53,9 @@ import ses.model.sms.SupplierExtracts;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierConTypeService;
 import ses.service.sms.SupplierConditionService;
 import ses.service.sms.SupplierExtPackageServicel;
@@ -111,7 +117,12 @@ public class SupplierExtractsController extends BaseController {
     private DictionaryDataMapper dictionaryDataMapper; // 
     /**包service**/
     @Autowired
-    private PackageService packageService; 
+    private PackageService packageService;
+    /**待办消息**/
+    @Autowired
+    private TodosService todosService;
+    
+    private SupplierAuditService supplierAuditService;
 
     /**
      * 
@@ -559,7 +570,7 @@ public class SupplierExtractsController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/resultextract")
-    public Object resultextract(Model model,String id,String reason,HttpServletRequest sq){
+    public Object resultextract(Model model,String id,String reason,HttpServletRequest sq,HttpSession session){
 
         //		修改状态
         String ids[]=id.split(",");
@@ -579,6 +590,35 @@ public class SupplierExtractsController extends BaseController {
             saleTender.setSupplierId(supplierExtRelate.getSupplier().getId());
             saleTender.setPackages(supplierExtRelate.getProjectId());   
             saleTenderService.insert(saleTender);
+            
+            if (supplierExtRelate.getSupplier().getStatus() == 1){
+                Todos todos = new Todos();
+                todos.setUrl("supplierAudit/essential.html?supplierId="+supplierExtRelate.getSupplier().getId());
+                todos.setName("供应商复核");
+                todosService.updateByUrl(todos);
+                //推送者id
+                //发送人id
+                User user = (User)sq.getSession().getAttribute("loginUser");
+                todos.setSenderId(user.getId());
+                //待办名称
+                todos.setName(supplierExtRelate.getSupplier().getName()+"供应商复核");
+                //机构id
+                todos.setOrgId(supplierExtRelate.getSupplier().getProcurementDepId());
+                //权限id
+                todos.setPowerId(PropUtil.getProperty("gsyfs"));
+                //url
+                todos.setUrl("supplierAudit/essential.html?supplierId=" + supplierExtRelate.getSupplier().getId());
+                //类型
+                todos.setUndoType((short) 1);
+                todosService.insert(todos);
+                //更新待复审
+                SupplierAudit supplierAudit = new SupplierAudit();
+                supplierAudit.setId(supplierExtRelate.getSupplier().getId());
+                supplierAudit.setStatus(4);
+                supplierAuditService.updateStatusById(supplierAudit);
+            }
+            
+            
 
         }
         List<SupplierExtRelate> projectExtractListYes = resultProjectExtract(sq, ids);  
@@ -842,13 +882,13 @@ public class SupplierExtractsController extends BaseController {
             type = 1;
         }
 
-        if(supplier.getContactName() == null || "".equals(supplier.getContactName())){
-            model.addAttribute("contactNameError", "不能为空");
+        if(supplier.getArmyBusinessName() == null || "".equals(supplier.getArmyBusinessName())){
+            model.addAttribute("armyBuinessTelephoneError", "不能为空");
             type = 1;
         }
 
-        if(supplier.getContactTelephone() == null || "".equals(supplier.getContactTelephone())){
-            model.addAttribute("contactTelephoneError", "不能为空");
+        if(supplier.getArmyBuinessTelephone() == null || "".equals(supplier.getArmyBuinessTelephone())){
+            model.addAttribute("armyBuinessTelephoneError", "不能为空");
             type = 1;
         }
 

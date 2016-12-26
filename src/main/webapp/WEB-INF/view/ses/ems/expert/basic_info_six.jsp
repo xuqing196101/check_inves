@@ -24,7 +24,6 @@ session.setAttribute("tokenSession", tokenValue);
 				// 如果错误字段中包含该node,则更新为红色
 				if (errorField.indexOf(zNodes[j].id) != -1) {
 					zTreeObj.setting.view.fontCss["color"] = "red";
-					zNodes[j].
 				}
 				zTreeObj.updateNode(zNodes[j]);
 			}
@@ -37,57 +36,7 @@ session.setAttribute("tokenSession", tokenValue);
 			async:false,
 		});
 	}
-	$(function(){
-		$("#tab-1").attr("style", "");
-		$("#tab-2").attr("style", "display: none");
-		$("#tab-3").attr("style", "display: none");
-		var count;
-		var zTreeObj;
-		var setting = {
-				check: {
-					chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
-	        		chkStyle:"checkbox",  
-					enable: true
-				},
-				data: {
-					simpleData: {
-						enable: true,
-						idKey: "id",
-						pIdKey: "parentId"
-					},
-					key: {
-						title: "auditAdvise"
-					}
-				}
-			};
-		$.ajax({
-			url:"${pageContext.request.contextPath}/expert/getAllCategory.do",
-			data:{"expertId":$("#id").val()},
-			async:false,
-			dataType:"json",
-			success:function(response){
-				$.each(response,function(i, result){
-					$.ajax({
-			            type: "post",
-			            async: false, 
-			            url: "${pageContext.request.contextPath}/expert/getCategory.do",
-			            data: {"id":result.id,"expertId":$("#id").val()},
-			            dataType: "json",
-			            success: function(zNodes){
-							$.fn.zTree.init($("#tab-" + (parseInt(i) + 1)), setting, zNodes);
-							zTreeObj = $.fn.zTree.getZTreeObj("tab-" + (parseInt(i) + 1));
-							zTreeObj.expandAll(true);//全部展开
-							isNotPass(zNodes, zTreeObj);
-			            }
-			         });
-				});
-				$("#tab-1").attr("style", "");
-				$("li_id_1").attr("class", "active");
-				$("li_1").attr("aria-expanded", "true");
-			}
-		});
-	});
-	<%--function showTree(tabId) {
+	function showTree(tabId) {
 		var id = $("#" + tabId + "-value").val();
 		var zTreeObj;
 		var zNodes;
@@ -96,9 +45,10 @@ session.setAttribute("tokenSession", tokenValue);
 			async: {
 				autoParam: ["id"],
 				enable: true,
-				url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId=${expert.id}",
+				url: "${pageContext.request.contextPath}/expert/getCategory.do",
 				otherParam: {
-					"categoryIds": id,
+					"categoryId": id,
+					"expertId": expertId
 				},
 				dataType: "json",
 				type: "get"
@@ -114,11 +64,28 @@ session.setAttribute("tokenSession", tokenValue);
 					idKey: "id",
 					pIdKey: "parentId"
 				}
+			},
+			callback: {
+				onCheck: saveCategory
 			}
 		};
 		zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
 		zTreeObj.expandAll(true);//全部展开
-	}--%>
+	}
+	function saveCategory(event, treeId, treeNode) {
+		var clickFlag;
+		if (treeNode.checked) {
+			clickFlag = "1";
+		} else {
+			clickFlag = "0";
+		}
+		var expertId = "${expert.id}";
+		$.ajax({
+			url: "${pageContext.request.contextPath}/expert/saveCategory.do",
+			async: false,
+			data: {"expertId" : expertId, "categoryId" : treeNode.id, "type" : clickFlag}
+		});
+	}
 </script>
 <script type="text/javascript">
 function showDivTree(obj){
@@ -128,7 +95,15 @@ function showDivTree(obj){
 	var id = obj.id;
 	var page = "tab-" + id.charAt(id.length - 1);
 	$("#" + page).attr("style", "");
-	//showTree(page);
+	showTree(page);
+}
+function initTree(){
+	showTree("tab-1");
+	$("#tab-1").attr("style", "");
+	$("li_id_1").attr("class", "active");
+	$("li_1").attr("aria-expanded", "true");
+	$("#tab-2").attr("style", "display: none");
+	$("#tab-3").attr("style", "display: none");
 }
 function zancunCategory(count){
 	var ids = new Array();
@@ -146,22 +121,22 @@ function zancunCategory(count){
 	zancunMsg();
 }
 function nextCategory(count){
-	var ids = new Array();
+	var cateCount = 0;
 	for (var i = 1; i <= count; i++) {
 		var id = "tab-" + i;
 		var tree = $.fn.zTree.getZTreeObj(id);
-		nodes = tree.getCheckedNodes(true);
-		for (var j = 0; j < nodes.length; j++) {
-			if (!nodes[j].isParent) {
-				ids.push(nodes[j].id);
+		if (tree != null) {
+			nodes = tree.getCheckedNodes(true);
+			for (var j = 0; j < nodes.length; j++) {
+				cateCount++;
 			}
 		}
 	}
-	$("#categoryId").val(ids);
-	if ($("#categoryId").val() == "") {
+	if (cateCount == 0) {
 		layer.msg("请至少选择一项!");	
 	} else {
-		zancun();
+		//zancun();
+		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 }
 // 有提示msg暂存
@@ -217,7 +192,7 @@ function errorMsg(auditField){
 }
 </script>
 </head>
-<body>
+<body onload="initTree()">
 <form method="post" action="">
   <jsp:include page="/reg_head.jsp"></jsp:include>
   <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
@@ -294,7 +269,7 @@ function errorMsg(auditField){
 	</div>  
 	<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
 	  <button class="btn"  type="button" onclick="pre()">上一步</button>
-	  <button class="btn" onclick="zancunCategory('${count}')"  type="button">暂存</button>
+	  <!-- <button class="btn" onclick="zancunCategory('${count}')"  type="button">暂存</button> -->
 	  <button class="btn"  type="button" onclick="fun1('${count}')">下一步</button>
     </div>
   </div>

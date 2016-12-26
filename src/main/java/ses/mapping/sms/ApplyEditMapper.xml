@@ -8,7 +8,7 @@
     <result column="UPDATE_BEFORE_SUPPLIER_INFO" jdbcType="VARCHAR" property="updateBeforeSupplierInfo" />
     <result column="UPDATE_AFTER_SUPPLIER_INFO" jdbcType="VARCHAR" property="updateAfterSupplierInfo" />
     <result column="UPDATE_REASON" jdbcType="VARCHAR" property="updateReason" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
     <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
     <result column="AUDIT_STATUS" jdbcType="DECIMAL" property="auditStatus" />
@@ -47,7 +47,7 @@
       ORG_NAME, AUDIT_STATUS)
     values (#{id,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{creditCode,jdbcType=VARCHAR}, 
       #{updateBeforeSupplierInfo,jdbcType=VARCHAR}, #{updateAfterSupplierInfo,jdbcType=VARCHAR}, 
-      #{updateReason,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{supplierId,jdbcType=VARCHAR}, 
+      #{updateReason,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{supplierId,jdbcType=VARCHAR}, 
       #{orgName,jdbcType=VARCHAR}, #{auditStatus,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.sms.ApplyEdit">
@@ -104,7 +104,7 @@
         #{updateReason,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="supplierId != null">
         #{supplierId,jdbcType=VARCHAR},
@@ -139,7 +139,7 @@
         UPDATE_REASON = #{updateReason,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="supplierId != null">
         SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
@@ -160,7 +160,7 @@
       UPDATE_BEFORE_SUPPLIER_INFO = #{updateBeforeSupplierInfo,jdbcType=VARCHAR},
       UPDATE_AFTER_SUPPLIER_INFO = #{updateAfterSupplierInfo,jdbcType=VARCHAR},
       UPDATE_REASON = #{updateReason,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
       ORG_NAME = #{orgName,jdbcType=VARCHAR},
       AUDIT_STATUS = #{auditStatus,jdbcType=DECIMAL}

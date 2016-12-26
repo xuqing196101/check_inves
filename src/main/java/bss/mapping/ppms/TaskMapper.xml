@@ -5,15 +5,15 @@
     <id column="ID" property="id" />
     <result column="NAME" property="name" />
     <result column="DOCUMENT_NUMBER" property="documentNumber" />
-    <result column="GIVE_TIME" property="giveTime" />
+    <result column="GIVE_TIME" property="giveTime" jdbcType="TIMESTAMP"/>
     <result column="STATUS"  property="status" />
     <result column="PROCUREMENT_METHOD" property="procurementMethod" />
     <result column="PURCHASE_REQUIRED_ID" property="purchaseRequiredId" />
     <result column="IS_DELETED" property="isDeleted" />
     <result column="MATERIALS_TYPE" property="materialsType" />
-    <result column="YEAR" property="year" />
+    <result column="YEAR" property="year" jdbcType="TIMESTAMP"/>
     <result column="COLLECT_ID" property="collectId" />
-    <result column="ACCEPT_TIME" property="acceptTime" />
+    <result column="ACCEPT_TIME" property="acceptTime" jdbcType="TIMESTAMP"/>
     <result column="PASS_WORD" property="passWord" />
     <result column="TASK_NATURE" property="taskNature" />
     <result property="purchaseId" column="PURCHASE_ID" />
@@ -236,7 +236,7 @@
       PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME, STATUS, PROCUREMENT_METHOD, PURCHASE_REQUIRED_ID,
       )
     values (#{id}, #{name}, 
-      #{purchaseId}, #{documentNumber}, #{giveTime}, #{status}, #{procurementMethod}, #{purchaseRequiredId},
+      #{purchaseId}, #{documentNumber}, #{giveTime,jdbcType=TIMESTAMP}, #{status}, #{procurementMethod}, #{purchaseRequiredId},
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ppms.Task">
@@ -305,7 +305,7 @@
         #{documentNumber},
       </if>
       <if test="giveTime != null">
-        #{giveTime},
+        #{giveTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status},
@@ -317,13 +317,13 @@
         #{materialsType},
       </if>
        <if test="year != null">
-        #{year},
+        #{year,jdbcType=TIMESTAMP},
       </if>
        <if test="purchaseRequiredId != null">
         #{purchaseRequiredId},
       </if>
       <if test="acceptTime != null">
-        #{ACCEPT_TIME},
+        #{ACCEPT_TIME,jdbcType=TIMESTAMP},
       </if>
       <if test="collectId != null">
         #{collectId},
@@ -355,7 +355,7 @@
         DOCUMENT_NUMBER = #{documentNumber},
       </if>
       <if test="giveTime != null">
-        GIVE_TIME = #{giveTime},
+        GIVE_TIME = #{giveTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         STATUS = #{status},
@@ -370,10 +370,10 @@
         MATERIALS_TYPE = #{materialsType},
       </if>
       <if test="year != null">
-        YEAR = #{year},
+        YEAR = #{year,jdbcType=TIMESTAMP},
       </if>
       <if test="acceptTime != null">
-        ACCEPT_TIME = #{acceptTime},
+        ACCEPT_TIME = #{acceptTime,jdbcType=TIMESTAMP},
       </if>
       <if test="collectId != null">
         COLLECT_ID = #{collectId},
@@ -406,7 +406,7 @@
     t.GIVE_TIME as giveTime,
     t.MATERIALS_TYPE as materialsType,
     o.NAME as orgName 
-    from T_BSS_PPMS_TASK t left join T_SES_OMS_ORG o on t.PURCHASE_ID = o.ID 
+    from T_BSS_PPMS_TASK t left join T_SES_OMS_ORG o on t.PURCHASE_REQUIRED_ID = o.ID 
     where 1=1
     and t.IS_DELETED = 0
     and t.STATUS = '1' and t.NOT_DETAIL = 0
@@ -419,14 +419,6 @@
     <if test="documentNumber != null and documentNumber !=''">
        	and t.DOCUMENT_NUMBER like CONCAT(CONCAT('%', #{documentNumber}), '%')
     </if>
-    <if test="userId != null and userId != ''">
-           and t.PURCHASE_ID in (
-                 SELECT ORG_ID FROM T_SES_BMS_USER 
-                  <if test="userId != '' and userId != null">
-	                 	WHERE USER_ID = #{userId} 
-	              	</if>      
-              )                         
-     </if> 
      ORDER BY GIVE_TIME DESC
   </select>
 </mapper>

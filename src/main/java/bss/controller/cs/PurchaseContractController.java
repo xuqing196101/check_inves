@@ -875,6 +875,13 @@ public class PurchaseContractController extends BaseSupplierController{
         if(purCon.getPurchaseBankAccount()!=null){
         	purCon.setPurchaseBankAccount_string(purCon.getPurchaseBankAccount().toString());
         }
+		purCon.setMoney_string(purCon.getMoney().toString());
+		purCon.setBudget_string(purCon.getBudget().toString());
+		purCon.setSupplierBankAccount_string(purCon.getSupplierBankAccount().toString());
+		purCon.setPurchaseBankAccount_string(purCon.getPurchaseBankAccount().toString());
+		purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
+		purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
+		purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
 		List<ContractRequired> resultList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 		model.addAttribute("requList", resultList);
 		model.addAttribute("purCon", purCon);

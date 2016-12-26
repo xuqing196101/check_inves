@@ -20,8 +20,8 @@
     <result column="WEBSITE" jdbcType="VARCHAR" property="website" />
     <result column="STATUS" jdbcType="DECIMAL" property="status" />
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="CREATOR_ID" jdbcType="VARCHAR" property="creatorId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="ses.model.sms.ImportSupplierWithBLOBs">
@@ -65,8 +65,8 @@
       #{byproduct,jdbcType=VARCHAR}, #{producerName,jdbcType=VARCHAR}, #{contactPerson,jdbcType=VARCHAR}, 
       #{telephone,jdbcType=DECIMAL}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{website,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{orgId,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=DATE}, #{createorId,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=DATE}, #{civilAchievement,jdbcType=CLOB}, #{remark,jdbcType=CLOB}
+      #{createdAt,jdbcType=TIMESTAMP}, #{createorId,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{civilAchievement,jdbcType=CLOB}, #{remark,jdbcType=CLOB}
       )
   </insert>
   <insert id="insertSelective" parameterType="ses.model.sms.ImportSupplierWithBLOBs">
@@ -198,10 +198,10 @@
         #{orgId,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="civilAchievement != null">
         #{civilAchievement,jdbcType=CLOB},
@@ -272,10 +272,10 @@
         ORG_ID = #{orgId,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="civilAchievement != null">
         CIVIL_ACHIEVEMENT = #{civilAchievement,jdbcType=CLOB},
@@ -309,8 +309,8 @@
       WEBSITE = #{website,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=DECIMAL},
       ORG_ID = #{orgId,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       CIVIL_ACHIEVEMENT = #{civilAchievement,jdbcType=CLOB},
       REMARK = #{remark,jdbcType=CLOB},
       CREATOR_ID = #{creatorId,jdbcType=VARCHAR}
@@ -336,8 +336,8 @@
       WEBSITE = #{website,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=DECIMAL},
       ORG_ID = #{orgId,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       CREATOR_ID = #{creatorId,jdbcType=VARCHAR},
     where ID = #{id,jdbcType=VARCHAR}
   </update>

@@ -7,8 +7,8 @@
     <result column="CONTENT_TYPE" property="contentType" />
     <result column="FILE_SIZE"  property="fileSize" />
     <result column="ATTCHMENT_PATH"  property="attchmentPath" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="IS_DELETED"  property="isDeleted" />
     <association property="category" column="CATEGORY_ID" select="ses.dao.bms.CategoryMapper.selectByPrimaryKey"/>
   </resultMap>
@@ -90,10 +90,10 @@
         #{attchmentPath},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="category != null">
         #{category.id},
@@ -120,10 +120,10 @@
         ATTCHMENT_PATH = #{attchmentPath},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="categoryId != null">
         CATEGORY_ID = #{category.id},
@@ -141,8 +141,8 @@
       CONTENT_TYPE = #{contentType},
       FILE_SIZE = #{fileSize},
       ATTCHMENT_PATH = #{attchmentPath},
-      CREATED_AT = #{createdAt},
-      UPDATED_AT = #{updatedAt},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       CATEGORY_ID = #{category.id},
       IS_DELETED = #{isDeleted}
     where ID = #{id}

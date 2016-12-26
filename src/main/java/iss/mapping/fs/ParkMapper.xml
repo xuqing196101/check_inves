@@ -5,8 +5,8 @@
 		    <id column="ID" property="id" />
 		    <result column="NAME"  property="name" />
 		    <result column="CONTENT"  property="content" />
-		    <result column="CREATED_AT"  property="createdAt" />
-		    <result column="UPDATED_AT"  property="updatedAt" />		
+		    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+		    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>		
 		    <result column="IS_DELETED"  property="isDeleted" />  	
 		    <result column="IS_HOT"  property="isHot" /> 
 			<!-- 查询版主 -->
@@ -114,10 +114,10 @@
 		        #{name,jdbcType=VARCHAR},
 		      </if>
 		      <if test="createdAt != null">
-		        #{createdAt},
+		        #{createdAt,jdbcType=TIMESTAMP},
 		      </if>
 		      <if test="createdAt != null">
-		        #{updatedAt},
+		        #{updatedAt,jdbcType=TIMESTAMP},
 		      </if>
 		      <if test="content != null">
 		        #{content},
@@ -143,7 +143,7 @@
 		        NAME = #{name,jdbcType=VARCHAR},
 		      </if>
 		      <if test="updatedAt != null">
-		        UPDATED_AT = #{updatedAt},
+		        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 		      </if>
 		      CONTENT = #{content},
 		      <if test="isHot != null">

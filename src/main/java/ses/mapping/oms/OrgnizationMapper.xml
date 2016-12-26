@@ -29,7 +29,7 @@
 		<result column="IS_ROOT" property="isRoot"/>
 		<result column="EMAIL" property="email"/>
 		<result column="STATUS" property="status"/>
-		<result column="CREATED_AT" property="createdAt"/>
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
 		<result column="CONTACT_NAME" property="contactName"/>
     <result column="CONTACT_MOBILE" property="contactMobile"/>
 	</resultMap>

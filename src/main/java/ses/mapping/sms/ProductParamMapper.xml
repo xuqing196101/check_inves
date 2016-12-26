@@ -8,8 +8,8 @@
 	
 		<result column="PARAM_VALUE" property="paramValue" />
 		<result column="IS_DELETED" property="isDeleted" />
-		<result column="CREATED_AT" property="createdAt" />
-		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 		<result column="PARAM_NAME" property="paramName" />
 		
 		<result column="SUPPLIER_ID" property="supplierId" />
@@ -34,8 +34,8 @@
 		PARAM_VALUE, IS_DELETED, CREATED_AT,
 		UPDATED_AT,SUPPLIER_ID)
 		values (#{id}, #{categoryId}, #{categoryParamId},
-		#{paramValue}, #{isDeleted}, #{createdAt},
-		#{updatedAt},#{supplierId})
+		#{paramValue}, #{isDeleted}, #{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP},#{supplierId})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.ProductParam">
 		insert into T_SES_SMS_PRODUCT_PARAM
@@ -83,10 +83,10 @@
 				#{isDeleted},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="supplierId != null">
 				#{supplierId},
@@ -112,10 +112,10 @@
 				IS_DELETED = #{isDeleted},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="supplierId != null">
 				SUPPLIER_ID = #{supplierId},
@@ -130,8 +130,8 @@
 		CATEGORY_PARAM_ID = #{categoryParamId},
 		PARAM_VALUE = #{paramValue},
 		IS_DELETED = #{isDeleted},
-		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt},
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 		SUPPLIER_ID = #{supplierId},
 		where ID = #{id}
 	</update>

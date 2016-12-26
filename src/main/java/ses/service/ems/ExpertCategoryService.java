@@ -1,6 +1,7 @@
 package ses.service.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
@@ -25,6 +26,15 @@ public interface ExpertCategoryService {
 	  * @return void
 	 */
 	void save(Expert expert, String ids);
+	
+	/**
+	 *〈简述〉
+	 * 根据专家id和品目id删除
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param map
+	 */
+	void deleteByMap(Map<String, Object> map);
 	
 	 /**
      * 

@@ -5,8 +5,8 @@
       <id column="ID" property="id" />
     <result column="PRODUCT_NAME"  property="productName" />
     <result column="SALE_NAME"  property="saleName" />
-    <result column="CREATED_AT"  property="createdAt" />
-    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="IS_DELETED"  property="isDeleted" />
     <association property="category" column="CATEGORY_ID" select="ses.dao.bms.CategoryMapper.selectByPrimaryKey"/>
     </resultMap>
@@ -111,10 +111,10 @@
         #{saleName},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="category != null">
         #{category.id},
@@ -134,10 +134,10 @@
         SALE_NAME = #{saleName},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
      <!--  <if test="category != null">
         CATEGORY_ID = #{category.id},

@@ -8,7 +8,7 @@
     <result column="AFTER_FIELD" property="afterField" />
     <result column="BEFORE_CONTENT" property="beforeContent" />
     <result column="AFTER_CONTENT" property="afterContent" />
-    <result column="CREATED_AT" property="createdAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
     <result column="RELATION_ID" property="relationId" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -34,7 +34,7 @@
 
   <insert id="insert" parameterType="ses.model.sms.SupplierHistory">
     insert into T_SES_SMS_SUPPLIER_HISTORY (ID, SUPPLIER_ID, BEFORE_FIELD, AFTER_FIELD, BEFORE_CONTENT, AFTER_CONTENT, CREATED_AT, RELATION_ID)
-    values (#{id}, #{supplierId}, #{beforeField}, #{afterField}, #{beforeContent}, #{afterContent}, #{createdAt}, #{relationId}
+    values (#{id}, #{supplierId}, #{beforeField}, #{afterField}, #{beforeContent}, #{afterContent}, #{createdAt,jdbcType=TIMESTAMP}, #{relationId}
   </insert>
   
   <!-- 插入审核记录 -->
@@ -86,7 +86,7 @@
         #{afterContent},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="relationId != null">
         #{relationId},

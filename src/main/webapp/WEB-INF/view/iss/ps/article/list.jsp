@@ -222,7 +222,7 @@
               offset: ['222px', '390px'],
               shade: 0.01
             });
-          } else if($.inArray("审核未通过", applys) > -1) {
+          } else if($.inArray("退回", applys) > -1) {
             layer.alert("请选择需要发布的信息", {
               offset: ['222px', '390px'],
               shade: 0.01
@@ -274,7 +274,7 @@
               offset: ['222px', '390px'],
               shade: 0.01
             });
-          } else if($.inArray("审核未通过", applys) > -1) {
+          } else if($.inArray("退回", applys) > -1) {
             layer.alert("请选择需要撤回的信息", {
               offset: ['222px', '390px'],
               shade: 0.01
@@ -354,7 +354,7 @@
 
     <div class="container">
       <div class="headline-v2">
-        <h2>信息发布</h2>
+        <h2>信息列表</h2>
       </div>
 
       <div class="search_detail">
@@ -394,7 +394,7 @@
                 <option value="0">待提交</option>
                 <option value="1">待发布</option>
                 <option value="2">发布</option>
-                <option value="3">审核未通过</option>
+                <option value="3">退回</option>
                 <option value="4">撤回</option>
                </select>
            </span>
@@ -412,12 +412,11 @@
 
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-        <button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+        <button class="btn btn-windows edit" type="button" onclick="editor()">修改</button>
         <button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
         <button class="btn btn-windows git" type="button" onclick="sub()">提交</button>
-        <button class="btn btn-windows apply" type="button" onclick="apply()">发布</button>
+        <%-- <button class="btn btn-windows apply" type="button" onclick="apply()">发布</button> --%>
         <button class="btn btn-windows withdraw" type="button" onclick="withdraw()">撤回</button>
-        <button class="btn btn-windows edit" type="button" onclick="editor()">编辑</button>
       </div>
 
       <div class="content table_box">
@@ -472,7 +471,7 @@
                   <input type="hidden" name="status" value="${article.status }">发布
                 </c:if>
                 <c:if test="${article.status=='3' }">
-                  <input type="hidden" name="status" value="${article.status }">审核未通过
+                  <input type="hidden" name="status" value="${article.status }">退回
                 </c:if>
                 <c:if test="${article.status=='4' }">
                   <input type="hidden" name="status" value="${article.status }">撤回

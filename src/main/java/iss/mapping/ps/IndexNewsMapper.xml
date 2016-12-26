@@ -4,7 +4,7 @@
   <resultMap id="IndexNewsMapper" type="iss.model.ps.Article">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="PUBLISHED_AT" jdbcType="DATE" property="publishedAt" />
+    <result column="PUBLISHED_AT" jdbcType="TIMESTAMP" property="publishedAt" />
     <result column="IS_PIC_SHOW" jdbcType="DECIMAL" property="isPicShow" />
     <result column="POSITION" jdbcType="DECIMAL" property="position" />
     <result column="SHOW_COUNT" jdbcType="DECIMAL" property="showCount" />
@@ -14,8 +14,8 @@
     <result column="IS_INDEX" jdbcType="DECIMAL" property="isIndex" />
     <result column="TYPE" jdbcType="CHAR" property="type" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="RACGE" jdbcType="DECIMAL" property="range" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>

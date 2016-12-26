@@ -7,8 +7,8 @@
 				    <result column="CONTENT" jdbcType="CLOB" property="content" />
 				    <result column="IS_TOP"  property="isTop" />
 				    <result column="IS_LOCKING"  property="isLocking" />
-				    <result column="PUBLISHED_At"  property="publishedAt" />
-				    <result column="LAST_RE_At"  property="lastReplyedAt" />	
+				    <result column="PUBLISHED_At"  property="publishedAt" jdbcType="TIMESTAMP"/>
+				    <result column="LAST_RE_At"  property="lastReplyedAt" jdbcType="TIMESTAMP"/>	
 				    <result column="REPLY_COUNT"  property="replycount" />	
 				    <result column="IS_DELETED"  property="isDeleted" />  
 				    <association column="LAST_RE_ID"  property="lastReplyer" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>						    	    
@@ -168,7 +168,7 @@
 		        #{isLocking},
 		      </if>
 		      <if test="publishedAt != null">
-		        #{publishedAt},
+		        #{publishedAt,jdbcType=TIMESTAMP},
 		      </if>
 
 		      <if test="content != null">
@@ -202,7 +202,7 @@
 		        IS_LOCKING = #{isLocking},
 		      </if>
 		      <if test="lastReplyedAt != null">
-		        LAST_RE_At = #{lastReplyedAt},
+		        LAST_RE_At = #{lastReplyedAt,jdbcType=TIMESTAMP},
 		      </if>
 		      <if test="content != null">
 		        CONTENT = #{content},
