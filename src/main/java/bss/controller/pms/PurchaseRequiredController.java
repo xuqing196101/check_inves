@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +33,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Category;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.bms.CategoryService;
@@ -47,6 +52,7 @@ import bss.util.ExcelUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 import common.constant.Constant;
@@ -75,6 +81,8 @@ public class PurchaseRequiredController extends BaseController{
 	@Autowired
 	private OrgnizationMapper oargnizationMapper;
 	
+	@Autowired
+	private DictionaryDataMapper dictionaryDataMapper;
 	/**
 	 * 
 	* @Title: queryPlan
@@ -207,10 +215,12 @@ public class PurchaseRequiredController extends BaseController{
 	 * @throws Exception
 	 */
  
-	@RequestMapping(value="/upload" )
-	public String uploadFile(@CurrentUser User user,String planDepName,MultipartFile file,String type,String planName,String planNo,Model model) throws IOException{
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/upload",produces = "text/html;charset=UTF-8" )
+	@ResponseBody
+	public String uploadFile(@CurrentUser User user,String planDepName,MultipartFile file,String type,String planName,String planNo,Model model) throws Exception{
         ResponseBean bean = new ResponseBean();
-        
         if (file == null){
             bean.setSuccess(false);
 //            bean.setObj("文件不能为空");
@@ -218,143 +228,119 @@ public class PurchaseRequiredController extends BaseController{
         }
         String fileName = file.getOriginalFilename();  
         if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){
-            bean.setSuccess(false);
-            bean.setObj("文件格式不支持");
-//        	return bean;
+ 
+//            bean.setObj();
+        	return "文件格式不支持";
         }  
+        
 		List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
-		try {
-			list = ExcelUtil.readExcel(file);
-		} catch (Exception e) {
-		    bean.setSuccess(false);
-            bean.setObj(e.getMessage());
-			
-		}
-		String did = UUID.randomUUID().toString().replaceAll("-", "");
+	 
+		    Map<String,Object>  maps= (Map<String, Object>) ExcelUtil.readExcel(file);
+		     list = (List<PurchaseRequired>) maps.get("list");
+		     String errMsg=(String) maps.get("errMsg");
+		
+		     if(errMsg!=null){
+					return errMsg;
+				
+					
+			}
+		     
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		String pid = UUID.randomUUID().toString().replaceAll("-", "");
 		String cid = UUID.randomUUID().toString().replaceAll("-", "");
 		String ccid = UUID.randomUUID().toString().replaceAll("-", "");
 		String cccid = UUID.randomUUID().toString().replaceAll("-", "");
 		String ccccid = UUID.randomUUID().toString().replaceAll("-", "");
-	//	String id = UUID.randomUUID().toString().replaceAll("-", "");
+		String plano = randomPlano();
+		
 		int len=list.size()-1;
 		StringBuffer sbUp=new StringBuffer("");
 		StringBuffer sbShow=new StringBuffer("");
 		int count=1;
-		BigDecimal budget=BigDecimal.ZERO;
+//		BigDecimal budget=BigDecimal.ZERO;
 		for(int i=0;i<list.size();i++){
-			String id = UUID.randomUUID().toString().replaceAll("-", "");
-			if(i==0){
-				PurchaseRequired p = list.get(0);
-//					String id = UUID.randomUUID().toString().replaceAll("-", "");
-				   String dicId = DictionaryDataUtil.getId(p.getPurchaseType());
-				   p.setPurchaseType(dicId);
-					p.setGoodsType(type);
-					p.setPlanNo(planNo);
-					p.setPlanName(planName);
-					p.setId(id);
-					p.setPlanType(type);
-					p.setHistoryStatus("0");
-					p.setIsDelete(0);
-					p.setIsMaster(count);
-					p.setParentId("1");
-					p.setCreatedAt(new Date());
-					p.setUserId(user.getId());
-//					p.setPurchaseType(DictionaryDataUtil.getId(p.getPurchaseType()));
-					//p.setOrganization(user.getOrg().getName());
-					p.setDetailStatus(0);
-					p.setProjectStatus(0);
-//					purchaseRequiredService.add(p);	
-			}else{
+//			String id = UUID.randomUUID().toString().replaceAll("-", "");
+	 
 				PurchaseRequired p = list.get(i);
-				String dicId = DictionaryDataUtil.getId(p.getPurchaseType());
-			    p.setPurchaseType(dicId);
-				p.setGoodsType(type);
-				p.setPlanNo(planNo);
-				p.setPlanName(planName);
+				p.setPlanNo(plano);
+				if(p.getPlanName()!=null){
+					 
+				}else{
+					p.setPlanName(planName);	
+				}
 				p.setPlanType(type);
 				p.setHistoryStatus("0");
 				p.setIsDelete(0);
 				p.setIsMaster(count);
 				p.setCreatedAt(new Date());
 				p.setUserId(user.getId());
-//				p.setPurchaseType(DictionaryDataUtil.getId(p.getPlanType()));
+				if(p.getPurchaseType()!=null){
+					DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
+					p.setPurchaseType(data.getId());
+				}
+				
 				//p.setOrganization(user.getOrg().getName());
 				p.setDetailStatus(0);
 				
-				if(p.getBudget()!=null){
-					budget=budget.add(p.getBudget());
-			 
-				 
+//				if(p.getBudget()!=null){
+//					budget=budget.add(p.getBudget());
+//				}
+			//顶级节点	
+			 if(p.getSeq().matches("[\u4E00-\u9FA5]")&&!p.getSeq().contains("（")){
+				 	 p.setSeq("一");
+				 	 count=1;
+				 	 p.setIsMaster(count);
+					 p.setId(id);//注释
+					 p.setParentId("1");//注释
+					 plano = randomPlano();
+					 p.setPlanNo(plano);
+					 id = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级id赋值
+					 count++;
+					 continue;
+				 }
+			 //判断是否是二级节点(一)
+			 	if(isContainChinese(p.getSeq())){
+			 		 p.setId(pid);
+					 p.setParentId(id);
+					 pid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级pid赋值
+					 count++;
+					 continue;	
 				}
-				
-//			 if(p.getSeq().equals("一")||p.getSeq().equals("二")||p.getSeq().equals("三")){
-//					 p.setId(pid);//注释
-//					 p.setParentId(did);//注释
-//					purchaseRequiredService.add(p);	
-					
-//					PurchaseRequired required5 = purchaseRequiredService.queryById(ccccid);
-//					if(required5!=null){
-					//	ccccid = UUID.randomUUID().toString().replaceAll("-", "");
-//					}
-					
-//			 	}else 
-			 	if(p.getSeq().equals("（一）")||p.getSeq().equals("(一)")){
-			 		 p.setId(id);
-					// p.setParentId(did);
-			 		 
-//					p.setId(cid);//注释
-//					p.setParentId(pid);//注释
-//					purchaseRequiredService.add(p);	
-				}else if(p.getSeq().equals("1")){
-					p.setId(id);
-				///	p.setParentId(pid);
-					
-//					p.setId(ccid);//注释
-//					p.setParentId(cid);//注释
-//					purchaseRequiredService.add(p);	
-				}else if(p.getSeq().equals("（1）")||p.getSeq().equals("(1)")){
-					p.setId(id);
-					//p.setParentId(cid);
-					
-//					p.setId(cccid);//注释
-//					p.setParentId(ccid);//注释
-//					purchaseRequiredService.add(p);	
-				}else if(p.getSeq().equals("a")){
-					p.setId(id);
-					///p.setParentId(ccid);
-					
-//					p.setId(ccccid);//注释
-//					p.setParentId(cccid);//注释
-//					purchaseRequiredService.add(p);	
+			 	
+			 	 
+			 	//判断是否是三级节点1,2,3
+			 	else  if(isInteger(p.getSeq())){
+				  p.setId(cid);
+				  p.setParentId(pid);
+				  cid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+				  count++;
+				  continue;	
+				}
+			 	
+			 	//判断是否四级节点(1),(2)
+			 	else if(isContainIntger(p.getSeq())){
+					p.setId(ccid);
+					p.setParentId(cid);
+					ccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+					 count++;
+					continue;
+				}
+			 	//五级节点
+			 	else if(isEng(p.getSeq())){
+					p.setId(cccid);
+					p.setParentId(ccid);
+					cccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+					 count++;
+					continue;
 				}else{
-					p.setId(id);
-//					p.setParentId(cccid);
-					
-//					p.setId(id);//注释
-//					p.setParentId(ccccid);//注释
-//					purchaseRequiredService.add(p);	
-					
-//					PurchaseRequired required = purchaseRequiredService.queryById(pid);
-//					if(required!=null){
-						 //pid = UUID.randomUUID().toString().replaceAll("-", "");
-//					}
-//					PurchaseRequired required2 = purchaseRequiredService.queryById(cid);
-//					if(required2!=null){
-						// UUID.randomUUID().toString().replaceAll("-", "");
-//					}
-//					PurchaseRequired required3 = purchaseRequiredService.queryById(ccid);
-//					if(required3!=null){
-						// = UUID.randomUUID().toString().replaceAll("-", "");
-//					}
-//					PurchaseRequired required4 = purchaseRequiredService.queryById(cccid);
-//					if(required4!=null){
-//						cccid = UUID.randomUUID().toString().replaceAll("-", "");
-//					}
+					p.setId(ccccid);
+					p.setParentId(cccid);
+					ccccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+					count++;
 				}
 				
-			}
-			count++;
+		 
+		//	count++;
 			
 			sbUp.append("pUp"+i+",");
 			sbShow.append("pShow"+i+",");
@@ -363,36 +349,9 @@ public class PurchaseRequiredController extends BaseController{
 				sbShow.append("pShow"+i);
 			}
 		}
-		Map<String,Object> map=new HashMap<String,Object>();
-		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
-		Integer sysKey = Constant.TENDER_SYS_KEY;
-		String attchid = DictionaryDataUtil.getId("PURCHASE_DETAIL");
-		model.addAttribute("attchid", attchid);
-		model.addAttribute("sysKey", sysKey);
-		for(PurchaseRequired p:list){
-			if(p.getBudget()==null){
-				p.setBudget(budget);
-			}
-		}
-		model.addAttribute("plist", list);
-		model.addAttribute("sbUp", sbUp.toString());
-		model.addAttribute("sbShow", sbShow.toString());
+		purchaseRequiredService.batchAdd(list);
 		
-		model.addAttribute("list", DictionaryDataUtil.find(6));
-		model.addAttribute("list2", DictionaryDataUtil.find(5));
-		model.addAttribute("requires", requires);
-//		bean.setSuccess(true);
-//		bean.setObj(list);
-//		purchaseRequiredService.batchAdd(list);
-//		targetFile.delete();
-		model.addAttribute("planName", planName);
-		model.addAttribute("planNo", planNo);
-//    Orgnization orgnization = oargnizationMapper.findOrgByPrimaryKey(user.getOrgId());
-		model.addAttribute("user", user);
-		model.addAttribute("planDepName", planDepName);
-		model.addAttribute("orgName", user.getOrg().getName());
-		model.addAttribute("orgId", user.getOrg().getId());
-		return "bss/pms/purchaserequird/add";
+		return "success";
 	}
 	/**
 	 * @throws IOException 
@@ -421,7 +380,10 @@ public class PurchaseRequiredController extends BaseController{
 							String id = UUID.randomUUID().toString().replaceAll("-", "");
 //							p.setGoodsType(type);
 							p.setPlanNo(planNo);
-							p.setPlanName(planName);
+							if(p.getPlanName()!=null){
+								p.setPlanName(planName);
+							}
+						
 							
 							parentId.add(p.getId());
 							p.setParentId("1");
@@ -676,4 +638,100 @@ public class PurchaseRequiredController extends BaseController{
 		}
 		
 		
+		/**
+		 * 
+		* @Title: isContainChinese
+		* @Description: 判断是否是含有中文 
+		* author: Li Xiaoxiao 
+		* @param @param str
+		* @param @return     
+		* @return boolean     
+		* @throws
+		 */
+		public boolean isContainChinese(String str){
+			boolean bool=true;
+			Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+			Matcher m = p.matcher(str);
+		    if(m.find()==true&&str.contains("（")){
+		        	bool=true;
+		     }else{
+		        	bool=false;
+		    }
+			return bool;
+		}
+		/**
+		 * 
+		* @Title: isInteger
+		* @Description: 判断是否是数字
+		* author: Li Xiaoxiao 
+		* @param @param str
+		* @param @return     
+		* @return boolean     
+		* @throws
+		 */
+		public boolean isInteger(String str){
+			boolean bool=true;
+			String regex="/^[0-9]*$/";
+			if(str.matches(regex)) {
+				bool=true; 
+			}else{
+				bool=false; 
+			}
+			return bool;
+		}
+		/**
+		 * 
+		* @Title: isContain
+		* @Description: 是否包含数字
+		* author: Li Xiaoxiao 
+		* @param @param str
+		* @param @return     
+		* @return boolean     
+		* @throws
+		 */
+		public boolean isContainIntger(String str){
+			boolean bool=true;
+		    Pattern p = Pattern.compile(".*\\d+.*");
+		    Matcher m = p.matcher(str);
+		    if (m.matches()) {
+		    	bool = true;
+		    }
+			return bool;
+		}
+		
+		/**
+		 * 
+		* @Title: isEng
+		* @Description:是否是英文
+		* author: Li Xiaoxiao 
+		* @param @param str
+		* @param @return     
+		* @return boolean     
+		* @throws
+		 */
+		public boolean isEng(String str){
+			boolean bool=true;
+			 String eng="abcdefghijklmnopqrstuvwxyz";
+			 if(eng.contains(str)){
+					bool=true; 
+			 }else{
+					bool=false; 
+				}
+				return bool;
+		}
+		
+		public String randomPlano(){
+			String str[]= {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+			Date date=new Date();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			String year = sdf.format(date).split("-")[0];
+			
+			String res = "XQ-"+year+"-";
+			for(int i=0;i<5;i++){
+				  int id = (int) Math.ceil(Math.random()*35);
+			         res += str[id];
+			}
+	
+			return res;
+		}
 }

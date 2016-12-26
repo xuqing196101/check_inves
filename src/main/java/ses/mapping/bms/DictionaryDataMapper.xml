@@ -214,4 +214,15 @@
   		</if>
   	</where>
   </select>
+  
+    <select id="queryByName" resultMap="DictionaryDataMap">
+  	select
+  		<include refid="Base_Column_List" />
+  	from
+  		T_SES_BMS_DICTIONARY_DATA
+  		where NAME=#{name}
+  
+  </select>
+  
+  
 </mapper>

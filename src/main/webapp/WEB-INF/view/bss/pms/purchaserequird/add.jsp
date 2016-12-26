@@ -4,6 +4,8 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
+		
 		<script type="text/javascript">
 			//跳转到增加页面
 			function add() {
@@ -46,7 +48,7 @@
 			}*/
 
 			//上传excel文件
-			function upload() {
+	/* 		function upload() {
 				$.ajaxFileUpload({
 					url: '${pageContext.request.contextPath}/purchaser/upload.do',
 					secureuri: false,
@@ -66,7 +68,7 @@
 						layer.msg("上传失败");
 					}
 				});
-			}
+			} */
 
 			function loadTrInfo(obj) {
 
@@ -499,21 +501,34 @@
 			}
 			
 		 function fileup(){
-				var name = $("#jhmc").val();
-				var no = $("#jhbh").val();
-				var mobile = $("#mobile").val();
-				var type = $("#wtype").val();
-				var depName = $("#xqbm").val();
+			 
+			 var name=$("#jhmc").val();
+		     var no=$("#jhbh").val();
+		     var planType=$("#wtype").val();
+	           $.ajaxFileUpload (
+	                    {
+	                        url: "${pageContext.request.contextPath}/purchaser/upload.do?type="+planType,  
+	                        secureuri: false,  
+	                        fileElementId: 'fileName',  
+	                       dataType: "text",  
+	                        success: function (data) { 
+	                         if(data=="success"){
+	                        	 layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
+		                         window.location.href="${pageContext.request.contextPath}/purchaser/list.html";
+	                         }  else {
+	                        	 // layer.alert("测试",{offset: ['222px', '390px'], shade:0.01});
+	                 			    layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
+	                          }  
+	                       
+	                        },  error: function (data, status, e)//服务器响应失败处理函数
+	                        {
+	                            layer.alert("上传失败",{offset: ['222px', '390px'], shade:0.01});
+	                        }
+	                    }
+	                ); 
 				
 				
-				$("#detailJhmcf").val(name);
-				$("#detailJhbhf").val(no);
-				//$("#detailType").val(type);
-				$("#detailMobilef").val(mobile);
-				$("#detailXqbmf").val(depName);
 				
-				
-				$("#up_form").submit();
 			} 
 		</script>
 	</head>
@@ -751,7 +766,7 @@
 
 			<div id="content" class="dnone">
 				<p align="center">编制说明
-					<p style="margin-left: 20px;">1、请严格按照序号顺序为：一、(一)、1、(1)、a、(a)的顺序填写序号，括号为英文括号</p>
+					<p style="margin-left: 20px;">1、请严格按照序号顺序为：一、(一)、1、(1)、a、(a)的顺序填写序号，括号为中文括号</p>
 
 					<p style="margin-left: 20px;">2、任务明细最多为六级,请勿多于六级</p>
 
@@ -793,17 +808,17 @@
 		
 		
 	<div  class="container clear margin-top-30" id="file_div"  style="display:none;" >
-    	<form id="up_form" action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
-    		<input type="file" class="input_group" name="file">
-    			 <input type="hidden"  name="planName" id="detailJhmcf">
+<%--     	<form id="up_form" action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
+ --%>    		<input type="file" id="fileName" class="input_group" name="file">
+    		<!-- 	 <input type="hidden"  name="planName" id="detailJhmcf">
 							<input type="hidden" name="planNo" id="detailJhbhf">
 							<input type="hidden" name="planType" id="detailTypfef">
 							<input type="hidden" name="recorderMobile" id="detailMobilef">
-							<input type="hidden" name="planDepName" id="detailXqbmf"/>
+							<input type="hidden" name="planDepName" id="detailXqbmf"/> -->
 							
 							
     		 <input type="button" class="btn m0" onclick="fileup()"   value="导入" />
-    	</form>
+    <!-- 	</form> -->
     </div>
     
     

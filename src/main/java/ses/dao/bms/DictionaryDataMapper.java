@@ -3,6 +3,8 @@ package ses.dao.bms;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.DictionaryData;
 
 public interface DictionaryDataMapper {
@@ -58,4 +60,7 @@ public interface DictionaryDataMapper {
      * @return
      */
     List<DictionaryData> findByKind(String kind);
+    
+    
+    DictionaryData queryByName(@Param("name")String name);
 }
