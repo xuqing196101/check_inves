@@ -133,5 +133,11 @@ public class PackageServiceImpl implements PackageService{
     public List<Packages> find(Packages packages) {
         return packageMapper.find(packages);
     }
+
+	
+	@Override
+	public int insertPackage(Packages pack) {
+		return packageMapper.insertPackage(pack);
+	}
 }
 

@@ -149,4 +149,16 @@ public interface PackageMapper {
      * @return
      */
     List<Packages> find(Packages packages);
+    
+    /**
+     * 
+    * @Title: insertPackage
+    * @author ZhaoBo
+    * @date 2016-12-26 下午8:22:15  
+    * @Description: UUID新增包 
+    * @param @param pack
+    * @param @return      
+    * @return int
+     */
+    int insertPackage(Packages pack);
 }

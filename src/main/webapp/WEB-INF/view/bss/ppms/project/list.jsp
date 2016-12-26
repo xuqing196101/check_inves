@@ -83,58 +83,42 @@
 				window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
 	  	} else if (status == "已立项") {
 				$.ajax({
-		  	url : "${pageContext.request.contextPath}/project/viewPackage.html",
-		  	data : "id=" + id,
-		  	type : "post",
-		  	dataType : "json",
-		  	success : function(result) {
-				for ( var i = 0; i < result.length; i++) {
-			 	 	var packageId = result[i].packageId;
-			 	 	if (packageId == null) {
-			    	flag = false;
-					layer.alert("请先分包", {
-					  offset : [ '222px', '690px' ],
-					  shade : 0.01,
-					});
-			  	}
-				}
-			
-			if (flag == false) {
-			  layer.alert("请先分包", {
-				offset : [ '222px', '690px' ],
+			  	url : "${pageContext.request.contextPath}/project/viewPackage.html",
+			  	data : "id=" + id,
+			  	type : "post",
+			  	dataType : "json",
+		  		success : function(result) {
+		  			if(result==0){
+		  				layer.open({
+								type : 2, //page层
+								area : [ '800px', '500px' ],
+								title : '请上传项目批文',
+								shade : 0.01, //遮罩透明度
+								moveType : 1, //拖拽风格，0是默认，1是传统拖动
+								shift : 1, //0-6的动画形式，-1不开启
+								shadeClose : true,
+								content : '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
+					  	});
+		  			}else if(result==1){
+		  				layer.alert("项目中有明细尚未分包", {
+								offset: ['30%', '40%']
+							});
+							$(".layui-layer-shade").remove();
+		  			}
+		  		}
+				});
+	  	}
+		} else if (id.length > 1) {
+	  	layer.alert("只能选择一个", {
+		    offset : [ '222px', '390px' ],
 				shade : 0.01,
-			  });
-			} else if (flag == true) {
-			  layer.open({
-				type : 2, //page层
-				area : [ '800px', '500px' ],
-				title : '请上传项目批文',
-				shade : 0.01, //遮罩透明度
-				moveType : 1, //拖拽风格，0是默认，1是传统拖动
-				shift : 1, //0-6的动画形式，-1不开启
-				shadeClose : true,
-				content : '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
-			  });
-			}
-		  },
-		  error : function() {
-			layer.msg("失败", {
-			  offset : [ '222px', '390px' ],
-			});
-		  }
-		});
-	  }
-	} else if (id.length > 1) {
-	  layer.alert("只能选择一个", {
-	    offset : [ '222px', '390px' ],
-		shade : 0.01,
-	  });
-	} else {
-	  layer.alert("请选择需要启动的项目", {
-		offset : [ '222px', '390px' ],
-		shade : 0.01,
-	  });
-	}
+	  	});
+		} else {
+	  	layer.alert("请选择需要启动的项目", {
+				offset : [ '222px', '390px' ],
+				shade : 0.01,
+	  	});
+		}
   }
 
   //项目分包

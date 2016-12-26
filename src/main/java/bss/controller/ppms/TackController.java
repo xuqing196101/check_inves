@@ -127,7 +127,7 @@ public class TackController extends BaseController{
 			roleMap.put("code", "SUPERVISER_R");
 			BigDecimal i = roleService.checkRolesByUserId(roleMap);
             HashMap<String, Object> map = new HashMap<>();
-            map.put("typeName", "0");
+            map.put("typeName", "1");
             List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
             model.addAttribute("list2",orgnizations);
             model.addAttribute("info", new PageInfo<Task>(list));

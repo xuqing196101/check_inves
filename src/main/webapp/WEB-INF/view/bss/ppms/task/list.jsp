@@ -337,7 +337,7 @@
 			<td>
 			  <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
 			  <c:forEach items="${list2}" var="list" varStatus="vs">
-			   <c:if test="${obj.purchaseRequiredId eq list.id}">${list.name}</c:if>
+			   <c:if test="${obj.purchaseId eq list.id}">${list.name}</c:if>
 			  </c:forEach>
 			  </a></td>
 			<td><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.documentNumber}</a></td>

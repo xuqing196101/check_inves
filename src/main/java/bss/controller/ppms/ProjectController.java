@@ -735,7 +735,7 @@ public class ProjectController extends BaseController {
         project.setSupplierNumber(supplierNumber);
         project.setBidAddress(bidAddress);
         Date date = new Date();   
-        Date date1 = new Date(); 
+        Date date1 = new Date();
         //注意format的格式要与日期String的格式相匹配   
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
         try {   
@@ -936,7 +936,8 @@ public class ProjectController extends BaseController {
      * @throws IOException
      */
     @RequestMapping("/viewPackage")
-    public void viewPackage(String id, HttpServletResponse response) throws IOException{
+    @ResponseBody
+    public String viewPackage(String id, HttpServletResponse response) throws IOException{
         HashMap<String,Object> map = new HashMap<String,Object>();
         map.put("id", id);
         List<ProjectDetail> details = detailService.selectById(map);
@@ -950,11 +951,55 @@ public class ProjectController extends BaseController {
                 bottomDetails.add(detail);
             }
         }
-        String json = JSON.toJSONStringWithDateFormat(bottomDetails, "yyyy-MM-dd HH:mm:ss");
-        response.setContentType("text/html;charset=utf-8");
-        response.getWriter().write(json);
-        response.getWriter().flush();
-        response.getWriter().close();
+        int bottomLength = 0;
+        int subLength = 0;
+        for(int i=0;i<bottomDetails.size();i++){
+        	if(bottomDetails.get(i).getPackageId()==null){
+        		bottomLength++;
+        	}
+        	if(bottomDetails.get(i).getPackageId()!=null){
+        		subLength++;
+        	}
+        }
+        String str = null;
+        if(bottomLength==bottomDetails.size()){
+            Project project = projectService.selectById(id);
+            Packages pg = new Packages();
+            String pId = UUID.randomUUID().toString().replaceAll("-", "");
+            pg.setId(pId);
+            pg.setName("第1包");
+            pg.setProjectId(id);
+            pg.setIsDeleted(0);
+            if(project.getIsImport()==1){
+                pg.setIsImport(1);
+            }else{
+                pg.setIsImport(0);
+            }
+            if(bottomDetails.get(0).getStatus().equals("1")){
+            	pg.setStatus(1);
+            }else{
+            	pg.setStatus(0);
+            }
+            pg.setPurchaseType(project.getPurchaseType());
+            pg.setCreatedAt(new Date());
+            pg.setUpdatedAt(new Date());
+            packageService.insertSelective(pg);
+            for(int i=0;i<bottomDetails.size();i++){
+             	ProjectDetail projectDetail = new ProjectDetail();
+                projectDetail.setId(bottomDetails.get(i).getId());
+                projectDetail.setPackageId(pId);
+                projectDetail.setUpdateAt(new Date());
+                detailService.update(projectDetail);
+            }
+            str = "0";//明细都未分包，默认一包
+        }else{
+        	if(subLength == bottomDetails.size()){
+        		str = "0";//明细都分完包了
+        	}else{
+        		str = "1";//有明细分包，还没分完全
+        	}
+        }
+        return str;
     }
     
     
@@ -1192,7 +1237,7 @@ public class ProjectController extends BaseController {
         map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
         List<ProjectDetail> details = detailService.selectById(map);
         Packages p = new Packages();
-        p.setId(wantPackId.get(0).getId());
+        p.setId(wantPackId.get(wantPackId.size()-1).getId());
         if(details.get(0).getStatus().equals("1")){
             p.setStatus(1);
             packageService.updateByPrimaryKeySelective(p);
@@ -2207,7 +2252,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping(value="/getUserForSelect" )	
     @ResponseBody
- 	public List<PurchaseInfo> getUserForSelect(@CurrentUser User user,HttpServletRequest request) {
+ 	public List<PurchaseInfo> getUserForSelect(@CurrentUser User user) {
     	//String id = request.getParameter("id");
  		//Project project = projectService.selectById(id);
  		List<PurchaseInfo> purchaseInfo = new ArrayList<>();
