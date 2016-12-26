@@ -179,7 +179,7 @@
 				function ztreeOnClick(event, treeId, treeNode){
 					if (treeNode != null){
 						if (!treeNode.isParent){
-							reason(treeNode.name);
+							reason(treeNode.name,treeId);
 						} else {
 							layer.msg("请选择末级节点进行审核");
 						}
@@ -210,9 +210,9 @@
 			}
 		</script>
 		<script type="text/javascript">
-			function reason(str) {
+			function reason(auditContent,str) {
 				var expertId = $("#expertId").val();
-				var auditContent = str + "产品目录信息";
+				var auditField = $("input[name='"+str+"']").val();
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
@@ -223,7 +223,7 @@
 							url: "${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 							type: "post",
 							dataType: "json",
-							data: "suggestType=six" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + str,
+							data: "suggestType=six" + "&auditContent=" + auditContent + "&auditReason=" + text + "&expertId=" + expertId + "&auditField=" + auditField,
 							success:function(result){
 				        result = eval("(" + result + ")");
 				        if(result.msg == "fail"){
@@ -264,6 +264,9 @@
 		</div>
 		<div class="col-md-12 tab-v2 job-content">
 			<input type="hidden" name="id" id="id" value="${expertId}" />
+			<input value="物资" type="hidden" name="tab-1">
+			<input value="工程" type="hidden" name="tab-2">
+			<input value="服务" type="hidden" name="tab-3">
 			<div id="reg_box_id_4" class="container container_box">
 				<div class=" content height-350">
 					<ul class="nav nav-tabs bgdd">
@@ -308,7 +311,7 @@
 								</c:forEach>
 							</ul>
 							<c:set var="count" value="0"></c:set>
-							<div class="tag-box tag-box-v3 center" id="content_ul_id" disabled="disabled">
+							<div class="tag-box tag-box-v3 center" id="content_ul_id">
 								<c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
 									<c:if test="${cate.name eq '物资'}">
 										<c:set var="count" value="${count + 1}"></c:set>
