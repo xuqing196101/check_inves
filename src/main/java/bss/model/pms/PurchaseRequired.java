@@ -11,106 +11,106 @@ import java.util.Date;
  *
  */
 public class PurchaseRequired {
-	
-    private String id;
 
-    private String planName;
+  private String id;
 
-    private String planNo;
+  private String planName;
 
-    private String planType;
+  private String planNo;
 
-    private String department;//需求部门
+  private String planType;
 
-    private String goodsName;//物资类别及名称
+  private String department;//需求部门
 
-    private String stand;
+  private String goodsName;//物资类别及名称
 
-    private String qualitStand;
+  private String stand;
 
-    private String item;
+  private String qualitStand;
 
-    private BigDecimal purchaseCount;
+  private String item;
 
-    private BigDecimal price;
+  private BigDecimal purchaseCount;
 
-    private BigDecimal budget;//预算
+  private BigDecimal price;
 
-    private String deliverDate;//交货期限
+  private BigDecimal budget;//预算
 
-    private String purchaseType;//购买型号
+  private String deliverDate;//交货期限
 
-    private String supplier;
+  private String purchaseType;//购买型号
 
-    private String isFreeTax;
+  private String supplier;
 
-    private String goodsUse;
+  private String isFreeTax;
 
-    private String useUnit;
+  private String goodsUse;
 
-    private Date createdAt;
+  private String useUnit;
 
-    private String userId;
+  private Date createdAt;
 
-    private String parentId;
+  private String userId;
 
-    private String reqLevel;
+  private String parentId;
 
-    private String status;
+  private String reqLevel;
 
-    private String memo;
+  private String status;
 
-    private String seq;//序号
+  private String memo;
+
+  private String seq;//序号
     
-    private String historyStatus;
+  private String historyStatus;
     
-    private String goodsType;
+  private String goodsType;
     
-    private String organization;//采购机构
+  private String organization;//采购机构
     
-    private Date auditDate;
+  private Date auditDate;
     
-    private Integer isMaster;
+  private Integer isMaster;
     
-    private Integer isDelete;
+  private Integer isDelete;
     
-    private Integer isCollect;
+  private Integer isCollect;
     
-    private String code;
+  private String code;
     
-    private String onePurchaseType;
+  private String onePurchaseType;
     
-    private String oneOrganiza;
+  private String oneOrganiza;
     
-    private String oneAdvice;
+  private String oneAdvice;
     
-    private String twoTechAdvice;
+  private String twoTechAdvice;
     
-    private String twoAdvice;
+  private String twoAdvice;
     
-    private String threePurchaseType;
+  private String threePurchaseType;
     
-    private String threeOrganiza;
+  private String threeOrganiza;
     
-    private String threeAdvice;
+  private String threeAdvice;
     
-    private String brand;
+  private String brand;
     
-    private String userUnit;
+  private String userUnit;
     
-    private Integer detailStatus;
+  private Integer detailStatus;
     
-    private String reason;
+  private String reason;
     
-    private String recorderMobile;
+  private String recorderMobile;
     
-    private Integer advancedStatus;
+  private Integer advancedStatus;
     
-    private Integer projectStatus;
+  private Integer projectStatus;
     
-    public Integer getProjectStatus() {
-		return projectStatus;
-	}
+  public Integer getProjectStatus() {
+    return projectStatus;
+  }
 
 	public void setProjectStatus(Integer projectStatus) {
 		this.projectStatus = projectStatus;
@@ -160,9 +160,9 @@ public class PurchaseRequired {
         return goodsName;
     }
 
-    public void setGoodsName(String goodsName) {
-        this.goodsName = goodsName == null ? null : goodsName.trim();
-    }
+  public void setGoodsName(String goodsName) {
+    this.goodsName = goodsName == null ? null : goodsName.trim();
+  }
 
     public String getStand() {
         return stand;

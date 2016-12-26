@@ -1560,38 +1560,51 @@ public class SupplierController extends BaseSupplierController {
 		return "ses/sms/supplier_register/basic_info";
 	}
   	
+	/**
+	 * 
+	 *〈简述〉加载品目树
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 当前节点Id
+	 * @param code 编码
+	 * @param supplierId 供应商Id
+	 * @param status 状态
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/category_type", produces = "application/json;charset=UTF-8")
-    public List<CategoryTree> getCategory(String id,String name,String code,String supplierId){
+    public List<CategoryTree> getCategory(String id,String code,String supplierId, Integer status){
         List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
         String typeId ="";
-        Integer status = null;
-        if(code != null) {
-            DictionaryData type = DictionaryDataUtil.get(code);
-            if (type != null ) {
-                if(type.getCode().equals("PRODUCT")){
-                    DictionaryData dd = DictionaryDataUtil.get("GOODS");
-                    typeId = dd.getId();
-                    status = 1;
-                } 
-                if(type.getCode().equals("SALES")){
-                    DictionaryData dd = DictionaryDataUtil.get("GOODS");
-                    typeId = dd.getId();
-                    status = 2;
-                } 
-            }
-            CategoryTree ct = new CategoryTree();
-            ct.setName( type.getName());
-            ct.setId(typeId);
-            List<SupplierItem> s =  supplierItemService.getSupplierIdCategoryId(supplierId,typeId);
-            if (s != null && s.size() > 0){
-                ct.setChecked(true);
-            }
-            
-            
-            ct.setIsParent("true");
-            categoryList.add(ct);
-            List<Category> child = getChild(typeId,status);
+        //初始化跟节点
+        if (StringUtils.isEmpty(id)){
+            if(StringUtils.isNotBlank(code)) {
+                DictionaryData type = DictionaryDataUtil.get(code);
+                if (type != null ) {
+                    if(type.getCode().equals("PRODUCT")){
+                        DictionaryData dd = DictionaryDataUtil.get("GOODS");
+                        typeId = dd.getId();
+                    }else if(type.getCode().equals("SALES")){
+                        DictionaryData dd = DictionaryDataUtil.get("GOODS");
+                        typeId = dd.getId();
+                    }  else {
+                        typeId = type.getId();
+                    }
+                }  
+                CategoryTree ct = new CategoryTree();
+                ct.setName(type.getName());
+                ct.setId(typeId);
+                List<SupplierItem> s =  supplierItemService.getSupplierIdCategoryId(supplierId,typeId);
+                if (s != null && s.size() > 0){
+                    ct.setChecked(true);
+                }
+                ct.setIsParent("true");
+                categoryList.add(ct);
+              }
+        }
+        //加载子集节点
+        if (StringUtils.isNotBlank(id)){
+            List<Category> child = categoryService.findPublishTree(id,status);
             for(Category c:child){
                 CategoryTree ct1 = new CategoryTree();
                 ct1.setName(c.getName());
@@ -1609,7 +1622,8 @@ public class SupplierController extends BaseSupplierController {
                 }
                 categoryList.add(ct1);
             }
-        } 
+        }
+        
         return categoryList;
     }
 
@@ -1659,15 +1673,6 @@ public class SupplierController extends BaseSupplierController {
 		return yearThree;
 		}
 		
-		public List<Category> getChild(String id, Integer status){
-            List<Category> list = categoryService.findPublishTree(id,status);
-               List<Category> childList = new ArrayList<Category>();
-               childList.addAll(list);
-               for (Category cate : list) {
-                   childList.addAll(getChild(cate.getId(),status));
-               }
-               return childList;
-       }
 		
 		@RequestMapping(value="/audit",produces = "text/html;charset=UTF-8")
 		@ResponseBody

@@ -47,7 +47,6 @@ import common.bean.ResponseBean;
 import common.constant.Constant;
 
 /**
- * 
  * @Title: CollectPlanController
  * @Description: 采购计划汇总管理 
  * @author Li Xiaoxiao
@@ -58,21 +57,20 @@ import common.constant.Constant;
 @RequestMapping("/collect")
 public class CollectPlanController extends BaseController {
 
-	@Autowired
-	private CollectPlanService collectPlanService;
-	
-	@Autowired
-	private PurchaseRequiredService purchaseRequiredService;
-	
-	@Autowired
-	private CollectPurchaseService collectPurchaseService;
-	
-	@Autowired
-	private DictionaryDataServiceI dictionaryDataServiceI;
-	@Autowired
-	private OrgnizationMapper oargnizationMapper;
-		/**
-		 * 
+  @Autowired
+  private CollectPlanService collectPlanService;
+
+  @Autowired
+  private PurchaseRequiredService purchaseRequiredService;
+  
+  @Autowired
+  private CollectPurchaseService collectPurchaseService;
+  
+  @Autowired
+  private DictionaryDataServiceI dictionaryDataServiceI;
+  @Autowired
+  private OrgnizationMapper oargnizationMapper;
+    /**
 		* @Title: queryPlan
 		* @Description: 条件查询分页需求计划
 		* author: Li Xiaoxiao 
@@ -81,22 +79,22 @@ public class CollectPlanController extends BaseController {
 		* @return String     
 		* @throws
 		 */
-		@RequestMapping("/list")
-		public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
-			purchaseRequired.setIsMaster(1);
-			purchaseRequired.setStatus("3");
-			List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
-			PageInfo<PurchaseRequired> info = new PageInfo<>(list);
-			model.addAttribute("info", info);
-			model.addAttribute("inf", purchaseRequired);
-			List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
-			model.addAttribute("dic", dic);
-			
-			Map<String,Object> map=new HashMap<String,Object>();
-			List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
-			model.addAttribute("requires", requires);
-			return "bss/pms/collect/collectlist";
-		}
+    @RequestMapping("/list")
+    public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
+    purchaseRequired.setIsMaster(1);
+    purchaseRequired.setStatus("3");
+    List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
+    PageInfo<PurchaseRequired> info = new PageInfo<>(list);
+    model.addAttribute("info", info);
+    model.addAttribute("inf", purchaseRequired);
+    List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
+    model.addAttribute("dic", dic);
+
+    Map<String,Object> map = new HashMap<String,Object>();
+    List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+    model.addAttribute("requires", requires);
+    return "bss/pms/collect/collectlist";
+  }
 		/**
 		 * 
 		* @Title: queryPlan
@@ -108,20 +106,20 @@ public class CollectPlanController extends BaseController {
 		* @throws
 		 */
 		@RequestMapping("/collectlist")
-		public String queryCollect(CollectPlan collectPlan,Integer page,Model model,String type){
-		  //下达状态
-		  collectPlan.setStatus(1);
-			List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
-			PageInfo<CollectPlan> info = new PageInfo<>(list);
+    public String queryCollect(CollectPlan collectPlan,Integer page,Model model,String type) {
+    //下达状态
+    collectPlan.setStatus(1);
+    List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page == null ? 1 : page);
+    PageInfo<CollectPlan> info = new PageInfo<>(list);
  
-			model.addAttribute("info", info);
-			model.addAttribute("inf", collectPlan);
-			model.addAttribute("type", type);
-			model.addAttribute("mType", DictionaryDataUtil.find(6));
-			
-			return "bss/pms/collect/contentlist";
-		}
-		 /**
+    model.addAttribute("info", info);
+    model.addAttribute("inf", collectPlan);
+    model.addAttribute("type", type);
+    model.addAttribute("mType", DictionaryDataUtil.find(6));
+
+    return "bss/pms/collect/contentlist";
+  }
+    /**
 		  * 
 		 * @Title: queryCollect
 		 * @Description: 汇总,以及修改采购计划 
@@ -131,17 +129,17 @@ public class CollectPlanController extends BaseController {
 		 * @return String     
 		 * @throws
 		  */
-		@RequestMapping("/add")
-		public String queryCollect(CollectPlan collectPlan,String cno,String goodsType){
-			PurchaseRequired p=new PurchaseRequired();
-			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
-			//Set<String> set=new HashSet<String>();
-			if(collectPlan.getPlanNo()!=null){
-				String[] plano = collectPlan.getPlanNo().split(",");
-				for(String no:plano){
-					p.setPlanNo(no);
-					p.setIsMaster(1);
-					List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
+  @RequestMapping("/add")
+    public String queryCollect(CollectPlan collectPlan,String cno,String goodsType) {
+    PurchaseRequired p = new PurchaseRequired();
+    List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
+    //Set<String> set=new HashSet<String>();
+    if ( collectPlan.getPlanNo() != null ) {
+      String[] plano = collectPlan.getPlanNo().split(",");
+      for (String no:plano) {
+        p.setPlanNo(no);
+        p.setIsMaster(1);
+        List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
 //					p.setIsCollect(2);//修改
 					p.setStatus("4");//修改
 					p.setIsMaster(null);
@@ -251,129 +249,123 @@ public class CollectPlanController extends BaseController {
      * 
     * @Title: upload
     * @Description: 采购计划导入
-    * author: L ChenHao 
-    * @param @return     
+    * @author: LChenHao 
+    * @return     
     * @return String     
     * @throws
      */
-		@RequestMapping(value="/upload" )
-	  public String uploadFile(@CurrentUser User user, MultipartFile file,Model model) throws IOException{
-	        ResponseBean bean = new ResponseBean();
-	        
-	        if (file == null){
-	            bean.setSuccess(false);
-//	            bean.setObj("文件不能为空");
-//	            return bean;
-	        }
-	        String fileName = file.getOriginalFilename();  
-	        if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){
-	            bean.setSuccess(false);
-	            bean.setObj("文件格式不支持");
-//	          return bean;
-	        }  
-	    List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
-	    try {
-	      Workbook workbook = WorkbookFactory.create(file.getInputStream());
+  @RequestMapping(value = "/upload" )
+  public String uploadFile(@CurrentUser User user,MultipartFile file,Model model)throws IOException{
+    ResponseBean bean = new ResponseBean();
+    if ( file == null) {
+      bean.setSuccess(false);
+         //bean.setObj("文件不能为空");
+         //return bean;
+    }
+    String fileName = file.getOriginalFilename();  
+    if ( !fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
+      bean.setSuccess(false);
+      bean.setObj("文件格式不支持");
+      //return bean;
+    }  
+    List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
+    try {
+      Workbook workbook = WorkbookFactory.create(file.getInputStream());
         
-          //表头导入
-        Sheet sheet = workbook.getSheetAt(0);
-        Row firstRow = sheet.getRow(0);
-        CollectPlan collect = new CollectPlan();
-        Cell planName = firstRow.getCell(0);
-        collect.setFileName(planName.toString());
+      //表头导入
+      Sheet sheet = workbook.getSheetAt(0);
+      Row firstRow = sheet.getRow(0);
+      CollectPlan collect = new CollectPlan();
+      Cell planName = firstRow.getCell(0);
+      collect.setFileName(planName.toString());
         
-        String id = UUID.randomUUID().toString().replaceAll("-", "");
-        collect.setId(id);
-        collect.setFileName(planName.toString());
-        collectPlanService.add(collect);
-        int endNum = 0;//最底层记录数
-        int meanNum = 0;//中间数
-        List<String> parentId = new ArrayList<String>();
-        //表内容
-        for(int i=2;i<sheet.getPhysicalNumberOfRows();i++){
-          Row row = sheet.getRow(i);
-          String pId = UUID.randomUUID().toString().replaceAll("-", "");
-          parentId.add(pId);
-          PurchaseRequired pr=new PurchaseRequired();
-          pr.setId(pId);
-          Cell xh = row.getCell(0);//序号
-          if(xh.toString()!=null){
-            pr.setSeq(xh.toString());
-          }
-          Cell xqbm = row.getCell(1);//需求部门
-          if(xqbm.toString()!=null){
-            pr.setDepartment(xqbm.toString());
-          }
-          Cell wzmc = row.getCell(2);//物资类别及名称
-          if(wzmc.toString()!=null){
-            pr.setGoodsName(wzmc.toString());
-          }
-          Cell ggxh = row.getCell(3);//规格型号
-          if(ggxh.toString()!=null){
-            pr.setPurchaseType(ggxh.toString());
-          }
-          Cell zlbz = row.getCell(4);//质量技术标准
-         
-          Cell jldw = row.getCell(5);//计量单位
-          
-          Cell cgsl = row.getCell(6);//采购数量
-          
-          Cell dj = row.getCell(7);//单价
-          
-          Cell ysje = row.getCell(8);//预算金额（万）
-          
-          
-          Cell jhqx = row.getCell(9);//交货期限
-          if(jhqx.toString()!=null){
-            pr.setDeliverDate(jhqx.toString());
-          }
-          
-          Cell gysm = row.getCell(10);//供应商名称
-          if(gysm.toString()!=null){
-            pr.setDeliverDate(gysm.toString());
-          }
-          
-          Cell cgfs = row.getCell(11);//采购方式
-          
-          Cell cgjg = row.getCell(12);//采购机构
-          if(cgjg.toString()!=null){
-            pr.setOrganization(cgjg.toString());
-          }
-          
-          Cell bz = row.getCell(13);//备注
-          /*if(bz.toString()!=null){
-            pr.setGoodsName(bz.toString());
-          }*/
-         
-          if(i==2){
-            pr.setParentId("1");
-          }else{
-            BigDecimal count = new BigDecimal(cgsl.toString());
-            if(count!=null){
-              if(meanNum==0){
-                endNum = i;
-              }
-              meanNum++;
-              pr.setParentId(parentId.get(endNum-3));
-            }else{
-              pr.setParentId(parentId.get(i-3));
-            }
-          }
-          purchaseRequiredService.add(pr);
-          
-          
-          
+      String id = UUID.randomUUID().toString().replaceAll("-", "");
+      collect.setId(id);
+      collect.setFileName(planName.toString());
+      collectPlanService.add(collect);
+      int endNum = 0;//最底层记录数
+      int meanNum = 0;//中间数
+      List<String> parentId = new ArrayList<String>();
+      //表内容
+      for (int i = 3 ; i < sheet.getLastRowNum();i++) {
+        Row row = sheet.getRow(i);
+        String pId = UUID.randomUUID().toString().replaceAll("-", "");
+        parentId.add(pId);
+        PurchaseRequired pr = new PurchaseRequired();
+        pr.setId(pId);
+        Cell xh = row.getCell(0);//序号
+        if ( xh.toString() != null ) {
+          pr.setSeq(xh.toString());
         }
-	    } catch (Exception e) {
-	        bean.setSuccess(false);
-	            bean.setObj(e.getMessage());
-	      
-	    }
-	    
+        Cell xqbm = row.getCell(1);//需求部门
+        if ( xqbm.toString() != null ) {
+          pr.setDepartment(xqbm.toString());
+        }
+        Cell wzmc = row.getCell(2);//物资类别及名称
+        if ( wzmc.toString() != null ) {
+          pr.setGoodsName(wzmc.toString());
+        }
+        Cell ggxh = row.getCell(3);//规格型号
+        if ( ggxh.toString() != null ) {
+          pr.setPurchaseType(ggxh.toString());
+        }
+        Cell zlbz = row.getCell(4);//质量技术标准
+         
+        Cell jldw = row.getCell(5);//计量单位
+          
+        Cell cgsl = row.getCell(6);//采购数量
+          
+        Cell dj = row.getCell(7);//单价
+          
+        Cell ysje = row.getCell(8);//预算金额（万）
+          
+          
+        Cell jhqx = row.getCell(9);//交货期限
+        if ( jhqx.toString() != null ) {
+          pr.setDeliverDate(jhqx.toString());
+        }
+          
+        Cell gysm = row.getCell(10);//供应商名称
+        /*if ( gysm.toString() != null ) {
+          pr.setDeliverDate(gysm.toString());
+        }*/
+          
+        Cell cgfs = row.getCell(11);//采购方式
+          
+        Cell cgjg = row.getCell(12);//采购机构
+        if ( cgjg.toString() != null ) {
+          pr.setOrganization(cgjg.toString());
+        }
+          
+        Cell bz = row.getCell(13);//备注
+        /*if(bz.toString()!=null){
+          pr.setGoodsName(bz.toString());
+        }*/
+         
+        if ( i == 3 ) {
+          pr.setParentId("1");
+        } else {
+          BigDecimal count = new BigDecimal(cgsl.toString());
+          if ( count != null ) {
+            if ( meanNum == 0 ) {
+              endNum = i;
+            }
+            meanNum++;
+            pr.setParentId(parentId.get(endNum - 3 ) );
+          } else {
+            pr.setParentId(parentId.get(i - 3 ) );
+          }
+        }
+        purchaseRequiredService.add(pr);
+      }
+    } catch ( Exception e ) {
+      bean.setSuccess(false);
+      bean.setObj(e.getMessage());
+    }
 
-	    return "bss/pms/collect/collectlist";
-	  }
-		
+    return "bss/pms/collect/collectlist";
+  }
+
 }
 
 

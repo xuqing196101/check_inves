@@ -37,6 +37,8 @@
 		} else {
 			$("#page_ul_id").find("li").each(function(index) {
 				if (index == 0) {
+					var id = $(this).attr("id");
+					defaultLoadTab(id);
 					$(this).attr("class", "active");
 				} else {
 					$(this).removeAttr("class");
@@ -57,64 +59,63 @@
 		
 	});
 	
-	
-	/* 	alert(kind); */
-	/* 	var id = "";
-		if (kind == "1") id = "tree_ul_id_1";
-		if (kind == "2") id = "tree_ul_id_2";
-		if (kind == "3") id = "tree_ul_id_3";
-		if (kind == "4") id = "tree_ul_id_4"; */
-	 
-		var setting = {
-/* 			async : {
-				autoParam: ["id"],
-				enable : true,
-				url : "${pageContext.request.contextPath}/supplier/category_type.html",
-				otherParam : {
-					"code":code,
-					"supplierId": "${currSupplier.id}",
-					 kind : kind  
-				},
-				dataType : "json",
-				type : "post",
-			}, */
-			check : {
-				enable : true,
-				chkStyle:"checkbox",  
-				chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
-			},
-			data : {
-				simpleData : {
-					enable : true,
-					idKey: "id",
-					pIdKey: "parentId",
-				}
-			},
-		 	callback: {
-		 		onClick:zTreeOnClick
-			} 
-		};
-
-	function loadZtree(code, kind) {
-		var supplierId="${currSupplier.id}";
-			$.ajax({
-		        type: "POST",
-		        async: false, 
-		        url: "${pageContext.request.contextPath}/supplier/category_type.do?code="+code+"&supplierId="+supplierId,
-		        dataType: "json",
-		        success: function(zNodes){
-			        	zTreeObj = $.fn.zTree.init($("#" + kind), setting, zNodes);
-			    		zTreeObj.expandAll(true);
-		          }
-		    	});
+	//加载默认的页签
+	function defaultLoadTab(id){
+		if (id = "tree_ul_id_1"){
+			loadTab('PRODUCT','tree_ul_id_1',1);
+		}
+		if (id = "tree_ul_id_2"){
+			loadTab('SALES','tree_ul_id_2',2);
+		}
+		if (id = "tree_ul_id_3"){
+			loadTab('PROJECT','tree_ul_id_3',null);
+		}
+		if (id = "tree_ul_id_4"){
+			loadTab('SERVICE','tree_ul_id_4',null);
+		}
 	}
+	
+	//加载对应的节点数据
+	function loadZtree(code, kind, status) {
+	var setting = {
+ 	    async : {
+			autoParam: ["id"],
+			enable : true,
+			url : "${pageContext.request.contextPath}/supplier/category_type.do",
+			otherParam : {
+				"code":code,
+				"supplierId": "${currSupplier.id}",
+				"status" : status
+			},
+			dataType : "json",
+			type : "post",
+		}, 
+		check : {
+			enable : true,
+			chkStyle:"checkbox",  
+			chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+		},
+		data : {
+			simpleData : {
+				enable : true,
+				idKey: "id",
+				pIdKey: "parentId",
+			}
+		},
+		view: {
+			showLine: false
+		}
+		 	
+	 };
+	 $.fn.zTree.init($("#" + kind), setting, zNodes);
+  }
 	
 	//加载tab页签
-	function loadTab(code,kind){
-		loadZtree(code,kind);
+	function loadTab(code,kind, status){
+		loadZtree(code,kind, status);
 	}
  
-		function zTreeOnClick(event,treeId,treeNode){
+		/* function zTreeOnClick(event,treeId,treeNode){
 			var categoryId=treeNode.id;
 			
 			layer.open({
@@ -128,7 +129,7 @@
 				closeBtn : 1, //不显示关闭按钮
 			});
 			
-			
+			 */
 		/* 	layer.open({
 				type : 2,
 				title : '审核反馈',
@@ -146,7 +147,7 @@
 		/* 	$("#checkedAll").attr("checked",false);
 			getDetail(treeNode.id);
 			$("#mid").val(treeNode.id); */
-		};
+		//};
 	/* 	function onCheck(e, treeId, treeNode) {
 		var ids = "";
 		var flag = treeNode.checked;
@@ -346,23 +347,19 @@
 					<div class="padding-top-10" >
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
-<<<<<<< HEAD
-								<li id="li_id_1" onclick="" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
-=======
-								<li id="li_id_1" onclick="loadTab('PRODUCT','tree_ul_id_1');" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
->>>>>>> 6a07a778bdb3a15aabf1775f5c061425c14484af
+								<li id="li_id_1" onclick="loadTab('PRODUCT','tree_ul_id_1',1);" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
-								<li id="li_id_2" onclick="loadTab('SALES','tree_ul_id_2');" ><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
+								<li id="li_id_2" onclick="loadTab('SALES','tree_ul_id_2',2);" ><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
-								<li id="li_id_3" onclick="loadTab('PROJECT','tree_ul_id_3');" ><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
+								<li id="li_id_3" onclick="loadTab('PROJECT','tree_ul_id_3',null);" ><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
-								<li id="li_id_4" onclick="loadTab('SERVICE','tree_ul_id_4');" ><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
+								<li id="li_id_4" onclick="loadTab('SERVICE','tree_ul_id_4',null);" ><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
 							</c:if>
 						</ul>
-						<div class="tab-content padding-top-20" id="tab_content_div_id" style="float:left;width:300px;">
+						<div class="tab-content padding-top-20" id="tab_content_div_id">
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
