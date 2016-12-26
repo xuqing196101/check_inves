@@ -788,7 +788,11 @@ public class ProjectController extends BaseController {
         Project project = projectService.selectById(projectId);
         User user = null;
         if(project.getPrincipal()!=null){
-        	user = userService.getUserById(project.getPrincipal());
+        	try {
+        		user = userService.getUserById(project.getPrincipal());
+			} catch (Exception e) {
+				user = null;
+			}
         }
         Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
         List<ProjectTask> tasks = projectTaskService.queryByNo(map);
