@@ -14,8 +14,8 @@
 		<result column="DEP_PT" property="depPt" />
 		<result column="DEP_JOB" property="depJop" />
 		<result column="LICENCE_AUTHORITH" property="licenceAuthorith" />
-		<result column="EXP_START_DATE" property="expStartDate" />
-		<result column="EXP_END_DATE" property="expEndDate" />
+		<result column="EXP_START_DATE" property="expStartDate" jdbcType="TIMESTAMP"/>
+		<result column="EXP_END_DATE" property="expEndDate" jdbcType="TIMESTAMP"/>
 		<result column="CERT_STATUS" property="certStatus" />
 		<result column="FILE_NAME" property="attachCert" />
 		<result column="ID_" property="attachCertId" />
@@ -46,7 +46,7 @@
 		#{certCode}, #{certMaxLevel}, #{techName},
 		#{techPt}, #{techJop}, #{depName},
 		#{depPt}, #{depJop}, #{licenceAuthorith},
-		#{expStartDate}, #{expEndDate}, #{certStatus},
+		#{expStartDate,jdbcType=TIMESTAMP}, #{expEndDate,jdbcType=TIMESTAMP}, #{certStatus},
 		#{attachCert})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierCertEng">
@@ -139,10 +139,10 @@
 				#{licenceAuthorith},
 			</if>
 			<if test="expStartDate != null">
-				#{expStartDate},
+				#{expStartDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="expEndDate != null">
-				#{expEndDate},
+				#{expEndDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="certStatus != null">
 				#{certStatus},
@@ -190,10 +190,10 @@
 				LICENCE_AUTHORITH = #{licenceAuthorith},
 			</if>
 			<if test="expStartDate != null">
-				EXP_START_DATE = #{expStartDate},
+				EXP_START_DATE = #{expStartDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="expEndDate != null">
-				EXP_END_DATE = #{expEndDate},
+				EXP_END_DATE = #{expEndDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="certStatus != null">
 				CERT_STATUS = #{certStatus},
@@ -217,8 +217,8 @@
 		DEP_PT = #{depPt},
 		DEP_JOB = #{depJop},
 		LICENCE_AUTHORITH = #{licenceAuthorith},
-		EXP_START_DATE = #{expStartDate},
-		EXP_END_DATE = #{expEndDate},
+		EXP_START_DATE = #{expStartDate,jdbcType=TIMESTAMP},
+		EXP_END_DATE = #{expEndDate,jdbcType=TIMESTAMP},
 		CERT_STATUS = #{certStatus},
 		ATTACH_CERT = #{attachCert}
 		where ID = #{id}

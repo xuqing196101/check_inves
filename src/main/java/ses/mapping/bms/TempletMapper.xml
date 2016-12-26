@@ -5,8 +5,8 @@
     <id column="ID" property="id" />
     <result column="TEM_TYPE" property="temType" />
     <result column="NAME" property="name" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
   <resultMap extends="TempletResultMap" id="ResultMapWithBLOBs" type="ses.model.bms.Templet">
@@ -61,10 +61,10 @@
         #{name},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -86,10 +86,10 @@
         NAME = #{name},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
@@ -104,8 +104,8 @@
     update T_SES_BMS_TEMPLET
     set TEM_TYPE = #{temType,jdbcType=VARCHAR},
       NAME = #{name,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       CONTENT = #{content,jdbcType=CLOB}
     where ID = #{id,jdbcType=VARCHAR}
@@ -114,8 +114,8 @@
     update T_SES_BMS_TEMPLET
     set TEM_TYPE = #{temType,jdbcType=VARCHAR},
       NAME = #{name,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>

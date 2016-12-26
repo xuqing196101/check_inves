@@ -7,8 +7,8 @@
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="EXPERT_CONDITION_ID" jdbcType="VARCHAR"
 			property="expertConditionId" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
 		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
@@ -52,8 +52,8 @@
 		#{projectId,jdbcType=VARCHAR},
 		#{expertConditionId,jdbcType=VARCHAR},
 		#{expertId,jdbcType=VARCHAR},
-		#{createdAt,jdbcType=DATE},
-		#{updatedAt,jdbcType=DATE},
+		#{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP},
 		#{operatingType,jdbcType=DECIMAL},
 		#{reason,jdbcType=VARCHAR},
 		#{isDeleted,jdbcType=DECIMAL},
@@ -117,10 +117,10 @@
 				#{expertId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=DATE},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="operatingType != null">
 				#{operatingType,jdbcType=DECIMAL},
@@ -157,10 +157,10 @@
 				EXPERT_ID = #{expertId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="operatingType != null">
 				OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
@@ -193,8 +193,8 @@
 		#{expertConditionId,jdbcType=VARCHAR},
 		EXPERT_ID =
 		#{expertId,jdbcType=VARCHAR},
-		CREATED_AT = #{createdAt,jdbcType=DATE},
-		UPDATED_AT = #{updatedAt,jdbcType=DATE},
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 		OPERATING_TYPE =
 		#{operatingType,jdbcType=DECIMAL},
 		REASON = #{reason,jdbcType=VARCHAR},

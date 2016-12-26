@@ -11,6 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<%@ include file="/WEB-INF/view/common.jsp" %>
     <title>评标管理</title>  
   <script type="text/javascript">
+  var expert = "${expert}";
   /** 全选全不选 */
   function selectAll(){
        var checklist = document.getElementsByName ("chkItem");
@@ -68,7 +69,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   }*/
 	//符合性审查
  	function toAudit(projectId, packageId){
- 		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
+	  	if (expert.status == '4' || expert.status == 4) {
+			layer.msg("抱歉,您暂未通过复审,无法进行此项操作!");
+	  	} else if (expert.status == '6' || expert.status == 6) {
+	  		layer.confirm("抱歉,您已被剔除!", {
+				btn : [ '确定' ]
+			//按钮
+			}, function() {
+				window.location.href = "${pageContext.request.contextPath}/login/loginOut.html";
+			});
+	  	} else {
+	 		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
+	  	}
  	}
 	//经济技术审查
 	function toFirstAudit(projectId, packageId){
@@ -88,8 +100,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			}
 		});*/
-		// 临时代码,可直接进入经济技术审查
+		// 直接进入经济技术审查
 		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
+	}
+	function showView (packageId) {
+		$.ajax({
+			url: "${pageContext.request.contextPath}/reviewFirstAudit/isShowView.do",
+			data: {"packageId": packageId},
+			success: function(response){
+				if (response == '1') {
+					window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/showPackView.html?packageId="+packageId;
+				} else {
+					layer.msg("只有评审结束的项目(包)才可以进行查看!");
+				}
+			}			
+		});
 	}
 </script>
   </head>
@@ -136,21 +161,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <c:forEach items="${projectExtList}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <%-- <td class="tc w30"><input type="checkbox" value="${obj.id },${obj.packageId}" name="chkItem" onclick="check()"  alt=""></td> --%>
-              <td class="tc w50">${vs.count}</td>
-              <td>${obj.name}</td>
-              <td>${obj.projectNumber}</td>
-              <td class="tc">${obj.packageName}</td>
+              <td class="tc w50" onclick="showView('${obj.packageId}')">${vs.count}</td>
+              <td onclick="showView('${obj.packageId}')">${obj.name}</td>
+              <td onclick="showView('${obj.packageId}')">${obj.projectNumber}</td>
+              <td class="tc" onclick="showView('${obj.packageId}')">${obj.packageName}</td>
               <td class="tc">
               	<c:forEach items="${obj.packageExperts}" var="pe">
-              		<c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 0}">
-              			<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit('${obj.id }','${obj.packageId}');" value="符合性审查">
-              		</c:if>
-              		<c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGrade == 0 && pe.isGather == 1}">
-              			<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toFirstAudit('${obj.id }','${obj.packageId}');" value="经济技术审查">
-              		</c:if>
-              		<c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 1 && pe.isGrade == 1 }">
-              			评审结束
-              		</c:if>
+              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 0}">
+              	    <input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit('${obj.id }','${obj.packageId}');" value="符合性审查">
+              	  </c:if>
+              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGrade == 0 && pe.isGather == 1}">
+              		<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toFirstAudit('${obj.id }','${obj.packageId}');" value="经济技术审查">
+              	  </c:if>
+              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 1 && pe.isGrade == 1 }">
+              		评审结束
+              	  </c:if>
               	</c:forEach>
               </td>
 			    <!-- 

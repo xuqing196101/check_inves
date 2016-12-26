@@ -3,8 +3,8 @@
 <mapper namespace="ses.dao.bms.AreaMapper">
   <resultMap id="BaseResultMap" type="ses.model.bms.Area">
     <id column="ID"  property="id" />
-    <result column="CREATED_AT"  property="createdAt" />
-    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="IS_DELETED"  property="isDeleted" />
     <result column="POSITION"  property="position" />
     <result column="AREA_TYPE"  property="areaType" />
@@ -114,10 +114,10 @@
         #{id},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -141,10 +141,10 @@
     update T_SES_BMS_AREA
     <set>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},

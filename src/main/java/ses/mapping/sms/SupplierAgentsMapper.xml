@@ -14,10 +14,10 @@
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-     <result column="IS_REMINDERS" jdbcType="DATE" property="isReminders" />
-   <result column="UNDO_STATUS" jdbcType="DATE" property="undoStatus" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+     <result column="IS_REMINDERS" jdbcType="TIMESTAMP" property="isReminders" />
+   <result column="UNDO_STATUS" jdbcType="TIMESTAMP" property="undoStatus" />
   </resultMap>
   
    <resultMap id="BaseResultMaps" type="ses.model.sms.SupplierAgents">
@@ -30,10 +30,10 @@
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-    <result column="IS_REMINDERS" jdbcType="DATE" property="isReminders" />
-    <result column="UNDO_STATUS" jdbcType="DATE" property="undoStatus" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="IS_REMINDERS" jdbcType="TIMESTAMP" property="isReminders" />
+    <result column="UNDO_STATUS" jdbcType="TIMESTAMP" property="undoStatus" />
     <result column="RECEIVER_NAME"  property="receiverName"/>
     <result column="SENDER_NAME" property="senderName"/> 
   </resultMap>
@@ -51,10 +51,10 @@
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-   <result column="IS_REMINDERS" jdbcType="DATE" property="isReminders" />
-      <result column="UNDO_STATUS" jdbcType="DATE" property="undoStatus" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+   <result column="IS_REMINDERS" jdbcType="TIMESTAMP" property="isReminders" />
+      <result column="UNDO_STATUS" jdbcType="TIMESTAMP" property="undoStatus" />
   </resultMap>
   
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="ses.model.sms.SupplierAgents">
@@ -106,7 +106,7 @@
     values ( #{operatorId,jdbcType=VARCHAR}, #{usersId,jdbcType=VARCHAR}, 
       #{supplierId,jdbcType=VARCHAR}, #{undoType,jdbcType=DECIMAL}, #{result,jdbcType=DECIMAL}, 
       #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL}, 
-      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{content,jdbcType=CLOB}
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{content,jdbcType=CLOB}
       )
   </insert>
   <insert id="insertSelective" parameterType="ses.model.sms.SupplierAgents">
@@ -187,10 +187,10 @@
         #{isDeleted,jdbcType=DECIMAL},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null">
         #{content,jdbcType=CLOB},
@@ -228,10 +228,10 @@
         IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isReminders != null">
         IS_REMINDERS= #{isReminders,jdbcType=DECIMAL},
@@ -258,8 +258,8 @@
       TITLE = #{title,jdbcType=VARCHAR},
       REMARK = #{remark,jdbcType=VARCHAR},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
         IS_REMINDERS= #{isReminders,jdbcType=DECIMAL},
         UNDO_STATUS= #{undoStatus,jdbcType=DECIMAL},
       CONTENT = #{content,jdbcType=CLOB}
@@ -278,8 +278,8 @@
       TITLE = #{title,jdbcType=VARCHAR},
       REMARK = #{remark,jdbcType=VARCHAR},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
         IS_REMINDERS= #{isReminders,jdbcType=DECIMAL},
         UNDO_STATUS= #{undoStatus,jdbcType=DECIMAL},
     where ID = #{id,jdbcType=VARCHAR}

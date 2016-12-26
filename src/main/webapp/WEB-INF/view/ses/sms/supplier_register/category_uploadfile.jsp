@@ -87,11 +87,11 @@
 </script>
 <body>
 <div class="wrapper">
-		<div style="text-align:centert">
+		<div class="tc">
 			请上传附件：
 		 	<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25">
-			      <up:show showId="business_show"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" /> 
-				  <up:upload id="business_up"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+			      <u:show showId="business_show"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" /> 
+				  <u:upload id="business_up"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 			 </div>
 		 </div>			   
 

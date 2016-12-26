@@ -6,13 +6,13 @@
     <result column="LOGIN_NAME" property="loginName" />
     <result column="REL_NAME" property="relName" />
     <result column="IS_SYS_BUILD" property="isSysBuild" />
-    <result column="STORAGE_TIME" property="storageTime" />
-    <result column="DATE_OF_PUNISHMENT" property="dateOfPunishment" />
+    <result column="STORAGE_TIME" property="storageTime" jdbcType="TIMESTAMP"/>
+    <result column="DATE_OF_PUNISHMENT" property="dateOfPunishment" jdbcType="TIMESTAMP"/>
     <result column="PUNISH_TYPE" property="punishType" />
-    <result column="PUNISH_DATE" property="punishDate" />
+    <result column="PUNISH_DATE" property="punishDate" jdbcType="TIMESTAMP"/>
     <result column="REASON" property="reason" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="ATTACHMENT_CERT" property="attachmentCert" />
     <result column="STATUS" property="status" />
     <result column="EXPERT_ID" property="expertId" />
@@ -62,9 +62,9 @@
       CREATED_AT, UPDATED_AT, ATTACHMENT_CERT, STATUS,EXPERT_ID
       )
     values (#{id}, #{loginName}, #{relName}, 
-      #{isSysBuild}, #{storageTime}, #{dateOfPunishment}, 
-      #{punishType}, #{punishDate}, #{reason}, 
-      #{createdAt}, #{updatedAt}, #{attachmentCert},
+      #{isSysBuild}, #{storageTime,jdbcType=TIMESTAMP}, #{dateOfPunishment,jdbcType=TIMESTAMP}, 
+      #{punishType}, #{punishDate,jdbcType=TIMESTAMP}, #{reason}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{attachmentCert},
       #{status},#{expertId}
       )
   </insert>
@@ -130,25 +130,25 @@
         #{isSysBuild},
       </if>
       <if test="storageTime != null">
-        #{storageTime},
+        #{storageTime,jdbcType=TIMESTAMP},
       </if>
       <if test="dateOfPunishment != null">
-        #{dateOfPunishment},
+        #{dateOfPunishment,jdbcType=TIMESTAMP},
       </if>
       <if test="punishType != null">
         #{punishType},
       </if>
       <if test="punishDate != null">
-        #{punishDate},
+        #{punishDate,jdbcType=TIMESTAMP},
       </if>
       <if test="reason != null">
         #{reason},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="attachmentCert != null">
         #{attachmentCert},

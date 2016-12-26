@@ -53,7 +53,7 @@
       CREATED_AT, UPDATED_AT,IS_DELETED)
     values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, 
       #{fileSize,jdbcType=FLOAT}, #{project.id,jdbcType=VARCHAR}, #{attachmentPath,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE},#{isDeleted,jdbcType=DECIMAL})
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{isDeleted,jdbcType=DECIMAL})
   </insert>
   
   <!-- 根据条件新增信息附件 -->
@@ -114,10 +114,10 @@
         #{attachmentPath},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcTypee=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -148,10 +148,10 @@
         ATTACHMENT_PATH = #{attachmentPath},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcTypee=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcTypee=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
@@ -171,8 +171,8 @@
       FILE_SIZE = #{fileSize},
       PROJECT_ID = #{project.id},
       ATTACHMENT_PATH = #{attachmentPath},
-      CREATED_AT = #{createdAt},
-      UPDATED_AT = #{updatedAt},
+      CREATED_AT = #{createdAt,jdbcTypee=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcTypee=TIMESTAMP},
       IS_DELETED = #{isDeleted}
     where ID = #{id}
   </update>

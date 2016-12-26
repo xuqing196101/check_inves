@@ -22,8 +22,8 @@
 		<result column="TOTAL_QC" property="totalQc" />
 		<result column="QC_LEAD" property="qcLead" />
 		<result column="QC_DEVICE" property="qcDevice" />
-		<result column="CREATED_AT" property="createdAt" />
-		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, SUPPLIER_ID, ORG_NAME, TOTAL_PERSON, TOTAL_MANAGE, TOTAL_TECH, TOTAL_WORKER, SCALE_TECH,
@@ -56,8 +56,8 @@
 		#{researchName}, #{totalResearch}, #{researchLead},
 		#{countryPro}, #{countryReward}, #{totalBeltline},
 		#{totalDevice}, #{qcName}, #{totalQc},
-		#{qcLead}, #{qcDevice}, #{createdAt},
-		#{updatedAt})
+		#{qcLead}, #{qcDevice}, #{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierMatPro">
 		insert into T_SES_SMS_SUPPLIER_MAT_PRO
@@ -191,10 +191,10 @@
 				#{qcDevice},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 	<!-- 	<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -262,10 +262,10 @@
 				QC_DEVICE = #{qcDevice},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where ID = #{id}
@@ -291,8 +291,8 @@
 		TOTAL_QC = #{totalQc},
 		QC_LEAD = #{qcLead},
 		QC_DEVICE = #{qcDevice},
-		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt}
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
 		where ID = #{id}
 	</update>
 	

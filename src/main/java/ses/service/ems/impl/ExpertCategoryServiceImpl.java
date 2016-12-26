@@ -2,6 +2,7 @@ package ses.service.ems.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
         }
 		
 	}
+	
 	/**
      * 
       * @Title: selectListByExpertId
@@ -71,7 +73,20 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 		}*/
 		return list;
 	}
-	  /**
+	
+	/**
+     *〈简述〉
+     * 根据专家id和品目id删除
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param map
+     */
+	@Override
+    public void deleteByMap(Map<String, Object> map) {
+	    mapper.deleteByMap(map);
+    }
+
+    /**
      * 
       * @Title: deleteByExpertId
       * @author ShaoYangYang

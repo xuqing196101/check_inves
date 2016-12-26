@@ -7,7 +7,7 @@
     <result column="UNIT" jdbcType="VARCHAR" property="unit" />
     <result column="TYPE" jdbcType="VARCHAR" property="type" />
     <result column="PLACE" jdbcType="VARCHAR" property="place" />
-    <result column="PQDATE" jdbcType="DATE" property="pqdate" />
+    <result column="PQDATE" jdbcType="TIMESTAMP" property="pqdate" />
     <result column="INSPECTORS"  jdbcType="VARCHAR" property="inspectors" />
     <result column="CONDITION"  jdbcType="VARCHAR" property="condition" />
     <result column="CONCLUSION"  jdbcType="VARCHAR" property="conclusion" />
@@ -102,7 +102,7 @@
       CREATED_AT, UPDATED_AT)
     values (#{id}, #{contractId}, #{projectType}, 
       #{unit}, #{type}, #{place}, 
-      #{pqdate}, #{inspectors}, #{condition}, 
+      #{pqdate,jdbcType=TIMESTAMP}, #{inspectors}, #{condition}, 
       #{conclusion}, #{detail}, #{report}, 
       #{createdAt}, #{updatedAt})
   </insert>
@@ -174,7 +174,7 @@
         #{place},
       </if>
       <if test="pqdate != null">
-        #{pqdate},
+        #{pqdate,jdbcType=TIMESTAMP},
       </if>
       <if test="inspectors != null">
         #{inspectors},
@@ -192,10 +192,10 @@
         #{report},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -220,7 +220,7 @@
         PLACE = #{place,jdbcType=VARCHAR},
       </if>
       <if test="date != null">
-        PQDATE = #{pqdate,jdbcType=DATE},
+        PQDATE = #{pqdate,jdbcType=TIMESTAMP},
       </if>
       <if test="inspectors != null">
         INSPECTORS = #{inspectors,jdbcType=VARCHAR},
@@ -238,10 +238,10 @@
         REPORT = #{report,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -255,14 +255,14 @@
       UNIT = #{unit,jdbcType=VARCHAR},
       TYPE = #{type,jdbcType=VARCHAR},
       PLACE = #{place,jdbcType=VARCHAR},
-      PQDATE = #{pqdate,jdbcType=DATE},
+      PQDATE = #{pqdate,jdbcType=TIMESTAMP},
       INSPECTORS = #{inspectors,jdbcType=VARCHAR},
       CONDITION = #{condition,jdbcType=VARCHAR},
       CONCLUSION = #{conclusion,jdbcType=VARCHAR},
       DETAIL = #{detail,jdbcType=VARCHAR},
       REPORT = #{report,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

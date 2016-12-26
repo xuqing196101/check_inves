@@ -4,8 +4,8 @@
 	<resultMap id="BaseResultMap" type="ses.model.ems.ExpExtPackage">
 		<!-- @mbggenerated -->
 		<id column="ID" jdbcType="VARCHAR" property="id" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
@@ -52,8 +52,8 @@
 		COUNT, IS_FINISH, NUMBER
 		)
 		values
-		(#{id,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE},
-		#{updatedAt,jdbcType=DATE},
+		(#{id,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP},
 		#{isDeleted,jdbcType=DECIMAL},
 		#{projectId,jdbcType=VARCHAR}, #{packageId,jdbcType=VARCHAR},
 		#{count,jdbcType=DECIMAL}, #{isFinish,jdbcType=DECIMAL},
@@ -97,10 +97,10 @@
 				#{id,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=DATE},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="isDeleted != null">
 				#{isDeleted,jdbcType=DECIMAL},
@@ -130,10 +130,10 @@
 		update T_SES_EMS_EXP_EXT_PACKAGE
 		<set>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="isDeleted != null">
 				IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
@@ -160,8 +160,8 @@
 		<!-- @mbggenerated -->
 		update T_SES_EMS_EXP_EXT_PACKAGE
 		set CREATED_AT =
-		#{createdAt,jdbcType=DATE},
-		UPDATED_AT = #{updatedAt,jdbcType=DATE},
+		#{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 		IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
 		PROJECT_ID =
 		#{projectId,jdbcType=VARCHAR},

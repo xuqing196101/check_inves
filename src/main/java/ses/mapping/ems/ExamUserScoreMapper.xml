@@ -8,10 +8,10 @@
     <result column="SCORE" property="score" />
     <result column="STATUS" property="status" />
     <result column="PAPER_ID" property="paperId" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="USER_DUTY" property="userDuty" />
-    <result column="TEST_DATE" property="testDate" />
+    <result column="TEST_DATE" property="testDate" jdbcType="TIMESTAMP"/>
     <result column="IS_MAX" property="isMax" />
   </resultMap>
   
@@ -95,16 +95,16 @@
         #{paperId},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="userDuty != null">
         #{userDuty},
       </if>
       <if test="testDate != null">
-        #{testDate},
+        #{testDate,jdbcType=TIMESTAMP},
       </if>
       <if test="isMax != null">
         #{isMax},
@@ -132,16 +132,16 @@
         PAPER_ID = #{paperId},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="userDuty != null">
         USER_DUTY = #{userDuty},
       </if>
       <if test="testDate != null">
-        TEST_DATE = #{testDate},
+        TEST_DATE = #{testDate,jdbcType=TIMESTAMP},
       </if>
       <if test="isMax != null">
         IS_MAX = #{isMax},

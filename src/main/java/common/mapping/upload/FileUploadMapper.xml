@@ -10,8 +10,8 @@
     <result column="BUSINESS_ID" jdbcType="VARCHAR" property="businessId" />
     <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
     <result column="FILE_SIZE" jdbcType="INTEGER"  property="size" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createDate" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updateDate" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="IS_DELETED"  property="isDelete"/>
   </resultMap> 
   
@@ -90,5 +90,14 @@
   	 FROM ${tableName}
   	 WHERE IS_DELETED = 0 
   	 AND ID = #{id}
+  </select>
+  
+  <!-- 根据businessId查询 -->
+  <select id="findBybusinessId"  parameterType="java.lang.String" resultMap="BaseResultMap_File">
+     SELECT 
+     <include refid="BASE_FILE_LIST" />
+     FROM ${tableName}
+     WHERE IS_DELETED = 0 
+     AND BUSINESS_ID = #{businessId}
   </select>
 </mapper>

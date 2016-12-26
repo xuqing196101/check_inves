@@ -8,8 +8,8 @@
 	    <result column="ORG_ID"  property="orgId" />
 	    <result column="CATEGORY_ID"  property="cateId" />
 	    <result column="CATEGORY_NAME" property="cateName" />
-	    <result column="CREATED_AT"  property="createdAt" />
-	    <result column="UPDATED_AT"  property="updatedAt" />
+	    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+	    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
 	</resultMap>
 	
 	<!-- 查询基础 -->

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
+
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
@@ -90,26 +91,29 @@ public class SupplierConditionController {
     @ResponseBody
     @RequestMapping("/saveSupplierCondition")
     public String saveSupplierCondition(SupplierCondition condition,SupplierConType conType,HttpServletRequest sq,String typeclassId){
-        
+
         Map<String, Object> map = new HashMap<String, Object>();
         if(conType.getSupplierCount() == null || conType.getSupplierCount() == 0 ){
             map.put("count", "不能为空");
-           return JSON.toJSONString(map);
+            return JSON.toJSONString(map);
         }
 
         //已抽取
-//        conditionService.update(new SupplierCondition(condition.getProjectId(),(short)2));
+        //        conditionService.update(new SupplierCondition(condition.getProjectId(),(short)2));
         //插入信息
-        condition.setProjectId(condition.getProjectId());
-        conditionService.insert(condition);
-
-        //如果有id就修改没有就新增
-        conType.setConditionId(condition.getId());
-        conTypeService.insert(conType); 
         
-        
-        
-
+        //循环多包插入条件 
+        if (condition.getProjectId() != null && condition.getProjectId().length() > 0){
+            String[] split = condition.getProjectId().split(",");
+            for (String proid : split) {
+                condition.setProjectId(proid);
+                conditionService.insert(condition);
+                //如果有id就修改没有就新增
+                conType.setConditionId(condition.getId());
+                conTypeService.insert(conType); 
+            }
+           
+        }
         map.put("conId",condition.getId());
         map.put("sccuess", "sccuess");
         List<Area> listArea = areaService.findTreeByPid("1",null);

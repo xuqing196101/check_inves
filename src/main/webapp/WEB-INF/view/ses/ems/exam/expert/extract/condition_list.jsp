@@ -349,7 +349,7 @@
 								<div class="cue" id="dSupervise"></div>
 							</div>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12 ">
+						<li class="col-md-3 col-sm-6 col-xs-12 dnone">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>响应时间:</span>
 							<div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
 								<input class="col-md-5 col-sm-5 col-xs-5" name="hour" value="${hour}" maxlength="3" type="text">
@@ -375,7 +375,7 @@
                     <div class="ww50 fl">抽取信息</div>
           </h2>
            <div align="right" class=" pl20 mb10 "  >
-             <input class=" " readonly id="packageName" value="" onclick="showPackageType();"   type="text">
+             <input class=" " readonly id="packageName" value="" placeholder="请选择包" onclick="showPackageType();"   type="text">
               <input  readonly id="packageId"      type="hidden">
 <!--            <select class="w200 dnone" id="packageId"  > -->
 <%--             <c:forEach items="${listResultExpert}" var="list"> --%>

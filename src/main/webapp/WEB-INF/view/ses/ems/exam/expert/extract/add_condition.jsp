@@ -28,15 +28,7 @@
         $("#dnone").addClass("dnone");
     }
     
-    var list= "${extRelateListYes}";  
-    if(list != null && list.length !=0){
-         $("#rowdnone").removeClass("dnone");
-         $("#countdnone").addClass("dnone");
-    }else{
-        $("#countdnone").removeClass("dnone");
-         $("#rowdnone").addClass("dnone");
-       
-    }
+   
     });
   
     
@@ -169,8 +161,7 @@
                      var extConType=map.extConType;
                    var tex="";
                    if (list != null && list.length !=0){
-                	    $("#rowdnone").removeClass("dnone");
-                        $("#countdnone").addClass("dnone");
+                	  
                         var k=0;
                    for(var i=0;i<list.length;i++){
                 	       k=i;
@@ -775,21 +766,20 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
-            <div class=" w300 pl20 mt24">
+            <div class=" w400 pl20 mt24">
             <button class="btn btn-windows add" id="save" onclick="cityt();" type="button">抽取</button>
+                <button class="btn btn-windows add" id="save" onclick="finish();" type="button">完成抽取</button>
+                    <button class="btn btn-windows add" id="save" onclick="resetQuery();" type="button">暂存</button>
             <button class="btn btn-windows add" id="save" onclick="resetQuery();" type="button">重置</button>
             </div>
           </li>
             </ul>
                <!--=== Content Part ===-->
+               <div class="" style="width: 100%">
             <h2 class="count_flow"><i>2</i>抽取结果</h2>
+             <div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+             </div>
     <ul class="ul_list">
-    <div align="center" id="countdnone" class="f26  ww100 h300 ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
-    <div class="row" id="rowdnone">
-     <div class=" w300 pl20 ml10 mt10 mb10">
-            <button class="btn " id="save" onclick="finish();" type="button">完成</button>
-             <button class="btn btn-windows back" id="save" onclick="javascript:history.back(-1);" type="button">返回</button>
-          </div>
       <!-- Begin Content -->
       <div class="col-md-12" id="count" style="min-height: 400px;">
         <div id="extcontype">
@@ -876,7 +866,6 @@
         </table>
         </div>
       </div>
-    </div>
         </ul>
           </div>
         </div>

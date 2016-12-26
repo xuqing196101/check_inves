@@ -8,11 +8,11 @@
 		<result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode" />
 		<result column="PROCUREMENT_DEP_ID" jdbcType="VARCHAR"
 			property="procurementDepId" />
-		<result column="EXTRACTION_TIME" jdbcType="DATE" property="extractionTime" />
+		<result column="EXTRACTION_TIME" jdbcType="TIMESTAMP" property="extractionTime" />
 		<result column="EXTRACTION_SITES" jdbcType="VARCHAR" property="extractionSites" />
 		<result column="EXTRACT_THE_WAY" jdbcType="DECIMAL" property="extractTheWay" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="RESPONSE_TIME" jdbcType="VARCHAR" property="responseTime" />
 		<association property="perpleUser" column="EXTRACTS_PEOPLE"
@@ -50,11 +50,11 @@
 		values (#{id,jdbcType=VARCHAR},
 		#{projectName,jdbcType=VARCHAR},
 		#{projectCode,jdbcType=VARCHAR},
-		#{procurementDepId,jdbcType=VARCHAR}, #{extractionTime,jdbcType=DATE},
+		#{procurementDepId,jdbcType=VARCHAR}, #{extractionTime,jdbcType=TIMESTAMP},
 		#{extractionSites,jdbcType=VARCHAR},
 		#{extractTheWay,jdbcType=DECIMAL},
-		#{createdAt,jdbcType=DATE},
-		#{updatedAt,jdbcType=DATE}, #{extractsPeople,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP}, #{extractsPeople,jdbcType=VARCHAR},
 		#{projectId,jdbcType=VARCHAR},#{responseTime,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.ems.ExpExtractRecord">
@@ -113,7 +113,7 @@
 				#{procurementDepId,jdbcType=VARCHAR},
 			</if>
 			<if test="extractionTime != null">
-				#{extractionTime,jdbcType=DATE},
+				#{extractionTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="extractionSites != null">
 				#{extractionSites,jdbcType=VARCHAR},
@@ -122,10 +122,10 @@
 				#{extractTheWay,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=DATE},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="extractsPeople != null">
 				#{extractsPeople,jdbcType=VARCHAR},
@@ -153,7 +153,7 @@
 				#{procurementDepId,jdbcType=VARCHAR},
 			</if>
 			<if test="extractionTime != null">
-				EXTRACTION_TIME = #{extractionTime,jdbcType=DATE},
+				EXTRACTION_TIME = #{extractionTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="extractionSites != null">
 				EXTRACTION_SITES = #{extractionSites,jdbcType=VARCHAR},
@@ -162,10 +162,10 @@
 				EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="extractsPeople != null">
 				EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=VARCHAR},
@@ -189,14 +189,14 @@
 		PROCUREMENT_DEP_ID =
 		#{procurementDepId,jdbcType=VARCHAR},
 		EXTRACTION_TIME =
-		#{extractionTime,jdbcType=DATE},
+		#{extractionTime,jdbcType=TIMESTAMP},
 		EXTRACTION_SITES =
 		#{extractionSites,jdbcType=VARCHAR},
 		EXTRACT_THE_WAY =
 		#{extractTheWay,jdbcType=DECIMAL},
 		CREATED_AT =
-		#{createdAt,jdbcType=DATE},
-		UPDATED_AT = #{updatedAt,jdbcType=DATE},
+		#{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 		EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=VARCHAR},
 		PROJECT_ID =
 		#{projectId,jdbcType=VARCHAR},
@@ -214,7 +214,7 @@
 			AND PROJECT_NAME = #{projectName,jdbcType=VARCHAR}
 		</if>
 		<if test="extractionTime!=null and extractionTime!='' ">
-			AND EXTRACTION_TIME = #{extractionTime,jdbcType=DATE}
+			AND EXTRACTION_TIME = #{extractionTime,jdbcType=TIMESTAMP}
 		</if>
 		<if test="projectId != null and projectId !='' ">
 			AND PROJECT_ID=#{projectId,jdbcType=VARCHAR}

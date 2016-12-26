@@ -10,7 +10,7 @@
     <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
     <result column="TOTAL" jdbcType="DECIMAL" property="total" />
     <result column="PRODUCT_ID" jdbcType="VARCHAR" property="productId" />
-    <result column="DELIVERY_TIME" jdbcType="DATE" property="deliveryTime" />
+    <result column="DELIVERY_TIME" jdbcType="TIMESTAMP" property="deliveryTime" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="IS_TURN_UP" jdbcType="DECIMAL" property="isTurnUp" />
     <association property="packages" column="PACKAGE_ID" select="bss.dao.ppms.PackageMapper.findPackageByCondition"/>
@@ -63,10 +63,10 @@
 	AND  PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
     </if>
      <if test="createdAt != null and createdAt != '' ">
-	AND  CREATED_AT = #{createdAt,jdbcType=DATE}
+	AND  CREATED_AT = #{createdAt,jdbcType=TIMESTAMP}
     </if>
      <if test="supplierId != null and supplierId != '' ">
-	AND  SUPPLIER_ID = #{supplierId,jdbcType=DATE}
+	AND  SUPPLIER_ID = #{supplierId,jdbcType=TIMESTAMP}
     </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -77,7 +77,7 @@
     insert into T_SES_SMS_SUPPLIER_QUOTE (ID, CREATED_AT, QUOTE_PRICE, 
       PACKAGE_ID, PROJECT_ID, SUPPLIER_ID
       )
-    values (#{id,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{quotePrice,jdbcType=DECIMAL}, 
+    values (#{id,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{quotePrice,jdbcType=DECIMAL}, 
       #{packageId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}
       )
   </insert>
@@ -123,7 +123,7 @@
         #{id,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="quotePrice != null">
         #{quotePrice,jdbcType=DECIMAL},
@@ -144,7 +144,7 @@
         #{total,jdbcType=DECIMAL},
       </if>
        <if test="deliveryTime != null">
-        #{deliveryTime,jdbcType=DATE},
+        #{deliveryTime,jdbcType=TIMESTAMP},
       </if>
        <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -158,7 +158,7 @@
     update T_SES_SMS_SUPPLIER_QUOTE
     <set>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="quotePrice != null">
         QUOTE_PRICE = #{quotePrice,jdbcType=DECIMAL},
@@ -182,14 +182,14 @@
         IS_TURN_UP= #{isTurnUp,jdbcType=DECIMAL},
       </if>
       <if test="deliveryTime != null">
-        DELIVERY_TIME = #{deliveryTime,jdbcType=DATE},
+        DELIVERY_TIME = #{deliveryTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.sms.Quote">
     update T_SES_SMS_SUPPLIER_QUOTE
-    set CREATED_AT = #{createdAt,jdbcType=DATE},
+    set CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       QUOTE_PRICE = #{quotePrice,jdbcType=DECIMAL},
       PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
       PROJECT_ID = #{projectId,jdbcType=VARCHAR},

@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@include file="/WEB-INF/view/front.jsp" %>
+<%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
 $(function() {
 	$("#page_ul_id").find("li").click(function() {
@@ -453,13 +453,13 @@ function deleteFinance() {
     	  <h2 class="count_flow"> <i>1</i> 基本信息</h2>
     	  	<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 	 			<legend>企业信息</legend>
-	 			<ul class="list-unstyled" style="font-size: 14">
-				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 pl15" ><i class="red">*</i> 公司名称</span>
-					<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group pl15">
+	 			<ul class="list-unstyled f14">
+				<li class="col-md-3 col-sm-6 col-xs-12">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" ><i class="red">*</i> 公司名称</span>
+					<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				        <input  id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}"  <c:if test="${fn:contains(errorField,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierName')"</c:if>  /> 
 				      	 <c:if test="${fn:contains(errorField,'supplierName')}">
-						    <span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+						    <span class="add-on red" style="border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
 					    </c:if>
 					     <c:if test="${!fn:contains(errorField,'supplierName')}">
 							<span class="add-on cur_point">i</span>
@@ -618,8 +618,8 @@ function deleteFinance() {
 	 			<legend>地址信息</legend>
 	 			   <ul class="list-unstyled" style="font-size: 14">
 	 		   		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5 pl15"><i class="red">*</i>注册地址邮编</span>
-					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group pl15">
+					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5 "><i class="red">*</i>注册地址邮编</span>
+					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				        <input type="text" name="postCode" value="${currSupplier.postCode}" />
 				        <span class="add-on cur_point">i</span>
 				         <div class="cue"> ${err_msg_postCode } </div>
@@ -804,8 +804,8 @@ function deleteFinance() {
 	 	  <legend>法定代表信息</legend>
 	 	  <ul class="list-unstyled" style="font-size: 14">
 		 	 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 pl15"><i class="red">*</i> 姓名</span>
-			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 姓名</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalName" value="${currSupplier.legalName}" />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_legalName } </div>
@@ -907,8 +907,8 @@ function deleteFinance() {
 	 	  <legend>注册联系人</legend>
 	 	   <ul class="list-unstyled" style="font-size: 14">
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 pl15"><i class="red">*</i> 姓名</span>
-			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><i class="red">*</i> 姓名</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactName" value="${currSupplier.contactName}" />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_conName } </div>
@@ -1000,8 +1000,8 @@ function deleteFinance() {
 	 	  <legend>军队业务联系人</legend>
 	 	    <ul class="list-unstyled" style="font-size: 14"> 
 	 		 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 pl15"><i class="red">*</i> 姓名</span>
-			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><i class="red">*</i> 姓名</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="armyBusinessName" value="${currSupplier.armyBusinessName}" />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_armName} </div>
@@ -1091,8 +1091,8 @@ function deleteFinance() {
 	 	  <legend>营业执照</legend>
 	 	   <ul class="list-unstyled" style="font-size: 14">
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 pl15"><i class="red">*</i> 统一社会信用代码</span>
-			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group pl10">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 统一社会信用代码</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="creditCode" value="${currSupplier.creditCode}" />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_creditCide} </div>
@@ -1218,8 +1218,8 @@ function deleteFinance() {
 			 
 			 
 		  	 <li class="col-md-3 col-sm-6 col-xs-12">
-				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 pl15">所在国家（地区）</span>
-		    	 <div class="select_common col-md-12 col-sm-12 col-xs-12  pl15">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 ">所在国家（地区）</span>
+		    	 <div class="select_common col-md-12 col-sm-12 col-xs-12  p0">
 		    	 <%-- 	<input name="branchList[${vs.index }].country" id="sup_country" type="text" value="${bran.country}" />
 			        <span class="add-on cur_point">i</span> --%>
 		 		 	<select name="branchList[${vs.index }].country"  id="overseas_branch_select_id">

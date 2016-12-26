@@ -275,7 +275,7 @@
                   <input type="hidden" name="status" value="${article.status }">发布
                 </c:if>
                 <c:if test="${article.status=='3' }">
-                  <input type="hidden" name="status" value="${article.status }">审核未通过
+                  <input type="hidden" name="status" value="${article.status }">退回
                 </c:if>
                 <c:if test="${article.status=='4' }">
                   <input type="hidden" name="status" value="${article.status }">撤回

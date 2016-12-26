@@ -8,8 +8,8 @@
     <result column="USER_ID" property="userId" />
     <result column="SUPPLIER_ID" property="supplierId" />
     <result column="STATUS" property="status" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="AUDIT_FIELD" property="auditField" />
     <result column="AUDIT_CONTENT" property="auditContent" />
     <result column="AUDIT_FIELD_NAME" property="auditFieldName" />
@@ -43,7 +43,7 @@
       AUDIT_CONTENT)
     values (#{id}, #{suggest}, #{auditType}, 
       #{userId}, #{supplierId}, #{status}, 
-      #{createdAt}, #{updatedAt}, #{auditField}, #{auditFieldName} ,#{isDeleted},
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{auditField}, #{auditFieldName} ,#{isDeleted},
       #{auditContent})
   </insert>
   
@@ -108,10 +108,10 @@
         #{status},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="auditField != null">
         #{auditField},
@@ -146,10 +146,10 @@
         STATUS = #{status},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="auditField != null">
         AUDIT_FIELD = #{auditField},
@@ -174,8 +174,8 @@
       USER_ID = #{userId},
       SUPPLIER_ID = #{supplierId},
       STATUS = #{status},
-      CREATED_AT = #{createdAt},
-      UPDATED_AT = #{updatedAt},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       AUDIT_FIELD = #{auditField},
       AUDIT_CONTENT = #{auditContent},
       AUDIT_FIELD_NAME = #{auditFieldName},

@@ -5,8 +5,8 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="PATH" jdbcType="VARCHAR" property="path" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="FILE_SIZE" jdbcType="DECIMAL" property="fileSize" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <result column="BUSINESS_ID" jdbcType="VARCHAR" property="businessId" />
@@ -51,7 +51,7 @@
       IS_DELETED, BUSINESS_ID, TYPE_ID
       )
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{fileSize,jdbcType=DECIMAL}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{fileSize,jdbcType=DECIMAL}, 
       #{isDeleted,jdbcType=DECIMAL}, #{businessId,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR}
       )
   </insert>
@@ -97,10 +97,10 @@
         #{path,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="fileSize != null">
         #{fileSize,jdbcType=DECIMAL},
@@ -126,10 +126,10 @@
         PATH = #{path,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="fileSize != null">
         FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
@@ -150,8 +150,8 @@
     update T_SES_EMS_EXPERT_ATTACHMENT
     set NAME = #{name,jdbcType=VARCHAR},
       PATH = #{path,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       BUSINESS_ID = #{businessId,jdbcType=VARCHAR},

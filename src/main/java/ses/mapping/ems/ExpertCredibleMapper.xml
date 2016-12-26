@@ -6,8 +6,8 @@
     <result column="BAD_BEHAVIOR" jdbcType="VARCHAR" property="badBehavior" />
     <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
     <result column="IS_STATUS" jdbcType="DECIMAL" property="isStatus" />
-    <result column="CREATE_AT" jdbcType="DATE" property="createAt" />
-    <result column="UPDATE_AT" jdbcType="DATE" property="updateAt" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="UPDATE_AT" jdbcType="TIMESTAMP" property="updateAt" />
     <result column="SCORE" jdbcType="DECIMAL" property="score" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -42,7 +42,7 @@
       IS_STATUS, CREATE_AT, UPDATE_AT, 
       SCORE)
     values (#{id,jdbcType=VARCHAR}, #{badBehavior,jdbcType=VARCHAR}, #{isDelete,jdbcType=DECIMAL}, 
-      #{isStatus,jdbcType=DECIMAL}, #{createAt,jdbcType=DATE}, #{updateAt,jdbcType=DATE}, 
+      #{isStatus,jdbcType=DECIMAL}, #{createAt,jdbcType=TIMESTAMP}, #{updateAt,jdbcType=TIMESTAMP}, 
       #{score,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertCredible">
@@ -84,10 +84,10 @@
         #{isStatus,jdbcType=DECIMAL},
       </if>
       <if test="createAt != null">
-        #{createAt,jdbcType=DATE},
+        #{createAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updateAt != null">
-        #{updateAt,jdbcType=DATE},
+        #{updateAt,jdbcType=TIMESTAMP},
       </if>
       <if test="score != null">
         #{score,jdbcType=DECIMAL},
@@ -107,10 +107,10 @@
         IS_STATUS = #{isStatus,jdbcType=DECIMAL},
       </if>
       <if test="createAt != null">
-        CREATE_AT = #{createAt,jdbcType=DATE},
+        CREATE_AT = #{createAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updateAt != null">
-        UPDATE_AT = #{updateAt,jdbcType=DATE},
+        UPDATE_AT = #{updateAt,jdbcType=TIMESTAMP},
       </if>
       <if test="score != null">
         SCORE = #{score,jdbcType=DECIMAL},
@@ -123,8 +123,8 @@
     set BAD_BEHAVIOR = #{badBehavior,jdbcType=VARCHAR},
       IS_DELETE = #{isDelete,jdbcType=DECIMAL},
       IS_STATUS = #{isStatus,jdbcType=DECIMAL},
-      CREATE_AT = #{createAt,jdbcType=DATE},
-      UPDATE_AT = #{updateAt,jdbcType=DATE},
+      CREATE_AT = #{createAt,jdbcType=TIMESTAMP},
+      UPDATE_AT = #{updateAt,jdbcType=TIMESTAMP},
       SCORE = #{score,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>

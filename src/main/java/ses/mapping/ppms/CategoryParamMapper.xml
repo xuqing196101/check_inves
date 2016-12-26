@@ -5,8 +5,8 @@
     <id column="ID"  property="id" />
     <result column="NAME"  property="name" />
     <result column="VALUE_TYPE"  property="valueType" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="IS_DELETED"  property="isDeleted" />
    	<result column="PARAM_VALUE"  property="paramValue" />
    	<result column="PARAM_VALUE_ID"  property="paramValueId" />
@@ -90,10 +90,10 @@
 		        #{name},
 		      </if>
 		      <if test="createdAt != null">
-		        #{createdAt},
+		        #{createdAt,jdbcType=TIMESTAMP},
 		      </if>
 		      <if test="updatedAt != null">
-		        #{updatedAt},
+		        #{updatedAt,jdbcType=TIMESTAMP},
 		      </if>
 		      <if test="valueType != null">
 		        #{valueType},
@@ -125,7 +125,7 @@
 		        CREATED_AT = #{createdAt},
 		      </if> -->
 		      <if test="updatedAt != null">
-		        UPDATED_AT = #{updatedAt},
+		        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 		      </if>
 		     <!--  <if test="category != null">
 		        CATEGORY_ID = #{category.id},

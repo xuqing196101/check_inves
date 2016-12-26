@@ -537,6 +537,13 @@ public class UploadServiceImpl implements UploadService {
         return res;
     }
 
+
+	@Override
+	public UploadFile findBybusinessId(String businessId, Integer sysKey) {
+		String tableName = Constant.fileSystem.get(sysKey);
+		return uploadDao.findBybusinessId(businessId,tableName);
+	}
+
     
     
 

@@ -8,7 +8,7 @@
 		<result column="STATUS" jdbcType="DECIMAL" property="status" />
 		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
 		<result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
-		<result column="TENDER_TIME" jdbcType="DATE" property="tenderTime" />
+		<result column="TENDER_TIME" jdbcType="TIMESTAMP" property="tenderTime" />
 		<result column="RESPONSE TIME" jdbcType="VARCHAR" property="responseTime" />
 		<result column="AGE_MAX" jdbcType="VARCHAR" property="ageMax" />
 		<result column="SATISFY_CONDITION" jdbcType="DECIMAL" property="satisfyCondition" />
@@ -74,7 +74,7 @@
 		#{projectId,jdbcType=VARCHAR},
 		#{status,jdbcType=DECIMAL},
 		#{address,jdbcType=VARCHAR}, #{expertsTypeId,jdbcType=VARCHAR},
-		#{tenderTime,jdbcType=DATE},
+		#{tenderTime,jdbcType=TIMESTAMP},
 		#{responseTime,jdbcType=VARCHAR},
 		#{ageMax,jdbcType=VARCHAR},
 		#{satisfyCondition,jdbcType=DECIMAL},
@@ -155,7 +155,7 @@
 				#{expertsTypeId,jdbcType=VARCHAR},
 			</if>
 			<if test="tenderTime != null">
-				#{tenderTime,jdbcType=DATE},
+				#{tenderTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="responseTime != null">
 				#{responseTime,jdbcType=VARCHAR},
@@ -206,7 +206,7 @@
 				EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
 			</if>
 			<if test="tenderTime != null">
-				TENDER_TIME = #{tenderTime,jdbcType=DATE},
+				TENDER_TIME = #{tenderTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="responseTime != null">
 				"RESPONSE TIME" = #{responseTime,jdbcType=VARCHAR},
@@ -259,7 +259,7 @@
 		EXPERTS_TYPE_ID =
 		#{expertsTypeId,jdbcType=VARCHAR},
 		TENDER_TIME =
-		#{tenderTime,jdbcType=DATE},
+		#{tenderTime,jdbcType=TIMESTAMP},
 		"RESPONSE TIME" =
 		#{responseTime,jdbcType=VARCHAR},
 		AGE_MAX = #{ageMax,jdbcType=VARCHAR},

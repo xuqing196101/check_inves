@@ -6,7 +6,7 @@
     <result column="RECORD_ID" jdbcType="VARCHAR" property="recordId" />
     <result column="SUPPLIER_NAME" jdbcType="VARCHAR" property="supplierName" />
     <result column="WEBSITE" jdbcType="VARCHAR" property="website" />
-    <result column="FOUND_DATE" jdbcType="DATE" property="foundDate" />
+    <result column="FOUND_DATE" jdbcType="TIMESTAMP" property="foundDate" />
     <result column="BUSINESS_TYPE" jdbcType="VARCHAR" property="businessType" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
     <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName" />
@@ -29,8 +29,8 @@
     <result column="CREDIT_CODE" jdbcType="VARCHAR" property="creditCode" />
     <result column="REGIST_AUTHORITY" jdbcType="VARCHAR" property="registAuthority" />
     <result column="REGIST_FUND" jdbcType="DECIMAL" property="registFund" />
-    <result column="BUSINESS_START_DATE" jdbcType="DATE" property="businessStartDate" />
-    <result column="BUSINESS_END_DATE" jdbcType="DATE" property="businessEndDate" />
+    <result column="BUSINESS_START_DATE" jdbcType="TIMESTAMP" property="businessStartDate" />
+    <result column="BUSINESS_END_DATE" jdbcType="TIMESTAMP" property="businessEndDate" />
     <result column="BUSINESS_SCOPE" jdbcType="VARCHAR" property="businessScope" />
     <result column="BUSINESS_ADDRESS" jdbcType="VARCHAR" property="businessAddress" />
     <result column="BUSINESS_POST_CODE" jdbcType="DECIMAL" property="businessPostCode" />
@@ -40,7 +40,7 @@
     <result column="BRANCH_NAME" jdbcType="VARCHAR" property="branchName" />
     <result column="BUSINESS_CERT" jdbcType="VARCHAR" property="businessCert" />
     <result column="BRANCH_BUSINESS_SCOPE" jdbcType="VARCHAR" property="branchBusinessScope" />
-    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
     <result column="STATUS" jdbcType="DECIMAL" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -113,7 +113,7 @@
       BUSINESS_CERT, BRANCH_BUSINESS_SCOPE, CREATE_DATE,STATUS
       )
     values (#{id,jdbcType=VARCHAR}, #{recordId,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, 
-      #{website,jdbcType=VARCHAR}, #{foundDate,jdbcType=DATE}, #{businessType,jdbcType=VARCHAR}, 
+      #{website,jdbcType=VARCHAR}, #{foundDate,jdbcType=TIMESTAMP}, #{businessType,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{bankAccount,jdbcType=VARCHAR}, 
       #{postCode,jdbcType=VARCHAR}, #{taxCert,jdbcType=VARCHAR}, #{billCert,jdbcType=VARCHAR}, 
       #{securityCert,jdbcType=VARCHAR}, #{breachCert,jdbcType=VARCHAR}, #{legalName,jdbcType=VARCHAR}, 
@@ -121,10 +121,10 @@
       #{contactName,jdbcType=VARCHAR}, #{contactTelephone,jdbcType=VARCHAR}, #{contactFax,jdbcType=VARCHAR}, 
       #{contactMobile,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR}, #{contactAddress,jdbcType=VARCHAR}, 
       #{creditCode,jdbcType=VARCHAR}, #{registAuthority,jdbcType=VARCHAR}, #{registFund,jdbcType=DECIMAL}, 
-      #{businessStartDate,jdbcType=DATE}, #{businessEndDate,jdbcType=DATE}, #{businessScope,jdbcType=VARCHAR}, 
+      #{businessStartDate,jdbcType=TIMESTAMP}, #{businessEndDate,jdbcType=TIMESTAMP}, #{businessScope,jdbcType=VARCHAR}, 
       #{businessAddress,jdbcType=VARCHAR}, #{businessPostCode,jdbcType=DECIMAL}, #{overseasBranch,jdbcType=DECIMAL}, 
       #{branchCountry,jdbcType=VARCHAR}, #{branchAddress,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, 
-      #{businessCert,jdbcType=VARCHAR}, #{branchBusinessScope,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE},#{status,jdbcType=DECIMAL}
+      #{businessCert,jdbcType=VARCHAR}, #{branchBusinessScope,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},#{status,jdbcType=DECIMAL}
       )
   </insert>
   <insert id="insertSelective" parameterType="ses.model.sms.SupplierEdit">
@@ -265,7 +265,7 @@
         #{website,jdbcType=VARCHAR},
       </if>
       <if test="foundDate != null">
-        #{foundDate,jdbcType=DATE},
+        #{foundDate,jdbcType=TIMESTAMP},
       </if>
       <if test="businessType != null">
         #{businessType,jdbcType=VARCHAR},
@@ -334,10 +334,10 @@
         #{registFund,jdbcType=DECIMAL},
       </if>
       <if test="businessStartDate != null">
-        #{businessStartDate,jdbcType=DATE},
+        #{businessStartDate,jdbcType=TIMESTAMP},
       </if>
       <if test="businessEndDate != null">
-        #{businessEndDate,jdbcType=DATE},
+        #{businessEndDate,jdbcType=TIMESTAMP},
       </if>
       <if test="businessScope != null">
         #{businessScope,jdbcType=VARCHAR},
@@ -367,7 +367,7 @@
         #{branchBusinessScope,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
-        #{createDate,jdbcType=DATE},
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=DECIMAL},
@@ -390,7 +390,7 @@
         WEBSITE = #{website,jdbcType=VARCHAR},
       </if>
       <if test="foundDate != null">
-        FOUND_DATE = #{foundDate,jdbcType=DATE},
+        FOUND_DATE = #{foundDate,jdbcType=TIMESTAMP},
       </if>
       <if test="businessType != null">
         BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
@@ -459,10 +459,10 @@
         REGIST_FUND = #{registFund,jdbcType=DECIMAL},
       </if>
       <if test="businessStartDate != null">
-        BUSINESS_START_DATE = #{businessStartDate,jdbcType=DATE},
+        BUSINESS_START_DATE = #{businessStartDate,jdbcType=TIMESTAMP},
       </if>
       <if test="businessEndDate != null">
-        BUSINESS_END_DATE = #{businessEndDate,jdbcType=DATE},
+        BUSINESS_END_DATE = #{businessEndDate,jdbcType=TIMESTAMP},
       </if>
       <if test="businessScope != null">
         BUSINESS_SCOPE = #{businessScope,jdbcType=VARCHAR},
@@ -492,7 +492,7 @@
         BRANCH_BUSINESS_SCOPE = #{branchBusinessScope,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
-        CREATE_DATE = #{createDate,jdbcType=DATE},
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
       </if>
      <if test="status != null">
         STATUS = #{status,jdbcType=DECIMAL},
@@ -505,7 +505,7 @@
     set RECORD_ID = #{recordId,jdbcType=VARCHAR},
       SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
       WEBSITE = #{website,jdbcType=VARCHAR},
-      FOUND_DATE = #{foundDate,jdbcType=DATE},
+      FOUND_DATE = #{foundDate,jdbcType=TIMESTAMP},
       BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
       ADDRESS = #{address,jdbcType=VARCHAR},
       BANK_NAME = #{bankName,jdbcType=VARCHAR},
@@ -528,8 +528,8 @@
       CREDIT_CODE = #{creditCode,jdbcType=VARCHAR},
       REGIST_AUTHORITY = #{registAuthority,jdbcType=VARCHAR},
       REGIST_FUND = #{registFund,jdbcType=DECIMAL},
-      BUSINESS_START_DATE = #{businessStartDate,jdbcType=DATE},
-      BUSINESS_END_DATE = #{businessEndDate,jdbcType=DATE},
+      BUSINESS_START_DATE = #{businessStartDate,jdbcType=TIMESTAMP},
+      BUSINESS_END_DATE = #{businessEndDate,jdbcType=TIMESTAMP},
       BUSINESS_SCOPE = #{businessScope,jdbcType=VARCHAR},
       BUSINESS_ADDRESS = #{businessAddress,jdbcType=VARCHAR},
       BUSINESS_POST_CODE = #{businessPostCode,jdbcType=DECIMAL},
@@ -539,7 +539,7 @@
       BRANCH_NAME = #{branchName,jdbcType=VARCHAR},
       BUSINESS_CERT = #{businessCert,jdbcType=VARCHAR},
       BRANCH_BUSINESS_SCOPE = #{branchBusinessScope,jdbcType=VARCHAR},
-      CREATE_DATE = #{createDate,jdbcType=DATE},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>

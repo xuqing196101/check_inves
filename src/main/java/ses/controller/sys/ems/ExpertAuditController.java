@@ -30,7 +30,6 @@ import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertHistory;
-import ses.model.ems.ProjectExtract;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -41,7 +40,6 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
-import ses.util.PropertiesUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -355,7 +353,14 @@ public class ExpertAuditController {
      * @return void
      */
 	@RequestMapping("/auditReasons")
-	public void auditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response){
+	public void auditReasons(ExpertAudit expertAudit, Model model, HttpServletResponse response, HttpServletRequest request){
+			User user=(User) request.getSession().getAttribute("loginUser");
+			if(user != null){
+				expertAudit.setAuditUserId(user.getId());
+				expertAudit.setAuditUserName(user.getRelName());
+			}
+			expertAudit.setAuditAt(new Date());
+			
 		//唯一验证
 		List<ExpertAudit> reasonsList = expertAuditService.getListByExpertId(expertAudit.getExpertId());	
 		boolean same= true;
@@ -621,20 +626,30 @@ public class ExpertAuditController {
         
         String status = expert.getStatus();
 		String expertId = expert.getId();
-		Todos todos = new Todos();
 		expert= expertService.selectByPrimaryKey(expertId);
+		Todos todos = new Todos();
 		String expertName = expert.getRelName();
 		User user=(User) request.getSession().getAttribute("loginUser");
+		
 		/**
-		 * 初审通过发送待办
+		 * 更新待办（已完成）
 		 */
-		if(status.equals("1")){
+		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("4") || status.equals("5")){
+			todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
+			
+		}
+		
+
+		/**
+		 * 待办
+		 */
+		/*if(status.equals("1")){
 			//待初审已完成
 			todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
-			/**
+			*//**
 			 * 推送
-			 */
-		    /*todos.setCreatedAt(new Date());
+			 *//*
+		    todos.setCreatedAt(new Date());
 		    todos.setIsDeleted((short)0);
 		    todos.setIsFinish((short)0);
 		    //待办名称
@@ -653,8 +668,8 @@ public class ExpertAuditController {
 		    todos.setSenderName(expert.getRelName());
 		    //审核地址
 		    todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
-		    todosService.insert(todos );*/
-		}
+		    todosService.insert(todos );
+		}*/
         
         return "redirect:list.html";
     }

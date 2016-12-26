@@ -374,6 +374,17 @@ public class SupplierAuditController extends BaseSupplierController{
 
 		//文件
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		//查出全部修改的
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+		 StringBuffer field = new StringBuffer();
+		for(int i=0; i<editList.size(); i++){
+			String beforeField = editList.get(i).getBeforeField();
+			field.append( beforeField + ",");	
+		}
+		request.setAttribute("field", field);
 
 		//下一步的跳转页面
 		String url = null;
@@ -414,6 +425,17 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		//文件
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		//查出全部修改的
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+		 StringBuffer field = new StringBuffer();
+		for(int i=0; i<editList.size(); i++){
+			String beforeField = editList.get(i).getBeforeField();
+			field.append( beforeField + ",");	
+		}
+		request.setAttribute("field", field);
 		
 		//下一步的跳转页面
 		String url = null;
@@ -473,6 +495,17 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		request.setAttribute("supplierId", supplierId);
 		
+		//查出全部修改的
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+		 StringBuffer field = new StringBuffer();
+		for(int i=0; i<editList.size(); i++){
+			String beforeField = editList.get(i).getBeforeField();
+			field.append( beforeField + ",");	
+		}
+		request.setAttribute("field", field);
+		
 		//文件
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
@@ -492,7 +525,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}else if(supplierTypeName.contains("生产") && lastUrl == null){
 			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
 		}else{
-			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
+			lastUrl = request.getContextPath() + "/supplierAudit/shareholder.html";
 		}
 		request.setAttribute("lastUrl", lastUrl);
 		
@@ -525,6 +558,17 @@ public class SupplierAuditController extends BaseSupplierController{
 		//文件
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
+		//查出全部修改的
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+		 StringBuffer field = new StringBuffer();
+		for(int i=0; i<editList.size(); i++){
+			String beforeField = editList.get(i).getBeforeField();
+			field.append( beforeField + ",");	
+		}
+		request.setAttribute("field", field);
+		
 		//上一步
 		String lastUrl = null;
 		if(supplierTypeName.contains("工程")){
@@ -534,7 +578,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}else if(supplierTypeName.contains("生产") && lastUrl == null){
 			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
 		}else{
-			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
+			lastUrl = request.getContextPath() + "/supplierAudit/shareholder.html";
 		}
 		request.setAttribute("lastUrl", lastUrl);
 		
@@ -660,10 +704,18 @@ public class SupplierAuditController extends BaseSupplierController{
 		supplier.setAuditDate(new Date());
 		supplierAuditService.updateStatus(supplier);
 		//更新待办
-		/*supplier = supplierAuditService.supplierById(supplierId);
+		supplier = supplierAuditService.supplierById(supplierId);
 		String supplierName = supplier.getSupplierName();
 		
-		if(supplier.getStatus() == 1){
+		/**
+		 * 更新待办(已完成)
+		 */
+		if(supplier.getStatus().equals("1") || supplier.getStatus().equals("2") || supplier.getStatus().equals("3") || supplier.getStatus().equals("5") || supplier.getStatus().equals("6")){
+			todosService.updateIsFinish("supplierAudit/essential.html?supplierId=" + supplierId);
+		}
+		
+		
+		/*if(supplier.getStatus() == 1){
 			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
 			todos.setName("供应商复核");
 			todosService.updateByUrl(todos);
@@ -916,6 +968,22 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		supplier = supplierService.get(supplierId);
 		request.setAttribute("currSupplier", supplier);
+		
+		//上一步
+		String lastUrl = null;
+		if(supplierTypeName.contains("服务")){
+			lastUrl = request.getContextPath() + "/supplierAudit/serviceInformation.html";
+		}else if(supplierTypeName.contains("工程") && lastUrl == null){
+			lastUrl = request.getContextPath() + "/supplierAudit/engineering.html";
+		}else if(supplierTypeName.contains("销售") && lastUrl == null){
+			lastUrl = request.getContextPath() + "/supplierAudit/materialSales.html";
+		}else if(supplierTypeName.contains("生产") && lastUrl == null){
+			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
+		}else{
+			lastUrl = request.getContextPath() + "/supplierAudit/shareholder.html";
+		}
+		request.setAttribute("lastUrl", lastUrl);
+		
 		
 		return "ses/sms/supplier_audit/items";
 	}

@@ -116,6 +116,17 @@ public interface UploadService {
      */
     UploadFile findById(String id,Integer key);
     
+    /**
+     * 
+     *〈简述〉根据主键查询
+     *〈详细描述〉
+     * @author ZhaoBo
+     * @param id 主键
+     * @param key 对应的key
+     * @return UploadFile
+     */
+    UploadFile findBybusinessId(String businessId, Integer sysKey);
+    
     
     /**
      * 

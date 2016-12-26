@@ -7,8 +7,8 @@
 		<result column="NAME" property="name" />
 		<result column="LEVEL_CERT" property="levelCert" />
 		<result column="LICENCE_AUTHORITH" property="licenceAuthorith" />
-		<result column="EXP_START_DATE" property="expStartDate" />
-		<result column="EXP_END_DATE" property="expEndDate" />
+		<result column="EXP_START_DATE" property="expStartDate" jdbcType="TIMESTAMP"/>
+		<result column="EXP_END_DATE" property="expEndDate" jdbcType="TIMESTAMP"/>
 		<result column="MOT" property="mot" />
 		<result column="FILE_NAME" property="attach" />
 		<result column="ID_" property="attachId" />
@@ -33,8 +33,8 @@
 		EXP_END_DATE, MOT, ATTACH
 		)
 		values (#{id}, #{matSellId}, #{name},
-		#{levelCert}, #{licenceAuthorith}, #{expStartDate},
-		#{expEndDate}, #{mot}, #{attach}
+		#{levelCert}, #{licenceAuthorith}, #{expStartDate,jdbcType=TIMESTAMP},
+		#{expEndDate,jdbcType=TIMESTAMP}, #{mot}, #{attach}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierCertSell">
@@ -85,10 +85,10 @@
 				#{licenceAuthorith},
 			</if>
 			<if test="expStartDate != null">
-				#{expStartDate},
+				#{expStartDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="expEndDate != null">
-				#{expEndDate},
+				#{expEndDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="mot != null">
 				#{mot},
@@ -117,10 +117,10 @@
 				LICENCE_AUTHORITH = #{licenceAuthorith},
 			</if>
 			<if test="expStartDate != null">
-				EXP_START_DATE = #{expStartDate},
+				EXP_START_DATE = #{expStartDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="expEndDate != null">
-				EXP_END_DATE = #{expEndDate},
+				EXP_END_DATE = #{expEndDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="mot != null">
 				MOT = #{mot},
@@ -137,8 +137,8 @@
 		NAME = #{name},
 		LEVEL_CERT = #{levelCert},
 		LICENCE_AUTHORITH = #{licenceAuthorith},
-		EXP_START_DATE = #{expStartDate},
-		EXP_END_DATE = #{expEndDate},
+		EXP_START_DATE = #{expStartDate,jdbcType=TIMESTAMP},
+		EXP_END_DATE = #{expEndDate,jdbcType=TIMESTAMP},
 		MOT = #{mot},
 		ATTACH = #{attach}
 		where ID = #{id}

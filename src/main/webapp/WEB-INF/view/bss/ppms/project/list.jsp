@@ -72,32 +72,32 @@
   var flag = true;
   function start() {
     var id = [];
-	$('input[name="chkItem"]:checked').each(function() {
-	  id.push($(this).val());
-	});
-	var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
-	status = $.trim(status);
-	var currPage = ${info.pageNum};
-	if (id.length == 1) {
-	  if (status == "实施中") {
-		window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
-	  } else if (status == "已立项") {
-		$.ajax({
-		  url : "${pageContext.request.contextPath}/project/viewPackage.html",
-		  data : "id=" + id,
-		  type : "post",
-		  dataType : "json",
-		  success : function(result) {
-			for ( var i = 0; i < result.length; i++) {
-			  var packageId = result[i].packageId;
-			  if (packageId == null) {
-			    flag = false;
-				layer.alert("请先分包", {
-				  offset : [ '222px', '690px' ],
-				  shade : 0.01,
-				});
-			  }
-			}
+		$('input[name="chkItem"]:checked').each(function() {
+	  	id.push($(this).val());
+		});
+		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+		status = $.trim(status);
+		var currPage = ${info.pageNum};
+		if (id.length == 1) {
+	  	if (status == "实施中") {
+				window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
+	  	} else if (status == "已立项") {
+				$.ajax({
+		  	url : "${pageContext.request.contextPath}/project/viewPackage.html",
+		  	data : "id=" + id,
+		  	type : "post",
+		  	dataType : "json",
+		  	success : function(result) {
+				for ( var i = 0; i < result.length; i++) {
+			 	 	var packageId = result[i].packageId;
+			 	 	if (packageId == null) {
+			    	flag = false;
+					layer.alert("请先分包", {
+					  offset : [ '222px', '690px' ],
+					  shade : 0.01,
+					});
+			  	}
+				}
 			
 			if (flag == false) {
 			  layer.alert("请先分包", {
@@ -264,11 +264,14 @@
 		<div class="clear"></div>
 	  </form>
     </h2>
-	<div class="col-md-12 pl20 mt10">
-      <a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/projectList.html">立项</a>
-	  <button class="btn btn-windows edit" onclick="edit();">修改</button>
-	  <button class="btn btn-windows apply" onclick="start();" type="button">实施</button>
-	</div>
+    <c:if test="${admin!=1 }">
+    	<div class="col-md-12 pl20 mt10">
+      	<a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/projectList.html">立项</a>
+	  		<button class="btn btn-windows edit" onclick="edit();">修改</button>
+	  		<button class="btn btn-windows apply" onclick="start();" type="button">实施</button>
+			</div>
+    </c:if>
+		
 	<div class="content table_box">
       <table class="table table-bordered table-condensed table-hover table-striped">
 	    <thead>

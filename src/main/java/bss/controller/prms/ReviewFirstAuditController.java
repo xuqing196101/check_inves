@@ -33,6 +33,7 @@ import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
 import bss.model.prms.ExpertScore;
 import bss.model.prms.FirstAudit;
+import bss.model.prms.PackageExpert;
 import bss.model.prms.PackageFirstAudit;
 import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ext.Extension;
@@ -44,6 +45,7 @@ import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.prms.ExpertScoreService;
 import bss.service.prms.FirstAuditService;
+import bss.service.prms.PackageExpertService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
 
@@ -81,7 +83,36 @@ public class ReviewFirstAuditController {
     private DictionaryDataServiceI dictionaryDataServiceI;//数据字典查询
     @Autowired
     private SupplierExtRelateService supplierExtRelateService;//供应商分包查询
+    @Autowired
+    private PackageExpertService packageExpertService;//专家分包查询
 
+    /**
+     *〈简述〉
+     * 项目评审list页面中的查看详情
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param packageId
+     * @param model
+     * @return
+     */
+    @RequestMapping("showPackView")
+    public String showPackView (String packageId, Model model) {
+        Packages pack = new Packages();
+        pack.setId(packageId);
+        List<Packages> list = packageService.find(pack);
+        Packages packages = null;
+        if (list != null && !list.isEmpty()) {
+            packages = list.get(0);
+        }
+        model.addAttribute("packages", packages);
+        // 查询包内供应商list
+        SaleTender saleTender = new SaleTender();
+        saleTender.setPackages(packageId);
+        List<SaleTender> supplierList = saleTenderService.find(saleTender);
+        model.addAttribute("supplierList", supplierList);
+        return "bss/prms/audit/packages_view";
+    }
+    
 	/**
 	 * 
 	  * @Title: toAudit
@@ -188,12 +219,11 @@ public class ReviewFirstAuditController {
 		map.put("projectId", projectId);
 		map.put("packageId", packageId);
 		// 专家类别
-		String[] typeIds = expert.getExpertsTypeId().split(",");
+		//String[] typeIds = expert.getExpertsTypeId().split(",");
 		// 查询出所有的评审项类型
-		List<DictionaryData> AllMarkTermType = dictionaryDataServiceI.findByKind("23");
-		List<DictionaryData> markTermTypeList = new ArrayList<DictionaryData>();
+		//List<DictionaryData> AllMarkTermType = dictionaryDataServiceI.findByKind("23");
 		//根据专家的类别判断显示哪些类型的评分项
-        for (String id : typeIds) {
+        /*for (String id : typeIds) {
             int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
             if (kind == 6) {
                 // kind值为6代表技术类型
@@ -213,7 +243,11 @@ public class ReviewFirstAuditController {
                 }
             }
         }
-        removeDictionaryData(markTermTypeList);
+        removeDictionaryData(markTermTypeList);*/
+		// 专家可以打分的类型
+		List<DictionaryData> markTermTypeList = new ArrayList<DictionaryData>();
+		String typeId = null;
+		markTermTypeList.add(dictionaryDataServiceI.getDictionaryData(typeId));
 		model.addAttribute("markTermTypeList", markTermTypeList);
 		MarkTerm markTerm = new MarkTerm();
 		markTerm.setProjectId(projectId);
@@ -506,5 +540,29 @@ public class ReviewFirstAuditController {
 		expertScore.setExpertValue(expertValue);
 		expertScoreService.saveScore(expertScore, null,scoreModelId);
 		return JSON.toJSONString(score);
+	}
+	
+	/**
+	 *〈简述〉
+	 * 专家后台判断是否可以进行查看
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param packageId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("isShowView")
+	public String isShowView (String packageId) {
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("packageId", packageId);
+	    List<PackageExpert> list = packageExpertService.selectList(map);
+	    String isShowView = "0";
+	    if (list != null && list.size() > 0) {
+	        PackageExpert pack = list.get(0);
+	        if (pack.getIsGatherGather() == 1) {
+	            isShowView = "1";
+	        }
+	    }
+	    return isShowView;
 	}
 }

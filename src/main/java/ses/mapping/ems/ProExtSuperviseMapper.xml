@@ -8,8 +8,8 @@
 		<result column="EXPERT_EXTRACT_RECORD_ID" jdbcType="VARCHAR"
 			property="expertExtractRecordId" />
 		<result column="SUPERVISOR_ID" jdbcType="VARCHAR" property="supviseId" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
 		<result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
 		<result column="COMPANY" jdbcType="VARCHAR" property="company" />
 		<result column="PHONE" jdbcType="VARCHAR" property="phone" />
@@ -91,10 +91,10 @@
 				#{supviseId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=DATE},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 	</insert>
@@ -113,10 +113,10 @@
 				SUPERVISOR_ID = #{supviseId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="relName != null">
 				REL_NAME = #{relName,jdbcType=VARCHAR},

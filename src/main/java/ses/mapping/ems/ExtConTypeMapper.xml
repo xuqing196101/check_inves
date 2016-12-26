@@ -12,7 +12,7 @@
     <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
     <result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
     <result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
     <result column="IS_MULTICONDITION" jdbcType="DECIMAL" property="isMulticondition" />
   </resultMap>
@@ -49,7 +49,7 @@
       IS_MULTICONDITION)
     values (#{id,jdbcType=VARCHAR}, #{expertsTypeId,jdbcType=DECIMAL}, #{expertsCount,jdbcType=DECIMAL}, 
       #{expertsQualification,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, 
-      #{conditionId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{isDelete,jdbcType=DECIMAL}, 
+      #{conditionId,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=DECIMAL}, 
       #{isMulticondition,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.ems.ExtConType">
@@ -112,7 +112,7 @@
         #{conditionId,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDelete != null">
         #{isDelete,jdbcType=DECIMAL},
@@ -147,7 +147,7 @@
         CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDelete != null">
         IS_DELETE = #{isDelete,jdbcType=DECIMAL},
@@ -169,7 +169,7 @@
       CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
       CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
       CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       IS_DELETE = #{isDelete,jdbcType=DECIMAL},
       IS_MULTICONDITION = #{isMulticondition,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}

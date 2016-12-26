@@ -62,6 +62,16 @@ public interface CategoryMapper {
 	public List<Category> findTreeByPid(String id);
 	
 	/**
+     *〈简述〉
+     * 根据主键查询
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param id
+     * @return
+     */
+    public Category findById(String id);
+	
+	/**
 	 * 
 	* @Title: updateByPrimaryKey
 	* @author zhangxuefeng 

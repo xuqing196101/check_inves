@@ -7,8 +7,8 @@
     <result column="USER_TYPE" property="userType" />
     <result column="QUESTION_ID" property="questionId" />
     <result column="CONTENT" property="content" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="PAPER_ID" property="paperId" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -78,10 +78,10 @@
         #{content},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="paperId != null">
         #{paperId},
@@ -106,10 +106,10 @@
         CONTENT = #{content},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="paperId != null">
        	PAPER_ID = #{paperId},

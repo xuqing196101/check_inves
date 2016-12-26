@@ -4,8 +4,8 @@
 			  <resultMap id="ReplyResultMap" type="iss.model.fs.Reply">
 			    <id column="ID"  property="id" />
 			     <result column="CONTENT"  property="content" />
-			     <result column="PUBLISHED_AT"  property="publishedAt" />
-			     <result column="UPDATED_AT"  property="updatedAt" />
+			     <result column="PUBLISHED_AT"  property="publishedAt" jdbcType="TIMESTAMP"/>
+			     <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
 			     <result column="IS_DELETED"  property="isDeleted" />
 			     <result column="IS_READ"  property="isRead" />    
 			      <association column="REPLY_ID"  property="reply" select="selectByPrimaryKey"/>
@@ -140,10 +140,10 @@
 	                #{id},
 	              </if>
 			      <if test="publishedAt != null">
-			        #{publishedAt},
+			        #{publishedAt,jdbcType=TIMESTAMP},
 			      </if>
 			      <if test="updatedAt != null">
-                    #{updatedAt},
+                    #{updatedAt,jdbcType=TIMESTAMP},
                   </if>
 			      <if test="content != null">
 			        #{content},
@@ -171,7 +171,7 @@
 			        CONTENT = #{content},
 			      </if>
 			      <if test="updatedAt != null">
-                    UPDATED_AT = #{updatedAt},
+                    UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
                   </if>
 			    </set>
 			    where ID = #{id}

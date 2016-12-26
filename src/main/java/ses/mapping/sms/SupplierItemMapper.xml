@@ -7,8 +7,8 @@
 		<result column="CATEGORY_ID" property="categoryId" />
 		<result column="SUPPLIER_TYPE_RELATE_ID" property="supplierTypeRelateId" />
 		<result column="STATUS" property="status" />
-		<result column="CREATED_AT" property="createdAt" />
-		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
 		<!-- <result column="CATEGORY_NAME" property="categoryName" /> -->
 	</resultMap>
 	<sql id="Base_Column_List">
@@ -45,8 +45,8 @@
 		SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT,
 		UPDATED_AT)
 		values (#{id}, #{supplierId}, #{categoryId},
-		#{supplierTypeRelateId}, #{status}, #{createdAt},
-		#{updatedAt})
+		#{supplierTypeRelateId}, #{status}, #{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierItem">
 		insert into T_SES_SMS_SUPPLIER_ITEM
@@ -90,10 +90,10 @@
 				#{status},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt},
+				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 	
@@ -114,10 +114,10 @@
 				STATUS = #{status},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt},
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where ID = #{id}
@@ -128,8 +128,8 @@
 		CATEGORY_ID = #{categoryId},
 		SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId},
 		STATUS = #{status},
-		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt}
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
 		where ID = #{id}
 	</update>
 	

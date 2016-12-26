@@ -134,6 +134,14 @@ public class Article{
      */
     private String sourceLink;
     
+    private String threeType;
+    
+    private String secondType;
+    
+    private String fourType;
+    
+    private String overType;
+    
     private List<ArticleAttachments> articleAttachments;
         
 	public Integer getDownloadCount() {
@@ -336,7 +344,38 @@ public class Article{
 	public void setSourceLink(String sourceLink) {
 		this.sourceLink = sourceLink;
 	}
-	
+
+	public String getThreeType() {
+		return threeType;
+	}
+
+	public void setThreeType(String threeType) {
+		this.threeType = threeType;
+	}
+
+	public String getSecondType() {
+		return secondType;
+	}
+
+	public void setSecondType(String secondType) {
+		this.secondType = secondType;
+	}
+
+	public String getFourType() {
+		return fourType;
+	}
+
+	public void setFourType(String fourType) {
+		this.fourType = fourType;
+	}
+
+	public String getOverType() {
+		return overType;
+	}
+
+	public void setOverType(String overType) {
+		this.overType = overType;
+	}
 	
 	
 }

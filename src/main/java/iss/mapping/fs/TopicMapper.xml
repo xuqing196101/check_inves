@@ -4,8 +4,8 @@
 		  <resultMap id="TopicResultMap" type="iss.model.fs.Topic">
 		    <id column="ID" property="id" />
 		    <result column="NAME"  property="name" />
-		    <result column="CREATED_AT"  property="createdAt" />
-		    <result column="UPDATED_AT"  property="updatedAt" />
+		    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+		    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
 		    <result column="IS_DELETED"  property="isDeleted" />  
 		     <result column="CONTENT" jdbcType="CLOB" property="content" />		     
 		    <association  column="PARK_ID"  property="park"  select="iss.dao.fs.ParkMapper.selectByPrimaryKey"/>  
@@ -121,10 +121,10 @@
 		        #{name},
 		      </if>
 		      <if test="createdAt != null">
-		        #{createdAt},
+		        #{createdAt,jdbcType=TIMESTAMP},
 		      </if>
 		      <if test="updatedAt != null">
-		        #{updatedAt},
+		        #{updatedAt,jdbcType=TIMESTAMP},
 		      </if>
 		      <if test="content != null">
 		        #{content},
@@ -147,7 +147,7 @@
 		        NAME = #{name},
 		      </if>
 		      <if test="updatedAt != null">
-		        UPDATED_AT = #{updatedAt},
+		        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 		      </if>
 		      CONTENT = #{content},
 		      <if test="park != null">

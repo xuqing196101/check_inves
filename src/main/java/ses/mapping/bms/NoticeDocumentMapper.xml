@@ -6,8 +6,8 @@
     <result column="NAME" property="name" />
     <result column="DOC_TYPE" property="docType" />
     <result column="CONTENT" property="content" />
-    <result column="CREATED_AT" property="createdAt" />
-    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, NAME, DOC_TYPE, CONTENT, CREATED_AT, UPDATED_AT
@@ -53,10 +53,10 @@
         #{content},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -75,10 +75,10 @@
         CONTENT = #{content},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
     where ID = #{id}
@@ -88,8 +88,8 @@
     set NAME = #{name,jdbcType=VARCHAR},
       DOC_TYPE = #{docType,jdbcType=VARCHAR},
       CONTENT = #{content,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
