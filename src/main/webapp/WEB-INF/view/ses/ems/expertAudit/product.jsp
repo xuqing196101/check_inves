@@ -5,7 +5,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<script type="text/javascript">
-			$(function() {
+			/* $(function() {
 			var expertId = $("#expertId").val();
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/getAllCategory.do",
@@ -55,9 +55,9 @@
 						$("#tab-1").attr("style", "");
 					}
 				});
-			});
+			}); */
 			
-	function showTree(tabId) {
+	/* function showTree(tabId) {
 		var expertId = $("#expertId").val();
 		var id = $("#" + tabId + "-value").val();
 		var zTreeObj;
@@ -102,20 +102,90 @@
 				var page = "tab-" + id.charAt(id.length - 1);
 				$("#" + page).attr("style", "");
 				showTree(page);
-			}
-		
-		/** 点击tree **/
-		function ztreeOnClick(event, treeId, treeNode){
-		alert(treeId);
-			if (treeNode != null){
-				if (!treeNode.isParent){
-					reason(treeNode.name);
-				} else {
-					layer.msg("请选择末级节点进行审核");
+			} */
+		</script>
+		<script type="text/javascript">
+				function showTree(tabId) {
+					var id = $("#" + tabId + "-value").val();
+					var zTreeObj;
+					var zNodes;
+					var expertId = $("#expertId").val();
+					var setting = {
+						async: {
+							autoParam: ["id"],
+							enable: true,
+							url: "${pageContext.request.contextPath}/expert/getCategory.do",
+							otherParam: {
+								"categoryId": id,
+								"expertId": expertId
+							},
+							dataFilter: ajaxDataFilter,
+							dataType: "json",
+							type: "get"
+						},
+						check: {
+							enable : true,
+							chkStyle:"checkbox",  
+							chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+						},
+						data: {
+							simpleData: {
+								enable: true,
+								idKey: "id",
+								pIdKey: "parentId"
+							}
+						},
+							callback:{
+								onClick: ztreeOnClick
+							}
+					};
+					zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
+					zTreeObj.expandAll(true);//全部展开
 				}
-			}
-			
-		}
+				
+				function ajaxDataFilter(treeId, parentNode, childNodes) {
+					// 判断是否为空
+					if (childNodes) {
+						// 判断如果父节点是第三极,则将查询出来的子节点全部改为isParent = false
+				    	if (parentNode != null && parentNode != "undefined" && parentNode.level == 2) {
+							for(var i =0; i < childNodes.length; i++) {
+					        	childNodes[i].isParent += false;
+					      	}
+				    	}
+				    }	
+				    return childNodes;
+				}
+				
+				function showDivTree(obj){
+					$("#tab-1").attr("style", "display: none");
+					$("#tab-2").attr("style", "display: none");
+					$("#tab-3").attr("style", "display: none");
+					var id = obj.id;
+					var page = "tab-" + id.charAt(id.length - 1);
+					$("#" + page).attr("style", "");
+					showTree(page);
+				}
+				
+				function initTree(){
+					showTree("tab-1");
+					$("#tab-1").attr("style", "");
+					$("li_id_1").attr("class", "active");
+					$("li_1").attr("aria-expanded", "true");
+					$("#tab-2").attr("style", "display: none");
+					$("#tab-3").attr("style", "display: none");
+				}
+				
+				/** 点击tree **/
+				function ztreeOnClick(event, treeId, treeNode){
+					if (treeNode != null){
+						if (!treeNode.isParent){
+							reason(treeNode.name);
+						} else {
+							layer.msg("请选择末级节点进行审核");
+						}
+					}
+					
+				}
 		</script>
 		<script type="text/javascript">
 			function jump(str) {
@@ -171,7 +241,7 @@
 		</script>
 	</head>
 
-	<body>
+	<body onload="initTree()">
 		<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
@@ -222,17 +292,17 @@
 								<c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
 									<c:if test="${cate.name eq '物资'}">
 										<li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);">
-											<a aria-expanded="true" data-toggle="tab" class="f18">物资</a>
+											<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资</a>
 										</li>
 									</c:if>
 									<c:if test="${cate.name eq '工程'}">
 										<li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);">
-											<a aria-expanded="true" data-toggle="tab" class="f18">工程</a>
+											<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程</a>
 										</li>
 									</c:if>
 									<c:if test="${cate.name eq '服务'}">
 										<li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);">
-											<a aria-expanded="false" data-toggle="tab" class="f18">服务</a>
+											<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务</a>
 										</li>
 									</c:if>
 								</c:forEach>

@@ -420,7 +420,7 @@ public class ExpertAuditController {
 	 * @Title: product
 	 * @author XuQing 
 	 * @date 2016-12-19 下午7:36:47  
-	 * @Description:产品信息
+	 * @Description:产品目录
 	 * @param @param expert
 	 * @param @param model
 	 * @param @param expertId
