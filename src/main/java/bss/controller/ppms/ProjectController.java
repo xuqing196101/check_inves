@@ -710,8 +710,10 @@ public class ProjectController extends BaseController {
     }
     
     @RequestMapping("/addProject")
-    public String addProject(String id, String bidAddress, String flowDefineId,String deadline, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
-        Project project = projectService.selectById(id);
+    public String addProject(Project project,String id, String bidAddress, String flowDefineId,String deadline, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
+        //Project project = projectService.selectById(id);
+    	String userId = request.getParameter("userId");
+    	project.setPrincipal(userId);
         project.setLinkman(linkman);
         project.setLinkmanIpone(linkmanIpone);
         project.setSupplierNumber(supplierNumber);

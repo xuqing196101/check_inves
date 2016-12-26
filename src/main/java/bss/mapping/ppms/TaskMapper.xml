@@ -117,7 +117,7 @@
            and t.PURCHASE_ID in (
                  SELECT ORG_ID FROM T_SES_BMS_USER 
                   <if test="userId != '' and userId != null">
-	                 	WHERE USER_ID = #{userId} 
+	                 	WHERE ID = #{userId} 
 	              	</if>      
               )                         
      </if> 
@@ -419,6 +419,14 @@
     <if test="documentNumber != null and documentNumber !=''">
        	and t.DOCUMENT_NUMBER like CONCAT(CONCAT('%', #{documentNumber}), '%')
     </if>
+    <if test="userId != null and userId != ''">
+        and t.PURCHASE_ID in (
+            SELECT ORG_ID FROM T_SES_BMS_USER 
+            <if test="userId != '' and userId != null">
+	             	WHERE ID = #{userId} 
+	          </if>      
+        )                         
+     </if>
      ORDER BY GIVE_TIME DESC
   </select>
 </mapper>

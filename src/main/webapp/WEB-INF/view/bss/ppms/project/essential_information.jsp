@@ -5,13 +5,21 @@
 <html>
 
   <head>
+  	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>	
     <script type="text/javascript">
       //表单验证
       var controldate;
       var deadline;
       function checkDate() {
-
+    	  layer.confirm('您确定要保存吗?', {
+				title: '提示',
+				offset: ['30%', '40%'],
+				shade: 0.01
+				}, function(index) {
+				layer.close(index);
         var flag = true;
         var id = $("#id").val();
         var flowDefineId = $("#flowDefineId").val();
@@ -123,8 +131,11 @@
         if(flag == true) {
           $("#save_form_id").submit();
         }
+				});
       }
-
+     
+				
+				
       function ycDiv(obj, index) {
     	  if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
               $(obj).removeClass("shrink");
@@ -238,6 +249,32 @@
     	  var date = $("#deadline").val();
     	  $("#bidDate").val(date);
       }
+      
+      $(function(){
+    	  var id = "${project.id}";
+    	  $.ajax({
+					url: "${ pageContext.request.contextPath }/project/getUserForSelect.do?id="+id,
+					contentType: "application/json;charset=UTF-8",
+					dataType: "json", //返回格式为json
+					type: "POST", //请求方式           
+					success: function(users) {
+						if(users) {
+							$("#principal").html("<option></option>");
+							$.each(users, function(i, user) {
+								if(user.relName != null && user.relName != '') {
+									$("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+								}
+							});
+						}
+						$("#principal").select2();
+						$("#principal").select2("val", "${project.principal}");
+					}
+				});
+      })
+      
+      function change(id) {
+				$("#userId").val(id);
+			}
     </script>
   </head>
 
@@ -277,7 +314,7 @@
                     </tr>
                     <tr>
                       <td class="bggrey">项目承办人:</td>
-                      <td class="p0"><input name="principal" class="m0" id="principal" value="${user.relName}" type="text"/></td>
+                      <td class="p0"><input type="hidden" name="userId" id="userId" value="${project.principal}"/><select id="principal" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select></td>
                       <td class="bggrey">经办人手机:</td>
                       <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text"/></td>
                     </tr>
@@ -382,7 +419,7 @@
                   </tbody>
                 </table>
                 <div class="col-md-12 tc mt20">
-                  <button class="btn btn-windows git" type="button" onclick="checkDate();">更新</button>
+                  <button class="btn btn-windows git" type="button" onclick="checkDate();">保存</button>
                 </div>
               </div>
             </form>
