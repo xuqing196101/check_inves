@@ -508,5 +508,10 @@ public class SaleTenderServiceImpl implements SaleTenderService {
     public List<SaleTender> findByCon(SaleTender saleTender) {
       return saleTenderMapper.find(saleTender);
     }
+
+    @Override
+    public void updateResult(HashMap<String, Object> stMap) {
+      saleTenderMapper.updateResult(stMap);
+    }
 }
 

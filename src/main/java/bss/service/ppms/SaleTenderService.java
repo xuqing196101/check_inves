@@ -139,5 +139,8 @@ public interface SaleTenderService   {
      * @param saleTender
      */
     public List<SaleTender> findByCon(SaleTender saleTender);
+
+
+    public void updateResult(HashMap<String, Object> stMap);
     
 }

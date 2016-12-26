@@ -1,6 +1,7 @@
 package bss.service.prms.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +13,12 @@ import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.PackageExpertMapper;
 import bss.dao.prms.ReviewFirstAuditMapper;
 import bss.dao.prms.ReviewProgressMapper;
+import bss.model.ppms.SaleTender;
 import bss.model.prms.ExpertScore;
 import bss.model.prms.PackageExpert;
 import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ReviewProgress;
+import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 @Service("packageExpertService")
 public class PackageExpertServiceImpl implements PackageExpertService {
@@ -24,13 +27,17 @@ public class PackageExpertServiceImpl implements PackageExpertService {
 	  @Autowired
 	  private ExpertScoreMapper expertScoremapper;
 	  @Autowired
-      private ReviewProgressMapper reviewProgressMapper;
+    private ReviewProgressMapper reviewProgressMapper;
 	  @Autowired
-      private ExpertScoreMapper expertScoreMapper;
-      @Autowired
-      private PackageExpertMapper packageExpertMapper;
-      @Autowired
-      private ReviewFirstAuditMapper reviewFirstAuditMapper;
+    private ExpertScoreMapper expertScoreMapper;
+    @Autowired
+    private PackageExpertMapper packageExpertMapper;
+    @Autowired
+    private ReviewFirstAuditMapper reviewFirstAuditMapper;
+    @Autowired
+    private SaleTenderService saleTenderService;
+      
+      
 	  /**
 	   * 
 	  * @Title: save
@@ -279,10 +286,52 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       if (packageExpertList.size() < packageExpertList2.size() ) {
         return "符合性审查未完成不能结束！";
       } else {
-        for (PackageExpert packageExpert : packageExpertList) {
-          packageExpert.setIsGather((short)1);
-          //更新专家对该包的评审状态为结束
-          packageExpertMapper.updateByBean(packageExpert);
+        //更新T_BSS_PPMS_SALE_TENDER表中isFirstPass是否通过符合性审查
+        SaleTender saleTender = new SaleTender();
+        saleTender.setProjectId(projectId);
+        saleTender.setPackages(packageId);
+        //查询该包下参与的供应商
+        List<SaleTender> sl = saleTenderService.findByCon(saleTender);
+        for (SaleTender saleTender2 : sl) {
+          //评审该供应商合格的专家人数
+          int isPass = 0;
+          //评审该供应商不合格的专家人数
+          int notPass = 0;
+          for (PackageExpert packageExpert : packageExpertList) {
+            packageExpert.setIsGather((short)1);
+            //更新专家对该包的评审状态为结束
+            packageExpertMapper.updateByBean(packageExpert);
+            
+            HashMap<String, Object> reviewFirstAuditMap = new HashMap<String, Object>();;
+            reviewFirstAuditMap.put("supplierId", saleTender2.getSuppliers().getId());
+            reviewFirstAuditMap.put("packageId", packageId);
+            reviewFirstAuditMap.put("expertId", packageExpert.getExpertId());
+            reviewFirstAuditMap.put("isBack", 0);
+            List<ReviewFirstAudit> reviewFirstAudits = reviewFirstAuditMapper.selectList(reviewFirstAuditMap);
+            if (reviewFirstAudits != null && reviewFirstAudits.size() > 0) {
+              int count2 = 0;
+              for (ReviewFirstAudit reviewFirstAudit : reviewFirstAudits) {
+                  if (reviewFirstAudit.getIsPass() == 1) {
+                      count2 ++;
+                      break;
+                  }
+              }
+              if (count2 > 0) {
+                notPass ++;
+              } else {
+                isPass ++;
+              }
+            }
+          }
+          if (notPass > isPass) {
+            //不通过的专家人数多于通过的专家人数
+            saleTender2.setIsFirstPass(0);
+            saleTenderService.update(saleTender2);
+          } else if (isPass > notPass) {
+            //通过的专家人数多于不通过的专家人数
+            saleTender2.setIsFirstPass(1);
+            saleTenderService.update(saleTender2);
+          }
         }
         return "SUCCESS";
       }

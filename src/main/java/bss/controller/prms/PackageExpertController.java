@@ -2143,6 +2143,22 @@ public class PackageExpertController {
         String msg = "";
         int flag = 0;
         String[] expertIdArr = expertIds.split(",");
+        //将包下所有供应商符合性审查结果置为空
+        SaleTender saleTender = new SaleTender();
+        saleTender.setProjectId(projectId);
+        saleTender.setPackages(packageId);
+        List<SaleTender> saleTenders = saleTenderService.findByCon(saleTender);
+        if (saleTenders != null && saleTenders.size() > 0) {
+          for (SaleTender saleTender2 : saleTenders) {
+            HashMap<String, Object> stMap = new HashMap<String, Object>();
+            stMap.put("id", saleTender2.getId());
+            stMap.put("isFirstPass", null);
+            stMap.put("economicScore", null);
+            stMap.put("technologyScore", null);
+            stMap.put("reviewResult", null);
+            saleTenderService.updateResult(stMap);
+          }
+        }
         if (expertIdArr != null && expertIdArr.length > 0) {
            for (int i = 0; i < expertIdArr.length; i++) {
               // 查询是否已评审

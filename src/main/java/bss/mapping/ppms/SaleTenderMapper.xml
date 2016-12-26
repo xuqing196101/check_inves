@@ -203,19 +203,19 @@
 		<!-- @mbggenerated -->
 		update T_BSS_PPMS_SALE_TENDER
 		set PROJECT_ID =
-		#{projectId,jdbcType=VARCHAR},
+		#{project.id,jdbcType=VARCHAR},
 		STATUS_BID =
 		#{statusBid,jdbcType=DECIMAL},
 		SUPPLIER_ID =
-		#{supplierId,jdbcType=VARCHAR},
+		#{suppliers.id,jdbcType=VARCHAR},
 		STATUS_BOND =
 		#{statusBond,jdbcType=DECIMAL},
 		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-		USER_ID = #{userId,jdbcType=VARCHAR},
+		USER_ID = #{user.id,jdbcType=VARCHAR},
 		BID_FINISH = #{bidFinish,jdbcType=DECIMAL},
 		PACKAGR_IDS = #{packages,jdbcType=VARCHAR},
-		IS_FIRST_PASS = #{isFirstPass},
+		IS_FIRST_PASS = #{isFirstPass,jdbcType=DECIMAL},
 		ECONOMIC_SCORE = #{economicScore,jdbcType=DECIMAL},
 		TECHNOLOGY_SCORE = #{technologyScore,jdbcType=DECIMAL},
 		REVIEW_RESULT = #{reviewResult,jdbcType=VARCHAR},
@@ -327,9 +327,22 @@
     <if test="project != null">
       AND st.PROJECT_ID = #{project.id,jdbcType=VARCHAR}
     </if>
+    <if test="packages != null">
+      AND st.PACKAGR_IDS = #{packages,jdbcType=VARCHAR}
+    </if>
     <if test="id != null">
       AND st.ID = #{id,jdbcType=VARCHAR}
     </if>
   </select>
 
+  	<update id="updateResult" parameterType="java.util.Map">
+		update T_BSS_PPMS_SALE_TENDER
+		set 
+		IS_FIRST_PASS = #{isFirstPass,jdbcType=DECIMAL},
+		ECONOMIC_SCORE = #{economicScore,jdbcType=DECIMAL},
+		TECHNOLOGY_SCORE = #{technologyScore,jdbcType=DECIMAL},
+		REVIEW_RESULT = #{reviewResult,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
 </mapper>

@@ -1,6 +1,7 @@
 package bss.dao.ppms;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.SaleTender;
@@ -109,5 +110,5 @@ public interface SaleTenderMapper {
      */
     List<SaleTender> find(SaleTender record);
     
-    
+    void updateResult(HashMap<String, Object> stMap);
 }

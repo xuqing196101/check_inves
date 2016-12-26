@@ -134,7 +134,7 @@
 			  <th class="w50 info">序号</th>
 			  <th class="info">包名</th>
 			  <th class="info">状态</th>
-			  <th class="info">初审进度</th>
+			  <th class="info">符合性审查进度</th>
 			  <th class="info">操作</th>
 			</tr>
 			</thead>
