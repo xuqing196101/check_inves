@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import bss.dao.ppms.AdvancedDetailMapper;
 import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.ProjectDetail;
 import bss.service.ppms.AdvancedDetailService;
 
 @Service("advancedDetailService")
@@ -82,5 +83,6 @@ public class AdvancedDetailServiceImpl implements AdvancedDetailService {
 
         return advancedDetailMapper.findHavePackageIdDetail(map);
     }
+
     
 }

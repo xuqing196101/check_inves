@@ -167,6 +167,7 @@
       //添加分包
       function addPack() {
         var projectId = $("#projectId").val();
+        var num = $("#num").val();
         var count = 0;
         var ids = "";
         var info = document.getElementsByName("info");
@@ -203,7 +204,7 @@
               layer.msg('添加成功', {
                 offset: ['40%', '45%']
               });
-              window.location.href = "${pageContext.request.contextPath }/advancedProject/subPackage.do?id=" + projectId;
+              window.location.href = "${pageContext.request.contextPath }/advancedProject/subPackage.do?id=" + projectId+"&num="+num;
             }
           });
         }
@@ -366,12 +367,12 @@
       }
       
       //上一步
-      function back(id){
-        window.location.href = "${pageContext.request.contextPath }/project/edit.do?id=" + id;
+      function backs(id){
+        window.location.href = "${pageContext.request.contextPath }/advancedProject/edit.do?id=" + id;
       }
       
       //下一步
-      function next(){
+     function next(){
         var projectId = $("#projectId").val();
         $.ajax({
           type: "POST",
@@ -447,8 +448,6 @@
 								<th>质量技术标准</th>
 								<th>计量单位</th>
 								<th>采购数量</th>
-								<th>单价（元）</th>
-								<th>预算金额（万元）</th>
 								<th>交货期限</th>
 								<th>采购方式</th>
 								<th>供应商名称</th>
@@ -469,8 +468,6 @@
 								<td>${obj.qualitStand}</td>
 								<td>${obj.item}</td>
 								<td>${obj.purchaseCount}</td>
-								<td>${obj.price}</td>
-								<td>${obj.budget}</td>
 								<td>${obj.deliverDate}</td>
 								<td>
 									<c:forEach items="${kind}" var="kind">
@@ -514,8 +511,6 @@
 								<th>质量技术标准</th>
 								<th>计量单位</th>
 								<th>采购数量</th>
-								<th>单价（元）</th>
-								<th>预算金额（万元）</th>
 								<th>交货期限</th>
 								<th>采购方式建议</th>
 								<th>供应商名称</th>
@@ -536,8 +531,6 @@
 								<td>${obj.qualitStand}</td>
 								<td>${obj.item}</td>
 								<td>${obj.purchaseCount}</td>
-								<td>${obj.price}</td>
-								<td>${obj.budget}</td>
 								<td>${obj.deliverDate}</td>
 								<td>
 									<c:forEach items="${kind}" var="kind">
@@ -559,70 +552,16 @@
 		
 		<!-- 按钮 -->
 		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-			<button class="btn" type="button" onclick="back('${project.id}')">上一步</button>
-			<button class="btn" type="button" onclick="next()">下一步</button>
+		  <input type="hidden" id="num" value="${num}"/>
+			<c:if test="${num eq 1}">
+        <button class="btn" type="button" onclick="JavaScript:history.go(-1)">上一步</button>
+      </c:if>
+      <c:if test="${num eq 0}">
+        <button class="btn" type="button" onclick="backs('${project.id}')">上一步</button>
+      </c:if>
+      <button class="btn" type="button" onclick="next()">下一步</button>
 		</div>
 		
-		<c:if test="${!empty list}">
-			<div class="content table_box dnone" id="oddDetail">
-				<table class="table table-bordered table-condensed table-hover table-striped">
-					<thead>
-						<tr class="info">
-							<th class="w30"><input type="checkbox" id="selectAddAll" onclick="selectAddAll()"></th>
-							<th class="w50">序号</th>
-							<th>需求部门</th>
-							<th>物资名称</th>
-							<th>规格型号</th>
-							<th>质量技术标准</th>
-							<th>计量单位</th>
-							<th>采购数量</th>
-							<th>单价（元）</th>
-							<th>预算金额（万元）</th>
-							<th>交货期限</th>
-							<th>采购方式</th>
-							<th>供应商名称</th>
-							<c:if test="${project.isImport==1 }">
-								<th>是否申请办理免税</th>
-								<th>物资用途（进口）</th>
-								<th>使用单位（进口）</th>
-							</c:if>
-						</tr>
-					</thead>
-					<c:forEach items="${list}" var="obj">
-						<tr class="tc">
-							<td class="w30"><input type="checkbox" value="${obj.id }" name="infoAdd" onclick="selectedAddBox(this)"></td>
-							<td class="w50">${obj.serialNumber }</td>
-							<td>${obj.department}</td>
-							<td>${obj.goodsName}</td>
-							<td>${obj.stand}</td>
-							<td>${obj.qualitStand}</td>
-							<td>${obj.item}</td>
-							<td>${obj.purchaseCount}</td>
-							<td>${obj.price}</td>
-							<td>${obj.budget}</td>
-							<td>${obj.deliverDate}</td>
-							<td>
-								<c:forEach items="${kind}" var="kind">
-									<c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-								</c:forEach>
-							</td>
-							<td>${obj.supplier}</td>
-							<c:if test="${project.isImport==1 }">
-								<td>${obj.isFreeTax}</td>
-								<td>${obj.goodsUse}</td>
-								<td>${obj.useUnit}</td>
-							</c:if>
-						</tr>
-					</c:forEach>
-				</table>
-				<!-- 按钮 -->
-				<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-					<button class="btn btn-windows save" type="button" onclick="sureAdd()">确定</button>
-					<input class="btn btn-windows back" value="取消" type="button" onclick="cancel()" />
-				</div>
-			</div>
-
-		</c:if>
 	</body>
 
 </html>

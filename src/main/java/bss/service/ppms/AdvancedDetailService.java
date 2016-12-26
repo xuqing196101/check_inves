@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.ProjectDetail;
 
 public interface AdvancedDetailService {
     /**
@@ -98,4 +99,5 @@ public interface AdvancedDetailService {
     List<AdvancedDetail> findNoPackageIdDetail(Map<String, Object> map);
     
     List<AdvancedDetail> findHavePackageIdDetail(Map<String, Object> map);
+    
 }

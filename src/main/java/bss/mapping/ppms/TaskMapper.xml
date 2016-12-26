@@ -88,6 +88,7 @@
     select
     t.ID as id,
     t.NAME as name,
+    t.COLLECT_ID as collectId,
     t.PURCHASE_ID as purchaseId,
     t.PURCHASE_REQUIRED_ID as purchaseRequiredId,
     t.STATUS as status,

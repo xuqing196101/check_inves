@@ -27,6 +27,7 @@
     <result column="POSITION"  property="position" />
     <result column="REQUIRED_ID"  property="requiredId" />
     <result column="PLAN_NO"  property="planNo" />
+    <result column="PACKAGE_ID"  property="packageId" />
     <result column="AD_PROJECT_ID"  property="advancedProject" />
     <association property="purchaseDep" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
     <association property="packages" column="PACKAGE_ID" select="bss.dao.ppms.AdvancedPackageMapper.selectByPrimaryKey"/> 

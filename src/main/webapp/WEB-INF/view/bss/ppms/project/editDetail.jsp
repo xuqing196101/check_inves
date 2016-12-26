@@ -6,12 +6,12 @@
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
-  function sum2(obj) { //数量
+ function sum2(obj) { //数量
     var id = $(obj).next().val();
-	$.ajax({
-	  url : "${pageContext.request.contextPath}/project/viewIds.html",
+    var projectId = $("#id").val();
+  $.ajax({
+    url : "${pageContext.request.contextPath}/project/viewIds.html?id="+id+"&projectId="+projectId,
 	  type : "post",
-	  data : "id=" + id,
 	  dataType : "json",
 	  success : function(data) {
 		var purchaseCount = $(obj).val() - 0;//数量
@@ -43,11 +43,11 @@
 
   //单价
   function sum1(obj) {
-    var id = $(obj).next().val();
-	$.ajax({
-	  url : "${pageContext.request.contextPath}/project/viewIds.html",
+     var id = $(obj).next().val();
+    var projectId = $("#id").val();
+  $.ajax({
+    url : "${pageContext.request.contextPath}/project/viewIds.html?id="+id+"&projectId="+projectId,
 	  type : "post",
-	  data : "id=" + id,
 	  dataType : "json",
 	  success : function(data) {
 		var purchaseCount = $(obj).val() - 0; //价钱

@@ -99,6 +99,7 @@
         var projectNumber = $("#projectNumber").val();
         var department = $("#department").val();
         var purchaseType = $("#purchaseType").val();
+        var planType = $("#planType").val();
         if(proName == ""){
           layer.tips("项目名称不允许为空", "#proName");
         }else if(projectNumber == "") {
@@ -114,7 +115,8 @@
 	          moveType : 1, //拖拽风格，0是默认，1是传统拖动
 	          shift : 1, //0-6的动画形式，-1不开启
 	          shadeClose : true,
-	          content : '${pageContext.request.contextPath}/advancedProject/attachment.html?proName='+proName+'&projectNumber='+projectNumber+'&department='+department+'&purchaseType='+purchaseType+'&ids='+ids,
+	          content : '${pageContext.request.contextPath}/advancedProject/attachment.html?proName='+proName+
+	          '&projectNumber='+projectNumber+'&department='+department+'&purchaseType='+purchaseType+'&ids='+ids+'&planType='+planType,
           });
         }
         
@@ -220,6 +222,7 @@
                             ${kind.name}
                             <input type="hidden" id="kindName" name="kindName" value="${kind.name}"/>
                             <input type="hidden" id="purchaseType" name="purchaseType" value="${obj.purchaseType}"/>
+                            <input type="hidden" id="planName" name="planName" value="${obj.planName}"/>
                           </c:if>
                         </c:forEach>
                       </td>
@@ -227,7 +230,7 @@
                       <td class="tc">${obj.isFreeTax}</td>
                       <td class="tc">${obj.goodsUse}</td>
                       <td class="tc">${obj.useUnit}</td>
-                      <td class="tc">${obj.memo}</td>
+                      <td class="tc">${obj.memo} <input type="hidden" id="planType" name="planType" value="${obj.planType}"/></td>
                     </tr>
                   </c:forEach>
                 </tbody>

@@ -8,10 +8,10 @@
 <script type="text/javascript">
   function sum2(obj) { //数量
     var id = $(obj).next().val();
+    var projectId = $("#projectId").val();
   $.ajax({
-    url : "${pageContext.request.contextPath}/advancedProject/viewIds.html",
+    url : "${pageContext.request.contextPath}/advancedProject/viewIds.html?id="+id+"&projectId="+projectId,
     type : "post",
-    data : "id=" + id,
     dataType : "json",
     success : function(data) {
     var purchaseCount = $(obj).val() - 0;//数量
@@ -43,11 +43,10 @@
 
   //单价
   function sum1(obj) {
-    var id = $(obj).next().val();
+    var projectId = $("#projectId").val();
   $.ajax({
-    url : "${pageContext.request.contextPath}/advancedProject/viewIds.html",
+    url : "${pageContext.request.contextPath}/advancedProject/viewIds.html?id="+id+"&projectId="+projectId,
     type : "post",
-    data : "id=" + id,
     dataType : "json",
     success : function(data) {
     var purchaseCount = $(obj).val() - 0; //价钱
@@ -135,8 +134,13 @@
   
   //分包
   function subPackage(){
+   var num = "0";
     var id = $("#id").val();
-    window.location.href = "${pageContext.request.contextPath}/advancedProject/subPackage.html?id=" + id;
+    window.location.href = "${pageContext.request.contextPath}/advancedProject/subPackage.html?id=" + id+"&num="+num;
+  }
+  
+   function goBack(){
+    window.location.href = "${pageContext.request.contextPath }/advancedProject/list.html";
   }
 </script>
 </head>
@@ -195,7 +199,7 @@
           <th class="info">单价（元）</th>
           <th class="info">预算金额<br>（万元）</th>
           <th class="info">交货期限</th>
-            <th class="info">采购方式建议</th>
+            <th class="info">采购方式</th>
           <th class="info">供应商名称</th>
           <th class="info">是否申请办理免税</th>
           <th class="info">物资用途（进口）</th>
@@ -206,7 +210,10 @@
         <c:forEach items="${lists}" var="obj" varStatus="vs">
         <tr class="${obj.parentId}" style="cursor: pointer;">
           <td class="tc w50">${obj.serialNumber}</td>
-            <td class="tc">${obj.department}</td>
+            <td class="tc">
+            <c:if test="${obj.department == orgnization.id}">
+                          ${orgnization.name}
+                        </c:if></td>
           <td class="tc">${obj.goodsName}</td>
           <td class="tc">${obj.stand}</td>
           <td class="tc">${obj.qualitStand}</td>
@@ -234,7 +241,7 @@
           </c:if>
           </td>
           <td class="tc p0">
-            <input type="hidden" name="ss" value="${obj.id }">
+           <input type="hidden" name="ss" value="${obj.id }">
           <input maxlength="11" id="budget" name="detail[${vs.index }].budget" class=" m0 w80" readonly="readonly" value="${obj.budget}" type="text"/>
           <input type="hidden" name="ss" value="${obj.parentId }">
           </td>
@@ -253,7 +260,7 @@
           <td class="tc">${obj.isFreeTax}</td>
           <td class="tc">${obj.goodsUse}</td>
           <td class="tc">${obj.useUnit}</td>
-          <td class="tc">${obj.memo}</td>
+          <td class="tc">${obj.memo} <input type="hidden" id="projectId"  value="${obj.advancedProject }"></td>
           </tr>
         </c:forEach>
       </table>
@@ -262,7 +269,7 @@
     <div class="col-md-12 tc">
     <button class="btn" type="button" onclick="subPackage()">分包</button>
     <button class="btn btn-windows git" type="button" onclick="edit()">修改</button>
-    <button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
+    <button class="btn btn-windows back" type="button" onclick="goBack();">返回</button>
     </div>
     </sf:form>
   </div>
