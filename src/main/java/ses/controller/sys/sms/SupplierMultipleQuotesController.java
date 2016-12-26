@@ -173,7 +173,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
                 qt.setProductId(pd.getId());
                 qt.setQuotePrice(new BigDecimal(listBd.get(count * 4 - 4)));
                 qt.setTotal(new BigDecimal(listBd.get(count * 4 - 3)));
-                qt.setDeliveryTime(new Timestamp(new SimpleDateFormat("YYYY-MM-dd").parse(listBd.get(count * 4 - 2)).getTime()));
+                qt.setDeliveryTime(listBd.get(count * 4 - 2));
                 qt.setRemark(listBd.get(count * 4 - 1).equals("null") ? "" : listBd.get(count * 4 - 1));
                 qt.setCreatedAt(timestamp);
                 listQuote.add(qt);

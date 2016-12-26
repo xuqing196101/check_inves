@@ -104,7 +104,7 @@
 	    x=oRect.left - 150;  
 	    y=oRect.top + 100;  
 		var projectId = $("#projectId").val();
-		layer.confirm('确定要唱总价么？', {title: '提示',offset: [y,x],shade: 0.01}, 
+		layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
 		function(index) {
 			layer.close(index);
 			window.location.href = "${pageContext.request.contextPath}/open_bidding/quotetab1.html?projectId=" + projectId;
@@ -117,7 +117,7 @@
 	    x=oRect.left - 150;  
 	    y=oRect.top + 100;  
 	    var projectId = $("#projectId").val();
-		layer.confirm('确定要唱明细么？', {title: '提示',offset: [y,x],shade: 0.01}, 
+		layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
 		function(index) {
 			layer.close(index);
 			window.location.href = "${pageContext.request.contextPath}/open_bidding/quotetab2.html?projectId=" + projectId;

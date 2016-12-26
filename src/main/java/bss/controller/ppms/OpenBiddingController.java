@@ -8,6 +8,7 @@ import iss.service.ps.ArticleTypeService;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -833,7 +834,7 @@ public class OpenBiddingController {
     
     @RequestMapping("/save")
     @ResponseBody
-    public void save(BigDecimal total ,String deliveryTime ,Integer isTurnUp ,String supplierId, String projectId, String packageId ,String quoteId) throws ParseException{
+    public void save(BigDecimal total ,String deliveryTime ,Integer isTurnUp ,String supplierId, String projectId, String packageId ,String quoteId) throws Exception{
         List<Quote> quoteList = new ArrayList<Quote>();
         Quote quote = new Quote();
         quote.setSupplierId(supplierId);
@@ -843,7 +844,7 @@ public class OpenBiddingController {
         quote.setProjectId(projectId);
         quote.setIsTurnUp(isTurnUp);
         if (deliveryTime != null && !"".equals(deliveryTime)) {
-            quote.setDeliveryTime(new Timestamp(new SimpleDateFormat("yyyy-MM-dd").parse(deliveryTime).getTime()));
+            quote.setDeliveryTime(URLDecoder.decode(deliveryTime, "UTF-8"));
         }
         quoteList.add(quote);
         if (quoteId == null || "".equals(quoteId)) {
@@ -1078,7 +1079,7 @@ public class OpenBiddingController {
      * @throws ParseException 异常处理
      */
     @RequestMapping(value = "/savemingxi")
-    public String saves(HttpServletRequest req, Quote quote, Model model, String priceStr) throws ParseException {
+    public String saves(HttpServletRequest req, Quote quote, Model model, String priceStr) throws Exception {
         List<String> listBd = Arrays.asList(priceStr.split(","));
         User user = (User) req.getSession().getAttribute("loginUser");
         List<Quote> listQuote = new ArrayList<Quote>();
@@ -1129,8 +1130,8 @@ public class OpenBiddingController {
                 qt.setProductId(listBd.get(count*7 -2));
                 qt.setQuotePrice(new BigDecimal(listBd.get(count * 7 - 7)));
                 qt.setTotal(new BigDecimal(listBd.get(count * 7 - 6)));
-                qt.setDeliveryTime(new Timestamp(new SimpleDateFormat("YYYY-MM-dd").parse(listBd.get(count * 7 - 5)).getTime()));
-                qt.setRemark(listBd.get(count * 7 - 4).equals("null") ? "" : listBd.get(count * 7 - 4));
+                qt.setDeliveryTime(URLDecoder.decode(listBd.get(count * 7 - 5), "UTF-8"));
+                qt.setRemark(URLDecoder.decode(listBd.get(count * 7 - 4), "UTF-8").equals("null") ? "" : URLDecoder.decode(listBd.get(count * 7 - 4), "UTF-8"));
                 qt.setCreatedAt(timestamp);
                 listQuote.add(qt);
             }

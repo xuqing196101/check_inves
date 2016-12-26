@@ -60,7 +60,7 @@ public class Quote {
     /**
      * 成交时间
      */
-    private Timestamp deliveryTime;
+    private String deliveryTime;
     
     /**
      * 备注
@@ -132,11 +132,11 @@ public class Quote {
         this.supplier = supplier;
     }
 
-    public Timestamp getDeliveryTime() {
+    public String getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(Timestamp deliveryTime) {
+    public void setDeliveryTime(String deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 

@@ -24,6 +24,8 @@
 			return;
 		}
 		var deliveryTime = $(obj).parent().parent().find("td").eq("3").find("input").val();
+		deliveryTime = encodeURI(deliveryTime);
+		deliveryTime = encodeURI(deliveryTime);
 		if (!deliveryTime) {
 			layer.msg("交货时间为必填",{offset: [y, x]});
 			return;
@@ -53,16 +55,22 @@
 	    y=oRect.top - 150;  
 		var allTable = document.getElementsByTagName("table");
 		var priceStr = "";
+		var count = 0;
 		for(var i = 1; i < allTable.length; i++) {
-			var count = 0;
 			for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
 				var total = $(allTable[i].rows).eq(j).find("td").eq("2").find("input").val();
 				var time = $(allTable[i].rows).eq(j).find("td").eq("3").find("input").val();
+				var reg = /^\d+\.?\d*$/;
 				if (total == "" || time == "") {
 					count ++;
-					layer.msg("表单未填写完整,单价和交货时间必须填写,请检查表单");
-					return ;
+						layer.msg("表单未填写完整,单价和交货时间必须正确填写,请检查表单");
+						return ;
 				}
+				if(!reg.exec(total)) {
+						count ++;
+						layer.msg("表单未填写完整,单价和交货时间必须正确填写,请检查表单");
+						return ;
+			   }
 			};
 		}
 		if (count == 0) {
@@ -144,7 +152,7 @@
 				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
 					<c:if test="${not empty treemapValue.total}">
 				    	<td class="tc">${treemapValue.total}</td>
-				    	<td class="tc"><fmt:formatDate value="${treemapValue.deliveryTime }" pattern="YYYY-MM-dd" /></td>
+				    	<td class="tc">${treemapValue.deliveryTime }</td>
 						<td class="tc">
 								<c:if test="${treemapValue.isTurnUp ==2 }">已到场</c:if>
 								<c:if test="${treemapValue.isTurnUp ==1 }">未到场</c:if>
@@ -153,7 +161,7 @@
 					
 					<c:if test="${empty treemapValue.total}">
 						<td class="tc"><input class="w60"  maxlength="16" /></td>
-						<td class="tc"><input class="w90" value="<fmt:formatDate value="${treemapValue.deliveryTime }" pattern="YYYY-MM-dd" />"  readonly="readonly" onClick="WdatePicker()" /></td>
+						<td class="tc"><input class="w90" value="${treemapValue.deliveryTime }"/></td>
 						<td class="tc">
 							<select>
 								<option  <c:if test="${treemapValue.isTurnUp ==2 }">selected = "selected"</c:if>>已到场</option>
@@ -184,7 +192,7 @@
 </c:forEach>
 		<div class="col-md-12 tc">
 		   <c:if test="${flag == false }">
-			<input class="btn btn-windows save" value="保存" type="button" onclick="eachTable(this)">
+			<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
 		   </c:if>
 		</div>
 </div>

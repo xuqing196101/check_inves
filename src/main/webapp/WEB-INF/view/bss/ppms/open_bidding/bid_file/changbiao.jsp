@@ -80,7 +80,11 @@ function eachTable(obj) {
 			var price = $(allTable[i].rows).eq(j).find("td").eq("6").find("input").val();
 			var total = $(allTable[i].rows).eq(j).find("td").eq("7").text();
 			var deliveryTime = $(allTable[i].rows).eq(j).find("td").eq("8").find("input").val();
+			deliveryTime = encodeURI(deliveryTime);
+			deliveryTime = encodeURI(deliveryTime);
 			var remark = $(allTable[i].rows).eq(j).find("td").eq("9").find("input").val();
+			remark = encodeURI(remark);
+			remark = encodeURI(remark);
 			if(remark == "" || remark.trim() == "") {
 				remark = null;
 			}
@@ -178,7 +182,7 @@ function ycDiv(obj, index){
 				<td>${lq.projectDetail.purchaseCount }</td>
 				<td>${lq.quotePrice }</td>
 				<td>${lq.total }</td>
-				<td><fmt:formatDate value="${lq.deliveryTime }" pattern="YYYY-MM-dd" /></td>
+				<td>${lq.deliveryTime }</td>
 				<td>${lq.remark }</td>
 			</tr>
 		</c:forEach> 
@@ -235,7 +239,7 @@ function ycDiv(obj, index){
 											<td>${pd.quotePrice}</td>
 											<td class="tc">${pd.total}</td>
 											<%-- <td class="tc"><input class="w90" value="<fmt:formatDate value="${pd.deliveryTime }" pattern="YYYY-MM-dd" />" readonly="readonly" onClick="WdatePicker()" /></td> --%>
-											<td><fmt:formatDate value="${pd.deliveryTime }" pattern="YYYY-MM-dd" /></td>
+											<td>${pd.deliveryTime }</td>
 											<%-- <td class="tc"><input class="w60" />${pd.remark}</td> --%>
 											<td class="tc">${pd.remark}</td>
 										</tr>
@@ -250,7 +254,7 @@ function ycDiv(obj, index){
 											<td class="tc">${pd.purchaseCount}</td>
 											<td class="tc"><input class="w60" value="${pd.quotePrice}" maxlength="16" onblur="addTotal()" /></td>
 											<td class="tc">${pd.total}</td>
-											<td class="tc"><input class="w90" value="<fmt:formatDate value="${pd.deliveryTime }" pattern="YYYY-MM-dd" />" readonly="readonly" onClick="WdatePicker()" /></td>
+											<td class="tc"><input class="w90" value="${pd.deliveryTime }"/></td>
 											<td class="tc"><input class="w60" />${pd.remark}</td>
 										</tr>
 									</c:if>
@@ -280,7 +284,7 @@ function ycDiv(obj, index){
 		</c:forEach>
 		<div class="col-md-12 tc">
 		  <c:if test="${flagButton == false }">
-			<input class="btn btn-windows save" value="暂存" type="button" onclick="eachTable(this)">
+			<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
 		  </c:if>
 		</div>
 	  </form>

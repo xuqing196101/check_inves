@@ -94,7 +94,7 @@
 							</li>
 							<li class="col-md-6 p0" >
 							   <div id="valid">
-								 <span class="">请输入报价百分比  :</span> 
+								 <span class="">供应商报价不得超过有效供应商报价平均值百分比&nbsp;请输入百分比  :</span> 
 								 <input name="valid"  type="text" value="${bidMethod.valid }">
 							   </div>
 									<!-- <span>供应商报价不得超过有效供应商报价平均值百分比</span> -->
@@ -102,7 +102,7 @@
 							<li class="col-md-12 p0 dnone" id="business">
 								<!-- <span class="">商务技术评分不得低于上午技术评分百分比:</span> --> 
 								<div id="business">
-								<span class="">请输入商务百分比  :</span> 
+								<span class="">商务技术评分不得低于上午技术评分百分比&nbsp;请输入百分比  :</span> 
 								<input name="business"  type="text" value="${bidMethod.business }">
 								</div>
 							</li>

@@ -10,7 +10,7 @@
     <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
     <result column="TOTAL" jdbcType="DECIMAL" property="total" />
     <result column="PRODUCT_ID" jdbcType="VARCHAR" property="productId" />
-    <result column="DELIVERY_TIME" jdbcType="TIMESTAMP" property="deliveryTime" />
+    <result column="DELIVERY_TIME" jdbcType="VARCHAR" property="deliveryTime" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="IS_TURN_UP" jdbcType="DECIMAL" property="isTurnUp" />
     <association property="packages" column="PACKAGE_ID" select="bss.dao.ppms.PackageMapper.findPackageByCondition"/>
@@ -144,7 +144,7 @@
         #{total,jdbcType=DECIMAL},
       </if>
        <if test="deliveryTime != null">
-        #{deliveryTime,jdbcType=TIMESTAMP},
+        #{deliveryTime,jdbcType=VARCHAR},
       </if>
        <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -182,7 +182,7 @@
         IS_TURN_UP= #{isTurnUp,jdbcType=DECIMAL},
       </if>
       <if test="deliveryTime != null">
-        DELIVERY_TIME = #{deliveryTime,jdbcType=TIMESTAMP},
+        DELIVERY_TIME = #{deliveryTime,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

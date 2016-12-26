@@ -74,7 +74,7 @@ public class ProjectDetail {
     /**
      * 成交时间
      */
-    private Timestamp deliveryTime;
+    private String deliveryTime;
     
     /**
      * 备注
@@ -123,11 +123,12 @@ public class ProjectDetail {
         this.total = total;
     }
 
-    public Timestamp getDeliveryTime() {
+
+    public String getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(Timestamp deliveryTime) {
+    public void setDeliveryTime(String deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 

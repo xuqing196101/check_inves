@@ -156,7 +156,7 @@ public class SaleTender {
     //报价金额
     private BigDecimal total;
     //交货时间
-    private Date deliveryTime;
+    private String deliveryTime;
     //是否到场
     private Integer isTurnUp;
     //报价表ID 判断是新增还是修改
@@ -249,13 +249,12 @@ public class SaleTender {
         this.groupShowId = groupShowId;
     }
 
-
-    public Date getDeliveryTime() {
+    public String getDeliveryTime() {
         return deliveryTime;
     }
 
 
-    public void setDeliveryTime(Date deliveryTime) {
+    public void setDeliveryTime(String deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 
