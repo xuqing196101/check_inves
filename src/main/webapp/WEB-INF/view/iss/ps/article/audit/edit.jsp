@@ -117,12 +117,12 @@
                   });
                 }
                 $("#secondType").select2();
-                $("#secondType").select2("val", "${article.secondType }");
+                $("#secondType").select2("val", "${article.secondArticleTypeId }");
               }
             });
           
           
-          var sparentId = "${article.secondType }";
+          var sparentId = "${article.secondArticleTypeId }";
           $.ajax({
               contentType: "application/json;charset=UTF-8",
               url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+sparentId,
@@ -138,11 +138,11 @@
                   });
                 }
                 $("#threeType").select2();
-                $("#threeType").select2("val", "${article.threeType }");
+                $("#threeType").select2("val", "${article.threeArticleTypeId }");
               }
             });
           
-          var fparentId = "${article.threeType }";
+          var fparentId = "${article.threeArticleTypeId }";
           $.ajax({
               contentType: "application/json;charset=UTF-8",
               url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+fparentId,
@@ -158,7 +158,7 @@
                   });
                 }
                 $("#fourType").select2();
-                $("#fourType").select2("val", "${article.fourType }");
+                $("#fourType").select2("val", "${article.fourArticleTypeId }");
               }
             });
           
@@ -375,7 +375,7 @@
           <li class="col-md-3 col-sm-6 col-xs-12 hide" id="second">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>栏目属性：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <select id="secondType" name="attributeType" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="secondTypeInfo()">
+                <select id="secondType" name="secondArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="secondTypeInfo()">
                 </select>
                 <div class="cue" id="ERR_secondType"></div>
               </div>
@@ -384,7 +384,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="three">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>栏目类型：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <select id="threeType" name="purchaseType" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="threeTypeInfo()">
+                <select id="threeType" name="threeArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="threeTypeInfo()">
                 </select>
                 <div class="cue" id="ERR_threeType"></div>
               </div>
@@ -393,7 +393,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="four">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购方式：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <select id="fourType" name="getPurchaseWay" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="fourTypeInfo()">
+                <select id="fourType" name="fourArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="fourTypeInfo()">
                 </select>
                 <div class="cue" id="ERR_fourType"></div>
               </div>

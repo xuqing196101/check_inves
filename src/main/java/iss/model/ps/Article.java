@@ -134,13 +134,25 @@ public class Article{
      */
     private String sourceLink;
     
-    private String purchaseType;
+    /**
+     * @Fields attributeType : 二级栏目节点(栏目属性)
+     */
+    private String secondArticleTypeId;
     
-    private String attributeType;
+    /**
+     * @Fields purchaseType : 三级栏目节点(采购类型)
+     */
+    private String threeArticleTypeId;
     
-    private String purchaseWay;
+    /**
+     * @Fields attributeType : 四级栏目节点(采购方式)
+     */
+    private String fourArticleTypeId;
     
-    private String overType;
+    /**
+     *  @Fields lastArticleTypeId : 末级栏目节点
+     */
+    private String lastArticleTypeId;
     
     private List<ArticleAttachments> articleAttachments;
         
@@ -345,37 +357,36 @@ public class Article{
 		this.sourceLink = sourceLink;
 	}
 
-	public String getPurchaseType() {
-		return purchaseType;
+	public String getSecondArticleTypeId() {
+		return secondArticleTypeId;
 	}
 
-	public void setPurchaseType(String purchaseType) {
-		this.purchaseType = purchaseType;
+	public void setSecondArticleTypeId(String secondArticleTypeId) {
+		this.secondArticleTypeId = secondArticleTypeId;
 	}
 
-	public String getAttributeType() {
-		return attributeType;
+	public String getThreeArticleTypeId() {
+		return threeArticleTypeId;
 	}
 
-	public void setAttributeType(String attributeType) {
-		this.attributeType = attributeType;
+	public void setThreeArticleTypeId(String threeArticleTypeId) {
+		this.threeArticleTypeId = threeArticleTypeId;
 	}
 
-	public String getPurchaseWay() {
-		return purchaseWay;
+	public String getFourArticleTypeId() {
+		return fourArticleTypeId;
 	}
 
-	public void setPurchaseWay(String purchaseWay) {
-		this.purchaseWay = purchaseWay;
+	public void setFourArticleTypeId(String fourArticleTypeId) {
+		this.fourArticleTypeId = fourArticleTypeId;
 	}
 
-	public String getOverType() {
-		return overType;
+	public String getLastArticleTypeId() {
+		return lastArticleTypeId;
 	}
 
-	public void setOverType(String overType) {
-		this.overType = overType;
+	public void setLastArticleTypeId(String lastArticleTypeId) {
+		this.lastArticleTypeId = lastArticleTypeId;
 	}
-	
 	
 }
