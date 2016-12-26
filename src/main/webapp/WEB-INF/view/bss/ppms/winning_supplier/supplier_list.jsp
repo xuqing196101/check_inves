@@ -227,7 +227,7 @@
   </script>
 
   <body>
-    <div class="col-md-12 p0">
+    <div class="col-md-12 col-xs-12 col-sm-12 p0">
       <ul class="flow_step">
         <li class="active">
           <a href="javascript:void(0);" onclick="tabone();">01、确认中标供应商</a>
@@ -239,19 +239,18 @@
         </li>
         <li>
               <a href="javascript:void(0);" onclick="tabthree();">03、未中标通知书</a>
-            <i></i>
         </li>
       </ul>
     </div>
-      <div class="headline-v2">
-        <h2>确认中标供应商</h2>
-      </div>
+
+      <h2 class="list_title mb0 clear">确认中标供应商</h2>
+
       <c:if test="${view != 1 }">
-        <div class="col-md-12 pl20 mt10">
+        <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
           <button class="btn " onclick="save();" type="button">确定</button>
         </div>
       </c:if>
-      <div class="content table_box">
+      <div class="content table_box pl0">
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr>

@@ -302,7 +302,7 @@
         <div class="tab-content">
           <div class="tab-pane fade active in" id="tab-1">
             <form id="save_form_id" action="${pageContext.request.contextPath}/project/addProject.html" method="post">
-              <h2 onclick="ycDiv(this,'${1}')" class="count_flow shrink hand">基本信息</h2>
+              <h2 onclick="ycDiv(this,'${1}')" class="count_flow spread hand">基本信息</h2>
               <div class="p0${1}">
                 <table class="table table-bordered left_table">
                   <tbody>
@@ -352,7 +352,7 @@
                   </tbody>
                 </table>
               </div>
-              <h2 onclick="ycDiv(this,'${2}')" class="count_flow shrink hand">时间信息</h2>
+              <h2 onclick="ycDiv(this,'${2}')" class="count_flow spread hand">时间信息</h2>
               <div class="p0${2}">
                 <table class="table table-bordered">
                   <tbody>
