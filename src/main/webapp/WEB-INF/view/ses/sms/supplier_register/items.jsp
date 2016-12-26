@@ -120,9 +120,9 @@
 	function loadZtree(code, kind) {
 		var supplierId="${currSupplier.id}";
 			$.ajax({
-		        type: "GET",
+		        type: "POST",
 		        async: false, 
-		        url: "${pageContext.request.contextPath}/supplier/category_type.html?code="+code+"&supplierId="+supplierId,
+		        url: "${pageContext.request.contextPath}/supplier/category_type.do?code="+code+"&supplierId="+supplierId,
 		        dataType: "json",
 		        success: function(zNodes){
 			        	zTreeObj = $.fn.zTree.init($("#" + kind), setting, zNodes);
@@ -364,7 +364,7 @@
 					<div class="padding-top-10" >
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
-								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
+								<li id="li_id_1" onclick="" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
 								<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>

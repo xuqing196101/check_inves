@@ -1560,8 +1560,8 @@ public class SupplierController extends BaseSupplierController {
 		return "ses/sms/supplier_register/basic_info";
 	}
   	
-	@RequestMapping(value="/category_type" ,produces = "application/json;charset=UTF-8")
-    @ResponseBody
+	@ResponseBody
+	@RequestMapping(value="/category_type", produces = "application/json;charset=UTF-8")
     public List<CategoryTree> getCategory(String id,String name,String code,String supplierId){
         List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
         String typeId ="";
