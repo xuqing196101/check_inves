@@ -16,17 +16,12 @@ session.setAttribute("tokenSession", tokenValue);
 	var expertStatus = "${expert.status}";
 	var errorField = "${errorField}";
 	// 如果状态为退回,判断品目有没有被退回
-	function isNotPass(zNodes, zTreeObj){
+	function setFontCss(treeId, treeNode){
 		// 如果状态是为退回才进行判断
 		if (expertStatus == '3' || expertStatus　== 3) {
-			for (var j=0, l=zNodes.length; j<l; j++) {
-				zTreeObj.setting.view.fontCss = {};
-				// 如果错误字段中包含该node,则更新为红色
-				if (errorField.indexOf(zNodes[j].id) != -1) {
-					zTreeObj.setting.view.fontCss["color"] = "red";
-				}
-				zTreeObj.updateNode(zNodes[j]);
-			}
+			return errorField.indexOf(treeNode.id) != -1 ? {color:"red"} : {};
+		} else {
+			return {};
 		}
 	}
 	function updateStepNumber(stepNumber){
@@ -67,7 +62,11 @@ session.setAttribute("tokenSession", tokenValue);
 			},
 			callback: {
 				onCheck: saveCategory
-			}
+			},
+			view: {
+				showLine: false,
+				fontCss: setFontCss
+			},
 		};
 		zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
 		zTreeObj.expandAll(true);//全部展开

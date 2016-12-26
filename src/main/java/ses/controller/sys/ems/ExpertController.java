@@ -521,7 +521,7 @@ public class ExpertController {
                     String id = category.getCategoryId();
                     boolean isDel = false;
                     a:while (true) {
-                        Category cate1 = categoryService.findById(id);
+                        Category cate1 = categoryService.selectByPrimaryKey(id);
                         if (cate1 != null) {
                             if (cate1.getParentId().equals(categoryId)) {
                                 isDel = true;
@@ -559,6 +559,7 @@ public class ExpertController {
     @ResponseBody
     public String getCategory(String expertId, String id, String categoryId){
         List<CategoryTree> allCategories = new ArrayList<CategoryTree>();
+        Expert expert = service.selectByPrimaryKey(expertId);
         if (id == null) {
             DictionaryData parent = dictionaryDataServiceI.getDictionaryData(categoryId);    
             CategoryTree ct = new CategoryTree();
@@ -585,6 +586,23 @@ public class ExpertController {
                     ct.setChecked(isChecked(ct.getId(), expertId));
                     allCategories.add(ct);
                 }
+                // 判断专家是否为被退回状态
+                if (expert.getStatus().equals("3")) {
+                    // 查询所有的不通过的品目
+                    ExpertAudit expertAudit = new ExpertAudit();
+                    expertAudit.setExpertId(expertId);
+                    expertAudit.setSuggestType("six");
+                    List<ExpertAudit> auditList = expertAuditService.selectFailByExpertId(expertAudit);
+                    for (CategoryTree treeNode : allCategories) {
+                        for (ExpertAudit audit : auditList) {
+                            if (audit.getAuditField().equals(treeNode.getId())) {
+                                // 如果该品目没有通过则设置树的title为不通过理由
+                                expertAudit.setAuditField(audit.getAuditField());
+                                treeNode.setAuditAdvise(expertAuditService.selectFailByExpertId(expertAudit).get(0).getAuditReason());
+                            }
+                        }
+                    }
+                }
             }
         }
         return JSON.toJSONString(allCategories);
@@ -609,7 +627,7 @@ public class ExpertController {
                 break;
             } else {
                 while (true) {
-                    Category cate = categoryService.findById(id);
+                    Category cate = categoryService.selectByPrimaryKey(id);
                     if (cate != null) {
                         if (cate.getParentId().equals(categoryId)) {
                             isChecked = true; 
