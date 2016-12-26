@@ -726,7 +726,7 @@ public class ProjectController extends BaseController {
     }
     
     @RequestMapping("/addProject")
-    public String addProject(Project project,String id, String bidAddress, String flowDefineId,String deadline, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
+    public String addProject(@CurrentUser User user,Project project,String id, String bidAddress, String flowDefineId,String deadline, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
         //Project project = projectService.selectById(id);
     	String userId = request.getParameter("userId");
     	project.setPrincipal(userId);
@@ -748,7 +748,11 @@ public class ProjectController extends BaseController {
         }  
         projectService.update(project);
         flowExe(request, flowDefineId, project.getId(), 2);
-        return "redirect:mplement.html?projectId="+id;
+        if(user.getId().equals(userId)){
+        	return "redirect:mplement.html?projectId="+id;
+        }else{
+        	return "bss/ppms/project/temporary";
+        }
     }
 
     /**
@@ -793,7 +797,8 @@ public class ProjectController extends BaseController {
         project.setStatus(1);
         project.setStartTime(new Date());
         projectService.update(project);
-        return "redirect:excute.html?id=" + project.getId();
+        return "redirect:list.html";
+        //return "redirect:excute.html?id=" + project.getId();
     }
     
     @RequestMapping("/mplement")
@@ -2202,12 +2207,12 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping(value="/getUserForSelect" )	
     @ResponseBody
- 	public List<PurchaseInfo> getUserForSelect(HttpServletRequest request) {
-    	String id = request.getParameter("id");
- 		Project project = projectService.selectById(id);
+ 	public List<PurchaseInfo> getUserForSelect(@CurrentUser User user,HttpServletRequest request) {
+    	//String id = request.getParameter("id");
+ 		//Project project = projectService.selectById(id);
  		List<PurchaseInfo> purchaseInfo = new ArrayList<>();
-        if (project != null){
-           purchaseInfo = purchaseService.findPurchaseUserList(project.getPurchaseDepId());
+ 		if(user != null && user.getOrg() != null){
+           purchaseInfo = purchaseService.findPurchaseUserList(user.getOrg().getId());
         }
  		return purchaseInfo;
  	}
