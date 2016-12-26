@@ -45,6 +45,7 @@ import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.ComparatorDetail;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.controller.base.BaseController;
@@ -134,27 +135,41 @@ public class ProjectController extends BaseController {
      * @return 跳转list页面
      */
     @RequestMapping("/list")
-    public String list(@CurrentUser User user, Integer page, Model model, Project project, HttpServletRequest request) {
-       if(user != null && user.getOrg() != null){
-            PurchaseDep purchaseDep = new PurchaseDep();
-            purchaseDep.setId(user.getOrg().getId());
-            project.setPurchaseDep(purchaseDep);
-            List<Project> list = projectService.list(page == null ? 1 : page, project);
-            PageInfo<Project> info = new PageInfo<Project>(list);
+    public String list(@CurrentUser User user,Project project,Integer page, Model model, HttpServletRequest request) {   	
+    	if(user != null && user.getOrg() != null){
+    		HashMap<String,Object> map = new HashMap<String,Object>();
+    		if(project.getName() !=null && !project.getName().equals("")){
+    			map.put("name", project.getName());
+    		}
+    		if(project.getProjectNumber() != null && !project.getProjectNumber().equals("")){
+    			map.put("projectNumber", project.getProjectNumber());
+    		}
+    		map.put("purchaseDepId", user.getOrg().getId());
+    		map.put("principal", user.getId());
+    		if(page==null){
+    			page = 1;
+    		}
+    		map.put("page", page.toString());
+    		PropertiesUtil config = new PropertiesUtil("config.properties");
+    		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+            List<Project> list = projectService.selectProjectsByConition(map);
+            for(int i=0;i<list.size();i++){
+            	try {
+            		User contractor = userService.getUserById(list.get(i).getPrincipal());
+            		list.get(i).setProjectContractor(contractor.getRelName());
+				} catch (Exception e) {
+					list.get(i).setProjectContractor("");
+				}
+            }
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-            model.addAttribute("info", info);
+            model.addAttribute("info", new PageInfo<Project>(list));
             model.addAttribute("projects", project);
         }
-       	//判断是不是监管人员
+       	//判断是不是监管人员(采购管理人员)
        	HashMap<String,Object> roleMap = new HashMap<String,Object>();
 		roleMap.put("userId", user.getId());
 		roleMap.put("code", "SUPERVISER_R");
 		BigDecimal i = roleService.checkRolesByUserId(roleMap);
-        /*List<Project> list = projectService.list(page == null ? 1 : page, project);
-        PageInfo<Project> info = new PageInfo<Project>(list);
-        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-        model.addAttribute("info", info);
-        model.addAttribute("projects", project);*/
         model.addAttribute("admin", i);
         return "bss/ppms/project/list";
     }

@@ -126,6 +126,7 @@ public class Project {
     
     private DictionaryData dictionary;
     
+    private String projectContractor;//项目承办人
     
     public Orgnization getOrgnization() {
 		return orgnization;
@@ -603,5 +604,13 @@ public class Project {
         this.purchaseDepId = purchaseDepId;
     }
 
+	public String getProjectContractor() {
+		return projectContractor;
+	}
+
+	public void setProjectContractor(String projectContractor) {
+		this.projectContractor = projectContractor;
+	}
+    
     
 }

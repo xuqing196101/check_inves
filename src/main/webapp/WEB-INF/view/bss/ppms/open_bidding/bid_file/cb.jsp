@@ -14,6 +14,7 @@
 	   } else {
 	   	$("#showDiv").removeClass("hide");
 	   	$("#showH").addClass("hide");
+	   	$("#showTime").addClass("hide");
 	   } 
 	 });
 	 
@@ -26,8 +27,9 @@
 		data:{projectId:projectId},
 		success:function(data){
 				var bidTime=data;
-				if(bidTime<=1){
+				if(bidTime<=0){
 					$("#showH").addClass("hide");
+					$("#showTime").addClass("hide");
 					$("#showDiv").removeClass("hide");
 				}else{
 					var day=bidTime/(60*60*24*1000);
@@ -105,7 +107,7 @@
 		layer.confirm('确定要唱总价么？', {title: '提示',offset: [y,x],shade: 0.01}, 
 		function(index) {
 			layer.close(index);
-			window.location.href = "${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=" + projectId;
+			window.location.href = "${pageContext.request.contextPath}/open_bidding/quotetab1.html?projectId=" + projectId;
 		});
 	}
 	
@@ -114,32 +116,27 @@
 	    oRect = obj.getBoundingClientRect();  
 	    x=oRect.left - 150;  
 	    y=oRect.top + 100;  
+	    var projectId = $("#projectId").val();
 		layer.confirm('确定要唱明细么？', {title: '提示',offset: [y,x],shade: 0.01}, 
 		function(index) {
 			layer.close(index);
-			window.location.href = "${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId=" + projectId;
+			window.location.href = "${pageContext.request.contextPath}/open_bidding/quotetab2.html?projectId=" + projectId;
 		});
 	}
 </script>
 </head>
 <body>
 <!-- 表格开始-->
-<c:if test="${date > 0 }">
    <div class="col-md-12 col-sm-12 col-xs-12 p0">
-	   <div class="col-md-6 col-sm-6 col-xs-6 tc f18" id="showH">项目名称：${project.name}</div>
+	   <div class="col-md-6 col-sm-6 col-xs-6 tc f18">项目名称：${project.name}</div>
 	   <div class="col-md-6 col-sm-6 col-xs-6 tc f18">项目编号：${project.projectNumber}</div>
    </div>
-   <div class="kaibiao_time clear">
-       <span class="col-md-12 col-xs-12 col-sm-12 kb_title">开标倒计时：</span>
-       <div id="showTime" class="col-md-12 col-xs-12 col-sm-12 tc"></div>
+   <div  class="kaibiao_time clear">
+       <span id="showH" class="col-md-12 col-xs-12 col-sm-12 kb_title">开标倒计时：</span>
+       <div  id="showTime" class="col-md-12 col-xs-12 col-sm-12 tc"></div>
    </div>
-</c:if>
     <div id="showDiv" class="clear hide">
-	 <div class="col-md-12 col-sm-12 col-xs-12 p0">
 	  <input type="hidden" id ="projectId" value="${project.id}" />
-	 <div class="col-md-6 col-sm-6 col-xs-6 tc f18" id="showH">项目名称：${project.name}</div>
-	 <div class="col-md-6 col-sm-6 col-xs-6 tc f18">项目编号：${project.projectNumber}</div>
-   </div>
 	 <div class="tc col-md-12 col-sm-12 col-xs-12">
 	 	<button class="btn hand" onclick="changtotal(this)">唱总价</button>
 	 	<button class="btn hand" onclick="changmingxi(this)">唱明细</button>

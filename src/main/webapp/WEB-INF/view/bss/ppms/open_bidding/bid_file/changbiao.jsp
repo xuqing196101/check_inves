@@ -17,18 +17,18 @@ const NINE = "9";
 
 function addTotal() {
 	var allTable = document.getElementsByTagName("table");
-	for(var i = 0; i < allTable.length; i++) {
+	for(var i = 1; i < allTable.length; i++) {
 		var totalMoney = 0;
 		for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
-			var num = $(allTable[i].rows).eq(j).find("td").eq(FIVE).text();
-			var price = $(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val();
+			var num = $(allTable[i].rows).eq(j).find("td").eq("5").text();
+			var price = $(allTable[i].rows).eq(j).find("td").eq("6").find("input").val();
 			var reg = /^\d+\.?\d*$/;
 			var flag = false;
 			if(!reg.exec(price)) {
-				$(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val('');
+				$(allTable[i].rows).eq(j).find("td").eq("6").find("input").val('');
 				flag = true;
 			}
-			var total = $(allTable[i].rows).eq(j).find("td").eq(SEVEN).text();
+			var total = $(allTable[i].rows).eq(j).find("td").eq("7").text();
 			if(price == "" || price.trim() == "") {
 				continue;
 			} else {
@@ -37,11 +37,25 @@ function addTotal() {
 				}
 				$(allTable[i].rows).eq(j).find("td").eq("7").text(parseFloat(price * num).toFixed(2));
 				totalMoney += parseFloat(price * num);
-				$(allTable[i].rows).eq(allTable[i].rows.length - 1).find("td").eq(ONE).text(parseFloat(totalMoney).toFixed(2));
+				$(allTable[i].rows).eq(allTable[i].rows.length - 1).find("td").eq("1").text(parseFloat(totalMoney).toFixed(2));
 			};
 		};
 	};
 };
+
+$(function(){
+	var allTable = document.getElementsByTagName("table");
+	for(var i = 1; i < allTable.length; i++) {
+		var totalMoney = 0;
+		for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
+			var num = $(allTable[i].rows).eq(j).find("td").eq("5").text();
+			var price = $(allTable[i].rows).eq(j).find("td").eq("6").text();
+			$(allTable[i].rows).eq(j).find("td").eq("7").text(parseFloat(price * num).toFixed(2));
+			totalMoney += parseFloat(price * num);
+			$(allTable[i].rows).eq(allTable[i].rows.length - 1).find("td").eq("1").text(parseFloat(totalMoney).toFixed(2));
+			};
+		};
+});
 
 function eachTable(obj) {
     //根据保存按钮显示提示信息
@@ -52,15 +66,21 @@ function eachTable(obj) {
 	var allTable = document.getElementsByTagName("table");
 	var priceStr = "";
 	var error = 0;
-	for(var i = 0; i < allTable.length; i++) {
+	for(var i = 1; i < allTable.length; i++) {
+		var isTurnUp = $(allTable[i]).find("tr:last").find("td").eq("3").find("option:selected").text();
+		if (isTurnUp == '未到场') {
+			isTurnUp = 1;
+		} else {
+			isTurnUp = 2;
+		}
 		for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
 		    var supplierId = $(allTable[i]).attr('id');
 		    var productId = $(allTable[i].rows).eq(j).attr('id');
-			var num = $(allTable[i].rows).eq(j).find("td").eq(FIVE).text();
-			var price = $(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val();
-			var total = $(allTable[i].rows).eq(j).find("td").eq(SEVEN).text();
-			var deliveryTime = $(allTable[i].rows).eq(j).find("td").eq(EIGHT).find("input").val();
-			var remark = $(allTable[i].rows).eq(j).find("td").eq(NINE).find("input").val();
+			var num = $(allTable[i].rows).eq(j).find("td").eq("5").text();
+			var price = $(allTable[i].rows).eq(j).find("td").eq("6").find("input").val();
+			var total = $(allTable[i].rows).eq(j).find("td").eq("7").text();
+			var deliveryTime = $(allTable[i].rows).eq(j).find("td").eq("8").find("input").val();
+			var remark = $(allTable[i].rows).eq(j).find("td").eq("9").find("input").val();
 			if(remark == "" || remark.trim() == "") {
 				remark = null;
 			}
@@ -71,11 +91,11 @@ function eachTable(obj) {
 			}
 			if(price == "" || price.trim() == "") {
 				 //layer.msg("第" + (i + 1) + "包,表格第" + (j + 1) + "行,未报价"); 
-				layer.alert("表单未填写完整,单价和交货时间必须填写,请检查表单",{offset: [y, x]});
+				layer.msg("表单未填写完整,单价和交货时间必须填写,请检查表单",{offset: [y, x]});
 				return;
 				error++;
 			} else {
-				priceStr += price + "," + total + "," + deliveryTime + "," + remark + "," + supplierId + "," + productId + ",";
+				priceStr += price + "," + total + "," + deliveryTime + "," + remark + "," + supplierId + "," + productId + "," + isTurnUp + ",";
 			};
 		};
 	}
@@ -84,9 +104,10 @@ function eachTable(obj) {
 		var priceStr = $("#priceStr").val();
 		var projectId = $("#projectId").val();
 		$.ajax({
-			url:"${pageContext.request.contextPath}/open_bidding/save.html?priceStr=" + priceStr + "&projectId="+ projectId,
+			url:"${pageContext.request.contextPath}/open_bidding/savemingxi.html?priceStr=" + priceStr + "&projectId="+ projectId,
 			success:function(data){
 				layer.alert("暂存成功",{offset: [y, x], shade:0.01});
+				window.location.reload();
 			}
 		});
 		//form.submit();
@@ -173,7 +194,7 @@ function ycDiv(obj, index){
        </c:if>
        <c:if test="${flag == true }">
        <div class="clear">
-       <form id="form" action="${pageContext.request.contextPath}/open_bidding/save.html" method="post">
+       <form id="form" action="${pageContext.request.contextPath}/open_bidding/savemingxi.html" method="post">
 		<input id="priceStr" name="priceStr" type="hidden" />
 		<input id="projectId" name="projectId" value="${projectId }" type="hidden" />
 		<c:forEach items="${listPd }" var="listProDel" varStatus="vs">
@@ -210,10 +231,13 @@ function ycDiv(obj, index){
 											<td class="tc">${pd.qualitStand}</td>
 											<td class="tc">${pd.item}</td>
 											<td class="tc">${pd.purchaseCount}</td>
-											<td class="tc"><input class="w60" value="${pd.quotePrice}" maxlength="16" onblur="addTotal()" /></td>
+											<%-- <td class="tc"><input class="w60" value="${pd.quotePrice}" maxlength="16" onblur="addTotal()" /></td> --%>
+											<td>${pd.quotePrice}</td>
 											<td class="tc">${pd.total}</td>
-											<td class="tc"><input class="w90" value="<fmt:formatDate value="${pd.deliveryTime }" pattern="YYYY-MM-dd" />" readonly="readonly" onClick="WdatePicker()" /></td>
-											<td class="tc"><input class="w60" />${pd.remark}</td>
+											<%-- <td class="tc"><input class="w90" value="<fmt:formatDate value="${pd.deliveryTime }" pattern="YYYY-MM-dd" />" readonly="readonly" onClick="WdatePicker()" /></td> --%>
+											<td><fmt:formatDate value="${pd.deliveryTime }" pattern="YYYY-MM-dd" /></td>
+											<%-- <td class="tc"><input class="w60" />${pd.remark}</td> --%>
+											<td class="tc">${pd.remark}</td>
 										</tr>
 									</c:if>
 									<c:if test="${empty pd.supplierId}">
@@ -234,15 +258,30 @@ function ycDiv(obj, index){
 							</c:forEach>
 							<tr>
 								<td class="tr" colspan="2"><b>总金额(元):</b></td>
-								<td class="tl" colspan="8"></td>
+								<td class="tl" colspan="3"></td>
+								<td class="tr" colspan="2"><b>是否到场</b></td>
+								<td class="tl" colspan="3">
+									<c:if test="${flagButton == false }">
+										<select>
+											<option>已到场</option>
+											<option>未到场</option>
+										</select>
+									</c:if>
+									<c:if test="${flagButton == true }">
+										<c:if test="${pdkey.isturnUp eq '1'}">未到场</c:if>
+										<c:if test="${pdkey.isturnUp eq '2'}">已到场</c:if>
+									</c:if>
+								</td>
 							</tr>
 						</table>
-						</div>
+					</div>
 				</c:forEach>
 			</c:forEach>
 		</c:forEach>
 		<div class="col-md-12 tc">
+		  <c:if test="${flagButton == false }">
 			<input class="btn btn-windows save" value="暂存" type="button" onclick="eachTable(this)">
+		  </c:if>
 		</div>
 	  </form>
 	</div>

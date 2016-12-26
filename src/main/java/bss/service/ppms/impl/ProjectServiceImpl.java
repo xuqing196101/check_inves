@@ -133,5 +133,11 @@ public class ProjectServiceImpl implements ProjectService {
             return null;
         }
     }
+
+	
+	@Override
+	public List<Project> selectProjectsByConition(HashMap<String, Object> map) {
+		return projectMapper.selectProjectsByConition(map);
+	}
 	
 }

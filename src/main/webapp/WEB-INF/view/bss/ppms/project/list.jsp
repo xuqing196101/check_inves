@@ -284,6 +284,7 @@
 				<th>项目编号</th>
 				<th>采购方式</th>
 				<th>项目状态</th>
+				<th>项目承办人</th>
 		  </tr>
 		</thead>
 		<tbody id="tbody_id">
@@ -306,6 +307,7 @@
 						<c:if test="${'2'==obj.status}">已成交</c:if> 
 						<c:if test="${'3'==obj.status}">已立项</c:if>
 			  	</td>
+			  	<td class="tc" onclick="view('${obj.id}')">${obj.projectContractor}</td>
 				</tr>
 		  </c:forEach>
 		</tbody>

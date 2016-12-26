@@ -15,7 +15,7 @@
 		var flag = false;
 		var x,y;  
 	    oRect = obj.getBoundingClientRect();  
-	    x=oRect.left-350;  
+	    x=oRect.left;  
 	    y=oRect.top;
 	    var total = $(obj).parent().parent().find("td").eq("2").find("input").val();
 		if(!reg.exec(total)) {
@@ -38,12 +38,13 @@
 			url:"${pageContext.request.contextPath}/open_bidding/save.html?total=" + total +
 			 "&supplierId="+ supplierId+ "&deliveryTime="+ deliveryTime+ "&isTurnUp="+ isTurnUp + "&packageId="+ packageId + "&projectId="+ projectId+ "&quoteId="+ quoteId,
 			success:function(data){
-				layer.msg("暂存成功",{offset: [y, x], shade:0.01});
+				//layer.msg("暂存成功",{offset: [y, x], shade:0.01});
 				window.location.reload();
 			}
 		});
 	}
 	
+	var error = 0;
 	function eachTable(obj) {
 	    //根据保存按钮显示提示信息
 	 	var x,y;  
@@ -52,12 +53,25 @@
 	    y=oRect.top - 150;  
 		var allTable = document.getElementsByTagName("table");
 		var priceStr = "";
-		var error = 0;
-		for(var i = 0; i < allTable.length; i++) {
-			for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
-				var span = $(obj).parent().parent().find("td:last").find("span");		
-				$(span).click();
+		for(var i = 1; i < allTable.length; i++) {
+			var count = 0;
+			for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
+				var total = $(allTable[i].rows).eq(j).find("td").eq("2").find("input").val();
+				var time = $(allTable[i].rows).eq(j).find("td").eq("3").find("input").val();
+				if (total == "" || time == "") {
+					count ++;
+					layer.msg("表单未填写完整,单价和交货时间必须填写,请检查表单");
+					return ;
+				}
 			};
+		}
+		if (count == 0) {
+			for(var i = 1; i < allTable.length; i++) {
+				for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
+					var inputObj = $(allTable[i].rows).eq(j).find("td").eq("0").find("input");
+					$(inputObj).click();	
+				};
+			}
 		}
 	}
 
@@ -114,14 +128,19 @@
 					<th class="info">总价(万元)</th>
 					<th class="info">交货期限</th>
 					<th class="info">是否到场</th>
-					<th class="info">上传投标文件</th>
+					<!-- <th class="info">上传投标文件</th> -->
 					<!-- <th class="info">操作</th> -->
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
 				<c:set value="${count+1 }" var="index"></c:set>
 				<tr>
-				    <td class="tc w50">${vs.index+1}</td>
+				    <td class="tc w50">${vs.index+1}
+				    	<c:if test="${empty treemapValue.total}">
+							<%-- <td class="tc hide"><span class="btn btn-windows git" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')">提交</span></td> --%>
+			    			<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')" />
+			    		</c:if>
+				    </td>
 				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
 					<c:if test="${not empty treemapValue.total}">
 				    	<td class="tc">${treemapValue.total}</td>
@@ -137,12 +156,12 @@
 						<td class="tc"><input class="w90" value="<fmt:formatDate value="${treemapValue.deliveryTime }" pattern="YYYY-MM-dd" />"  readonly="readonly" onClick="WdatePicker()" /></td>
 						<td class="tc">
 							<select>
-								<option value="1" <c:if test="${treemapValue.isTurnUp ==2 }">selected = "selected"</c:if>>已到场</option>
-								<option value="1" <c:if test="${treemapValue.isTurnUp ==1 }">selected = "selected"</c:if>>未到场</option>
+								<option  <c:if test="${treemapValue.isTurnUp ==2 }">selected = "selected"</c:if>>已到场</option>
+								<option  <c:if test="${treemapValue.isTurnUp ==1 }">selected = "selected"</c:if>>未到场</option>
 							</select>
 						</td>
 					</c:if>
-					<td>
+					<%-- <td>
 						  <c:if test="${empty treemapValue.bidFileName && empty treemapValue.total}">
 						    <c:if test="${fn:length(treemap.value) > 1}">
 								<u:upload id="${treemapValue.groupsUpload}" exts="txt,rar,zip,doc,docx" groups="${treemapValue.groupsUploadId}" buttonName="上传附件" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
@@ -156,12 +175,7 @@
 						  <c:if test="${not empty treemapValue.bidFileName}">
 								<a class="mt3 color7171C6" href="javascript:download('${treemapValue.bidFileId}', '${sysKey}')">${treemapValue.bidFileName}</a>							
 						  </c:if>
-					</td>
-					
-					<c:if test="${empty treemapValue.total}">
-						<%-- <td class="tc hide"><span class="btn btn-windows git" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')">提交</span></td> --%>
-			    		<input type="hidden"  onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')" />
-			    	</c:if>
+					</td> --%>
 			    </tr>
 		</c:forEach>
 		</table>
@@ -169,7 +183,9 @@
 	</c:forEach>
 </c:forEach>
 		<div class="col-md-12 tc">
+		   <c:if test="${flag == false }">
 			<input class="btn btn-windows save" value="保存" type="button" onclick="eachTable(this)">
+		   </c:if>
 		</div>
 </div>
 </body>
