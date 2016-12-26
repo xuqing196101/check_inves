@@ -100,7 +100,7 @@ System.out.print(scoreModel);
 		}
 	}
 	function modelTwoAddSubstact21(){
-		var model = $("#addSubtractTypeName21").val();
+		var model = $("#addSubtractTypeName").val();
 		if(model=="0"){
 			$("#show_table tbody tr").remove();
 			$("#model21 tbody tr").clone().appendTo("#show_table tbody");
@@ -110,7 +110,7 @@ System.out.print(scoreModel);
 		}
 	}
 	function modelTwoAddSubstact22(){
-		var model = $("#addSubtractTypeName22").val();
+		var model = $("#addSubtractTypeName").val();
 		if(model=="0"){
 			$("#show_table tbody tr").remove();
 			$("#model21 tbody tr").clone().appendTo("#show_table tbody");
@@ -333,12 +333,13 @@ System.out.print(scoreModel);
 	    var standScore = $("#standardScore").val();
 	    var maxScore = $("#maxScore").val();
 	    var id = $("#id").val();
+	    var moxing2 = $("#moxing2").val();
 		var s = validteModel().form();
 		console.dir(s);
 		if(s){
 			$.ajax({   
 	            type: "get",  
-	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
+	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&moxing2="+moxing2+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
 	            dataType:'json',
 	            success:function(result){
 	                  if (result == 0){
@@ -609,14 +610,9 @@ System.out.print(scoreModel);
 	<div>
 		<form action="" method="post"  id="formID">
 		   <div class="mt10">
-		    	<span>评审名称:</span>
+		    	<span>评审指标名称:</span>
 		   		<input name="name" id="name" class="" type="text" value="${scoreModel.name}" >
 		   </div>
-		   
-		       <div class="fl">评审内容: </div>
-		       <div>
-		   	   <textarea  class="col-md-12 col-sm-12 col-xs-12 h80 w500" name="reviewContent" id="reviewContent" >${scoreModel.reviewContent}</textarea>
-		       </div>
 		   
 		   <div class="mt5 mb10 mr20">
 				<span>选择模型: </span>
@@ -632,7 +628,10 @@ System.out.print(scoreModel);
 					<option value="7">模型8:评审数额高区间递减</option>
 				</select>
 			</div>
-			
+			<div class="fl">评审指标内容及规则说明: </div>
+		       <div>
+		   	   <textarea  class="col-md-12 col-sm-12 col-xs-12 h80 w500" name="reviewContent" id="reviewContent" >${scoreModel.reviewContent}</textarea>
+		       </div>
 			<input id="packageId" name="packageId" type="hidden" value="${packageId }">
 			<input id="projectId" name="projectId" type="hidden" value="${projectId }">
 			<input id="markTermId" name="markTermId" type="hidden" value="${markTermId }">
@@ -758,7 +757,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">基准分值</td>
-				<td><input name="reviewStandScore" onkeyup="gernerator();" id="reviewStandScore" value="${scoreModel.reviewStandScore }"  title="该项从基准分值往下开始扣分"></td>
+				<td><input name="reviewStandScore" onkeyup="gernerator();" id="moxing2" value="${scoreModel.reviewStandScore }"  title="该项从基准分值往下开始扣分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最低分</td>

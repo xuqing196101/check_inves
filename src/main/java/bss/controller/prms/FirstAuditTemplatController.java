@@ -320,7 +320,7 @@ public class FirstAuditTemplatController extends BaseController{
                                 sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
                                 sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<td class='tc'>" + typeName + "</td>");
+                                sb.append("<td class='tc'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore() ;
                                 if (sscore == null){
                                     sscore = 0.0;
@@ -330,7 +330,7 @@ public class FirstAuditTemplatController extends BaseController{
                                 sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
                             } else {
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<tr><td class='tc'><span>" + typeName + "</span></td>");
+                                sb.append("<tr><td class='tc'>" + markValue.getSmname() + "</td><td class='tc'><span>" + typeName + "</span></td>");
                                 Double sscore = markValue.getScscore();
                                 if (sscore == null){
                                     sscore = 0.0;
@@ -346,7 +346,7 @@ public class FirstAuditTemplatController extends BaseController{
                         sb.append("<td class='w150'><span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
                         sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
                         sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
-                        sb.append("<td></td><td></td><td></td></tr>");
+                        sb.append("<td></td><td></td><td></td><td></td></tr>");
                     }
                 } else {
                     Integer count2 = 0;
@@ -361,7 +361,7 @@ public class FirstAuditTemplatController extends BaseController{
                                 
                                 //sb.append("<td>" + markValue.getName() + "</td><td></td><td></td></tr>");
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<td class='tc'>" + typeName + "</td>");
+                                sb.append("<td class='tc'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore();
                                 if (sscore == null){
                                     sscore = 0.0;
@@ -372,7 +372,7 @@ public class FirstAuditTemplatController extends BaseController{
                                 
                             } else {
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<tr><td class='tc'>" + typeName + "</td>");
+                                sb.append("<tr><td class='tc'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore();
                                 if (sscore == null){
                                     sscore = 0.0;
@@ -390,14 +390,14 @@ public class FirstAuditTemplatController extends BaseController{
                         sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
                         sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
                         sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
-                        sb.append("<td></td><td></td><td></td></tr>");
+                        sb.append("<td></td><td></td><td></td><td></td></tr>");
                     }
                 }
                 count++;
             }
         } else {
             sb.append("<tr><td class='w100'><span class='fl'>"+ name +"</span><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></td>");
-            sb.append("<td></td><td></td><td></td><td></td></tr>");
+            sb.append("<td></td><td></td><td></td><td></td><td></td></tr>");
         }
         String str = sb.toString();
         return str;
@@ -441,9 +441,18 @@ public class FirstAuditTemplatController extends BaseController{
         String[] endParam = request.getParameterValues("pi.endParam");
         String[] score = request.getParameterValues("pi.score");
         String[] explain = request.getParameterValues("pi.explain");
-        
+        if (scoreModel.getReviewContent() != null && !"".equals(scoreModel.getReviewContent())) {
+            scoreModel.setReviewContent(scoreModel.getReviewContent().replaceAll("\\s*", ""));
+         }
         if(scoreModel.getId()!=null && !scoreModel.getId().equals("")){
-            scoreModelService.updateScoreModel(scoreModel);
+            //0加分 1减分
+            if("0".equals(scoreModel.getAddSubtractTypeName())) {
+                scoreModelService.updateScoreModel(scoreModel);
+            }else {
+                scoreModel.setMaxScore(scoreModel.getReviewStandScore());
+                scoreModel.setReviewStandScore(scoreModel.getReviewStandScore());
+                scoreModelService.updateScoreModel(scoreModel);
+            }
             MarkTerm condition = new MarkTerm();
             condition.setId(scoreModel.getMarkTermId());
             List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);

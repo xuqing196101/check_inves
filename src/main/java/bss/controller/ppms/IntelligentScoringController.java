@@ -91,7 +91,7 @@ public class IntelligentScoringController extends BaseController{
 	
 	@RequestMapping(value = "checkScore")
 	@ResponseBody
-	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id){
+	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id, String moxing2){
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
 	    Double score = 0.0;
 	    Integer result = 0;
@@ -114,6 +114,9 @@ public class IntelligentScoringController extends BaseController{
                         continue;
                     }
                     Double scscore = markTerm.getScscore();
+                    if (scscore == null) {
+                        scscore = 0.0;
+                    }
                     score = score + scscore;
                 }
             }
@@ -124,10 +127,18 @@ public class IntelligentScoringController extends BaseController{
 	            result = 1;
 	        }
 	    } else {
-	        double resultScore = Double.parseDouble(maxScore) + score;
-            if (resultScore <= 100){
-                result = 1;
-            }
+	        if (maxScore != null && !"".equals(maxScore)){
+	            double resultScore = Double.parseDouble(maxScore) + score;
+	            if (resultScore <= 100){
+	                result = 1;
+	            }
+	        }else {
+	            double resultScore = Double.parseDouble(moxing2) + score;
+                if (resultScore <= 100){
+                    result = 1;
+                }
+	        }
+	       
 	    }
 	    return result;
 	}
@@ -442,6 +453,7 @@ public class IntelligentScoringController extends BaseController{
                                 sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
                                 sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
                                 String typeName = getTypeName(markValue.getSmtypename());
+                                sb.append("<td class='tc'>" + markValue.getSmname() + "</td>");
                                 sb.append("<td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore() ;
                                 if (sscore == null){
@@ -452,7 +464,7 @@ public class IntelligentScoringController extends BaseController{
                                 sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
                             } else {
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<tr><td class='tc'><span>" + typeName + "</span></td>");
+                                sb.append("<tr><td class='tc'>" + markValue.getSmname() + "</td><td class='tc'><span>" + typeName + "</span></td>");
                                 Double sscore = markValue.getScscore();
                                 if (sscore == null){
                                     sscore = 0.0;
@@ -468,7 +480,7 @@ public class IntelligentScoringController extends BaseController{
                         sb.append("<td class='w150'><span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
                         sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
                         sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
-                        sb.append("<td></td><td></td><td></td></tr>");
+                        sb.append("<td></td><td></td><td></td><td></td></tr>");
                     }
                 } else {
                     Integer count2 = 0;
@@ -483,7 +495,7 @@ public class IntelligentScoringController extends BaseController{
                                 
                                 //sb.append("<td>" + markValue.getName() + "</td><td></td><td></td></tr>");
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<td class='tc'>" + typeName + "</td>");
+                                sb.append("<td class='tc'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore();
                                 if (sscore == null){
                                     sscore = 0.0;
@@ -494,7 +506,7 @@ public class IntelligentScoringController extends BaseController{
                                 
                             } else {
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<tr><td class='tc'>" + typeName + "</td>");
+                                sb.append("<tr><td class='tc'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore();
                                 if (sscore == null){
                                     sscore = 0.0;
@@ -512,14 +524,14 @@ public class IntelligentScoringController extends BaseController{
                         sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
                         sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
                         sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
-                        sb.append("<td></td><td></td><td></td></tr>");
+                        sb.append("<td></td><td></td><td></td><td></td></tr>");
                     }
                 }
                 count++;
             }
         } else {
             sb.append("<tr><td><span class='fl'>"+ name +"</span><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></td>");
-            sb.append("<td></td><td></td><td></td><td></td></tr>");
+            sb.append("<td></td><td></td><td></td><td></td><td></td></tr>");
         }
         String str = sb.toString();
         return str;
@@ -645,9 +657,18 @@ public class IntelligentScoringController extends BaseController{
 		String[] endParam = request.getParameterValues("pi.endParam");
 		String[] score = request.getParameterValues("pi.score");
 		String[] explain = request.getParameterValues("pi.explain");
-		
+		 if (scoreModel.getReviewContent() != null && !"".equals(scoreModel.getReviewContent())) {
+	            scoreModel.setReviewContent(scoreModel.getReviewContent().replaceAll("\\s*", ""));
+	         }
 		if(scoreModel.getId()!=null && !scoreModel.getId().equals("")){
-			scoreModelService.updateScoreModel(scoreModel);
+		    //0加分 1减分
+            if("0".equals(scoreModel.getAddSubtractTypeName())) {
+                scoreModelService.updateScoreModel(scoreModel);
+            }else {
+                scoreModel.setMaxScore(scoreModel.getReviewStandScore());
+                scoreModel.setReviewStandScore(scoreModel.getReviewStandScore());
+                scoreModelService.updateScoreModel(scoreModel);
+            }
 			MarkTerm condition = new MarkTerm();
 			condition.setId(scoreModel.getMarkTermId());
 			List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);

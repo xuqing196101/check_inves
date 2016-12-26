@@ -198,7 +198,9 @@
         <table class="table table-bordered table-condensed table-hover">
             <thead>
                <tr>
-                  <th class="info" colspan="2">评审名称</th>
+                  <th class="info">评审类别</th>
+                  <th class="info">评审项目</th>
+                  <th class="w80">评审指标</th>
                   <th class="w80">所属模型</th>
                   <th class="info">评审内容</th>
                   <th class="w50">分值</th>
