@@ -76,6 +76,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
  			<mvc:exclude-mapping path="/expert/validatePhone.*" />
  			<mvc:exclude-mapping path="/expert/validateAge.*" />
  			<mvc:exclude-mapping path="/expert/validateIdNumber.*" />
+ 			<mvc:exclude-mapping path="/expert/validateIdCardNumber.*" />
  			<mvc:exclude-mapping path="/expert/updateStepNumber.*" />
  			<mvc:exclude-mapping path="/expert/getPIdandCIdByPurDepId.*" />
  			<mvc:exclude-mapping path="/expert/download.*" />

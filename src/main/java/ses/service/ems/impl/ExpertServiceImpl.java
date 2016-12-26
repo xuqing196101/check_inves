@@ -733,9 +733,15 @@ public class ExpertServiceImpl implements ExpertService {
     }
 
     @Override
-    public List<Expert> validateIdNumber(String idNumber) {
+    public List<Expert> validateIdCardNumber(String idCardNumber, String expertId) {
       // TODO Auto-generated method stub
-      return mapper.validateIdNumber(idNumber);
+      return mapper.validateIdCardNumber(idCardNumber, expertId);
+    }
+    
+    @Override
+    public List<Expert> validateIdNumber(String idNumber, String expertId) {
+      // TODO Auto-generated method stub
+      return mapper.validateIdNumber(idNumber, expertId);
     }
     /**
      *〈简述〉
