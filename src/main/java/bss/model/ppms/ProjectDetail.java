@@ -95,8 +95,19 @@ public class ProjectDetail {
      * 修改项目的时候是否展示明细状态
      */
     private Integer detailStatus;
+    
+    private Integer isTurnUp;
+    
 
-	public String getSupplierId() {
+	public Integer getIsTurnUp() {
+        return isTurnUp;
+    }
+
+    public void setIsTurnUp(Integer isTurnUp) {
+        this.isTurnUp = isTurnUp;
+    }
+
+    public String getSupplierId() {
         return supplierId;
     }
 
