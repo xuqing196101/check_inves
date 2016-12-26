@@ -234,8 +234,16 @@
 	 }
 	 
 	 function createContract(){
-		 $("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?ids=${id}");
-		 $("#contractForm").submit();
+		 var text = $("#post_attach_show_disFileId").find("a");
+			var flag = true;
+			if(text.length<=0){
+				flag = false;
+				layer.alert("请先上传附件",{offset: ['222px', '390px'], shade:0.01});
+			}
+			if(flag){
+			 $("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?ids=${id}");
+			 $("#contractForm").submit();
+			}
 	 }
 	 
 	 function changePurDep(){
@@ -432,25 +440,40 @@
     }
 	
 	function staging(){
-		$("#status").val("0");
-		$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/addzancun.html?ids=${id}");
-		$("#contractForm").submit();
+		var text = $("#post_attach_show_disFileId").find("a");
+		var flag = true;
+		if(text.length<=0){
+			flag = false;
+			layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
+		}
+		if(flag){
+			$("#status").val("0");
+			$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/addzancun.html?ids=${id}");
+			$("#contractForm").submit();
+		}
 	}
 	
 	var ind = null;
 	function protocol(){
-		ind = layer.open({
-			shift: 1, //0-6的动画形式，-1不开启
-		    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-		    title: ['生成草案信息','border-bottom:1px solid #e5e5e5'],
-		    shade:0.01, //遮罩透明度
-			type : 1,
-			skin : 'layui-layer-rim', //加上边框
-			area : [ '40%', '250px' ], //宽高
-			content : $('#numberWin'),
-			offset: ['30%', '25%']
-		});
-		
+		var text = $("#post_attach_show_disFileId").find("a");
+		var flag = true;
+		if(text.length<=0){
+			flag = false;
+			layer.alert("请先上传授权书",{offset: ['222px', '390px'], shade:0.01});
+		}
+		if(flag){
+			ind = layer.open({
+				shift: 1, //0-6的动画形式，-1不开启
+			    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			    title: ['生成草案信息','border-bottom:1px solid #e5e5e5'],
+			    shade:0.01, //遮罩透明度
+				type : 1,
+				skin : 'layui-layer-rim', //加上边框
+				area : [ '40%', '250px' ], //宽高
+				content : $('#numberWin'),
+				offset: ['30%', '25%']
+			});
+		}
 	}
 	
 	function save(){
@@ -646,6 +669,13 @@
 			        	<div class="cue">${ERR_purchaseType}</div>
 			        </div>
 			 	</li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>授权书：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        <u:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}" auto="true" />
+					<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}"/>
+	       			</div>
+				 </li>
 				 <div class="clear"></div>
 			 </ul>
 	   		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>

@@ -98,13 +98,13 @@
           <div class="tab-v1">
             <h2 class="nav nav-tabs bb1 mt0">
             <span class="bg12_white"><a href="javascript:void(0)">工作动态</a></span>
-            <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=27">更多>></a>
+            <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=110">更多>></a>
 		  </h2>
           </div>
 
           <div class="">
             <ul class="list-unstyled categories list_common">
-              <c:forEach items="${indexMapper['select27List']}" var="sl">
+              <c:forEach items="${indexMapper['select110List']}" var="sl">
                 <c:set value="${sl.name}" var="name"></c:set>
                 <c:set value="${fn:length(name)}" var="length"></c:set>
                 <c:if test="${length>24}">
@@ -140,17 +140,18 @@
         <div class="col-md-4 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2>
-		 	  <span class="col-md-5">采购公告</span>
-		  	  <ul class="list-unstyled col-md-7 buyer_news m0">
+		 	  <span class="col-md-4 col-sm-4 col-xs-6">采购公告</span>
+		  	  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
 		        <li class="active fl"><a aria-expanded="true" href="#tab-3" data-toggle="tab"> 物资</a></li>
 		        <li class="fl"><a aria-expanded="false" href="#tab-4" data-toggle="tab" > 工程</a></li>
 		        <li class="fl"><a aria-expanded="false" href="#tab-5" data-toggle="tab" > 服务</a></li>
+		        <li class="fl"><a aria-expanded="false" href="#tabs-6" data-toggle="tab" > 进口</a></li>
 		      </ul>
           </h2>
             <div class=" tab-content">
               <div id="tab-3" class="tab-pane fade active in">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select28List']}" var="sl">
+                  <c:forEach items="${indexMapper['select3List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -165,12 +166,12 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=28">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=3">更多>></a>
               </div>
 
               <div id="tab-4" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select29List']}" var="sl">
+                  <c:forEach items="${indexMapper['select8List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -185,12 +186,12 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=29">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=8">更多>></a>
               </div>
 
               <div id="tab-5" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select30List']}" var="sl">
+                  <c:forEach items="${indexMapper['select13List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -205,7 +206,27 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=30">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=13">更多>></a>
+              </div>
+              
+              <div id="tabs-6" class="tab-pane fade active in">
+                <ul class="categories">
+                  <c:forEach items="${indexMapper['select18List']}" var="sl">
+                    <c:set value="${sl.name}" var="name"></c:set>
+                    <c:set value="${fn:length(name)}" var="length"></c:set>
+                    <c:if test="${length>23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a>
+                      </li>
+                    </c:if>
+                    <c:if test="${length<=23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      </li>
+                    </c:if>
+                  </c:forEach>
+                </ul>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=18">更多>></a>
               </div>
             </div>
           </div>
@@ -214,17 +235,18 @@
         <div class="col-md-4 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2>
-		  <span class="col-md-5">中标公告</span>
-		  <ul class="list-unstyled buyer_news col-md-7 m0">
+		  <span class="col-md-4 col-sm-4 col-xs-6">中标公告</span>
+		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
 		    <li class="active fl"><a aria-expanded="true" href="#tab-6" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-7" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-8" data-toggle="tab" > 服务</a></li>
+		    <li class="fl"><a aria-expanded="false" href="#tabs-8" data-toggle="tab" > 进口</a></li>
 		  </ul>
           </h2>
             <div class=" tab-content">
               <div id="tab-6" class="tab-pane fade active in">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select31List']}" var="sl">
+                  <c:forEach items="${indexMapper['select46List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -239,11 +261,11 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=31">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=46">更多>></a>
               </div>
               <div id="tab-7" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select32List']}" var="sl">
+                  <c:forEach items="${indexMapper['select51List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -258,11 +280,11 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=32">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=51">更多>></a>
               </div>
               <div id="tab-8" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select33List']}" var="sl">
+                  <c:forEach items="${indexMapper['select56List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -277,7 +299,26 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=33">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=56">更多>></a>
+              </div>
+              <div id="tabs-8" class="tab-pane fade active in">
+                <ul class="categories">
+                  <c:forEach items="${indexMapper['select61List']}" var="sl">
+                    <c:set value="${sl.name}" var="name"></c:set>
+                    <c:set value="${fn:length(name)}" var="length"></c:set>
+                    <c:if test="${length>23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a>
+                      </li>
+                    </c:if>
+                    <c:if test="${length<=23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      </li>
+                    </c:if>
+                  </c:forEach>
+                </ul>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=61">更多>></a>
               </div>
             </div>
           </div>
@@ -286,17 +327,18 @@
         <div class="col-md-4 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2>
-		  <span class="col-md-5">单一来源公告</span>
-		  <ul class="list-unstyled buyer_news col-md-7 m0">
+		  <span class="col-md-4 col-sm-4 col-xs-6">单一来源公告</span>
+		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
 		    <li  class="active fl"><a aria-expanded="true" href="#tab-9" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-10" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-11" data-toggle="tab" > 服务</a></li>
+		    <li class="fl"><a aria-expanded="false" href="#tabs-11" data-toggle="tab" > 进口</a></li>
 		  </ul>
           </h2>
             <div class=" tab-content">
               <div id="tab-9" class="tab-pane fade active in">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select34List']}" var="sl">
+                  <c:forEach items="${indexMapper['select89List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -311,11 +353,11 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=34">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=89">更多>></a>
               </div>
               <div id="tab-10" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select35List']}" var="sl">
+                  <c:forEach items="${indexMapper['select90List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -330,11 +372,11 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=35">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=90">更多>></a>
               </div>
               <div id="tab-11" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select36List']}" var="sl">
+                  <c:forEach items="${indexMapper['select91List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -349,7 +391,26 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=36">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=91">更多>></a>
+              </div>
+              <div id="tabs-11" class="tab-pane fade active in">
+                <ul class="categories">
+                  <c:forEach items="${indexMapper['select92List']}" var="sl">
+                    <c:set value="${sl.name}" var="name"></c:set>
+                    <c:set value="${fn:length(name)}" var="length"></c:set>
+                    <c:if test="${length>23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a>
+                      </li>
+                    </c:if>
+                    <c:if test="${length<=23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      </li>
+                    </c:if>
+                  </c:forEach>
+                </ul>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=92">更多>></a>
               </div>
             </div>
           </div>
@@ -368,17 +429,18 @@
         <div class="col-md-4 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2>
-		  <span class="col-md-5">采购公告</span>
-		  <ul class="list-unstyled mb0 fr col-md-7 p0">
+		  <span class="col-md-4 col-sm-4 col-xs-6">采购公告</span>
+		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
 		    <li  class="active fl"><a aria-expanded="true" href="#tab-12" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-13" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-14" data-toggle="tab" > 服务</a></li>
+		    <li class="fl"><a aria-expanded="false" href="#tabs-14" data-toggle="tab" > 进口</a></li>
 		  </ul>
           </h2>
             <div class=" tab-content">
               <div id="tab-12" class="tab-pane fade active in">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select37List']}" var="sl">
+                  <c:forEach items="${indexMapper['select24List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -393,11 +455,11 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=37">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=24">更多>></a>
               </div>
               <div id="tab-13" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select38List']}" var="sl">
+                  <c:forEach items="${indexMapper['select29List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -412,9 +474,28 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=38">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=29">更多>></a>
               </div>
               <div id="tab-14" class="tab-pane fade">
+                <ul class="categories">
+                  <c:forEach items="${indexMapper['select34List']}" var="sl">
+                    <c:set value="${sl.name}" var="name"></c:set>
+                    <c:set value="${fn:length(name)}" var="length"></c:set>
+                    <c:if test="${length>23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a>
+                      </li>
+                    </c:if>
+                    <c:if test="${length<=23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      </li>
+                    </c:if>
+                  </c:forEach>
+                </ul>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=34">更多>></a>
+              </div>
+              <div id="tabs-14" class="tab-pane fade active in">
                 <ul class="categories">
                   <c:forEach items="${indexMapper['select39List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
@@ -431,7 +512,7 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=39">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=39">更多>></a>
               </div>
             </div>
           </div>
@@ -440,17 +521,18 @@
         <div class="col-md-4 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2>
-		  <span class="col-md-5">中标公告</span>
-		  <ul class="list-unstyled mb0 fr col-md-7 p0">
+		  <span class="col-md-4 col-sm-4 col-xs-6">中标公告</span>
+		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
 		    <li  class="active fl"><a aria-expanded="true" href="#tab-15" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-16" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-17" data-toggle="tab" > 服务</a></li>
+		    <li class="fl"><a aria-expanded="false" href="#tabs-17" data-toggle="tab" > 进口</a></li>
 		  </ul>
           </h2>
             <div class=" tab-content">
               <div id="tab-15" class="tab-pane fade active in">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select40List']}" var="sl">
+                  <c:forEach items="${indexMapper['select67List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -465,11 +547,11 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=40">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=67">更多>></a>
               </div>
               <div id="tab-16" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select41List']}" var="sl">
+                  <c:forEach items="${indexMapper['select72List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -484,11 +566,11 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=41">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=72">更多>></a>
               </div>
               <div id="tab-17" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select42List']}" var="sl">
+                  <c:forEach items="${indexMapper['select77List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -503,7 +585,26 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=42">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=77">更多>></a>
+              </div>
+              <div id="tabs-17" class="tab-pane fade active in">
+                <ul class="categories">
+                  <c:forEach items="${indexMapper['select82List']}" var="sl">
+                    <c:set value="${sl.name}" var="name"></c:set>
+                    <c:set value="${fn:length(name)}" var="length"></c:set>
+                    <c:if test="${length>23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a>
+                      </li>
+                    </c:if>
+                    <c:if test="${length<=23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      </li>
+                    </c:if>
+                  </c:forEach>
+                </ul>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=82">更多>></a>
               </div>
             </div>
           </div>
@@ -511,17 +612,18 @@
         <div class="col-md-4 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2>
-		  <span class="col-md-5">单一来源公告</span>
-		  <ul class="list-unstyled mb0 fr col-md-7 p0">
+		  <span class="col-md-4 col-sm-4 col-xs-6">单一来源公告</span>
+		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
 		    <li  class="active fl"><a aria-expanded="true" href="#tab-18" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-19" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-20" data-toggle="tab" > 服务</a></li>
+		    <li class="fl"><a aria-expanded="false" href="#tabs-20" data-toggle="tab" > 进口</a></li>
 		  </ul>
           </h2>
             <div class=" tab-content">
               <div id="tab-18" class="tab-pane fade active in">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select43List']}" var="sl">
+                  <c:forEach items="${indexMapper['select94List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -536,11 +638,11 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=43">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=94">更多>></a>
               </div>
               <div id="tab-19" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select44List']}" var="sl">
+                  <c:forEach items="${indexMapper['select95List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -555,11 +657,11 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=44">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=95">更多>></a>
               </div>
               <div id="tab-20" class="tab-pane fade">
                 <ul class="categories">
-                  <c:forEach items="${indexMapper['select45List']}" var="sl">
+                  <c:forEach items="${indexMapper['select96List']}" var="sl">
                     <c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
@@ -574,7 +676,26 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=45">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=96">更多>></a>
+              </div>
+              <div id="tabs-20" class="tab-pane fade active in">
+                <ul class="categories">
+                  <c:forEach items="${indexMapper['select97List']}" var="sl">
+                    <c:set value="${sl.name}" var="name"></c:set>
+                    <c:set value="${fn:length(name)}" var="length"></c:set>
+                    <c:if test="${length>23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a>
+                      </li>
+                    </c:if>
+                    <c:if test="${length<=23}">
+                      <li>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      </li>
+                    </c:if>
+                  </c:forEach>
+                </ul>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=97">更多>></a>
               </div>
             </div>
           </div>
@@ -688,11 +809,11 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2 class="p0_10">
-		   重要通知<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=46">更多>></a>
+		   重要通知<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=109">更多>></a>
           </h2>
             <div class="categories">
               <ul class="p0_10">
-                <c:forEach items="${indexMapper['select46List']}" var="sl">
+                <c:forEach items="${indexMapper['select109List']}" var="sl">
                   <c:set value="${sl.name}" var="name"></c:set>
                   <c:set value="${fn:length(name)}" var="length"></c:set>
                   <c:if test="${length>17}">
@@ -713,11 +834,11 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2 class="p0_10">
-		   采购法规<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=47">更多>></a>
+		   采购法规<a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
           </h2>
             <div class="categories">
               <ul class="p0_10">
-                <c:forEach items="${indexMapper['select47List']}" var="sl">
+                <c:forEach items="${indexMapper['faguiList']}" var="sl">
                   <c:set value="${sl.name}" var="name"></c:set>
                   <c:set value="${fn:length(name)}" var="length"></c:set>
                   <c:if test="${length>17}">
@@ -738,11 +859,11 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2 class="p0_10">
-		   投诉处理公告<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=48">更多>></a>
+		   投诉处理公告<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=112">更多>></a>
           </h2>
             <div class="categories">
               <ul class="p0_10">
-                <c:forEach items="${indexMapper['select48List']}" var="sl">
+                <c:forEach items="${indexMapper['select112List']}" var="sl">
                   <c:set value="${sl.name}" var="name"></c:set>
                   <c:set value="${fn:length(name)}" var="length"></c:set>
                   <c:if test="${length>17}">
@@ -763,11 +884,11 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2 class="p0_10">
-		   处罚公告<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=49">更多>></a>
+		   处罚公告<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=113">更多>></a>
           </h2>
             <div class="categories">
               <ul class="p0_10">
-                <c:forEach items="${indexMapper['select49List']}" var="sl">
+                <c:forEach items="${indexMapper['select113List']}" var="sl">
                   <c:set value="${sl.name}" var="name"></c:set>
                   <c:set value="${fn:length(name)}" var="length"></c:set>
                   <c:if test="${length>17}">

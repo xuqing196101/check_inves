@@ -464,4 +464,114 @@
 		IS_PIC_SHOW
   </select>
   
+  <select id="selectPics" resultMap="ArticleMapper">
+  	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	where
+		rownum &lt;=6
+	ORDER BY
+		PUBLISHED_AT DESC 
+  </select>
+  
+  <select id="selectArticleByParId" parameterType="Map" resultMap="ArticleMapper">
+  	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+	OVER_TYPE IN (
+		SELECT
+			ID
+		FROM
+			T_ISS_PS_ARTICLE_TYPE
+		WHERE
+			PARENT_ID = #{parId}
+	)
+	and status = 2
+	and rownum &lt;=6
+	order by published_at desc
+  </select>
+  
+  <select id="selectArticleByParIdTwo" parameterType="Map" resultMap="ArticleMapper">
+  	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+	OVER_TYPE IN (
+		SELECT
+			ID
+		FROM
+			T_ISS_PS_ARTICLE_TYPE
+		WHERE
+			PARENT_ID = #{parId}
+	)
+	and status = 2
+	order by published_at desc
+  </select>
+  
+  <select id="selectArticleByArticleType" parameterType="Map" resultMap="ArticleMapper">
+  	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+	OVER_TYPE = #{typeId}
+	and status = 2
+	and rownum &lt;=6
+	order by published_at desc
+  </select>
+  
+  <select id="selectsumByParId" parameterType="Map" resultMap="ArticleMapper">
+  	select
+	*
+  	from T_ISS_PS_ARTICLE
+  	where OVER_TYPE in
+  	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    	#{item}
+    </foreach>
+    and status=2
+    order by published_at desc
+  </select>
+  
+  <select id="selectsumBynews" parameterType="Map" resultMap="ArticleMapper">
+  	SELECT
+	*
+FROM
+	T_ISS_PS_ARTICLE
+WHERE
+	OVER_TYPE IN (
+		SELECT
+			ID
+		FROM
+			T_ISS_PS_ARTICLE_TYPE
+		WHERE
+			PARENT_ID = #{id} or parent_id = #{twoid}
+	)
+	and status=2
+	order by published_at desc
+  </select>
+  
+  <select id="selectsumBydanNews" parameterType="Map" resultMap="ArticleMapper">
+  	SELECT
+	*
+	FROM
+	T_ISS_PS_ARTICLE
+	WHERE
+	OVER_TYPE = #{id} or OVER_TYPE = #{twoid}
+	and status=2
+	order by published_at desc
+  </select>
+  
+  <select id="selectJob" parameterType="Map" resultMap="ArticleMapper">
+  	SELECT
+	*
+	FROM
+	T_ISS_PS_ARTICLE
+	WHERE
+	OVER_TYPE = #{id} and status=2 and rownum &lt;=10
+	order by published_at desc
+  </select>
 </mapper>

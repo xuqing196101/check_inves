@@ -32,6 +32,7 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
@@ -121,10 +122,10 @@ public class PurchaseContractController extends BaseSupplierController{
     private UploadService uploadService;
 
     @Autowired
-    private UserServiceI userServiceI;
-
-    @Autowired
     private DownloadService downloadService;
+    
+    @Autowired
+    private RoleServiceI roleService;
 
 	/**
 	 * 
@@ -157,7 +158,14 @@ public class PurchaseContractController extends BaseSupplierController{
 		map.put("isCreateContract", isCreate);
 		map.put("page", page);
 		Orgnization or = user.getOrg();
-//		if(or.getTypeName().equals("0")){
+		List<Role> roleList = roleService.selectByUserId(user.getId());
+		boolean roleflag = false;
+		for(Role rol:roleList){
+			if(rol.getCode().equals("PURCHASE_R")){
+				roleflag = true;
+			}
+		}
+		if(roleflag){
 		packList = packageService.selectAllByIsWon(map);
 		model.addAttribute("list", new PageInfo<Packages>(packList));
 		ArrayList<Packages> pacList = new ArrayList<Packages>();
@@ -206,7 +214,7 @@ public class PurchaseContractController extends BaseSupplierController{
 //						}
 //					}
 //				}
-//			}
+			}
 		}
 //		}else{
 //			model.addAttribute("list", new PageInfo<Packages>(pacList));
@@ -540,6 +548,15 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(datas.size()>0){
 			model.addAttribute("attachtypeId", datas.get(0).getId());
 		}
+		/*授权书*/
+		DictionaryData ddbook=new DictionaryData();
+		ddbook.setCode("CONTRACT_WARRANT");
+		List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+		request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+		if(bookdata.size()>0){
+			model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+		}
+		
 		model.addAttribute("kinds", DictionaryDataUtil.find(5));
 		String id = request.getParameter("id");
 		String[] ids = id.split(",");
@@ -859,6 +876,15 @@ public class PurchaseContractController extends BaseSupplierController{
 		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
 		if(datas.size()>0){
 			model.addAttribute("attachtypeId", datas.get(0).getId());
+		}
+		
+		/*授权书*/
+		DictionaryData ddbook=new DictionaryData();
+		ddbook.setCode("CONTRACT_WARRANT");
+		List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+		request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+		if(bookdata.size()>0){
+			model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
 		}
 		model.addAttribute("kinds", DictionaryDataUtil.find(5));
 		model.addAttribute("id", contractuuid);
@@ -2219,6 +2245,15 @@ public class PurchaseContractController extends BaseSupplierController{
             sup.setIsCreateContract(0);
             supplierCheckPassService.update(sup);
         }
+        /*授权书*/
+		DictionaryData ddbook=new DictionaryData();
+		ddbook.setCode("CONTRACT_WARRANT");
+		List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+		request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+		if(bookdata.size()>0){
+			model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+		}
+		model.addAttribute("attachuuid", id);
         model.addAttribute("supcheckid", supckid);
         return "bss/cs/purchaseContract/errContract";
     }

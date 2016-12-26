@@ -6,6 +6,7 @@ import iss.service.ps.ArticleService;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -175,5 +176,52 @@ public class ArticleServiceImpl implements ArticleService {
 	public void updateStatus(Article article) {
 		articleMapper.updateStatus(article);
 	}
-        	
+
+	@Override
+	public List<Article> selectArticleByParId(Map<String, Object> map) {
+		return articleMapper.selectArticleByParId(map);
+	}
+	
+	@Override
+	public List<Article> selectArticleByParIdTwo(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return articleMapper.selectArticleByParIdTwo(map);
+	}
+
+	@Override
+	public List<Article> selectArticleByArticleType(Map<String, Object> map) {
+		return articleMapper.selectArticleByArticleType(map);
+	}
+
+	@Override
+	public List<Article> selectsumByParId(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return articleMapper.selectsumByParId(map);
+	}
+
+	@Override
+	public List<Article> selectsumBynews(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return articleMapper.selectsumBynews(map);
+	}
+
+	@Override
+	public List<Article> selectsumBydanNews(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return articleMapper.selectsumBydanNews(map);
+	}
+
+	@Override
+	public List<Article> selectJob(Map<String, Object> map) {
+		return articleMapper.selectJob(map);
+	}
+
+	@Override
+	public List<Article> selectPics() {
+		return articleMapper.selectPics();
+	}
 }

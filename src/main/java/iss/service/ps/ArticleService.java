@@ -5,6 +5,7 @@ import iss.model.ps.Article;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bss.model.ppms.Packages;
 
@@ -176,4 +177,92 @@ public interface ArticleService {
 	* @return void
 	 */
 	void updateStatus(Article article);
+	
+	/**
+	* @Title: selectArticleByParId
+	* @author Qu Jie 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 根据父节点查找
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	List<Article> selectArticleByParId(Map<String, Object> map);
+	
+	/**
+	* @Title: selectArticleByParIdTwo
+	* @author Qu Jie 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 根据父节点查找
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	List<Article> selectArticleByParIdTwo(Map<String, Object> map);
+	
+	/**
+	* @Title: selectArticleByArticleType
+	* @author Qu Jie 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 根据父节点查找
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	List<Article> selectArticleByArticleType(Map<String, Object> map);
+	
+	/**
+	* @Title: selectsumByParId
+	* @author Qu Jie 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 根据父节点查找
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	List<Article> selectsumByParId(Map<String, Object> map);
+	
+	/**
+	* @Title: selectsumBynews
+	* @author Qu Jie 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 根据父节点查找
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	List<Article> selectsumBynews(Map<String, Object> map);
+	
+	/**
+	* @Title: selectsumBydanNews
+	* @author Qu Jie 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 根据父节点查找
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	List<Article> selectsumBydanNews(Map<String, Object> map);
+	
+	/**
+	* @Title: selectsumBydanNews
+	* @author Qu Jie 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 根据父节点查找
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	List<Article> selectJob(Map<String, Object> map);
+	
+	/**
+	* @Title: selectPics
+	* @author Qu Jie 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 根据父节点查找
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	List<Article> selectPics();
 }

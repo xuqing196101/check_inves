@@ -15,7 +15,7 @@
 function save(){
 	var text = $("#post_attach_show_disFileId").find("a");
 	var flag = true;
-	if(text==null){
+	if(text.length<=0){
 		flag = false;
 		layer.alert("请先上传附件",{offset: ['222px', '390px'], shade:0.01});
 	}/*else{
