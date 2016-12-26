@@ -41,7 +41,7 @@ public class CategoryTree {
     private String paramStatus;
 
     /** 类型,物资类:1,其他为空 **/
-    private transient String classify;
+    private  String classify;
 
     /** 公开状态 **/
     private transient Integer pubStatus;

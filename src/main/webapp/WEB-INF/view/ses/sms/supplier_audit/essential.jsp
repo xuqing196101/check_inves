@@ -32,13 +32,13 @@
 
 			//隐藏叉 
 			$(function() {
-				$(":input").each(function() {
+				/* $(":input").each(function() {
 					$(this).parent("div").find("div").hide();
 					var onMouseMove = "this.style.border='solid 1px #FF0000'";
 					var onmouseout = "this.style.border='solid 1px #D3D3D3'";
 					$(this).attr("onMouseMove", onMouseMove);
 					$(this).attr("onmouseout", onmouseout);
-				});
+				}); */
 
 				$("li").each(function() {
 					$(this).find("p").hide();
@@ -78,6 +78,7 @@
 				      }
 				    });
 					$(obj).after(html);
+					$("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
 		      layer.close(index);
 			    });
 		  	}
@@ -188,7 +189,7 @@
 					async: false,
 					success: function(result) {
 						layer.tips("修改前:" + result, "#" + field, {
-							tips: 1
+							tips: 3
 						});
 					}
 				});
@@ -341,37 +342,36 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" >公司名称：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="supplierName" onclick="reason(this)" value="${suppliers.supplierName } " type="text" <c:if test="${fn:contains(field,'supplierName')}">onMouseOver="isCompare('supplierName');"</c:if>>
-							</div>
+								<input id="supplierName" onclick="reason(this)" value="${suppliers.supplierName } " type="text" <c:if test="${fn:contains(field,'supplierName')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('supplierName');"</c:if>></div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">公司网址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input class="hand " id="website" value="${suppliers.website } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'website')}">onMouseOver="isCompare('website');"</c:if>>
+								<input class="hand " id="website" value="${suppliers.website } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'website')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('website');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成立日期：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="foundDate" onclick="reason(this)" class="hand " value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>" type="text" <c:if test="${fn:contains(field,'foundDate')}">onMouseOver="isCompare('foundDate');"</c:if>>
+								<input id="foundDate" onclick="reason(this)" class="hand " value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>" type="text" <c:if test="${fn:contains(field,'foundDate')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('foundDate');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业执照类型：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="businessType" class="hand " value="${suppliers.businessType } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessType')}">onMouseOver="isCompare('businessType');"</c:if>>
+								<input id="businessType" class="hand " value="${suppliers.businessType } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessType')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessType');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">基本账户开户行：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="bankName" class="hand " value="${suppliers.bankName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'bankName')}">onMouseOver="isCompare('bankName');"</c:if>>
+								<input id="bankName" class="hand " value="${suppliers.bankName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'bankName')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('bankName');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">开户行账户：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="bankAccount" class="hand " value="${suppliers.bankAccount } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'bankAccount')}">onMouseOver="isCompare('bankAccount');"</c:if>>
+								<input id="bankAccount" class="hand " value="${suppliers.bankAccount } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'bankAccount')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('bankAccount');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
@@ -385,19 +385,19 @@
 					<ul class="ul_list hand">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">注册地址邮编：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="postCode" class="hand " value="${suppliers.postCode }" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'postCode')}">onMouseOver="isCompare('postCode');"</c:if>>
+								<input id="postCode" class="hand " value="${suppliers.postCode }" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'postCode')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('postCode');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">注册公司地址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="address" class="hand " value="${parentAddress}${sonAddress } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'address')}">onMouseOver="isCompare('address');"</c:if>>
+								<input id="address" class="hand " value="${parentAddress}${sonAddress } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'address')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('address');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">注册公司详细地址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="detailAddress" class="hand fl" onclick="reason(this)" value="${suppliers.detailAddress}" <c:if test="${fn:contains(field,'detailAddress')}">onMouseOver="isCompare('detailAddress');"</c:if>>
+								<input id="detailAddress" class="hand fl" onclick="reason(this)" value="${suppliers.detailAddress}" <c:if test="${fn:contains(field,'detailAddress')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('detailAddress');"</c:if>>
 							</div>
 						</li>
 						<!-- 遍历生产地址 -->
@@ -451,25 +451,25 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legalName" class="hand " value="${suppliers.legalName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalName')}">onMouseOver="isCompare('legalName');"</c:if>>
+								<input id="legalName" class="hand " value="${suppliers.legalName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalName')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalName');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" >身份证号：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legaIdCard" class="hand " value="${suppliers.legalIdCard } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalIdCard')}">onMouseOver="isCompare('legalIdCard');"</c:if>>
+								<input id="legaIdCard" class="hand " value="${suppliers.legalIdCard } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalIdCard')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalIdCard');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">固定电话：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legalTelephone" class="hand " value="${suppliers.legalTelephone } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalTelephone')}">onMouseOver="isCompare('legalTelephone');"</c:if>>
+								<input id="legalTelephone" class="hand " value="${suppliers.legalTelephone } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalTelephone')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalTelephone');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legalMobile" class="hand " value="${suppliers.legalMobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalMobile')}">onMouseOver="isCompare('legalMobile');"</c:if>>
+								<input id="legalMobile" class="hand " value="${suppliers.legalMobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalMobile')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalMobile');"</c:if>>
 							</div>
 						</li>
 						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
@@ -493,44 +493,43 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="contactName" class="hand " value="${suppliers.contactName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'contactName')}">onMouseOver="isCompare('contactName');"</c:if>>
+								<input id="contactName" class="hand " value="${suppliers.contactName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'contactName')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('contactName');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="contactFax" class="hand " value="${suppliers.contactFax } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'contactFax')}">onMouseOver="isCompare('contactFax');"</c:if>>
+								<input id="contactFax" class="hand " value="${suppliers.contactFax } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'contactFax')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('contactFax');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">固定电话：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="contactTelephone" class="hand " value="${suppliers.contactMobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'contactMobile')}">onMouseOver="isCompare('contactMobile');"</c:if>>
+								<input id="contactTelephone" class="hand " value="${suppliers.contactMobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'contactMobile')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('contactMobile');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="contactMobile" class="hand " value="${suppliers.mobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'mobile')}">onMouseOver="isCompare('mobile');"</c:if>>
+								<input id="contactMobile" class="hand " value="${suppliers.mobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'mobile')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('mobile');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮箱：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="contactEmail" class="hand " value="${suppliers.contactEmail } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'contactEmail')}">onMouseOver="isCompare('contactEmail');"</c:if>>
+								<input id="contactEmail" class="hand " value="${suppliers.contactEmail } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'contactEmail')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('contactEmail');"</c:if>>
 							</div>
 						</li>
-						<!-- <li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="contactAddress2">地址：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 p0">
-								<input id="contactAddress" class="hand " value="" type="text" onclick="reason(this.id,'contactAddress')">
-								<div id="contactAddress3" onclick="reason(this.id)" class="abolish">×</div>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">地址：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="concatProvince" class="hand " value="${parentConcatProvince } ${sonConcatProvince}" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'concatProvince')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('concatProvince');"</c:if>>							
 							</div>
-						</li> -->
+						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址：</span>
-							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 p0">
-								<input id="contactAddress" class="hand " value="${suppliers.contactAddress } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'contactAddress')}">onMouseOver="isCompare('ccontactAddress');"</c:if>>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="contactAddress" class="hand " value="${suppliers.contactAddress } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'contactAddress')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('ccontactAddress');"</c:if>>
 							</div>
 						</li>
 					</ul>
@@ -540,37 +539,43 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="armyBusinessName" class="hand " value="${suppliers.armyBusinessName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBusinessName')}">onMouseOver="isCompare('armyBusinessName');"</c:if>>
+								<input id="armyBusinessName" class="hand " value="${suppliers.armyBusinessName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBusinessName')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('armyBusinessName');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="armyBusinessFax" class="hand " value="${suppliers.armyBusinessFax } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBusinessFax')}">onMouseOver="isCompare('armyBusinessFax');"</c:if>>
+								<input id="armyBusinessFax" class="hand " value="${suppliers.armyBusinessFax } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBusinessFax')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('armyBusinessFax');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" >固定电话：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="armyBuinessMobile" class="hand " value="${suppliers.armyBuinessMobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBuinessMobile')}">onMouseOver="isCompare('armyBuinessMobile');"</c:if>>
+								<input id="armyBuinessMobile" class="hand " value="${suppliers.armyBuinessMobile } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBuinessMobile')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('armyBuinessMobile');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="armyBuinessTelephone" class="hand " value="${suppliers.armyBuinessTelephone } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBuinessTelephone')}">onMouseOver="isCompare('armyBuinessTelephone');"</c:if>>
+								<input id="armyBuinessTelephone" class="hand " value="${suppliers.armyBuinessTelephone } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBuinessTelephone')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('armyBuinessTelephone');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason(this)">邮箱：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="armyBuinessEmail" class="hand " value="${suppliers.armyBuinessEmail } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBuinessEmail')}">onMouseOver="isCompare('armyBuinessEmail');"</c:if>>
+								<input id="armyBuinessEmail" class="hand " value="${suppliers.armyBuinessEmail } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBuinessEmail')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('armyBuinessEmail');"</c:if>>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason(this)">地址：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="armyBuinessProvince" class="hand " value="${parentArmyBuinessProvince} ${sonArmyBuinessProvince}" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBuinessProvince')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('armyBuinessProvince');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 p0">
-								<input id="armyBuinessAddress" class="hand " value="${suppliers.armyBuinessAddress } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBuinessAddress')}">onMouseOver="isCompare('armyBuinessAddress');"</c:if>>
+								<input id="armyBuinessAddress" class="hand " value="${suppliers.armyBuinessAddress } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'armyBuinessAddress')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('armyBuinessAddress');"</c:if>>
 							</div>
 						</li>
 					</ul>
@@ -580,25 +585,25 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">统一社会信用代码：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="creditCode" class="hand " value="${suppliers.creditCode } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'creditCode')}">onMouseOver="isCompare('creditCode');"</c:if>>
+								<input id="creditCode" class="hand " value="${suppliers.creditCode } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'creditCode')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('creditCode');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">登记机关：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="registAuthority" class="hand " value="${suppliers.registAuthority } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'registAuthority')}">onMouseOver="isCompare('registAuthority');"</c:if>>
+								<input id="registAuthority" class="hand " value="${suppliers.registAuthority } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'registAuthority')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('registAuthority');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">注册资本(万元)：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="registFund" class="hand " value="${suppliers.registFund } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'registFund')}">onMouseOver="isCompare('registFund');"</c:if>>
+								<input id="registFund" class="hand " value="${suppliers.registFund } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'registFund')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('registFund');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业有效期 ：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="businessEndDate" class="hand " onclick="reason(this)" value="<fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/>" type="text" <c:if test="${fn:contains(field,'businessEndDate')}">onMouseOver="isCompare('businessEndDate');"</c:if>/>
+								<input id="businessEndDate" class="hand " onclick="reason(this)" value="<fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/>" type="text" <c:if test="${fn:contains(field,'businessEndDate')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessEndDate');"</c:if>/>
 							</div>
 						</li>
 						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
@@ -617,7 +622,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="businessPostCode" class="hand " value="${suppliers.businessPostCode } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessPostCode')}">onMouseOver="isCompare('businessPostCode');"</c:if>>
+								<input id="businessPostCode" class="hand " value="${suppliers.businessPostCode } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessPostCode')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessPostCode');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
@@ -637,7 +642,7 @@
 						<li class="col-md-12 col-sm-12 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">经营范围：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0">
-								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="businessScope" onclick="reason(this)" <c:if test="${fn:contains(field,'businessScope')}">onMouseOver="isCompare('businessScope');"</c:if>>${suppliers.businessScope }</textarea>
+								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="businessScope" onclick="reason(this)" <c:if test="${fn:contains(field,'businessScope')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessScope');"</c:if>>${suppliers.businessScope }</textarea>
 							</div>
 						</li>
 					</ul>

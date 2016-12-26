@@ -253,11 +253,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		List<SupplierBranch> supplierBranchList= supplierBranchService.findSupplierBranch(supplierId);
 		request.setAttribute("supplierBranchList", supplierBranchList);
 		
-		//地址信息里地址
+		/**
+		 * 查询地址
+		 */
 		List<Area> privnce = areaService.findRootArea();
 		request.setAttribute("privnce", privnce);
 		Area area = new Area();
-		
+		//地址信息里地址
 		area = areaService.listById(supplier.getAddress());
 		String sonAddress = area.getName();
 		request.setAttribute("sonAddress", sonAddress);
@@ -267,6 +269,29 @@ public class SupplierAuditController extends BaseSupplierController{
 				request.setAttribute("parentAddress", parentAddress);
 			}
 		}
+		
+		//注册联系人里地址
+		area = areaService.listById(supplier.getConcatProvince());
+		String sonConcatProvince = area.getName();
+		request.setAttribute("sonConcatProvince", sonConcatProvince);
+		for(int i=0; i<privnce.size(); i++){
+			if(area.getParentId().equals(privnce.get(i).getId())){
+				String parentConcatProvince = privnce.get(i).getName();
+				request.setAttribute("parentConcatProvince", parentConcatProvince);
+			}
+		}
+		
+		//军队业务联系人里地址
+		area = areaService.listById(supplier.getArmyBuinessProvince());
+		String sonArmyBuinessProvince = area.getName();
+		request.setAttribute("sonArmyBuinessProvince", sonArmyBuinessProvince);
+		for(int i=0; i<privnce.size(); i++){
+			if(area.getParentId().equals(privnce.get(i).getId())){
+				String parentArmyBuinessProvince = privnce.get(i).getName();
+				request.setAttribute("parentArmyBuinessProvince", parentArmyBuinessProvince);
+			}
+		}
+		
 		
 		List<SupplierAddress> supplierAddress= supplierAddressService.getBySupplierId(supplierId);
 		request.setAttribute("supplierAddress", supplierAddress);
