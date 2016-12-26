@@ -2245,4 +2245,11 @@ public class ExpertController {
         expert.setExpertsTypeId(expertsType);
         return JSON.toJSONString(expert);
     }
+    
+    @ResponseBody
+    @RequestMapping("/isHaveCategory")
+    public String isHaveCategory (String expertId) {
+        List<ExpertCategory> list = expertCategoryService.getListByExpertId(expertId);
+        return list != null && list.size() > 0 ? "1" : "0";
+    }
 }
