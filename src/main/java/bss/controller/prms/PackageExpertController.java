@@ -2353,7 +2353,28 @@ public class PackageExpertController {
      */
     @RequestMapping("/confirmSupplier")
     public String confirmSupplier (String projectId, Model model) {
-        
-        return null;
+        List<SaleTender> supplierList = saleTenderService.selectListByProjectId(projectId);
+        model.addAttribute("supplierList", supplierList);
+        model.addAttribute("projectId", projectId);
+        return "bss/prms/rank/confirm_supplier";
+    }
+    
+    /**
+     *〈简述〉
+     * 移除供应商
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param packageId
+     * @param supplierId
+     * @return
+     */
+    @RequestMapping("/removeSaleTender")
+    public String removeSaleTender (String packageId, String supplierId, String projectId, String removedReason) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("supplierId", supplierId);
+        map.put("packageId", packageId);
+        map.put("removedReason", removedReason);
+        saleTenderService.removeSaleTender(map);
+        return "redirect:confirmSupplier.html?projectId="+projectId;
     }
 }

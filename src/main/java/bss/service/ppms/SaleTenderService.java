@@ -153,4 +153,13 @@ public interface SaleTenderService   {
      */
     void removeSaleTender(Map<String, Object> map);
     
+    /**
+     *〈简述〉
+     * 根据项目id查询所有saleTender
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param projectId
+     * @return
+     */
+    List<SaleTender> selectListByProjectId(String projectId);
 }

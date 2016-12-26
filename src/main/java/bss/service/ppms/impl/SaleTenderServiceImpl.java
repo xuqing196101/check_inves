@@ -524,5 +524,17 @@ public class SaleTenderServiceImpl implements SaleTenderService {
     public void removeSaleTender(Map<String, Object> map) {
         saleTenderMapper.removeSaleTender(map);
     }
+    
+    /**
+     *〈简述〉
+     * 根据项目id查询所有saleTender
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param projectId
+     * @return
+     */
+    public List<SaleTender> selectListByProjectId(String projectId) {
+        return saleTenderMapper.selectListByProjectId(projectId);
+    }
 }
 

@@ -92,6 +92,7 @@
 		var projectId = $("#projectId").val();
 	  	var flowDefineId = $("#flowDefineId").val();
 		var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
+		//alert(path);
 		$("#"+id).load(path);
 	  }
 	  
@@ -132,6 +133,9 @@
 	            	
 	            </div>
 	            <div class="tab-pane fade " id="tab-5">
+	            	
+	            </div>
+	            <div class="tab-pane fade " id="tab-8">
 	            	
 	            </div>
 	            <div class="tab-pane fade " id="tab-6" style="position：relative">

@@ -116,8 +116,18 @@ public interface SaleTenderMapper {
      *〈简述〉
      * 更改SaleTender的移除状态
      *〈详细描述〉
-     * @author Dell
+     * @author WangHuijie
      * @param map
      */
     void removeSaleTender(Map<String, Object> map);
+    
+    /**
+     *〈简述〉
+     * 根据项目id查询所有saleTender
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param projectId
+     * @return
+     */
+    List<SaleTender> selectListByProjectId(String projectId);
 }

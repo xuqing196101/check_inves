@@ -56,14 +56,15 @@
 		SUPPLIER_ID, STATUS_BOND, CREATED_AT,
 		UPDATED_AT, USER_ID,BID_FINISH,PACKAGR_IDS,
 		IS_FIRST_PASS,ECONOMIC_SCORE,
-		TECHNOLOGY_SCORE,REVIEW_RESULT)
+		TECHNOLOGY_SCORE,REVIEW_RESULT,IS_REMOVED)
 		values
 		(#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
 		#{statusBid,jdbcType=DECIMAL},
 		#{supplierId,jdbcType=VARCHAR},
 		#{statusBond,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP},
 		#{updatedAt,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}),#{bidFinish,jdbcType=DECIMAL}
-		,#{packages,jdbcType=VARCHAR},#{isFirstPass}, #{economicScore,jdbcType=DECIMAL},#{technologyScore,jdbcType=DECIMAL}, #{reviewResult,jdbcType=VARCHAR})
+		,#{packages,jdbcType=VARCHAR},#{isFirstPass}, #{economicScore,jdbcType=DECIMAL},#{technologyScore,jdbcType=DECIMAL}, #{reviewResult,jdbcType=VARCHAR}
+		,'0')
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.ppms.SaleTender">
 		<!-- @mbggenerated -->
@@ -111,6 +112,12 @@
 			<if test="reviewResult != null and reviewResult != ''">
 			     REVIEW_RESULT,
 			</if>
+			<if test="isRemoved != null and isRemoved != ''">
+			     IS_REMOVED,
+			</if>
+			<if test="removedReason != null and removedReason != ''">
+			     REMOVED_REASON,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -154,6 +161,12 @@
             </if>
             <if test="reviewResult != null and reviewResult != ''">
 				#{reviewResult,jdbcType=VARCHAR},
+			</if>
+            <if test="isRemoved != null and isRemoved != ''">
+				#{isRemoved,jdbcType=VARCHAR},
+			</if>
+            <if test="removedReason != null and removedReason != ''">
+				#{removedReason,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -308,7 +321,13 @@
   </select>
   
   
-  
+  <select id="selectListByProjectId" resultMap="BaseResultMap">
+    SELECT
+       <include refid="Base_Column_List"/>
+    FROM
+    T_BSS_PPMS_SALE_TENDER st
+    where st.PROJECT_ID = #{_parameter}
+  </select>
   
   
   <!-- 根据报名、项目Id查询供应商-->
@@ -319,7 +338,7 @@
     FROM
     T_BSS_PPMS_SALE_TENDER st
     WHERE
-    1=1
+    IS_REMOVED = '0'
     <if test="packages != null">
       AND st.PACKAGR_IDS = #{packages,jdbcType=VARCHAR}
     </if>
@@ -367,7 +386,7 @@
 	<update id="removeSaleTender" parameterType="java.util.Map">
 		update T_BSS_PPMS_SALE_TENDER
 		set 
-		IS_REMOVED = #{isRemoved,jdbcType=VARCHAR},
+		IS_REMOVED = '1',
 		REMOVED_REASON = #{removedReason,jdbcType=VARCHAR},
 		where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
 		and PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
