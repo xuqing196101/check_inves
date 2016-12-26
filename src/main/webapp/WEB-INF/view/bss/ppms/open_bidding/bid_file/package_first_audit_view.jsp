@@ -76,7 +76,7 @@
 		 <div class="col-md-12 tab-pane active"  id="tab-1">
 		 	   <div class="container" id="package">
 				   <c:forEach items="${packageList }" var="pack" varStatus="p">
-				   		<h2 class="f16 jbxx">包名：${pack.name }</h2>
+				   		<h2 class="f16 spread">包名：${pack.name }</h2>
 				   		<div class="content table_box" >
 					       <table class="table table-bordered table-condensed table-hover table-striped">
 				 	            <h5>项目初审项信息</h5>

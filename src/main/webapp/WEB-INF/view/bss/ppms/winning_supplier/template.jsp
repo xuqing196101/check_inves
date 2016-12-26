@@ -112,13 +112,12 @@
         </li>
         <li>
               <a href="javascript:void(0);" onclick="tabthree();">03、未中标通知书</a>
-            <i></i>
         </li>
       </ul>
 	</div>
 	<div class="container content height-350">
 		<div class="row">
-			<div class="col-md-12" style="min-height: 400px;">
+			<div class="col-md-12 col-xs-12 col-sm-12" style="min-height: 400px;">
 				<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
 					<h2 class="padding-10 border1">
 						<form action="" method="post" id="form" class="mb0">
@@ -143,7 +142,7 @@
 					
 						<div class="row">
 							<!-- 按钮 -->
-							<div class="col-md-12">
+							<div class="col-md-12 col-sm-12 col-xs-12">
 								<input type="button" class="btn btn-windows input"
 									onclick="inputTemplete()" value="模板导入"></input> <input
 									type="button" class="btn btn-windows output"
