@@ -267,7 +267,7 @@
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">计划名称</th>
-		  <th class="info">编制单位名称</th>
+		  <th class="info">计划编号</th>
 		  <th class="info">金额</th>
 		  <th class="info">编制时间</th>
 		  <th class="info">完成时间</th>
@@ -283,14 +283,15 @@
 			  <td class="tc" onclick="view('${obj.planNo }')">
 			  	${obj.planName }
 				</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">
-			    <c:forEach items="${requires }" var="re" >
+		     <td class="tc" onclick="view('${obj.planNo }')">
+		     ${obj.planNo }
+			 <%--    <c:forEach items="${requires }" var="re" >
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
-			  	</c:forEach>
-			  </td>
+			  	</c:forEach> --%>
+			  </td>  
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.budget }</td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.deliverDate }"/> </td>
+			  <td class="tc" onclick="view('${obj.planNo }')">${obj.deliverDate } </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
 				 	<c:if test="${obj.status=='1' }">
 			 		未提交

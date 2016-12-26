@@ -153,35 +153,123 @@
       }
 
       $(function() {
-    	  $("#secondType").empty();
-        $("#threeType").empty();
-        $("#threeType").select2("val", "");
-        $("#fourType").empty();
-        $("#fourType").select2("val", "");
-        $("#picshow").hide();
-        $.ajax({
-          contentType: "application/json;charset=UTF-8",
-          url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=0",
-          type: "POST",
-          dataType: "json",
-          success: function(articleTypes) {
-            if(articleTypes) {
-              $("#articleTypes").append("<option></option>");
-              $.each(articleTypes, function(i, articleType) {
-                if(articleType.name != null && articleType.name != '') {
-                  $("#articleTypes").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+          var typeId;
+           $("#secondType").empty();
+           $("#secondType").select2("val", "");
+           $("#threeType").empty();
+           $("#threeType").select2("val", "");
+           $("#fourType").empty();
+           $("#fourType").select2("val", "");
+           $("#picshow").hide();
+           $.ajax({
+             contentType: "application/json;charset=UTF-8",
+             url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=0",
+             type: "POST",
+             dataType: "json",
+             success: function(articleTypes) {
+               if(articleTypes) {
+                 $("#articleTypes").append("<option></option>");
+                 $.each(articleTypes, function(i, articleType) {
+                   if(articleType.name != null && articleType.name != '') {
+                     $("#articleTypes").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                   }
+                 });
+               }
+               $("#articleTypes").select2();
+               $("#articleTypes").select2("val", "${article.articleType.id }");
+               var typeId = $("#articleTypes").select2("data").text;
+               if(typeId == "工作动态") {
+                 document.getElementById("picshow").style.display = "";
+               }else if(typeId == "采购公告"){
+                   $("#second").show();
+                   $("#three").show();
+                   $("#four").show();
+                }else if(typeId == "中标公示"){
+                    $("#second").show();
+                    $("#three").show();
+                    $("#four").show();
+                }else if(typeId == "单一来源公示"){
+                    $("#second").show();
+                    $("#three").show();
+                    $("#four").hide();
+                }else if(typeId == "商城竞价公告"){
+                   $("#second").show();
+                   $("#three").hide();
+                   $("#four").hide();
+                }else if(typeId == "网上竞价公告"){
+                   $("#second").show();
+                   $("#three").hide();
+                   $("#four").hide();
+                }else if(typeId == "采购法规"){
+                   $("#second").show();
+                   $("#three").hide();
+                   $("#four").hide();
                 }
-              });
-            }
-            $("#articleTypes").select2();
-            $("#articleTypes").select2("val", "${article.articleType.id }");
-            var typeId = $("#articleTypes").select2("data").text;
-            if(typeId == "工作动态") {
-              document.getElementById("picshow").style.display = "";
-            }
-          }
-        });
-      })
+             }
+           });
+           
+           var parentId = "${article.articleType.id }";
+           $.ajax({
+               contentType: "application/json;charset=UTF-8",
+               url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+parentId,
+               type: "POST",
+               dataType: "json",
+               success: function(articleTypes) {
+                 if(articleTypes) {
+                   $("#secondType").append("<option></option>");
+                   $.each(articleTypes, function(i, articleType) {
+                     if(articleType.name != null && articleType.name != '') {
+                       $("#secondType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                     }
+                   });
+                 }
+                 $("#secondType").select2();
+                 $("#secondType").select2("val", "${article.secondArticleTypeId }");
+               }
+             });
+           
+           
+           var sparentId = "${article.secondArticleTypeId }";
+           $.ajax({
+               contentType: "application/json;charset=UTF-8",
+               url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+sparentId,
+               type: "POST",
+               dataType: "json",
+               success: function(articleTypes) {
+                 if(articleTypes) {
+                   $("#threeType").append("<option></option>");
+                   $.each(articleTypes, function(i, articleType) {
+                     if(articleType.name != null && articleType.name != '') {
+                       $("#threeType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                     }
+                   });
+                 }
+                 $("#threeType").select2();
+                 $("#threeType").select2("val", "${article.threeArticleTypeId }");
+               }
+             });
+           
+           var fparentId = "${article.threeArticleTypeId }";
+           $.ajax({
+               contentType: "application/json;charset=UTF-8",
+               url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+fparentId,
+               type: "POST",
+               dataType: "json",
+               success: function(articleTypes) {
+                 if(articleTypes) {
+                   $("#fourType").append("<option></option>");
+                   $.each(articleTypes, function(i, articleType) {
+                     if(articleType.name != null && articleType.name != '') {
+                       $("#fourType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                     }
+                   });
+                 }
+                 $("#fourType").select2();
+                 $("#fourType").select2("val", "${article.fourArticleTypeId }");
+               }
+             });
+           
+         })
 
       function goBack() {
         window.location.href = "${pageContext.request.contextPath }/article/getAll.html";
@@ -196,23 +284,20 @@
     		  if(second==null||second==""){
     			  $("#ERR_secondType").html("栏目属性不能为空");
     			  return false;
-    		  }else{
-    			  return true;
-    		  }
-         }else if($("#three").is(":visible")){
-             if(three==null||three==""){
-            	 $("#ERR_threeType").html("采购类型不能为空");
-                 return false;
-               }else{
-                   return true;
-               }
-        }else if($("#four").is(":visible")){
-            if(four==null||four==""){
-            	 $("#ERR_fourType").html("采购方式不能为空");
-                return false;
-              }else{
-                  return true;
-              }
+    		  }else if($("#three").is(":visible")){
+    	             if(three==null||three==""){
+    	               $("#ERR_threeType").html("采购类型不能为空");
+    	                 return false;
+    	               }else if($("#four").is(":visible")){
+    	                   if(four==null||four==""){
+    	                       $("#ERR_fourType").html("采购方式不能为空");
+    	                        return false;
+    	                      }
+    	               }
+    	        }
+    		  
+         }else{
+           return true;
        }
       }
 

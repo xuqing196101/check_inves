@@ -31,7 +31,7 @@
 
 <body>
 	<div class="wrapper">
-	<jsp:include page="/index_head.jsp"></jsp:include>
+	<jsp:include page="/reg_head.jsp"></jsp:include>
 		<div class="container content height-350 job-content ">
 			<div class="col-md-12 p20 border1 margin-top-20 mb40">
 				<div class="tab-v1">

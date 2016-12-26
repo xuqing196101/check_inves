@@ -2174,13 +2174,36 @@ public class ExpertController {
      * 专家注册页面的身份证号唯一性验证
      *〈详细描述〉
      * @author WangHuijie
-     * @param phone
+     * @param idCardNumber
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/validateIdCardNumber")
+    public String validateIdCardNumber(String idCardNumber, String expertId) {
+        List<Expert> list = service.validateIdCardNumber(idCardNumber, expertId);
+        if (list.isEmpty()) {
+            return "0";
+        } else {
+            if (list.size() == 1 && expertId.equals(list.get(0).getId())) {
+                return "0";
+            } else {
+                return "1";
+            }
+        }
+    }
+    
+    /**
+     *〈简述〉
+     * 专家注册页面的证件号码唯一性验证
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param idNumber
      * @return
      */
     @ResponseBody
     @RequestMapping("/validateIdNumber")
     public String validateIdNumber(String idNumber, String expertId) {
-        List<Expert> list = service.validateIdNumber(idNumber);
+        List<Expert> list = service.validateIdNumber(idNumber, expertId);
         if (list.isEmpty()) {
             return "0";
         } else {

@@ -107,7 +107,17 @@ public interface ExpertMapper {
      * @param phone
      * @return
      */
-    List<Expert> validateIdNumber(String phone);
+    List<Expert> validateIdCardNumber(String idCardNumber, String expertId);
+    
+    /**
+     *〈简述〉
+     * 专家证件号码唯一性验证
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param phone
+     * @return
+     */
+    List<Expert> validateIdNumber(String idNumber, String expertId);
     /**
      *〈简述〉
      * 注册时点击下一步,将表中的STRP_NUMBER进行同步

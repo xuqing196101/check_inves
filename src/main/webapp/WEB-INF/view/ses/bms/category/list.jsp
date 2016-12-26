@@ -64,6 +64,7 @@
 	 }
 	 
     /**点击事件*/
+    var selectedNode = null;
     function zTreeOnClick(event,treeId,treeNode){
     	treeid = treeNode.id;
     	var node = treeNode.getParentNode();
@@ -77,7 +78,8 @@
 			$("#fileId_showdel").val("false");
 			$("#uploadBtnId").hide();
 	    	nodeName = node.name;
-    		update();
+    		update(treeNode);
+    		selectedNode = treeNode;
     	} else {
     		$("#tableDivId").addClass("dis_none");
     	}
@@ -103,11 +105,14 @@
     	    var zTree = $.fn.zTree.getZTreeObj("ztree");
 			nodes = zTree.getSelectedNodes();
 			var node = nodes[0];
+			var nodes = getCurrentRoot(node);
 			$("#operaFlag").val('add');
-			if (level == 3){
+			if (level == 2){
 				showQua();
 			}
 			if (node) {
+				$("#typeId").empty();
+				$("#openId").empty();
 				$.ajax({
 					url:"${pageContext.request.contextPath}/category/add.do",
 					type:"POST",
@@ -120,6 +125,13 @@
 						$("#fileId_downBsId").val(data);
 						$("#fileId_showdel").val("true");
 						showInit();
+						if (nodes.classify && nodes.classify == "GOODS"){
+							$("#typeTrId").show();
+							loadcheckbox("");
+						} else {
+							$("#typeTrId").hide();
+						}
+						loadRadioHtml("");
 					}
 				});
 				$("#pid").val(node.id);
@@ -139,13 +151,14 @@
     }
 
 	/**修改节点信息*/
-    function update(){
+    function update(nodes){
     	hideQua();
  	    if (treeid==null){
  			layer.msg("请选择一个节点");
 		}else{
 		$("#typeId").empty();
 		$("#openId").empty();
+		var node = getCurrentRoot(nodes);
 		  $.ajax({
 			url:"${pageContext.request.contextPath}/category/update.do?id="+treeid,
 			dataType:"json",
@@ -162,7 +175,12 @@
 					if (level == 3){
 						showQua(cate);
 					}
-					loadcheckbox(cate.classify);
+					if (node.classify && node.classify == "GOODS"){
+						$("#typeTrId").show();
+						loadcheckbox(cate.classify);
+					} else {
+						$("#typeTrId").hide();
+					}
 					loadRadioHtml(cate.isPublish);
 		      }
             });
@@ -174,7 +192,8 @@
 		var operaValue = $("#operaFlag").val();
 		var types = getTypeValue();
 		var open = getOpenValue();
-		if (types.length == 0){
+		var root = getCurrentRoot(selectedNode);
+		if (root.classify =="GOODS" && types.length == 0){
 			layer.msg("类型不能为空");
 			return ;
 		}
@@ -291,7 +310,7 @@
 	  $("#uploadBtnId").removeClass("dis_none");
       $("#btnIds").show();
       $("#uploadBtnId").show();
-      update();
+      update(nodes[0]);
 	}
 	
   /**删除*/
@@ -434,7 +453,6 @@
   * @param checkedVal 判断选中的值
   */
  function loadcheckbox(checkedVal){
- 	
  	var html = "";
  	for (var i =0;i<typesObj.length;i++){
  		 if (checkedVal == 1 && typesObj[i].code == 'PRODUCT'){
@@ -490,6 +508,20 @@
  		}
  	});
  	return typeData;
+ }
+ 
+ /**
+  * 获取当前节点的根节点
+  * @param treeNode treeNode节点
+  * @returns 当前节点
+  */
+ function getCurrentRoot(treeNode){ 
+ 	if(treeNode.getParentNode()!=null){  
+ 		var parentNode = treeNode.getParentNode(); 
+ 		return getCurrentRoot(parentNode);
+ 	} else {
+ 		return treeNode;
+ 	}
  }
 </script>
 
@@ -575,7 +607,7 @@
        				  <span id="posTipsId" class="red clear span_style" />
        		      </td>
            	    </tr>
-           	    <tr>
+           	    <tr id="typeTrId">
        			  <td class='info'>类型<span class="red">*</span></td>
        			  <td>
        				<div class="col-md-8 col-sm-8 col-xs-7" id="typeId" >

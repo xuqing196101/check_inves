@@ -118,7 +118,7 @@ session.setAttribute("tokenSession", tokenValue);
 
 </head>
 <body>
- 	 <jsp:include page="/index_head.jsp"></jsp:include>
+ 	 <jsp:include page="/reg_head.jsp"></jsp:include>
 <!-- 修改订列表开始-->
    <div class="container">
    <form action="${pageContext.request.contextPath}/expert/register.html" method="post"  id="formExpert">
