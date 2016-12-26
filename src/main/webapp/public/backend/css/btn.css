@@ -742,5 +742,14 @@
    background-position: -36px -290px;
 }
 .print{
-	 background-position:-42px -1262px; 
+   background-position:-42px -1262px; 
+}
+
+/*add&&delete*/
+.btn.list_btn{
+   border-radius: 4px !important;
+   font-weight: 800;
+   padding: 4px 10px!important;	
+   margin: 0 3px!important;
+   float: left;
 }

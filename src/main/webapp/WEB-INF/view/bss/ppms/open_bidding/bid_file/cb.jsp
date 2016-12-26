@@ -125,9 +125,9 @@
 	}
 </script>
 </head>
-<body>
+<body class="announce">
 <!-- 表格开始-->
-   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+   <div class="col-md-12 col-sm-12 col-xs-12 p0 mt20 mt20">
 	   <div class="col-md-6 col-sm-6 col-xs-6 tc f18">项目名称：${project.name}</div>
 	   <div class="col-md-6 col-sm-6 col-xs-6 tc f18">项目编号：${project.projectNumber}</div>
    </div>

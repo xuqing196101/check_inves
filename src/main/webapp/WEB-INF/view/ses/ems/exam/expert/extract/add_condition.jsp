@@ -385,7 +385,7 @@
           shade: 0.01,
           offset: '20px',
           move: false,
-          area: ['90%', '50%'],
+          area: ['90%', '80%'],
           content: '${pageContext.request.contextPath}/SupplierExtracts/showSupervise.do',
           success: function(layero, index) {
             iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();

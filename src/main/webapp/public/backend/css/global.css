@@ -1146,32 +1146,39 @@ table .input_group .add-on{
 .table_input td{
 	padding:0px!important;
 }
-.table_input input{
+.table_input input[type="text"]{
 	margin:0px!important;
+	float: left;
+	width:100%;
 }
 .left_table .bggrey {
 	padding: 0 10px!important;
 }
-.left_table td input{
+.left_table td input[type="text"]{
 	width: 100%!important;
 	margin: 0px!important;
+	float: left;
 }
 
 
 
 /*倒计时样式*/
 .kaibiao_time{
-	height:35px;
 	line-height: 35px;
 	display: block;
 	margin:0px auto;
-	padding-top:60px;
+	padding-top:70px;
 	font-size:19px;
-	
+	overflow:hidden;
+	height:300px;
+}
+.announce{
+	background: url("../images/countdown_03.png") no-repeat top center;
+	background-size:100%;
 }
 .kb_title{
 	font-weight:bold;
-	margin-bottom: 20px;
+	margin-bottom:15px;
 	text-align: center;
 }
 .yomi{
@@ -1183,4 +1190,6 @@ table .input_group .add-on{
 	font-size: 16px;
 	font-weight:bold;
 	color:#ffffff;
+	width:40px;
+	height:40px;
 }
