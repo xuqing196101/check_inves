@@ -1956,7 +1956,7 @@ public class ExpertController {
      */
     @RequestMapping("download")
     public ResponseEntity<byte[]> download(String id,
-            HttpServletRequest request) throws Exception {
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 根据编号查询专家信息
         Expert expert = service.selectByPrimaryKey(id);
         // 文件存储地址
@@ -1967,6 +1967,7 @@ public class ExpertController {
         // 下载后的文件名
         String downFileName = new String("军队评标专家申请表.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
+        response.setContentType("application/x-download");
         return service.downloadFile(fileName, filePath, downFileName);
     }
     
@@ -1982,7 +1983,7 @@ public class ExpertController {
      */
     @RequestMapping("downloadBook")
     public ResponseEntity<byte[]> downloadBook(String id,
-            HttpServletRequest request) throws Exception {
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
                 .getRealPath("/WEB-INF/upload_file/");
@@ -1995,6 +1996,7 @@ public class ExpertController {
         // 下载后的文件名
         String downFileName = new String("军队评标专家承诺书.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
+        response.setContentType("application/x-download");
         return service.downloadFile(fileName, filePath, downFileName);
     }
     
@@ -2010,7 +2012,7 @@ public class ExpertController {
      */
     @RequestMapping("/downNotice")
     public ResponseEntity<byte[]> downNotice(String id,
-            HttpServletRequest request) throws Exception {
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
                 .getRealPath("/WEB-INF/upload_file/");
@@ -2023,6 +2025,7 @@ public class ExpertController {
         // 下载后的文件名
         String downFileName = new String("评审专家申请人注册须知.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
+        response.setContentType("application/x-download");
         return service.downloadFile(fileName, filePath, downFileName);
     }
     
