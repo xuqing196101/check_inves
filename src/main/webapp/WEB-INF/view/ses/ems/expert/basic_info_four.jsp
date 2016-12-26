@@ -256,10 +256,12 @@ session.setAttribute("tokenSession", tokenValue);
 	 <td colspan="3">${expert.avoidanceSituation}</td>
    </tr>
  </table>
-    <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
-   		<button class="btn"   type="button" onclick="pre3()">上一步</button>
+	<div class="btmfix">
+	  	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  	   <button class="btn"   type="button" onclick="pre3()">上一步</button>
 		<button class="btn"   type="button" onclick="four('ok')">下一步</button>
-	</div>
+	  	  	  </div>
+			</div>
 </div>
 </div>
 </div>

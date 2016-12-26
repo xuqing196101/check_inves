@@ -396,14 +396,16 @@ session.setAttribute("tokenSession", tokenValue);
 			<h6>
 		               友情提示：请专家记录好初审采购机构的相关信息，以便进行及时沟通
 		    </h6>
-		    <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
-				<button class="btn"   type="button" onclick="pre6()">上一步</button>
+			<div class="btmfix">
+	  	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  	    <button class="btn"   type="button" onclick="pre6()">上一步</button>
 				<!-- <button class="btn" onclick='submitformExpert()'  type="button">暂存</button> -->
 				<button class="btn"   type="button" onclick='addPurList()'>下一步</button>
+	  	  	  </div>
 			</div>
-		</div>
-	  </div>
-	</form>
-	<jsp:include page="/index_bottom.jsp"></jsp:include>
+		  </div>
+	    </div>
+	  </form>
+	  <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>
