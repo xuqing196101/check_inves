@@ -162,4 +162,13 @@ public interface SaleTenderService   {
      * @return
      */
     List<SaleTender> selectListByProjectId(String projectId);
+    
+    /**
+     *〈简述〉
+     * 根据包id和供应商id设置经济技术总分
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param map
+     */
+    void editSumScore(Map<String, Object> map);
 }

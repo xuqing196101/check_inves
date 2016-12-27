@@ -383,11 +383,20 @@
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	
+	<update id="editSumScore" parameterType="java.util.Map">
+		update T_BSS_PPMS_SALE_TENDER
+		set 
+		ECONOMIC_SCORE = #{economicScore,jdbcType=DECIMAL},
+		TECHNOLOGY_SCORE = #{technologyScore,jdbcType=DECIMAL}
+		where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+		and PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+	</update>
+	
 	<update id="removeSaleTender" parameterType="java.util.Map">
 		update T_BSS_PPMS_SALE_TENDER
 		set 
 		IS_REMOVED = '1',
-		REMOVED_REASON = #{removedReason,jdbcType=VARCHAR},
+		REMOVED_REASON = #{removedReason,jdbcType=VARCHAR}
 		where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
 		and PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
 	</update>

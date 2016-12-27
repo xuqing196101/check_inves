@@ -40,10 +40,10 @@
 						 data:{"packageId":packageId,"projectId":projectId},
 						 async:false,
 						 success:function(){
-							 layer.alert("已汇总",{offset: [y, x], shade:0.01});
+							 layer.alert("已结束",{offset: [y, x], shade:0.01});
 						 },
 						 error: function(){
-							 layer.alert("汇总失败,请稍后重试!",{offset: [y, x], shade:0.01});
+							 layer.alert("结束失败,请稍后重试!",{offset: [y, x], shade:0.01});
 						 }
 					 });
 				} else {
@@ -52,7 +52,7 @@
 						shade : 0.01
 					});
 				} /* else {
-					layer.alert(response + "已汇总,请勿重复操作!", {
+					layer.alert(response + "已结束,请勿重复操作!", {
 						offset : [ y, x ],
 						shade : 0.01
 					});
@@ -126,9 +126,9 @@
 <body>
 		<h3>包名称：${pack.name}</h3>
 	    <div class="mb5 fr">
-		  <!-- <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button> -->
-		  <button class="btn" onclick="toTotal()" type="button">汇总</button>
+		  <button class="btn" onclick="toTotal()" type="button">结束</button>
 		  <button class="btn" onclick="backScore()" type="button">复核</button>
+		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印</button>
 		</div>
 		<!--循环供应商  -->
 		<table class="table table-bordered table-condensed table-hover table-striped">

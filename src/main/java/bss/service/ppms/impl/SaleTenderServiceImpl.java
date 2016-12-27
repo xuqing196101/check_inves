@@ -536,5 +536,16 @@ public class SaleTenderServiceImpl implements SaleTenderService {
     public List<SaleTender> selectListByProjectId(String projectId) {
         return saleTenderMapper.selectListByProjectId(projectId);
     }
+    
+    /**
+     *〈简述〉
+     * 根据包id和供应商id设置经济技术总分
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param map
+     */
+    public void editSumScore(Map<String, Object> map) {
+        saleTenderMapper.editSumScore(map);
+    }
 }
 

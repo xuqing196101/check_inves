@@ -1,7 +1,6 @@
 package bss.service.prms.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,11 +143,22 @@ public class PackageExpertServiceImpl implements PackageExpertService {
      */
     @Override
     public void backScore(Map<String, Object> mapSearch) {
+        // 将SaleTender表中的经济技术分清空
+        Map<String, Object> edMap = new HashMap<String, Object>();
+        edMap.put("packageId", (String) mapSearch.get("packageId"));
+        edMap.put("economicScore", new BigDecimal(0));
+        edMap.put("technologyScore", new BigDecimal(0));
+        SaleTender saleTender = new SaleTender();
+        saleTender.setPackages((String) mapSearch.get("packageId"));
+        List<SaleTender> supplierList = saleTenderService.find(saleTender);
+        for (SaleTender st : supplierList) {
+            edMap.put("supplierId", st.getSuppliers().getId());
+            saleTenderService.editSumScore(edMap);
+        }
         String expertIds = (String) mapSearch.get("expertId");
         String[] ids = expertIds.split(",");
         mapSearch.remove("expertId");
         // 查询包下有几个专家
-        double length = packageExpertMapper.selectList(mapSearch).size();
         for (String expertId : ids) {
             //mapSearch.remove("expertId");
             //mapSearch.put("expertId", expertId.replace("undefined", ""));
@@ -238,14 +248,14 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             // isok == 0 代表满足汇总条件
             mapSearch.put("packageId", packageId);
             // 判断如果该包的评分进度不是100%不能汇总
-            /*List<ReviewProgress> reviewList = reviewProgressMapper.selectByMap(mapSearch);
+            List<ReviewProgress> reviewList = reviewProgressMapper.selectByMap(mapSearch);
             if (!reviewList.isEmpty()) {
                 if (reviewList.get(0).getTotalProgress() != 1) {
-                    isok = 1;
+                    notPass = "评审尚未全部完成,无法结束!";
                 }
             }  else {
-                isok = 1;
-            }*/
+                notPass = "评审尚未全部完成,无法结束!";
+            }
             // 判断如果包内的专家所给出的分数不同的话不能汇总
             List<ExpertScore> expertScoreList = expertScoreMapper.selectByMap(mapSearch);
             for (int i = 0; i < expertScoreList.size() - 1; i++ ) {
@@ -257,12 +267,6 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                     }
                 } 
             } 
-            /*List<PackageExpert> list = packageExpertMapper.selectList(mapSearch);
-            for (PackageExpert pack : list) {
-                if (pack.getIsGatherGather() != 1) {
-                    notPass = ""; 
-                }
-            }*/
         }
         if (!"".equals(notPass)) {
             return notPass;

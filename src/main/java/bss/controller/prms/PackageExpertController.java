@@ -1026,6 +1026,44 @@ public class PackageExpertController {
             }
         }
         expertScoreService.gather(packageId, projectId, supplierList);
+        // 将供应商的经济技术总分存入SaleTender表中
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("packageId", packageId);
+        for (SaleTender saleTender : supplierList) {
+            map.put("supplierId", saleTender.getSuppliers().getId());
+            List<ExpertScore> scoreList = expertScoreService.selectByMap(map);
+            // 去重
+            removeRankSame(scoreList);
+            BigDecimal economicScore = new BigDecimal(0);
+            BigDecimal technologyScore = new BigDecimal(0);
+            for (ExpertScore score : scoreList) {
+                ScoreModel scoModel = new ScoreModel();
+                scoModel.setId(score.getScoreModelId());
+                // 根据id查看scoreModel对象
+                ScoreModel scoreModel = scoreModelService.findScoreModelByScoreModel(scoModel);
+                if (scoreModel != null) {
+                    MarkTerm mt = null;
+                    if (scoreModel.getMarkTermId() != null && !"".equals(scoreModel.getMarkTermId())){
+                        mt = markTermService.findMarkTermById(scoreModel.getMarkTermId());
+                        if (mt.getTypeName() == null || "".equals(mt.getTypeName())) {
+                            mt = markTermService.findMarkTermById(mt.getPid());
+                        }
+                    }
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
+                    if ("ECONOMY".equals(data.getCode())) {
+                        // 经济
+                        economicScore = economicScore.add(score.getScore());
+                    } else if ("TECHNOLOGY".equals(data.getCode())) {
+                        // 技术
+                        technologyScore = technologyScore.add(score.getScore());
+                    }
+                }
+            }
+            // 将算好的总分放入map
+            map.put("economicScore", economicScore);
+            map.put("technologyScore", technologyScore);
+            saleTenderService.editSumScore(map);
+        }
     }
 
     /**
@@ -1691,7 +1729,7 @@ public class PackageExpertController {
             map.put("expertId", expertId);
             map.put("packageId", packageId);
             List<PackageExpert> temp = packageExpertService.selectList(map);
-            if (temp != null && !temp.isEmpty() && temp.get(0).getIsGrade() == 1) {
+            if (temp != null && temp.size() > 0 && temp.get(0) != null && temp.get(0).getIsGrade() == 1) {
                 expertScoreList.add(score);
             }
         }
