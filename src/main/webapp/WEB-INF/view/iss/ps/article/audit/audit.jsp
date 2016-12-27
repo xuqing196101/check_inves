@@ -57,7 +57,12 @@
         $("#threeType").select2("val", "");
         $("#fourType").empty();
         $("#fourType").select2("val", "");
-        $("#picshow").hide();
+        
+        $("#secondType").attr("disabled","disabled");
+        $("#threeType").attr("disabled","disabled");
+        $("#fourType").attr("disabled","disabled");
+        $("#articleTypes").attr("disabled","disabled");
+        
         $.ajax({
           contentType: "application/json;charset=UTF-8",
           url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=0",
@@ -76,7 +81,7 @@
             $("#articleTypes").select2("val", "${article.articleType.id }");
             var typeId = $("#articleTypes").select2("data").text;
             if(typeId == "工作动态") {
-              document.getElementById("picshow").style.display = "";
+            	$("#second").show();
               $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
             } else if(typeId == "采购公告") {
               $("#second").show();

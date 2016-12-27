@@ -53,7 +53,7 @@
           $("#threeType").select2("val", "");
           $("#fourType").empty();
           $("#fourType").select2("val", "");
-          $("#picshow").hide();
+          
           $.ajax({
             contentType: "application/json;charset=UTF-8",
             url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=0",
@@ -72,7 +72,7 @@
               $("#articleTypes").select2("val", "${article.articleType.id }");
               var typeId = $("#articleTypes").select2("data").text;
               if(typeId == "工作动态") {
-                document.getElementById("picshow").style.display = "";
+            	  $("#second").show();
                 $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
               }else if(typeId == "采购公告"){
                   $("#second").show();
@@ -189,61 +189,65 @@
       }
       
       function typeInfo() {
-        $("#picshow").hide();
-        var typeId = $("#articleTypes").select2("data").text;
-        var parentId = $("#articleTypes").select2("val");
-        $("#secondType").empty();
-        $("#threeType").empty();
-        $("#threeType").select2("val", "");
-        $("#fourType").empty();
-        $("#fourType").select2("val", "");
-        if(typeId == "工作动态") {
-          $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
-          $("#picshow").show();
-          $("#second").hide();
-          $("#three").hide();
-          $("#four").hide();
-        }else if(typeId == "采购公告"){
-            $("#second").show();
-            $("#three").show();
-            $("#four").show();
-            getSencond(parentId);
-         }else if(typeId == "中标公示"){
-             $("#second").show();
-             $("#three").show();
-             $("#four").show();
-             getSencond(parentId);
-         }else if(typeId == "单一来源公示"){
-             $("#second").show();
-             $("#three").show();
-             $("#four").hide();
-             getSencond(parentId);
-         }else if(typeId == "商城竞价公告"){
-            $("#second").show();
-            $("#three").hide();
-            $("#four").hide();
-            getSencond(parentId);
-         }else if(typeId == "网上竞价公告"){
-            $("#second").show();
-            $("#three").hide();
-            $("#four").hide();
-            getSencond(parentId);
-         }else if(typeId == "采购法规"){
-            $("#second").show();
-            $("#three").hide();
-            $("#four").hide();
-            getSencond(parentId);
-         }else {
-          $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
-          $("#picshow").hide();
-          $("#second").hide();
-          $("#three").hide();
-          $("#four").hide();
+          var typeId = $("#articleTypes").select2("data").text;
+          var parentId = $("#articleTypes").select2("val");
           $("#secondType").empty();
           $("#threeType").empty();
+          $("#threeType").select2("val", "");
           $("#fourType").empty();
+          $("#fourType").select2("val", "");
+          if(typeId == "工作动态") {
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
+            $("#second").show();
+            $("#three").hide();
+            $("#four").hide();
+            getSencond(parentId);
+          }else if(typeId == "采购公告"){
+              $("#second").show();
+              $("#three").show();
+              $("#four").show();
+              $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+              getSencond(parentId);
+           }else if(typeId == "中标公示"){
+               $("#second").show();
+               $("#three").show();
+               $("#four").show();
+               $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+               getSencond(parentId);
+           }else if(typeId == "单一来源公示"){
+               $("#second").show();
+               $("#three").show();
+               $("#four").hide();
+               $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+               getSencond(parentId);
+           }else if(typeId == "商城竞价公告"){
+              $("#second").show();
+              $("#three").hide();
+              $("#four").hide();
+              $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+              getSencond(parentId);
+           }else if(typeId == "网上竞价公告"){
+              $("#second").show();
+              $("#three").hide();
+              $("#four").hide();
+              $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+              getSencond(parentId);
+           }else if(typeId == "采购法规"){
+              $("#second").show();
+              $("#three").hide();
+              $("#four").hide();
+              $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+              getSencond(parentId);
+           }else {
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+            $("#second").hide();
+            $("#three").hide();
+            $("#four").hide();
+            $("#secondType").empty();
+            $("#threeType").empty();
+            $("#fourType").empty();
+          }
         }
-      }
 
       function goBack() {
           window.location.href = "${pageContext.request.contextPath }/article/auditlist.html";
@@ -407,14 +411,6 @@
               <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
             </div>
             <div class="cue">${ERR_range}</div>
-          </li>
-          <li class="col-md-3 col-sm-6 col-xs-12" id="picshow">
-            <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">图片展示：</span>
-            <div class="input-append col-md-12 col-xs-12 col-sm-12 input_group p0">
-              <input id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }">
-              <span class="add-on">i</span>
-              <div class="cue">${ERR_isPicShow}</div>
-            </div>
           </li>
 
           <li class="col-md-12 col-xs-12 col-s  m-12">

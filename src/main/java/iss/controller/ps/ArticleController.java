@@ -185,10 +185,10 @@ public class ArticleController extends BaseSupplierController{
       flag = false;
       model.addAttribute("ERR_typeId", "信息栏目不能为空");
     }
-    String isPicShow = request.getParameter("isPicShow");
-    if(isPicShow!=null&&!isPicShow.equals("")){
-      articleService.updateisPicShow(isPicShow);
-    }
+//    String isPicShow = request.getParameter("isPicShow");
+//    if(isPicShow!=null&&!isPicShow.equals("")){
+//      articleService.updateisPicShow(isPicShow);
+//    }
     if(ranges!=null&&!ranges.equals("")){
       if(ranges.length>1){
         article.setRange(2);
@@ -511,10 +511,10 @@ public class ArticleController extends BaseSupplierController{
       solrNewsService.deleteIndex(article.getId());
     }
 
-    String isPicShow = request.getParameter("isPicShow");
-    if(isPicShow!=null&&!isPicShow.equals("")){
-      articleService.updateisPicShow(isPicShow);
-    }
+//    String isPicShow = request.getParameter("isPicShow");
+//    if(isPicShow!=null&&!isPicShow.equals("")){
+//      articleService.updateisPicShow(isPicShow);
+//    }
 
     if(ValidateUtils.isNull(article.getFourArticleTypeId())){
   	  if(ValidateUtils.isNull(article.getThreeArticleTypeId())){
@@ -973,10 +973,10 @@ public class ArticleController extends BaseSupplierController{
       solrNewsService.deleteIndex(article.getId());
     }
 
-    String isPicShow = request.getParameter("isPicShow");
-    if(isPicShow!=null&&!isPicShow.equals("")){
-      articleService.updateisPicShow(isPicShow);
-    }
+//    String isPicShow = request.getParameter("isPicShow");
+//    if(isPicShow!=null&&!isPicShow.equals("")){
+//      articleService.updateisPicShow(isPicShow);
+//    }
 
     article.setUpdatedAt(new Date());
     article.setStatus(2);
@@ -1132,10 +1132,10 @@ public class ArticleController extends BaseSupplierController{
       solrNewsService.deleteIndex(article.getId());
     }
 
-    String isPicShow = request.getParameter("isPicShow");
-    if(isPicShow!=null&&!isPicShow.equals("")){
-      articleService.updateisPicShow(isPicShow);
-    }
+//    String isPicShow = request.getParameter("isPicShow");
+//    if(isPicShow!=null&&!isPicShow.equals("")){
+//      articleService.updateisPicShow(isPicShow);
+//    }
 
     article.setUpdatedAt(new Date());
     article.setStatus(0);
