@@ -90,6 +90,18 @@ public class FileUtils {
     
     /**
      * 
+     *〈简述〉 获取待导入的文件
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final File getImportFile(){
+        File file = new File(getImportPath());
+        return file;
+    }
+    
+    /**
+     * 
      *〈简述〉获取完成的文件路径
      *〈详细描述〉
      * @author myc
