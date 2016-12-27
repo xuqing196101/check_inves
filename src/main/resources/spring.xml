@@ -11,12 +11,12 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 	<context:property-placeholder location="classpath:config.properties" />
 
 	<!-- 自动扫描(自动注入) -->
-	<context:component-scan base-package="ses.service,iss.service,bss.service,ses.util,common.service" />
+	<context:component-scan base-package="ses.service,iss.service,bss.service,ses.util,common.service,synchro.*" />
 	
 	
-	<task:executor id="executor" pool-size="5" />
+	<!-- <task:executor id="executor" pool-size="5" />
 	<task:scheduler id="scheduler" pool-size="10" />
-	<task:annotation-driven executor="executor" scheduler="scheduler"/>
+	<task:annotation-driven executor="executor" scheduler="scheduler"/> -->
 	
 	<!-- <task:scheduled-tasks>
         <task:scheduled ref="myTask" method="task11" cron="0 11 14 * * ?"/>   

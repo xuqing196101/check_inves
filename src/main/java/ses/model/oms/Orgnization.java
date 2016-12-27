@@ -25,12 +25,10 @@ public class Orgnization implements Serializable {
 
     private String typeName;
     
-    @NotBlank(message = "地址不能为空") 
     private String address;
 
     private String mobile;
 
-    @NotBlank(message = "邮编不能为空") 
     private String postCode;
 
     private String orgCode;
@@ -41,7 +39,6 @@ public class Orgnization implements Serializable {
 
     private String detailAddr;
 
-    @NotBlank(message = "传真不能为空") 
     private String fax;
 
     private String website;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="synchro.dao.SynchRecordMapper">
+  
+  <!-- 关系映射 -->
+  <resultMap id="resMap" type="synchro.model.SynchRecord">
+    <id column="ID"  property="id" />
+    <result column="OPER_TYPE"  jdbcType="NUMERIC" property="operType"  />
+    <result column="DATA_TYPE"  jdbcType="NUMERIC" property="dataType"/>
+    <result column="SYNCH_DATE"  jdbcType="TIMESTAMP"  property="synchDate" />
+    <result column="DESCRIPTIONS" jdbcType="VARCHAR"  property="descriptions" />
+  </resultMap>
+  
+  <!-- 表中所有字段 -->
+  <sql id="baseSql">
+    ID, OPER_TYPE, DATA_TYPE, SYNCH_DATE, DESCRIPTIONS
+  </sql>
+  
+  <!-- 保存 -->
+  <insert id="save" parameterType="synchro.model.SynchRecord">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    INSERT INTO T_SYNCH_RECORD (ID, OPER_TYPE,DATA_TYPE, SYNCH_DATE, DESCRIPTIONS)
+    VALUES (#{id},#{operType,jdbcType=NUMERIC},#{dataType,jdbcType=NUMERIC},
+           #{synchDate,jdbcType=TIMESTAMP},#{descriptions})
+  </insert>
+</mapper>
