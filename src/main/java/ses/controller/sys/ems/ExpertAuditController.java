@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -40,6 +42,7 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.WordUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -700,8 +703,129 @@ public class ExpertAuditController {
 		boolean Whether = expertAuditService.deleteByIds(ids);
 		if(Whether){
 			String msg = "{\"msg\":\"yes\"}";
-			writeJson(response, msg);
+			writeJson(response, msg); 
 		}
 		
 	}
+	
+	/**
+	 * @Title: download
+	 * @author XuQing 
+	 * @date 2016-12-27 下午2:34:20  
+	 * @Description:word下载
+	 * @param @param expertId
+	 * @param @param request
+	 * @param @param response
+	 * @param @return
+	 * @param @throws Exception      
+	 * @return ResponseEntity<byte[]>
+	 */
+	 @RequestMapping("download")
+	    public ResponseEntity<byte[]> download(String expertId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	        // 根据编号查询专家信息
+	        Expert expert = service.selectByPrimaryKey(expertId);
+	        // 文件存储地址
+	        String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+	        // 文件名称
+	        String fileName = createWordMethod(expert, request);
+	        // 下载后的文件名
+	        String downFileName = new String("军队采购评审专家入库审核表.doc".getBytes("UTF-8"),"iso-8859-1");// 为了解决中文名称乱码问题
+	        response.setContentType("application/x-download");
+	        return service.downloadFile(fileName, filePath, downFileName);
+	    }
+	
+	    /**
+	     * @Title: createWordMethod
+	     * @author XuQing 
+	     * @date 2016-12-27 下午2:34:36  
+	     * @Description:生成word
+	     * @param @param expert
+	     * @param @param request
+	     * @param @return
+	     * @param @throws Exception      
+	     * @return String
+	     */
+	    private String createWordMethod(Expert expert, HttpServletRequest request) throws Exception {
+	        /** 用于组装word页面需要的数据 */
+	        Map<String, Object> dataMap = new HashMap<String, Object>();
+	        dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
+	        String sex = expert.getGender();
+	        DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
+	        dataMap.put("gender", gender == null ? "" : gender.getName());
+	        dataMap.put("idCardNumber", expert.getIdCardNumber() == null ? "" : expert.getIdCardNumber());
+	        dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
+	        dataMap.put("birthday", expert.getBirthday() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(expert.getBirthday()));
+	        dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
+	        DictionaryData expertsForm = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
+	        if (expertsForm != null) {
+	            dataMap.put("expertsFrom", expertsForm.getName() == null ? "" : expertsForm.getName());
+	        } else {
+	            dataMap.put("expertsFrom", "");
+	        }
+	        StringBuffer expertType = new StringBuffer();
+	        for (String typeId : expert.getExpertsTypeId().split(",")) {
+	            expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+	        }
+	        String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+	        dataMap.put("expertsTypeId", expertsType);
+	        
+	        //未通过审核的字段
+	        List<ExpertAudit> reasonsList = expertAuditService.getListByExpertId(expert.getId());
+	        boolean idCard = true;
+	        boolean armyIdCard = true;
+	        boolean qualification = true;
+	        boolean academicDegree = true;
+	        if(!reasonsList.isEmpty()){
+	        	for(ExpertAudit e : reasonsList){
+		        	if(e.getAuditField().equals("居民身份证")){
+		        		dataMap.put("idCard", "否");
+		        		idCard = false;
+		        		break;
+		        	}
+		        }
+				
+		        for(ExpertAudit e : reasonsList){
+		        	if(e.getAuditField().equals("军队人员身份证件")){
+		        		dataMap.put("armyIdCard", "否");
+		        		armyIdCard = false;
+		        		break;
+		        	}
+		        }
+		        
+		        for(ExpertAudit e : reasonsList){
+		        	if(e.getAuditField().equals("技术职称/执业资格证书")){
+		        		dataMap.put("qualification", "否");
+		        		qualification = false;
+		        		break;
+		        	}
+		        }
+		        
+		        for(ExpertAudit e : reasonsList){
+		        	if(e.getAuditField().equals("学位证书")){
+		        		dataMap.put("academicDegree", "否");
+		        		academicDegree = false;
+		        		break;
+		        	}
+		        }
+	        }
+	        
+	        if(idCard){
+	        	dataMap.put("idCard", "是");
+	        }
+	        if(armyIdCard){
+	        	dataMap.put("armyIdCard", "是");
+	        }
+	        if(qualification){
+	        	dataMap.put("qualification", "是");
+	        }
+	        if(academicDegree){
+	        	dataMap.put("academicDegree", "是");
+	        }
+	        
+	        
+	        String fileName = new String(("军队采购评审专家入库审核表.doc").getBytes("UTF-8"), "UTF-8");
+	        /** 生成word 返回文件名 */
+	        String newFileName = WordUtil.createWord(dataMap, "expertAudit.ftl", fileName, request);
+	        return newFileName;
+	    }
 }

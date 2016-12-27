@@ -2,6 +2,8 @@ package ses.service.ems;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
@@ -138,4 +140,17 @@ public interface ExpertAuditService {
      * @return void
      */
     void updateIsDeleteByExpertId (String expertId);
+    
+   /**
+    * @Title: downloadFile
+    * @author XuQing 
+    * @date 2016-12-27 下午2:21:18  
+    * @Description:生成的word文件下载
+    * @param @param fileName
+    * @param @param filePath
+    * @param @param downFileName
+    * @param @return      
+    * @return ResponseEntity<byte[]>
+    */
+    ResponseEntity<byte[]> downloadFile(String fileName, String filePath, String downFileName);
 }

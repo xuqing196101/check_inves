@@ -41,7 +41,7 @@
 			}
 			var id = $(":radio:checked").val();
 			var state = $("#" + id +"").parent("tr").find("td").eq(8).text().trim();
-			var isExtract = $("#" + id + "_isExtract").text();
+			/* var isExtract = $("#" + id + "_isExtract").text(); */
 			if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复审踢除") {
 				layer.msg("请选择待审核项 !", {
 					offset: '100px',
@@ -56,7 +56,34 @@
 				return;
 			} */
 			$("input[name='expertId']").val(id);
-			$("#shenhe_form_id").submit();
+			$("#form_id").attr("action","${pageContext.request.contextPath}/expertAudit/basicInfo.html");
+			$("#form_id").submit();
+		}
+		
+			        
+      //下载
+		function downloadTable(){
+			var size = $(":radio:checked").size();
+			if(!size) {
+				layer.msg("请选择专家 !", {
+					offset: '100px',
+				});
+				return;
+			}
+			
+			var id = $(":radio:checked").val();
+			var state = $("#" + id +"").parent("tr").find("td").eq(8).text().trim();
+			
+			if(state == "待初审" || state == "待复审" || state == "初审通过" || state == "退回修改" || state == "初审退回" || state == "复审通过") {
+				layer.msg("请选下载未通过项 !", {
+					offset: '100px',
+				});
+				return;
+			}
+			
+			$("input[name='expertId']").val(id);
+			$("#form_id").attr("action","${pageContext.request.contextPath}/expertAudit/download.html");
+			$("#form_id").submit();
 		}
 		
 		 //重置搜索栏
@@ -97,7 +124,7 @@
 			<h2>专家审核列表</h2>
 		</div>
 		<div class="search_detail">
-			<form id="shenhe_form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
+			<form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
 			  <input name="expertId" type="hidden" />
 	  	</form>
 			<form action="${pageContext.request.contextPath}/expertAudit/list.html" method="post" id="formSearch" class="mb0">
@@ -133,6 +160,7 @@
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
+				<a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">下载</a>
 			</div>
 
 			<div class="content table_box">

@@ -89,6 +89,7 @@
 			        layer.alert("请选择需要移除的信息！",{offset:'100px'});
 				 	  }
 	        }
+	        
 		</script>
 		<script type="text/javascript">
 			function jump(str) {
