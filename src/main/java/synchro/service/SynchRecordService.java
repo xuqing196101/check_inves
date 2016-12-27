@@ -38,4 +38,22 @@ public interface SynchRecordService {
      * @param content 内容
      */
     public void importSupplierRecord(String content);
+    
+    /**
+     * 
+     *〈简述〉记录新增的专家信息
+     *〈详细描述〉
+     * @param  content 内容
+     * @author WangHuijie
+     */
+    public void backNewExpertRecord(String content);
+    
+    /**
+     * 
+     *〈简述〉记录修改的专家信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param content 内容
+     */
+    public void backModifyExpertRecord(String content);
 }

@@ -7,6 +7,8 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import ses.model.bms.User;
 /**
  * 
   * <p>Title:Expert </p>
@@ -140,6 +142,12 @@ public class Expert extends ExpertHistory implements Serializable {
     private String relName;
     /**步骤数:用来判断注册走到了第几步*/
     private String stepNumber;
+    
+    /** 用户 **/
+    private User user;
+    
+    /** 品目 **/
+    private List<ExpertCategory> expertCategory;
     
     private List<String> ids;
     
@@ -548,6 +556,22 @@ public class Expert extends ExpertHistory implements Serializable {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<ExpertCategory> getExpertCategory() {
+        return expertCategory;
+    }
+
+    public void setExpertCategory(List<ExpertCategory> expertCategory) {
+        this.expertCategory = expertCategory;
+    }
 
     
 }

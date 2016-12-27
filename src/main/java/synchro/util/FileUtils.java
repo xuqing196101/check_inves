@@ -36,6 +36,12 @@ public class FileUtils {
     /** 修改供应商文件名称 **/
     private final static String M_SUPPLIER_FILENAME = "_m_supplier.dat";
     
+    /** 新注册专家文件名称 **/
+    private final static String C_EXPERT_FILENAME = "_c_expert.dat";
+    
+    /** 修改专家文件名称 **/
+    private final static String M_EXPERT_FILENAME = "_m_expert.dat";
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -154,6 +160,34 @@ public class FileUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * 
+     *〈简述〉获取新注册专家导出文件
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final File getNewExpertBackUpFile(){
+        String fileName = System.currentTimeMillis() + C_EXPERT_FILENAME;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+    }
+    
+    /**
+     * 
+     *〈简述〉获取修改专家导出文件
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final File getModifyExpertBackUpFile(){
+        String fileName = System.currentTimeMillis() + M_EXPERT_FILENAME;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
     }
     
 }

@@ -819,6 +819,14 @@ public class ExpertServiceImpl implements ExpertService {
         // TODO Auto-generated method stub
         mapper.deleteExpertHistory(expertId);
     }
+
+    /**
+     * @see ses.service.ems.ExpertService#getCommitExpertByDate(java.lang.String)
+     */
+    @Override
+    public List<Expert> getCommitExpertByDate(String createDate) {
+        return mapper.getCommitExpertByDate(createDate);
+    }
 	
 }
 

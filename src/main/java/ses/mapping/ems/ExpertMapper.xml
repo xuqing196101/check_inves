@@ -1128,4 +1128,11 @@
 		from T_SES_EMS_EXPERT_History
 		where ID = #{_parameter}
 	</select>
+	
+	<select id="getCommintSupplierByDate" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/>
+		from T_SES_EMS_EXPERT
+		where CREATE_AT = #{_parameter}
+	</select>
 </mapper>

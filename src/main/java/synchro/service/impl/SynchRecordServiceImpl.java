@@ -37,6 +37,15 @@ public class SynchRecordServiceImpl implements SynchRecordService {
     /** 新提交供应商描述 **/
     private final static String NEW_COMMIT_SUPPLIER = "新提交供应商数量:";
     
+    /** 数据类型-专家注册 **/
+    private final static Integer DATA_TYPE_EXPERT_REG = 3;
+    
+    /** 数据类型-专家修改 **/
+    private final static Integer DATA_TYPE_EXPERT_MODIFY = 4;
+    
+    /** 新提交专家描述 **/
+    private final static String NEW_COMMIT_EXPERT = "新提交专家数量:";
+    
     /** 记录表mapper **/
     @Autowired
     private SynchRecordMapper mapper;
@@ -53,11 +62,31 @@ public class SynchRecordServiceImpl implements SynchRecordService {
     
     /**
      * 
+     * @see synchro.record.service.SynchRecordService#newExpertRecord(java.lang.String)
+     */
+    @Override
+    public void backNewExpertRecord(String content) {
+        SynchRecord sr  = getSynchRecord(DATA_TYPE_EXPERT_REG, OPER_TYPE_EXPORT, NEW_COMMIT_EXPERT + content);
+        mapper.save(sr);
+    }
+    
+    /**
+     * 
      * @see synchro.service.SynchRecordService#modifySupplierRecord(java.lang.String)
      */
     @Override
     public void backModifySupplierRecord(String content) {
         SynchRecord sr  = getSynchRecord(DATA_TYPE_SUPPLIER_AUDIT, OPER_TYPE_EXPORT, NEW_COMMIT_SUPPLIER + content);
+        mapper.save(sr);
+    }
+    
+    /**
+     * 
+     * @see synchro.service.SynchRecordService#modifyExpertRecord(java.lang.String)
+     */
+    @Override
+    public void backModifyExpertRecord(String content) {
+        SynchRecord sr  = getSynchRecord(DATA_TYPE_EXPERT_MODIFY, OPER_TYPE_EXPORT, NEW_COMMIT_EXPERT + content);
         mapper.save(sr);
     }
 

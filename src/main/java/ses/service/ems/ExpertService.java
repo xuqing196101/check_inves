@@ -338,4 +338,13 @@ public interface ExpertService {
      * @return
      */
     ExpertHistory selectOldExpertById(String expertId);
+    
+    /**
+     *〈简述〉根据创建日期获取已提交的专家信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param createDate 创建日期
+     * @return 专家集合
+     */
+    List<Expert> getCommitExpertByDate(String createDate);
 }
