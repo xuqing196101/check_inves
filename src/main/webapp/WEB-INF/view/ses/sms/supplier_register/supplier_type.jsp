@@ -164,6 +164,9 @@
 	    	    	layer.msg("请选择供应商类型");
 	    	    }
 	   		 }
+	    
+	    $("#save_pro_form_id").submit();
+	    
     }
  
 	function openRegPerson() {
@@ -885,27 +888,36 @@
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<%--<th class="info">附件</th>
-													--%></tr>
+														<th class="info">附件</th>
+													</tr>
 												</thead>
 												<tbody id="cert_pro_list_tbody_id">
 													<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
 														<tr>
 															<td class="tc"><input type="checkbox" value="${certPro.id}" /></td>
-															<td class="tc">${certPro.name}</td>
-															<td class="tc">${certPro.levelCert}</td>
-															<td class="tc">${certPro.licenceAuthorith}</td>
-															<td class="tc"><fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd" /></td>
-															<td class="tc"><fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd" /></td>
-															<td class="tc">${certPro.mot}</td>
-															<%--<td class="tc">
-																<c:if test="${certPro.attach != null}">
-																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certPro.attach}')">下载附件</a>
-																</c:if>
-																<c:if test="${certPro.attach == null}">
-																	<span class="fz11">无附件下载</span>
-																</c:if>
-															</td>--%>
+															<td class="tc"><input type="text" nam="listSupplierCertPros[${vs.index }].name" value="${certPro.name}"/> </td>
+															<td class="tc"><input type="text" nam="listSupplierCertPros[${vs.index }].levelCert" value="${certPro.levelCert}" /> </td>
+															<td class="tc"><input type="text" nam="listSupplierCertPros[${vs.index }].licenceAuthorith" value="${certPro.levelCert}"  value="${certPro.licenceAuthorith}"/></td>
+															<td class="tc">
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="listSupplierCertPros[${vs.index }].expStartDate" value="${certPro.expEndDate}"  />
+														  </td>
+															<td class="tc">
+																<input type="text" readonly="listSupplierCertPros[${vs.index }].expEndDate" onClick="WdatePicker()" name="businessStartDate" value="${certPro.expEndDate}"  />
+														 </td>
+															<td class="tc">
+															   <select name="listSupplierCertPros[${vs.index }].mot">
+														          <option value="1" <c:if test="${certPro.mot=='1'}"> selected="selected"</c:if> >是</option>
+														          <option value="0"  <c:if test="${certPro.mot=='0'}"> selected="selected"</c:if>>无</option>
+														        </select>
+															<%-- ${certPro.mot} --%>
+															
+															</td>
+															<td class="tc">
+															<div>
+															 <u:upload id="pro_up" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
+															 <u:show showId="pro_show" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
+															</div>
+															</td>
 														</tr>
 													</c:forEach>
 												</tbody>

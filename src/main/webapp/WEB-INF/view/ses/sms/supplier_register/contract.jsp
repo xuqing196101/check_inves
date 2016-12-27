@@ -242,8 +242,10 @@
 		$("#items_info_form_id").submit();
 	}
 	
-	function next(){
-		 window.location.href="${pageContext.request.contextPath}/supplier/contract.html";
+	function next(flag){
+		 getCategoryId();
+		$("#flag").val(flag);
+		$("#items_info_form_id").submit();
 	}
 	
 	function prev(){
@@ -367,11 +369,12 @@
 		<c:if test="${currSupplier.status != 7}">
 		<div class="container clear margin-top-30">
 				<h2 class="padding-20 mt40 ml30">
-				       	<span class="new_step current fl"><i class="">1</i>
+					<span class="new_step current fl"><i class="">1</i>
+<!-- 						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i> -->
 						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
 						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">4</i>
-						<div class="line"></div> <span class="step_desc_02">品目信息</span> </span> <span class="new_step current fl"> <i class="">5</i>
-						<div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span> <span class="new_step current fl"><i class=""> 6</i>
+						<div class="line"></div> <span class="step_desc_02">品目信息</span> </span> <span class="new_step current fl"><i class="">5</i>
+						<div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span> <span class="new_step current fl"><i class="">6</i>
 						<div class="line"></div> <span class="step_desc_02">品目合同上传</span> </span> <span class="new_step fl"><i class="">7</i>
 						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
 						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
@@ -392,15 +395,22 @@
 						  
 										  <tr>
 										    <td class="info"> 品目名称</td>
-										    <td>需要上传的文件</td>
+										    <td colspan="3">合同上传</td>
+										    <td colspan="3">收款进账单</td>
 										  </tr>
+										  
+										  
 										  <c:forEach items="${list2 }" var="obj">
 									      <tr>
-										    <td class="info">${obj.name }</td>
-										    <td class="info">
-										    
-										    
-										    </td>
+									        <td class="info">计算机</td>
+										    <td class="info">2015合同</td>
+										    <td class="info">2014合同 </td>
+										    <td class="info"><2013合同</td>
+										    <td class="info">  文件</td>
+										    <td class="info">  文件</td>
+										    <td class="info">文件 </td>
+										                        
+										    <td class="info">  </td>
 										  </tr>
 										</c:forEach>
 										

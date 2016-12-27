@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.bms.CategoryQua;
+import ses.model.bms.Qualification;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 /**
@@ -171,4 +173,6 @@ public interface SupplierService {
     * @return
     */
    Integer getCountMobile(String mobile);
+   
+   public List<Qualification>  queryCategoyrId(String categoryId);
 }

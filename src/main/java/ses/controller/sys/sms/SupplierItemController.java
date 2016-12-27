@@ -21,6 +21,7 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
@@ -80,7 +81,7 @@ public class SupplierItemController extends BaseController{
 	 * @return: String
 	 */
 	@RequestMapping(value = "save_or_update")
-	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String flag, Model model) {
+	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String flag, Model model,String supplierTypeIds) {
 		
 		
 		
@@ -136,15 +137,20 @@ public class SupplierItemController extends BaseController{
 		if(flag.equals("2")){
 			return "ses/sms/supplier_register/items";	
 		} 
-		if(supplierItem.getCategoryId().trim().length()>0){
-			return "ses/sms/supplier_register/procurement_dep";	
-		}else{
-			model.addAttribute("err_category", "请勾选一个节点");
-			return "ses/sms/supplier_register/items";	
+	 
+		
+		//查询所有的三级品目
+		List<Category> list2 = getSupplier(supplier.getId(),supplierTypeIds);
+		
+		List<Qualification> cateList=new ArrayList<Qualification>();
+		//根据品目id查询所有的证书信息
+		for(Category cate:list2){
+			List<Qualification> categoyrs = supplierService.queryCategoyrId(cate.getId());
+			cateList.addAll(categoyrs);
 		}
-			
-		   //跳到供应商资质证书维护页面
-//			 return "ses/sms/supplier_register/aptitude"; 
+		model.addAttribute("list2", list2);
+		model.addAttribute("cateList", cateList);
+		return "ses/sms/supplier_register/aptitude"; 
 	 
 		
 		
@@ -250,5 +256,42 @@ public class SupplierItemController extends BaseController{
            }
 	 return JSON.toJSONString(categoryList);
 	}
+	
+	@RequestMapping(value="/getSupplierCate" ,produces = "text/html;charset=UTF-8")
+    @ResponseBody
+	public String getCategory(String supplierId){
+		List<Category> list = supplierItemService.getCategory(supplierId);
+		if(list.size()>0){
+			return "1";
+		}else{
+			return "0";
+		}
+	}
+	
+	public List<Category> getSupplier(String supplierId,String code){
+		List<Category> categoryList=new ArrayList<Category>();
+		String[] types = code.split(",");
+		for(String s:types){
+			String   categoryId="";
+			   if (s != null ) {
+	               if(s.equals("PRODUCT") || s.equals("SALES")){
+	                  
+	                   categoryId = DictionaryDataUtil.getId("GOODS");
+	               } else {
+	            	   categoryId = DictionaryDataUtil.getId(s);
+	               }
+	    		   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId);
+	    		     for(SupplierItem c:category){
+	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+	    		    	 categoryList.add(cate);
+	    		    	 List<Category> cList = categoryService.findTreeByPid(c.getCategoryId());
+	    	              categoryList.addAll(cList);
+	    	            }
+	           }
+		}
+	
+		  return  categoryList;
+	}
+	
 	
 }

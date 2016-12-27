@@ -65,15 +65,22 @@ public class Aaa extends Cbb{
 //        if(m.find()==true&&str.contains("(")){
 //        	System.out.print("测试");
 //        }
-		String str="（一）";
+		String str="1";
 //		String regex="/^-?[1-9]\\d*$/";
 //		if(str.matches(regex)) {
 //			System.out.print("数字类型");
 //		}
-		System.out.print("测试");
-		if(str.matches("[\u4E00-\u9FA5]")&&!str.contains("（")){
+//		System.out.print("测试");
+//		if(str.matches("[\u4E00-\u9FA5]")&&!str.contains("（")){
+//			System.out.print("测试");
+//		}
+		
+		String regex="/^-?[1-9]\\d*$/";
+		boolean b = str.matches(regex);
+		if(str.matches(regex)) {
 			System.out.print("测试");
 		}
+		
 		
 	}
 	}

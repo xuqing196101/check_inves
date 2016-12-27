@@ -47,6 +47,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
@@ -477,6 +478,13 @@ public class SupplierController extends BaseSupplierController {
             model.addAttribute("supplieType", list);
             List<DictionaryData> wlist = DictionaryDataUtil.find(8);
             model.addAttribute("wlist", wlist);
+          if(supplier.getSupplierMatPro().getListSupplierCertPros().size()<1){
+        	  
+        	  SupplierMatPro pro = supplierMatProService.init();
+        	  supplier.setSupplierMatPro(pro);
+          }
+          String attid = DictionaryDataUtil.getId("SUPPLIER_PRODUCT");
+  
             
             model.addAttribute("currSupplier", supplier);
             Map<String, Object> map = supplierService.getCategory(supplier.getId());
@@ -484,7 +492,7 @@ public class SupplierController extends BaseSupplierController {
             model.addAttribute("product", map.get("product"));
             model.addAttribute("sale", map.get("sale"));
             model.addAttribute("project", map.get("project"));
-            
+            model.addAttribute("attid", attid);
             List<DictionaryData> company = DictionaryDataUtil.find(17);
             model.addAttribute("company", company);
             List<Area> privnce = areaService.findRootArea();
@@ -875,10 +883,10 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_supplierName", "不能为空!");
 			count++;
 		}
-		if (supplier.getWebsite() == null || !ValidateUtils.Url(supplier.getWebsite())) {
-			model.addAttribute("err_msg_website", "格式错误 !");
-			count++;
-		}
+//		if (supplier.getWebsite() == null || !ValidateUtils.Url(supplier.getWebsite())) {
+//			model.addAttribute("err_msg_website", "格式错误 !");
+//			count++;
+//		}
 		if (supplier.getFoundDate() == null) {
 			model.addAttribute("err_msg_foundDate", "不能为空 !");
 			count++;
@@ -1696,10 +1704,24 @@ public class SupplierController extends BaseSupplierController {
 			return list;
 		}
 		
-		@RequestMapping(value="/style")
-		public String style(){
-			return "ses/sms/supplier_register/basic_info";
+		
+		/**
+		 * 
+		* @Title: contractUp
+		* @Description: 品目合同上传
+		* author: Li Xiaoxiao 
+		* @param @return     
+		* @return String     
+		* @throws
+		 */
+		@RequestMapping(value="/contract")
+		public String contractUp(String supplierId){
+			
+			
+		 return "ses/sms/supplier_register/contract";
 		}
+		
+		
 		
 		
 		public  void record(String operationInfo, Object obj1,Object obj2,String supplierId) throws Exception {

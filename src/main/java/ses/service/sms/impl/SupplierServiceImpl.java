@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import common.model.UploadFile;
 import common.service.UploadService;
 import ses.dao.bms.CategoryMapper;
+import ses.dao.bms.CategoryQuaMapper;
+import ses.dao.bms.QualificationMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.ProductParamMapper;
@@ -26,8 +28,10 @@ import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
+import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.PreMenu;
+import ses.model.bms.Qualification;
 import ses.model.bms.Role;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
@@ -129,6 +133,12 @@ public class SupplierServiceImpl implements SupplierService {
     
     @Autowired
     private SupplierFinanceService supplierFinanceService;
+    
+    @Autowired
+    private  CategoryQuaMapper categoryQuaMapper;
+    
+    @Autowired
+    private  QualificationMapper qualificationMapper;
     
     @Override
     public Supplier get(String id) {
@@ -632,6 +642,17 @@ public class SupplierServiceImpl implements SupplierService {
         
         return supplierMapper.getCountMobile(mobile);
     }
+
+	@Override
+	public List<Qualification> queryCategoyrId(String categoryId) {
+		List<Qualification> quaList=new ArrayList<Qualification>();
+		List<CategoryQua> list = categoryQuaMapper.findList(categoryId);
+		for(CategoryQua qc:list){
+			Qualification qua= qualificationMapper.getQualification(qc.getCategoryId());
+			quaList.add(qua);
+		}
+		return quaList;
+	}
 	
 	
 }

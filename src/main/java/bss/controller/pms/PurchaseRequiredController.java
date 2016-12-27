@@ -290,19 +290,21 @@ public class PurchaseRequiredController extends BaseController{
 				 	 p.setSeq("一");
 				 	 count=1;
 				 	 p.setIsMaster(count);
-					 p.setId(id);//注释
+					
 					 p.setParentId("1");//注释
 					 plano = randomPlano();
 					 p.setPlanNo(plano);
 					 id = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级id赋值
+					 p.setId(id);//注释
 					 count++;
 					 continue;
 				 }
 			 //判断是否是二级节点(一)
 			 	if(isContainChinese(p.getSeq())){
-			 		 p.setId(pid);
+			 		
 					 p.setParentId(id);
 					 pid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级pid赋值
+					 p.setId(pid);
 					 count++;
 					 continue;	
 				}
@@ -310,32 +312,35 @@ public class PurchaseRequiredController extends BaseController{
 			 	 
 			 	//判断是否是三级节点1,2,3
 			 	else  if(isInteger(p.getSeq())){
-				  p.setId(cid);
+			
 				  p.setParentId(pid);
 				  cid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+				  p.setId(cid);
 				  count++;
 				  continue;	
 				}
 			 	
 			 	//判断是否四级节点(1),(2)
 			 	else if(isContainIntger(p.getSeq())){
-					p.setId(ccid);
+				
 					p.setParentId(cid);
 					ccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+					p.setId(ccid);
 					 count++;
 					continue;
 				}
 			 	//五级节点
 			 	else if(isEng(p.getSeq())){
 					p.setId(cccid);
-					p.setParentId(ccid);
+				
 					cccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+					p.setParentId(ccid);
 					 count++;
 					continue;
 				}else{
 					p.setId(ccccid);
-					p.setParentId(cccid);
 					ccccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+					p.setParentId(cccid);
 					count++;
 				}
 				

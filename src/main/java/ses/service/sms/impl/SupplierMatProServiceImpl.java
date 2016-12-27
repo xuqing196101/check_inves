@@ -13,6 +13,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierMatPro;
 import ses.service.sms.SupplierMatProService;
+import ses.util.DictionaryDataUtil;
 
 @Service(value = "supplierMatProService")
 public class SupplierMatProServiceImpl implements SupplierMatProService {
@@ -42,11 +43,14 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 	@Override
 	public SupplierMatPro init() {
 	     SupplierCertPro proCert=new SupplierCertPro();
+	
+	     String id = UUID.randomUUID().toString().replaceAll("-", "");
+	     proCert.setId(id);
          List<SupplierCertPro> priList=new ArrayList<SupplierCertPro>();
          priList.add(proCert);
          SupplierMatPro pro = new  SupplierMatPro();
-	     String id = UUID.randomUUID().toString().replaceAll("-", "");
-	     pro.setId(id);
+	
+	   
          pro.setListSupplierCertPros(priList);
          
 		return pro;

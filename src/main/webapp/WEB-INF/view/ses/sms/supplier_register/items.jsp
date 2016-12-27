@@ -102,6 +102,10 @@
 				pIdKey: "parentId",
 			}
 		},
+		callback: {
+			onCheck: saveCategory
+		},
+		
 		view: {
 			showLine: false
 		}
@@ -183,74 +187,7 @@
 		}*/
 /* 	} */
 	
-
-	/** 保存品目树信息 */
-	function saveItems(jsp) {
-		var result = getIds("tree_ul_id_1");
-		var addProCategoryIds = result.addIds;
-		var deleteProCategoryIds = result.deleteIds;
-		
-		result = getIds("tree_ul_id_2");
-		var addSellCategoryIds = result.addIds;
-		var deleteSellCategoryIds = result.deleteIds;
-		
-		result = getIds("tree_ul_id_3");
-		var addEngCategoryIds = result.addIds;
-		var deleteEngCategoryIds = result.deleteIds;
-		
-		result = getIds("tree_ul_id_4");
-		var addServeCategoryIds = result.addIds;
-		var deleteServeCategoryIds = result.deleteIds;
-		
-		$("input[name='jsp']").val(jsp);
-		
-		$("input[name='addProCategoryIds']").val(addProCategoryIds);
-		$("input[name='deleteProCategoryIds']").val(deleteProCategoryIds);
-		
-		$("input[name='addSellCategoryIds']").val(addSellCategoryIds);
-		$("input[name='deleteSellCategoryIds']").val(deleteSellCategoryIds);
-		
-		$("input[name='addEngCategoryIds']").val(addEngCategoryIds);
-		$("input[name='deleteEngCategoryIds']").val(deleteEngCategoryIds);
-		
-		$("input[name='addServeCategoryIds']").val(addServeCategoryIds);
-		$("input[name='deleteServeCategoryIds']").val(deleteServeCategoryIds);
-		
-		$("#items_info_form_id").submit();
-	}
-	
-	function ss(flag) {
-/* 		var treeObj = $.fn.zTree.getZTreeObj(id);
-		var addIds = "";
-		var deleteIds = "";
-		if (treeObj) {
-			var nodes = treeObj.getChangeCheckedNodes();
-			for ( var i = 0; i < nodes.length; i++) {
-				if (!nodes[i].isParent) {
-					if (nodes[i].checked) {
-						if (addIds) {
-							addIds += ",";
-						}
-						addIds += nodes[i].id;
-					} else {
-						if (deleteIds) {
-							deleteIds += ",";
-						}
-						deleteIds += nodes[i].id;
-					}
-				}
-			}
-		}
-		var result = {
-			addIds : addIds,
-			deleteIds : deleteIds
-		}; 
-		
-		return result;*/
-
-		
-		
-	}
+ 
 	
 	function saveItems(flag){
 		 getCategoryId();
@@ -259,8 +196,9 @@
 	}
 	
 	function next(flag){
-		var ids =getCategoryId();
-		if(ids.length<0){
+		var flag =supCategory();
+		alert(flag);
+		if(flag==false){
 			layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
 		}else{
 			$("#flag").val(flag);
@@ -282,15 +220,46 @@
 			if(tree!=null){
 				nodes = tree.getCheckedNodes(true);
 				for (var j = 0; j < nodes.length; j++) {
-				//	if (!nodes[j].isParent) {
-						//alert(nodes[j].id);
+					alert(nodes[j].name);
+					alert(nodes[j].id);
 						ids.push(nodes[j].id);
-					//}
+					 
 				}
 			}
 		}
+		alert(ids);
 		$("#categoryId").val(ids);
 	 	return ids;
+	}
+	
+	function saveCategory(){
+		getCategoryId();
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier_item/save_or_update.do",
+			async: false,
+			data: $("#items_info_form_id").serialize(),
+		});
+	}
+	
+	function supCategory(){
+		var flag=true;
+		var supplierId="${currSupplier.id}";
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier_item/getSupplierCate.do",
+			type : "post",
+			data : {
+				supplierId : supplierId,
+				 
+			},
+			dataType : "json",
+			success : function(result) {
+				if(result=="0"){
+					flag=false;
+					
+				}
+			}
+		});
+	return flag;
 	}
 </script>
 <script type="text/javascript">
@@ -339,7 +308,8 @@
 				</h2>
 			</div>
 		</c:if>
- 
+${currSupplier.supplierTypeIds }
+
 		<!--基本信息-->
 		<div class="container content height-300">
 			<div class="row magazine-page">
@@ -448,6 +418,7 @@
 		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
 		<input name="flag" value=""  id="flag" type="hidden" /> 
+		<input name="supplierTypeIds" type="hidden" value="${currSupplier.supplierTypeIds }" /> 
 		<%-- <input name="jsp" type="hidden" />
 		<input type="hidden" name="defaultPage" value="${defaultPage}" />
 		
