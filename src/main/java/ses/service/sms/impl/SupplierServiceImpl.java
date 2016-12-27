@@ -592,7 +592,6 @@ public class SupplierServiceImpl implements SupplierService {
         return map;
     }
 
-    @Override
     public List<Supplier> query(Map<String,Object> map) {
         return supplierMapper.query(map);
     }
@@ -642,7 +641,7 @@ public class SupplierServiceImpl implements SupplierService {
         
         return supplierMapper.getCountMobile(mobile);
     }
-<<<<<<< HEAD
+ 
 
 	@Override
 	public List<Qualification> queryCategoyrId(String categoryId) {
@@ -654,7 +653,7 @@ public class SupplierServiceImpl implements SupplierService {
 		}
 		return quaList;
 	}
-=======
+ 
     
     /**
      * 
@@ -665,7 +664,7 @@ public class SupplierServiceImpl implements SupplierService {
        
         return supplierMapper.getCommintSupplierList(creteDate);
     }
->>>>>>> 3f3462cfde4ae9f1c51d952a9f0471d29ebf3ce1
+ 
 	
     
 	
