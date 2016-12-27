@@ -413,11 +413,20 @@
       <if test="secondArticleTypeId != null">
        SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId},
       </if>
+      <if test="secondArticleTypeId == null">
+       SECOND_ARTICLE_TYPE_ID = null,
+      </if>
       <if test="threeArticleTypeId != null">
        THREE_ARTICLE_TYPE_ID = #{threeArticleTypeId},
       </if>
+      <if test="threeArticleTypeId == null">
+       THREE_ARTICLE_TYPE_ID = null,
+      </if>
       <if test="fourArticleTypeId != null">
        FOUR_ARTICLE_TYPE_ID = #{fourArticleTypeId},
+      </if>
+      <if test="fourArticleTypeId == null">
+       FOUR_ARTICLE_TYPE_ID = null,
       </if>
       <if test="lastArticleTypeId != null">
        LAST_ARTICLE_TYPE_ID = #{lastArticleTypeId},
