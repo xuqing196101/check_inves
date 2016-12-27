@@ -198,19 +198,19 @@
 						<tr>
 							<td class="tc w50">${obj.seq } <input type="hidden" value="${obj.id }" name="list[${vs.index }].id">
 							</td>
-							<td> <%-- ${obj.department }	<input type="hidden" name="list[${vs.index }].userId" value="${obj.userId }"> --%>
+							<td class="tl pl20"> <%-- ${obj.department }	<input type="hidden" name="list[${vs.index }].userId" value="${obj.userId }"> --%>
 							
 							<c:forEach items="${requires }" var="re">
 								<c:if test="${re.id==obj.department }">${re.name } </c:if>
 							</c:forEach>
 							  </td>
-							<td>${obj.goodsName }</td>
-							<td class="tc"> ${obj.stand }</td>
-							<td class="tc"> ${obj.qualitStand }</td>
-							<td class="tc"> ${obj.item }</td>
-							<td class="tc">${obj.purchaseCount }</td>
-							<td class="tc">${obj.price }</td>
-							<td class="tc">${obj.budget }</td>
+							<td class="tl pl20">${obj.goodsName }</td>
+							<td class="tl pl20"> ${obj.stand }</td>
+							<td class="tl pl20"> ${obj.qualitStand }</td>
+							<td class="tl pl20"> ${obj.item }</td>
+							<td class="tl pl20">${obj.purchaseCount }</td>
+							<td class="tl pl20">${obj.price }</td>
+							<td class="tl pl20">${obj.budget }</td>
 							<td>${obj.deliverDate } </td>
 							
 							<td>
@@ -237,11 +237,11 @@
 							</select>
 							</td>
 							
-							<td class="tc">${obj.supplier }</td>
-							<td class="tc">${obj.isFreeTax }</td>
-							<td class="tc">${obj.goodsUse }</td>
-							<td class="tc">${obj.useUnit }</td>
-							<td class="tc">${obj.memo }</td>
+							<td class="tl pl20">${obj.supplier }</td>
+							<td class="tl pl20">${obj.isFreeTax }</td>
+							<td class="tl pl20">${obj.goodsUse }</td>
+							<td class="tl pl20">${obj.useUnit }</td>
+							<td class="tl pl20">${obj.memo }</td>
 							<%-- <td class="tc w50">
 										<a onclick="reason('${f.id}','');" id="${f.id}_hidden1" class="btn">退回</a>
 										<p id="${f.id}_show" class="b red">×</p>

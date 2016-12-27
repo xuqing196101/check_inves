@@ -256,7 +256,7 @@
 			  <td class="tl pl20" onclick="view('${obj.planNo }')">${obj.planName }</td>
 			  <td class="tl pl20" onclick="view('${obj.planNo }')">${obj.budget }</td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc" onclick="view('${obj.planNo }')">
+			  <td class="tl pl20" onclick="view('${obj.planNo }')">
 			  <c:if test="${obj.status=='1' }">
 			 	 已编制为采购计划
 			  </c:if>

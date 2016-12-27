@@ -73,7 +73,7 @@
 			<c:forEach items="${departmentList.list }" var="obj" varStatus="vs">
 				<tr>
 					<td class="tc pointer" onclick="show('${obj.department}')">${(vs.index+1)+(departmentList.pageNum-1)*(departmentList.pageSize)}</td>
-					<td class="tc pointer" onclick="show('${obj.department}')">${obj.department}</td>
+					<td class="tl pl20 pointer" onclick="show('${obj.department}')">${obj.department}</td>
 				</tr>
 			</c:forEach>
 	        </table>

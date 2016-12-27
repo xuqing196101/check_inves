@@ -172,11 +172,11 @@
 			<tr style="cursor: pointer;">
 			  <td class="tc w30"><input type="radio" value="${obj.id }" name="chkItem"></td>
 			  <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			    <td class="tc">
+			    <td class="tl pl20">
 			  			${obj.relName}
 			    </td>
-			    <td class="tc">${obj.mobile }</td>
-			 	<td class="tc">${obj.org.name }</td>
+			    <td class="tl pl20">${obj.mobile }</td>
+			 	<td class="tl pl20">${obj.org.name }</td>
 			</tr>
 		 </c:forEach>
       </table>

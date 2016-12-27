@@ -282,7 +282,7 @@
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  <td ><div class="tl pl20" onclick="view('${obj.planNo }')">${obj.planName }</div>
 				</td>
-		     <td class="tc" onclick="view('${obj.planNo }')">
+		     <td class="tl pl20" onclick="view('${obj.planNo }')">
 		     ${obj.planNo }
 			 <%--    <c:forEach items="${requires }" var="re" >
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>

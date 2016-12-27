@@ -518,16 +518,16 @@
 				  
 			  </td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }" pattern="yyyy" /></td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.department }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">
+			  <td class="tl pl20" onclick="view('${obj.planNo }')">${obj.department }</td>
+			  <td class="tl pl20" onclick="view('${obj.planNo }')">
 				  <c:forEach items="${kind }"  var="kind" >
 					  <c:if test="${kind.id==obj.purchaseType }">
 						  ${kind.name }
 					  </c:if>
 				  </c:forEach>
 			  </td>
-			  <td class="tc" onclick="view('${obj.planNo }')"> ${obj.organization } </td>
-			  <td class="tc" onclick="view('${obj.planNo }')">
+			  <td class="tl pl20" onclick="view('${obj.planNo }')"> ${obj.organization } </td>
+			  <td class="tl pl20" onclick="view('${obj.planNo }')">
 		 	<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 			  </td>
 			</tr>

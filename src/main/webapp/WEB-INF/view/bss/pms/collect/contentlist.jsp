@@ -90,7 +90,7 @@
 			<tr style="cursor: pointer;">
 			  <td class="tc w30"><input  type="radio" value="${obj.id }" name="chkItem"> <input type="hidden" value="${obj.goodsType}"> </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			    <td class="tc"  >
+			    <td class="tl pl20"  >
 			    <c:if test="${obj.status ==1}">
 			    	未下达
 			    </c:if>
@@ -99,8 +99,8 @@
 			    </c:if>
 			    
 			    </td>
-			    <td class="tc"  >${obj.fileName }</td>
-			      <td class="tc"  >
+			    <td class="tl pl20"  >${obj.fileName }</td>
+			      <td class="tl pl20"  >
 					    <c:forEach items="${dicType }" var="mt">
 								<c:if test="${mt.id==obj.goodsType }"> ${mt.name} </c:if> 
 					    </c:forEach>

@@ -408,7 +408,7 @@
 									<c:forEach items="${list }" var="obj" varStatus="vs">
 										<tr>
 											<td class="tc w50"><input readonly="readonly" type="text" class="w50" name="list[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-											<td >
+											<td class="tl pl20">
 												<c:forEach items="${requires }" var="re">
 								        			<c:if test="${re.id==obj.department }">
 														<input type="hidden"  name="list[${vs.index }].department" value="${obj.id }">
@@ -416,11 +416,11 @@
 													</c:if>
 												</c:forEach>
 											</td>
-											<td><input readonly="readonly" type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
-											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
-											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
-											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].item" value="${obj.item }" class="w50"></td>
-											<td class="tc">
+											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].item" value="${obj.item }" class="w50"></td>
+											<td class="tl pl20">
 												<c:if test="${obj.purchaseCount!=null }">
 								  				<input type="hidden" name="ss" value="${obj.id }">
 								  				<input readonly="readonly" maxlength="11" id="purchaseCount" onblur="sum2(this)" 
@@ -432,7 +432,7 @@
 								  				<input disabled="disabled" type="text" name="lists[${vs.index }].purchaseCount" value="${obj.purchaseCount }" class="w80">
 												</c:if>
 											</td>
-											<td class="tc">
+											<td class="tl pl20">
 												<c:if test="${obj.price!=null }">
 									  				<input type="hidden" name="ss" value="${obj.id }">
 								      				<input readonly="readonly" maxlength="11" id="price" name="lists[${vs.index }].price" onblur="sum1(this)" value="${obj.price}" type="text" class="w80"/>
@@ -442,7 +442,7 @@
 								  					<input readonly="readonly"  type="text" name="lists[${vs.index }].price" value="${obj.price }" class="w80">
 												</c:if>
 											</td>
-											<td class="tc">
+											<td class="tl pl20">
 												<input type="hidden" name="ss" value="${obj.id }">
 												<input type="text" name="list[${vs.index }].budget" value="${obj.budget }" readonly="readonly" class="w80">
 												<input type="hidden" name="ss" value="${obj.parentId }">
@@ -462,11 +462,11 @@
 													</c:forEach>
 												</select>
 											</td>
-											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
-											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
-											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
-											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
-											<td class="tc"><input readonly="readonly" type="text" name="list[${vs.index }].memo" value="${obj.memo }">
+											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].memo" value="${obj.memo }">
 												<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 												<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
 												<input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">

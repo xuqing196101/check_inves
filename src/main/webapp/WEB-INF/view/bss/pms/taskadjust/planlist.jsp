@@ -167,7 +167,7 @@
 			  <td class="tl pl20" onclick="show('${obj.id }')">${obj.fileName }</td>
 			  <td class="tl pl20" onclick="show('${obj.id }')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc" onclick="show('${obj.id }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc" onclick="show('${obj.id }')">
+			  <td class="tl pl20" onclick="show('${obj.id }')">
 			  <c:if test="${obj.status=='1' }">
 			   	未下达
 			  </c:if>
