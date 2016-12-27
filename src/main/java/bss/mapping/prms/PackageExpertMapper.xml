@@ -11,7 +11,7 @@
 		<result column="IS_GRADE" jdbcType="DECIMAL" property="isGrade" />
 		<result column="IS_GRADE_GATHER" jdbcType="DECIMAL" property="isGatherGather" />
 		    <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
-		<result column="REVIEW_TYPE_ID" jdbcType="VARCHAR" property="reviewTypeTd" />
+		<result column="REVIEW_TYPE_ID" jdbcType="VARCHAR" property="reviewTypeId" />
 		<association property="expert" column="EXPERT_ID"
 			select="ses.dao.ems.ExpertMapper.selectByPrimaryKey"></association>
 	</resultMap>
@@ -83,9 +83,9 @@
 			<if test="isGatherGather != null">
 				IS_GRADE_GATHER = #{isGatherGather,jdbcType=DECIMAL},
 			</if>
-			 <if test="isGatherGather != null">
-        REVIEW_TYPE_TD = #{reviewTypeTd,jdbcType=DECIMAL},
-      </if>
+			<if test="reviewTypeId != null">
+       			REVIEW_TYPE_ID = #{reviewTypeId,jdbcType=DECIMAL},
+      		</if>
 		</set>
 		where 1=1
 		<if test="packageId != null and packageId !=''">
@@ -102,11 +102,11 @@
 
 	<insert id="insert" parameterType="bss.model.prms.PackageExpert">
 		insert into T_BSS_PRMS_PACKAGE_EXPERT (PACKAGE_ID, EXPERT_ID, PROJECT_ID,
-		IS_GROUP_LEADER, IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER,REVIEW_TYPE_TD)
+		IS_GROUP_LEADER, IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER,REVIEW_TYPE_ID)
 		values (#{packageId,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR},
 		#{projectId,jdbcType=VARCHAR},
 		#{isGroupLeader,jdbcType=DECIMAL}, #{isAudit,jdbcType=DECIMAL},#{isGather,jdbcType=DECIMAL},
-		#{isGrade,jdbcType=DECIMAL}, #{isGatherGather,jdbcType=DECIMAL},#{reviewTypeTd,jdbcType=VARCHAR})
+		#{isGrade,jdbcType=DECIMAL}, #{isGatherGather,jdbcType=DECIMAL},#{reviewTypeId,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.prms.PackageExpert">
 		insert into T_BSS_PRMS_PACKAGE_EXPERT
@@ -135,8 +135,8 @@
 			<if test="IS_GRADE_GATHER != null">
 				IS_GRADE_GATHER,
 			</if>
-			 <if test="reviewTypeTd != null">
-        REVIEW_TYPE_TD,
+			 <if test="reviewTypeId != null">
+        REVIEW_TYPE_ID,
       </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -164,8 +164,8 @@
 			<if test="isGatherGather != null">
 				#{isGatherGather,jdbcType=DECIMAL},
 			</if>
-			 <if test="reviewTypeTd != null">
-			   #{reviewTypeTd,jdbcType=VARCHAR},
+			 <if test="reviewTypeId != null">
+			   #{reviewTypeId,jdbcType=VARCHAR},
       </if>
 		</trim>
 	</insert>

@@ -127,6 +127,7 @@
 							enable : true,
 							chkStyle:"checkbox",  
 							chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+							chkDisabledInherit: true
 						},
 						data: {
 							simpleData: {

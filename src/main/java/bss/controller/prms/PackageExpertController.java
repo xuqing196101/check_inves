@@ -1413,6 +1413,7 @@ public class PackageExpertController {
         // 分包信息
         List<Packages> packagesList = packageService.find(packages);
         model.addAttribute("packagesList", packagesList);
+        model.addAttribute("length", packagesList.size());
         // 供应商信息
         SaleTender saleTender = new SaleTender();
         saleTender.setProjectId(packages.getProjectId());
@@ -1487,11 +1488,71 @@ public class PackageExpertController {
         // 项目中抽取的专家信息
         Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
         mapSearch1.put("projectId", projectId);
-        List<PackageExpert> expertList = packageExpertService.selectList(mapSearch1);
+        List<PackageExpert> expList = packageExpertService.selectList(mapSearch1);
+        // 将专家进行排序,先经济,后技术
+        List<PackageExpert> expertList = new ArrayList<PackageExpert>();
+        for (PackageExpert exp : expList) {
+            DictionaryData data = dictionaryDataServiceI.getDictionaryData(exp.getReviewTypeId());
+            if (data != null && "ECONOMY".equals(data.getCode())) {
+                expertList.add(exp);
+            }
+        }
+        for (PackageExpert exp : expList) {
+            DictionaryData data = dictionaryDataServiceI.getDictionaryData(exp.getReviewTypeId());
+            if (data != null && "TECHNOLOGY".equals(data.getCode())) {
+                
+                expertList.add(exp);
+            }
+        }
+        // 遍历排好序的expertList设置rowspan
+        for (Packages pack : packagesList) {
+            // 获取经济类型的个数
+            int count = 0;
+            // 该包内的专家总数
+            int sumCount = 0;
+            for (PackageExpert exp : expertList) {
+                if (pack.getId().equals(exp.getPackageId())) {
+                    sumCount++;
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(exp.getReviewTypeId());
+                    if (data != null && "ECONOMY".equals(data.getCode())) {
+                        count++;
+                    }
+                }
+            }
+            // 给指定位置设置rowspan
+            int flag = 0;
+            for (PackageExpert exp : expertList) {
+                if (pack.getId().equals(exp.getPackageId())) {
+                    if (count == 0 && flag == 0) {
+                        // 如果没有经济类型,只有技术类型
+                        exp.setCount(sumCount);
+                    } else if (count == sumCount && flag == 0) {
+                        // 如果全是经济类型
+                        exp.setCount(sumCount);
+                    } else if (count < sumCount && count > 0) {
+                        // 都有
+                        if (flag == 0) {
+                            // 设置第一个rowspan为经济的个数
+                            exp.setCount(count);
+                        } else if (flag == count) {
+                            // 设置第一个技术类型的rowspan为全部减去经济的个数
+                            exp.setCount(sumCount - count);
+                        } else {
+                            exp.setCount(0);
+                        };
+                    }
+                    flag++;
+                }
+            }
+        }
+        // 将reviewTypeId的值改为name
+        for (PackageExpert expert : expertList) {
+            DictionaryData data = dictionaryDataServiceI.getDictionaryData(expert.getReviewTypeId());
+            if (data != null) {
+                expert.setReviewTypeId(data.getName());
+            }
+        }
         model.addAttribute("expertList", expertList);
-        // 获取所有评审类型
-        List<DictionaryData> typeList = dictionaryDataServiceI.findByKind("23");
-        model.addAttribute("typeList", typeList);
         // 专家给每个供应商打得分
         List<ExpertSuppScore> expertScoreList = new ArrayList<ExpertSuppScore>();
         for (Packages pack : packagesList) {
