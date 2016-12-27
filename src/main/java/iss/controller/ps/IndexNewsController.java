@@ -12,6 +12,14 @@ import iss.service.ps.DownloadUserService;
 import iss.service.ps.IndexNewsService;
 import iss.service.ps.SolrNewsService;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -100,12 +108,12 @@ public class IndexNewsController extends BaseSupplierController{
 	* @return List<Article>
 	 */
 	@RequestMapping("/selectIndexNews")
-	public String selectIndexNews(Model model) throws Exception{
+	public String selectIndexNews(Model model,HttpServletRequest request) throws Exception{
 		Map<String, Object> indexMapper = new HashMap<String, Object>();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", "110");
-		List<Article> article110List = articleService.selectJob(map);
-		indexMapper.put("select110List", article110List);
+		map.put("id", "111");
+		List<Article> article111List = articleService.selectJob(map);
+		indexMapper.put("select111List", article111List);
 		map.clear();
 		map.put("parId","3");
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
@@ -355,11 +363,12 @@ public class IndexNewsController extends BaseSupplierController{
 				}
 				List<UploadFile> uploadList = uploadService.getFilesOther(article.getId(), attachTypeId, sysKey);
 				if(uploadList.size()>0){
-					article.setPic(uploadList.get(0).getPath());
+					article.setUploadId(uploadList.get(0).getId());
 				}
 				indexPics.add(article);
 			}
 		}
+		model.addAttribute("nums", indexPics.size());
 		indexMapper.put("picList", indexPics);
 		ArticleType articlejcw = articleTypeService.selectTypeByPrimaryKey("3");
 		model.addAttribute("articlejcw",articlejcw.getShowNum());
@@ -426,6 +435,7 @@ public class IndexNewsController extends BaseSupplierController{
 ////				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
 ////			}
 //		}
+		request.getSession().setAttribute("key", Constant.FORUM_SYS_KEY);
 		model.addAttribute("indexMapper", indexMapper);
 //		model.addAttribute("isIndex", "true");
 		return "iss/ps/index/index";
@@ -768,5 +778,34 @@ public class IndexNewsController extends BaseSupplierController{
 	@RequestMapping("/init")
 	public void init(){
 		solrNewsService.initIndex();
+	}
+	
+	@RequestMapping("/showPic")
+	public void showPic(HttpServletRequest request,HttpServletResponse response){
+		String path = request.getParameter("path");
+		InputStream fis = null;
+		File file = new File(path);
+        response.setContentType("image/*");
+        try {
+			fis = new BufferedInputStream(new FileInputStream(file));
+			OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+	        byte[] b = new byte[fis.available()];
+	        fis.read(b);
+	        toClient.write(b);
+	        toClient.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+            if (fis != null) {
+                try {
+                   fis.close();
+                } catch (IOException e) {
+                e.printStackTrace();
+            }   
+              }
+        }  
+       
 	}
 }

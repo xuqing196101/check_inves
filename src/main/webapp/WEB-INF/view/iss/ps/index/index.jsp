@@ -75,12 +75,12 @@
 					  	<c:choose>
 					  	 <c:when test="${vs.index==0}">
 						   <li class="item" style="left:0px;">
-								<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${pic.id}" target="_blank"><img src="${pageContext.request.contextPath}/file/viewFile.html?path=${pic.pic}" width="100%" height="100%"></a>
+								<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${pic.id}" target="_blank"><img src="${pageContext.request.contextPath}/file/viewFile.html?id=${pic.uploadId}&key=${key}" width="100%" height="100%"></a>
 						   </li>
 						 </c:when>
 						 <c:otherwise>
 						   <li class="item">
-								<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${pic.id}" target="_blank"><img src="${pageContext.request.contextPath}/file/viewFile.html?path=${pic.pic}" width="100%" height="100%"></a>
+								<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${pic.id}" target="_blank"><img src="${pageContext.request.contextPath}/file/viewFile.html?id=${pic.uploadId}&key=${key}" width="100%" height="100%"></a>
 						   </li>
 						 </c:otherwise>
 						 </c:choose>
@@ -89,10 +89,45 @@
               </c:choose>
               </ul>
             </div>
-            <div class="controler" data-scro="controler">
+            <div id="picshownum" class="controler" data-scro="controler">
+            <c:if test="${num==0}">
               <b class="down">1</b>
               <b>2</b>
               <b>3</b>
+            </c:if>
+            <c:if test="${num==1}">
+              <b class="down">1</b>
+            </c:if>
+            <c:if test="${num==2}">
+              <b class="down">1</b>
+              <b>2</b>
+            </c:if>
+            <c:if test="${num==3}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+            </c:if>
+            <c:if test="${num==4}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+              <b>4</b>
+            </c:if>
+            <c:if test="${num==5}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+              <b>4</b>
+              <b>5</b>
+            </c:if>
+            <c:if test="${num==6}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+              <b>4</b>
+              <b>5</b>
+              <b>6</b>
+            </c:if>
             </div>
           </div>
           <script src="${pageContext.request.contextPath}/public/portal/js/script.js"></script>
@@ -102,13 +137,13 @@
           <div class="tab-v1">
             <h2 class="nav nav-tabs bb1 mt0">
             <span class="bg12_white"><a href="javascript:void(0)">工作动态</a></span>
-            <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=110">更多>></a>
+            <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=111">更多>></a>
 		  </h2>
           </div>
 
           <div class="">
             <ul class="list-unstyled categories list_common">
-              <c:forEach items="${indexMapper['select110List']}" var="sl">
+              <c:forEach items="${indexMapper['select111List']}" var="sl">
                 <c:set value="${sl.name}" var="name"></c:set>
                 <c:set value="${fn:length(name)}" var="length"></c:set>
                 <c:if test="${length>24}">

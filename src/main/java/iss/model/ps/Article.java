@@ -153,6 +153,16 @@ public class Article{
     
     private String lastArticleTypeId;
     
+    private String uploadId;
+    
+	public String getUploadId() {
+		return uploadId;
+	}
+
+	public void setUploadId(String uploadId) {
+		this.uploadId = uploadId;
+	}
+
 	private List<ArticleAttachments> articleAttachments;
         
 	public String getLastArticleTypeId() {
