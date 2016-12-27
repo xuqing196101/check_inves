@@ -102,7 +102,7 @@
 				IS_PROVISIONAL,
 			</if>
 			<if test="reviewType != null">
-	  		REVIEW_TYPE,
+				REVIEW_TYPE,
 			</if>
 
 
@@ -144,10 +144,10 @@
 			<if test="isProvisional != null">
 				#{isProvisional,jdbcType=DECIMAL}
 			</if>
-			 <if test="reviewType != null">
-        #{reviewType,jdbcType=VARCHAR}
-      </if>
-			
+			<if test="reviewType != null">
+				#{reviewType,jdbcType=VARCHAR}
+			</if>
+
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ProjectExtract">
@@ -189,8 +189,8 @@
 				IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
 			</if>
 			<if test="reviewType != null">
-        REVIEW_TYPE = #{reviewType,jdbcType=DECIMAL},
-      </if>
+				REVIEW_TYPE = #{reviewType,jdbcType=DECIMAL},
+			</if>
 
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
@@ -236,8 +236,8 @@
 			AND pe.EXPERT_ID = #{expertId}
 		</if>
 		<if test="reviewType != null and reviewType != '' ">
-      AND pe.REVIEW_TYPE = #{reviewType}
-    </if>
+			AND pe.REVIEW_TYPE = #{reviewType}
+		</if>
 		<if test="reason != null and reason != ''">
 			AND pe.OPERATING_TYPE in (${reason})
 		</if>
@@ -300,7 +300,7 @@
 		</foreach>
 	</insert>
 
-	<!-- 关联抽取供应商 -->
+	<!-- 关联抽取专家 -->
 	<select id="getBuyConId" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		SELECT
@@ -310,6 +310,17 @@
 		EXPERT_CONDITION_ID=#{expertId} AND
 		(OPERATING_TYPE =1 OR OPERATING_TYPE =2 OR OPERATING_TYPE =3)
 	</select>
+
+	<!-- 关联抽取表 -->
+	<select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+	
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_SES_EMS_PROJECT_EXTRACT WHERE PROJECT_ID =#{id} AND OPERATING_TYPE =1
+
+	</select>
+
 
 	<select id="findExtractByExpertId" parameterType="ses.model.ems.ProjectExtract"
 		resultMap="BaseResultMap">

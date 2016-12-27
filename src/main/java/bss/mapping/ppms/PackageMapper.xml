@@ -6,8 +6,8 @@
 		<result column="NAME" property="name" />
 		<result column="PROJECT_ID" property="projectId" />
 		<result column="IS_DELETED" property="isDeleted" />
-		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
-		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
 		<result column="STATUS" property="status" />
 		<result column="MARK_TERM_TREE" property="markTermTree" />
 		<result column="BID_METHOD_ID" property="bidMethodId" />
@@ -21,8 +21,8 @@
 		<id column="ID" property="id" />
 		<result column="NAME" property="name" />
 		<result column="IS_DELETED" property="isDeleted" />
-		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
-		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
 		<result column="STATUS" property="status" />
 		<result column="MARK_TERM_TREE" property="markTermTree" />
 		<association property="project" column="PROJECT_ID"
@@ -35,12 +35,21 @@
 		<collection property="listExperts" column="ID"
 			select="ses.dao.ems.ExpertMapper.getByExpertProjectId" ofType="ses.model.ems.Expert" />
 	</resultMap>
-	 <resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
-    id="ResultAllExpert">
-    <collection property="listExperts" column="ID"
-      select="ses.dao.ems.ExpertMapper.getByAllExpertProjectId" ofType="ses.model.ems.Expert" />
-  </resultMap>
-	
+
+	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
+		id="ResultAllExpert">
+		<collection property="listExperts" column="ID"
+			select="ses.dao.ems.ExpertMapper.getByAllExpertProjectId" ofType="ses.model.ems.Expert" />
+	</resultMap>
+	<!-- 返回抽取信息 -->
+	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
+		id="ResultProjectExtract">
+		<collection property="listProjectExtract" column="ID"
+			select="ses.dao.ems.ProjectExtractMapper.getById" ofType="ses.model.ems.ProjectExtract" />
+	</resultMap>
+
+
+
 	<!-- 供应商 -->
 	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
 		id="ResultSupplier">
@@ -49,6 +58,7 @@
 			select="ses.dao.sms.SupplierMapper.getByExtRelateProjectId" ofType="ses.model.sms.Supplier" />
 
 	</resultMap>
+
 	<!-- 中标供应商 -->
 	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
 		id="SupplierCheckPass">
@@ -291,7 +301,9 @@
 
 	<select id="selectAllByIsWon" parameterType="Map" resultMap="BaseResultMap">
 		select distinct pa.id as id,pa.PROJECT_ID projectId,pa.NAME
-		name,pa.updated_at,ch.supplier_id supplierId,ch.CONTRACT_ID contractId,ch.id supplierCheckPassId,ch.IS_CREATE_CONTRACT isCreateContract FROM
+		name,pa.updated_at,ch.supplier_id supplierId,ch.CONTRACT_ID
+		contractId,ch.id supplierCheckPassId,ch.IS_CREATE_CONTRACT
+		isCreateContract FROM
 		T_BSS_PPMS_PACKAGE pa,
 		T_BSS_PPMS_SUPPLIER_CHECK_PASS ch
 		where
@@ -313,7 +325,7 @@
 		<if test="isCreateContract != null and isCreateContract != ''">
 			and ch.is_Create_Contract = #{isCreateContract}
 		</if>
-		order by isCreateContract 
+		order by isCreateContract
 	</select>
 
 	<!-- 根据包信息返回抽取出的专家 -->
@@ -358,7 +370,19 @@
 		IS_DELETED=0
 		AND PROJECT_ID = #{projectId}
 	</select>
-	
+
+	<!-- 返回所有专家 -->
+	<select id="listProjectExtract" parameterType="java.lang.String"
+		resultMap="ResultProjectExtract">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_BSS_PPMS_PACKAGE
+		WHERE
+		IS_DELETED=0 	AND PROJECT_ID = #{projectId}
+	</select>
+
+
+
 	<insert id="insertPackage" parameterType="bss.model.ppms.Packages">
 		insert into T_BSS_PPMS_PACKAGE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -432,5 +456,5 @@
 			</if>
 		</trim>
 	</insert>
-	
+
 </mapper>

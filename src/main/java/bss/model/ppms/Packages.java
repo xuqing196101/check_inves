@@ -27,6 +27,8 @@ public class Packages {
     
     private List<SupplierCheckPass> listCheckPasses;
     
+    private List<ProjectExtract> listProjectExtract;
+    
 	private String id;
 	
 	private String name;
@@ -323,6 +325,20 @@ public class Packages {
 	public void setSaleTenderList(List<SaleTender> saleTenderList) {
 		this.saleTenderList = saleTenderList;
 	}
+
+    /**
+     * @return Returns the listProjectExtract.
+     */
+    public List<ProjectExtract> getListProjectExtract() {
+        return listProjectExtract;
+    }
+
+    /**
+     * @param listProjectExtract The listProjectExtract to set.
+     */
+    public void setListProjectExtract(List<ProjectExtract> listProjectExtract) {
+        this.listProjectExtract = listProjectExtract;
+    }
 
 
   

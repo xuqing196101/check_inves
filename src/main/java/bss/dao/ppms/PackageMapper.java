@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.ems.ProjectExtract;
 import bss.model.ppms.Packages;
 import bss.model.ppms.SupplierCheckPass;
 
@@ -161,4 +162,14 @@ public interface PackageMapper {
     * @return int
      */
     int insertPackage(Packages pack);
+    
+    /**
+     * 
+     *〈简述〉根据包获取抽取信息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param projectId
+     * @return
+     */
+    List<ProjectExtract> listProjectExtract(String projectId);
 }

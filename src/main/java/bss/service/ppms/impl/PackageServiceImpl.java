@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.model.bms.User;
+import ses.model.ems.ProjectExtract;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
@@ -139,5 +140,11 @@ public class PackageServiceImpl implements PackageService{
 	public int insertPackage(Packages pack) {
 		return packageMapper.insertPackage(pack);
 	}
+
+    @Override
+    public List<ProjectExtract> listProjectExtract(String projectId) {
+        // TODO Auto-generated method stub
+        return packageMapper.listProjectExtract(projectId);
+    }
 }
 
