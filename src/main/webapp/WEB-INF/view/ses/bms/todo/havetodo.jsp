@@ -148,7 +148,7 @@
             <c:forEach items="${list.list}" var="agents" varStatus="vs">
               <tr class="cursor" onclick="view('${pageContext.request.contextPath}/${agents.url}');">
                 <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-                <td class="tc">
+                <td class="tl pl20">
                   <c:choose>
                     <c:when test="${fn:length(agents.name) > 20}">
                      ${fn:substring(agents.name, 0, 20)}......

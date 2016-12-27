@@ -123,11 +123,9 @@
 	    	  var did=$("table tr:eq(1)").find("td:eq(8)").children(":first").val();
 	    	    var total=0;
 	    	    $("#table tr").each(function(){
-	    	    	
 	 	    		var cid= $(this).find("td:eq(8)").children(":last").val();
 	 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0;
 	 	    		 if(did==cid){
-	 	    			
 	 	    			total=total+same;
 	 	    		 }
 	    	   }); 

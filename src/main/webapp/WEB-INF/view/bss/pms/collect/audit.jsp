@@ -385,7 +385,7 @@
 								</c:forEach> --%>
 									</tr>
 									<tr class="info h91">
-									<th class="w50">序号</th>
+									<th class="info w50">序号</th>
 									<th>需求部门</th>
 									<th>物资类别及物种名称</th>
 									<th>规格型号</th>

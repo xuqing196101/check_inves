@@ -514,7 +514,7 @@
 	                        success: function (data) { 
 	                         if(data=="success"){
 	                        	 layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
-		                         window.location.href="${pageContext.request.contextPath}/purchaser/list.html";
+		                         window.location.href="${pageContext.request.contextPath}/purchaser/add.html";
 	                         }  else {
 	                        	 // layer.alert("测试",{offset: ['222px', '390px'], shade:0.01});
 	                 			    layer.alert(data,{offset: ['222px', '390px'], shade:0.01});

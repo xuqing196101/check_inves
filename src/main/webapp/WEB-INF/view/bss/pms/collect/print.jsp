@@ -136,27 +136,27 @@
 						<tr>
 							<td class="tc w50">${obj.seq } 
 							</td>
-							<td> ${obj.department }  </td>
-							<td>${obj.goodsName }</td>
-							<td class="tc"> ${obj.stand }</td>
-							<td class="tc"> ${obj.qualitStand }</td>
-							<td class="tc"> ${obj.item }</td>
-							<td class="tc">${obj.purchaseCount }</td>
-							<td class="tc">${obj.price }</td>
-							<td class="tc">${obj.budget }</td>
+							<td class="tl pl20"> ${obj.department }  </td>
+							<td class="tl pl20">${obj.goodsName }</td>
+							<td class="tl pl20"> ${obj.stand }</td>
+							<td class="tl pl20"> ${obj.qualitStand }</td>
+							<td class="tl pl20"> ${obj.item }</td>
+							<td class="tl pl20">${obj.purchaseCount }</td>
+							<td class="tl pl20">${obj.price }</td>
+							<td class="tl pl20">${obj.budget }</td>
 							<td>${obj.deliverDate }</td>
 							<td>
 								<c:forEach items="${kind}" var="kind">
 									<c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
 								</c:forEach>
 							</td>
-							<td class="tc">${obj.supplier }</td>
-							<td class="tc">${obj.memo }
+							<td class="tl pl20">${obj.supplier }</td>
+							<td class="tl pl20">${obj.memo }
 							
 							<c:forEach items="${all }" var="al">
 							
 								
-								<td class="tc">
+								<td class="tl pl20">
 									<c:forEach items="${audits }" var="as">
 									<c:if test="${as.purchaseId==obj.id and as.auditParamId==al.id }">
 										${as.paramValue }
