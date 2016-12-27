@@ -118,16 +118,68 @@
 					id.push($(this).val());
 				});
 				if(id.length == 1) {
-					index = layer.open({
-						type: 1, //page层
-						area: ['300px', '200px'],
-						title: '审核设置',
-						closeBtn: 1,
-						shade: 0.01, //遮罩透明度
-						moveType: 1, //拖拽风格，0是默认，1是传统拖动
-						shift: 1, //0-6的动画形式，-1不开启
-						offset: ['80px', '600px'],
-						content: $('#content'),
+					$.ajax({
+						type: "POST",
+						dataType: "json",
+						url: "${pageContext.request.contextPath }/look/auditStatus.do?id=" + id,
+						success: function(data) {
+							if(data==0){
+								layer.alert("请设置审核人员", {
+									offset: ['30%', '40%']
+								});
+							}
+							if(data==1){ 
+								index = layer.open({
+									type: 1, //page层
+									area: ['300px', '200px'],
+									title: '审核设置',
+									closeBtn: 1,
+									shade: 0.01, //遮罩透明度
+									moveType: 1, //拖拽风格，0是默认，1是传统拖动
+									shift: 1, //0-6的动画形式，-1不开启
+									offset: ['80px', '600px'],
+									content: $('#content'),
+								});
+							}
+						}
+					});
+				} else if(id.length > 1) {
+					layer.alert("只能选择一个", {
+						offset: ['222px', '390px'],
+						shade: 0.01
+					});
+				} else {
+					layer.alert("请选中一条", {
+						offset: ['222px', '390px'],
+						shade: 0.01
+					});
+				}
+			}
+			
+			function auditPersonSets() {
+				var id = [];
+				$('input[name="chkItem"]:checked').each(function() {
+					id.push($(this).val());
+				});
+				
+				if(id.length == 1) {
+					$.ajax({
+						type: "POST",
+						dataType: "json",
+						url: "${pageContext.request.contextPath }/look/auditPersonCheck.do?id=" + id,
+						success: function(data) {
+							if(data==1){
+								layer.alert("请设置审核人员", {
+									offset: ['30%', '40%']
+								});
+							}else if(data==3){
+								layer.alert("请审核", {
+									offset: ['30%', '40%']
+								});
+							}else{
+								window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + data;
+							}
+						}
 					});
 				} else if(id.length > 1) {
 					layer.alert("只能选择一个", {
@@ -199,6 +251,23 @@
 				}
 			}
 
+			function apcloseLayer() {
+				var type = $("#aptype").val();
+				var id = [];
+				$('input[name="chkItem"]:checked').each(function() {
+					id.push($(this).val());
+				});
+				if(type==""||type==null){
+					layer.alert("您未选择，请重新选择", {
+						offset: ['222px', '390px'],
+						shade: 0.01
+					});
+					layer.close(index);
+				}else {
+					window.location.href = "${pageContext.request.contextPath }/set/list.html?id=" + id + "&type=" + type;
+				}
+			}
+			
 			function cant() {
 				layer.close(index);
 			}
@@ -299,7 +368,8 @@
  		</h2>
 
 			<div class="col-md-12 pl20 mt10">
-				<button class="btn btn-windows check" onclick="sets()">审核设置</button>
+				<button class="btn btn-windows check" onclick="sets()">审核轮次设置</button>
+				<button class="btn btn-windows check" onclick="auditPersonSets()">审核人员设置</button>
 				<button class="btn btn-windows check" onclick="audit()">审核</button>
 				<button class="btn btn-windows input" onclick="down()">下载</button>
 				<button class="btn btn-windows output" onclick="print()">打印</button>
@@ -331,29 +401,29 @@
 							</td>
 							<td class="tl pl20">
 								<c:if test="${obj.status=='1' }">
-									待审核设置
+									审核设置
 								</c:if>
 								<%-- <c:if test="${obj.status=='2' }">
 									已审核
 								</c:if> --%>
 								<c:if test="${obj.status==3 }">
-									待第一轮审核
+									第一轮审核
 								</c:if>
 									<c:if test="${obj.status==4 }">
-									待第二轮审核设置
+									第二轮审核设置
 								</c:if>
 							    <c:if test="${obj.status==5 }">
-									待第二轮审核
+									第二轮审核
 								</c:if>
 								
 							<%-- 	<c:if test="${obj.status=='4' }">
 									已下达
 								</c:if> --%>
 								<c:if test="${obj.status=='6' }">
-									待第三轮审核设置
+									第三轮审核设置
 								</c:if>
 								<c:if test="${obj.status=='7' }">
-									待第三轮审核
+									第三轮审核
 								</c:if>
 							</td>
 						</tr>
@@ -384,6 +454,7 @@
 		    
 		 
 		</div>
+
 
 	</body>
 

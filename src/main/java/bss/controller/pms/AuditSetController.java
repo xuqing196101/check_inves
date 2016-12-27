@@ -127,6 +127,7 @@ public class AuditSetController {
 	public String set(Model model,Integer page,String id,HttpServletRequest request,String staff){
 		CollectPlan plan = collectPlanService.queryById(id);
 		String type = "";
+		String auditRound="";
 		if(plan.getStatus()==1){
 			type = request.getParameter("type");
 			String auditTurn = "";
@@ -140,8 +141,16 @@ public class AuditSetController {
 			}
 			collectPlanService.update(plan);
 			type = DictionaryDataUtil.getId("SH_1");
-		}else{
-			type = request.getParameter("type");
+			auditRound="第一轮审核设置";
+		}else if(plan.getStatus()==3){
+			type = DictionaryDataUtil.getId("SH_1");
+			auditRound="第一轮审核设置";
+		}else if(plan.getStatus()==4||plan.getStatus()==5){
+			type = DictionaryDataUtil.getId("SH_2");
+			auditRound="第二轮审核设置";
+		}else if(plan.getStatus()==6||plan.getStatus()==7){
+			type = DictionaryDataUtil.getId("SH_3");
+			auditRound="第三轮审核设置";
 		}
 		AuditPerson person = new AuditPerson();
 		person.setCollectId(id);
@@ -149,19 +158,7 @@ public class AuditSetController {
 		List<AuditPerson> listAudit = auditPersonService.query(person, page==null?1:page);
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
 		model.addAttribute("info", info);
-		try {
-			String auditRound="";
-			if(plan.getStatus()==1){
-				auditRound="第一轮审核设置";
-			}else if (plan.getStatus()==4) {
-				auditRound="第二轮审核设置";
-			}else if (plan.getStatus()==6) {
-				auditRound="第三轮审核设置";
-			}
-			model.addAttribute("auditRound", auditRound);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		model.addAttribute("auditRound", auditRound);
 		model.addAttribute("id", id);
 		model.addAttribute("kind", DictionaryDataUtil.find(4));
 		model.addAttribute("type", type);

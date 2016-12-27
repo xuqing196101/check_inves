@@ -348,6 +348,56 @@ public class PlanLookController extends BaseController {
 		return str;
 	}
 	
+	/**
+	 * 
+	 * @Title: auditPersonCheck
+	 * @author Liyi 
+	 * @date 2016-12-27 下午3:01:09  
+	 * @Description:
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/auditPersonCheck")
+	@ResponseBody
+	public String auditPersonCheck(HttpServletRequest request){
+		String str = null;
+		String id = request.getParameter("id");
+		CollectPlan plan = collectPlanService.queryById(id);
+		Integer status = plan.getStatus();
+		if (status==1) {
+			str = "1";
+		}else{		
+			if(status==4||status==6){
+				str = "2";
+			}else{
+				str = "3";
+			}
+		}
+		return str;
+	}
+	
+	/**
+	 * 
+	 * @Title: auditStatus
+	 * @author Liyi 
+	 * @date 2016-12-27 下午2:31:00  
+	 * @Description:
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/auditStatus")
+	@ResponseBody
+	public String auditStatus(HttpServletRequest request){
+		String str = null;
+		String id = request.getParameter("id");
+		CollectPlan plan = collectPlanService.queryById(id);
+		if(plan.getStatus()==1){
+			str = "1";
+		}else{
+			str = "0";
+		}
+		return str;
+	}
 	@RequestMapping("/auditByDepartment")
 	public String auditByDepartment(String id,Model model,Integer pageNum,String depart){
 		
@@ -420,31 +470,34 @@ public class PlanLookController extends BaseController {
 	
 		CollectPlan plan = collectPlanMapper.queryPlan(collectPlan);
 		Integer status = plan.getStatus();
-		String flag="0";
+		String flag="1";
 		DictionaryData data = DictionaryDataUtil.findById(auditTurns);
-		 if(auditTurns.equals("4")){
-				 if(status!=1){
-					 flag="1";
-				 }
-			 }
-		if(data!=null){
-		  if(data.getCode().equals("SH_1")){
-				 if(status!=1){
-					 flag="1";
-				 }
-			 }
-		  if(data.getCode().equals("SH_2")){
-				 if(status!=4&&status!=1){
-					 flag="1";
-				 }
-			 }
-		  if(data.getCode().equals("SH_3")){
-				if(status !=6&&status!=1){
-					flag="1";
-				}
-			}
+		if(status==1){
+			flag="0";
 		}
-		
+//		if(auditTurns.equals("4")){
+//				 if(status!=1){
+//					 flag="1";
+//				 }
+//			 }
+//		if(data!=null){
+//		  if(data.getCode().equals("SH_1")){
+//				 if(status!=1){
+//					 flag="1";
+//				 }
+//			 }
+//		  if(data.getCode().equals("SH_2")){
+//				 if(status!=4&&status!=1){
+//					 flag="1";
+//				 }
+//			 }
+//		  if(data.getCode().equals("SH_3")){
+//				if(status !=6&&status!=1){
+//					flag="1";
+//				}
+//			}
+//		}
+//		
 		return flag;
 	}
 	

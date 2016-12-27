@@ -100,8 +100,9 @@
 		$("#fname2").val(name2);
 		$("#val1").val(id1);
 		$("#val2").val(id2); */
-		var index = $("#userList tr:last td:first input:last").val();
-		if(isNaN(index)){
+		var ap = $("#userList tr:last td:first input:last").val();
+		var tp = Number($(".tempPersonIndex:first").val());
+		if(isNaN(ap)&&isNaN(tp)){
 			layer.alert("请添加审核人员", {
  				offset: ['30%', '40%']
  			}); 
@@ -144,8 +145,11 @@
     }
     
     function beforeExperts(){
-    	var index = $("#userList tr:last td:first input:last").val();
-		if(isNaN(index)){
+    	var ap = $("#userList tr:last td:first input:last").val();
+		var tp = Number($(".tempPersonIndex:first").val());
+		if(isNaN(ap)&&isNaN(tp)){
+			experts(); 
+		}else if(isNaN(tp)){
 			experts();
 		}else{
 	    	cleanErr();
@@ -218,9 +222,12 @@
     }
     
     function beforeUsers(){
-    	var index = $("#userList tr:last td:first input:last").val();
-		if(isNaN(index)){
-			users();
+    	var ap = $("#userList tr:last td:first input:last").val();
+		var tp = Number($(".tempPersonIndex:first").val());
+		if(isNaN(ap)&&isNaN(tp)){
+			experts();
+		}else if(isNaN(tp)){
+			experts();
 		}else{
 	    	cleanErr();
 	    	var index = Number($(".tempPersonIndex:first").val());
@@ -303,32 +310,37 @@
 //     		  content: $("#content"),
 //      		});
 		var tabhtml = "";
-		var index = $("#userList tr:last td:first input:last").val();
+		var index = Number($("#userList tr:last td:first input:last").val());
 		var ind = Number(index)+1;
 		var first = Number($(".tempPersonIndex:first").val());
 		var isTable= 0;
 		if(isNaN(index)){
 			index=1;
 			isTable=1;
+			ind = Number(index)+1;
 		}
 		if(isNaN(first)){
 			first=ind;
-		}
-		var i = 0;
-		if(first!=null && first!=""){
-			i=eval(ind-first);
-		}
-		tabhtml+='<tr class="tc pointer tempPersonList">';
-		tabhtml+='<td class="w30"><input type="checkbox" name="chkItem" alt="" value=""><input type="hidden" class="tempPersonIndex" value="'+ind+'"></td>';
-		tabhtml+='<td><input class="m0" name="auditPersons['+i+'].name" type="text" value=""><div class="clear red names" id="name'+ind+'"></div></td>';
-		tabhtml+='<td><input class="m0" name="auditPersons['+i+'].mobile" type="text" value=""><div class="clear red mobiles" id="phone'+ind+'"></div></td>';
-		tabhtml+='<td><input class="m0" name="auditPersons['+i+'].duty" type="text" value=""><div class="clear red duties" id="duty'+ind+'"></div></td>';
-		tabhtml+='<td><input class="m0" name="auditPersons['+i+'].unitName" type="text" value=""><div class="clear red unitNames" id="unitName'+ind+'"></div></td>';
-		tabhtml+='</tr>';
-		if(isTable==0){
-	    	$("#userList tbody").append(tabhtml);
+			var i = 0;
+			if(first!=null && first!=""){
+				i=eval(ind-first);
+			}
+			tabhtml+='<tr class="tc pointer tempPersonList">';
+			tabhtml+='<td class="w30"><input type="checkbox" name="chkItem" alt="" value=""><input type="hidden" class="tempPersonIndex" value="'+ind+'"></td>';
+			tabhtml+='<td><input class="m0" name="auditPersons['+i+'].name" type="text" value=""><div class="clear red names" id="name'+ind+'"></div></td>';
+			tabhtml+='<td><input class="m0" name="auditPersons['+i+'].mobile" type="text" value=""><div class="clear red mobiles" id="phone'+ind+'"></div></td>';
+			tabhtml+='<td><input class="m0" name="auditPersons['+i+'].duty" type="text" value=""><div class="clear red duties" id="duty'+ind+'"></div></td>';
+			tabhtml+='<td><input class="m0" name="auditPersons['+i+'].unitName" type="text" value=""><div class="clear red unitNames" id="unitName'+ind+'"></div></td>';
+			tabhtml+='</tr>';
+			if(isTable==0){
+		    	$("#userList tbody").append(tabhtml);
+			}else{
+				$("#userList").append(tabhtml);
+			}
 		}else{
-			$("#userList").append(tabhtml);
+//			layer.alert("只能添加一个临时人员", {
+//				offset: ['30%', '40%']
+//			});  
 		}
 
     }
@@ -374,11 +386,11 @@
     
     function qd(){
      	 nature=$("#audit_nature").val();
-    	 turns=$("#audit_turn").val();
+//    	 turns=$("#audit_turn").val();
     	 $("#auditStaff_1").val(nature);
     	 $("#auditRound_1").val(turns);
     	 nature=$("#audit_nature").val();
-         turns=$("#audit_turn").val();
+//         turns=$("#audit_turn").val();
          var type="${type}";
             var tp=0;
           if(nature==null || nature == ''){
@@ -518,7 +530,7 @@
 		<button class="btn btn-windows add" onclick="beforeExperts()">专家库添加</button>
 		<button class="btn btn-windows add" onclick="beforeUsers()">用户库添加</button>
 		<button class="btn btn-windows add" onclick="temp()">添加临时人员</button>
-		<button class="btn btn-windows add" onclick="saveTemp()">保存临时人员</button>
+		<!-- <button class="btn btn-windows add" onclick="saveTemp()">保存临时人员</button> -->
 		<button class="btn btn-windows delete" onclick="delet()">删除</button>
 	  </div>
       <div class="content table_box">
