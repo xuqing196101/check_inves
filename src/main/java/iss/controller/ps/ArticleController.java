@@ -30,7 +30,6 @@ import ses.controller.sys.bms.LoginController;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
-import ses.model.sms.SupplierDictionaryData;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
@@ -123,7 +122,7 @@ public class ArticleController extends BaseSupplierController{
     DictionaryData sj=new DictionaryData();
     sj.setCode("SHWJ");
     List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
     if(secrets.size()>0){
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
@@ -217,7 +216,7 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("ERR_content", "信息正文不能为空");
     }
     
-    List<UploadFile> auditDoc = uploadService.findBybusinessId(id,Constant.FORUM_SYS_KEY);
+    List<UploadFile> auditDoc = uploadService.findBybusinessId(id,Constant.EXPERT_SYS_KEY);
 	if(auditDoc.size()<1){
 		flag = false;
 		model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
@@ -351,7 +350,7 @@ public class ArticleController extends BaseSupplierController{
     DictionaryData sj=new DictionaryData();
     sj.setCode("SHWJ");
     List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
     if(secrets.size()>0){
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
@@ -396,7 +395,7 @@ public class ArticleController extends BaseSupplierController{
     DictionaryData sj=new DictionaryData();
     sj.setCode("SHWJ");
     List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
     if(secrets.size()>0){
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
@@ -461,7 +460,7 @@ public class ArticleController extends BaseSupplierController{
       }
     }
     
-    List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+    List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.EXPERT_SYS_KEY);
 	if(auditDoc.size()<1){
         model.addAttribute("article.id", article.getId());
         model.addAttribute("article.name", name);
@@ -597,7 +596,7 @@ public class ArticleController extends BaseSupplierController{
     DictionaryData sj=new DictionaryData();
     sj.setCode("SHWJ");
     List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
     if(secrets.size()>0){
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
@@ -648,10 +647,11 @@ public class ArticleController extends BaseSupplierController{
     List<Article> list = articleService.selectArticleByStatus(map);
     
     
+    model.addAttribute("articleId", article.getId());
     DictionaryData sj=new DictionaryData();
     sj.setCode("SHWJ");
     List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
     if(secrets.size()>0){
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
@@ -686,7 +686,7 @@ public class ArticleController extends BaseSupplierController{
     for (String str : id) {
       article.setId(str);
       article.setStatus(1);
-      articleService.update(article);
+      articleService.updateStatus(article);
     }	
 
     return "redirect:getAll.html";
@@ -731,7 +731,7 @@ public class ArticleController extends BaseSupplierController{
     DictionaryData sj=new DictionaryData();
     sj.setCode("SHWJ");
     List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
     if(secrets.size()>0){
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
@@ -765,7 +765,7 @@ public class ArticleController extends BaseSupplierController{
       articleService.update(findOneArticle);
     }
     if(article.getStatus()==3){
-      articleService.update(article);
+      articleService.updateStatus(article);
     }
 
     List<Article> list = articleService.selectAllArticle(null, page==null?1:page);
@@ -844,7 +844,7 @@ public class ArticleController extends BaseSupplierController{
     article.setStatus(2);
     for (String str : id) {
       article.setId(str);
-      articleService.update(article);
+      articleService.updateStatus(article);
       Article findOneArticle = articleService.selectArticleById(str);
       solrNewsService.addIndex(findOneArticle);
     }
@@ -868,7 +868,7 @@ public class ArticleController extends BaseSupplierController{
 	    article.setStatus(4);
 	    for (String str : id) {
 	      article.setId(str);
-	      articleService.update(article);
+	      articleService.updateStatus(article);
 	      solrNewsService.deleteIndex(str);
 	    }
     return "redirect:getAll.html";
@@ -925,7 +925,7 @@ public class ArticleController extends BaseSupplierController{
       }
     }
     
-    List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+    List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.EXPERT_SYS_KEY);
 	if(auditDoc.size()<1){
         model.addAttribute("article.id", article.getId());
         model.addAttribute("article.name", name);
@@ -1026,7 +1026,7 @@ public class ArticleController extends BaseSupplierController{
     DictionaryData sj=new DictionaryData();
     sj.setCode("SHWJ");
     List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("secretSysKey", Constant.FORUM_SYS_KEY);
+    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
     if(secrets.size()>0){
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
@@ -1068,7 +1068,7 @@ public class ArticleController extends BaseSupplierController{
       return "iss/ps/article/editor";
     }
     
-    List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+    List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.EXPERT_SYS_KEY);
 	if(auditDoc.size()<1){
         model.addAttribute("article.id", article.getId());
         model.addAttribute("article.name", name);
@@ -1159,11 +1159,6 @@ public class ArticleController extends BaseSupplierController{
     List<ArticleType> list = articleTypeService.selectByParentId(parentId);
     super.writeJson(response, list);
   }
-  
-  
-  
-  
-  
   
   
 

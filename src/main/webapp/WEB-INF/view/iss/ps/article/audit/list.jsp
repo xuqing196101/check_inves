@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
 <!DOCTYPE HTML>
@@ -83,7 +83,6 @@
               offset: ['180px', '200px'],
               shade: 0.01,
             });
-
           }
         } else if(id.length > 1) {
           layer.alert("只能选择一个", {
@@ -282,7 +281,7 @@
                 </c:if>
               </td>
               <td>
-                <u:show showId="artice_secret_show" delete="false" businessId="${article.id}" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
               </td>
             </tr>
           </c:forEach>
