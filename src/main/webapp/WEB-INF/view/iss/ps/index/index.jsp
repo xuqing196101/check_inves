@@ -181,10 +181,38 @@
             <h2>
 		 	  <span class="col-md-4 col-sm-4 col-xs-6">采购公告</span>
 		  	  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
-		        <li class="active fl"><a aria-expanded="true" href="#tab-3" data-toggle="tab"><b>${articlejcw}</b> 物资</a></li>
-		        <li class="fl"><a aria-expanded="false" href="#tab-4" data-toggle="tab" ><b>${articlejcg}</b> 工程</a></li>
-		        <li class="fl"><a aria-expanded="false" href="#tab-5" data-toggle="tab" ><b>${articlejcf}</b> 服务</a></li>
-		        <li class="fl"><a aria-expanded="false" href="#tabs-6" data-toggle="tab" ><b>${articlejcj}</b> 进口</a></li>
+		  	  <c:choose>
+		  	  	<c:when test="${articlejcw=='0'}">
+		          <li class="active fl"><a aria-expanded="true" href="#tab-3" data-toggle="tab">物资</a></li>
+		        </c:when>
+			    <c:otherwise>
+			      <li class="active fl"><a aria-expanded="true" href="#tab-3" data-toggle="tab"><b>${articlejcw}</b> 物资</a></li>
+			    </c:otherwise>
+		      </c:choose>
+		      <c:choose>
+		  	  	<c:when test="${articlejcg=='0'}">
+		          <li class="fl"><a aria-expanded="false" href="#tab-4" data-toggle="tab" > 工程</a></li>
+		        </c:when>
+			    <c:otherwise>
+			      <li class="fl"><a aria-expanded="false" href="#tab-4" data-toggle="tab" ><b>${articlejcg}</b> 工程</a></li>
+			    </c:otherwise>
+		      </c:choose>
+		      <c:choose>
+		  	  	<c:when test="${articlejcf=='0'}">
+		          <li class="fl"><a aria-expanded="false" href="#tab-5" data-toggle="tab" > 服务</a></li>
+		        </c:when>
+			    <c:otherwise>
+			      <li class="fl"><a aria-expanded="false" href="#tab-5" data-toggle="tab" ><b>${articlejcf}</b> 服务</a></li>
+			    </c:otherwise>
+		      </c:choose>
+		      <c:choose>
+		  	  	<c:when test="${articlejcj=='0'}">
+		          <li class="fl"><a aria-expanded="false" href="#tabs-6" data-toggle="tab" > 进口</a></li>
+		        </c:when>
+			    <c:otherwise>
+			      <li class="fl"><a aria-expanded="false" href="#tabs-6" data-toggle="tab" ><b>${articlejcj}</b> 进口</a></li>
+			    </c:otherwise>
+		      </c:choose>
 		      </ul>
           </h2>
             <div class=" tab-content">
@@ -276,10 +304,38 @@
             <h2>
 		  <span class="col-md-4 col-sm-4 col-xs-6">中标公告</span>
 		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
-		    <li class="active fl"><a aria-expanded="true" href="#tab-6" data-toggle="tab"><b>${articlejzw}</b> 物资</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tab-7" data-toggle="tab" ><b>${articlejzg}</b> 工程</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tab-8" data-toggle="tab" ><b>${articlejzf}</b> 服务</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tabs-8" data-toggle="tab" ><b>${articlejzj}</b> 进口</a></li>
+		  <c:choose>
+	  	  	<c:when test="${articlejzw=='0'}">
+	          <li class="active fl"><a aria-expanded="true" href="#tab-6" data-toggle="tab"> 物资</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="active fl"><a aria-expanded="true" href="#tab-6" data-toggle="tab"><b>${articlejzw}</b> 物资</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		    <c:choose>
+	  	  	<c:when test="${articlejzg=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tab-7" data-toggle="tab" > 工程</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tab-7" data-toggle="tab" ><b>${articlejzg}</b> 工程</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlejzf=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tab-8" data-toggle="tab" > 服务</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tab-8" data-toggle="tab" ><b>${articlejzf}</b> 服务</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlejzj=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tabs-8" data-toggle="tab" > 进口</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tabs-8" data-toggle="tab" ><b>${articlejzj}</b> 进口</a></li>
+		    </c:otherwise>
+		  </c:choose>
 		  </ul>
           </h2>
             <div class=" tab-content">
@@ -368,10 +424,38 @@
             <h2>
 		  <span class="col-md-4 col-sm-4 col-xs-6">单一来源公告</span>
 		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
-		    <li  class="active fl"><a aria-expanded="true" href="#tab-9" data-toggle="tab"><b>${articlejdw}</b> 物资</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tab-10" data-toggle="tab" ><b>${articlejdg}</b> 工程</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tab-11" data-toggle="tab" ><b>${articlejdf}</b> 服务</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tabs-11" data-toggle="tab" ><b>${articlejdj}</b> 进口</a></li>
+		  <c:choose>
+	  	  	<c:when test="${articlejdw=='0'}">
+	          <li  class="active fl"><a aria-expanded="true" href="#tab-9" data-toggle="tab"> 物资</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li  class="active fl"><a aria-expanded="true" href="#tab-9" data-toggle="tab"><b>${articlejdw}</b> 物资</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlejdg=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tab-10" data-toggle="tab" > 工程</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tab-10" data-toggle="tab" ><b>${articlejdg}</b> 工程</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlejdf=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tab-11" data-toggle="tab" > 服务</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tab-11" data-toggle="tab" ><b>${articlejdf}</b> 服务</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlejdj=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tabs-11" data-toggle="tab" > 进口</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tabs-11" data-toggle="tab" ><b>${articlejdj}</b> 进口</a></li>
+		    </c:otherwise>
+		  </c:choose>
 		  </ul>
           </h2>
             <div class=" tab-content">
@@ -470,10 +554,38 @@
             <h2>
 		  <span class="col-md-4 col-sm-4 col-xs-6">采购公告</span>
 		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
-		    <li  class="active fl"><a aria-expanded="true" href="#tab-12" data-toggle="tab"><b>${articlebcw}</b> 物资</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tab-13" data-toggle="tab" ><b>${articlebcg}</b> 工程</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tab-14" data-toggle="tab" ><b>${articlebcf}</b> 服务</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tabs-14" data-toggle="tab" ><b>${articlebcj}</b> 进口</a></li>
+		  <c:choose>
+	  	  	<c:when test="${articlebcw=='0'}">
+	          <li  class="active fl"><a aria-expanded="true" href="#tab-12" data-toggle="tab"> 物资</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li  class="active fl"><a aria-expanded="true" href="#tab-12" data-toggle="tab"><b>${articlebcw}</b> 物资</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlebcg=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tab-13" data-toggle="tab" > 工程</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tab-13" data-toggle="tab" ><b>${articlebcg}</b> 工程</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlebcf=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tab-14" data-toggle="tab" > 服务</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tab-14" data-toggle="tab" ><b>${articlebcf}</b> 服务</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlebcj=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tabs-14" data-toggle="tab" > 进口</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tabs-14" data-toggle="tab" ><b>${articlebcj}</b> 进口</a></li>
+		    </c:otherwise>
+		  </c:choose>
 		  </ul>
           </h2>
             <div class=" tab-content">
@@ -562,10 +674,38 @@
             <h2>
 		  <span class="col-md-4 col-sm-4 col-xs-6">中标公告</span>
 		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
-		    <li  class="active fl"><a aria-expanded="true" href="#tab-15" data-toggle="tab"><b>${articlebzw}</b> 物资</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tab-16" data-toggle="tab" ><b>${articlebzg}</b> 工程</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tab-17" data-toggle="tab" ><b>${articlebzf}</b> 服务</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tabs-17" data-toggle="tab" ><b>${articlebzj}</b> 进口</a></li>
+		  <c:choose>
+	  	  	<c:when test="${articlebzw=='0'}">
+	          <li  class="active fl"><a aria-expanded="true" href="#tab-15" data-toggle="tab"> 物资</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li  class="active fl"><a aria-expanded="true" href="#tab-15" data-toggle="tab"><b>${articlebzw}</b> 物资</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		    <c:choose>
+	  	  	<c:when test="${articlebzg=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tab-16" data-toggle="tab" > 工程</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tab-16" data-toggle="tab" ><b>${articlebzg}</b> 工程</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlebzf=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tab-17" data-toggle="tab" > 服务</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tab-17" data-toggle="tab" ><b>${articlebzf}</b> 服务</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlebzj=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tabs-17" data-toggle="tab" > 进口</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tabs-17" data-toggle="tab" ><b>${articlebzj}</b> 进口</a></li>
+		    </c:otherwise>
+		  </c:choose>
 		  </ul>
           </h2>
             <div class=" tab-content">
@@ -653,10 +793,38 @@
             <h2>
 		  <span class="col-md-4 col-sm-4 col-xs-6">单一来源公告</span>
 		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
-		    <li  class="active fl"><a aria-expanded="true" href="#tab-18" data-toggle="tab"><b>${articlebdw}</b> 物资</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tab-19" data-toggle="tab" ><b>${articlebdg}</b> 工程</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tab-20" data-toggle="tab" ><b>${articlebdf}</b> 服务</a></li>
-		    <li class="fl"><a aria-expanded="false" href="#tabs-20" data-toggle="tab" ><b>${articlebdj}</b> 进口</a></li>
+		  <c:choose>
+	  	  	<c:when test="${articlebdw=='0'}">
+	          <li class="active fl"><a aria-expanded="true" href="#tab-18" data-toggle="tab"> 物资</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="active fl"><a aria-expanded="true" href="#tab-18" data-toggle="tab"><b>${articlebdw}</b> 物资</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlebdg=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tab-19" data-toggle="tab" > 工程</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tab-19" data-toggle="tab" ><b>${articlebdg}</b> 工程</a></li>
+		    </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlebdf=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tab-20" data-toggle="tab" > 服务</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tab-20" data-toggle="tab" ><b>${articlebdf}</b> 服务</a></li>
+		      </c:otherwise>
+		  </c:choose>
+		  <c:choose>
+	  	  	<c:when test="${articlebdj=='0'}">
+	          <li class="fl"><a aria-expanded="false" href="#tabs-20" data-toggle="tab" > 进口</a></li>
+	        </c:when>
+		    <c:otherwise>
+		      <li class="fl"><a aria-expanded="false" href="#tabs-20" data-toggle="tab" ><b>${articlebdj}</b> 进口</a></li>
+		      </c:otherwise>
+		  </c:choose>
 		  </ul>
           </h2>
             <div class=" tab-content">
