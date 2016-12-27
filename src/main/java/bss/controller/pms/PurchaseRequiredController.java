@@ -676,7 +676,7 @@ public class PurchaseRequiredController extends BaseController{
 		 */
 		public boolean isInteger(String str){
 			boolean bool=true;
-			String regex="/^[0-9]*$/";
+			String regex="^\\d+$";
 			if(str.matches(regex)) {
 				bool=true; 
 			}else{

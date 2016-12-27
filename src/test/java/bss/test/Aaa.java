@@ -75,7 +75,7 @@ public class Aaa extends Cbb{
 //			System.out.print("测试");
 //		}
 		
-		String regex="/^-?[1-9]\\d*$/";
+		String regex="^[0-9]*$";
 		boolean b = str.matches(regex);
 		if(str.matches(regex)) {
 			System.out.print("测试");
