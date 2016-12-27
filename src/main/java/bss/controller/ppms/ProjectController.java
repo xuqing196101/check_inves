@@ -811,11 +811,18 @@ public class ProjectController extends BaseController {
         if(project.getPrincipal()!=null){
         	try {
         		user = userService.getUserById(project.getPrincipal());
+        		if(user.getOrg()!=null){
+        			Project pj = new Project();
+            		pj.setId(projectId);
+            		pj.setPurchaseDepId(user.getOrg().getId());
+        			projectService.updatePurchaseDep(pj);
+        		}
 			} catch (Exception e) {
 				user = null;
 			}
         }
-        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+        Project pr = projectService.selectById(projectId);
+        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(pr.getPurchaseDepId());
         List<ProjectTask> tasks = projectTaskService.queryByNo(map);
         Set<String> set =new HashSet<String>();
         for (ProjectTask projectTask : tasks) {
@@ -844,7 +851,7 @@ public class ProjectController extends BaseController {
         model.addAttribute("user", user);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("packageList", list);
-        model.addAttribute("project", project);
+        model.addAttribute("project", pr);
         model.addAttribute("orgnization", orgnization);
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("budgetAmount", details.get(0).getBudget());
@@ -1080,6 +1087,10 @@ public class ProjectController extends BaseController {
                         	double money = budget;
                         	showDetails.get(j).setBudget(money);
                         }
+                        if(showDetails.get(j).getDepartment()!=null){
+                        	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(showDetails.get(j).getDepartment());
+                            showDetails.get(j).setOrgName(orgnization.getName());
+                        }
                     }
             		model.addAttribute("list", showDetails);
             	}
@@ -1138,6 +1149,10 @@ public class ProjectController extends BaseController {
                 		newDetails.get(i).setSerialNumber("（"+serialNum+"）");
                 		serialN ++;
                     }
+                    if(newDetails.get(i).getDepartment()!=null){
+                    	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(newDetails.get(i).getDepartment());
+                    	newDetails.get(i).setOrgName(orgnization.getName());
+                    }
                 }
                 ps.setProjectDetails(newDetails);
             }
@@ -1148,6 +1163,14 @@ public class ProjectController extends BaseController {
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         Project project = projectService.selectById(id);
         model.addAttribute("project", project);
+        
+//        HashMap<String, Object> map = new HashMap<String, Object>();
+//        map.put("id", id);
+//        List<ProjectDetail> detail = detailService.selectById(map);
+//        for (ProjectDetail projectDetail2 : detail) {
+//           Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail2.getDepartment());
+//           model.addAttribute("orgnization", orgnization);
+//       }
         return "bss/ppms/project/sub_package";
     }
     /**

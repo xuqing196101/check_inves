@@ -1,7 +1,6 @@
 package bss.model.ppms;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 
 import ses.model.oms.PurchaseDep;
@@ -98,6 +97,10 @@ public class ProjectDetail {
     
     private Integer isTurnUp;
     
+    /**
+     * 需求部门名称
+     */
+    private String orgName;
 
 	public Integer getIsTurnUp() {
         return isTurnUp;
@@ -386,6 +389,14 @@ public class ProjectDetail {
 
 	public void setDetailStatus(Integer detailStatus) {
 		this.detailStatus = detailStatus;
+	}
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
 	}
     
     

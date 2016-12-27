@@ -95,4 +95,6 @@ public interface ProjectService {
     ResponseEntity<byte[]> downloadFile(String fileName,String filePath,String downFileName);
     
     List<Project> selectProjectsByConition(HashMap<String,Object> map);
+    
+    int updatePurchaseDep(Project project);
 }
