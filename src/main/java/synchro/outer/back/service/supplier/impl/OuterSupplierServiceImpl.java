@@ -83,7 +83,6 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     private SupplierTypeRelateService supplierTypeRelateService;
     
     
-    
     /**
      * 
      * @see synchro.outer.back.service.supplier.OuterSupplierService#backupCreated()
@@ -102,7 +101,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         List<Supplier> supplierList = supplierService.getCommintSupplierByDate(DateUtils.getYesterDay());
         List<Supplier> list = getSupplierList(supplierList);
         if (list != null && list.size() > 0){
-            FileUtils.writeFile(JSON.toJSONString(list));
+            FileUtils.writeFile(FileUtils.getNewSupperBackUpFile(),JSON.toJSONString(list));
         }
         recordService.backNewSupplierRecord(new Integer(list.size()).toString());
     }
@@ -142,7 +141,6 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         User user = userService.findByTypeId(supplierId);
         return user;
     }
-    
     
     /**
      * 
