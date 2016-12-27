@@ -442,7 +442,7 @@
 								  					<input readonly="readonly"  type="text" name="lists[${vs.index }].price" value="${obj.price }" class="w80">
 												</c:if>
 											</td>
-											<td class="tl pl20">
+											<td class="tr pr20">
 												<input type="hidden" name="ss" value="${obj.id }">
 												<input type="text" name="list[${vs.index }].budget" value="${obj.budget }" readonly="readonly" class="w80">
 												<input type="hidden" name="ss" value="${obj.parentId }">

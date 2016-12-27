@@ -60,7 +60,7 @@
 							<td class="tl pl20"> ${obj.item }</td>
 							<td class="tl pl20">${obj.purchaseCount }</td>
 							<td class="tl pl20">${obj.price }</td>
-							<td class="tl pl20">${obj.budget }</td>
+							<td class="tr pr20">${obj.budget }</td>
 							<td>${obj.deliverDate }</td>
 							<td>
 							  <c:forEach items="${kind}" var="kind" >

@@ -149,7 +149,7 @@
 			  <td class="tl pl20"  >${obj.department }</td>
 			
 			
-			  <td class="tl pl20"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tr pr20"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tl pl20"  >
 			  <c:if test="${obj.status=='1' }">

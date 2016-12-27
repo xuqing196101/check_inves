@@ -381,7 +381,7 @@
 							<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt=""></th>
 							<th class="info w50">序号</th>
 							<th class="info">采购计划名称</th>
-							<th class="info">预算总金额</th>
+							<th class="info">预算总金额（万元）</th>
 							<th class="info">汇总时间</th>
 							<th class="info">状态</th>
 						</tr>
@@ -393,7 +393,7 @@
 							</td>
 							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 							<td class="tl pl20">${obj.fileName }</td>
-							<td class="tl pl20">
+							<td class="tr pr20">
 								<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 							</td>
 							<td class="tc ">

@@ -155,7 +155,7 @@
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">采购任务名称</th>
-		  <th class="info">预算总金额</th>
+		  <th class="info">预算总金额（万元）</th>
 		  <th class="info">汇总时间</th>
 		  <th class="info">状态</th>
 		</tr>
@@ -165,7 +165,7 @@
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50" onclick="show('${obj.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  <td class="tl pl20" onclick="show('${obj.id }')">${obj.fileName }</td>
-			  <td class="tl pl20" onclick="show('${obj.id }')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tr pr20" onclick="show('${obj.id }')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc" onclick="show('${obj.id }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tl pl20" onclick="show('${obj.id }')">
 			  <c:if test="${obj.status=='1' }">

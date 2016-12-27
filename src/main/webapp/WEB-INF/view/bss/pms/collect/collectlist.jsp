@@ -385,7 +385,7 @@
 		  <!-- <th class="info">编报人</th> -->
 		  <th class="info">物资类别</th> 
 		  <th class="info">提交日期</th>
-		  <th class="info">预算总金额</th>
+		  <th class="info">预算总金额（万元）</th>
 		  <th class="info">状态</th>
 		</tr>
 		</thead>
@@ -421,7 +421,7 @@
 			  
 			  </td>
 			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tl pl20"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tr pr20"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
 	<%-- 		 <c:if test="${obj.status=='1' }">
 			 	 已编制为采购计划

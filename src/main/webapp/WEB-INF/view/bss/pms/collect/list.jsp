@@ -266,7 +266,7 @@
 							<th>需求计划名称</th>
 							<th>编报人</th>
 							<th>提交日期</th>
-							<th>预算总金额</th>
+							<th>预算总金额（万元）</th>
 							<th>状态</th>
 						</tr>
 					</thead>
@@ -293,7 +293,7 @@
 							<%-- <div class="left20" ><fmt:formatDate value="${obj.createdAt }"/></div> --%>
 								 <fmt:formatDate value="${obj.createdAt }" /> 
 							</td>
-							<td class="tl pl20">
+							<td class="tr pr20">
 							<%-- <div class="left20" fmt:formatDate >${obj.budget }</fmt:formatNumber></div> --%>
 								<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 							</td>

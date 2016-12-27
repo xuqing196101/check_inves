@@ -493,7 +493,7 @@
 		  <th class="info">需求部门</th>
 		  <th class="info">采购方式</th>
 		  <th class="info">采购机构</th>
-		  <th class="info">预算</th>
+		  <th class="info">预算（万元）</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
@@ -527,7 +527,7 @@
 				  </c:forEach>
 			  </td>
 			  <td class="tl pl20" onclick="view('${obj.planNo }')"> ${obj.organization } </td>
-			  <td class="tl pl20" onclick="view('${obj.planNo }')">
+			  <td class="tr pr20" onclick="view('${obj.planNo }')">
 		 	<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 			  </td>
 			</tr>

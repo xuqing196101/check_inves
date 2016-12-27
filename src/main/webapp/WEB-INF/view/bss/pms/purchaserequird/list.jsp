@@ -268,7 +268,7 @@
 		  <th class="info w50">序号</th>
 		  <th class="info">计划名称</th>
 		  <th class="info">计划编号</th>
-		  <th class="info">金额</th>
+		  <th class="info">金额（万元）</th>
 		  <th class="info">编制时间</th>
 		  <th class="info">完成时间</th>
 		  <th class="info">状态</th>
@@ -288,7 +288,7 @@
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  	</c:forEach> --%>
 			  </td>  
-			  <td><div class="tl pl20" onclick="view('${obj.planNo }')">${obj.budget } </div></td>
+			  <td><div class="tr pr20" onclick="view('${obj.planNo }')">${obj.budget } </div></td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.deliverDate } </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
