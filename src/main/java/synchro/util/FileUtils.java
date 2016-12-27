@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.apache.commons.io.LineIterator;
+
 import ses.util.PropUtil;
 
 /**
@@ -31,10 +33,10 @@ public class FileUtils {
     private final static String FINISH_PATH = PropUtil.getProperty("file.sync.finish");
     
     /** 新注册供应商文件名称 **/
-    private final static String C_SUPPLIER_FILENAME = "_c_supplier.dat"; 
+    public final static String C_SUPPLIER_FILENAME = "_c_supplier.dat"; 
     
     /** 修改供应商文件名称 **/
-    private final static String M_SUPPLIER_FILENAME = "_m_supplier.dat";
+    public final static String M_SUPPLIER_FILENAME = "_m_supplier.dat";
     
     /** 新注册专家文件名称 **/
     private final static String C_EXPERT_FILENAME = "_c_expert.dat";
@@ -164,6 +166,31 @@ public class FileUtils {
     
     /**
      * 
+     *〈简述〉读取文件
+     *〈详细描述〉
+     * @author myc
+     * @param file 待读取文件
+     * @return 文件
+     */
+    public static final String readFile(final File file ){
+        LineIterator it  = null;
+        final StringBuffer sb = new StringBuffer();
+        try {
+            it = org.apache.commons.io.FileUtils.lineIterator(file, "UTF-8");
+            while (it.hasNext()) {
+                sb.append(it.nextLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+          if (it != null){
+              LineIterator.closeQuietly(it);
+          }  
+        }
+        return sb.toString();
+    }
+    
+    /*
      *〈简述〉获取新注册专家导出文件
      *〈详细描述〉
      * @author myc

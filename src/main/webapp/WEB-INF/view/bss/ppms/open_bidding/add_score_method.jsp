@@ -19,6 +19,7 @@
 		}
 		
 		function show(id){
+		    //综合评分法
 			if (id ==0) {
 			   if (!$("#business").hasClass("dnone")) {
 					$("#business").addClass("dnone");
@@ -30,6 +31,7 @@
 			    	$("#valid").removeClass("dnone");
 			    }
 			}
+			//性价比
 			if (id ==1) {
 				if (!$("#business").hasClass("dnone")) {
 					$("#business").addClass("dnone");
@@ -41,6 +43,7 @@
 			    	$("#valid").addClass("dnone");
 			    }
 			}
+			//基准价法
 			if (id ==2) {
 			    if ($("#business").hasClass("dnone")) {
 					$("#business").removeClass("dnone");
@@ -52,6 +55,7 @@
 			    	$("#valid").removeClass("dnone");
 			    }
 			}
+            //最低价
 			if (id ==3) {
 				if (!$("#business").hasClass("dnone")) {
 					$("#business").addClass("dnone");

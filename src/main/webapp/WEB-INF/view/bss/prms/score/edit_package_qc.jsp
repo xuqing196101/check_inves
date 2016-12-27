@@ -182,6 +182,7 @@
  </script>
 <body onload="getTotal()">  
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
+    <c:if test="${project.confirmFile != 1 }">
   <div class="search_detail">
 	        <ul class="demand_list">
 	          <li>
@@ -200,6 +201,7 @@
 	        </ul>
 	        <div class="clear"></div>
 	     </div>
+	    </c:if>
     <div class="content">
         <table class="table table-bordered table-condensed table-hover">
             <thead>
@@ -232,7 +234,9 @@
         </div>
     </div>
 	    <div class="mt40 tc mb50">
+	    <c:if test="${project.confirmFile != 1 }">
 	        <button class="btn btn-windows back" onclick="history.go(-1)">返回</button>
+	        </c:if>
 	    </div>
     <div id="openDiv" class="dnone layui-layer-wrap">
       <form id="form2" method="post" >

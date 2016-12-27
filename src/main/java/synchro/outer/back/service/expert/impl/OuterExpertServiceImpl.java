@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ses.model.bms.User;
 import ses.model.ems.Expert;
@@ -27,6 +28,7 @@ import com.alibaba.fastjson.JSON;
  * @since
  * @see
  */
+@Service
 public class OuterExpertServiceImpl implements OuterExpertService {
 
     /**
@@ -59,7 +61,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      */
     @Override
     public void backupCreated() {
-        getCretedData();
+        getCreatedData();
     }
     
     /**
@@ -93,13 +95,27 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      *〈详细描述〉
      * @author WangHuijie
      */
-    public void getCretedData(){
+    public void getCreatedData(){
         List<Expert> expertList = expertService.getCommitExpertByDate(DateUtils.getYesterDay());
         List<Expert> list = getExpertList(expertList);
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getNewExpertBackUpFile(),JSON.toJSONString(list));
         }
         recordService.backNewExpertRecord(new Integer(list.size()).toString());
+    }
+    
+    /**
+     *〈简述〉获取修改的专家信息
+     *〈详细描述〉
+     * @author WangHuijie
+     */
+    public void getModifiedData(){
+        List<Expert> expertList = expertService.getModifyExpertByDate(DateUtils.getYesterDay());
+        List<Expert> list = getExpertList(expertList);
+        if (list != null && list.size() > 0){
+            FileUtils.writeFile(FileUtils.getModifyExpertBackUpFile(),JSON.toJSONString(list));
+        }
+        recordService.backModifyExpertRecord(new Integer(list.size()).toString());
     }
     
     /**

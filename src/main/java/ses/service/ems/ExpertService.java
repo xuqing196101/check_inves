@@ -347,4 +347,13 @@ public interface ExpertService {
      * @return 专家集合
      */
     List<Expert> getCommitExpertByDate(String createDate);
+    
+    /**
+     *〈简述〉根据修改日期获取修改了的专家信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param updateDate 创建日期
+     * @return 专家集合
+     */
+    List<Expert> getModifyExpertByDate(String updateDate);
 }

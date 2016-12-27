@@ -1129,10 +1129,21 @@
 		where ID = #{_parameter}
 	</select>
 	
-	<select id="getCommintSupplierByDate" resultMap="BaseResultMap">
+	<!-- 根据创建时间获取已提交的专家 -->
+	<select id="getCommitSupplierByDate" resultMap="BaseResultMap">
 		select 
 		<include refid="Base_Column_List"/>
 		from T_SES_EMS_EXPERT
-		where CREATE_AT = #{_parameter}
+		where UPDATE_AT = #{_parameter}
+		and IS_SUBMIT = '1'
+		and STATUS = '0'
+	</select>
+	
+	<!-- 根据修改时间获取修改了的专家信息 -->
+	<select id="getModifySupplierByDate" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/>
+		from T_SES_EMS_EXPERT
+		where UPDATE_AT = #{_parameter}
 	</select>
 </mapper>

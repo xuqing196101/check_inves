@@ -832,6 +832,48 @@ public class OpenBiddingController {
         return "bss/ppms/open_bidding/bid_file/cb";
     }
     
+    @RequestMapping("/openNewWidow")
+    public String openNewWidow(String projectId, Model model) {
+        //开标时间
+        Project project = projectService.selectById(projectId);
+        long bidDate = 0;
+        if (project.getBidDate() != null) {
+            bidDate = project.getBidDate().getTime();
+        }
+        long nowDate = new Date().getTime();
+        long date = bidDate - nowDate;
+        model.addAttribute("date", date);
+        model.addAttribute("project", project);
+        
+        if (date < 0) {
+            //去saletender查出项目对应的所有的包
+            List<String> packageIds = saleTenderService.getPackageIds(projectId);
+            if (packageIds != null && packageIds.size() > 0) {
+                SaleTender condition = new SaleTender();
+                condition.setProjectId(projectId);
+                condition.setPackages(packageIds.get(0));
+                condition.setStatusBid(NUMBER_TWO);
+                condition.setStatusBond(NUMBER_TWO);
+                List<SaleTender> stList = saleTenderService.find(condition);
+                if (stList != null && stList.size() > 0) {
+                    Quote quote = new Quote();
+                    quote.setProjectId(projectId);
+                    quote.setPackageId(packageIds.get(0));
+                    quote.setSupplierId(stList.get(0).getSupplierId());
+                    List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+                    if (allQuote != null && allQuote.size() > 0) {
+                        if (allQuote.get(0).getQuotePrice() == null) {
+                            return "redirect:quotetab1.html?projectId=" + projectId;
+                        } else {
+                            return "redirect:quotetab2.html?projectId=" + projectId;
+                        }
+                    }
+                }
+            }
+        }
+        return "bss/ppms/open_bidding/bid_file/new_window";
+    }
+    
     @RequestMapping("/save")
     @ResponseBody
     public void save(BigDecimal total ,String deliveryTime ,Integer isTurnUp ,String supplierId, String projectId, String packageId ,String quoteId) throws Exception{
