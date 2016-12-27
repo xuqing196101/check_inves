@@ -166,56 +166,61 @@
 							<td class="tc w50">${obj.seq } 
 							</td>
 							<td>
+							<%-- <td title="${obj.department}" class="tl pl20">
+							<c:if test="${fn:length (obj.department) > 8}">${fn:substring(obj.department,0,7)}...</c:if>
+							<c:if test="${fn:length(obj.department) <= 8}">${obj.department}</c:if>
+							</td > --%>
+							
 						
-							    <c:forEach items="${requires }" var="re" >
+							     <c:forEach items="${requires }" var="re" >
 									  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
-							  	</c:forEach>
+							  	</c:forEach> 
 			  	
 							</td>
 							<%-- <td>${obj.goodsName }</td> --%>
-							<td title="${obj.goodsName}" class="tl">
+							<td title="${obj.goodsName}" class="tl pl20">
 							<c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
 							</td >
 							<%-- <td class="tc"> ${obj.stand }</td> --%>
-							<td title="${obj.stand}" class="tl">
+							<td title="${obj.stand}" class="tl pl20">
 							<c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
 							</td >
 							<%-- <td class="tc"> ${obj.qualitStand }</td> --%>
-							<td title="${obj.qualitStand}" class="tl">
+							<td title="${obj.qualitStand}" class="tl pl20">
 							<c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
 							</td >
 							<%-- <td class="tc"> ${obj.item }</td> --%>
-							<td title="${obj.item}" class="tl">
+							<td title="${obj.item}" class="tl pl20">
 							<c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
 							</td >
-							<td class="tl">${obj.purchaseCount }</td>
-							<td class="tl">${obj.price }</td>
-							<td class="tl">${obj.budget }</td>
-							<td>${obj.deliverDate }</td>
-							<td> <c:forEach items="${kind}" var="kind" >
+							<td class="tl pl20">${obj.purchaseCount }</td>
+							<td class="tl pl20">${obj.price }</td>
+							<td class="tl pl20">${obj.budget }</td>
+							<td class="tl pl20">${obj.deliverDate }</td>
+							<td class="tl pl20"> <c:forEach items="${kind}" var="kind" >
                   <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                 </c:forEach></td>
 							<%-- <td class="tc">${obj.supplier }</td> --%>
-							<td title="${obj.supplier}" class="tl">
+							<td title="${obj.supplier}" class="tl pl20">
 							<c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
 							</td >
 							<%-- <td class="tc">${obj.isFreeTax }</td> --%>
-							<td title="${obj.isFreeTax}" class="tl">
+							<td title="${obj.isFreeTax}" class="tl pl20">
 							<c:if test="${fn:length (obj.isFreeTax) > 8}">${fn:substring(obj.isFreeTax,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
 							</td >
 							<%-- <td class="tc">${obj.goodsUse }</td> --%>
-							<td title="${obj.goodsUse}" class="tl">
+							<td title="${obj.goodsUse}" class="tl pl20">
 							<c:if test="${fn:length (obj.goodsUse) > 8}">${fn:substring(obj.goodsUse,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.goodsUse) <= 8}">${obj.goodsUse}</c:if>
 							</td > 
-							<td class="tl">${obj.useUnit }</td>
-							 <td title="${obj.memo}" class="tl">
+							<td class="tl pl20">${obj.useUnit }</td>
+							 <td title="${obj.memo}" class="tl pl20">
 							<c:if test="${fn:length (obj.memo) > 8}">${fn:substring(obj.memo,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
 							</td > 

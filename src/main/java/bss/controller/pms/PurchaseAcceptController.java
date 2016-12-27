@@ -69,6 +69,9 @@ public class PurchaseAcceptController extends BaseController{
 		purchaseRequired.setStatus("2");
 		purchaseRequired.setIsMaster(1);
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page == null ? 1 : page);
+		for (PurchaseRequired pur : list) {
+      pur.setUserId(userServiceI.getUserById(pur.getUserId()).getRelName());
+    }
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", purchaseRequired);

@@ -1161,6 +1161,9 @@ table .input_group .add-on{
 	white-space: nowrap;
 }
 
+.table_wrap th{
+	white-space: nowrap;
+}
 
 /*倒计时样式*/
 .kaibiao_time{
