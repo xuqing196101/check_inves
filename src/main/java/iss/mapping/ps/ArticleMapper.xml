@@ -26,11 +26,11 @@
     <result column="SECOND_ARTICLE_TYPE_ID" property="secondArticleTypeId" />
     <result column="THREE_ARTICLE_TYPE_ID" property="threeArticleTypeId" />
     <result column="FOUR_ARTICLE_TYPE_ID" property="fourArticleTypeId" />
-    <result column="LAST_ARTICLE_TYPE_ID" property="lastArticleTypeId" />
     
     
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
     <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
+    <association property="lastArticleType" column="LAST_ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
   </resultMap> 
   
   <resultMap extends="ArticleMapper" id="ArticleBlob" type="iss.model.ps.Article">
@@ -494,6 +494,28 @@
 	order by published_at desc
   </select>
   
+  <select id="selectAllByParId" parameterType="Map" resultMap="ArticleMapper">
+  	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+	LAST_ARTICLE_TYPE_ID IN (
+		SELECT
+			ID
+		FROM
+			T_ISS_PS_ARTICLE_TYPE
+		WHERE
+			PARENT_ID in 
+	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    	#{item}
+    </foreach>
+	)
+	and status = 2
+	and rownum &lt;=6
+	order by published_at desc
+  </select>
+  
   <select id="selectArticleByParIdTwo" parameterType="Map" resultMap="ArticleMapper">
   	SELECT
 		*
@@ -519,6 +541,21 @@
 		T_ISS_PS_ARTICLE
 	WHERE
 	LAST_ARTICLE_TYPE_ID = #{typeId}
+	and status = 2
+	and rownum &lt;=6
+	order by published_at desc
+  </select>
+  
+  <select id="selectAllByArticleType" parameterType="Map" resultMap="ArticleMapper">
+  	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+	LAST_ARTICLE_TYPE_ID in 
+	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    	#{item}
+    </foreach>
 	and status = 2
 	and rownum &lt;=6
 	order by published_at desc
@@ -573,5 +610,40 @@ WHERE
 	WHERE
 	LAST_ARTICLE_TYPE_ID = #{id} and status=2 and rownum &lt;=10
 	order by published_at desc
+  </select>
+  
+  <select id="selectByTimer" parameterType="Map" resultType="Object">
+  	SELECT
+	COUNT (ID)
+FROM
+	t_iss_ps_article
+WHERE
+	published_at between TO_DATE (
+		#{qianDate}, 'yyyy-mm-dd hh24:mi:ss'
+	) and TO_DATE (
+		#{nowTime}, 'yyyy-mm-dd hh24:mi:ss'
+	) 
+AND LAST_ARTICLE_TYPE_ID IN (
+	SELECT
+		ID
+	FROM
+		T_ISS_PS_ARTICLE_TYPE
+	WHERE
+		PARENT_ID = #{id}
+)
+  </select>
+  
+  <select id="selectByTimerByType" parameterType="Map" resultType="Object">
+  	SELECT
+	COUNT (ID)
+FROM
+	t_iss_ps_article
+WHERE
+	published_at between TO_DATE (
+		#{qianDate}, 'yyyy-mm-dd hh24:mi:ss'
+	) and TO_DATE (
+		#{nowTime}, 'yyyy-mm-dd hh24:mi:ss'
+	) 
+AND LAST_ARTICLE_TYPE_ID = #{id}
   </select>
 </mapper>

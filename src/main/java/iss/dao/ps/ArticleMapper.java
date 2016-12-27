@@ -2,6 +2,7 @@ package iss.dao.ps;
 
 import iss.model.ps.Article;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -280,4 +281,31 @@ public interface ArticleMapper {
 	* @return int
 	 */
 	List<Article> selectPics();
+	
+	
+	/**
+	* @Title: selectByTimer
+	* @author Qu Jie 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 每天晚上11点-第二天8点
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	BigDecimal selectByTimer(Map<String, Object> map);
+	
+	/**
+	* @Title: selectByTimer
+	* @author Qu Jie 
+	* @date 2016-12-22 上午9:21:24  
+	* @Description: 每天晚上11点-第二天8点
+	* @param @param article
+	* @param @return      
+	* @return int
+	 */
+	BigDecimal selectByTimerByType(Map<String, Object> map);
+	
+	List<Article> selectAllByParId(Map<String, Object> map);
+	
+	List<Article> selectAllByArticleType(Map<String, Object> map);
 }

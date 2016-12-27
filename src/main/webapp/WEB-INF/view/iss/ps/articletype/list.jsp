@@ -126,7 +126,6 @@
 			    <th class="info" >序号</th>
 				<th class="info" >栏目名</th>
 				<th class="info">栏目介绍</th>
-				<th class="info">创建人</th>
 				<th class="info">栏目编码</th>
 			</tr>
 		</thead>
@@ -145,7 +144,6 @@
 				<c:if test="${length<=20}">
 					<td onclick="view('${articletype.id}')" class="tc pointer ">${articletype.describe } </td>
 				</c:if>	
-				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.creater.relName}</td>
 				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.code}</td>
 			</tr>
 		</c:forEach>

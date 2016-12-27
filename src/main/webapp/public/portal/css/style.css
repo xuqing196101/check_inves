@@ -2068,7 +2068,6 @@ margin-top:0px!important;
 }
 .floor_kind{
 	height:240px;
-	overflow:hidden;
 }
 .floor_kind h2 span{
   background:#ffffff;
@@ -2097,6 +2096,9 @@ a.news_more{
 .floor_kind h2 li a{
   padding: 8px 12px;
 }
+.floor_kind h2 li a b{
+  display: none;
+}
 .floor_kind h2 li.active a{
   color:#555;
   border-top:2px solid #2C9FA6;
@@ -2107,6 +2109,23 @@ a.news_more{
   border-left:1px solid #eee;
   border-right:1px solid #eee;
   line-height:37px;
+  position: relative;
+}
+.floor_kind h2 li.active a b{
+	width:20px;
+	height:20px;
+	border-radius:100%!important;
+	display:block;
+	background-color:#ef0000;
+	color:#ffffff;
+	position: absolute;
+	right:-7px;
+	top:-7px;
+	font-size:6px;
+    line-height: 20px;
+    text-align: center;
+    font-weight: normal;
+    display: block;
 }
 .floor_kind .tab-content .categories{
   padding:0 10px;
