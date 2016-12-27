@@ -217,10 +217,10 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("ERR_content", "信息正文不能为空");
     }
     
-    UploadFile auditDoc = uploadService.findBybusinessId(id,Constant.FORUM_SYS_KEY);
-	if(auditDoc==null){
+    List<UploadFile> auditDoc = uploadService.findBybusinessId(id,Constant.FORUM_SYS_KEY);
+	if(auditDoc.size()<1){
 		flag = false;
-		model.addAttribute("ERR_auditDoc", "请上传文件!");
+		model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
 	}
 
     if(flag==false){
@@ -461,8 +461,8 @@ public class ArticleController extends BaseSupplierController{
       }
     }
     
-    UploadFile auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
-	if(auditDoc==null){
+    List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+	if(auditDoc.size()<1){
         model.addAttribute("article.id", article.getId());
         model.addAttribute("article.name", name);
         Article artc = articleService.selectArticleById(article.getId());
@@ -471,7 +471,7 @@ public class ArticleController extends BaseSupplierController{
         model.addAttribute("article",article);
         List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
         model.addAttribute("list", list);
-        model.addAttribute("ERR_auditDoc", "请上传文件!");
+        model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
         return "iss/ps/article/edit";
 	}
 
@@ -925,8 +925,8 @@ public class ArticleController extends BaseSupplierController{
       }
     }
     
-    UploadFile auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
-	if(auditDoc==null){
+    List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+	if(auditDoc.size()<1){
         model.addAttribute("article.id", article.getId());
         model.addAttribute("article.name", name);
         Article artc = articleService.selectArticleById(article.getId());
@@ -935,7 +935,7 @@ public class ArticleController extends BaseSupplierController{
         model.addAttribute("article",article);
         List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
         model.addAttribute("list", list);
-        model.addAttribute("ERR_auditDoc", "请上传文件!");
+        model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
         return "iss/ps/article/audit/edit";
 	}
 
@@ -1068,8 +1068,8 @@ public class ArticleController extends BaseSupplierController{
       return "iss/ps/article/editor";
     }
     
-    UploadFile auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
-	if(auditDoc==null){
+    List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+	if(auditDoc.size()<1){
         model.addAttribute("article.id", article.getId());
         model.addAttribute("article.name", name);
         Article artc = articleService.selectArticleById(article.getId());
@@ -1078,7 +1078,7 @@ public class ArticleController extends BaseSupplierController{
         model.addAttribute("article",article);
         List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
         model.addAttribute("list", list);
-        model.addAttribute("ERR_auditDoc", "请上传文件!");
+        model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
         return "iss/ps/article/editor";
 	}
     
