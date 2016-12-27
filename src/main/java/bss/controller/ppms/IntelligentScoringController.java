@@ -436,6 +436,36 @@ public class IntelligentScoringController extends BaseController{
 	    return "bss/prms/score/edit_package_qc";
 	}
 	
+	@RequestMapping("/viewModel")
+    public String viewModel(String packageId, Model model, String projectId){    
+        //显示经济技术 和子节点  子节点的子节点就是模型
+        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+        String str ="";
+        for (DictionaryData dictionaryData : ddList) {
+            str += getShowTable(dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
+        }
+        //页面需要显示包
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("id", packageId);
+        List<Packages> packages = packageService.findPackageById(condition);
+        if (packages != null && packages.size() > 0) {
+            model.addAttribute("packages", packages.get(0));
+        }
+        //获取经济技术审查模版
+        HashMap<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
+        //获取资格性和符合性审查模版
+        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+        Project project = projectService.selectById(projectId);
+        model.addAttribute("project", project);
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("ddList", ddList);
+        model.addAttribute("str", str);
+        return "bss/prms/score/edit_package_qc";
+    }
+	
 	public String getTable(String id, String name ,String projectId, String packageId) {
 	    TreeMap<MarkTerm, List<MarkTerm>> map = new TreeMap<MarkTerm, List<MarkTerm>>();
         MarkTerm mt = new MarkTerm();
@@ -765,6 +795,112 @@ public class IntelligentScoringController extends BaseController{
 		}
 		return "redirect:editPackageScore.html?projectId="+scoreModel.getProjectId()+"&packageId="+scoreModel.getPackageId();
 	}
+	
+	public String getShowTable(String id, String name ,String projectId, String packageId) {
+        TreeMap<MarkTerm, List<MarkTerm>> map = new TreeMap<MarkTerm, List<MarkTerm>>();
+        MarkTerm mt = new MarkTerm();
+        mt.setTypeName(id);
+        mt.setProjectId(projectId);
+        mt.setPackageId(packageId);
+        //默认顶级节点为0
+        mt.setPid("0");
+        List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
+        Integer count3 = 0;
+        int judge = 0;
+        for (MarkTerm mtKey : mtList) {
+            MarkTerm mt1 = new MarkTerm();
+            mt1.setPid(mtKey.getId());
+            mt1.setProjectId(projectId);
+            mt1.setPackageId(packageId);
+            List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+            if (mtValue != null && mtValue.size() == 0){
+                count3 += 1;
+            } else {
+                count3 += mtValue.size();
+            }
+            mtKey.setJudge(judge++);
+            map.put(mtKey, mtValue);
+        }
+        StringBuilder sb = new StringBuilder("");
+        Integer count = 0;
+        if (mtList != null && mtList.size() >0) {
+            for (MarkTerm markKey : map.keySet()) {
+                Integer count1 = 0;//游标
+                if (count ==0) {
+                    if (map.get(markKey) != null && map.get(markKey).size() > 0) {
+                        for (MarkTerm markValue : map.get(markKey)) {
+                            if(count1 == 0) {
+                                sb.append("<tr><td class='w100' rowspan=" + count3 +"><span class='fl'>"+ name +"</span></td>");
+                                sb.append("<td class='w150' rowspan="+map.get(markKey).size()+"><span class='fl'>" + markKey.getName() + "</span></td>");
+                                String typeName = getTypeName(markValue.getSmtypename());
+                                sb.append("<td class='tc w150'>" + markValue.getSmname() + "</td>");
+                                sb.append("<td class='tc'>" + typeName + "</td>");
+                                Double sscore = markValue.getScscore() ;
+                                if (sscore == null){
+                                    sscore = 0.0;
+                                }
+                                sb.append("<td>"+ markValue.getName());
+                                sb.append("</td><td>"+sscore+"</td></tr>");
+                            } else {
+                                String typeName = getTypeName(markValue.getSmtypename());
+                                sb.append("<tr><td class='tc w150'>" + markValue.getSmname() + "</td><td class='tc'><span>" + typeName + "</span></td>");
+                                Double sscore = markValue.getScscore();
+                                if (sscore == null){
+                                    sscore = 0.0;
+                                }
+                                sb.append("<td>"+ markValue.getName());
+                                sb.append("</td><td>"+sscore+"</td></tr>");
+                            }
+                            count1++;
+                        }
+                    } else {
+                        sb.append("<tr><td rowspan=" + count3 +"><span class='fl'>"+ name +"</span></td>");
+                        sb.append("<td class='w150'><span class='fl'>" + markKey.getName() + "</span>");
+                        sb.append("</td><td></td><td></td><td></td><td></td></tr>");
+                    }
+                } else {
+                    Integer count2 = 0;
+                    if (map.get(markKey) != null && map.get(markKey).size() > 0) {
+                        for (MarkTerm markValue : map.get(markKey)) {
+                            if (count2 ==0) {
+                                sb.append("<tr><td rowspan="+map.get(markKey).size()+">");
+                                sb.append("<span class='fl'>" + markKey.getName() + "</span></td>");
+                                String typeName = getTypeName(markValue.getSmtypename());
+                                sb.append("<td class='tc w150'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
+                                Double sscore = markValue.getScscore();
+                                if (sscore == null){
+                                    sscore = 0.0;
+                                }
+                                sb.append("<td>"+ markValue.getName());
+                                sb.append("</td><td>"+sscore+"</td></tr>");
+                                
+                            } else {
+                                String typeName = getTypeName(markValue.getSmtypename());
+                                sb.append("<tr><td class='tc w150'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
+                                Double sscore = markValue.getScscore();
+                                if (sscore == null){
+                                    sscore = 0.0;
+                                }
+                                sb.append("<td>"+ markValue.getName());
+                                sb.append("</td><td>"+sscore+"</td></tr>");
+                            }
+                            count2++;
+                        }
+                    } else {
+                        sb.append("<tr><td>");
+                        sb.append("<span class='fl'>" + markKey.getName() + "</span>");
+                        sb.append("</td><td></td><td></td><td></td><td></td></tr>");
+                    }
+                }
+                count++;
+            }
+        } else {
+            sb.append("<tr><td><span class='fl'>"+ name +"</span></td>");
+            sb.append("<td></td><td></td><td></td><td></td><td></td></tr>");
+        }
+        String str = sb.toString();
+        return str;
+    }
 	/**
 	 * 
 	 * @Title: add

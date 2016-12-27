@@ -106,6 +106,9 @@
     function show(packageId, projectId) {
     	window.location.href = "${pageContext.request.contextPath}/intelligentScore/showScoreMethod.html?packageId="+packageId+"&projectId="+projectId;
     }
+    function view(packageId,projectId){
+    	window.open("${pageContext.request.contextPath}/intelligentScore/viewModel.html?packageId="+packageId+"&projectId="+projectId);   
+    }
 </script>
   </head>
   
@@ -234,12 +237,15 @@
 									</c:forEach>
 								</td>
 								 <td class="tc">
-								   <c:if test="${p.isHaveScoreMethod == 1}">
+								   <c:if test="${p.isHaveScoreMethod == 1 and project.confirmFile != 1}">
 								       <!-- <button class="btn" type="button" onclick="editScoreMethod()">修改评分方法</button> -->
 				                       <button class="btn" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
 								   </c:if>
-								   <c:if test="${p.isHaveScoreMethod == 2}">
+								   <c:if test="${p.isHaveScoreMethod == 2 and project.confirmFile != 1}">
 				                       <button class="btn" type="button" onclick="addScoreMethod('${p.id}','${projectId}')">选择评分方法</button>
+								   </c:if>
+								   <c:if test="${project.confirmFile == 1}">
+				                       <button class="btn" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
 								   </c:if>
 				                </td>
 								<%-- <td align="center">

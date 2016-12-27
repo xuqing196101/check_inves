@@ -123,9 +123,6 @@
 			window.location.href = "${pageContext.request.contextPath}/open_bidding/quotetab2.html?projectId=" + projectId;
 		});
 	}
-	 function openNewWindow(){
-	 	window.open("${pageContext.request.contextPath}/open_bidding/openNewWidow.html?projectId=${project.id}");
-	 }; 
 </script>
 </head>
 <body class="announce">
@@ -143,7 +140,6 @@
 	 <div class="tc col-md-12 col-sm-12 col-xs-12">
 	 	<button class="btn hand" onclick="changtotal(this)">唱总价</button>
 	 	<button class="btn hand" onclick="changmingxi(this)">唱明细</button>
-	 	<button id="quanping" class="btn" onclick="openNewWindow()">全屏</button>
 	 </div>
 </div>
 </body>
