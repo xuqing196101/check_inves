@@ -204,9 +204,12 @@
 				$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 			}
 		</script>
+
+		
 	</head>
 
 	<body>
+	 
 		<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
@@ -278,17 +281,19 @@
 								</c:if>
 							</td>
 							<td class="w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td>
+							<td class="tl pl20">
 			    			<c:forEach items="${requires }" var="re" >
 					  			<c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  				</c:forEach>
 			 				</td>
-							<td>${obj.planName }</td>
+							<td><div class="tl pl20">${obj.planName }</div></td>
 							<td></td>
 							<td>
-								<fmt:formatDate value="${obj.createdAt }" />
+							<%-- <div class="left20" ><fmt:formatDate value="${obj.createdAt }"/></div> --%>
+								 <fmt:formatDate value="${obj.createdAt }" /> 
 							</td>
-							<td>
+							<td class="tl pl20">
+							<%-- <div class="left20" fmt:formatDate >${obj.budget }</fmt:formatNumber></div> --%>
 								<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 							</td>
 							<td>

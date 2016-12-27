@@ -134,29 +134,30 @@
 		<div class="headline-v2 fl">
 			<h2>计划明细</h2>
 		</div>
-		<div class="container clear margin-top-30">
+		<div class="container clear margin-top-30" >
             <input class="btn btn-windows reset" value="返回" type="button"
                     onclick="location.href='javascript:history.go(-1);'">
 			<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
+			<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll"></div>
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
-							<th class="info">需求部门</th>
-							<th class="info">物资类别及物种名称</th>
-							<th class="info">规格型号</th>
-							<th class="info">质量技术标准（技术参数）</th>
-							<th class="info">计量单位</th>
-							<th class="info">采购数量</th>
-							<th class="info">单位（元）</th>
-							<th class="info">预算金额（万元）</th>
-							<th class="info">交货期限</th>
-							<th class="info">采购方式建议</th>
-							<th class="info">供应商名称</th>
-							<th class="info">是否申请办理免税</th>
-							<th class="info">物资用途（仅进口）</th>
-							<th class="info">使用单位（仅进口）</th>
-							<th class="info">备注</th>
+							<th class="info w150">需求部门</th>
+							<th class="info w150">物资类别及物种名称</th>
+							<th class="info w150">规格型号</th>
+							<th class="info w150">质量技术标准（技术参数）</th>
+							<th class="info w150">计量单位</th>
+							<th class="info w150">采购数量</th>
+							<th class="info w150">单位（元）</th>
+							<th class="info w150">预算金额（万元）</th>
+							<th class="info w150">交货期限</th>
+							<th class="info w150">采购方式建议</th>
+							<th class="info w150">供应商名称</th>
+							<th class="info w150">是否申请办理免税</th>
+							<th class="info w150">物资用途（仅进口）</th>
+							<th class="info w150">使用单位（仅进口）</th>
+							<th class="info w150">备注</th>
 						</tr>
 					</thead>
 
@@ -171,24 +172,54 @@
 							  	</c:forEach>
 			  	
 							</td>
-							<td>${obj.goodsName }</td>
-							<td class="tc"> ${obj.stand }</td>
-							<td class="tc"> ${obj.qualitStand }</td>
-							<td class="tc"> ${obj.item }</td>
-							<td class="tc">${obj.purchaseCount }</td>
-							<td class="tc">${obj.price }</td>
-							<td class="tc">${obj.budget }</td>
+							<%-- <td>${obj.goodsName }</td> --%>
+							<td title="${obj.goodsName}" class="tl">
+							<c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
+							<c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
+							</td >
+							<%-- <td class="tc"> ${obj.stand }</td> --%>
+							<td title="${obj.stand}" class="tl">
+							<c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
+							<c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
+							</td >
+							<%-- <td class="tc"> ${obj.qualitStand }</td> --%>
+							<td title="${obj.qualitStand}" class="tl">
+							<c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
+							<c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
+							</td >
+							<%-- <td class="tc"> ${obj.item }</td> --%>
+							<td title="${obj.item}" class="tl">
+							<c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
+							<c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
+							</td >
+							<td class="tl">${obj.purchaseCount }</td>
+							<td class="tl">${obj.price }</td>
+							<td class="tl">${obj.budget }</td>
 							<td>${obj.deliverDate }</td>
 							<td> <c:forEach items="${kind}" var="kind" >
                   <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                 </c:forEach></td>
-							<td class="tc">${obj.supplier }</td>
-							<td class="tc">${obj.isFreeTax }</td>
-							<td class="tc">${obj.goodsUse }</td>
-							<td class="tc">${obj.useUnit }</td>
-							<td class="tc">${obj.memo }
-						 
-							</td>
+							<%-- <td class="tc">${obj.supplier }</td> --%>
+							<td title="${obj.supplier}" class="tl">
+							<c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
+							<c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
+							</td >
+							<%-- <td class="tc">${obj.isFreeTax }</td> --%>
+							<td title="${obj.isFreeTax}" class="tl">
+							<c:if test="${fn:length (obj.isFreeTax) > 8}">${fn:substring(obj.isFreeTax,0,7)}...</c:if>
+							<c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
+							</td >
+							<%-- <td class="tc">${obj.goodsUse }</td> --%>
+							<td title="${obj.goodsUse}" class="tl">
+							<c:if test="${fn:length (obj.goodsUse) > 8}">${fn:substring(obj.goodsUse,0,7)}...</c:if>
+							<c:if test="${fn:length(obj.goodsUse) <= 8}">${obj.goodsUse}</c:if>
+							</td > 
+							<td class="tl">${obj.useUnit }</td>
+							 <td title="${obj.memo}" class="tl">
+							<c:if test="${fn:length (obj.memo) > 8}">${fn:substring(obj.memo,0,7)}...</c:if>
+							<c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
+							</td > 
+						   <%-- <td class="tc">${obj.memo }</td> --%> 
 						</tr>
 
 					</c:forEach>

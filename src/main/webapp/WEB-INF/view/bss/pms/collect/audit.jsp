@@ -408,7 +408,7 @@
 									<c:forEach items="${list }" var="obj" varStatus="vs">
 										<tr>
 											<td class="tc w50"><input readonly="readonly" type="text" class="w50" name="list[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-											<td>
+											<td >
 												<c:forEach items="${requires }" var="re">
 								        			<c:if test="${re.id==obj.department }">
 														<input type="hidden"  name="list[${vs.index }].department" value="${obj.id }">

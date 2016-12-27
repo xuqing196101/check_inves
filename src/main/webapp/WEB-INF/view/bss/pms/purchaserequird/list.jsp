@@ -223,11 +223,11 @@
 		       	<form id="param_form" action="${pageContext.request.contextPath }/purchaser/list.html"  method="post" class="mb0">
 		       	<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
-			    	  <li>
+			    	  <%-- <li>
 				    		<label class="fl">需求部门：</label><span>
 				  	  	<input type="text" name="department" value="${inf.department }" />
 				    		</span>
-				      </li>
+				      </li> --%>
 				   		<li>
 				    		<label class="fl">需求计划名称：</label><span>
 				  	   	<input type="text" name="planName" value="${inf.planName }" />
@@ -280,8 +280,7 @@
            <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()">
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">
-			  	${obj.planName }
+			  <td ><div class="tl pl20" onclick="view('${obj.planNo }')">${obj.planName }</div>
 				</td>
 		     <td class="tc" onclick="view('${obj.planNo }')">
 		     ${obj.planNo }
@@ -289,7 +288,7 @@
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  	</c:forEach> --%>
 			  </td>  
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.budget }</td>
+			  <td><div class="tl pl20" onclick="view('${obj.planNo }')">${obj.budget } </div></td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.deliverDate } </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">

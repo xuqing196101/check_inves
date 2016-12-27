@@ -875,3 +875,12 @@ a.redhover:hover{
   display: none;
 }
 
+/* 表单内容靠左20px
+.left20{
+	text-align:left;margin-left: 20px;
+	} 
+表单内容靠左
+.left{
+	text-align:left;
+	}  */
+
