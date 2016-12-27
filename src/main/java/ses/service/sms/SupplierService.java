@@ -171,4 +171,14 @@ public interface SupplierService {
     * @return
     */
    Integer getCountMobile(String mobile);
+   
+   /**
+    * 
+    *〈简述〉根据创建日期获取已提交的供应商信息
+    *〈详细描述〉
+    * @author myc
+    * @param creteDate 创建日期
+    * @return 供应商集合
+    */
+   List<Supplier> getCommintSupplierByDate(String creteDate);
 }

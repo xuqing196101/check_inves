@@ -632,6 +632,17 @@ public class SupplierServiceImpl implements SupplierService {
         
         return supplierMapper.getCountMobile(mobile);
     }
+    
+    /**
+     * 
+     * @see ses.service.sms.SupplierService#getCommintSupplierByDate(java.lang.String)
+     */
+    @Override
+    public List<Supplier> getCommintSupplierByDate(String creteDate) {
+       
+        return supplierMapper.getCommintSupplierList(creteDate);
+    }
 	
+    
 	
 }
