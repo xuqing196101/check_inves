@@ -230,7 +230,7 @@ public class IntelligentScoringController extends BaseController{
 	            bm.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 	            bm.setRemainScore(bidMethod.getRemainScore());
 	            bm.setRemark(bidMethod.getRemark());
-	            bm.setPackageId(packageId);
+	            //bm.setPackageId(packageId);
 	            bidMethodService.save(bm);
 	           
 	            for (MarkTerm markTerm : mtList) {
