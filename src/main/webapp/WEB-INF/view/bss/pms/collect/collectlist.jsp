@@ -403,16 +403,16 @@
 			   <input type="hidden"  value="${obj.department }">
 			  </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc">
+			  <td class="tl pl20">
 			    <c:forEach items="${requires }" var="re" >
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  	</c:forEach>
 			 	</td>
 			    
 			    
-			  <td class="tc"  >${obj.planName }</td>
+			  <td class="tl pl20"  >${obj.planName }</td>
 			
-			  <td class="tc"  >
+			  <td class="tl pl20"  >
 			   <c:forEach items="${dic }" var="dic">
 				   <c:if test="${obj.planType==dic.id}">
 				   ${dic.name }
@@ -421,7 +421,7 @@
 			  
 			  </td>
 			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tl pl20"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
 	<%-- 		 <c:if test="${obj.status=='1' }">
 			 	 已编制为采购计划

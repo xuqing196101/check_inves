@@ -158,10 +158,10 @@
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  
-			  <td class="tc"  >${obj.fileName }</td>
+			  <td class="tl pl20"  >${obj.fileName }</td>
 			
 			
-			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tl pl20"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc"  >
 			  <c:if test="${obj.status=='1' }">

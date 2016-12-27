@@ -173,7 +173,7 @@
 					<tr>
 					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${p.id}" /></td>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-					  <td class="tc" >
+					  <td class="tl" >
 							<c:forEach items="${dic }" var="obj">
 				    		<c:if test="${obj.id==p.dictioanryId }">
 				    		 ${obj.name }

@@ -253,8 +253,8 @@
 			<tr style="cursor: pointer;">
 			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${vs.index}</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.planName }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.budget }</td>
+			  <td class="tl pl20" onclick="view('${obj.planNo }')">${obj.planName }</td>
+			  <td class="tl pl20" onclick="view('${obj.planNo }')">${obj.budget }</td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
 			  <c:if test="${obj.status=='1' }">
