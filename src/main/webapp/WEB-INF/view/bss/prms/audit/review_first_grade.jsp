@@ -127,11 +127,22 @@ $(document).ready(function() {
 		}
 		
 	}
-	
+	function zancun(){
+		var expertId = "${expertId}";
+		var packageId = "${packageId}";
+		var projectId = "${projectId}";
+		$.ajax({
+			url: "${pageContext.request.contextPath}/reviewFirstAudit/zanCun.do",
+			data: {"expertId": expertId, "packageId": packageId, "projectId": projectId},
+			success: function(){
+				layer.msg("已暂存!",{offset: ['300px', '750px']});
+			}
+		});
+	}
   </script>
   </head>
   
-<body>
+<body style="font-size: x-large">
   <div class="dnone">
   	<form  id="score_form">
   	  <input type="hidden" name="supplierIds" id="supplierIds">
@@ -164,31 +175,27 @@ $(document).ready(function() {
 	   	  <div style="overflow:scroll;">
 	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
-			    <th  colspan="2"></th>
+			    <th colspan="2"></th>
 			    <c:forEach items="${supplierList}" var="supplier">
 			      <th colspan="2">${supplier.suppliers.supplierName}</th>
 			    </c:forEach>
 			  </tr>
 			  <tr>
-			   	  	  <th>计分模型</th>
+			   	  	  <th>评审项目</th>
+			   	      <th>评审指标</th>
+			   	      <th>指标模型</th>
 			   	      <th>标准分值</th>
 			   	  	  <c:forEach items="${supplierList}" var="supplier">
 			        	<th>评委填写</th>
      		        	<th>评审得分</th>
 	    		  	  </c:forEach>
 			   		</tr>
-			  <c:forEach items="${markTermTypeList}" var="type">
-			    <tr>
-			      <td class="info" colspan="${length}">${type.name}</td>
-			    </tr>
 			    <c:forEach items="${markTermList}" var="markTerm">
-			      <c:if test="${markTerm.typeName eq type.id}">
-			        <tr>
-			          <td class="info" colspan="${length}">${markTerm.name}</td>
-			        </tr>
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
+			    	      <td class="tc w100" rowspan="${markTerm.count}" <c:if test="${markTerm.count eq '0'}">style="display: none"</c:if> >${markTerm.name}</td>
+			    	      <td class="tc">${score.name}</td>
 			 	  		  <td class="tc">
 			 	    	    <c:if test="${score.typeName == 0}"><a href="javascript:void();" title="${score.reviewContent}">模型1:是否判断</a></c:if>
 			 	            <c:if test="${score.typeName == 1}"><a href="javascript:void();" title="${score.reviewContent}">模型2:按项加减分</a></c:if>
@@ -247,9 +254,7 @@ $(document).ready(function() {
 					    </tr> 
 					  </c:if>
 			        </c:forEach>
-			      </c:if>
 			    </c:forEach>
-			  </c:forEach>
 			  <!-- 之前的代码
 			  <thead>
 			    <tr>
@@ -328,6 +333,7 @@ $(document).ready(function() {
 			</table>
 			<div class="tc">
 			  <input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
+			  <input type="button" onclick="zancun();"  value="暂存" class="btn btn-windows save">
 			  <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/><br/><br/>
 		    </div>
 		  </div>

@@ -47,6 +47,8 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
 	//scoremodel的id
 	private String smId;
 	
+	private Integer count;
+	
 	public String getSmId() {
         return smId;
     }
@@ -240,6 +242,12 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
                           flag = true;
             }
             return flag;          
-     }    
+     }
+    public Integer getCount() {
+        return count;
+    }
+    public void setCount(Integer count) {
+        this.count = count;
+    }    
 	
 }

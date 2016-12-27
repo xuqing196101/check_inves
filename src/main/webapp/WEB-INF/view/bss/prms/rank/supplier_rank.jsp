@@ -52,7 +52,8 @@
               <c:forEach items="${expertList}" var="expert">
                 <c:if test="${expert.packageId eq pack.id}">
                   <tr>
-                    <td class="tc">${expert.projectId}</td>
+                  	<td class="tc w100" rowspan="${expert.count}" <c:if test="${expert.count eq '0' or expert.count == 0}">style="display: none"</c:if> >${expert.reviewTypeId}</td>
+                    <td class="tc">${expert.expert.relName}</td>
                     <c:forEach items="${supplierList}" var="supplier">
                   	  <c:if test="${supplier.packages eq pack.id}">
 	                    <td class="tc">

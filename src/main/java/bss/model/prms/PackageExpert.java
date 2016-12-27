@@ -26,9 +26,11 @@ public class PackageExpert implements Serializable{
     //评分是否汇总（结束）0否1是
     private Short isGatherGather;
     //评审类型id 
-    private String reviewTypeTd;
+    private String reviewTypeId;
     //专家实体
     private Expert expert;
+    //数量
+    private Integer count;
     
     
 
@@ -110,18 +112,20 @@ public class PackageExpert implements Serializable{
         this.expert = expert;
     }
 
-    /**
-     * @return Returns the reviewTypeTd.
-     */
-    public String getReviewTypeTd() {
-        return reviewTypeTd;
+    public Integer getCount() {
+        return count;
     }
 
-    /**
-     * @param reviewTypeTd The reviewTypeTd to set.
-     */
-    public void setReviewTypeTd(String reviewTypeTd) {
-        this.reviewTypeTd = reviewTypeTd;
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public String getReviewTypeId() {
+        return reviewTypeId;
+    }
+
+    public void setReviewTypeId(String reviewTypeId) {
+        this.reviewTypeId = reviewTypeId;
     }
     
     

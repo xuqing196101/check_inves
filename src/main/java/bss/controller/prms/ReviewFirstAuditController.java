@@ -248,13 +248,25 @@ public class ReviewFirstAuditController {
 		// 专家可以打分的类型
 		List<DictionaryData> markTermTypeList = new ArrayList<DictionaryData>();
 		map.put("expertId", expertId);
-		String typeId = packageExpertService.selectList(map).get(0).getReviewTypeTd();
+		String typeId = packageExpertService.selectList(map).get(0).getReviewTypeId();
 		markTermTypeList.add(dictionaryDataServiceI.getDictionaryData(typeId));
+		
 		model.addAttribute("markTermTypeList", markTermTypeList);
+		// 查询所有的ScoreModel
+        ScoreModel scoreModel = new ScoreModel();
+        scoreModel.setPackageId(packageId);
+        scoreModel.setProjectId(projectId);
+        List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+        for (ScoreModel score : scoreModelList) {
+            if (score.getStandardScore() == null || "".equals(score.getStandardScore())) {
+                score.setStandardScore(score.getMaxScore());
+            }
+        }
+        model.addAttribute("scoreModelList", scoreModelList);
+		// 查出该包内所有的markTerm
 		MarkTerm markTerm = new MarkTerm();
 		markTerm.setProjectId(projectId);
 		markTerm.setPackageId(packageId);
-		// 查出该包内所有的markTerm
 		List<MarkTerm> allMarkTerm = markTermService.findListByMarkTerm(markTerm);
 		// 遍历去除pid is not null 的
 		List<MarkTerm> markTermList = new ArrayList<MarkTerm>();
@@ -263,33 +275,30 @@ public class ReviewFirstAuditController {
                 markTermList.add(mark);
             }
         }
-		model.addAttribute("markTermList", markTermList);
-		// 计算父节点的子节点个数
-		/*List<Map<String, Object>> childCount = new ArrayList<Map<String, Object>>();
-		for (MarkTerm mark : markTermList) {
+		int sumCount = scoreModelList.size();
+		// 查询父节点的子节点个数
+		for (int i = 0; i < markTermList.size(); i++) {
 		    int count = 0;
-		    for (MarkTerm allMark : allMarkTerm) {
-		        if (mark.getId().equals(allMark.getPid())) {
+		    for (ScoreModel score : scoreModelList) {
+		        if (markTermList.get(i).getId().equals(score.getMarkTerm().getPid())) {
 		            count++;
 		        }
 		    }
-		    HashMap<String, Object> tempMap = new HashMap<String, Object>();
-		    tempMap.put("id", mark.getId());
-		    tempMap.put("count", count);
-		    childCount.add(tempMap);
-        }
-		model.addAttribute("childCount", childCount);*/
-		// 查询所有的ScoreModel
-		ScoreModel scoreModel = new ScoreModel();
-		scoreModel.setPackageId(packageId);
-		scoreModel.setProjectId(projectId);
-		List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
-		for (ScoreModel score : scoreModelList) {
-            if (score.getStandardScore() == null || "".equals(score.getStandardScore())) {
-                score.setStandardScore(score.getMaxScore());
+		    // 设置指定父节点的rowspan
+		    if (count == 0 && i == 0) {
+		        markTermList.get(i).setCount(sumCount);
+            } else if (count == sumCount && i == 0) {
+                markTermList.get(i).setCount(sumCount);
+            } else if (count < sumCount && count > 0) {
+                if (i == 0) {
+                    markTermList.get(i).setCount(count);
+                } else if (i == count) {
+                    markTermList.get(i).setCount(sumCount - count);
+                }
+                
             }
-        }
-		model.addAttribute("scoreModelList", scoreModelList);
+		}
+		model.addAttribute("markTermList", markTermList);
 		//查询供应商信息
 		SaleTender record = new SaleTender();
 		record.setPackages(packageId);
@@ -305,7 +314,7 @@ public class ReviewFirstAuditController {
 		model.addAttribute("project", project);
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("packageId", packageId);
-		model.addAttribute("length", supplierList.size() * 2 + 3);
+		model.addAttribute("length", supplierList.size() * 2 + 4);
 		return "bss/prms/audit/review_first_grade";
 	}
 	/**
@@ -567,5 +576,21 @@ public class ReviewFirstAuditController {
 	        }
 	    }
 	    return isShowView;
+	}
+	
+	/**
+	 *〈简述〉
+	 * 专家后台经济技术评审页面的暂存功能
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param expertId
+	 * @param packageId
+	 * @param projectId
+	 */
+	@ResponseBody
+	@RequestMapping("/zanCun")
+	public void zanCun (PackageExpert record) {
+	    record.setIsGrade((short) 2);
+	    packageExpertService.updateByBean(record);
 	}
 }
