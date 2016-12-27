@@ -479,7 +479,8 @@
 	FROM
 		T_ISS_PS_ARTICLE
 	where
-		rownum &lt;=6
+		LAST_ARTICLE_TYPE_ID = 111
+		and rownum &lt;=6
 	ORDER BY
 		PUBLISHED_AT DESC 
   </select>

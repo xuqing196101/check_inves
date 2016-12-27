@@ -341,21 +341,24 @@ public class IndexNewsController extends BaseSupplierController{
 		indexMapper.put("faguiList", faguiList);
 		map.clear();
 		List<Article> picList = articleService.selectPics();
-		List<Article> indexPics = new ArrayList<Article>();
-		for(Article article : picList){
-			DictionaryData dd=new DictionaryData();
-			dd.setCode("POST_ATTACHMENT");
-			List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-			String sysKey = Constant.FORUM_SYS_KEY.toString();
-			String attachTypeId=null;
-			if(lists.size()>0){
-				attachTypeId = lists.get(0).getId();
+		List<Article> indexPics = null;
+		if(picList.size()>0){
+			indexPics = new ArrayList<Article>();
+			for(Article article : picList){
+				DictionaryData dd=new DictionaryData();
+				dd.setCode("POST_ATTACHMENT");
+				List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+				String sysKey = Constant.FORUM_SYS_KEY.toString();
+				String attachTypeId=null;
+				if(lists.size()>0){
+					attachTypeId = lists.get(0).getId();
+				}
+				List<UploadFile> uploadList = uploadService.getFilesOther(article.getId(), attachTypeId, sysKey);
+				if(uploadList.size()>0){
+					article.setPic(uploadList.get(0).getPath());
+				}
+				indexPics.add(article);
 			}
-			List<UploadFile> uploadList = uploadService.getFilesOther(article.getId(), attachTypeId, sysKey);
-			if(uploadList.size()>0){
-				article.setPic(uploadList.get(0).getPath());
-			}
-			indexPics.add(article);
 		}
 		indexMapper.put("picList", indexPics);
 		ArticleType articlejcw = articleTypeService.selectTypeByPrimaryKey("3");
@@ -449,7 +452,11 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("parId",id);
 		map.put("page", page);
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
-		List<Article> articleList = articleService.selectArticleByParIdTwo(map);
+		List<Article> articleList = null;
+		List<Article> twoArticleList = articleService.selectArticleByParIdTwo(map);
+		if(twoArticleList.size()>0){
+			articleList = twoArticleList;
+		}
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
 		return "iss/ps/index/parindex_two";
@@ -479,7 +486,11 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("idArray",idArray);
 		map.put("page", page);
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
-		List<Article> articleList = articleService.selectsumByParId(map);
+		List<Article> articleList = null;
+		List<Article> twoArticleList = articleService.selectsumByParId(map);
+		if(twoArticleList.size()>0){
+			articleList = twoArticleList;
+		}
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
 		return "iss/ps/index/parindex_two";
@@ -509,7 +520,11 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("twoid", twoid);
 		map.put("page", page);
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
-		List<Article> articleList = articleService.selectsumBynews(map);
+		List<Article> articleList = null;
+		List<Article> twoArticleList = articleService.selectsumBynews(map);
+		if(twoArticleList.size()>0){
+			articleList = twoArticleList;
+		}
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
 		return "iss/ps/index/parindex_two";
@@ -539,7 +554,11 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("twoid", twoid);
 		map.put("page", page);
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
-		List<Article> articleList = articleService.selectsumBydanNews(map);
+		List<Article> articleList = null;
+		List<Article> twoArticleList = articleService.selectsumBydanNews(map);
+		if(twoArticleList.size()>0){
+			articleList = twoArticleList;
+		}
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
 		return "iss/ps/index/parindex_two";

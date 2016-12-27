@@ -44,7 +44,7 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 	public void addIndex(Article article) {
 		try {
 			IndexEntity indexEntity = new IndexEntity();
-			indexEntity.setArticlename(article.getArticleType().getName());
+			indexEntity.setArticlename(article.getLastArticleType().getName());
 			indexEntity.setId(article.getId());
 			indexEntity.setPublishtime(article.getPublishedAt());
 			indexEntity.setTitle(article.getName());
