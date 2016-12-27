@@ -7,14 +7,15 @@
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="EXPERT_CONDITION_ID" jdbcType="VARCHAR"
 			property="expertConditionId" />
-		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
 		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
 		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
 		<result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
+		<result column="REVIEW_TYPE" jdbcType="DECIMAL" property="reviewType" />
 		<!-- 专家 -->
 		<association column="EXPERT_ID" property="expert"
 			select="ses.dao.ems.ExpertMapper.selectByPrimaryKey" />
@@ -24,7 +25,7 @@
 		ID, PROJECT_ID, EXPERT_CONDITION_ID, EXPERT_ID, CREATED_AT,
 		UPDATED_AT, OPERATING_TYPE,
 		REASON, IS_DELETED,
-		CON_TYPE_ID,STATUS_COUNT,IS_PROVISIONAL
+		CON_TYPE_ID,STATUS_COUNT,IS_PROVISIONAL,REVIEW_TYPE
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -46,14 +47,14 @@
 		EXPERT_ID, CREATED_AT, UPDATED_AT,
 		OPERATING_TYPE,
 		REASON, IS_DELETED,
-		CON_TYPE_ID,STATUS_COUNT,IS_PROVISIONAL)
+		CON_TYPE_ID,STATUS_COUNT,IS_PROVISIONAL,REVIEW_TYPE)
 		values
 		(#{id,jdbcType=VARCHAR},
 		#{projectId,jdbcType=VARCHAR},
 		#{expertConditionId,jdbcType=VARCHAR},
 		#{expertId,jdbcType=VARCHAR},
-		#{createdAt,jdbcType=TIMESTAMP},
-		#{updatedAt,jdbcType=TIMESTAMP},
+		#{createdAt,jdbcType=DATE},
+		#{updatedAt,jdbcType=DATE},
 		#{operatingType,jdbcType=DECIMAL},
 		#{reason,jdbcType=VARCHAR},
 		#{isDeleted,jdbcType=DECIMAL},
@@ -100,6 +101,9 @@
 			<if test="isProvisional != null">
 				IS_PROVISIONAL,
 			</if>
+			<if test="reviewType != null">
+	  		REVIEW_TYPE,
+			</if>
 
 
 		</trim>
@@ -117,10 +121,10 @@
 				#{expertId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=TIMESTAMP},
+				#{createdAt,jdbcType=DATE},
 			</if>
 			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=TIMESTAMP},
+				#{updatedAt,jdbcType=DATE},
 			</if>
 			<if test="operatingType != null">
 				#{operatingType,jdbcType=DECIMAL},
@@ -140,6 +144,10 @@
 			<if test="isProvisional != null">
 				#{isProvisional,jdbcType=DECIMAL}
 			</if>
+			 <if test="reviewType != null">
+        #{reviewType,jdbcType=VARCHAR}
+      </if>
+			
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ProjectExtract">
@@ -157,10 +165,10 @@
 				EXPERT_ID = #{expertId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+				CREATED_AT = #{createdAt,jdbcType=DATE},
 			</if>
 			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+				UPDATED_AT = #{updatedAt,jdbcType=DATE},
 			</if>
 			<if test="operatingType != null">
 				OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
@@ -180,6 +188,9 @@
 			<if test="isProvisional != null">
 				IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
 			</if>
+			<if test="reviewType != null">
+        REVIEW_TYPE = #{reviewType,jdbcType=DECIMAL},
+      </if>
 
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
@@ -193,8 +204,8 @@
 		#{expertConditionId,jdbcType=VARCHAR},
 		EXPERT_ID =
 		#{expertId,jdbcType=VARCHAR},
-		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+		CREATED_AT = #{createdAt,jdbcType=DATE},
+		UPDATED_AT = #{updatedAt,jdbcType=DATE},
 		OPERATING_TYPE =
 		#{operatingType,jdbcType=DECIMAL},
 		REASON = #{reason,jdbcType=VARCHAR},
@@ -224,6 +235,9 @@
 		<if test="expertId != null and expertId != '' ">
 			AND pe.EXPERT_ID = #{expertId}
 		</if>
+		<if test="reviewType != null and reviewType != '' ">
+      AND pe.REVIEW_TYPE = #{reviewType}
+    </if>
 		<if test="reason != null and reason != ''">
 			AND pe.OPERATING_TYPE in (${reason})
 		</if>

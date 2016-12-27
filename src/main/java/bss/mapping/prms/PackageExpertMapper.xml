@@ -10,12 +10,14 @@
 		<result column="IS_GATHER" jdbcType="DECIMAL" property="isGather" />
 		<result column="IS_GRADE" jdbcType="DECIMAL" property="isGrade" />
 		<result column="IS_GRADE_GATHER" jdbcType="DECIMAL" property="isGatherGather" />
+		    <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
+		<result column="REVIEW_TYPE_ID" jdbcType="VARCHAR" property="reviewTypeTd" />
 		<association property="expert" column="EXPERT_ID"
 			select="ses.dao.ems.ExpertMapper.selectByPrimaryKey"></association>
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		PACKAGE_ID,EXPERT_ID,PROJECT_ID,IS_GROUP_LEADER,IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER
+		PACKAGE_ID,EXPERT_ID,PROJECT_ID,IS_GROUP_LEADER,IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER,REVIEW_TYPE_ID
 	</sql>
 	<!-- 根据项目id和包id 以及查询关联表集合 -->
 	<select id="selectList" resultMap="BaseResultMap">
@@ -81,6 +83,9 @@
 			<if test="isGatherGather != null">
 				IS_GRADE_GATHER = #{isGatherGather,jdbcType=DECIMAL},
 			</if>
+			 <if test="isGatherGather != null">
+        REVIEW_TYPE_TD = #{reviewTypeTd,jdbcType=DECIMAL},
+      </if>
 		</set>
 		where 1=1
 		<if test="packageId != null and packageId !=''">
@@ -97,11 +102,11 @@
 
 	<insert id="insert" parameterType="bss.model.prms.PackageExpert">
 		insert into T_BSS_PRMS_PACKAGE_EXPERT (PACKAGE_ID, EXPERT_ID, PROJECT_ID,
-		IS_GROUP_LEADER, IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER)
+		IS_GROUP_LEADER, IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER,REVIEW_TYPE_TD)
 		values (#{packageId,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR},
 		#{projectId,jdbcType=VARCHAR},
 		#{isGroupLeader,jdbcType=DECIMAL}, #{isAudit,jdbcType=DECIMAL},#{isGather,jdbcType=DECIMAL},
-		#{isGrade,jdbcType=DECIMAL}, #{isGatherGather,jdbcType=DECIMAL})
+		#{isGrade,jdbcType=DECIMAL}, #{isGatherGather,jdbcType=DECIMAL},#{reviewTypeTd,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.prms.PackageExpert">
 		insert into T_BSS_PRMS_PACKAGE_EXPERT
@@ -130,6 +135,9 @@
 			<if test="IS_GRADE_GATHER != null">
 				IS_GRADE_GATHER,
 			</if>
+			 <if test="reviewTypeTd != null">
+        REVIEW_TYPE_TD,
+      </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="packageId != null">
@@ -154,8 +162,11 @@
 				#{isGrade,jdbcType=DECIMAL},
 			</if>
 			<if test="isGatherGather != null">
-				#{isGatherGather,jdbcType=DECIMAL}
+				#{isGatherGather,jdbcType=DECIMAL},
 			</if>
+			 <if test="reviewTypeTd != null">
+			   #{reviewTypeTd,jdbcType=VARCHAR},
+      </if>
 		</trim>
 	</insert>
 	<select id="findMarkTypeByProId" resultType="java.util.HashMap">

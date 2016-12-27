@@ -13,15 +13,22 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bss.model.ppms.Packages;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectService;
+
 import com.github.pagehelper.PageHelper;
+import com.sun.tracing.dtrace.Attributes;
 
 import ses.dao.ems.ExpExtConditionMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ProjectExtractMapper;
+import ses.model.bms.Area;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
 import ses.model.ems.ProjectExtract;
+import ses.service.bms.AreaServiceI;
 import ses.service.ems.ExpExtConditionService;
 
 /**
@@ -45,7 +52,12 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
     ExpertMapper expertMapper;
     @Autowired
     ProjectExtractMapper extractMapper;
-
+    @Autowired
+    PackageService packageService;
+    @Autowired
+    ProjectService projectService;
+    @Autowired
+    AreaServiceI areaService;
     /**
      * @Description:添加
      *
@@ -69,12 +81,19 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
      */
     public void update(ExpExtCondition condition){
         ExpExtCondition cond=new ExpExtCondition();
-        cond.setProjectId(condition.getProjectId());
-        cond.setStatus((short)1);
-        List<ExpExtCondition> list = conditionMapper.list(cond);
-        if(list != null && list.size() != 0){
-            for (ExpExtCondition expExtCondition : list) {
-                conditionMapper.deleteInfo(expExtCondition.getId());
+        //循环多包插入条件 
+        if (condition.getProjectId() != null && condition.getProjectId().length() > 0){
+            String[] split = condition.getProjectId().split(",");
+            for (String proid : split) {
+                cond.setProjectId(proid);
+                cond.setStatus((short)1);
+                List<ExpExtCondition> list = conditionMapper.list(cond);
+                if(list != null && list.size() != 0){
+                    for (ExpExtCondition expExtCondition : list) {
+                        conditionMapper.deleteInfo(expExtCondition.getId());
+                    }
+                }
+
             }
         }
         conditionMapper.updateByPrimaryKeySelective(condition);
@@ -120,8 +139,21 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
      * @return
      */
     @Override
-    public Integer getCount(String packId) {
-        return conditionMapper.getCount(packId);
+    public String getCount(String[] packId) {
+        String packageId = "";
+        Packages pack = new Packages();
+        pack.setId(packId[0]);
+        List<Packages> find = packageService.find(pack);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId",find.get(0).getProjectId());
+        List<Packages> findPackageById = packageService.findPackageById(map);
+        for (Packages packages : findPackageById) {
+            Integer count = conditionMapper.getCount(packages.getId());
+            if(count > 0 ){
+                packageId += packages.getId()+ ",";
+            }
+        }
+        return packageId;
     }
 
     /**
@@ -153,7 +185,7 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
      * @see ses.service.ems.ExpExtConditionService#selectLikeExpert(ses.model.ems.ExpExtCondition, ses.model.ems.ExtConType)
      */
     @Override
-    public Integer selectLikeExpert(ExpExtCondition condition, ExtConType conType) {
+    public Integer selectLikeExpert(ExpExtCondition condition, ExtConType conType,String province) {
         Integer count = 0;
         //查询专家集合
         List<ExtConType> conTypes = new ArrayList<ExtConType>();
@@ -165,6 +197,17 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
         }
         conTypes.add(conType);
         condition.setConTypes(conTypes);
+        if(condition.getAddress() == null  || condition.getAddress() == "" ){
+            if(province != null && !"".equals(province)){
+                List<Area> findAreaByParentId = areaService.findAreaByParentId(province);
+                Integer size = findAreaByParentId.size();
+                String[] address = new String[size];
+                for (int i = 0; i < size; i++ ) {
+                    address[i] = findAreaByParentId.get(i).getId();
+                }
+                condition.setAddressSplit(address);
+            }
+        }
         List<Expert> selectAllExpert = expertMapper.listExtractionExpert(condition);
         //循环吧查询出的专家集合insert到专家记录表和专家关联的表中
         for (Expert expert2 : selectAllExpert) {

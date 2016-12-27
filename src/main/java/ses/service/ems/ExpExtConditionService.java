@@ -69,7 +69,7 @@ public interface ExpExtConditionService {
      * @param id
      * @return
      */
-    Integer getCount(String packId);
+    String getCount(String[] packId);
     
     /**
      * 
@@ -100,6 +100,6 @@ public interface ExpExtConditionService {
      * @param conType
      * @return
      */
-    public Integer selectLikeExpert(ExpExtCondition condition, ExtConType conType);
+    public Integer selectLikeExpert(ExpExtCondition condition, ExtConType conType,String province);
     
 }

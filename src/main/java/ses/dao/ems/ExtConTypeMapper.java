@@ -1,5 +1,7 @@
 package ses.dao.ems;
 
+import java.util.Map;
+
 import ses.model.ems.ExtConType;
 
 public interface ExtConTypeMapper {
@@ -53,4 +55,13 @@ public interface ExtConTypeMapper {
      * @return int
      */
     int deleteConditionId(String id);
+    
+    /**
+     * 根据供应商类型返回抽取数量
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    Integer getExpertTypeById(Map<String, String> map);
 }

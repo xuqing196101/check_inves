@@ -1,7 +1,8 @@
 package ses.model.ems;
 
 import java.util.Date;
-import java.util.List;
+
+import ses.model.bms.DictionaryData;
 
 public class ExtConType {
     /**
@@ -78,6 +79,8 @@ public class ExtConType {
      * 表字段 : T_SES_EMS_EXP_EXT_CON_TYPE.IS_MULTICONDITION
      * </pre>
      */
+    private DictionaryData expertsType ; 
+    
     private Short isMulticondition;
   
     private String[] categorySplit;
@@ -378,6 +381,20 @@ public class ExtConType {
      */
     public void setExpertsTypeSplit(String[] expertsTypeSplit) {
         this.expertsTypeSplit = expertsTypeSplit;
+    }
+
+    /**
+     * @return Returns the expertsType.
+     */
+    public DictionaryData getExpertsType() {
+        return expertsType;
+    }
+
+    /**
+     * @param expertsType The expertsType to set.
+     */
+    public void setExpertsType(DictionaryData expertsType) {
+        this.expertsType = expertsType;
     }
 
     

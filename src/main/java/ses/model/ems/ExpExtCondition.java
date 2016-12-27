@@ -1,5 +1,6 @@
 package ses.model.ems;
 
+import java.awt.geom.Area;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +47,8 @@ public class ExpExtCondition implements Cloneable {
     private String[]  expertsFromSplit;
 
     private List<ExtConType> conTypes;
+    
+    private String[]  addressSplit;
 
     /**
      * 专家抽取
@@ -179,6 +182,9 @@ public class ExpExtCondition implements Cloneable {
      * </pre>
      */
     private String extractAddress;
+    
+    
+    private String addressReason;
 
     /**
      * <pre>
@@ -653,6 +659,42 @@ public class ExpExtCondition implements Cloneable {
      */
     public void setExpertsFromSplit(String[] expertsFromSplit) {
         this.expertsFromSplit = expertsFromSplit;
+    }
+
+
+
+    /**
+     * @return Returns the addressReason.
+     */
+    public String getAddressReason() {
+        return addressReason;
+    }
+
+
+
+    /**
+     * @param addressReason The addressReason to set.
+     */
+    public void setAddressReason(String addressReason) {
+        this.addressReason = addressReason;
+    }
+
+
+
+    /**
+     * @return Returns the addressSplit.
+     */
+    public String[] getAddressSplit() {
+        return addressSplit;
+    }
+
+
+
+    /**
+     * @param addressSplit The addressSplit to set.
+     */
+    public void setAddressSplit(String[] addressSplit) {
+        this.addressSplit = addressSplit;
     }
 
 

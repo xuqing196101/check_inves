@@ -154,7 +154,7 @@ public class ExpExtractRecordController extends BaseController {
 
     @Autowired
     ExpertAuditService expertAuditService;
-    
+
     @Autowired
     ExpertService  expertServices;
 
@@ -237,9 +237,6 @@ public class ExpExtractRecordController extends BaseController {
             //根据包获取抽取出的专家
             List<Packages> listResultExpert = packagesService.listResultExpert(projectId);
             model.addAttribute("listResultExpert", listResultExpert);
-
-
-
             //专家抽取记录
             ExpExtractRecord record = new ExpExtractRecord();
             record.setProjectId(projectId);
@@ -336,19 +333,20 @@ public class ExpExtractRecordController extends BaseController {
 
         //获取查询条件类型
         ExpExtCondition condition=new ExpExtCondition();
-        condition.setProjectId(packageId[0]);
+        
+        condition.setProjectId(packageId[packageId.length-1]);
         condition.setStatus((short)1);
-
         List<ExpExtCondition> listCon = conditionService.list(condition,0);
         if (listCon != null && listCon.size() !=0 ){
+            //条件
             model.addAttribute("listCon", listCon.get(0));
             //所在地区回显
-            if (listCon.get(0).getAddress() != null && listCon.get(0).getAddress() != null ){
-                Area area = areaService.listById(listCon.get(0).getAddress());
-                List<Area> city = areaService.findAreaByParentId(area.getParentId());
-                model.addAttribute("city", city);
-                model.addAttribute("area", area);
-            }
+            //                if (listCon.get(0).getAddress() != null && listCon.get(0).getAddress() != null ){
+            //                    Area area = areaService.listById(listCon.get(0).getAddress());
+            //                    List<Area> city = areaService.findAreaByParentId(area.getParentId());
+            //                    model.addAttribute("city", city);
+            //                    model.addAttribute("area", area);
+            //                }
 
             Map<String, Integer> mapcount = new HashMap<String, Integer>();
             List<ProjectExtract> list = extractService.list(new ProjectExtract(listCon.get(0).getId()));
@@ -373,8 +371,13 @@ public class ExpExtractRecordController extends BaseController {
             }
             //获取查询条件类型
             List<ExtConType> conTypes = listCon.get(0).getConTypes();
-            for (ExtConType extConType : conTypes) {
-                extConType.setAlreadyCount(mapcount.get(extConType.getId()) == null ? 0 : mapcount.get(extConType.getId()));
+            for (ExtConType extConType1 : conTypes) {
+                //获取抽取的专家类别
+                ProjectExtract projectExtrac = new ProjectExtract();
+                projectExtrac.setReviewType(extConType1.getExpertsTypeId());
+                projectExtrac.setExpertConditionId(listCon.get(0).getId());
+                List<ProjectExtract> list2 = extractService.list(projectExtrac);
+                extConType1.setAlreadyCount(list2 == null ? 0 : list2.size());
             }
             model.addAttribute("extConType", conTypes);
 
@@ -394,7 +397,6 @@ public class ExpExtractRecordController extends BaseController {
                 conTypeService.delete(listCon.get(0).getConTypes().get(0).getId());
             }
         }
-
         return "ses/ems/exam/expert/extract/add_condition";
     }
 
@@ -414,7 +416,7 @@ public class ExpExtractRecordController extends BaseController {
     @SuppressWarnings("unused")
     @ResponseBody
     @RequestMapping("/validateAddExtraction")
-    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest rq){
+    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest rq,String[] packageId){
         Map<String, String> map = new HashMap<String, String>();
         //后台数据校验
         int count=0;
@@ -433,14 +435,14 @@ public class ExpExtractRecordController extends BaseController {
             map.put("supervise", "不能为空");
             count = 1;
         }
-//        //时
-//        String hour = rq.getParameter("hour");
-//        //分
-//        String minute = rq.getParameter("minute");
-//        if (hour == null || "".equals(hour) || minute == null || "".equals(minute)){
-//            map.put("responseTimeError", "不能为空");
-//            count = 1;
-//        }
+        //        //时
+        //        String hour = rq.getParameter("hour");
+        //        //分
+        //        String minute = rq.getParameter("minute");
+        //        if (hour == null || "".equals(hour) || minute == null || "".equals(minute)){
+        //            map.put("responseTimeError", "不能为空");
+        //            count = 1;
+        //        }
         //        String tenderTime = rq.getParameter("tenderTime");
         //        if (tenderTime == null || "".equals(tenderTime)){
         //            map.put("tenderTimeError", "不能为空");
@@ -454,7 +456,7 @@ public class ExpExtractRecordController extends BaseController {
         } else{
             //真实的项目id
             String projectId = project.getId();
-            String packageId = "";
+//            String packageId = "";
             if (project.getId() == null || "".equals(project.getId())){
                 // 创建一个临时项目临时包
                 project.setIsProvisional(1);
@@ -465,7 +467,7 @@ public class ExpExtractRecordController extends BaseController {
                 packages.setProjectId(project.getId());
                 packages.setIsDeleted(0);
                 packagesService.insertSelective(packages);
-                packageId = packages.getId();
+//                packageId = packages.getId();
                 ExpExtPackage sExtPackage = new ExpExtPackage();
                 sExtPackage.setPackageId(packages.getId());
                 sExtPackage.setProjectId(project.getId());
@@ -481,7 +483,7 @@ public class ExpExtractRecordController extends BaseController {
                 PageHelper.startPage(1, 1);
                 List<ExpExtractRecord> listSe = expExtractRecordService.listExtractRecord(extractRecord,0);
                 extractRecord.setExtractionSites(extractionSites);
-//                extractRecord.setResponseTime(hour + "," + minute);
+                //                extractRecord.setResponseTime(hour + "," + minute);
                 User user = (User)rq.getSession().getAttribute("loginUser");
                 if(user != null ){
                     extractRecord.setExtractsPeople(user.getId());
@@ -508,14 +510,17 @@ public class ExpExtractRecordController extends BaseController {
                     }
                 }
             }
-            //获取抽取条件状态，未抽取不能在抽取
-            //            Integer count2 = conditionService.getCount(project.getId());
-            //            if (count2 != null && count2 != 0){
-            //                map.put("status", count2.toString());
-            //            } else {
-            map.put("projectId", project.getId());
+//            获取抽取条件状态，未抽取不能在抽取
+           String count2 = conditionService.getCount(packageId);
+           map.put("projectId", project.getId());
+            if (count2 != null && !"".equals(count2)){
+               map.put("status", "1");
+               map.put("packageId",count2);
+        
+           } else {
+       
             map.put("sccuess", "SCCUESS");
-            //            }
+            }
             return JSON.toJSONString(map);
         }
 
@@ -558,10 +563,10 @@ public class ExpExtractRecordController extends BaseController {
         Map<String, Integer> mapcount = new HashMap<String, Integer>();
         User user=(User) sq.getSession().getAttribute("loginUser");
         List<ProjectExtract> list = extractService.list(new ProjectExtract(cId));
-        if (list == null || list.size() == 0){
-            extractService.insert(cId, user != null && !"".equals(user.getId()) ? user.getId() : "");
-            list = extractService.list(new ProjectExtract(cId));
-        }
+        //        if (list == null || list.size() == 0){
+        //            extractService.insert(cId, user != null && !"".equals(user.getId()) ? user.getId() : "");
+        //            list = extractService.list(new ProjectExtract(cId));
+        //        }
         //已操作的
         List<ProjectExtract> projectExtractListYes = new ArrayList<ProjectExtract>();
         //未操作的
@@ -584,8 +589,13 @@ public class ExpExtractRecordController extends BaseController {
         //获取查询条件类型
         List<ExpExtCondition> listCondition = conditionService.list(new ExpExtCondition(cId, ""),null);
         List<ExtConType> conTypes = listCondition.get(0).getConTypes();
-        for (ExtConType extConType : conTypes) {
-            extConType.setAlreadyCount(mapcount.get(extConType.getId()) == null ? 0 : mapcount.get(extConType.getId()));
+        for (ExtConType extConType1 : conTypes) {
+            //获取抽取的专家类别
+            ProjectExtract projectExtrac = new ProjectExtract();
+            projectExtrac.setReviewType(extConType1.getExpertsTypeId());
+            projectExtrac.setExpertConditionId(listCondition.get(0).getId());
+            List<ProjectExtract> list2 = extractService.list(projectExtrac);
+            extConType1.setAlreadyCount(list2 == null ? 0 : list2.size());
         }
         model.addAttribute("extConType", conTypes);
 
@@ -624,6 +634,34 @@ public class ExpExtractRecordController extends BaseController {
         }
         if ("1".equals(ids[2])){
             ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
+            String expertTypeId = expExtRelate.getExpert().getExpertsTypeId();
+            //截取专家类型 如果满足insert
+            if (expertTypeId != null && !"".equals(expertTypeId)){
+                String[] expertTypeIdArray = expertTypeId.split(",");
+                ProjectExtract projectExtrac = new ProjectExtract();
+                for (String typeId : expertTypeIdArray) {
+                    //获取抽取的专家类别
+                    projectExtrac.setReviewType(typeId);
+                    projectExtrac.setExpertConditionId(ids[1]);
+                    List<ProjectExtract> list = extractService.list(projectExtrac);
+                    //获取条件进行对比
+                    Integer counts = conTypeService.getExpertTypeById(ids[1], typeId) ;
+                    if(counts == null ){
+                        counts = 0;
+                    }
+                    if(counts !=0 && list.size() != 0 && list.size() >= counts){
+                        continue;
+                    }else{
+                        //修改为抽取的类型
+                        ProjectExtract extract = new ProjectExtract();
+                        extract.setReviewType(typeId);
+                        extract.setId(ids[0]);
+                        extractService.update(extract); 
+                    }
+                }
+
+            }
+            
             if ("1".equals(expExtRelate.getExpert().getStatus())){
                 /**
                  * 推送
@@ -650,7 +688,7 @@ public class ExpExtractRecordController extends BaseController {
                 //审核地址
                 todos.setUrl("expertAudit/basicInfo.html?expertId=" + expExtRelate.getExpert().getId());
                 todosService.insert(todos );
-                
+
                 Expert expert = new Expert();
                 expert.setId(id);
                 expert.setStatus("4");
@@ -669,7 +707,7 @@ public class ExpExtractRecordController extends BaseController {
      *〈详细描述〉
      * @author Wang Wenshuai
      * @param sq HttpServletRequest
-     * @param ids 集合  [1]关联表id [2]条件表id [3]参与不参与
+     * @param ids 集合  [0]关联表id [1]条件表id [2]参与不参与
      * @return List<ProjectExtract>
      */
     private List<ProjectExtract> resultProjectExtract(HttpServletRequest sq, String[] ids) {
@@ -698,9 +736,19 @@ public class ExpExtractRecordController extends BaseController {
         //获取查询条件类型
         List<ExpExtCondition> listCondition = conditionService.list(new ExpExtCondition(ids[1], ""),null);
         List<ExtConType> conTypes = listCondition.get(0).getConTypes();
+        
+        
+        
         for (ExtConType extConType1 : conTypes) {
-            extConType1.setAlreadyCount(mapcount.get(extConType1.getId()) == null ? 0 : mapcount.get(extConType1.getId()));
+            //获取抽取的专家类别
+            ProjectExtract projectExtrac = new ProjectExtract();
+            projectExtrac.setReviewType(extConType1.getExpertsTypeId());
+            projectExtrac.setExpertConditionId(ids[1]);
+            List<ProjectExtract> list = extractService.list(projectExtrac);
+            extConType1.setAlreadyCount(list == null ? 0 : list.size());
         }
+        
+        
         projectExtractListYes.get(0).setConType(conTypes);
         if (projectExtractListNo.size() != 0){
             //            Collections.shuffle(projectExtractListNo);
@@ -1165,5 +1213,20 @@ public class ExpExtractRecordController extends BaseController {
         }
         list = JSON.toJSONString(jList);
         return list;
+    }
+
+    /**
+     * @Description:弹出限制条件和类别抽取数量
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月25日 09:49:56 
+     * @return String
+     */
+    @RequestMapping("/reasonnumber")
+    public String reasonNumber(Model model,String[] expertsTypeCode,String addressReson,String eCount){
+        model.addAttribute("expertsTypeCode", expertsTypeCode);
+        model.addAttribute("addressReson", addressReson);
+        model.addAttribute("eCount", eCount);
+        return "ses/ems/exam/expert/extract/reason_and_number";
     }
 }

@@ -44,6 +44,7 @@ import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
 import ses.model.sms.SupplierCondition;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpExtConditionService;
 import ses.service.ems.ExtConTypeService;
 import ses.service.ems.ProjectExtractService;
@@ -80,7 +81,11 @@ public class ExpExtConditionController extends BaseController {
     ExpExtPackageMapper extPackageMapper;
     @Autowired
     ProjectExtractService extractService; //关联表
-
+    /** 字典**/
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI; 
+    @Autowired
+    private AreaServiceI areaServiceI; 
     /**
      * @Description:保存查询条件
      *
@@ -93,7 +98,11 @@ public class ExpExtConditionController extends BaseController {
     @ResponseBody
     @RequestMapping(value="saveExtCondition",produces = "text/html;charset=UTF-8")
     public String saveExtCondition(ExpExtCondition condition,String hour,String minute,
-                                   ExtConType extConType,HttpServletRequest sq,Model model,String typeclassId) throws NoSuchFieldException, SecurityException, UnsupportedEncodingException{
+                                   ExtConType extConType,HttpServletRequest sq,Model model,String typeclassId,String province) throws NoSuchFieldException, SecurityException, UnsupportedEncodingException{
+        //获取类型
+        String[] expertsTypeSplit = extConType.getExpertsTypeSplit();
+        String[] projectId = condition.getProjectId().split(",");
+        String conditionId = "";
         if (condition.getProjectId() != null && !"".equals(condition.getProjectId())){
             //已抽取
             conditionService.update(new ExpExtCondition(condition.getProjectId(),(short)2));
@@ -104,13 +113,73 @@ public class ExpExtConditionController extends BaseController {
         Map<String, Object> map = new HashMap<>();
         Integer verification = verification(condition, hour, minute, model,extConType,map);
         if (verification == 0){
-            condition.setResponseTime(hour + "," + minute);
-            //插入信息
-            conditionService.insert(condition);
-            //插入条件表
-            extConType.setConditionId(condition.getId());
-            conTypeService.insert(extConType); 
+            //循环多包插入条件 
+            if (condition.getProjectId() != null && condition.getProjectId().length() > 0){
+                String[] split = condition.getProjectId().split(",");
+                for (String proid : split) {
+                    condition.setResponseTime(hour + "," + minute);
+                    condition.setProjectId(proid);
+                    if(condition.getAddress() == null || "".equals(condition.getAddress())){
+                        if(province != null && !"".equals(province)){
 
+                            List<Area> findAreaByParentId = areaService.findAreaByParentId(province);
+                            Integer size = findAreaByParentId.size();
+                            String[] address = new String[size];
+                            for (int i = 0; i < size; i++ ) {
+                                address[i] = findAreaByParentId.get(i).getId();
+                            }
+                            condition.setAddressSplit(address);
+                        
+                            
+                        }
+                    }
+                   
+                    //插入信息
+                    conditionService.insert(condition);
+                    conditionId += condition.getId()+",";
+                    //插入条件表
+                    extConType.setConditionId(condition.getId());
+                   
+                    if(expertsTypeSplit != null && expertsTypeSplit.length != 0){
+                        for (String id : expertsTypeSplit) {
+                            DictionaryData findById = DictionaryDataUtil.findById(id);
+                            if("GOODS".equals(findById.getCode())){
+                                extConType.setExpertsTypeId(findById.getId());
+                                String goodsCount = sq.getParameter("goodsCount");
+                                extConType.setExpertsCount(Integer.parseInt(goodsCount));
+                                conTypeService.insert(extConType); 
+                            }
+                            if("PROJECT".equals(findById.getCode())){
+                                String projectCount = sq.getParameter("projectCount");
+                                extConType.setExpertsTypeId(findById.getId());
+                                extConType.setExpertsCount(Integer.parseInt(projectCount));
+                                conTypeService.insert(extConType);
+                            }
+                            if("SERVICE".equals(findById.getCode())){
+                                String serviceCount = sq.getParameter("serviceCount");    
+                                extConType.setExpertsTypeId(findById.getId());
+                                extConType.setExpertsCount(Integer.parseInt(serviceCount));
+                                conTypeService.insert(extConType);
+                            }
+                            if("GOODS_SERVER".equals(findById.getCode())){
+                                String goodsServerCount = sq.getParameter("goodsServerCount");
+                                extConType.setExpertsTypeId(findById.getId());
+                                extConType.setExpertsCount(Integer.parseInt(goodsServerCount));
+                                conTypeService.insert(extConType);
+                            }
+                            if("GOODS_PROJECT".equals(findById.getCode())){
+                                String goodsProjectCount = sq.getParameter("goodsProjectCount");
+                                extConType.setExpertsTypeId(findById.getId());
+                                extConType.setExpertsCount(Integer.parseInt(goodsProjectCount));
+                                conTypeService.insert(extConType);
+                            }
+                        }
+                    }else{
+                        conTypeService.insert(extConType);  
+                    }
+
+                }
+            }
             map.put("sccuess", "sccuess");
 
             //获取查询条件类型
@@ -118,7 +187,8 @@ public class ExpExtConditionController extends BaseController {
             User user=(User) sq.getSession().getAttribute("loginUser");
             List<ProjectExtract> list = extractService.list(new ProjectExtract(condition.getId()));
             if (list == null || list.size() == 0){
-                extractService.insert(condition.getId(), user != null && !"".equals(user.getId()) ? user.getId() : "");
+                extractService.insert(condition.getId(), user != null && !"".equals(user.getId()) ? user.getId() : "",projectId,conditionId);
+                //                PageHelper.startPage(1,4);
                 list = extractService.list(new ProjectExtract(condition.getId()));
             }
             //已操作的
@@ -145,12 +215,17 @@ public class ExpExtConditionController extends BaseController {
             List<ExpExtCondition> listCondition = conditionService.list(new ExpExtCondition(condition.getId(), ""), 0);
             List<ExtConType> conTypes = listCondition.get(0).getConTypes();
             for (ExtConType extConType1 : conTypes) {
-                extConType1.setAlreadyCount(mapcount.get(extConType1.getId()) == null ? 0 : mapcount.get(extConType1.getId()));
+                //获取抽取的专家类别
+                ProjectExtract projectExtrac = new ProjectExtract();
+                projectExtrac.setReviewType(extConType1.getExpertsTypeId());
+                projectExtrac.setExpertConditionId(listCondition.get(0).getId());
+                List<ProjectExtract> peList = extractService.list(projectExtrac);
+                extConType1.setAlreadyCount(peList == null ? 0 : peList.size());
             }
             map.put("extConType", conTypes);
 
             if (projectExtractListNo.size() != 0) {
-//                Collections.shuffle(projectExtractListNo);
+                //                Collections.shuffle(projectExtractListNo);
                 projectExtractListYes.add(projectExtractListNo.get(0));
                 projectExtractListNo.remove(0);
             }else{
@@ -181,8 +256,8 @@ public class ExpExtConditionController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("selectLikeExpert")
-    public String selectLikeExpert(ExpExtCondition condition,ExtConType extConType){
-        Integer count = conditionService.selectLikeExpert(condition, extConType);
+    public String selectLikeExpert(ExpExtCondition condition,ExtConType extConType,String province){
+        Integer count = conditionService.selectLikeExpert(condition, extConType,province);
         return JSON.toJSONString(count);
     }
 
@@ -242,19 +317,19 @@ public class ExpExtConditionController extends BaseController {
             model.addAttribute("ExpExtCondition", list.get(0));
             model.addAttribute("projectId", list.get(0).getProjectId());
             //获取监督人员
-//            List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(list.get(0).getProjectId()));
-//            model.addAttribute("listUser", listUser);
-//            String userName = "";
-//            String userId = "";
-//            if (listUser != null && listUser.size() != 0){
-//                for (User user : listUser) {
-//                    if (user != null && user.getId() != null){
-//                        userName += user.getRelName() + ",";
-//                        userId += user.getId() + ",";
-//                    }
-//
-//                }
-//            }
+            //            List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(list.get(0).getProjectId()));
+            //            model.addAttribute("listUser", listUser);
+            //            String userName = "";
+            //            String userId = "";
+            //            if (listUser != null && listUser.size() != 0){
+            //                for (User user : listUser) {
+            //                    if (user != null && user.getId() != null){
+            //                        userName += user.getRelName() + ",";
+            //                        userId += user.getId() + ",";
+            //                    }
+            //
+            //                }
+            //            }
 
             List<DictionaryData> find = DictionaryDataUtil.find(12);
             model.addAttribute("find", find);
@@ -267,8 +342,8 @@ public class ExpExtConditionController extends BaseController {
                 model.addAttribute("extractionSites", listRe.get(0).getExtractionSites());
             }
 
-//            model.addAttribute("userName", userName);
-//            model.addAttribute("userId", userId);
+            //            model.addAttribute("userName", userName);
+            //            model.addAttribute("userId", userId);
         }
 
         return "ses/ems/exam/expert/extract/add_condition";

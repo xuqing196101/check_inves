@@ -3,6 +3,9 @@
  */
 package ses.service.ems.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +72,18 @@ public class ExtConTypeServiceImpl implements ExtConTypeService {
      */
     public ExtConType getExtConType(String id){
         return conTypeMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 
+     * @see ses.service.ems.ExtConTypeService#getExpertTypeById(java.lang.String)
+     */
+    @Override
+    public Integer getExpertTypeById(String conId,String expertTypeId) {
+        Map<String, String>  map = new HashMap<String, String>();
+        map.put("conditionId", conId);
+        map.put("expertTypeId", expertTypeId);
+        return conTypeMapper.getExpertTypeById(map);
+        
     }
 }

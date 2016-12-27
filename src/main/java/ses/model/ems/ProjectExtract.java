@@ -84,6 +84,9 @@ public class ProjectExtract {
      * </pre>
      */
     private String conTypeId;
+    
+    
+    private String reviewType;
 
     /**
      * <pre>
@@ -438,6 +441,20 @@ public class ProjectExtract {
      */
     public void setPackageId(String[] packageId) {
         this.packageId = packageId;
+    }
+
+    /**
+     * @return Returns the reviewType.
+     */
+    public String getReviewType() {
+        return reviewType;
+    }
+
+    /**
+     * @param reviewType The reviewType to set.
+     */
+    public void setReviewType(String reviewType) {
+        this.reviewType = reviewType;
     }
 
 

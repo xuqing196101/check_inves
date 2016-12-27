@@ -54,5 +54,15 @@ public interface ExtConTypeService {
      * @return void
      */
 	ExtConType getExtConType(String id);
+	
+	/**
+	 * 
+	 *〈简述〉获取专家抽取页面
+	 *〈详细描述〉
+	 * @author Wang Wenshuai
+	 * @param expertTypeId
+	 * @return
+	 */
+	Integer getExpertTypeById(String conId,String expertTypeId);
   
 }

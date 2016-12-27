@@ -62,30 +62,29 @@
 				}
 			});
 
-
-      function ycDiv(obj, index) {
-    	  if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
-              $(obj).removeClass("shrink");
-              $(obj).addClass("spread");
-            } else {
-              if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
-                $(obj).removeClass("spread");
-                $(obj).addClass("shrink");
-              }
-            }
-            
-            var divObj = new Array();
-            divObj = $(".p0" + index);
-            for (var i =0; i < divObj.length; i++) {
-                if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
-                  $(divObj[i]).removeClass("hide");
-                } else {
-                  if ($(divObj[i]).hasClass("p0"+index)) {
-                    $(divObj[i]).addClass("hide");
-                  };
-                };
-            };
-      }
+			   function ycDiv(obj, index){
+			        if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
+			          $(obj).removeClass("jbxx");
+			          $(obj).addClass("zhxx");
+			        } else {
+			          if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
+			            $(obj).removeClass("zhxx");
+			            $(obj).addClass("jbxx");
+			          }
+			        }
+			        
+			        var divObj = new Array();
+			        divObj = $(".p0" + index);
+			        for (var i =0; i < divObj.length; i++) {
+			            if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
+			              $(divObj[i]).removeClass("hide");
+			            } else {
+			              if ($(divObj[i]).hasClass("p0"+index)) {
+			                $(divObj[i]).addClass("hide");
+			              };
+			            };
+			        };
+			      }
 
 			function add() {
 				 var packageId=$("#packageId").val();
@@ -113,14 +112,20 @@
 						$("#dSupervise").text(map.supervise);
 						$("#tenderTimeError").text(map.tenderTimeError);
 						$("#responseTimeError").text(map.responseTimeError);
+					    var projectId = map.projectId;
 						if(map.status != null && map.status != 0) {
-							layer.alert("请全部抽取完之后在添加条件", {
-								shade: 0.01
-							});
+							layer.confirm('上次抽取未完成，是否继续上次抽取？', {
+								  btn: ['确定','取消'], shade:0.01 //按钮
+								}, function(){
+									alert(map.packageId);
+									window.location.href = '${pageContext.request.contextPath}/ExpExtract/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+map.packageId;
+								}, function(){
+									layer.closeAll();
+								});
 						}
 						if(map.sccuess == "SCCUESS") {
 							if(packageId != null && packageId != ''){
-							      var projectId = map.projectId;
+							  
 				              window.location.href = '${pageContext.request.contextPath}/ExpExtract/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
 							  }else{
 						            layer.alert("请选择包", {
@@ -377,7 +382,7 @@
           </h2>
            <div align="right" class=" pl20 mb10 "  >
              <input class=" " readonly id="packageName" value="" placeholder="请选择包" onclick="showPackageType();"   type="text">
-              <input  readonly id="packageId"      type="hidden">
+              <input  readonly id="packageId"  name="packageId"     type="hidden">
 <!--            <select class="w200 dnone" id="packageId"  > -->
 <%--             <c:forEach items="${listResultExpert}" var="list"> --%>
 <%--                 <option value="${list.id }" >${list.name }</option> --%>
@@ -395,7 +400,7 @@
             <c:forEach items="${listResultExpert }" var="list" varStatus="vs">
               <c:set value="${vs.index}" var="index"></c:set>
               <div>
-                <h2 onclick="ycDiv(this,'${index}')" class="count_flow spread hand">包名:<span class="f14 blue">${listResultExpert[index].name }</span></h2>
+                <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listResultExpert[index].name }</span></h2>
               </div>
               <div class="p0${index} ">
 							  <table id="table" class="table table-bordered table-condensed">

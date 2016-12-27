@@ -59,6 +59,8 @@
       function selectLikeExpert(){
     	    var v = document.getElementById("city").value;    
     	     $("#address").val(v);
+    	     var area = document.getElementById("area").value;   
+    	     $("#province").val(area);
     	     $.ajax({
     	         cache: true,
     	         type: "POST",
@@ -87,13 +89,15 @@
           success: function(data){
                var list = data;
                $("#city").empty();
-               
                var  html="";
                var areas=$("#area").find("option:selected").text();
                if(areas == '全国'){
-                 html="<option value=''>全国</option>";
+            	   html="<option value=''>所有省市</option>";
+               }else{
+            	   html="<option value=''>所有市</option>";
                }
                for(var i=0;i<list.length;i++){
+            	  
                  html +="<option value="+list[i].id+">"+list[i].name+"</option>";
                }
                $("#city").append(html);
@@ -105,30 +109,80 @@
   
       //ajax提交表单
       function cityt() {
-    	  $.ajax({
-              type: "POST",
-              url: "${pageContext.request.contextPath}/ExpExtract/isFinish.do",
-              data: {packageId:"${packageId}"},
-              dataType: "json",
-              success: function(data){
-                if(data=="SUCCESS"){
-                    layer.confirm('是否完成本次抽取？', {
-                           btn: ['确定','取消'],offset: ['40%', '40%'], shade:0.01
-                         }, function(index){
-                        	 ext();
-                        	 layer.close(index);
-                         }, function(index){
-                           layer.close(index);
-                         });
-                  } else {
-                	  ext();
-                  }
-                }
-             
-        });
-           
+    	 var  eCount =$("#eCount").val();
+    	 if(eCount != null && eCount != '' ){
+    	
+    	  var iframeWin;
+    	  
+    	  var typeCode = $("#expertsTypeCode").val();
+    	     var addressReson = $("#addressReson").val();
+    	     if(typeCode == '' && addressReson == '' ){
+    	    	 fax();
+    	     }else{
+		    	  layer.open({
+		              type: 2,
+		              title: "选择",
+		              shadeClose: true,
+		              shade: 0.01,
+		              offset: '20px',
+		              move: false,
+		              area: ['90%', '430px'],
+		              content: '${pageContext.request.contextPath}/ExpExtract/reasonnumber.do?expertsTypeCode='+$("#expertsTypeCode").val()+'&&addressReson='+$("#city option:selected").val()+ $("#area option:selected").val()+'&&eCount='+$("#eCount").val(),
+		              success: function(layero, index) {
+		                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+		              },
+		              btn: ['保存', '关闭'],
+		              yes: function() {
+		                iframeWin.save();
+		                var type=$("#hiddentype").val();
+		                alert(type);
+		                if(type != null && type != '' && type == '1'){
+		                  alert(type);  
+		                	fax();     	
+		                    layer.closeAll();
+		                }
+		                
+		           
+		              },
+		              btn2: function() {
+		                  layer.closeAll();
+		                } //iframe的url
+		            });
+    
 
-        return false;
+       
+    	     }
+    	     
+         }else{
+        	 $("#expertsCountError").text("不能为空");
+         }
+    	     return false;
+      }
+      
+      /**点击抽取按钮*/
+      function fax(){
+    	   $.ajax({
+               type: "POST",
+               url: "${pageContext.request.contextPath}/ExpExtract/isFinish.do",
+               data: {packageId:"${packageId}"},
+               dataType: "json",
+               success: function(data){
+                 if(data=="SUCCESS"){
+                     layer.confirm('是否完成本次抽取？', {
+                            btn: ['确定','取消'],offset: ['40%', '40%'], shade:0.01
+                          }, function(index){
+                            ext();
+                            layer.close(index);
+                          }, function(index){
+                            layer.close(index);
+                          });
+                   } else {
+                     ext();
+                   }
+                 }
+              
+         });
+    	  
       }
       
       function ext(){
@@ -161,7 +215,7 @@
                      var extConType=map.extConType;
                    var tex="";
                    if (list != null && list.length !=0){
-                	  
+                	   isEmpty = 1;
                         var k=0;
                    for(var i=0;i<list.length;i++){
                 	       k=i;
@@ -169,15 +223,18 @@
                         if(list[0]!=null){
                           var html="";
                           $("#extcontype").empty();
+                          alert(extConType.length);
                           for(var l=0;l<extConType.length;l++){
                               html+="";
-                                 if(extConType.categoryName != null && extConType.categoryName != ''){
-                                   var cName=extConType.categoryName;
-                                      cName=cName.substring(0,cName.length-1);
-                                           html+="抽取品目:"+cName+",";
-                                 }
+                               if(extConType[l].expertsType != null && extConType[l].expertsType != ''){
+                                  if(extConType[l].expertsType.kind == 6){
+                                     html+="专家类别："+extConType[l].expertsType.name+"技术";
+                                  }else{
+                                      html+="专家类别："+extConType[l].expertsType.name;
+                                  }
+                                }
                                  
-                                 html+="抽取数量:"+extConType[l].alreadyCount+"/"+extConType[l].expertsCount;
+                                 html+="&nbsp;&nbsp;&nbsp;抽取数量:"+extConType[l].alreadyCount+"/"+extConType[l].expertsCount;
                                 html+="<br/>";
                               }
                           $("#extcontype").append(html);
@@ -185,8 +242,21 @@
                        tex+="<tr class='cursor'>"+
                            "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                            "<td class='tc' onclick='show();'>*****</td>"+
-                           "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>"+
-                           "<td class='tc' onclick='show();'>*****</td>"+
+                           "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>";
+//                            var ddList = "${ddList}";
+// 		                       var split = list[i].expert.expertsTypeId.split(",");
+		                       tex+="<td class='tc'>";
+// 		                       var st = "";
+// 		                       for(var i = 0; i < split;i++){
+// 		                         for(var j= 0; j < ddList.length; j++){
+// 		                           if(split == ddList[j].id){
+// 		                             st+=ddList[j].name+",";
+// 		                           }
+// 		                         }
+// 		                       }
+// 		                       tex+=st.substring(0, st.length-1);
+		                       tex+="</td>";
+		                       tex+="<td class='tc' onclick='show();'>*****</td>"+
                            "<td class='tc' onclick='show();'>*****</td>"+
                        " <td class='tc' >"+
                          "<select id='select' onchange='operation(this);'>";
@@ -218,11 +288,11 @@
                              "<td class='tc' onclick='show();'>*****</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+
                              "<td class='tc' onclick='show();'>*****</td>"+
+                             "<td class='tc' onclick='show();'>*****</td>"+
                              "<td class='tc'>请选择</td>"+
                            "</tr>";
                          
                      }
-                   
                      $("#tbody").append(tex);
                 }else{
                     layer.alert("本条件没有查询结果!",{offset: ['222px', '390px'], shade:0.01});
@@ -267,31 +337,31 @@
      	  y=oRect.top -150;
           layer.confirm('确定本次操作吗？', {
             btn: ['确定','取消'],offset: [y,x], shade:0.01
-          }, function(index){
+          }, function(ix){
             var strs= new Array();
             var v=select.value;
              strs=v.split(",");
-             layer.close(index);
+             layer.close(ix);
             if(strs[2]=="3"){
               layer.prompt({
                   formType: 2,
                   shade:0.01,
                   offset: [y, x],
                   title: '不参加理由'
-                }, function(value, index, elem){
+                }, function(value, ix, elem){
                      ajaxs(select.value,value);
-                     layer.close(index);
-                },function(value, index, elem){
+                     layer.close(ix);
+                },function(value, ix, elem){
                   select.options[0].selected = true;
-                  layer.close(index);
+                  layer.close(ix);
                 });
             }else{
             select.disabled=true;
                ajaxs(select.value,'');
             }
-          }, function(index){
+          }, function(ix){
         	  select.options[0].selected = true;
-            layer.close(index);
+            layer.close(ix);
             
           });
         }
@@ -303,41 +373,58 @@
                data: {id:id,reason:v,packageId:"${packageId}"},
                dataType: "json",
                success: function(data){
-                           list=data;
+                           var list=data;
                            if('sccuess'==list){
-                               alert("ss");
                            }else{
                            var tex='';
                            for(var i=0;i<list.length;i++){
                                if(list[i]!=null){
+                          
                                 if(list[0]!=null){
                                   var html="";
                                   $("#extcontype").empty();
                                   for(var l=0;l<list[0].conType.length;l++){
                                   html+="";
-//                                      if(extConType[l].expertsTypeId==1){
-//                                             html+="技术,";
-//                                           }else if(extConType[l].expertsTypeId==2){
-//                                            html+="法律,";
-//                                           }else if(extConType[l].expertsTypeId==3){
-//                                              html+="商务,";
-//                                           }
-                                     if(list[0].conType.categoryName != null && list[0].conType.categoryName != ''){
-                                       var cName=list[0].conType.categoryName.replace("^",",");
-                                               cName=cName.substring(0,cName.length-1);
-                                               html+="抽取品目:"+cName+",";
+                                     if(list[0].conType[l].expertsType != null && list[0].conType[l].expertsType != ''){
+                                    	 if(list[0].conType[l].expertsType.kind == 6){
+                                    		  html+= "专家类别："+list[0].conType[l].expertsType.name+"技术";
+                                    	 }else{
+                                    		   html+= "专家类别："+list[0].conType[l].expertsType.name;
+                                    	 }
                                      }
-                                     
-                                     html+="抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].expertsCount;
+                                     html+="&nbsp;&nbsp;&nbsp;抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].expertsCount;
                                     html+="<br/>";
                                   }
                                   $("#extcontype").append(html);
                                 } 
-                               tex+="<tr class='cursor'>"+
+                                tex+="<tr class='cursor'>"+
                                    "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                                    "<td class='tc' onclick='show();'>*****</td>"+
-                                   "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>"+
-                                   "<td class='tc' onclick='show();'>*****</td>"+
+                                   "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>";
+                                   var ddList1= new Array();
+                                   ddList1 = "${ddList}";
+                                   alert(ddList1.id);
+//                                   alert(ddList1[0].id);
+                                   var split= new Array();
+                                   split = list[i].expert.expertsTypeId.split(",");
+//                                    alert(split);
+                                   
+                                   tex+="<td class='tc'>";
+                                   var st = "";
+                                   for(var s = 0; s < split.length;s++){
+//                                 	   alert();
+                                	   for(var j= 0; j < ddList1.length; j++){
+//                                 		   alert(ddList[j].id);
+                                		   if(split[s] == ddList1[j].id){
+                                			
+                                			   st+=ddList1[j].name+",";
+                                		   }
+                                	   }
+                                   }
+//                                    alert(st);
+                                   tex+=st.substring(0, st.length-1);
+                                   tex+="</td>";
+                                   tex+="<td class='tc' onclick='show();'>*****</td>"+
                                    "<td class='tc' onclick='show();'>*****</td>"+
                                " <td class='tc' >"+
                                  "<select id='select' onchange='operation(this);'>";
@@ -360,8 +447,9 @@
                            "</tr>";
                            }
                            }
-                           $('#tbody tr:lt('+list.length+')').remove();
-                          $("#tbody").prepend(tex);
+                        	   $('#tbody tr:lt('+list.length+')').remove();
+                               $("#tbody ").prepend(tex);  
+                           
                          }
                }
            });
@@ -385,7 +473,7 @@
           shade: 0.01,
           offset: '20px',
           move: false,
-          area: ['90%', '80%'],
+          area: ['90%', '50%'],
           content: '${pageContext.request.contextPath}/SupplierExtracts/showSupervise.do',
           success: function(layero, index) {
             iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -509,17 +597,20 @@
           nodes = zTree.getCheckedNodes(true),
           v = "";
         var rid = "";
-        var code = "";
+         var code = "";
+       var codes = "";
         for(var i = 0, l = nodes.length; i < l; i++) {
           v += nodes[i].name + ",";
           rid += nodes[i].id + ",";
           code += nodes[i].code;
+          codes += nodes[i].code + ",";
         }
         if(v.length > 0) v = v.substring(0, v.length - 1);
         if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
         $("#expertsTypeName").val(v);
         $("#expertsTypeName").attr("title", v);
         $("#expertsTypeId").val(rid);
+        $("#expertsTypeCode").val(codes);
         if (v != null && v != ''){
         	$("#dnone").removeClass("dnone");
          if('GOODS_SERVER' == code || 'GOODS_PROJECT' == code || 'GOODS_SERVERGOODS_PROJECT' == code){
@@ -670,6 +761,21 @@
           <input type="hidden" name="typeclassId" value="${typeclassId}" />
              <!--  满足多个条件 -->
         <input type="hidden" name="isMulticondition" id="isSatisfy" >
+          <!-- 物资技术专家 -->
+        <input type="hidden" name="goodsCount" id="goodsCount" >
+          <!--  工程技术专家 -->
+        <input type="hidden" name="projectCount" id="projectCount" >
+<!--         服务技术专家 -->
+        <input type="hidden" name="serviceCount" id="serviceCount" >
+<!--         物资服务经济 -->
+        <input type="hidden" name="goodsServerCount" id="goodsServerCount" >
+<!--         工程经济 -->
+        <input type="hidden" name="goodsProjectCount" id="goodsProjectCount" >
+        <!--      限制地区理由-->
+        <input type="hidden" name="addressReson" id="addressReson" >
+<!--         省 -->
+        <input type="hidden"  name="province" id="province" />
+        <input type="hidden" name="" id="hiddentype">
           <div>
             <h2 class="count_flow"><i>1</i>抽取条件</h2>
             <ul class="ul_list">
@@ -688,7 +794,7 @@
                    </c:forEach>
                   </select>
                   <select name="extractionSites" class="col-md-6 col-sm-6 col-xs-6 p0" id="city" onchange="selectLikeExpert();">
-                     <option value="">全国</option>
+                     <option value="">所有省市</option>
                   <c:forEach  items="${city }" var="city">
                    <c:if test="${city.id==listCon.address}">
                     <option value="${city.id }" selected="selected" >${city.name }</option>
@@ -734,7 +840,7 @@
                  </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
-                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取数量：</span>
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取总数量：</span>
                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
                   <input class="input_group " maxlength="6" name="expertsCount" value="${listCon.conTypes[0].expertsCount}"  id="eCount" type="text">
                   <span class="add-on">i</span>
@@ -745,15 +851,18 @@
                 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家类别：</span>
                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
                   <c:set value="" var="typeId"></c:set>
-                <c:forEach items="${listCon.conTypes[0].expertsTypeSplit}" var="split">
-	                <c:forEach var="project" items="${ddList}">
-	                 <c:if test="${split eq project.id}">
-	                  <c:set value="${typeId},${project.name}" var="typeId"></c:set>
-	                 </c:if>
-	                </c:forEach>
-                </c:forEach>
+                  <c:forEach items="${listCon.conTypes}" var="conType">
+		                <c:forEach items="${conType.expertsTypeSplit}" var="split">
+			                <c:forEach var="project" items="${ddList}">
+			                 <c:if test="${split eq project.id}">
+			                  <c:set value="${typeId},${project.name}" var="typeId"></c:set>
+			                 </c:if>
+			                </c:forEach>
+		                </c:forEach>
+                  </c:forEach>
                    <input   id="expertsTypeName"  type="text" readonly name="expertsTypeName" value="${fn:substring(typeId,1,typeId.length() )}" onclick="showExpertType();" />
                   <input type="hidden" name="expertsTypeId" id="expertsTypeId"  />
+                     <input type="hidden" name="expertsTypeCode" id="expertsTypeCode"  />
                   <span class="add-on">i</span>
                 </div>
               </li>
@@ -770,7 +879,7 @@
             <button class="btn btn-windows add" id="save" onclick="cityt();" type="button">抽取</button>
                 <button class="btn btn-windows add" id="save" onclick="finish();" type="button">完成抽取</button>
                     <button class="btn btn-windows add" id="save" onclick="resetQuery();" type="button">暂存</button>
-            <button class="btn btn-windows add" id="save" onclick="resetQuery();" type="button">重置</button>
+<!--             <button class="btn btn-windows add" id="save" onclick="resetQuery();" type="button">重置</button> -->
             </div>
           </li>
             </ul>
@@ -781,28 +890,21 @@
              </div>
     <ul class="ul_list">
       <!-- Begin Content -->
-      <div class="col-md-12" id="count" style="min-height: 400px;">
+      <div class="col-md-12"  >
         <div id="extcontype">
         <c:forEach var="con" items="${extConType}">
-<%--             <c:if test="${con.categoryName != null && con.categoryName != ''}"> --%>
-<%--                                                                  &nbsp;&nbsp;&nbsp;&nbsp;抽取品目 :${fn:replace(con.categoryName, "^", ",")} --%>
-<%--                     </c:if> --%>
-<%--             <c:if test="${con.isMulticondition != null && isMulticondition != ''}"> --%>
-
-<%--               <c:if test="${con.isMulticondition==1}"> --%>
-<!--                             满足一个条件, -->
-                                                               
-<%--                     </c:if> --%>
-<%--               <c:if test="${con.isMulticondition==2}"> --%>
-<!--                           满足多个条件,                              -->
-<%--                     </c:if> --%>
-                                                                   
-<%--                         </c:if> --%>
-                         &nbsp;&nbsp;&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.expertsCount }
+                  <c:if test="${con.expertsType.kind == 6 }">
+                                   专家类别：${con.expertsType.name }技术
+                  </c:if>
+                  <c:if test="${con.expertsType.kind != 6 }">
+                                   专家类别：${con.expertsType.name }
+                   
+                  </c:if>
+                          &nbsp;&nbsp;&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.expertsCount }                             
             <br />
           </c:forEach>
         </div>
-        <div class="col-md-12" style="min-height: 400px;">
+        <div class="col-md-12" >
 
           <div class="clear"></div>
          <table id="table" class="table table-bordered table-condensed">
@@ -811,6 +913,7 @@
               <th class="info w50">序号</th>
               <th class="info">专家姓名</th>
               <th class="info">联系电话</th>
+              <th class="info">专家类别</th>
               <th class="info">工作单位名称</th>
               <th class="info">专家技术职称</th>
               <th class="info">操作</th>
@@ -818,11 +921,23 @@
           </thead>
           <tbody id="tbody">
             <c:forEach items="${extRelateListYes}" var="listyes"
-              varStatus="vs">
+              varStatus="vst">
               <tr class='cursor '>
-                <td class='tc'>${vs.index+1}</td>
+                <td class='tc'>${vst.index+1}</td>
                 <td class='tc'>*****</td>
                 <td class='tc'>${listyes.expert.mobile}</td>
+                <td class="tc">
+                   <c:set value="" var="typeId"></c:set>
+                   <c:set var="splits" value="${fn:split(listyes.expert.expertsTypeId,',')}"></c:set>
+                 <c:forEach items="${splits }" var="split">
+                  <c:forEach var="project" items="${ddList}">
+                   <c:if test="${split eq project.id}">
+                    <c:set value="${typeId},${project.name}" var="typeId"></c:set>
+                   </c:if>
+                  </c:forEach>
+                </c:forEach>
+                ${fn:substring(typeId,1,typeId.length())}
+                </td>
                 <td class='tc'>*****</td>
                 <td class='tc'>*****</td>
                 <td class='tc'><select id='select'
@@ -859,6 +974,7 @@
                 <td class='tc'>*****</td>
                 <td class='tc'>*****</td>
                 <td class='tc'>*****</td>
+                <td class='tc'>*****</td>
                 <td class='tc'>请选择</td>
               </tr>
             </c:forEach>
@@ -869,7 +985,6 @@
         </ul>
           </div>
         </div>
-
       </form>
     </div>
   </body>
