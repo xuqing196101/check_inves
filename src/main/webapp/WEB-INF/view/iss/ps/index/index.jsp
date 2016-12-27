@@ -90,9 +90,44 @@
               </ul>
             </div>
             <div id="picshownum" class="controler" data-scro="controler">
+            <c:if test="${nums=='0'}">
               <b class="down">1</b>
               <b>2</b>
               <b>3</b>
+            </c:if>
+            <c:if test="${nums=='1'}">
+              <b class="down">1</b>
+            </c:if>
+            <c:if test="${nums=='2'}">
+              <b class="down">1</b>
+              <b>2</b>
+            </c:if>
+            <c:if test="${nums=='3'}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+            </c:if>
+            <c:if test="${nums=='4'}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+              <b>4</b>
+            </c:if>
+            <c:if test="${nums=='5'}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+              <b>4</b>
+              <b>5</b>
+            </c:if>
+            <c:if test="${nums=='6'}">
+              <b class="down">1</b>
+              <b>2</b>
+              <b>3</b>
+              <b>4</b>
+              <b>5</b>
+              <b>6</b>
+            </c:if>
             </div>
           </div>
           <script src="${pageContext.request.contextPath}/public/portal/js/script.js"></script>
