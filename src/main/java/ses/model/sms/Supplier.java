@@ -8,6 +8,7 @@ import java.util.List;
 
 import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
+import ses.model.bms.User;
 import ses.util.MyAnnotation;
 
 /**
@@ -602,6 +603,9 @@ public class Supplier implements Serializable {
     private String bidFileId;
     private String isturnUp;
     private String proSupFile;
+    
+    //用户
+    private User user;
 	
 	public String getProSupFile() {
         return proSupFile;
@@ -1548,6 +1552,14 @@ public class Supplier implements Serializable {
      */
     public void setIsProvisional(Short isProvisional) {
         this.isProvisional = isProvisional;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 	
 	
