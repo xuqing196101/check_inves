@@ -95,6 +95,8 @@ public class IntelligentScoringController extends BaseController{
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
 	    Double score = 0.0;
 	    Integer result = 0;
+	    String typename = "";
+	    ScoreModel sm = new ScoreModel();
         for (DictionaryData dictionaryData : ddList) {
             MarkTerm mt = new MarkTerm();
             mt.setTypeName(dictionaryData.getId());
@@ -111,6 +113,11 @@ public class IntelligentScoringController extends BaseController{
                 List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
                 for (MarkTerm markTerm : mtValue) {
                     if (markTerm.getSmId().equals(id)){
+                        sm.setId(id);
+                        ScoreModel scoreModel = scoreModelService.findScoreModelByScoreModel(sm);
+                        if (scoreModel != null) {
+                            typename = scoreModel.getTypeName();
+                        }
                         continue;
                     }
                     Double scscore = markTerm.getScscore();
@@ -128,17 +135,30 @@ public class IntelligentScoringController extends BaseController{
 	        }
 	    } else {
 	        if (maxScore != null && !"".equals(maxScore)){
-	            double resultScore = Double.parseDouble(maxScore) + score;
-	            if (resultScore <= 100){
-	                result = 1;
+	            if (moxing2 == null || "0".equals(moxing2)) {
+	                double resultScore = Double.parseDouble(maxScore) + score;
+	                if (resultScore <= 100){
+	                    result = 1;
+	                }
+	            } else {
+	                if ("6".equals(typename) || "7".equals(typename)) {
+	                    double resultScore = Double.parseDouble(maxScore) + score;
+	                    if (resultScore <= 100){
+	                        result = 1;
+	                    }
+	                } else {
+	                    double resultScore = Double.parseDouble(moxing2) + score;
+                        if (resultScore <= 100){
+                            result = 1;
+                        }
+	                }
 	            }
-	        }else {
+	        } else {
 	            double resultScore = Double.parseDouble(moxing2) + score;
                 if (resultScore <= 100){
                     result = 1;
                 }
 	        }
-	       
 	    }
 	    return result;
 	}
@@ -261,6 +281,9 @@ public class IntelligentScoringController extends BaseController{
                                         sm.setReviewContent(scoreModel.getReviewContent());
                                         sm.setScore(scoreModel.getScore());
                                         sm.setUnit(scoreModel.getUnit());
+                                        sm.setDeadlineNumber(scoreModel.getDeadlineNumber());
+                                        sm.setReviewStandScore(scoreModel.getReviewStandScore());
+                                        sm.setIntervalNumber(scoreModel.getIntervalNumber());
                                         sm.setAddSubtractTypeName(scoreModel.getAddSubtractTypeName());
                                         scoreModelService.saveScoreModel(sm);
                                     }
