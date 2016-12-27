@@ -52,9 +52,19 @@ public class ArticleType implements Serializable{
      */
     private String parentId; 
     
+    private String showNum;
+    
     private ArticleType articleType;
     
-    public ArticleType getArticleType() {
+    public String getShowNum() {
+		return showNum;
+	}
+
+	public void setShowNum(String showNum) {
+		this.showNum = showNum;
+	}
+
+	public ArticleType getArticleType() {
 		return articleType;
 	}
 

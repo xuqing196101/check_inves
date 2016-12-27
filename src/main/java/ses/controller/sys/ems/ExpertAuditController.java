@@ -185,11 +185,11 @@ public class ExpertAuditController {
 			DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(expert.getHightEducation());
 			model.addAttribute("hightEducation", hightEducation.getName());
 		}
-		/*//最高学位
+		//最高学位
 		if(expert.getDegree() != null){
 			DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
 			model.addAttribute("degree", degree.getName());
-		}*/
+		}
 		// 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);

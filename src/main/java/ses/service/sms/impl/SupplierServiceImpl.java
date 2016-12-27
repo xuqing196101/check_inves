@@ -642,6 +642,7 @@ public class SupplierServiceImpl implements SupplierService {
         
         return supplierMapper.getCountMobile(mobile);
     }
+<<<<<<< HEAD
 
 	@Override
 	public List<Qualification> queryCategoyrId(String categoryId) {
@@ -653,6 +654,19 @@ public class SupplierServiceImpl implements SupplierService {
 		}
 		return quaList;
 	}
+=======
+    
+    /**
+     * 
+     * @see ses.service.sms.SupplierService#getCommintSupplierByDate(java.lang.String)
+     */
+    @Override
+    public List<Supplier> getCommintSupplierByDate(String creteDate) {
+       
+        return supplierMapper.getCommintSupplierList(creteDate);
+    }
+>>>>>>> 3f3462cfde4ae9f1c51d952a9f0471d29ebf3ce1
 	
+    
 	
 }

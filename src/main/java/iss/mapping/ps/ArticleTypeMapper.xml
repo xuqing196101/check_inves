@@ -9,12 +9,13 @@
     <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="CODE"  property="code" />
     <result column="PARENT_ID"  property="parentId" />
+    <result column="SHOW_NUM" property="showNum"/>
     <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
     <association column="PARENT_ID" property="articleType" select="selectTypeByPrimaryKey"/>
   </resultMap>
   
   <sql id="ArticleType_Column_List">
-    ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE,CODE,PARENT_ID
+    ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE,CODE,PARENT_ID,SHOW_NUM
   </sql>
   
   <!-- 根据id查询栏目类型 -->
@@ -61,8 +62,16 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="showNum != null">
+        SHOW_NUM = #{showNum},
+      </if>
     </set>
     where ID = #{id}
+  </update>
+  
+  <update id="updateShowNum">
+    update T_ISS_PS_ARTICLE_TYPE
+    set SHOW_NUM = 0
   </update>
   
     <!-- 根据id查询栏目类型 -->

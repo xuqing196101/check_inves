@@ -164,8 +164,8 @@
 			<tr style="cursor: pointer;">
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50" onclick="show('${obj.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc" onclick="show('${obj.id }')">${obj.fileName }</td>
-			  <td class="tc" onclick="show('${obj.id }')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tl pl20" onclick="show('${obj.id }')">${obj.fileName }</td>
+			  <td class="tl pl20" onclick="show('${obj.id }')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc" onclick="show('${obj.id }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="show('${obj.id }')">
 			  <c:if test="${obj.status=='1' }">

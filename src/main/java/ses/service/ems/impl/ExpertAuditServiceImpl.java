@@ -13,12 +13,10 @@ import ses.model.ems.ExpertAudit;
 import ses.service.ems.ExpertAuditService;
 import ses.util.WfUtil;
 /**
- * 
-  * <p>Title:ExpertAuditServiceImpl </p>
-  * <p>Description: </p>审核专家实现类
-  * <p>Company: yggc </p> 
-  * @author ShaoYangYang
-  * @date 2016年9月26日下午2:33:33
+ * <p>Title:ExpertAuditServiceImpl </p>
+ * <p>Description: 专家审核</p>
+ * @author XuQing
+ * @date 2016-12-27上午11:03:02
  */
 @Service("expertAuditService")
 public class ExpertAuditServiceImpl implements ExpertAuditService {
@@ -182,5 +180,17 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	@Override
 	public List<ExpertAudit> selectFailByExpertId(ExpertAudit expertAudit) {
 		return mapper.selectFailByExpertId(expertAudit);
+	}
+	
+	/**
+     * @Title: updateByExpertId
+     * @author XuQing 
+     * @date 2016-12-27 上午11:00:46  
+     * @Description:更新isdelete
+     * @param @param expertId      
+     * @return void
+     */
+    public void updateIsDeleteByExpertId (String expertId) {
+    	mapper.updateIsDeleteByExpertId(expertId);
 	}
 }

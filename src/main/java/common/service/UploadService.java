@@ -125,7 +125,7 @@ public interface UploadService {
      * @param key 对应的key
      * @return UploadFile
      */
-    UploadFile findBybusinessId(String businessId, Integer sysKey);
+    List<UploadFile> findBybusinessId(String businessId, Integer sysKey);
     
     
     /**

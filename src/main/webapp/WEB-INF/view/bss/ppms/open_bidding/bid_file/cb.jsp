@@ -127,13 +127,13 @@
 </head>
 <body class="announce">
 <!-- 表格开始-->
-   <div class="col-md-12 col-sm-12 col-xs-12 p0 mt20 mt20">
-	   <div class="col-md-6 col-sm-6 col-xs-6 tc f18">项目名称：${project.name}</div>
-	   <div class="col-md-6 col-sm-6 col-xs-6 tc f18">项目编号：${project.projectNumber}</div>
+   <div class="col-md-6 col-sm-8 col-xs-10 col-md-offset-4 col-sm-offset-2 project_name">
+	   <div class="col-md-12 col-sm-12 col-xs-12">项目名称：${project.name}</div>
+	   <div class="col-md-12 col-sm-12 col-xs-12">项目编号：${project.projectNumber}</div>
    </div>
-   <div  class="kaibiao_time clear">
-       <span id="showH" class="col-md-12 col-xs-12 col-sm-12 kb_title">开标倒计时：</span>
-       <div  id="showTime" class="col-md-12 col-xs-12 col-sm-12 tc"></div>
+   <div class="kaibiao_time col-md-6 col-sm-8 col-xs-10 col-md-offset-4 col-sm-offset-2">
+       <span id="showH" class="col-md-12 col-sm-12 col-xs-12 kb_title"><span class="time">距离</span>开标时间还有：</span>
+       <div  id="showTime" class="col-md-12 col-xs-12 col-sm-12"></div>
    </div>
     <div id="showDiv" class="clear hide">
 	  <input type="hidden" id ="projectId" value="${project.id}" />

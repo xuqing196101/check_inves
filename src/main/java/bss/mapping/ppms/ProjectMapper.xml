@@ -1284,4 +1284,13 @@
       ORDER BY CREATED_AT DESC
   </select>
     
+    <update id="updatePurchaseDep" parameterType="bss.model.ppms.Project">
+    	update T_BSS_PPMS_PROJECTS
+    	<set>
+      	<if test="purchaseDepId != null">
+        	PURCHASE_DEP_ID = #{purchaseDepId}
+      	</if>
+    	</set>
+    	where ID = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>

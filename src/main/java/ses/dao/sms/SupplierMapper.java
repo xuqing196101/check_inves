@@ -282,4 +282,14 @@ public interface SupplierMapper {
      */
     Integer getCountMobile(@Param("mobile")String mobile);
     
+    /**
+     * 
+     *〈简述〉根据创建日期查询已提交的供应商
+     *〈详细描述〉
+     * @author myc
+     * @param creteDate 创建日期
+     * @return
+     */
+    List<Supplier> getCommintSupplierList(@Param("createDate")String creteDate);
+    
 }

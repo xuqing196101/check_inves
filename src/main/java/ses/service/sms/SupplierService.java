@@ -174,5 +174,17 @@ public interface SupplierService {
     */
    Integer getCountMobile(String mobile);
    
+<<<<<<< HEAD
    public List<Qualification>  queryCategoyrId(String categoryId);
+=======
+   /**
+    * 
+    *〈简述〉根据创建日期获取已提交的供应商信息
+    *〈详细描述〉
+    * @author myc
+    * @param creteDate 创建日期
+    * @return 供应商集合
+    */
+   List<Supplier> getCommintSupplierByDate(String creteDate);
+>>>>>>> 3f3462cfde4ae9f1c51d952a9f0471d29ebf3ce1
 }

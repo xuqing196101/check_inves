@@ -26,7 +26,7 @@
       }
 
       function typeInfo() {
-        $("#picshow").hide();
+       // $("#picshow").hide();
         var typeId = $("#articleTypes").select2("data").text;
         var parentId = $("#articleTypes").select2("val");
         $("#secondType").empty();
@@ -36,43 +36,50 @@
         $("#fourType").select2("val", "");
         if(typeId == "工作动态") {
           $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
-          $("#picshow").show();
-          $("#second").hide();
+         // $("#picshow").show();
+          $("#second").show();
           $("#three").hide();
           $("#four").hide();
+          getSencond(parentId);
         }else if(typeId == "采购公告"){
             $("#second").show();
             $("#three").show();
             $("#four").show();
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
          }else if(typeId == "中标公示"){
              $("#second").show();
              $("#three").show();
              $("#four").show();
+             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
              getSencond(parentId);
          }else if(typeId == "单一来源公示"){
              $("#second").show();
              $("#three").show();
              $("#four").hide();
+             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
              getSencond(parentId);
          }else if(typeId == "商城竞价公告"){
         	  $("#second").show();
         	  $("#three").hide();
             $("#four").hide();
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
         	  getSencond(parentId);
          }else if(typeId == "网上竞价公告"){
             $("#second").show();
             $("#three").hide();
             $("#four").hide();
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
          }else if(typeId == "采购法规"){
             $("#second").show();
             $("#three").hide();
             $("#four").hide();
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
          }else {
           $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
-          $("#picshow").hide();
+          //$("#picshow").hide();
           $("#second").hide();
           $("#three").hide();
           $("#four").hide();
@@ -179,7 +186,9 @@
                $("#articleTypes").select2("val", "${article.articleType.id }");
                var typeId = $("#articleTypes").select2("data").text;
                if(typeId == "工作动态") {
-                 document.getElementById("picshow").style.display = "";
+                 //document.getElementById("picshow").style.display = "";
+                 $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
+                 $("#second").show();
                }else if(typeId == "采购公告"){
                    $("#second").show();
                    $("#three").show();

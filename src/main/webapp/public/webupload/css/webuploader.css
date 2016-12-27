@@ -2,6 +2,7 @@
 	position: relative;
 	display: inline-block;
 	float: left;
+	height:30px;
 }
 .webuploader-element-invisible {
 	position: absolute !important;
@@ -32,4 +33,7 @@
 	background-color: #48bbef;
     color: white;
 }
-
+.wu-example .btns{
+	height:30px;
+	float: left;
+}

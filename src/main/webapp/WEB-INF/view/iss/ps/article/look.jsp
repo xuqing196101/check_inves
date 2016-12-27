@@ -109,10 +109,6 @@
                         内网&外网
                       </c:if>
                     </td>
-                    <td class="bggrey" width="10%">
-                      图片展示：
-                    </td>
-                    <td width="40%">${article.isPicShow }</td>
                   </tr>
                 </tbody>
               </table>

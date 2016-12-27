@@ -139,5 +139,11 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Project> selectProjectsByConition(HashMap<String, Object> map) {
 		return projectMapper.selectProjectsByConition(map);
 	}
+
+	
+	@Override
+	public int updatePurchaseDep(Project project) {
+		return projectMapper.updatePurchaseDep(project);
+	}
 	
 }

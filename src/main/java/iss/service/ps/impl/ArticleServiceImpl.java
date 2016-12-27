@@ -4,11 +4,15 @@ import iss.dao.ps.ArticleMapper;
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import bss.model.ppms.Packages;
@@ -223,5 +227,25 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<Article> selectPics() {
 		return articleMapper.selectPics();
+	}
+
+	@Override
+	public BigDecimal selectByTimer(Map<String, Object> map) {
+		return articleMapper.selectByTimer(map);
+	}
+
+	@Override
+	public BigDecimal selectByTimerByType(Map<String, Object> map) {
+		return articleMapper.selectByTimerByType(map);
+	}
+
+	@Override
+	public List<Article> selectAllByParId(Map<String, Object> map) {
+		return articleMapper.selectAllByParId(map);
+	}
+
+	@Override
+	public List<Article> selectAllByArticleType(Map<String, Object> map) {
+		return articleMapper.selectAllByArticleType(map);
 	}
 }

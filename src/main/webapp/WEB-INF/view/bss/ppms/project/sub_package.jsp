@@ -469,9 +469,7 @@
 							<tr class="tc">
 								<td class="w30"><input type="checkbox" value="${obj.id }" name="info" onclick="selectedBox(this)"></td>
 								<td class="w50">${obj.serialNumber }</td>
-								<td><c:if test="${orgnization.id == obj.department}"> 
-                           ${orgnization.name}
-                       </c:if></td>
+								<td>${obj.orgName }</td>
 								<td>${obj.goodsName}</td>
 								<td>${obj.stand}</td>
 								<td>${obj.qualitStand}</td>
@@ -538,9 +536,9 @@
 							<tr class="tc">
 								<td class="w50"><input type="checkbox" name="info${p.index }" value="${obj.id }" onclick="selectedPackage(this,${p.index})" /></td>
 								<td class="w50">${obj.serialNumber }</td>
-								<td><c:if test="${orgnization.id == obj.department}"> 
+								<td><%--<c:if test="${orgnization.id == obj.department}"> 
                            ${orgnization.name}
-                       </c:if></td>
+                       </c:if>--%>${obj.orgName }</td>
 								<td>${obj.goodsName}</td>
 								<td>${obj.stand}</td>
 								<td>${obj.qualitStand}</td>

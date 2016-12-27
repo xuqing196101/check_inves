@@ -149,13 +149,20 @@ public class Article{
      */
     private String fourArticleTypeId;
     
-    /**
-     *  @Fields lastArticleTypeId : 末级栏目节点
-     */
+    private ArticleType lastArticleType;
+    
     private String lastArticleTypeId;
     
-    private List<ArticleAttachments> articleAttachments;
+	private List<ArticleAttachments> articleAttachments;
         
+	public String getLastArticleTypeId() {
+		return lastArticleTypeId;
+	}
+
+	public void setLastArticleTypeId(String lastArticleTypeId) {
+		this.lastArticleTypeId = lastArticleTypeId;
+	}
+
 	public Integer getDownloadCount() {
 		return downloadCount;
 	}
@@ -381,12 +388,11 @@ public class Article{
 		this.fourArticleTypeId = fourArticleTypeId;
 	}
 
-	public String getLastArticleTypeId() {
-		return lastArticleTypeId;
+	public ArticleType getLastArticleType() {
+		return lastArticleType;
 	}
 
-	public void setLastArticleTypeId(String lastArticleTypeId) {
-		this.lastArticleTypeId = lastArticleTypeId;
+	public void setLastArticleType(ArticleType lastArticleType) {
+		this.lastArticleType = lastArticleType;
 	}
-	
 }

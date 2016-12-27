@@ -530,6 +530,12 @@ System.out.print(scoreModel);
 				"pi.score" : {
 					required : true,
 					number:true
+				},
+				reviewContent : {
+					required : true
+				},
+				name : {
+					required : true
 				}
 			},
 			messages : {
@@ -581,6 +587,12 @@ System.out.print(scoreModel);
 				"pi.score" : {
 					required : "必填",
 					number:"数字项"
+				},
+				reviewContent : {
+					required : "必填"
+				},
+				name : {
+					required : "必填"
 				}
 			},
 			showErrors: function(errorMap, errorList) {
@@ -609,7 +621,7 @@ System.out.print(scoreModel);
 	<input type="hidden" id="sm7" value="${scoreModel.intervalTypeName }">
 	<div>
 		<form action="" method="post"  id="formID">
-		   <div class="mt10">
+		   <div class="mt50">
 		    	<span>评审指标名称:</span>
 		   		<input name="name" id="name" class="" type="text" value="${scoreModel.name}" >
 		   </div>
@@ -840,7 +852,10 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName3"><option value="1" selected="selected">减分</option></select></td>
+				<td><select name="addSubtractTypeName" id="addSubtractTypeName3"><option value="1" selected="selected">减分</option></select>
+					<br/>
+					<span class="blue">*以最高分为基准值排序递减</span>
+				</td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
@@ -891,7 +906,10 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName4"><option value="0" selected="selected">加分</option></select></td>
+				<td><select name="addSubtractTypeName" id="addSubtractTypeName4"><option value="0" selected="selected">加分</option></select>
+					<br/>
+					<span class="blue">*以最低分为基准值排序递增</span>
+				</td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
@@ -1023,7 +1041,10 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName7"><option value="0" selected="selected">加分</option><option value="1">减分</option></select></td>
+				<td><select name="addSubtractTypeName" id="addSubtractTypeName7"><option value="0" selected="selected">加分</option><option value="1">减分</option></select>
+					<br/>
+					<span class="blue">*如果为[加分]，那么高于[评审基准数]为0分，低于[评审基准数]按照规则加分；如果为[减分]，那么高于[评审基准数]为满分，低于[评审基准数]按照规则减分</span>
+				</td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">加减分分值</td>
@@ -1090,9 +1111,9 @@ System.out.print(scoreModel);
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数">
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例:生产工序，十道以上得满分，每减少两项减0.5分，最低分为0分，其中生产工序为评审参数">
 					<br/>
-					<span class="blue">*例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数</span>
+					<span class="blue">*例:生产工序，十道以上得满分，每减少两项减0.5分，最低分为0分，其中生产工序为评审参数</span>
 				</td>
 			</tr>
 			<tr>
@@ -1122,7 +1143,10 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName8"><option value="0" selected="selected">加分</option><option value="1">减分</option></select></td>
+				<td><select name="addSubtractTypeName" id="addSubtractTypeName8"><option value="0" selected="selected">加分</option><option value="1">减分</option></select>
+					<br/>
+					<span class="blue">*如果为[加分]，那么低于[评审基准数]为0分，高于[评审基准数]按照规则加分；如果为减分，那么低于[评审基准数]为满分，高于[评审基准数]按照规则减分</span>
+				</td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">加减分分值</td>

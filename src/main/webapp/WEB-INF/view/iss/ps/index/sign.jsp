@@ -176,7 +176,7 @@
     			getCode();
     		});
     	}
-    	window.onload = function() {
+    	/*window.onload = function() {
     		getCode();
     	};
 
@@ -189,7 +189,7 @@
     				$("#inputCode").val(result);
     			}
     		});
-    	}
+    	}*/
     </script>
   </head>
 
