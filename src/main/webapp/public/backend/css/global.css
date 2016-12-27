@@ -1148,8 +1148,6 @@ table .input_group .add-on{
 }
 .table_input input[type="text"]{
 	margin:0px!important;
-	float: left;
-	width:100%;
 }
 .left_table .bggrey {
 	padding: 0 10px!important;
@@ -1159,7 +1157,9 @@ table .input_group .add-on{
 	margin: 0px!important;
 	float: left;
 }
-
+.table_wrap td{
+	white-space: nowrap;
+}
 
 
 /*倒计时样式*/

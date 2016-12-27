@@ -110,15 +110,15 @@
  	<div class="row magazine-page">
 	   	<div class="col-md-12 tab-v2">
 	        <div class="padding-top-10">
-	          <ul class="nav nav-tabs bgwhite">
-	            <li class="active" onclick="loadPageOne('tab-1','packageExpert/assignedExpert.html')"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f16">专家名单</a></li>
-	            <!-- <li class="" onclick="loadPageTwo('tab-2','packageExpert/toAuditProgress.html');"><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f16">各包分配评委</a></li> -->
-				<li class="" onclick="loadPageThree('tab-3','packageExpert/toSupplierQuote.html');"><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f16">供应商报价表</a></li>
-				<li class="" onclick="loadPageFour('tab-4','packageExpert/toAuditProgress.html');"><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f16">评审进度</a></li>
-	            <li class="" onclick="loadPageFive('tab-5','packageExpert/toFirstAudit.html');"><a aria-expanded="false" href="#tab-5" data-toggle="tab" class="f16">符合性审查</a></li>
-				<li class="" onclick="loadPageEight('tab-8','packageExpert/confirmSupplier.html');"><a aria-expanded="false" href="#tab-8" data-toggle="tab" class="f16">确定供应商</a></li>
-				<li class="" onclick="loadPageSix('tab-6','packageExpert/toScoreAudit.html');"><a aria-expanded="false" href="#tab-6" data-toggle="tab" class="f16">经济技术评审(审查)</a></li>
-				<li class="" onclick="loadPageSeven('tab-7','packageExpert/supplierRank.html');"><a aria-expanded="false" href="#tab-7" data-toggle="tab" class="f16">供应商排名</a></li>
+	          <ul class="nav nav-tabs bgwhite expert_tab">
+	            <li class="active" onclick="loadPageOne('tab-1','packageExpert/assignedExpert.html')"><a aria-expanded="true" href="#tab-1" data-toggle="tab">专家名单</a></li>
+	            <!-- <li class="" onclick="loadPageTwo('tab-2','packageExpert/toAuditProgress.html');"><a aria-expanded="false" href="#tab-2" data-toggle="tab">各包分配评委</a></li> -->
+				<li class="" onclick="loadPageThree('tab-3','packageExpert/toSupplierQuote.html');"><a aria-expanded="false" href="#tab-3" data-toggle="tab">供应商报价表</a></li>
+				<li class="" onclick="loadPageFour('tab-4','packageExpert/toAuditProgress.html');"><a aria-expanded="false" href="#tab-4" data-toggle="tab">评审进度</a></li>
+	            <li class="" onclick="loadPageFive('tab-5','packageExpert/toFirstAudit.html');"><a aria-expanded="false" href="#tab-5" data-toggle="tab">符合性审查</a></li>
+				<li class="" onclick="loadPageEight('tab-8','packageExpert/confirmSupplier.html');"><a aria-expanded="false" href="#tab-8" data-toggle="tab">确定供应商</a></li>
+				<li class="" onclick="loadPageSix('tab-6','packageExpert/toScoreAudit.html');"><a aria-expanded="false" href="#tab-6" data-toggle="tab">经济技术评审(审查)</a></li>
+				<li class="" onclick="loadPageSeven('tab-7','packageExpert/supplierRank.html');"><a aria-expanded="false" href="#tab-7" data-toggle="tab">供应商排名</a></li>
 	          </ul>
 	          <div class="tab-content padding-top-20">
 	            <div class="tab-pane fade active in" id="tab-1">

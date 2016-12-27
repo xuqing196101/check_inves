@@ -138,8 +138,8 @@
             <input class="btn btn-windows reset" value="返回" type="button"
                     onclick="location.href='javascript:history.go(-1);'">
 			<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
-			<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll"></div>
-				<table class="table table-bordered table-condensed mt5">
+			<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll">
+				<table class="table table-bordered table-condensed mt5 table_wrap">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
@@ -224,6 +224,7 @@
 
 					</c:forEach>
 				</table>
+			  </div>
 			</form>
 		</div>
 	</div>
