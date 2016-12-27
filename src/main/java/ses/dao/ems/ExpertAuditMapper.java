@@ -107,4 +107,14 @@ public interface ExpertAuditMapper {
     List<ExpertAudit> findAllPassExpert();
     
     List<ExpertAudit> selectFailByExpertId (ExpertAudit expertAudit);
+    
+    /**
+     * @Title: updateByExpertId
+     * @author XuQing 
+     * @date 2016-12-27 上午11:00:46  
+     * @Description:更新isdelete
+     * @param @param expertId      
+     * @return void
+     */
+    void updateIsDeleteByExpertId (String expertId); 
 }

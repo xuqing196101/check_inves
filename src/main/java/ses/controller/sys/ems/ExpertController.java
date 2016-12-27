@@ -1362,6 +1362,9 @@ public class ExpertController {
         expert.setIsSubmit("1");
         Expert temp = service.selectByPrimaryKey(expertId);
         if ("3".equals(temp.getStatus())) {
+        	//删除之前的审核信息
+        	expertAuditService.updateIsDeleteByExpertId(expertId);
+        	
             //未审核
             expert.setStatus("0");
             expert.setIsDelete((short) 1);
