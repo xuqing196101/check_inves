@@ -171,5 +171,5 @@ public interface PackageMapper {
      * @param projectId
      * @return
      */
-    List<ProjectExtract> listProjectExtract(String projectId);
+    List<Packages> listProjectExtract(String projectId);
 }

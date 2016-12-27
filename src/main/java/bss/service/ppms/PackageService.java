@@ -164,5 +164,5 @@ public interface PackageService {
      * @author Wang Wenshuai
      * @return
      */
-    List<ProjectExtract> listProjectExtract(String projectId);
+    List<Packages> listProjectExtract(String projectId);
 }

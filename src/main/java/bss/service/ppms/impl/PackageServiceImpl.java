@@ -142,7 +142,7 @@ public class PackageServiceImpl implements PackageService{
 	}
 
     @Override
-    public List<ProjectExtract> listProjectExtract(String projectId) {
+    public List<Packages> listProjectExtract(String projectId) {
         // TODO Auto-generated method stub
         return packageMapper.listProjectExtract(projectId);
     }
