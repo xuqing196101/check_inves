@@ -199,8 +199,8 @@
 						<label class="fl">回复内容：</label>
 						<span><input type="text" id="replyCon" class="mb0 " value="${replyCon }"/></span>
 					</li>
-					<button class="btn" onclick="search()">查询</button>
-					<button class="btn" onclick="reset()">重置</button>
+					<button class="btn fl" onclick="search()">查询</button>
+					<button class="btn fl" onclick="reset()">重置</button>
 				</ul>
 				<div class="clear"></div>
 			</div>

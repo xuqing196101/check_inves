@@ -284,8 +284,8 @@
 	             	</select>
             	</span>
        		</li>
-         	<button class="btn" onclick="search()">查询</button>
-         	<button class="btn" onclick="reset()">重置</button>
+         	<button class="btn fl" onclick="search()">查询</button>
+         	<button class="btn fl" onclick="reset()">重置</button>
      	</ul>
      	<div class="clear"></div>
   </div>

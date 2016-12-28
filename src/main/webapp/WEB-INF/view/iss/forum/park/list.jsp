@@ -238,11 +238,11 @@
 					</li>
 
 					<li class="fl">
-						<label class="fl">版块介绍：</label>
+						<label class="">版块介绍：</label>
 						<span><input type="text" id="parkContentForSerach" class="" value="${parkContentForSerach }"/></span>
 					</li>
-					<button class="btn" onclick="search()">查询</button>
-					<button class="btn" onclick="reset()">重置</button>
+					<button class="btn fl mt1" onclick="search()">查询</button>
+					<button class="btn fl mt1" onclick="reset()">重置</button>
 				</ul>
 				<div class="clear"></div>
 			</div>
@@ -291,17 +291,17 @@
 							<c:if test="${length<=30}">
 								<td onclick="view('${park.id}')" class=" tl pl20 /8pointer">${content } </td>
 							</c:if>
-							<td class="tc pointer" onclick="view('${park.id}')">${park.user.relName}</td>
+							<td class="tl pl20 pointer" onclick="view('${park.id}')">${park.user.relName}</td>
 							<c:if test="${park.isHot == 0||park.isHot==''||park.isHot==null}">
 								<td class="tc pointer" onclick="view('${park.id}')">否</td>
 							</c:if>
 							<c:if test="${park.isHot == 1}">
 								<td class="tc pointer" onclick="view('${park.id}')">是</td>
 							</c:if>
-							<td class="tl pl20 pointer" onclick="view('${park.id}')">${park.creater.relName}</td>
-							<td class="tl pl20 pointer" onclick="view('${park.id}')">${park.topiccount }</td>
-							<td class="tl pl20 pointer" onclick="view('${park.id}')">${park.postcount }</td>
-							<td class="tl pl20 pointer" onclick="view('${park.id}')">${park.replycount }</td>
+							<td class="tc pointer" onclick="view('${park.id}')">${park.creater.relName}</td>
+							<td class="tc  pointer" onclick="view('${park.id}')">${park.topiccount }</td>
+							<td class="tc pointer" onclick="view('${park.id}')">${park.postcount }</td>
+							<td class="tc pointer" onclick="view('${park.id}')">${park.replycount }</td>
 						</tr>
 					</c:forEach>
 				</table>
