@@ -223,7 +223,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -243,7 +243,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -263,7 +263,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -283,7 +283,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -346,7 +346,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -365,7 +365,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -384,7 +384,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -403,7 +403,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -596,7 +596,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -615,7 +615,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -634,7 +634,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -653,7 +653,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -716,7 +716,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -735,7 +735,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -754,7 +754,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
@@ -773,7 +773,7 @@
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,19)}...</a>
+                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${fn:substring(name,0,16)}...</a>
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
