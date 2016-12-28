@@ -295,12 +295,11 @@ function deleteFinance() {
 		var reg= /^\d+\.?\d*$/;  
 		if(!reg.exec(vals)){
 			$(obj).val("");
-			layer.msg("非法的数字");
-			 //$("#err_fund").text("数字非法");
-		}/* else{
+			 $("#err_fund").text("数字非法");
+		}  else{
 			$("#err_fund").text();
 			$("#err_fund").empty();
-		} */
+		}  
 	}
 	
 	function increaseAddress(obj){
@@ -470,7 +469,7 @@ function deleteFinance() {
 				     </div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司网址</span>
+				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">公司网址</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="website"  value="${currSupplier.website}" <c:if test="${fn:contains(audit,'website')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('website')"</c:if> >
 			       <c:if test="${fn:contains(audit,'website')}">
@@ -1184,7 +1183,7 @@ function deleteFinance() {
                 
                 
 		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">
-		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 营业范围（按照营业范围填写）</span>
+		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 营业范围（按照营业执照上填写）</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
 			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80" title="不超过80个字" name="businessScope">${currSupplier.bankName}</textarea>
 	       	    </div>
@@ -1263,7 +1262,7 @@ function deleteFinance() {
 	  <h2 class="count_flow"> <i>3</i> 近三年财务信息</h2>
 	  <div class="padding-top-10 clear">
 	  <c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
-	    	<h2 class="count_flow">${finance.year}年财务信息 （单位：万元）</h2>
+	    	<h2 class="count_flow">${finance.year}年财务信息  <span style="float:right">（金额单位：万元）</span>  </h2>
 	    	<fieldset class="col-md-12 col-xs-12 col-sm-12 border_font">
 	 	  <!--   <legend>列表</legend> -->
 			<div  class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" >

@@ -1617,28 +1617,32 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/category_type", produces = "application/json;charset=UTF-8")
-    public List<CategoryTree> getCategory(String id,String code,String supplierId, Integer status){
+    public List<CategoryTree> getCategory(String id,String code,String supplierId, Integer status,String  stype){
         List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
         String typeId ="";
         //初始化跟节点
         if (StringUtils.isEmpty(id)){
             if(StringUtils.isNotBlank(code)) {
                 DictionaryData type = DictionaryDataUtil.get(code);
+                CategoryTree ct = new CategoryTree();
                 if (type != null ) {
                     if(type.getCode().equals("PRODUCT")){
                         DictionaryData dd = DictionaryDataUtil.get("GOODS");
+                        ct.setCode("PRODUCT");
                         typeId = dd.getId();
                     }else if(type.getCode().equals("SALES")){
                         DictionaryData dd = DictionaryDataUtil.get("GOODS");
+                        ct.setCode("SALES");
                         typeId = dd.getId();
                     }  else {
+                    	ct.setCode(code);
                         typeId = type.getId();
                     }
                 }  
-                CategoryTree ct = new CategoryTree();
+        
                 ct.setName(type.getName());
                 ct.setId(typeId);
-                List<SupplierItem> s =  supplierItemService.getSupplierIdCategoryId(supplierId,typeId);
+                List<SupplierItem> s =  supplierItemService.getSupplierIdCategoryId(supplierId,typeId,code);
                 if (s != null && s.size() > 0){
                     ct.setChecked(true);
                 }
@@ -1654,7 +1658,7 @@ public class SupplierController extends BaseSupplierController {
                 ct1.setName(c.getName());
                 ct1.setParentId(c.getParentId());
                 ct1.setId(c.getId());
-                List<SupplierItem> items =  supplierItemService.getSupplierIdCategoryId(supplierId, c.getId());
+                List<SupplierItem> items =  supplierItemService.getSupplierIdCategoryId(supplierId, c.getId(),code);
                 if (items != null && items.size() > 0){
                     ct1.setChecked(true);
                 }

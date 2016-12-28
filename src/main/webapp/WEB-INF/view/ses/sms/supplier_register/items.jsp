@@ -79,7 +79,7 @@
 	function loadZtree(code, kind, status) {
 	var setting = {
  	    async : {
-			autoParam: ["id"],
+			autoParam: ["id","code"],
 			enable : true,
 			url : "${pageContext.request.contextPath}/supplier/category_type.do",
 			otherParam : {
@@ -190,9 +190,41 @@
 	 	return ids;
 	}
 	
-	function saveCategory(){
+	function saveCategory(event, treeId, treeNode){
 		
-		getCategoryId();
+		/* getCategoryId(); */
+		
+		var clickFlag;
+		if (treeNode.checked) {
+			clickFlag = "1";
+		} else {
+			clickFlag = "0";
+		}
+		var parent=[];
+		while(true){
+			parent=treeNode.getParentNode();
+			parent.push(parent);
+			if(parent==null)break;
+			
+		}
+		
+		$("#categoryId").val(parent);
+		var attr1=$("#li_id_1").attr("class");
+		if(attr1=='active'){
+			$("#supplierTypeRelateId").val("PRODUCT");
+		}
+		var attr2=$("#li_id_2").attr("class");
+		if(attr2=='active'){
+			$("#supplierTypeRelateId").val("SALES");
+		}
+		var attr3=$("#li_id_3").attr("class");
+		if(attr3=='active'){
+			$("#supplierTypeRelateId").val("PROJECT");
+		}
+		var attr4=$("#li_id_4").attr("class");
+		if(attr4=='active'){
+			$("#supplierTypeRelateId").val("SERVICE");
+		}
 		$("#flag").val("4");
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier_item/save_or_update.do",
@@ -202,6 +234,7 @@
 	}
 	
 	function supCategory(){
+		
 		var flag=true;
 		var supplierId="${currSupplier.id}";
 		$.ajax({
@@ -361,6 +394,7 @@
 		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
 		<input name="flag" value=""  id="flag" type="hidden" /> 
 		<input name="supplierTypeIds" type="hidden" value="${currSupplier.supplierTypeIds }" /> 
+		<input name="supplierTypeRelateId"  id="supplierTypeRelateId" type="hidden" value="" /> 
 	</form>
 	<!-- footer -->
 	<c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if>

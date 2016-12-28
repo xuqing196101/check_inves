@@ -72,7 +72,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	public void saveOrUpdate(SupplierItem supplierItem) {
 		
 //		String id = supplierItem.getSupplierId();
-		supplierItemMapper.deleteBySupplierId(supplierItem.getSupplierId());
+		
+		
+	//	supplierItemMapper.deleteBySupplierId(supplierItem.getSupplierId());
 		if(supplierItem.getCategoryId()!=null){
 			String categoryId = supplierItem.getCategoryId().trim();
 			if(supplierItem.getCategoryId().trim().length()>0){
@@ -89,6 +91,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 						si.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
 						map.put("supplierId", supplierItem.getSupplierId());
 						map.put("categoryId", supplierItem.getCategoryId());
+						map.put("type", supplierItem.getSupplierTypeRelateId());
 						List<SupplierItem> list = supplierItemMapper.findByMap(map);
 						if(list.size()<1){
 							supplierItemMapper.insertSelective(si);
@@ -140,16 +143,15 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	}
 
 	@Override
-	public List<SupplierItem> getSupplierIdCategoryId(String supplierId,
-			String categoryId) {
-		// TODO Auto-generated method stub
-		return supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId);
+	public List<SupplierItem> getSupplierIdCategoryId(String supplierId,String categoryId,String type) {
+		 
+		return supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId,type);
 	}
 	
-	public List<SupplierItem> getCategory(String supplierId,String categoryId){
+	public List<SupplierItem> getCategory(String supplierId,String categoryId,String type){
 		List<SupplierItem> list=new ArrayList<SupplierItem>();
 		//一级节点
-		List<SupplierItem> cateLIst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId);
+		List<SupplierItem> cateLIst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId, type);
 //		list.addAll(cateLIst);
 	
 		for(SupplierItem s:cateLIst){
@@ -162,7 +164,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				   List<Category> cateThree = categoryService.findPublishTree(c.getId(),null);
 				   //去中间表查是否存在
 				   for(Category cs:cateThree){
-					   List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId());
+					   List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
 					   list.addAll(cateLst);
 				   }
 			   }

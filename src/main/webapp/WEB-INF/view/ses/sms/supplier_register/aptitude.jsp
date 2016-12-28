@@ -105,13 +105,13 @@
 										    </td>
 												    <td class="info">
 												     <c:forEach items="${obj.list }" var="qua" varStatus="vs">
-													  <c:set value="${group+1}" var="group"/>
+													  <%-- <c:set value="${group+1}" var="group"/> --%>
 													   
 													  	  ${qua.name }
-													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+													   <%--  <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
 																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>  
+														   </div>   --%>
 													    </c:forEach>
 												    </td>
 										   
@@ -130,19 +130,19 @@
 										    <td class="info"> 品目名称</td>
 										    <td>需要上传的文件</td>
 										  </tr>
-										  <c:forEach items="${cateList }" var="obj">
+										  <c:forEach items="${saleQua }" var="sale">
 									      <tr>
-										    <td class="info">${obj.categoryName } 
+										    <td class="info">${sale.categoryName } 
 										    </td>
 												    <td class="info">
-												     <c:forEach items="${obj.list }" var="qua" varStatus="vs">
-													  <c:set value="${group+1}" var="group"/>
+												     <c:forEach items="${sale.list }" var="qua" varStatus="vs">
+													 <%--  <c:set value="${group+1}" var="group"/> --%>
 													   
 													  	  ${qua.name }
-													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+													  <%--   <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
 																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>  
+														   </div>   --%>
 													    </c:forEach>
 												    </td>
 										    </tr>
@@ -161,19 +161,19 @@
 										    <td class="info"> 品目名称</td>
 										    <td>需要上传的文件</td>
 										  </tr>
-										  <c:forEach items="${cateList }" var="obj">
+										  <c:forEach items="${projectQua }" var="project">
 									      <tr>
-										    <td class="info">${obj.categoryName } 
+										    <td class="info">${project.categoryName } 
 										    </td>
 												    <td class="info">
-												     <c:forEach items="${obj.list }" var="qua" varStatus="vs">
-													  <c:set value="${group+1}" var="group"/>
+												     <c:forEach items="${project.list }" var="qua" varStatus="vs">
+													<%--   <c:set value="${group+1}" var="group"/> --%>
 													   
 													  	  ${qua.name }
-													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+												<%-- 	    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
 																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>  
+														   </div>   --%>
 													    </c:forEach>
 												    </td>
 										     </tr>
@@ -189,19 +189,19 @@
 										    <td class="info"> 品目名称</td>
 										    <td>需要上传的文件</td>
 										  </tr>
-										  <c:forEach items="${cateList }" var="obj">
+										  <c:forEach items="${serviceQua }" var="server">
 									      <tr>
-										    <td class="info">${obj.categoryName } 
+										    <td class="info">${server.categoryName } 
 								 
 										     </td>
 												    <td class="info">
-												     <c:forEach items="${obj.list }" var="qua" varStatus="vs">
-													  <c:set value="${group+1}" var="group"/>
+												     <c:forEach items="${server.list }" var="qua" varStatus="vs">
+													<%--   <c:set value="${group+1}" var="group"/> --%>
 													  	  ${qua.name }
-													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+													  <%--   <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
 																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>  
+														   </div>  --%> 
 													    </c:forEach>
 												    </td>
 										  </tr>

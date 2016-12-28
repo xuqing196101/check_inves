@@ -13,8 +13,18 @@ public interface SupplierItemService {
 	public List<SupplierItem> getSupplierId(String supplierId);
 	public List<String> getItemSupplierId();
 	
-	
-	public List<SupplierItem> getSupplierIdCategoryId(String supplierId,String categoryId);
+	/**
+	 * 
+	* @Title: getSupplierIdCategoryId
+	* @Description: 根据供应商类型，供应商id查询，品目id查询是否存在 
+	* author: Li Xiaoxiao 
+	* @param @param supplierId
+	* @param @param categoryId
+	* @param @return     
+	* @return List<SupplierItem>     
+	* @throws
+	 */
+	public List<SupplierItem> getSupplierIdCategoryId(String supplierId,String categoryId,String type);
 	/**
 	 * 
 	* @Title: getCategory
@@ -26,7 +36,7 @@ public interface SupplierItemService {
 	* @return List<SupplierItem>     
 	* @throws
 	 */
-	public List<SupplierItem> getCategory(String supplierId,String categoryId);
+	public List<SupplierItem> getCategory(String supplierId,String categoryId,String type);
 	/**
 	 * 
 	* @Title: getCategory
