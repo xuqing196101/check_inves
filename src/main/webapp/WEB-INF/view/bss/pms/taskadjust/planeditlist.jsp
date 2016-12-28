@@ -115,6 +115,20 @@
 		}
     }
 		
+		/* function edit(){
+    	var cid=$("#collectId").val();
+    	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			window.location.href="${pageContext.request.contextPath}/adjust/detail.html?planNo="+id+"&&id="+cid;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择需要修改的版块",{offset: ['222px', '390px'], shade:0.01});
+		}
+    } */
  
   </script>
   </head>

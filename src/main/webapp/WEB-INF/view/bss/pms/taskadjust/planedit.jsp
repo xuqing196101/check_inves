@@ -174,6 +174,11 @@
 				
 			}
 			function sub(){
+	 
+			$("#adjust").submit();
+		 
+	}
+		/* 	function sub(){
 		var file=$("#required").val();
 		if(file==""||file==null){
 			 layer.tips("文件不允许为空","#required");
@@ -181,7 +186,7 @@
 		else if(flag==true){
 			$("#adjust").submit();
 		}
-	}
+	} */
 			
 				//单价
 			 function sum1(obj) {

@@ -285,9 +285,9 @@
 				</td>
 		      <td class="tl pl20" onclick="view('${obj.planNo }')">
 		      ${obj.planNo }
-			  <td class="pl20">
+			  <%-- <td class="pl20">
 			     <div onclick="view('${obj.planNo }')">${obj.planName }</div>
-			  </td>
+			  </td> --%>
 			 <%--    <c:forEach items="${requires }" var="re" >
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  	</c:forEach> --%>
