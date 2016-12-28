@@ -32,6 +32,13 @@
 			}
 		}
 	}
+	$(function(){
+		var flag = "${flag}";
+		alert(flag);
+		if (flag == '1') {
+			layer.msg("没有显示出来的包为暂未结束评审状态!",{offset: ['200px', '260px']});
+		}
+	});
   </script>
 </head>
   <body>
@@ -88,8 +95,11 @@
                   <c:if test="${supplier.packages eq pack.id}">
 	                <td class="tc">
 	                  <c:forEach items="${rankList}" var="rank">
-	                    <c:if test="${rank.packageId eq pack.id && rank.supplierId eq supplier.suppliers.id}">
+	                    <c:if test="${rank.packageId eq pack.id and rank.supplierId eq supplier.suppliers.id and (rank.reviewResult == null or rank.reviewResult eq '')}">
 	                      ${rank.rank}
+	                    </c:if>
+	                    <c:if test="${rank.packageId eq pack.id and rank.supplierId eq supplier.suppliers.id and rank.reviewResult != null and rank.reviewResult ne ''}">
+	                      ${rank.reviewResult}
 	                    </c:if>
 	                  </c:forEach>
 	                </td>
