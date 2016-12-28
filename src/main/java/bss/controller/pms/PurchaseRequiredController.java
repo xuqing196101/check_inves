@@ -30,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -220,7 +221,7 @@ public class PurchaseRequiredController extends BaseController{
  
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="/upload",produces = "text/html;charset=UTF-8" )
+	@RequestMapping(value="/upload",method=RequestMethod.POST )
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,String planDepName,MultipartFile file,String type,String planName,String planNo,Model model) throws Exception{
         ResponseBean bean = new ResponseBean();
@@ -357,9 +358,10 @@ public class PurchaseRequiredController extends BaseController{
 				sbShow.append("pShow"+i);
 			}
 		}
-		purchaseRequiredService.batchAdd(list);
+		String jsonString = JSON.toJSONString(list);
+		//purchaseRequiredService.batchAdd(list);
 		
-		return "success";
+		return jsonString;
 	}
 	/**
 	 * @throws IOException 
@@ -445,7 +447,7 @@ public class PurchaseRequiredController extends BaseController{
 			}
 	}
 
-		purchaseRequiredService.batchAdd(plist);
+		//purchaseRequiredService.batchAdd(plist);
 		return "redirect:list.html";
 	}
 	
