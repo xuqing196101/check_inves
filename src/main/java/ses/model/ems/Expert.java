@@ -149,6 +149,9 @@ public class Expert extends ExpertHistory implements Serializable {
     /** 品目 **/
     private List<ExpertCategory> expertCategory;
     
+    /** 历史记录 **/
+    private ExpertHistory history;
+    
     private List<String> ids;
     
     
@@ -571,6 +574,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
     public void setExpertCategory(List<ExpertCategory> expertCategory) {
         this.expertCategory = expertCategory;
+    }
+
+    public ExpertHistory getHistory() {
+        return history;
+    }
+
+    public void setHistory(ExpertHistory history) {
+        this.history = history;
     }
 
     

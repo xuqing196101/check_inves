@@ -26,7 +26,7 @@ public class SynchTask {
     @Autowired
     private OuterExpertService outerExpert;
     
-    public void outerSupplierTask(){
+    public void outerSupplierTask() {
         outerSupplier.backupCreated();
     }
     
@@ -35,7 +35,7 @@ public class SynchTask {
      *〈详细描述〉
      * @author WangHuijie
      */
-    public void outerExpertTask(){
+    public void outerExpertTask() {
         outerExpert.backupCreated();
     }
 }

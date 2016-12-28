@@ -19,4 +19,12 @@ public interface OuterExpertService {
      * @author WangHuijie
      */
     public void backupCreated();
+    
+    /**
+     * 
+     *〈简述〉备份修改的专家
+     *〈详细描述〉
+     * @author WangHuijie
+     */
+    public void backupModified();
 }

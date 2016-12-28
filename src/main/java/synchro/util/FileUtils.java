@@ -39,10 +39,10 @@ public class FileUtils {
     public final static String M_SUPPLIER_FILENAME = "_m_supplier.dat";
     
     /** 新注册专家文件名称 **/
-    private final static String C_EXPERT_FILENAME = "_c_expert.dat";
+    public final static String C_EXPERT_FILENAME = "_c_expert.dat";
     
     /** 修改专家文件名称 **/
-    private final static String M_EXPERT_FILENAME = "_m_expert.dat";
+    public final static String M_EXPERT_FILENAME = "_m_expert.dat";
     
     /**
      * 
@@ -190,10 +190,10 @@ public class FileUtils {
         return sb.toString();
     }
     
-    /*
+    /**
      *〈简述〉获取新注册专家导出文件
      *〈详细描述〉
-     * @author myc
+     * @author WangHuijie
      * @return
      */
     public static final File getNewExpertBackUpFile(){
@@ -207,7 +207,7 @@ public class FileUtils {
      * 
      *〈简述〉获取修改专家导出文件
      *〈详细描述〉
-     * @author myc
+     * @author WangHuijie
      * @return
      */
     public static final File getModifyExpertBackUpFile(){
