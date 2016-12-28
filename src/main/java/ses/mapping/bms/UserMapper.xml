@@ -161,18 +161,119 @@
   
   <!-- 保存用户 -->
   <insert id="saveUser" parameterType="ses.model.bms.User">
-    insert into T_SES_BMS_USER (ID, LOGIN_NAME, PASSWORD, 
-      CREATED_AT, IS_DELETED, REL_NAME, 
-      UPDATED_AT, USER_ID, MOBILE, 
-      GENDER, TELEPHONE, EMAIL, 
-      ORG_ID, DUTIES, <!-- TYPE_NAME, --> 
-      TYPE_ID, ADDRESS, RANDOM_CODE)
-    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{gender}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, <!-- #{typeName}, --> 
-      #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR})
+     insert into T_SES_BMS_USER 
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        ID,
+      </if>
+      <if test="loginName != null and loginName != ''">
+        LOGIN_NAME,
+      </if>
+      <if test="password != null and password != ''">
+        PASSWORD,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="relName != null and relName != ''">
+        REL_NAME,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="user != null">
+        USER_ID,
+      </if>
+      <if test="mobile != null and mobile != ''">
+        MOBILE,
+      </if>
+      <if test="gender != null  and gender != ''">
+        GENDER,
+      </if>
+      <if test="telephone != null and telephone != ''">
+        TELEPHONE,
+      </if>
+      <if test="email != null and email != ''">
+        EMAIL,
+      </if>
+      <if test="org != null">
+        ORG_ID,
+      </if>
+      <if test="duties != null and duties != ''">
+        DUTIES,
+      </if>
+      <!-- <if test="typeName != null">
+        TYPE_NAME,
+      </if> -->
+      <if test="typeId != null and typeId != ''">
+        TYPE_ID,
+      </if>
+      <if test="address != null and address != ''">
+        ADDRESS,
+      </if>
+      <if test="randomCode != null and randomCode != ''">
+        RANDOM_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null and loginName != ''">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="relName != null and relName != ''">
+        #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user != null">
+        #{user.id,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null and mobile != ''">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null and gender != ''">
+        #{gender},
+      </if>
+      <if test="telephone != null and telephone != ''">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null and email != ''">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="org != null">
+        #{org.id,jdbcType=VARCHAR},
+      </if>
+      <if test="duties != null and duties != ''">
+        #{duties,jdbcType=VARCHAR},
+      </if>
+      <!-- <if test="typeName != null">
+        #{typeName},
+      </if> -->
+      <if test="typeId != null and typeId != ''">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address != ''">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="randomCode != null and randomCode != ''">
+        #{randomCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
   </insert>
   
   <!-- 4.插入不为空数据 -->

@@ -402,11 +402,11 @@
 			<if test="armyBuinessEmail != null">
 				ARMY_BUSINESS_EMAIL,
 			</if>
-				<if test="armyBuinessAddress != null">
+			<if test="armyBuinessAddress != null">
 				ARMY_BUSINESS_ADDRESS,
 			</if>
 			<if test="auditDate != null">
-				ARMY_BUSINESS_ADDRESS,
+				AUDIT_DATE,
 			</if>
 			<if test="concatProvince != null">
 				CONCAT_PROVINCE,
@@ -611,7 +611,7 @@
 				#{armyBuinessAddress},
 			</if>
 			<if test="auditDate != null">
-				#{auditDate},
+				#{auditDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="concatProvince != null">
 				#{concatProvince},
