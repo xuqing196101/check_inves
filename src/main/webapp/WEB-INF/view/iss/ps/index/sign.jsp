@@ -176,6 +176,17 @@
     			getCode();
     		});
     	}
+    	
+    	function getCode() {
+    		$.ajax({
+    			url : "${pageContext.request.contextPath}/my_test/auto_write.do",
+    			type : "post",
+    			dataType : "json",
+    			success : function(result) {
+    				$("#inputCode").val(result);
+    			}
+    		});
+    	}
     	/*window.onload = function() {
     		getCode();
     	};
