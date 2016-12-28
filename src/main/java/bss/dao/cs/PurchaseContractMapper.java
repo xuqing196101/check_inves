@@ -248,4 +248,27 @@ public interface PurchaseContractMapper {
      */
     int insertSelectiveById(PurchaseContract record);
     
+    /**
+     * 
+    * @Title: selectContractByCode
+    * @author QuJie 
+    * @date 2016-9-22 下午2:48:23  
+    * @Description: 查除code是0的合同
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    List<PurchaseContract> selectContractByCode();
+    
+    /**
+     * 
+    * @Title: selectAllContractByCode
+    * @author QuJie 
+    * @date 2016-9-22 下午2:48:23  
+    * @Description: 查除code是0的合同
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    List<PurchaseContract> selectAllContractByCode(Map<String, Object> map);
 }

@@ -19,7 +19,7 @@
     <result column="RACGE" jdbcType="DECIMAL" property="range" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
-    <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
+    <association property="articleType" column="LAST_ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
   </resultMap>
   <resultMap extends="IndexNewsMapper" id="IndexNewsWithBlobMapper" type="iss.model.ps.Article">
     <result column="CONTENT" jdbcType="CLOB" property="content" />
@@ -28,7 +28,7 @@
   	<collection property="articleAttachments" ofType="iss.model.ps.ArticleAttachments"/>
   </resultMap>
   <sql id="IndexNews_Column_List">
-    ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, 
+    ID, NAME, LAST_ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, 
     STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED
   </sql>
   <sql id="IndexNewsBlob_Column_List">
@@ -51,7 +51,7 @@
 							T_ISS_PS_ARTICLE
 						WHERE STATUS = 2
 						<if test="articleTypeId!=null and articleTypeId!=''">
-						 	and ARTICLE_TYPE_ID = #{articleTypeId}
+						 	and LAST_ARTICLE_TYPE_ID = #{articleTypeId}
 						</if>
 						order by PUBLISHED_AT desc
 					) t
@@ -74,7 +74,7 @@
   	select 
   		<include refid="IndexNews_Column_List"/>
   		from T_ISS_PS_ARTICLE
-  			where ARTICLE_TYPE_ID = #{articleType.id} and STATUS = 2 and rownum &lt;=10
+  			where LAST_ARTICLE_TYPE_ID = #{articleType.id} and STATUS = 2 and rownum &lt;=10
   			and IS_DELETED = 0
   		order by PUBLISHED_AT desc
   </select>
@@ -87,7 +87,7 @@
 		T_ISS_PS_ARTICLE
 	WHERE STATUS = 2
 	<if test="articleTypeId!=null and articleTypeId!=''">
-	 	and ARTICLE_TYPE_ID = #{articleTypeId}
+	 	and LAST_ARTICLE_TYPE_ID = #{articleTypeId}
 	</if>
   </select>
 </mapper>
