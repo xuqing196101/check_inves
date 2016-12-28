@@ -159,6 +159,22 @@
       #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR})
   </insert>
   
+  <!-- 保存用户 -->
+  <insert id="saveUser" parameterType="ses.model.bms.User">
+    insert into T_SES_BMS_USER (ID, LOGIN_NAME, PASSWORD, 
+      CREATED_AT, IS_DELETED, REL_NAME, 
+      UPDATED_AT, USER_ID, MOBILE, 
+      GENDER, TELEPHONE, EMAIL, 
+      ORG_ID, DUTIES, <!-- TYPE_NAME, --> 
+      TYPE_ID, ADDRESS, RANDOM_CODE)
+    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{gender}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, <!-- #{typeName}, --> 
+      #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR})
+  </insert>
+  
   <!-- 4.插入不为空数据 -->
   <insert id="insertSelective" parameterType="ses.model.bms.User">
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">

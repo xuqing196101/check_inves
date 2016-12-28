@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
+import ses.model.ems.ExpertHistory;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
@@ -56,12 +57,19 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     private ExpertCategoryService expertCategoryService;
     
     /**
-     * 
      * @see synchro.outer.back.service.supplier.OuterExpertService#backupCreated()
      */
     @Override
     public void backupCreated() {
         getCreatedData();
+    }
+    
+    /**
+     * @see synchro.outer.back.service.supplier.OuterExpertService#backupModified()
+     */
+    @Override
+    public void backupModified() {
+        getModifiedData();
     }
     
     /**
@@ -72,7 +80,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      * @param expertId 专家Id
      * @return
      */
-    private User getUser(String expertId){
+    private User getUser(String expertId) {
         User user = userService.findByTypeId(expertId);
         return user;
     }
@@ -85,9 +93,22 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      * @param expertId 专家Id
      * @return
      */
-    private List<ExpertCategory> getCategory(String expertId){
+    private List<ExpertCategory> getCategory(String expertId) {
         List<ExpertCategory> categoryList = expertCategoryService.getListByExpertId(expertId);
         return categoryList;
+    }
+    
+    /**
+     * 
+     *〈简述〉获取专家历史记录信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId 专家Id
+     * @return
+     */
+    private ExpertHistory getHistory(String expertId) {
+        ExpertHistory history = expertService.selectOldExpertById(expertId);
+        return history;
     }
     
     /**
@@ -95,9 +116,9 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      *〈详细描述〉
      * @author WangHuijie
      */
-    public void getCreatedData(){
+    public void getCreatedData() {
         List<Expert> expertList = expertService.getCommitExpertByDate(DateUtils.getYesterDay());
-        List<Expert> list = getExpertList(expertList);
+        List<Expert> list = getNewExpertList(expertList);
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getNewExpertBackUpFile(),JSON.toJSONString(list));
         }
@@ -109,9 +130,9 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      *〈详细描述〉
      * @author WangHuijie
      */
-    public void getModifiedData(){
+    public void getModifiedData() {
         List<Expert> expertList = expertService.getModifyExpertByDate(DateUtils.getYesterDay());
-        List<Expert> list = getExpertList(expertList);
+        List<Expert> list = getModifyExpertList(expertList);
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getModifyExpertBackUpFile(),JSON.toJSONString(list));
         }
@@ -120,17 +141,36 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     
     /**
      * 
-     *〈简述〉根据主数据查询关联的数据
+     *〈简述〉根据主数据查询关联的数据(新注册)
      *〈详细描述〉
      * @author WangHuijie
      * @param expertList 主数据
      * @return 组装完成的数据
      */
-    private List<Expert> getExpertList(List<Expert> expertList){
+    private List<Expert> getNewExpertList(List<Expert> expertList) {
         List <Expert> list = new ArrayList<Expert>();
         for (Expert expert : expertList){
             expert.setUser(getUser(expert.getId()));
             expert.setExpertCategory(getCategory(expert.getId()));
+            list.add(expert);
+        }
+        return list;
+    }
+    
+    /**
+     * 
+     *〈简述〉根据主数据查询关联的数据(修改)
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertList 主数据
+     * @return 组装完成的数据
+     */
+    private List<Expert> getModifyExpertList(List<Expert> expertList) {
+        List <Expert> list = new ArrayList<Expert>();
+        for (Expert expert : expertList){
+            expert.setUser(getUser(expert.getId()));
+            expert.setExpertCategory(getCategory(expert.getId()));
+            expert.setHistory(getHistory(expert.getId()));
             list.add(expert);
         }
         return list;

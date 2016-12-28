@@ -34,6 +34,7 @@ import ses.model.ems.ProjectExtract;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtPackageService;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
@@ -42,6 +43,8 @@ import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.CnUpperCaser;
 import ses.util.DictionaryDataUtil;
+import ses.util.WfUtil;
+import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Money;
@@ -131,7 +134,9 @@ public class PackageExpertController {
     private MarkTermService markTermService; //数据字典表
     @Autowired
     private ScoreModelService scoreModelService; //数据字典表
-
+    @Autowired 
+    private UserServiceI userService;
+    
     /**
      *〈简述〉跳转分配专家
      *〈详细描述〉
@@ -144,30 +149,46 @@ public class PackageExpertController {
     @RequestMapping("/assignedExpert")
     public String assignedExpert(String projectId, Model model, String flowDefineId) {
         //获取组长信息
-        FlowExecute execute=new FlowExecute();
+        /*FlowExecute execute=new FlowExecute();
         execute.setProjectId(projectId);
         execute.setIsDeleted(0);
         execute.setFlowDefineId(flowDefineId);
         List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
         if (findFlowExecute.size() != 0 && findFlowExecute.get(0).getStatus() != null &&   findFlowExecute.get(0).getStatus() == 1){
             model.addAttribute("execute","SCCUESS" );
-        }
-        Map<String, Object> map = new HashMap<String, Object>();
+        }*/
+        /*Map<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
         map.put("isGroupLeader", 1);
         List<PackageExpert> selectList = service.selectList(map);
-        model.addAttribute("selectList", selectList);
-
-        List<Packages> packages = packageService.listResultAllExpert(projectId);
+        model.addAttribute("selectList", selectList);*/
         Project project = projectService.selectById(projectId);
-
-        // 包信息
-        model.addAttribute("packageList", packages);
         // 项目实体
         model.addAttribute("project", project);
-
         model.addAttribute("flowDefineId", flowDefineId);
-        return "bss/prms/assign_expert/expert_list";
+        //专家类型
+        model.addAttribute("ddList", expExtractRecordService.ddList());
+        model.addAttribute("ddJson", JSON.toJSONString(expExtractRecordService.ddList()));
+        //查询该项目下专家是否签到
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("projectId", projectId);
+        List<PackageExpert> expertSigneds = packageExpertService.selectList(map2);
+        if (expertSigneds != null && expertSigneds.size() > 0) {
+          // 项目分包信息
+          HashMap<String, Object> pack = new HashMap<String, Object>();
+          pack.put("projectId", projectId);
+          List<Packages> packages = packageService.findPackageById(pack);
+          model.addAttribute("packages", packages);
+          model.addAttribute("expertSigneds", expertSigneds);
+          model.addAttribute("isEndSigin", "1");
+          return "bss/prms/assign_expert/expert_list_view";
+        } else {
+          List<Packages> packages = packageService.listProjectExtract(projectId);
+          model.addAttribute("isEndSigin", "0");
+          // 包信息
+          model.addAttribute("packageList", packages);
+          return "bss/prms/assign_expert/expert_list";
+        }
     }
 
     /**
@@ -2570,5 +2591,137 @@ public class PackageExpertController {
         map.put("removedReason", removedReason);
         saleTenderService.removeSaleTender(map);
         return "redirect:confirmSupplier.html?projectId="+projectId;
+    }
+    
+    /**
+     *〈简述〉专家签到
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param response
+     * @param list
+     * @param projectId
+     * @throws IOException
+     */
+    @RequestMapping("/endSignIn")
+    public void endSignIn(HttpServletResponse response, PurchaseRequiredFormBean list, String projectId) throws IOException{
+      try {
+        String msg = "";
+        int flag = 0;
+        List<PackageExpert> packageExperts = list.getPackageExperts();
+        // 项目分包信息
+        HashMap<String, Object> pack = new HashMap<String, Object>();
+        pack.put("projectId", projectId);
+        List<Packages> packages = packageService.findPackageById(pack);
+        for (Packages packages2 : packages) {
+          int count = 0;
+          for (int i = 1; i < packageExperts.size(); i++) {
+            PackageExpert packageExpert = packageExperts.get(i);
+            //校验每包组长数量
+            if (packages2.getId().equals(packageExpert.getPackageId()) && packageExpert.getIsGroupLeader() == 1) {
+                count ++;
+            }
+            //校验组长必须签到
+            if (packages2.getId().equals(packageExpert.getPackageId()) && packageExpert.getIsGroupLeader() == 1 && packageExpert.getIsSigin() == 0) {
+              msg += "【"+packages2.getName()+"】请选择已到场的专家作为组长.";
+              flag = 1;
+            }
+            //临时专家字段校验
+            if (packages2.getId().equals(packageExpert.getPackageId()) && packageExpert.getIsTempExpert() == 0) {
+              Expert expert = packageExpert.getExpert();
+              if (expert != null ) {
+                if ("".equals(expert.getRelName()) || expert.getRelName() == null 
+                    || "".equals(expert.getIdNumber()) || expert.getIdNumber() == null 
+                    || "".equals(expert.getMobile()) || expert.getMobile() == null
+                    || "".equals(expert.getAtDuty()) || expert.getAtDuty() == null) {
+                  msg += "【"+packages2.getName()+"】临时专家填写项不能为空.";
+                  flag = 1;
+                }
+                List<User> users = userService.findByLoginName(expert.getMobile());
+                if (users.size() > 0) {
+                  msg += "已存在【"+expert.getRelName()+"】手机号的用户名";
+                  flag = 1;
+                }
+              }
+            }
+          }
+          if (count == 0) {
+            msg += "【"+packages2.getName()+"】请设置组长";
+            flag = 1;
+          }
+          if (count > 1) {
+            msg += "【"+packages2.getName()+"】请设置一个组长";
+            flag = 1;
+          }
+        }
+        if (flag == 1) {
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter()
+          .print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+        }
+        if (flag == 0) {
+          PackageExpert pe = packageExperts.get(0);
+          for (int i = 1; i < packageExperts.size(); i++) {
+            PackageExpert packageExpert = packageExperts.get(i);
+            //保存到场签到的专家
+            if (packageExpert.getIsSigin() == 1 && packageExpert.getIsTempExpert() == 1) {
+              packageExpert.setIsAudit((short)0);
+              packageExpert.setIsGather((short)0);
+              packageExpert.setIsGrade((short)0);
+              packageExpert.setIsGatherGather((short)0);
+              packageExpertService.save(packageExpert);
+            }
+            //保存到场签到的临时专家
+            if (packageExpert.getIsSigin() == 1 && packageExpert.getIsTempExpert() == 0) {
+              packageExpertService.saveTempExpert(packageExpert,packageExpert.getPackageId());
+              Expert expert = packageExpert.getExpert();
+              if (expert != null ) {
+                packageExpert.setExpertId(expert.getId());
+              }
+              packageExpert.setIsAudit((short)0);
+              packageExpert.setIsGather((short)0);
+              packageExpert.setIsGrade((short)0);
+              packageExpert.setIsGatherGather((short)0);
+              packageExpertService.save(packageExpert);
+            }
+          }
+          //修改项目状态
+          //Project project = projectService.selectById(projectId);
+          //project.setStatus(DictionaryDataUtil.getId("ZJQDWC"));
+          //projectService.update(project);
+          msg = "签到完成，临时专家的用户名为【手机号】，密码为【123456】";
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter()
+          .print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
+        }
+        response.getWriter().flush();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally {
+        response.getWriter().close();
+      }
+      
+    }
+    
+    /**
+     *〈简述〉返回临时专家id
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/returnNew")
+    public void returnNew(HttpServletResponse response) throws IOException{
+      try {
+        String expertId = WfUtil.createUUID();
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter()
+        .print("{\"success\": " + true + ", \"expertId\": \"" + expertId + "\"}");
+        response.getWriter().flush();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally {
+        response.getWriter().close();
+      }
+      
     }
 }

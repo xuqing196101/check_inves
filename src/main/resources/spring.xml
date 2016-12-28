@@ -9,18 +9,26 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 	
 	<!-- 引入属性文件 -->
 	<context:property-placeholder location="classpath:config.properties" />
-
+	<!-- <task:annotation-driven/>  -->
 	<!-- 自动扫描(自动注入) -->
 	<context:component-scan base-package="ses.service,iss.service,bss.service,ses.util,common.service,synchro.*" />
 	
-	
-	<!-- <task:executor id="executor" pool-size="5" />
+	<!--  <task:executor id="executor" pool-size="5" />
 	<task:scheduler id="scheduler" pool-size="10" />
-	<task:annotation-driven executor="executor" scheduler="scheduler"/> -->
+	<task:annotation-driven executor="executor" scheduler="scheduler"/> 
 	
-	<!-- <task:scheduled-tasks>
+	<task:scheduled-tasks>
         <task:scheduled ref="myTask" method="task11" cron="0 11 14 * * ?"/>   
-	</task:scheduled-tasks>  --> 
+	</task:scheduled-tasks>  -->
 	
-	
+	<!-- 线程池 -->
+	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="20" />
+		<property name="maxPoolSize" value="100" /> 
+		<property name="queueCapacity" value="1000" />
+		<property name="keepAliveSeconds" value="300" />
+		<property name="rejectedExecutionHandler">  
+		  <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+		</property>
+	</bean>
 </beans>

@@ -32,12 +32,21 @@ public interface SynchRecordService {
     
     /**
      * 
-     *〈简述〉记录供应商导入信息
+     *〈简述〉记录新增供应商导入信息
      *〈详细描述〉
      * @author myc
      * @param content 内容
      */
-    public void importSupplierRecord(String content);
+    public void importNewSupplierRecord(String content);
+    
+    /**
+     * 
+     *〈简述〉记录修改的供应商记录
+     *〈详细描述〉
+     * @author myc
+     * @param content
+     */
+    public void importModifySupplierRecord(String content);
     
     /**
      * 
@@ -56,4 +65,14 @@ public interface SynchRecordService {
      * @param content 内容
      */
     public void backModifyExpertRecord(String content);
+    
+    /**
+     * 
+     *〈简述〉记录专家导入信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param content 内容
+     */
+    public void importExpertRecord(String content);
+    
 }

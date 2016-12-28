@@ -237,4 +237,13 @@ public interface UserServiceI {
    * @return:
    */
   List<User> listWithoutSupplier(int pageNum);
+  
+  /**
+   * 
+   *〈简述〉保存用户
+   *〈详细描述〉
+   * @author myc
+   * @param user 
+   */
+  void saveUser(User user);
 }
