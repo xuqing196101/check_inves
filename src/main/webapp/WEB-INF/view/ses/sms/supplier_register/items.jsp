@@ -328,8 +328,8 @@
 									<h2 class="f16 ">
 											勾选物资生产型品目信息
 									</h2>
-									<div class="lr0_tbauto w200">
-										<ul id="tree_ul_id_1" class="ztree mt30"></ul>
+									<div class="lr0_tbauto">
+										<ul id="tree_ul_id_1" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 							</c:if>
@@ -339,8 +339,8 @@
 									<h2 class="f16 ">
 											勾选物资销售型品目信息
 									</h2>
-									<div class="lr0_tbauto w200">
-										<ul id="tree_ul_id_2" class="ztree mt30"></ul>
+									<div class="lr0_tbauto">
+										<ul id="tree_ul_id_2" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 							</c:if>
@@ -350,8 +350,8 @@
 									<h2 class="f16  ">
 									      	勾选工程品目信息
 									</h2>
-									<div class="lr0_tbauto w200">
-										<ul id="tree_ul_id_3" class="ztree mt30"></ul>
+									<div class="lr0_tbauto">
+										<ul id="tree_ul_id_3" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 							</c:if>
@@ -361,8 +361,8 @@
 									<h2 class="f16">
 										 勾选服务品目信息
 									</h2>
-									<div class="lr0_tbauto w200">
-										<ul id="tree_ul_id_4" class="ztree mt30"></ul>
+									<div class="lr0_tbauto">
+										<ul id="tree_ul_id_4" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 								
