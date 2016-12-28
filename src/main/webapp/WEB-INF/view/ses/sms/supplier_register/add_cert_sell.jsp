@@ -91,37 +91,36 @@
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<input name="matSellId" value="${matSellId}" type="hidden" />
 							<input name="id" value="${uuid}" type="hidden" />
-							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
-								<div class="tab-pane fade active in height-300" id="tab-1">
+								
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled">
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质证书名称：</span>
-											 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质证书名称：</span>
+											 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 											 	<input type="text" name="name" />
 											 </div>
 											</li>
 											
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质证书等级：</span>
-												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 													<input type="text" name="levelCert" />
 												</div>
 											</li>
 											
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>供发证机关：</span>
-											   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+											   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 												   <input type="text" name="licenceAuthorith" />
 												</div>
 											</li>
 											
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>有效开始时间：</span>
-												 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+												 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 													<input class="title col-md-12" type="text" name="expStartDate" readonly="readonly" onClick="WdatePicker()" />
 												 </div>
 											</li>
 											
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>有效结束时间：</span>
-										        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+										        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 													<input class="title col-md-12" type="text" name="expEndDate" readonly="readonly" onClick="WdatePicker()" />
 												 </div>
 											</li>
@@ -134,19 +133,17 @@
 												        </select>
 												  </div>
 											</li>
-											
-											<br> <br>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class=""><a class="star_red">*</a>证书附件：</span>
+											    <div class="col-md-12 col-sm-12 col-xs-12 p0 ">
 									 				<u:upload id="cert_up"  multiple="true" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}" auto="true" />
 												   <u:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}"/>
+											       <div id="cert_file" class="cue"></div>
+											     </div>
 											</li>
-											<span id="cert_file"></span>
 											<div class="clear"></div>
 										</ul>
 									  </div>
-							     	</div>
-								</div>
-							 <div class="tc mt10 col-md-12 col-xs-12">
+							 <div class="tc mt10 col-md-12 col-xs-12 col-sm-12">
 								<button type="button" class="btn btn-windows save" onclick="saveOrBack()">保存</button>
 								<button type="button" class="btn btn-windows back" onclick="cancels()">取消</button>
 							</div>

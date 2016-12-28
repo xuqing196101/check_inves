@@ -96,37 +96,38 @@
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled">
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质证书名称：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>资质证书名称：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input type="text" name="name" />
 													<div class="cue" id="cert_name"></div>
 												</div>
 											</li>
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质等级：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>资质等级：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input type="text" name="levelCert" />
 													<div class="cue" id="cert_level"></div>
 												</div>
 											</li>
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>供发证机关：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>供发证机关：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input type="text" name="licenceAuthorith" />
 													<div class="cue" id="cert_authorith"></div>
 												</div>
 											</li>
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>有效开始时间 ：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>有效开始时间 ：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input type="text" name="expStartDate" readonly="readonly" onClick="WdatePicker()" />
 													<div class="cue" id="cert_sdate"></div>
 												</div>
 											</li>
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>有效结束时间 ：</span>
-												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>有效结束时间 ：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input type="text" name="expEndDate" readonly="readonly" onClick="WdatePicker()" />
 													<div class="cue" id="cert_edate"></div>
 												</div>
 											</li>
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>是否年检：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+											   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>是否年检：</span>
 												 <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 											        <select name="mot">
 											          <option value="1">是</option>
@@ -134,17 +135,20 @@
 											        </select>
 											      </div>
 											</li>
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>证书附件：</span>
-												<u:upload  multiple="true" id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}" auto="true" />
-												<u:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}"/>
-											  <div class="cue" id="cert_file"></div>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>证书附件：</span>
+											    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+												  <u:upload  multiple="true" id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}" auto="true" />
+												  <u:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}"/>
+											      <div class="cue" id="cert_file"></div>
+											    </div>
 											</li>
 											<div class="clear"></div>
 										</ul>
 									</div>
 								</div>
 							</div>
-							<div class="tc mt10 col-md-12 col-xs-12">
+							<div class="tc mt10 col-md-12 col-xs-12 col-sm-12">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">取消</button>
 							</div>

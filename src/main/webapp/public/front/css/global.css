@@ -1020,3 +1020,14 @@ li:first-child {
     height: 30px!important;
     line-height: 28px!important;
 }
+
+/**验证样式 */
+.cue{
+	position:absolute;
+	left:0px;
+	top:30px;
+	height:25px;
+	line-height:25px;
+	color:#ef0000;
+	font-size:12px;
+}

@@ -256,8 +256,8 @@
         <div>
           <h2 class="count_flow"><i>2</i>预研项目明细调整</h2>
           <ul class="ul_list">
-            <div class="content table_box over_scroll">
-              <table id="table" class="table table-bordered table-condensed table-hover">
+            <div class="content over_scroll">
+              <table id="table" class="table table-bordered table-condensed table_input">
                 <thead>
                   <tr>
                     <th class="info w50">序号</th>
@@ -281,7 +281,7 @@
                 <c:forEach items="${lists}" var="obj" varStatus="vs">
                   <tr class="${obj.parentId}" style="cursor: pointer;">
                     <td class="tc w50">${obj.serialNumber}</td>
-                    <td class="tc">${obj.department}</td>
+                    <td class=""><div class="pl20 pr5">${obj.department}</div></td>
                     <td class="tc"><input type="text" name="detail[${vs.index }].goodsName" value="${obj.goodsName }"></td>
                     <td class="tc"><input type="text" name="detail[${vs.index }].stand" value="${obj.stand }"></td>
                     <td class="tc"><input type="text" name="detail[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
