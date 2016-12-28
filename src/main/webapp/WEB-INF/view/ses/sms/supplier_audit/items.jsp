@@ -310,25 +310,25 @@
 				var supplierId = $("#supplierId").val();
 				var setting = {
 					async: {
-						autoParam: ["id"],
+						autoParam: ["id","code"],
 						enable: true,
-						url: "${pageContext.request.contextPath}/supplier/category_type.do",
+						url: "${pageContext.request.contextPath}/supplier/category_type.do?shenhe=true",
 						otherParam: {
 							"code": code,
-							"supplierId": "supplierId",
+							"supplierId": supplierId,
 							"status": status
 						},
 						dataType: "json",
 						type: "post",
 					},
-					check: {
+					/* check: {
 						enable: true,
 						chkStyle: "checkbox",
 						chkboxType: {
 							"Y": "ps",
 							"N": "ps"
 						}, //勾选checkbox对于父子节点的关联关系  
-					},
+					}, */
 					data: {
 						simpleData: {
 							enable: true,

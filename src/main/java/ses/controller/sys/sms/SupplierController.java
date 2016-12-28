@@ -1617,8 +1617,9 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/category_type", produces = "application/json;charset=UTF-8")
-    public List<CategoryTree> getCategory(String id,String code,String supplierId, Integer status,String  stype){
+    public List<CategoryTree> getCategory(String id,String code,String supplierId, Integer status,String  stype, String shenhe){
         List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
+        List<CategoryTree> cateList=new ArrayList<CategoryTree>();
         String typeId ="";
         //初始化跟节点
         if (StringUtils.isEmpty(id)){
@@ -1671,8 +1672,16 @@ public class SupplierController extends BaseSupplierController {
                 categoryList.add(ct1);
             }
         }
-        
-        return categoryList;
+        for (CategoryTree catet : categoryList) {
+            if(catet.getChecked() == true) {
+                cateList.add(catet);
+            }
+        }
+        if ("true".equals(shenhe)){
+            return cateList;
+        } else {
+            return categoryList;
+        }
     }
 
 	@RequestMapping("/audit_org")
