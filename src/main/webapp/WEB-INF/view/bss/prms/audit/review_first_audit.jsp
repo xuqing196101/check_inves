@@ -274,8 +274,8 @@
 			</form>
 		</div> 
 		<div class="col-md-12 col-sm-12 col-xs-12 clear tc mt10">
-			<input type="button" onclick="tempSave();"  value="暂存"  class="btn btn-windows save">
 			<input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
+			<input type="button" onclick="tempSave();"  value="暂存"  class="btn btn-windows save">
 			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/>
 		</div>
 			   </div>
