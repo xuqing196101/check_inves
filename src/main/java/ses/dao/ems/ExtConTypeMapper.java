@@ -64,4 +64,14 @@ public interface ExtConTypeMapper {
      * @return
      */
     Integer getExpertTypeById(Map<String, String> map);
+    
+    /**
+     * 
+     *〈简述〉获取总和
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param conId
+     * @return
+     */
+    Integer getSum(String conId);
 }

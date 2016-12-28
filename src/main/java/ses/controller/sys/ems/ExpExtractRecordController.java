@@ -330,11 +330,17 @@ public class ExpExtractRecordController extends BaseController {
         model.addAttribute("find", DictionaryDataUtil.find(12));
         //专家类型
         model.addAttribute("ddList", expExtractRecordService.ddList());
+        //专家类型
+        model.addAttribute("ddListJson", JSON.toJSONString(expExtractRecordService.ddList()));
 
         //获取查询条件类型
         ExpExtCondition condition=new ExpExtCondition();
-        
-        condition.setProjectId(packageId[packageId.length-1]);
+
+        if("".equals(packageId[packageId.length-1])){
+            condition.setProjectId(packageId[packageId.length-2]);
+        }else{
+            condition.setProjectId(packageId[packageId.length-1]);
+        }
         condition.setStatus((short)1);
         List<ExpExtCondition> listCon = conditionService.list(condition,0);
         if (listCon != null && listCon.size() !=0 ){
@@ -349,6 +355,8 @@ public class ExpExtractRecordController extends BaseController {
             //                }
 
             Map<String, Integer> mapcount = new HashMap<String, Integer>();
+            Integer sum = conTypeService.getSum(listCon.get(0).getId());
+            PageHelper.startPage(1, sum*2);
             List<ProjectExtract> list = extractService.list(new ProjectExtract(listCon.get(0).getId()));
             //已操作的
             List<ProjectExtract> projectExtractListYes = new ArrayList<ProjectExtract>();
@@ -456,7 +464,7 @@ public class ExpExtractRecordController extends BaseController {
         } else{
             //真实的项目id
             String projectId = project.getId();
-//            String packageId = "";
+            //            String packageId = "";
             if (project.getId() == null || "".equals(project.getId())){
                 // 创建一个临时项目临时包
                 project.setIsProvisional(1);
@@ -467,7 +475,7 @@ public class ExpExtractRecordController extends BaseController {
                 packages.setProjectId(project.getId());
                 packages.setIsDeleted(0);
                 packagesService.insertSelective(packages);
-//                packageId = packages.getId();
+                //                packageId = packages.getId();
                 ExpExtPackage sExtPackage = new ExpExtPackage();
                 sExtPackage.setPackageId(packages.getId());
                 sExtPackage.setProjectId(project.getId());
@@ -510,16 +518,16 @@ public class ExpExtractRecordController extends BaseController {
                     }
                 }
             }
-//            获取抽取条件状态，未抽取不能在抽取
-           String count2 = conditionService.getCount(packageId);
-           map.put("projectId", project.getId());
+            //            获取抽取条件状态，未抽取不能在抽取
+            String count2 = conditionService.getCount(packageId);
+            map.put("projectId", project.getId());
             if (count2 != null && !"".equals(count2)){
-               map.put("status", "1");
-               map.put("packageId",count2);
-        
-           } else {
-       
-            map.put("sccuess", "SCCUESS");
+                map.put("status", "1");
+                map.put("packageId",count2);
+
+            } else {
+
+                map.put("sccuess", "SCCUESS");
             }
             return JSON.toJSONString(map);
         }
@@ -657,11 +665,18 @@ public class ExpExtractRecordController extends BaseController {
                         extract.setReviewType(typeId);
                         extract.setId(ids[0]);
                         extractService.update(extract); 
+                        if(list.size()+1 == counts){  
+
+
+                        }
+                        break;
                     }
+                    //
+
                 }
 
             }
-            
+
             if ("1".equals(expExtRelate.getExpert().getStatus())){
                 /**
                  * 推送
@@ -724,9 +739,10 @@ public class ExpExtractRecordController extends BaseController {
         pe.setId(ids[0]);
         List<ProjectExtract> list2 = extractService.list(pe);
         ExtConType extConType = conTypeService.getExtConType(list2.get(0).getConTypeId());
+        Integer sum = conTypeService.getSum(list2.get(0).getExpertConditionId());
         Integer count = mapcount.get(extConType.getId());
         if (count != null && count != 0){
-            if (count >= extConType.getExpertsCount()){
+            if (count >= sum){
                 extractService.updateStatusCount("1",extConType.getId());
                 forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
             } else {
@@ -736,9 +752,9 @@ public class ExpExtractRecordController extends BaseController {
         //获取查询条件类型
         List<ExpExtCondition> listCondition = conditionService.list(new ExpExtCondition(ids[1], ""),null);
         List<ExtConType> conTypes = listCondition.get(0).getConTypes();
-        
-        
-        
+
+
+
         for (ExtConType extConType1 : conTypes) {
             //获取抽取的专家类别
             ProjectExtract projectExtrac = new ProjectExtract();
@@ -747,8 +763,8 @@ public class ExpExtractRecordController extends BaseController {
             List<ProjectExtract> list = extractService.list(projectExtrac);
             extConType1.setAlreadyCount(list == null ? 0 : list.size());
         }
-        
-        
+
+
         projectExtractListYes.get(0).setConType(conTypes);
         if (projectExtractListNo.size() != 0){
             //            Collections.shuffle(projectExtractListNo);
@@ -1103,7 +1119,7 @@ public class ExpExtractRecordController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("saveSupervise")
-    public String saveSupervise(String[] relName,String[] company, String[] phone,String projectId){
+    public String saveSupervise(String[] relName,String[] company, String[] phone,String[] duties,String projectId){
         List<ProExtSupervise>  ProExtSupervise = new ArrayList<ProExtSupervise>();
         String strRelName="";
         ProExtSupervise ps=null;
@@ -1121,10 +1137,15 @@ public class ExpExtractRecordController extends BaseController {
             if(relName[i] == null || "".equals(relName[i])){
                 return ERROR;
             }
+            if(duties[i] == null || "".equals(duties[i])){
+                return ERROR;
+            }
+
             ps.setCompany(company[i]);
             ps.setPhone(phone[i]);
             ps.setRelName(relName[i]);
             ps.setProjectId(projectId);
+            ps.setDuties(duties[i]);
             strRelName+=relName[i]+",";
             ProExtSupervise.add(ps);
         }

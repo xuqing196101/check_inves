@@ -68,6 +68,10 @@ public class ProExtSupervise {
     private String phone;
     
     /**
+     * 职务
+     */
+    private String duties;    
+    /**
      * <pre>
      * 获取：null
      * 表字段：T_SES_EMS_PRO_EXT_SUPERVISE.ID
@@ -258,6 +262,21 @@ public class ProExtSupervise {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    /**
+     * @return Returns the duties.
+     */
+    public String getDuties() {
+        return duties;
+    }
+
+    /**
+     * @param duties The duties to set.
+     */
+    public void setDuties(String duties) {
+        this.duties = duties;
+    }
+    
     
     
 }

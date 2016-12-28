@@ -13,6 +13,7 @@
 		<result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
 		<result column="COMPANY" jdbcType="VARCHAR" property="company" />
 		<result column="PHONE" jdbcType="VARCHAR" property="phone" />
+		<result column="DUTIES" jdbcType="VARCHAR" property="duties" />
 	</resultMap>
 
 	<resultMap id="UserBaseMap" type="ses.model.bms.User">
@@ -44,7 +45,7 @@
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, PROJECT_ID, EXPERT_EXTRACT_RECORD_ID, SUPERVISOR_ID, CREATED_AT,
-		UPDATED_AT,REL_NAME,COMPANY,PHONE
+		UPDATED_AT,REL_NAME,COMPANY,PHONE,DUTIES
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -127,13 +128,16 @@
 			<if test="phone != null">
 				PHONE = #{phone,jdbcType=VARCHAR},
 			</if>
+			<if test="duties != null">
+				duties = #{duties,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="list" resultMap="BaseResultMap" parameterType="ses.model.ems.ProExtSupervise">
 
 		SELECT
-		<include refid="Base_Column_List"/>
+		<include refid="Base_Column_List" />
 		FROM
 		T_SES_EMS_PRO_EXT_SUPERVISOR
 		WHERE
@@ -151,14 +155,15 @@
 	<!-- 批量插入 -->
 	<insert id="listInsert" parameterType="List">
 		INSERT INTO T_SES_EMS_PRO_EXT_SUPERVISOR
-		(PROJECT_ID,REL_NAME,COMPANY,PHONE)
+		(PROJECT_ID,REL_NAME,COMPANY,PHONE,DUTIES)
 		<foreach collection="list" item="item" index="index"
 			separator="union" close=")" open="(">
 			select
 			#{item.projectId,jdbcType=VARCHAR},
 			#{item.relName,jdbcType=VARCHAR},
 			#{item.company,jdbcType=VARCHAR},
-			#{item.phone,jdbcType=VARCHAR}
+			#{item.phone,jdbcType=VARCHAR},
+			#{item.duties,jdbcType=VARCHAR}
 			from
 			dual
 		</foreach>

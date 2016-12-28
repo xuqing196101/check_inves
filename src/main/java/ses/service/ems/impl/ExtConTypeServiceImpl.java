@@ -86,4 +86,17 @@ public class ExtConTypeServiceImpl implements ExtConTypeService {
         return conTypeMapper.getExpertTypeById(map);
         
     }
+    
+    /**
+     * 
+     *〈简述〉获取抽取的总数量
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    @Override
+    public Integer getSum(String conId){
+        return conTypeMapper.getSum(conId);
+    }
+    
 }

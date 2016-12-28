@@ -27,6 +27,7 @@
     }else{
         $("#dnone").addClass("dnone");
     }
+ 
     
    
     });
@@ -55,11 +56,15 @@
     	 }
       } 
       
+      /**暂存*/
+      function temporary(){
+    	  window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+      }
       
       function selectLikeExpert(){
     	    var v = document.getElementById("city").value;    
     	     $("#address").val(v);
-    	     var area = document.getElementById("area").value;   
+    	     var area = document.getElementById("area").value; 
     	     $("#province").val(area);
     	     $.ajax({
     	         cache: true,
@@ -135,7 +140,6 @@
 		              yes: function() {
 		                iframeWin.save();
 		                var type=$("#hiddentype").val();
-		                alert(type);
 		                if(type != null && type != '' && type == '1'){
 		                  alert(type);  
 		                	fax();     	
@@ -223,7 +227,6 @@
                         if(list[0]!=null){
                           var html="";
                           $("#extcontype").empty();
-                          alert(extConType.length);
                           for(var l=0;l<extConType.length;l++){
                               html+="";
                                if(extConType[l].expertsType != null && extConType[l].expertsType != ''){
@@ -243,20 +246,22 @@
                            "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                            "<td class='tc' onclick='show();'>*****</td>"+
                            "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>";
-//                            var ddList = "${ddList}";
-// 		                       var split = list[i].expert.expertsTypeId.split(",");
-		                       tex+="<td class='tc'>";
-// 		                       var st = "";
-// 		                       for(var i = 0; i < split;i++){
-// 		                         for(var j= 0; j < ddList.length; j++){
-// 		                           if(split == ddList[j].id){
-// 		                             st+=ddList[j].name+",";
-// 		                           }
-// 		                         }
-// 		                       }
-// 		                       tex+=st.substring(0, st.length-1);
-		                       tex+="</td>";
-		                       tex+="<td class='tc' onclick='show();'>*****</td>"+
+			                       tex+="<td class='tc'>";
+			                       var ddl ='${ddListJson}';
+			                       var listData=$.parseJSON(ddl);//解析json字符串
+			                        var st='';
+			                         var split = list[i].expert.expertsTypeId.split(",");
+			                         for(var c=0; c<split.length;c++){
+			                           for(var b=0;b<listData.length;b++){
+			                             if(split[c] == listData[b].id){
+			                               st+=listData[b].name+",";
+			                             }
+			                           }
+			                         }
+			                         tex+=st.substring(0, st.length-1);
+			                         tex+="</td>";
+
+                           tex+="<td class='tc' onclick='show();'>*****</td>"+
                            "<td class='tc' onclick='show();'>*****</td>"+
                        " <td class='tc' >"+
                          "<select id='select' onchange='operation(this);'>";
@@ -307,7 +312,18 @@
       
       /**完成**/
       function finish(){
-    	   $.ajax({
+    	  
+    	   layer.confirm('是否需要打印', {
+               btn: ['打印','取消'],offset: ['40%', '40%'], shade:0.01
+             }, function(index){
+                window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+             }, function(index){
+               layer.close(index);
+             });
+       
+    	  
+    	  
+    	 /*   $.ajax({
                type: "POST",
                url: "${pageContext.request.contextPath}/ExpExtract/isFinish.do",
                data: {packageId:"${packageId}"},
@@ -326,7 +342,7 @@
             	          }
             	   }
               
-    	   });
+    	   }); */
     	  
       }
       
@@ -401,29 +417,22 @@
                                    "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                                    "<td class='tc' onclick='show();'>*****</td>"+
                                    "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>";
-                                   var ddList1= new Array();
-                                   ddList1 = "${ddList}";
-                                   alert(ddList1.id);
-//                                   alert(ddList1[0].id);
-                                   var split= new Array();
-                                   split = list[i].expert.expertsTypeId.split(",");
-//                                    alert(split);
+		                                tex+="<td class='tc'>";
+		                                var ddl ='${ddListJson}';
+		                                var listData=$.parseJSON(ddl);//解析json字符串
+		                                 var st='';
+		                                  var split = list[i].expert.expertsTypeId.split(",");
+		                                  for(var c=0; c<split.length;c++){
+		                                    for(var b=0;b<listData.length;b++){
+		                                      if(split[c] == listData[b].id){
+		                                        st+=listData[b].name+",";
+		                                      }
+		                                    }
+		                                  }
+		                                  tex+=st.substring(0, st.length-1);
+		                                  tex+="</td>";
                                    
-                                   tex+="<td class='tc'>";
-                                   var st = "";
-                                   for(var s = 0; s < split.length;s++){
-//                                 	   alert();
-                                	   for(var j= 0; j < ddList1.length; j++){
-//                                 		   alert(ddList[j].id);
-                                		   if(split[s] == ddList1[j].id){
-                                			
-                                			   st+=ddList1[j].name+",";
-                                		   }
-                                	   }
-                                   }
-//                                    alert(st);
-                                   tex+=st.substring(0, st.length-1);
-                                   tex+="</td>";
+                                   
                                    tex+="<td class='tc' onclick='show();'>*****</td>"+
                                    "<td class='tc' onclick='show();'>*****</td>"+
                                " <td class='tc' >"+
@@ -878,7 +887,7 @@
             <div class=" w400 pl20 mt24">
             <button class="btn btn-windows add" id="save" onclick="cityt();" type="button">抽取</button>
                 <button class="btn btn-windows add" id="save" onclick="finish();" type="button">完成抽取</button>
-                    <button class="btn btn-windows add" id="save" onclick="resetQuery();" type="button">暂存</button>
+                    <button class="btn btn-windows add" id="save" onclick="temporary();" type="button">暂存</button>
 <!--             <button class="btn btn-windows add" id="save" onclick="resetQuery();" type="button">重置</button> -->
             </div>
           </li>
@@ -894,10 +903,10 @@
         <div id="extcontype">
         <c:forEach var="con" items="${extConType}">
                   <c:if test="${con.expertsType.kind == 6 }">
-                                   专家类别：${con.expertsType.name }技术
+                                              专家类别：${con.expertsType.name }技术
                   </c:if>
                   <c:if test="${con.expertsType.kind != 6 }">
-                                   专家类别：${con.expertsType.name }
+                                            专家类别：${con.expertsType.name }
                    
                   </c:if>
                           &nbsp;&nbsp;&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.expertsCount }                             

@@ -64,5 +64,15 @@ public interface ExtConTypeService {
 	 * @return
 	 */
 	Integer getExpertTypeById(String conId,String expertTypeId);
+
+	/**
+	 * 
+	 *〈简述〉获取总和
+	 *〈详细描述〉
+	 * @author Wang Wenshuai
+	 * @param conId
+	 * @return
+	 */
+    Integer getSum(String conId);
   
 }

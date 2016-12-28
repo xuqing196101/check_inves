@@ -176,5 +176,11 @@
 		SELECT EXPERTS_COUNT as count FROM T_SES_EMS_EXP_EXT_CON_TYPE WHERE
 		CONDITION_ID =#{conditionId} AND EXPERTS_TYPE_ID = #{expertTypeId}
 	</select>
+	
+	 <!-- 抽取数量总和 -->
+  <select id="getSum" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT "SUM"(EXPERTS_COUNT) FROM T_SES_EMS_EXP_EXT_CON_TYPE WHERE
+    CONDITION_ID =#{conId}
+  </select>
 
 </mapper>

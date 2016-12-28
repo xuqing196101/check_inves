@@ -200,13 +200,18 @@
 		#{healthState,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
 		#{professTechTitles,jdbcType=VARCHAR},
 		#{timeToWork,jdbcType=TIMESTAMP},
-		#{timeStartWork,jdbcType=TIMESTAMP}, #{unitAddress,jdbcType=VARCHAR},
-		#{postCode,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR},
+		#{timeStartWork,jdbcType=TIMESTAMP},
+		#{unitAddress,jdbcType=VARCHAR},
+		#{postCode,jdbcType=VARCHAR},
+		#{degree,jdbcType=VARCHAR},
 		#{atDuty,jdbcType=VARCHAR},
 		#{expertsTypeId,jdbcType=VARCHAR},
-		#{purchaseDepId,jdbcType=DECIMAL}, #{status,jdbcType=CHAR},
-		#{isBlack,jdbcType=CHAR}, #{honestyScore,jdbcType=DECIMAL},
-		#{relName,jdbcType=VARCHAR}, #{isPass,jdbcType=DECIMAL},
+		#{purchaseDepId,jdbcType=DECIMAL},
+		#{status,jdbcType=CHAR},
+		#{isBlack,jdbcType=CHAR},
+		#{honestyScore,jdbcType=DECIMAL},
+		#{relName,jdbcType=VARCHAR},
+		#{isPass,jdbcType=DECIMAL},
 		#{isProvisional,jdbcType=DECIMAL},#{remarks,jdbcType=VARCHAR}
 		)
 	</insert>
@@ -826,6 +831,8 @@
 
 	<!-- 专家抽取集合 -->
 
+	<!-- 专家抽取集合 -->
+
 	<select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
 		resultMap="BaseResultMap">
 		SELECT * FROM T_SES_EMS_EXPERT t1 WHERE T1.id IN (
@@ -836,7 +843,7 @@
 		LEFT JOIN T_SES_EMS_EXPERT_CATEGORY ec
 		ON ee."ID" =
 		EC.EXPERT_ID
-		WHERE
+		WHERE 1=1
 		ee.IS_DELETE = 0
 		AND ee.STATUS = 1
 		AND
@@ -853,6 +860,14 @@
 		</if>
 		<if test="address != null and address != '' ">
 			AND ee.ADDRESS = #{address}
+		</if>
+		<if
+			test="address == null and  address != '' and addressSplit != null and addressSplit != '' ">
+			AND
+			<foreach collection="addressSplit" item="split" open="("
+				close=")" separator="OR">
+				ee.ADDRESS = #{split}
+			</foreach>
 		</if>
 		<if
 			test="ageMax != null and  ageMax != '' and ageMin != null and ageMin != '' ">
@@ -903,7 +918,7 @@
 				)
 			</if>
 		</foreach>
-		
+
 		GROUP BY EE."ID"
 		)
 	</select>
@@ -968,7 +983,8 @@
 	<select id="validateIdCardNumber" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		SELECT ID FROM T_SES_EMS_EXPERT
-		WHERE ID_CARD_NUMBER = #{param1}
+		WHERE ID_CARD_NUMBER =
+		#{param1}
 		AND ID != #{param2}
 	</select>
 	<!-- 证件号码唯一性验证 -->
@@ -986,7 +1002,8 @@
 	</update>
 
 	<!-- 专家审核列表 可条件查询 -->
-	<select id="findExpertAuditList" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
+	<select id="findExpertAuditList" resultMap="BaseResultMap"
+		parameterType="ses.model.ems.Expert">
 		select t1.*,
 		t2.NAME as sex from
 		T_SES_EMS_EXPERT t1
@@ -996,10 +1013,11 @@
 		where 1=1
 		<if test="sign == 1">
 			and IS_SUBMIT = 1
-			and (STATUS = 0 or STATUS = 1 or STATUS = 2 or STATUS = 3)
+			and (STATUS = 0 or STATUS = 1 or STATUS =
+			2 or STATUS = 3)
 		</if>
 		<if test="sign == 2">
-		  and IS_SUBMIT = 1
+			and IS_SUBMIT = 1
 			and (STATUS = 4 or STATUS = 5 or STATUS = 6)
 		</if>
 		<if test="relName != null and relName !=''">
@@ -1128,21 +1146,22 @@
 		from T_SES_EMS_EXPERT_History
 		where ID = #{_parameter}
 	</select>
-	
+
 	<!-- 根据创建时间获取已提交的专家 -->
 	<select id="getCommitSupplierByDate" resultMap="BaseResultMap">
-		select 
-		<include refid="Base_Column_List"/>
+		select
+		<include refid="Base_Column_List" />
 		from T_SES_EMS_EXPERT
 		where UPDATE_AT = #{_parameter}
-		and IS_SUBMIT = '1'
+		and IS_SUBMIT =
+		'1'
 		and STATUS = '0'
 	</select>
-	
+
 	<!-- 根据修改时间获取修改了的专家信息 -->
 	<select id="getModifySupplierByDate" resultMap="BaseResultMap">
-		select 
-		<include refid="Base_Column_List"/>
+		select
+		<include refid="Base_Column_List" />
 		from T_SES_EMS_EXPERT
 		where UPDATE_AT = #{_parameter}
 	</select>

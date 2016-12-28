@@ -331,17 +331,17 @@
                     <div class="ww50 fl">抽取信息</div>
           </div>
            <div align="right" class=" pl20 mb10 " >
-<!--              <input class="input_group " readonly id="packageName" value="" onclick="showPackageType();"   type="text"> -->
-<!--               <input  readonly id="packageNameId"     type="hidden"> -->
-          <select class="w200" id="packageId" >
-            <c:forEach items="${listResultSupplier}" var="list">
-                <option value="${list.id }" >${list.name }</option>
-            </c:forEach>
-          </select>
+             <input class="input_group " readonly id="packageName" value="" onclick="showPackageType();"   type="text">
+              <input  readonly id="packageNameId"     type="hidden">
+<!--           <select class="w200" id="packageId" > -->
+<%--             <c:forEach items="${listResultSupplier}" var="list"> --%>
+<%--                 <option value="${list.id }" >${list.name }</option> --%>
+<%--             </c:forEach> --%>
+<!--           </select> -->
             <button class="btn" 
                 onclick="add();" type="button">抽取</button>
-            <button class="btn"
-                onclick="record();" type="button">引用其他包</button>
+<!--             <button class="btn" -->
+<!--                 onclick="record();" type="button">引用其他包</button> -->
         </div>
           <div class="ul_list">
         <div class="clear">

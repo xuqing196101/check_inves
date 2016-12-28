@@ -185,6 +185,8 @@ public class ExpExtConditionController extends BaseController {
             //获取查询条件类型
             Map<String, Integer> mapcount = new HashMap<String, Integer>();
             User user=(User) sq.getSession().getAttribute("loginUser");
+            Integer sum = conTypeService.getSum(condition.getId());
+            PageHelper.startPage(1, sum);
             List<ProjectExtract> list = extractService.list(new ProjectExtract(condition.getId()));
             if (list == null || list.size() == 0){
                 extractService.insert(condition.getId(), user != null && !"".equals(user.getId()) ? user.getId() : "",projectId,conditionId);

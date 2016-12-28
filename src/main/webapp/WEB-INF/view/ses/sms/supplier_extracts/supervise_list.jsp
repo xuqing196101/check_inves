@@ -138,11 +138,11 @@
 				<tr>		
 					   <td class="tc"><input type="text"  name="relName" value="${list.relName}" /> </td>
 					   <td class="tc"><input type="text" name="company" value="${list.company}" /></td>
-					   <td class="tc"><input type="text" name="" value="" /> </td>
+					   <td class="tc"><input type="text" name="duties" value="${list.duties}" /> </td>
 					   <td class="tc"><input type="text" name="phone" value="${list.phone}" /> </td>
 					   <td class="tc">
-					    <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十"/>
-	                    <input type="button" onclick="delBranch(this)" class="btn list_btn" value="一"/>
+					     <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十"/>
+	             <input type="button" onclick="delBranch(this)" class="btn list_btn" value="一"/>
 					  </td>
 				</tr>
 		</c:forEach>
@@ -150,6 +150,7 @@
 		  <tr>    
             <td class="tc"><input type="text"  name="relName"  /> </td>
             <td class="tc"><input type="text" name="company" /></td>
+            <td class="tc"><input type="text" name="duties"  /> </td>
             <td class="tc"><input type="text" name="phone"  /> </td>
             <td class="tc">
               <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十"/>

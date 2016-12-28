@@ -39,8 +39,6 @@
 	  
 	  var eCount = "${eCount}"; 
 	  var count=   $("#span").text();
-	  alert(eCount);
-	  alert(count);
 	  if(parseInt(count) > parseInt(eCount)){
 		  layer.msg("数量不能大于总数量");
 	  }else if(parseInt(count) < parseInt(eCount)){
