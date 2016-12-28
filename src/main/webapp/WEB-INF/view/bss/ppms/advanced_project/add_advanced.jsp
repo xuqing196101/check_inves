@@ -90,33 +90,31 @@
       
       
       function upload(){
-        var id = $("input[name='chkItem']").prop("checked");
-        var ids = [];
-        $('input[name="chkItem"]:checked').each(function() {
-          ids.push($(this).val());
-        });
         var proName = $("#proName").val();
         var projectNumber = $("#projectNumber").val();
         var department = $("#department").val();
         var purchaseType = $("#purchaseType").val();
         var planType = $("#planType").val();
+        var organization = $("#orgIds").val();
+         var ids = [];
+        $('input[name="id"]').each(function() {
+          ids.push($(this).val());
+        });
         if(proName == ""){
           layer.tips("项目名称不允许为空", "#proName");
         }else if(projectNumber == "") {
           layer.tips("项目编号不允许为空", "#projectNumber");
-        }else if(id == ""){
-          layer.tips("请勾选明细", "#chkItem");
         } else {
           layer.open({
-	          type : 2, //page层
-	          area : [ '50%', '50%' ],
-	          title : '下达',
-	          shade : 0.01, //遮罩透明度
-	          moveType : 1, //拖拽风格，0是默认，1是传统拖动
-	          shift : 1, //0-6的动画形式，-1不开启
-	          shadeClose : true,
-	          content : '${pageContext.request.contextPath}/advancedProject/attachment.html?proName='+proName+
-	          '&projectNumber='+projectNumber+'&department='+department+'&purchaseType='+purchaseType+'&ids='+ids+'&planType='+planType,
+            type : 2, //page层
+            area : [ '800px', '500px' ],
+            title : '下达',
+            shade : 0.01, //遮罩透明度
+            moveType : 1, //拖拽风格，0是默认，1是传统拖动
+            shift : 1, //0-6的动画形式，-1不开启
+            shadeClose : true,
+            content : '${pageContext.request.contextPath}/advancedProject/attachment.html?proName='+proName+
+            '&projectNumber='+projectNumber+'&department='+department+'&purchaseType='+purchaseType+'&ids='+ids+'&planType='+planType+'&organization='+organization,
           });
         }
         
@@ -178,7 +176,6 @@
               <table class="table table-bordered table-condensed table-hover space_nowrap">
                 <thead>
                   <tr>
-                    <th class="info w50">选择</th>
                     <th class="info w50">序号</th>
                     <th class="info">需求部门</th>
                     <th class="info">物资名称</th>
@@ -189,6 +186,7 @@
                     <th class="info">单价（元）</th>
                     <th class="info">交货期限</th>
                     <th class="info">采购方式</th>
+                    <th class="info">采购机构</th>
                     <th class="info">供应商名称</th>
                     <th class="info">是否申请办理免税</th>
                     <th class="info">物资用途（进口）</th>
@@ -199,7 +197,6 @@
                 <tbody id="task_id">
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
                     <tr class="tc">
-                      <td class="tc w30"><input type="checkbox" id="chkItem" value="${obj.id }" name="chkItem" onclick="check(this)" alt=""></td>
                       <td class="tc w50">${obj.seq} <input type="hidden" id="planNo" name="planNo" value="${obj.planNo}"/></td>
                       <td class="tc">
                         <c:if test="${obj.department == orgnization.id}">
@@ -207,7 +204,8 @@
                            <input type="hidden" id="orgName" name="orgName" value="${orgnization.name}"/>
                             <input type="hidden" id="department" name="department" value="${obj.department}"/>
                         </c:if>
-                        <input type="hidden" id="orgIds" name="orgIds" value="${org.id}"/>
+                        <input type="hidden" id="orgIds" name="organization" value="${obj.organization}"/>
+                        <input type="hidden" id="id" name="id" value="${obj.id}"/>
                       </td>
                       <td class="tc">${obj.goodsName}</td>
                       <td class="tc">${obj.stand}</td>
@@ -225,6 +223,13 @@
                             <input type="hidden" id="planName" name="planName" value="${obj.planName}"/>
                           </c:if>
                         </c:forEach>
+                      </td>
+                      <td class="tc">
+                      <c:if test="${list2 != null}">
+                        <c:forEach items="${list2}" var="list" varStatus="vs">
+                          <c:if test="${obj.organization eq list.id}">${list.name}</c:if>
+                        </c:forEach>
+                        </c:if>
                       </td>
                       <td class="tc">${obj.supplier}</td>
                       <td class="tc">${obj.isFreeTax}</td>

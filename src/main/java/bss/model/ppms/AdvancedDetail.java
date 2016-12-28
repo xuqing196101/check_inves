@@ -72,7 +72,7 @@ public class AdvancedDetail {
     /**
      * 成交时间
      */
-    private Timestamp deliveryTime;
+    private String deliveryTime;
     
     /**
      * 备注
@@ -90,6 +90,8 @@ public class AdvancedDetail {
     private String supplierId;
     
     private String planNo;
+    
+    private Integer isTurnUp;
 
 	public String getSupplierId() {
         return supplierId;
@@ -107,11 +109,11 @@ public class AdvancedDetail {
         this.total = total;
     }
 
-    public Timestamp getDeliveryTime() {
+    public String getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(Timestamp deliveryTime) {
+    public void setDeliveryTime(String deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 
@@ -362,6 +364,14 @@ public class AdvancedDetail {
 
     public void setPlanNo(String planNo) {
         this.planNo = planNo;
+    }
+
+    public Integer getIsTurnUp() {
+        return isTurnUp;
+    }
+
+    public void setIsTurnUp(Integer isTurnUp) {
+        this.isTurnUp = isTurnUp;
     }
     
 	

@@ -29,6 +29,8 @@ public interface OrgnizationMapper {
 	
 	List<Orgnization> selectByPrimaryKey(Map<String,Object> map);
 	
+	Orgnization selectByName(String name);
+	
 	/**
 	 * 
 	 *〈简述〉

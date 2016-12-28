@@ -11,6 +11,7 @@
 		<result column="BID_METHOD_ID" property="bidMethodId" />
 		<result column="PURCHASE_TYPE" property="purchaseType" />
 		<result column="IS_IMPORT" property="isImport" />
+		<result column="AD_PROJECT_ID" property="project" />
 		<association property="project" column="AD_PROJECT_ID" select="bss.dao.ppms.AdvancedProjectMapper.selectAdvancedProjectByPrimaryKey" />
 	</resultMap>
 
@@ -25,6 +26,53 @@
     from T_BSS_PPMS_ADVANCED_PACKAGE
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="find" parameterType="Object" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_ADVANCED_PACKAGE p
+    where p.IS_DELETED=0
+    <if test="projectId != null and projectId !=''">
+      AND p.AD_PROJECT_ID = #{projectId}
+    </if>
+    <if test="id != null and id !=''">
+      AND p.ID = #{id}
+    </if>
+    <if test="name != null and name !=''">
+      AND p.NAME like '%'||#{name}||'%'
+    </if>
+    ORDER BY p.CREATED_AT ASC
+  </select>
+  
+  
+  <select id="findPackageAndBidMethodById" parameterType="java.util.Map"
+    resultType="bss.model.ppms.AdvancedPackages">
+    SELECT
+    p.ID AS id,
+    p.NAME AS name,
+    p.AD_PROJECT_ID AS projectId,
+    p.STATUS AS
+    status,
+    p.BID_METHOD_ID as bidMethodId,
+    b.name as bidMethodName,
+    b.MAX_SCORE as bidMethodMaxScore,
+    b.TYPE_NAME as bidMethodTypeName
+    FROM
+    T_BSS_PPMS_ADVANCED_PACKAGE p
+    LEFT JOIN T_BSS_PPMS_BID_METHOD b on
+    p.BID_METHOD_ID= b."ID"
+    WHERE
+    nvl(p.IS_DELETED,0)=0
+    <if test="projectId != null and projectId !=''">
+      AND p.AD_PROJECT_ID = #{projectId}
+    </if>
+    <if test="id != null and id !=''">
+      AND p.ID = #{id}
+    </if>
+    ORDER BY
+    p.CREATED_AT ASC
+  </select>
+  
   
   <select id="selectByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 

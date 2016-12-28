@@ -544,6 +544,13 @@ public class UploadServiceImpl implements UploadService {
 		return uploadDao.findBybusinessId(businessId,tableName);
 	}
 
+
+    @Override
+    public void updateLoad(UploadFile file) {
+
+        uploadDao.updateLoad(file);
+    }
+
     
     
 

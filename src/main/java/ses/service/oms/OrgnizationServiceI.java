@@ -126,4 +126,6 @@ public interface OrgnizationServiceI {
 	public String delUsers(String idsString, String orgType);
 	
 	List<Orgnization> selectedItem(String selectedItem);
+	
+	Orgnization selectByName(String name);
 }

@@ -40,6 +40,8 @@ public interface FileUploadMapper {
      */
     void updateFile(@Param("tableName")String tableName, @Param("id")String id);
     
+    void updateLoad(UploadFile file);
+    
     /**
      * 
      *〈简述〉获取文件列表

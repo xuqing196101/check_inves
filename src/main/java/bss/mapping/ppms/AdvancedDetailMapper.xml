@@ -52,6 +52,23 @@
     where REQUIRED_ID = #{id,jdbcType=VARCHAR}
   </select>
   
+  <select id="selectByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_ADVANCED_DETAIL t
+    where 1=1 and t.PACKAGE_ID is not null and t.price is not null 
+    <if test="projectId != null and projectId !=''">
+        AND AD_PROJECT_ID = #{projectId}
+    </if> 
+    <if test="packageId != null and packageId !=''">
+        AND PACKAGE_ID = #{packageId}
+     </if> 
+    <if test="purchaseType != null and purchaseType !=''">
+        AND PURCHASE_TYPE = #{purchaseType}
+     </if> 
+     ORDER BY POSITION ASC
+  </select>
+  
   <select id="selectByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

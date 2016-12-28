@@ -73,6 +73,16 @@
 		  from T_SES_OMS_ORG     d
 		       where d.ID =#{id}
    </select>
+   
+   
+   <select id="selectByName" parameterType="java.lang.String" resultMap="baseOrgnization">
+    select 
+    <include refid="baseSearchSql" />
+    from T_SES_OMS_ORG
+    where NAME = #{name,jdbcType=VARCHAR}
+  </select>
+   
+   
 <!--根据产品id修改状态  -->
    <update id="updateByCategoryId" parameterType="Object" >
     	 update T_SES_OMS_ORG s

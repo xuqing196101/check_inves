@@ -5,7 +5,12 @@
 <html>
 
   <head>
+  <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
+ 
     <%@ include file="/WEB-INF/view/common.jsp"%>
+   <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script> 
+
     <script type="text/javascript">
       //表单验证
       var controldate;
@@ -121,6 +126,9 @@
 
         }
         if(flag == true) {
+          layer.msg("修改成功", {
+            shade: 0.01
+          });
           $("#save_form_id").submit();
         }
       }
@@ -148,91 +156,114 @@
                 };
             };
       }
-     /*  function purchaseEmbodiment(id) {
+      
+       $(function(){
+        var id = "${project.id}";
+        $.ajax({
+          url: "${ pageContext.request.contextPath }/advancedProject/getUserForSelect.do?id="+id,
+          contentType: "application/json;charset=UTF-8",
+          dataType: "json", //返回格式为json
+          type: "POST", //请求方式           
+          success: function(users) {
+            if(users) {
+              $("#principal").html("<option></option>");
+              $.each(users, function(i, user) {
+                if(user.relName != null && user.relName != '') {
+                  $("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+                }
+              });
+            }
+            $("#principal").select2();
+            $("#principal").select2("val", "${project.principal}");
+          }
+        });
+      });
+      
+      
+       function change(id) {
+        $("#userId").val(id);
+      }
+      
+    function bidRegister(id) {
         var type = "1";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
-
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
-
-      function biddingAnnouncement(id) {
+            
+      function bidRecord(id) {
         var type = "2";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function organizationalDocument(id) {
+      function validInspect(id) {
         var type = "3";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function biddingNotice(id) {
+      function host(id) {
         var type = "4";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function reviewFile(id) {
+      function cashDeposit(id) {
         var type = "5";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function ExOfEvalExperts(id) {
+      function singleConstruction(id) {
         var type = "6";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function EvalExpertsInLetter(id) {
+      function confidentiality(id) {
         var type = "7";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function bidOpening(id) {
+      function cover(id) {
         var type = "8";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
-      function NotarizedInvitation(id) {
+      function biddingDocument(id) {
         var type = "9";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
-
-      function bidDocuments(id) {
+      
+      function expertsSignIn(id) {
         var type = "10";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
-      }
-
-      function bidBond(id) {
-        var type = "11";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
-      }
-
-      function bidOpeningAttendance(id) {
-        var type = "12";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
-      }
-
-      function preparatory(id) {
-        var type = "13";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
-      }
-
-      function bidAssessmentRecord(id) {
-        var type = "14";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
 
       function bidReport(id) {
+        var type = "11";
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+      }
+
+      function bidNotice(id) {
+        var type = "12";
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+      }
+
+      function bidReports(id) {
+        var type = "13";
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+      }
+
+      function bidReportss(id) {
+        var type = "14";
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+      }
+
+
+       function issueRegistration(id) {
         var type = "15";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/purchaseEmbodiment.html?id=" + id + "&type=" + type;
       }
-
-      function winningSupplier(id) {
-        var type = "16";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
+      
+      function getValue(){
+        var date = $("#deadline").val();
+        $("#bidDate").val(date);
       }
-
-      function procurement(id) {
-        var type = "17";
-        window.location.href = "${pageContext.request.contextPath}/project/purchaseEmbodiment.html?id=" + id + "&type=" + type;
-      } */
     </script>
   </head>
 
@@ -259,7 +290,7 @@
         </ul>
         <div class="tab-content">
           <div class="tab-pane fade active in" id="tab-1">
-            <form id="save_form_id" action="${pageContext.request.contextPath}/project/addProject.html" method="post">
+            <form id="save_form_id" action="${pageContext.request.contextPath}/advancedProject/addProject.html" method="post">
               <h2 onclick="ycDiv(this,'${1}')" class="count_flow shrink hand">基本信息</h2>
               <div class="p0${1}">
                 <table class="table table-bordered left_table">
@@ -272,7 +303,7 @@
                     </tr>
                     <tr>
                       <td class="bggrey">项目经办人:</td>
-                      <td class="p0"><input name="principal" class="m0" id="principal" value="${project.principal}" type="text"/></td>
+                     <td class="p0"><input type="hidden" name="userId" id="userId" value="${project.principal}"/><select id="principal" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select></td>
                       <td class="bggrey">经办人手机:</td>
                       <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text"/></td>
                     </tr>
@@ -299,7 +330,7 @@
                     </tr>
                     <tr>
                       <td class="bggrey">投标截止时间:</td>
-                      <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" /></td>
+                      <td class="p0"><input readonly="readonly" onfocus="getValue()" value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" /></td>
                       <td class="bggrey">开标时间:</td>
                       <td class="p0"><input readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                     </tr>
@@ -434,36 +465,27 @@
             </table>
           </div>
           <div class="tab-pane fade " id="tab-3">
-            <h2 class="count_flow"><i>1</i>项目信息 </h2>
-            <button class="btn btn-windows output" type="button" onclick="purchaseEmbodiment('${project.id}')">采购实施方案</button>
-            <h2 class="count_flow"><i>2</i>拟制招标文件 </h2>
-            <button class="btn btn-windows output" type="button" onclick="biddingAnnouncement('${project.id}')">招标文件</button>
-            <h2 class="count_flow"><i>3</i>确认招标文件 </h2>
-            <button class="btn btn-windows output" type="button" onclick="organizationalDocument('${project.id}')">组织文件</button>
-            <h2 class="count_flow"><i>4</i>拟制招标公告 </h2>
-            <button class="btn btn-windows output" type="button" onclick="biddingNotice('${project.id}')">招标公告</button>
-            <h2 class="count_flow"><i>5</i>抽取评审专家 </h2>
-            <button class="btn btn-windows output" type="button" onclick="reviewFile('${project.id}')">评审文件</button>
-            <button class="btn btn-windows output" type="button" onclick="ExOfEvalExperts('${project.id}')">评审专家抽取记录</button>
-            <button class="btn btn-windows output" type="button" onclick="EvalExpertsInLetter('${project.id}')">评审专家邀请函</button>
-            <h2 class="count_flow"><i>6</i>开标唱标 </h2>
-            <button class="btn btn-windows output" type="button" onclick="bidOpening('${project.id}')">开标记录</button>
-            <button class="btn btn-windows output" type="button" onclick="NotarizedInvitation('${project.id}')">公正邀请函</button>
-            <button class="btn btn-windows output" type="button" onclick="bidDocuments('${project.id}')">投标文件受领登记表</button>
-            <button class="btn btn-windows output" type="button" onclick="bidBond('${project.id}')">投标保证金收取登记表</button>
-            <button class="btn btn-windows output" type="button" onclick="bidOpeningAttendance('${project.id}')">投标人开标签到表</button>
-            <h2 class="count_flow"><i>7</i>组织专家评审 </h2>
-            <button class="btn btn-windows output" type="button" onclick="preparatory('${project.id}')">预备会议记录</button>
-            <button class="btn btn-windows output" type="button" onclick="bidAssessmentRecord('${project.id}')">评标记录</button>
-            <button class="btn btn-windows output" type="button" onclick="bidReport('${project.id}')">评标报告</button>
-            <h2 class="count_flow"><i>8</i>拟制中标公告 </h2>
-            <button class="btn btn-windows output" type="button" onclick="winningSupplier('${project.id}')">中标供应商审批书</button>
-            <h2 class="count_flow"><i>9</i>确认中标供应商 </h2>
-            <button class="btn btn-windows output" type="button" onclick="procurement('${project.id}')">采购合同审批表</button>
+            <button class="btn btn-windows input" type="button" onclick="bidRegister('${project.id}')">投标登记表</button>
+            <button class="btn btn-windows input" type="button" onclick="bidRecord('${project.id}')">开标记录</button>
+            <button class="btn btn-windows input" type="button" onclick="validInspect('${project.id}')">有效监标词</button>
+            <button class="btn btn-windows input" type="button" onclick="host('${project.id}')">大会主持词</button>
+            <button class="btn btn-windows input" type="button" onclick="cashDeposit('${project.id}')">保证金登记表</button>
+            <button class="btn btn-windows input" type="button" onclick="singleConstruction('${project.id}')">送审单</button>
+            <button class="btn btn-windows input" type="button" onclick="confidentiality('${project.id}')">保密审查单</button>
+            <div class="mt10"></div>
+            <button class="btn btn-windows input" type="button" onclick="cover('${project.id}')">公告封面</button>
+            <button class="btn btn-windows input" type="button" onclick="biddingDocument('${project.id}')">招标文件</button>
+            <button class="btn btn-windows input" type="button" onclick="expertsSignIn('${project.id}')">专家签到表</button>
+            <button class="btn btn-windows input" type="button" onclick="bidReport('${project.id}')">评标报告</button>
+            <button class="btn btn-windows input" type="button" onclick="bidNotice('${project.id}')">中标通知书</button>
+            <button class="btn btn-windows input" type="button" onclick="bidReports('${project.id}')">评标报告（综合）</button>
+            <div class="mt10"></div>
+            <button class="btn btn-windows input" type="button" onclick="bidReportss('${project.id}')">评标报告（最低）</button>
+            <button class="btn btn-windows input" type="button" onclick="issueRegistration('${project.id}')">劳务发放登记表</button>
           </div>
           <div class="tab-pane fade " id="tab-4">
             <div class="margin-bottom-0  categories">
-              <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
+              <form id="add_form" action="${pageContext.request.contextPath}/advancedProject/adddetail.html" method="post">
                 <u:show showId="upload_id" groups="upload123,upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}" />
               </form>
             </div>

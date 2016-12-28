@@ -100,4 +100,6 @@ public interface AdvancedDetailService {
     
     List<AdvancedDetail> findHavePackageIdDetail(Map<String, Object> map);
     
+    List<AdvancedDetail> selectByCondition(HashMap<String,Object> map);
+    
 }

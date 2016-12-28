@@ -663,6 +663,7 @@ public class ProjectController extends BaseController {
                         	}
                         	double money = budget;
                         	newDetails.get(i).setBudget(money);
+                        	newDetails.get(i).setDetailStatus(0);
                         }
                         if(dlist.size()==1){
                         	if(!newParentId.contains(newDetails.get(i).getParentId())){
@@ -682,6 +683,13 @@ public class ProjectController extends BaseController {
                 for (ProjectDetail projectDetail : detail) {
                     Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail.getDepartment());
                     model.addAttribute("orgnization", orgnization);
+                    HashMap<String,Object> detailMap = new HashMap<>();
+                    detailMap.put("id",projectDetail.getRequiredId());
+                    detailMap.put("projectId", id);
+                    List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+                    if(dlist.size()>1){
+                        projectDetail.setDetailStatus(0);
+                    }
                 }
                 model.addAttribute("lists", detail);
             }
@@ -909,8 +917,19 @@ public class ProjectController extends BaseController {
             model.addAttribute("lists", detail);
             return "bss/ppms/project/editDetail";
         }
-        project.setPurchaseType(lists.getLists().get(0).getPurchaseType());
-        projectService.update(project);
+        for (int i = 0; i < lists.getLists().size(); i++ ) {
+            HashMap<String, Object> map1 = new HashMap<>();
+            map1.put("id", lists.getLists().get(i).getRequiredId());
+            map1.put("projectId", lists.getLists().get(i).getProject().getId());
+            List<ProjectDetail> aa = detailService.selectByParentId(map1);
+            if(aa.size() == 1){
+                for (ProjectDetail projectDetail : aa) {
+                    project.setPurchaseType(projectDetail.getPurchaseType());
+                    projectService.update(project);
+                }
+            }
+            
+        }   
         //修改项目明细
         if(lists!=null){
             if(lists.getLists()!=null&&lists.getLists().size()>0){
@@ -1087,10 +1106,10 @@ public class ProjectController extends BaseController {
                         	double money = budget;
                         	showDetails.get(j).setBudget(money);
                         }
-                        if(showDetails.get(j).getDepartment()!=null){
+                        /*if(showDetails.get(j).getDepartment()!=null){
                         	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(showDetails.get(j).getDepartment());
                             showDetails.get(j).setOrgName(orgnization.getName());
-                        }
+                        }*/
                     }
             		model.addAttribute("list", showDetails);
             	}
@@ -1149,10 +1168,10 @@ public class ProjectController extends BaseController {
                 		newDetails.get(i).setSerialNumber("（"+serialNum+"）");
                 		serialN ++;
                     }
-                    if(newDetails.get(i).getDepartment()!=null){
+                    /*if(newDetails.get(i).getDepartment()!=null){
                     	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(newDetails.get(i).getDepartment());
                     	newDetails.get(i).setOrgName(orgnization.getName());
-                    }
+                    }*/
                 }
                 ps.setProjectDetails(newDetails);
             }
@@ -1689,7 +1708,7 @@ public class ProjectController extends BaseController {
     		 
     	 }else{
     		 project.setCreateAt(new Date());
-             project.setStatus(4);
+             //project.setStatus(4);
              project.setIsProvisional(1);
              project.setIsImport(0);
              project.setPurchaseType(purchaseType);

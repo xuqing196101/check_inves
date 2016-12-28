@@ -30,6 +30,8 @@ public class SupplierRank {
     private BigDecimal sumScore;
     /* 名次 */
     private Integer rank;
+    /** 评审结果 **/
+    private String reviewResult;
     
     public String getProjectId() {
         return projectId;
@@ -99,4 +101,12 @@ public class SupplierRank {
      * 无参构造方法
      */
     public SupplierRank() {}
+
+    public String getReviewResult() {
+        return reviewResult;
+    }
+
+    public void setReviewResult(String reviewResult) {
+        this.reviewResult = reviewResult;
+    }
 }

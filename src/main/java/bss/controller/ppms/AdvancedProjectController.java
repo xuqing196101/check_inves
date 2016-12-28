@@ -2,6 +2,7 @@ package bss.controller.ppms;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,13 +67,16 @@ import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
+import bss.model.prms.FirstAudit;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
+import bss.service.prms.FirstAuditService;
 
 @Controller
 @Scope("prototype")
@@ -110,6 +114,12 @@ public class AdvancedProjectController extends BaseController {
     
     @Autowired
     private ProjectTaskService projectTaskService;
+    
+    @Autowired
+    private FirstAuditService firstAuditService;
+    
+    @Autowired
+    private ProjectService projectService;
     
     
     /**
@@ -154,9 +164,13 @@ public class AdvancedProjectController extends BaseController {
         for (PurchaseRequired purchaseRequired : list) {
             Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getDepartment());
             model.addAttribute("orgnization", orgnization);
-            Orgnization org = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getOrganization());
-            model.addAttribute("org", org);
+            /*Orgnization org = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getOrganization());
+            model.addAttribute("org", org);*/
         }
+        HashMap<String, Object> maps = new HashMap<>();
+        maps.put("typeName", "1");
+        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(maps);
+        model.addAttribute("list2",orgnizations);
         model.addAttribute("lists", list);
         model.addAttribute("user", list.get(0).getUserId());
         model.addAttribute("kind", DictionaryDataUtil.find(5));
@@ -173,7 +187,7 @@ public class AdvancedProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/attachment")
-    public String attachment(Model model,String ids, String projectNumber, String proName, String department,String purchaseType, HttpServletRequest request){
+    public String attachment(Model model,String ids,String organization, String projectNumber, String proName, String department,String purchaseType, HttpServletRequest request){
         String planType = request.getParameter("planType");
         model.addAttribute("planType", planType);
         model.addAttribute("advancedAdvice", DictionaryDataUtil.getId("ADVANCED_ADVICE"));
@@ -181,13 +195,14 @@ public class AdvancedProjectController extends BaseController {
         model.addAttribute("projectNumber", projectNumber);
         model.addAttribute("proName", proName);
         model.addAttribute("department", department);
+        model.addAttribute("organization", organization);
         model.addAttribute("purchaseType", purchaseType);
         model.addAttribute("ids", ids);
         return "bss/ppms/advanced_project/attachment";
     }
     
     @RequestMapping("/transmit")
-    public String transmit(Model model, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType, HttpServletRequest request){
+    public String transmit(Model model, String organization, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType, HttpServletRequest request){
         //立项 
         AdvancedProject project = new AdvancedProject();
         String planType = request.getParameter("planType");
@@ -196,6 +211,7 @@ public class AdvancedProjectController extends BaseController {
         project.setProjectNumber(projectNumber);
         project.setPurchaseType(purchaseType);
         project.setPlanType(planType);
+        project.setPurchaseDep(new PurchaseDep(organization));
         project.setStatus(0);
         advancedProjectService.save(project);
         
@@ -205,6 +221,7 @@ public class AdvancedProjectController extends BaseController {
         task.setName(name);
         task.setDocumentNumber(documentNumber);
         task.setPurchaseRequiredId(department);
+        task.setPurchaseId(organization);
         task.setStatus(0);
         task.setIsDeleted(0);
         task.setGiveTime(new Date());
@@ -279,7 +296,7 @@ public class AdvancedProjectController extends BaseController {
             j++;
             detailService.save(detail);
         }
-        return "redirect:/task/list.html";
+        return "redirect:/collect/list.html";
     }
     
     /**
@@ -877,7 +894,7 @@ public class AdvancedProjectController extends BaseController {
     
     @RequestMapping("/start")
     public String start(String id, String principal, HttpServletRequest request) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        /*HashMap<String, Object> map = new HashMap<String, Object>();
         AdvancedProject project = advancedProjectService.selectById(id);
         map.put("purchaseDepName", principal);
         List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseList(map);
@@ -889,7 +906,36 @@ public class AdvancedProjectController extends BaseController {
             project.setStartTime(new Date());
             advancedProjectService.update(project);
         }
-        return "redirect:excute.html?id=" + project.getId();
+        return "redirect:excute.html?id=" + project.getId();*/
+        AdvancedProject project = advancedProjectService.selectById(id);
+        User user = userService.getUserById(principal);
+        project.setPrincipal(principal);
+        project.setIpone(user.getMobile());
+        project.setStatus(1);
+        project.setStartTime(new Date());
+        advancedProjectService.update(project);
+        return "redirect:list.html";
+    }
+    
+    
+    /**
+     * 
+    * @Title: getUserForSelect
+    * @author ZhaoBo
+    * @date 2016-12-25 下午3:57:38  
+    * @Description: 获取项目对应采购机构下的人员 
+    * @param @param response
+    * @param @return      
+    * @return List<PurchaseInfo>
+     */
+    @RequestMapping(value="/getUserForSelect" ) 
+    @ResponseBody
+    public List<PurchaseInfo> getUserForSelect(@CurrentUser User user,HttpServletRequest request) {
+        List<PurchaseInfo> purchaseInfo = new ArrayList<>();
+        if(user != null && user.getOrg() != null){
+           purchaseInfo = purchaseService.findPurchaseUserList(user.getOrg().getId());
+        }
+        return purchaseInfo;
     }
     
     @RequestMapping("/startProject")
@@ -904,8 +950,38 @@ public class AdvancedProjectController extends BaseController {
         return "bss/ppms/advanced_project/upload";
     }
     
+    
+    @RequestMapping("/addProject")
+    public String addProject(@CurrentUser User user,AdvancedProject project,String id, String bidAddress, String flowDefineId,String deadline, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
+        //Project project = projectService.selectById(id);
+        String userId = request.getParameter("userId");
+        project.setPrincipal(userId);
+        project.setLinkman(linkman);
+        project.setLinkmanIpone(linkmanIpone);
+        project.setSupplierNumber(supplierNumber);
+        project.setBidAddress(bidAddress);
+        Date date = new Date();   
+        Date date1 = new Date();
+        //注意format的格式要与日期String的格式相匹配   
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
+        try {   
+            date = sdf.parse(bidDate); 
+            date1 = sdf.parse(deadline);
+            project.setBidDate(date);
+            project.setDeadline(date1);
+        } catch (Exception e) {   
+            e.printStackTrace();   
+        }  
+        advancedProjectService.update(project);
+        if(user.getId().equals(userId)){
+            return "redirect:mplement.html?projectId="+id;
+        }else{
+            return "bss/ppms/project/temporary";
+        }
+    }
+    
     @RequestMapping("/excute")
-    public String execute(String id, Model model, Integer page) {
+    public String execute(String id, Model model) {
         AdvancedProject project = advancedProjectService.selectById(id);
         model.addAttribute("project", project);
         model.addAttribute("url", "advancedProject/mplement.html?projectId="+id);
@@ -918,6 +994,14 @@ public class AdvancedProjectController extends BaseController {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
         AdvancedProject project = advancedProjectService.selectById(projectId);
+        User user = null;
+        if(project.getPrincipal()!=null){
+            try {
+                user = userService.getUserById(project.getPrincipal());
+            } catch (Exception e) {
+                user = null;
+            }
+        }
         Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
         map.put("projectId", projectId);
         HashMap<String, Object> map1 = new HashMap<String, Object>();
@@ -934,6 +1018,7 @@ public class AdvancedProjectController extends BaseController {
         }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("packageList", list);
+        model.addAttribute("user", user);
         model.addAttribute("project", project);
         model.addAttribute("orgnization", orgnization);
         model.addAttribute("budgetAmount", details.get(0).getBudget());
@@ -1117,6 +1202,215 @@ public class AdvancedProjectController extends BaseController {
         /** 生成word 返回文件名 */
         String newFileName = WordUtil.createWord(dataMap, "advanced.ftl",
                 fileName, request);
+        return newFileName;
+    }
+    
+    
+    @RequestMapping("/toAdd")
+    public String toAdd(String projectId, Model model, String msg){
+        try {
+          AdvancedProject project = advancedProjectService.selectById(projectId);
+          HashMap<String, Object> map = new HashMap<String, Object>();
+          map.put("projectId", projectId);
+          List<AdvancedPackages> packages = packageService.selectByAll(map);
+          //查询项目下所有的符合性审查项
+          List<FirstAudit> firstAudits = firstAuditService.getListByProjectId(projectId);
+          model.addAttribute("packages", packages);
+          List<DictionaryData> dds = DictionaryDataUtil.find(22);
+          //符合性资格性审查项类型
+          model.addAttribute("dds", dds);
+          List<DictionaryData> purchaseTypes = DictionaryDataUtil.find(5);
+          model.addAttribute("purchaseTypes", purchaseTypes);
+          model.addAttribute("firstAudits", firstAudits);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("project", project);
+            model.addAttribute("msg", msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "bss/ppms/advanced_project/advanced_bid_file/bid_file";
+    }
+    
+    
+    /**
+     * 
+     *〈上传采购实施方案〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param project
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/purchaseEmbodiment")
+    public ResponseEntity<byte[]> purchaseEmbodiment(String id, String type, HttpServletRequest request) throws Exception{
+        AdvancedProject project = advancedProjectService.selectById(id);
+        String downFileName = null;
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+        String fileName = createWordMethod(project, type,request);
+        // 下载后的文件名
+        if("1".equals(type)){
+           downFileName = new String("投标登记表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("2".equals(type)){
+            downFileName = new String("开标记录.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("3".equals(type)){
+            downFileName = new String("组有效监标词.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("4".equals(type)){
+            downFileName = new String("大会主持词.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("5".equals(type)){
+            downFileName = new String("保证金登记表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("6".equals(type)){
+            downFileName = new String("送审单.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("7".equals(type)){
+            downFileName = new String("保密审查单.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("8".equals(type)){
+            downFileName = new String("公告封面.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("9".equals(type)){
+            downFileName = new String("招标文件.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("10".equals(type)){
+            downFileName = new String("专家签到表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("11".equals(type)){
+            downFileName = new String("评标报告.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("12".equals(type)){
+            downFileName = new String("中标通知书.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("13".equals(type)){
+            downFileName = new String("评标报告（综合）.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("14".equals(type)){
+            downFileName = new String("评标报告（最低）.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("15".equals(type)){
+            downFileName = new String("劳务发放登记表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        /*if("16".equals(type)){
+            downFileName = new String("中标供应商审批书.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }
+        if("17".equals(type)){
+            downFileName = new String("采购合同审批表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        }*/
+       return projectService.downloadFile(fileName, filePath, downFileName);
+    }
+    
+    /**
+     * 
+     *〈生成word文档提供下载〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param project
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    private String createWordMethod(AdvancedProject project, String type, HttpServletRequest request) throws Exception {
+        Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+        /** 用于组装word页面需要的数据 */
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("projectName", project.getName() == null ? "" : project.getName());
+        dataMap.put("projectNumber", project.getProjectNumber() == null ? "" : project.getProjectNumber());
+        dataMap.put("purchaseType", project.getPurchaseType() == null ? "" : project.getPurchaseType());
+        dataMap.put("purchaseDep", orgnization.getName() == null ? "" : orgnization.getName());
+        Date time = new Date();
+        dataMap.put("date",time == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(time));
+        String newFileName = null;
+        // 文件名称
+        if("1".equals(type)){
+            String fileName = new String(("投标登记表.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "bidRegister.ftl", fileName, request);
+        }
+        if("2".equals(type)){
+            String fileName = new String(("开标记录.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "bidRecord.ftl", fileName, request);
+        }
+        if("3".equals(type)){
+            String fileName = new String(("有效监标词.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "validInspect.ftl", fileName, request);
+        }
+        if("4".equals(type)){
+            String fileName = new String(("大会主持词.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "host.ftl", fileName, request);
+        }
+        if("5".equals(type)){
+            String fileName = new String(("保证金登记表.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "cashDeposit.ftl", fileName, request);
+        }
+        if("6".equals(type)){
+            String fileName = new String(("送审单.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "singleConstruction.ftl", fileName, request);
+        }
+        if("7".equals(type)){
+            String fileName = new String(("保密审查单.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "confidentiality.ftl", fileName, request);
+        }
+        if("8".equals(type)){
+            String fileName = new String(("公告封面.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "cover.ftl", fileName, request);
+        }
+        if("9".equals(type)){
+            String fileName = new String(("招标文件.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "biddingAnnouncement.ftl", fileName, request);
+        }
+        if("10".equals(type)){
+            String fileName = new String(("专家签到表.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "expertsSignIn.ftl", fileName, request);
+        }
+        if("11".equals(type)){
+            String fileName = new String(("评标报告.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "bidReport.ftl", fileName, request);
+        }
+        if("12".equals(type)){
+            String fileName = new String(("中标通知书.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "bidNotice.ftl", fileName, request);
+        }
+        if("13".equals(type)){
+            String fileName = new String(("评标报告（综合）.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "bidReports.ftl", fileName, request);
+        }
+        if("14".equals(type)){
+            String fileName = new String(("评标报告（最低）.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "bidReportss.ftl", fileName, request);
+        }
+        if("15".equals(type)){
+            String fileName = new String(("劳务发放表.doc").getBytes("UTF-8"), "UTF-8");
+            /** 生成word 返回文件名 */
+            newFileName = WordUtil.createWord(dataMap, "issueRegistration.ftl", fileName, request);
+        }
+        /*if("16".equals(type)){
+            String fileName = new String(("中标供应商审批书.doc").getBytes("UTF-8"), "UTF-8");
+            *//** 生成word 返回文件名 *//*
+            newFileName = WordUtil.createWord(dataMap, "winningSupplier.ftl", fileName, request);
+        }
+        if("17".equals(type)){
+            String fileName = new String(("采购合同审批表.doc").getBytes("UTF-8"), "UTF-8");
+            *//** 生成word 返回文件名 *//*
+            newFileName = WordUtil.createWord(dataMap, "procurement.ftl", fileName, request);
+        }*/
         return newFileName;
     }
 }
