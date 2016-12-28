@@ -221,7 +221,7 @@ public class PurchaseRequiredController extends BaseController{
  
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="/upload",method=RequestMethod.POST )
+	@RequestMapping(value="/upload",method=RequestMethod.POST,produces="text/html;charset=UTF-8" )
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,String planDepName,MultipartFile file,String type,String planName,String planNo,Model model) throws Exception{
         ResponseBean bean = new ResponseBean();
@@ -447,7 +447,7 @@ public class PurchaseRequiredController extends BaseController{
 			}
 	}
 
-		//purchaseRequiredService.batchAdd(plist);
+		purchaseRequiredService.batchAdd(plist);
 		return "redirect:list.html";
 	}
 	
