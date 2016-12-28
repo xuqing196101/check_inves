@@ -142,7 +142,10 @@ public class SupplierItemController extends BaseController{
 			return "ses/sms/supplier_register/items";	
 		} 
 	 
-		
+		//采购机构页面
+		if(flag.equals("5")){
+			return "ses/sms/supplier_register/procurement_dep";	
+		}
 		//查询所有的三级品目
 		List<Category> list2 = getSupplier(supplier.getId(),supplierTypeIds);
 		
@@ -157,8 +160,8 @@ public class SupplierItemController extends BaseController{
 	   }
 	   StringBuffer sbUp=new StringBuffer("");
 	   StringBuffer sbShow=new StringBuffer("");
-	   int len=qaList.size();
-	   for(int i=0;i<qaList.size();i++){
+	   int len=qaList.size()+1;
+	   for(int i=1;i<len;i++){
 		   sbUp.append("pUp"+i+",");
 			sbShow.append("pShow"+i+",");
 			if(len==i){
@@ -169,7 +172,7 @@ public class SupplierItemController extends BaseController{
 		model.addAttribute("sbUp", sbUp);
 		model.addAttribute("sbShow", sbShow);
 		model.addAttribute("cateList", list3);
-		model.addAttribute("len", len);
+//		model.addAttribute("len", len);
 		return "ses/sms/supplier_register/aptitude"; 
 	 
 		

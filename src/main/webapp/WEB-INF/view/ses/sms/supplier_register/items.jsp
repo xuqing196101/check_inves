@@ -119,81 +119,41 @@
 		loadZtree(code,kind, status);
 	}
  
-		/* function zTreeOnClick(event,treeId,treeNode){
-			var categoryId=treeNode.id;
-			
-			layer.open({
-				type : 2,
-				title : '品目文件上传',
-				// skin : 'layui-layer-rim', //加上边框
-				area : [ '300px', '280px' ], //宽高
-				offset : '100px',
-				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_item/getCategory.html?categoryId=' + categoryId, //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-			
-			 */
-		/* 	layer.open({
-				type : 2,
-				title : '审核反馈',
-				closeBtn : 0, //不显示关闭按钮
-				//skin : 'layui-layer-lan', //加上边框
-				area : [ '500px', '300px' ], //宽高
-				offset : '100px',
-				shade : 0,
-				maxmin : true,
-				shift : 2,
-				content : '${pageContext.request.contextPath}/supplier_item/getCategory.html?categoryId=' + categoryId, //url
-			}); */
-			
-			
-		/* 	$("#checkedAll").attr("checked",false);
-			getDetail(treeNode.id);
-			$("#mid").val(treeNode.id); */
-		//};
-	/* 	function onCheck(e, treeId, treeNode) {
-		var ids = "";
-		var flag = treeNode.checked;
-		var result = checkType();
-		var tree = $.fn.zTree.getZTreeObj(result.id);
-		var nodes = tree.getChangeCheckedNodes();
-		for (var i = 0; i < nodes.length; i++) {
-			if (!nodes[i].isParent) {
-				if (ids) {
-					ids += ",";
-				}
-				ids += nodes[i].id;
-			}
-		}
-		
-		if (ids) {
+
+	
+	function saveItems(){
+		/*  getCategoryId();
+		$("#flag").val("");
+		$("#items_info_form_id").submit(); */
+	//	function temporarySave(){
+		  $("input[name='flag']").val("file");
 			$.ajax({
-				url : "${pageContext.request.contextPath}/supplier_level/find_credit_ctnt_by_credit_id.do",
+				url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
 				type : "post",
-				data : {
-					ids : ids,
-					flag : flag,
-					type : result.type
-				},
-				dataType : "json",
-				success : function(result) {
-				},
+				data : $("#items_info_form_id").serializeArray(),
+				contextType: "application/x-www-form-urlencoded",
+				success:function(msg){
+				 
+			 	if (msg == 'ok'){
+						layer.msg('暂存成功');
+					} 
+				  if (msg == 'failed'){
+						layer.msg('暂存失败');
+					}  
+				}
 			});
-		} */
+		//}
 		
-		/**for (var i = 0; i < nodes.length; i++) {
-			nodes[i].checkedOld = nodes[i].checked;
-		}*/
-/* 	} */
+	}
+	
 	
  
 	
-	function saveItems(flag){
+/* 	function saveItems(flag){
 		 getCategoryId();
 		$("#flag").val(flag);
 		$("#items_info_form_id").submit();
-	}
+	} */
 	
 	function next(flag){
 		var flag =supCategory();
@@ -295,13 +255,13 @@
 				<h2 class="padding-20 mt40 ml30">
 					<span class="new_step current fl"><i class="">1</i>
 <!-- 						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i> -->
-						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
-						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">4</i>
-<!-- 						<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step current fl"><i class="">5</i> -->
-						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">5</i>
-<!-- 						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i> -->
-						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">6</i>
-						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">7</i> 
+						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">2</i>
+						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">3</i>
+						<div class="line"></div> <span class="step_desc_02">品目信息</span> </span> <span class="new_step fl"><i class="">4</i>
+						<div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span> <span class="new_step  fl"><i class="">5</i>
+						<div class="line"></div> <span class="step_desc_02">品目合同上传</span> </span> <span class="new_step fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">7</i>
+						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">8</i> 
 						<span class="step_desc_01">申请表承诺书上传</span> 
 					</span>
 					<div class="clear"></div>
@@ -379,25 +339,8 @@
 							
 						</div>
 						
-						<div style="float:left;margin-top:30px;">
-						${err_item }
-						</div>
-				<%-- 		<div>
-						计算机附件
-						 <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25">
-							 <up:show showId="business_show"  businessId="12345678" sysKey="1" typeId="asdhkja1212312" /> 
-				   	   		 <up:upload id="business_up"   businessId="12345678" sysKey="1" typeId="asdhkja1212312" auto="true" />
-						   </div>
-				   
-				   
-								
-						</div> --%>
-								
-						<!-- <div class="mt40 tc mb50">
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems('professional_info')">上一步</button>
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems('items')">暂存</button>
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems('products')">下一步</button>
-						</div> -->
+				 
+	 
 					</div>
 				</div>
 			</div>
@@ -418,20 +361,6 @@
 		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
 		<input name="flag" value=""  id="flag" type="hidden" /> 
 		<input name="supplierTypeIds" type="hidden" value="${currSupplier.supplierTypeIds }" /> 
-		<%-- <input name="jsp" type="hidden" />
-		<input type="hidden" name="defaultPage" value="${defaultPage}" />
-		
-		<input type="hidden" name="addProCategoryIds" />
-		<input type="hidden" name="deleteProCategoryIds" />
-		
-		<input type="hidden" name="addSellCategoryIds" />
-		<input type="hidden" name="deleteSellCategoryIds" />
-		
-		<input type="hidden" name="addEngCategoryIds" />
-		<input type="hidden" name="deleteEngCategoryIds" />
-		
-		<input type="hidden" name="addServeCategoryIds" />
-		<input type="hidden" name="deleteServeCategoryIds" /> --%>
 	</form>
 	<!-- footer -->
 	<c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if>

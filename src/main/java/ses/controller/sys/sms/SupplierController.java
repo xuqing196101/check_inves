@@ -423,14 +423,32 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/temporarySave",produces="html/text;charset=UTF-8")
-	public String temporarySave(HttpServletRequest request, Supplier supplier){
+	public String temporarySave(HttpServletRequest request, Supplier supplier,String flag){
 	    String res = StaticVariables.SUCCESS;
-	    try {
-            supplierService.perfectBasic(supplier);
-        } catch (Exception e) {
-            res = StaticVariables.FAILED;
-            e.printStackTrace();
-        }
+	    
+	    //如果是附件上传页面
+	    if(flag.equals("file")){
+	    	res = StaticVariables.SUCCESS;
+	    }
+	   //保存审核采购机构
+	    else if(flag.equals("1")){
+	    	  try {
+	    			supplierService.updateSupplierProcurementDep(supplier);
+	          } catch (Exception e) {
+	              res = StaticVariables.FAILED;
+	              e.printStackTrace();
+	          }
+	    }else{
+	    	//保存基本信息
+	    	  try {
+	              supplierService.perfectBasic(supplier);
+	          } catch (Exception e) {
+	              res = StaticVariables.FAILED;
+	              e.printStackTrace();
+	          }
+	    	  
+	    }
+	  
 	    return res;
 	}
 	
@@ -479,11 +497,11 @@ public class SupplierController extends BaseSupplierController {
             model.addAttribute("supplieType", list);
             List<DictionaryData> wlist = DictionaryDataUtil.find(8);
             model.addAttribute("wlist", wlist);
-          if(supplier.getSupplierMatPro().getListSupplierCertPros().size()<1){
-        	  
-        	  SupplierMatPro pro = supplierMatProService.init();
-        	  supplier.setSupplierMatPro(pro);
-          }
+            //物资生产类型的必须有的证书
+            if(supplier.getSupplierMatPro()==null){
+            	 SupplierMatPro pro = supplierMatProService.init();
+           	  supplier.setSupplierMatPro(pro);
+            }
           String attid = DictionaryDataUtil.getId("SUPPLIER_PRODUCT");
   
             
@@ -625,10 +643,22 @@ public class SupplierController extends BaseSupplierController {
 		 String[] split = supplier.getSupplierTypeIds().split(",");
 		 int length = split.length;
 		 model.addAttribute("length", length);
+		 model.addAttribute("supplierTypeIds",  supplier.getSupplierTypeIds());
 		 model.addAttribute("currSupplier", supplier);
 		 if(pro==true&&server==true&&project==true&&sale==true){
 			 return "ses/sms/supplier_register/items";
 		 }else{
+			  List<DictionaryData> list = DictionaryDataUtil.find(6);
+	            for(int i=0;i<list.size();i++){
+	                 String code = list.get(i).getCode();
+	                 if(code.equals("GOODS")){
+	                     list.remove(list.get(i));
+	                 }
+	            }
+	            model.addAttribute("supplieType", list);
+	            List<DictionaryData> wlist = DictionaryDataUtil.find(8);
+	            model.addAttribute("wlist", wlist);
+	            
 			 return "ses/sms/supplier_register/supplier_type";	
 		 }
 
@@ -647,12 +677,13 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_dep")
-	public String perfectDep(HttpServletRequest request, Supplier supplier, String flag,Model model) {
+	public String perfectDep(HttpServletRequest request, Supplier supplier, String flag,Model model,String supplierTypeIds) {
 	
 		if(flag.equals("next")){
 			supplierService.updateSupplierProcurementDep(supplier);
 			supplier = supplierService.get(supplier.getId());
 			model.addAttribute("currSupplier", supplier);
+			model.addAttribute("supplierTypeIds", supplierTypeIds);
 			return "ses/sms/supplier_register/template_download";
 		}else if(flag.equals("store")){
 			supplierService.updateSupplierProcurementDep(supplier);
@@ -681,7 +712,7 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_download")
-	public String perfectDownload(HttpServletRequest request, Supplier supplier, String jsp,String flag,Model model) {
+	public String perfectDownload(HttpServletRequest request, Supplier supplier, String jsp,String flag,Model model,String supplierTypeIds) {
 		supplier = supplierService.get(supplier.getId());
 		
 		if ("next".equals(flag)) {
@@ -689,6 +720,9 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("sysKey", sysKey);
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("currSupplier", supplier);
+			
+			model.addAttribute("supplierTypeIds", supplierTypeIds);
+			
 			return "ses/sms/supplier_register/template_upload";
 		} else{
 			supplier = supplierService.get(supplier.getId());
@@ -713,7 +747,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("privnce", privnce);
 			
 			model.addAttribute("currSupplier", supplier);
-			
+			model.addAttribute("supplierTypeIds", supplierTypeIds);
 			return "ses/sms/supplier_register/procurement_dep";
 		}
 		
@@ -732,7 +766,7 @@ public class SupplierController extends BaseSupplierController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value = "perfect_upload")
-	public String perfectUpload(HttpServletRequest request, Supplier supplier, String jsp,String flag,Model model) throws IOException {
+	public String perfectUpload(HttpServletRequest request, Supplier supplier, String jsp,String flag,Model model,String supplierTypeIds) throws IOException {
 //		this.setSupplierUpload(request, supplier);
 		
 		boolean bool = validateUpload(model,supplier.getId());
@@ -741,6 +775,7 @@ public class SupplierController extends BaseSupplierController {
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());
 			model.addAttribute("currSupplier", supplier);
+			model.addAttribute("supplierTypeIds", supplierTypeIds);
 			model.addAttribute("jump.page", jsp);
 			return "ses/sms/supplier_register/template_download";
 		}
@@ -1716,7 +1751,7 @@ public class SupplierController extends BaseSupplierController {
 		* @throws
 		 */
 		@RequestMapping(value="/contract")
-		public String contractUp(String supplierId,Model model,String supplierTypeIds){
+		public String contractUp(String supplierId,Model model,String supplierTypeIds,String flag){
 		 List<ContractBean> contract=new LinkedList<ContractBean>();
 		 //合同
 		 String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
@@ -1770,9 +1805,7 @@ public class SupplierController extends BaseSupplierController {
 			 sbShow.append("pShow"+count+",");
 			 con.setTwoBil(id6);
 			 count++;
-			   
-			 sbUp.append("pUp"+count+",");
-			 sbShow.append("pShow"+count+",");
+	 
 			 contract.add(con);
 		 }
 		 model.addAttribute("contract", contract);	
@@ -1782,7 +1815,16 @@ public class SupplierController extends BaseSupplierController {
 		 model.addAttribute("years", years);
 		 model.addAttribute("supplierTypeIds", supplierTypeIds);
 		 model.addAttribute("supplierId", supplierId);
+		 
+		 if(flag.equals("1")){
+				Supplier supplier = supplierService.get(supplierId);
+				model.addAttribute("currSupplier", supplier);
+				 return "ses/sms/supplier_register/items";
+				
+		 }
 		 return "ses/sms/supplier_register/contract";
+		 
+		 
 		}
 		
 		

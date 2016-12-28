@@ -7,21 +7,39 @@
 <%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
 
-	
-	function saveItems(flag){
-		 getCategoryId();
-		$("#flag").val(flag);
-		$("#items_info_form_id").submit();
+	//暂存
+	function saveItems(){
+		/*  getCategoryId();
+		$("#flag").val("");
+		$("#items_info_form_id").submit(); */
+	//	function temporarySave(){
+		  $("input[name='flag']").val("file");
+			$.ajax({
+				url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
+				type : "post",
+				data : $("#items_info_form_id").serializeArray(),
+				contextType: "application/x-www-form-urlencoded",
+				success:function(msg){
+				 
+			 	if (msg == 'ok'){
+						layer.msg('暂存成功');
+					} 
+				  if (msg == 'failed'){
+						layer.msg('暂存失败');
+					}  
+				}
+			});
+		//}
+		
 	}
 	
-	function next(flag){
-		 getCategoryId();
-		$("#flag").val(flag);
+	function next(){
+		 $("#flag").val("5");
 		$("#items_info_form_id").submit();
 	}
 	
 	function prev(){
-	 
+		  $("input[name='flag']").val("1");
 		$("#items_info_form_id").submit();
 	}
 
@@ -79,40 +97,46 @@
 										  </tr>
 										  
 										  
-										  <c:forEach items="${contract}" var="obj">
+										  <c:forEach items="${contract}" var="obj" varStatus="vs">
 									      <tr>
 									        <td class="info">${obj.name }</td>
 										    <td class="info">
+										  
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
 										    <td class="info">
+										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
 										    <td class="info">
+										     
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-3}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-3}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
 										    <td class="info"> 
+										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
 										    <td class="info">
+										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
 										    <td class="info">
+									   
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
@@ -134,8 +158,8 @@
 	 <div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev()">上一步</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems(2)">暂存</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
+				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems()">暂存</button>
+				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next()">下一步</button>
 	  	  </div>
 	</div>
 	
@@ -143,7 +167,7 @@
 	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier_item/save_or_update.html" method="post">
 		<input name="supplierId" value="${supplierId}" type="hidden" /> 
 		<input name="supplierTypeIds"  value="${supplierTypeIds}"    type="hidden" /> 
-		<input name="flag" value="1"    type="hidden" /> 
+		<input name="flag" value="" id="flag" type="hidden" /> 
 	 
 	</form>
 	<!-- footer -->

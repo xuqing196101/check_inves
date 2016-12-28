@@ -419,6 +419,7 @@ public class SupplierServiceImpl implements SupplierService {
             todosMapper.updateIsFinish(new Todos("supplier/return_edit.html?id="+ supplier.getId()));
         }
         supplier.setStatus(0);
+        supplier.setCreatedAt(new Date());
         supplier.setAuditDate(new Date());
         supplierMapper.updateByPrimaryKeySelective(supplier);
         supplier = supplierMapper.getSupplier(supplier.getId());

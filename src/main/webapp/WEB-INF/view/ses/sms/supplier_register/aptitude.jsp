@@ -9,20 +9,34 @@
  
  
 	
-	function saveItems(flag){
-		 getCategoryId();
-		$("#flag").val(flag);
-		$("#items_info_form_id").submit();
+	function saveItems(){
+			$("input[name='flag']").val("file");
+			$.ajax({
+				url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
+				type : "post",
+				data : $("#items_info_form_id").serializeArray(),
+				contextType: "application/x-www-form-urlencoded",
+				success:function(msg){
+				 
+			 	if (msg == 'ok'){
+						layer.msg('暂存成功');
+					} 
+				  if (msg == 'failed'){
+						layer.msg('暂存失败');
+					}  
+				}
+			});
 	}
 	
 	function next(){
+		$("input[name='flag']").val("2");
 		$("#items_info_form_id").submit();
 		/*  var id="${currSupplier.id}";
 		 window.location.href="${pageContext.request.contextPath}/supplier/contract.html?supplierId="+id; */
 	}
 	
 	function prev(){
-	 
+		$("input[name='flag']").val("1");
 		$("#items_info_form_id").submit();
 	}
 	
@@ -55,14 +69,62 @@
 				</h2>
 			</div>
 		</c:if>
-    <c:set value="0" var="length"></c:set>>
-		<!--基本信息-->
+ 
+ 		<!--基本信息-->
 		<div class="container content height-300">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10" >
-						 
-						  <table class="table table-bordered">
+						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
+								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
+								<li id="li_id_2"   ><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
+								<li id="li_id_3"   ><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
+								<li id="li_id_4"  ><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
+							</c:if>
+						</ul>
+						<div class="tab-content padding-top-20" id="tab_content_div_id">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
+								<!-- 物资生产型 -->
+								<div class="tab-pane fade active in height-300" id="tab-1">
+										  <table class="table table-bordered">
+										  <tr>
+										    <td class="info"> 品目名称</td>
+										    <td>需要上传的文件</td>
+										  </tr>
+										  <c:forEach items="${cateList }" var="obj">
+									      <tr>
+										    <td class="info">${obj.categoryName } 
+								 
+										    </td>
+												    <td class="info">
+												     <c:forEach items="${obj.list }" var="qua" varStatus="vs">
+													  <c:set value="${group+1}" var="group"/>
+													   
+													  	  ${qua.name }
+													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
+																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
+														   </div>  
+													    </c:forEach>
+												    </td>
+										   
+										  </tr>
+										</c:forEach>
+									</table> 
+								</div>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
+								<!-- 物资销售型 -->
+								<div class="tab-pane fade height-300" id="tab-2">
+								
+										  <table class="table table-bordered">
 						  
 										  <tr>
 										    <td class="info"> 品目名称</td>
@@ -70,25 +132,99 @@
 										  </tr>
 										  <c:forEach items="${cateList }" var="obj">
 									      <tr>
-										    <td class="info">${obj.categoryName }</td>
-										  
-										       ${length+ fn:length(obj.list)}
-									 
+										    <td class="info">${obj.categoryName } 
+										    </td>
 												    <td class="info">
 												     <c:forEach items="${obj.list }" var="qua" varStatus="vs">
-												  
-												  	  ${qua.name }
-													      <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-																<u:upload id="pUp${len-(vs.index+1)}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
-																<u:show showId="pShow${len-(vs.index+1)}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>
+													  <c:set value="${group+1}" var="group"/>
+													   
+													  	  ${qua.name }
+													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
+																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
+														   </div>  
 													    </c:forEach>
 												    </td>
-										   
-										  </tr>
+										    </tr>
 										</c:forEach>
 										
 									</table> 
+								  
+									 
+								</div>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
+							<!-- 服务 -->
+								<div class="tab-pane fade height-200" id="tab-3">
+								  <table class="table table-bordered">
+										  <tr>
+										    <td class="info"> 品目名称</td>
+										    <td>需要上传的文件</td>
+										  </tr>
+										  <c:forEach items="${cateList }" var="obj">
+									      <tr>
+										    <td class="info">${obj.categoryName } 
+										    </td>
+												    <td class="info">
+												     <c:forEach items="${obj.list }" var="qua" varStatus="vs">
+													  <c:set value="${group+1}" var="group"/>
+													   
+													  	  ${qua.name }
+													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
+																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
+														   </div>  
+													    </c:forEach>
+												    </td>
+										     </tr>
+										</c:forEach>
+									</table> 
+								</div>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
+								<!-- 生产 -->
+								<div class="tab-pane fade height-200" id="tab-4">
+								   <table class="table table-bordered">
+										  <tr>
+										    <td class="info"> 品目名称</td>
+										    <td>需要上传的文件</td>
+										  </tr>
+										  <c:forEach items="${cateList }" var="obj">
+									      <tr>
+										    <td class="info">${obj.categoryName } 
+								 
+										     </td>
+												    <td class="info">
+												     <c:forEach items="${obj.list }" var="qua" varStatus="vs">
+													  <c:set value="${group+1}" var="group"/>
+													  	  ${qua.name }
+													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
+																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
+														   </div>  
+													    </c:forEach>
+												    </td>
+										  </tr>
+										</c:forEach>
+									</table> 
+								</div>
+							</c:if>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+  
+   <c:set value="0" var="group"/>
+		<!--基本信息-->
+		<div class="container content height-300">
+			<div class="row magazine-page">
+				<div class="col-md-12 tab-v2 job-content">
+					<div class="padding-top-10" >
+						 
+				
 								
 					</div>
 				</div>
@@ -99,7 +235,7 @@
 	 <div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev()">上一步</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems(2)">暂存</button>
+				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems()">暂存</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next()">下一步</button>
 	  	  </div>
 	</div>

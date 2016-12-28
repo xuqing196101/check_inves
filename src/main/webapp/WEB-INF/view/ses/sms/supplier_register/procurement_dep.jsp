@@ -163,7 +163,38 @@
 	}
 	
 	
-	
+		
+		function prev(){
+			 $("#flag").val("5");
+			 $("#items_info_form_id").submit();
+		}
+		
+		///暂存
+		function temporarySave(){
+			
+			var procurementDepId = $("input[name='radio']:checked").val();
+			$("input[name='procurementDepId']").val(procurementDepId);
+			
+			
+			$("input[name='flag']").val("1");
+			$.ajax({
+				url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
+				type : "post",
+				data : $("#procurement_dep_form_id").serializeArray(),
+				contextType: "application/x-www-form-urlencoded",
+				success:function(msg){
+				 
+			 	if (msg == 'ok'){
+						layer.msg('暂存成功');
+					} 
+				  if (msg == 'failed'){
+						layer.msg('暂存失败');
+					}  
+				}
+			});
+		}
+		
+		
 </script>
 
 </head>
@@ -183,8 +214,10 @@
  -->						<div class="line"></div> <span class="step_desc_01">基本信息</span> </span> <span class="new_step current fl"><i class="">2</i>
 						<div class="line"></div> <span class="step_desc_02">供应商类型</span> </span> <span class="new_step current fl"><i class="">3</i>
 						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step current fl"><i class="">4</i>
-						<div class="line"></div> <span class="step_desc_02">初审采购机构</span> </span> <span class="new_step fl"><i class="">5</i>
-						<div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> <span class="new_step fl"><i class="">6</i> 
+						<div class="line"></div> <span class="step_desc_02">资质文件维护</span> </span> <span class="new_step current fl"><i class="">5</i>
+						<div class="line"></div> <span class="step_desc_01">品目合同上传</span> </span> <span class="new_step current  fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_02">初审采购机构</span> </span> <span class="new_step fl"><i class="">7</i>
+						<div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> <span class="new_step fl"><i class="">8</i> 
 						<span class="step_desc_02">申请表承诺书上传</span> 
 					</span>
 					<div class="clear"></div>
@@ -201,8 +234,9 @@
 							<input name="id" value="${currSupplier.id}" type="hidden" />
 							<input name="procurementDepId" type="hidden" />
 							<input  name="org" id="orgId" value="${orgnization.id  }" type="hidden" />
+							<input name="supplierTypeIds"  value="${supplierTypeIds}"    type="hidden" /> 
 							<input name="jsp" type="hidden" />
-							<input name="flag" type="hidden" />
+							<input name="flag"  type="hidden" />
 						</form>
 						<div class="tab-content padding-top-20">
 							<!-- 物资生产型 -->
@@ -294,12 +328,19 @@
 	
 	  <div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
-	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('prev')">上一步</button>
-<!-- 					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('store')">暂存</button>
- -->					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('next')">下一步</button>
+	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="prev()">上一步</button>
+					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporarySave()">暂存</button>
+					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('next')">下一步</button>
 	  	  </div>
 	  </div>
 	  
+	  <form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
+		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
+		<input name="supplierTypeIds"  value="${supplierTypeIds}"    type="hidden" /> 
+		<input name="flag" value="1" id="flag" type="hidden" /> 
+	</form>
+	
+	
 	<!-- footer -->
 	<c:if test="${currSupplier.status != 7}">
 		<jsp:include page="/index_bottom.jsp" />
