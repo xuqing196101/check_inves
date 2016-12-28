@@ -109,6 +109,14 @@ public class SupplierCondition {
      * </pre>
      */
     private String extractAddress;
+    
+    /**
+     * <pre>
+     * 抽取地点
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID
+     * </pre>
+     */
+    private String[] addressSplit;
 
     /**
      * <pre>
@@ -370,6 +378,20 @@ public class SupplierCondition {
      */
     public void setExtRelatesList(List<SupplierExtRelate> extRelatesList) {
         this.extRelatesList = extRelatesList;
+    }
+
+    /**
+     * @return Returns the addressSplit.
+     */
+    public String[] getAddressSplit() {
+        return addressSplit;
+    }
+
+    /**
+     * @param addressSplit The addressSplit to set.
+     */
+    public void setAddressSplit(String[] addressSplit) {
+        this.addressSplit = addressSplit;
     }
 
 

@@ -51,6 +51,23 @@ public class SupplierExtUser {
      * </pre>
      */
     private String projectId;
+    
+ 
+    /**
+     * <pre>
+     * 更新时间
+     * 表字段 : T_SES_EMS_PRO_EXT_SUPERVISE.UPDATED_AT
+     * </pre>
+     */
+    private Date updatedAt;
+    
+    private String relName;
+    
+    private String company;
+    
+    private String phone;
+    
+    private String duties;
 
     /**
      * <pre>
@@ -176,4 +193,75 @@ public class SupplierExtUser {
     public void setProjectId(String projectId) {
         this.projectId = projectId == null ? null : projectId.trim();
     }
+    /**
+     * @return Returns the updatedAt.
+     */
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     * @param updatedAt The updatedAt to set.
+     */
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    /**
+     * @return Returns the relName.
+     */
+    public String getRelName() {
+        return relName;
+    }
+
+    /**
+     * @param relName The relName to set.
+     */
+    public void setRelName(String relName) {
+        this.relName = relName;
+    }
+
+    /**
+     * @return Returns the company.
+     */
+    public String getCompany() {
+        return company;
+    }
+
+    /**
+     * @param company The company to set.
+     */
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    /**
+     * @return Returns the phone.
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * @param phone The phone to set.
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    /**
+     * @return Returns the duties.
+     */
+    public String getDuties() {
+        return duties;
+    }
+
+    /**
+     * @param duties The duties to set.
+     */
+    public void setDuties(String duties) {
+        this.duties = duties;
+    }
+    
+
 }

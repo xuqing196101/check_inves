@@ -42,6 +42,8 @@ import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
+import ses.model.ems.ProExtSupervise;
+import ses.model.ems.ProjectExtract;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierConType;
@@ -50,6 +52,7 @@ import ses.model.sms.SupplierExtPackage;
 import ses.model.sms.SupplierExtRelate;
 import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -62,6 +65,7 @@ import ses.service.sms.SupplierExtPackageServicel;
 import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierExtractsService;
+import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 
 /**
@@ -121,8 +125,10 @@ public class SupplierExtractsController extends BaseController {
     /**待办消息**/
     @Autowired
     private TodosService todosService;
-    
+    @Autowired
     private SupplierAuditService supplierAuditService;
+    @Autowired
+    SupplierTypeRelateService supplierTypeRelateService;
 
     /**
      * 
@@ -214,22 +220,18 @@ public class SupplierExtractsController extends BaseController {
             }
 
             //获取监督人员
-            List<User>  listUser = extUserServicl.list(new SupplierExtUser(projectId));
+            List<SupplierExtUser>  listUser = extUserServicl.list(new SupplierExtUser(projectId));
             model.addAttribute("listUser", listUser);
             String userName = "";
-            String userId = "";
             if (listUser != null && listUser.size() != 0){
-                for (User user : listUser) {
-                    if (user != null) {
-                        userName += user.getRelName() + ",";
-                        userId += user.getId() + ",";
+                for (SupplierExtUser ps : listUser) {
+                    if (ps != null ){
+                        userName += ps.getRelName()+ ",";
                     }
                 }
-                if (!"".equals(userId)){
-                    model.addAttribute("userName", userName.substring(0, userName.length()-1));
-                    model.addAttribute("userId", userId.substring(0, userId.length()-1));
+                if(!"".equals(userName)){
+                    model.addAttribute("userName", userName);
                 }
-
             }
 
             //获取项目信息
@@ -269,29 +271,39 @@ public class SupplierExtractsController extends BaseController {
      * @return String
      */
     @RequestMapping("/addExtractions")
-    public String addExtraction(Model model,String typeclassId,String projectId,String packageId){
+    public String addExtraction(Model model,String typeclassId,String projectId,String[] packageId){
         List<Area> privnce = areaService.findRootArea();
         model.addAttribute("privnce", privnce);
         model.addAttribute("typeclassId", typeclassId);
         model.addAttribute("projectId", projectId);
-        model.addAttribute("packageId", packageId);
-
+        model.addAttribute("typeList", conditionService.supplierTypeList());
+        model.addAttribute("typeListJson", JSON.toJSONString(conditionService.supplierTypeList()));
+        String packIds="";
+        for (String packId : packageId) {
+            packIds+=packId+",";
+        }
+        model.addAttribute("packageId", packIds);
         //获取查询条件类型
         SupplierCondition condition=new SupplierCondition();
-        condition.setProjectId(packageId);
+        if("".equals(packageId[packageId.length-1])){
+            condition.setProjectId(packageId[packageId.length-2]);
+        }else{
+            condition.setProjectId(packageId[packageId.length-1]);
+        }
         condition.setStatus((short)1);
         List<SupplierCondition> listCon = conditionService.list(condition,0);
         if (listCon != null && listCon.size() !=0 ){
             model.addAttribute("listCon", listCon.get(0));
+            String conId=listCon.get(listCon.size()-1).getId();
             //所在地区回显
-            if (listCon.get(0).getAddress() != null && listCon.get(0).getAddress() != null ){
-                Area area = areaService.listById(listCon.get(0).getAddress());
-                List<Area> city = areaService.findAreaByParentId(area.getParentId());
-                model.addAttribute("city", city);
-                model.addAttribute("area", area);
-            }
+            //            if (listCon.get(0).getAddress() != null && listCon.get(0).getAddress() != null ){
+            //                Area area = areaService.listById(listCon.get(0).getAddress());
+            //                List<Area> city = areaService.findAreaByParentId(area.getParentId());
+            //                model.addAttribute("city", city);
+            //                model.addAttribute("area", area);
+            //            }
             Map<String, Integer> mapcount = new HashMap<String, Integer>();
-            List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(listCon.get(0).getId()), "");
+            List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(conId), "");
             if (list != null && list.size() != 0){
                 //已操作的
                 List<SupplierExtRelate> projectExtractListYes = new ArrayList<SupplierExtRelate>();
@@ -319,8 +331,13 @@ public class SupplierExtractsController extends BaseController {
                     conTypes = listCondition.get(0).getConTypes();
                 }
                 if (conTypes !=null && conTypes.size() !=0 ){
-                    for (SupplierConType extConType : conTypes) {
-                        extConType.setAlreadyCount(mapcount.get(extConType.getId()) == null ? 0 : mapcount.get(extConType.getId()));
+                    for (SupplierConType extConType1 : conTypes) {
+                        //获取抽取的专家类别
+                        SupplierExtRelate supplierExtRelateC = new SupplierExtRelate();
+                        supplierExtRelateC.setReviewType(extConType1.getSupplierTypeId());
+                        supplierExtRelateC.setSupplierConditionId(conId);
+                        List<SupplierExtRelate> list2 = extRelateService.list(supplierExtRelateC, null);
+                        extConType1.setAlreadyCount(list2 == null ? 0 : list2.size());
                     }
                     model.addAttribute("extConType", conTypes);
                 }
@@ -374,10 +391,10 @@ public class SupplierExtractsController extends BaseController {
             count = 1;
         }
 
-
-        if (sids == null || sids.length==0 || "".equals(sids)){
+        List<SupplierExtUser> list = extUserServicl.list(new SupplierExtUser(project.getId()));
+        if (list == null || list.size() == 0){
             map.put("supervise", "不能为空");
-            count=1;
+            count = 1;
         }
 
         if (extractionSites == null ||  "".equals(extractionSites)){
@@ -512,7 +529,7 @@ public class SupplierExtractsController extends BaseController {
         User user = (User) sq.getSession().getAttribute("loginUser");
         List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(cId), "");
         if (list == null || list.size() == 0){
-            extRelateService.insert(cId, user != null && !"".equals(user.getId()) ? user.getId() : "");
+            //            extRelateService.insert(cId, user != null && !"".equals(user.getId()) ? user.getId() : "", null, cId);
             list = extRelateService.list(new SupplierExtRelate(cId),"");
         }
         //已操作的
@@ -582,6 +599,41 @@ public class SupplierExtractsController extends BaseController {
         }
         if ("1".equals(ids[2])){
             SupplierExtRelate supplierExtRelate = extRelateService.getSupplierExtRelate(ids[0]);
+            List<SupplierTypeRelate> queryBySupplier = supplierTypeRelateService.queryBySupplier(supplierExtRelate.getSupplier().getId());
+            //截取专家类型 如果满足insert
+            if (queryBySupplier != null && queryBySupplier.size() != 0){
+                SupplierExtRelate supplierExtRelateC = new SupplierExtRelate();
+                for (SupplierTypeRelate supplierTypeRelate : queryBySupplier) {
+                    //获取抽取的专家类别
+                    supplierExtRelateC.setReviewType(supplierTypeRelate.getId());
+                    supplierExtRelateC.setSupplierConditionId(ids[1]);
+                    List<SupplierExtRelate> list = extRelateService.list(supplierExtRelateC, null);
+                    //获取条件进行对比
+                    Integer counts = conTypeService.getSupplierTypeById(ids[1], supplierTypeRelate.getSupplierTypeId()) ;
+                    if(counts == null ){
+                        counts = 0;
+                    }
+                    if(counts !=0 && list.size() != 0 && list.size() >= counts){
+                        continue;
+                    }else{
+                        //修改为抽取的类型
+                        SupplierExtRelate extract = new SupplierExtRelate();
+                        extract.setReviewType(supplierTypeRelate.getSupplierTypeId());
+                        extract.setId(ids[0]);
+                        extRelateService.update(extract); 
+                        if(list.size()+1 == counts){  
+
+
+                        }
+                        break;
+                    }
+
+
+                }
+
+
+            }
+
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("id", supplierExtRelate.getProjectId());
             List<Packages> findPackageById = packagesService.findPackageById(map);
@@ -590,7 +642,7 @@ public class SupplierExtractsController extends BaseController {
             saleTender.setSupplierId(supplierExtRelate.getSupplier().getId());
             saleTender.setPackages(supplierExtRelate.getProjectId());   
             saleTenderService.insert(saleTender);
-            
+
             if (supplierExtRelate.getSupplier().getStatus() == 1){
                 Todos todos = new Todos();
                 todos.setUrl("supplierAudit/essential.html?supplierId="+supplierExtRelate.getSupplier().getId());
@@ -617,8 +669,6 @@ public class SupplierExtractsController extends BaseController {
                 supplierAudit.setStatus(4);
                 supplierAuditService.updateStatusById(supplierAudit);
             }
-            
-            
 
         }
         List<SupplierExtRelate> projectExtractListYes = resultProjectExtract(sq, ids);  
@@ -647,10 +697,15 @@ public class SupplierExtractsController extends BaseController {
         SupplierExtRelate pe = new SupplierExtRelate();
         pe.setId(ids[0]);
         List<SupplierExtRelate> list2 = extRelateService.list(pe,null);
+
         SupplierConType extConType = conTypeService.getExtConType(list2.get(0).getConTypeId());
         Integer count = mapcount.get(extConType.getId());
+        Integer sum = conTypeService.getSum(list2.get(0).getSupplierConditionId());
+        if(sum == null){
+            sum = 0;
+        }
         if (count != null && count != 0){
-            if (count >= extConType.getSupplierCount()){
+            if (count >= sum){
                 extRelateService.updateStatusCount("1",extConType.getId());
                 forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
             }else{
@@ -661,10 +716,17 @@ public class SupplierExtractsController extends BaseController {
         //获取查询条件类型
         List<SupplierCondition> listCondition = conditionService.list(new SupplierCondition(ids[1],""),0);
         List<SupplierConType> conTypes = listCondition.get(0).getConTypes();
-        for (SupplierConType extConType1 : conTypes) {
-            extConType1.setAlreadyCount(mapcount.get(extConType1.getId()) == null ? 0 : mapcount.get(extConType1.getId()));
+        if(conTypes != null && conTypes.size() != 0){
+            for (SupplierConType extConType1 : conTypes) {
+                //获取抽取的专家类别
+                SupplierExtRelate projectExtrac = new SupplierExtRelate();
+                projectExtrac.setReviewType(extConType1.getSupplierTypeId());
+                projectExtrac.setSupplierConditionId(ids[1]);
+                List<SupplierExtRelate> list = extRelateService.list(projectExtrac,null);
+                extConType1.setAlreadyCount(list == null ? 0 : list.size());
+            }
+            projectExtractListYes.get(0).setConType(conTypes);
         }
-        projectExtractListYes.get(0).setConType(conTypes);
         if (projectExtractListNo.size() != 0){
             projectExtractListYes.add(projectExtractListNo.get(0));
         }else{
@@ -786,16 +848,16 @@ public class SupplierExtractsController extends BaseController {
             //        model.addAttribute("ProjectExtract", listEp);
             //        //获取监督人员
             //            array
-            if (conditionList != null && conditionList.size() != 0){
-                List<User>  listUser = null ;
-                for (SupplierExtPackage supplierExtPackage : conditionList) {
-                    listUser = extUserServicl.list(new SupplierExtUser(supplierExtPackage.getId()));
-                    if(listUser != null ){
-                        break; 
-                    }
-                }
-                model.addAttribute("listUser", listUser);
-            }
+            //            if (conditionList != null && conditionList.size() != 0){
+            //                List<User>  listUser = null ;
+            //                for (SupplierExtPackage supplierExtPackage : conditionList) {
+            //                    listUser = extUserServicl.list(new SupplierExtUser(supplierExtPackage.getId()));
+            //                    if(listUser != null ){
+            //                        break; 
+            //                    }
+            //                }
+            //                model.addAttribute("listUser", listUser);
+            //            }
         }
         return "ses/sms/supplier_extracts/show_info";
     }
@@ -825,14 +887,11 @@ public class SupplierExtractsController extends BaseController {
      * @return String
      */
     @RequestMapping("/showSupervise")
-    public String showSupervise(Model model, Integer page){
-        User user = new User();
-        //监督人员
-        //                user.setTypeName(DictionaryDataUtil.get("SUPERVISER_U").getId());
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("code", "SUPERVISER_R");
-        List<User> users = userServicl.findByRole(map);
-        model.addAttribute("list", new PageInfo<User>(users));
+    public String showSupervise(Model model,String projectId){
+        model.addAttribute("projectId", projectId);
+        List<SupplierExtUser> list = extUserServicel.list(new SupplierExtUser(projectId));
+        model.addAttribute("list", list);
+        model.addAttribute("type", "supplier");
         return "ses/sms/supplier_extracts/supervise_list";
     }
 
@@ -876,7 +935,7 @@ public class SupplierExtractsController extends BaseController {
     @RequestMapping("/AddtemporarySupplier")
     public  Object addTemporaryExpert(Supplier supplier,  Model model, String projectId,String packageId, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq){
         Integer type = 0;
-     
+
         if (supplier.getSupplierName() == null || "".equals(supplier.getSupplierName())){
             model.addAttribute("supplierNameError", "不能为空");
             type = 1;
@@ -1012,4 +1071,27 @@ public class SupplierExtractsController extends BaseController {
         return list;
 
     }
+
+    /**
+     * @Description:弹出限制条件和类别抽取数量
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月25日 09:49:56 
+     * @return String
+     */
+    @RequestMapping("/reasonnumber")
+    public String reasonNumber(Model model,String[] supplierTypeId,String addressReson,String eCount){
+        model.addAttribute("supplierTypeCode", supplierTypeId);
+        model.addAttribute("addressReson", addressReson);
+        model.addAttribute("eCount", eCount);
+        return "ses/sms/supplier_extracts/reason_and_number";
+    }
+
+    @ResponseBody
+    @RequestMapping("/supplieType")
+    public String supplierType(){
+        List<DictionaryData> supplierTypeList = conditionService.supplierTypeList();
+        return JSON.toJSONString(supplierTypeList);
+    }
+
 }

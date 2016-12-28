@@ -187,6 +187,7 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
     @Override
     public Integer selectLikeExpert(ExpExtCondition condition, ExtConType conType,String province) {
         Integer count = 0;
+       String[] packId = condition.getProjectId().split(",");
         //查询专家集合
         List<ExtConType> conTypes = new ArrayList<ExtConType>();
         if(condition.getAgeMax() != null && !"".equals(condition.getAgeMax()) && condition.getAgeMax() !=null && !"".equals(condition.getAgeMax())){
@@ -213,7 +214,7 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
         for (Expert expert2 : selectAllExpert) {
             Map<String, String> map=new HashMap<String, String>();
             map.put("expertId", expert2.getId());
-            map.put("projectId",condition.getProjectId());
+            map.put("projectId",packId[0]);
             if(extractMapper.getexpCount(map)==0){
                 count++;
             }

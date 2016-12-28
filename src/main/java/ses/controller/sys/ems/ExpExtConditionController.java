@@ -103,6 +103,8 @@ public class ExpExtConditionController extends BaseController {
         String[] expertsTypeSplit = extConType.getExpertsTypeSplit();
         String[] projectId = condition.getProjectId().split(",");
         String conditionId = "";
+        //保存单个conid
+        String conId = "";
         if (condition.getProjectId() != null && !"".equals(condition.getProjectId())){
             //已抽取
             conditionService.update(new ExpExtCondition(condition.getProjectId(),(short)2));
@@ -129,17 +131,19 @@ public class ExpExtConditionController extends BaseController {
                                 address[i] = findAreaByParentId.get(i).getId();
                             }
                             condition.setAddressSplit(address);
-                        
-                            
+
+
                         }
                     }
-                   
+
                     //插入信息
                     conditionService.insert(condition);
                     conditionId += condition.getId()+",";
+                    if("".equals(conId)){
+                        conId = condition.getId();
+                    }
                     //插入条件表
                     extConType.setConditionId(condition.getId());
-                   
                     if(expertsTypeSplit != null && expertsTypeSplit.length != 0){
                         for (String id : expertsTypeSplit) {
                             DictionaryData findById = DictionaryDataUtil.findById(id);
@@ -185,13 +189,13 @@ public class ExpExtConditionController extends BaseController {
             //获取查询条件类型
             Map<String, Integer> mapcount = new HashMap<String, Integer>();
             User user=(User) sq.getSession().getAttribute("loginUser");
-            Integer sum = conTypeService.getSum(condition.getId());
+            Integer sum = conTypeService.getSum(conId);
             PageHelper.startPage(1, sum);
-            List<ProjectExtract> list = extractService.list(new ProjectExtract(condition.getId()));
+            List<ProjectExtract> list = extractService.list(new ProjectExtract(conId));
             if (list == null || list.size() == 0){
-                extractService.insert(condition.getId(), user != null && !"".equals(user.getId()) ? user.getId() : "",projectId,conditionId);
+                extractService.insert(conId, user != null && !"".equals(user.getId()) ? user.getId() : "",projectId,conditionId);
                 //                PageHelper.startPage(1,4);
-                list = extractService.list(new ProjectExtract(condition.getId()));
+                list = extractService.list(new ProjectExtract(conId));
             }
             //已操作的
             List<ProjectExtract> projectExtractListYes = new ArrayList<ProjectExtract>();
@@ -214,7 +218,7 @@ public class ExpExtConditionController extends BaseController {
             }
 
             //获取查询条件类型
-            List<ExpExtCondition> listCondition = conditionService.list(new ExpExtCondition(condition.getId(), ""), 0);
+            List<ExpExtCondition> listCondition = conditionService.list(new ExpExtCondition(conId, ""), 0);
             List<ExtConType> conTypes = listCondition.get(0).getConTypes();
             for (ExtConType extConType1 : conTypes) {
                 //获取抽取的专家类别
@@ -232,7 +236,7 @@ public class ExpExtConditionController extends BaseController {
                 projectExtractListNo.remove(0);
             }else{
                 //已抽取
-                conditionService.update(new ExpExtCondition(condition.getId(), (short)2));
+                conditionService.update(new ExpExtCondition(conId, (short)2));
             }
             map.put("extRelateListYes", projectExtractListYes);
             map.put("extRelateListNo", projectExtractListNo);

@@ -86,7 +86,8 @@
 
 
       function add() {
-        var packageId= $("#packageId").find("option:selected").val();
+//         var packageId= $("#packageId").find("option:selected").val();
+        var packageId=$("#packageId").val();
         $.ajax({
           cache: true,
           type: "POST",
@@ -137,7 +138,7 @@
           offset: '20px',
           move: false,
           area: ['90%', '50%'],
-          content: '${pageContext.request.contextPath}/SupplierExtracts/showSupervise.do',
+          content: '${pageContext.request.contextPath}/SupplierExtracts/showSupervise.do?projectId=${projectId}',
           success: function(layero, index) {
             iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
           },
@@ -332,13 +333,13 @@
           </div>
            <div align="right" class=" pl20 mb10 " >
              <input class="input_group " readonly id="packageName" value="" onclick="showPackageType();"   type="text">
-              <input  readonly id="packageNameId"     type="hidden">
+              <input  readonly id="packageId"     type="hidden">
 <!--           <select class="w200" id="packageId" > -->
 <%--             <c:forEach items="${listResultSupplier}" var="list"> --%>
 <%--                 <option value="${list.id }" >${list.name }</option> --%>
 <%--             </c:forEach> --%>
 <!--           </select> -->
-            <button class="btn" 
+            <button class="btn mb10" 
                 onclick="add();" type="button">抽取</button>
 <!--             <button class="btn" -->
 <!--                 onclick="record();" type="button">引用其他包</button> -->

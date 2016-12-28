@@ -21,19 +21,7 @@
 
 <script type="text/javascript">
 
-		$(function (){
-			var list= "${extRelateListYes}";	
-				if(list != null && list.length !=0){
-					   $("#rowdnone").removeClass("dnone");
-					   $("#countdnone").addClass("dnone");
-				}else{
-					  $("#countdnone").removeClass("dnone");
-					   $("#rowdnone").addClass("dnone");
-					 
-				}
-				 
-				
-		});
+
     
     //供应商地区
     function areas(){
@@ -50,7 +38,9 @@
                var  html="";
                var areas=$("#area").find("option:selected").text();
                if(areas == '全国'){
-            	   html="<option value='' selected='selected' >全国</option>";
+            	   html="<option value='' selected='selected' >所有地区</option>";
+               }else{
+            	   html="<option value='' selected='selected' >所有市</option>";
                }
                for(var i=0;i<list.length;i++){
             	   html +="<option value="+list[i].id+">"+list[i].name+"</option>";
@@ -72,6 +62,8 @@
     function selectLikeSupplier(){
     var v = document.getElementById("city").value;  	
      $("#address").val(v);
+     var area = document.getElementById("area").value; 
+     $("#province").val(area);
      $.ajax({
          cache: true,
          type: "POST",
@@ -90,6 +82,57 @@ return false;
    
     //ajax提交表单
     function cityt() {
+        var  eCount =$("#supplierCount").val();
+        if(eCount != null && eCount != '' ){
+       
+         var iframeWin;
+         
+         var typeCode = $("#supplierTypeId").val();
+            var addressReson = $("#addressReson").val();
+            if(typeCode == '' && addressReson == '' ){
+              fax();
+            }else{
+             layer.open({
+                   type: 2,
+                   title: "选择",
+                   shadeClose: true,
+                   shade: 0.01,
+                   offset: '20px',
+                   move: false,
+                   area: ['90%', '430px'],
+                   content: '${pageContext.request.contextPath}/SupplierExtracts/reasonnumber.do?supplierTypeId='+$("#supplierTypeId").val()+'&&addressReson='+$("#city option:selected").val()+ $("#area option:selected").val()+'&&eCount='+$("#supplierCount").val(),
+                   success: function(layero, index) {
+                     iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                   },
+                   btn: ['保存', '关闭'],
+                   yes: function() {
+                     iframeWin.save();
+                     var type=$("#hiddentype").val();
+                     if(type != null && type != '' && type == '1'){
+                       
+                       fax();      
+                         layer.closeAll();
+                     }
+                     
+                
+                   },
+                   btn2: function() {
+                       layer.closeAll();
+                     } //iframe的url
+                 });
+     
+
+        
+            }
+            
+          }else{
+            $("#countSupplier").text("不能为空");
+          }
+            return false;
+    }
+    /**点击抽取按钮*/
+    function fax(){
+    	
       $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/SupplierExtracts/isFinish.do",
@@ -110,11 +153,8 @@ return false;
               }
            
       });
-         
-
-      return false;
-    }
-   
+    	
+    } 
     function ext(){
         $("#address").val($("#city option:selected").val());
         $.ajax({
@@ -134,20 +174,15 @@ return false;
             		var extConType=map.extConType;
             	var tex="";
             	if (list != null && list.length !=0){
-         		          $("#rowdnone").removeClass("dnone");
-         		          $("#countdnone").addClass("dnone");
+         		
             	
             		  for(var i=0;i<list.length;i++){
                           if(list[i]!=null){
                             if(list[0]!=null){
                                   var html="";
                                   $("#extcontype").empty();
-                                  for(var l=0;l<extConType.length;l++){
-//                                     if(extConType[l].isMulticondition==1){
-//                                      html+="满足一个条件,"; 
-//                                     }else if(extConType[l].isMulticondition==2){
-//                                       html+="满足多个条件,";
-//                                     }
+                                  for(var l=0;l<extConType.length;l++){                                    
+                                	    html+="供应商类型:"+extConType[l].expertsType.name;
                                        html+="抽取数量:"+extConType[l].alreadyCount+"/"+extConType[l].supplierCount;
                                       html+="<br/>";
                                   }
@@ -204,9 +239,22 @@ return false;
             }
         });
 }
+    /**暂存*/
+    function temporary(){
+    	 window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+    }
+    
+    
     /**完成**/
     function finish(){
-    	 $.ajax({
+    	 layer.confirm('是否需要打印', {
+             btn: ['打印','取消'],offset: ['40%', '40%'], shade:0.01
+           }, function(index){
+        	   window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+           }, function(index){
+             layer.close(index);
+           });
+    	 /* $.ajax({
     	        type: "POST",
     	        url: "${pageContext.request.contextPath}/SupplierExtracts/isFinish.do",
     	        data: {packageId:"${packageId}"},
@@ -225,7 +273,7 @@ return false;
     	                 }
     	          }
     	       
-    	  });
+    	  }); */
     }
     
    
@@ -365,7 +413,7 @@ return false;
         $.ajax({
           type: "GET",
           async: false,
-          url: "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do?supplierId=''",
+          url: "${pageContext.request.contextPath}/SupplierExtracts/supplieType.do",
           dataType: "json",
           success: function(zNodes) {
             for(var i = 0; i < zNodes.length; i++) {
@@ -411,16 +459,18 @@ return false;
           nodes = zTree.getCheckedNodes(true),
           v = "";
         var rid = "";
+        var codes = "";
         for(var i = 0, l = nodes.length; i < l; i++) {
           v += nodes[i].name + ",";
           rid += nodes[i].id + ",";
+          codes += nodes[i].code + ",";
         }
         if(v.length > 0) v = v.substring(0, v.length - 1);
         if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
-        var cityObj = $("#supplierType");
-        cityObj.attr("value", v);
-        cityObj.attr("title", v);
-        $("#supplierTypeId").val(rid);
+        if(codes.length > 0) codes = codes.substring(0, codes.length - 1);
+       $("#supplierType").val(v);
+       $("#supplierType").attr("title", v);
+        $("#supplierTypeId").val(codes);
       }
     </script>
     
@@ -585,12 +635,7 @@ return false;
                                      $("#extcontype").empty();
                                      for(var l=0;l<list[0].conType.length;l++){
                                        
-                                       
-//                                        if(list[0].conType[l].isMulticondition==1){
-//                                         html+="满足一个条件,"; 
-//                                        }else if(list[0].conType[l].isMulticondition==2){
-//                                          html+="满足多个条件,";
-//                                        }
+                                         html+="供应商类型:"+list[0].conType[l].expertsType.name;
                                           html+="抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].supplierCount;
                                          html+="<br/>";
                                      }
@@ -675,12 +720,30 @@ return false;
    
       <!-- 类型id -->
       <input  type="hidden" name="supplierTypeId" id="supplierTypeId" >
+          
+      
       <!--  满足多个条件 -->
       <input type="hidden" name="isMulticondition" id="isSatisfy" >
       <!-- 品目Name ， -->
       <input  type="hidden" name="categoryName" id="extCategoryNames" >
       <!--     品目id -->
       <input  type='hidden' name='categoryId' id='extCategoryId' >
+             <!-- 货物 -->
+        <input type="hidden" name="goodsCount" id="goodsCount" >
+          <!--  物资 -->
+        <input type="hidden" name="projectCount" id="projectCount" >
+<!--         服务 -->
+        <input type="hidden" name="serviceCount" id="serviceCount" >
+<!--         物资生产 -->
+        <input type="hidden" name="productCount" id="productCount" >
+<!--         物资销售 -->
+        <input type="hidden" name="salesCount" id="salesCount" >
+        <!--      限制地区理由-->
+        <input type="hidden" name="addressReson" id="addressReson" >
+<!--         省 -->
+        <input type="hidden"  name="province" id="province" />
+           <input type="hidden" name="" id="hiddentype">
+      
       <div>
         <h2 class="count_flow"><i>1</i>抽取条件</h2>
         <ul class="ul_list" style="background-color: #fbfbfb">
@@ -699,7 +762,7 @@ return false;
                    </c:forEach>
                   </select>
                   <select name="city" class="col-md-6 col-sm-6 col-xs-6 p0" id="city" onchange="selectLikeSupplier();">
-                     <option value="" selected="selected">全国</option>
+                     <option value="" selected="selected">所有地区</option>
                   <c:forEach  items="${city }" var="city">
                    <c:if test="${city.id==listCon.address}">
                     <option value="${city.id }" selected="selected" >${city.name }</option>
@@ -736,9 +799,9 @@ return false;
             </div>
           </li>
            <li class="col-md-3 col-sm-6 col-xs-12">
-            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取数量：</span>
+            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取总数量：</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
-              <input class="input_group"  name="supplierCount" value="${listCon.conTypes[0].supplierCount }" type="text">
+              <input class="input_group"  name="supplierCount" id="supplierCount" value="${listCon.conTypes[0].supplierCount }" type="text">
               <span class="add-on">i</span>
               <div class="cue" id="countSupplier"></div>
             </div>
@@ -746,35 +809,25 @@ return false;
             <li class="col-md-3 col-sm-6 col-xs-12">
             <div class=" w300 pl20 mt24">
             <button class="btn " id="save" onclick="cityt();" type="button">抽取</button>
-            <button class="btn " id="save" onclick="resetQuery();" type="button">重置</button>
+              <button class="btn  " id="save" onclick="finish();" type="button">完成</button>
+            <button class="btn " id="save" onclick="resetQuery();" type="button">暂存</button>
           </div>
           </li>
           
         </ul>
           <!--=== Content Part ===-->
             <h2 class="count_flow"><i>2</i>抽取结果</h2>
+              <div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
     <ul class="ul_list">
-    <div align="center" id="countdnone" class="f26  ww100 h300 ">满足条件共有<span class="f26 red" id="count">0</span>家</div>
-    <div class="row " id="rowdnone">
-     <div class=" w300 pl20 ml10 mt10 mb10">
-            <button class="btn  " id="save" onclick="finish();" type="button">完成</button>
-               <button class="btn btn-windows back" id="save" onclick="javascript:history.back(-1);" type="button">返回</button>
-          </div>
+    
       <!-- Begin Content -->
       <div class="col-md-12" id="count" style="min-height: 400px;">
         <div id="extcontype">
-           
-            <c:if test="${con.isMulticondition != null && isMulticondition != ''}">
-
-              <c:if test="${con.isMulticondition==1}">
-                            满足一个条件,
-                                                               
-                    </c:if>
-              <c:if test="${con.isMulticondition==2}">
-                          满足多个条件,                             
-                    </c:if>
-                                                                    抽取数量${con.alreadyCount}/${con.supplierCount }
-                        </c:if>
+         <c:forEach var="con" items="${extConType}">
+                
+                &nbsp;&nbsp;&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.supplierCount }                             
+            <br />
+          </c:forEach>
         </div>
         <div class="col-md-12" style="min-height: 400px;">
 
@@ -849,7 +902,6 @@ return false;
           </table>
         </div>
       </div>
-    </div>
         </ul>
         
       </div>

@@ -14,6 +14,8 @@
 		<result column="UPDATED_AT" jdbcType="VARCHAR" property="updatedAt" />
 		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
 		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
+		<result column="REVIEW_TYPE" jdbcType="VARCHAR" property="reviewType" />
+
 		<!-- 供应商 -->
 		<association column="SUPPLIER_ID" property="supplier"
 			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
@@ -22,7 +24,8 @@
 		<!-- @mbggenerated -->
 		ID, SUPPLIER_ID, SUPPLIER_CONDITION_ID, CREATED_AT, OPERATING_TYPE,
 		IS_DELETED, REASON,
-		PROJECT_ID, UPDATED_AT, CON_TYPE_ID, STATUS_COUNT
+		PROJECT_ID, UPDATED_AT, CON_TYPE_ID,
+		STATUS_COUNT,REVIEW_TYPE
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -45,16 +48,18 @@
 		CREATED_AT, OPERATING_TYPE, IS_DELETED,
 		REASON,
 		PROJECT_ID, UPDATED_AT,
-		CON_TYPE_ID, STATUS_COUNT)
+		CON_TYPE_ID, STATUS_COUNT,REVIEW_TYPE)
 		values
 		(#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR},
 		#{supplierConditionId,jdbcType=VARCHAR},
 		#{createdAt,jdbcType=TIMESTAMP},
-		#{operatingType,jdbcType=DECIMAL}, #{isDeleted,jdbcType=DECIMAL},
-		#{reason,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
+		#{operatingType,jdbcType=DECIMAL},
+		#{isDeleted,jdbcType=DECIMAL},
+		#{reason,jdbcType=VARCHAR},
+		#{projectId,jdbcType=VARCHAR},
 		#{updatedAt,jdbcType=VARCHAR},
 		#{conTypeId,jdbcType=VARCHAR},
-		#{statusCount,jdbcType=DECIMAL})
+		#{statusCount,jdbcType=DECIMAL},#{reviewType,jdbc=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierExtRelate">
 		<!-- @mbggenerated -->
@@ -93,6 +98,10 @@
 			<if test="statusCount != null">
 				STATUS_COUNT,
 			</if>
+			<if test="reviewType != null">
+				REVIEW_TYPE,
+			</if>
+
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -127,6 +136,9 @@
 			</if>
 			<if test="statusCount != null">
 				#{statusCount,jdbcType=DECIMAL},
+			</if>
+			<if test="reviewType != null">
+				#{reviewType,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -165,6 +177,9 @@
 			<if test="statusCount != null">
 				STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
 			</if>
+			<if test="reviewType != null">
+				REVIEW_TYPE = #{reviewType,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -188,7 +203,9 @@
 		CON_TYPE_ID =
 		#{conTypeId,jdbcType=VARCHAR},
 		STATUS_COUNT =
-		#{statusCount,jdbcType=DECIMAL}
+		#{statusCount,jdbcType=DECIMAL},
+		REVIEW_TYPE =
+		#{reviewType,jdbcType=VARCHAR},
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="list" parameterType="ses.model.sms.SupplierExtRelate"
@@ -208,6 +225,9 @@
 		</if>
 		<if test="reason != null and reason != ''">
 			AND pe.OPERATING_TYPE in (${reason})
+		</if>
+		<if test="reviewType != null and reviewType != ''">
+			AND pe.REVIEW_TYPE = #{reviewType}
 		</if>
 		<if test="projectId != null and projectId != ''">
 			AND pe.PROJECT_ID =#{projectId}

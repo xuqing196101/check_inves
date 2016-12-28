@@ -34,7 +34,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
      * @return List<ProjectSupervisor>
      */
     @Override
-    public List<User> list(SupplierExtUser extSupervise) {
+    public List<SupplierExtUser> list(SupplierExtUser extSupervise) {
         return supplierExtUserMapper.list(extSupervise);
     }
 
@@ -54,6 +54,18 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     @Override
     public void insert(SupplierExtUser record) {
         supplierExtUserMapper.insertSelective(record);
+    }
+    
+    /**
+     * 
+     *〈简述〉批量插入
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param listInsert
+     */
+    @Override
+    public void listInsert(List<SupplierExtUser> list){
+        supplierExtUserMapper.listInsert(list);
     }
 
 }

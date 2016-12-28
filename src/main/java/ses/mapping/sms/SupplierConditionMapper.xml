@@ -26,6 +26,7 @@
 			<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 			<result column="IS_MULTICONDITION" jdbcType="DECIMAL"
 				property="isMulticondition" />
+				  <association property="expertsType" column="SUPPLIER_TYPE_ID" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryCode"></association>
 		</collection>
 		<!-- 关联抽取过的供应商 -->
 		<collection property="extRelatesList" column="ID"

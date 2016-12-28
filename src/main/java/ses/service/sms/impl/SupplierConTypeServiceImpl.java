@@ -3,6 +3,9 @@
  */
 package ses.service.sms.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,41 +25,41 @@ import ses.service.sms.SupplierConTypeService;
 public class SupplierConTypeServiceImpl implements SupplierConTypeService {
     @Autowired
     SupplierConTypeMapper conTypeMapper;
-	/**
-	 * @Description:插入
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月29日 下午7:26:30  
-	 * @param       
-	 * @return void
-	 */
-	@Override
-	public void insert( SupplierConType record) {
-		conTypeMapper.insertSelective(record);
-	}
-	
-	/**
-	 * @Description:删除
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月29日 下午7:26:30  
-	 * @param       
-	 * @return void
-	 */
-	@Override
-	public void delete(String id) {
-		conTypeMapper.deleteConditionId(id);
-	}
+    /**
+     * @Description:插入
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月29日 下午7:26:30  
+     * @param       
+     * @return void
+     */
+    @Override
+    public void insert( SupplierConType record) {
+        conTypeMapper.insertSelective(record);
+    }
 
-	/* (non-Javadoc)
-	 * @see ses.service.ems.ExtConTypeService#update(ses.model.ems.ExtConType)
-	 */
-	@Override
-	public void update(SupplierConType conType) {
-		conTypeMapper.updateByPrimaryKeySelective(conType);
-	}
-	
-	  /**
+    /**
+     * @Description:删除
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月29日 下午7:26:30  
+     * @param       
+     * @return void
+     */
+    @Override
+    public void delete(String id) {
+        conTypeMapper.deleteConditionId(id);
+    }
+
+    /* (non-Javadoc)
+     * @see ses.service.ems.ExtConTypeService#update(ses.model.ems.ExtConType)
+     */
+    @Override
+    public void update(SupplierConType conType) {
+        conTypeMapper.updateByPrimaryKeySelective(conType);
+    }
+
+    /**
      * @Description:获取一个对象
      *
      * @author Wang Wenshuai
@@ -66,5 +69,33 @@ public class SupplierConTypeServiceImpl implements SupplierConTypeService {
      */
     public SupplierConType getExtConType(String id){
         return conTypeMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 根据供应商类型返回抽取数量
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    @Override
+    public Integer getSupplierTypeById(String conId,String supplierTypeId) {
+        Map<String, String>  map = new HashMap<String, String>();
+        map.put("conditionId", conId);
+        map.put("supplierTypeId", supplierTypeId);
+        return conTypeMapper.getSupplierTypeById(map);
+        
+    }
+
+    /**
+     * 
+     *〈简述〉获取总和
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param conId
+     * @return
+     */
+    public  Integer getSum(String conId){
+        return conTypeMapper.getSum(conId);
     }
 }

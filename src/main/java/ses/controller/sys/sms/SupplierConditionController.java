@@ -24,6 +24,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
+
+
+
+
+
+
+
+
+
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
@@ -33,9 +42,12 @@ import ses.dao.sms.SupplierExtRelateMapper;
 import ses.dao.sms.SupplierExtUserMapper;
 import ses.dao.sms.SupplierExtractsMapper;
 import ses.model.bms.Area;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 
 
+import ses.model.ems.ExtConType;
+import ses.model.ems.ProjectExtract;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtRelate;
@@ -47,6 +59,7 @@ import ses.service.sms.SupplierConditionService;
 import ses.service.sms.SupplierExtPackageServicel;
 import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierExtUserServicel;
+import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
 
 /**
@@ -90,18 +103,16 @@ public class SupplierConditionController {
      */
     @ResponseBody
     @RequestMapping("/saveSupplierCondition")
-    public String saveSupplierCondition(SupplierCondition condition,SupplierConType conType,HttpServletRequest sq,String typeclassId){
-
+    public String saveSupplierCondition(SupplierCondition condition,SupplierConType conType,HttpServletRequest sq,String typeclassId,String province){
+        //获取选中的类型
+        String[] expertsTypeSplit = conType.getSupplierTypeSplit();
+        String[] projectId = condition.getProjectId().split(",");
+        String conditionId = "";
         Map<String, Object> map = new HashMap<String, Object>();
         if(conType.getSupplierCount() == null || conType.getSupplierCount() == 0 ){
             map.put("count", "不能为空");
             return JSON.toJSONString(map);
         }
-
-        //已抽取
-        //        conditionService.update(new SupplierCondition(condition.getProjectId(),(short)2));
-        //插入信息
-        
         //循环多包插入条件 
         if (condition.getProjectId() != null && condition.getProjectId().length() > 0){
             String[] split = condition.getProjectId().split(",");
@@ -110,9 +121,46 @@ public class SupplierConditionController {
                 conditionService.insert(condition);
                 //如果有id就修改没有就新增
                 conType.setConditionId(condition.getId());
-                conTypeService.insert(conType); 
+                conditionId += condition.getId()+",";
+                if (expertsTypeSplit != null && expertsTypeSplit.length != 0 && !"".equals(expertsTypeSplit[0])){
+                    for (String code : expertsTypeSplit) {
+                        if ("GOODS".equals(code)){
+                            conType.setSupplierTypeId(code);
+                            String goodsCount = sq.getParameter("goodsCount");
+                            conType.setSupplierCount(Integer.parseInt(goodsCount));
+                            conTypeService.insert(conType); 
+                        }
+                        if ("PROJECT".equals(code)){
+                            String projectCount = sq.getParameter("projectCount");
+                            conType.setSupplierTypeId(code);
+                            conType.setSupplierCount(Integer.parseInt(projectCount));
+                            conTypeService.insert(conType);
+                        }
+                        if ("SERVICE".equals(code)){
+                            String serviceCount = sq.getParameter("serviceCount");    
+                            conType.setSupplierTypeId(code);
+                            conType.setSupplierCount(Integer.parseInt(serviceCount));
+                            conTypeService.insert(conType);
+                        }
+                        if ("PRODUCT".equals(code)){
+                            String productCount = sq.getParameter("productCount");
+                            conType.setSupplierTypeId(code);
+                            conType.setSupplierCount(Integer.parseInt(productCount));
+                            conTypeService.insert(conType);
+                        }
+                        if ("SALES".equals(code)){
+                            String salesCount = sq.getParameter("salesCount");
+                            conType.setSupplierTypeId(code);
+                            conType.setSupplierCount(Integer.parseInt(salesCount));
+                            conTypeService.insert(conType);
+                        }
+                    }
+                } else {
+                    conTypeService.insert(conType); 
+                }
+
             }
-           
+
         }
         map.put("conId",condition.getId());
         map.put("sccuess", "sccuess");
@@ -126,7 +174,7 @@ public class SupplierConditionController {
 
         List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(condition.getId()), "");
         if (list == null || list.size() == 0){
-            extRelateService.insert(condition.getId(), user != null && !"".equals(user.getId()) ? user.getId() : "");
+            extRelateService.insert(condition.getId(), user != null && !"".equals(user.getId()) ? user.getId() : "",projectId,conditionId);
             list = extRelateService.list(new SupplierExtRelate(condition.getId()),"");
         }
         //已操作的
@@ -155,8 +203,13 @@ public class SupplierConditionController {
             conTypes = listCondition.get(0).getConTypes();
         }
         if (conTypes !=null && conTypes.size() !=0 ){
-            for (SupplierConType extConType : conTypes) {
-                extConType.setAlreadyCount(mapcount.get(extConType.getId()) == null ? 0 : mapcount.get(extConType.getId()));
+            for (SupplierConType extConType1 : conTypes) {
+                //获取抽取的专家类别
+                SupplierExtRelate supplierExtRelate = new SupplierExtRelate();
+                supplierExtRelate.setReviewType(extConType1.getSupplierTypeId());
+                supplierExtRelate.setSupplierConditionId(listCondition.get(0).getId());
+                List<SupplierExtRelate> peList = extRelateService.list(supplierExtRelate,null);
+                extConType1.setAlreadyCount(peList == null ? 0 : peList.size());
             }
             map.put("extConType", conTypes);
         }
@@ -193,8 +246,8 @@ public class SupplierConditionController {
      */
     @ResponseBody
     @RequestMapping("selectLikeSupplier")
-    public String selectLikeSupplier(SupplierCondition condition,SupplierConType conType,HttpServletRequest sq){
-        Integer count = conditionService.selectLikeSupplier(condition,conType);
+    public String selectLikeSupplier(SupplierCondition condition,SupplierConType conType,HttpServletRequest sq,String province){
+        Integer count = conditionService.selectLikeSupplier(condition,conType,province);
         return JSON.toJSONString(count);
     }
 
@@ -228,20 +281,6 @@ public class SupplierConditionController {
 
         }
 
-        //获取监督人员
-        List<User>  listUser = extUserServicl.list(new SupplierExtUser(list.get(0).getProjectId()));
-        model.addAttribute("listUser", listUser);
-        String userName="";
-        String userId="";
-        if (listUser != null && listUser.size() != 0){
-            for (User user : listUser) {
-                userName += user.getRelName() + ",";
-                userId += user.getId() + ",";
-            }
-        }
-
-        model.addAttribute("userName", userName);
-        model.addAttribute("userId", userId);
         return "ses/sms/supplier_extracts/add_condition";
     }
 

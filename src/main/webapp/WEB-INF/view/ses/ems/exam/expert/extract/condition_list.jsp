@@ -98,6 +98,7 @@
 					data: $('#form').serialize(), // 你的formid
 					async: false,
 					success: function(data) {
+				
 						$("#projectNameError").text("");
 						$("#projectNumberError").text("");
 						$("#packageNameError").text("");
@@ -123,15 +124,13 @@
 									layer.closeAll();
 								});
 						}
+			
 						if(map.sccuess == "SCCUESS") {
-							if(packageId != null && packageId != ''){
-							  
-				              window.location.href = '${pageContext.request.contextPath}/ExpExtract/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
-							  }else{
+								  window.location.href = '${pageContext.request.contextPath}/ExpExtract/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
+						}else if(map.packageError != null && map.packageError != ''){
 						            layer.alert("请选择包", {
-						                    shade: 0.01
+			                    shade: 0.01
 						                  });
-						          }
 							}
 					}
 				});

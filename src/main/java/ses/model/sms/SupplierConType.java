@@ -2,6 +2,8 @@ package ses.model.sms;
 
 import java.util.Date;
 
+import ses.model.bms.DictionaryData;
+
 public class SupplierConType {
     
     /**
@@ -13,6 +15,17 @@ public class SupplierConType {
      * 品目集合
      */
     private String[] categorySplit;
+    
+   
+    /**
+     * 选中的供应商类型
+     */
+    private String[] supplierTypeSplit;
+    
+    /**
+     * 抽取类型
+     */
+    private DictionaryData expertsType ; 
     
     
     /**
@@ -156,6 +169,10 @@ public class SupplierConType {
      *            T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_TYPE_ID：供应商类型
      */
     public void setSupplierTypeId(String supplierTypeId) {
+        if(supplierTypeId!=null){
+            String[] split = supplierTypeId.split(",");
+            this.supplierTypeSplit =split ;
+        }
         this.supplierTypeId = supplierTypeId;
     }
 
@@ -398,6 +415,37 @@ public class SupplierConType {
     public void setAlreadyCount(Integer alreadyCount) {
         this.alreadyCount = alreadyCount;
     }
+
+    /**
+     * @return Returns the supplierTypeSplit.
+     */
+    public String[] getSupplierTypeSplit() {
+        return supplierTypeSplit;
+    }
+
+    /**
+     * @param supplierTypeSplit The supplierTypeSplit to set.
+     */
+    public void setSupplierTypeSplit(String[] supplierTypeSplit) {
+        this.supplierTypeSplit = supplierTypeSplit;
+    }
+
+    /**
+     * @return Returns the expertsType.
+     */
+    public DictionaryData getExpertsType() {
+        return expertsType;
+    }
+
+    /**
+     * @param expertsType The expertsType to set.
+     */
+    public void setExpertsType(DictionaryData expertsType) {
+        this.expertsType = expertsType;
+    }
+
+  
+    
     
     
 }

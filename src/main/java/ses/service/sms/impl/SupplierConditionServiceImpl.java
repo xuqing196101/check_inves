@@ -16,12 +16,16 @@ import com.github.pagehelper.PageHelper;
 import ses.dao.sms.SupplierConditionMapper;
 import ses.dao.sms.SupplierExtRelateMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.model.bms.Area;
+import ses.model.bms.DictionaryData;
 import ses.model.ems.ExpExtCondition;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtRelate;
+import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierConditionService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
 /**
@@ -44,6 +48,9 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
 	
     @Autowired
     SupplierMapper supplierMapper;
+    
+    @Autowired
+    AreaServiceI areaService;
     
     @Autowired
     SupplierExtRelateMapper supplierExtRelateMapper;
@@ -131,7 +138,7 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
      * @see ses.service.sms.SupplierConditionService#selectLikeSupplier(ses.model.sms.SupplierCondition, ses.model.sms.SupplierConType)
      */
     @Override
-    public Integer selectLikeSupplier(SupplierCondition condition, SupplierConType conType) {
+    public Integer selectLikeSupplier(SupplierCondition condition, SupplierConType conType,String province) {
         Integer count=0;
         List<SupplierConType> conTypes = new ArrayList<SupplierConType>();
         if(conType.getSupplierTypeId() != null &&  !"".equals(conType.getSupplierTypeId())){
@@ -139,6 +146,17 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
         }
         conTypes.add(conType);
         condition.setConTypes(conTypes);
+        if(condition.getAddress() == null  || condition.getAddress() == "" ){
+            if(province != null && !"".equals(province)){
+                List<Area> findAreaByParentId = areaService.findAreaByParentId(province);
+                Integer size = findAreaByParentId.size();
+                String[] address = new String[size];
+                for (int i = 0; i < size; i++ ) {
+                    address[i] = findAreaByParentId.get(i).getId();
+                }
+                condition.setAddressSplit(address);
+            }
+        }
         //查询供应商集合
        
         List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(condition);//getAllSupplier(null);
@@ -168,5 +186,23 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
             return ERROR;
         }
      
+    }
+
+    /**
+     * 供应商类型
+     * @see ses.service.sms.SupplierConditionService#supplierTypeList()
+     */
+    @Override
+    public List<DictionaryData> supplierTypeList() {
+        List<DictionaryData> list = DictionaryDataUtil.find(6);
+        for(int i=0;i<list.size();i++){
+             String code = list.get(i).getCode();
+             if(code.equals("GOODS")){
+                 list.remove(list.get(i));
+             }
+        }
+        List<DictionaryData> wlist =DictionaryDataUtil.find(8);
+        list.addAll(wlist);
+        return list;
     }
 }

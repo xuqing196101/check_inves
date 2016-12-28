@@ -94,13 +94,13 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
                             projectExtracts=new ProjectExtract();
                             //专家id
                             projectExtracts.setExpertId(expert2.getId());
-                            //项目id
-                            projectExtracts.setProjectId(show.getProjectId());
+                        
                             //条件表id
                             projectExtracts.setExpertConditionId(conId[i]);
                             projectExtracts.setIsDeleted((short)0);
                             projectExtracts.setOperatingType((short)0);
                             projectExtracts.setConTypeId(extConType.getId());
+                            //项目id
                             projectExtracts.setProjectId(projectId[i]);
                             projectExtracts2.add(projectExtracts);
 
@@ -154,6 +154,7 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
                             List<ProjectExtract> list = extractMapper.list(extract);
                             if(list != null && list.size() != 0){
                                 list.get(0).setOperatingType((short)1);
+                                list.get(0).setReviewType(pe.getReviewType());
                                 extractMapper.updateByPrimaryKeySelective(list.get(0));
                             }else{
                                 ProjectExtract pext = new ProjectExtract();
@@ -161,6 +162,7 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
                                 pext.setProjectId(packageId);
                                 pext.setOperatingType((short)1);
                                 pext.setCreatedAt(new Date());
+                                pext.setReviewType(pe.getReviewType());
                                 extractMapper.insertSelective(pext);
                             }
 

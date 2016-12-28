@@ -66,6 +66,7 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ExtConTypeService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.ems.ProjectSupervisorServicel;
+import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierTypeService;
 import ses.util.DateUtil;
 import ses.util.DictionaryDataUtil;
@@ -157,6 +158,9 @@ public class ExpExtractRecordController extends BaseController {
 
     @Autowired
     ExpertService  expertServices;
+
+    @Autowired
+    private SupplierExtUserServicel extUserServicel; //监督人员
 
 
     /**
@@ -335,17 +339,13 @@ public class ExpExtractRecordController extends BaseController {
 
         //获取查询条件类型
         ExpExtCondition condition=new ExpExtCondition();
-
-        if("".equals(packageId[packageId.length-1])){
-            condition.setProjectId(packageId[packageId.length-2]);
-        }else{
-            condition.setProjectId(packageId[packageId.length-1]);
-        }
+        condition.setProjectId(packageId[0]);
         condition.setStatus((short)1);
         List<ExpExtCondition> listCon = conditionService.list(condition,0);
         if (listCon != null && listCon.size() !=0 ){
             //条件
             model.addAttribute("listCon", listCon.get(0));
+
             //所在地区回显
             //                if (listCon.get(0).getAddress() != null && listCon.get(0).getAddress() != null ){
             //                    Area area = areaService.listById(listCon.get(0).getAddress());
@@ -356,6 +356,7 @@ public class ExpExtractRecordController extends BaseController {
 
             Map<String, Integer> mapcount = new HashMap<String, Integer>();
             Integer sum = conTypeService.getSum(listCon.get(0).getId());
+            model.addAttribute("sumCount",sum);
             PageHelper.startPage(1, sum*2);
             List<ProjectExtract> list = extractService.list(new ProjectExtract(listCon.get(0).getId()));
             //已操作的
@@ -443,6 +444,10 @@ public class ExpExtractRecordController extends BaseController {
             map.put("supervise", "不能为空");
             count = 1;
         }
+        if(packageId == null || packageId.length == 0 ){
+            map.put("packageError", "不能为空");
+            count = 1;
+        }
         //        //时
         //        String hour = rq.getParameter("hour");
         //        //分
@@ -458,7 +463,6 @@ public class ExpExtractRecordController extends BaseController {
         //        }
 
         if (count == 1){
-
             return JSON.toJSONString(map);
 
         } else{
@@ -634,12 +638,7 @@ public class ExpExtractRecordController extends BaseController {
     public Object resultextract(Model model,String id,String reason,HttpServletRequest sq,String[] packageId){
         //      修改状态
         String[] ids = id.split(",");
-        if (reason != null && !"".equals(reason)){
-            extractService.update(new ProjectExtract(ids[0], new Short(ids[2]), reason ,packageId));
-
-        } else {
-            extractService.update(new ProjectExtract(ids[0], new Short(ids[2]) ,packageId));
-        }
+        
         if ("1".equals(ids[2])){
             ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
             String expertTypeId = expExtRelate.getExpert().getExpertsTypeId();
@@ -671,11 +670,21 @@ public class ExpExtractRecordController extends BaseController {
                         }
                         break;
                     }
-                    //
 
                 }
 
             }
+        }
+
+  
+        if (reason != null && !"".equals(reason)){
+            extractService.update(new ProjectExtract(ids[0], new Short(ids[2]), reason ,packageId));
+
+        } else {
+            extractService.update(new ProjectExtract(ids[0], new Short(ids[2]) ,packageId));
+        }
+        if ("1".equals(ids[2])){
+            ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
 
             if ("1".equals(expExtRelate.getExpert().getStatus())){
                 /**
@@ -762,6 +771,12 @@ public class ExpExtractRecordController extends BaseController {
             projectExtrac.setExpertConditionId(ids[1]);
             List<ProjectExtract> list = extractService.list(projectExtrac);
             extConType1.setAlreadyCount(list == null ? 0 : list.size());
+            //查询出满足条件删除
+            if(list.size() >= extConType1.getExpertsCount()){
+
+                //                extractService.deleteProjectRecord(list.get(0).setProjectId(projectId););
+
+            }
         }
 
 
@@ -1119,15 +1134,20 @@ public class ExpExtractRecordController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("saveSupervise")
-    public String saveSupervise(String[] relName,String[] company, String[] phone,String[] duties,String projectId){
+    public String saveSupervise(String[] relName,String[] company, String[] phone,String[] duties,String projectId,String type){
+        //专家
         List<ProExtSupervise>  ProExtSupervise = new ArrayList<ProExtSupervise>();
+        //供应商
+        List<SupplierExtUser>  supplierExtUser = new ArrayList<SupplierExtUser>();
         String strRelName="";
         ProExtSupervise ps=null;
+        SupplierExtUser eu=null;
         if(relName.length == 0 || phone.length ==0 || company.length == 0){
             return ERROR;
         }
         for (int i = 0; i < relName.length; i++ ) {
             ps = new ProExtSupervise();
+            eu = new SupplierExtUser();
             if(company[i] == null || "".equals(company[i])){
                 return ERROR;
             }
@@ -1141,16 +1161,36 @@ public class ExpExtractRecordController extends BaseController {
                 return ERROR;
             }
 
-            ps.setCompany(company[i]);
-            ps.setPhone(phone[i]);
-            ps.setRelName(relName[i]);
-            ps.setProjectId(projectId);
-            ps.setDuties(duties[i]);
-            strRelName+=relName[i]+",";
-            ProExtSupervise.add(ps);
+            if(type != null && "supplier".equals(type)){
+                //供应商
+                eu.setCompany(company[i]);
+                eu.setPhone(phone[i]);
+                eu.setRelName(relName[i]);
+                eu.setProjectId(projectId);
+                eu.setDuties(duties[i]);
+                strRelName+=relName[i]+",";
+                supplierExtUser.add(eu);
+            }else{
+                //专家
+                ps.setCompany(company[i]);
+                ps.setPhone(phone[i]);
+                ps.setRelName(relName[i]);
+                ps.setProjectId(projectId);
+                ps.setDuties(duties[i]);
+                strRelName+=relName[i]+",";
+                ProExtSupervise.add(ps);   
+            }
+
+
         }
-        projectSupervisorServicel.deleteProjectId(projectId);
-        projectSupervisorServicel.listInsert(ProExtSupervise);
+        if(type != null && "supplier".equals(type)){
+            extUserServicel.deleteProjectId(projectId);
+            extUserServicel.listInsert(supplierExtUser);
+        }else{
+            projectSupervisorServicel.deleteProjectId(projectId);
+            projectSupervisorServicel.listInsert(ProExtSupervise);       
+        }
+
         return JSON.toJSONString(strRelName.substring(0, strRelName.length()-1));
     }
 
@@ -1162,7 +1202,7 @@ public class ExpExtractRecordController extends BaseController {
      * @return String
      */
     @RequestMapping("/showSupervise")
-    public String showSupervise(Model model, Integer page,String projectId){
+    public String showSupervise(Model model,String projectId){
         model.addAttribute("projectId", projectId);
         List<ProExtSupervise> list = projectSupervisorServicel.list(new ProExtSupervise(projectId));
         model.addAttribute("list", list);

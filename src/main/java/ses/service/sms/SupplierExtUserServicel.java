@@ -26,7 +26,7 @@ public interface SupplierExtUserServicel {
 	 * @param @return      
 	 * @return List<ProjectSupervisor>
 	 */
-	List<User> list(SupplierExtUser extSupervise);
+	List<SupplierExtUser> list(SupplierExtUser extSupervise);
 	
     /**
      * @Description:根据项目id删除监督信息
@@ -45,4 +45,14 @@ public interface SupplierExtUserServicel {
      * @author Wang Wenshuai
      */
     void insert(SupplierExtUser record);
+    
+    /**
+     * 
+     *〈简述〉批量插入
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param listInsert
+     */
+    void listInsert(List<SupplierExtUser> listInsert);
+    
 }

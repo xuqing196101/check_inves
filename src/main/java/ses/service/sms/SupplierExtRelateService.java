@@ -24,7 +24,8 @@ public interface SupplierExtRelateService {
 	 * @param       
 	 * @return void
 	 */
-	String insert(String  cId,String userId);
+	String insert(String  cId,String userId,String[] projectId,String conditionId);
+	
 	
 	/**
 	 * @Description:集合展示

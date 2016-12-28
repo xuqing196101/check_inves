@@ -79,13 +79,15 @@ public class ExtConType {
      * 表字段 : T_SES_EMS_EXP_EXT_CON_TYPE.IS_MULTICONDITION
      * </pre>
      */
-    private DictionaryData expertsType ; 
+   
     
     private Short isMulticondition;
   
     private String[] categorySplit;
     
     private String[] expertsTypeSplit;
+    
+    private DictionaryData expertsType; 
     
     /**
      * 已抽取数量

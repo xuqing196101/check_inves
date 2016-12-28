@@ -21,6 +21,7 @@ import ses.dao.sms.SupplierExtRelateMapper;
 import ses.dao.sms.SupplierExtractsMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.ems.ExtConType;
+import ses.model.ems.ProjectExtract;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
@@ -56,7 +57,7 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
      * @return void
      */
     @Override
-    public String insert(String cId,String userid) {
+    public String insert(String cId,String userid,String[] projectId,String conditionId) {
         //获取查询条件
         List<SupplierCondition> list = conditionMapper.list(new SupplierCondition(cId, ""));
         if(list!=null&&list.size()!=0){
@@ -83,23 +84,26 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
                 List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(show);//getAllSupplier(null);
                 //循环吧查询出的专家集合insert到专家记录表和专家关联的表中
                 SupplierExtRelate supplierExtRelate=null;
-                for (Supplier supplier2 : selectAllExpert) {
-                    Map<String, String> map=new HashMap<String, String>();
-                    map.put("supplierId", supplier2.getId());
-                    map.put("projectId",show.getProjectId());
-                    if(supplierExtRelateMapper.getSupplierId(map)==0){
-                        supplierExtRelate = new SupplierExtRelate();
-                        //供应商id
-                        supplierExtRelate.setSupplierId(supplier2.getId());
-                        //项目id
-                        supplierExtRelate.setProjectId(show.getProjectId());
-                        //条件表id
-                        supplierExtRelate.setSupplierConditionId(show.getId());
-                        supplierExtRelate.setIsDeleted((short)0);
-                        supplierExtRelate.setOperatingType((short)0);
-                        supplierExtRelate.setConTypeId(contype.getId());
-                        //添加到集合
-                        listRelate.add(supplierExtRelate);
+                String[] conId = conditionId.split(",");
+                for (int i = 0; i < conId.length; i++ ) {
+                    for (Supplier supplier2 : selectAllExpert) {
+                        Map<String, String> map=new HashMap<String, String>();
+                        map.put("supplierId", supplier2.getId());
+                        map.put("projectId",show.getProjectId());
+                        if(supplierExtRelateMapper.getSupplierId(map)==0){
+                            supplierExtRelate = new SupplierExtRelate();
+                            //供应商id
+                            supplierExtRelate.setSupplierId(supplier2.getId());
+                            //项目id
+                            supplierExtRelate.setProjectId(projectId[i]);
+                            //条件表id
+                            supplierExtRelate.setSupplierConditionId(conId[i]);
+                            supplierExtRelate.setIsDeleted((short)0);
+                            supplierExtRelate.setOperatingType((short)0);
+                            supplierExtRelate.setConTypeId(contype.getId());
+                            //添加到集合
+                            listRelate.add(supplierExtRelate);
+                        }
                     }
                 }
                 //插入表中

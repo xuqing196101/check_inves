@@ -3,6 +3,8 @@
  */
 package ses.service.sms;
 
+import java.util.Map;
+
 import ses.model.ems.ExtConType;
 import ses.model.sms.SupplierConType;
 
@@ -55,5 +57,24 @@ public interface SupplierConTypeService {
      * @return void
      */
     SupplierConType getExtConType(String id);
+    
+    /**
+     * 根据供应商类型返回抽取数量
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    Integer getSupplierTypeById(String conId,String supplierTypeId);
+    
+    /**
+     * 
+     *〈简述〉获取总和
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param conId
+     * @return
+     */
+    Integer getSum(String conId);
 
 }

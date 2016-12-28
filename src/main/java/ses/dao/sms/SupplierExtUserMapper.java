@@ -56,7 +56,7 @@ public interface SupplierExtUserMapper {
      * @param @return      
      * @return List<ProExtSupervise>
      */
-    List<User> list(SupplierExtUser record);
+    List<SupplierExtUser> list(SupplierExtUser record);
     
     /**
      * @Description:根据项目id删除监督信息
@@ -67,4 +67,14 @@ public interface SupplierExtUserMapper {
      * @return void
      */
     void deleteProjectId(String prjectId);
+    
+    
+    /**
+     * 
+     *〈简述〉批量插入
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param listInsert
+     */
+    void listInsert(List<SupplierExtUser> listInsert);
 }

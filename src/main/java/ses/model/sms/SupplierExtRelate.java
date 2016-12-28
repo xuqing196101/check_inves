@@ -114,6 +114,11 @@ public class SupplierExtRelate {
      * </pre>
      */
     private Short statusCount;
+    
+    /**
+     * 抽取类型
+     */
+    private String reviewType;
 
     /**
      * <pre>
@@ -416,6 +421,20 @@ public class SupplierExtRelate {
      */
     public void setConType(List<SupplierConType> conType) {
         this.conType = conType;
+    }
+
+    /**
+     * @return Returns the reviewType.
+     */
+    public String getReviewType() {
+        return reviewType;
+    }
+
+    /**
+     * @param reviewType The reviewType to set.
+     */
+    public void setReviewType(String reviewType) {
+        this.reviewType = reviewType;
     }
 
    

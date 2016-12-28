@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -7,6 +7,7 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
 <head>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <%@ include file="../../../common.jsp"%>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
@@ -20,9 +21,9 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <script type="text/javascript">
-    var datas;
-    var treeObj;
-  $(function(){
+ /*    var datas;
+    var treeObj; */
+  /* $(function(){
 	  var setting={
               async:{
                           autoParam:["id"],
@@ -52,7 +53,112 @@
         };
 	     treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
 	     
+    }); */
+    
+    var key;
+    $(function() {
+      var zTreeObj;
+      var zNodes;
+      loadZtree();
+
+      function loadZtree() {
+        var setting = {
+          async: {
+            autoParam: ["id"],
+            enable: true,
+            url: "${pageContext.request.contextPath}/SupplierExtracts/getTree.do?projectId=${projectId}",
+            otherParam: {
+              categoryIds: "${categoryIds}",
+            },
+            dataType: "json",
+            type: "post",
+          },
+          check: {
+            enable: true,
+            chkboxType: {
+              "Y": "s",
+              "N": "s"
+            }
+          },
+          data: {
+            simpleData: {
+              enable: true,
+              idKey: "id",
+              pIdKey: "parentId"
+            }
+          },
+          view: {
+            fontCss: getFontCss
+          }
+        };
+        zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+        key = $("#key");
+        key.bind("focus", focusKey)
+          .bind("blur", blurKey)
+          .bind("propertychange", searchNode)
+          .bind("input", searchNode);
+      }
     });
+
+    function focusKey(e) {
+      if(key.hasClass("empty")) {
+        key.removeClass("empty");
+      }
+    }
+
+    function blurKey(e) {
+      if(key.get(0).value === "") {
+        key.addClass("empty");
+      }
+    }
+    var lastValue = "",
+      nodeList = [],
+      fontCss = {};
+
+    function clickRadio(e) {
+      lastValue = "";
+      searchNode(e);
+    }
+
+    function searchNode(e) {
+      var zTree = $.fn.zTree.getZTreeObj("ztree");
+      var value = $.trim(key.get(0).value);
+      var keyType = "name";
+      if(key.hasClass("empty")) {
+        value = "";
+      }
+      if(lastValue === value) return;
+      lastValue = value;
+      if(value === "") return;
+      updateNodes(false);
+      nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+      updateNodes(true);
+    }
+
+    function updateNodes(highlight) {
+      var zTree = $.fn.zTree.getZTreeObj("ztree");
+      for(var i = 0, l = nodeList.length; i < l; i++) {
+        nodeList[i].highlight = highlight;
+        zTree.updateNode(nodeList[i]);
+      }
+    }
+
+    function getFontCss(treeId, treeNode) {
+      return(!!treeNode.highlight) ? {
+        color: "#A60000",
+        "font-weight": "bold"
+      } : {
+        color: "#333",
+        "font-weight": "normal"
+      };
+    }
+
+    function filter(node) {
+      return !node.isParent && node.isFirstNode;
+    }
+    
+    
+    
     var treeid=null;
   /*树点击事件*/
   function zTreeOnClick(event,treeId,treeNode){
@@ -128,7 +234,7 @@
 				</ul>
 				<br />
 			</div>
-			 <span class="red textspan margin-left-13">*</span>
+			 <div align="center"><input type="text" id="key" class="empty" > </div>
 			<div id="ztree" class="ztree margin-left-13"></div>
 <!-- 			<br /> -->
 <!-- 			<ul id="ultype" class="list-unstyled list-flow p0_20 dnone"> -->

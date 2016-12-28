@@ -94,6 +94,7 @@
     	var html = "<tr>"+   
             "<td class='tc'><input type='text'  name='relName' /> </td>"+
             "<td class='tc'><input type='text' name='company' /></td>"+
+            "<td class='tc'><input type='text' name='duties' /></td>"+
             "<td class='tc'><input type='text' name='phone' /> </td>"+
             "<td class='tc'>"+
               "<input type='button' onclick='addBranch(this)' class='btn list_btn' value='十'/>"+
@@ -123,6 +124,7 @@
      <div class="content padding-left-25 padding-right-25 padding-top-5">
      <form id="form1" >
      <input name="projectId" value="${projectId}" type="hidden">
+     <input name="type" value="${type}" type="hidden" > 
         <table class="table table-bordered table-condensed table_input">
 		<thead>
 		<tr>
