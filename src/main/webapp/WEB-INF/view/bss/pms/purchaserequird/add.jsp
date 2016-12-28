@@ -502,7 +502,14 @@
 			
 			function gtype(obj){
 				var vals=$(obj).val();
-				("#detailType").val(vals);
+				if(vals == 'FC9528B2E74F4CB2A9E74735A8D6E90A'){
+					  $("#dnone").removeClass("dnone");  
+				}else{
+				
+					 $("#dnone").addClass("dnone");
+				}
+				
+				$("#detailType").val(vals);
 			}
 			
 		 function fileup(){
@@ -675,6 +682,11 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" id="dnone" >
+            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+                <input type="checkbox" value="进口" />进口
+            </div>
+          </li>
 				</ul>
 
 			</div>
