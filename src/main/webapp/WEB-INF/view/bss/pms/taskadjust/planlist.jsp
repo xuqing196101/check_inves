@@ -24,11 +24,8 @@
 				return "${info.pageNum}";
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
-		            if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        //	$("#page").val(e.curr);
-		        	// $("#form1").submit();
-		        	
-		         location.href = '${pageContent.request.contextPath}/statistic/list.do?page='+e.curr;
+		         if(!first){ //一定要加此判断，否则初始时会无限刷新
+		         window.location.href = "${pageContext.request.contextPath}/adjust/list.html?page="+e.curr;
 		        }  
 		    }
 		});
@@ -188,7 +185,7 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr class="pointer">
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-			  <td class="tc w50" onclick="show('${obj.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  <td class="tc w50" onclick="show('${obj.id }')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tl pl20" onclick="show('${obj.id }')">${obj.fileName }</td>
 			  <td class="tr pr20" onclick="show('${obj.id }')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc" onclick="show('${obj.id }')"><fmt:formatDate value="${obj.createdAt }"/></td>

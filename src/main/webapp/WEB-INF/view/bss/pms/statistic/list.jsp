@@ -499,7 +499,7 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
 <%-- 			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
- --%>			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+ --%>			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
 	<%-- 		  <c:if test="${obj.planType=='1'}">
 					  货物
