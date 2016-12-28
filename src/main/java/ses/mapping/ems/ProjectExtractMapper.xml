@@ -139,10 +139,10 @@
 				#{conTypeId,jdbcType=VARCHAR},
 			</if>
 			<if test="statusCount != null">
-				#{statusCount,jdbcType=DECIMAL}
+				#{statusCount,jdbcType=DECIMAL},
 			</if>
 			<if test="isProvisional != null">
-				#{isProvisional,jdbcType=DECIMAL}
+				#{isProvisional,jdbcType=DECIMAL},
 			</if>
 			<if test="reviewType != null">
 				#{reviewType,jdbcType=VARCHAR}

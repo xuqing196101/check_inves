@@ -8,6 +8,21 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.model.bms.PreMenu;
+import ses.model.bms.Role;
+import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
+import ses.model.bms.Userrole;
+import ses.model.ems.ExpExtPackage;
+import ses.model.ems.Expert;
+import ses.model.ems.ProjectExtract;
+import ses.service.bms.PreMenuServiceI;
+import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertService;
+import ses.service.ems.ProjectExtractService;
+import ses.util.WfUtil;
+
 import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.PackageExpertMapper;
 import bss.dao.prms.ReviewFirstAuditMapper;
@@ -35,6 +50,16 @@ public class PackageExpertServiceImpl implements PackageExpertService {
     private ReviewFirstAuditMapper reviewFirstAuditMapper;
     @Autowired
     private SaleTenderService saleTenderService;
+    @Autowired
+    private ExpertService expertService;
+    @Autowired
+    private ProjectExtractService extractService; //关联表
+    @Autowired
+    RoleServiceI roleService; //权限
+    @Autowired
+    private PreMenuServiceI menuService;// 菜单
+    @Autowired
+    UserServiceI userServiceI;//用户管理
       
       
 	  /**
@@ -338,6 +363,56 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           }
         }
         return "SUCCESS";
+      }
+    }
+    @Override
+    public void saveTempExpert(PackageExpert packageExpert, String packageId) {
+      Expert expert = packageExpert.getExpert();
+      expert.setIsProvisional(new Short("1"));
+      expert.setStatus("5");
+      expert.setIsSubmit("1");
+      expertService.insertSelective(expert);
+      //插入专家抽取关联表
+      ProjectExtract extract = new ProjectExtract();
+      extract.setExpertId(expert.getId());
+      extract.setOperatingType((short)1);
+      extract.setIsProvisional((short)1);
+      ExpExtPackage expExtPackage=new ExpExtPackage();
+      expExtPackage.setPackageId(packageId);
+      extract.setProjectId(packageId);
+      extract.setReviewType(packageExpert.getReviewTypeId());
+      extractService.insertProjectExtract(extract);
+      //插入登录表
+      User user = new User();
+      user.setLoginName(expert.getMobile());
+      user.setTypeId(expert.getId());
+      user.setPassword("123456");
+      userServiceI.save(user, null);
+      //新增权限
+      Role role = new Role();
+      role.setCode("EXPERT_R");
+      List<Role> listRole = roleService.find(role);
+      if (listRole != null && listRole.size() > 0) {
+          Userrole userrole = new Userrole();
+          userrole.setRoleId(listRole.get(0));
+          userrole.setUserId(user);
+          /** 删除用户之前的菜单权限*/
+          UserPreMenu userPreMenu = new UserPreMenu();
+          userPreMenu.setUser(user);
+          userServiceI.deleteUserMenu(userPreMenu);
+          /** 删除用户之前的角色信息*/
+          /** 给该用户初始化专家角色 */
+          userServiceI.saveRelativity(userrole);
+          String[] roleIds = listRole.get(0).getId().split(",");
+          List<String> listMenu = menuService.findByRids(roleIds);
+          /** 给用户初始化专家菜单权限 */
+          for (String menuId : listMenu) {
+              UserPreMenu upm = new UserPreMenu();
+              PreMenu preMenu = menuService.get(menuId);
+              upm.setPreMenu(preMenu);
+              upm.setUser(user);
+              userServiceI.saveUserMenu(upm);
+          }
       }
     }
     

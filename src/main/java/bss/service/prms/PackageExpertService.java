@@ -105,4 +105,6 @@ public interface PackageExpertService {
          */
         String isFirstGather(String packageId, String projectId);
         
+        void saveTempExpert(PackageExpert packageExpert,String packageId);
+        
 }

@@ -32,7 +32,11 @@ public class PackageExpert implements Serializable{
     //数量
     private Integer count;
     
+    //是否到场 0未到场 1到场
+    private Integer isSigin;
     
+    //是否临时专家  0是 1否
+    private Integer isTempExpert;
 
 	public Short getIsGrade() {
 		return isGrade;
@@ -127,6 +131,20 @@ public class PackageExpert implements Serializable{
     public void setReviewTypeId(String reviewTypeId) {
         this.reviewTypeId = reviewTypeId;
     }
-    
-    
+
+    public Integer getIsSigin() {
+      return isSigin;
+    }
+
+    public void setIsSigin(Integer isSigin) {
+      this.isSigin = isSigin;
+    }
+
+    public Integer getIsTempExpert() {
+      return isTempExpert;
+    }
+
+    public void setIsTempExpert(Integer isTempExpert) {
+      this.isTempExpert = isTempExpert;
+    }
 }
