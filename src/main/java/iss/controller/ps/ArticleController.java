@@ -978,6 +978,7 @@ public class ArticleController extends BaseSupplierController{
 //      articleService.updateisPicShow(isPicShow);
 //    }
 
+    article.setPublishedAt(new Date());
     article.setUpdatedAt(new Date());
     article.setStatus(2);
     articleService.update(article);

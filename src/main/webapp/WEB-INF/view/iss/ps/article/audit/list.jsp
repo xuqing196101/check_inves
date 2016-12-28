@@ -25,7 +25,7 @@
           }(),
           jump: function(e, first) { 
             if(!first) {
-              location.href = '${ pageContext.request.contextPath }/article/auditlist.html?status=1&page=' + e.curr;
+              location.href = '${ pageContext.request.contextPath }/article/auditlist.html?page=' + e.curr;
             }
           }
         });
@@ -185,7 +185,7 @@
       </div>
 
       <div class="search_detail">
-        <form id="form1" action="${pageContext.request.contextPath }/article/auditlist.html?status=1" method="post" class="mb0">
+        <form id="form1" action="${pageContext.request.contextPath }/article/auditlist.html" method="post" class="mb0">
           <ul class="demand_list">
             <li>
               <label class="fl">信息标题：</label>
@@ -281,7 +281,7 @@
                 </c:if>
               </td>
               <td>
-                <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                <u:show showId="artice_secret_show" delete="false" businessId="${article.id }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
               </td>
             </tr>
           </c:forEach>
