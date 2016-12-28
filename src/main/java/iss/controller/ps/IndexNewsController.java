@@ -472,6 +472,7 @@ public class IndexNewsController extends BaseSupplierController{
 		if(twoArticleList.size()>0){
 			articleList = twoArticleList;
 		}
+		model.addAttribute("id", id);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
 		return "iss/ps/index/parindex_two";
@@ -508,7 +509,7 @@ public class IndexNewsController extends BaseSupplierController{
 		}
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
-		return "iss/ps/index/parindex_two";
+		return "iss/ps/index/sumParId_two";
 	}
 	
 	/**
@@ -540,9 +541,11 @@ public class IndexNewsController extends BaseSupplierController{
 		if(twoArticleList.size()>0){
 			articleList = twoArticleList;
 		}
+		model.addAttribute("id", id);
+		model.addAttribute("twoid", twoid);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
-		return "iss/ps/index/parindex_two";
+		return "iss/ps/index/sumBynews_two";
 	}
 	
 	/**
@@ -574,9 +577,11 @@ public class IndexNewsController extends BaseSupplierController{
 		if(twoArticleList.size()>0){
 			articleList = twoArticleList;
 		}
+		model.addAttribute("id", id);
+		model.addAttribute("twoid", twoid);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
-		return "iss/ps/index/parindex_two";
+		return "iss/ps/index/sumBydanNews_two";
 	}
 	
 	/**

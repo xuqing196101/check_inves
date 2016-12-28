@@ -5,6 +5,14 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <head>
 <jsp:include page="/index_head.jsp"></jsp:include>
+<script type="text/javascript">
+$(document).ready(function(){  
+		var text = $("#post_attach_show_disFileId").find("a");
+		if(text.length<=0){
+			$("#extra_file").hide();
+		}
+});
+</script>
 </head>
 
 <body>
@@ -29,7 +37,7 @@
 	    ${articleDetail.content }
 	 </div>
 	 <div class="extra_file">
-	      <span class="fl mt10"> 所有文件：</span>
+	      <span id="extra_file" class="fl mt10"> 所有文件：</span>
 	      <div class="fl">
 	          <u:show showId="artice_file_show" delete="false" businessId="${articleId}" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 	      </div>
