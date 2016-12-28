@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.formbean.ContractBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -44,6 +46,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -56,6 +59,7 @@ import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
@@ -95,9 +99,15 @@ public class SupplierAuditController extends BaseSupplierController{
 	@Autowired
 	private TodosService todosService;
 	
+	/**
+	 * 用户
+	 */
 	@Autowired
 	private UserServiceI userServiceI;
 	
+	/**
+	 * 数据字典
+	 */
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
@@ -124,9 +134,13 @@ public class SupplierAuditController extends BaseSupplierController{
 	
 	@Autowired
 	private SupplierItemService supplierItemService;
-	
+
 	@Autowired
 	private SupplierHistoryService supplierHistoryService;
+	
+	/** 供应商关联类型 */
+	@Autowired
+	private SupplierTypeRelateService supplierTypeRelateService;
 	
 	/**
 	 * @Title: daiBan
@@ -1187,15 +1201,113 @@ public class SupplierAuditController extends BaseSupplierController{
 	}
 	
 	
-	 @ResponseBody
+	/**
+	 * @Title: showModify
+	 * @author XuQing 
+	 * @date 2016-12-28 上午10:37:47  
+	 * @Description:查询退回修改再次提交审核显示之前的信息
+	 * @param @param supplierHistory
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping(value = "/showModify",produces="text/html;charset=UTF-8")
 	public String showModify(SupplierHistory supplierHistory, HttpServletRequest request) {
-		//查询退回修改后的
 		supplierHistory.setSupplierId(supplierHistory.getSupplierId());
 		supplierHistory = supplierHistoryService.findBySupplierId(supplierHistory);
 		String showModify = supplierHistory.getAfterContent();
 		  return showModify;
 	}
 	
+	/**
+	 * @Title: aptitude
+	 * @author XuQing 
+	 * @date 2016-12-28 上午11:12:26  
+	 * @Description:资质文件维护
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "aptitude")
+	public String aptitude() {
+		
+		  
+		return "ses/sms/supplier_audit/aptitude";
+	}
 	
+	/**
+	 * @Title: contract
+	 * @author XuQing 
+	 * @date 2016-12-28 上午11:12:33  
+	 * @Description:品目合同
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "contract")
+	public String contract(Model model, String supplierId) {
+		List<SupplierTypeRelate> supplierTypeIds= supplierTypeRelateService.queryBySupplier(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		model.addAttribute("supplierTypeNames", supplierTypeName);
+		List<ContractBean> contract = new LinkedList<ContractBean>();
+		 //合同
+		 String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		 String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		 String id3 = DictionaryDataUtil.getId("CATEGORY_THRE_YEAR");
+		 //账单
+		 String id4 = DictionaryDataUtil.getId("CATEGORY_ONE_BIL");
+		 String id5 = DictionaryDataUtil.getId("CATEGORY_TWO_BIL");
+		 String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		 int count=0;
+		 StringBuffer sbUp=new StringBuffer("");
+		 StringBuffer sbShow=new StringBuffer("");
+		 List<Category> list = supplierItemService.getCategory(supplierId);
+		 for(Category ca:list){
+			 ContractBean con=new ContractBean();
+			 con.setId(ca.getId());
+			 con.setName(ca.getName());
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setOneContract(id1);
+			 count++;
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setTwoContract(id2);
+			 count++;
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setThreeContract(id3);
+			 count++;
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setOneBil(id4);
+			 count++;
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setTwoBil(id5);
+			 count++;
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setTwoBil(id6);
+			 count++;
+			   
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 contract.add(con);
+		 }
+		 model.addAttribute("contract", contract);	
+		 model.addAttribute("sbUp", sbUp);
+		 model.addAttribute("sbShow", sbShow);
+		 List<Integer> years = supplierService.getThressYear();
+		 model.addAttribute("years", years);
+		 model.addAttribute("supplierTypeIds", supplierTypeIds);
+		 model.addAttribute("supplierId", supplierId);
+		  
+		return "ses/sms/supplier_audit/contract";
+	}
 }

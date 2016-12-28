@@ -4,13 +4,8 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-
+		<title>产品目录</title>
 	  <script type="text/javascript">
-			function tijiao(status) {
-				$("#status").val(status);
-				form1.submit();
-			}
-			
 			//下一步
 			function nextStep() {
 				var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
@@ -414,8 +409,8 @@
 				if(str == "items") {
 					action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 				}
-				if(str == "product") {
-					action = "${pageContext.request.contextPath}/supplierAudit/product.html";
+				if(str == "contract") {
+					action = "${pageContext.request.contextPath}/supplierAudit/contract.html";
 				}
 				if(str == "applicationForm") {
 					action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
@@ -490,10 +485,9 @@
 							<a aria-expanded="false" href="#tab-4">品目信息</a>
 							<i></i>
 						</li>
-						<!-- <li onclick="jump('product')">
-							<a aria-expanded="false" href="#tab-4">产品信息</a>
-							<i></i>
-						</li> -->
+						<li onclick="jump('contract')">
+							<a aria-expanded="false" href="#tab-4">品目合同</a>
+						</li>
 						<li onclick="jump('applicationForm')">
 							<a aria-expanded="false" href="#tab-4">申请表</a>
 							<i></i>

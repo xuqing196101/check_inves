@@ -124,8 +124,8 @@
 			  if(str=="items"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 			  }
-			  if(str=="product"){
-			    action = "${pageContext.request.contextPath}/supplierAudit/product.html";
+			  if(str=="contract"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/contract.html";
 			  }
 			  if(str=="applicationForm"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
@@ -200,10 +200,10 @@
 	            	<a aria-expanded="false" href="#tab-4" >品目信息</a>
 	            	<i></i>
 	          	</li>
-		         <!--  <li onclick = "jump('product')" >
-		            <a aria-expanded="false" href="#tab-4">产品信息</a>
+		          <li onclick = "jump('contract')" >
+		            <a aria-expanded="false" href="#tab-4">品目合同</a>
 		             <i></i>
-		          </li> -->
+		          </li>
 		          <li onclick = "jump('applicationForm')" >
 		            <a aria-expanded="false" href="#tab-4" >申请表</a>
 		            <i></i>
@@ -249,7 +249,7 @@
                      <c:if test="${reasons.auditType == 'mat_eng_page'}">工程信息</c:if>
                      <c:if test="${reasons.auditType == 'mat_serve_page'}">服务信息</c:if>
                      <c:if test="${reasons.auditType == 'mat_serve_page' || reasons.auditType == 'item_sell_page' || reasons.auditType == 'item_eng_page' || reasons.auditType == 'item_serve_page'}">品目信息</c:if>
-                     <c:if test="${reasons.auditType == 'products_page'}">产品信息</c:if>
+                     <c:if test="${reasons.auditType == 'contract_page'}">品目合同</c:if>
                      <c:if test="${reasons.auditType == 'upload_page'}">申请表</c:if>
                    </td>
                    <td class="tc">${reasons.auditFieldName }</td>
