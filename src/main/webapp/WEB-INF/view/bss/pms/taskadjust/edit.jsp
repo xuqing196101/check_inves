@@ -227,8 +227,8 @@
 		  <div class="content table_box">
 			<form id="adjust" action="${pageContext.request.contextPath}/adjust/update.html" method="post" enctype="multipart/form-data">
 				<!-- 前半部分 -->
-				<div class="col-md-8 col-sm-8 col-xs-12 over_scroll">
-					<table id="table" class="table table-bordered table-condensed mt5">
+				<div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll">
+					<table id="table" class="table table-bordered table-condensed mt5 table_input">
 						<thead>
 							<tr>
 								<th class="info" colspan="17">事业部门需求</th>
@@ -255,7 +255,7 @@
 						</thead>
 						<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-							<td class="tc w50"><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
+							<td class="tc w50"><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].seq" value="${obj.seq }" class="w50 tc"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
 							</td>
 							<td>
 							    <c:forEach items="${requires }" var="re" >
@@ -480,9 +480,9 @@
 				</c:if>
 			</form>
 		</div>
-			<div class="col-md-12 pl20 mt10">
+			<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
                 <!-- <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
-                <input class="btn btn-windows save"  type="button" value="修改" onclick="sub()">
+                <input class="btn btn-windows edit"  type="button" value="修改" onclick="sub()">
                 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 		  </div>
 		  

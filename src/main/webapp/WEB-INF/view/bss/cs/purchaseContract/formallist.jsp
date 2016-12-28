@@ -311,13 +311,13 @@
 				<c:if test="${length<=9}">
 					<td onclick="showDraftContract('${formalCon.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${name}</td>
 				</c:if>
-				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.money}</td>
+				<td class="tr pr20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.money}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.projectName}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.supplierDepName}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.purchaseDepName}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.demandSector}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.documentNumber}</td>
-				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.budget}</td>
+				<td class="tr pr20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.budget}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.year}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.budgetSubjectItem}</td>
 			</tr>

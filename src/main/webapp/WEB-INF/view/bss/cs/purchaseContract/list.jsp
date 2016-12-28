@@ -342,7 +342,7 @@
 					<td class="pointer" title="${code}">${code}</td>
 				</c:if>
 				<td class="tl pl20 pointer">${pack.name}</td>
-				<td class="tl pl20 pointer">${pack.project.amount}</td>
+				<td class="tr pr20 pointer">${pack.project.amount}</td>
 				<td class="tl pl20 pointer">${pack.supplier.supplierName}</td>
 				<td class="tl pl20 pointer">${pack.project.purchaseDep.depName}</td>
 				<td>
