@@ -75,26 +75,26 @@
  function loadTab(val){
 	 initTabTitleCss();
 	 $("#tab_content_div_id").find(".tab-pane").each(function(index) {
-		 $("#production_div").attr("class", "tab-pane fade height-300");
-		 $("#sale_div").attr("class", "tab-pane fade height-300");
-		 $("#project_div").attr("class", "tab-pane fade height-300");
-		 $("#server_div").attr("class", "tab-pane fade height-300");
+		 $("#production_div").attr("class", "tab-pane fade");
+		 $("#sale_div").attr("class", "tab-pane fade");
+		 $("#project_div").attr("class", "tab-pane fade ");
+		 $("#server_div").attr("class", "tab-pane fade ");
 		 
 		 if (val == 'PRODUCT') {
 			 $("#productId").addClass("active");
-			 $("#production_div").attr("class", "tab-pane fade height-300 active in");
+			 $("#production_div").attr("class", "tab-pane fade  active in");
 		 }
 		 if (val == 'SALES') {
 			 $("#salesId").addClass("active");
-			 $("#sale_div").attr("class", "tab-pane fade height-300 active in");
+			 $("#sale_div").attr("class", "tab-pane fade  active in");
 		 } 
 		 if (val == 'PROJECT') {
 			 $("#projectId").addClass("active");
-		 	 $("#project_div").attr("class", "tab-pane fade height-300 active in");
+		 	 $("#project_div").attr("class", "tab-pane fade  active in");
 		 } 
 		 if (val == 'SERVICE') {
 			 $("#serviceId").addClass("active");
-			 $("#server_div").attr("class", "tab-pane fade height-300 active in");
+			 $("#server_div").attr("class", "tab-pane fade  active in");
 		 } 
 		});
  }
@@ -282,7 +282,7 @@
 				type : 2,
 				title : '添加物资生产证书信息',
 				// skin : 'layui-layer-rim', //加上边框
-				area : [ '600px', '500px' ], //宽高
+				area : [ '50%', '500px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
 				content : '${pageContext.request.contextPath}/supplier_cert_pro/add_cert_pro.html?matProId=' + matProId + '&supplierId=' + supplierId+'&sign='+1, //url
@@ -450,34 +450,34 @@
 					            if(arrays[i]==checkValue){
 				                      $(checkbox).attr("checked",true);
 				                      if(arrays[i]!='PROJECT'){
-					                     $("#project_div").attr("class", "tab-pane fade height-300");
+					                     $("#project_div").attr("class", "tab-pane fade ");
 					                  }
 				                      if(arrays[i]!='PRODUCT'){
-				                    	  $("#production_div").attr("class", "tab-pane fade height-300");
+				                    	  $("#production_div").attr("class", "tab-pane fade ");
 				                      }
 				                      if(arrays[i]!='SALES'){
-					                      $("#sale_div").attr("class", "tab-pane fade height-300");
+					                      $("#sale_div").attr("class", "tab-pane fade ");
 					                  }
 				                      if(arrays[i]!='SERVICE'){
-				                          $("#server_div").attr("class", "tab-pane fade height-300");
+				                          $("#server_div").attr("class", "tab-pane fade ");
 				                      }
 				                      
 				                      if(arrays[i]=='PRODUCT'){
 				                    		$("#productId").show();
-				                    		$("#production_div").attr("class", "tab-pane fade height-300 active in");
+				                    		$("#production_div").attr("class", "tab-pane fade  active in");
 				                    	  
 				                      }
 				                      else if(arrays[i]=='SALES'){
 				                        $("#salesId").show();
-				                    	$("#sale_div").attr("class", "tab-pane fade height-300 active in");
+				                    	$("#sale_div").attr("class", "tab-pane fade  active in");
 				                      }
 				                      else if(arrays[i]=='PROJECT'){
 				                    	  $("#projectId").show();
-				                    	  $("#project_div").attr("class", "tab-pane fade height-300 active in");
+				                    	  $("#project_div").attr("class", "tab-pane fade  active in");
 				                      }
 				                        else  if(arrays[i]=='SERVICE'){
 				                    		 $("#serviceId").show();
-				                    	 	$("#server_div").attr("class", "tab-pane fade height-300 active in");
+				                    	 	$("#server_div").attr("class", "tab-pane fade  active in");
 				                      }
 				                      checkedArray.push(arrays[i]);     
 				               }
@@ -626,9 +626,9 @@
 			$("#tab_content_div_id").find(".tab-pane").each(function() {
 				var id = $(this).attr("id");
 				if (id == defaultPage) {
-					$(this).attr("class", "tab-pane fade height-300 active in");
+					$(this).attr("class", "tab-pane fade  active in");
 				} else {
-					$(this).attr("class", "tab-pane fade height-300");
+					$(this).attr("class", "tab-pane fade ");
 				}
 			});
 		} else {
@@ -641,9 +641,9 @@
 			});
 			$("#tab_content_div_id").find(".tab-pane").each(function(index) {
 				if (index == 0) {
-					$(this).attr("class", "tab-pane fade height-300 active in");
+					$(this).attr("class", "tab-pane fade  active in");
 				} else {
-					$(this).attr("class", "tab-pane fade height-300");
+					$(this).attr("class", "tab-pane fade ");
 				}
 			});
 		}
@@ -686,7 +686,7 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-					   <ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+					   <ul id="page_ul_id" class="nav nav-tabs supplier_tab">
 							 <li id="productId" style="display:none;" ><a aria-expanded="true" href="#production_div" data-toggle="tab" class=" f18">物资-生产型专业信息</a></li>
 							 <li id="salesId" style="display:none;" ><a aria-expanded="false" href="#sale_div" data-toggle="tab" class="f18">物资-销售型专业信息</a></li>
 							 <li id="projectId" style="display:none;" ><a aria-expanded="false" href="#project_div" data-toggle="tab" class="  f18">工程专业信息</a></li>
@@ -700,7 +700,7 @@
 							<input type="hidden" name="id" id="sid" value="${currSupplier.id}" />
 							<input type="hidden" name="flag" />
 			 				<input type="hidden" name="defaultPage" value="${defaultPage}" />
-				<div id="tab_content_div_id" class="tab-content padding-top-20">
+				            <div id="tab_content_div_id" class="tab-content padding-top-20 overflow_h container_box">
 						<!-- 物资生产型专业信息 -->
 			         <%--  <c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}"> --%>
 			              <div class=""    id="production_div">
@@ -931,16 +931,16 @@
  
 				<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">		 --%>
 								<!-- 物资销售型专业信息 -->
-						<div   class="tab-pane fade height-300" id="sale_div">
-						  <div class="container container_box">
-			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >物资-销售专业信息</h3>
-			              	    <ul class="list-unstyled" style="font-size: 14">
+						<div   class="tab-pane fade" id="sale_div">
+						  <div class="">
+			              	  <h2 class="list_title" >物资-销售专业信息</h2>
+			              	    <ul class="list-unstyled" style="font-size: 14px">
 										<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatSell.id}" />
 										<input type="hidden" name="supplierMatSell.supplierId" value="${currSupplier.id}" />
-								    <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
-	 			 						<legend>供应商组织机构和人员 </legend>
-												<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+								        <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
+	 			 						     <legend>供应商组织机构和人员 </legend>
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSell.orgName" value="${currSupplier.supplierMatSell.orgName}" />
 														 <span class="add-on cur_point">i</span>
 														 <div class="cue"> ${sale_org } </div>
@@ -948,7 +948,7 @@
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>人员总数：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSell.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalPerson}" />
 														 <span class="add-on cur_point">i</span>
 														 	<div class="cue"> ${sale_person } </div>
@@ -956,7 +956,7 @@
 												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员数量：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSell.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalMange}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${sale_mange } </div>
@@ -964,7 +964,7 @@
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员数量：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSell.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatSell.totalTech}" />
 														   <span class="add-on cur_point">i</span>
 														   	<div class="cue"> ${sale_tech } </div>
@@ -972,7 +972,7 @@
 												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人（职员）数量：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSell.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalWorker}" />
 														   <span class="add-on cur_point">i</span>
 														   <div class="cue"> ${sale_work } </div>
@@ -1045,7 +1045,7 @@
 								
 								<!-- 工程专业信息 -->
 		 			<div class="tab-pane fade height-200"    id="project_div">
-   						<div class="container container_box">
+   						<div class="">
 			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >工程专业信息:</h3>
 			              	    <ul class="list-unstyled" style="font-size: 14">
 									   <!--   <div class="col-md-5 title"><span class="star_red fl">*</span>工程专业信息：</div> -->
@@ -1056,8 +1056,8 @@
 											 	  <legend>法人代表信息</legend>
 	 	  
 										
-												<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.orgName" value="${currSupplier.supplierMatEng.orgName}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_org } </div>
@@ -1065,7 +1065,7 @@
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术负责人：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTech}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_tech } </div>
@@ -1073,14 +1073,14 @@
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>中级以上职称人员数量：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.totalGlNormal" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalGlNormal}" />
 												        <span class="add-on cur_point">i</span>
 												        <div class="cue"> ${eng_normal } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>现场管理人员数量：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatEng.totalMange}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_manage } </div>
@@ -1088,7 +1088,7 @@
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术和工人数量：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.totalTechWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTechWorker}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_worker } </div>
@@ -1293,7 +1293,7 @@
 		<%-- 		 </c:if>
 				 	<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}"> --%>
 							 <div class="tab-pane fade height-200"  id="server_div">
-									<div class="container container_box">
+									<div class="">
 					              	  <h3 class="headline-v2" style="background-color: #FBFBFB ">服务专业信息:</h3>
 					              	    <ul class="list-unstyled" style="font-size: 14">
 							 	
@@ -1302,8 +1302,8 @@
 										<input type="hidden" name="supplierMatSe.supplierId" value="${currSupplier.id}" />
 												<fieldset class="col-md-12 border_font mt20">
 											 	  <legend>法人代表信息</legend>
-												<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSe.orgName" value="${currSupplier.supplierMatSe.orgName}" />
 													   <span class="add-on cur_point">i</span>
 													     <div class="cue"> ${fw_org } </div>
@@ -1311,7 +1311,7 @@
 												  
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>人员总数：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSe.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalPerson}" />
 													     <span class="add-on cur_point">i</span>
 													     <div class="cue"> ${fw_person } </div>
@@ -1319,7 +1319,7 @@
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员数量：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSe.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalMange}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${fw_mange } </div>
@@ -1327,7 +1327,7 @@
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员数量：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSe.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalTech}" />
 													     <span class="add-on cur_point">i</span>
 													     	<div class="cue"> ${fw_tech } </div>
@@ -1335,7 +1335,7 @@
 												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人（职员）数量：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSe.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalWorker}" />
 													    <span class="add-on cur_point">i</span>
 													    	<div class="cue"> ${fw_work } </div>

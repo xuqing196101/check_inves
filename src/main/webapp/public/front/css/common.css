@@ -735,12 +735,15 @@ th.bg_tc {
   min-width: 150px; }
 
 .del {
-  text-decoration: line-through; }
+  text-decoration: line-through;
+}
 
 .no_break {
   table-layout: fixed;
   word-break: break-all;
-  overflow: hidden; }
+  overflow: hidden; 
+}
+
 .overflow_h{
   overflow: hidden;
 }

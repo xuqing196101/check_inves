@@ -448,27 +448,27 @@
 												<i>01</i>供应商组织机构和人员
 											</h2>
 											<ul class="list-unstyled list-flow">
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>组织机构：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>组织机构：</span>
 													<div class="input-append">
 														<input class="span3" id="supplierName_input_id" type="text" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>人员总数：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>人员总数：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.totalPerson" value="${currSupplier.supplierMatPro.totalPerson}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>管理人员：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>管理人员：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.totalMange" value="${currSupplier.supplierMatPro.totalMange}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>技术人员：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.totalTech" value="${currSupplier.supplierMatPro.totalTech}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>工人：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>工人：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.totalWorker" value="${currSupplier.supplierMatPro.totalWorker}" />
 													</div>
@@ -481,37 +481,37 @@
 												<i>02</i>产品研发能力
 											</h2>
 											<ul class="list-unstyled list-flow">
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员比例(%)：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>技术人员比例(%)：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.scaleTech" value="${currSupplier.supplierMatPro.scaleTech}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>高级技术人员比例：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>高级技术人员比例：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.scaleHeightTech" value="${currSupplier.supplierMatPro.scaleHeightTech}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>研发部门名称：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>研发部门名称：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.researchName" value="${currSupplier.supplierMatPro.researchName}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>研发部门人数：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>研发部门人数：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.totalResearch" value="${currSupplier.supplierMatPro.totalResearch}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>研发部门负责人：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>研发部门负责人：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.researchLead" value="${currSupplier.supplierMatPro.researchLead}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>国家军队科研项目：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>国家军队科研项目：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.countryPro" value="${currSupplier.supplierMatPro.countryPro}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>国家军队科技奖项：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>国家军队科技奖项：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.countryReward" value="${currSupplier.supplierMatPro.countryReward}" />
 													</div>
@@ -523,12 +523,12 @@
 												<i>03</i>供应商生产能力
 											</h2>
 											<ul class="list-unstyled list-flow">
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>生产线名称数量：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>生产线名称数量：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.totalBeltline" value="${currSupplier.supplierMatPro.totalBeltline}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>生产设备名称数量：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>生产设备名称数量：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.totalDevice" value="${currSupplier.supplierMatPro.totalDevice}" />
 													</div>
@@ -539,22 +539,22 @@
 												<i>04</i>物资生产型供应商质量检测能力登记
 											</h2>
 											<ul class="list-unstyled list-flow">
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>质量检测部门：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>质量检测部门：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.qcName" value="${currSupplier.supplierMatPro.qcName}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>质量部门人数：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>质量部门人数：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.totalQc" value="${currSupplier.supplierMatPro.totalQc}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>质监部门负责人：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>质监部门负责人：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.qcLead" value="${currSupplier.supplierMatPro.qcLead}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>质量检测设备名称：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>质量检测设备名称：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatPro.qcDevice" value="${currSupplier.supplierMatPro.qcDevice}" />
 													</div>
@@ -616,27 +616,27 @@
 												<i>01</i>供应商组织机构和人员
 											</h2>
 											<ul class="list-unstyled list-flow">
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>组织机构：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>组织机构：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatSell.orgName" value="${currSupplier.supplierMatSell.orgName}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>人员总数：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>人员总数：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatSell.totalPerson" value="${currSupplier.supplierMatSell.totalPerson}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>管理人员：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>管理人员：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatSell.totalMange" value="${currSupplier.supplierMatSell.totalMange}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>技术人员：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatSell.totalTech" value="${currSupplier.supplierMatSell.totalTech}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>工人（职员）：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>工人（职员）：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatSell.totalWorker" value="${currSupplier.supplierMatSell.totalWorker}" />
 													</div>
@@ -698,27 +698,27 @@
 												<i>01</i>供应商组织机构和人员
 											</h2>
 											<ul class="list-unstyled list-flow">
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>组织机构：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>组织机构：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatEng.orgName" value="${currSupplier.supplierMatEng.orgName}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术负责人：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>技术负责人：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatEng.totalTech" value="${currSupplier.supplierMatEng.totalTech}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>中级以上职称人员：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>中级以上职称人员：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatEng.totalGlNormal" value="${currSupplier.supplierMatEng.totalGlNormal}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>现场管理人员：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>现场管理人员：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatEng.totalMange" value="${currSupplier.supplierMatEng.totalMange}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术和工人：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>技术和工人：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatEng.totalTechWorker" value="${currSupplier.supplierMatEng.totalTechWorker}" />
 													</div>
@@ -870,27 +870,27 @@
 												<i>01</i>供应商组织机构和人员
 											</h2>
 											<ul class="list-unstyled list-flow">
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>组织机构：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>组织机构：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatSe.orgName" value="${currSupplier.supplierMatSe.orgName}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>人员总数：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>人员总数：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatSe.totalPerson" value="${currSupplier.supplierMatSe.totalPerson}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>管理人员：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>管理人员：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatSe.totalMange" value="${currSupplier.supplierMatSe.totalMange}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>技术人员：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatSe.totalTech" value="${currSupplier.supplierMatSe.totalTech}" />
 													</div>
 												</li>
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>工人（职员）：</span>
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i>工人（职员）：</span>
 													<div class="input-append">
 														<input class="span3" type="text" name="supplierMatSe.totalWorker" value="${currSupplier.supplierMatSe.totalWorker}" />
 													</div>

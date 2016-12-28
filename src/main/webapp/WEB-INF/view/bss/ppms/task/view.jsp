@@ -22,7 +22,7 @@
     </div>
   </div>
   <!-- 录入采购计划开始-->
-  <div class="container">
+  <div class="container mt20">
     <div class="tab-content">
       <div class="tab-v2">
         <ul class="nav nav-tabs bgwhite">
@@ -42,8 +42,8 @@
               </tbody>       
             </table>     
             <h2 class="count_flow jbxx">需求明细查看</h2>
-            <div class="content table_box">
-              <table class="table table-bordered table-condensed table-hover table-striped">  
+            <div class="content over_scroll h365">
+              <table class="table table-bordered table-condensed table-hover table-striped table_wrap">  
                 <thead>
 				  <tr>
 					<th class="info w50">序号</th>
@@ -68,31 +68,31 @@
 				<c:forEach items="${lists}" var="obj" varStatus="vs">
 				  <tr style="cursor: pointer;">
 					<td class="tc w50">${obj.seq}</td>
-					 <td class="tc">
+					 <td class="pl20">
 					 <c:forEach items="${list2}" var="list">
 					 <c:if test="${list.id == obj.department}"> 
 					     ${list.name}
 					 </c:if>
 					 </c:forEach>
 					 </td>
-					 <td class="tc">${obj.goodsName}</td>
-					 <td class="tc">${obj.stand}</td>
-					 <td class="tc">${obj.qualitStand}</td>
+					 <td class="pl20">${obj.goodsName}</td>
+					 <td class="pl20">${obj.stand}</td>
+					 <td class="pl20">${obj.qualitStand}</td>
 					 <td class="tc">${obj.item}</td>
 					 <td class="tc">${obj.purchaseCount}</td>
-					 <td class="tc">${obj.price}</td>
-					 <td class="tc">${obj.budget}</td>
-					 <td class="tc">${obj.deliverDate}</td>
+					 <td class="tr">${obj.price}</td>
+					 <td class="tr">${obj.budget}</td>
+					 <td>${obj.deliverDate}</td>
 					 <td class="tc">
 				       <c:forEach items="${kind}" var="kind" >
                          <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                        </c:forEach>
 			         </td>
-					 <td class="tc">${obj.supplier}</td>
+					 <td class="pl20">${obj.supplier}</td>
 					 <td class="tc">${obj.isFreeTax}</td>
-					 <td class="tc">${obj.goodsUse}</td>
-					 <td class="tc">${obj.useUnit}</td>
-					 <td class="tc">${obj.memo}</td>
+					 <td class="pl20">${obj.goodsUse}</td>
+					 <td class="pl20">${obj.useUnit}</td>
+					 <td class="pl20">${obj.memo}</td>
 					</tr>
 				  </c:forEach>  
 				  </c:if>
@@ -133,10 +133,11 @@
 	        </div>
           </div>
         </div>
+        <div class="col-md-12 tc col-xs-12 col-sm-12 mt10">
+           <button class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
+        </div>
       </div>
-     <div class="col-md-12 tc">
-       <button class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
-     </div>
+
    </div>
 </body>
 </html>
