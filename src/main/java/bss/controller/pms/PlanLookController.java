@@ -288,20 +288,20 @@ public class PlanLookController extends BaseController {
 		}
 		if(collectPlan.getStatus().equals(3)){
 			if(collectPlan.getAuditTurn()==1){
-				collectPlan.setStatus(2);
+				collectPlan.setStatus(12);
 			}else{
 				collectPlan.setStatus(4);
 			}
 		}
 		if(collectPlan.getStatus().equals(5)){
 			if(collectPlan.getAuditTurn()==2){
-				collectPlan.setStatus(2);
+				collectPlan.setStatus(12);
 			}else{
 				collectPlan.setStatus(6);
 			}
 		}
 		if(collectPlan.getStatus().equals(7)){
-			collectPlan.setStatus(2);
+			collectPlan.setStatus(12);
 		}
 	
 		collectPlanService.update(collectPlan);

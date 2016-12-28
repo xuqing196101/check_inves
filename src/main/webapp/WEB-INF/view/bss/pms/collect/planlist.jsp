@@ -401,7 +401,7 @@
 							</td>
 							<td class="tl pl20">
 								<c:if test="${obj.status=='1' }">
-									审核设置
+									审核轮次设置
 								</c:if>
 								<%-- <c:if test="${obj.status=='2' }">
 									已审核
@@ -410,7 +410,7 @@
 									第一轮审核
 								</c:if>
 									<c:if test="${obj.status==4 }">
-									第二轮审核设置
+									第二轮审核人员设置
 								</c:if>
 							    <c:if test="${obj.status==5 }">
 									第二轮审核
@@ -420,7 +420,7 @@
 									已下达
 								</c:if> --%>
 								<c:if test="${obj.status=='6' }">
-									第三轮审核设置
+									第三轮审核人员设置
 								</c:if>
 								<c:if test="${obj.status=='7' }">
 									第三轮审核

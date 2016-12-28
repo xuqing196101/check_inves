@@ -637,31 +637,25 @@
 											<th class="info" colspan="2">事业部门需求</th>
 										</tr>
 										<tr class="info">
-										<th class="w50">序号</th>
 										<th>需求部门</th>
 									</thead>
 									<c:forEach items="${depList }" var="objs" varStatus="vs">
 										<%-- <c:if test="${dep==obj.department }"> --%>
-										<tbody id="table">
+										
 											<tr>
-												<td class="tc w50"></td>
+												
 												<td>			 
-													<c:forEach items="${requires }" var="re">
-														<c:if test="${re.id==objs}">
-															<%-- <input type="hidden"  name="list[${vs.index }].department" value="${obj.id }"> --%>
-									 						${re.name}
-														</c:if>
-													</c:forEach>
+														${objs }	
 												</td>
 											</tr>
-										</tbody>							 
+																	 
 						 			</c:forEach> 
 									</table>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
-							<input type="hidden" name="id" value="${id }"> 
+							<input type="hidden" name="id" id="cid" value="${id }"> 
 							<input type="hidden" name="planNo" value="${planNo }">
 							<input type="hidden" name="auditTurn" value="${audit }">
 							<input type="hidden" id="status" name="status" value="${status }">
@@ -674,4 +668,4 @@
 		
 		</div>
 	</body>
-</html>
+</html>--%>

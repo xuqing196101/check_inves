@@ -747,4 +747,30 @@ public class AuditSetController {
 	    return "";
 	}
 	
+	   /**
+	    * 
+	    * @Title: auditId
+	    * @author Liyi 
+	    * @date 2016-12-27 下午8:49:30  
+	    * @Description:
+	    * @param:     
+	    * @return:
+	    */
+	 @RequestMapping("/tempOnly")
+		@ResponseBody
+		public String auditId(HttpServletRequest request){
+		 	String msg = "";
+		 	String id = request.getParameter("id");
+		 	String type = request.getParameter("type");
+		 	AuditPerson person = new AuditPerson();
+		 	person.setCollectId(id);
+			person.setAuditRound(type);
+			List<AuditPerson> listAudit = auditPersonService.query(person, 1);
+			if(listAudit.size()>=1){
+				msg="1";
+			}else {
+				msg="0";
+			}
+			return msg;
+		}
 }

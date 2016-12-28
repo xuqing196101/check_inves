@@ -149,11 +149,12 @@
 		var tp = Number($(".tempPersonIndex:first").val());
 		if(isNaN(ap)&&isNaN(tp)){
 			experts(); 
-		}else if(isNaN(tp)){
-			experts();
 		}else{
 	    	cleanErr();
-			var index = Number($(".tempPersonIndex:first").val());
+	    	 layer.alert("只能有一个审核人员", {
+					offset: ['30%', '40%']
+			});
+		/*	var index = Number($(".tempPersonIndex:first").val());
 			var auditNature = $("#audit_nature").val();
 			var turns=$("#auditRound").val();
 			if(index!=0){			
@@ -183,7 +184,7 @@
 		     	});			
 			}else{
 				experts();
-			}
+			}*/
 		}
     }
     
@@ -225,42 +226,43 @@
     	var ap = $("#userList tr:last td:first input:last").val();
 		var tp = Number($(".tempPersonIndex:first").val());
 		if(isNaN(ap)&&isNaN(tp)){
-			experts();
-		}else if(isNaN(tp)){
-			experts();
+			users();
 		}else{
 	    	cleanErr();
-	    	var index = Number($(".tempPersonIndex:first").val());
-			var auditNature = $("#audit_nature").val();
-			var turns=$("#auditRound").val();
-			if(index!=0){			
-		    	$.ajax({
-		    	 	url:"${pageContext.request.contextPath}/set/judgeAddUser.do?index="+index+"&auditNature="+auditNature+"&turns="+turns,
-					type:"POST",
-					dataType:"json",
-		    	 	data:$("#set_form").serialize(),
-		    	 	success:function(msg){
-		    			if(msg.isErr=='error'){
-		    				var size= msg.length;
-		    				$("#auditNatureErr").text(msg.auditNatureErr);
-		    				for (var i = index; i < eval(index+size); i++) {
-		    					var name = "name"+i;
-		    					var phone = "phone"+i;
-		    					var unitName ="unitName"+i;
-		    					var duty = "duty"+i;
-		    					$("#name"+i).text(msg[name]);
-		    					$("#phone"+i).text(msg[phone]);
-		    					$("#duty"+i).text(msg[duty]);
-		    					$("#unitName"+i).text(msg[unitName]);
-		    				}
-		    			}else{
-		    				users();
-		    			}
-		    	 	}
-		     	});			
-			}else{
-				users();
-			}
+	    	 layer.alert("只能有一个审核人员", {
+					offset: ['30%', '40%']
+			});
+//	    	var index = Number($(".tempPersonIndex:first").val());
+//			var auditNature = $("#audit_nature").val();
+//			var turns=$("#auditRound").val();
+//			if(index!=0){			
+//		    	$.ajax({
+//		    	 	url:"${pageContext.request.contextPath}/set/judgeAddUser.do?index="+index+"&auditNature="+auditNature+"&turns="+turns,
+//					type:"POST",
+//					dataType:"json",
+//		    	 	data:$("#set_form").serialize(),
+//		    	 	success:function(msg){
+//		    			if(msg.isErr=='error'){
+//		    				var size= msg.length;
+//		    				$("#auditNatureErr").text(msg.auditNatureErr);
+//		    				for (var i = index; i < eval(index+size); i++) {
+//		    					var name = "name"+i;
+//		    					var phone = "phone"+i;
+//		    					var unitName ="unitName"+i;
+//		    					var duty = "duty"+i;
+//		    					$("#name"+i).text(msg[name]);
+//		    					$("#phone"+i).text(msg[phone]);
+//		    					$("#duty"+i).text(msg[duty]);
+//		    					$("#unitName"+i).text(msg[unitName]);
+//		    				}
+//		    			}else{
+//		    				users();
+//		    			}
+//		    	 	}
+//		     	});			
+//			}else{
+//				users();
+//			}
 		}
     }
     
@@ -295,6 +297,25 @@
    		});
         	
         }
+    }
+    
+    function tempbefore(){
+    	var id = $("#collectId").val();
+    	var type = $("#auditRound").val();
+    	$.ajax({
+    	 	url:"${pageContext.request.contextPath}/set/tempOnly.do?id="+id+"&type="+type,
+			type:"POST",
+			dataType:"json",
+    	 	success:function(msg){
+    			if(msg==1){
+    				layer.alert("只能有一个审核人员", {
+    					offset: ['30%', '40%']
+    				});    
+    			}else{
+    				temp();
+    			}
+    	 	}
+    	})
     }
 //    var index;//添加临时审核人员
     function temp(){
@@ -529,7 +550,7 @@
       <div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10">
 		<button class="btn btn-windows add" onclick="beforeExperts()">专家库添加</button>
 		<button class="btn btn-windows add" onclick="beforeUsers()">用户库添加</button>
-		<button class="btn btn-windows add" onclick="temp()">添加临时人员</button>
+		<button class="btn btn-windows add" onclick="tempbefore()">添加临时人员</button>
 		<!-- <button class="btn btn-windows add" onclick="saveTemp()">保存临时人员</button> -->
 		<button class="btn btn-windows delete" onclick="delet()">删除</button>
 	  </div>
@@ -565,7 +586,7 @@
 			</tr>
 		</c:forEach>
 		
-		 	<input type="hidden" name="collectId" value="${id }">	
+		 	<input type="hidden" name="collectId" id="collectId" value="${id }">	
 		 	<input type="hidden" name="type" value="${type}">	
       </table>
 	</form>
