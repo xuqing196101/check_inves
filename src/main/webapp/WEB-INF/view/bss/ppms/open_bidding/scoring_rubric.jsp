@@ -94,7 +94,7 @@
 	      
 	  //编辑模板内容
     function editPackageFirstAudit(packageId,projectId){
-        window.location.href = "${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId="+packageId+"&projectId="+projectId;
+        window.location.href = "${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
     }
     
     function editScoreMehtod(packageId,projectId) {
@@ -217,6 +217,7 @@
 								onclick="selectAll()" alt=""></th> -->
 							<th>序号</th>
 							<th>包名</th>
+							<th>状态</th>
 							<th>评分办法</th>
 							<th>操作</th>
 							<!-- <th>评分办法名称</th>
@@ -230,6 +231,17 @@
 								</td> --%>
 								<td class="tc w50">${vs.index+1 }</td>
 								<td class="tc">${p.name}</td>
+								<td class="tc">
+								<c:if test="${p.isEditSecond == 0 and project.confirmFile != 1}">
+										未维护
+								</c:if>
+								<c:if test="${p.isEditSecond == 2 and project.confirmFile != 1}">
+										维护中
+								</c:if>
+								<c:if test="${p.isEditSecond == 2 and project.confirmFile == 1}">
+										已维护
+								</c:if>
+								</td>
 								<td class="tc">
 									<c:forEach items="${ddList}" var="list" varStatus="vs">
 										<c:if test="${vs.index == p.bidMethodTypeName }"><a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a></c:if>
