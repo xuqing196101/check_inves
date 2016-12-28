@@ -142,4 +142,10 @@ public class StaticVariables {
     /** 企业资质-专业 **/
     public static final Integer CATEGORY_QUALIFICATION_PROFILE = 2;
     
+    
+    /**
+     * 默认页
+     */
+    public static final Integer DEFAULT_PAGE = 1;
+    
 }

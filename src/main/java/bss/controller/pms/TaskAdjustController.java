@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +42,9 @@ import bss.service.pms.PurchaseAuditService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.UpdateFiledService;
 import bss.service.ppms.ProjectAttachmentsService;
+import common.constant.StaticVariables;
 
+import com.ctc.wstx.util.StringUtil;
 import com.github.pagehelper.PageInfo;
 /**
  * 
@@ -103,7 +106,7 @@ public class TaskAdjustController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String list(Model model,CollectPlan collectPlan,Integer page){
-		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
+		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page== null ? 1: page);
 		PageInfo<CollectPlan> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", collectPlan);
@@ -454,21 +457,56 @@ public class TaskAdjustController extends BaseController{
 		return null;
 	}
 	
-	@RequestMapping("/cancel")
-	public String cancel(Model model,CollectPlan collectPlan,Integer page){
-		CollectPlan cPlan=collectPlanService.queryById(collectPlan.getId());
-		Integer backInfo = 1;
-		if (cPlan.getStatus()==4) {
-			backInfo=2;
-		}
-		collectPlan.setStatus(4);
-		collectPlanService.update(collectPlan);
-		List<CollectPlan> list = collectPlanService.queryCollect(new CollectPlan(), page==null?1:page);
-		PageInfo<CollectPlan> info = new PageInfo<>(list);
-		model.addAttribute("info", info);
-		model.addAttribute("inf", collectPlan);
-		model.addAttribute("backInfo", backInfo);
-		return "bss/pms/taskadjust/planlist";
-		
+	
+	/**
+	 * 
+	 *〈简述〉取消任务
+	 *〈详细描述〉
+	 * @author myc
+	 * @param ids 选择的主键信息
+	 * @return 成功返回ok,失败返回failed
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/cancel",produces="html/text;chartset=UTF-8")
+	public String cancel(String ids){
+	    if (StringUtils.isNotBlank(ids)){
+	        if (ids.contains(StaticVariables.COMMA_SPLLIT)){
+	            String [] strArray = ids.split(StaticVariables.COMMA_SPLLIT);
+	            for (String id: strArray){
+	                boolean flag  = checkStatus(id);
+	                if (!flag){
+	                   return StaticVariables.FAILED;
+	                }
+	            }
+	        } else {
+	            boolean flag  = checkStatus(ids);
+                if (!flag){
+                   return StaticVariables.FAILED;
+                }
+	        }
+	    }
+	    return StaticVariables.SUCCESS;
 	}
+	
+	/**
+	 * 
+	 *〈简述〉更新状态
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id
+	 * @return
+	 */
+	private boolean checkStatus(String id){
+	    CollectPlan collectPlan = collectPlanService.queryById(id);
+        if (collectPlan != null){
+            if (collectPlan.getStatus() == 8){
+                return false;
+            } else {
+                collectPlan.setStatus(8);
+                collectPlanService.update(collectPlan);
+                return true;
+            }
+        }
+        return false;
+	} 
 }

@@ -9,12 +9,6 @@
   
   /*分页  */
   $(function(){
-	  if("${backInfo}"==2){
-		  layer.alert("该采购任务已取消",{offset: ['222px', '390px'], shade:0.01});
-	  }
-	  if("${backInfo}"==1){
-		  layer.alert("采购任务取消成功",{offset: ['222px', '390px'], shade:0.01});
-	  }
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${info.pages}", //总页数
@@ -109,19 +103,50 @@
 		window.location.href="${pageContext.request.contextPath}/adjust/all.html?id="+id;
 	}	
  	
+	//取消采购任务
 	function cancel(){
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
-		}); 
-		if(id.length==1){
-		  	window.location.href="${pageContext.request.contextPath}/adjust/cancel.html?id="+id;
-	  	}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}  
-		 
+		});
+		
+		if (id.length == 0){
+			layer.msg("请选择需要取消的任务记录");
+			return ;
+		}
+		
+		layer.confirm('您确定要取消？', {
+			  btn: ['确定','取消'] 
+			}, function(){
+				ajaxCancel(id.toString());
+			}
+		 );
+	}
+	
+	//ajax取消
+	function ajaxCancel(ids){
+		$.ajax({
+			type: "POST",  
+            url: "${pageContext.request.contextPath}/adjust/cancel.do",  
+            data: {'ids':ids},  
+            success:function(msg){
+   		     if (msg == 'ok'){
+   		    	 layer.msg("取消成功");
+   		    	 updateStatus();
+   		     }
+   		     if (msg == 'failed'){
+   		    	 layer.msg("记录中存在已取消状态的任务");
+   		     }
+            }
+		 });
+	}
+	
+	
+	//更新状态
+	function updateStatus(){
+		$('input[name="chkItem"]:checked').each(function(){ 
+			$(this).parents("tr").find("td").eq(5).text("已取消");
+		});
 	}
   </script>
   </head>
@@ -169,16 +194,28 @@
 			  <td class="tc" onclick="show('${obj.id }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tl pl20" onclick="show('${obj.id }')">
 			  <c:if test="${obj.status=='1' }">
-			   	未下达
+			   	待审核设置
 			  </c:if>
 			  <c:if test="${obj.status=='2' }">
-			   	已审核
-			  </c:if>
-			  <c:if test="${obj.status=='3' }">
 			   	已下达
 			  </c:if>
+			  <c:if test="${obj.status=='3' }">
+			   	待第一轮审核
+			  </c:if>
 			  <c:if test="${obj.status=='4' }">
-			   	取消
+			   	待第二轮审核设置
+			  </c:if>
+			  <c:if test="${obj.status=='5' }">
+			   	待第二轮审核
+			  </c:if>
+			  <c:if test="${obj.status=='6' }">
+			   	待第三轮审核设置
+			  </c:if>
+			  <c:if test="${obj.status=='7' }">
+			   	待第三轮审核
+			  </c:if>
+			  <c:if test="${obj.status=='8' }">
+			   	已取消
 			  </c:if>
 			  </td>
 			</tr>

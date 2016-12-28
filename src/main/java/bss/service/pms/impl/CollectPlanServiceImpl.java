@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
@@ -32,9 +33,8 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 	}
 	@Override
 	public List<CollectPlan> queryCollect(CollectPlan collectPlan, Integer page) {
+	    PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("page.size.thirty")));
 		List<CollectPlan> list = collectPlanMapper.query(collectPlan);
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		return list;
 	}
 	@Override

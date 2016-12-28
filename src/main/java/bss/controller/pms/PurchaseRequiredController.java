@@ -56,6 +56,7 @@ import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 /**
  * 
  * @Title: PurcharseRequiredController
@@ -97,7 +98,10 @@ public class PurchaseRequiredController extends BaseController{
 	public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
 		purchaseRequired.setIsMaster(1);
 		purchaseRequired.setStatus("1");
-		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
+		if (page == null ){
+		    page = StaticVariables.DEFAULT_PAGE;
+		}
+		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
 		model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
 		model.addAttribute("inf", purchaseRequired);
 		
