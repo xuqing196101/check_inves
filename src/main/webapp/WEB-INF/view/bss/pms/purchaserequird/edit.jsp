@@ -165,7 +165,7 @@
 		</div>
 			<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
 			
-             <div class="content table_box over_scroll ">
+             <div class="content table_box over_scroll h365">
                  <table id="table" class="table table-bordered table-condensed table_input space_nowrap left_table">
 					<thead>
 						<tr>
@@ -191,13 +191,11 @@
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
-                  <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-                  <td class="tl "><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
-                    <c:forEach items="${requires }" var="re" >
-					  <c:if test="${obj.department==re.id }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
-			  	</c:forEach>
-			  	
-			  	
+                           <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
+                           <td class="tl "><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
+                           <c:forEach items="${requires }" var="re" >
+					         <c:if test="${obj.department==re.id }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
+			               </c:forEach>
                   </td>
                   <td class="tl "><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].stand" value="${obj.stand}"></td>

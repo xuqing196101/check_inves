@@ -135,10 +135,8 @@
 			<h2>计划明细</h2>
 		</div>
 		<div class="container clear margin-top-30" >
-            <input class="btn btn-windows reset" value="返回" type="button"
-                    onclick="location.href='javascript:history.go(-1);'">
 			<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
-			<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll">
+			<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll p0 h365">
 				<table class="table table-bordered table-condensed mt5 table_wrap">
 					<thead>
 						<tr>
@@ -165,7 +163,7 @@
 						<tr>
 							<td class="tc w50">${obj.seq } 
 							</td>
-							<td>
+							<td class="tl pl20">
 							<%-- <td title="${obj.department}" class="tl pl20">
 							<c:if test="${fn:length (obj.department) > 8}">${fn:substring(obj.department,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.department) <= 8}">${obj.department}</c:if>
@@ -198,7 +196,7 @@
 							<c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
 							</td >
 							<td class="tl pl20">${obj.purchaseCount }</td>
-							<td class="tl pl20">${obj.price }</td>
+							<td class="tr pr20">${obj.price }</td>
 							<td class="tr pr20">${obj.budget }</td>
 							<td class="tl pl20">${obj.deliverDate }</td>
 							<td class="tl pl20"> <c:forEach items="${kind}" var="kind" >
@@ -229,7 +227,11 @@
 
 					</c:forEach>
 				</table>
+				
 			  </div>
+			  <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+			   <input class="btn btn-windows back" value="返回" type="button"
+                    onclick="location.href='javascript:history.go(-1);'">
 			</form>
 		</div>
 	</div>
