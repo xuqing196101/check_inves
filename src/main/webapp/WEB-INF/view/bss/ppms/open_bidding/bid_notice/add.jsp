@@ -72,7 +72,11 @@
 		                        layer.msg(result.message,{offset: ['220px']});
 		                    }else{
 		                        parent.window.setTimeout(function(){
-		                            window.location.href = "${pageContext.request.contextPath}/open_bidding/bidNotice.html?projectId="+result.obj.projectId;
+		                        	if (noticeType == 'win') {
+										window.location.href = "${pageContext.request.contextPath}/open_bidding/winNotice.html?projectId="+result.obj.projectId+"&flowDefineId="+flowDefineId;
+									} else if (noticeType == 'purchase' ) {
+		                            	window.location.href = "${pageContext.request.contextPath}/open_bidding/bidNotice.html?projectId="+result.obj.projectId+"&flowDefineId="+flowDefineId;
+									}
 		                        }, 500);
 		                        layer.msg(result.message,{offset: ['220px']});
 		                    }
@@ -144,15 +148,24 @@
 	    <input type="hidden" id="is_saveNotice" value="${saveStatus}">
 	    <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}">
 	    <input type="hidden" id="noticeType" value="${noticeType}">
-	    <input type="hidden" name="articleTypeId" id="articleTypeId" value="${articleType.id}">
+	    <input type="hidden" name="articleTypeId" id="articleTypeId" value="${article.articleType.id}">
+	    <input type="hidden" name="secondArticleTypeId" id="articleTypeId" value="${article.secondArticleTypeId}">
+	    <input type="hidden" name="threeArticleTypeId" id="articleTypeId" value="${article.threeArticleTypeId}">
+	    <input type="hidden" name="fourArticleTypeId" id="articleTypeId" value="${article.fourArticleTypeId}">
+	    <input type="hidden" name="lastArticleTypeId" id="articleTypeId" value="${article.lastArticleType.id}">
 	    <input type="hidden" name="id" id="articleId" value="${articleId}">
 	    <input type="hidden" name="projectId" value="${projectId}">
 		<div class="col-md-12 clear">
 			 <span class="red">*</span>公告标题：<br>
-			 <input class="col-md-12 w100p" id="name" name="name" 
-			 	value="<c:if test="${article.name == null}">${project.name}采购公告(${project.projectNumber})</c:if>
-			 	<c:if test="${article.name != null}">${article.name}</c:if>
-			 	" type="text"><br>
+			 <c:if test="${article.name == null && noticeType == 'purchase'}">
+			 	<input type="text" class="col-md-12 w100p" id="name" name="name" value="${project.name}采购公告(${project.projectNumber})"><br>
+			 </c:if>
+			 <c:if test="${article.name == null && noticeType == 'win'}">
+			 	<input type="text" class="col-md-12 w100p" id="name" name="name" value="${project.name}中标公告(${project.projectNumber})"><br>
+			 </c:if>
+			 <c:if test="${article.name != null}">
+			 	<input type="text" class="col-md-12 w100p" id="name" name="name" value="${article.name}"><br>
+			 </c:if>
 			 <span class="red">*</span>发布范围：<br>
 			 <div >
 	            <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
@@ -223,8 +236,14 @@
                 ]]
 
         }
-    var ue = UE.getEditor('editor', option); 
-    var content = '${article.content}';
+    var ue = UE.getEditor('editor', option);
+    var content = ""; 
+    var atrName = '${article.name}';
+    if (atrName == null || atrName == "") {
+    	content = '${article1.content}';
+	} else {
+		content = '${article.content}';
+	}
 	    ue.ready(function(){
 	        //需要ready后执行，否则可能报错
 	       // ue.setContent("<h1>欢迎使用UEditor！</h1>");
