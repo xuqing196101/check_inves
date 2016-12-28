@@ -173,10 +173,19 @@
 	        </tr>
 	        </tbody>
 	        </table>
-	        --%><h2 class="count_flow jbxx">批准文件电子扫描件</h2>
-   			<div class="col-md-12 select_common">
-				<u:show showId="post_attach_show" delete="false" businessId="${attachuuid}" sysKey="${contractattachsysKey}" typeId="${contractattachId}"/>
-			</div>  
+	        --%>
+	        <div class="col-md-12 col-xs-12 col-sm-12 p0">
+	        <h2 class="count_flow jbxx fl">批准文件电子扫描件</h2>
+	   			<div class="fl mt10">
+					<u:show showId="post_attach_show" delete="false" groups="post_attach_show,draft_reviewed_show" businessId="${attachuuid}" sysKey="${contractattachsysKey}" typeId="${contractattachId}"/>
+				</div> 
+			</div>
+			<div class="col-md-12 col-xs-12 col-sm-12 p0">
+				<h2 class="count_flow jbxx fl">授权书</h2>  
+	        	<div class="fl mt10">
+					<u:show showId="draft_reviewed_show" delete="false" groups="post_attach_show,draft_reviewed_show" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}"/>
+				</div>
+			</div> 
 	        </div>
 	        <div class="tab-pane fade" id="tab-2">
    		 <h2 class="count_flow jbxx">项目明细</h2>

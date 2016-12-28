@@ -158,14 +158,14 @@ public class PurchaseContractController extends BaseSupplierController{
 		map.put("isCreateContract", isCreate);
 		map.put("page", page);
 		Orgnization or = user.getOrg();
-//		List<Role> roleList = roleService.selectByUserId(user.getId());
-//		boolean roleflag = false;
-//		for(Role rol:roleList){
-//			if(rol.getCode().equals("PURCHASE_R")){
-//				roleflag = true;
-//			}
-//		}
-//		if(roleflag){
+		List<Role> roleList = roleService.selectByUserId(user.getId());
+		boolean roleflag = false;
+		for(Role rol:roleList){
+			if(rol.getCode().equals("PURCHASE_R")){
+				roleflag = true;
+			}
+		}
+		if(roleflag){
 		packList = packageService.selectAllByIsWon(map);
 		model.addAttribute("list", new PageInfo<Packages>(packList));
 		ArrayList<Packages> pacList = new ArrayList<Packages>();
@@ -214,7 +214,7 @@ public class PurchaseContractController extends BaseSupplierController{
 //						}
 //					}
 //				}
-//			}
+			}
 		}
 //		}else{
 //			model.addAttribute("list", new PageInfo<Packages>(pacList));
@@ -709,6 +709,16 @@ public class PurchaseContractController extends BaseSupplierController{
 					}
 				}
 			}
+			
+			/*授权书*/
+			DictionaryData ddbook=new DictionaryData();
+			ddbook.setCode("CONTRACT_WARRANT");
+			List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+			request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+			if(bookdata.size()>0){
+				model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+			}
+			model.addAttribute("attachuuid", ids);
 			model.addAttribute("supcheckid", supcheckid);
 			model.addAttribute("kinds", DictionaryDataUtil.find(5));
 			model.addAttribute("purCon", purCon);
@@ -1450,6 +1460,15 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         List<PurchaseContract> draftConList = new ArrayList<PurchaseContract>();
         User user = (User) request.getSession().getAttribute("loginUser");
+		List<Role> roleList = roleService.selectByUserId(user.getId());
+		boolean roleflag = false;
+		for(Role rol:roleList){
+			if(rol.getCode().equals("PURCHASE_R")){
+				roleflag = true;
+			}
+		}
+		BigDecimal contractSum = new BigDecimal(0);
+		if(roleflag){
 //        List<Role> roleList = user.getRoles();
 //        boolean isRole = false;
 //        for(Role r:roleList){
@@ -1494,7 +1513,6 @@ public class PurchaseContractController extends BaseSupplierController{
                 //				}
             }
 //        }
-        BigDecimal contractSum = new BigDecimal(0);
         if(draftConList.size()>0){
             for(int i=0;i<draftConList.size();i++){
                 if(draftConList.get(i)!=null){
@@ -1504,6 +1522,7 @@ public class PurchaseContractController extends BaseSupplierController{
                 }
             }
         }
+		}
         PageInfo<PurchaseContract> list = new PageInfo<PurchaseContract>(draftConList);
         model.addAttribute("list", list);
         model.addAttribute("draftConList", draftConList);
@@ -1753,8 +1772,18 @@ public class PurchaseContractController extends BaseSupplierController{
         if(datas.size()>0){
             model.addAttribute("attachtypeId", datas.get(0).getId());
         }
+        
+        /*授权书*/
+		DictionaryData ddbook=new DictionaryData();
+		ddbook.setCode("CONTRACT_WARRANT");
+		List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+		request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+		if(bookdata.size()>0){
+			model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+		}
+        
         DictionaryData dds=new DictionaryData();
-        dd.setCode("CONTRACT_APPROVE_ATTACH");
+        dds.setCode("CONTRACT_APPROVE_ATTACH");
         List<DictionaryData> datass = dictionaryDataServiceI.find(dds);
         request.getSession().setAttribute("contractattachsysKey", Constant.TENDER_SYS_KEY);
         if(datas.size()>0){

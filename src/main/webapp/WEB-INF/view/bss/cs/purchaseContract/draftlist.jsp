@@ -25,12 +25,12 @@
 		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		    	var page = location.search.match(/page=(\d+)/);
-		    	if(page==null){
+		    	/*if(page==null){
 		    		page = {};
 		    		var data = "${list.pageNum}";
 		    		page[0]=data;
 		    		page[1]=data;
-		    	}
+		    	}*/
 		        return page ? page[1] : 1;
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
@@ -364,7 +364,7 @@
 	      	项目总金额：${contractSum}
 	      </div>
 	     </div>
-   <div class="content table_box">
+   <div class="content table_box over_scroll table_wrap">
    	<table class="table table-striped table-bordered table-hover">
 		<thead>
 			<tr>
@@ -373,10 +373,10 @@
 			    <th class="info w50">序号</th>
 			    <th class="info">合同编号</th>
 				<th class="info">合同名称</th>
-				<th class="info">合同金额</th>
+				<th class="info">合同金额(万元)</th>
 				<th class="info">项目名称</th>
 				<th class="info">计划文件号</th>
-				<th class="info">预算</th>
+				<th class="info">预算(万元)</th>
 				<th class="info">年度</th>
 				<th class="info">项级预算科目</th>
 				<th class="info">甲方单位</th>
@@ -388,28 +388,28 @@
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" /></td>
 				<td class="tnone">${draftCon.status}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${draftCon.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>7}">
-					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer" title="${code}">${fn:substring(code,0,7)}...</td>
+					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer pl20" title="${code}">${fn:substring(code,0,7)}...</td>
 				</c:if>
 				<c:if test="${length<=7}">
-					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer" title="${code}">${code}</td>
+					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer pl20" title="${code}">${code}</td>
 				</c:if>
 				<c:set value="${draftCon.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>9}">
-					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer" title="${name}">${fn:substring(name,0,9)}...</td>
+					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer pl20" title="${name}">${fn:substring(name,0,9)}...</td>
 				</c:if>
 				<c:if test="${length<=9}">
-					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer" title="${name}">${name}</td>
+					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer pl20" title="${name}">${name}</td>
 				</c:if>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.money}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.projectName}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.documentNumber}</td>
-				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budget}</td>
-				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.year}</td>
+				<td class="tr pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budget}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.year}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budgetSubjectItem}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showDemandSector}</td>
 				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showSupplierDepName}</td>
