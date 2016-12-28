@@ -128,4 +128,6 @@ public interface OrgnizationServiceI {
 	List<Orgnization> selectedItem(String selectedItem);
 	
 	Orgnization selectByName(String name);
+	
+	List<Orgnization> findOrgPartByParam(Map<String,Object> map);
 }

@@ -32,7 +32,8 @@ import ses.util.PropertiesUtil;
 @Service("orgnizationService")
 public class OrgnizationServiceImpl implements OrgnizationServiceI{
 	
-	/** 根目录 */
+
+    /** 根目录 */
 	private static final String  ROOT_VALUE = "0";
 	
 	
@@ -446,4 +447,12 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
         return orgniztionMapper.selectByName(name);
     }
 
+    /**
+     * 
+     * @see ses.service.oms.OrgnizationServiceI#findOrgPartByParam(java.util.Map)
+     */
+    @Override
+    public List<Orgnization> findOrgPartByParam(Map<String, Object> map) {
+        return orgniztionMapper.findOrgPartByParam(map);
+    }
 }

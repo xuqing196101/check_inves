@@ -299,10 +299,12 @@
 								<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 							</td>
 							<td class="tc">
-								<c:if test="${obj.status=='2' }">
+								<c:if test="${obj.status==2 }">
+								 
 									待受理
 								</c:if>
-								<c:if test="${obj.status=='3' }">
+								<c:if test="${obj.status==3 }">
+							 
 									   已受理
 								</c:if>
 							<%-- 	<c:if test="${obj.status=='4'||obj.status=='5'||obj.status=='6' }">

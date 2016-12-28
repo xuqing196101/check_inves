@@ -31,6 +31,7 @@ import ses.model.oms.PurchaseDep;
 import ses.service.bms.RoleServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.WfUtil;
 
 import bss.controller.base.BaseController;
@@ -162,7 +163,7 @@ public class TackController extends BaseController{
 				page = 1;
 			}
 	        map1.put("page", page.toString());
-			PageHelper.startPage(page,Integer.parseInt("20"));
+			PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
 	        List<Task> list = taskservice.likeByName(map1);
 	        //判断是不是监管人员
 	        HashMap<String,Object> roleMap = new HashMap<String,Object>();
@@ -543,11 +544,13 @@ public class TackController extends BaseController{
                 if(projectTask != null && projectTask.size()>0){
                     map.put("advancedProject", projectTask.get(0).getProjectId());
                     List<AdvancedDetail> details = detailService.selectByAll(map);
-                    if(thId == null){
-                        thId = details.get(0).getRequiredId();
-                    }else{
-                        thId = thId + "," + details.get(0).getRequiredId();
-                    } 
+                    if (details != null && details.size() > 0) {
+                        if(thId == null){
+                            thId = details.get(0).getRequiredId();
+                        }else{
+                            thId = thId + "," + details.get(0).getRequiredId();
+                        } 
+                    }
                 }
             }
         }
@@ -560,10 +563,12 @@ public class TackController extends BaseController{
                     Map<String,Object> map1=new HashMap<String,Object>();
                     map1.put("planNo", uu);
                     List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map1);
-                    if(thIds == null){
-                        thIds = list2.get(0).getId();
-                    }else{
-                        thIds = thIds + "," + list2.get(0).getId();
+                    if (list2 != null && list2.size() > 0) {
+                        if(thIds == null){
+                            thIds = list2.get(0).getId();
+                        }else{
+                            thIds = thIds + "," + list2.get(0).getId();
+                        }
                     }
                 }
             }
@@ -571,21 +576,26 @@ public class TackController extends BaseController{
         
         
         String[] detailId = thId.split(",");
-        String[] detailIds = thIds.split(",");
+        String[] detailIds = null;
+        if (thIds != null) {
+            detailIds = thIds.split(",");
+        }
         request.getSession().setAttribute("thId", thId);
         request.getSession().setAttribute("thIds", thIds);
         outer:
         for (int j = 0; j < detailId.length; j++ ) {
-            for (int k = 0; k < detailIds.length; k++ ) {
-                if(detailId[j].equals(detailIds[k])){
-                    AdvancedDetail advancedDetail = detailService.selectByRequiredId(detailId[j]);
-                    PurchaseRequired requireds = purchaseRequiredService.queryById(detailIds[k]);
-                    if(advancedDetail.getDepartment().equals(requireds.getDepartment())){
-                        return num;
-                    }else{
-                        break outer;
+            if (detailIds != null) {
+                for (int k = 0; k < detailIds.length; k++ ) {
+                    if(detailId[j].equals(detailIds[k])){
+                        AdvancedDetail advancedDetail = detailService.selectByRequiredId(detailId[j]);
+                        PurchaseRequired requireds = purchaseRequiredService.queryById(detailIds[k]);
+                        if(advancedDetail.getDepartment().equals(requireds.getDepartment())){
+                            return num;
+                        }else{
+                            break outer;
+                        }
+                        
                     }
-                    
                 }
             }
         }    

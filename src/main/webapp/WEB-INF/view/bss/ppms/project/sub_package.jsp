@@ -18,7 +18,7 @@
 						//如果状态为1就什么都不做
 					} else {
 						clickState = 1; //如果状态不是1  则添加状态 1
-						setTimeout("addPack()", 300);
+						//setTimeout("addPack()", 300);
 					}
 				})
 			});

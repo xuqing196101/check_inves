@@ -12,12 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ses.dao.oms.OrgnizationMapper;
-import ses.model.bms.DictionaryData;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -54,7 +51,7 @@ public class PurchaseAcceptController extends BaseController{
 	private StationMessageService stationMessageService;
 	
 	@Autowired
-	private OrgnizationMapper oargnizationMapper;
+	private OrgnizationServiceI orgnizationService;
 	/**
 	 * 
 	 * @Title: queryPlan
@@ -70,13 +67,13 @@ public class PurchaseAcceptController extends BaseController{
 		purchaseRequired.setIsMaster(1);
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page == null ? 1 : page);
 		for (PurchaseRequired pur : list) {
-      pur.setUserId(userServiceI.getUserById(pur.getUserId()).getRelName());
-    }
+		    pur.setUserId(userServiceI.getUserById(pur.getUserId()).getRelName());
+		}
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", purchaseRequired);
 		Map<String,Object> map=new HashMap<String,Object>();
-		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+		List<Orgnization> requires = orgnizationService.findOrgPartByParam(map);
 		model.addAttribute("requires", requires);
 	
 		return "bss/pms/collect/list";
@@ -106,7 +103,7 @@ public class PurchaseAcceptController extends BaseController{
 		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		
 		Map<String,Object> maps=new HashMap<String,Object>();
-		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(maps);
+		List<Orgnization> requires = orgnizationService.findOrgPartByParam(maps);
 		model.addAttribute("requires", requires);
 		
 		
