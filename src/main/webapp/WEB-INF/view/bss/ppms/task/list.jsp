@@ -309,8 +309,6 @@
 	</h2>
 	<c:if test="${admin!=1 }">
 		<div class="col-md-12 pl20 mt10">
-	  	<button class="btn btn-windows edit" onclick="edit()" type="button">任务调整</button>
-	  	<button class="btn btn-windows delete" onclick="deleted()">任务取消</button>
 	  	<button class="btn btn-windows git" onclick="start()">受领</button>
 		</div>
 	</c:if>
