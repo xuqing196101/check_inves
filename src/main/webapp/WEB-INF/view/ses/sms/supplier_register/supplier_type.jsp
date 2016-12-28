@@ -127,7 +127,7 @@
 			contextType: "application/x-www-form-urlencoded",
 			success:function(msg){
 				if (msg == 'ok'){
-					layer.msg('暂存成功');
+				   layer.msg('暂存成功');  
 				}
 				if (msg == 'failed'){
 					layer.msg('暂存失败');
@@ -271,24 +271,24 @@
 	/** 打开物资生产证书 */
 	var proIndex;
 	function openCertPro() {
-		var matProId = $("input[name='supplierMatPro.id']").val();
+		/* var matProId = $("input[name='supplierMatPro.id']").val();
 		var supplierId = $("input[name='id']").val();
 		if (!matProId) {
 			layer.msg("请暂存物资生产专业信息 !", {
 				offset : '300px',
 			});
-		} else {
+		} else { */
 			proIndex=layer.open({
 				type : 2,
 				title : '添加物资生产证书信息',
 				// skin : 'layui-layer-rim', //加上边框
 				area : [ '50%', '500px' ], //宽高
 				offset : '100px',
-				scrollbar : false,
+				scrollbar : false,  
 				content : '${pageContext.request.contextPath}/supplier_cert_pro/add_cert_pro.html?matProId=' + matProId + '&supplierId=' + supplierId+'&sign='+1, //url
 				closeBtn : 1, //不显示关闭按钮
 			});
-		}
+		/* } */
 	}
 	
 	/** 供应商保存专业生产信息 */	
@@ -901,10 +901,10 @@
 															<td class="tc"><input type="text" nam="listSupplierCertPros[${vs.index }].levelCert" value="${certPro.levelCert}" /> </td>
 															<td class="tc"><input type="text" nam="listSupplierCertPros[${vs.index }].licenceAuthorith" value="${certPro.levelCert}"  value="${certPro.licenceAuthorith}"/></td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="listSupplierCertPros[${vs.index }].expStartDate" value="${certPro.expEndDate}"  />
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="listSupplierCertPros[${vs.index }].expStartDate" value="<fmt:formatDate value="${certPro.expEndDate}"/>"   />
 														  </td>
 															<td class="tc">
-																<input type="text" readonly="listSupplierCertPros[${vs.index }].expEndDate" onClick="WdatePicker()" name="businessStartDate" value="${certPro.expEndDate}"  />
+																<input type="text" readonly="listSupplierCertPros[${vs.index }].expEndDate" onClick="WdatePicker()" name="businessStartDate" value="<fmt:formatDate value="${certPro.expEndDate}"/>"  />
 														 </td>
 															<td class="tc">
 															   <select name="listSupplierCertPros[${vs.index }].mot">

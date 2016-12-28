@@ -1205,6 +1205,25 @@ function deleteFinance() {
 	       	    </div>
 			 </li> 
 			
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+				 	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
+					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
+						 
+					</div>
+			</li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+				 	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
+					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
+					 
+					</div>
+			</li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+				 	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
+					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
+				 
+					</div>
+			</li>
+			
 			<c:forEach items="${currSupplier.branchList }" var="bran"  varStatus="vs">
 			
 			 <li class="col-md-3 col-sm-6 col-xs-12">
