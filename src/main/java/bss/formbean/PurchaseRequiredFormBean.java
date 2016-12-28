@@ -6,6 +6,7 @@ import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.ProjectDetail;
+import bss.model.prms.PackageExpert;
 /**
  * 
  * @Title: PurchaseRequiredFormBean
@@ -22,6 +23,8 @@ public class PurchaseRequiredFormBean {
 	private List<PurchaseAudit> audit;
 	
 	private List<AdvancedDetail> detail;
+	
+	private List<PackageExpert> packageExperts;
 	
 	public List<PurchaseRequired> getList() {
 		return list;
@@ -54,5 +57,12 @@ public class PurchaseRequiredFormBean {
     public void setDetail(List<AdvancedDetail> detail) {
         this.detail = detail;
     }
-	
+
+    public List<PackageExpert> getPackageExperts() {
+      return packageExperts;
+    }
+
+    public void setPackageExperts(List<PackageExpert> packageExperts) {
+      this.packageExperts = packageExperts;
+    }
 }
