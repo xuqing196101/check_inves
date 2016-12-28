@@ -551,4 +551,15 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
             e.printStackTrace();
         }  
     }
+
+	@Override
+	public List<PurchaseContract> selectContractByCode() {
+		return purchaseContractMapper.selectContractByCode();
+	}
+
+	@Override
+	public List<PurchaseContract> selectAllContractByCode(
+			Map<String, Object> map) {
+		return purchaseContractMapper.selectAllContractByCode(map);
+	}
 }

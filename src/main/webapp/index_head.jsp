@@ -410,7 +410,7 @@ function importAdd(){
 					</c:if>
 	          </c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=13">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=103">更多>></a>
         </div>
 		    <div id="tab-34" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -425,7 +425,7 @@ function importAdd(){
 					</c:if>
 	          </c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=14">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=104">更多>></a>
         </div>
 		    <div id="tab-35" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -440,7 +440,7 @@ function importAdd(){
 					</c:if>
 	          </c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=15">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=105">更多>></a>
         </div>
 		</div>
 		</div>
@@ -638,7 +638,7 @@ function importAdd(){
 		 <ul class="list-unstyled login_tab fl">
 		  <li class="active fl"><a>投诉处理公告</a></li>
 		 </ul>
-		 <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=23">更多>></a>
+		 <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=112">更多>></a>
 		</h2>
 		<div class="tab-content  buyer_list">
 		    <div id="" class="categories tab-pane fade active in">
@@ -693,7 +693,7 @@ function importAdd(){
 					</c:if>
 	          </c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=24">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=107">更多>></a>
         </div>
 		    <div id="tab-42" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -708,7 +708,7 @@ function importAdd(){
 					</c:if>
 	          </c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=25">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=108">更多>></a>
         </div>
 		    <div id="tab-43" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -723,7 +723,7 @@ function importAdd(){
 					</c:if>
 	          </c:forEach>
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=26">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=109">更多>></a>
         </div>
 		</div>
 		</div>

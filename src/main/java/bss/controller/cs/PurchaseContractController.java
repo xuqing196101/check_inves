@@ -158,14 +158,14 @@ public class PurchaseContractController extends BaseSupplierController{
 		map.put("isCreateContract", isCreate);
 		map.put("page", page);
 		Orgnization or = user.getOrg();
-		List<Role> roleList = roleService.selectByUserId(user.getId());
-		boolean roleflag = false;
-		for(Role rol:roleList){
-			if(rol.getCode().equals("PURCHASE_R")){
-				roleflag = true;
-			}
-		}
-		if(roleflag){
+//		List<Role> roleList = roleService.selectByUserId(user.getId());
+//		boolean roleflag = false;
+//		for(Role rol:roleList){
+//			if(rol.getCode().equals("PURCHASE_R")){
+//				roleflag = true;
+//			}
+//		}
+//		if(roleflag){
 		packList = packageService.selectAllByIsWon(map);
 		model.addAttribute("list", new PageInfo<Packages>(packList));
 		ArrayList<Packages> pacList = new ArrayList<Packages>();
@@ -214,7 +214,7 @@ public class PurchaseContractController extends BaseSupplierController{
 //						}
 //					}
 //				}
-			}
+//			}
 		}
 //		}else{
 //			model.addAttribute("list", new PageInfo<Packages>(pacList));
@@ -1216,7 +1216,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_code", "合同编号不能为空");
 		}else{
-			List<PurchaseContract> contractList = purchaseContractService.selectAllContract();
+			List<PurchaseContract> contractList = purchaseContractService.selectContractByCode();
 			for(int i=0;i<contractList.size();i++){
 				if(purCon.getId().equals(contractList.get(i).getId())){
 					contractList.remove(i);
@@ -1458,7 +1458,11 @@ public class PurchaseContractController extends BaseSupplierController{
 //            }
 //        }
 //        if(isRole){
-            draftConList = purchaseContractService.selectAllContractByStatus(map);
+        	if(purCon.getStatus()!=null){
+        		draftConList = purchaseContractService.selectAllContractByStatus(map);
+        	}else{
+        		draftConList = purchaseContractService.selectAllContractByCode(map);
+        	}
             for(PurchaseContract pur:draftConList){
             	Supplier su = null;
             	Orgnization org = null;
@@ -2103,6 +2107,16 @@ public class PurchaseContractController extends BaseSupplierController{
             List<ContractRequired> requList = proList.getProList();
             model.addAttribute("purCon", purCon);
             model.addAttribute("kinds", DictionaryDataUtil.find(5));
+            
+            /*授权书*/
+    		DictionaryData ddbook=new DictionaryData();
+    		ddbook.setCode("CONTRACT_WARRANT");
+    		List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+    		request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+    		if(bookdata.size()>0){
+    			model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+    		}
+            
             if(requList!=null){
                 for(int i=0;i<requList.size();i++){
                     if(requList.get(i).getPlanNo()==null){
@@ -2113,6 +2127,7 @@ public class PurchaseContractController extends BaseSupplierController{
             model.addAttribute("requList", requList);
             model.addAttribute("planNos", purCon.getDocumentNumber());
             model.addAttribute("id", purCon.getId());
+            model.addAttribute("attachuuid", purCon.getId());
             model.addAttribute("supcheckid", supcheckid);
             url = "bss/cs/purchaseContract/errContract";
         }else{

@@ -201,5 +201,13 @@ public interface SupplierService {
    
    
    List<Integer> getThressYear();
+   
+   /**
+    * 
+    *〈简述〉保存供应商
+    *〈详细描述〉
+    * @author myc
+    */
+   void saveSupplier(Supplier supplier);
 
 }

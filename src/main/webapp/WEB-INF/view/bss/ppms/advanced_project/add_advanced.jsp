@@ -109,7 +109,7 @@
         } else {
           layer.open({
 	          type : 2, //page层
-	          area : [ '800px', '500px' ],
+	          area : [ '50%', '50%' ],
 	          title : '下达',
 	          shade : 0.01, //遮罩透明度
 	          moveType : 1, //拖拽风格，0是默认，1是传统拖动
@@ -154,7 +154,7 @@
           <input type="hidden" id="userId" name="user" value="${user}">
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>预研项目名称</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>预研项目名称</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input id="proName" type="text" class="input_group" name="name"  />
                 <span class="add-on">i</span>
@@ -162,7 +162,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>预研项目编号</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>预研项目编号</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input id="projectNumber" type="text" class="input_group" name="projectNumber"/>
                 <span class="add-on">i</span>
@@ -173,9 +173,9 @@
         </div>
         <div>
           <h2 class="count_flow"><i>2</i>需求明细</h2>
-          <ul class="ul_list">
-            <div class="content table_box">
-              <table class="table table-bordered table-condensed table-hover">
+          <div class="ul_list">
+            <div class="content table_box over_scroll">
+              <table class="table table-bordered table-condensed table-hover space_nowrap">
                 <thead>
                   <tr>
                     <th class="info w50">选择</th>
@@ -198,7 +198,7 @@
                 </thead>
                 <tbody id="task_id">
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
-                    <tr style="cursor: pointer;">
+                    <tr class="tc">
                       <td class="tc w30"><input type="checkbox" id="chkItem" value="${obj.id }" name="chkItem" onclick="check(this)" alt=""></td>
                       <td class="tc w50">${obj.seq} <input type="hidden" id="planNo" name="planNo" value="${obj.planNo}"/></td>
                       <td class="tc">
@@ -236,11 +236,11 @@
                 </tbody>
               </table>
             </div>
-          </ul>
+          </div>
         </div>
-        <div class="col-md-12 tc">
+        <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
           (请先下载预研通知书)
-          <button class="btn btn-windows output" type="button" onclick="download()">下载预研通知书</button>
+          <button class="btn btn-windows input" type="button" onclick="download()">下载预研通知书</button>
           <button class="btn" onclick="upload()" type="button">下达</button>
           <button class="btn btn-windows back" onclick="goBack()" type="button">返回</button>
         </div>

@@ -245,9 +245,9 @@
 				      </li>
 				    	  
 			    	</ul>
-			    	<div class="col-md-12 clear tc mt10">
-			    		<input class="btn" type="submit" value="查询" /> 
-				      <input class="btn" type="button" value="重置" onclick="resetQuery()" />	
+			    	<div class="fl">
+			    	  <input class="btn fl" type="submit" value="查询" /> 
+				      <input class="btn fl" type="button" value="重置" onclick="resetQuery()" />	
 			    	</div>
 		    	  <div class="clear"></div>
 		        </form>
@@ -261,7 +261,7 @@
 				<button class="btn btn-windows git" onclick="sub()">提交采购管理部门</button>
 	  	</div>
    	<div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover table-striped">
+        <table class="table table-bordered table-condensed table-hover table-striped" >
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -277,18 +277,22 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr class="pointer">
 			  <td class="tc w30">
-           <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()">
+                 <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()">
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td ><div class="tl pl20" onclick="view('${obj.planNo }')">${obj.planName }</div>
+			  <td class="tl pl20" onclick="view('${obj.planNo }')">
+			  	${obj.planName }
 				</td>
-		     <td class="tl pl20" onclick="view('${obj.planNo }')">
-		     ${obj.planNo }
+		      <td class="tl pl20" onclick="view('${obj.planNo }')">
+		      ${obj.planNo }
+			  <td class="pl20">
+			     <div onclick="view('${obj.planNo }')">${obj.planName }</div>
+			  </td>
 			 <%--    <c:forEach items="${requires }" var="re" >
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  	</c:forEach> --%>
 			  </td>  
-			  <td><div class="tr pr20" onclick="view('${obj.planNo }')">${obj.budget } </div></td>
+			  <td class="pr20 tr"><div onclick="view('${obj.planNo }')">${obj.budget }</div></td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.deliverDate } </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">

@@ -549,10 +549,10 @@
  <div class="row magazine-page">
    <div class="col-md-12 tab-v2">
         <div class="padding-top-10">
-          <ul class="nav nav-tabs bgwhite">
-            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">基本信息</a></li>
-            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">标的信息</a></li>
-			<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="record f18">合同文本</a></li>
+          <ul class="flow_step">
+            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="">基本信息</a><i></i></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="">标的信息</a><i></i></li>
+			<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="">合同文本</a></li>
           </ul>
           <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateContract.html" method="post">
           <div class="tab-content padding-top-20">
@@ -582,7 +582,7 @@
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同金额：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同金额(万元)：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<input class=" contract_name" name="money_string" value="${purCon.money_string}" type="text">
 			        	<div class="cue">${ERR_money}</div>
@@ -603,7 +603,7 @@
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>预算：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>预算(万元)：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<input class=" contract_name" id="budget" name="budget_string" value="${purCon.budget_string}" type="text">
 			        	<div class="cue">${ERR_budget}</div>

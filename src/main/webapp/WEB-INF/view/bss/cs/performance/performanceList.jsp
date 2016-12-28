@@ -256,21 +256,21 @@
 				<c:set value="${performance.contract.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>6}">
-					<td onclick="view('${performance.id}')" class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${fn:substring(code,0,6)}...</td>
+					<td onclick="view('${performance.id}')" class=" tl pl20 pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${fn:substring(code,0,6)}...</td>
 				</c:if>
 				<c:if test="${length<=6}">
-					<td onclick="view('${performance.id}')" class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${code}</td>
+					<td onclick="view('${performance.id}')" class=" tl pl20 pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${code}</td>
 				</c:if>
 				<c:set value="${performance.contract.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>6}">
-					<td onclick="view('${performance.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${fn:substring(name,0,6)}...</td>
+					<td onclick="view('${performance.id}')" class=" tl pl20 pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${fn:substring(name,0,6)}...</td>
 				</c:if>
 				<c:if test="${length<=6}">
-					<td onclick="view('${performance.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${name}</td>
+					<td onclick="view('${performance.id}')" class="tl pl20 pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${name}</td>
 				</c:if>		
-				<td onclick="view('${performance.id}')" class="tc pointer">${performance.deliverySchedule}</td>
-				<td onclick="view('${performance.id}')" class="tc pointer">${performance.fundsPaid}</td>
+				<td onclick="view('${performance.id}')" class="tl pl20 pointer">${performance.deliverySchedule}</td>
+				<td onclick="view('${performance.id}')" class="tl pl20 pointer">${performance.fundsPaid}</td>
 				<td onclick="view('${performance.id}')" class="tc pointer"><fmt:formatDate value='${performance.draftSignedAt}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
 				<td onclick="view('${performance.id}')" class="tc pointer"><fmt:formatDate value='${performance.formalSignedAt}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
 				<td onclick="view('${performance.id}')" class="tc pointer"><fmt:formatDate value='${performance.delivery}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
@@ -280,8 +280,8 @@
 					<c:if test="${performance.completedStatus=='2'}">合同变更</c:if>
 					<c:if test="${performance.completedStatus=='3'}">合同完成</c:if>
 				</td>
-				<td onclick="view('${performance.id}')" class="tc" class="tc pointer">${performance.checkMass}</td>
-				<td onclick="view('${performance.id}')" class="tc" class="tc pointer">
+				<td onclick="view('${performance.id}')" class="tl pl20" class="tc pointer">${performance.checkMass}</td>
+				<td onclick="view('${performance.id}')" class="tl pl20 class="tc pointer">
 					<c:if test="${performance.contract.contractType=='0'}">正常采购合同</c:if>
 					<c:if test="${performance.contract.contractType=='1'}">以厂代储合同</c:if>
 					<c:if test="${performance.contract.contractType=='2'}">合同储备合同</c:if>

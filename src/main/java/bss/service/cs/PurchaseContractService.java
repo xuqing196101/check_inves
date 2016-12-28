@@ -269,4 +269,28 @@ public interface PurchaseContractService {
     List<PurchaseContract> selectAllContractByStatus(Map<String,Object> map);
     
     public void downloadFile(HttpServletRequest request, HttpServletResponse response,String filePath ,String fileName);
+    
+    /**
+     * 
+    * @Title: selectContractByCode
+    * @author QuJie 
+    * @date 2016-9-22 下午2:48:23  
+    * @Description: 查除code是0的合同
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    List<PurchaseContract> selectContractByCode();
+    
+    /**
+     * 
+    * @Title: selectAllContractByCode
+    * @author QuJie 
+    * @date 2016-9-22 下午2:48:23  
+    * @Description: 查除code是0的合同
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    List<PurchaseContract> selectAllContractByCode(Map<String, Object> map);
 }

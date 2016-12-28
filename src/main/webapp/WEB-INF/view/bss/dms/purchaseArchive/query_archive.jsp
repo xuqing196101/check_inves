@@ -168,24 +168,24 @@
 						<c:forEach items="${archiveList.list }" var="archive" varStatus="vs">
 							<tr class="tc">
 								<td class="w50">${(vs.index+1)+(archiveList.pageNum-1)*(archiveList.pageSize)}</td>
-								<td>${archive.name }</td>
-								<td>${archive.code }</td>
-								<td>${archive.contractCode }</td>
-								<td>${archive.year }</td>
-								<td>${archive.purchaseDep }</td>
+								<td class="tl pl20">${archive.name }</td>
+								<td class="tl pl20">${archive.code }</td>
+								<td class="tl pl20">${archive.contractCode }</td>
+								<td class="tl pl20">${archive.year }</td>
+								<td class="tl pl20">${archive.purchaseDep }</td>
 								<td>
 									<c:forEach items="${kind}" var="kind">
 										<c:if test="${kind.id == archive.purchaseType}">${kind.name}</c:if>
 									</c:forEach>
 								</td>
-								<td>${archive.productName }</td>
-								<td>${archive.supplierName }</td>
-								<td>${archive.reportAt }</td>
-								<td>${archive.applyAt }</td>
-								<td>${archive.draftGitAt }</td>
-								<td>${archive.draftReviewedAt }</td>
-								<td>${archive.formalGitAt }</td>
-								<td>${archive.formalReviewedAt }</td>
+								<td class="tl pl20">${archive.productName }</td>
+								<td class="tl pl20">${archive.supplierName }</td>
+								<td class="tl pl20">${archive.reportAt }</td>
+								<td class="tl pl20">${archive.applyAt }</td>
+								<td class="tl pl20">${archive.draftGitAt }</td>
+								<td class="tl pl20">${archive.draftReviewedAt }</td>
+								<td class="tl pl20">${archive.formalGitAt }</td>
+								<td class="tl pl20">${archive.formalReviewedAt }</td>
 								<td></td>
 								<td></td>
 								<c:if test="${archive.status==1 }">

@@ -328,10 +328,10 @@
 				<c:set value="${pack.project.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td class="pointer" title="${name}">${fn:substring(name,0,10)}...</td>
+					<td class="tl pl20 pointer" title="${name}">${fn:substring(name,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td class="pointer" title="${name}">${name}</td>
+					<td class="tl pl20 pointer" title="${name}">${name}</td>
 				</c:if>
 				<c:set value="${pack.project.projectNumber}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
@@ -341,10 +341,10 @@
 				<c:if test="${length<=10}">
 					<td class="pointer" title="${code}">${code}</td>
 				</c:if>
-				<td class="tc pointer">${pack.name}</td>
-				<td class="tc pointer">${pack.project.amount}</td>
-				<td class="tc pointer">${pack.supplier.supplierName}</td>
-				<td class="tc pointer">${pack.project.purchaseDep.depName}</td>
+				<td class="tl pl20 pointer">${pack.name}</td>
+				<td class="tl pl20 pointer">${pack.project.amount}</td>
+				<td class="tl pl20 pointer">${pack.supplier.supplierName}</td>
+				<td class="tl pl20 pointer">${pack.project.purchaseDep.depName}</td>
 				<td>
 					<c:if test="${pack.isCreateContract==2}">暂存</c:if>
 					<c:if test="${pack.isCreateContract==1}">已生成</c:if>

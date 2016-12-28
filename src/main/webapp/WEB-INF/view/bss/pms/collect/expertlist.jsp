@@ -153,9 +153,9 @@
     <ul class="demand_list">
           <li>
             <label class="fl"> 姓名：</label><span><input type="text" id="topic" name="relName" value="${expert.relName }"/></span>
-          </li>
-            <button type="submit" class="btn">查询</button>
+          </li>  
     </ul>
+      <button type="submit" class="btn fl">查询</button>
     <div class="clear"></div>
   </form> 
   </h2>
@@ -175,7 +175,7 @@
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
-			<tr style="cursor: pointer;">
+			<tr class="pointer">
 			  <td class="tc w30"><input type="radio" value="${obj.id }" name="chkItem"></td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			    <td class="tl pl20"  >

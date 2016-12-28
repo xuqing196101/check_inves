@@ -169,6 +169,14 @@
   	where IS_DELETED = '0'
   </select>
   
+  <select id="selectContractByCode" resultMap="purContractMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  	where IS_DELETED = '0'
+  	and status in (1,2)
+  </select>
+  
   <select id="selectAllContractByStatus" parameterType="Map" resultMap="purContractMap">
   	select 
   	<include refid="Base_Column_List"/>
@@ -201,6 +209,39 @@
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
   		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
   	</if>
+  	order by status
+  </select>
+  
+  <select id="selectAllContractByCode" parameterType="Map" resultMap="purContractMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT where
+  	IS_DELETED = '0'
+  	<if test="projectName != null and projectName != ''">
+  		and PROJECT_NAME like '%'||#{projectName}||'%'
+  	</if>
+  	<if test="code != null and code != ''">
+  		and CODE like '%'||#{code}||'%'
+  	</if>
+  	<if test="supplierDepName != null and supplierDepName != ''">
+  		and SUPPLIER_DEP_NAME like '%'||#{supplierDepName}||'%'
+  	</if>
+  	<if test="purchaseDepName != null and purchaseDepName != ''">
+  		and PURCHASE_DEP_NAME like '%'||#{purchaseDepName}||'%'
+  	</if>
+  	<if test="demandSector != null and demandSector != ''">
+  		and DEMAND_SECTOR like '%'||#{demandSector}||'%'
+  	</if>
+  	<if test="documentNumber != null and documentNumber != ''">
+  		and DOCUMENT_NUMBER like '%'||#{documentNumber}||'%'
+  	</if>
+  	<if test="year != null and year != ''">
+  		and YEAR = #{year}
+  	</if>
+  	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
+  		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
+  	</if>
+  	and status in (1,2)
   	order by status
   </select>
   

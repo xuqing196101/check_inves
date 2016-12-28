@@ -62,8 +62,17 @@ public class UserServiceImpl implements UserServiceI {
 		user.setRandomCode(randomCode);
 		userMapper.insertSelective(user);
 	}
-
+	
+	/**
+	 * 
+	 * @see ses.service.bms.UserServiceI#saveUser(ses.model.bms.User)
+	 */
 	@Override
+    public void saveUser(User user) {
+	    userMapper.saveUser(user);
+    }
+
+    @Override
 	public void deleteByLogic(String id) {
 		List<User> list=userMapper.selectByPrimaryKey(id);
 		if(list != null && list.size()>0){

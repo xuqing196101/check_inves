@@ -142,7 +142,7 @@
 				if(status!="2"){
 					window.location.href="${pageContext.request.contextPath}/purchaseContract/createDraftContract.html?ids="+ids;
 				}else{
-					layer.alert("只可修改暂存和草案的合同",{offset: ['222px', '390px'], shade:0.01});
+					layer.alert("只可修改草案的合同",{offset: ['222px', '390px'], shade:0.01});
 				}
 			}
 		}else{
@@ -187,7 +187,7 @@
 			layer.alert("请选择要生成的合同草稿",{offset: ['222px', '390px'], shade:0.01});
 		}
   	}
-  	var ind;
+  	/*var ind;
   	function createDraftContract(){
   		var ids =[];
   		var status = "";
@@ -221,7 +221,7 @@
 		}else{
 			layer.alert("请选择要生成的暂存合同",{offset: ['222px', '390px'], shade:0.01});
 		}
-  	}
+  	}*/
   	function save(){
   		var ids =[];
   		$('input[name="chkItem"]:checked').each(function(){ 
@@ -278,7 +278,7 @@
 					layer.open({
 					shift: 1, //0-6的动画形式，-1不开启
 				    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-				    title: ['生成草案信息','border-bottom:1px solid #e5e5e5'],
+				    title: ['打印草案合同','border-bottom:1px solid #e5e5e5'],
 				    shade:0.01, //遮罩透明度
 					type : 2,
 					skin : 'layui-layer-rim', //加上边框
@@ -339,7 +339,6 @@
 	      <li class="fl"><label class="fl">状态：</label><span>
 	      	<select id="status" name="status" class="mb0 mt5 w100">
 	      		<option value="">--请选择--</option>
-	      		<option value="0">暂存</option>
 	      		<option value="1">草案</option>
 	      		<option value="2">正式</option>
 	      	</select>
@@ -357,8 +356,8 @@
    	  	  <button class="btn btn-windows delete" onclick="delDraft()">删除</button>
    	  	  <button class="btn" onclick="printContract()">打印</button>
 	      <button class="btn" onclick="createContract()">生成正式合同</button>
-	      <button class="btn" onclick="createDraftContract()">生成草案合同</button>
-	      <%--<button class="btn" onclick="updateModel()">更新合同模板</button>
+	      <%--<button class="btn" onclick="createDraftContract()">生成草案合同</button>
+	      <button class="btn" onclick="updateModel()">更新合同模板</button>
 	      --%>
 	      
 	      <div class="fr mt5 b">
@@ -406,18 +405,18 @@
 				<c:if test="${length<=9}">
 					<td onclick="showDraftContract('${draftCon.id}','${draftCon.status}')" class="pointer" title="${name}">${name}</td>
 				</c:if>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.money}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.projectName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.documentNumber}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budget}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.year}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budgetSubjectItem}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showDemandSector}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showSupplierDepName}</td>
-				<c:if test="${draftCon.status==0}">
+				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.money}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.projectName}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.documentNumber}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budget}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.year}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.budgetSubjectItem}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showDemandSector}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">${draftCon.showSupplierDepName}</td>
+				<%--<c:if test="${draftCon.status==0}">
 					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">暂存</td>
 				</c:if>
-				<c:if test="${draftCon.status==1}">
+				--%><c:if test="${draftCon.status==1}">
 					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">草案</td>
 				</c:if>
 				<c:if test="${draftCon.status==2}">

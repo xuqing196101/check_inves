@@ -328,6 +328,15 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     /**
+     * 
+     * @see ses.service.sms.SupplierService#saveSupplier(ses.model.sms.Supplier)
+     */
+    @Override
+    public void saveSupplier(Supplier supplier) {
+        supplierMapper.insertSelective(supplier);
+    }
+
+    /**
      * @Title: perfectBasic
      * @author: Wang Zhaohua
      * @date: 2016-9-7 下午5:51:16

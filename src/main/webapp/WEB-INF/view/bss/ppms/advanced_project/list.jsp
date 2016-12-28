@@ -244,8 +244,8 @@
 			    <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 			  </td>
 			  <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a></td>
-			  <td class="tc"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
+			  <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a></td>
+			  <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
 			  <td class="tc">
 			    <a href="javascript:void(0)" onclick="view('${obj.id}');">
 				  <c:forEach items="${kind}" var="kind" >

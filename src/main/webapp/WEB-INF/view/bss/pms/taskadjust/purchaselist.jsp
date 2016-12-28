@@ -250,7 +250,7 @@
 		</tr>
 		</thead>
 		<c:forEach items="${list}" var="obj" varStatus="vs">
-			<tr style="cursor: pointer;">
+			<tr class="pointer">
 			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${vs.index}</td>
 			  <td class="tl pl20" onclick="view('${obj.planNo }')">${obj.planName }</td>

@@ -224,11 +224,11 @@
 						<c:forEach items="${purchaseList.list }" var="purchase" varStatus="vs">
 							<tr class="tc">
 								<td class="tc"><input type="checkbox" name="info" value="${purchase.userId }" onclick="check()" /></td>
-								<td>${(vs.index+1)+(purchaseList.pageNum-1)*(purchaseList.pageSize)}</td>
-								<td>${purchase.relName }</td>
-								<td>${purchase.purchaseDepName }</td>
-								<td>${purchase.telephone }</td>
-								<td>${purchase.address }</td>
+								<td class="tl pl20">${(vs.index+1)+(purchaseList.pageNum-1)*(purchaseList.pageSize)}</td>
+								<td class="tl pl20">${purchase.relName }</td>
+								<td class="tl pl20">${purchase.purchaseDepName }</td>
+								<td class="tl pl20">${purchase.telephone }</td>
+								<td class="tl pl20">${purchase.address }</td>
 							</tr>
 						</c:forEach>
 					</tbody>
