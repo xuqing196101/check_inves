@@ -13,13 +13,21 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
+import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
+import ses.service.sms.SupplierMatSeService;
+import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import synchro.outer.back.service.supplier.OuterSupplierService;
@@ -82,14 +90,41 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     @Autowired
     private SupplierTypeRelateService supplierTypeRelateService;
     
+    /** 物资销售 **/
+    @Autowired
+    private SupplierMatSellService supplierMatSellService;
+    
+    /** 供应商-工程 **/
+    @Autowired
+    private SupplierMatEngService supplierMatEngService;
+    
+    /** 供应商-服务 **/
+    @Autowired
+    private SupplierMatSeService supplierMatSeService;
+    
+    /** 供应商Item **/
+    @Autowired
+    private SupplierItemService supplierItemService;
+    
     
     /**
-     * 
      * @see synchro.outer.back.service.supplier.OuterSupplierService#backupCreated()
      */
     @Override
     public void backupCreated() {
         getCretedData();
+    }
+    
+    /**
+     * @see synchro.outer.back.service.supplier.OuterSupplierService#backupModify()
+     */
+    @Override
+    public void backupModify() {
+        List<Supplier> list = getModifySupplierList();
+        if (list != null && list.size() > 0){
+            FileUtils.writeFile(FileUtils.getModifySupplierBackUpFile(),JSON.toJSONString(list));
+        }
+        recordService.backModifySupplierRecord(new Integer(list.size()).toString());
     }
 
     /**
@@ -117,16 +152,65 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     private List<Supplier> getSupplierList(List<Supplier> supplierList){
         List <Supplier> list = new ArrayList<>();
         for (Supplier supplier : supplierList){
-            supplier.setUser(getUser(supplier.getId()));
-            supplier.setListSupplierFinances(getFinance(supplier.getId()));
-            supplier.setListSupplierStockholders(getShareholder(supplier.getId()));
-            supplier.setBranchList(getBranch(supplier.getId()));
-            supplier.setAddressList(getOPeraAddress(supplier.getId()));
-            supplier.setListSupplierTypeRelates(getTypeRelate(supplier.getId()));
-            supplier.setSupplierMatPro(getMatPro(supplier.getId()));
+            packageSupplier(supplier);
             list.add(supplier);
         }
         return list;
+    }
+    
+    /**
+     * 
+     *〈简述〉获取满足条件的供应商
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    private List<Supplier> getModifySupplierList(){
+        List<Supplier> supplierList = supplierService.getModifySupplierByDate(DateUtils.getYesterDay());
+        List<Supplier> list = new ArrayList<>();
+        for (Supplier supplier : supplierList){
+            if (supplier.getCreatedAt() != null && supplier.getUpdatedAt() != null){
+                if (DateUtils.dateToString(supplier.getCreatedAt())
+                        .equals(DateUtils.dateToString(supplier.getUpdatedAt()))){
+                    continue;
+                }
+            }
+            packageSupplier(supplier);
+            list.add(supplier);
+        }
+        return list;
+    }
+    
+    /**
+     * 
+     *〈简述〉封装关联对象
+     *〈详细描述〉
+     * @author myc
+     * @param supplier 
+     */
+    private void packageSupplier(Supplier supplier){
+        //帐号
+        supplier.setUser(getUser(supplier.getId()));
+        //财务信息
+        supplier.setListSupplierFinances(getFinance(supplier.getId()));
+        //股东信息
+        supplier.setListSupplierStockholders(getShareholder(supplier.getId()));
+        //分支信息
+        supplier.setBranchList(getBranch(supplier.getId()));
+        //地址信息
+        supplier.setAddressList(getOPeraAddress(supplier.getId()));
+        //专业关联信息
+        supplier.setListSupplierTypeRelates(getTypeRelate(supplier.getId()));
+        //物资生产型
+        supplier.setSupplierMatPro(getMatPro(supplier.getId()));
+        //物资销售型
+        supplier.setSupplierMatSell(getMatSell(supplier.getId()));
+        //工程型
+        supplier.setSupplierMatEng(getMatEng(supplier.getId()));
+        //服务型
+        supplier.setSupplierMatSe(getMatServer(supplier.getId()));
+        //关联品目信息
+        supplier.setListSupplierItems(getSupplierItems(supplier.getId()));
     }
     
     /**
@@ -217,6 +301,54 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      */
     private SupplierMatPro getMatPro(String supplierId){
        return  supplierAuditService.findSupplierMatProBysupplierId(supplierId);
+    }
+    
+    /**
+     * 
+     *〈简述〉获取供应商专业信息表(物资销售型)
+     *〈详细描述〉
+     * @author myc
+     * @param supplierId 供应商Id
+     * @return
+     */
+    private SupplierMatSell getMatSell(String supplierId){
+        return supplierMatSellService.getMatSell(supplierId);
+    }
+    
+    /**
+     * 
+     *〈简述〉获取供应商专业信息表(工程型)
+     *〈详细描述〉
+     * @author myc
+     * @param supplierId 供应商Id
+     * @return
+     */
+    private SupplierMatEng getMatEng(String supplierId){
+        return supplierMatEngService.getMatEng(supplierId);
+    }
+    
+    /**
+     * 
+     *〈简述〉获取供应商专业信息表(服务型)
+     *〈详细描述〉
+     * @author myc
+     * @param supplierId 供应商Id
+     * @return
+     */
+    private SupplierMatServe getMatServer(String supplierId){
+        return  supplierMatSeService.getMatserver(supplierId);
+    }
+    
+    /**
+     * 
+     *〈简述〉获取供应商品目关联表
+     *〈详细描述〉
+     * @author myc
+     * @param supplierId 供应商Id
+     * @return
+     */
+    private List<SupplierItem> getSupplierItems(String supplierId){
+        return supplierItemService.getSupplierId(supplierId);
     }
     
 }

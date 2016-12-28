@@ -2,6 +2,7 @@ package synchro.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 
@@ -43,5 +44,18 @@ public class DateUtils {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, -1);
         return format.format(cal.getTime());
+    }
+    
+    /**
+     * 
+     *〈简述〉日期转string
+     *〈详细描述〉
+     * @author myc
+     * @param date 
+     * @return
+     */
+    public static String dateToString(Date date){
+        SimpleDateFormat  format = new SimpleDateFormat(DATE_PATTERN);
+        return format.format(date);
     }
 }

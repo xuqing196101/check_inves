@@ -19,4 +19,12 @@ public interface OuterSupplierService {
      * @author myc
      */
     public void backupCreated();
+    
+    /**
+     * 
+     *〈简述〉获取修改的供应商
+     *〈详细描述〉
+     * @author myc
+     */
+    public void backupModify();
 }
