@@ -510,15 +510,42 @@
 	                        url: "${pageContext.request.contextPath}/purchaser/upload.do?type="+planType,  
 	                        secureuri: false,  
 	                        fileElementId: 'fileName',  
-	                       dataType: "text",  
-	                        success: function (data) { 
-	                         if(data=="success"){
+	                        success: function (json) { 
+	                        var str = $(json).find("body").text();//获取返回的字符串
+       						var data = $.parseJSON(str);//把字符串转化为json对象
+	                        for (var j = 0; j < data.length; j++) {
+	                        
+	                     
+	       					/*  var oldData = $("#detailZeroRow").html(); */
+	                        	$("#detailZeroRow").html("<tr><td class='tc'><input style='border: 0px;' type='text' name='list[" + j + "].id' />" +
+									"<input ityle='border: 0px;' type='text' name='list[" + j + "].seq' /><input style='border: 0px;' value='" + id + "' type='hidden' name='list[" + j + "].parentId' /></td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].department' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].goodsName' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].stand' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].qualitStand' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].item' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].purchaseCount' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].price' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].budget' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].deliverDate' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].purchaseType' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].supplier' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].isFreeTax' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].goodsUse' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].useUnit' /> </td>" +
+									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].memo' /> </td>" +
+									"<td class='tc p0'> <input class='add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>" +
+									"<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>" +
+									" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>" +
+									"<tr/>");  
+						    }
+	                        /*  if(data=="success"){
 	                        	 layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
 		                         window.location.href="${pageContext.request.contextPath}/purchaser/add.html";
 	                         }  else {
 	                        	 // layer.alert("测试",{offset: ['222px', '390px'], shade:0.01});
 	                 			    layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
-	                          }  
+	                          }  */ 
 	                       
 	                        },  error: function (data, status, e)//服务器响应失败处理函数
 	                        {
