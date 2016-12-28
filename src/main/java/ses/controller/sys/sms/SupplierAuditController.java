@@ -271,7 +271,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}
 		
 		//注册联系人里地址
-		area = areaService.listById(supplier.getConcatProvince());
+		area = areaService.listById(supplier.getConcatCity());
 		String sonConcatProvince = area.getName();
 		request.setAttribute("sonConcatProvince", sonConcatProvince);
 		for(int i=0; i<privnce.size(); i++){
@@ -282,7 +282,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}
 		
 		//军队业务联系人里地址
-		area = areaService.listById(supplier.getArmyBuinessProvince());
+		area = areaService.listById(supplier.getArmyBuinessCity());
 		String sonArmyBuinessProvince = area.getName();
 		request.setAttribute("sonArmyBuinessProvince", sonArmyBuinessProvince);
 		for(int i=0; i<privnce.size(); i++){
