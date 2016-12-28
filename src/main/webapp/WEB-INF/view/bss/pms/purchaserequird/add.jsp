@@ -165,21 +165,24 @@
 			//保存
 			function incr() {
 			
-			alert("cehis");
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
+				var reNo=$("#jhwh").val();
 				var mobile = $("#mobile").val();
 				var type = $("#wtype").val();
 				var depName = $("#xqbm").val();
 				if($.trim(name) == "") {
 					layer.tips("计划名称不允许为空", "#jhmc");
-				} else if($.trim(mobile) == "") {
+				} else if($.trim(reNo) == "") {
+					layer.tips("录入计划文号不允许为空", "#jhwh");
+				}else if($.trim(mobile) == "") {
 					layer.tips("录入人手机号不允许为空", "#mobile");
 				}else if($.trim(depName) == ""){
 					layer.tips("需求部门不允许为空", "#xqbm");
 				}else {
 					$("#detailJhmc").val(name);
 					$("#detailJhbh").val(no);
+					$("#detailJhwh").val(reNo);
 					$("#detailType").val(type);
 					$("#detailMobile").val(mobile);
 					$("#detailXqbm").val(depName);
@@ -515,8 +518,8 @@
 	                        success: function (data) { 
 	                        
 						    	eachData(data);
-	                        },  error: function (data, status, e) {
-	                        alert(e);
+	                       layer.closeAll();
+	                       },error: function (data, status, e) {
 	                            layer.msg("上传失败");
 	                        }
 	                    }); 
@@ -623,7 +626,7 @@
 		</div>
 		<div class="container container_box">
 			<div>
-				<h2 class="count_flow"><i>1</i>计划主信息</h2>
+				<h2 class="count_flow"><i>1</i>需求计划主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>计划名称</span>
@@ -639,6 +642,14 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12">
+					    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span> 计划文号</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group" name="reNo" value="${referenceNo }" id="jhwh">
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
