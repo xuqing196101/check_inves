@@ -1313,7 +1313,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	               } else {
 	            	   categoryId = DictionaryDataUtil.getId(s);
 	               }
-	    		   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId);
+	    		   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId, code);
 	    		     for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
 	    		    	 categoryList.add(cate);
