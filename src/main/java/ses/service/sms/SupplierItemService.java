@@ -47,5 +47,5 @@ public interface SupplierItemService {
 	* @return List<Category>     
 	* @throws
 	 */
-	public List<Category> getCategory(String supplierId);
+	public List<Category> getCategory(String supplierId,String type);
 }

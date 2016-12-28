@@ -7,62 +7,6 @@
 <%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
  
- 
-$(function() {
-	  window.onload=function(){
-		  var checkeds = $("#supplierTypeIds").val();
-		  var arrays =checkeds.split(",");
-		   if(arrays.length>0){
-		       for(var i=0;i<arrays.length;i++){
-			    				if(arrays[i]!='PROJECT'){
-				                     $("#tab-1").attr("class", "tab-pane fade ");
-				                  }
-			                      if(arrays[i]!='PRODUCT'){
-			                    	  $("#tab-2").attr("class", "tab-pane fade ");
-			                      }
-			                      if(arrays[i]!='SALES'){
-				                      $("#stab-3").attr("class", "tab-pane fade ");
-				                  }
-			                      if(arrays[i]!='SERVICE'){
-			                          $("#tab-4").attr("class", "tab-pane fade ");
-			                      }
-			                      if(arrays[i]=='PRODUCT'){
-			                    		$("#tab-1").attr("class", "tab-pane fade  active in");
-			                    		var pro="${list3}";
-			                    		var data=$.pareJSON(pro);
-			                    		var l=1;
-			                    		var trhtml = "";
-			                    		
-			                    		for ( var i = 0; i < data.length; i++) {
-			    				 			trhtml += "<tr><td>"+data[i].name+"<td> </tr>";
-			    				 		/* 	var s=data[i].list;
-			    				 			for ( var j = 0; j < s.length; j++) {
-			    				 			trhtml += "<td><div class='col-md-12 col-sm-12 col-xs-12 p0' id='breach_li_id'>"+
-												"<u:upload id=pUp"+l +" groups="+${sbUp}+" businessId="+${s[j].id}+" sysKey="1" typeId='1' auto='true'/>" +
-												"<u:show showId=pShow"+l +" groups="+${sbShow}+" businessId="+${s[j].id}+" sysKey='1' typeId='1 />"+
-										 		  "</div> "+
-										     l++;
-			    				 			}
-										   "<td> </tr>"; */
-			    						}
-			                    		$("#pro_tr").append(trhtml);
-			                    		
-			                    		
-			                      }
-			                      else if(arrays[i]=='SALES'){
-			                    	$("#tab-2").attr("class", "tab-pane fade  active in");
-			                      }
-			                      else if(arrays[i]=='PROJECT'){
-			                    	  $("#tab-3").attr("class", "tab-pane fade  active in");
-			                      }
-			                        else  if(arrays[i]=='SERVICE'){
-			                    	  $("#tab-3").attr("class", "tab-pane fade  active in");
-			                      }
-					 }
-		   		}
-	  }
-		       
-});
 
 
  
@@ -156,59 +100,48 @@ $(function() {
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 								<!-- 物资生产型 -->
+							
+							<c:set value="0" var="prolength"/> 
 								<div class="tab-pane fade active in height-300" id="tab-1">
 										  <table class="table table-bordered">
-										  <tbody id="pro_tr">
+										   <c:forEach items="${cateList }" var="obj" >
+						  					 <tr>
+						  					  <td>${obj.categoryName } </td>
+						  					    <td>
+						  					    
+						  					    <c:forEach items="${obj.list }" var="quaPro">
+						  					    	<c:set value="${prolength+1}" var="prolength"></c:set>
+						  					    	<u:upload id="pUp${prolength}" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${quaPro.id}" sysKey="1" typeId="1" auto="true" />
+													<u:show showId="pShow${prolength}" groups="${saleShow}" businessId="${quaPro.id}" sysKey="1" typeId="1" />
+						  					    </c:forEach>
+						  					     </td>
+						  					 </tr>
+						  					</c:forEach>
 						  					
-						  					</tbody>
-										<%--   <c:forEach items="${cateList }" var="obj">
-									      <tr>
-										    <td class="info">${obj.categoryName } 
-								 
-										    </td>
-												    <td class="info">
-												     <c:forEach items="${obj.list }" var="qua" varStatus="vs">
-													  <c:set value="${group+1}" var="group"/>
-													   
-													  	  ${qua.name }
-													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
-																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>  
-													    </c:forEach>
-												    </td>
-										   
-										  </tr>
-										</c:forEach> --%>
+						  					
 									</table> 
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
 								<!-- 物资销售型 -->
+							<c:set value="0" var="length"> </c:set>
 								<div class="tab-pane fade height-300" id="tab-2">
 								
 										  <table class="table table-bordered">
-						  					<tbody >
-						  					
-						  					</tbody>
-										  
-									<%-- 	  <c:forEach items="${saleQua }" var="sale">
-									      <tr>
-										    <td class="info">${sale.categoryName } 
-										    </td>
-												    <td class="info">
-												     <c:forEach items="${sale.list }" var="qua" varStatus="vs">
-													  <c:set value="${group+1}" var="group"/>
-													   
-													  	  ${qua.name }
-													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
-																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>  
-													    </c:forEach>
-												    </td>
-										    </tr>
-										</c:forEach> --%>
+						  					 <c:forEach items="${saleQua }" var="sale" >
+						  					 <tr>
+						  					  <td style="width:150px;">${sale.categoryName } </td>
+						  					    <td>
+						  					    
+						  					    <c:forEach items="${sale.list }" var="saua">
+						  					    <c:set value="${length+1}" var="length"></c:set>
+						  					      
+						  					    	<u:upload id="saleUp${length}" buttonName="${saua.name}"  groups="${saleUp}" businessId="${saua.id}" sysKey="1" typeId="1" auto="true" />
+													<u:show showId="saleShow${length}" groups="${saleShow}"  businessId="${saua.id}"  sysKey="1" typeId="1" />
+						  					    </c:forEach>
+						  					     </td>
+						  					 </tr>
+						  					</c:forEach>
 										
 									</table> 
 								  
@@ -216,52 +149,56 @@ $(function() {
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
-							<!-- 服务 -->
+					 
 								<div class="tab-pane fade height-200" id="tab-3">
 								  <table class="table table-bordered">
-										 
-										  <c:forEach items="${projectQua }" var="project">
+										<c:set value="0" var="plength"> </c:set>	 
+									  <c:forEach items="${projectQua }" var="project">
 									      <tr>
 										    <td class="info">${project.categoryName } 
 										    </td>
-												    <td class="info">
-												     <c:forEach items="${project.list }" var="qua" varStatus="vs">
-													<%--   <c:set value="${group+1}" var="group"/> --%>
-													   
-													  	  ${qua.name }
-												<%-- 	    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
-																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>   --%>
-													    </c:forEach>
-												    </td>
+											
+										
+											
+											
+											 <td>
+						  					    <c:forEach items="${project.list }" var="project">
+						  					    <c:set value="${plength+1}" var="plength"></c:set>
+						  					      
+						  					    	<u:upload id="projectUp${plength}" buttonName="${project.name}"  groups="${saleUp}" businessId="${project.id}" sysKey="1" typeId="1" auto="true" />
+													<u:show showId="projectShow${plength}" groups="${saleShow}"  businessId="${project.id}"  sysKey="1" typeId="1" />
+						  					    </c:forEach>
+						  					     </td>
+						  					     
+						  					    
 										     </tr>
-										</c:forEach>
+										</c:forEach>  
 									</table> 
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
-								<!-- 生产 -->
+							 
 								<div class="tab-pane fade height-200" id="tab-4">
 								   <table class="table table-bordered">
-										 
-										  <c:forEach items="${serviceQua }" var="server">
+									 <c:set value="0" var="slength"> </c:set>
+									 	 
+									  <c:forEach items="${serviceQua }" var="server">
 									      <tr>
-										    <td class="info">${server.categoryName } 
-								 
-										     </td>
-												    <td class="info">
-												     <c:forEach items="${server.list }" var="qua" varStatus="vs">
-													<%--   <c:set value="${group+1}" var="group"/> --%>
-													  	  ${qua.name }
-													  <%--   <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
-																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>  --%> 
-													    </c:forEach>
-												    </td>
-										  </tr>
-										</c:forEach>
+										    <td class="info">${project.categoryName } 
+										    </td>
+											 <td>
+						  					    <c:forEach items="${server.list }" var="ser">
+						  					    <c:set value="${slength+1}" var="slength"></c:set>
+						  					    	<u:upload id="serverUp${plength}" buttonName="${ser.name}"  groups="${saleUp}" businessId="${ser.id}" sysKey="1" typeId="1" auto="true" />
+													<u:show showId="serverShow${plength}" groups="${saleShow}"  businessId="${ser.id}"  sysKey="1" typeId="1" />
+						  					    </c:forEach>
+						  					     </td>
+						  					     
+						  					    
+										     </tr>
+										</c:forEach> 
+										
+										
 									</table> 
 								</div>
 							</c:if>
@@ -273,19 +210,7 @@ $(function() {
 		
 		
   
-<%--    <c:set value="0" var="group"/>
-		<!--基本信息-->
-		<div class="container content height-300">
-			<div class="row magazine-page">
-				<div class="col-md-12 tab-v2 job-content">
-					<div class="padding-top-10" >
-						 
-				
-								
-					</div>
-				</div>
-			</div>
-		</div> --%>
+ 
 	</div>
 	
 	 <div class="btmfix">

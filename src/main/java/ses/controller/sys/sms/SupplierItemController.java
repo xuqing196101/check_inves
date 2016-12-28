@@ -169,6 +169,10 @@ public class SupplierItemController extends BaseController{
 	   
 	   //生产证书
 	   List<Qualification> qaList=new ArrayList<Qualification>();
+	   List<Qualification> saleList=new ArrayList<Qualification>();
+	   List<Qualification> projectList=new ArrayList<Qualification>();
+	   List<Qualification> serviceList=new ArrayList<Qualification>();
+	   
 	   if(list3!=null&&list3.size()>0){
 		   for(QualificationBean qb:list3){
 			   qaList.addAll(qb.getList());
@@ -177,37 +181,66 @@ public class SupplierItemController extends BaseController{
 	   //销售
 	   if(saleQua!=null&&saleQua.size()>0){
 		   for(QualificationBean qb:saleQua){
-			   qaList.addAll(qb.getList());
+			   saleList.addAll(qb.getList());
 		   }
-	   }
+	   } 
 	   //工程
 	   if(projectQua!=null&&projectQua.size()>0){
 		   for(QualificationBean qb:projectQua){
-			   qaList.addAll(qb.getList());
+			   projectList.addAll(qb.getList());
 		   }
-	   }
+	   } 
 	   //服务
 	   if(serviceQua!=null&&serviceQua.size()>0){
 		   for(QualificationBean qb:serviceQua){
-			   qaList.addAll(qb.getList());
+			   serviceList.addAll(qb.getList());
 		   }
-	   }
+	   } 
 	   
-	  
+	  //生产
 	   StringBuffer sbUp=new StringBuffer("");
 	   StringBuffer sbShow=new StringBuffer("");
-	   int len=list3.size()+1;
+	   int len=qaList.size()+1;
 	   for(int i=1;i<len;i++){
 		   sbUp.append("pUp"+i+",");
 			sbShow.append("pShow"+i+",");
-			if(len==i){
-				sbUp.append("pUp"+i);
-				sbShow.append("pShow"+i);
-			}
+		 
 	   }
-		model.addAttribute("sbUp", sbUp);
-		model.addAttribute("sbShow", sbShow);
-		model.addAttribute("cateList", JSON.toJSONString(list3));
+	/*   StringBuffer saleUp=new StringBuffer("");
+	   StringBuffer saleShow=new StringBuffer("");*/
+	   //销售
+	   int slaelen=saleList.size()+1;
+	   for(int i=1;i<slaelen;i++){
+		   sbUp.append("saleUp"+i+",");
+		   sbShow.append("saleShow"+i+",");
+		 
+	   }
+	   if(projectList!=null&&projectList.size()>0){
+		   int projectlen=projectList.size()+1;
+		   for(int i=1;i<projectlen;i++){
+			   sbUp.append("projectUp"+i+",");
+			   sbShow.append("projectShow"+i+",");
+			 
+		   } 
+	   }
+	
+	   if(serviceList!=null&&serviceList.size()>0){
+		   int serverlen=serviceList.size()+1;
+		   for(int i=1;i<serverlen;i++){
+			   sbUp.append("serverUp"+i+",");
+			   sbShow.append("serverShow"+i+",");
+			 
+		   } 
+	   }
+	   
+	   
+	   /*saleUp.append(sbUp);
+	   saleShow.append(sbShow);*/
+	   model.addAttribute("saleUp", sbUp);
+	   model.addAttribute("saleShow", sbShow);
+	/*	model.addAttribute("sbUp", sbUp);
+		model.addAttribute("sbShow", sbShow);*/
+		model.addAttribute("cateList",  list3);
 		model.addAttribute("saleQua", saleQua);
 		model.addAttribute("projectQua", projectQua);
 		model.addAttribute("serviceQua", serviceQua);
@@ -264,8 +297,8 @@ public class SupplierItemController extends BaseController{
 		Supplier supplier = supplierService.get(supplierId);
 		// 页面跳转
 		model.addAttribute("currSupplier", supplier);
-		List<Category> category = supplierItemService.getCategory(supplierId);
-		model.addAttribute("category", category);
+//		List<Category> category = supplierItemService.getCategory(supplierId);
+//		model.addAttribute("category", category);
 		return "ses/sms/supplier_register/items";	
 	}
 	/**
@@ -324,12 +357,12 @@ public class SupplierItemController extends BaseController{
 	@RequestMapping(value="/getSupplierCate" ,produces = "text/html;charset=UTF-8")
     @ResponseBody
 	public String getCategory(String supplierId){
-		List<Category> list = supplierItemService.getCategory(supplierId);
-		if(list.size()>0){
-			return "1";
-		}else{
+//		List<Category> list = supplierItemService.getCategory(supplierId);
+//		if(list.size()>0){
+//			return "1";
+//		}else{
 			return "0";
-		}
+//		}
 	}
 	
 	//生产所有的三级目录

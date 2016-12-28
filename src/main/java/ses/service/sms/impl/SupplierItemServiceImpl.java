@@ -173,9 +173,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	}
 
 	@Override
-	public List<Category> getCategory(String supplierId) {
+	public List<Category> getCategory(String supplierId,String type) {
 		List<Category> cateList=new ArrayList<Category>();
-		List<SupplierItem> list = supplierItemMapper.getSupplierItem(supplierId);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("supplierId", supplierId);
+		map.put("type", type);
+		List<SupplierItem> list = supplierItemMapper.findByMap(map);
 		for(SupplierItem item:list){
 			List<Category> last = categoryService.findPublishTree(item.getCategoryId(),null);
 			if(last.size()<1){

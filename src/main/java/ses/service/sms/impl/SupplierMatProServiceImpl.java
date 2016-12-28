@@ -46,6 +46,7 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 	
 	     String id = UUID.randomUUID().toString().replaceAll("-", "");
 	     proCert.setId(id);
+	     proCert.setName("质量管理体系认证证书");
          List<SupplierCertPro> priList=new ArrayList<SupplierCertPro>();
          priList.add(proCert);
          SupplierMatPro pro = new  SupplierMatPro();
