@@ -1,97 +1,117 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/view/common/tags.jsp" %>
-
-<!DOCTYPE HTML >
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
 <html>
 
 	<head>
-		<%@ include file="/WEB-INF/view/front.jsp" %>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<title>资质文件</title>
 		<script type="text/javascript">
-			function saveItems(flag) {
-				getCategoryId();
-				$("#flag").val(flag);
-				$("#items_info_form_id").submit();
-			}
-
-			function next() {
-				$("#items_info_form_id").submit();
-				/*  var id="${currSupplier.id}";
-				 window.location.href="${pageContext.request.contextPath}/supplier/contract.html?supplierId="+id; */
-			}
-
-			function prev() {
-
-				$("#items_info_form_id").submit();
-			}
 		</script>
 
 	</head>
 
 	<body>
-		<c:if test="${currSupplier.status != 7}">
-			<%@ include file="/reg_head.jsp"%>
-		</c:if>
-		<div class="wrapper">
+		<!--面包屑导航开始-->
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li>
+						<a href="#"> 首页</a>
+					</li>
+					<li>
+						<a href="#">供应商管理</a>
+					</li>
+					<li>
+						<a href="#">供应商审核</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="container container_box">
+			<div class="content ">
+				<div class="col-md-12 tab-v2 job-content">
+					<ul class="nav nav-tabs bgdd">
+						<li onclick="jump('essential')">
+							<a aria-expanded="false" href="#tab-1">详细信息</a>
+							<i></i>
+						</li>
+						<li onclick="jump('financial')">
+							<a aria-expanded="true" href="#tab-2">财务信息</a>
+							<i></i>
+						</li>
+						<li onclick="jump('shareholder')">
+							<a aria-expanded="false" href="#tab-3">股东信息</a>
+							<i></i>
+						</li>
+						<c:if test="${fn:contains(supplierTypeNames, '生产')}">
+							<li onclick="jump('materialProduction')">
+								<a aria-expanded="false" href="#tab-4">生产信息</a>
+								<i></i>
+							</li>
+						</c:if>
+						<c:if test="${fn:contains(supplierTypeNames, '销售')}">
+							<li onclick="jump('materialSales')">
+								<a aria-expanded="false" href="#tab-4">销售信息</a>
+								<i></i>
+							</li>
+						</c:if>
+						<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+							<li onclick="jump('engineering')">
+								<a aria-expanded="false" href="#tab-4">工程信息</a>
+								<i></i>
+							</li>
+						</c:if>
+						<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+							<li onclick="jump('serviceInformation')">
+								<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务信息</a>
+								<i></i>
+							</li>
+						</c:if>
+						<li onclick="jump('items')">
+							<a aria-expanded="false" href="#tab-4">品目信息</a>
+							<i></i>
+						</li>
+						<li onclick="jump('aptitude')" class="active">
+							<a aria-expanded="false" href="#tab-4">资质文件</a>
+							<i></i>
+						</li>
+						<li onclick="jump('contract')">
+							<a aria-expanded="false" href="#tab-4">品目合同</a>
+						</li>
+						<li onclick="jump('applicationForm')">
+							<a aria-expanded="false" href="#tab-4">申请表</a>
+							<i></i>
+						</li>
+						<li onclick="jump('reasonsList')">
+							<a aria-expanded="false" href="#tab-4">审核汇总</a>
+						</li>
+					</ul>
 
-			<!-- 项目戳开始 -->
-			<c:if test="${currSupplier.status != 7}">
-				<div class="container clear margin-top-30">
-					<h2 class="padding-20 mt40 ml30">
-				       	<span class="new_step current fl"><i class="">1</i>
-						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
-						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">4</i>
-						<div class="line"></div> <span class="step_desc_02">品目信息</span> </span> <span class="new_step current fl"> <i class="">5</i>
-						<div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span> <span class="new_step  fl"><i class=""> 6</i>
-						<div class="line"></div> <span class="step_desc_02">品目合同上传</span> </span> <span class="new_step fl"><i class="">7</i>
-						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
-						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
-						<span class="step_desc_01">申请表承诺书上传</span> 
-					</span>
-					<div class="clear"></div>
-				</h2>
-				</div>
-			</c:if>
-			<c:set value="0" var="length"></c:set>>
-			<!--基本信息-->
-			<div class="container content height-300">
-				<div class="row magazine-page">
-					<div class="col-md-12 tab-v2 job-content">
-						<div class="padding-top-10">
-
-							<table class="table table-bordered">
-
+					<ul class="count_flow ul_list">
+						<table class="table table-bordered  table-condensed table-hover">
+							<tr>
+								<td class="info tc"> 品目名称</td>
+								<td class="info tc">需要上传的文件</td>
+							</tr>
+							<c:forEach items="${cateList }" var="obj">
 								<tr>
-									<td class="info"> 品目名称</td>
-									<td>需要上传的文件</td>
-								</tr>
-								<c:forEach items="${cateList }" var="obj">
-									<tr>
-										<td class="info">${obj.categoryName }</td>
-
-										${length+ fn:length(obj.list)}
-
-										<td class="info">
-											<c:forEach items="${obj.list }" var="qua" varStatus="vs">
-
+									<td class="info">${obj.categoryName }</td>
+									<td class="info">
+										<c:forEach items="${obj.list }" var="qua" varStatus="vs">
+											<div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												${qua.name }
-												<div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-													<u:upload id="pUp${len-(vs.index+1)}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
-													<u:show showId="pShow${len-(vs.index+1)}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-												</div>
-											</c:forEach>
-										</td>
-
-									</tr>
-								</c:forEach>
-
-							</table>
-
-						</div>
-					</div>
+												<u:show showId="pShow${len-(vs.index+1)}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
+											</div>
+										</c:forEach>
+									</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</ul>
 				</div>
 			</div>
 		</div>
-
 	</body>
 
 </html>

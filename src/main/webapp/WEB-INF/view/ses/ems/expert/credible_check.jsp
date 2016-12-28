@@ -115,14 +115,14 @@ $(function(){
                        <label class="fl">关键字：</label><span><input type="text" id="relName" name="badBehavior" value="${badBehavior }"></span>
                     </li>
                   </ul>
-                         <input class="btn"  value="搜索" type="submit">
-                         <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
+                         <input class="btn fl mt1"  value="搜索" type="submit">
+                         <input class="btn btn-windows reset fl mt1" id="button" onclick="clearSearch();" value="重置" type="reset">
    </form>
   </h2>
 <form action="${pageContext.request.contextPath}/credible/list.html"  method="post"   class="registerform"> 
    <div class="col-md-12 pl20 mt10">
-	<button class="btn btn-windows git" type="button" onclick="submit1();">提交</button>
-	<button class="btn btn-windows cancel" type="button" onclick="cancel();">关闭</button>
+	<button class="btn btn-windows git fl mt1 " type="button" onclick="submit1();">提交</button>
+	<button class="btn btn-windows cancel fl mt1" type="button" onclick="cancel();">关闭</button>
     </div>
 <!-- 表格开始-->
    <div class="content table_box">

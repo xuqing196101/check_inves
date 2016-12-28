@@ -40,8 +40,8 @@
             <input type="hidden" name="operationType" value="1">
             <h2 class="count_flow"><i>1</i>修改信息</h2>
             <ul class="ul_list">
-                  <li class="col-md-3 col-sm-6 col-xs-12 pl15 pl15">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>专家姓名：</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                    <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>专家姓名：</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			            <input class="input_group"  name="relName"  type="text" id="expert_name" readonly="readonly" value="${relName }">
 			            <input name="expertId" value="${expert.expertId }" type="hidden"/>
@@ -49,8 +49,8 @@
 			            <div class="cue"> ${err_relName } </div>
                     </div>
 		        </li>
-		        <li class="col-md-3 col-sm-6 col-xs-12 pl15 pl15">
-                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>处罚方式：</span>
+		        <li class="col-md-3 col-sm-6 col-xs-12 ">
+                     <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5" ><div class="star_red">*</div>处罚方式：</span>
                      <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                         <select name="punishType">
                             <option value="">请选择</option>
@@ -61,8 +61,8 @@
                         <div class="cue"> ${err_punishType } </div>
                     </div>
                  </li>   
-		          <li class="col-md-3 col-sm-6 col-xs-12 pl15 pl15">
-                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>处罚时限：</span>
+		          <li class="col-md-3 col-sm-6 col-xs-12 ">
+                     <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>处罚时限：</span>
                      <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 				        <select  name="punishDate">
 						  		<option value="">请选择</option>
@@ -75,32 +75,32 @@
 					      <div class="cue"> ${err_punishDate } </div>
 					</div>
 			      </li>
-			      <li class="col-md-3 col-sm-6 col-xs-12 pl15 pl15">
-                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>处罚日期：</span>
+			      <li class="col-md-3 col-sm-6 col-xs-12 ">
+                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>处罚日期：</span>
                      <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="input_group"  readonly="readonly" name="dateOfPunishment"  type="text" value="<fmt:formatDate value="${expert.dateOfPunishment}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
                         <div class="cue"> ${err_dateOfPunishment } </div>
                     </div>
                 </li>
-				<li class="col-md-3 col-sm-6 col-xs-12 pl15 pl15">
-                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>入库时间：</span>
+				<li class="col-md-3 col-sm-6 col-xs-12 ">
+                     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>入库时间：</span>
                      <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="input_group"  readonly="readonly" name="storageTime"  type="text" value="<fmt:formatDate value="${expert.storageTime}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
                         <div class="cue"> ${err_storageTime } </div>
                     </div>
                 </li>  
 				<li class="col-md-12 col-sm-12 col-xs-12">
-                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12padding-left-5"><div class="star_red">*</div>处罚理由：</span>
-                    <div class="col-md-12 padding-left-5 col-sm-12 col-xs-12p0">
+                    <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>处罚理由：</span>
+                    <div class="col-md-12  col-sm-12 col-xs-12 p0">
 		              <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过100个字" name="reason" >${expert.reason }</textarea>
                     </div>
-                    <span class="padding-left-5 red">${err_reason}</span>
+                    <span class=" red">${err_reason}</span>
 		        </li> 
 			</ul>
 			<h2 class="count_flow"><i>2</i>附件上传</h2>
             <ul class="ul_list">
                 <li class="col-md-6 p0 mt10 mb25">
-                    <span class="col-md-5 padding-left-5" ><div class="star_red">*</div>批准文件:</span>
+                    <span class="col-md-5 pl20" ><div class="star_red">*</div>批准文件:</span>
                     <%-- <input class="span5" type="file" name="attachmentCertFile"/>
                     <a onclick="downloadFile('${expert.attachmentCert}')" style="cursor:pointer" id="attachmentCert">${expert.attachmentCert}</a> --%>
                     <up:upload id="id_up"  businessId="${expert.id}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" auto="true" /> 

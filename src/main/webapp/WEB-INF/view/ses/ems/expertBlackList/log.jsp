@@ -73,8 +73,8 @@
 	                     </select>
 	               </li>
 	               <li>
-	                   <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
-	                   <button onclick="resetForm();" class="btn btn_back fl ml10 mt6" type="button">重置</button>
+	                   <input type="submit" class="btn btn_back fl " value="查询" />
+	                   <button onclick="resetForm();" class="btn btn_back fl" type="button">重置</button>
 	               </li>
 	           </ul>
 		       <div class="clear"></div>
@@ -114,7 +114,7 @@
 			                <c:if test="${log.punishType == 2}">严重警告</c:if>
 			                <c:if test="${log.punishType == 3}">取消资格</c:if>
 		                </td>
-		                <td class="tc">${log.reason }</td>
+		                <td class="tl pl20">${log.reason }</td>
 	                </tr>
 	            </c:forEach>
 	        </table>

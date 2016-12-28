@@ -22,10 +22,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.formbean.ContractBean;
+import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -1228,10 +1230,57 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping(value = "aptitude")
-	public String aptitude() {
+	public String aptitude(Model model, String supplierId) {
+		String supplierTypeIds= supplierTypeRelateService.findBySupplier(supplierId);
 		
-		  
+		//查询所有的三级品目
+		List<Category> list2 = getSupplier(supplierId,supplierTypeIds);
+				 
+		//根据品目id查询所有的证书信息
+		List<QualificationBean> list3 = supplierService.queryCategoyrId(list2);
+		 
+		List<Qualification> qaList=new ArrayList<Qualification>();
+		   for(QualificationBean qb:list3){
+			   qaList.addAll(qb.getList());
+		   }
+		   StringBuffer sbUp=new StringBuffer("");
+		   StringBuffer sbShow=new StringBuffer("");
+		   int len=qaList.size();
+		   for(int i=0;i<qaList.size();i++){
+			   sbUp.append("pUp"+i+",");
+				sbShow.append("pShow"+i+",");
+				if(len==i){
+					sbUp.append("pUp"+i);
+					sbShow.append("pShow"+i);
+				}
+		   }
+			model.addAttribute("sbUp", sbUp);
+			model.addAttribute("sbShow", sbShow);
+			model.addAttribute("cateList", list3);
+			model.addAttribute("len", len);
+		
 		return "ses/sms/supplier_audit/aptitude";
+	}
+	
+	public List<Category> getSupplier(String supplierId, String code){
+		List<Category> categoryList=new ArrayList<Category>();
+		String[] types = code.split(",");
+		for(String s:types){
+			String   categoryId="";
+			   if (s != null ) {
+	               if(s.equals("PRODUCT") || s.equals("SALES")){
+	                   categoryId = DictionaryDataUtil.getId("GOODS");
+	               } else {
+	            	   categoryId = DictionaryDataUtil.getId(s);
+	               }
+	    		   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId);
+	    		     for(SupplierItem c:category){
+	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+	    		    	 categoryList.add(cate);
+	    	         }
+	           }
+		}
+		  return  categoryList;
 	}
 	
 	/**

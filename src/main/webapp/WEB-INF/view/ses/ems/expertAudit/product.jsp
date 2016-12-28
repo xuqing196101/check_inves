@@ -5,7 +5,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<script type="text/javascript">
-			/* $(function() {
+			 $(function() {
 			var expertId = $("#expertId").val();
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/getAllCategory.do",
@@ -102,7 +102,7 @@
 				var page = "tab-" + id.charAt(id.length - 1);
 				$("#" + page).attr("style", "");
 				showTree(page);
-			} */
+			}
 		</script>
 		<script type="text/javascript">
 				function showTree(tabId) {

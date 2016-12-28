@@ -33,4 +33,6 @@ public interface SupplierTypeRelateService {
 	* @throws
 	 */
 	List<SupplierTypeRelate> queryBySupplier(String id);
+	
+	String findBySupplier(String id);
 }

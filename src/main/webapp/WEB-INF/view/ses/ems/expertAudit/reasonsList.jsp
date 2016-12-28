@@ -176,7 +176,7 @@
 								<input id="auditId" value="${reasons.id}" type="hidden">
 								<tr>
 									<td class="tc w30"><input type="checkbox" value="${reasons.id }" name="chkItem"  id="${reasons.id}"></td>
-									<td class="tc">${vs.index + 1}</td>
+									<td class="tl pl20">${vs.index + 1}</td>
 									<td class="tc">
 										<c:if test="${reasons.suggestType eq 'one'}">基本信息</c:if>
 										<c:if test="${reasons.suggestType eq 'two'}">经历经验</c:if>
@@ -184,9 +184,9 @@
 										<c:if test="${reasons.suggestType eq 'six'}">产品目录</c:if>
 										<c:if test="${reasons.suggestType eq 'five'}">附件</c:if>
 									</td>
-									<td class="tc">${reasons.auditField }</td>
-									<td class="tc">${reasons.auditContent}</td>
-									<td class="tc">${reasons.auditReason}</td>
+									<td class="tl pl20">${reasons.auditField }</td>
+									<td class="tl pl20">${reasons.auditContent}</td>
+									<td class="tl pl20">${reasons.auditReason}</td>
 								</tr>
 							</c:forEach>
 						</table>

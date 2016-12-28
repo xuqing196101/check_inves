@@ -287,8 +287,8 @@
                     </span>
                   </li>
 		        </ul>
-		              <input class="btn"  value="查询" type="submit">
-                      <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">  
+		              <input class="btn fl mt1"  value="查询" type="submit">
+                      <input class="btn btn-windows reset fl mt1" id="button" onclick="clearSearch();" value="重置" type="reset">  
                    </form>
                    </h2>
 			<!-- 表格开始-->
