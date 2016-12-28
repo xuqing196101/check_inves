@@ -126,16 +126,16 @@
 	  <c:forEach items="${requList}" var="requ" varStatus="vs">
 	  <tr>
 	    <td>${(vs.index+1)}</td>
-		<td>${requ.planNo}</td>
-		<td>${requ.goodsName}</td>
-		<td>${requ.brand}</td>
-		<td>${requ.stand}</td>
-		<td>${requ.item}</td>
-		<td>${requ.purchaseCount}</td>
-		<td>${requ.price}</td>
-		<td>${requ.amount}</td>
-		<td>${requ.deliverDate}</td>
-		<td>${requ.memo}</td>
+		<td class="tl pl20">${requ.planNo}</td>
+		<td class="tl pl20">${requ.goodsName}</td>
+		<td class="tl pl20">${requ.brand}</td>
+		<td class="tl pl20">${requ.stand}</td>
+		<td class="tl pl20">${requ.item}</td>
+		<td class="tl pl20">${requ.purchaseCount}</td>
+		<td class="tl pl20">${requ.price}</td>
+		<td class="tl pl20">${requ.amount}</td>
+		<td class="tl pl20">${requ.deliverDate}</td>
+		<td class="tl pl20">${requ.memo}</td>
 	  </tr>
 	  </c:forEach>
 	  <tr>

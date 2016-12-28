@@ -185,13 +185,13 @@
 			function loadplan() {
 				index = layer.open({
 					type: 1, //page层
-					area: ['400px', '300px'],
+					area: ['40%', '40%'],
 					title: '导入需求计划',
 					closeBtn: 1,
 					shade: 0.01, //遮罩透明度
 					moveType: 1, //拖拽风格，0是默认，1是传统拖动
 					shift: 1, //0-6的动画形式，-1不开启
-					offset: ['80px', '400px'],
+					offset: ['80px', '26%'],
 					content: $('#file_div'),
 				});
 			}
@@ -242,13 +242,13 @@
 				} else if(ids.length >= 1) {
 					layer.open({
 						type: 2, //page层
-						area: ['900px', '400px'],
+						area: ['80%', '90%'],
 						title: '汇入采购计划',
 						closeBtn: 1,
 						shade: 0.01, //遮罩透明度
 						moveType: 0, //拖拽风格，0是默认，1是传统拖动
 						shift: 1, //0-6的动画形式，-1不开启
-						offset: ['100px', '600px'],
+						offset: ['0px', '10%'],
 						content: '${pageContext.request.contextPath}/collect/collectlist.html?type=' + goodsType,
 					});
 
@@ -390,7 +390,7 @@
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
-			<tr style="cursor: pointer;">
+			<tr class="pointer">
 			  <td class="tc w30">
 			  <input type="hidden" value="${obj.planType }"> 
 			
@@ -495,10 +495,12 @@
 
 			</form>
 		</div>
-		<div  class="container clear margin-top-30" id="file_div"  style="display:none;" >
+		<div  class="clear margin-top-30" id="file_div"  style="display:none;" >
     	<form id="up_form" action="${pageContext.request.contextPath}/collect/upload.do" method="post" enctype="multipart/form-data">
-    		<input type="file" class="input_group" name="file">
+    		<div class="col-md-8 col-sm-8 col-xs-12"><input type="file" class="input_group" name="file"></div>
+    		<div class="col-md-4 col-sm-4 col-xs-12">
     		 <input type="button" class="btn" onclick="fileup()"   value="导入" />
+    		</div>
     	</form>
     </div>
 	</body>

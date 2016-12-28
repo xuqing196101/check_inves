@@ -59,10 +59,10 @@
 							<td class="tl pl20"> ${obj.qualitStand }</td>
 							<td class="tl pl20"> ${obj.item }</td>
 							<td class="tl pl20">${obj.purchaseCount }</td>
-							<td class="tl pl20">${obj.price }</td>
+							<td class="tr pr20">${obj.price }</td>
 							<td class="tr pr20">${obj.budget }</td>
-							<td>${obj.deliverDate }</td>
-							<td>
+							<td class="tl pl20">${obj.deliverDate }</td>
+							<td class="tl pl20">
 							  <c:forEach items="${kind}" var="kind" >
 			                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
 			                  </c:forEach>

@@ -127,13 +127,13 @@
 						<tr class="pointer">
 							<td class="tc"><input name="checkbox" type="checkbox" value="${pc.id}">
 							</td>
-							<td class="tc">${vs.index + 1}</td>
-							<td class="tc">${pc.projectName}</td>
-							<td class="tc">${pc.money}</td>
-							<td class="tc">${pc.purchaseDepName}</td>
-							<td class="tc">${pc.supplierDepName}</td>
-							<td class="tc">${pc.demandSector}</td>
-							<td class="tc"><fmt:formatDate value="${pc.createdAt}" pattern="yyyy-MM-dd"/></td>
+							<td class="tl pl20">${vs.index + 1}</td>
+							<td class="tl pl20">${pc.projectName}</td>
+							<td class="tl pl20">${pc.money}</td>
+							<td class="tl pl20">${pc.purchaseDepName}</td>
+							<td class="tl pl20">${pc.supplierDepName}</td>
+							<td class="tl pl20">${pc.demandSector}</td>
+							<td class="tl pl20"><fmt:formatDate value="${pc.createdAt}" pattern="yyyy-MM-dd"/></td>
 						</tr>
 					</c:forEach>
 				</tbody>

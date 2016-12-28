@@ -261,7 +261,7 @@
 				<button class="btn btn-windows git" onclick="sub()">提交采购管理部门</button>
 	  	</div>
    	<div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover table-striped">
+        <table class="table table-bordered table-condensed table-hover table-striped" >
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -280,10 +280,11 @@
            <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()">
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td ><div class="tl pl20" onclick="view('${obj.planNo }')">${obj.planName }</div>
+			  <td class="tl pl20" onclick="view('${obj.planNo }')">
+			  	${obj.planName }
 				</td>
-		     <td class="tl pl20" onclick="view('${obj.planNo }')">
-		     ${obj.planNo }
+		      <td class="tl pl20" onclick="view('${obj.planNo }')">
+		      ${obj.planNo }
 			 <%--    <c:forEach items="${requires }" var="re" >
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  	</c:forEach> --%>

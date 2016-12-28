@@ -294,14 +294,14 @@
 							<tr class="tc">
 								<td class="w50"><input type="checkbox" value="${archive.id }" name="info" onclick="check()" /></td>
 								<td class="w50">${(vs.index+1)+(archiveList.pageNum-1)*(archiveList.pageSize)}</td>
-								<td>${archive.name }</td>
-								<td>${archive.code }</td>
-								<td>${archive.contractCode }</td>
-								<td>${archive.year }</td>
-								<td>${archive.purchaseDep }</td>
-								<td>${archive.purchaseType }</td>
-								<td>${archive.productName }</td>
-								<td>${archive.supplierName }</td>
+								<td class="tl pl20">${archive.name }</td>
+								<td class="tl pl20">${archive.code }</td>
+								<td class="tl pl20">${archive.contractCode }</td>
+								<td class="tl pl20">${archive.year }</td>
+								<td class="tl pl20">${archive.purchaseDep }</td>
+								<td class="tl pl20">${archive.purchaseType }</td>
+								<td class="tl pl20">${archive.productName }</td>
+								<td class="tl pl20">${archive.supplierName }</td>
 								<c:if test="${archive.status==1 }">
 									<td>暂存</td>
 								</c:if>

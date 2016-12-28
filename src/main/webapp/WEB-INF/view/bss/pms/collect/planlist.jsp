@@ -368,8 +368,8 @@
  		</h2>
 
 			<div class="col-md-12 pl20 mt10">
+			    <button class="btn btn-windows check" onclick="auditPersonSets()">审核人员设置</button>
 				<button class="btn btn-windows check" onclick="sets()">审核轮次设置</button>
-				<button class="btn btn-windows check" onclick="auditPersonSets()">审核人员设置</button>
 				<button class="btn btn-windows check" onclick="audit()">审核</button>
 				<button class="btn btn-windows input" onclick="down()">下载</button>
 				<button class="btn btn-windows output" onclick="print()">打印</button>
@@ -394,7 +394,7 @@
 							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 							<td class="tl pl20">${obj.fileName }</td>
 							<td class="tr pr20">
-								<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
+                        		<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 							</td>
 							<td class="tc ">
 								<fmt:formatDate value="${obj.createdAt }" />

@@ -167,10 +167,10 @@
 		<div class="headline-v2 fl">
 			<h2>计划明细</h2>
 		</div>
-		<div class="container clear margin-top-30">
+		<div class="container clear margin-top-30 over_scroll ">
 
 			<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
-				<table class="table table-bordered table-condensed mt5">
+				<table class="table table-bordered table-condensed mt5 space_nowrap">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
@@ -213,7 +213,7 @@
 							<td class="tr">${obj.budget }</td>
 							<td>${obj.deliverDate } </td>
 							
-							<td>
+							<td class="p0">
 							<select onchange="sel(this)" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
 	                               <%-- <c:forEach items="${list2 }" var="purtype">
 		                               <c:if test="${purtype.id==obj.purchaseType}">
@@ -250,14 +250,18 @@
 
 					</c:forEach>
 				</table>
-				<div class="col-md-12 col-xs-12 col-sm-12 tc">
-				   退回理由：
-				    <br><textarea   id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>
+				<div class="col-md-12 col-xs-12 col-sm-12 p0" >
+				  <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
+				  <div class="col-md-12 col-xs-12 col-sm-12 p0">
+				      <textarea id="reson" name="reason" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字"></textarea>
+                  </div>
+                  <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
 				   <input type="hidden" name="planNo" value="${planNo }">
 				    <input type="hidden" id="status" name="status" value="3">
 				   <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="受理"> 
 				    <button class="btn btn-windows back" type="button" onclick="ss();">退回</button> 
 				   <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+			      </div>
 			     </div>
 			</form>
 		</div>

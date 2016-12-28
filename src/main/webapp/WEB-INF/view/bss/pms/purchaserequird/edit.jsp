@@ -165,8 +165,8 @@
 		</div>
 			<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
 			
-             <div class="content table_box over_scroll">
-                 <table id="table" class="table table-bordered table-condensed table_input">
+             <div class="content table_box over_scroll ">
+                 <table id="table" class="table table-bordered table-condensed table_input space_nowrap left_table">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
@@ -192,19 +192,19 @@
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
                   <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-                  <td class="tl pl20"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
+                  <td class="tl "><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
                     <c:forEach items="${requires }" var="re" >
-					  <c:if test="${obj.department==re.id }"> <input readonly='readonly' type="text"  value="${re.name}"> </c:if>
+					  <c:if test="${obj.department==re.id }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
 			  	</c:forEach>
 			  	
 			  	
                   </td>
-                  <td class="tl pl20"><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName}"></td>
-                  <td class="tl pl20"><input type="text" name="list[${vs.index }].stand" value="${obj.stand}"></td>
-                  <td class="tl pl20"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}"></td>
-                  <td class="tl pl20"><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="w80"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName}"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].stand" value="${obj.stand}"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="w80"></td>
                   
-                  <td class="tl pl20">
+                  <td class="tl ">
                     <c:if test="${obj.purchaseCount!=null}">
                      
                       <input   type="hidden" name="ss"   value="${obj.id }" >
@@ -215,7 +215,7 @@
                       <input class="w80 border0" type="text" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount }">
                     </c:if>
                   </td>
-                  <td class="tl pl20">
+                  <td class="tl ">
                     <c:if test="${obj.price!=null}">
                       <input   type="hidden" name="ss"   value="${obj.id }">
                       <input maxlength="11" class="w80" id="price"  name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
@@ -239,11 +239,11 @@
                         </c:forEach>
                       </select> 
                   </td>
-                  <td class="tl pl20"><input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}" disabled="disabled"></td>
-                  <td class="tl pl20"><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}"></td>
-                  <td class="tl pl20"><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
-                  <td class="tl pl20"><input type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit}"></td>
-                  <td class="tl pl20">${obj.memo }<%--
+                  <td class="tl "><input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}" disabled="disabled"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit}"></td>
+                  <td class="tl ">${obj.memo }<%--
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                      <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
                      <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
@@ -278,10 +278,9 @@
 					</c:forEach>
 				
 				</table>
-				<div { overflow: scroll; height: 100px; width: 100px; } ></div>
 				</div>
 				
-				<div class="col-md-12 pl20 mt10">
+				<div class="col-md-12  mt10 col-sm-12 col-xs-12 tc">
 			 <input class="btn btn-windows git" type="submit" value="提交">
                 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
              </div>

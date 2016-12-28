@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+ <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
@@ -559,7 +559,7 @@
 								</c:if>
 								
 							<c:if test="${status==5 || status==7 }">
-								<td class="tc">
+								<td class="tl pl20">
 									<input type="text" name="list[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
 								</td>
 								<td class="tc">
@@ -575,14 +575,14 @@
 										</c:forEach>
 									</select>
 								</td>
-								<td class="tc">
+								<td class="tl pl20">
 									<select name="list[${vs.index}].threeOrganiza">
 										<c:forEach items="${org }" var="ss">
 											<option value="${ss.name }">${ss.name}</option>
 										</c:forEach>
 									</select>
 								</td>
-								<td class="tc">
+								<td class="tl pl20">
 									<input type="text" name="list[${vs.index }].threeAdvice" value="${obj.threeAdvice }">
 								</td>
 								</c:if>

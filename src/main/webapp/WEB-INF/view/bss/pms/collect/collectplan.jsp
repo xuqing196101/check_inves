@@ -267,6 +267,7 @@
 			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tr pr20"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tl pl20"  >
+
 				 <c:if test="${obj.status=='1' }">
 			 	 已编制为采购计划
 			  </c:if>

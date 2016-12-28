@@ -209,13 +209,13 @@
      if(tp != 1){
   	  layer.open({
 		  type: 2, //page层
-		  area: ['900px', '500px'],
+		  area: ['80%', '80%'],
 		  title: '专家库',
 		  closeBtn: 1,
 		  shade:0.01, //遮罩透明度
 		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 		  shift: 1, //0-6的动画形式，-1不开启
-		  offset: ['200px', '500px'],
+		  offset: ['0px', '10%'],
 		  content:  "${pageContext.request.contextPath}/set/expert.html?type="+type,
 		});
      }
@@ -502,7 +502,7 @@
        
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>审核人员性质</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>审核人员性质</span>
               <div class="input-append input_group col-sm-12 col-md-12 col-xs-12 p0">
                 <input id="audit_nature" type="text" class="input_group" name="name" value="${staff }" />
                 <span class="add-on">i</span>
@@ -510,7 +510,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>审核轮次</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>审核轮次</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input id="audit_turn" type="text" class="input_group" name="projectNumber" value="${auditRound }" readonly="readonly"/>
                 <span class="add-on">i</span>
@@ -535,7 +535,7 @@
 	  </div>
       <div class="content table_box">
       <form id="set_form" action="${pageContext.request.contextPath}/set/update.html" method="post" >
-        <table class="table table-bordered table-condensed table-hover table-striped" id="userList">
+        <table class="table table-bordered table-condensed table_input left_table" id="userList">
 		<thead>
 		<tr class="info">
 			<th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -557,10 +557,10 @@
 						<c:if test="${kind.id == obj.auditRound}">${kind.name}</c:if>
 					</c:forEach>
 				</td> --%>
-				<td>${obj.name }</td>
-				<td>${obj.mobile }</td>
-				<td>${obj.duty }</td>
-				<td>${obj.unitName }</td>
+				<td class="tl pl20">${obj.name }</td>
+				<td class="tl pl20">${obj.mobile }</td>
+				<td class="tl pl20">${obj.duty }</td>
+				<td class="tl pl20">${obj.unitName }</td>
 				<%--   <td>${obj.auditStaff }</td> --%>
 			</tr>
 		</c:forEach>

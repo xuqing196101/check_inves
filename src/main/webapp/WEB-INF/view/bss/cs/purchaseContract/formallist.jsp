@@ -294,7 +294,7 @@
 			<tr>
 				<td class="tnone">${formalCon.purchaseType}</td>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${formalCon.id}" /></td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${formalCon.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>7}">
@@ -311,15 +311,15 @@
 				<c:if test="${length<=9}">
 					<td onclick="showDraftContract('${formalCon.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${name}</td>
 				</c:if>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.money}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.projectName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.supplierDepName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.purchaseDepName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.demandSector}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.documentNumber}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.budget}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.year}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.budgetSubjectItem}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.money}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.projectName}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.supplierDepName}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.purchaseDepName}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.demandSector}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.documentNumber}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.budget}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.year}</td>
+				<td class="tl pl20 pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.budgetSubjectItem}</td>
 			</tr>
 		</c:forEach>
 	</table>

@@ -94,13 +94,13 @@
 							<tr>
  								<td class="tc w50">${vs.index + 1}</td>
 								<td class="tc"></td>
-								<td class="tc">${cr.goodsName}</td>
-								<td class="tc">${cr.stand}</td>
-								<td class="tc">${cr.item}</td>
-								<td class="tc">${cr.purchaseCount}</td>
-								<td class="tc">${cr.price}</td>
-								<td class="tc">${cr.amount}</td>
-								<td class="tc">
+								<td class="tl pl20">${cr.goodsName}</td>
+								<td class="tl pl20">${cr.stand}</td>
+								<td class="tl pl20">${cr.item}</td>
+								<td class="tl pl20">${cr.purchaseCount}</td>
+								<td class="tl pl20">${cr.price}</td>
+								<td class="tl pl20">${cr.amount}</td>
+								<td class="tl pl20">
 									<div class="">
 										<select class="form-control input-lg w50">
 											<option value="1">绝密</option>
@@ -110,7 +110,7 @@
 										</select>
 									</div>
 								</td>
-								<td class="tc">
+								<td class="tl pl20">
 									<div class="">
 										<select class="form-control input-lg w50">
 											<option value="1">进口许可产品</option>

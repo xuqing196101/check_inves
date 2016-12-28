@@ -169,7 +169,7 @@
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
-			<tr style="cursor: pointer;">
+			<tr class="pointer">
 			  <td class="tc w30"><input type="radio" value="${obj.id }" name="chkItem"></td>
 			  <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			    <td class="tl pl20">

@@ -247,8 +247,8 @@
 				    		</span>
 				    </li>
 		  		</ul>
- 					<input class="btn" type="submit" value="查询" /> 
- 					<input class="btn" type="button" onclick="resetQuery()" value="重置"/>	
+ 					<input class="btn fl mt1" type="submit" value="查询" /> 
+ 					<input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>	
    			</form>
  			</h2>
 
@@ -287,17 +287,18 @@
 					  			<c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  				</c:forEach>
 			 				</td> --%>
-							<td><div class="tl pl20">${obj.planName }</div></td>
-							<td><div class="tl pl20">${obj.userId }</div></td>
-							<td>
+							<td  class="tl pl20">${obj.planName }</td>
+							<td  class="tl pl20">${obj.userId }</td>
+							<td  class="tc">
 							<%-- <div class="left20" ><fmt:formatDate value="${obj.createdAt }"/></div> --%>
 								 <fmt:formatDate value="${obj.createdAt }" /> 
 							</td>
 							<td class="tr pr20">
 							<%-- <div class="left20" fmt:formatDate >${obj.budget }</fmt:formatNumber></div> --%>
+
 								<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 							</td>
-							<td>
+							<td class="tc">
 								<c:if test="${obj.status=='2' }">
 									待受理
 								</c:if>

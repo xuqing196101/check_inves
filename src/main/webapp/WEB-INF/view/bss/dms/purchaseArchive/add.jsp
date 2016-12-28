@@ -187,17 +187,17 @@
 							<tr class="tc">
 								<td class="w50"><input type="checkbox" name="info" value="${c.id }" /></td>
 								<td class="w50">${(vs.index+1)+(contract.pageNum-1)*(contract.pageSize)}</td>
-								<td>${c.contractCode }</td>
-								<td>${c.projectCode }</td>
-								<td>${c.year }</td>
-								<td>${c.purchaseDep }</td>
+								<td class="tl pl20">${c.contractCode }</td>
+								<td class="tl pl20">${c.projectCode }</td>
+								<td class="tl pl20">${c.year }</td>
+								<td class="tl pl20">${c.purchaseDep }</td>
 								<td>
 									<c:forEach items="${kind}" var="kind">
 										<c:if test="${kind.id == c.purchaseType}">${kind.name}</c:if>
 									</c:forEach>
 								</td>
-								<td>${c.productName }</td>
-								<td>${c.supplierName }</td>
+								<td class="tl pl20">${c.productName }</td>
+								<td class="tl pl20">${c.supplierName }</td>
 							</tr>
 						</c:forEach>
 					</tbody>

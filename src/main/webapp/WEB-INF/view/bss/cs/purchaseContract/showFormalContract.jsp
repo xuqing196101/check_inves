@@ -199,16 +199,16 @@
 		<c:forEach items="${draftCon.contractReList}" var="reque" varStatus="vs">
 			<tr>
 				<td class="tc w50">${(vs.index+1)}</td>
-				<td class="tc">${reque.planNo}</td>
-				<td class="tc">${reque.goodsName}</td>
-				<td class="tc">${reque.brand}</td>
-				<td class="tc">${reque.stand}</td>
-				<td class="tc">${reque.item}</td>
-				<td class="tc">${reque.purchaseCount}</td>
-				<td class="tc">${reque.price}</td>
-				<td class="tc">${reque.amount}</td>
-				<td class="tc">${reque.deliverDate}</td>
-				<td class="tc">${reque.memo}</td>
+				<td class="tl pl20">${reque.planNo}</td>
+				<td class="tl pl20">${reque.goodsName}</td>
+				<td class="tl pl20">${reque.brand}</td>
+				<td class="tl pl20">${reque.stand}</td>
+				<td class="tl pl20">${reque.item}</td>
+				<td class="tl pl20">${reque.purchaseCount}</td>
+				<td class="tl pl20">${reque.price}</td>
+				<td class="tl pl20">${reque.amount}</td>
+				<td class="tl pl20">${reque.deliverDate}</td>
+				<td class="tl pl20">${reque.memo}</td>
 			</tr>
    		</c:forEach>
 	</table>
