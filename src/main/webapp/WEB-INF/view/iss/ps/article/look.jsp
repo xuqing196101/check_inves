@@ -113,7 +113,7 @@
                 </tbody>
               </table>
               <h2 class="count_flow jbxx">信息正文</h2>
-              <div class="col-md-12 col-xs-12 col-sm-12 border1 h80">${article.content}</div>
+             <div class="col-md-12 col-xs-12 col-sm-12 border1 min-h130">${article.content}</div>
               <c:if test="${article.status==2 }">
                 <h2 class="count_flow jbxx clear">审核结果:审核通过</h2>
               </c:if>
@@ -147,27 +147,27 @@
           </div>
         </div>
 
-        <script type="text/javascript">
-          //实例化编辑器
-          //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-          var option = {
-            toolbars: [
-              [
-                'undo', 'redo', '|',
-                'bold', 'italic', 'underline', 'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',
-                'fontfamily', 'fontsize', '|',
-                'indent', '|',
-                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',
-              ]
-            ]
-          }
-          var ue = UE.getEditor('editor', option);
-          var content = "${article.content}";
-          ue.ready(function() {
-            ue.setContent(content);
-            ue.setDisabled(true);
-          });
-        </script>
+    <script type="text/javascript">
+      //实例化编辑器
+      //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+      var option = {
+        toolbars: [
+          [
+            'undo', 'redo', '|',
+            'bold', 'italic', 'underline', 'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',
+            'fontfamily', 'fontsize', '|',
+            'indent', '|',
+            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',
+          ]
+        ]
+      }
+      var ue = UE.getEditor('editor', option);
+      var content = '${article.content}';
+      ue.ready(function() {
+        ue.setContent(content);
+        ue.setDisabled(true);
+      });
+    </script>
   </body>
 
 </html>

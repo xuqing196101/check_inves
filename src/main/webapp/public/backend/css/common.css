@@ -887,3 +887,6 @@ a.redhover:hover{
 	text-align:left;
 	}  */
 
+.min-h130{
+	min-height: 130px;
+}
