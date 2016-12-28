@@ -94,7 +94,7 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
                             projectExtracts=new ProjectExtract();
                             //专家id
                             projectExtracts.setExpertId(expert2.getId());
-                        
+
                             //条件表id
                             projectExtracts.setExpertConditionId(conId[i]);
                             projectExtracts.setIsDeleted((short)0);
@@ -240,5 +240,16 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
     public List<ProjectExtract> findExtractByExpertId(String expertId) {
 
         return extractMapper.findExtractByExpertId(expertId);
+    }
+
+    /**
+     * 删除为抽取的信息
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param projectId
+     */
+    public void del(String projectId){
+        extractMapper.del(projectId);
     }
 }

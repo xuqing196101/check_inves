@@ -89,6 +89,16 @@ public interface ProjectExtractService {
      * @return 
      */
     ProjectExtract getExpExtRelate(String id);
-    
+
     List<ProjectExtract> findExtractByExpertId (String expertId);
-}
+
+    /**
+     * 删除为抽取的信息
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param projectId
+     */
+    void del(String projectId);
+
+    }

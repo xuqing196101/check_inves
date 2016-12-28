@@ -222,5 +222,19 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
         return count;
 
     }
+    
+    /**
+     * 
+     *〈简述〉根据获取信息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param projectId
+     * @return
+     */
+    @Override
+    public List<ExpExtCondition> conList(String projectId) {
+        
+        return conditionMapper.conList(projectId);
+    }
 
 }

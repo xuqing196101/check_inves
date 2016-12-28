@@ -20,19 +20,6 @@
 </script>
 </head>
 <body>
-	<!--面包屑导航开始-->
-	<div class="margin-top-10 breadcrumbs ">
-		<div class="container">
-			<ul class="breadcrumb margin-left-0">
-				<li><a href="#"> 首页</a></li>
-				<li><a href="#">支撑系统</a></li>
-				<li><a href="#">专家管理</a></li>
-				<li class="active"><a href="#">专家抽取</a></li>
-				<li class="active"><a href="#">专家抽取记录详情</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-	</div>
 	<!-- 修改订列表开始-->
 	<div class="container">
 		<div>
@@ -98,7 +85,6 @@
 						<td align="center">联系人</td>
 						<td align="center">手机号</td>
 						<td align="center">传真</td>
-						<td align="center">抽取次数</td>
 						<td align="center">能否参加</td>
 						<td align="center">不参加理由</td>
 					</tr>
@@ -112,7 +98,6 @@
 								<td align="center">${ext.expert.relName}</td>
 								<td align="center">${ext.expert.relName}</td>
 								  <td align="center">${ext.expert.relName}</td>
-								<td align="center">${vse.index+1}</td>
 								<td align="center"><c:if test="${ext.operatingType==1 }">
                                                                                          参加
                             </c:if>

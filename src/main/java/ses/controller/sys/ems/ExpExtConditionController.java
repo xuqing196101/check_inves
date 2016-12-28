@@ -190,11 +190,11 @@ public class ExpExtConditionController extends BaseController {
             Map<String, Integer> mapcount = new HashMap<String, Integer>();
             User user=(User) sq.getSession().getAttribute("loginUser");
             Integer sum = conTypeService.getSum(conId);
-            PageHelper.startPage(1, sum);
+            PageHelper.startPage(1, sum*2);
             List<ProjectExtract> list = extractService.list(new ProjectExtract(conId));
             if (list == null || list.size() == 0){
                 extractService.insert(conId, user != null && !"".equals(user.getId()) ? user.getId() : "",projectId,conditionId);
-                //                PageHelper.startPage(1,4);
+                PageHelper.startPage(1, sum*2);
                 list = extractService.list(new ProjectExtract(conId));
             }
             //已操作的

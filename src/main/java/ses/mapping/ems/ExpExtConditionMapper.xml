@@ -19,7 +19,8 @@
 		<result column="ADDRESS_ID" jdbcType="VARCHAR" property="addressId" />
 		<result column="AGE_MIN" jdbcType="VARCHAR" property="ageMin" />
 		<result column="EXTRACT_ADDRESS" jdbcType="VARCHAR" property="extractAddress" />
-		<result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />  
+		<result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />
+		<collection property="conTypes" column="ID" ofType="ses.model.ems.ExtConType" select="ses.dao.ems.ExtConTypeMapper.selectByPrimaryKey"  ></collection>
 	</resultMap>
 	<resultMap type="ses.model.ems.ExpExtCondition" id="BaseResultListMap"
 		extends="BaseResultMap">
@@ -34,7 +35,8 @@
 			<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 			<result column="IS_MULTICONDITION" jdbcType="DECIMAL"
 				property="isMulticondition" />
-				<association property="expertsType" column="cttypeid" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"></association>
+			<association property="expertsType" column="cttypeid"
+				select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"></association>
 		</collection>
 		<!-- 关联抽取过的专家 -->
 		<collection property="extRelatesList" column="ID"
@@ -46,7 +48,8 @@
 		"RESPONSE TIME", AGE_MAX,
 		SATISFY_CONDITION, CATEGORY_ID, EXPERT_COUNT,
 		EXPERT_ID, EXPERTS_FROM, ADDRESS_ID,
-		AGE_MIN, EXTRACT_ADDRESS,ADDRESS_REASON
+		AGE_MIN,
+		EXTRACT_ADDRESS,ADDRESS_REASON
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -72,21 +75,24 @@
 		EXPERTS_FROM,
 		ADDRESS_ID, AGE_MIN,
 		EXTRACT_ADDRESS,ADDRESS_REASON)
-		values (#{id,jdbcType=VARCHAR},
+		values
+		(#{id,jdbcType=VARCHAR},
 		#{projectId,jdbcType=VARCHAR},
 		#{status,jdbcType=DECIMAL},
-		#{address,jdbcType=VARCHAR}, #{expertsTypeId,jdbcType=VARCHAR},
+		#{address,jdbcType=VARCHAR},
+		#{expertsTypeId,jdbcType=VARCHAR},
 		#{tenderTime,jdbcType=DATE},
 		#{responseTime,jdbcType=VARCHAR},
 		#{ageMax,jdbcType=VARCHAR},
 		#{satisfyCondition,jdbcType=DECIMAL},
-		#{categoryId,jdbcType=VARCHAR}, #{expertCount,jdbcType=DECIMAL},
+		#{categoryId,jdbcType=VARCHAR},
+		#{expertCount,jdbcType=DECIMAL},
 		#{expertId,jdbcType=VARCHAR},
 		#{expertsFrom,jdbcType=VARCHAR},
 		#{addressId,jdbcType=VARCHAR},
 		#{ageMin,jdbcType=VARCHAR},
 		#{extractAddress,jdbcType=VARCHAR})
-		  #{addressReason,jdbcType=VARCHAR})
+		#{addressReason,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.ems.ExpExtCondition">
 		<!-- @mbggenerated -->
@@ -141,7 +147,7 @@
 				EXTRACT_ADDRESS,
 			</if>
 			<if test="addressReason != null">
-			ADDRESS_REASON,
+				ADDRESS_REASON,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -194,8 +200,8 @@
 				#{extractAddress,jdbcType=VARCHAR},
 			</if>
 			<if test="addressReason != null">
-			  #{addressReason,jdbcType=VARCHAR},
-      </if>
+				#{addressReason,jdbcType=VARCHAR},
+			</if>
 		</trim>
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
@@ -247,9 +253,9 @@
 			<if test="extractAddress != null">
 				EXTRACT_ADDRESS = #{extractAddress,jdbcType=VARCHAR},
 			</if>
-			 <if test="addressReason != null">
-        ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
-      </if>
+			<if test="addressReason != null">
+				ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where
 		1=1
@@ -288,7 +294,8 @@
 		#{addressId,jdbcType=VARCHAR},
 		AGE_MIN = #{ageMin,jdbcType=VARCHAR},
 		EXTRACT_ADDRESS = #{extractAddress,jdbcType=VARCHAR}
-		  ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR}
+		ADDRESS_REASON =
+		#{addressReason,jdbcType=VARCHAR}
 		where ID =
 		#{id,jdbcType=VARCHAR}
 	</update>
@@ -322,11 +329,17 @@
 		<include refid="condition" />
 	</select>
 
+<!-- 	<select id="selectByPackageId" parameterType="java.lang.String" parameterMap="BaseResultMap"> -->
+<!-- 		select -->
+<!-- 		<include refid="Base_Column_List" /> -->
+<!-- 		FROM T_SES_EMS_EXP_EXT_CONDITION WHERE PROJECT_ID = #{projectId} -->
+<!-- 	</select> -->
+
 	<!--根据关联包id查询是否有未抽取的条件 -->
 	<select id="getCount" resultType="java.lang.Integer"
 		parameterType="java.lang.String">
 		SELECT "COUNT"(*) FROM T_SES_EMS_EXP_EXT_CONDITION WHERE
-		PROJECT_ID=#{projectId} AND STATUS=1 
+		PROJECT_ID=#{projectId} AND STATUS=1
 	</select>
 
 	<!-- 关联 -->
@@ -349,7 +362,8 @@
 	<delete id="deleteInfo" parameterType="java.lang.String">
 		<if test="_parameter != null and _parameter != '' ">
 			DELETE
-			T_SES_EMS_PROJECT_EXTRACT WHERE EXPERT_CONDITION_ID = #{_parameter}
+			T_SES_EMS_PROJECT_EXTRACT WHERE EXPERT_CONDITION_ID
+			= #{_parameter}
 			AND OPERATING_TYPE = 0
 		</if>
 	</delete>

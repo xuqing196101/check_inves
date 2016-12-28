@@ -638,7 +638,7 @@ public class ExpExtractRecordController extends BaseController {
     public Object resultextract(Model model,String id,String reason,HttpServletRequest sq,String[] packageId){
         //      修改状态
         String[] ids = id.split(",");
-        
+
         if ("1".equals(ids[2])){
             ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
             String expertTypeId = expExtRelate.getExpert().getExpertsTypeId();
@@ -676,7 +676,7 @@ public class ExpExtractRecordController extends BaseController {
             }
         }
 
-  
+
         if (reason != null && !"".equals(reason)){
             extractService.update(new ProjectExtract(ids[0], new Short(ids[2]), reason ,packageId));
 
@@ -753,6 +753,11 @@ public class ExpExtractRecordController extends BaseController {
         if (count != null && count != 0){
             if (count >= sum){
                 extractService.updateStatusCount("1",extConType.getId());
+                //                删除为抽取的数据
+                Packages packages = new Packages();
+                packages.setId(list2.get(0).getProjectId());
+                List<Packages> find = packagesService.find(packages);
+                extractService.del(find.get(0).getProjectId());
                 forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
             } else {
                 forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
@@ -771,14 +776,11 @@ public class ExpExtractRecordController extends BaseController {
             projectExtrac.setExpertConditionId(ids[1]);
             List<ProjectExtract> list = extractService.list(projectExtrac);
             extConType1.setAlreadyCount(list == null ? 0 : list.size());
-            //查询出满足条件删除
+            //删除满足数量的
             if(list.size() >= extConType1.getExpertsCount()){
-
-                //                extractService.deleteProjectRecord(list.get(0).setProjectId(projectId););
-
+//                extractService.del(projectId);
             }
         }
-
 
         projectExtractListYes.get(0).setConType(conTypes);
         if (projectExtractListNo.size() != 0){
@@ -869,8 +871,9 @@ public class ExpExtractRecordController extends BaseController {
             //抽取条件
             ExpExtPackage extPackage = new ExpExtPackage();
             extPackage.setProjectId(showExpExtractRecord.getProjectId());
+            List<Packages> conList = packagesService.listExpExtCondition(showExpExtractRecord.getProjectId());
             List<ExpExtPackage> conditionList = expExtPackageServicel.extractsList(extPackage);
-            model.addAttribute("conditionList", conditionList);
+            model.addAttribute("conditionList", conList);
             //获取监督人员
             if (conditionList != null && conditionList.size() != 0){
                 List<User>  listUser = null ;

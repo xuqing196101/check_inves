@@ -141,7 +141,6 @@
 		                iframeWin.save();
 		                var type=$("#hiddentype").val();
 		                if(type != null && type != '' && type == '1'){
-		                  alert(type);  
 		                	fax();     	
 		                    layer.closeAll();
 		                }

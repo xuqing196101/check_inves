@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.model.bms.User;
+import ses.model.ems.ExpExtCondition;
 import ses.model.ems.ProjectExtract;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -146,5 +147,18 @@ public class PackageServiceImpl implements PackageService{
         // TODO Auto-generated method stub
         return packageMapper.listProjectExtract(projectId);
     }
+
+    /**
+     * 
+     *〈简述〉根据包返回抽取记录
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    public List<Packages> listExpExtCondition(String projectId){
+        return packageMapper.listExpExtCondition(projectId);
+    }
+    
+    
 }
 

@@ -102,4 +102,14 @@ public interface ExpExtConditionService {
      */
     public Integer selectLikeExpert(ExpExtCondition condition, ExtConType conType,String province);
     
+    
+    /**
+     * 
+     *〈简述〉根据获取信息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param projectId
+     * @return
+     */
+    public List<ExpExtCondition> conList(String projectId);
 }
