@@ -29,9 +29,10 @@
 	    ${articleDetail.content }
 	 </div>
 	 <div class="extra_file">
-	 	<div class="">
-			<up:show showId="artice_file_show" delete="false" businessId="${articleId}" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
-	 	</div>
+	      <span class="fl mt10"> 所有文件：</span>
+	      <div class="fl">
+	          <u:show showId="artice_file_show" delete="false" businessId="${articleId}" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+	      </div>
 	 </div>
 	 </div>
    </div>
