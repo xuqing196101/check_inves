@@ -104,11 +104,21 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      * @see synchro.service.SynchRecordService#importSupplierRecord(java.lang.String)
      */
     @Override
-    public void importSupplierRecord(String content) {
-        SynchRecord sr  = getSynchRecord(DATA_TYPE_SUPPLIER_MODIFY, OPER_TYPE_IMPORT, NEW_COMMIT_SUPPLIER + content);
+    public void importNewSupplierRecord(String content) {
+        SynchRecord sr  = getSynchRecord(DATA_TYPE_SUPPLIER_REG, OPER_TYPE_IMPORT, NEW_COMMIT_SUPPLIER + content);
         mapper.save(sr);
     }
     
+    /**
+     * 
+     * @see synchro.service.SynchRecordService#importModifySupplierRecord(java.lang.String)
+     */
+    @Override
+    public void importModifySupplierRecord(String content) {
+        SynchRecord sr  = getSynchRecord(DATA_TYPE_SUPPLIER_MODIFY, OPER_TYPE_IMPORT, NEW_COMMIT_SUPPLIER + content);
+        mapper.save(sr);
+    }
+
     /**
      * 
      * @see synchro.service.SynchRecordService#importExpertRecord(java.lang.String)

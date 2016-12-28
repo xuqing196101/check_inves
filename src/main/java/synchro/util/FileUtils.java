@@ -190,6 +190,7 @@ public class FileUtils {
           if (it != null){
               LineIterator.closeQuietly(it);
           }  
+          moveFile(file);
         }
         return sb.toString();
     }
@@ -213,6 +214,17 @@ public class FileUtils {
         }  
         return list;  
     }  
+    
+    /**
+     * 
+     *〈简述〉移动文件
+     *〈详细描述〉
+     * @author myc
+     * @param file 原文件
+     */
+    public static void moveFile(final File file){
+        file.renameTo(new File(getFinishPath(),file.getName()));
+    }
     
     /**
      *〈简述〉获取新注册专家导出文件
