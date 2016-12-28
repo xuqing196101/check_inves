@@ -857,7 +857,6 @@
 		ORDER BY CREATED_AT DESC
 	</select>
 
-	<!-- 专家抽取集合 -->
 
 	<!-- 专家抽取集合 -->
 
@@ -871,7 +870,7 @@
 		LEFT JOIN T_SES_EMS_EXPERT_CATEGORY ec
 		ON ee."ID" =
 		EC.EXPERT_ID
-		WHERE 1=1
+		WHERE 1=1 AND
 		ee.IS_DELETE = 0
 		AND ee.STATUS = 1
 		AND
