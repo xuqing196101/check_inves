@@ -71,6 +71,16 @@ public class Packages {
 	
 	private String contractId;
 	
+	/**
+	 * 是否维护符合性审查项 0 未维护 1:维护中 2：已维护
+	 */
+	private Integer isEditFirst;
+	
+	/**
+	 * 是否维护经济技术评分细则 0 未维护 1:维护中 2：已维护
+	 */
+	private Integer isEditSecond;
+	
 	public String getContractId() {
 		return contractId;
 	}
@@ -340,7 +350,20 @@ public class Packages {
         this.listProjectExtract = listProjectExtract;
     }
 
+    public Integer getIsEditFirst() {
+      return isEditFirst;
+    }
 
-  
+    public void setIsEditFirst(Integer isEditFirst) {
+      this.isEditFirst = isEditFirst;
+    }
+
+    public Integer getIsEditSecond() {
+      return isEditSecond;
+    }
+
+    public void setIsEditSecond(Integer isEditSecond) {
+      this.isEditSecond = isEditSecond;
+    }
 	
 }

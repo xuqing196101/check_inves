@@ -261,7 +261,7 @@
 		            	trhtml += "<input type='hidden' name='packageExperts["+listCount+"].expert.id' value='"+result.expertId+"'>";
 						trhtml += "</td>";		
 		            	trhtml += "<td class='tc'>"+xuhao+"</td>";		
-		            	trhtml += "<td><input class='tc w100' maxlength='16' name='packageExperts["+listCount+"].expert.relName'/></td>";
+		            	trhtml += "<td><input type='text' class='tc w100' maxlength='16' name='packageExperts["+listCount+"].expert.relName'/></td>";
 				 		trhtml += "<td><select class='tc w80' name='packageExperts["+listCount+"].reviewTypeId'>";
 				 		var ddL='${ddJson}';
 				 		var data = $.parseJSON(ddL);
@@ -270,14 +270,14 @@
 						}
 				 		trhtml += "</select></td>";
 				 		trhtml += "<td class='tc'>否</td>";
-				 		trhtml += "<input class='tc w100' type='hidden' name='packageExperts["+listCount+"].isGroupLeader' value='0' >";
+				 		trhtml += "<input type='text' class='tc w100' type='hidden' name='packageExperts["+listCount+"].isGroupLeader' value='0' >";
 				 		trhtml += "<td>";
 				 		trhtml += "<select class='tc w80' name='packageExperts["+listCount+"].isSigin'>";
 				 		trhtml += "<option value='1'>已到场</option><option value='0'>未到场</option></select>";
 				 		trhtml += "</td>";
-				 		trhtml += "<td><input class='tc w100' maxlength='40' name='packageExperts["+listCount+"].expert.idNumber'/></td>";
-				 		trhtml += "<td><input class='tc w100' maxlength='50' name='packageExperts["+listCount+"].expert.atDuty'/></td>";
-				 		trhtml += "<td><input class='tc w80' maxlength='16' name='packageExperts["+listCount+"].expert.mobile'/></td>";
+				 		trhtml += "<td><input type='text' class='tc w100' maxlength='40' name='packageExperts["+listCount+"].expert.idNumber'/></td>";
+				 		trhtml += "<td><input type='text' class='tc w100' maxlength='50' name='packageExperts["+listCount+"].expert.atDuty'/></td>";
+				 		trhtml += "<td><input type='text' class='tc w80' maxlength='16' name='packageExperts["+listCount+"].expert.mobile'/></td>";
 				 		trhtml += "</tr>";
 	 				$("#tby_"+index).append(trhtml);
                   }
@@ -307,7 +307,7 @@
 	        	<div class="p0${vs.index} hide">
 	        		
 		          	<input type="hidden" id="packId" value="${pack.id}" />
-		        	<table class="table table-bordered table-condensed table-hover table-striped mt5 space_nowrap">
+		        	<table class="table table-bordered table-condensed table-hover table-striped mt5 space_nowrap table_input left_table">
 			            <thead>
 			              <tr>
 			                <th class="info w50"><input id="checkAllExpert${vs.index}" type="checkbox" onclick="selectAll('${vs.index}')" /></th>

@@ -71,6 +71,17 @@ public class FirstAuditController {
 		  HashMap<String, Object> map = new HashMap<String, Object>();
 		  map.put("projectId", projectId);
       List<Packages> packages = packageService.findPackageById(map);
+      for (Packages packages2 : packages) {
+        FirstAudit firstAudit = new FirstAudit();
+        firstAudit.setPackageId(packages2.getId());
+        List<FirstAudit> fas = service.findBykind(firstAudit);
+        //是否维护符合性审查项
+        if (fas == null || fas.size() <= 0) {
+          packages2.setIsEditFirst(0);
+        } else {
+          packages2.setIsEditFirst(1);
+        }
+      }
       //查询项目下所有的符合性审查项
       List<FirstAudit> firstAudits = service.getListByProjectId(projectId);
       model.addAttribute("packages", packages);
