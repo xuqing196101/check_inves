@@ -67,8 +67,10 @@ import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -1172,12 +1174,20 @@ public class SupplierAuditController extends BaseSupplierController{
 			supplier.setSign(sign);
 			request.getSession().removeAttribute("signs");
 		}
-		PageInfo<Supplier> result = supplierAuditService.supplierList(supplier);
-		request.setAttribute("result", result);
+		
+		if (page == null){
+		    page = StaticVariables.DEFAULT_PAGE;
+		}
+		
+		List<Supplier> list = supplierAuditService.getAuditSupplierList(supplier, page);
+		PageInfo<Supplier> pageInfo =  new PageInfo<Supplier>(list);
+		request.setAttribute("result", getSupplierType(pageInfo));
 		
 		//企业性质
-		List<DictionaryData> enterpriseTypeList=DictionaryDataUtil.find(17);
+		List<DictionaryData> enterpriseTypeList = DictionaryDataUtil.find(17);
 		request.setAttribute("enterpriseTypeList", enterpriseTypeList);
+		
+		
 		
 		//回显
 		String supplierName = supplier.getSupplierName();
@@ -1191,6 +1201,36 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.getSession().getAttribute("sign");
 		
 		return "ses/sms/supplier_audit/supplier_all";
+	}
+	
+	/**
+	 * 
+	 *〈简述〉获取供应商的企业类型
+	 *〈详细描述〉
+	 * @author myc
+	 * @param list
+	 * @return
+	 */
+	private PageInfo<Supplier> getSupplierType(PageInfo<Supplier> pageInfo){
+	    List<Supplier> supplierList = new ArrayList<>();
+	    List<Supplier> list = pageInfo.getList();
+        for (Supplier supplier: list){
+            List<SupplierTypeRelate> relaList = supplierTypeRelateService.queryBySupplier(supplier.getId());
+            String typeName="";
+            for (SupplierTypeRelate str : relaList){
+                DictionaryData dd = DictionaryDataUtil.get(str.getSupplierTypeId());
+                if (dd != null){
+                    typeName += dd.getName() + StaticVariables.COMMA_SPLLIT;
+                }
+            }
+            if (typeName.contains(StaticVariables.COMMA_SPLLIT)){
+                typeName = typeName.substring(0, typeName.length() -1);
+            }
+            supplier.setSupplierTypeNames(typeName);
+            supplierList.add(supplier);
+        }
+        pageInfo.setList(supplierList);
+        return pageInfo;
 	}
 	
 	@RequestMapping(value = "deleteById")

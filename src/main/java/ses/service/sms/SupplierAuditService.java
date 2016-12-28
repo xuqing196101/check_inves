@@ -37,6 +37,17 @@ public interface SupplierAuditService {
 	 * @return List<Supplier>
 	 */
 	PageInfo<Supplier> supplierList(Supplier supplier);
+	
+	/**
+	 * 
+	 *〈简述〉查询审核的供应商信息
+	 *〈详细描述〉
+	 * @author myc
+	 * @param supplier  {@link Supplier}
+	 * @param page 分页
+	 * @return
+	 */
+	List<Supplier> getAuditSupplierList(Supplier supplier, Integer page);
 	 
     /**
      * @Title: querysupplier

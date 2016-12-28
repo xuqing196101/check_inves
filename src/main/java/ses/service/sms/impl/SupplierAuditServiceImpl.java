@@ -181,7 +181,17 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return null;
 	}
 	
+	/**
+	 * @see ses.service.sms.SupplierAuditService#getAuditSupplierList(ses.model.sms.Supplier, java.lang.Integer)
+	 */
 	@Override
+    public List<Supplier> getAuditSupplierList(Supplier supplier, Integer page) {
+	    PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
+        return supplierMapper.findSupplierAll(supplier);
+    }
+
+
+    @Override
 	public List<Supplier> querySupplier(Supplier supplier,Integer page) {
 		if(page!=null){
 			PropertiesUtil config = new PropertiesUtil("config.properties");

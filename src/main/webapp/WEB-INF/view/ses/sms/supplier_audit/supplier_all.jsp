@@ -35,31 +35,7 @@
 						}
 					});
 				});
-			</script>
-			<script type="text/javascript">
-				$(function() {
-					laypage({
-						cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-						pages: "${result.pages}", //总页数
-						skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-						skip: true, //是否开启跳页
-						total: "${result.total}",
-						startRow: "${result.startRow}",
-						endRow: "${result.endRow}",
-						groups: "${result.pages}" >= 3 ? 3 : "${result.pages}", //连续显示分页数
-						curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
-							return "${result.pageNum}";
-						}(),
-						jump: function(e, first) { //触发分页后的回调
-							if(!first) { //一定要加此判断，否则初始时会无限刷新
-								$("#page").val(e.curr);
-								$("#form1").submit();
-							}
-						}
-					});
-				});
-			</script>
-			<script type="text/javascript">
+			
 				/** 全选全不选 */
 				function selectAll() {
 					var checklist = document.getElementsByName("chkItem");
@@ -255,16 +231,13 @@
 							<tr>
 								<td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
 								<td class="tc w50" onclick="shenhe('${list.id }');">${page.count}</td>
-								<td class="tc" onclick="shenhe('${list.id }');">${list.supplierName }</td>
+								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierName }</td>
+								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">
-									<c:forEach items="${list.listSupplierTypeRelates}" var="str">
-										<c:if test="${fn:contains(str.supplierTypeName, '生产')}">${str.supplierTypeName }</c:if>
-										<c:if test="${fn:contains(str.supplierTypeName, '销售')}">${str.supplierTypeName }</c:if>
-										<c:if test="${fn:contains(str.supplierTypeName, '服务')}">${str.supplierTypeName }</c:if>
-										<c:if test="${fn:contains(str.supplierTypeName, '工程')}">${str.supplierTypeName }</c:if>
-									</c:forEach>
+								  <c:forEach items="${enterpriseTypeList}" var="type">
+								  	 <c:if test="${list.businessType == type.id}">${type.name}</c:if>
+								  </c:forEach>
 								</td>
-								<td class="tc" onclick="shenhe('${list.id }');">${list.businessTypeName }</td>
 								<td class="tc w100" id="${list.id}" onclick="shenhe('${list.id }');">
 									<c:if test="${list.status == 0}"><span class="label rounded-2x label-u">待审核</span></c:if>
 									<c:if test="${list.status == 1}"><span class="label rounded-2x label-dark">审核通过</span></c:if>
