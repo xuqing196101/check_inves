@@ -189,7 +189,8 @@
 	<!-- 回退分数 -->
 	<update id="backScore" parameterType="java.util.HashMap">
 		update T_BSS_PRMS_PACKAGE_EXPERT
-		set IS_GRADE = 0
+		set IS_GRADE = 0,
+		IS_GRADE_GATHER = 0
 		where PACKAGE_ID = #{packageId}
 		and PROJECT_ID = #{projectId}
 		and EXPERT_ID = #{expertId}

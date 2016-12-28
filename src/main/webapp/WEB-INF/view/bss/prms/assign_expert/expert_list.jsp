@@ -287,9 +287,6 @@
   </script>
   <body>
         <h2 class="list_title">专家签到</h2>
-        <c:forEach var="expertType" items="${ddList}">
-        	
-        </c:forEach>
         <input type="hidden" id="reviewTypeTds">
         <form id="save_sign"  method="post">
         	<input name="projectId" type="hidden" value="${project.id}">

@@ -1152,40 +1152,13 @@ public class PackageExpertController {
         BigDecimal totalPricePercent = new BigDecimal(0);
         //评分比例
         BigDecimal totalScorePercent = new BigDecimal(0);
-        BidMethod condition = new BidMethod();
-        condition.setProjectId(projectId);
-        condition.setPackageId(packageId);
-        List<BidMethod> bmList = bidMethodService.findScoreMethod(condition);
-        List<DictionaryData> ddList = DictionaryDataUtil.find(27);
-        ddList.get(Integer.parseInt(bmList.get(0).getTypeName()));
-        if (bmList != null && bmList.size() > 0 && ddList != null && ddList.size() > 0) {
-          Integer position = Integer.parseInt(bmList.get(0).getTypeName());
-          String aduitMethodCode = ddList.get(position).getCode();
-          //综合评分法
-          if ("OPEN_ZHPFF".equals(aduitMethodCode)) {
-            totalScorePercent = bmList.get(0).getBusiness().divide(new BigDecimal(100));
-            totalPricePercent = bmList.get(0).getValid().divide(new BigDecimal(100));
-          }
-          //基准价法
-          if ("PBFF_JZJF".equals(aduitMethodCode)) {
-            
-          }
-          //性价比法
-          if ("PBFF_XJBF".equals(aduitMethodCode)) {
-            
-          }
-          //最低价法
-          if ("PBFF_ZDJF".equals(aduitMethodCode)) {
-            
-          }
-          
-        }
+        
         // 供应商信息
         List<SaleTender> allSupplierList = saleTenderService.list(new SaleTender(projectId), 0);
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
         for (int i = 0; i < allSupplierList.size(); i++) {
             SaleTender sale = allSupplierList.get(i);
-            if (sale.getPackages().contains(packageId) && sale.getIsFirstPass() == 1) {
+            if (sale.getPackages().contains(packageId) && sale.getIsFirstPass() == 1 && !"1".equals(sale.getIsRemoved())) {
                 supplierList.add(sale);
             }
         }
@@ -1237,50 +1210,79 @@ public class PackageExpertController {
             // 将算好的总分放入map
             map.put("economicScore", economicScore);
             map.put("technologyScore", technologyScore);
-            //该供应商平均分偏离计算
-            BigDecimal totalSupplier = new BigDecimal(0);
-            totalSupplier= totalSupplier.add(economicScore);
-            totalSupplier= totalSupplier.add(technologyScore);
-            if (totalSupplier.compareTo(totalScoreAver) == -1) {
-                //小于平均分的分数
-                BigDecimal v = totalScoreAver.subtract(totalSupplier);
-                //如果偏离值大于标准偏离值
-                if (totalScoreStandard.compareTo(v) == -1) {
-                  BigDecimal percent = totalScorePercent.multiply(new BigDecimal(100));
-                  msg += "经济技术平均得分低于有效经济技术平均得分的"+percent+"%.";
-                }
-            } else {
-              msg += "";
-            }
-            //该供应商平均报价偏离计算
-            BigDecimal totalPriceSupplier = new BigDecimal(0);
-            Supplier supplier = saleTender.getSuppliers();
-            Quote quote = new Quote();
-            quote.setProjectId(projectId);
-            quote.setPackageId(packageId);
-            quote.setSupplierId(supplier.getId());
-            List<Quote> allQuote = supplierQuoteService.get(quote);
-            if (allQuote != null && allQuote.size()>0) {
-                if (allQuote.get(0).getQuotePrice() == null) {
-                  totalPriceSupplier = totalPriceSupplier.add(allQuote.get(0).getTotal());
-                } else {
-                    BigDecimal totalPrice2 = BigDecimal.ZERO;
-                    for (Quote q : allQuote) {
-                        totalPrice2 = q.getQuotePrice().add(totalPrice2);
+            //四种评分办法计算
+            BidMethod condition = new BidMethod();
+            condition.setProjectId(projectId);
+            condition.setPackageId(packageId);
+            List<BidMethod> bmList = bidMethodService.findScoreMethod(condition);
+            List<DictionaryData> ddList = DictionaryDataUtil.find(27);
+            ddList.get(Integer.parseInt(bmList.get(0).getTypeName()));
+            if (bmList != null && bmList.size() > 0 && ddList != null && ddList.size() > 0) {
+              Integer position = Integer.parseInt(bmList.get(0).getTypeName());
+              String aduitMethodCode = ddList.get(position).getCode();
+              //综合评分法
+              if ("OPEN_ZHPFF".equals(aduitMethodCode)) {
+                totalScorePercent = bmList.get(0).getBusiness().divide(new BigDecimal(100));
+                totalPricePercent = bmList.get(0).getValid().divide(new BigDecimal(100));
+                //该供应商平均分偏离计算
+                BigDecimal totalSupplier = new BigDecimal(0);
+                totalSupplier= totalSupplier.add(economicScore);
+                totalSupplier= totalSupplier.add(technologyScore);
+                if (totalSupplier.compareTo(totalScoreAver) == -1) {
+                    //小于平均分的分数
+                    BigDecimal v = totalScoreAver.subtract(totalSupplier);
+                    //如果偏离值大于标准偏离值
+                    if (totalScoreStandard.compareTo(v) == -1) {
+                      BigDecimal percent = totalScorePercent.multiply(new BigDecimal(100));
+                      msg += "经济技术平均得分低于有效经济技术平均得分的"+percent+"%.";
                     }
-                    totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
+                } else {
+                  msg += "";
                 }
-            }
-            if (totalPriceSupplier.compareTo(totalPriceAver) == -1) {
-                //小于平均分的分数
-                BigDecimal v = totalPriceAver.subtract(totalPriceSupplier);
-                //如果偏离值大于标准偏离值
-                if (totalPriceStandard.compareTo(v) == -1) {
-                  BigDecimal percent = totalScorePercent.multiply(new BigDecimal(100));
-                  msg += "报价高于有效平均报价的"+percent+"%.";
+                //该供应商平均报价偏离计算
+                BigDecimal totalPriceSupplier = new BigDecimal(0);
+                Supplier supplier = saleTender.getSuppliers();
+                Quote quote = new Quote();
+                quote.setProjectId(projectId);
+                quote.setPackageId(packageId);
+                quote.setSupplierId(supplier.getId());
+                List<Quote> allQuote = supplierQuoteService.get(quote);
+                if (allQuote != null && allQuote.size()>0) {
+                    if (allQuote.get(0).getQuotePrice() == null) {
+                      totalPriceSupplier = totalPriceSupplier.add(allQuote.get(0).getTotal());
+                    } else {
+                        BigDecimal totalPrice2 = BigDecimal.ZERO;
+                        for (Quote q : allQuote) {
+                            totalPrice2 = q.getQuotePrice().add(totalPrice2);
+                        }
+                        totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
+                    }
                 }
-            } else {
-              msg += "";
+                if (totalPriceSupplier.compareTo(totalPriceAver) == -1) {
+                    //小于平均分的分数
+                    BigDecimal v = totalPriceAver.subtract(totalPriceSupplier);
+                    //如果偏离值大于标准偏离值
+                    if (totalPriceStandard.compareTo(v) == -1) {
+                      BigDecimal percent = totalScorePercent.multiply(new BigDecimal(100));
+                      msg += "报价高于有效平均报价的"+percent+"%.";
+                    }
+                } else {
+                  msg += "";
+                }
+              }
+              //基准价法
+              if ("PBFF_JZJF".equals(aduitMethodCode)) {
+                
+              }
+              //性价比法
+              if ("PBFF_XJBF".equals(aduitMethodCode)) {
+                
+              }
+              //最低价法
+              if ("PBFF_ZDJF".equals(aduitMethodCode)) {
+                
+              }
+              
             }
             map.put("reviewResult", msg);
             saleTenderService.editSumScore(map);
@@ -1590,8 +1592,12 @@ public class PackageExpertController {
         Map<String, Object> packageExpertmap = new HashMap<String, Object>();
         packageExpertmap.put("packageId", packageId);
         packageExpertmap.put("projectId", projectId);
-        //查询已提交符合性审查的专家
+        //查询专家
         List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
+        if (expertIdList != null && expertIdList.size() > 0) {
+          Short isEnd = expertIdList.get(0).getIsGatherGather();
+          model.addAttribute("isEnd", isEnd);
+        }
         // 供应商信息
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
         List<SaleTender> sl = saleTenderService.list(new SaleTender(projectId), 0);
@@ -1764,7 +1770,7 @@ public class PackageExpertController {
         List<SaleTender> supplierList = saleTenderService.find(saleTender);
         List<SaleTender> suppList = new ArrayList<SaleTender>();
         for (SaleTender supp : supplierList) {
-            if (supp.getIsFirstPass() == 1) {
+            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved())) {
                 suppList.add(supp);
             }
         }
@@ -1776,7 +1782,7 @@ public class PackageExpertController {
         removeRankSame(scores);
         // 供应商经济总分,技术总分,总分
         List<SupplierRank> rankList = new ArrayList<SupplierRank>();
-        for (SaleTender supp : supplierList) {
+        for (SaleTender supp : suppList) {
             SupplierRank rank = new SupplierRank();
             rank.setSupplierId(supp.getSuppliers().getId());
             rank.setPackageId(supp.getPackages());
@@ -1809,9 +1815,23 @@ public class PackageExpertController {
                     }
                 }
             }*/
-            rank.setEconScore(supp.getEconomicScore());
-            rank.setTechScore(supp.getTechnologyScore());
-            rank.setSumScore(supp.getEconomicScore().add(supp.getTechnologyScore()));
+            BigDecimal es = supp.getEconomicScore();
+            if (es == null) {
+              rank.setEconScore(null);
+            } else {
+              rank.setEconScore(es);
+            }
+            BigDecimal ts = supp.getTechnologyScore();
+            if (ts == null) {
+              rank.setTechScore(null);
+            } else {
+              rank.setTechScore(ts);
+            }
+            if (es == null || ts == null) {
+              rank.setSumScore(null);
+            } else {
+              rank.setSumScore(supp.getEconomicScore().add(supp.getTechnologyScore()));
+            }
             rankList.add(rank);
         }
         // 循环遍历判断名次
@@ -1987,6 +2007,11 @@ public class PackageExpertController {
         mapSearch1.put("projectId", projectId);
         mapSearch1.put("packageId", packageId);
         List<PackageExpert> expList = packageExpertService.selectList(mapSearch1);
+        //判断是否结束评审
+        if (expList != null && expList.size() > 0) {
+          Short isEnd = expList.get(0).getIsGatherGather();
+          model.addAttribute("isEnd", isEnd);
+        }
         // 遍历进行排序   技术---经济---两者都有
         List<PackageExpert> expertList = new ArrayList<PackageExpert>();
         for (PackageExpert exp : expList) {
@@ -2514,7 +2539,6 @@ public class PackageExpertController {
                   if (packageExpert.getIsGrade() == SONE || packageExpert.getIsGrade() == NUMBER_TWO) {
                     //改为经济技术评审未提交和未结束状态
                     packageExpert.setIsGrade((short)0);
-                    packageExpert.setIsGatherGather((short)0);
                     packageExpertService.updateByBean(packageExpert);
                     //评分内容清空
                     

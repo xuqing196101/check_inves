@@ -41,6 +41,7 @@
 						 async:false,
 						 success:function(){
 							 layer.alert("已结束",{offset: [y, x], shade:0.01});
+							 $("#backId").attr("class","dnone");
 						 },
 						 error: function(){
 							 layer.alert("结束失败,请稍后重试!",{offset: [y, x], shade:0.01});
@@ -126,8 +127,10 @@
 <body>
 		<h3>包名称：${pack.name}</h3>
 	    <div class="mb5 fr">
-		  <button class="btn" onclick="toTotal()" type="button">结束</button>
-		  <button class="btn" onclick="backScore()" type="button">复核</button>
+	      <c:if test="${isEnd != 1}">
+			  <button class="btn" onclick="toTotal()" type="button">结束</button>
+			  <button class="btn" id="backId" onclick="backScore()" type="button">复核</button>
+		  </c:if>
 		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印</button>
 		</div>
 		<!--循环供应商  -->

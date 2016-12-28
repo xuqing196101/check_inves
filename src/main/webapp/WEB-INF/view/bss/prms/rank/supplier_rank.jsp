@@ -34,7 +34,6 @@
 	}
 	$(function(){
 		var flag = "${flag}";
-		alert(flag);
 		if (flag == '1') {
 			layer.msg("没有显示出来的包为暂未结束评审状态!",{offset: ['200px', '260px']});
 		}
