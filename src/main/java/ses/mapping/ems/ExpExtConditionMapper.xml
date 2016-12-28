@@ -328,7 +328,7 @@
 		<include refid="condition" />
 	</select>
 
-	<select id="selectByPackageId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="selectByPackageId" parameterType="java.lang.String" resultMap="BaseResultListMap">
 		 SELECT
     EC.*, CT."ID" AS ctid,
     CT.CATEGORY_NAME,CT.EXPERTS_COUNT,CT.EXPERTS_QUALIFICATION,CT.EXPERTS_TYPE_ID

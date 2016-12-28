@@ -312,17 +312,17 @@
       /**完成**/
       function finish(){
     	  
-    	   layer.confirm('是否需要打印', {
+    	 /*   layer.confirm('是否需要打印', {
                btn: ['打印','取消'],offset: ['40%', '40%'], shade:0.01
              }, function(index){
-                window.location.href="${pageContext.request.contextPath}/ExpExtract/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+                window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
              }, function(index){
                layer.close(index);
-             });
+             }); */
        
     	  
     	  
-    	 /*   $.ajax({
+       $.ajax({
                type: "POST",
                url: "${pageContext.request.contextPath}/ExpExtract/isFinish.do",
                data: {packageId:"${packageId}"},
@@ -341,7 +341,7 @@
             	          }
             	   }
               
-    	   }); */
+    	   }); 
     	  
       }
       

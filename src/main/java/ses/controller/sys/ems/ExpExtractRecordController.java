@@ -875,6 +875,7 @@ public class ExpExtractRecordController extends BaseController {
      */
     @RequestMapping("/showRecord")
     public String showRecord(Model model,String id){
+        model.addAttribute("ddList", expExtractRecordService.ddList());
         //获取抽取记录
         ExpExtractRecord showExpExtractRecord = expExtractRecordService.listExtractRecord(new ExpExtractRecord(id),0).get(0);
         model.addAttribute("ExpExtractRecord", showExpExtractRecord);
@@ -921,6 +922,9 @@ public class ExpExtractRecordController extends BaseController {
 
             List<Packages> listResultExpert = packagesService.listResultExpert(projectId);
             model.addAttribute("listResultExpert", listResultExpert);
+            
+//            List<Packages> listResultExpert = packagesService.listResultExpert(projectId);
+//            model.addAttribute("listResultExpert", listResultExpert);
 
         }
         return "ses/ems/exam/expert/extract/show_record";
