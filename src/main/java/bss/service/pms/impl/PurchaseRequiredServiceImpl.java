@@ -17,6 +17,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.model.oms.util.CommonConstant;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.pms.CollectPlanMapper;
 import bss.dao.pms.CollectPurchaseMapper;
@@ -60,9 +62,8 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 
 	@Override
 	public List<PurchaseRequired> query(PurchaseRequired purchaseRequired,Integer page) {
+	    PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("page.size.thirty")));
 		List<PurchaseRequired> list = purchaseRequiredMapper.query(purchaseRequired);
-		//PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt("30"));
 		return list;
 	}
 

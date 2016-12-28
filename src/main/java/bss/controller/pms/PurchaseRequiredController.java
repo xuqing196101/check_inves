@@ -98,8 +98,7 @@ public class PurchaseRequiredController extends BaseController{
 		purchaseRequired.setIsMaster(1);
 		purchaseRequired.setStatus("1");
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
-		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
-		model.addAttribute("info", info);
+		model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
 		model.addAttribute("inf", purchaseRequired);
 		
 		Map<String,Object> map=new HashMap<String,Object>();
