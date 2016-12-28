@@ -24,26 +24,28 @@
 					<div class="headline-v2">
 						<h2>添加诚信形式内容</h2>
 					</div>
-					<ul class="list-unstyled list-flow p0_20">
-						<li class="col-md-6 p0"><span class="">诚信内容名称：</span>
-							<div class="input-append">
+					<ul class="list-unstyled p0_20">
+						<li class="col-md-6 col-sm-6 col-xs-6 pl15">
+						    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">诚信内容名称：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group">
 								<input name="supplierCreditId" type="hidden" value="${supplierCreditCtnt.supplierCreditId}" />
 								<input name="id" type="hidden" value="${supplierCreditCtnt.id}" />
 								<input name="name" class="span2" type="text" value="${supplierCreditCtnt.name}"> 
 								<span class="add-on">i</span>
 							</div>
 						</li>
-						<li class="col-md-6 p0"><span class="">诚信内容分数：</span>
-							<div class="input-append">
+						<li class="col-md-6 col-sm-6 col-xs-6 ">
+						    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">诚信内容分数：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group">
 								<input name="score" class="span2" type="text" value="${supplierCreditCtnt.score}"> 
 								<span class="add-on">i</span>
 							</div>
 						</li>
 					</ul>
 				</div>
-				<div class="col-md-12 tc">
+				<div class="col-md-12 tc col-xs-12 col-sm-12 mt10">
 					<input class="btn btn-windows save" type="submit" value="保存" />
-					<input class="btn btn-windows reset" onclick="history.go(-1)" type="button" value="返回">
+					<input class="btn btn-windows back" onclick="history.go(-1)" type="button" value="返回">
 				</div>
 			</div>
 		</form>

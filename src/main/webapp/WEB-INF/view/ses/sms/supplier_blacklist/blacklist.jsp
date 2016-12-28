@@ -163,8 +163,8 @@
 							<label class="fl">终止时间：</label>
 							<span><input name="endTime" type="text" readonly="readonly" onClick="WdatePicker()" value="${endTime}" /></span>
 						</li>
-							<button type="button" onclick="searchSupplierBlacklist(1)" class="btn">查询</button>
-							<button onclick="resetForm()" class="btn" type="button">重置</button>
+							<button type="button" onclick="searchSupplierBlacklist(1)" class="btn fl">查询</button>
+							<button onclick="resetForm()" class="btn fl" type="button">重置</button>
 					</ul>
 					<div class="clear"></div>
 				</form>

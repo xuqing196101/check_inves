@@ -232,11 +232,11 @@
 	            <c:forEach items="${shareholder}" var="s" varStatus="vs">
 	              <tr>
 		              <td class="tc">${vs.index + 1}</td>
-		              <td class="tc" id="${s.id }" >${s.name}</td>
+		              <td class="tl pl20" id="${s.id }" >${s.name}</td>
 		              <td class="tc">${s.nature}</td>
 		              <td class="tc" >${s.identity}</td>
 		              <td class="tc" >${s.shares}</td>
-		              <td class="tc" >${s.proportion}%</td>
+		              <td class="tc" >${s.proportion}</td>
 		              <td class="tc w50" >
 		                <a id="${s.id}_show"><img src='/zhbj/public/backend/images/sc.png'></a>
 		                <p onclick="reason('${s.id}');" id="${s.id}_hidden" class="btn">审核</p>

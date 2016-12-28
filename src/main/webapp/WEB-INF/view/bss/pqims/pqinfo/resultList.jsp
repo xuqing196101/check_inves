@@ -116,8 +116,8 @@
 	  			</select>
 	   		</span>
 	   </li>
-	   	 <button class="btn" type="submit">查询</button>
-	   	 <button type="reset" class="btn">重置</button>
+	   	 <button class="btn fl" type="submit">查询</button>
+	   	 <button type="reset " class="btn fl">重置</button>
 	 </ul>
 
 	 </form>
@@ -147,13 +147,13 @@
 				
 				<td class="tc" onclick="show('${PqInfo.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.name}</td>
+				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.name}</td>
 				
-				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.code}</td>
+				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.code}</td>
 			
-				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.purchaseDepName}</td>
+				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.purchaseDepName}</td>
 			
-				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplierDepName}</td>
+				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplierDepName}</td>
 			
 				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.type}</td>
 				

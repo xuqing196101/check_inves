@@ -281,7 +281,7 @@
 	            <c:forEach items="${supplierCertSell}" var="s" varStatus="vs">
 	              <tr>
 	                <td class="tc">${vs.index + 1}</td>
-	                <td class="tc" id="${s.id}" >${s.name }</td>
+	                <td class="tl pl20" id="${s.id}" >${s.name }</td>
 	                <td class="tc"  >${s.levelCert}</td>
 	                <td class="tc"  >${s.licenceAuthorith }</td>
 	                <td class="tc"  >

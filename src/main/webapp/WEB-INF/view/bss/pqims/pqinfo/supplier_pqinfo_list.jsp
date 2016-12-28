@@ -65,8 +65,8 @@
 	   	</span>
 	   </li>
 	   
-	   	 <button class="btn" type="submit">查询</button>
-	   	 <button type="reset" class="btn">重置</button> 
+	   	 <button class="btn fl mt1" type="submit">查询</button>
+	   	 <button type="reset" class="btn fl mt1">重置</button> 
 	 </ul>
 
 	 <div class="clear"></div>
@@ -83,14 +83,14 @@
 		  <th class="info">供应商名称</th>
 		  <th class="info">质检合格次数</th>
 		  <th class="info">质检不合格次数</th>
-		  <th class="info">质检合格百分比</th>
+		  <th class="info">质检合格百分比(%)</th>
 		</tr>
 		</thead>
 		<c:forEach items="${list.list}" var="PqInfo" varStatus="vs">
 			<tr>
 				<td class="tc">${(vs.index+1)+(page.pageNum-1)*(page.pageSize)}</td>
 			
-				<td class="tc">${PqInfo.supplierName}</td>
+				<td class="tl pl20">${PqInfo.supplierName}</td>
 			
 				<td class="tc">${PqInfo.successCount}</td>
 				

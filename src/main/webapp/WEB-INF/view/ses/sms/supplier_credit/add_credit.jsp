@@ -23,10 +23,10 @@
 			<div class="p10_25">
 				<form target="_parent" id="search_form_id" class="" action="${pageContext.request.contextPath}/supplier_credit/save_or_update_supplier_credit.html" method="post">
 					<input name="id" type="hidden" value="${supplierCredit.id}">
-					<ul class="demand_list">
-						<li class="fl">
-							<label class="fl mt5">诚信形式名称：</label>
-							<span><input name="name" type="text" value="${supplierCredit.name}" /></span>
+					<ul class="demand_list tc">
+						<li class=" fl">
+							<label class="col-md-6 col-xs-6 col-sm-6">诚信形式名称：</label>
+							<span class="col-md-6 col-xs-6 col-sm-6"><input name="name" class="mt10" type="text" value="${supplierCredit.name}" /></span>
 						</li>
 							<div class="clear"></div>
 					</ul>
