@@ -47,6 +47,9 @@ public class SaleTender {
      * </pre>
      */
     private String id;
+    
+    /** 该包是否已结束 **/
+    private Integer isFinish;
 
     /**
      * <pre>
@@ -644,6 +647,16 @@ public class SaleTender {
 
     public void setRemovedReason(String removedReason) {
         this.removedReason = removedReason;
+    }
+
+
+    public Integer getIsFinish() {
+        return isFinish;
+    }
+
+
+    public void setIsFinish(Integer isFinish) {
+        this.isFinish = isFinish;
     }
     
     

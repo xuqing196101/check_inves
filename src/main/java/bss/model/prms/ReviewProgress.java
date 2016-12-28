@@ -18,6 +18,8 @@ public class ReviewProgress {
     private Double scoreProgress;
     //汇总状态 0：未汇总  1：已汇总
     private Integer isGather;
+    //结束状态 0：未结束  1：已结束
+    private Integer isFinish;
 
     public String getId() {
         return id;
@@ -89,6 +91,14 @@ public class ReviewProgress {
 
     public void setIsGather(Integer isGather) {
         this.isGather = isGather;
+    }
+
+    public Integer getIsFinish() {
+        return isFinish;
+    }
+
+    public void setIsFinish(Integer isFinish) {
+        this.isFinish = isFinish;
     }
 
 }

@@ -1763,6 +1763,14 @@ public class PackageExpertController {
                 }
             }
         }
+        for (ReviewProgress review : reviewProgressList) {
+            map.put("packageId", review.getPackageId());
+            List<PackageExpert> list = packageExpertService.selectList(map);
+            if (list != null && list.size() > 0) {
+                Integer isFinish = list.get(0).getIsGatherGather() == (short) 1 ? 1 : 0;
+                review.setIsFinish(isFinish);
+            }
+        }
         // 包信息
         model.addAttribute("packageList", packages);
         model.addAttribute("projectId", projectId);
@@ -1804,8 +1812,11 @@ public class PackageExpertController {
         model.addAttribute("length", packList.size());
         // 供应商信息
         SaleTender saleTender = new SaleTender();
-        saleTender.setProjectId(packages.getProjectId());
-        List<SaleTender> supplierList = saleTenderService.find(saleTender);
+        List<SaleTender> supplierList = new ArrayList<SaleTender>();
+        for (Packages pack : packList) {
+            saleTender.setPackages(pack.getId());
+            supplierList.addAll(saleTenderService.find(saleTender));
+        }
         List<SaleTender> suppList = new ArrayList<SaleTender>();
         for (SaleTender supp : supplierList) {
             if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved())) {
@@ -1814,9 +1825,12 @@ public class PackageExpertController {
         }
         model.addAttribute("supplierList", suppList);
         // 分数
+        List<ExpertScore> scores = new ArrayList<ExpertScore>();
         Map<String, Object> searchMap = new HashMap<String, Object>();
-        searchMap.put("projectId", projectId);
-        List<ExpertScore> scores = expertScoreService.selectByMap(searchMap);
+        for (Packages pack : packList) {
+            searchMap.put("packageId", pack.getId());
+            scores.addAll(expertScoreService.selectByMap(searchMap));
+        }
         removeRankSame(scores);
         // 供应商经济总分,技术总分,总分
         List<SupplierRank> rankList = new ArrayList<SupplierRank>();
@@ -1910,8 +1924,11 @@ public class PackageExpertController {
         model.addAttribute("rankList", rankList);
         // 项目中抽取的专家信息
         Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
-        mapSearch1.put("projectId", projectId);
-        List<PackageExpert> expList = packageExpertService.selectList(mapSearch1);
+        List<PackageExpert> expList = new ArrayList<PackageExpert>();
+        for (Packages pack : packList) {
+            mapSearch1.put("packageId", pack.getId());
+            expList.addAll(packageExpertService.selectList(mapSearch1));
+        }
         // 将专家进行排序,先经济,后技术
         List<PackageExpert> expertList = new ArrayList<PackageExpert>();
         for (PackageExpert exp : expList) {
@@ -1978,6 +1995,7 @@ public class PackageExpertController {
         model.addAttribute("expertList", expertList);
         // 专家给每个供应商打得分
         List<ExpertSuppScore> expertScoreList = new ArrayList<ExpertSuppScore>();
+        searchMap.put("projectId", projectId);
         for (Packages pack : packList) {
             searchMap.put("packageId", pack.getId());
             expertScoreList.addAll(expertScoreService.getScoreByMap(searchMap));
@@ -2858,9 +2876,16 @@ public class PackageExpertController {
     public String confirmSupplier (String projectId, Model model) {
         List<SaleTender> supplierList = saleTenderService.selectListByProjectId(projectId);
         Packages pack = new Packages();
+        Map<String, Object> map = new HashMap<String, Object>();
         for (SaleTender sale : supplierList) {
             pack.setId(sale.getPackages());
             sale.setPackageNames(packageService.find(pack).get(0).getName());
+            map.put("packageId", sale.getPackages());
+            List<PackageExpert> list = packageExpertService.selectList(map);
+            if (list != null && list.size() > 0) {
+                Integer isFinish = list.get(0).getIsGatherGather() == (short) 1 ? 1 : 0;
+                sale.setIsFinish(isFinish);
+            }
         }
         model.addAttribute("supplierList", supplierList);
         model.addAttribute("projectId", projectId);

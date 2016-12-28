@@ -106,6 +106,7 @@
 			  <!-- <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
 			  <th class="w50 info">序号</th>
 			  <th class="info">包名</th>
+			  <th class="info">状态</th>
 			  <th class="info">详审进度</th>
 			  <th class="info">操作</th>
 			</tr>
@@ -115,6 +116,10 @@
 		       	<%-- <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${rp.packageId}" /></td> --%>
 		        <td class="tc w30">${vs.count} </td>
 		        <td class="tc">${rp.packageName}</td>
+		        <td class="tc">
+		          <c:if test="${rp.isFinish == 0}">经济技术评审中</c:if>
+		          <c:if test="${rp.isFinish == 1}">经济技术评审结束</c:if>
+		        </td>
 			    <td class="tc">
 				  <div class="col-md-12 padding-0">
 					  <div class="progress w55p fl margin-left-0">

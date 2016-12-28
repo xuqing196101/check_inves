@@ -35,19 +35,24 @@
 			async:false,
 			success:function (response) {
 				if (response == "ok") {
-					$.ajax({
-						 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',
-						 data:{"packageId":packageId,"projectId":projectId},
-						 async:false,
-						 success:function(){
-							 layer.alert("已结束",{offset: [y, x], shade:0.01});
-							 $("#backId").attr("class","dnone");
-							 $("#endId").attr("class","dnone");
-						 },
-						 error: function(){
-							 layer.alert("结束失败,请稍后重试!",{offset: [y, x], shade:0.01});
-						 }
-					 });
+					layer.confirm('是否确认结束评审?结束后将不能复核!', {
+						btn : [ '确定', '取消' ]
+					//按钮
+					}, function() {
+						$.ajax({
+							 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',
+							 data:{"packageId":packageId,"projectId":projectId},
+							 async:false,
+							 success:function(){
+								 layer.alert("已结束",{offset: [y, x], shade:0.01});
+								 $("#backId").attr("class","dnone");
+								 $("#endId").attr("class","dnone");
+							 },
+							 error: function(){
+								 layer.alert("结束失败,请稍后重试!",{offset: [y, x], shade:0.01});
+							 }
+						 });
+					});
 				} else {
 					layer.alert(response, {
 						offset : [ y, x ],
