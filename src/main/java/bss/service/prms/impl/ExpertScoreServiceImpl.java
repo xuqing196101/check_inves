@@ -176,7 +176,7 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
         map.put("projectId", projectId);
         map.put("packageId", packageId);
         mapper.gather(map);
-        Map<String, Object> searchMap = new HashMap<>();
+        /*Map<String, Object> searchMap = new HashMap<>();
         for (SaleTender sale : supplierList) {
             // 2.向SUPPLIER_CHECK_PASS表中插入数据
             Supplier supplier = sale.getSuppliers();
@@ -195,7 +195,7 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
             record.setSupplierId(supplier.getId());
             record.setTotalScore(totalScore);
             //增加供应商报价-start
-            /*Quote quote = new Quote();
+            Quote quote = new Quote();
             quote.setProjectId(projectId);
             quote.setSupplierId(supplier.getId());
             List<Date> listDate = quoteMapper.selectQuoteCount(quote);
@@ -212,7 +212,7 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
                     total=total.add(q.getTotal());
                 }
             }
-            record.setTotalPrice(total.longValue());*/
+            record.setTotalPrice(total.longValue());
             Quote quote = new Quote();
             quote.setProjectId(projectId);
             quote.setPackageId(packageId);
@@ -265,7 +265,7 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
                     aduitQuotaMapper.update(aduitQuota);
                 }
             }
-        }
+        }*/
     }
 	
 	/**

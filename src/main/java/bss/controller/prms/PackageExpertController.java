@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,6 +55,7 @@ import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
+import bss.model.ppms.SupplierCheckPass;
 import bss.model.prms.ExpertScore;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageExpert;
@@ -75,6 +77,7 @@ import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
+import bss.service.ppms.SupplierCheckPassService;
 import bss.service.prms.ExpertScoreService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageExpertService;
@@ -138,7 +141,11 @@ public class PackageExpertController {
     private ScoreModelService scoreModelService; //数据字典表
     @Autowired 
     private UserServiceI userService;
-    @Autowired BidMethodService bidMethodService;
+    @Autowired 
+    private BidMethodService bidMethodService;
+    @Autowired
+    private SupplierCheckPassService checkPassService;
+    
     
     /**
      *〈简述〉跳转分配专家
@@ -1210,6 +1217,10 @@ public class PackageExpertController {
             // 将算好的总分放入map
             map.put("economicScore", economicScore);
             map.put("technologyScore", technologyScore);
+            //是否偏离
+            int flag = 0;
+            //该供应商总报价
+            BigDecimal totalPriceSupplier = new BigDecimal(0);
             //四种评分办法计算
             BidMethod condition = new BidMethod();
             condition.setProjectId(projectId);
@@ -1235,12 +1246,12 @@ public class PackageExpertController {
                     if (totalScoreStandard.compareTo(v) == -1) {
                       BigDecimal percent = totalScorePercent.multiply(new BigDecimal(100));
                       msg += "经济技术平均得分低于有效经济技术平均得分的"+percent+"%.";
+                      flag = 1;
                     }
                 } else {
                   msg += "";
                 }
                 //该供应商平均报价偏离计算
-                BigDecimal totalPriceSupplier = new BigDecimal(0);
                 Supplier supplier = saleTender.getSuppliers();
                 Quote quote = new Quote();
                 quote.setProjectId(projectId);
@@ -1265,6 +1276,7 @@ public class PackageExpertController {
                     if (totalPriceStandard.compareTo(v) == -1) {
                       BigDecimal percent = totalScorePercent.multiply(new BigDecimal(100));
                       msg += "报价高于有效平均报价的"+percent+"%.";
+                      flag = 1;
                     }
                 } else {
                   msg += "";
@@ -1283,6 +1295,32 @@ public class PackageExpertController {
                 
               }
               
+            }
+            // 2.向SUPPLIER_CHECK_PASS表中插入不偏离数据
+            if (flag == 0) {
+              BigDecimal totalSupplier = new BigDecimal(0);
+              totalSupplier= totalSupplier.add(economicScore);
+              totalSupplier= totalSupplier.add(technologyScore);
+              SupplierCheckPass record = new SupplierCheckPass();
+              record.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());
+              record.setPackageId(packageId);
+              record.setProjectId(projectId);
+              record.setSupplierId(saleTender.getSuppliers().getId());
+              record.setTotalScore(totalSupplier);
+              record.setTotalPrice(totalPriceSupplier.longValue());
+              
+              SupplierCheckPass checkPass = new SupplierCheckPass();
+              checkPass.setPackageId(packageId);
+              checkPass.setSupplierId(saleTender.getSuppliers().getId());
+              //判断是否有旧数据
+              List<SupplierCheckPass> oldList= checkPassService.listCheckPass(checkPass);
+              if (oldList != null && oldList.size() > 0) {
+                for (SupplierCheckPass supplierCheckPass : oldList) {
+                  //删除原数据
+                  checkPassService.delete(supplierCheckPass.getId());
+                }
+              }
+              checkPassService.insert(record);
             }
             map.put("reviewResult", msg);
             saleTenderService.editSumScore(map);

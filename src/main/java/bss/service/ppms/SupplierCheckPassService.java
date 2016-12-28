@@ -94,4 +94,8 @@ public interface SupplierCheckPassService {
     * @return SupplierCheckPass
      */
     SupplierCheckPass findByPrimaryKey(String id);
+
+    void delete(String id);
+
+    void insert(SupplierCheckPass record);
 }

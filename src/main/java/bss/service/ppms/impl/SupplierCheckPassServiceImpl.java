@@ -115,4 +115,14 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
 	public SupplierCheckPass findByPrimaryKey(String id) {
 		return checkPassMapper.selectByPrimaryKey(id);
 	}
+
+  @Override
+  public void delete(String id) {
+    checkPassMapper.deleteByPrimaryKey(id);
+  }
+
+  @Override
+  public void insert(SupplierCheckPass record) {
+    checkPassMapper.insertSelective(record);
+  }
 }
