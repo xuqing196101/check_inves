@@ -4,7 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@ include page="/WEB-INF/view/front.jsp"%>
+<%@ include file="/WEB-INF/view/front.jsp"%>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
 <%
@@ -319,7 +319,7 @@ session.setAttribute("tokenSession", tokenValue);
 </script>
 </head>
 <body>
-	<jsp:include page="/reg_head.jsp"></jsp:include>
+  <jsp:include page="/reg_head.jsp"></jsp:include>
  <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
   <input type="hidden" name="userId" value="${user.id}"/>
   <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>

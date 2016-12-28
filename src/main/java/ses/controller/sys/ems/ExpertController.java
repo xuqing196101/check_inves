@@ -2257,7 +2257,10 @@ public class ExpertController {
         // 最高学位
         expert.setDegree(dictionaryDataServiceI.getDictionaryData(expert.getDegree()).getName());
         // 军队人员身份证件类型
-        expert.setIdType(dictionaryDataServiceI.getDictionaryData(expert.getIdType()).getName());
+        String idType = expert.getIdType();
+        if (idType != null) {
+            expert.setIdType(dictionaryDataServiceI.getDictionaryData(idType).getName());
+        }
         // 专家来源
         expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getName());
         // 专家类别
