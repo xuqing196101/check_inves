@@ -680,6 +680,15 @@ public class SupplierServiceImpl implements SupplierService {
        
         return supplierMapper.getCommintSupplierList(creteDate);
     }
+    
+    /**
+     * @see ses.service.sms.SupplierService#getModifySupplierByDate(java.lang.String)
+     */
+    @Override
+    public List<Supplier> getModifySupplierByDate(String modifyDate) {
+        return supplierMapper.getModifySupplierByDate(modifyDate);
+    }
+
     //根据品目id查询多个品目资质文件
     public List<Qualification> get(List<CategoryQua> list){
     	List<Qualification>  quaList=new LinkedList<Qualification>();

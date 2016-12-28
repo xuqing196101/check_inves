@@ -292,4 +292,14 @@ public interface SupplierMapper {
      */
     List<Supplier> getCommintSupplierList(@Param("createDate")String creteDate);
     
+    /**
+     * 
+     *〈简述〉获取修改日期
+     *〈详细描述〉
+     * @author myc
+     * @param modifyDate 修改日期
+     * @return
+     */
+    List<Supplier> getModifySupplierByDate(@Param("modifyDate")String modifyDate);
+    
 }

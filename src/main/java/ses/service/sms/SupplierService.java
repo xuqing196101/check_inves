@@ -198,6 +198,16 @@ public interface SupplierService {
     */
    List<Supplier> getCommintSupplierByDate(String creteDate);
    
+   /**
+    * 
+    *〈简述〉根据修改日期获取修改的供应商
+    *〈详细描述〉
+    * @author myc
+    * @param modifyDate 修改日期
+    * @return
+    */
+   List<Supplier> getModifySupplierByDate(String modifyDate);
+   
    
    
    List<Integer> getThressYear();

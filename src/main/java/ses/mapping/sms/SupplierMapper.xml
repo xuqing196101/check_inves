@@ -1411,5 +1411,13 @@
 	  WHERE SUPPLIER_STATUS = 0
 	  AND TO_CHAR(CREATED_AT, 'yyyy-MM-dd') = #{createDate}
 	</select>
-
+	
+	<!-- 根据修改日期查询已提交的供应商 -->
+	<select id="getModifySupplierByDate" resultMap="BaseResultMap">
+	  SELECT 
+	  <include refid="Base_Column_List" />
+	  FROM T_SES_SMS_SUPPLIER
+	  WHERE SUPPLIER_STATUS = 0
+	  AND TO_CHAR(UPDATED_AT, 'yyyy-MM-dd') = #{modifyDate}
+	</select>
 </mapper>
