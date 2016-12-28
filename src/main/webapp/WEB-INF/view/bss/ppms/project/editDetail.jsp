@@ -186,9 +186,9 @@
 	  </div>
 	  <div>
 		<h2 class="count_flow"><i>2</i>修改项目明细</h2>
-		<ul class="ul_list">
-		  <div class="content table_box">
-			<table id="table" class="table table-bordered table-condensed table-hover table-striped">
+		<div class="ul_list">
+		  <div class="content table_box over_scroll">
+			<table id="table" class="table table-bordered table_wrap left_table table_input">
 			  <thead>
 			    <tr class="info">
 				  <th class="w50">序号</th>
@@ -196,12 +196,12 @@
 				  <th>物资名称</th>
 				  <th>规格型号</th>
 				  <th>质量技术标准</th>
-			    <th>计量单位</th>
+			      <th>计量单位</th>
 				  <th>采购数量</th>
 				  <th>单价（元）</th>
 				  <th>预算金额（万元）</th>
 				  <th>交货期限</th>
-			   	<th>采购方式建议</th>
+			   	  <th>采购方式建议</th>
 				  <th>供应商名称</th>
 				  <th>是否申请办理免税</th>
 				  <th>物资用途（进口）</th>
@@ -209,43 +209,47 @@
 				  <th>备注</th>
 			    </tr>
 			  </thead>
+			  <tbody>
 			  <c:forEach items="${lists}" var="obj" varStatus="vs">
+			   
 				<tr class="${obj.parentId}" style="cursor: pointer;">
 				  <td class="tc w50">${obj.serialNumber}</td>
-			      <td class="tc">
+			      <td>
+			         <div class="pl20 pr5">
 			           <c:if test="${orgnization.id == obj.department}"> 
-                     ${orgnization.name}
-                 </c:if>
+                         ${orgnization.name}
+                       </c:if>
+                     </div>
 			      </td>
-				  <td class="tc">${obj.goodsName}</td>
-				  <td class="tc">${obj.stand}</td>
-				  <td class="tc">${obj.qualitStand}</td>
+				  <td><div class="pl20 pr5">${obj.goodsName}</div></td>
+				  <td><div class="pl20 pr5">${obj.stand}</div></td>
+				  <td><div class="pl20 pr5">${obj.qualitStand}</div></td>
 				  <td class="tc">${obj.item}</td>
 				  <td class="tc">
 				    <c:if test="${obj.purchaseCount!=null }">
 					  <input type="hidden" name="ss" value="${obj.id }">
 					  <input maxlength="11" id="purchaseCount" onblur="sum2(this);" 
 					    onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="lists[${vs.index }].purchaseCount"
-						style="width:50%;" value="${obj.purchaseCount}" />
+						 value="${obj.purchaseCount}" type="text" />
 					  <input type="hidden" name="ss" value="${obj.parentId }">
 					</c:if> 
 					<c:if test="${obj.purchaseCount==null }">
 					  <input style="border: 0px;" disabled="disabled" type="text" name="lists[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
 					</c:if>
 				  </td>
-				  <td class="tc">
+				  <td class="tc p0">
 					<c:if test="${obj.price!=null }">
 					  <input type="hidden" name="ss" value="${obj.id }">
-				      <input maxlength="11" id="price" name="lists[${vs.index }].price" style="width:50%;" onblur="sum1(this);" value="${obj.price}" />
+				      <input maxlength="11" id="price" name="lists[${vs.index }].price"  type="text" onblur="sum1(this);" value="${obj.price}" />
 					  <input type="hidden" name="ss" value="${obj.parentId }">
 					</c:if>
 				    <c:if test="${obj.price==null}">
 					  <input style="border: 0px;" readonly="readonly"  type="text" name="lists[${vs.index }].price" value="${obj.price }">
 					</c:if>
 				  </td>
-				  <td class="tc">
+				  <td class="tc p0">
 				    <input type="hidden" name="ss" value="${obj.id }">
-					<input maxlength="11" id="budget" name="lists[${vs.index }].budget" style="width:100%;border-style:none" readonly="readonly" value="${obj.budget}" />
+					<input maxlength="11" id="budget" name="lists[${vs.index }].budget" class="border0 tr pr20"  type="text" readonly="readonly" value="${obj.budget}" />
 					<input type="hidden" name="ss" value="${obj.parentId }">
 				  </td>
 				  <td class="tc">${obj.deliverDate}</td>
@@ -267,18 +271,19 @@
 					</c:if> 
 					<input type="hidden" id="idss" name="lists[${vs.index }].id" value="${obj.id }">
 				  </td>
-				  <td class="tc">${obj.supplier}</td>
-				  <td class="tc">${obj.isFreeTax}</td>
-				  <td class="tc">${obj.goodsUse}</td>
-				  <td class="tc">${obj.useUnit}</td>
-				  <td class="tc">${obj.memo}</td>
+				  <td><div class="pl20 pr5">${obj.supplier}</div></td>
+				  <td><div class="pl20 pr5">${obj.isFreeTax}</div></td>
+				  <td><div class="pl20 pr5">${obj.goodsUse}</div></td>
+				  <td><div class="pl20 pr5">${obj.useUnit}</div></td>
+				  <td><div class="pl20 pr5">${obj.memo}</div></td>
 			    </tr>
 			  </c:forEach>
+			  </tbody>
 			</table>
 		  </div>
-		</ul>
+		</div>
 	  </div>
-	  <div class="col-md-12 tc">
+	  <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
 	  <button class="btn" type="button" onclick="subPackage()">分包</button>
 		<button class="btn btn-windows git" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows back" type="button" onclick="goBack();">返回</button>

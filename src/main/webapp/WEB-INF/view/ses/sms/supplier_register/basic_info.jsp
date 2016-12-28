@@ -136,7 +136,7 @@ function checkAll(ele, id) {
 				type : 2,
 				title : '添加供应商股东信息',
 				// skin : 'layui-layer-rim', //加上边框
-				area : [ '700px', '420px' ], //宽高
+				area : [ '50%', '420px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
 				content : globalPath + '/supplier_stockholder/add_stockholder.html?&supplierId=' + supplierId + '&sign=1', //url
@@ -347,8 +347,8 @@ function deleteFinance() {
 			 "<li class='col-md-3 col-sm-6 col-xs-12'>"+
 			 "	<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>"+
 				"<div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>"+
-				"	<input type='button' onclick='increaseAddress(this)' class='btn' value='十'/>"+
-				"	<input type='button' onclick='delAddress(this)'class='btn' value='一'/>"+
+				"	<input type='button' onclick='increaseAddress(this)' class='btn list_btn' value='十'/>"+
+				"	<input type='button' onclick='delAddress(this)'class='btn list_btn' value='一'/>"+
 				"</div></li>"
 				);
 	}
@@ -395,8 +395,8 @@ function deleteFinance() {
 			 " <li class='col-md-3 col-sm-6 col-xs-12'>"+
 			 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>"+
 				 	" <div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>"+
-					" <input type='button' onclick='addBranch(this)' class='btn' value='十'/>"+
-					" <input type='button' onclick='delBranch(this)'class='btn' value='一'/>"+
+					" <input type='button' onclick='addBranch(this)' class='btn list_btn' value='十'/>"+
+					" <input type='button' onclick='delBranch(this)'class='btn list_btn' value='一'/>"+
 					" </div>"+
 					" </li>"+
 			
@@ -454,7 +454,7 @@ function deleteFinance() {
     	  	<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 	 			<legend>企业信息</legend>
 	 			<ul class="list-unstyled f14">
-				<li class="col-md-3 col-sm-6 col-xs-12">
+				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" ><i class="red">*</i> 公司名称</span>
 					<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				        <input  id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}"  <c:if test="${fn:contains(errorField,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierName')"</c:if>  /> 
@@ -735,8 +735,8 @@ function deleteFinance() {
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				 	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-						<input type="button" onclick="increaseAddress(this)" class="btn" value="十"/>
-						<input type="button" onclick="delAddress(this)"class="btn" value="一"/>
+						<input type="button" onclick="increaseAddress(this)" class="btn list_btn" value="十"/>
+						<input type="button" onclick="delAddress(this)"class="btn list_btn" value="一"/>
 					</div>
 				 </li>
 				</c:forEach> 
@@ -1244,8 +1244,8 @@ function deleteFinance() {
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 				 	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-						<input type="button" onclick="addBranch(this)" class="btn" value="十"/>
-						<input type="button" onclick="delBranch(this)"class="btn" value="一"/>
+						<input type="button" onclick="addBranch(this)" class="btn list_btn" value="十"/>
+						<input type="button" onclick="delBranch(this)"class="btn list_btn" value="一"/>
 					</div>
 			</li>
 			

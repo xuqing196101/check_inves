@@ -217,7 +217,7 @@
           <input type="hidden" name="token2" value="<%=tokenValue%>">
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目名称</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>项目名称</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input id="pic" type="text" class="input_group" name="name" value="${name}" />
                 <span class="add-on">i</span>
@@ -225,7 +225,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目编号</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>项目编号</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input id="pc" type="text" class="input_group" name="projectNumber" value="${projectNumber}" />
                 <span class="add-on">i</span>
@@ -281,7 +281,7 @@
               <div id="remove" class="col-md-12 pl20 mt10">
                 <button class="btn" type="button" onclick="remove()">移除</button>
               </div>
-              <div class="content table_box">
+              <div class="content table_box pl0">
                 <table id="table2" class="table table-bordered table-condensed table-hover">
                   <thead>
                     <tr>
@@ -310,16 +310,16 @@
                         <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                         <input type="hidden" name="list[${vs.index }].id" value="${obj.id }">
                       </td>
-                      <td class="tc"> 
+                      <td class="pl20"> 
                         <c:if test="${orgnization.id == obj.department}"> 
 						               ${orgnization.name}
 						           </c:if>
                         <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
                       </td>
-                      <td class="tc">${obj.goodsName}
+                      <td class="pl20">${obj.goodsName}
                         <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
                       </td>
-                      <td class="tc">${obj.stand}
+                      <td class="pl20">${obj.stand}
                         <input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
                       </td>
                       <td class="tc">${obj.qualitStand}
@@ -375,7 +375,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-12 tc">
+        <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
           <button class="btn" onclick="add()" type="button">下一步</button>
           <button class="btn btn-windows back" onclick="bask()" type="button">返回</button>
         </div>

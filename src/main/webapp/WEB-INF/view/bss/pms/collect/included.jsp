@@ -26,8 +26,8 @@
 	 <div class="col-md-12 pl20 mt10">
 	 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	 </div>
-		<div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover table-striped">
+		<div class="content table_box over_scroll">
+        <table class="table table-bordered table-condensed table-hover table-striped table_wrap">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>

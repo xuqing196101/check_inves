@@ -151,12 +151,12 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
             session.setAttribute("tokenSession", tokenValue);
          %>
       <input type="hidden" name="token2" value="<%=tokenValue%>">
-      <span class="f14 fl"><i class="spredm">*</i>&nbsp;项目名称：</span>
+      <span class="f14 fl"><div class="spredm">*</div>&nbsp;项目名称：</span>
       <div class="fl">
         <input id="pic" type="text" class="toinline" name="name" /> &nbsp;&nbsp;
       </div>
 
-      <span class="f14 fl"><i class="spredm">*</i>&nbsp;项目编号：</span>
+      <span class="f14 fl"><div class="spredm">*</div>&nbsp;项目编号：</span>
       <div class="fl">
         <input id="pc" type="text" class="toinline" name="projectNumber" />
       </div>

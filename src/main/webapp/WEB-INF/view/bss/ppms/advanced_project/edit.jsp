@@ -186,7 +186,7 @@
     <div>
     <h2 class="count_flow"><i>2</i>修改项目明细</h2>
     <div class="ul_list">
-      <table id="table" class="table table-bordered table-condensed">
+      <table id="table" class="table table-bordered table_wrap">
         <thead>
           <tr>
           <th class="info w50">序号</th>

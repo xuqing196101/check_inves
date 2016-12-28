@@ -154,7 +154,7 @@
           <h2 class="count_flow"><i>1</i>添加信息</h2>
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目名称</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>项目名称</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input type="hidden" id="id" class="input_group" name="id" value="${id}" />
                 <input type="text" id="name" class="input_group" name="name" value="${name}" />
@@ -164,7 +164,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目编号</span>
+              <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>项目编号</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input id="projectNumber" type="text" class="input_group" name="projectNumber" value="${projectNumber}" />
                 <span class="add-on">i</span>
@@ -191,12 +191,12 @@
 			          <span><input type="text" name="documentNumber" id="documentNumber" value="${documentNumber }"/></span>
 			        </li>
 						</ul>
-					  <button class="btn" type="button" onclick="query()">查询</button>
-					  <button class="btn" type="button" onclick="resetResult()">重置</button>
+					  <button class="btn fl" type="button" onclick="query()">查询</button>
+					  <button class="btn fl" type="button" onclick="resetResult()">重置</button>
 						<div class="clear"></div>
 				</h2>
           <div class="ul_list">
-            <div class="content table_box">
+            <div class="content table_box pl0">
               <table class="table table-bordered table-condensed table-hover">
                 <thead>
                   <tr class="info">
@@ -214,15 +214,15 @@
                   <c:forEach items="${list.list}" var="obj" varStatus="vs">
                     <tr class="pointer">
                       <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-                      <td>${obj.name}</td>
-                      <td>
+                      <td class="pl20">${obj.name}</td>
+                      <td class="pl20">
                       	<c:forEach items="${list2 }" var="list">
                       		<c:if test="${obj.purchaseRequiredId eq list.id}">
                         		${list.name }
                       		</c:if>
                       	</c:forEach>
                       </td>
-                      <td>${obj.documentNumber}</td>
+                      <td class="pl20">${obj.documentNumber}</td>
                       <%--<td class="tc">
                         <c:if test="${'1'==obj.status}">
                           <span class="label rounded-2x label-u">受领</span>
@@ -319,7 +319,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-12 col-xs-12 col-sm-12 tc">
+        <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
           <button class="btn" onclick="nextStep()" type="button">下一步</button>
           <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
         </div>

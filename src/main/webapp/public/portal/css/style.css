@@ -2550,3 +2550,12 @@ h2.list_title{
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	margin-top: 21px;
 }
+
+/*add&&delete*/
+.btn.list_btn{
+   border-radius: 4px !important;
+   font-weight: 800;
+   padding: 4px 10px!important;	
+   margin: 0 3px!important;
+   float: left;
+}

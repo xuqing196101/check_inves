@@ -138,16 +138,14 @@
 								<div class="tab-pane fade active in height-200" id="tab-1">
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled">
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>出资人性质：</span>
-												<div class="select_common">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>出资人性质：</span>
 												<!-- 	<input class="span3" type="text" name="nature" /> -->
-													<select onchange="person(this)" name="nature">
+													   <select onchange="person(this)" name="nature" class="select_common input-append">
  														 <option value="1">法人</option>
  														 <option value="2">自然人</option>
  													</select>
  													<!--  <span class="add-on cur_point">i</span> -->
  													<div class="cue" id="stock_nature"></div>
-												</div>
 											</li>
 											
 											

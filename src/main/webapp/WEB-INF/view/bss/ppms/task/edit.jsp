@@ -246,9 +246,9 @@
       </div>
       <div>
         <h2 class="count_flow"><i>2</i>需求明细调整</h2>
-        <ul class="ul_list">
+        <div class="ul_list">
           <div class="content table_box over_scroll">
-            <table id="table" class="table table-bordered table-condensed table-hover">
+            <table id="table" class="table table-bordered table_input ">
               <thead>
 			    <tr>
 			      <th class="info w50">序号</th>
@@ -274,7 +274,7 @@
 			      <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
 			      <td class="tc">
 			      <c:if test="${obj.department == orgnization.id}">
-			      <input type="text" name="list[${vs.index }].department" value="${orgnization.name }">
+			      <input name="list[${vs.index }].department" value="${orgnization.name }" type="text">
 			      </c:if>
 			      </td>
 			      <td class="tc"><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
@@ -284,17 +284,17 @@
 			      <td class="tc">
 			        <c:if test="${obj.purchaseCount!=null}">
 			          <input   type="hidden" name="ss"   value="${obj.id }">
-			          <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/>
+			          <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"  type="text" value="${obj.purchaseCount}"/>
 			          <input type="hidden" name="ss"   value="${obj.parentId }">
 			        </c:if>
 			        <c:if test="${obj.purchaseCount==null }">
-			          <input  class="border0"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+			          <input  class="border0"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }"  type="text">
 			        </c:if>
 			      </td>
 			      <td class="tc">
 			        <c:if test="${obj.price!=null}">
 			          <input   type="hidden" name="ss"   value="${obj.id }">
-			          <input maxlength="11" id="price"  name="list[${vs.index }].price" style="width:50%;" onblur="sum1(this);"  value="${obj.price}"/>
+			          <input maxlength="11" id="price"  name="list[${vs.index }].price" type="text"  onblur="sum1(this);"  value="${obj.price}"/>
 			          <input type="hidden" name="ss"   value="${obj.parentId }">
 			        </c:if>
 			        <c:if test="${obj.price==null}">
@@ -338,7 +338,7 @@
 			   </c:forEach>  
              </table>
            </div>   
-         </ul>
+         </div>
        </div>
        <div class="col-md-12 tc">
          <button class="btn btn-windows save" type="button" onclick="edit();">变更</button>
@@ -359,7 +359,7 @@
         </ul>
         </div>
 		
-		 <div class="tc mt10 col-md-12">
+		 <div class="tc mt20 col-md-12 col-md-12 col-xs-12">
 		   <br>
 		   <a class="btn btn-windows save" onclick="delTask('${task.id}');">确认</a>
 		   <input class="btn btn-windows cancel" value="取消" type="button" onclick="cancel();">

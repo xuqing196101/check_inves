@@ -91,8 +91,8 @@
       <button class="btn btn-windows save" type="button" onclick="save();">确定</button>
       <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
     </div>
-    <div class="content table_box">
-      <table id="table" class="table table-bordered table-condensed table-hover">
+    <div class="content table_box over_scroll">
+      <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
         <thead>
           <tr>
             <th class="info w50">序号</th>

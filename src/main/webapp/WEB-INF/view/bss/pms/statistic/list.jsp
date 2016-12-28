@@ -1,4 +1,4 @@
-d<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
@@ -372,13 +372,13 @@ d<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
- <div class="headline-v2 fl">
+   <div class="headline-v2">
       <h2>需求计划列表
 	  </h2>
    </div> 
    
    
-  <h2 class="search_detail">
+  <div class="search_detail">
     <form id="add_form" action="${pageContext.request.contextPath}/statistic/list.html" class="mb0" method="post" >
    <input type="hidden" name="page" id="page">
 
@@ -446,7 +446,7 @@ d<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 				      </li>
 				    	  
 				    	  
-				    	   <li>
+				      <li>
 				    	<label class="fl">采购机构：</label><span>
 				  	       <select name="organization" style="width: 152px;" >
 				  	        <option value="" >请选择</option>
@@ -467,13 +467,13 @@ d<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 				      
 				      
 			    	</ul>
-			    	<div class="col-md-12 clear tc mt10">
+			    	<div class="col-md-12 col-sm-12 col-xs-2 clear tc mt10">
 			    	<input class="btn"   type="submit" name="" value="查询" /> 
 				      <input type="button" onclick="resetQuery()" class="btn" value="重置"/>	 	
 			    	</div>
 		    	  	<div class="clear"></div>
    </form>
-  </h2>
+  </div>
    <div class="col-md-12 pl20 mt10">
 	     	 <input class="btn-u"   type="button" name="" value="按需求部门统计" onclick="bar(1)" /> 
 	   	 <input class="btn-u"   type="button" name="" value="按采购方式统计" onclick="pipe(1)" /> 
@@ -543,7 +543,7 @@ d<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 
  	<div id="funsionCharts_div_id" style="width:800px;height:400px;display: none;margin: 0 auto;"></div>
  
-   <div id="container" style="display: none;height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
+    <div id="container" style="display: none;height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
    
    
 	 </body>
