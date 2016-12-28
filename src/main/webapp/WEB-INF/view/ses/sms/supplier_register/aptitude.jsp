@@ -8,6 +8,70 @@
 <script type="text/javascript">
  
  
+$(function() {
+	  window.onload=function(){
+		  var checkeds = $("#supplierTypeIds").val();
+		  var arrays =checkeds.split(",");
+		   if(arrays.length>0){
+		       for(var i=0;i<arrays.length;i++){
+			    				if(arrays[i]!='PROJECT'){
+				                     $("#tab-1").attr("class", "tab-pane fade ");
+				                  }
+			                      if(arrays[i]!='PRODUCT'){
+			                    	  $("#tab-2").attr("class", "tab-pane fade ");
+			                      }
+			                      if(arrays[i]!='SALES'){
+				                      $("#stab-3").attr("class", "tab-pane fade ");
+				                  }
+			                      if(arrays[i]!='SERVICE'){
+			                          $("#tab-4").attr("class", "tab-pane fade ");
+			                      }
+			                      if(arrays[i]=='PRODUCT'){
+			                    		$("#tab-1").attr("class", "tab-pane fade  active in");
+			                    		var pro="${list3}";
+			                    		var data=$.pareJSON(pro);
+			                    		var l=1;
+			                    		var trhtml = "";
+			                    		
+			                    		for ( var i = 0; i < data.length; i++) {
+			    				 			trhtml += "<tr><td>"+data[i].name+"<td> </tr>";
+			    				 		/* 	var s=data[i].list;
+			    				 			for ( var j = 0; j < s.length; j++) {
+			    				 			trhtml += "<td><div class='col-md-12 col-sm-12 col-xs-12 p0' id='breach_li_id'>"+
+												"<u:upload id=pUp"+l +" groups="+${sbUp}+" businessId="+${s[j].id}+" sysKey="1" typeId='1' auto='true'/>" +
+												"<u:show showId=pShow"+l +" groups="+${sbShow}+" businessId="+${s[j].id}+" sysKey='1' typeId='1 />"+
+										 		  "</div> "+
+										     l++;
+			    				 			}
+										   "<td> </tr>"; */
+			    						}
+			                    		$("#pro_tr").append(trhtml);
+			                    		
+			                    		
+			                      }
+			                      else if(arrays[i]=='SALES'){
+			                    	$("#tab-2").attr("class", "tab-pane fade  active in");
+			                      }
+			                      else if(arrays[i]=='PROJECT'){
+			                    	  $("#tab-3").attr("class", "tab-pane fade  active in");
+			                      }
+			                        else  if(arrays[i]=='SERVICE'){
+			                    	  $("#tab-3").attr("class", "tab-pane fade  active in");
+			                      }
+					 }
+		   		}
+	  }
+		       
+});
+
+
+ 
+ 	function ajaxFile(){
+ 		var supplierId=$("#supplierId").va();
+ 		// var 
+ 		
+ 	}
+ 
 	
 	function saveItems(){
 			$("input[name='flag']").val("file");
@@ -94,29 +158,28 @@
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 										  <table class="table table-bordered">
-										  <tr>
-										    <td class="info"> 品目名称</td>
-										    <td>需要上传的文件</td>
-										  </tr>
-										  <c:forEach items="${cateList }" var="obj">
+										  <tbody id="pro_tr">
+						  					
+						  					</tbody>
+										<%--   <c:forEach items="${cateList }" var="obj">
 									      <tr>
 										    <td class="info">${obj.categoryName } 
 								 
 										    </td>
 												    <td class="info">
 												     <c:forEach items="${obj.list }" var="qua" varStatus="vs">
-													  <%-- <c:set value="${group+1}" var="group"/> --%>
+													  <c:set value="${group+1}" var="group"/>
 													   
 													  	  ${qua.name }
-													   <%--  <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
 																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>   --%>
+														   </div>  
 													    </c:forEach>
 												    </td>
 										   
 										  </tr>
-										</c:forEach>
+										</c:forEach> --%>
 									</table> 
 								</div>
 							</c:if>
@@ -125,28 +188,27 @@
 								<div class="tab-pane fade height-300" id="tab-2">
 								
 										  <table class="table table-bordered">
-						  
-										  <tr>
-										    <td class="info"> 品目名称</td>
-										    <td>需要上传的文件</td>
-										  </tr>
-										  <c:forEach items="${saleQua }" var="sale">
+						  					<tbody >
+						  					
+						  					</tbody>
+										  
+									<%-- 	  <c:forEach items="${saleQua }" var="sale">
 									      <tr>
 										    <td class="info">${sale.categoryName } 
 										    </td>
 												    <td class="info">
 												     <c:forEach items="${sale.list }" var="qua" varStatus="vs">
-													 <%--  <c:set value="${group+1}" var="group"/> --%>
+													  <c:set value="${group+1}" var="group"/>
 													   
 													  	  ${qua.name }
-													  <%--   <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+													    <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 																<u:upload id="pUp${group}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="1" auto="true" />
 																<u:show showId="pShow${group}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="1" />
-														   </div>   --%>
+														   </div>  
 													    </c:forEach>
 												    </td>
 										    </tr>
-										</c:forEach>
+										</c:forEach> --%>
 										
 									</table> 
 								  
@@ -157,10 +219,7 @@
 							<!-- 服务 -->
 								<div class="tab-pane fade height-200" id="tab-3">
 								  <table class="table table-bordered">
-										  <tr>
-										    <td class="info"> 品目名称</td>
-										    <td>需要上传的文件</td>
-										  </tr>
+										 
 										  <c:forEach items="${projectQua }" var="project">
 									      <tr>
 										    <td class="info">${project.categoryName } 
@@ -185,10 +244,7 @@
 								<!-- 生产 -->
 								<div class="tab-pane fade height-200" id="tab-4">
 								   <table class="table table-bordered">
-										  <tr>
-										    <td class="info"> 品目名称</td>
-										    <td>需要上传的文件</td>
-										  </tr>
+										 
 										  <c:forEach items="${serviceQua }" var="server">
 									      <tr>
 										    <td class="info">${server.categoryName } 
@@ -217,7 +273,7 @@
 		
 		
   
-   <c:set value="0" var="group"/>
+<%--    <c:set value="0" var="group"/>
 		<!--基本信息-->
 		<div class="container content height-300">
 			<div class="row magazine-page">
@@ -229,7 +285,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --%>
 	</div>
 	
 	 <div class="btmfix">
@@ -242,10 +298,10 @@
 	
 	
 	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
-		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
+		<input name="supplierId" id="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
 		<input name="flag" value=""  id="flag" type="hidden" /> 
-		<input name="supplierTypeIds" value="${supplierTypeIds }"  type="hidden" /> 
+		<input name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds }"  type="hidden" /> 
 	 
 	</form>
 	<!-- footer -->

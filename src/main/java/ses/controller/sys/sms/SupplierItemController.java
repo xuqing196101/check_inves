@@ -196,7 +196,7 @@ public class SupplierItemController extends BaseController{
 	  
 	   StringBuffer sbUp=new StringBuffer("");
 	   StringBuffer sbShow=new StringBuffer("");
-	   int len=qaList.size()+1;
+	   int len=list3.size()+1;
 	   for(int i=1;i<len;i++){
 		   sbUp.append("pUp"+i+",");
 			sbShow.append("pShow"+i+",");
@@ -207,11 +207,13 @@ public class SupplierItemController extends BaseController{
 	   }
 		model.addAttribute("sbUp", sbUp);
 		model.addAttribute("sbShow", sbShow);
-		model.addAttribute("cateList", list3);
+		model.addAttribute("cateList", JSON.toJSONString(list3));
 		model.addAttribute("saleQua", saleQua);
 		model.addAttribute("projectQua", projectQua);
 		model.addAttribute("serviceQua", serviceQua);
 //		model.addAttribute("len", len);
+		
+		
 		return "ses/sms/supplier_register/aptitude"; 
 	 
 		

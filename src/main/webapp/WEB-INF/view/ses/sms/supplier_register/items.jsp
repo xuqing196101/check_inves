@@ -200,15 +200,20 @@
 		} else {
 			clickFlag = "0";
 		}
-		var parent=[];
-		while(true){
-			parent=treeNode.getParentNode();
-			parent.push(parent);
-			if(parent==null)break;
-			
+		
+		var ids=[]; 
+		var tree = $.fn.zTree.getZTreeObj(treeId);
+		if(tree!=null){
+			nodes = tree.getCheckedNodes(true);
+			for (var j = 0; j < nodes.length; j++) {
+			 
+					ids.push(nodes[j].id);
+				 
+			}
 		}
 		
-		$("#categoryId").val(parent);
+	 
+		$("#categoryId").val(ids);
 		var attr1=$("#li_id_1").attr("class");
 		if(attr1=='active'){
 			$("#supplierTypeRelateId").val("PRODUCT");
