@@ -723,9 +723,6 @@
 			<if test="referenceNo !=null">
 				and REFERENCE_NO=#{referenceNo}
 			</if>
-			<if test="referenceNo !=null">
-				and REFERENCE_NO=#{referenceNo}
-			</if>
 			<if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
 			</if>
