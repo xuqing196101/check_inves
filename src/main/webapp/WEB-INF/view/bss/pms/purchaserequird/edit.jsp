@@ -281,7 +281,7 @@
 				</div>
 				
 				<div class="col-md-12  mt10 col-sm-12 col-xs-12 tc">
-			 <input class="btn btn-windows git" type="submit" value="提交">
+			    <input class="btn btn-windows git" type="submit" value="提交">
                 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
              </div>
 			</form>

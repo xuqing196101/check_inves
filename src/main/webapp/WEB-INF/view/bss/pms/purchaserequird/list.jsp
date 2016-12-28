@@ -245,9 +245,9 @@
 				      </li>
 				    	  
 			    	</ul>
-			    	<div class="col-md-12 clear tc mt10">
-			    		<input class="btn" type="submit" value="查询" /> 
-				      <input class="btn" type="button" value="重置" onclick="resetQuery()" />	
+			    	<div class="fl">
+			    	  <input class="btn fl" type="submit" value="查询" /> 
+				      <input class="btn fl" type="button" value="重置" onclick="resetQuery()" />	
 			    	</div>
 		    	  <div class="clear"></div>
 		        </form>
@@ -277,7 +277,7 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr class="pointer">
 			  <td class="tc w30">
-           <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()">
+                 <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()">
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  <td class="tl pl20" onclick="view('${obj.planNo }')">
@@ -285,11 +285,14 @@
 				</td>
 		      <td class="tl pl20" onclick="view('${obj.planNo }')">
 		      ${obj.planNo }
+			  <td class="pl20">
+			     <div onclick="view('${obj.planNo }')">${obj.planName }</div>
+			  </td>
 			 <%--    <c:forEach items="${requires }" var="re" >
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  	</c:forEach> --%>
 			  </td>  
-			  <td><div class="tr pr20" onclick="view('${obj.planNo }')">${obj.budget } </div></td>
+			  <td class="pr20 tr"><div onclick="view('${obj.planNo }')">${obj.budget }</div></td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.deliverDate } </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">

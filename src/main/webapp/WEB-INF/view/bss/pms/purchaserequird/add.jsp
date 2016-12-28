@@ -608,7 +608,7 @@
 						<%--
 	<button  class="btn btn-windows add" onclick="same()">添加同级</button>
 	--%><button class="btn btn-windows output" onclick="down()">下载模板</button>
-						<button class="btn btn-windows output" onclick="uploadExcel();">导入</button>
+						<button class="btn btn-windows input" onclick="uploadExcel();">导入</button>
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
 					</div>
@@ -760,6 +760,7 @@
 						</form>
 					</div>
 				</div>
+				<div class="col-md-12 col-sm-12 col-xs-12 mt20">
 				<input class="btn btn-windows save" style="margin-left: 500px;" type="button" onclick="incr()" value="保存">
 				<button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</button>
 			</div>
@@ -817,7 +818,7 @@
 							<input type="hidden" name="planDepName" id="detailXqbmf"/> -->
 							
 							
-    		 <input type="button" class="btn m0" onclick="fileup()"   value="导入" />
+    		 <input type="button" class="btn m0 input" onclick="fileup()"   value="导入" />
     <!-- 	</form> -->
     </div>
     
