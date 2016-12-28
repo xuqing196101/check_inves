@@ -1775,63 +1775,22 @@ public class PackageExpertController {
         Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
         mapSearch1.put("projectId", projectId);
         mapSearch1.put("packageId", packageId);
-        List<PackageExpert> expertList = packageExpertService.selectList(mapSearch1);
+        List<PackageExpert> expList = packageExpertService.selectList(mapSearch1);
         // 遍历进行排序   技术---经济---两者都有
-        List<PackageExpert> expertListCompare = new ArrayList<PackageExpert>();
-        for (PackageExpert expert : expertList) {
-            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
-            // 遍历所有的typeId,如果有kind不等于6(技术)的则暂时不管
-            boolean isTech = true;
-            loop:for (String id : ids) {
-                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
-                if (kind != 6) {
-                    isTech = false;
-                    break loop;
-                }
-            }
-            if (isTech) {
-                // 页面显示需要注明专家类别
-                expert.getExpert().setRelName(expert.getExpert().getRelName() + "(技术)");
-                expertListCompare.add(expert); 
+        List<PackageExpert> expertList = new ArrayList<PackageExpert>();
+        for (PackageExpert exp : expList) {
+            DictionaryData data = dictionaryDataServiceI.getDictionaryData(exp.getReviewTypeId());
+            if (data != null && "ECONOMY".equals(data.getCode())) {
+                expertList.add(exp);
             }
         }
-        for (PackageExpert expert : expertList) {
-            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
-            // 遍历所有的typeId,如果有kind不等于19(经济)的则暂时不管
-            boolean isEconomic = true;
-            loop:for (String id : ids) {
-                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
-                if (kind != 19) {
-                    isEconomic = false;
-                    break loop;
-                }
-            }
-            if (isEconomic) {
-                // 页面显示需要注明专家类别
-                expert.getExpert().setRelName(expert.getExpert().getRelName() + "(经济)");
-                expertListCompare.add(expert); 
-            }        
-        }
-        for (PackageExpert expert : expertList) {
-            String[] ids = expert.getExpert().getExpertsTypeId().split(",");
-            // 遍历所有的typeId,如果有kind既有等于19(经济)的又有等于6(技术)的添加进去
-            boolean isEconomic = false;
-            boolean isTech = false;
-            for (String id : ids) {
-                int kind = dictionaryDataServiceI.getDictionaryData(id).getKind();
-                if (kind == 19) {
-                    isEconomic = true;
-                } else if (kind == 6) {
-                    isTech = true;
-                }
-            }
-            if (isEconomic && isTech) {
-                // 页面显示需要注明专家类别
-                expert.getExpert().setRelName(expert.getExpert().getRelName() + "(经济、技术)");
-                expertListCompare.add(expert); 
+        for (PackageExpert exp : expList) {
+            DictionaryData data = dictionaryDataServiceI.getDictionaryData(exp.getReviewTypeId());
+            if (data != null && "TECHNOLOGY".equals(data.getCode())) {
+                expertList.add(exp);
             }
         }
-        model.addAttribute("expertList", expertListCompare);
+        model.addAttribute("expertList", expertList);
         // 包信息
         model.addAttribute("packageList", packages);
         Project project = projectService.selectById(projectId);
