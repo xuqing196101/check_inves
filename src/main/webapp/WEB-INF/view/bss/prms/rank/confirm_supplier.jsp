@@ -20,12 +20,24 @@
 	function removeSupplier (supplierId, packageId) {
 		var projectId = "${projectId}";
 		var removedReason = layer.prompt({
-		    title : '请填写不通过的理由：', 
+		    title : '请填写移除的理由：', 
 		    formType : 2, 
 		    offset : '100px',
 		},function(text){
-			$("tab-8").load("${pageContext.request.contextPath}/packageExpert/removeSaleTender.html?supplierId="+supplierId+"&packageId="+packageId+"&projectId="+projectId);
-			layer.close(removedReason);
+			//$("tab-8").load("${pageContext.request.contextPath}/packageExpert/removeSaleTender.html?supplierId="+supplierId+"&packageId="+packageId+"&projectId="+projectId);
+			$.ajax({
+				url: "${pageContext.request.contextPath}/packageExpert/removeSaleTender.do",
+				data: {"supplierId": supplierId, "packageId": packageId, "projectId": projectId},
+				success: function (response) {
+					layer.msg("移除成功!",{offset: ['100px', '350px']});
+					//window.location.reload();
+					$("#"+supplierId).html("已移除");
+				},
+				error: function () {
+					layer.msg("抱歉,移除失败!",{offset: ['100px', '350px']});
+					layer.close(removedReason);
+				}
+			});
 		});
 	}
   </script>
@@ -49,9 +61,10 @@
 			    <td class="tc w50">${vs.count}</td>
 			    <td class="tc">${supp.packageNames}</td>
 			    <td class="tc">${supp.suppliers.supplierName}</td>
-			    <td class="tc">
+			    <td class="tc" id="${supp.suppliers.id}">
 			    <c:if test="${supp.isFirstPass == 0 && supp.isRemoved eq '0'}">不合格</c:if>
 			    <c:if test="${supp.isFirstPass == 1 && supp.isRemoved eq '0'}">合格</c:if>
+			    <c:if test="${supp.isFirstPass == null && supp.isRemoved eq '0'}">符合性审查未结束</c:if>
 			    <c:if test="${supp.isRemoved eq '1'}">已移除</c:if>
 			    </td>
 			    <td class="tc"><input type="button" value="移除" onclick="removeSupplier('${supp.suppliers.id}','${supp.packages}')" class="btn"></td>

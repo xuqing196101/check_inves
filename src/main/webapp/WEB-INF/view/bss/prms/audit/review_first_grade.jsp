@@ -173,7 +173,7 @@ $(document).ready(function() {
 		  <!--包id  -->
 	   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
 	   	  <div style="overflow:scroll;">
-	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
+	        <table class="table table-bordered table-condensed table_input" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
 			    <th colspan="4"></th>
 			    <c:forEach items="${supplierList}" var="supplier">
@@ -210,9 +210,9 @@ $(document).ready(function() {
 				 	      <c:forEach items="${supplierList}" var="supplier">
 					 	    <c:choose>
 					 	      <c:when test="${score.typeName == '0'}">
-					 	        <td class="tc">
+					 	        <td class="tc w80 p0">
 					 	          <select name="expertValue" 
-					 	            style="width: 50px;"  onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	            style="width: 80px;"  onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	          >
 					 	            <option value=""></option>
 					 	            <option value="1" 
@@ -229,9 +229,9 @@ $(document).ready(function() {
 					 	        </td>
 					 	      </c:when>
 					 	      <c:otherwise>
-					 	        <td class="tc">
+					 	        <td class="tc w80 p0">
 					 	          <input type="text" name="expertValue" id="ipt5" onpaste="return false;"
-					 	            style="width: 50px; ime-mode:disabled" onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	            style="width: 80px; ime-mode:disabled" onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	            <c:forEach items="${scores}" var="sco">
 					 	              <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.expertValue}"</c:if>
 					 	            </c:forEach>
@@ -239,9 +239,9 @@ $(document).ready(function() {
 					 	        </td>
 					 	      </c:otherwise>
 					 	    </c:choose>
-					 	    <td class="tc">
+					 	    <td class="tc w80">
 					 	      <input type="hidden" name="supplierId"  value="${supplier.suppliers.id}"/>
-					 	      <input type="hidden" name="expertScore" readonly="readonly" style="width: 50px;" 
+					 	      <input type="hidden" name="expertScore" readonly="readonly" style="width: 80px;" 
 					 	      	<c:forEach items="${scores}" var="sco">
 					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
 					 	        </c:forEach>

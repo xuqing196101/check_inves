@@ -2529,6 +2529,11 @@ public class PackageExpertController {
     @RequestMapping("/confirmSupplier")
     public String confirmSupplier (String projectId, Model model) {
         List<SaleTender> supplierList = saleTenderService.selectListByProjectId(projectId);
+        Packages pack = new Packages();
+        for (SaleTender sale : supplierList) {
+            pack.setId(sale.getPackages());
+            sale.setPackageNames(packageService.find(pack).get(0).getName());
+        }
         model.addAttribute("supplierList", supplierList);
         model.addAttribute("projectId", projectId);
         return "bss/prms/rank/confirm_supplier";
@@ -2543,14 +2548,14 @@ public class PackageExpertController {
      * @param supplierId
      * @return
      */
+    @ResponseBody
     @RequestMapping("/removeSaleTender")
-    public String removeSaleTender (String packageId, String supplierId, String projectId, String removedReason) {
+    public void removeSaleTender (String packageId, String supplierId, String projectId, String removedReason) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("supplierId", supplierId);
         map.put("packageId", packageId);
         map.put("removedReason", removedReason);
         saleTenderService.removeSaleTender(map);
-        return "redirect:confirmSupplier.html?projectId="+projectId;
     }
     
     /**
