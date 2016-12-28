@@ -1266,14 +1266,14 @@ function deleteFinance() {
 	    	<h2 class="count_flow">${finance.year}年财务信息 （单位：万元）</h2>
 	    	<fieldset class="col-md-12 col-xs-12 col-sm-12 border_font">
 	 	  <!--   <legend>列表</legend> -->
-			<div  class="col-md-12 col-sm-12 col-xs-12 p0" >
+			<div  class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" >
 				<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
 				<%-- 	<button type="button" class="btn btn-windows add" onclick="openFinance(this,'${finance.year}')">维护</button> --%>
 				<!-- 	<button type="button" class="btn btn-windows delete" onclick="deleteFinance()">删除</button> -->
 					<span class="red"></span>
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 p0">
-					  <table class="table table-bordered table-condensed mt5">
+					  <table class="table table-bordered table-condensed mt5 table_wrap">
 						<thead>
 							<tr>
 							<!-- 	infotd=$(obj).parent().next().children().children(":last"); <th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
@@ -1326,7 +1326,7 @@ function deleteFinance() {
 						</tbody>
 					</table>
 					
-					<table id="finance_attach_list_id" class="table table-bordered table-condensed mt5">
+					<table id="finance_attach_list_id" class="table table-bordered table-condensed mt5 table_wrap">
 						<thead>
 							<tr>
 								<!-- <th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
@@ -1478,7 +1478,7 @@ function deleteFinance() {
 											<td class="tc">${stockholder.name}</td>
 											
 											<td class="tc">${stockholder.identity}</td>
-											<td class="tc">${stockholder.shares}</td>
+											<td class="tr">${stockholder.shares}</td>
 											<td class="tc">${stockholder.proportion}</td>
 										</tr>
 									</c:forEach>

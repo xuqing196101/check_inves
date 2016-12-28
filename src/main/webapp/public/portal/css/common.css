@@ -822,3 +822,6 @@ font-size: 17px; }
 .cengdie{
 	z-index: 1;
 }
+.over_scroll{
+	overflow: scroll;
+}

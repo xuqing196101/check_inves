@@ -2559,3 +2559,18 @@ h2.list_title{
    margin: 0 3px!important;
    float: left;
 }
+/*table_input*/
+.table_wrap td,.table_wrap th{
+	white-space: nowrap;
+}
+
+/*input  100%*/
+.input_group input {
+    width: 100%;
+    position: relative;
+    display: table-cell;
+    float: left;
+    margin-bottom: 0px!important;
+    height: 30px!important;
+    line-height: 28px!important;
+}

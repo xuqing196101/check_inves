@@ -1008,3 +1008,15 @@ li:first-child {
  	opacity: 0;
  	filter:Alpha(opacity=0);
  }
+
+ 
+/*input select 100%*/
+.input_group input {
+    width: 100%;
+    position: relative;
+    display: table-cell;
+    float: left;
+    margin-bottom: 0px!important;
+    height: 30px!important;
+    line-height: 28px!important;
+}
