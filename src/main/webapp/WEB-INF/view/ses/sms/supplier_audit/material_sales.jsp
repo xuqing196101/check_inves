@@ -170,9 +170,9 @@
 			  if(str=="items"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 			  }
-			  if(str=="product"){
-			    action = "${pageContext.request.contextPath}/supplierAudit/product.html";
-			  }
+			  if(str == "contract") {
+					action = "${pageContext.request.contextPath}/supplierAudit/contract.html";
+				}
 			  if(str=="applicationForm"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
 			  }
@@ -246,10 +246,10 @@
               <a aria-expanded="false" href="#tab-4" >品目信息</a>
               <i></i>
 	          </li>
-	          <!-- <li onclick = "jump('product')">
+	          <li onclick = "jump('contract')">
 	            <a aria-expanded="false" href="#tab-4" >产品信息</a>
 	             <i></i>
-	          </li> -->
+	          </li>
 	          <li onclick = "jump('applicationForm')">
 	            <a aria-expanded="false" href="#tab-4" >申请表</a>
 	            <i></i>
