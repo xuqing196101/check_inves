@@ -30,7 +30,6 @@ import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
-import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;

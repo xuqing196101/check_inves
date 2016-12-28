@@ -5,7 +5,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 
-		<script type="text/javascript">
+	  <script type="text/javascript">
 			function tijiao(status) {
 				$("#status").val(status);
 				form1.submit();
@@ -55,7 +55,7 @@
 					});
 			}
 		</script>
-		<script type="text/javascript">
+		<!-- <script type="text/javascript">
 			var zTreeObj;
 			var zNodes;
 			$(function() {
@@ -235,7 +235,158 @@
 				$("#categoryId").val(ids);
 				//return ids;
 			}
-		</script>
+		</script> -->
+		<script type="text/javascript">
+	var zTreeObj;
+	var zNodes;
+	$(function() {
+		$("#page_ul_id").find("li").click(function() {
+			var id = $(this).attr("id");
+			var page = "tab-" + id.charAt(id.length - 1);
+			$("input[name='defaultPage']").val(page);
+		});
+		var defaultPage = "${defaultPage}";
+		if (defaultPage) {
+			var num = defaultPage.charAt(defaultPage.length - 1);
+			$("#page_ul_id").find("li").each(function(index) {
+				var liId = $(this).attr("id");
+				var liNum = liId.charAt(liId.length - 1);
+				if (liNum == num) {
+					$(this).attr("class", "active");
+				} else {
+					$(this).removeAttr("class");
+				}
+			});
+			$("#tab_content_div_id").find(".tab-pane").each(function() {
+				var id = $(this).attr("id");
+				if (id == defaultPage) {
+					$(this).attr("class", "tab-pane fade height-300 active in");
+				} else {
+					$(this).attr("class", "tab-pane fade height-300");
+				}
+			});
+		} else {
+			$("#page_ul_id").find("li").each(function(index) {
+				if (index == 0) {
+					var id = $(this).attr("id");
+					defaultLoadTab(id);
+					$(this).attr("class", "active");
+				} else {
+					$(this).removeAttr("class");
+				}
+			});
+			$("#tab_content_div_id").find(".tab-pane").each(function(index) {
+				if (index == 0) {
+					$(this).attr("class", "tab-pane fade height-300 active in");
+				} else {
+					$(this).attr("class", "tab-pane fade height-300");
+				}
+			});
+		}
+		
+	});
+	
+	//加载默认的页签
+	function defaultLoadTab(id){
+		if (id = "tree_ul_id_1"){
+			loadTab('PRODUCT','tree_ul_id_1',1);
+		}
+		if (id = "tree_ul_id_2"){
+			loadTab('SALES','tree_ul_id_2',2);
+		}
+		if (id = "tree_ul_id_3"){
+			loadTab('PROJECT','tree_ul_id_3',null);
+		}
+		if (id = "tree_ul_id_4"){
+			loadTab('SERVICE','tree_ul_id_4',null);
+		}
+	}
+	
+	//加载对应的节点数据
+	function loadZtree(code, kind, status) {
+	var supplierId = $("#supplierId").val();
+	var setting = {
+ 	    async : {
+			autoParam: ["id"],
+			enable : true,
+			url : "${pageContext.request.contextPath}/supplier/category_type.do",
+			otherParam : {
+				"code":code,
+				"supplierId": "supplierId",
+				"status" : status
+			},
+			dataType : "json",
+			type : "post",
+		}, 
+		check : {
+			enable : true,
+			chkStyle:"checkbox",  
+			chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+		},
+		data : {
+			simpleData : {
+				enable : true,
+				idKey: "id",
+				pIdKey: "parentId",
+			}
+		},
+		view: {
+			showLine: false
+		}
+		 	
+	 };
+	 $.fn.zTree.init($("#" + kind), setting, zNodes);
+  }
+	
+	//加载tab页签
+	function loadTab(code,kind, status){
+		loadZtree(code,kind, status);
+	}
+	
+
+	
+	function getCategoryId(){
+		var ids=[]; 
+		for (var i = 1; i < 5; i++) {
+			var id = "tree_ul_id_" + i;
+			var tree = $.fn.zTree.getZTreeObj(id);
+			if(tree!=null){
+				nodes = tree.getCheckedNodes(true);
+				for (var j = 0; j < nodes.length; j++) {
+					alert(nodes[j].name);
+					alert(nodes[j].id);
+						ids.push(nodes[j].id);
+					 
+				}
+			}
+		}
+		alert(ids);
+		$("#categoryId").val(ids);
+	 	return ids;
+	}
+	
+	
+	function supCategory(){
+		var flag=true;
+		var supplierId="${currSupplier.id}";
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier_item/getSupplierCate.do",
+			type : "post",
+			data : {
+				supplierId : supplierId,
+				 
+			},
+			dataType : "json",
+			success : function(result) {
+				if(result=="0"){
+					flag=false;
+					
+				}
+			}
+		});
+	return flag;
+	}
+</script>
 		<script type="text/javascript">
 			function jump(str) {
 				var action;
@@ -355,25 +506,25 @@
 						<div class="tab-v2">
 							<ul id="page_ul_id" class="nav nav-tabs bgwhite">
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
-									<li id="li_id_1" class="active">
+									<li id="li_id_1" class="active" onclick="loadTab('PRODUCT','tree_ul_id_1',1);">
 										<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a>
 										<input type="hidden" id="tree_ul_id_1_name" value="mat_serve_page">
 									</li>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
-									<li id="li_id_2" class="">
+									<li id="li_id_2" class="" onclick="loadTab('SALES','tree_ul_id_2',2);">
 										<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型品目信息</a>
 										<input type="hidden" id="tree_ul_id_2_name" value="item_sell_page">
 									</li>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
-									<li id="li_id_3" class="">
+									<li id="li_id_3" class="" onclick="loadTab('PROJECT','tree_ul_id_3',null);">
 										<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a>
 										<input type="hidden" id="tree_ul_id_3_name" value="item_eng_page">
 									</li>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
-									<li id="li_id_4" class="">
+									<li id="li_id_4" class="" onclick="loadTab('SERVICE','tree_ul_id_4',null);">
 										<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务品目信息</a>
 										<input type="hidden" id="tree_ul_id_4_name" value="item_serve_page">
 									</li>
