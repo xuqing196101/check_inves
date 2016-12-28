@@ -77,7 +77,7 @@
 				var state = $("#" + id + "").parent("tr").find("td").eq(8).text().trim();
 
 				if(state == "待初审" || state == "待复审" || state == "初审通过" || state == "退回修改" || state == "初审退回" || state == "复审通过") {
-					layer.msg("请选下载未通过项 !", {
+					layer.msg("请选择未通过的专家 !", {
 						offset: '100px',
 					});
 					return;
