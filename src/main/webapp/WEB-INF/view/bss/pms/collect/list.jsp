@@ -280,7 +280,7 @@
 									<input type="checkbox" disabled="disabled" value="${obj.planNo }" name="chkItem" onclick="check()" alt="">
 								</c:if>
 							</td>
-							<td class="w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+							<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 							<td  class="tl pl20">${obj.department}</td >
 							<%-- <td class="tl pl20">
 			    			<c:forEach items="${requires }" var="re" >
