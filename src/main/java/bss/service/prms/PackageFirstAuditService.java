@@ -81,4 +81,6 @@ public interface PackageFirstAuditService {
      * @return 文件名称
      */
     String downLoadBiddingDoc(String projectId,String projectName,String projectNo, HttpServletRequest request);
+    
+    String downLoadBiddingDocs(String projectId,String projectName,String projectNo, HttpServletRequest request);
 }

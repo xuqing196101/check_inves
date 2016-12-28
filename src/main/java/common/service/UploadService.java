@@ -105,6 +105,8 @@ public interface UploadService {
      */
     public String updateFileOther(String id, String sysKey);
     
+    void updateLoad(UploadFile file);
+    
     /**
      * 
      *〈简述〉根据主键查询

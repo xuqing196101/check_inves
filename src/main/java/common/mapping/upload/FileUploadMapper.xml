@@ -83,6 +83,17 @@
   	 WHERE ID = #{id, jdbcType=VARCHAR}
   </update>
   
+  
+  <update id="updateLoad" parameterType="common.model.UploadFile">
+    update T_SES_BMS_ATTACHMENT
+    <set>
+      <if test="businessId != null">
+        BUSINESS_ID = #{businessId},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
   <!-- 根据Id查询 -->
   <select id="findById"  parameterType="java.lang.String" resultMap="BaseResultMap_File">
   	 SELECT 

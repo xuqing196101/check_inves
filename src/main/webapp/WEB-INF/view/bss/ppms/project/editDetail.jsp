@@ -18,6 +18,7 @@
 		var price2 = $(obj).parent().next().children(":last").prev();//价钱
 		var price = $(price2).val() - 0;
 		var sum = purchaseCount * price;
+		sum = sum/1000;
 		var budgets = $(obj).parent().next().next().children(":last").prev();
 		$(budgets).val(sum);
 		var budget = 0;
@@ -53,6 +54,7 @@
 		var purchaseCount = $(obj).val() - 0; //价钱
 		var price2 = $(obj).parent().prev().children(":last").prev().val() - 0;//数量
 		var sum = purchaseCount * price2;
+		sum = sum/1000;
 		$(obj).parent().next().children(":last").prev().val(sum);
 		var budget = 0;
 		$("#table tr").each(function() {
@@ -270,6 +272,8 @@
 					   
 					</c:if> 
 					<input type="hidden" id="idss" name="lists[${vs.index }].id" value="${obj.id }">
+					<input type="hidden"  name="lists[${vs.index }].requiredId" value="${obj.requiredId }">
+          <input type="hidden"  name="lists[${vs.index }].project" value="${obj.project.id}">
 				  </td>
 				  <td><div class="pl20 pr5">${obj.supplier}</div></td>
 				  <td><div class="pl20 pr5">${obj.isFreeTax}</div></td>

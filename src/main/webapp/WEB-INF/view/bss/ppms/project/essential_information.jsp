@@ -129,6 +129,9 @@
 
         }
         if(flag == true) {
+          layer.msg("修改成功", {
+            shade: 0.01
+          });
           $("#save_form_id").submit();
         }
 				});

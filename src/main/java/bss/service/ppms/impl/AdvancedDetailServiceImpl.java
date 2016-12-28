@@ -84,5 +84,11 @@ public class AdvancedDetailServiceImpl implements AdvancedDetailService {
         return advancedDetailMapper.findHavePackageIdDetail(map);
     }
 
+    @Override
+    public List<AdvancedDetail> selectByCondition(HashMap<String, Object> map) {
+        
+        return advancedDetailMapper.selectByCondition(map);
+    }
+
     
 }

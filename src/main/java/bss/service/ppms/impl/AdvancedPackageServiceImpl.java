@@ -6,6 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropUtil;
+
+import com.github.pagehelper.PageHelper;
+
 import bss.dao.ppms.AdvancedPackageMapper;
 import bss.model.ppms.AdvancedPackages;
 import bss.service.ppms.AdvancedPackageService;
@@ -44,6 +48,18 @@ public class AdvancedPackageServiceImpl implements AdvancedPackageService {
     public List<AdvancedPackages> selectByAll(HashMap<String, Object> map) {
 
         return packageMapper.selectByAll(map);
+    }
+
+    @Override
+    public List<AdvancedPackages> find(AdvancedPackages packages, Integer page) {
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
+        return packageMapper.find(packages);
+    }
+
+    @Override
+    public List<AdvancedPackages> findPackageAndBidMethodById(HashMap<String, Object> map) {
+        
+        return packageMapper.findPackageAndBidMethodById(map);
     }
 
 }

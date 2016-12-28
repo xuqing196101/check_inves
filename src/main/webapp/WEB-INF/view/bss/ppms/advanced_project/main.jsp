@@ -26,12 +26,12 @@
     location.href = '${pageContext.request.contextPath}/project/list.html';
   }
   
-  function jumpLoad(url, projectId, flowDefineId){
+  function jumpLoad(url, projectId){
     var urls="${pageContext.request.contextPath}/"+url+"?projectId="+projectId;
-     // $("#as").attr("href",urls);
-    //  var el=document.getElementById('as');
-     //  el.click();//触发打开事件
-      $("#open_bidding_main").load(urls);
+      $("#as").attr("href",urls);
+      var el=document.getElementById('as');
+       el.click();//触发打开事件
+      // $("#open_bidding_main").load(urls);
   }
   
   function jumpChild(url){
@@ -44,7 +44,6 @@
     $("#open_bidding_main").load("${pageContext.request.contextPath}/"+url);
   }
   
- 
 </script>
 </head>
 
@@ -67,19 +66,33 @@
                   <div class="col-md-12" style="min-height:400px;">
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
                        <ul class="btn_list" id="menu">
-                    <li onclick="jumpLoad('advancedProject/mplement.html','${project.id }')" class="active">
-                                <a class="son-menu" id="as">项目信息</a>
-                              </li> 
-                              <li onclick="jumpLoad('advancedProject/mplement.html','${project.id }')" >
-                                <a class="son-menu">拟制招标文件</a>
+                              <li onclick="jumpLoad('advancedProject/mplement.html','${project.id }')" class="active">
+                                <a class="son-menu">项目信息</a>
                               </li>  
+                              <li onclick="jumpLoad('advancedProject/toAdd.html','${project.id}')" >
+                                  <a class="son-menu">拟制招标文件</a>
+                               </li>  
              </ul>
             </div>
             <!-- 右侧内容开始-->
+            <input type="hidden" id="initurl" value="${url}">
+            <!-- <div class="tag-box tag-box-v4 col-md-9 "  id="open_bidding_main">
+                
+            </div> -->
+                        <script type="text/javascript" language="javascript">   
+                          function getContentSize() {
+                  var he = document.documentElement.clientHeight;
+              var btn = $("#iframe_btns").outerHeight(true);
+                var bread= $("#bread_crumbs").outerHeight(true) ;
+              ch = (he - btn - bread) + "px";
+              document.getElementById("open_bidding_iframe").style.height = ch;
+              }
+              window.onload = getContentSize;
+              window.onresize = getContentSize;
+            </script>
                       <!-- 右侧内容开始-->
-                      <input type="hidden" id="initurl" value="${url }">
-                      <div class="tag-box tag-box-v4 col-md-9" id="open_bidding_main">
-                      
+                      <div class="tag-box tag-box-v4 col-md-9" >
+                         <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe"  scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="${pageContext.request.contextPath}/${url}"></iframe>
                       </div>
             <div class="col-md-12 tc mt20" id="iframe_btns">
                 <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>

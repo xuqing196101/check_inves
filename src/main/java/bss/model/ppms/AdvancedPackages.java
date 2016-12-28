@@ -38,6 +38,18 @@ public class AdvancedPackages {
 	private List<AdvancedDetail> advancedDetails;
 	
 	private AdvancedProject project;
+	
+	private String projectId;
+	
+	//判断是否有评分办法 1 有 2 没有
+    private Integer isHaveScoreMethod;
+    
+    private String markTermTree;
+    private String bidMethodName;//评分办法名称
+    private String bidMethodTypeName;//评标方法
+    private String bidMethodMaxScore ;//
+    
+    
 
     public String getId() {
         return id;
@@ -126,9 +138,54 @@ public class AdvancedPackages {
     public void setProject(AdvancedProject project) {
         this.project = project;
     }
-	
-	
 
-  
-	
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+    
+    public Integer getIsHaveScoreMethod() {
+        return isHaveScoreMethod;
+    }
+
+    public void setIsHaveScoreMethod(Integer isHaveScoreMethod) {
+        this.isHaveScoreMethod = isHaveScoreMethod;
+    }
+
+    public String getMarkTermTree() {
+        return markTermTree;
+    }
+
+    public void setMarkTermTree(String markTermTree) {
+        this.markTermTree = markTermTree;
+    }
+
+    public String getBidMethodName() {
+        return bidMethodName;
+    }
+
+    public void setBidMethodName(String bidMethodName) {
+        this.bidMethodName = bidMethodName;
+    }
+
+    public String getBidMethodTypeName() {
+        return bidMethodTypeName;
+    }
+
+    public void setBidMethodTypeName(String bidMethodTypeName) {
+        this.bidMethodTypeName = bidMethodTypeName;
+    }
+
+    public String getBidMethodMaxScore() {
+        return bidMethodMaxScore;
+    }
+
+    public void setBidMethodMaxScore(String bidMethodMaxScore) {
+        this.bidMethodMaxScore = bidMethodMaxScore;
+    }
+    
+    
 }

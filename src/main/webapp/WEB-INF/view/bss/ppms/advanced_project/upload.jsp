@@ -5,6 +5,9 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
+<script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script> 
+<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
 <script type="text/javascript">
   function start(){
     layer.confirm('您确认要启动项目吗?',{
@@ -25,6 +28,27 @@
     var index=parent.layer.getFrameIndex(window.name);
     parent.layer.close(index);
   }
+  
+    $(function() {
+    var id = "${project.id}";
+    $.ajax({
+      url: "${ pageContext.request.contextPath }/advancedProject/getUserForSelect.do?id="+id,
+      contentType: "application/json;charset=UTF-8",
+      dataType: "json", //返回格式为json
+      type: "POST", //请求方式           
+      success: function(users) {
+        if(users) {
+          $("#user").html("<option></option>");
+          $.each(users, function(i, user) {
+            if(user.relName != null && user.relName != '') {
+              $("#user").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+            }
+          });
+        }
+        $("#user").select2();
+      }
+    });
+  });
 </script>  
 </head>
 
@@ -32,6 +56,7 @@
 <div class="container">
   <form id="att" action="${pageContext.request.contextPath}/advancedProject/start.html"  method="post" name="form1" class="simple" target="_parent">
     <input type="hidden" name="id" value="${project.id}"/>
+    <input type="hidden" id="userId" name="userId"/>
     <div id="openDiv" class="layui-layer-wrap" >
       <div class="drop_window">
         <ul class="list-unstyled">
@@ -43,6 +68,13 @@
             </span>
           </li>
           <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+            <label class="col-md-12 pl20 col-xs-12"><div class="red star_red">*</div>项目承办人</label>
+            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+                <select id="user" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select>
+                <div class="cue">${ERR_principal}</div>
+            </div>
+            </li>
+          <%-- <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
              <label class="col-md-12 pl20 col-xs-12">项目负责人</label>
             <span class="col-md-12">
               <select name="principal" class="w180 mb10">
@@ -52,7 +84,7 @@
                   </c:forEach> 
               </select>
             </span>
-          </li>
+          </li> --%>
            <div class="clear"></div>
         </ul>
       </div>

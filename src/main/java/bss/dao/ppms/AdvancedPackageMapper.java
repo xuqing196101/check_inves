@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.AdvancedPackages;
+import bss.model.ppms.Packages;
 
 public interface AdvancedPackageMapper {
     /**
@@ -55,4 +56,8 @@ public interface AdvancedPackageMapper {
      * @return
      */
     List<AdvancedPackages> selectByAll(HashMap<String, Object> map);
+    
+    List<AdvancedPackages> find(AdvancedPackages packages);
+    
+    List<AdvancedPackages> findPackageAndBidMethodById(HashMap<String,Object> map);
 }

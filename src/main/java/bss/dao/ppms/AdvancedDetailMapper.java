@@ -100,5 +100,5 @@ public interface AdvancedDetailMapper {
      */
 	List<AdvancedDetail> selectByAll(HashMap<String,Object> map);
 	
-	
+	List<AdvancedDetail> selectByCondition(HashMap<String,Object> map);
 }

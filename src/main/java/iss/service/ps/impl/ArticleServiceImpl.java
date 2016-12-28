@@ -15,6 +15,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.Packages;
 import bss.model.ppms.ProjectDetail;
 
@@ -248,4 +250,48 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<Article> selectAllByArticleType(Map<String, Object> map) {
 		return articleMapper.selectAllByArticleType(map);
 	}
+
+    @Override
+    public StringBuilder getContents(List<AdvancedPackages> listPackages) {
+        StringBuilder sb = new StringBuilder("");
+        sb.append("<table><tr><th>包名</th><th>货物名称</th><th>规格型号</th><th>技术要求</th><th>计量单位</th><th>数量</th><th>交货时间</th><th>交货地点</th><th>备注</th></tr>");
+        for (AdvancedPackages pack : listPackages) {
+            for (AdvancedDetail pd : pack.getAdvancedDetails()) {
+                if (pd.getPrice() == null || "".equals(pd.getPrice())) {
+                    continue;
+                    } else {
+                        if (pd.getSerialNumber() == null) pd.setSerialNumber("");
+                        if (pd.getDepartment() == null) pd.setDepartment("");
+                        if (pd.getGoodsName() == null) pd.setGoodsName("");
+                        if (pd.getStand() == null) pd.setStand("");
+                        if (pd.getQualitStand() == null) pd.setQualitStand("");
+                        if (pd.getDeliverDate() == null) pd.setDeliverDate("");
+                        String price = "";
+                        if (pd.getPrice() != null) {
+                            price = pd.getPrice() + "";
+                        }
+                        String budget = "";
+                        if (pd.getBudget() != null) {
+                          price = pd.getPrice() + "";
+                        }
+                        String purchaseCount = "";
+                        if (pd.getPurchaseCount() != null) {
+                            purchaseCount = pd.getPurchaseCount() + "";
+                        }
+                        if (pd.getItem() == null) pd.setItem("");
+                        if (pd.getPurchaseCount() == null) pd.setPurchaseCount(0.00);
+                        sb.append("<tr><td>"+pack.getName()+"</td>");   
+                        sb.append("<td>"+pd.getGoodsName()+" </td>");
+                        sb.append("<td>"+pd.getStand()+"</td>");
+                        sb.append("<td>"+pd.getQualitStand()+"</td>");
+                        sb.append("<td>"+pd.getItem()+"</td>");
+                        sb.append("<td>"+purchaseCount+"</td>");
+                        sb.append("<td>"+pd.getDeliverDate()+"</td>");
+                        sb.append("<td></td><td></td></tr>");
+                    }
+                    }
+                }
+                sb.append("<tr><td>说明</td><td colspan=8>1. 投标人须对所投包内所有产品和数量进行投标报价，否则视为无效投标。<br/>2. 运杂费：</td></tr></table>");
+                return sb;
+    }
 }

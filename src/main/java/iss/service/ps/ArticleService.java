@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.Packages;
 
 
@@ -292,4 +293,6 @@ public interface ArticleService {
 	List<Article> selectAllByParId(Map<String, Object> map);
 	
 	List<Article> selectAllByArticleType(Map<String, Object> map);
+	
+	StringBuilder getContents(List<AdvancedPackages> listPackages);
 }

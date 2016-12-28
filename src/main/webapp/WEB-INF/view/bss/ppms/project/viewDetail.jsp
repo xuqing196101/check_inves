@@ -109,9 +109,18 @@
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
               <td class="tc">
-                <c:forEach items="${kind}" var="kind" >
-                  <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                </c:forEach>
+                 <c:choose>
+              <c:when test="${obj.detailStatus==0 }">
+              
+              </c:when>
+              <c:otherwise>
+                  <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
+                    <c:forEach items="${kind}" var="kind" >
+                       <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
+                    </c:forEach>
+                  </select>
+              </c:otherwise>
+            </c:choose>
               </td>
               <td class="tc">${obj.supplier}</td>
               <td class="tc">${obj.isFreeTax}</td>
@@ -169,9 +178,18 @@
                 <td class="tc">${obj.budget}</td>
                 <td class="tc">${obj.deliverDate}</td>
                 <td class="tc">
-                  <c:forEach items="${kind}" var="kind" >
-                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                  </c:forEach>
+	                <c:choose>
+              <c:when test="${obj.detailStatus==0 }">
+              
+              </c:when>
+              <c:otherwise>
+                  <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
+                    <c:forEach items="${kind}" var="kind" >
+                       <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
+                    </c:forEach>
+                  </select>
+              </c:otherwise>
+            </c:choose>
                 </td>
                 <td class="tc">${obj.supplier}</td>
                 <c:if test="${pack.isImport==1 }">

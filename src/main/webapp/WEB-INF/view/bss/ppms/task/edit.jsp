@@ -68,6 +68,7 @@
         var price2 = $(obj).parent().next().children(":last").prev();//价钱
         var price = $(price2).val()-0;
         var sum = purchaseCount*price;
+        sum = sum/1000;
         var budgets = $(obj).parent().next().next().children(":last").prev();
         $(budgets).val(sum);
         var budget=0;
@@ -103,6 +104,7 @@
         var purchaseCount = $(obj).val()-0; //价钱
         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
         var sum = purchaseCount*price2;
+        sum = sum/1000;
         $(obj).parent().next().children(":last").prev().val(sum);
         var budget=0;
         $("#table tr").each(function(){

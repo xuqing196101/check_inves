@@ -436,4 +436,14 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
         return purchaseOrgList;
     }
 
+    /**
+     * 
+     * @see ses.service.oms.OrgnizationServiceI#selectByName(java.lang.String)
+     */
+    @Override
+    public Orgnization selectByName(String name) {
+        
+        return orgniztionMapper.selectByName(name);
+    }
+
 }
