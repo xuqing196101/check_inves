@@ -641,7 +641,8 @@ public class ExpExtractRecordController extends BaseController {
 
         if ("1".equals(ids[2])){
             ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
-            String expertTypeId = expExtRelate.getExpert().getExpertsTypeId();
+            List<ExpExtCondition> conList =  conditionService.list(new ExpExtCondition(expExtRelate.getExpertConditionId(), "") , null);
+            String expertTypeId = conList.get(0).getExpertsTypeId();
             //截取专家类型 如果满足insert
             if (expertTypeId != null && !"".equals(expertTypeId)){
                 String[] expertTypeIdArray = expertTypeId.split(",");
@@ -757,7 +758,7 @@ public class ExpExtractRecordController extends BaseController {
                 Packages packages = new Packages();
                 packages.setId(list2.get(0).getProjectId());
                 List<Packages> find = packagesService.find(packages);
-                extractService.del(find.get(0).getProjectId());
+                extractService.delPe(find.get(0).getProjectId());
                 forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
             } else {
                 forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
@@ -768,7 +769,7 @@ public class ExpExtractRecordController extends BaseController {
         List<ExtConType> conTypes = listCondition.get(0).getConTypes();
 
 
-
+        String expertTypeId = "";   
         for (ExtConType extConType1 : conTypes) {
             //获取抽取的专家类别
             ProjectExtract projectExtrac = new ProjectExtract();
@@ -778,8 +779,18 @@ public class ExpExtractRecordController extends BaseController {
             extConType1.setAlreadyCount(list == null ? 0 : list.size());
             //删除满足数量的
             if(list.size() >= extConType1.getExpertsCount()){
-//                extractService.del(projectId);
+                expertTypeId += extConType1.getExpertsTypeId() + ",";
             }
+        }
+
+        if (expertTypeId != null && !"".equals(expertTypeId)){
+            Packages packages = new Packages();
+            packages.setId(listCondition.get(0).getProjectId());
+            List<Packages> find = packagesService.find(packages);
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("projectId", find.get(0).getProjectId());
+            map.put("typeId", expertTypeId.substring(0, expertTypeId.length()-1));
+            extractService.del(find.get(0).getProjectId());
         }
 
         projectExtractListYes.get(0).setConType(conTypes);
@@ -869,22 +880,11 @@ public class ExpExtractRecordController extends BaseController {
         model.addAttribute("ExpExtractRecord", showExpExtractRecord);
         if(showExpExtractRecord !=null){
             //抽取条件
-            ExpExtPackage extPackage = new ExpExtPackage();
-            extPackage.setProjectId(showExpExtractRecord.getProjectId());
             List<Packages> conList = packagesService.listExpExtCondition(showExpExtractRecord.getProjectId());
-            List<ExpExtPackage> conditionList = expExtPackageServicel.extractsList(extPackage);
             model.addAttribute("conditionList", conList);
             //获取监督人员
-            if (conditionList != null && conditionList.size() != 0){
-                List<User>  listUser = null ;
-                for (ExpExtPackage expExtPackage : conditionList) {
-                    //                    listUser =  projectSupervisorServicel.list(new ProExtSupervise(expExtPackage.getId()));
-                    //                    if (listUser != null ){
-                    //                        break;
-                    //                    }
-                }
-                model.addAttribute("listUser", listUser);  
-            }
+            List<ProExtSupervise>  listUser = projectSupervisorServicel.list(new ProExtSupervise(showExpExtractRecord.getProjectId()));
+            model.addAttribute("listUser", listUser);
         }
         return "ses/ems/exam/expert/extract/show_info";
     }

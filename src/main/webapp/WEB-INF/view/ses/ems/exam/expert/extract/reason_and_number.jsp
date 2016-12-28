@@ -22,7 +22,7 @@
 	      }
 	    var serviceCount = $("#serviceCount").val();
 	    if(serviceCount != null && serviceCount != ''){
-	        sun =parseInt(sun) + parseInt(goodsCount);
+	        sun =parseInt(sun) + parseInt(serviceCount);
 	      }
 	    var goodsServerCount = $("#goodsServerCount").val();
 	    if(goodsServerCount != null && goodsServerCount != ''){

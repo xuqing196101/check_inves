@@ -252,4 +252,14 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
     public void del(String projectId){
         extractMapper.del(projectId);
     }
+
+    /**
+     * 抽取之后
+     * @see ses.service.ems.ProjectExtractService#delPe(java.lang.String)
+     */
+    @Override
+    public void delPe(String projectId) {
+        extractMapper.delPe(projectId);
+        
+    }
 }

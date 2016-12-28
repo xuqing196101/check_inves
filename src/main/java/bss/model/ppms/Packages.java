@@ -6,6 +6,7 @@ package bss.model.ppms;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.model.sms.Supplier;
@@ -28,6 +29,8 @@ public class Packages {
     private List<SupplierCheckPass> listCheckPasses;
     
     private List<ProjectExtract> listProjectExtract;
+    
+    private List<ExpExtCondition> listExpExtCondition;
     
 	private String id;
 	
@@ -364,6 +367,20 @@ public class Packages {
 
     public void setIsEditSecond(Integer isEditSecond) {
       this.isEditSecond = isEditSecond;
+    }
+
+    /**
+     * @return Returns the listExpExtCondition.
+     */
+    public List<ExpExtCondition> getListExpExtCondition() {
+        return listExpExtCondition;
+    }
+
+    /**
+     * @param listExpExtCondition The listExpExtCondition to set.
+     */
+    public void setListExpExtCondition(List<ExpExtCondition> listExpExtCondition) {
+        this.listExpExtCondition = listExpExtCondition;
     }
 	
 }

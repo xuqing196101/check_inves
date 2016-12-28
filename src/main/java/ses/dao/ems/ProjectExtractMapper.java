@@ -109,4 +109,13 @@ public interface ProjectExtractMapper {
      * @param projectId
      */
     void del(String projectId);
+    
+    /**
+     * 
+     *〈简述〉抽取之后删除
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param projectId
+     */
+    void delPe(String projectId);
 }

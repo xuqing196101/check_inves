@@ -101,4 +101,8 @@ public interface ProjectExtractService {
      */
     void del(String projectId);
 
-    }
+    /**
+     * 抽取完成后删除信息
+     */
+    void delPe(String projectId);
+}

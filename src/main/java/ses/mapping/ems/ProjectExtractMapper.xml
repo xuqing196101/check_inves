@@ -344,11 +344,31 @@
 	</select>
 
 	<!-- 删除为抽取的的数据 -->
-	<select id="del" parameterType="java.lang.String">
+	<select id="del" parameterType="Map">
+		DELETE FROM ( SELECT
+		*
+		FROM
+		T_SES_EMS_PROJECT_EXTRACT
+		WHERE PROJECT_ID IN (SELECT "ID" FROM
+		T_BSS_PPMS_PACKAGE WHERE PROJECT_ID = #{projectId}) AND
+		EXPERT_ID IN (
+		SELECT
+		"ID"
+		FROM
+		T_SES_EMS_EXPERT
+		WHERE
+		EXPERTS_TYPE_ID = #{typeId}
+		) )
+	</select>
+
+	<select id="delPe" parameterType="java.lang.String">
 		DELETE FROM (
-		SELECT T1.* FROM T_SES_EMS_PROJECT_EXTRACT t1 LEFT JOIN
-		T_BSS_PPMS_PACKAGE t2 ON T1.PROJECT_ID=t2."ID" WHERE t2.PROJECT_ID
-		=#{projectId} AND t1.OPERATING_TYPE = 0 )
+		SELECT T1.* FROM
+		T_SES_EMS_PROJECT_EXTRACT t1 LEFT JOIN
+		T_BSS_PPMS_PACKAGE t2 ON
+		T1.PROJECT_ID=t2."ID" WHERE t2.PROJECT_ID
+		=#{projectId} AND
+		t1.OPERATING_TYPE = 0 )
 	</select>
 
 </mapper>

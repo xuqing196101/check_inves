@@ -118,7 +118,6 @@
 							layer.confirm('上次抽取未完成，是否继续上次抽取？', {
 								  btn: ['确定','取消'], shade:0.01 //按钮
 								}, function(){
-									alert(map.packageId);
 									window.location.href = '${pageContext.request.contextPath}/ExpExtract/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+map.packageId;
 								}, function(){
 									layer.closeAll();

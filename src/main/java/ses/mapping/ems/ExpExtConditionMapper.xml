@@ -20,7 +20,6 @@
 		<result column="AGE_MIN" jdbcType="VARCHAR" property="ageMin" />
 		<result column="EXTRACT_ADDRESS" jdbcType="VARCHAR" property="extractAddress" />
 		<result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />
-		<collection property="conTypes" column="ID" ofType="ses.model.ems.ExtConType" select="ses.dao.ems.ExtConTypeMapper.selectByPrimaryKey"  ></collection>
 	</resultMap>
 	<resultMap type="ses.model.ems.ExpExtCondition" id="BaseResultListMap"
 		extends="BaseResultMap">
@@ -329,11 +328,18 @@
 		<include refid="condition" />
 	</select>
 
-<!-- 	<select id="selectByPackageId" parameterType="java.lang.String" parameterMap="BaseResultMap"> -->
-<!-- 		select -->
-<!-- 		<include refid="Base_Column_List" /> -->
-<!-- 		FROM T_SES_EMS_EXP_EXT_CONDITION WHERE PROJECT_ID = #{projectId} -->
-<!-- 	</select> -->
+	<select id="selectByPackageId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		 SELECT
+    EC.*, CT."ID" AS ctid,
+    CT.CATEGORY_NAME,CT.EXPERTS_COUNT,CT.EXPERTS_QUALIFICATION,CT.EXPERTS_TYPE_ID
+    as cttypeid,CT.CATEGORY_ID AS gid ,CT.IS_MULTICONDITION
+    FROM
+    T_SES_EMS_EXP_EXT_CONDITION ec
+    LEFT JOIN
+    T_SES_EMS_EXP_EXT_CON_TYPE ct
+    ON
+    EC."ID"=CT.CONDITION_ID WHERE EC.PROJECT_ID=#{projectId}
+	</select>
 
 	<!--根据关联包id查询是否有未抽取的条件 -->
 	<select id="getCount" resultType="java.lang.Integer"
