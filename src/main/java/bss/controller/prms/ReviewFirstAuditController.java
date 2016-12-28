@@ -186,17 +186,16 @@ public class ReviewFirstAuditController {
 		model.addAttribute("dds", dds);
 		return "bss/prms/audit/review_first_audit";
 	}
+	
 	/**
-	 * 
-	  * @Title: toGrade
-	  * @author ShaoYangYang
-	  * @date 2016年10月20日 下午7:03:22  
-	  * @Description: TODO 去往评分页面
-	  * @param @param projectId
-	  * @param @param packageId
-	  * @param @param model
-	  * @param @return      
-	  * @return String
+	 *〈简述〉去往专家经济技术评审页面
+	 *〈详细描述〉
+	 * @author WangHuijie 
+	 * @param projectId 项目Id
+	 * @param packageId 包Id
+	 * @param model 
+	 * @param session
+	 * @return
 	 */
 	@RequestMapping("toGrade")
 	public String toGrade(String projectId,String packageId,Model model,HttpSession session){
@@ -325,7 +324,6 @@ public class ReviewFirstAuditController {
 		model.addAttribute("project", project);
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("packageId", packageId);
-		model.addAttribute("length", supplierList.size() * 2 + 4);
 		return "bss/prms/audit/review_first_grade";
 	}
 	/**

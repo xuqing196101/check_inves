@@ -139,6 +139,13 @@ $(document).ready(function() {
 			}
 		});
 	}
+	// 控制滚动
+	function controlScroll(){ 
+		var a = document.getElementById("t_r_content").scrollTop; 
+		var b = document.getElementById("t_r_content").scrollLeft; 
+		document.getElementById("cl_freeze").scrollTop=a; 
+		document.getElementById("t_r_t").scrollLeft=b; 
+	} 
   </script>
   </head>
   
@@ -197,14 +204,14 @@ $(document).ready(function() {
 			    	      <td class="tc w100" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
 			    	      <td class="">${score.name}</td>
 			 	  		  <td class="">
-			 	    	    <c:if test="${score.typeName == 0}"><a href="javascript:void();" title="${score.reviewContent}">模型1:是否判断</a></c:if>
-			 	            <c:if test="${score.typeName == 1}"><a href="javascript:void();" title="${score.reviewContent}">模型2:按项加减分</a></c:if>
-				 	        <c:if test="${score.typeName == 2}"><a href="javascript:void();" title="${score.reviewContent}">模型3:评审数额最高递减</a></c:if>
-				 	        <c:if test="${score.typeName == 3}"><a href="javascript:void();" title="${score.reviewContent}">模型4:评审数额最低递增</a></c:if>
-				 	        <c:if test="${score.typeName == 4}"><a href="javascript:void();" title="${score.reviewContent}">模型5:评审数额高计算</a></c:if>
-				 	        <c:if test="${score.typeName == 5}"><a href="javascript:void();" title="${score.reviewContent}">模型6:评审数额低计算</a></c:if>
-				 	        <c:if test="${score.typeName == 6}"><a href="javascript:void();" title="${score.reviewContent}">模型7:评审数额低区间递增</a></c:if>
-				 	        <c:if test="${score.typeName == 7}"><a href="javascript:void();" title="${score.reviewContent}">模型8:评审数额高区间递减</a></c:if>
+			 	    	    <c:if test="${score.typeName == 0}"><a href="javascript:void();" title="${score.reviewContent}">模型一</a></c:if>
+			 	            <c:if test="${score.typeName == 1}"><a href="javascript:void();" title="${score.reviewContent}">模型二</a></c:if>
+				 	        <c:if test="${score.typeName == 2}"><a href="javascript:void();" title="${score.reviewContent}">模型三</a></c:if>
+				 	        <c:if test="${score.typeName == 3}"><a href="javascript:void();" title="${score.reviewContent}">模型四</a></c:if>
+				 	        <c:if test="${score.typeName == 4}"><a href="javascript:void();" title="${score.reviewContent}">模型五</a></c:if>
+				 	        <c:if test="${score.typeName == 5}"><a href="javascript:void();" title="${score.reviewContent}">模型六</a></c:if>
+				 	        <c:if test="${score.typeName == 6}"><a href="javascript:void();" title="${score.reviewContent}">模型七</a></c:if>
+				 	        <c:if test="${score.typeName == 7}"><a href="javascript:void();" title="${score.reviewContent}">模型八</a></c:if>
 				 	      </td>
 				 	      <td class="tc">${score.standardScore}</td>
 				 	      <c:forEach items="${supplierList}" var="supplier">

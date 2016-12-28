@@ -30,39 +30,37 @@
   <div>
 	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
-			    <th></th>
+			    <th colspan="4"></th>
 			    <c:forEach items="${supplierList}" var="supplier">
 			      <th>${supplier.suppliers.supplierName}</th>
 			    </c:forEach>
 			  </tr>
 			  <tr>
-			   	  	  <th>计分模型</th>
+			   	  	  <th>评审项目</th>
+			   	      <th>评审指标</th>
+			   	      <th>指标模型</th>
+			   	      <th>标准分值</th>
 			   	  	  <c:forEach items="${supplierList}" var="supplier">
      		        	<th>评审得分</th>
 	    		  	  </c:forEach>
 			   		</tr>
-			  <c:forEach items="${markTermTypeList}" var="type">
-			    <tr>
-			      <td class="info" colspan="${length}">${type.name}</td>
-			    </tr>
 			    <c:forEach items="${markTermList}" var="markTerm">
-			      <c:if test="${markTerm.typeName eq type.id}">
-			        <tr>
-			          <td class="info" colspan="${length}">${markTerm.name}</td>
-			        </tr>
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			    	      <td class="tc">
-			 	    	    <c:if test="${score.typeName == 0}"><a href="javascript:void();" title="${score.reviewContent}">模型1:是否判断</a></c:if>
-			 	            <c:if test="${score.typeName == 1}"><a href="javascript:void();" title="${score.reviewContent}">模型2:按项加减分</a></c:if>
-				 	        <c:if test="${score.typeName == 2}"><a href="javascript:void();" title="${score.reviewContent}">模型3:评审数额最高递减</a></c:if>
-				 	        <c:if test="${score.typeName == 3}"><a href="javascript:void();" title="${score.reviewContent}">模型4:评审数额最低递增</a></c:if>
-				 	        <c:if test="${score.typeName == 4}"><a href="javascript:void();" title="${score.reviewContent}">模型5:评审数额高计算</a></c:if>
-				 	        <c:if test="${score.typeName == 5}"><a href="javascript:void();" title="${score.reviewContent}">模型6:评审数额低计算</a></c:if>
-				 	        <c:if test="${score.typeName == 6}"><a href="javascript:void();" title="${score.reviewContent}">模型7:评审数额低区间递增</a></c:if>
-				 	        <c:if test="${score.typeName == 7}"><a href="javascript:void();" title="${score.reviewContent}">模型8:评审数额高区间递减</a></c:if>
+			    	      <td class="tc w100" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
+			    	      <td class="">${score.name}</td>
+			 	  		  <td class="">
+			 	    	    <c:if test="${score.typeName == 0}"><a href="javascript:void();" title="${score.reviewContent}">模型一</a></c:if>
+			 	            <c:if test="${score.typeName == 1}"><a href="javascript:void();" title="${score.reviewContent}">模型二</a></c:if>
+				 	        <c:if test="${score.typeName == 2}"><a href="javascript:void();" title="${score.reviewContent}">模型三</a></c:if>
+				 	        <c:if test="${score.typeName == 3}"><a href="javascript:void();" title="${score.reviewContent}">模型四</a></c:if>
+				 	        <c:if test="${score.typeName == 4}"><a href="javascript:void();" title="${score.reviewContent}">模型五</a></c:if>
+				 	        <c:if test="${score.typeName == 5}"><a href="javascript:void();" title="${score.reviewContent}">模型六</a></c:if>
+				 	        <c:if test="${score.typeName == 6}"><a href="javascript:void();" title="${score.reviewContent}">模型七</a></c:if>
+				 	        <c:if test="${score.typeName == 7}"><a href="javascript:void();" title="${score.reviewContent}">模型八</a></c:if>
 				 	      </td>
+				 	      <td class="tc">${score.standardScore}</td>
 				 	      <c:forEach items="${supplierList}" var="supplier">
 					 	    <c:set var="expertScore" value=""/>
 					 	    <c:forEach items="${scores}" var="sco">
@@ -75,12 +73,9 @@
 					    </tr> 
 					  </c:if>
 			        </c:forEach>
-			        
-			      </c:if>
 			    </c:forEach>
-			  </c:forEach>
 			  <tr>
-			  	<td>合计:</td>
+			  	<td colspan="4" class="tc">合计:</td>
 			  	<c:forEach items="${supplierList}" var="supplier">
      		      <td>
      		        <c:forEach items="${rankList}" var="rank">
@@ -92,12 +87,15 @@
 	    		</c:forEach>
 			  </tr>
 			  <tr>
-			  	<td>排名:</td>
+			  	<td colspan="4" class="tc">排名:</td>
 			  	<c:forEach items="${supplierList}" var="supplier">
-     		      <td>
+     		      <td class="tc">
      		        <c:forEach items="${rankList}" var="rank">
-     		          <c:if test="${supplier.suppliers.id eq rank.supplierId}">
+     		          <c:if test="${supplier.suppliers.id eq rank.supplierId and (rank.reviewResult == null or rank.reviewResult eq '')}">
      		            <span>第${rank.rank}名</span>
+     		          </c:if>
+     		          <c:if test="${supplier.suppliers.id eq rank.supplierId and rank.reviewResult != null and rank.reviewResult ne ''}">
+     		            <span>${rank.reviewResult}</span>
      		          </c:if>
      		        </c:forEach>
      		      </td>
