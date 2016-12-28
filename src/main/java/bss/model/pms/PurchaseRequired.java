@@ -17,6 +17,8 @@ public class PurchaseRequired {
   private String planName;
 
   private String planNo;
+  
+  private String referenceNo;//计划文号
 
   private String planType;
 
@@ -491,6 +493,14 @@ public class PurchaseRequired {
 	public void setAdvancedStatus(Integer advancedStatus) {
 		this.advancedStatus = advancedStatus;
 	}
+
+  public String getReferenceNo() {
+    return referenceNo;
+  }
+
+  public void setReferenceNo(String referenceNo) {
+    this.referenceNo = referenceNo;
+  }
 	
 	
 	

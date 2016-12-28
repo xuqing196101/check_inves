@@ -5,6 +5,7 @@
 		<id column="ID" jdbcType="VARCHAR" property="id" />
 		<result column="PLAN_NAME" jdbcType="VARCHAR" property="planName" />
 		<result column="PLAN_NO" jdbcType="VARCHAR" property="planNo" />
+		<result column="REFERENCE_NO" jdbcType="VARCHAR" property="referenceNo" />
 		<result column="PLAN_TYPE" jdbcType="VARCHAR" property="planType" />
 		<result column="DEPARTMENT" jdbcType="VARCHAR" property="department" />
 		<result column="MATERIAL_NAME" jdbcType="VARCHAR" property="goodsName" />
@@ -52,7 +53,7 @@
 		<result column="PROJECT_STATUS" jdbcType="VARCHAR"  property="projectStatus"/>
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, PLAN_NAME, PLAN_NO, PLAN_TYPE, DEPARTMENT, MATERIAL_NAME, STAND,
+		ID, PLAN_NAME, PLAN_NO, REFERENCE_NO, PLAN_TYPE, DEPARTMENT, MATERIAL_NAME, STAND,
 		QUALIT_STAND, ITEM,
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		MATERIAL_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
@@ -81,7 +82,7 @@
 		where ID = #{id,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="bss.model.pms.PurchaseRequired">
-		insert into T_BSS_PMS_PURCHASE_REQUIRED (ID, PLAN_NAME, PLAN_NO,
+		insert into T_BSS_PMS_PURCHASE_REQUIRED (ID, PLAN_NAME, PLAN_NO,REFERENCE_NO,
 		PLAN_TYPE, DEPARTMENT, MATERIAL_NAME,
 		STAND, QUALIT_STAND, ITEM,
 		PURCHASE_COUNT, PRICE, BUDGET,
@@ -93,6 +94,7 @@
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
+		#{referenceNo,jdbcType=VARCHAR},
 		#{planType,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR},
 		#{stand,jdbcType=VARCHAR}, #{qualitStand,jdbcType=VARCHAR},
 		#{item,jdbcType=VARCHAR},
@@ -122,6 +124,9 @@
 			</if>
 			<if test="planNo != null">
 				PLAN_NO,
+			</if>
+			<if test="referenceNo != null">
+				REFERENCE_NO,
 			</if>
 			<if test="planType != null">
 				PLAN_TYPE,
@@ -269,6 +274,9 @@
 			<if test="planNo != null">
 				#{planNo,jdbcType=VARCHAR},
 			</if>
+			<if test="referenceNo != null">
+				#{referenceNo,jdbcType=VARCHAR},
+			</if>
 			<if test="planType != null">
 				#{planType,jdbcType=VARCHAR},
 			</if>
@@ -415,6 +423,9 @@
 			<if test="planNo != null">
 				PLAN_NO = #{planNo,jdbcType=VARCHAR},
 			</if>
+			<if test="referenceNo != null">
+				REFERENCE_NO = #{referenceNo,jdbcType=VARCHAR},
+			</if>
 			<if test="planType != null">
 				PLAN_TYPE = #{planType,jdbcType=VARCHAR},
 			</if>
@@ -557,6 +568,7 @@
 		update T_BSS_PMS_PURCHASE_REQUIRED
 		set PLAN_NAME = #{planName,jdbcType=VARCHAR},
 		PLAN_NO = #{planNo,jdbcType=VARCHAR},
+		REFERENCE_NO = #{referenceNo,jdbcType=VARCHAR},
 		PLAN_TYPE = #{planType,jdbcType=VARCHAR},
 		DEPARTMENT = #{department,jdbcType=VARCHAR},
 		MATERIAL_NAME = #{goodsName,jdbcType=VARCHAR},
@@ -620,7 +632,9 @@
 			<if test="planNo !=null">
 				and PLAN_NO like '%${planNo}%'
 			</if>
-			
+			<if test="referenceNo !=null">
+				and REFERENCE_NO like '%${referenceNo}%'
+			</if>
 			<if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
 			</if>
@@ -657,7 +671,7 @@
 				and PLAN_TYPE = #{planType}
 		</if>
 		</where>
-		ORDER BY CREATED_AT DESC,IS_MASTER ASC
+		ORDER BY STATUS ASC, CREATED_AT DESC
 	</select>
 
 	<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">
@@ -680,6 +694,7 @@
 			where HISTORY_STATUS='0' and PLAN_NO=#{planNo}
 		
 	</update>
+	
 	<update id="updateStatus" parameterType="bss.model.pms.PurchaseRequired" >
 	
 	update T_BSS_PMS_PURCHASE_REQUIRED
@@ -704,6 +719,12 @@
 		HISTORY_STATUS='0' and IS_DELETE='0'
 			<if test="planNo !=null">
 				and PLAN_NO=#{planNo}
+			</if>
+			<if test="referenceNo !=null">
+				and REFERENCE_NO=#{referenceNo}
+			</if>
+			<if test="referenceNo !=null">
+				and REFERENCE_NO=#{referenceNo}
 			</if>
 			<if test="isMaster != null">
 				and IS_MASTER = #{isMaster}

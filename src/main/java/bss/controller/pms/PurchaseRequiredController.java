@@ -390,7 +390,7 @@ public class PurchaseRequiredController extends BaseController{
 							String id = UUID.randomUUID().toString().replaceAll("-", "");
 //							p.setGoodsType(type);
 							p.setPlanNo(planNo);
-							if(p.getPlanName()!=null){
+							if(p.getPlanName()==null){
 								p.setPlanName(planName);
 							}
 						
