@@ -246,12 +246,12 @@
               <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
               <td class="tc" onclick="view('${article.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <c:if test="${fn:length(article.name)>30}">
-                <td onclick="view('${article.id }')" onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()">${fn:substring(article.name,0,30)}...</td>
+                <td class="tl pl20" onclick="view('${article.id }')" onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()">${fn:substring(article.name,0,30)}...</td>
               </c:if>
               <c:if test="${fn:length(article.name)<=30}">
-                <td onclick="view('${article.id }')">${article.name }</td>
+                <td class="tl pl20" onclick="view('${article.id }')">${article.name }</td>
               </c:if>
-              <td class="tc" onclick="view('${article.id }')">
+              <td class="tl pl20" onclick="view('${article.id }')">
                 <c:if test="${article.range=='0' }">
                   内网
                 </c:if>
@@ -265,8 +265,8 @@
               <td class="tc" onclick="view('${article.id }')">
                 <fmt:formatDate value='${article.publishedAt }' pattern="yyyy年MM月dd日   HH:mm:ss" />
               </td>
-              <td class="tc" onclick="view('${article.id }')">${article.articleType.name }</td>
-              <td class="tc">
+              <td class="tl pl20" onclick="view('${article.id }')">${article.articleType.name }</td>
+              <td class="tl pl20">
                 <c:if test="${article.status=='1' }">
                   <input type="hidden" name="status" value="${article.status }">待发布
                 </c:if>
@@ -280,7 +280,7 @@
                   <input type="hidden" name="status" value="${article.status }">撤回
                 </c:if>
               </td>
-              <td>
+              <td class="tl pl20">
                 <u:show showId="artice_secret_show" delete="false" businessId="${article.id }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
               </td>
             </tr>
