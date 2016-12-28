@@ -69,7 +69,7 @@
 								<td>${bidMethod.valid}%</td>
 								</tr>
 								<tr>
-								<td class="bggrey ">商务技术评分不得低于上午技术评分百分比：</td>
+								<td class="bggrey ">经济技术评分不得低于经济技术评分百分比：</td>
 								<td>${bidMethod.business}%</td></tr>
 						    </c:if>
 						

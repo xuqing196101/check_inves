@@ -137,4 +137,9 @@ public class SupplierQuoteServiceImpl implements SupplierQuoteService {
     public void update(List<Quote> listQuote) {
         quoteMapper.updateByPrimaryKeySelective(listQuote.get(0));
     }
+
+    @Override
+    public List<Quote> get(Quote quote) {
+      return quoteMapper.selectByPrimaryKey(quote);
+    }
 }

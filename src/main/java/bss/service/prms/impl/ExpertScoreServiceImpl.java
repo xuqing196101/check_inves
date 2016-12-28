@@ -219,7 +219,7 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
             quote.setSupplierId(supplier.getId());
             List<Quote> allQuote = quoteMapper.selectByPrimaryKey(quote);
             if (allQuote != null && allQuote.size()>0) {
-                if (allQuote.get(0).getQuotePrice() != null) {
+                if (allQuote.get(0).getQuotePrice() == null) {
                     record.setTotalPrice(allQuote.get(0).getTotal().longValue());
                 } else {
                     BigDecimal totalPrice = BigDecimal.ZERO;

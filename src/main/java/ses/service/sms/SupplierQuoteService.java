@@ -85,4 +85,6 @@ public interface SupplierQuoteService {
      * @return List<Quote>
      */
     List<Quote> selectQuoteHistoryList(Quote quote);
+
+    List<Quote> get(Quote quote);
 }

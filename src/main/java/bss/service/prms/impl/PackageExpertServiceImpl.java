@@ -173,6 +173,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         edMap.put("packageId", (String) mapSearch.get("packageId"));
         edMap.put("economicScore", new BigDecimal(0));
         edMap.put("technologyScore", new BigDecimal(0));
+        edMap.put("reviewResult","");
         SaleTender saleTender = new SaleTender();
         saleTender.setPackages((String) mapSearch.get("packageId"));
         List<SaleTender> supplierList = saleTenderService.find(saleTender);
@@ -371,6 +372,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       expert.setIsProvisional(new Short("1"));
       expert.setStatus("5");
       expert.setIsSubmit("1");
+      expert.setExpertsTypeId(packageExpert.getReviewTypeId());
       expertService.insertSelective(expert);
       //插入专家抽取关联表
       ProjectExtract extract = new ProjectExtract();

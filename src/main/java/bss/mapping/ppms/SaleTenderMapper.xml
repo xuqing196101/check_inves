@@ -391,10 +391,12 @@
 		update T_BSS_PPMS_SALE_TENDER
 		set 
 		ECONOMIC_SCORE = #{economicScore,jdbcType=DECIMAL},
-		TECHNOLOGY_SCORE = #{technologyScore,jdbcType=DECIMAL}
+		TECHNOLOGY_SCORE = #{technologyScore,jdbcType=DECIMAL},
+		REVIEW_RESULT = #{reviewResult,jdbcType=VARCHAR}
 		where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
 		and PACKAGR_IDS = #{packageId,jdbcType=VARCHAR}
 	</update>
+	
 	
 	<update id="removeSaleTender" parameterType="java.util.Map">
 		update T_BSS_PPMS_SALE_TENDER
