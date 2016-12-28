@@ -32,6 +32,7 @@
 					layer.msg("移除成功!",{offset: ['100px', '350px']});
 					//window.location.reload();
 					$("#"+supplierId).html("已移除");
+					$("#"+supplierId).next().children().attr("disabled","disabled");
 				},
 				error: function () {
 					layer.msg("抱歉,移除失败!",{offset: ['100px', '350px']});
@@ -67,7 +68,7 @@
 			    <c:if test="${supp.isFirstPass == null && supp.isRemoved eq '0'}">符合性审查未结束</c:if>
 			    <c:if test="${supp.isRemoved eq '1'}">已移除</c:if>
 			    </td>
-			    <td class="tc"><input type="button" value="移除" onclick="removeSupplier('${supp.suppliers.id}','${supp.packages}')" class="btn"></td>
+			    <td class="tc"><input <c:if test="${supp.isFirstPass != 1 or supp.isRemoved ne '0'}">disabled="disabled"</c:if> type="button" value="移除" onclick="removeSupplier('${supp.suppliers.id}','${supp.packages}')" class="btn"></td>
 			  </tr>
 			</c:forEach>
 			</tbody>

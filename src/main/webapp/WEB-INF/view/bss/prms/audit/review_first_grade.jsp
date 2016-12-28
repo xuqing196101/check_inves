@@ -75,7 +75,7 @@ $(document).ready(function() {
 									//算出的分数
 									if(data[i].supplierId == $(this).val()){
 										$(this).next().val(data[i].score);
-										$(this).next().next().html("<font color='red' size='+1'>" + data[i].score + "</font>");
+										$(this).next().next().html("<font color='red' size='5px'>" + data[i].score + "</font>");
 									}
 								});
 							}
@@ -99,7 +99,7 @@ $(document).ready(function() {
 				success:function(data){
 					$(obj).parent().next().find("input[name='expertScore']").val(data);
 					// 修改,将input框改为直接显示,input设置为hidden,将input值传给span
-					$(obj).parent().next().find("input[name='expertScore']").next().html("<font color='red' size='+1'>" + data + "</font>");
+					$(obj).parent().next().find("input[name='expertScore']").next().html("<font color='red' size='5px'>" + data + "</font>");
 				}
 				
 			});
@@ -247,7 +247,7 @@ $(document).ready(function() {
 					 	        </c:forEach>
 					 	      />
 					 	      <span><c:forEach items="${scores}" var="sco">
-					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><font size="+1" color="red">${sco.score}</font></c:if>
+					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><font size="5px" color="red">${sco.score}</font></c:if>
 					 	        </c:forEach></span>
 					 	    </td>
 				 	      </c:forEach>
