@@ -34,5 +34,12 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 			
 		}
 	}
+	
+	/**
+	 * @see ses.service.sms.SupplierMatSeService#getMatserver(java.lang.String)
+	 */
+	public SupplierMatServe getMatserver(String supplierId){
+	    return supplierMatSeMapper.getMatSeBySupplierId(supplierId);
+	}
 
 }

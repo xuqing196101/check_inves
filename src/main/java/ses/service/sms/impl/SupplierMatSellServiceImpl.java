@@ -34,5 +34,14 @@ public class SupplierMatSellServiceImpl implements SupplierMatSellService {
 			
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @see ses.service.sms.SupplierMatSellService#getMatSell(java.lang.String)
+	 */
+	public SupplierMatSell getMatSell(String supplierId){
+	    SupplierMatSell sale = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
+	    return sale;
+	}
+	
 }
