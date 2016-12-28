@@ -143,14 +143,14 @@ session.setAttribute("tokenSession", tokenValue);
 			   <span class=""><i class="red mr5">*</i>用户名：</span>
 			   <div class="input-append">
 		        <input class="span2" name="loginName" id="loginName" placeholder="用户名为3~16位" maxlength="16" type="text" onblur="validataLoginName();" value="">
-		        <span class="add-on">i</span>
+		        <span class="add-on mr10">i</span>
 		       </div><font id="spp"></font>
 			 </li>
 		      <li class="p0 ">
 			   <span class=""><i class="red mr5">*</i>密码：</span>
 			   <div class="input-append">
 		        <input class="span2" name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onblur="validataPassword();"  type="password" >
-		        <span class="add-on">i</span>
+		        <span class="add-on mr10">i</span>
 		       </div><font  id="pwd1"></font>
 			 </li> 
 	 		
@@ -158,14 +158,14 @@ session.setAttribute("tokenSession", tokenValue);
 			   <span class=""><i class="red mr5">*</i>确认密码：</span>
 			   <div class="input-append">
 		        <input class="span2" id="password2"  maxlength="20" onblur="validataPwd2();" type="password" value="">
-		        <span class="add-on">i</span>
+		        <span class="add-on mr10">i</span>
 		       </div><font  id="pwd2"></font>
 			 </li> 
 			 <li class="p0 ">
 			   <span class=""><i class="red mr5">*</i>手机号码：</span>
 			   <div class="input-append">
 		        <input class="span2" name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validatePhone();"  value="" type="text">
-		        <span class="add-on">i</span>&nbsp;<input class="btn" type="button" value="发送验证码"><font  id="phone2"></font>
+		        <span class="add-on mr10">i</span>&nbsp;<input class="btn" type="button" value="发送验证码"><font  id="phone2"></font>
 		       </div>
 		        
 			 </li>

@@ -1,8 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib uri="/tld/upload" prefix="up"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <%
 //表单标示
 String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
@@ -10,7 +7,7 @@ session.setAttribute("tokenSession", tokenValue);
 %>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
 	function initData1(){
 		//回显已选产品

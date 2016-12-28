@@ -1,10 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<%@ taglib uri="/tld/upload" prefix="up"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<!DOCTYPE HTML>
 <html>
 <head>
-<jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
+<%@ include page="/WEB-INF/view/front.jsp"%>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
 <%
@@ -397,7 +397,7 @@ session.setAttribute("tokenSession", tokenValue);
 		               友情提示：请专家记录好初审采购机构的相关信息，以便进行及时沟通
 		    </h6>
 			<div class="btmfix">
-	  	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  	  <div class="mt15 tc">
 	  	  	    <button class="btn"   type="button" onclick="pre6()">上一步</button>
 				<!-- <button class="btn" onclick='submitformExpert()'  type="button">暂存</button> -->
 				<button class="btn"   type="button" onclick='addPurList()'>下一步</button>
