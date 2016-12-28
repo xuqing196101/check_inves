@@ -284,6 +284,7 @@ public class IntelligentScoringController extends BaseController{
                                         sm.setDeadlineNumber(scoreModel.getDeadlineNumber());
                                         sm.setReviewStandScore(scoreModel.getReviewStandScore());
                                         sm.setIntervalNumber(scoreModel.getIntervalNumber());
+                                        sm.setIntervalTypeName(scoreModel.getIntervalTypeName());
                                         sm.setAddSubtractTypeName(scoreModel.getAddSubtractTypeName());
                                         scoreModelService.saveScoreModel(sm);
                                     }
@@ -409,7 +410,7 @@ public class IntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping("/editPackageScore")
-	public String editPackageScore(String packageId, Model model, String projectId){    
+	public String editPackageScore(String packageId, Model model, String projectId, String flowDefineId){    
 	    //显示经济技术 和子节点  子节点的子节点就是模型
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
 	    String str ="";
@@ -431,6 +432,7 @@ public class IntelligentScoringController extends BaseController{
 	    model.addAttribute("firstAuditTemplats", firstAuditTemplats);
 	    model.addAttribute("packageId", packageId);
 	    model.addAttribute("projectId", projectId);
+	    model.addAttribute("flowDefineId", flowDefineId);
 	    model.addAttribute("ddList", ddList);
 	    model.addAttribute("str", str);
 	    return "bss/prms/score/edit_package_qc";
@@ -630,11 +632,21 @@ public class IntelligentScoringController extends BaseController{
 		model.addAttribute("project", project);
 		List<Packages> packagesList = packageService.findPackageAndBidMethodById(map);
 		//增加一个字段判断又没有评分办法
+		BidMethod bm = new BidMethod();
         for (Packages packages2 : packagesList) {
             BidMethod condition = new BidMethod();
             condition.setProjectId(packages.getProjectId());
             condition.setPackageId(packages2.getId());
             List<BidMethod> bmList = bidMethodService.findScoreMethod(condition);
+            bm.setProjectId(packages.getProjectId());
+            bm.setPackageId(packages2.getId());
+            List<BidMethod> bl = bidMethodService.findListByBidMethod(bm);
+            //  第一条是评分办法 大于1 说明有模型列表有值
+            if (bl != null && bl.size() > 1) {
+                packages2.setIsEditSecond(2);
+            } else {
+                packages2.setIsEditSecond(0);
+            }
             if (bmList != null && bmList.size() > 0) {
                 packages2.setIsHaveScoreMethod(1);
                 packages2.setBidMethodTypeName(bmList.get(0).getTypeName());

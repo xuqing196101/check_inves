@@ -270,7 +270,7 @@
 						}
 				 		trhtml += "</select></td>";
 				 		trhtml += "<td class='tc'>否</td>";
-				 		trhtml += "<input type='text' class='tc w100' type='hidden' name='packageExperts["+listCount+"].isGroupLeader' value='0' >";
+				 		trhtml += "<input class='tc w100' type='hidden' name='packageExperts["+listCount+"].isGroupLeader' value='0' >";
 				 		trhtml += "<td>";
 				 		trhtml += "<select class='tc w80' name='packageExperts["+listCount+"].isSigin'>";
 				 		trhtml += "<option value='1'>已到场</option><option value='0'>未到场</option></select>";
