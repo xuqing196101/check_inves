@@ -381,6 +381,9 @@
 			<if test="remarks != null">
 				REMARKS,
 			</if>
+			<if test="stepNumber != null">
+				STEP_NUMBER,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -523,6 +526,9 @@
 			</if>
 			<if test="remarks != null">
 				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="stepNumber != null">
+				#{stepNumber,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -1170,17 +1176,17 @@
 	</select>
 
 	<!-- 根据创建时间获取已提交的专家 -->
-	<select id="getCommitSupplierByDate" resultMap="BaseResultMap">
+	<select id="getCommitExpertByDate" resultMap="BaseResultMap">
 		SELECT 
 		<include refid="Base_Column_List"/>
 		FROM T_SES_EMS_EXPERT
-		WHERE CREATED_AT = TO_DATE('${_parameter}','yyyy-mm-dd')
+		WHERE TO_CHAR(CREATED_AT,'yyyy-mm-dd') = #{_parameter}
 		AND IS_SUBMIT = '1'
 		AND STATUS = '0'
 	</select>
 	
 	<!-- 根据修改时间获取修改了的专家信息 -->
-	<select id="getModifySupplierByDate" resultMap="BaseResultMap">
+	<select id="getModifyExpertByDate" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Column_List"/>
 		FROM T_SES_EMS_EXPERT e
