@@ -1,0 +1,38 @@
+body{ 
+	margin:0; 
+	padding:0; 
+	background:#efefef; 
+	font-family:Georgia, Times, Verdana, Geneva, Arial, Helvetica, sans-serif;
+ }
+
+div#mother{ 
+	margin:0 auto; 
+	width:943px; 
+	height:572px; 
+	position:relative; 
+}
+
+div#errorBox{ 
+	background: url(../images/404_bg.jpg) no-repeat top left; 
+	width:943px; height:572px; margin:auto; 
+}
+
+div.link{ 
+	height:40px; 
+	width:145px; 
+	float:left; 
+}
+
+div#home{ 
+	margin:325px 0 0 325px;
+}
+
+div#contact{ 
+	margin:325px 0 0 47px;
+}
+
+h1{ 
+	font-size:40px; 
+	margin-bottom:35px; 
+}
+	
