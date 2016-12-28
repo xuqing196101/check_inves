@@ -1349,7 +1349,8 @@ public class SupplierAuditController extends BaseSupplierController{
 		 int count=0;
 		 StringBuffer sbUp=new StringBuffer("");
 		 StringBuffer sbShow=new StringBuffer("");
-		 List<Category> list = supplierItemService.getCategory(supplierId);
+		 String type = null;
+		 List<Category> list = supplierItemService.getCategory(supplierId, type);
 		 for(Category ca:list){
 			 ContractBean con=new ContractBean();
 			 con.setId(ca.getId());
