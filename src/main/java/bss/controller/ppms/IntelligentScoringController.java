@@ -644,6 +644,8 @@ public class IntelligentScoringController extends BaseController{
             //  第一条是评分办法 大于1 说明有模型列表有值
             if (bl != null && bl.size() > 1) {
                 packages2.setIsEditSecond(2);
+            } else if (bl != null && bl.size() == 1){
+                packages2.setIsEditSecond(1);
             } else {
                 packages2.setIsEditSecond(0);
             }

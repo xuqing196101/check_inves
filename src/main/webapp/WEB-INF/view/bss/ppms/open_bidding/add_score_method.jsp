@@ -90,18 +90,18 @@
 								</select>
 								</div>
 							</li>
-							<li class="col-md-3 col-sm-6 col-xs-12">
+							<li class="col-md-3 col-sm-6 col-xs-12 clear">
 							  <div id="floatingRatio" class="col-md-12 col-xs- 12 col-sm-12 p0">
-								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">下浮比例:</span> 
+								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">浮动比例(%):</span> 
 								<div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								    <input name="floatingRatio" type="text" value="${bidMethod.floatingRatio }">
 								    <span class="add-on">i</span>
 								</div>
 							  </div>
 							</li>
-							<li class="col-md-3 col-sm-6 col-xs-12" >
+							<li class="col-md-3 col-sm-6 col-xs-12 clear" >
 							   <div id="valid" class="col-md-12 col-xs- 12 col-sm-12 p0">
-								 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">供应商报价低于有效供应商报价平均值的百分比：</span> 
+								 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">供应商报价低于有效供应商报价平均值的百分比(%)：</span> 
 								 <div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								    <input name="valid"  type="text" value="${bidMethod.valid }">
 								    <span class="add-on">i</span>
@@ -109,11 +109,11 @@
 							   </div>
 									<!-- <span>供应商报价不得超过有效供应商报价平均值百分比</span> -->
 							</li>
-							<li class="col-md-3 col-sm-6 col-xs-12 dnone" id="business">
+							<li class="col-md-3 col-sm-6 col-xs-12 dnone clear" id="business">
 								<!-- <span class="">商务技术评分高于上午技术评分百分比:</span> --> 
 								<div id="business" class="col-md-12 col-xs- 12 col-sm-12 p0">
-								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">商务技术评分高于有效商务技术评分的百分比：</span> 
-								<div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">								
+								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">商务技术评分高于有效商务技术评分的百分比(%)：</span> 
+								<div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">							
 								    <input name="business"  type="text" value="${bidMethod.business }">
 								     <span class="add-on">i</span>
 								</div>
