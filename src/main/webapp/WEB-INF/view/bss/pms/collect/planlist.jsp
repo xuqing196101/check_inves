@@ -368,8 +368,8 @@
  		</h2>
 
 			<div class="col-md-12 pl20 mt10">
-			    <button class="btn btn-windows check" onclick="auditPersonSets()">审核人员设置</button>
-				<button class="btn btn-windows check" onclick="sets()">审核轮次设置</button>
+			  <button class="btn btn-windows check" onclick="sets()">审核轮次设置</button>
+			  <button class="btn btn-windows check" onclick="auditPersonSets()">审核人员设置</button>
 				<button class="btn btn-windows check" onclick="audit()">审核</button>
 				<button class="btn btn-windows input" onclick="down()">下载</button>
 				<button class="btn btn-windows output" onclick="print()">打印</button>
@@ -384,6 +384,7 @@
 							<th class="info">预算总金额（万元）</th>
 							<th class="info">汇总时间</th>
 							<th class="info">状态</th>
+							<th class="info">总轮次</th>
 						</tr>
 					</thead>
 					<c:forEach items="${info.list}" var="obj" varStatus="vs">
@@ -425,6 +426,17 @@
 								<c:if test="${obj.status=='7' }">
 									第三轮审核
 								</c:if>
+							</td>
+							<td class="tc">
+							<c:if test="${obj.auditTurn == 1}">
+							 一轮
+							</c:if>
+						  <c:if test="${obj.auditTurn == 2}">
+						      二轮
+						  </c:if>
+							<c:if test="${obj.auditTurn == 3}">
+						 	 三轮
+							</c:if>
 							</td>
 						</tr>
 
