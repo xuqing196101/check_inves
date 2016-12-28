@@ -37,6 +37,7 @@ import common.service.UploadService;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
+import ses.formbean.ContractBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -1715,9 +1716,72 @@ public class SupplierController extends BaseSupplierController {
 		* @throws
 		 */
 		@RequestMapping(value="/contract")
-		public String contractUp(String supplierId){
-			
-			
+		public String contractUp(String supplierId,Model model,String supplierTypeIds){
+		 List<ContractBean> contract=new LinkedList<ContractBean>();
+		 //合同
+		 String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		 String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		 String id3 = DictionaryDataUtil.getId("CATEGORY_THRE_YEAR");
+		 //账单
+		 String id4 = DictionaryDataUtil.getId("CATEGORY_ONE_BIL");
+		 String id5 = DictionaryDataUtil.getId("CATEGORY_TWO_BIL");
+		 String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+		 int count=0;
+		 StringBuffer sbUp=new StringBuffer("");
+		 StringBuffer sbShow=new StringBuffer("");
+		 List<Category> list = supplierItemService.getCategory(supplierId);
+		 for(Category ca:list){
+			 ContractBean con=new ContractBean();
+			 con.setId(ca.getId());
+			 con.setName(ca.getName());
+			 
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setOneContract(id1);
+			 count++;
+			 
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setTwoContract(id2);
+			 count++;
+			 
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setThreeContract(id3);
+			 count++;
+			 
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setOneBil(id4);
+			 count++;
+			 
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setTwoBil(id5);
+			 count++;
+			 
+			 
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 con.setTwoBil(id6);
+			 count++;
+			   
+			 sbUp.append("pUp"+count+",");
+			 sbShow.append("pShow"+count+",");
+			 contract.add(con);
+		 }
+		 model.addAttribute("contract", contract);	
+		 model.addAttribute("sbUp", sbUp);
+		 model.addAttribute("sbShow", sbShow);
+		 List<Integer> years = supplierService.getThressYear();
+		 model.addAttribute("years", years);
+		 model.addAttribute("supplierTypeIds", supplierTypeIds);
+		 model.addAttribute("supplierId", supplierId);
 		 return "ses/sms/supplier_register/contract";
 		}
 		

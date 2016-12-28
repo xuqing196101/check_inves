@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import ses.formbean.QualificationBean;
+import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.Qualification;
 import ses.model.bms.User;
@@ -174,8 +176,17 @@ public interface SupplierService {
     */
    Integer getCountMobile(String mobile);
    
-
-   public List<Qualification>  queryCategoyrId(String categoryId);
+	/**
+	 * 
+	* @Title: queryCategoyrId
+	* @Description:查询出供应商所索要上传的资质文件
+	* author: Li Xiaoxiao 
+	* @param @param list
+	* @param @return     
+	* @return List<QualificationBean>     
+	* @throws
+	 */
+   public List<QualificationBean>  queryCategoyrId(List<Category> list);
 
    /**
     * 
@@ -186,5 +197,9 @@ public interface SupplierService {
     * @return 供应商集合
     */
    List<Supplier> getCommintSupplierByDate(String creteDate);
+   
+   
+   
+   List<Integer> getThressYear();
 
 }

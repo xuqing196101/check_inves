@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
@@ -644,12 +646,17 @@ public class SupplierServiceImpl implements SupplierService {
  
 
 	@Override
-	public List<Qualification> queryCategoyrId(String categoryId) {
-		List<Qualification> quaList=new ArrayList<Qualification>();
-		List<CategoryQua> list = categoryQuaMapper.findList(categoryId);
-		for(CategoryQua qc:list){
-			Qualification qua= qualificationMapper.getQualification(qc.getCategoryId());
-			quaList.add(qua);
+	public List<QualificationBean> queryCategoyrId(List<Category> list) {
+		List<QualificationBean> quaList=new ArrayList<QualificationBean>();
+		
+		for(Category category:list){
+			QualificationBean quaBean=new QualificationBean();
+			//根据品目id查询所要上传的资质文件
+			List<CategoryQua> categoryQua = categoryQuaMapper.findList(category.getId());
+			List<Qualification> qua = get(categoryQua);
+			quaBean.setCategoryName(category.getName());
+			quaBean.setList(qua);
+			quaList.add(quaBean);
 		}
 		return quaList;
 	}
@@ -664,7 +671,31 @@ public class SupplierServiceImpl implements SupplierService {
        
         return supplierMapper.getCommintSupplierList(creteDate);
     }
- 
+    //根据品目id查询多个品目资质文件
+    public List<Qualification> get(List<CategoryQua> list){
+    	List<Qualification>  quaList=new LinkedList<Qualification>();
+    	for(CategoryQua c:list){
+			Qualification qua= qualificationMapper.getQualification(c.getQuaId());
+			quaList.add(qua);
+		}
+		return quaList;
+    }
+
+	@Override
+	public List<Integer> getThressYear() {
+		 List<Integer> list=new LinkedList<Integer>();
+			Calendar cale = Calendar.getInstance();
+			Integer year = cale.get(Calendar.YEAR);
+		
+			Integer year3=year-3;//2013
+			Integer year2=year-2;//2014
+			Integer year4=year-1;//2015
+			list.add(year3);
+			list.add(year2);
+			list.add(year4);
+			
+		return list;
+	}
 	
     
 	

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 
 import bss.controller.base.BaseController;
+import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -85,8 +86,10 @@ public class SupplierItemController extends BaseController{
 		
 		
 		
+		if(flag.equals("4")){
+			supplierItemService.saveOrUpdate(supplierItem);
+		}
 		
-		supplierItemService.saveOrUpdate(supplierItem);
 		
 		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
 			HashMap<String, Object> map = new HashMap<String, Object>();
@@ -129,6 +132,7 @@ public class SupplierItemController extends BaseController{
 			 
 		// 页面跳转
 		model.addAttribute("currSupplier", supplier);
+		model.addAttribute("supplierTypeIds", supplierTypeIds);
 		if(flag.equals("3")){
 			return "ses/sms/supplier_register/supplier_type";
 		}
@@ -142,14 +146,30 @@ public class SupplierItemController extends BaseController{
 		//查询所有的三级品目
 		List<Category> list2 = getSupplier(supplier.getId(),supplierTypeIds);
 		
-		List<Qualification> cateList=new ArrayList<Qualification>();
+	 
 		//根据品目id查询所有的证书信息
-		for(Category cate:list2){
-			List<Qualification> categoyrs = supplierService.queryCategoyrId(cate.getId());
-			cateList.addAll(categoyrs);
-		}
-		model.addAttribute("list2", list2);
-		model.addAttribute("cateList", cateList);
+ 
+	   List<QualificationBean> list3 = supplierService.queryCategoyrId(list2);
+ 
+	   List<Qualification> qaList=new ArrayList<Qualification>();
+	   for(QualificationBean qb:list3){
+		   qaList.addAll(qb.getList());
+	   }
+	   StringBuffer sbUp=new StringBuffer("");
+	   StringBuffer sbShow=new StringBuffer("");
+	   int len=qaList.size();
+	   for(int i=0;i<qaList.size();i++){
+		   sbUp.append("pUp"+i+",");
+			sbShow.append("pShow"+i+",");
+			if(len==i){
+				sbUp.append("pUp"+i);
+				sbShow.append("pShow"+i);
+			}
+	   }
+		model.addAttribute("sbUp", sbUp);
+		model.addAttribute("sbShow", sbShow);
+		model.addAttribute("cateList", list3);
+		model.addAttribute("len", len);
 		return "ses/sms/supplier_register/aptitude"; 
 	 
 		
@@ -284,8 +304,7 @@ public class SupplierItemController extends BaseController{
 	    		     for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
 	    		    	 categoryList.add(cate);
-	    		    	 List<Category> cList = categoryService.findTreeByPid(c.getCategoryId());
-	    	              categoryList.addAll(cList);
+	    		 
 	    	            }
 	           }
 		}

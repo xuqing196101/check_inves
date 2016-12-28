@@ -153,24 +153,19 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 //		list.addAll(cateLIst);
 	
 		for(SupplierItem s:cateLIst){
-			//二级节点
-			   List<Category> categorylist = categoryService.findTreeByStatus(s.getCategoryId(),StaticVariables.CATEGORY_PUBLISH_STATUS);
+			
+			   //二级节点
+			   List<Category> categorylist = categoryService.findPublishTree(s.getCategoryId(),null);
+			   
 			   for( Category c:categorylist){
-				   List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(s.getSupplierId(), c.getId());
-				   list.addAll(cateLst);
-				   //三级节点
-				   for( SupplierItem si:cateLst){
-					   List<Category> categorylist2 = categoryService.findTreeByStatus(si.getCategoryId(),StaticVariables.CATEGORY_PUBLISH_STATUS);
-					   for(Category cl:categorylist2){
-						   List<SupplierItem> cateLst2 = supplierItemMapper.getBySupplierIdCategoryId(s.getSupplierId(), cl.getId());
-						   list.addAll(cateLst2);
-					   }
-					   
-				  
+				   //查询所有的三级节点
+				   List<Category> cateThree = categoryService.findPublishTree(c.getId(),null);
+				   //去中间表查是否存在
+				   for(Category cs:cateThree){
+					   List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId());
+					   list.addAll(cateLst);
 				   }
-				  
 			   }
-		
 	 }
 		return list;		
 	}
@@ -180,9 +175,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		List<Category> cateList=new ArrayList<Category>();
 		List<SupplierItem> list = supplierItemMapper.getSupplierItem(supplierId);
 		for(SupplierItem item:list){
-			List<Category> cate = categoryService.findTreeByStatus(item.getCategoryId(),StaticVariables.CATEGORY_PUBLISH_STATUS);
-			if(cate.size()<1){
+			List<Category> last = categoryService.findPublishTree(item.getCategoryId(),null);
+			if(last.size()<1){
 				Category category = categoryService.selectByPrimaryKey(item.getCategoryId());
+				category.setId(item.getId());
 				cateList.add(category);	
 			}
 		}

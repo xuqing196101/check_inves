@@ -197,7 +197,7 @@
 	
 	function next(flag){
 		var flag =supCategory();
-		alert(flag);
+	 
 		if(flag==false){
 			layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
 		}else{
@@ -220,20 +220,20 @@
 			if(tree!=null){
 				nodes = tree.getCheckedNodes(true);
 				for (var j = 0; j < nodes.length; j++) {
-					alert(nodes[j].name);
-					alert(nodes[j].id);
+				 
 						ids.push(nodes[j].id);
 					 
 				}
 			}
 		}
-		alert(ids);
 		$("#categoryId").val(ids);
 	 	return ids;
 	}
 	
 	function saveCategory(){
+		
 		getCategoryId();
+		$("#flag").val("4");
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier_item/save_or_update.do",
 			async: false,
@@ -308,7 +308,6 @@
 				</h2>
 			</div>
 		</c:if>
-${currSupplier.supplierTypeIds }
 
 		<!--基本信息-->
 		<div class="container content height-300">
