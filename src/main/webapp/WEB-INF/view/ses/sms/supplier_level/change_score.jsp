@@ -81,11 +81,11 @@
 					<input name="id" type="hidden" value="${supplier.id}" />
 					<ul class="demand_list">
 						<li class="fl">
-							<label class="fl mt5">供应商名称：</label>
+							<label class="fl">供应商名称：</label>
 							<span><input type="text" readonly="readonly" name="supplierName" value="${supplier.supplierName}"/></span>
 						</li>
 						<li class="fl">
-							<label class="fl mt5">诚信形式：</label>
+							<label class="fl">诚信形式：</label>
 							<span>
 								<select onchange="loadCreditCtnt(this)">
 									<option selected="selected" value="">请选择</option>
@@ -120,8 +120,8 @@
 			</div>
 		</div>
 		<div class="col-md-12 tc">
-			<a class="btn btn-windows reset" target="_parent" href="javascript:void(0)" onclick="changeScore()">保存</a>
-			<a class="btn btn-windows reset" target="_parent" href="${pageContext.request.contextPath}/supplier_level/list.html">返回</a>
+			<a class="btn btn-windows save" target="_parent" href="javascript:void(0)" onclick="changeScore()">保存</a>
+			<a class="btn btn-windows back" target="_parent" href="${pageContext.request.contextPath}/supplier_level/list.html">返回</a>
 		</div>
 	</div>
 	<form id="change_score_form_id" action="${pageContext.request.contextPath}/supplier_level/update_score.html" target="_parent" method="post">

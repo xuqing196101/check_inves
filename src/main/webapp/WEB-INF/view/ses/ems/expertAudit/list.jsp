@@ -155,8 +155,8 @@
 							</select>
 						</li>
 					</ul>
-					<input class="btn" value="查询" type="submit">
-					<button onclick="resetForm();" class="btn" type="button">重置</button>
+					<input class="btn fl" value="查询" type="submit">
+					<button onclick="resetForm();" class="btn fl" type="button">重置</button>
 				</form>
 			</div>
 			<!-- 表格开始-->

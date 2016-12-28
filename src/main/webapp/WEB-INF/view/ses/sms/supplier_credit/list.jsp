@@ -174,8 +174,8 @@
 							<label class="fl">形式名称：</label>
 							<span><input name="name" type="text" value="${name}" /></span>
 						</li>
-							<button type="button" onclick="searchSupplierCredit(1)" class="btn">查询</button>
-							<button onclick="resetForm()" class="btn" type="button">重置</button>
+							<button type="button" onclick="searchSupplierCredit(1)" class="btn fl mt1">查询</button>
+							<button onclick="resetForm()" class="btn fl mt1" type="button">重置</button>
 					</ul>
 					<div class="clear"></div>
 				</form>

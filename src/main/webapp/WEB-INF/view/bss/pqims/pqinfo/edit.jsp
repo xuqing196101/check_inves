@@ -197,7 +197,7 @@ function goback(){
 			 	 
 			 <li class="col-md-12 col-sm-12 col-xs-12 mt10" id="picNone" >
 	   			<span class="fl">图片上传：</span>
-	    		<div class="fl">
+	    		<div class="">
 	        		<u:upload id="artice_up"  businessId="${pqinfoID }" sysKey="${pqinfoKey}" typeId="${attachtypeId }" buttonName="上传质检报告图片" auto="true" exts="png,jpeg,jpg,bmp,git"/>
 					<u:show showId="artice_show"  businessId="${pqinfoID }" sysKey="${pqinfoKey}" typeId="${attachtypeId }"/>
 				</div>
