@@ -346,7 +346,7 @@ public class OpenBiddingController {
      */
     @RequestMapping("saveBidNotice")
     @ResponseBody 
-    public AjaxJsonData saveBidNotice(HttpServletRequest request, Article article, String articleTypeId, String flowDefineId, Integer flag) throws Exception{
+    public AjaxJsonData saveBidNotice(HttpServletRequest request, Article article, String articleTypeId, String lastArticleTypeId, String flowDefineId, Integer flag) throws Exception{
         try {
             String[] ranges = request.getParameterValues("ranges");
             int count = 0;
@@ -385,6 +385,7 @@ public class OpenBiddingController {
                 article.setUpdatedAt(ts1);
                 ArticleType at = articelTypeService.selectTypeByPrimaryKey(articleTypeId);
                 article.setArticleType(at);
+                article.setLastArticleType(articelTypeService.selectTypeByPrimaryKey(lastArticleTypeId));
                 if (flag == 0) {
                   //暂存
                   article.setStatus(0);
@@ -1267,42 +1268,257 @@ public class OpenBiddingController {
         Project project = projectService.selectById(projectId);
         ArticleType articleType = new ArticleType();
         Article article = new Article();
+        //采购方式数据字典
+        DictionaryData dd = DictionaryDataUtil.findById(project.getPurchaseType());
+        //如果是单一来源
+        
+        //如果不是单一来源
         //如果是拟制招标公告
         if (PURCHASE_NOTICE.equals(noticeType)) {
+            //采购公告
+            article.setArticleType(articelTypeService.selectArticleTypeByCode("purchase_notice"));
+            //集中采购
+            ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrlized");
+            if (articleType2 != null) {
+                article.setSecondArticleTypeId(articleType2.getId());
+            }
             //货物/物资
             if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
-                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_pro_notice_matarials");
+                ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_quotas");
+                if (articleType3 != null) {
+                  article.setThreeArticleTypeId(articleType3.getId());
+                }
+                if (dd != null) {
+                  if ("GKZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_quotas_open");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("XJCG".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_quotas_enquiry");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("JZXTP".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_quotas_competitive");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("YQZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_quotas_invitation");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                }
                 getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
             } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())){
                 //工程  
-                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_engineering");
+                ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_engineering");
+                if (articleType3 != null) {
+                  article.setThreeArticleTypeId(articleType3.getId());
+                }
+                if (dd != null) {
+                  if ("GKZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_plumbing_open");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("XJCG".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_plumbing_enquiry");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("JZXTP".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_plumbing_competitive");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("YQZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_plumbing_invitation");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                }
                 getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
             } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())){
                 //服务 
-                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_service");
+                ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_service");
+                if (articleType3 != null) {
+                  article.setThreeArticleTypeId(articleType3.getId());
+                }
+                if (dd != null) {
+                  if ("GKZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_service_open");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("XJCG".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_service_enqiry");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("JZXTP".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_service_competitive");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("YQZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("purchase_notice_centrliazed_service_invitation");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                }
                 getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
             }
         }
         //如果是拟制中标公告
         if (WIN_NOTICE.equals(noticeType)) {
+            //中标公告
+            article.setArticleType(articelTypeService.selectArticleTypeByCode("success_notice"));
+            //集中采购
+            ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("success_notice_centralized");
+            if (articleType2 != null) {
+                article.setSecondArticleTypeId(articleType2.getId());
+            }
             //货物/物资
             if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
-                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_matarials");
+                ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_matarials");
+                if (articleType3 != null) {
+                  article.setThreeArticleTypeId(articleType3.getId());
+                }
+                if (dd != null) {
+                  if ("GKZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_quotas_open");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("XJCG".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_quotas_enquiry");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("JZXTP".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_quotas_competitive");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("YQZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_quotas_invitation");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                }
                 getDefaultTemplate(projectId, model, WIN_NOTICE);
             } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())){
                 //工程  
-                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_engineering");
+                ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_engineering");
+                if (articleType3 != null) {
+                  article.setThreeArticleTypeId(articleType3.getId());
+                }
+                if (dd != null) {
+                  if ("GKZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_plumbing_open");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("XJCG".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_plumbing_enquiry");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("JZXTP".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_plumbing_competitive");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("YQZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_plumbing_invitation");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                }
                 getDefaultTemplate(projectId, model, WIN_NOTICE);
             } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())){
                 //服务 
-                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_service");
+                ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_service");
+                if (articleType3 != null) {
+                  article.setThreeArticleTypeId(articleType3.getId());
+                }
+                if (dd != null) {
+                  if ("GKZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_service_open");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("XJCG".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_service_enquiry");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("JZXTP".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_service_competitive");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                  if ("YQZB".equals(dd.getCode())) {
+                    ArticleType articleType4 = articelTypeService.selectArticleTypeByCode("success_notice_centralized_service_invitation");
+                    if (articleType4 != null) {
+                      article.setFourArticleTypeId(articleType4.getId());
+                      article.setLastArticleType(articleType4);
+                    }
+                  };
+                }
                 getDefaultTemplate(projectId, model, WIN_NOTICE);
             }
         }
+        Article art = new Article();
         article.setProjectId(projectId);
-        if (articleType.getId() != null){
-            article.setArticleType(articleType);
-        }
         //查询公告列表中是否有该项目的招标公告
         List<Article> articles = articelService.selectArticleByProjectId(article);
         //判断该项目是否已经存在该类型公告
@@ -1327,6 +1543,7 @@ public class OpenBiddingController {
                 model.addAttribute("project", project);
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("articleId", articles.get(0).getId());
+                model.addAttribute("projectId", projectId);
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
                 model.addAttribute("noticeType", noticeType);
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
@@ -1335,7 +1552,8 @@ public class OpenBiddingController {
                 return "bss/ppms/open_bidding/bid_notice/add";
             }
         } else {
-            model.addAttribute("articleType", articleType);
+            model.addAttribute("article", article);
+            model.addAttribute("project", project);
             String articleId = WfUtil.createUUID();
             model.addAttribute("articleId",articleId);
             model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
@@ -1447,7 +1665,7 @@ public class OpenBiddingController {
             content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
             content = content.replace("address", contactAddress).replace("fax", fax).replace("bank", bank).replace("auditResult", auditResult.toString());
             article1.setContent(content);
-            model.addAttribute("article", article1);
+            model.addAttribute("article1", article1);
         }
     }
 }

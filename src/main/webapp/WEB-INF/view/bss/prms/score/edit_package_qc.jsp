@@ -235,7 +235,7 @@
     </div>
 	    <div class="mt40 tc mb50">
 	    <c:if test="${project.confirmFile != 1 }">
-	        <button class="btn btn-windows back" onclick="history.go(-1)">返回</button>
+	        <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">返回</button>
 	        </c:if>
 	    </div>
     <div id="openDiv" class="dnone layui-layer-wrap">

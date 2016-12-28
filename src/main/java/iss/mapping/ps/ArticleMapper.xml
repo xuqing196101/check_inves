@@ -442,7 +442,7 @@
   	,
     <include refid="Article_BlOB_Column_List" />
     from T_ISS_PS_ARTICLE a
-    LEFT JOIN T_ISS_PS_ARTICLE_TYPE at
+ <!--   LEFT JOIN T_ISS_PS_ARTICLE_TYPE at --> 
     where IS_DELETED = 0
     	AND PROJECT_ID = #{projectId}
 	  	<if test="status != null">
