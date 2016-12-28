@@ -25,12 +25,12 @@
 		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		    	var page = location.search.match(/page=(\d+)/);
-		    	/*if(page==null){
+		    	if(page==null){
 		    		page = {};
 		    		var data = "${list.pageNum}";
 		    		page[0]=data;
 		    		page[1]=data;
-		    	}*/
+		    	}
 		        return page ? page[1] : 1;
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
