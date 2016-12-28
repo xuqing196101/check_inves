@@ -32,11 +32,12 @@ public class SynchTask {
     }
     
     /**
-     *〈简述〉备份新注册的专家
+     *〈简述〉备份专家
      *〈详细描述〉
      * @author WangHuijie
      */
     public void outerExpertTask() {
         outerExpert.backupCreated();
+        outerExpert.backupModified();
     }
 }

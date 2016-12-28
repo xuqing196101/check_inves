@@ -68,11 +68,20 @@ public interface SynchRecordService {
     
     /**
      * 
-     *〈简述〉记录专家导入信息
+     *〈简述〉记录新注册专家导入信息
      *〈详细描述〉
      * @author WangHuijie
      * @param content 内容
      */
-    public void importExpertRecord(String content);
+    public void importNewExpertRecord(String content);
+    
+    /**
+     * 
+     *〈简述〉记录修改的专家导入信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param content 内容
+     */
+    public void importModifyExpertRecord(String content);
     
 }

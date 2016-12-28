@@ -3,6 +3,7 @@ package synchro.outer.back.service.expert.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +58,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     private ExpertCategoryService expertCategoryService;
     
     /**
-     * @see synchro.outer.back.service.supplier.OuterExpertService#backupCreated()
+     * @see synchro.outer.back.service.supplier.OuterReadExpertService#backupCreated()
      */
     @Override
     public void backupCreated() {
@@ -65,7 +66,7 @@ public class OuterExpertServiceImpl implements OuterExpertService {
     }
     
     /**
-     * @see synchro.outer.back.service.supplier.OuterExpertService#backupModified()
+     * @see synchro.outer.back.service.supplier.OuterReadExpertService#backupModified()
      */
     @Override
     public void backupModified() {
@@ -131,7 +132,22 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      * @author WangHuijie
      */
     public void getModifiedData() {
-        List<Expert> expertList = expertService.getModifyExpertByDate(DateUtils.getYesterDay());
+        List<Expert> expList = expertService.getModifyExpertByDate(DateUtils.getYesterDay());
+        List<Expert> expertList  = new ArrayList<Expert>();
+        // 去重
+        if (expList != null && expList.size() > 1) {
+            for (int i = 0; i < expList.size(); i++) {
+                boolean flag = true;
+                for (int j = expList.size() - 1; j > i; j--) {
+                    if (expList.get(i).getId().equals(expList.get(j).getId())) {
+                        flag = false;
+                    }
+                }            
+                if (flag) {
+                    expertList.add(expList.get(0));
+                }
+            }
+        }
         List<Expert> list = getModifyExpertList(expertList);
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getModifyExpertBackUpFile(),JSON.toJSONString(list));

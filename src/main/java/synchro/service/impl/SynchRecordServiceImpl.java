@@ -43,17 +43,11 @@ public class SynchRecordServiceImpl implements SynchRecordService {
     /** 数据类型-专家修改 **/
     private final static Integer DATA_TYPE_EXPERT_MODIFY = 4;
     
-    /** 数据类型-专家导入 **/
-    private final static Integer DATA_TYPE_EXPERT_IMPORT = 6;
-    
     /** 新提交专家描述 **/
     private final static String NEW_COMMIT_EXPERT = "新提交专家数量:";
     
     /** 修改专家描述 **/
     private final static String MODIFY_COMMIT_EXPERT = "修改专家数量:";
-    
-    /** 导入专家描述 **/
-    private final static String IMPORT_INTO_EXPERT = "导入专家数量:";
     
     /** 记录表mapper **/
     @Autowired
@@ -121,11 +115,21 @@ public class SynchRecordServiceImpl implements SynchRecordService {
 
     /**
      * 
-     * @see synchro.service.SynchRecordService#importExpertRecord(java.lang.String)
+     * @see synchro.service.SynchRecordService#importNewExpertRecord(java.lang.String)
      */
     @Override
-    public void importExpertRecord(String content) {
-        SynchRecord sr  = getSynchRecord(DATA_TYPE_EXPERT_IMPORT, OPER_TYPE_IMPORT, IMPORT_INTO_EXPERT + content);
+    public void importNewExpertRecord(String content) {
+        SynchRecord sr  = getSynchRecord(DATA_TYPE_EXPERT_REG, OPER_TYPE_IMPORT, NEW_COMMIT_EXPERT + content);
+        mapper.save(sr);
+    }
+    
+    /**
+     * 
+     * @see synchro.service.SynchRecordService#importModifyExpertRecord(java.lang.String)
+     */
+    @Override
+    public void importModifyExpertRecord(String content) {
+        SynchRecord sr  = getSynchRecord(DATA_TYPE_EXPERT_MODIFY, OPER_TYPE_IMPORT, MODIFY_COMMIT_EXPERT + content);
         mapper.save(sr);
     }
 

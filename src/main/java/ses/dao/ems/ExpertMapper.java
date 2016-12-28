@@ -141,7 +141,7 @@ public interface ExpertMapper {
      * @author WangHuijie
      * @param expert
      */
-    void insertExpertHistory(Expert expert);
+    void insertExpertHistory(ExpertHistory expert);
     
     /**
      *〈简述〉

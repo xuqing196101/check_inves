@@ -1056,7 +1056,7 @@
 		</if>
 	</select>
 
-	<insert id="insertExpertHistory" parameterType="ses.model.ems.Expert">
+	<insert id="insertExpertHistory" parameterType="ses.model.ems.ExpertHistory">
 		insert into
 		T_SES_EMS_EXPERT_History
 		(ID, GENDER,
@@ -1174,7 +1174,7 @@
 		SELECT 
 		<include refid="Base_Column_List"/>
 		FROM T_SES_EMS_EXPERT
-		WHERE UPDATED_AT = TO_DATE('${_parameter}','yyyy-mm-dd')
+		WHERE CREATED_AT = TO_DATE('${_parameter}','yyyy-mm-dd')
 		AND IS_SUBMIT = '1'
 		AND STATUS = '0'
 	</select>

@@ -788,8 +788,7 @@ public class ExpertServiceImpl implements ExpertService {
      * @param expert
      */
     @Override
-    public void insertExpertHistory(Expert expert) {
-        // TODO Auto-generated method stub
+    public void insertExpertHistory(ExpertHistory expert) {
         mapper.insertExpertHistory(expert);
     }
     

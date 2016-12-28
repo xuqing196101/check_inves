@@ -1364,10 +1364,12 @@ public class ExpertController {
         if ("3".equals(temp.getStatus())) {
         	//删除之前的审核信息
         	expertAuditService.updateIsDeleteByExpertId(expertId);
-        	
             //未审核
             expert.setStatus("0");
             /*expert.setIsDelete((short) 1);*/
+        } else {
+            // 如果不是退回修改状态
+            expert.setCreatedAt(new Date());
         }
         //修改时间
         expert.setUpdatedAt(new Date());
@@ -1970,7 +1972,6 @@ public class ExpertController {
         // 下载后的文件名
         String downFileName = new String("军队评标专家申请表.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
-        response.setContentType("application/x-download");
         return service.downloadFile(fileName, filePath, downFileName);
     }
     
@@ -1999,7 +2000,6 @@ public class ExpertController {
         // 下载后的文件名
         String downFileName = new String("军队评标专家承诺书.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
-        response.setContentType("application/x-download");
         return service.downloadFile(fileName, filePath, downFileName);
     }
     
@@ -2028,7 +2028,6 @@ public class ExpertController {
         // 下载后的文件名
         String downFileName = new String("评审专家申请人注册须知.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
-        response.setContentType("application/x-download");
         return service.downloadFile(fileName, filePath, downFileName);
     }
     

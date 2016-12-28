@@ -318,7 +318,7 @@ public interface ExpertService {
      * @author WangHuijie
      * @param expert
      */
-    void insertExpertHistory(Expert expert);
+    void insertExpertHistory(ExpertHistory expert);
     
     /**
      *〈简述〉
