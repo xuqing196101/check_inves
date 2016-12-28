@@ -642,7 +642,7 @@ public class ArticleController extends BaseSupplierController{
     }
     map.put("page", page.toString());
     PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+    PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
 
     List<Article> list = articleService.selectArticleByStatus(map);
     
@@ -815,7 +815,7 @@ public class ArticleController extends BaseSupplierController{
     }
     map.put("page", page.toString());
     PropertiesUtil config = new PropertiesUtil("config.properties");
-    PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+    PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
 
     List<Article> list = articleService.selectArticleByName(map);
     model.addAttribute("list", new PageInfo<Article>(list));
