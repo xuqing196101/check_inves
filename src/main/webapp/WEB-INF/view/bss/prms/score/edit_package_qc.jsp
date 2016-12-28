@@ -31,7 +31,7 @@
     	layer.open({
             type: 1,
             title: '添加评审项信息',
-            area: ['500px', '300px'],
+            area: ['70%', '300px'],
             closeBtn: 1,
             shade:0.01, //遮罩透明度
             moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -56,7 +56,7 @@
             	layer.open({
                     type: 1,
                     title: '添加评审项信息',
-                    area: ['500px', '300px'],
+                    area: ['70%', '300px'],
                     closeBtn: 1,
                     shade:0.01, //遮罩透明度
                     moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -183,7 +183,7 @@
 <body onload="getTotal()">  
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>
     <c:if test="${project.confirmFile != 1 }">
-  <div class="search_detail">
+  <div class="search_detail ml0">
 	        <ul class="demand_list">
 	          <li>
 	            <label class="fl">选择模板：</label>
@@ -218,8 +218,8 @@
                    <td class="w150"> <span class="fl">${dd.name }</span><a class="addItem item_size" onclick="addItem(this,'${dd.id}');" ></a></td>
 	                    <td class="w150">
  						    <span class="fl">评标细则一</span><a class="addItem item_size" onclick="addModel('','',1);" ></a>
- 							<a href="javascript:void(0);" title="编辑" onclick="addModel('','',2);"><img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png"></a>
-	                        <a href="javascript:void(0);" title="删除" onclick="delItem('',1)"><img src="${pageContext.request.contextPath}/public/backend/images/sc.png"></a>
+ 							<a href="javascript:void(0);" title="编辑" onclick="addModel('','',2);" class="editItem item_size"></a>
+	                        <a href="javascript:void(0);" title="删除" onclick="delItem('',1)" class="deleteItem item_size"></a>
 	                    </td>
 	                 	<td class="tc">
 	                 	</td>

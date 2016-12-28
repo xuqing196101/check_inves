@@ -2559,10 +2559,30 @@ h2.list_title{
    margin: 0 3px!important;
    float: left;
 }
-/*table_input*/
-.table_wrap td,.table_wrap th{
+
+/*table&input*/
+.table_input td{
+	padding:0px!important;
+}
+.table_input input[type="text"]{
+	margin:0px!important;
+}
+.left_table .bggrey {
+	padding: 0 10px!important;
+}
+.left_table td input[type="text"]{
+	width: 100%!important;
+	margin: 0px!important;
+	float: left;
+}
+.table_wrap td{
 	white-space: nowrap;
 }
+
+.table_wrap th{
+	white-space: nowrap;
+}
+
 
 /*input  100%*/
 .input_group input {

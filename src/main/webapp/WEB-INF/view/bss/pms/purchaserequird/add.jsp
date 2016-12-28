@@ -124,7 +124,7 @@
 									"<td name='unitPrice'><input type='text' name='list[" + 0 + "].price' onkeyup='checkNum(this,2)'/></td>" +
 									"<td><input type='text' name='list[" + 0 + "].budget' readonly='readonly' /></td>" +
 									"<td><input type='text' name='list[" + 0 + "].deliverDate' /></td>" +
-									"<td><select name='list[" + 0 + "].purchaseType' style='width:90px' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
+									"<td><select name='list[" + 0 + "].purchaseType' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
 									" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
 									"<td><input type='text' name='list[" + 0 + "].supplier' /></td>" +
 									"<td><input type='text' name='list[" + 0 + "].isFreeTax' /></td>" +
@@ -146,7 +146,7 @@
 							"<td name='unitPrice'><input type='text' name='list[" + s + "].price' onkeyup='checkNum(this,2)'/></td>" +
 							"<td><input type='text' name='list[" + s + "].budget' readonly='readonly' /></td>" +
 							"<td><input type='text' name='list[" + s + "].deliverDate' /></td>" +
-							"<td><select name='list[" + s + "].purchaseType' style='width:90px' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
+							"<td><select name='list[" + s + "].purchaseType' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
 							" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
 							"<td><input type='text' name='list[" + s + "].supplier' /></td>" +
 							"<td><input type='text' name='list[" + s + "].isFreeTax' /></td>" +
@@ -304,7 +304,7 @@
 							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].price' /> </td>" +
 							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].budget' /> </td>" +
 							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].deliverDate' /> </td>" +
-							"<td class='tc'>  <select name='list[" + s + "].purchaseType' style='width:90px'> <option value='' >请选择</option>" +
+							"<td class='tc'>  <select name='list[" + s + "].purchaseType'> <option value='' >请选择</option>" +
 							" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
 							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].supplier' /> </td>" +
 							"<td class='tc'> <input style='border: 0px;' type='text' name='list[" + s + "].isFreeTax' /> </td>" +
@@ -626,14 +626,14 @@
 				<h2 class="count_flow"><i>1</i>计划主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span> 计划名称</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>计划名称</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" name="name" id="jhmc" value="${planName }">
 							<span class="add-on">i</span>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span> 计划编号</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>计划编号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" name="no" value="${planNo }" id="jhbh">
 							<span class="add-on">i</span>
@@ -651,14 +651,14 @@
 					</li>
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>需求部门</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>需求部门</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group"  readonly="readonly" name="depName" value="${orgName }" id="xqbm" onkeyup="assignDepartment(this)">
 							<span class="add-on">i</span>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>录入人手机号</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>录入人手机号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" id="mobile" value="${user.mobile }"> 
 							<span class="add-on">i</span>
@@ -674,7 +674,7 @@
 						<button class="btn btn-windows add" onclick="aadd()">添加</button>
 						<%--
 	<button  class="btn btn-windows add" onclick="same()">添加同级</button>
-	--%><button class="btn btn-windows output" onclick="down()">下载模板</button>
+	--%><button class="btn btn-windows input" onclick="down()">下载模板</button>
 						<button class="btn btn-windows input" onclick="uploadExcel();">导入</button>
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>

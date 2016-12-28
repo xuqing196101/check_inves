@@ -195,8 +195,8 @@ $(document).ready(function() {
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
 			    	      <td class="tc w100" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
-			    	      <td class="tc">${score.name}</td>
-			 	  		  <td class="tc">
+			    	      <td class="">${score.name}</td>
+			 	  		  <td class="">
 			 	    	    <c:if test="${score.typeName == 0}"><a href="javascript:void();" title="${score.reviewContent}">模型1:是否判断</a></c:if>
 			 	            <c:if test="${score.typeName == 1}"><a href="javascript:void();" title="${score.reviewContent}">模型2:按项加减分</a></c:if>
 				 	        <c:if test="${score.typeName == 2}"><a href="javascript:void();" title="${score.reviewContent}">模型3:评审数额最高递减</a></c:if>
@@ -331,13 +331,15 @@ $(document).ready(function() {
 			  </c:forEach>
 			  -->
 			</table>
-			<div class="tc">
+           
+		  </div>
+			<div class="tc col-md-12 col-sm-12 col-xs-12">
 			  <input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
 			  <input type="button" onclick="zancun();"  value="暂存" class="btn btn-windows save">
 			  <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/><br/><br/>
 		    </div>
-		  </div>
 		</form>
+		
 	  </div> 
 	</div>
   </div>
