@@ -3,8 +3,12 @@ package synchro.util;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.LineIterator;
+
+import com.alibaba.fastjson.JSON;
 
 import ses.util.PropUtil;
 
@@ -176,7 +180,7 @@ public class FileUtils {
         LineIterator it  = null;
         final StringBuffer sb = new StringBuffer();
         try {
-            it = org.apache.commons.io.FileUtils.lineIterator(file, "UTF-8");
+            it = org.apache.commons.io.FileUtils.lineIterator(file,"UTF-8");
             while (it.hasNext()) {
                 sb.append(it.nextLine());
             }
@@ -189,6 +193,26 @@ public class FileUtils {
         }
         return sb.toString();
     }
+    
+    /**
+     * 
+     *〈简述〉获取文件类型
+     *〈详细描述〉
+     * @author myc
+     * @param file 文件
+     * @param cls 类型
+     * @return
+     */
+    public static <T> List<T> getBeans(final File file, Class<T> cls) {
+        String jsonString =  readFile(file);
+        List<T> list = new ArrayList<T>();  
+        try {  
+          list = JSON.parseArray(jsonString, cls);  
+        } catch (Exception e) {  
+            
+        }  
+        return list;  
+    }  
     
     /**
      *〈简述〉获取新注册专家导出文件

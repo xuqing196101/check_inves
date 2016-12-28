@@ -19,6 +19,7 @@ import synchro.outer.back.service.supplier.OuterSupplierService;
 @Component
 public class SynchTask {
     
+    /** 供应商 service **/
     @Autowired
     private OuterSupplierService outerSupplier;
     
