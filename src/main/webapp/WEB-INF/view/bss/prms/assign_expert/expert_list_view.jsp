@@ -150,7 +150,7 @@
             			</td>
             			<td>
             			<c:forEach var="expertType" items="${ddList}">
-		                   <c:if test="${projectExtract.reviewTypeId eq expertType.id}">
+		                   <c:if test="${packageExpert.reviewTypeId eq expertType.id}">
 		                    ${expertType.name}
 		                   </c:if>
 		                </c:forEach>
