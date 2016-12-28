@@ -164,6 +164,8 @@
 			
 			//保存
 			function incr() {
+			
+			alert("cehis");
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
 				var mobile = $("#mobile").val();
@@ -505,58 +507,96 @@
 			 var name=$("#jhmc").val();
 		     var no=$("#jhbh").val();
 		     var planType=$("#wtype").val();
-	           $.ajaxFileUpload (
-	                    {
+	           $.ajaxFileUpload ( {
 	                        url: "${pageContext.request.contextPath}/purchaser/upload.do?type="+planType,  
 	                        secureuri: false,  
-	                        fileElementId: 'fileName',  
-	                        success: function (json) { 
-	                        var str = $(json).find("body").text();//获取返回的字符串
-       						var data = $.parseJSON(str);//把字符串转化为json对象
-	                        for (var j = 0; j < data.length; j++) {
+	                        fileElementId: 'fileName', 
+	                        dataType: 'json',
+	                        success: function (data) { 
 	                        
-	                     
-	       					/*  var oldData = $("#detailZeroRow").html(); */
-	                        	$("#detailZeroRow").html("<tr><td class='tc'><input style='border: 0px;' type='text' name='list[" + j + "].id' />" +
-									"<input ityle='border: 0px;' type='text' name='list[" + j + "].seq' /><input style='border: 0px;' value='" + id + "' type='hidden' name='list[" + j + "].parentId' /></td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].department' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].goodsName' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].stand' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].qualitStand' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].item' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].purchaseCount' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].price' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].budget' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].deliverDate' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].purchaseType' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].supplier' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].isFreeTax' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].goodsUse' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].useUnit' /> </td>" +
-									"<td class='tc p0'> <input style='border: 0px;' type='text' name='list[" + j + "].memo' /> </td>" +
-									"<td class='tc p0'> <input class='add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>" +
-									"<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>" +
-									" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>" +
-									"<tr/>");  
-						    }
-	                        /*  if(data=="success"){
-	                        	 layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
-		                         window.location.href="${pageContext.request.contextPath}/purchaser/add.html";
-	                         }  else {
-	                        	 // layer.alert("测试",{offset: ['222px', '390px'], shade:0.01});
-	                 			    layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
-	                          }  */ 
-	                       
-	                        },  error: function (data, status, e)//服务器响应失败处理函数
-	                        {
-	                            layer.alert("上传失败",{offset: ['222px', '390px'], shade:0.01});
+						    	eachData(data);
+	                        },  error: function (data, status, e) {
+	                        alert(e);
+	                            layer.msg("上传失败");
 	                        }
-	                    }
-	                ); 
-				
-				
+	                    }); 
 				
 			} 
+			
+			//循环生存html
+			function eachData(jsonData){
+				if (jsonData != null && jsonData !=""){
+				   $("#detailZeroRow").empty();
+				   for(var i = 0 ;i<jsonData.length;i++ ){
+				     $("#detailZeroRow").append(pageHtml(i,jsonData[i]));
+				   }
+				}
+			}
+			
+			//组装html
+			function pageHtml(i,data){
+				var html ="<tr> "
+				 	     +"  <td class='tc'>"
+				 	     +"    <input style='border: 0px;' type='hidden' name='list[" + i + "].id' value='"+data.id+"' />"
+				 	     +"    <input ityle='border: 0px;' type='text' name='list[" + i + "].seq' value='"+data.seq+"'/>"
+				 	     +"    <input style='border: 0px;' value='" + data.parentId + "' type='hidden' name='list[" + i + "].parentId' />"
+				 	     +"  </td> "
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].department' value='"+isValueLegal(data.department)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data.goodsName)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data.stand)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data.qualitStand)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].item' value='"+isValueLegal(data.item)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data.purchaseCount)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].price' value='"+isValueLegal(data.price)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].budget' value='"+isValueLegal(data.budget)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data.deliverDate)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].purchaseType' value='"+isValueLegal(data.purchaseType)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data.supplier)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data.isFreeTax)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsUse' value='"+isValueLegal(data.goodsUse)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data.useUnit)+"'/>"
+				 	     +"  </td>"
+				 	     +"  <td class='tc p0'>"
+				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data.memo)+"'/>"
+				 	     +"  </td>"
+				 	     +"</tr>";
+				 return html;
+			}
+			
+			//判断值是否合法
+			function isValueLegal(value){
+				if (value == null || value =="null" || value =="undefined" || value ==undefined){
+				   return "";
+				}
+				return value;
+			}
 		</script>
 	</head>
 

@@ -163,18 +163,13 @@
 						<tr>
 							<td class="tc w50">${obj.seq } 
 							</td>
-							<td class="tl pl20">
-							<%-- <td title="${obj.department}" class="tl pl20">
-							<c:if test="${fn:length (obj.department) > 8}">${fn:substring(obj.department,0,7)}...</c:if>
-							<c:if test="${fn:length(obj.department) <= 8}">${obj.department}</c:if>
-							</td > --%>
-							
-						
+							<td  class="tl pl20">${obj.department}</td >
+							<%-- <td class="tl pl20">
 							     <c:forEach items="${requires }" var="re" >
 									  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 							  	</c:forEach> 
 			  	
-							</td>
+							</td> --%>
 							<%-- <td>${obj.goodsName }</td> --%>
 							<td title="${obj.goodsName}" class="tl pl20">
 							<c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
