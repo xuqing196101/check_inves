@@ -39,7 +39,7 @@
                   <div class="col-md-12 col-sm-12 col-xs-12 p0 select_common">
                     <select id="docType" name =docType>
           			   <c:forEach items="${noticeType}" var="type">
-          			     <option value="${type.id}" <c:if test="${type.id == noticeDocument.noticeType }"> selected="selected"</c:if >>${type.name}</option>
+          			     <option value="${type.id}" <c:if test="${type.id == noticeDocument.docType }"> selected="selected"</c:if >>${type.name}</option>
           			   </c:forEach>
 	  				 </select>
                     <div id="contractCodeErr" class="cue">${ERR_docType}</div>
