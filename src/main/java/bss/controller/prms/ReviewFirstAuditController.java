@@ -275,7 +275,6 @@ public class ReviewFirstAuditController {
                 markTermList.add(mark);
             }
         }
-		int sumCount = scoreModelList.size();
 		// 查询父节点的子节点个数
 		for (int i = 0; i < markTermList.size(); i++) {
 		    int count = 0;
@@ -285,20 +284,31 @@ public class ReviewFirstAuditController {
 		        }
 		    }
 		    // 设置指定父节点的rowspan
-		    if (count == 0 && i == 0) {
-		        markTermList.get(i).setCount(sumCount);
-            } else if (count == sumCount && i == 0) {
-                markTermList.get(i).setCount(sumCount);
-            } else if (count < sumCount && count > 0) {
-                if (i == 0) {
-                    markTermList.get(i).setCount(count);
-                } else if (i == count) {
-                    markTermList.get(i).setCount(sumCount - count);
-                }
-                
-            }
+		    markTermList.get(i).setCount(count);
 		}
-		model.addAttribute("markTermList", markTermList);
+		// 将count == 0 的移除
+		List<MarkTerm> markTerms = new ArrayList<MarkTerm>();
+		for (MarkTerm mark : markTermList) {
+		    if (mark.getCount() != 0) {
+		        markTerms.add(mark);
+		    }
+		}
+		if (markTerms.size() > 0 && scoreModelList.size() > 0) {
+		    for (int i = 0; i < markTerms.size(); i++) {
+		        int count = 0;
+		        for (int j = 0; j < scoreModelList.size(); j++) {
+		            if (markTerms.get(i).getId().equals(scoreModelList.get(j).getMarkTerm().getPid())) {
+		                if (count == 0) {
+		                    scoreModelList.get(j).setCount(markTerms.get(i).getCount());
+		                } else {
+		                    scoreModelList.get(j).setCount(0); 
+		                }
+		                count++;
+		            }
+		        }
+		    }
+		}
+		model.addAttribute("markTermList", markTerms);
 		//查询供应商信息
 		SaleTender record = new SaleTender();
 		record.setPackages(packageId);
