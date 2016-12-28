@@ -47,7 +47,7 @@
 		      <h2 class="search_detail">
 				<ul class="demand_list">
 		    	  <li>
-			    	<label class="fl">名称：</label>
+			    	<label class="fl">资质名称：</label>
 			    	<span>
 			    	  <input type="text" id="name"  name="name" />
 			    	</span>
@@ -70,7 +70,7 @@
 					<tr>
 					  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 					  <th class="info w50">序号</th>
-					  <th class="info">名称</th>
+					  <th class="info">资质名称</th>
 					</tr>
 				 <thead>
 				 <tbody>
@@ -78,7 +78,7 @@
 				     <tr>
 					   <td class="tc"><input  type="checkbox" name="chkItem" value="${qualification.id}" /></td>
 					   <td class="tc">${vs.index+1}</td>
-					   <td class="textl">${qualification.name}</td>
+					   <td class="tl pl20">${qualification.name}</td>
 					  </tr>
 				    </c:forEach>
 				  </tbody>

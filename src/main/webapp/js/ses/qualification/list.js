@@ -225,7 +225,7 @@ function loadData(data,index,pageNum,pageSize){
 	         + "    <input  type='checkbox' name='chkItem' value='"+data.id+"' />"
 		     + "  </td>"
 		     + "  <td class='tc'>"+((index+1) +  (pageNum -1) * pageSize) +"</td>"
-		     + "  <td class='tc'>"+data.name+"</td>"
+		     + "  <td class='tl pl20'>"+data.name+"</td>"
 		     + "</tr>";
 	$("#dataTable tbody").append(html);
 	
