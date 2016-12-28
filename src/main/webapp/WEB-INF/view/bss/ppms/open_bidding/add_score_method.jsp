@@ -74,45 +74,54 @@
 		<!-- 修改订列表开始-->
 		<div>
 			<form id="form1" action="${pageContext.request.contextPath}/intelligentScore/saveScoreMethod.html" method="post">
-				<div>
-					<div class="headline-v2">
-						<h2>新增评标方法</h2>
-					</div>
-					<ul class="list-unstyled list-flow" style="margin-left: 0px;">
+				<div class="container container_box">
+					<h2 class="list_title">新增评标方法</h2>
+					<ul class="list-unstyled ul_list" style="margin-left: 0px;">
 							<input type="hidden" name="projectId" value="${projectId}" />
 							<input type="hidden" name="packageId" value="${packageId}" />
 							<input type="hidden" name="flowDefineId" value="${flowDefineId}" />
-							<li class="col-md-6 p0">
-							    <span class="">评分方法:</span> 
+							<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+							    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">评分方法:</span> 
+							    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 								<select class="w180" name="typeName" id="typeName"  onchange="show(this.value);">
 										<c:forEach items="${ddList}" var="list" varStatus="vs">
 											<option value="${vs.index}">${list.name}</option>
 										</c:forEach>
 								</select>
+								</div>
 							</li>
-							<li class="col-md-6 p0 mt20">
-							  <div id="floatingRatio">
-								<span class="">下浮比例:</span> 
-								<input name="floatingRatio" type="text" value="${bidMethod.floatingRatio }">
+							<li class="col-md-3 col-sm-6 col-xs-12">
+							  <div id="floatingRatio" class="col-md-12 col-xs- 12 col-sm-12 p0">
+								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">下浮比例:</span> 
+								<div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
+								    <input name="floatingRatio" type="text" value="${bidMethod.floatingRatio }">
+								    <span class="add-on">i</span>
+								</div>
 							  </div>
 							</li>
-							<li class="col-md-6 p0" >
-							   <div id="valid">
-								 <span class="">供应商报价不得超过有效供应商报价平均值百分比&nbsp;请输入百分比  :</span> 
-								 <input name="valid"  type="text" value="${bidMethod.valid }">
+							<li class="col-md-3 col-sm-6 col-xs-12" >
+							   <div id="valid" class="col-md-12 col-xs- 12 col-sm-12 p0">
+								 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">供应商报价低于有效供应商报价平均值的百分比：</span> 
+								 <div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
+								    <input name="valid"  type="text" value="${bidMethod.valid }">
+								    <span class="add-on">i</span>
+								 </div>
 							   </div>
 									<!-- <span>供应商报价不得超过有效供应商报价平均值百分比</span> -->
 							</li>
-							<li class="col-md-12 p0 dnone" id="business">
-								<!-- <span class="">商务技术评分不得低于上午技术评分百分比:</span> --> 
-								<div id="business">
-								<span class="">商务技术评分不得低于上午技术评分百分比&nbsp;请输入百分比  :</span> 
-								<input name="business"  type="text" value="${bidMethod.business }">
+							<li class="col-md-3 col-sm-6 col-xs-12 dnone" id="business">
+								<!-- <span class="">商务技术评分高于上午技术评分百分比:</span> --> 
+								<div id="business" class="col-md-12 col-xs- 12 col-sm-12 p0">
+								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">商务技术评分高于有效商务技术评分的百分比：</span> 
+								<div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">								
+								    <input name="business"  type="text" value="${bidMethod.business }">
+								     <span class="add-on">i</span>
+								</div>
 								</div>
 							</li>
 					  </ul>
 				</div>
-				<div class="ml200">
+				<div class="tc col-md-12 col-sm-12 col-xs-12 mt10">
 					<input class="btn btn-windows save w80" readonly onclick="save(this)" value="保存" />
 					<button class="btn btn-windows back w80" onclick="history.go(-1)" type="button">返回</button>
 				</div>

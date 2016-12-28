@@ -382,7 +382,8 @@
 		IS_FIRST_PASS = #{isFirstPass,jdbcType=DECIMAL},
 		ECONOMIC_SCORE = #{economicScore,jdbcType=DECIMAL},
 		TECHNOLOGY_SCORE = #{technologyScore,jdbcType=DECIMAL},
-		REVIEW_RESULT = #{reviewResult,jdbcType=VARCHAR}
+		REVIEW_RESULT = #{reviewResult,jdbcType=VARCHAR},
+		IS_REMOVED = #{isRemoved,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	

@@ -2284,6 +2284,7 @@ public class PackageExpertController {
             stMap.put("economicScore", null);
             stMap.put("technologyScore", null);
             stMap.put("reviewResult", null);
+            stMap.put("isRemoved", "0");
             saleTenderService.updateResult(stMap);
           }
         }
@@ -2627,6 +2628,16 @@ public class PackageExpertController {
               packageExpert.setIsGather((short)0);
               packageExpert.setIsGrade((short)0);
               packageExpert.setIsGatherGather((short)0);
+              String tempTypeId = packageExpert.getReviewTypeId();
+              DictionaryData tempdd = DictionaryDataUtil.findById(tempTypeId);
+              //技术类型
+              if ("GOODS".equals(tempdd.getCode()) || "PROJECT".equals(tempdd.getCode()) || "SERVICE".equals(tempdd.getCode())) {
+                packageExpert.setReviewTypeId(DictionaryDataUtil.getId("TECHNOLOGY"));
+              }
+              //经济类型
+              if ("GOODS_SERVER".equals(tempdd.getCode()) || "GOODS_PROJECT".equals(tempdd.getCode())) {
+                packageExpert.setReviewTypeId(DictionaryDataUtil.getId("ECONOMY"));
+              }
               packageExpertService.save(packageExpert);
             }
             //保存到场签到的临时专家
@@ -2640,6 +2651,16 @@ public class PackageExpertController {
               packageExpert.setIsGather((short)0);
               packageExpert.setIsGrade((short)0);
               packageExpert.setIsGatherGather((short)0);
+              String tempTypeId = packageExpert.getReviewTypeId();
+              DictionaryData tempdd = DictionaryDataUtil.findById(tempTypeId);
+              //技术类型
+              if ("GOODS".equals(tempdd.getCode()) || "PROJECT".equals(tempdd.getCode()) || "SERVICE".equals(tempdd.getCode())) {
+                packageExpert.setReviewTypeId(DictionaryDataUtil.getId("TECHNOLOGY"));
+              }
+              //经济类型
+              if ("GOODS_SERVER".equals(tempdd.getCode()) || "GOODS_PROJECT".equals(tempdd.getCode())) {
+                packageExpert.setReviewTypeId(DictionaryDataUtil.getId("ECONOMY"));
+              }
               packageExpertService.save(packageExpert);
             }
           }
