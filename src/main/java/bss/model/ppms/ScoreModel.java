@@ -65,6 +65,7 @@ public class ScoreModel implements Serializable{
 	//transtinent 
 	private String markType;
 	private String markName;
+	private Integer count;
 	
 	//该打分项的值，不做数据存储
 	private BigDecimal value;
@@ -336,6 +337,14 @@ public class ScoreModel implements Serializable{
 
     public void setPage(Integer page) {
         this.page = page;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
    /* public String getMarkType() {

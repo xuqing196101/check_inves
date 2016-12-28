@@ -175,7 +175,7 @@ $(document).ready(function() {
 	   	  <div style="overflow:scroll;">
 	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
-			    <th colspan="2"></th>
+			    <th colspan="4"></th>
 			    <c:forEach items="${supplierList}" var="supplier">
 			      <th colspan="2">${supplier.suppliers.supplierName}</th>
 			    </c:forEach>
@@ -194,7 +194,7 @@ $(document).ready(function() {
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			    	      <td class="tc w100" rowspan="${markTerm.count}" <c:if test="${markTerm.count eq '0'}">style="display: none"</c:if> >${markTerm.name}</td>
+			    	      <td class="tc w100" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
 			    	      <td class="tc">${score.name}</td>
 			 	  		  <td class="tc">
 			 	    	    <c:if test="${score.typeName == 0}"><a href="javascript:void();" title="${score.reviewContent}">模型1:是否判断</a></c:if>
