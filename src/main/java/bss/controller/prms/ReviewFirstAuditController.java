@@ -271,7 +271,7 @@ public class ReviewFirstAuditController {
 		// 遍历去除pid is not null 的
 		List<MarkTerm> markTermList = new ArrayList<MarkTerm>();
 		for (MarkTerm mark : allMarkTerm) {
-            if ("0".equals(mark.getPid())) {
+            if ("0".equals(mark.getPid()) && mark.getTypeName().equals(typeId)) {
                 markTermList.add(mark);
             }
         }
@@ -314,6 +314,7 @@ public class ReviewFirstAuditController {
 		record.setPackages(packageId);
 		record.setProject(project);
 		record.setIsFirstPass(1);
+		record.setIsRemoved("0");
 		List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
 		model.addAttribute("supplierList", supplierList);
 		// 回显
