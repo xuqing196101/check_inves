@@ -288,16 +288,16 @@
 						<tr>
 							<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
 							<td class="tc">${(vs.index+1)+(isList.pageNum-1)*(isList.pageSize)}</td>
-							<td>
+							<td class="tl pl20">
 								<a onclick="show('${list.id}')" class="pointer">${list.name }</a>
 							</td>
 							<td class="tc">${list.legalName }</td>
-							<td>${list.recommendDep }</td>
-							<td class="tc">
+							<td class="tl pl20">${list.recommendDep }</td>
+							<td class="tl pl20">
 								<c:if test="${list.type==1 }">正式进口代理商</c:if>
 								<c:if test="${list.type==2 }">临时进口代理商</c:if>
 							</td>
-							<td class="tc">
+							<td class="tl pl20">
 								<c:if test="${empty list.useCount }">
 									暂无次数
 								</c:if>
