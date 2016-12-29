@@ -14,7 +14,7 @@
               </a>
             </div>
            <button data-target=".navbar-responsive-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-            <span class="full-width-menu">全部商品分类</span>
+            <span class="full-width-menu">全部菜单分类</span>
             <span class="icon-toggle">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>

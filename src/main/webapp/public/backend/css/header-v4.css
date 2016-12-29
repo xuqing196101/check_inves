@@ -409,12 +409,15 @@
 	   background-color:#fff;
 		color:#16888f ;
 	}
-	.header-v4 .navbar-default .navbar-nav > .open > a,
-	.header-v4 .navbar-default .navbar-nav > .open > a:hover,
-	.header-v4 .navbar-default .navbar-nav > .open > a:focus {
-		color: #2c9fa6;
+	.header-v4 .navbar-default .navbar-nav > .open > a{
+		color: #ffffff;
+		background:none;
 	}
-
+    .header-v4 .navbar-default .navbar-nav > .open > a:hover,
+	.header-v4 .navbar-default .navbar-nav > .open > a:focus {
+	     
+	 
+	}
 	.header-v4 .navbar-default .navbar-nav > li:hover > a{
         background-color:#fff;
 		color:#2c9fa6;

@@ -131,7 +131,7 @@
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: '110px',
+			  offset: '60px',
 			  shadeClose: false,
 			  content: '${pageContext.request.contextPath}/user/openPreMenu.html?id='+ids,
 			  success: function(layero, index){
@@ -244,9 +244,10 @@
 					        </select>
 					        </span>
 				      </li> 
-				    	<button type="submit"  class="btn">查询</button>
-				    	<button type="button" onclick="resetQuery()" class="btn">重置</button>  	
-			    	</ul>
+				    </ul>
+				    <button type="submit"  class="btn fl mt1">查询</button>
+				    <button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>  	
+			    	
 		    	  	<div class="clear"></div>
 		        </form>
 		     </h2>
@@ -278,7 +279,7 @@
 					<tr>
 					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}" /></td>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-					  <td class="tc" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
+					  <td class="tl pl20" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
 					  <td class="tc">${user.relName}</td>
 					  <td class="tl pl20">${user.org.name}</td>
 					  <td class="tc">${user.mobile}</td>
@@ -309,20 +310,20 @@
 	  	<div class="drop_window">
 	  		  <input type="hidden" name="id" id="userId" >
 			  <ul class="list-unstyled">
-	          	  <div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
+	          	  <div class="col-md-6 col-sm-6 col-xs-12 pl15">
 	                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>输入新密码：</label> 
-	                <div class="col-md-7 col-xs-12 col-sm-12 p0">
-	                 	<input type="password" name="password" class="">
+	                <div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
+	                 	<input type="password" name="password" type="text">
 	                </div>
 	              </div>
-	              <div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
+	              <div class="col-md-6  col-sm-6 col-xs-12 ">
 	                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>确认新密码：</label> 
-	                <div class="col-md-7 col-xs-12 col-sm-12 p0">
+	                <div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
 	                  <input type="password" name="password2"  class="">
 	                </div>
 	              </div>
 			  </ul>
-              <div class="tc">
+              <div class="tc col-md-12 col-sm-12 col-xs-12 mt10">
                 <input class="btn" id="inputb" name="addr" onclick="resetPasswSubmit();" value="确定" type="button"> 
 				<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
               </div>

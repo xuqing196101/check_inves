@@ -193,10 +193,10 @@
 		  <input type="hidden" name="org_orgId" value="${orgId}" />
 		  <input type="hidden" name="deptTypeName" value="${typeName}"/>
 		   <div>
-			   <h2 class="count_flow">新增用户</h2>
+			   <h2 class="list_title">新增用户</h2>
 			   <ul class="ul_list">
 			     <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
-				   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>用户名</span>
+				   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>用户名</span>
 				   <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        <input  name="loginName" value="${user.loginName}" maxlength="30" type="text">
 			        <span class="add-on">i</span>
@@ -205,7 +205,7 @@
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>真实姓名</span>
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>真实姓名</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <input  name="relName" value="${user.relName}" maxlength="10" type="text">
 				        <span class="add-on">i</span>
@@ -213,7 +213,7 @@
 			       	</div>
 			 	 </li>
 			 	 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-			   		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>密码</span>
+			   		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>密码</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <input  name="password" value="${user.password}" maxlength="30" id="password1" type="password">
 				        <span class="add-on">i</span>
@@ -221,7 +221,7 @@
 			        </div>
 			 	</li> 
 		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 col-lg-12"><span class="red">*</span>确认密码</span>
+				    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 col-lg-12"><span class="star_red">*</span>确认密码</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <input  id="password2" value="${user.password2}" maxlength="30" name="password2" type="password">
 				        <span class="add-on">i</span>
@@ -230,7 +230,7 @@
 			        </div>
 			 	</li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>性别</span>
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>性别</span>
 			        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        <select id="gender" name="gender">
 			        	<c:forEach items="${genders}" var="g" varStatus="vs">
@@ -242,7 +242,7 @@
 			        </div>
 			 	</li>
 		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>手机</span>
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>手机</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0" >
 				        <input  name="mobile" value="${user.mobile}" maxlength="40" type="text">
 				        <span class="add-on">i</span>
@@ -265,7 +265,7 @@
 			        </div>
 				 </li>
 				<%-- <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>类型</span>
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>类型</span>
 				    <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			       
 			       <c:choose> 
@@ -289,7 +289,7 @@
 			      </div>
 				 </li> --%>
 			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>所属机构</span>
+				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>所属机构</span>
 				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <c:choose> 
 					        <c:when  test="${not empty origin}">
@@ -302,7 +302,7 @@
 					        </c:otherwise>
 					    </c:choose>
 						<div class="drop_up" onclick="showOrg();">
-						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
+						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png"/>
 				        </div>
 				        <div class="cue"><sf:errors path="orgId"/></div>
 			        </div>
@@ -315,12 +315,12 @@
 			        </div>
 			    </li> 
 				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>角色</span>
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>角色</span>
 				    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
 				        <input id="rId" name="roleId"  type="hidden" value="${user.roleId}">
 				        <input id="roleSel"  type="text" name="roleName" readonly value="${roleName}"  onclick="showRole();" />
 						<div class="drop_up" onclick="showRole();">
-						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
+						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
 				        </div>
 				        <div class="cue"><sf:errors path="roleId"/></div>
 			        </div>

@@ -475,7 +475,7 @@ button, input, select, textarea {
 }
 .input_group .add-on, .input_group .add-on{
     display:table-cell;
-    padding:0 10px 0 10px;
+    padding:0 12px 0 12px;
     width:1%;
 	text-align:center;
     font-size: 16px;
