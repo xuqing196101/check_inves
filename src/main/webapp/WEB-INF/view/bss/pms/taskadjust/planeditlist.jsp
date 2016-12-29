@@ -129,6 +129,10 @@
 			layer.alert("请选择需要修改的版块",{offset: ['222px', '390px'], shade:0.01});
 		}
     } */
+    
+    function view(id) {
+        window.location.href = "${pageContext.request.contextPath }/look/view.html?id="+id;
+  }
  
   </script>
   </head>
@@ -172,12 +176,12 @@
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50"   >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  
-			  <td class="tl pl20"  >${obj.fileName }</td>
+			  <td class="tl pl20"  onclick="view('${obj.id}')">${obj.fileName }</td>
 			
 			
-			  <td class="tr pr20"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
-			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc"  >
+			  <td class="tr pr20"  onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			    <td class="tc"  onclick="view('${obj.id}')"><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc"  onclick="view('${obj.id}')">
 			  <c:if test="${obj.status=='1' }">
 			   未下达
 			  </c:if>

@@ -26,18 +26,19 @@
         for (var i = 0; i < result.length; i++) {
           $("input[name='chkItem']").each(function() {
             var v1 = result[i].id;
-            var v3 = result[i].purchaseType;
-          if(v3 == purchaseType){
-            var v2 = $(this).val();
+             var v2 = $(this).val();
             if (v1 == v2) {
               $(this).prop("checked", flag);
             }
+          /*   var v3 = result[i].purchaseType;
+          if(v3 == purchaseType){
+           
           }else{
             layer.alert("采购方式不相同",{offset: ['222px', '390px'], shade:0.01});
-          }
+          } */
           });
         } 
-        $("input[name='chkItem']:checked").each(function() {
+       /*  $("input[name='chkItem']:checked").each(function() {
           var currGoodUse = $(this).parents("tr").find("td").eq(13).text();
           currGoodUse = $.trim(currGoodUse);
           if (!currGoodUse) {
@@ -47,7 +48,7 @@
             $(this).prop("checked", false);
             layer.alert("进口方式不相同",{offset: ['222px', '390px'], shade:0.01});
           }
-        });
+        }); */
       },
       error: function(){
         layer.msg("失败",{offset: ['222px', '390px']});
@@ -61,30 +62,83 @@
     window.location.href = "${pageContext.request.contextPath}/project/add.html";
   }
   
-  function save(){
+  /* function save(){
 	    var checkIds =[]; 
 	    $('input[name="chkItem"]:checked').each(function(){ 
 	    	checkIds.push($(this).val()); 
 	    });
-	    if(checkIds.length>0){
-	    	
-	    	var checked;
-	    	var unCheckedBoxs = [];
-	          $('input[name="chkItem"]:not(:checked)').each(function() {
-	            unCheckedBoxs.push($(this).val());
-	       });
-	       if(unCheckedBoxs<1){
-	    	   checked=0;
-	       }else{
-	    	   checked=1;
-	       }
-	      $("#uncheckId").val(checked);
-	    	var purchaseTypes = $("#purchaseTypes").val();
-	    	$("#purchaseType").val(purchaseTypes);
-	    	$("#detail_id").val(checkIds);
-	      $("#save_form_id").submit();
-	     }
-	   }
+	    var id = $('input[name="chkItem:checked"]').val();
+	    id = $.trim(id);
+	    if(id == ""){
+	     layer.alert("请勾选明细", "#tb_id");
+	    }else{
+	        if(checkIds.length>0){
+		        var checked;
+		        var unCheckedBoxs = [];
+		            $('input[name="chkItem"]:not(:checked)').each(function() {
+		              unCheckedBoxs.push($(this).val());
+		         });
+		         if(unCheckedBoxs<1){
+		           checked=0;
+		         }else{
+		           checked=1;
+		         }
+		        $("#uncheckId").val(checked);
+		        var purchaseTypes = $("#purchaseTypes").val();
+		        $("#purchaseType").val(purchaseTypes);
+		        $("#detail_id").val(checkIds);
+		        $("#save_form_id").submit();
+		       }
+	    }
+	   
+	   } */
+	   
+	   
+	   function save(){
+	      var checkIds =[]; 
+	      $('input[name="chkItem"]:checked').each(function(){ 
+	        checkIds.push($(this).val()); 
+	      });
+	      var id = $('input[name="chkItem"]:checked').val();
+	      id = $.trim(id);
+	      if(id == ""){
+	       layer.alert("请勾选明细", "#tb_id");
+	      }else{
+	        $.ajax({
+			      url:"${pageContext.request.contextPath}/project/purchaseType.html",
+			      data:"id="+checkIds,
+			      type:"post",
+			      dataType:"json",
+			      success:function(result){
+			        if(result == "1"){
+			            if(checkIds.length>0){
+				            var checked;
+				            var unCheckedBoxs = [];
+				                $('input[name="chkItem"]:not(:checked)').each(function() {
+				                  unCheckedBoxs.push($(this).val());
+				             });
+				             if(unCheckedBoxs<1){
+				               checked=0;
+				             }else{
+				               checked=1;
+				             }
+				            $("#uncheckId").val(checked);
+				            var purchaseTypes = $("#purchaseTypes").val();
+				            $("#purchaseType").val(purchaseTypes);
+				            $("#detail_id").val(checkIds);
+				            $("#save_form_id").submit();
+				           } 
+			        }else{
+			           layer.alert("采购方式不相同",{shade:0.01});
+			        
+			        }
+			      },
+			      error: function(){
+			        layer.msg("失败",{offset: ['222px', '390px']});
+			      }
+			    });
+	      }
+     }
 </script>
 </head>
   
@@ -114,6 +168,7 @@
       <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
         <thead>
           <tr class="info">
+            <th class="w30">选择</th>
             <th class="w50">序号</th>
             <th>需求部门</th>
             <th>物资名称</th>
@@ -130,15 +185,17 @@
             <th>物资用途（进口）</th>
             <th>使用单位（进口）</th>
             <th>备注</th>
-            <th class="w30">操作</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="tb_id">
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <c:if test="${obj.projectStatus eq '0'}">
                     <tr class="pointer">
+                      <td class="tc w30">
+                        <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this)" alt="">
+                      </td>
                       <td class="tc w50"> ${obj.seq}
-                        <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
+                        <input type="hidden" id="seq" name="list[${vs.index }].seq" value="${obj.seq }">
                         <input type="hidden" name="list[${vs.index }].id" value="${obj.id }">
                       </td>
                       <td class="tc">
@@ -192,12 +249,9 @@
                       </td>
                       <td class="tc">${obj.memo}
                         <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
-                        <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
+                        <input type="hidden"  name="list[${vs.index }].parentId" value="${obj.parentId }">
                         <input type="hidden" name="list[${vs.index }].detailStatus" value="${obj.detailStatus}">
                         <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType}">
-                      </td>
-                      <td class="tc w30">
-                        <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this)" alt="">
                       </td>
                     </tr>
                     </c:if>

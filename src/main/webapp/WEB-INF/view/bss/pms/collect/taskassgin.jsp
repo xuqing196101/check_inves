@@ -119,6 +119,9 @@
 		$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
 	
+	function view(id) {
+        window.location.href = "${pageContext.request.contextPath }/look/view.html?id="+id;
+  }
 	
 	function generateMixed() {
 		var myDate = new Date(); 
@@ -221,12 +224,12 @@
 			  </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  
-			  <td class="tl pl20"  >${obj.fileName }</td>
+			  <td class="tl pl20"  onclick="view('${obj.id}')">${obj.fileName }</td>
 			
 			
-			  <td class="tr pr20"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
-			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc"  >
+			  <td class="tr pr20"  onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			    <td class="tc"  onclick="view('${obj.id}')"><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc"  onclick="view('${obj.id}')">
 			  <c:if test="${obj.status=='12' || obj.status=='13' }">
 					 未下达
 			  </c:if>

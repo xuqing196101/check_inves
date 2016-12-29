@@ -2,9 +2,11 @@ package bss.controller.pms;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -82,6 +84,9 @@ public class PlanLookController extends BaseController {
 	
 	@Autowired
 	private CollectPlanMapper collectPlanMapper;
+	
+	@Autowired
+    private CollectPurchaseService conllectPurchaseService;
 	/**
 	 * 
 	 * 
@@ -109,6 +114,71 @@ public class PlanLookController extends BaseController {
 		model.addAttribute("dic", dic);
 		return "bss/pms/collect/planlist";
 	}
+	
+	
+	@RequestMapping("/view1")
+    public String view1(String id, Model model){
+        List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
+        List<String> list = conllectPurchaseService.getNo(id);
+        if(list != null && list.size() > 0){
+            for(String s:list){
+                Map<String,Object> map=new HashMap<String,Object>();
+                map.put("planNo", s);
+                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+                listp.addAll(list2);
+            }
+        }
+        model.addAttribute("list", listp);
+        
+        Set<String> set = new HashSet<String>();
+        //List<PurchaseRequired> lista=new LinkedList<PurchaseRequired>();
+        List<String> lists = conllectPurchaseService.getNo(id);
+        if(lists != null && lists.size() > 0){
+            for(String s:list){
+                Map<String,Object> map=new HashMap<String,Object>();
+                map.put("planNo", s);
+                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+                for (PurchaseRequired purchaseRequired : list2) {
+                    String org = purchaseRequired.getDepartment();
+                    set.add(org);
+                }
+            }
+        }
+            model.addAttribute("set", set);
+       
+        
+        return "bss/pms/collect/plan_views";
+    }
+	
+	
+	@RequestMapping("/views")
+    public String views(String org, String planNo, Model model){
+       HashMap<String, Object> map = new HashMap<>();
+       map.put("department", org);
+       map.put("planNo", planNo);
+       List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+       model.addAttribute("list", list);
+        
+        return "bss/pms/collect/plan_view";
+    }
+	
+	@RequestMapping("/view")
+    public String view(String id, Model model){
+	    List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
+        List<String> list = conllectPurchaseService.getNo(id);
+        if(list != null && list.size() > 0){
+            for(String s:list){
+                Map<String,Object> map=new HashMap<String,Object>();
+                map.put("planNo", s);
+                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+                listp.addAll(list2);
+            }
+        }
+        model.addAttribute("list", listp);
+        return "bss/pms/collect/plan_view";
+    }
+	
+	
 	/**
 	 * 
 	* @Title: print

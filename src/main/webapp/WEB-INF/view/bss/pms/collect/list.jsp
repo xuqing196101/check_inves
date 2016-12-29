@@ -281,14 +281,14 @@
 								</c:if>
 							</td>
 							<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-							<td  class="tl pl20">${obj.department}</td >
+							<td onclick="view('${obj.planNo}')" class="tl pl20">${obj.department}</td >
 							<%-- <td class="tl pl20">
 			    			<c:forEach items="${requires }" var="re" >
 					  			<c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  				</c:forEach>
 			 				</td> --%>
-							<td  class="tl pl20">${obj.planName }</td>
-							<td  class="tl pl20">${obj.userId }</td>
+							<td onclick="view('${obj.planNo}')" class="tl pl20">${obj.planName }</td>
+							<td onclick="view('${obj.planNo}')" class="tl pl20">${obj.userId }</td>
 							<td  class="tc">
 							<%-- <div class="left20" ><fmt:formatDate value="${obj.createdAt }"/></div> --%>
 								 <fmt:formatDate value="${obj.createdAt }" /> 

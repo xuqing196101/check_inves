@@ -361,7 +361,7 @@ public class TackController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/view")
-	public String view(String id,Model model){
+	public String view(@CurrentUser User user, String id, Model model){
 		Task task = taskservice.selectById(id);
 		if(task.getCollectId() != null){
         List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
@@ -390,7 +390,7 @@ public class TackController extends BaseController{
         List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
         model.addAttribute("list2",orgnizations);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
-        
+        model.addAttribute("user", user.getOrg().getId());
         model.addAttribute("task", task);
 		return "bss/ppms/task/view";
 	}

@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -578,14 +579,15 @@ public class ProjectController extends BaseController {
             response.getWriter().write(json);
             response.getWriter().flush();
             response.getWriter().close();
+        }else{
+            map.put("id", purchaseRequired.getId());
+            List<PurchaseRequired> list = purchaseRequiredService.selectByParent(map);
+            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write(json);
+            response.getWriter().flush();
+            response.getWriter().close();
         }
-        map.put("id", purchaseRequired.getId());
-        List<PurchaseRequired> list = purchaseRequiredService.selectByParent(map);
-        String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-        response.setContentType("text/html;charset=utf-8");
-        response.getWriter().write(json);
-        response.getWriter().flush();
-        response.getWriter().close();
     }
     
     
@@ -1660,7 +1662,7 @@ public class ProjectController extends BaseController {
      * @return String
       */
      @RequestMapping("/addDetails")
-     public String addDetails(String projectId,String id,Model model,String name, String orgId,String projectNumber) {
+     public String addDetails(@CurrentUser User user, String projectId,String id,Model model,String name, String orgId,String projectNumber) {
      	 //根据采购明细ID，获取项目明细
      	 Task task = taskservice.selectById(projectId);
          List<PurchaseRequired> lists=new LinkedList<PurchaseRequired>();
@@ -1677,6 +1679,7 @@ public class ProjectController extends BaseController {
          }
          model.addAttribute("kind", DictionaryDataUtil.find(5));
          model.addAttribute("orgId", orgId);
+         model.addAttribute("user", user.getOrg().getId());
          model.addAttribute("projectId", projectId);
          model.addAttribute("id", id);
          model.addAttribute("lists", lists);
@@ -2303,4 +2306,31 @@ public class ProjectController extends BaseController {
         }
  		return purchaseInfo;
  	}
+    
+    @RequestMapping(value="/purchaseType" ) 
+    @ResponseBody
+    public String purchaseType(String id) {
+        String num = "1";
+        String number = "2";
+        String[] ids = id.split(",");
+        //List<PurchaseRequired> requireds = new ArrayList<PurchaseRequired>();
+        Set<String> set = new HashSet<String>();
+        for (int i = 0; i < ids.length; i++ ) {
+            HashMap<String, Object> map = new HashMap<>();
+            PurchaseRequired detail = purchaseRequiredService.queryById(ids[i]);
+            map.put("id", detail.getId());
+            List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
+            if(list.size() == 1){
+                 String aa = detail.getPurchaseType();
+                 set.add(aa);
+            }
+        }
+        if(set.size() == 1){
+            return num;
+        }else{
+            return number;
+        }
+        
+    }
+    
 }

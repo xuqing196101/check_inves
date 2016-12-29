@@ -66,6 +66,7 @@
 				</thead>
 				<c:if test="${lists != null}">
 				<c:forEach items="${lists}" var="obj" varStatus="vs">
+				  <c:if test="${lists.organization eq user}">
 				  <tr class="pointer">
 					<td class="tc w50">${obj.seq}</td>
 					 <td class="tl pl20">
@@ -94,10 +95,12 @@
 					 <td class="tl pl20">${obj.useUnit}</td>
 					 <td class="tl pl20">${obj.memo}</td>
 					</tr>
+					</c:if>
 				  </c:forEach>  
 				  </c:if>
 				  <c:if test="${list != null}">
 				    <c:forEach items="${list}" var="obj" varStatus="vs">
+				    <c:if test="${list.organization eq user}">
           <tr style="cursor: pointer;">
           <td class="tc w50">${obj.serialNumber}</td>
            <td class="tc">
@@ -126,6 +129,7 @@
            <td class="tc">${obj.useUnit}</td>
            <td class="tc">${obj.memo}</td>
           </tr>
+          </c:if>
           </c:forEach> 
 				  </c:if>
                 </table>
