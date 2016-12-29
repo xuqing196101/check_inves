@@ -208,8 +208,8 @@
             </thead>
                  ${str }
         </table>
-        <div class="tr">
-        	<span class="mr30" ><b>总分:</b></span><span class="mr30" id="totalScore"></span>
+         <div class="tr col-md-12 col-sm-12 col-xs-12">
+          <div ><b>总分:</b><span class="red f16" id="totalScore"></span></div>
         </div>
         </div>
     </div>
@@ -225,25 +225,25 @@
               <input type="hidden" name="id" id="id">
               <ul class="list-unstyled">
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
-                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</label>
-	                <span class="col-md-12 col-sm-12 col-xs-12 p0">
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</div>
+	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
 	                   <input name="name" id="name" maxlength="30" type="text">
-	                </span>
+	                </div>
                   </li>
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</label>
-	                <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</div>
+	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
 	                   <input  name="remainScore" id="remainScore" maxlength="10" type="text">
 	                </div>
                  </li>
-                 <li class="col-md-12 col-sm-12 col-xs-12 mb20">
-                   <label class="col-md-12 pl20 col-xs-12 padding-left-5"><div class="star_red">*</div>评审内容</label>
-                   <span class="col-md-12 col-sm-12 col-xs-12 p0">
+                 <li class="col-md-12 col-sm-12 col-xs-12">
+                   <div class="col-md-12 pl20 col-xs-12 padding-left-5"><div class="star_red">*</div>评审内容</div>
+                   <div class="col-md-12 col-sm-12 col-xs-12 p0">
                     <textarea class="col-md-12 col-sm-12 col-xs-12 h80" id="remark" name="remark" maxlength="200" title="" placeholder=""></textarea>
-                   </span>
+                   </div>
                  </li>
               </ul>
-              <div class="mt40 tc mb50">
+              <div class="mt20 tc col-md-12 col-sm-12 col-xs-12">
                 <input class="btn btn-windows save"  onclick="saveItem();" value="保存" type="button"> 
                 <input class="btn btn-windows back"  onclick="cancel();" value="取消" type="button"> 
               </div>

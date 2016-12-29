@@ -167,20 +167,23 @@
 					<input type="text" name="name" id="tname" class="mb0" />
 					</span>
 					</li>
-					<li><label class="fl">模板类型：</label> <span> <select
-							id="searchType" name=temType class="w150">
+					<li>
+					 <label class="fl">模板类型：</label>
+					 <span> 
+					     <select id="searchType" name=temType class="w150">
 								<option value="-请选择-">-请选择-</option>
 								<option value="采购公告">采购公告</option>
 								<option value="中标公告">中标公告</option>
 								<option value="合同公告">合同公告</option>
 								<option value="招标公告">招标公告</option>
 								<option value="合同模板">合同模板</option>
-						</select> </span></li>
+						</select> 
+					</span>
+				   </li>
 
-					<button class="btn" type="submit">查询</button>
-					<button type="reset" class="btn">重置</button>
 				</ul>
-
+					<button class="btn fl mt1" type="submit">查询</button>
+					<button type="reset" class="btn  fl mt1">重置</button>
 				<div class="clear"></div>
 			</form>
 		</div>

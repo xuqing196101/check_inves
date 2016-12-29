@@ -211,8 +211,8 @@
             </thead>
                  ${str }
         </table>
-         <div class="tr">
-          <span class="mr30" ><b>总分:</b></span><span class="mr30" id="totalScore"></span>
+        <div class="tr col-md-12 col-sm-12 col-xs-12">
+          <div ><b>总分:</b><span class="red f16" id="totalScore"></span></div>
         </div>
     </div>
       <div class="mt40 tc mb50">

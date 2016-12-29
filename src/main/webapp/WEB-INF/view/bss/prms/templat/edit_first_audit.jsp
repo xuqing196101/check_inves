@@ -53,24 +53,24 @@
     <div class="drop_window">
         <form action="${pageContext.request.contextPath}/firstAudit/edit.html" method="post" id="form1">
               <ul class="list-unstyled">
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">初审项名称</label>
-                  <span class="col-md-12">
+                <li class="col-md-6 col-sm-6 col-xs-6 pl15">
+                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初审项名称</span>
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0 input_group input-append">
                     <input type="text" id="name"  name="name" value="${temitem.name }">
-                  </span>
+                  </div>
                 </li>
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">要求类型</label>
-                  <span class="col-md-12">
-                    <input type="radio" name="kind" <c:if test="${fn:contains(temitem.kind,'符合性')}">checked="true"</c:if> value="符合性" >符合性&nbsp;<input type="radio" id="kind" name="kind"<c:if test="${fn:contains(temitem.kind,'资格性')}">checked="true"</c:if> value="资格性" >资格性
-                    <input type="hidden" name="templatId" value="${temitem.templatId }">
+                <li class="col-md-6 col-sm-6 col-xs-6">
+                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">要求类型</span>
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append">
+                      <input type="radio" name="kind" <c:if test="${fn:contains(temitem.kind,'符合性')}">checked="true"</c:if> value="符合性" >符合性&nbsp;<input type="radio" id="kind" name="kind"<c:if test="${fn:contains(temitem.kind,'资格性')}">checked="true"</c:if> value="资格性" >资格性
+                      <input type="hidden" name="templatId" value="${temitem.templatId }">
                       <input type="hidden" name="id" value="${temitem.id }">
                       <input type="hidden" name="createdAt" value="<fmt:formatDate value='${temitem.createdAt}' pattern="yyyy-MM-dd" />">
-                  </span>
+                  </div>
                 </li>
                 <div class="clear"></div>
                </ul>
-               <div class="tc mt10 col-md-12">
+               <div class="tc mt10 col-md-12 col-sm-12 col-xs-12">
                  <input type="button"  value="修改" onclick="submit1();"  class="btn btn-windows edit"/>
                 <input type="button"  value="取消"  class="btn btn-windows cancel" onclick="cancel();"/>
               </div>

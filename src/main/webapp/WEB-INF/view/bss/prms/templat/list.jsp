@@ -129,7 +129,7 @@
 				</li>
 				<li><a href="javascript:void(0)">后台管理</a>
 				</li>
-				<li class="active"><a href="javascript:void(0)">模版管理</a>
+				<li class="active"><a href="javascript:void(0)">评审模版管理</a>
 				</li>
 			</ul>
 			<div class="clear"></div>
@@ -157,9 +157,9 @@
                            </c:forEach>
 		               </select>
 		            </li>
-		            <button class="btn" type="submit">查询</button>
-                    <button type="button" onclick="resetQuery()" class="btn">重置</button>
 				</ul>
+				<button class="btn mt1 fl" type="submit">查询</button>
+                <button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>
 				<div class="clear"></div>
 			</form>
 		</div>

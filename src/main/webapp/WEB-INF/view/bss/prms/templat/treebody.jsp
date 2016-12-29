@@ -611,45 +611,67 @@
 </script>
     </head>
 <body onload="pageOnLoad();">
+ <div class="margin-top-10 breadcrumbs ">
+        <div class="container">
+            <ul class="breadcrumb margin-left-0">
+                <li><a href="javascript:void(0)">首页</a></li>
+                <li><a href="javascript:void(0)">支撑系统</a></li>
+                <li><a href="javascript:void(0)">后台管理</a></li>
+                <li><a href="javascript:void(0)">模版管理</a></li>
+                <li class="active"><a href="javascript:void(0)">新增评审指标</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
 	<input type="hidden" id="sm" value="${scoreModel.typeName }">
 	<input type="hidden" id="sm2" value="${scoreModel.addSubtractTypeName }">
 	<input type="hidden" id="sm7" value="${scoreModel.intervalTypeName }">
-	<div>
+	<div class="container">
 		<form action="" method="post"  id="formID">
 		  
 		   <div class="container mt50">
-			    <span>评审指标名称</span>
-			   	<input name="name" id="name" value="${scoreModel.name}" >
-		    </div>
-			<div class="container mt5">
-				<span>选择模型</span>
-				 <select id="model" name="typeName" onchange="choseModel();">
-					<option value="">请选择</option>
-					<option value="0">模型1:是否判断</option>
-					<option value="1">模型2:按项加减分</option>
-					<option value="2">模型3:评审数额最高递减</option>
-					<option value="3">模型4:评审数额最低递增</option>
-					<option value="4">模型5:评审数额高计算</option>
-					<option value="5">模型6:评审数额低计算</option>
-					<option value="6">模型7:评审数额低区间递增</option>
-					<option value="7">模型8:评审数额高区间递减</option>
-				</select>
-			</div>
-			 <div class="container">
-		   <span>评审指标内容及规则说明</span>
-		   	<textarea  class="col-md-12 col-sm-12 col-xs-12 h80 mb10" name="reviewContent" id="reviewContent" >${scoreModel.reviewContent}</textarea>
-		   </div>
+		      <ul class="list-unstyled">
+                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5">评审指标名称：</div>
+	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+	                   <input name="name" id="name" value="${scoreModel.name}" type="text">
+	                </div>
+                  </li>
+                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                     <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5">选择模型 ：</div>
+	                 <div class="col-md-12 col-sm-12 col-xs-12 p0 select_common">
+	                   <select id="model" name="typeName" onchange="choseModel();">
+							<option value="">请选择</option>
+							<option value="0">模型1:是否判断</option>
+							<option value="1">模型2:按项加减分</option>
+							<option value="2">模型3:评审数额最高递减</option>
+							<option value="3">模型4:评审数额最低递增</option>
+							<option value="4">模型5:评审数额高计算</option>
+							<option value="5">模型6:评审数额低计算</option>
+							<option value="6">模型7:评审数额低区间递增</option>
+							<option value="7">模型8:评审数额高区间递减</option>
+				    </select>
+	                </div>
+                  </li>
+                  <li class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5">评审指标内容及规则说明</div>
+	                <div class="col-md-12 col-sm-12 col-xs-12 p0">
+	                  <textarea  class="col-md-12 col-sm-12 col-xs-12 h80 mb10" name="reviewContent" id="reviewContent" >${scoreModel.reviewContent}</textarea>
+		            </div>
+                  </li>
+              </ul>
+            <div class="col-md-12 col-sm-12 col-xs-12">
 			<input id="projectId" name="projectId" type="hidden" value="${projectId }">
 			<input id="markTermId" name="markTermId" type="hidden" value="${markTermId }">
 			<c:if test="${addStatus != 1 }">
 				<input id="id" type="hidden" name="id" value="${scoreModel.id }">
 			</c:if>
 			<input type="hidden" id="num2" value="${fn:length(scoreModel.paramIntervalList)}">
-			<table class="table table-striped table-bordered table-hover mt20"  id="show_table">
+			<table class="table table-bordered mt20"  id="show_table">
 				<tbody>
 				</tbody>
 			</table>
-			<table id="model73" style="display: none;" class="table table-striped table-bordered table-hover mt20 w499">
+			<table id="model73" style="display: none;" class="table table-bordered mt20">
 				<thead>
 					<tr id="paramIntervalTr">
 						<!-- <th class="w30"><input type="checkbox">
@@ -679,6 +701,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			</div>
 		</form>
 	</div>
 	<div class="col-md-12" id="showbutton" style="display: none;">
@@ -695,34 +718,34 @@
 		</div>
 	</div>
 	<!-- 八大模型 -->
-	<table id="model1" style="display: none;" class="w499">
+	<table id="model1" style="display: none;" class="hand table">
 		<tbody>
 			<tr>
-				<td style="">标准分值</td>
-				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少">
+				<td class="info tl">标准分值</td>
+				<td><input name="standardScore" type="text" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少">
 					<br/>
 					<span class="blue">*该项的满分值为多少</span>
 				</td>
 			</tr>
 			<tr>
-				<td>判断内容</td>
+				<td class="info tl">判断内容</td>
 				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" onkeyup="gernerator();" name="judgeContent" id="judgeContent"  title="该项内容为判断的唯一依据">${scoreModel.judgeContent }</textarea>
 					<br/>
 					<span class="blue">*该项内容为判断的唯一依据</span>
 				</td>
 			</tr>
 			<tr>
-				<td>翻译成白话文内容</td>
+				<td class="info tl">翻译成白话文内容</td>
 				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent1" >${scoreModel.easyUnderstandContent }</textarea>
 				</td>
 			</tr>
 			<tr>
-				<td>当前模型标准解释</td>
+				<td class="info tl">当前模型标准解释</td>
 				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
 			</tr>
 		</tbody>
 	</table>
-	<table id="model21" style="display: none;" class="w499">
+	<table id="model21" style="display: none;" >
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>

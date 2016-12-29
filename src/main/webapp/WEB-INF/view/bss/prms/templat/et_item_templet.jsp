@@ -10,7 +10,7 @@
     	layer.open({
             type: 1,
             title: '添加评审项信息',
-            area: ['270', '260px'],
+            area: ['270px', '260px'],
             closeBtn: 1,
             shade:0.01, //遮罩透明度
             moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -116,18 +116,18 @@
         <div class="drop_window">
               <input type="hidden" name="id" id="userId" >
               <ul class="list-unstyled">
-                  <div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
-                    <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>输入新密码：</label> 
-                    <div class="col-md-7 col-xs-12 col-sm-12 p0">
-                        <input type="password" name="password" class="">
+                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                    <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>输入新密码：</label> 
+                    <div class="col-md-12 col-xs-12 col-sm-12 p0 input-append input_group">
+                        <input type="password" name="password">
                     </div>
-                  </div>
-                  <div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
-                    <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>确认新密码：</label> 
-                    <div class="col-md-7 col-xs-12 col-sm-12 p0">
-                      <input type="password" name="password2"  class="">
+                  </li>
+                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                    <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>确认新密码：</label> 
+                    <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                      <input type="password" name="password2">
                     </div>
-                  </div>
+                  </li>
               </ul>
               <div class="tc">
                 <input class="btn" id="inputb" name="addr" onclick="resetPasswSubmit();" value="确定" type="button"> 

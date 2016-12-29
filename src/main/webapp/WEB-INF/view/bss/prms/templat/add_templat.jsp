@@ -69,13 +69,29 @@
 </script>
 </head>
 <body>
+	<!--面包屑导航开始-->
+	<div class="margin-top-10 breadcrumbs ">
+		<div class="container">
+			<ul class="breadcrumb margin-left-0">
+				<li><a href="javascript:void(0)"> 首页</a>
+				</li>
+				<li><a href="javascript:void(0)">支撑系统</a>
+				</li>
+				<li><a href="javascript:void(0)">后台管理</a>
+				</li>
+				<li class="active"><a href="javascript:void(0)">评审模版管理</a>
+				</li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
 	<div class="container container_box">
 		<!-- 新增窗口 -->
 		<sf:form action="${pageContext.request.contextPath}/auditTemplat/add.html" method="post" id="form1" modelAttribute="firstAuditTemplat">
 			<h2 class="list_title">编辑模板</h2>
 			<ul class="ul_list">
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>模板名称</span>
+                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>初审项模板名称</span>
 					<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						<input class="input_group" type="text" id="name" maxlength="30" name="name" value="${templat.name}">
 						<span class="add-on">i</span>
@@ -83,7 +99,7 @@
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-					<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>模板类型</span>
+					<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><div class="star_red">*</div>模板类型</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
                     <select  name="kind">
                         <option value="">请选择</option>

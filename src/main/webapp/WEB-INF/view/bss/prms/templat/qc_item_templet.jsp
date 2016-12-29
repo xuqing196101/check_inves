@@ -235,13 +235,13 @@
               <ul class="list-unstyled">
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
                     <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</label>
-	                <span class="col-md-12 col-sm-12 col-xs-12 p0">
+	                <span class="col-md-12 col-sm-12 col-xs-12 p0 input_group input-append">
 	                   <input name="name" id="itemName" maxlength="30" type="text">
 	                </span>
                   </li>
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                     <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</label>
-	                <div class="col-md-12 col-sm-12 col-xs-12 p0">
+	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input_group input-append">
 	                   <input  name="position" id="itemPosition" maxlength="10" type="text">
 	                </div>
                  </li>
@@ -252,7 +252,7 @@
                    </span>
                  </li>
               </ul>
-              <div class="mt40 tc mb50">
+              <div class="mt10 tc col-md-12 col-sm-12 col-xs-12 ">
                 <input class="btn btn-windows save"  onclick="saveItem();" value="保存" type="button"> 
                 <input class="btn btn-windows back"  onclick="cancel();" value="取消" type="button"> 
               </div>

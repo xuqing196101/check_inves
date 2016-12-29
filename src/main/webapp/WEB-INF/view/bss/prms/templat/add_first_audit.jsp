@@ -12,12 +12,12 @@ function cancel(){
 function openWindow(){
 	index = layer.open({
           type: 1, //page层
-          area: ['380px','310px'],
+          area: ['50%','310px'],
           title: '新增初审项',
           shade:0.01, //遮罩透明度
           moveType: 1, //拖拽风格，0是默认，1是传统拖动
           shift: 1, //0-6的动画形式，-1不开启
-          offset: ['220px', '750px'],
+          offset: ['110px', '25%'],
           shadeClose: true,
           content:$('#openWindow') //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 	 });
@@ -45,7 +45,7 @@ function edit(id){
 	        shade:0.01, //遮罩透明度
 	        moveType: 1, //拖拽风格，0是默认，1是传统拖动
 	        shift: 1, //0-6的动画形式，-1不开启
-	        offset: ['220px', '250px'],
+	        offset: ['110px', '20%'],
 	        closeBtn: 1,
 	        content:'${pageContext.request.contextPath}/auditTemplat/toEditFirstAudit.html?id='+id
 	      		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
@@ -139,7 +139,7 @@ function selectAll(){
    </div>
    <!-- 新增窗口 -->
    <div class="container">
-       <div class="tab-content">
+       <div class="tab-content mt20">
           <div class="tab-v2">
             <ul class="nav nav-tabs bgwhite">
               <li class="active"><a href="#dep_tab-0" data-toggle="tab" class="f18">模板信息</a></li>
@@ -150,10 +150,10 @@ function selectAll(){
                     <table class="table table-bordered">
 		                 <tbody>
 		                    <tr>
-			                  <td class="bggrey">初审项模板名称:</td>
-			                  <td>${templat.name }</td>
-			                  <td class="bggrey ">初审项模板类型:</td>
-			                  <td>${templat.kind}</td>
+			                  <td class="bggrey" width="20%">初审项模板名称:</td>
+			                  <td width="30%">${templat.name }</td>
+			                  <td class="bggrey " width="20%">初审项模板类型:</td>
+			                  <td width="30%">${templat.kind}</td>
 		                    </tr>
 		                    <tr>
                               <td class="bggrey">创建人:</td>
@@ -164,12 +164,12 @@ function selectAll(){
 		                 </tbody>
 		            </table>
 		            <h2 class="count_flow jbxx">初审项信息</h2>
-		            <div class="col-md-12 pl20 mt10">
+		            <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
 					      <input type="button" value="添加初审项" onclick="openWindow();" class="btn btn-windows add"/>
 						  <input type="button" value="修改" class="btn btn-windows edit" onclick="edit();">
 						  <input type="button" value="删除" class="btn btn-windows delete" onclick="remove();">
 				    </div>
-				    <div class="content table_box">
+				    <div class="content table_box pl0">
                         <table class="table table-bordered table-condensed table-hover table-striped">
                              <thead>
 							      <tr>
@@ -195,7 +195,7 @@ function selectAll(){
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 tc">
+            <div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
             <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
             </div>
           </div>
@@ -206,23 +206,23 @@ function selectAll(){
     <div class="drop_window">
         <form action="${pageContext.request.contextPath}/auditTemplat/saveFirstAudit.html" method="post" id="form1">
               <ul class="list-unstyled">
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">初审项名称</label>
-                  <span class="col-md-12">
+                <li class="col-md-6 col-sm-6 col-xs-6 pl15">
+                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初审项名称</span>
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0 input_group input-append">
                     <input type="text" id="name" maxlength="30" name="name" >
-                  </span>
+                  </div>
                 </li>
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">要求类型</label>
-                  <span class="col-md-12">
+                <li class="col-md-6 col-sm-6 col-xs-6">
+                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">要求类型</span>
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append">
                     <input type="radio" name="kind" value="符合性" >符合性&nbsp;<input type="radio" name="kind" id="kind" value="资格性" >资格性
                     <input name="creater" readonly="readonly" id="creater" maxlength="10" type="hidden" value="${sessionScope.loginUser.relName}">
                     <input type="hidden" name="templatId" value="${templat.id }">
-                  </span>
+                  </div>
                 </li>
                 <div class="clear"></div>
                </ul>
-               <div class="tc mt10 col-md-12">
+               <div class="tc mt10 col-md-12 col-sm-12 col-xs-12">
                 <input type="button"  value="添加 " onclick="submit1();"   class="btn btn-windows add"/>
                 <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
               </div>
