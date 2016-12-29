@@ -216,6 +216,16 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("ERR_content", "信息正文不能为空");
     }
     
+    if(article.getSecondArticleTypeId()!=null){
+    	if(article.getSecondArticleTypeId().equals("111")){
+    		List<UploadFile> gzdt= uploadService.findBybusinessId(id,Constant.FORUM_SYS_KEY);
+    		if(gzdt.size()<1){
+    			flag = false;
+    			model.addAttribute("ERR_auditPic", "请上传图片!");
+    		}
+    	}
+    }
+    
     List<UploadFile> auditDoc = uploadService.findBybusinessId(id,Constant.EXPERT_SYS_KEY);
 	if(auditDoc.size()<1){
 		flag = false;
@@ -458,6 +468,24 @@ public class ArticleController extends BaseSupplierController{
         model.addAttribute("list", list);
         return "iss/ps/article/edit";
       }
+    }
+    
+    if(article.getSecondArticleTypeId()!=null){
+    	if(article.getSecondArticleTypeId().equals("111")){
+    		List<UploadFile> gzdt= uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+    		if(gzdt.size()<1){
+    			model.addAttribute("ERR_auditPic", "请上传图片!");
+    			model.addAttribute("article.id", article.getId());
+    	        model.addAttribute("article.name", name);
+    	        Article artc = articleService.selectArticleById(article.getId());
+    	        List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+    	        artc.setArticleAttachments(articleAttaList);
+    	        model.addAttribute("article",article);
+    	        List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+    	        model.addAttribute("list", list);
+    	        return "iss/ps/article/edit";
+    		}
+    	}
     }
     
     List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.EXPERT_SYS_KEY);
@@ -923,6 +951,24 @@ public class ArticleController extends BaseSupplierController{
         model.addAttribute("list", list);
         return "iss/ps/article/audit/edit";
       }
+    }
+    
+    if(article.getSecondArticleTypeId()!=null){
+    	if(article.getSecondArticleTypeId().equals("111")){
+    		List<UploadFile> gzdt= uploadService.findBybusinessId(article.getId(),Constant.FORUM_SYS_KEY);
+    		if(gzdt.size()<1){
+    			model.addAttribute("ERR_auditPic", "请上传图片!");
+    			model.addAttribute("article.id", article.getId());
+    	        model.addAttribute("article.name", name);
+    	        Article artc = articleService.selectArticleById(article.getId());
+    	        List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+    	        artc.setArticleAttachments(articleAttaList);
+    	        model.addAttribute("article",article);
+    	        List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+    	        model.addAttribute("list", list);
+    	        return "iss/ps/article/edit";
+    		}
+    	}
     }
     
     List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.EXPERT_SYS_KEY);
