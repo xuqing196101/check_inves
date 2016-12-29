@@ -180,9 +180,9 @@
                     <tr>
                         <td class="w260">
                             <c:if test="${i.kind == d.id}">
-                                ${i.name}
-	                             <a href="javascript:void(0);" title="编辑" onclick="editItem('${i.id}');"><img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png"></a>
-	                             <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')"><img src="${pageContext.request.contextPath}/public/backend/images/sc.png"></a>
+                                 <span class="fl">${i.name}</span>
+	                             <a href="javascript:void(0);" title="编辑" onclick="editItem('${i.id}');" class="item_size editItem"></a>
+	                             <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')" class="item_size deleteItem"></a>
                             </c:if>
                         </td>
                         <td>
@@ -206,9 +206,9 @@
                     <tr>
                         <td class="w260">
                             <c:if test="${i.kind == d.id}">
-                                ${i.name}
-                                 <a href="javascript:void(0);" title="编辑" onclick="editItem('${i.id}');"><img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png"></a>
-                                 <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')"><img src="${pageContext.request.contextPath}/public/backend/images/sc.png"></a>
+                                 <span class="fl">${i.name}</span>
+                                 <a href="javascript:void(0);" title="编辑" onclick="editItem('${i.id}');" class="item_size editItem"></a>
+                                 <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')" class="item_size deleteItem"></a>
                             </c:if>
                         </td>
                         <td>
