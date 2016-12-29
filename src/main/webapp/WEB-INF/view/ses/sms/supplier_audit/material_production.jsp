@@ -24,12 +24,12 @@
 				  $(this).parent("tr").find("td").eq(6).find("a").hide();
 				  });
 				  
-				  /* $(":input").each(function() {
-				    var onMouseMove = "this.style.border='solid 1px #FF0000'";
-				    var onmouseout = "this.style.border='solid 1px #D3D3D3'";
+				   $(":input").each(function() {
+				    var onMouseMove = "this.style.background='#E8E8E8'";
+				    var onmouseout = "this.style.background='#FFFFFF'";
 				     $(this).attr("onMouseMove",onMouseMove);
 				     $(this).attr("onmouseout",onmouseout);
-				  }); */
+				  });
 				});
 
         function reason(id){

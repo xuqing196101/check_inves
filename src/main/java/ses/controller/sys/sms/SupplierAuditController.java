@@ -1333,11 +1333,22 @@ public class SupplierAuditController extends BaseSupplierController{
 	 */
 	@RequestMapping(value = "contract")
 	public String contract(Model model, String supplierId) {
-		List<SupplierTypeRelate> supplierTypeIds= supplierTypeRelateService.queryBySupplier(supplierId);
+		List<SupplierTypeRelate> typeIds= supplierTypeRelateService.queryBySupplier(supplierId);
+
+		String supplierTypeIds = "";
+		for(SupplierTypeRelate s : typeIds){
+			supplierTypeIds = s.getSupplierTypeId()+ ",";
+		}
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		model.addAttribute("supplierTypeNames", supplierTypeName);
 		List<ContractBean> contract = new LinkedList<ContractBean>();
+		 
+		 List<ContractBean> saleBean=new LinkedList<ContractBean>();
+		 
+		 List<ContractBean> projectBean=new LinkedList<ContractBean>();
+		 List<ContractBean> serverBean=new LinkedList<ContractBean>();
+		 
 		 //合同
 		 String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
 		 String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
@@ -1349,47 +1360,213 @@ public class SupplierAuditController extends BaseSupplierController{
 		 int count=0;
 		 StringBuffer sbUp=new StringBuffer("");
 		 StringBuffer sbShow=new StringBuffer("");
-		 String type = null;
-		 List<Category> list = supplierItemService.getCategory(supplierId, type);
-		 for(Category ca:list){
+		 String[] strs = supplierTypeIds.split(",");
+		 List<Category> product=new ArrayList<Category>();
+		 List<Category> sale=new ArrayList<Category>();
+		 List<Category> project=new ArrayList<Category>();
+		 List<Category> server=new ArrayList<Category>();
+		  for(String type:strs){
+			  if(type.equals("PRODUCT")){
+				  List<Category> list = supplierItemService.getCategory(supplierId,"PRODUCT");
+				  product.addAll(list);
+			  }
+			  if(type.equals("SALES")){
+				  List<Category> list = supplierItemService.getCategory(supplierId,"SALES");
+				  sale.addAll(list);
+			  }
+			  if(type.equals("PROJECT")){
+				  List<Category> list = supplierItemService.getCategory(supplierId,"PROJECT");
+				  project.addAll(list);
+			  }
+			  if(type.equals("SERVICE")){
+				  List<Category> list = supplierItemService.getCategory(supplierId,"SERVICE");
+				  server.addAll(list);
+			  }
+		  }
+		
+		 for(Category ca:product){
 			 ContractBean con=new ContractBean();
 			 con.setId(ca.getId());
 			 con.setName(ca.getName());
+			 
 			 
 			 sbUp.append("pUp"+count+",");
 			 sbShow.append("pShow"+count+",");
 			 con.setOneContract(id1);
 			 count++;
 			 
+			 
 			 sbUp.append("pUp"+count+",");
 			 sbShow.append("pShow"+count+",");
 			 con.setTwoContract(id2);
 			 count++;
+			 
 			 
 			 sbUp.append("pUp"+count+",");
 			 sbShow.append("pShow"+count+",");
 			 con.setThreeContract(id3);
 			 count++;
 			 
+			 
 			 sbUp.append("pUp"+count+",");
 			 sbShow.append("pShow"+count+",");
 			 con.setOneBil(id4);
 			 count++;
+			 
 			 
 			 sbUp.append("pUp"+count+",");
 			 sbShow.append("pShow"+count+",");
 			 con.setTwoBil(id5);
 			 count++;
 			 
+			 
 			 sbUp.append("pUp"+count+",");
 			 sbShow.append("pShow"+count+",");
 			 con.setTwoBil(id6);
 			 count++;
-			   
-			 sbUp.append("pUp"+count+",");
-			 sbShow.append("pShow"+count+",");
+	 
 			 contract.add(con);
 		 }
+		 
+		 int sales=0;
+		 for(Category ca:sale){
+			 ContractBean con=new ContractBean();
+			 con.setId(ca.getId());
+			 con.setName(ca.getName());
+			 
+			 
+			 sbUp.append("saleUp"+sales+",");
+			 sbShow.append("saleShow"+sales+",");
+			 con.setOneContract(id1);
+			 sales++;
+			 
+			 
+			 sbUp.append("saleUp"+sales+",");
+			 sbShow.append("saleShow"+sales+",");
+			 con.setTwoContract(id2);
+			 sales++;
+			 
+			 
+			 sbUp.append("saleUp"+sales+",");
+			 sbShow.append("saleShow"+sales+",");
+			 con.setThreeContract(id3);
+			 sales++;
+			 
+			 
+			 sbUp.append("saleUp"+sales+",");
+			 sbShow.append("saleShow"+sales+",");
+			 con.setOneBil(id4);
+			 sales++;
+			 
+			 
+			 sbUp.append("saleUp"+sales+",");
+			 sbShow.append("saleShow"+sales+",");
+			 con.setTwoBil(id5);
+			 sales++;
+			 
+			 
+			 sbUp.append("saleUp"+sales+",");
+			 sbShow.append("saleShow"+sales+",");
+			 con.setTwoBil(id6);
+			 sales++;
+	 
+			 saleBean.add(con);
+		 }
+		 
+		 int projects=0;
+		 for(Category ca:project){
+			 ContractBean con=new ContractBean();
+			 con.setId(ca.getId());
+			 con.setName(ca.getName());
+			 
+			 
+			 sbUp.append("projectUp"+projects+",");
+			 sbShow.append("projectShow"+projects+",");
+			 con.setOneContract(id1);
+			 projects++;
+			 
+			 
+			 sbUp.append("projectUp"+projects+",");
+			 sbShow.append("projectShow"+projects+",");
+			 con.setTwoContract(id2);
+			 projects++;
+			 
+			 
+			 sbUp.append("projectUp"+projects+",");
+			 sbShow.append("projectShow"+projects+",");
+			 con.setThreeContract(id3);
+			 projects++;
+			 
+			 
+			 sbUp.append("projectUp"+projects+",");
+			 sbShow.append("projectShow"+projects+",");
+			 con.setOneBil(id4);
+			 projects++;
+			 
+			 
+			 sbUp.append("projectUp"+projects+",");
+			 sbShow.append("projectShow"+projects+",");
+			 con.setTwoBil(id5);
+			 projects++;
+			 
+			 
+			 sbUp.append("projectUp"+projects+",");
+			 sbShow.append("projectShow"+projects+",");
+			 con.setTwoBil(id6);
+			 projects++;
+	 
+			 projectBean.add(con);
+		 }
+		 
+		 int servers=0;
+		 for(Category ca:server){
+			 ContractBean con=new ContractBean();
+			 con.setId(ca.getId());
+			 con.setName(ca.getName());
+			 
+			 
+			 sbUp.append("serUp"+servers+",");
+			 sbShow.append("serpShow"+servers+",");
+			 con.setOneContract(id1);
+			 servers++;
+			 
+			 
+			 sbUp.append("serUp"+servers+",");
+			 sbShow.append("serpShow"+servers+",");
+			 con.setTwoContract(id2);
+			 servers++;
+			 
+			 
+			 sbUp.append("serUp"+servers+",");
+			 sbShow.append("serpShow"+servers+",");
+			 con.setThreeContract(id3);
+			 servers++;
+			 
+			 
+			 sbUp.append("serUp"+servers+",");
+			 sbShow.append("serpShow"+servers+",");
+			 con.setOneBil(id4);
+			 servers++;
+			 
+			 
+			 sbUp.append("serUp"+servers+",");
+			 sbShow.append("serpShow"+servers+",");
+			 con.setTwoBil(id5);
+			 servers++;
+			 
+			 
+			 sbUp.append("serUp"+servers+",");
+			 sbShow.append("serpShow"+servers+",");
+			 con.setTwoBil(id6);
+			 servers++;
+	 
+			 serverBean.add(con);
+		 }
+		 
+		 
+		 model.addAttribute("serverBean", serverBean);
+		 model.addAttribute("projectBean", projectBean);
+		 model.addAttribute("saleBean", saleBean); 
 		 model.addAttribute("contract", contract);	
 		 model.addAttribute("sbUp", sbUp);
 		 model.addAttribute("sbShow", sbShow);

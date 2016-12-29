@@ -53,7 +53,7 @@
 					$(this).find("p").hide();
 				});
 			});
-		
+
 			function reason(auditField, auditFieldName) {
 				var supplierId = $("#supplierId").val();
 				var index = layer.prompt({
@@ -65,7 +65,14 @@
 						$.ajax({
 							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 							type: "post",
-						  data: {"auditType":"contract_page","auditFieldName":auditFieldName,"auditContent":"附件信息","suggest":text,"supplierId":supplierId,"auditField":auditField},
+							data: {
+								"auditType": "contract_page",
+								"auditFieldName": auditFieldName,
+								"auditContent": "附件信息",
+								"suggest": text,
+								"supplierId": supplierId,
+								"auditField": auditField
+							},
 							dataType: "json",
 							success: function(result) {
 								result = eval("(" + result + ")");
@@ -77,24 +84,24 @@
 								}
 							}
 						});
-							$("#" + auditField + "_hidden").hide();
-							$("#" + auditField + "_show").show();
+						$("#" + auditField + "_hidden").hide();
+						$("#" + auditField + "_show").show();
 						layer.close(index);
 					});
 			}
-		
+
 			//下一步
-			function nextStep(){
-			  var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
-			  $("#form_id").attr("action",action);
-			  $("#form_id").submit();
+			function nextStep() {
+				var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
 			}
-		
+
 			//上一步
-			function lastStep(){
-			  var action = "${pageContext.request.contextPath}/supplierAudit/items.html";
-			  $("#form_id").attr("action",action);
-			  $("#form_id").submit();
+			function lastStep() {
+				var action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
 			}
 		</script>
 	</head>
@@ -131,88 +138,262 @@
 						</li>
 						<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 							<li onclick="jump('materialProduction')">
-								<a aria-expanded="false" href="#tab-4">生产信息</a>
+								<a aria-expanded="false">生产信息</a>
 							</li>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '销售')}">
 							<li onclick="jump('materialSales')">
-								<a aria-expanded="false" href="#tab-4">销售信息</a>
+								<a aria-expanded="false">销售信息</a>
 							</li>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 							<li onclick="jump('engineering')">
-								<a aria-expanded="false" href="#tab-4">工程信息</a>
+								<a aria-expanded="false">工程信息</a>
 							</li>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 							<li onclick="jump('serviceInformation')">
-								<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务信息</a>
+								<a aria-expanded="false" data-toggle="tab">服务信息</a>
 							</li>
 						</c:if>
 						<li onclick="jump('items')">
-							<a aria-expanded="false" href="#tab-4">品目信息</a>
+							<a aria-expanded="false">品目信息</a>
 						</li>
 						<li onclick="jump('contract')" class="active">
-							<a aria-expanded="false" href="#tab-4">品目合同</a>
+							<a aria-expanded="false">品目合同</a>
 						</li>
 						<li onclick="jump('applicationForm')">
-							<a aria-expanded="false" href="#tab-4">申请表</a>
+							<a aria-expanded="false">申请表</a>
 						</li>
 						<li onclick="jump('reasonsList')">
-							<a aria-expanded="false" href="#tab-4">审核汇总</a>
+							<a aria-expanded="false">审核汇总</a>
 						</li>
 					</ul>
 					<ul class="count_flow ul_list hand">
-						<table class="table table-bordered  table-condensed table-hover">
-							<tr>
-								<td class="tc info"> 品目名称</td>
-								<td colspan="3" class="tc info">合同上传</td>
-								<td colspan="3" class="tc info">收款进账单</td>
-								<td class="tc info" rowspan="2">操作</td>
-							</tr>
-							<tr>
-								<td class="tc info"> 末级节点</td>
-								<c:forEach items="${years}" var="year">
-									<td class="tc info">${year}</td>
-								</c:forEach>
-								<c:forEach items="${years}" var="year">
-									<td class="tc info">${year}</td>
-								</c:forEach>
-							</tr>
-							<c:forEach items="${contract}" var="obj">
-								<tr>
-									<td class="tc">${obj.name }</td>
-									<td class="">
-										<u:show showId="pShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
-									</td>
-									<td class="">
-										<u:show showId="pShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
-									</td>
-									<td class="">
-										<u:show showId="pShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
-									</td>
-									<td class="">
-										<u:show showId="pShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
-									</td>
-									<td class="">
-										<u:show showId="pShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
-									</td>
-									<td class="">
-										<u:show showId="pShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
-									</td>
-									<td class="tc w50">
-											<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="btn">审核</a>
-											<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
-								  </td>
-								</tr>
-							</c:forEach>
-						</table>
+						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
+								<li id="li_id_1" class="active">
+									<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a>
+								</li>
+							</c:if>
+							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
+								<li id="li_id_2" class="">
+									<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型品目信息</a>
+								</li>
+							</c:if>
+							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+								<li id="li_id_3" class="">
+									<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a>
+								</li>
+							</c:if>
+							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+								<li id="li_id_4" class="">
+									<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务品目信息</a>
+								</li>
+							</c:if>
+						</ul>
+						<div class="count_flow">
+							<div class="tab-content padding-top-20" id="tab_content_div_id">
+								<c:if test="${fn:contains(supplierTypeNames, '生产')}">
+									<div class="tab-pane fade active in height-300" id="tab-1">
+										<table class="table table-bordered">
+											<tr>
+												<td class="tc info"> 品目名称</td>
+												<td colspan="3" class="tc info">合同上传</td>
+												<td colspan="3" class="tc info">收款进账单</td>
+												<td class="tc info" rowspan="2">操作</td>
+											</tr>
+											<tr>
+												<td class="tc info"> 末级节点</td>
+												<c:forEach items="${years}" var="year">
+													<td class="tc info">${year}</td>
+												</c:forEach>
+												<c:forEach items="${years}" var="year">
+													<td class="tc info">${year}</td>
+												</c:forEach>
+											</tr>
+											<c:forEach items="${contract}" var="obj">
+												<tr>
+													<td class="tc">${obj.name }</td>
+													<td class="">
+														<u:show showId="pShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+													</td>
+													<td class="">
+														<u:show showId="pShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+													</td>
+													<td class="">
+														<u:show showId="pShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
+													</td>
+													<td class="">
+														<u:show showId="pShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+													</td>
+													<td class="">
+														<u:show showId="pShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+													</td>
+													<td class="">
+														<u:show showId="pShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+													</td>
+													<td class="tc w50">
+														<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="btn">审核</a>
+														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+													</td>
+												</tr>
+											</c:forEach>
+										</table>
+									</div>
+								</c:if>
+								<c:if test="${fn:contains(supplierTypeNames, '销售')}">
+									<div class="tab-pane fade height-300" id="tab-2">
+										<table class="table table-bordered">
+											<tr>
+												<td class="tc info"> 品目名称</td>
+												<td colspan="3" class="tc info">合同上传</td>
+												<td colspan="3" class="tc info">收款进账单</td>
+												<td class="tc info" rowspan="2">操作</td>
+											</tr>
+											<tr>
+												<td class="tc info"> 末级节点</td>
+												<c:forEach items="${years}" var="year">
+													<td class="tc info">${year}</td>
+												</c:forEach>
+												<c:forEach items="${years}" var="year">
+													<td class="tc info">${year}</td>
+												</c:forEach>
+											</tr>
+											<c:forEach items="${saleBean}" var="obj">
+												<tr>
+													<td class="tc">${obj.name }</td>
+													<td class="">
+														<u:show showId="saleShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+													</td>
+													<td class="">
+														<u:show showId="saleShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+													</td>
+													<td class="">
+														<u:show showId="saleShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
+													</td>
+													<td class="">
+														<u:show showId="saleShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+													</td>
+													<td class="">
+														<u:show showId="saleShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+													</td>
+													<td class="">
+														<u:show showId="saleShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+													</td>
+													<td class="tc w50">
+														<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="btn">审核</a>
+														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+													</td>
+												</tr>
+											</c:forEach>
+										</table>
+									</div>
+								</c:if>
+								<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+									<div class="tab-pane fade height-200" id="tab-3">
+										<table class="table table-bordered">
+											<tr>
+												<td class="tc info"> 品目名称</td>
+												<td colspan="3" class="tc info">合同上传</td>
+												<td colspan="3" class="tc info">收款进账单</td>
+												<td class="tc info" rowspan="2">操作</td>
+											</tr>
+											<tr>
+												<td class="tc info"> 末级节点</td>
+												<c:forEach items="${years}" var="year">
+													<td class="tc info">${year}</td>
+												</c:forEach>
+												<c:forEach items="${years}" var="year">
+													<td class="tc info">${year}</td>
+												</c:forEach>
+											</tr>
+											<c:forEach items="${saleBean}" var="obj">
+												<tr>
+													<td class="tc">${obj.name }</td>
+													<td class="">
+														<u:show showId="projectShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+													</td>
+													<td class="">
+														<u:show showId="projectShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+													</td>
+													<td class="">
+														<u:show showId="projectShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
+													</td>
+													<td class="">
+														<u:show showId="projectShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+													</td>
+													<td class="">
+														<u:show showId="projectShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+													</td>
+													<td class="">
+														<u:show showId="projectShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+													</td>
+													<td class="tc w50">
+														<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="btn">审核</a>
+														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+													</td>
+												</tr>
+											</c:forEach>
+										</table>
+									</div>
+								</c:if>
+								<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+									<div class="tab-pane fade height-200" id="tab-4">
+										<table class="table table-bordered">
+											<tr>
+												<td class="tc info"> 品目名称</td>
+												<td colspan="3" class="tc info">合同上传</td>
+												<td colspan="3" class="tc info">收款进账单</td>
+												<td class="tc info" rowspan="2">操作</td>
+											</tr>
+											<tr>
+												<td class="tc info"> 末级节点</td>
+												<c:forEach items="${years}" var="year">
+													<td class="tc info">${year}</td>
+												</c:forEach>
+												<c:forEach items="${years}" var="year">
+													<td class="tc info">${year}</td>
+												</c:forEach>
+											</tr>
+											<c:forEach items="${saleBean}" var="obj">
+												<tr>
+													<td class="tc">${obj.name }</td>
+													<td class="">
+														<u:show showId="serpShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+													</td>
+													<td class="">
+														<u:show showId="serpShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+													</td>
+													<td class="">
+														<u:show showId="serpShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
+													</td>
+													<td class="">
+														<u:show showId="serpShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+													</td>
+													<td class="">
+														<u:show showId="serpShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+													</td>
+													<td class="">
+														<u:show showId="serpShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+													</td>
+													<td class="tc w50">
+														<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="btn">审核</a>
+														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+													</td>
+												</tr>
+											</c:forEach>
+										</table>
+									</div>
+								</c:if>
+							</div>
+						</div>
 					</ul>
 				</div>
 				<div class="col-md-12 add_regist tc">
-          <a class="btn"  type="button" onclick="lastStep();">上一步</a>
-          <a class="btn"  type="button" onclick="nextStep();">下一步</a>
-	     </div>
+					<a class="btn" type="button" onclick="lastStep();">上一步</a>
+					<a class="btn" type="button" onclick="nextStep();">下一步</a>
+				</div>
 			</div>
 		</div>
 		<form id="form_id" action="" method="post">

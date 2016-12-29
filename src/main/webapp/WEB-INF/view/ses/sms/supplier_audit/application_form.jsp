@@ -12,9 +12,9 @@
 		    });
 		    
 		    $("li").find("span").each(function() {
-		      var onmouseover = "this.style.border='solid 1px #FF0000'";
-		      var onmouseout = "this.style.border='solid 1px #FFFFFF'";
-		       $(this).attr("onmouseover",onmouseover);
+		      	var onMouseMove = "this.style.background='#E8E8E8'";
+						var onmouseout = "this.style.background='#FFFFFF'";
+		       $(this).attr("onMouseMove",onMouseMove);
 		       $(this).attr("onmouseout",onmouseout);
 		    });
 		  });

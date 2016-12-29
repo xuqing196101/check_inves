@@ -32,13 +32,13 @@
 
 			//隐藏叉 
 			$(function() {
-				/* $(":input").each(function() {
+				 $(":input").each(function() {
 					$(this).parent("div").find("div").hide();
-					var onMouseMove = "this.style.border='solid 1px #FF0000'";
-					var onmouseout = "this.style.border='solid 1px #D3D3D3'";
+					var onMouseMove = "this.style.background='#E8E8E8'";
+					var onmouseout = "this.style.background='#FFFFFF'";
 					$(this).attr("onMouseMove", onMouseMove);
 					$(this).attr("onmouseout", onmouseout);
-				}); */
+				});
 
 				$("li").each(function() {
 					$(this).find("p").hide();
@@ -374,7 +374,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-				   		<span class="hand" onclick="reason1(this,'supplierBank');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'">基本账户开户许可证：</span> 
+				   		<span class="hand" onclick="reason1(this,'supplierBank');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">基本账户开户许可证：</span> 
 				      <u:show showId="bank_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
 							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
@@ -427,19 +427,19 @@
 
 					<h2 class="count_flow"><i>3</i>资质资信</h2>
 					<ul class="ul_list hand">
-						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="hand" onclick="reason1(this,'taxCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'">近三个月完税凭证：</span>
+						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="hand" onclick="reason1(this,'taxCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三个月完税凭证：</span>
 							<u:show showId="taxcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
 							<p><img src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'billCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'">近三年银行基本账户年末对账单：</span>
+						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'billCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年银行基本账户年末对账单：</span>
 							<u:show showId="billcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
 							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'securityCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'">近三个月缴纳社会保险金凭证：</span>
+						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'securityCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三个月缴纳社会保险金凭证：</span>
 							<u:show showId="curitycert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
 							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'">近三年内无重大违法记录声明：</span>
+						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年内无重大违法记录声明：</span>
 							<u:show showId="bearchcert_show" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
@@ -472,16 +472,16 @@
 							</div>
 						</li>
 						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" onclick="reason1(this,'supplierIdentityUp');">身份证正面: </span>
+							<span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');">身份证正面: </span>
 							<u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
 							<p class="b f18 ml10 red">×</p>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" onclick="reason1(this,'supplierIdentitydown');">身份证反面: </span>
+							<span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentitydown');">身份证反面: </span>
 							<u:show showId="identity_down_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
 							<p class="b f18 ml10 red">×</p>
 						</li> --%>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" onclick="reason1(this,'supplierIdentityUp');"> 身份证复印件（正反面）:</span>
+						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');"> 身份证复印件（正反面）:</span>
 					    <u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
            		<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
            	</li>
@@ -625,7 +625,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" onclick="reason1(this,'businessCert');">营业执照：</span>
+							<span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'businessCert');">营业执照：</span>
 							<%-- <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <c:if test="${suppliers.businessCert != null }">
                   <a class="span5 green" onclick="downloadFile('${suppliers.businessCert}')">下载附件</a>

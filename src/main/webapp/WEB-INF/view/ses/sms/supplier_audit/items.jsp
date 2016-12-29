@@ -514,7 +514,7 @@
 					</ul>
 					<ul class="count_flow ul_list">
 						<div class="tab-v2">
-							<ul id="page_ul_id" class="nav nav-tabs bgwhite">
+							<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 									<li id="li_id_1" class="active" onclick="loadTab('PRODUCT','tree_ul_id_1',1);">
 										<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a>
@@ -549,7 +549,7 @@
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class="lr0_tbauto w200" onclick="reason(this.id,'item_pro_page')">
-										<ul id="tree_ul_id_1" class="ztree mt30"></ul>
+										<ul id="tree_ul_id_1" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 							</c:if>
@@ -557,7 +557,7 @@
 								<!-- 物资销售型 -->
 								<div class="tab-pane fade height-300" id="tab-2">
 									<div class="lr0_tbauto w200">
-										<ul id="tree_ul_id_2" class="ztree mt30"></ul>
+										<ul id="tree_ul_id_2" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 							</c:if>
@@ -565,7 +565,7 @@
 								<!-- 服务 -->
 								<div class="tab-pane fade height-200" id="tab-3">
 									<div class="lr0_tbauto w200">
-										<ul id="tree_ul_id_3" class="ztree mt30"></ul>
+										<ul id="tree_ul_id_3" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 							</c:if>
@@ -573,7 +573,7 @@
 								<!-- 生产 -->
 								<div class="tab-pane fade height-200" id="tab-4">
 									<div class="lr0_tbauto w200">
-										<ul id="tree_ul_id_4" class="ztree mt30"></ul>
+										<ul id="tree_ul_id_4" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 							</c:if>
