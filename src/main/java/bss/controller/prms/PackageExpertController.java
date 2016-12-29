@@ -47,7 +47,6 @@ import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.ppms.BidMethod;
-import bss.model.ppms.FlowExecute;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Money;
 import bss.model.ppms.Packages;
