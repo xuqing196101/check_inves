@@ -109,9 +109,9 @@ function reset(){
 	        <label class="fl">采购管理部门名称：</label>
 	        <span><input type="text" name="name" id="name" value="${orgnization.name}"></span>
 	      </li>
-	      <button class="btn" onclick="submit()" type="button">查询</button>
-          <button class="btn" onclick="reset()" type="button"> 重置</button>
 	    </ul>
+	        <button class="btn fl" onclick="submit()" type="button">查询</button>
+          <button class="btn fl" onclick="reset()" type="button"> 重置</button>
 	    <div class="clear"></div>
 	  </form>
 	</h2>
