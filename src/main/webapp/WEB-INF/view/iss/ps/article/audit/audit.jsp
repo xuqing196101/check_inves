@@ -82,7 +82,6 @@
             var typeId = $("#articleTypes").select2("data").text;
             if(typeId == "工作动态") {
             	$("#second").show();
-              $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
             } else if(typeId == "采购公告") {
               $("#second").show();
               $("#three").show();
@@ -128,6 +127,10 @@
             }
             $("#secondType").select2();
             $("#secondType").select2("val", "${article.secondArticleTypeId }");
+            var TtypeId = $("#secondType").select2("data").text;
+            if(TtypeId == "图片新闻"){
+                $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
+            }
           }
         });
 

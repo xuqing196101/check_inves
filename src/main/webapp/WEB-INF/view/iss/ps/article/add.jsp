@@ -34,18 +34,16 @@
         $("#fourType").empty();
         $("#fourType").select2("val", "");
         if(typeId == "工作动态") {
-          $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
+          $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
           $("#second").show();
           $("#three").hide();
           $("#four").hide();
-          $("#tpsc").addClass("tphide");
           $("#lmsx").addClass("tphide");
           getSencond(parentId);
         }else if(typeId == "采购公告"){
             $("#second").show();
             $("#three").show();
             $("#four").show();
-            $("#tpsc").addClass("tphide");
             $("#lmsx").removeClass("tphide");
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
@@ -53,7 +51,6 @@
              $("#second").show();
              $("#three").show();
              $("#four").show();
-             $("#tpsc").addClass("tphide");
              $("#lmsx").removeClass("tphide");
              $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
              getSencond(parentId);
@@ -61,7 +58,6 @@
              $("#second").show();
              $("#three").show();
              $("#four").hide();
-             $("#tpsc").addClass("tphide");
              $("#lmsx").removeClass("tphide");
              $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
              getSencond(parentId);
@@ -69,7 +65,6 @@
         	  $("#second").show();
         	  $("#three").hide();
             $("#four").hide();
-            $("#tpsc").addClass("tphide");
             $("#lmsx").removeClass("tphide");
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
         	  getSencond(parentId);
@@ -77,7 +72,6 @@
             $("#second").show();
             $("#three").hide();
             $("#four").hide();
-            $("#tpsc").addClass("tphide");
             $("#lmsx").removeClass("tphide");
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
@@ -85,7 +79,6 @@
             $("#second").show();
             $("#three").hide();
             $("#four").hide();
-            $("#tpsc").addClass("tphide");
             $("#lmsx").removeClass("tphide");
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
@@ -94,7 +87,6 @@
           $("#second").hide();
           $("#three").hide();
           $("#four").hide();
-          $("#tpsc").addClass("tphide");
           $("#lmsx").removeClass("tphide");
           $("#secondType").empty();
           $("#threeType").empty();
@@ -109,9 +101,7 @@
     	  var parentId = $("#secondType").select2("val");
     	  var TtypeId = $("#secondType").select2("data").text;
         if(TtypeId == "图片新闻"){
-            $("#tpsc").removeClass("tphide");
-        }else{
-        	$("#tpsc").addClass("tphide");
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
         }
     	  $.ajax({
               contentType: "application/json;charset=UTF-8",
@@ -205,7 +195,6 @@
                $("#articleTypes").select2("val", "${article.articleType.id }");
                var typeId = $("#articleTypes").select2("data").text;
                if(typeId == "工作动态") {
-                 $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
                  $("#second").show();
                }else if(typeId == "采购公告"){
                    $("#second").show();
@@ -254,9 +243,7 @@
                  $("#secondType").select2("val", "${article.secondArticleTypeId }");
                  var TtypeId = $("#secondType").select2("data").text;
                  if(TtypeId == "图片新闻"){
-                     $("#tpsc").removeClass("tphide");
-                 }else{
-                   $("#tpsc").addClass("tphide");
+                     $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
                  }
                }
              });
@@ -449,7 +436,7 @@
               <div class="cue">${ERR_auditDoc}</div>
             </li>
             <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">
-              <span class="fl"><div id="tpsc" class="star_red tphide">*</div>图片上传：</span>
+              <span class="fl"><div class="star_red">*</div>图片上传：</span>
               <div class="mb20 h30">
                 <u:upload id="artice_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
                 <u:show showId="artice_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
