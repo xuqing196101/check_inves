@@ -154,7 +154,7 @@ public class SupplierItemController extends BaseController{
 		//查询所有的三级品目销售
 		List<Category> listSlae = getSale(supplier.getId(),supplierTypeIds);
 		//根据品目id查询所有的证书信息
-	   List<QualificationBean> saleQua= supplierService.queryCategoyrId(listSlae);
+	   List<QualificationBean> saleQua = supplierService.queryCategoyrId(listSlae);
 	   
 	   
 		//查询所有的三级目录工程

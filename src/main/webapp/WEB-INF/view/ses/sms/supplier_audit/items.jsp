@@ -499,9 +499,9 @@
 						<li onclick="jump('items')" class="active">
 							<a aria-expanded="false" href="#tab-4">品目信息</a>
 						</li>
-						<!-- <li onclick="jump('aptitude')">
+						<li onclick="jump('aptitude')">
 							<a aria-expanded="false" href="#tab-4">资质文件</a>
-						</li> -->
+						</li>
 						<li onclick="jump('contract')">
 							<a aria-expanded="false" href="#tab-4">品目合同</a>
 						</li>

@@ -223,6 +223,9 @@
 				if(str == "items") {
 					action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 				}
+				if(str == "aptitude") {
+					action = "${pageContext.request.contextPath}/supplierAudit/aptitude.html";
+				}
 				if(str == "contract") {
 					action = "${pageContext.request.contextPath}/supplierAudit/contract.html";
 				}
@@ -281,54 +284,58 @@
           </ul> --%>
 					<ul class="nav nav-tabs bgdd">
 						<li onclick="jump('essential')" class="active">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a>
+							<a aria-expanded="false" data-toggle="tab">基本信息</a>
 							<i></i>
 						</li>
 						<li onclick="jump('financial')">
-							<a aria-expanded="true" href="#tab-2">财务信息</a>
+							<a aria-expanded="true">财务信息</a>
 							<i></i>
 						</li>
 						<li onclick="jump('shareholder')">
-							<a aria-expanded="false" href="#tab-3">股东信息</a>
+							<a aria-expanded="false">股东信息</a>
 							<i></i>
 						</li>
 						<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 							<li onclick="jump('materialProduction')">
-								<a aria-expanded="false" href="#tab-4">生产信息</a>
+								<a aria-expanded="false">生产信息</a>
 								<i></i>
 							</li>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '销售')}">
 							<li onclick="jump('materialSales')">
-								<a aria-expanded="false" href="#tab-4">销售信息</a>
+								<a aria-expanded="false">销售信息</a>
 								<i></i>
 							</li>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 							<li onclick="jump('engineering')">
-								<a aria-expanded="false" href="#tab-4">工程信息</a>
+								<a aria-expanded="false">工程信息</a>
 								<i></i>
 							</li>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 							<li onclick="jump('serviceInformation')">
-								<a aria-expanded="false" href="#tab-4">服务信息</a>
+								<a aria-expanded="false">服务信息</a>
 								<i></i>
 							</li>
 						</c:if>
 						<li onclick="jump('items')">
-							<a aria-expanded="false" href="#tab-4">品目信息</a>
+							<a aria-expanded="false">品目信息</a>
+							<i></i>
+						</li>
+						<li onclick="jump('aptitude')">
+							<a aria-expanded="false">资质文件</a>
 							<i></i>
 						</li>
 						<li onclick="jump('contract')">
-							<a aria-expanded="false" href="#tab-4">品目合同</a>
+							<a aria-expanded="false">品目合同</a>
 						</li>
 						<li onclick="jump('applicationForm')">
-							<a aria-expanded="false" href="#tab-4">申请表</a>
+							<a aria-expanded="false">申请表</a>
 							<i></i>
 						</li>
 						<li onclick="jump('reasonsList')">
-							<a aria-expanded="false" href="#tab-4">审核汇总</a>
+							<a aria-expanded="false">审核汇总</a>
 						</li>
 					</ul>
 

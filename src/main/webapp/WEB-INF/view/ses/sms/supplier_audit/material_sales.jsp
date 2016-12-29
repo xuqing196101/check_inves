@@ -170,6 +170,9 @@
 			  if(str=="items"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 			  }
+			  if(str == "aptitude") {
+					action = "${pageContext.request.contextPath}/supplierAudit/aptitude.html";
+				}
 			  if(str == "contract") {
 					action = "${pageContext.request.contextPath}/supplierAudit/contract.html";
 				}
@@ -246,6 +249,13 @@
               <a aria-expanded="false" href="#tab-4" >品目信息</a>
               <i></i>
 	          </li>
+	          <li onclick="jump('aptitude')">
+							<a aria-expanded="false" href="#tab-4">资质文件</a>
+							<i></i>
+						</li>
+						<li onclick="jump('contract')">
+							<a aria-expanded="false" href="#tab-4">品目合同</a>
+						</li>
 	          <li onclick = "jump('contract')">
 	            <a aria-expanded="false" href="#tab-4" >产品信息</a>
 	             <i></i>
