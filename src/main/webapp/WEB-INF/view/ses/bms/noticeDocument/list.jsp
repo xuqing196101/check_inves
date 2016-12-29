@@ -189,7 +189,7 @@
    
  
        <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover table-striped">
+        <table class="table table-bordered table-condensed table-hover table-striped pointer">
 		<thead>
 		<tr>
 		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -205,9 +205,9 @@
 				
 				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${noticeDocument.id}" /></td>
 				
-				<td class="tc pointer" onclick="view('${noticeDocument.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc " onclick="view('${noticeDocument.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-				<td class="tc pointer" onclick="view('${noticeDocument.id}')">
+				<td class="tl pl20" onclick="view('${noticeDocument.id}')">
 					
 					<c:forEach items="${noticeType}" var="type">
        			      <c:if test="${type.id == noticeDocument.docType}"> 
@@ -216,11 +216,11 @@
        			    </c:forEach>
 			    </td>
 				
-				<td class="tc pointer" onclick="view('${noticeDocument.id}')">${noticeDocument.name}</td>
+				<td class="tl pl20" onclick="view('${noticeDocument.id}')">${noticeDocument.name}</td>
 			
-				<td class="tc pointer" onclick="view('${noticeDocument.id}')"><fmt:formatDate value='${noticeDocument.createdAt}' pattern="yyyy-MM-dd" /></td>
+				<td class="tc " onclick="view('${noticeDocument.id}')"><fmt:formatDate value='${noticeDocument.createdAt}' pattern="yyyy-MM-dd" /></td>
 			
-				<td class="tc pointer" onclick="view('${noticeDocument.id}')"><fmt:formatDate value='${noticeDocument.updatedAt}' pattern="yyyy-MM-dd " /></td>
+				<td class="tc " onclick="view('${noticeDocument.id}')"><fmt:formatDate value='${noticeDocument.updatedAt}' pattern="yyyy-MM-dd " /></td>
 			</tr>
 		</c:forEach>
         </table>

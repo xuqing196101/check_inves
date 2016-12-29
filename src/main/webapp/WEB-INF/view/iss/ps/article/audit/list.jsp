@@ -209,7 +209,7 @@
                 <option></option>
                 <option value="0">内网</option>
                 <option value="1">外网</option>
-                <option value="2">内网/外网</option>
+                <option value="2">内网&外网</option>
                </select>
            </span>
             </li>
@@ -259,7 +259,7 @@
                   外网
                 </c:if>
                 <c:if test="${article.range=='2' }">
-                  内网/外网
+                  内网&外网
                 </c:if>
               </td>
               <td class="tc" onclick="view('${article.id }')">

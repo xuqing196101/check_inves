@@ -382,7 +382,7 @@
                 <option></option>
                 <option value="0">内网</option>
                 <option value="1">外网</option>
-                <option value="2">内网/外网</option>
+                <option value="2">内网&外网</option>
                </select>
            </span>
             </li>

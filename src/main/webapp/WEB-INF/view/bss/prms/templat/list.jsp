@@ -173,7 +173,7 @@
 		</div>
 
 		<div class="content table_box">
-            <table class="table table-bordered table-condensed table-hover table-striped">
+            <table class="table table-bordered table-condensed table-hover table-striped opinter">
 						<thead>
 							<tr>
 								<th class="info w30"><input id="checkAll" type="checkbox"
@@ -192,20 +192,20 @@
 						<c:forEach items="${list.list}" var="templet" varStatus="vs">
 							<tr>
 
-								<td class="tc opinter"><input onclick="check()"
+								<td class="tc "><input onclick="check()"
 									type="checkbox" name="chkItem" value="${templet.id}" />
 								</td>
 
-								<td class="tc opinter" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+								<td class="tc " >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 
-								<td class="tc opinter" >${templet.name}</td>
+								<td class="tl pl20" >${templet.name}</td>
 
-								<td class="tc opinter" >
+								<td class="tl pl20" >
 								    <c:forEach items="${kinds}" var="k" varStatus="vs">
 		                               <c:if test="${k.id eq templet.kind}">${k.name}</c:if>
 		                            </c:forEach>
 								</td>
-								<td class="tc opinter">
+								<td class="tc ">
 								    <button class="btn btn-windows edit" type="button" onclick="editTemplat('${templet.kind}','${templet.id}')">编辑</button>
 								</td>
 								<%-- 

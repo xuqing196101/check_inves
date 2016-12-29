@@ -280,7 +280,7 @@
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tc" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
 					  <td class="tc">${user.relName}</td>
-					  <td class="tc">${user.org.name}</td>
+					  <td class="tl pl20">${user.org.name}</td>
 					  <td class="tc">${user.mobile}</td>
 					  <td class="tc">
 					  	<c:set var="roleCode" value=""/>

@@ -283,15 +283,15 @@
 								name="chkItem" value="${role.id}" />
 							</td>
 							<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td>${role.name}</td>
+							<td class="tl pl20">${role.name}</td>
 							<td class="tc" id="${role.id}"><c:if test="${role.status == 0}">
 									<span class="label rounded-2x label-u" >启用</span>
 								</c:if> <c:if test="${role.status == 1}">
 									<span class="label rounded-2x label-dark">禁用</span>
 								</c:if>
 							</td>
-							<td class="tc">${role.code}</td>
-							<td>
+							<td class="tl pl20">${role.code}</td>
+							<td class="tl pl20">
 								<c:forEach items="${dds}" var="dd" varStatus="vs">
 		                   			<c:if test="${dd.id eq role.kind}">
 		                   				<c:set var="rkind" value="${role.kind}"></c:set>
@@ -304,7 +304,7 @@
 		                   		</c:forEach>
 		                   		<input type="hidden" value="${rkind}">
 							</td>
-							<td>${role.description}</td>
+							<td class="tl pl20">${role.description}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

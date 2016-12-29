@@ -169,7 +169,7 @@
               <!-- 序号 -->
               <td class="tc w50" >${(vs.index+1)+(listStationMessage.pageNum-1)*(listStationMessage.pageSize)}</td>
               <!-- 标题 -->
-              <td class="tc " title="${listsm.name}">
+              <td class="tl pl20" title="${listsm.name}">
                 <c:choose>
                   <c:when test="${fn:length(listsm.name) > 50}">
                     ${fn:substring(listsm.name, 0, 50)}......
