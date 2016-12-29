@@ -117,12 +117,12 @@
 	    $("#tab-position").append("<tr  align='center'>" +
 	      "<td class='tc'><input type='checkbox' name='checkbo' /> </td>" +
 	      "<td></td>" +
-	      "<td><select  name='siteType'><option selected='selected' value=''>请选择</option><option  value='1'>办公室</option>"+
+	      "<td><select  name='siteType' class='w100p'><option selected='selected' value=''>请选择</option><option  value='1'>办公室</option>"+
 	      "<option  value='2'>会议室</option><option  value='3'>招标室</option><option  value='4'>评标室</option></select></td>" +
-	      "<td><input name='siteNumber'/></td>" +
-	      "<td><input name='location'/></td>" +
-	      "<td><input name='area'/></td>" +
-	      "<td><input name='crewSize'/></td>" +
+	      "<td><input type='text' name='siteNumber'/></td>" +
+	      "<td><input type='text' name='location'/></td>" +
+	      "<td><input type='text' name='area'/></td>" +
+	      "<td><input type='text' name='crewSize'/></td>" +
 	      "</tr>");
 	    calIndex('checkbo');
 	  }
@@ -150,9 +150,9 @@
 	    var typeName = $("input[name='typeName']").val();
 	     layer.open({
 	      type: 2, 
-	      area : [ '600px', '550px' ],
+	      area : [ '550px', '500px' ],
 	      title: '关联采购管理部门',
-	      offset: ['90px', '630px'],
+	      offset: ['0px', '380px'],
 	      shadeClose: true,
 	      content:"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName=" + typeName
 	     });
@@ -181,8 +181,8 @@
 	    $("#tab-orgnization").append("<tr  align='center'>" +
 	      "<td class='tc'><input type='checkbox' name='checkboxs' /> </td>" +
 	      "<td></td>" +
-	      "<td><input name='purchaseUnitName'/></td>" +
-	      "<td><input name='purchaseUnitDuty'/></td>" +
+	      "<td><input name='purchaseUnitName' type='text'/></td>" +
+	      "<td><input name='purchaseUnitDuty' type='text'/></td>" +
 	      "</tr>");
 	    calIndex('checkboxs');
 	  }
@@ -256,35 +256,35 @@
                 <input class="hide" name="orgnization.id" id="orgId" type="hidden" value="${purchaseDep.orgId }">
                 <input class="hide" name="ids" id="ids" type="hidden" >
                 <ul class="ul_list">
-                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购机构名称</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构名称</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="name" type="text" value="${purchaseDep.name }"> <span class="add-on">i</span>
                      <div class="cue">${ERR_name}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购机构简称</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构简称</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="shortName" type="text" value="${purchaseDep.shortName }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_shortName}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>联系人姓名</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人姓名</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="contactName" type="text" value="${purchaseDep.contactName }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_contactName}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>联系人电话</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="contactMobile" type="text" value="${purchaseDep.contactMobile }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_contactMobile}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购机构单位级别</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构单位级别</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="levelDep">
                         <c:forEach items="${unitLevelList}" var="unitLevel">
@@ -294,7 +294,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>行政隶属单位</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>行政隶属单位</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="subordinateOrgName" value="${purchaseDep.subordinateOrgName }" type="text">
                       <span class="add-on">i</span>
@@ -302,7 +302,7 @@
                     </div>
                   </li>
                   
-                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>省</span>
+                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>省</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="provinceId" id="province" onchange="loadCities(this.value);">
                       </select> <input type="hidden" id="pid" value="${purchaseDep.provinceId }">
@@ -310,7 +310,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>市</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>市</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="cityId" id="city">
                       </select> 
@@ -319,21 +319,21 @@
                     </div>
                   </li>
                   
-                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购机构地址</span>
+                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构地址</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="address" type="text" value="${purchaseDep.address }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_address}</div>
                     </div>
                   </li>
                   
-                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>邮编</span>
+                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>邮编</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="postCode" value="${purchaseDep.postCode}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> <span class="add-on">i</span>
                        <div class="cue">${ERR_postCode}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>传真号</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>传真号</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="fax" type="text" value="${purchaseDep.fax}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_fax}</div>
@@ -342,14 +342,14 @@
                   
                  
 
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>值班室电话</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>值班室电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="dutyRoomPhone" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_dutyRoomPhone}</div>
                     </div>
                   </li>
                   
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>是否具有审核供应商</span>
+                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否具有审核供应商</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="isAuditSupplier">
                         <option  value="" <c:if test="${null eq purchaseDep.isAuditSupplier}">selected="selected" </c:if>>请选择</option>
@@ -360,7 +360,7 @@
                     </div>
                   </li>
                   
-                  <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购业务范围</span>
+                  <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购业务范围</span>
                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
                       <textarea class="col-md-12 col-sm-12 col-xs-12" name="businessRange" style="height:130px" title="不超过800个字">${purchaseDep.businessRange }</textarea>
                        <div class="cue">${ERR_businessRange}</div>
@@ -609,7 +609,7 @@
                 </div>
                 
                 <div class="content table_box">
-                  <table class="table table-bordered table-condensed table-hover table-striped" id="tab-orgnization">
+                  <table class="table table-bordered table-condensed table_input left_table" id="tab-orgnization">
                     <thead>
                       <tr>
                         <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll(this,'checkboxs');" /></th>
@@ -623,8 +623,8 @@
                           <tr style="cursor: pointer;">
                              <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkboxs"></td>
                               <td class="tc w50">${(vs.index+1)}</td>
-                              <td class="tc"><input name="purchaseUnitName" value="${obj.purchaseUnitName}"/></td>
-                              <td class="tc"><input name="purchaseUnitDuty" value="${obj.purchaseUnitDuty}"/></td>
+                              <td class="tc"><input type="text" name="purchaseUnitName" value="${obj.purchaseUnitName}"/></td>
+                              <td class="tc"><input type="text" name="purchaseUnitDuty" value="${obj.purchaseUnitDuty}"/></td>
                              </tr>
                         </c:forEach>
                     </tbody>
@@ -705,7 +705,7 @@
                     <button class="btn btn-windows delete" type="button"  onclick="delPlace();">删除</button>
                   </div>
                   <div class="content table_box">
-                    <table class="table table-bordered table-condensed table-hover table-striped" id="tab-position">
+                    <table class="table table-bordered table-condensed table_input left_table" id="tab-position">
                       <thead>
                         <tr>
                           <th class="info w30"><input id="checkSite" type="checkbox" onclick="selectAll(this,'checkbo');" /></th>
@@ -723,17 +723,17 @@
                              <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkbo"></td>
                               <td class="tc w50">${(vs.index+1)}</td>
                               <td class="tc">
-                                <select  name='siteType' >
+                                <select  name='siteType' class="w100p" >
                                    <option  value='1' <c:if test="${'1' eq obj.siteType}">selected="selected"</c:if> >办公室</option>
                                    <option  value='2' <c:if test="${'2' eq obj.siteType}">selected="selected"</c:if>>会议室</option>
                                    <option  value='3' <c:if test="${'3' eq obj.siteType}">selected="selected"</c:if>>招标室</option>
                                    <option  value='4' <c:if test="${'4' eq obj.siteType}">selected="selected"</c:if>>评标室</option>
                                 </select>
                              </td>
-                              <td class="tc"><input name="siteNumber" value="${obj.siteNumber}"/></td>
-                              <td class="tc"><input name="location" value="${obj.location}"/></td>
-                              <td class="tc"><input name="area" value="${obj.area}"/></td>
-                              <td class="tc"><input name="crewSize" value="${obj.crewSize}"/></td>
+                              <td class="tc"><input type="text" name="siteNumber" value="${obj.siteNumber}"/></td>
+                              <td class="tc"><input type="text" name="location" value="${obj.location}"/></td>
+                              <td class="tc"><input type="text" name="area" value="${obj.area}"/></td>
+                              <td class="tc"><input type="text" name="crewSize" value="${obj.crewSize}"/></td>
                              </tr>
                           </c:forEach>
                       </tbody>

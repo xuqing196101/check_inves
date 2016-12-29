@@ -72,7 +72,7 @@
     	}
     	layer.open({
 			type : 2, //page层
-			area : [ '650px', '550px' ],
+			area : [ '550px', '500px' ],
 			title : title,
 			shade : 0.01, //遮罩透明度
 			moveType : 1, //拖拽风格，0是默认，1是传统拖动
@@ -155,7 +155,7 @@
   </div>
 
   <!-- 修改订列表开始-->
-  <div class="container">
+  <div class="container container_box">
     <sf:form action="${pageContext.request.contextPath}/purchaseManage/create.html" method="post" onsubmit="return check();" id="formID" modelAttribute="orgnization">
 	  <input type="hidden"  name="typeName" id="typeName" value="${orgnization.typeName}" />
 	  <div>
@@ -163,15 +163,13 @@
 	      <h2 class="count_flow "><i>1</i>基本信息</h2>
 	    </c:if>
 	    <c:if test="${orgnization.typeName == '2'}">
-	      <div class="headline-v2">
-	        <h2>基本信息</h2>
-	      </div>
+	        <h2 class="list_title">基本信息</h2>
 	    </c:if>
 		<input type="hidden" name="depIds" id="depIds"/>
 		<ul class="ul_list">
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>名称</span>
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>名称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			  <input class="input_group" name="name" type="text"> 
 			  <span class="add-on">i</span>
@@ -180,7 +178,7 @@
 		  </li>
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12">
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>简称</span>
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>简称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			  <input class="input_group" name="shortName" type="text"> 
 			  <span class="add-on">i</span>
@@ -197,7 +195,7 @@
 		  </li>
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>省/直辖市</span>
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>省/直辖市</span>
 			<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			  <select name="provinceId" id="provinceId" onchange="loadCity()"> 
 			    <option value="">请选择</option>
@@ -209,7 +207,7 @@
 		  </li>	
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>市/区</span>
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>市/区</span>
 			<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			  <select id="cityId" name="cityId"> 
 			  </select>

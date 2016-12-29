@@ -208,8 +208,8 @@
 						<td class="tc">${u.relName}</td>
 						<td class="tc">${u.mobile}</td>
 						<td class="tc">${u.telephone}</td>
-						<td class="tc">${u.address}</td>
-						<td class="tc">${u.email}</td>
+						<td class="tl pl20">${u.address}</td>
+						<td class="tl pl20">${u.email}</td>
 					  </tr>
 					</c:forEach>
 				  </tbody>
@@ -254,10 +254,10 @@
 					<c:forEach items="${oList}" var="p" varStatus="vs">
 					  <tr class="cursor">
 						<td class="tc">${vs.index+1}</td>
-						<td class="tc">${p.name}</td>
+						<td class="tl pl20">${p.name}</td>
 						<td class="tc">${p.telephone}</td>
-						<td class="tc">${p.provinceName}${p.cityName}</td>
-						<td class="tc">${p.address}</td>
+						<td class="tl pl20">${p.provinceName}${p.cityName}</td>
+						<td class="tl pl20">${p.address}</td>
 						<td class="tc">${p.princinpal}</td>
 					  </tr>
 					</c:forEach>

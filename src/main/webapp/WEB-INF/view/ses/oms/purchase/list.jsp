@@ -179,7 +179,7 @@
 								<td class="tc"><input type="checkbox" name="chkItem" value="${p.id}" /></td>
 								<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
 								<td class="tc" onclick="show('${p.id}');">${p.relName}</td>
-								<td class="tc" onclick="show('${p.id}');">${p.purchaseDepName}</td>
+								<td class="tl pl20" onclick="show('${p.id}');">${p.purchaseDepName}</td>
 								<td class="tc" onclick="show('${p.id}');">
 									<c:choose>
 										<c:when test="${p.purcahserType== 0 }">
@@ -201,7 +201,7 @@
 									  <td class="tc" onclick="show('${p.id}');">${g.name}</td>
 									</c:if>
 					        	</c:forEach>
-								<td class="tc" onclick="show('${p.id}');">${p.duties}</td>
+								<td class="tl pl20" onclick="show('${p.id}');">${p.duties}</td>
 								<td class="tc" onclick="show('${p.id}');">${p.professional}</td>
 								<td class="tc" onclick="show('${p.id}');">
 									<c:choose>
@@ -218,7 +218,7 @@
 								</td>
 								<td class="tc" onclick="show('${p.id}');">${p.topStudy}</td>
 								<td class="tc" onclick="show('${p.id}');">${p.telephone}</td>
-								<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
+								<td class="tl pl20" onclick="show('${p.id}');">${p.quaCode}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

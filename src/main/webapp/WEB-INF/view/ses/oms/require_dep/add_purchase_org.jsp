@@ -87,7 +87,7 @@ function reset(){
 			parent.$("#tab").append("<tr id="+id+" align='center'>"
 					+"<td><input type='checkbox' name='selectedItem' onclick='checkAdd()' value="+id+" /></td>"     
                     +"<td>"+index+"</td>"
-                    +"<td>"+name+"</td>"
+                    +"<td class='tl pl20'>"+name+"</td>"
                     +"</tr>"); 
 		}
 		
@@ -129,7 +129,7 @@ function reset(){
 			<tr class="cursor">
 		      <td class="tc"><input type="checkbox" name="items"  value="${p.id}" /></td>
 			  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc">${p.name}</td>
+			  <td class="tl pl20">${p.name}</td>
 			</tr>
 		  </c:forEach>
 		</tbody>
