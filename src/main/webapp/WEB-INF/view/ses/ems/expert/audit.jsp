@@ -107,7 +107,7 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#isPass").val(flag);
 		var remark = $("#remark").val(); 
 		if(remark.replace(/(^\s*)|(\s*$)/g, "")=="" || remark==null){
-			layer.alert("请填写审核意见！",{offset: ['350px', '750px'],shade:0.01});
+			layer.alert("请填写审核意见！",{offset: ['180px', '40%'],shade:0.01});
 		}else{
 			$("#form1").submit();
 		}
@@ -127,7 +127,7 @@ session.setAttribute("tokenSession", tokenValue);
    </div>
    <!-- 项目戳开始 -->
 		<div class="container">
-         <div class="tab-content">
+         <div class="tab-content mt20">
           <div class="tab-v2">
             <ul class="nav nav-tabs bgwhite">
 				<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">基本信息</a></li>
@@ -253,7 +253,7 @@ session.setAttribute("tokenSession", tokenValue);
 			    <h2 class="count_flow"><i>2</i>主要工作经历</h2>
 			    <ul class="ul_list">
 				<li>  
-				  <textarea rows="10" name="jobExperiences" readonly="readonly" id="jobExperiences" cols="168" style="height: 150px; resize: none;" placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
+				  <textarea rows="10" name="jobExperiences" readonly="readonly" id="jobExperiences" cols="168" style="min-height: 150px; resize: none;" placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
 				</li>
 			    </ul>
 			   </div>
@@ -319,7 +319,7 @@ session.setAttribute("tokenSession", tokenValue);
   </div>
   <div class="padding-top-10 clear">
     <ul class="ul_list">
-	  <li class="col-md-12 col-sm-12 col-xs-12">
+	  <li class="col-md-12 col-sm-12 col-xs-12 p0">
 	    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">审核意见</span>
 	    <div class="col-md-12 col-sm-12 col-xs-12 p0">
           <textarea class="col-md-12 col-sm-12 col-xs-12 " style="height:130px" maxlength="200" id="remark" name="remark"  placeholder="不超过200个字"></textarea>
@@ -327,7 +327,7 @@ session.setAttribute("tokenSession", tokenValue);
 	  </li> 
     </ul>
   </div>
-  <div class="col-md-12 tc">
+  <div class="col-md-12 tc col-xs-12 col-sm-12 tc">
     <input class="btn btn-windows git" type="button" onclick="pass('1');" value="通过">
 	<input class="btn btn-windows cancel" type="button" onclick="pass('2');" value="不通过">
 	<input class="btn btn-windows withdraw" type="button" onclick="pass('3');" value="退回修改">

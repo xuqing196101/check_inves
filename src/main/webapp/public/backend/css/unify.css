@@ -732,6 +732,7 @@ h3.heading-xs {
 .tab-v2 .tab-content {
   padding: 10px 16px;
   border: solid 1px #eee;
+  overflow: hidden;
 }
 
 /*Tabs v3*/

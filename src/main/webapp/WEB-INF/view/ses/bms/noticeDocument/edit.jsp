@@ -21,9 +21,7 @@
    <div class="container container_box">
    		<form action="${pageContext.request.contextPath}/noticeDocument/update.do" method="post">
    		<div>
-   		<div class="headline-v2">
-             <h2>修改须知文档</h2>
-           </div> 
+        <h2 class="list_title">修改须知文档</h2>
    		<ul class="ul_list">
    		<input class="span2" name="id" type="hidden" value="${noticeDocument.id}">
      		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
