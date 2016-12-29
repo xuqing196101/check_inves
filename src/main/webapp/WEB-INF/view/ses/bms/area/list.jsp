@@ -116,20 +116,20 @@
         <div class="clear"></div>
       </div>
    </div>
-   <div class="container">
+   <div class="container mt20">
        <div class="headline-v2">
             <h2>地区管理</h2>
        </div>
    </div>
    
    
-   <div class="container content height-350">
-        <h2 style="margin-left: 20px;">
-            <ul class="demand_list">
-                <li>
-                 <label class="fl">地区名称：</label><input type="text" id="search_condition" name="name" /> 
+   <div class="container content">
+        <h2>
+            <ul class="demand_list fl pr20 ">
+                <li class="pr20">
+                 <label class="">地区名称：</label><input class="w110" type="text" id="search_condition" name="name" /> 
+                <button  class="btn  ml5 fl mt1 " onclick="selectTree();">查询</button>
                 </li>
-                <button  class="btn" onclick="selectTree();">查询</button>
                 
             </ul>
             <br>
@@ -145,12 +145,12 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
                     <div style="margin-bottom: 6px; ">
                         <button class="btn btn-windows add" type="button" onclick="add();">新增</button> 
                         <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button> 
                         <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> 
                     </div>
-                    <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
                         <input type="hidden" name="nodeId" id="mid">
                         <div class="tab-pane fade in" id="dep_tab-2">
                            <ul class="timeline-v2" id="con">

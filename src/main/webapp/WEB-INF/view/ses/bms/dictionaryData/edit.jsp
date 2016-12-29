@@ -25,7 +25,7 @@
    <div class="container container_box">
    	   <sf:form action="${pageContext.request.contextPath}/dictionaryData/update.html" method="post" modelAttribute="dictionaryData">
 		   <div>
-			   <h2 class="count_flow">修改数据</h2>
+			   <h2 class="list_title">修改数据</h2>
 			   <input type="hidden" name="id" id="dId" value="${dd.id }">
 			   <input type="hidden" name="kind" id="k" value="${dd.kind }">
 			   <input type="hidden" name="currpage" id="currpage" value="${currpage }">

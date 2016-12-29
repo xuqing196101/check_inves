@@ -29,7 +29,7 @@
 					if($(errorOption[i]).val() == "" || $(errorOption[i]).val() == null) {
 						ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>" + array[i] + "</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0'></textarea></div>";
 					} else {
-						ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>" + array[i] + "</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0'>" + $(errorOption[i]).val() + "</textarea></div>";
+						ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='star_red fl'>*</div>" + array[i] + "</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 pl20'>" + $(errorOption[i]).val() + "</textarea></div>";
 					}
 					if(queType == 1) {
 						if(queAnswer.indexOf(array[i]) > -1) {
@@ -97,7 +97,7 @@
 				var ohtml = "";
 				var ahtml = "";
 				for(var i = 0; i < array.length; i++) {
-					ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>" + array[i] + "</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0'></textarea></div>";
+					ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='star_red fl'>*</div>" + array[i] + "</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 pl20'></textarea></div>";
 					if(queType == 1) {
 						ahtml = ahtml + "<input type='radio' name='answer' value='" + array[i] + "' class='mt0'/>" + array[i] + "&nbsp";
 					} else if(queType == 2) {
@@ -146,7 +146,7 @@
 				<div class="ul_list">
 					<ul class="list-unstyled col-md-6 col-sm-6 col-xs-12">
 						<li class="col-md-12 col-sm-12 col-xs-12 pl15">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>题型：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red fl">*</div>题型：</span>
 							<div class="select_common input_group col-md-6 col-sm-6 col-xs-6 p0">
 								<select id="queType" name="queType" onchange="changeType()" class="">
 									<option value="">请选择</option>
@@ -166,9 +166,9 @@
 						</li>
 
 						<li class="col-md-12 col-sm-12 col-xs-12">
-							<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red fl">*</div>题干：</span>
+							<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red fl ">*</div>题干：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0">
-								<textarea class="col-md-10 col-sm-10 col-xs-10 h80 p0" name="topic" id="queTopic">${tecQue.topic }</textarea>
+								<textarea class="col-md-10 col-sm-10 col-xs-10 h80 pl20" name="topic" id="queTopic">${tecQue.topic }</textarea>
 								<div class="clear red">${ERR_topic}</div>
 							</div>
 						</li>
@@ -176,7 +176,7 @@
 
 					<ul class="list-unstyled col-md-6 col-sm-6 col-xs-12">
 						<li class="col-md-12 col-sm-12 col-xs-12 pl15">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>选项数量：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red fl">*</div>选项数量：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0">
 								<select id="options" name="options" onchange="changeOpt()" class="col-md-6 col-sm-6 col-xs-6 p0">
 									<option value="">请选择</option>
@@ -235,8 +235,8 @@
 						</li>
 
 						<li class="col-md-12 col-sm-12 col-xs-12 mt25">
-							<span class="fl"><div class="red fl">*</div>答案：</span>
-							<div class="fl" id="answers" class="select_check"></div>
+							<span class="fl"><div class="star_red fl ml5">*</div>答案：</span>
+							<div class="fl" id="answers" class="select_check "></div>
 							<div class="red fl">${ERR_answer }</div>
 						</li>
 					</ul>

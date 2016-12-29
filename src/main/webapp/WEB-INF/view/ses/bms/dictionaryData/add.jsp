@@ -24,7 +24,7 @@
    <div class="container container_box">
    	   <sf:form action="${pageContext.request.contextPath}/dictionaryData/save.html" method="post" modelAttribute="dictionaryData">
 		   <div>
-			   <h2 class="count_flow">添加数据</h2>
+			   <h2 class=" list_title">添加数据</h2>
 			   <input type="hidden" name="kind" id="k"  value="${kind }">
 			   <ul class="ul_list">
 			   	 	<li class="col-md-3 col-sm-6 col-xs-12 pl15"> 

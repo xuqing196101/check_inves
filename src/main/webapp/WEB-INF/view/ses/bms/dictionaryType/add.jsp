@@ -35,7 +35,7 @@
             <div>
 			   <h2 class="list_title">新增数据字典类型</h2>
                 <ul class="ul_list">
-                    <li class="col-md-6 col-sm-6 col-xs-12 pl15">
+                    <li class="col-md-3 col-sm-3 col-xs-6pl15">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>类型编号</span>
                         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                             <input name="code" type="text"
@@ -45,7 +45,7 @@
                         </div>
                     </li>
 
-                    <li class="col-md-6 col-sm-6 col-xs-12 pl15">
+                    <li class="col-md-3 col-sm-3 col-xs-6 pl15">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>类型名称</span>
                         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                             <input name="name" type="text"

@@ -124,7 +124,7 @@
                  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
                    <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                    <input id="citySel" class="input_group" name="pname" type="text" readonly value="${area.name }"  onclick="showMenu();" />
+                    <input id="citySel" class="input_group " name="pname" type="text" readonly value="${area.name }"  onclick="showMenu();" />
                     <span class="add-on">i</span>
                    </div>
                  </li>

@@ -294,8 +294,8 @@
 				    	</select>
 			   		</span>
 			     </li>
-			    <button type="button" onclick="query()" class="btn">查询</button>
-			    <button type="button" onclick="reset()" class="btn">重置</button>
+			    <button type="button" onclick="query()" class="btn fl mt1">查询</button>
+			    <button type="button" onclick="reset()" class="btn fl mt1">重置</button>
 		    </ul>
 		    <div class="clear"></div>
 	 	</h2>
@@ -328,7 +328,7 @@
 							<tr class="pointer">
 								<td class="tc"><input type="checkbox" name="info" value="${l.id }" onclick="check()" /></td>
 								<td class="tc" onclick="view('${l.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-								<td class="tl pl20" onclick="view('${l.id }')">${l.examQuestionType.name }</td>
+								<td class="tc" onclick="view('${l.id }')">${l.examQuestionType.name }</td>
 								<c:if test="${fn:length(l.topic)>25}">
 									<td class="tl pl20" onclick="view('${l.id }')" onmouseover="titleMouseOver('${l.topic}',this)" onmouseout="titleMouseOut()">${fn:substring(l.topic,0,25)}...</td>
 								</c:if>

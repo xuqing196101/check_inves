@@ -52,8 +52,8 @@
 			    	  <input type="text" id="name"  name="name" />
 			    	</span>
 			      </li>
-			    	<button type="button" onclick="search();" class="btn">查询</button>
-			    	<button type="button" onclick="resetQuery()" class="btn">重置</button>  	
+			    	<button type="button" onclick="search();" class="btn fl mt1">查询</button>
+			    	<button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>  	
 				  </ul>
 				  <div class="clear"></div>
 			  </h2>
@@ -95,9 +95,9 @@
 	   <div class="drop_window">
 	     <ul class="list-unstyled">
 		   <li class="mt10 col-md-12 p0">
-	   	     <label class="col-md-12 pl20">资质名称</label>
+	   	     <label class="col-md-12 pl20">资质名称：</label>
 			 <span class="col-md-12">
-			   <input  id="quaName"  name="name"  class="title col-md-12" type="text">
+			   <input  id="quaName"  name="name"  class="title col-md-12 pl20"   type="text">
 			 </span>
 	       </li>
 	       <div class="clear"></div>
