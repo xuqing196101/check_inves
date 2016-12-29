@@ -58,9 +58,6 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	private OrgnizationMapper orgnizationMapper;
 	
 	@Autowired
-	private OrgnizationMapper orgnizationmapper;
-	
-	@Autowired
 	private SupplierMapper supplierMapper;
 	
 	@Override
@@ -156,7 +153,8 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 			dataMap.put("contractCode", "");
 		}
 		if(pur.getPurchaseDepName()!=null){
-			dataMap.put("purchaseDepName", pur.getPurchaseDepName());
+			Orgnization org = orgnizationMapper.findOrgByPrimaryKey(pur.getPurchaseDepName());
+			dataMap.put("purchaseDepName", org.getName());
 		}else{
 			dataMap.put("purchaseDepName", "");
 		}
@@ -190,17 +188,6 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		}else{
 			dataMap.put("purchaseUnitp", "");
 		}
-		
-		if(ValidateUtils.isNull(pur.getPurchaseDepName())){
-			dataMap.put("purchasePayDep", "");
-		}else{
-			Orgnization org = orgnizationmapper.findOrgByPrimaryKey(pur.getPurchaseDepName());
-			if(ValidateUtils.isNull(org.getName())){
-				dataMap.put("purchasePayDep", "");
-			}else{
-				dataMap.put("purchasePayDep", org.getName());
-			}
-		}
 		if(pur.getPurchaseBank()!=null){
 			dataMap.put("purchaseBank", pur.getPurchaseBank());
 		}else{
@@ -212,15 +199,10 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 			dataMap.put("purchaseBankAccount", "");
 		}
 		
-		if(ValidateUtils.isNull(pur.getPurchaseDepName())){
-			dataMap.put("purchasePayDep", "");
+		if(pur.getPurchasePayDep()!=null){
+			dataMap.put("purchasePayDep", pur.getPurchasePayDep());
 		}else{
-			Orgnization org = orgnizationmapper.findOrgByPrimaryKey(pur.getPurchaseDepName());
-			if(ValidateUtils.isNull(org.getName())){
-				dataMap.put("purchasePayDep", "");
-			}else{
-				dataMap.put("purchasePayDep", org.getName());
-			}
+			dataMap.put("purchasePayDep", "");
 		}
 		
 		if(ValidateUtils.isNull(pur.getSupplierDepName())){

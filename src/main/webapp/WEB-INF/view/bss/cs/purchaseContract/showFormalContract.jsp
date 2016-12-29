@@ -44,17 +44,11 @@
 	            <td colspan="3" >${draftCon.name}</td>
 	            <%--<td class="bggrey" width="13%">需求部门：</td>
 	            <td width="37%">${draftCon.demandSector}</td>
-	        --%></tr>
-	        <tr>
-	            <td class="bggrey" width="13%">合同编号：</td>
-	            <td width="37%">${draftCon.code}</td>
-	            <td class="bggrey" width="13%">合同批准文号：</td>
-	            <td width="37%">${draftCon.approvalNumber}</td>
-	           
+	        --%>
 	        </tr>
 	        <tr>
-	            <td class="bggrey" width="13%">需求部门：</td>
-	            <td width="37%">${draftCon.demandSector}</td>
+	            <td class="bggrey" width="13%">合同批准文号：</td>
+	            <td width="37%">${draftCon.approvalNumber}</td>
 	            <td class="bggrey" width="13%">采购机构资质证号：</td>
 	            <td width="37%">${draftCon.quaCode}</td>
 	        </tr>
@@ -79,6 +73,8 @@
 	        <tr>
 	        	<td class="bggrey" width="13%">合同批准文号：</td>
 	            <td width="37%">${draftCon.approvalNumber}</td>
+	            <td class="bggrey" width="13%">合同编号：</td>
+	            <td width="37%">${draftCon.code}</td>
 	        </tr>
 	        </tbody>
 	        </table>
