@@ -73,8 +73,8 @@
 	                     </select>
 	               </li>
 	               <li>
-	                   <input type="submit" class="btn btn_back fl " value="查询" />
-	                   <button onclick="resetForm();" class="btn btn_back fl" type="button">重置</button>
+	                   <input type="submit" class="btn  fl mt1" value="查询" />
+	                   <button onclick="resetForm();" class="btn fl " type="button">重置</button>
 	               </li>
 	           </ul>
 		       <div class="clear"></div>

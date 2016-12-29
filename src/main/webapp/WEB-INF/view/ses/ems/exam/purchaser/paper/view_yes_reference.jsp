@@ -69,13 +69,14 @@
 
 			<div class="col-md-12 pl20 mt10">
 				<input type="button" class="btn" value="打印预览" onclick="printReView()" />
+				<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">
 			</div>
 
 			<!-- 表格开始 -->
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover">
 					<thead>
-						<tr class="info">
+						<tr>
 							<th class="w50">序号</th>
 							<th class="w100">姓名</th>
 							<th>身份证号</th>
@@ -86,13 +87,13 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${paperUserList.list }" varStatus="vs" var="paper">
-							<tr class="tc">
-								<td>${(vs.index+1)+(paperUserList.pageNum-1)*(paperUserList.pageSize)}</td>
-								<td>${paper.relName }</td>
-								<td>${paper.card }</td>
-								<td>${paper.code }</td>
-								<td>${paper.unitName }</td>
-								<td>${paper.score }</td>
+							<tr>
+								<td class="tc">${(vs.index+1)+(paperUserList.pageNum-1)*(paperUserList.pageSize)}</td>
+								<td class="tc">${paper.relName }</td>
+								<td class="tc">${paper.card }</td>
+								<td class="tc">${paper.code }</td>
+								<td class="tl pl20">${paper.unitName }</td>
+								<td class="tc">${paper.score }</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -101,10 +102,7 @@
 			<div id="pageDiv" align="right"></div>
 		</div>
 
-		<!-- 返回按钮 -->
-		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">
-		</div>
+		
 
 		<input type="hidden" value="${examPaper.id }" id="paperId" />
 	</body>

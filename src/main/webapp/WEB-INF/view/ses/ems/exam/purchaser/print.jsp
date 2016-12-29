@@ -46,13 +46,13 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${paperUserList }" var="paper" varStatus="p">
-							<tr class="tc">
-								<td>${p.index+1 }</td>
-								<td>${paper.relName }</td>
-								<td>${paper.card }</td>
-								<td>${paper.code }</td>
-								<td>${paper.unitName }</td>
-								<td>${paper.score }</td>
+							<tr>
+								<td class="tc">${p.index+1 }</td>
+								<td class="tc">${paper.relName }</td>
+								<td class="tc">${paper.card }</td>
+								<td class="tc">${paper.code }</td>
+								<td class="tl pl20">${paper.unitName }</td>
+								<td class="tc">${paper.score }</td>
 							</tr>
 						</c:forEach>
 					</tbody>

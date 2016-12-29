@@ -180,18 +180,18 @@ $(function(){
 				<input type="hidden" id="page" name="page">
 				
 				<ul class="demand_list">
-					<li class="fl mr15"><label class="fl mt5">项目名称：</label><span><input
+					<li class="fl mr15"><label class="fl">项目名称：</label><span><input
 							name="projectName" value="${expExtractRecord.projectName }"
 							type="text" class="mb0" /></span>
 					</li>
-					<li class="fl mr15"><label class="fl mt5">抽取时间：</label><span><input
+					<li class="fl mr15"><label class="fl ">抽取时间：</label><span><input
 							onclick='WdatePicker()'
 							value="<fmt:formatDate value='${expExtractRecord.extractionTime}'
                                 pattern='yyyy-MM-dd' />"
 							name="extractionTime" type="text" class="mb0" /></span>
 					</li>
-				        <input class="btn" type="submit" value="查询"/>
-                        <button type="button" class="btn" onclick="resetQuery();">重置</button> 
+				        <input class="btn fl mt1" type="submit" value="查询"/>
+                        <button type="button" class="btn fl mt1" onclick="resetQuery();">重置</button> 
 				</ul>
 			</form>
 			<div class="clear"></div>
@@ -214,7 +214,7 @@ $(function(){
 					varStatus="vs">
 					<tr class="cursor" onclick="show('${extract.id}');">
 						<td class="tc">${(vs.index+1)+(listExtractRecord.pageNum-1)*(listExtractRecord.pageSize)}</td>
-						<td class="tc">${extract.projectName}</td>
+						<td class="tl pl20">${extract.projectName}</td>
 						<td class="tc"><fmt:formatDate
 								value="${extract.extractionTime}" pattern="yyyy年MM月dd日   " /></td>
 						<td class="tc">${extract.extractionSites }</td>

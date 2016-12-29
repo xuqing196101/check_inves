@@ -187,8 +187,8 @@
 							<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()" /></th>
 							<th class="w50">序号</th>
 							<th>题型分布</th>
-							<th>总分值</th>
-							<th>及格标准</th>
+							<th>总分值(分)</th>
+							<th>及格标准(分)</th>
 							<th>状态</th>
 						</tr>
 					</thead>
@@ -198,13 +198,13 @@
 								<td><input type="checkbox" name="info" value="${rule.id }" onclick="check()" /></td>
 								<td onclick="view('${rule.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 								<td class="tl pl20" onclick="view('${rule.id }')">${rule.discribution }</td>
-								<td class="tc" onclick="view('${rule.id }')">${rule.paperScore }分</td>
-								<td class="tc" onclick="view('${rule.id }')">${rule.passStandard }分</td>
+								<td class="tc" onclick="view('${rule.id }')">${rule.paperScore }</td>
+								<td class="tc" onclick="view('${rule.id }')">${rule.passStandard }</td>
 								<c:if test="${rule.status==0 }">
-									<td class="tl pl20" onclick="view('${rule.id }')">停用中</td>
+									<td onclick="view('${rule.id }')">停用中</td>
 								</c:if>
 								<c:if test="${rule.status==1 }">
-									<td class="tl pl20" onclick="view('${rule.id }')">启用中</td>
+									<td  onclick="view('${rule.id }')">启用中</td>
 								</c:if>
 							</tr>
 						</c:forEach>

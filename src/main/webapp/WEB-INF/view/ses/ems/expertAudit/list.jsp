@@ -199,8 +199,8 @@
 							<c:if test="${expert.expertsTypeId =='3' || expert.expertsTypeId ==3}">
 								<td  class="tc">经济</td>
 							</c:if> --%>
-							<td class="tc" onclick="shenhe('${expert.id}');">${expert.graduateSchool }</td>
-							<td class="tc" onclick="shenhe('${expert.id}');">${expert.workUnit }</td>
+							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.graduateSchool }</td>
+							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.workUnit }</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">
 								<fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td>
