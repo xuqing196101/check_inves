@@ -630,7 +630,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	
 	@RequestMapping("supplierType")
 	public String supplierType(HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId){
-		//勾选的供应商类型
+		//勾选的供应商类-型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierId", supplierId);	
 		/*//文件

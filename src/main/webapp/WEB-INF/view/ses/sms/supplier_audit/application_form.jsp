@@ -61,7 +61,7 @@
 		
 			//上一步
 			function lastStep(){
-			  var action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+			  var action = "${pageContext.request.contextPath}/supplierAudit/contract.html";
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
 			}
@@ -104,7 +104,7 @@
 			  if(str=="shareholder"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
 			  }
-			  if(str=="materialProduction"){
+			  /*if(str=="materialProduction"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
 			  }
 			  if(str=="materialSales"){
@@ -115,7 +115,7 @@
 			  }
 			  if(str=="serviceInformation"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
-			  }
+			  }*/
 			  if(str=="items"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/items.html";
 			  }
@@ -131,6 +131,9 @@
 			  if(str=="reasonsList"){
 			    action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
 			  }
+			  if(str == "supplierType") {
+					action = "${pageContext.request.contextPath}/supplierAudit/supplierType.html";
+			   }
 			  $("#form_id").attr("action",action);
 			  $("#form_id").submit();
 			}
@@ -169,7 +172,7 @@
 		            <a aria-expanded="false" href="#tab-3">股东信息</a>
 		            <i></i>
 		          </li>
-		          <c:if test="${fn:contains(supplierTypeNames, '生产')}">
+		          <%--<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 		            <li onclick = "jump('materialProduction')">
 		              <a aria-expanded="false" href="#tab-4">生产信息</a>
 		              <i></i>
@@ -193,6 +196,11 @@
 		              <i></i>
 		            </li>
 		          </c:if>
+		          --%>
+		          <li onclick = "jump('supplierType')">
+		           	<a aria-expanded="false">供应商类型</a>
+		           	<i></i>
+			      </li>
 		          <li onclick = "jump('items')">
 	            	<a aria-expanded="false" href="#tab-4" >品目信息</a>
 	            	<i></i>

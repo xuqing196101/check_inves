@@ -33,8 +33,9 @@
 					$(this).attr("onmouseout", onmouseout);
 				});
 			});
-
-			function reason(id) {
+			
+			//生产
+			function reasonProduction(id) {
 				var supplierId = $("#supplierId").val();
 				var auditContent = "生产-资质证书信息";
 				var index = layer.prompt({
@@ -70,8 +71,8 @@
 						layer.close(index);
 					});
 			}
-
-			function reason1(obj) {
+			//生产
+			function reasonProduction1(obj) {
 				var supplierId = $("#supplierId").val();
 				var auditField = obj.id;;
 				var auditContent;
@@ -113,10 +114,223 @@
 						layer.close(index);
 					});
 			}
+			
+			//销售
+			function reasonSale(id){
+			  var supplierId=$("#supplierId").val();
+			  var auditContent= "销售-资质证书信息";
+			  var index = layer.prompt({
+				  title: '请填写不通过的理由：', 
+				  formType: 2, 
+				  offset: '100px'
+			  }, function(text){
+			    $.ajax({
+			      url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+			      type: "post",
+			      data: {"auditType":"mat_sell_page","auditFieldName":"销售-资质证书","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+			      dataType: "json",
+			      success:function(result){
+			      result = eval("(" + result + ")");
+			      if(result.msg == "fail"){
+			        layer.msg('该条信息已审核过！', {
+			          shift: 6, //动画类型
+			          offset:'100px'
+			          });
+			        }
+			      }
+			    });
+			       $("#"+id+"_hidden").hide();
+			       $("#"+id+"_show").show();
+			       layer.close(index);
+			    });
+			}
+		
+		function reasonSale1(obj){
+	    var supplierId=$("#supplierId").val();
+		  var auditField = obj.id;;
+		  var auditContent;
+		  var auditFieldName ;
+		  var html = "<a class='abolish'><img src='/zhbj/public/backend/images/sc.png'></a>";
+	    $("#"+obj.id+"").each(function() {
+	      auditFieldName = $(this).parents("li").find("span").text().replace("：","").trim();
+         auditContent = $(this).parents("li").find("input").val();
+   		});
+		  var index = layer.prompt({
+			    title: '请填写不通过的理由：', 
+			    formType: 2, 
+			    offset: '100px'
+		    }, function(text){
+		    $.ajax({
+	        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+	        type:"post",
+	        data: {"auditType":"mat_sell_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":auditField},
+	        dataType:"json",
+	        success:function(result){
+	        result = eval("(" + result + ")");
+	        if(result.msg == "fail"){
+	          layer.msg('该条信息已审核过！', {
+	            shift: 6, //动画类型
+	            offset: '100px'
+	            });
+	         }
+	        }
+        });
+        $(obj).after(html);
+	       layer.close(index);
+		    });
+		  }
+			
+			//工程
+			function reasonEngineering(id,auditContent){
+				   var supplierId=$("#supplierId").val();
+				   var auditFieldName= auditContent.replace("信息","");
+				   var index = layer.prompt({
+				   title: '请填写不通过的理由：', 
+				   formType: 2, 
+				   offset : '100px'
+				 }, 
+				function(text){
+				$.ajax({
+				  url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+				  type:"post",
+				  data: {"auditType":"mat_eng_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+				  dataType:"json",
+				  success:function(result){
+				    result = eval("(" + result + ")");
+				    if(result.msg == "fail"){
+				      layer.msg('该条信息已审核过！', {
+				        shift: 6, //动画类型
+				        offset:'100px'
+				        });
+				      }
+				    }
+				  });
+				    $("#"+id+"_hidden").hide();
+				    $("#"+id+"_hidden1").hide();
+				    $("#"+id+"_hidden2").hide();
+				    $("#"+id+"_show").css('visibility', 'visible');
+				    $("#"+id+"_show1").css('visibility', 'visible');
+				    $("#"+id+"_show2").css('visibility', 'visible');
+				    layer.close(index);
+				  });
+				}
+			
+			//工程
+				function reasonEngineering1(obj){
+				  var supplierId=$("#supplierId").val();
+				  var auditField = obj.id;;
+				  var auditContent;
+				  var auditFieldName ;
+				  var html = "<a class='abolish'><img src='/zhbj/public/backend/images/sc.png'></a>";
+			    $("#"+obj.id+"").each(function() {
+			      auditFieldName = $(this).parents("li").find("span").text().replace("：","").trim();
+	          auditContent = $(this).parents("li").find("input").val();
+	    		});
+				  
+				  var index = layer.prompt({
+				  title: '请填写不通过的理由：', 
+				  formType: 2, 
+				   offset : '100px',
+				  }, 
+				  function(text){
+				    $.ajax({
+				        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+				        type:"post",
+				        data: {"auditType":"mat_eng_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":auditField},
+				        dataType:"json",
+				        success:function(result){
+				        result = eval("(" + result + ")");
+				        if(result.msg == "fail"){
+				          layer.msg('该条信息已审核过！', {
+				            shift: 6, //动画类型
+				            offset:'100px'
+				            });
+				        }
+				      }
+				      });
+				     /* $("#"+id3+"").show();
+				     $("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
+				     $(obj).after(html);
+				     layer.close(index);
+				    });
+				  }
+			//服务
+			function reasonService(id){
+				  var supplierId=$("#supplierId").val();
+				  /* var auditContent="服务资质证书为："+$("#"+id).text()+"的信息"; */ //审批的字段内容
+				  var auditContent="服务-资质证书信息";
+				  var index = layer.prompt({
+					  title: '请填写不通过的理由：', 
+					  formType: 2,
+					  offset : '100px'
+				   },
+				    function(text){
+				    $.ajax({
+				        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+				        type:"post",
+				        data: {"auditType":"mat_serve_page","auditFieldName":"服务-资质证书","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+				        dataType:"json",
+				        success:function(result){
+				        result = eval("(" + result + ")");
+				        if(result.msg == "fail"){
+				          layer.msg('该条信息已审核过！', {
+				            shift: 6, //动画类型
+				            offset:'100px'
+				            });
+				        }
+				      }
+				      });
+				        $("#"+id+"_hidden").hide();
+				        $("#"+id+"_show").css('visibility', 'visible');
+				        layer.close(index);
+				    });
+        }
+
+			//服务
+				function reasonService1(obj){
+					  var supplierId=$("#supplierId").val();
+					  var auditField = obj.id;;
+					  var auditContent;
+					  var auditFieldName ;
+					  var html = "<a class='abolish'><img src='/zhbj/public/backend/images/sc.png'></a>";
+				    $("#"+obj.id+"").each(function() {
+				      auditFieldName = $(this).parents("li").find("span").text().replace("：","").trim();
+		          auditContent = $(this).parents("li").find("input").val();
+		    		});
+					  var index = layer.prompt({
+						  title: '请填写不通过的理由：', 
+						  formType: 2, 
+						  offset: '100px'
+					  }, 
+				  function(text){
+				    $.ajax({
+				        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+				        type:"post",
+				        data: {"auditType":"mat_serve_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":auditField},
+				        dataType:"json",
+				        success:function(result){
+				        result = eval("(" + result + ")");
+				        if(result.msg == "fail"){
+				          layer.msg('该条信息已审核过！', {
+				            shift: 6, //动画类型
+				            offset:'100px'
+				            });
+				        }
+				      }
+				      });
+					     /* $("#"+id3+"").show();
+					     $("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
+					     $(obj).after(html);
+				       layer.close(index);
+				    });
+        }
+			
+			
 
 			//下一步
 			function nextStep(url) {
-				$("#form_id").attr("action", url);
+				var action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
 
@@ -237,7 +451,7 @@
 							<a aria-expanded="false">股东信息</a>
 							<i></i>
 						</li>
-						<li onclick="jump('supplierType')">
+						<li onclick="jump('supplierType')" class="active">
 							<a aria-expanded="false">供应商类型</a>
 							<i></i>
 						</li>
@@ -261,202 +475,211 @@
 						</li>
 					</ul>
 
-					<ul class="count_flow ul_list hand">
-						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+
+						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab count_flow">
 							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 								<li class="active">
-									<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a>
+									<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型信息</a>
 								</li>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
 								<li class="">
-									<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型品目信息</a>
+									<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型信息</a>
 								</li>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 								<li class="">
-									<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a>
+									<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程信息</a>
 								</li>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 								<li class="">
-									<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务品目信息</a>
+									<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务信息</a>
 								</li>
 							</c:if>
 						</ul>
 
 						<div class="count_flow">
 							<div class="tab-content padding-top-20" id="tab_content_div_id">
-							
 								<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 									<div class="tab-pane fade active in height-300" id="tab-1">
-										<h2 class="count_flow"><i>1</i>供应商物资生产资质证书</h2>
-										<div class="ul_list count_flow">
-											<table class="table table-bordered table-condensed table-hover">
-												<thead>
-													<tr>
-														<th class="info w50">序号</th>
-														<th class="info">资质证书名称</th>
-														<th class="info">资质等级</th>
-														<th class="info">发证机关</th>
-														<th class="info">有效期(起止时间)</th>
-														<th class="info">是否年检</th>
-														<!-- <th class="info">附件</th> -->
-														<th class="info w50">操作 </th>
-													</tr>
-												</thead>
-												<c:forEach items="${materialProduction}" var="m" varStatus="vs">
-													<tr>
-														<td class="tc">${vs.index + 1}</td>
-														<td class="tc" id="${m.id}">${m.name }</td>
-														<td class="tc">${m.levelCert}</td>
-														<td class="tc">${m.licenceAuthorith }</td>
-														<td class="tc">
-															<fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd' /> 至
-															<fmt:formatDate value="${m.expEndDate }" pattern='yyyy-MM-dd' />
-														</td>
-														<td class="tc">
-															<c:if test="${m.mot==0 }">否</c:if>
-															<c:if test="${m.mot==1 }">是</c:if>
-														</td>
-														<td class="tc w50">
-															<p onclick="reason('${m.id}');" id="${m.id}_hidden" class="btn">审核</p>
-															<a id="${m.id }_show"><img src='/zhbj/public/backend/images/sc.png'></a>
-														</td>
-													</tr>
-												</c:forEach>
-											</table>
-										</div>
+									<h2 class="count_flow"><i>1</i>供应商物资生产资质证书</h2>
+        <div class="ul_list count_flow">
+          <table class="table table-bordered table-condensed table-hover">
+		        <thead>
+		          <tr>
+		            <th class="info w50">序号</th>
+		            <th class="info">资质证书名称</th>
+		            <th class="info">资质等级</th>
+		            <th class="info">发证机关</th>
+		            <th class="info">有效期(起止时间)</th>
+		            <th class="info">是否年检</th>
+		            <!-- <th class="info">附件</th> -->
+		            <th class="info w50">操作 </th>
+		          </tr>
+		          </thead>
+	          <c:forEach items="${materialProduction}" var="m" varStatus="vs">
+	            <tr>
+	              <td class="tc">${vs.index + 1}</td>
+	              <td class="tc" id="${m.id}">${m.name }</td>
+	              <td class="tc" >${m.levelCert}</td>
+	              <td class="tc" >${m.licenceAuthorith }</td>
+	              <td class="tc" >
+	                <fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd'/>  至  
+	                <fmt:formatDate value="${m.expEndDate }" pattern='yyyy-MM-dd'/>
+	              </td>
+	              <td class="tc" >
+	               <c:if test="${m.mot==0 }">否</c:if>
+	               <c:if test="${m.mot==1 }">是</c:if>
+	              </td>
+	              <%-- <td class="tc">
+	                <c:if test="${m.attach !=null}">
+	                  <a class="mt3 color7171C6" href="javascript:download('${m.attachId}', '${sysKey}')">${m.attach}</a>
+	                </c:if>
+	                <c:if test="${m.attach ==null}">
+	                  <a class="red">无附件下载</a>
+	                </c:if>
+	              </td> --%>
+	              <td class="tc w50">
+	                <p onclick="reasonProduction('${m.id}');" id="${m.id}_hidden" class="btn">审核</p>
+	                <a  id="${m.id }_show"><img src='/zhbj/public/backend/images/sc.png'></a>
+	              </td>
+	            </tr>
+	          </c:forEach>
+          </table>
+        </div>
 
-										<h2 class="count_flow"><i>2</i>组织结构和人员</h2>
-										<ul class="ul_list count_flow">
-											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
-												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-													<input id="orgName" type="text" value="${supplierMatPros.orgName }" onclick="reason1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName');"</c:if>/>
-								</div>
-								</li>
-								<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
-									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="totalPerson" type="text" value="${supplierMatPros.totalPerson }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalPerson')}"> style="border: 1px solid #FF8C00;"style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson');"</c:if>/>
-									</div>
-								</li>
-								<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
-									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="totalMange" type="text" value="${supplierMatPros.totalMange }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange');"</c:if>/>
-									</div>
-								</li>
-								<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
-									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="totalTech" type="text" value="${supplierMatPros.totalTech }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech');"</c:if>/>
-									</div>
-								</li>
-								<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
-									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="totalWorker" type="text" value="${supplierMatPros.totalWorker }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker');"</c:if>/>
-									</div>
-								</li>
-								</ul>
-
-								<h2 class="count_flow"><i>3</i>产品研发能力</h2>
-								<ul class="ul_list count_flow">
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员比例(%)：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" onclick="reason1(this)" <c:if test="${fn:contains(field,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech');"</c:if>/>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员比例(%)：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reason1(this)" <c:if test="${fn:contains(field,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech');"</c:if>/>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门名称：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="researchName" type="text" value="${supplierMatPros.researchName }" onclick="reason1(this)" <c:if test="${fn:contains(field,'researchName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchName');"</c:if>/>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门人数：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="totalResearch" type="text" value="${supplierMatPros.totalResearch }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalResearch')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalResearch');"</c:if>/>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">研发部门负责人：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="researchLead" type="text" value="${supplierMatPros.researchLead }" onclick="reason1(this)" <c:if test="${fn:contains(field,'researchLead')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchLead');"</c:if>/>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家军队科研项目：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="countryPro" type="text" onclick="reason1(this)" value="${supplierMatPros.countryPro }" <c:if test="${fn:contains(field,'countryPro')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryPro');"</c:if>>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家军队科技奖项：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="countryReward" type="text" onclick="reason1(this)" value="${supplierMatPros.countryReward }" <c:if test="${fn:contains(field,'countryReward')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryReward');"</c:if>>
-										</div>
-									</li>
-								</ul>
-
-								<h2 class="count_flow"><i>4</i>供应商生产能力</h2>
-								<ul class="ul_list count_flow">
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">生产线名称数量：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="totalBeltline" type="text" value="${supplierMatPros.totalBeltline }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalBeltline')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalBeltline');"</c:if>/>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">生产设备名称数量：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="totalDevice" type="text" value="${supplierMatPros.totalDevice }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalDevice');"</c:if>/>
-										</div>
-									</li>
-								</ul>
-
-								<h2 class="count_flow"><i>5</i>物资生产型供应商质量检测登记</h2>
-								<ul class="ul_list count_flow">
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测部门：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="qcName" type="text" value="${supplierMatPros.qcName }" onclick="reason1(this)" <c:if test="${fn:contains(field,'qcName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcName');"</c:if>/>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测人数：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="totalQc" type="text" value="${supplierMatPros.totalQc }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalQc')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalQc');"</c:if>/>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质检部门负责人：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="qcLead" type="text" value="${supplierMatPros.qcLead }" onclick="reason1(this)" <c:if test="${fn:contains(field,'qcLead')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcLead');"</c:if>/>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-										<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测设备名称：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input id="qcDevice" type="text" onclick="reason1(this)" value="${supplierMatPros.qcDevice }" <c:if test="${fn:contains(field,'qcDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcDevice');"</c:if>>
-										</div>
-									</li>
-								</ul>
+        <h2 class="count_flow"><i>2</i>组织结构和人员</h2>
+        <ul class="ul_list count_flow">
+		      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
+		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+		          <input id="orgName" type="text" value="${supplierMatPros.orgName }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName');"</c:if>/>
+		        </div>
+		      </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="totalPerson" type="text" value="${supplierMatPros.totalPerson }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalPerson')}"> style="border: 1px solid #FF8C00;"style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="totalMange" type="text"  value="${supplierMatPros.totalMange }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="totalTech" type="text"  value="${supplierMatPros.totalTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="totalWorker" type="text" value="${supplierMatPros.totalWorker }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker');"</c:if>/>
+	          </div>
+	        </li>
+        </ul>
+        
+        <h2 class="count_flow"><i>3</i>产品研发能力</h2>
+        <ul class="ul_list count_flow">
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员比例(%)：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员比例(%)：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门名称：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="researchName" type="text"  value="${supplierMatPros.researchName }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'researchName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchName');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门人数：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="totalResearch" type="text"  value="${supplierMatPros.totalResearch }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalResearch')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalResearch');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">研发部门负责人：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="researchLead" type="text" value="${supplierMatPros.researchLead }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'researchLead')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchLead');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家军队科研项目：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	              <input id="countryPro" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.countryPro }" <c:if test="${fn:contains(field,'countryPro')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryPro');"</c:if>>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家军队科技奖项：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	              <input id="countryReward" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.countryReward }" <c:if test="${fn:contains(field,'countryReward')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryReward');"</c:if>>
+	          </div>
+	        </li>
+	      </ul>
+	      
+	      <h2 class="count_flow"><i>4</i>供应商生产能力</h2>
+        <ul class="ul_list count_flow">
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">生产线名称数量：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="totalBeltline" type="text" value="${supplierMatPros.totalBeltline }"  onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalBeltline')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalBeltline');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">生产设备名称数量：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="totalDevice" type="text" value="${supplierMatPros.totalDevice }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalDevice');"</c:if>/>
+	          </div>
+	        </li>
+        </ul>
+    
+		    <h2 class="count_flow"><i>5</i>物资生产型供应商质量检测登记</h2>
+	      <ul class="ul_list count_flow">
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测部门：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="qcName" type="text" value="${supplierMatPros.qcName }"  onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'qcName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcName');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测人数：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="totalQc"  type="text" value="${supplierMatPros.totalQc }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalQc')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalQc');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质检部门负责人：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	            <input id="qcLead" type="text" value="${supplierMatPros.qcLead }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'qcLead')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcLead');"</c:if>/>
+	          </div>
+	        </li>
+	        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测设备名称：</span>
+	          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	              <input id="qcDevice" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.qcDevice }" <c:if test="${fn:contains(field,'qcDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcDevice');"</c:if>>
+	          </div>
+	        </li>
+	      </ul>
+									
+									</div>	
 								</c:if>
 								
 								
-								 <c:if test="${fn:contains(supplierTypeNames, '销售')}">
+								<c:if test="${fn:contains(supplierTypeNames, '销售')}">
 									<div class="tab-pane fade active in height-200" id="tab-2">
-								<h2 class="count_flow"><i>1</i>供应商物资销售资质证书</h2>
+									<h2 class="count_flow"><i>1</i>供应商物资销售资质证书</h2>
           <ul class="ul_list">
 	          <table class="table table-bordered table-condensed table-hover">
 	            <thead>
@@ -489,55 +712,320 @@
 	                  <a class="mt3 color7171C6" href="javascript:download('${s.attachId}', '${sysKey}')">${s.attach}</a>
 	                </td> --%>
 	                <td class="tc w50">
-	                  <p onclick="reason('${s.id}');"  id="${s.id}_hidden" class="btn">审核</p>
+	                  <p onclick="reasonSale('${s.id}');"  id="${s.id}_hidden" class="btn">审核</p>
 	                  <a id="${s.id }_show"><img src='/zhbj/public/backend/images/sc.png'></a>
 	                </td>
 	              </tr>
 	            </c:forEach>
 	          </table>
           </ul>
-          
                 
           <h2 class="count_flow"><i>2</i>供应商组织结构和人员</h2>
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="orgName" type="text" value="${supplierMatSells.orgName }" onclick="reason1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName');"</c:if>/>
+                <input id="orgName" type="text" value="${supplierMatSells.orgName }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName');"</c:if>/>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="totalPerson" type="text" value="${supplierMatSells.totalPerson }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson');"</c:if>/>
+                <input id="totalPerson" type="text" value="${supplierMatSells.totalPerson }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson');"</c:if>/>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="totalMange" type="text"  value="${supplierMatSells.totalMange }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange');"</c:if>/>
+                <input id="totalMange" type="text"  value="${supplierMatSells.totalMange }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange');"</c:if>/>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="totalTech" type="text"  value="${supplierMatSells.totalTech }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech');"</c:if>/>
+                <input id="totalTech" type="text"  value="${supplierMatSells.totalTech }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech');"</c:if>/>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="totalWorker" type="text" value="${supplierMatSells.totalWorker }" onclick="reason1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker');"</c:if>/>
+                <input id="totalWorker" type="text" value="${supplierMatSells.totalWorker }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker');"</c:if>/>
               </div>
             </li>
           </ul>
-				</div>
-          </c:if>				
-								
-								
-								
-								
-								
+													
+									</div>
+					          	</c:if>				
+													
+								<c:if test="${fn:contains(supplierTypeNames, '工程')}">
+									<div class="tab-pane fade height-200" id="tab-3">					
+									<h2 class="count_flow"><i>1</i>供应商工程证书信息</h2>
+          <div class="ul_list count_flow">
+	          <table class="table table-bordered table-condensed table-hover">
+		          <thead>
+		            <tr>
+		              <th class="info">资质资格类型</th>
+		              <th class="info">证书编号</th>
+		              <th class="info">资质资格最高等级</th>
+		              <th class="info">技术负责人姓名</th>
+		              <th class="info">技术负责人职称</th>
+		              <th class="info">技术负责人职务</th>
+		              <th class="info">单位负责人姓名</th>
+		              <th class="info">单位负责人职称</th>
+		              <th class="info">单位负责人职务</th>
+		              <th class="info">发证机关</th>
+		              <th class="info">发证日期</th>
+		              <th class="info">有效截止日期</th>
+		              <th class="info">证书状态</th>
+		              <!-- <th class="info">附件</th> -->
+		             <th class="info w50">操作</th>
+		            </tr>
+		          </thead>
+              <c:forEach items="${supplierCertEng}" var="s" >
+                <tr>
+                  <td class="tc" >${s.certType }</td>
+                  <td class="tc" id="${s.id }" >${s.certCode }</td>
+                  <td class="tc" >${s.certMaxLevel }</td>
+                  <td class="tc" >${s.techName }</td>
+                  <td class="tc" >${s.techPt }</td>
+                  <td class="tc" >${s.techJop }</td>
+                  <td class="tc" >${s.depName }</td>
+                  <td class="tc" >${s.depPt }</td>
+                  <td class="tc" >${s.depJop }</td>
+                  <td class="tc" >${s.licenceAuthorith }</td>
+                  <td class="tc " >
+                    <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>
+                  </td>
+                  <td class="tc" >
+                     <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>
+                     <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
+                  </td>
+                  <td class="tc" >
+                    <c:if test="${s.certStatus==0 }">无效</c:if>
+                    <c:if test="${s.certStatus==1 }">有效</c:if>
+                  </td>
+                  <%-- <td class="tc" >
+                    <c:if test="${s.attachCert !=null}">
+                        <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
+                        <a class="mt3 color7171C6" href="javascript:download('${s.attachCertId}', '${sysKey}')">${s.attachCert}</a>
+                      </c:if>
+                       <c:if test="${s.attachCert ==null}">
+                         <a class="red">无附件下载</a>
+                       </c:if>
+                  </td> --%>
+                  <td class="tc w50">
+                    <p onclick="reasonEngineering('${s.id}','工程-资质证书信息');" id="${s.id}_hidden" class="btn">审核</p>
+                    <a id="${s.id }_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+                  </td>
+                </tr>
+              </c:forEach>
+            </table>
+          </div>
+
+          <h2 class="count_flow"><i>2</i>供应商资质资格信息</h2>
+          <ul class="ul_list count_flow">
+            <table class="table table-bordered table-condensed table-hover">
+              <thead>
+		            <tr>
+		              <th class="info">资质资格类型</th>
+		              <th class="info">证书编号</th>
+		              <th class="info">资质资格序列</th>
+		              <th class="info">专业类别</th>
+		              <th class="info">资质资格等级</th>
+		              <th class="info">是否主项资质</th>
+		              <th class="info">批准资质资格内容</th>
+		              <th class="info">首次批准资质资格文号</th>
+		              <th class="info">首次批准资质资格日期</th>
+		              <th class="info">资质资格取得方式</th>
+		              <th class="info">资质资格状态</th>
+		              <th class="info">资质资格状态变更时间</th>
+		              <th class="info">资质资格状态变更原因</th>
+		              <!-- <th class="info">附件</th> -->
+		              <th class="info w50">操作</th>
+		            </tr>
+              </thead>
+		          <c:forEach items="${supplierAptitutes}" var="s" >
+		            <tr>
+		              <td class="tc" >${s.certType }</td>
+		              <td class="tc" id="${s.id }" >${s.certCode }</td>
+		              <td class="tc" >${s.aptituteSequence }</td>
+		              <td class="tc" >${s.professType }</td>
+		              <td class="tc" >${s.aptituteLevel }</td>
+		              <td class="tc" >
+		                <c:if test="${s.isMajorFund==0 }">否</c:if>
+		                <c:if test="${s.isMajorFund==1 }">是</c:if>
+		              <td class="tc" >${s.aptituteContent }</td>
+		              <td class="tc" >${s.aptituteCode }</td>
+		              <td class="tc" >
+		                <fmt:formatDate value="${s.aptituteDate }" pattern='yyyy-MM-dd'/>
+		              </td>
+		              <td class="tc" >${s.aptituteWay }</td>
+		              <td class="tc" >
+		                <c:if test="${s.aptituteStatus==0 }">无效</c:if>
+		                <c:if test="${s.aptituteStatus==1 }">有效</c:if>
+		              </td>
+		              <td class="tc">
+		                <fmt:formatDate value="${s.aptituteChangeAt }" pattern='yyyy-MM-dd'/>
+		              </td>
+		              <td class="tc">${s.aptituteChangeReason }</td>
+		              <%-- <td class="tc" >
+		                <c:if test="${s.attachCert !=null}">
+		                  <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
+		                  <a class="mt3 color7171C6" href="javascript:download('${s.attachCertId}', '${sysKey}')">${s.attachCert}</a>
+		                </c:if>
+		                <c:if test="${s.attachCert ==null}">
+		                    <a class="red">无附件下载</a>
+		                </c:if>
+		              </td> --%>
+		              <td class="tc w50">
+		                <p onclick="reasonEngineering('${s.id}','工程-资质资格证书信息');" id="${s.id}_hidden1" class="btn">审核</p>
+		                <a id="${s.id }_show1" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+		              </td>
+		            </tr>
+		          </c:forEach>
+            </table>
+          </ul>
+
+          <h2 class="count_flow"><i>3</i>供应商注册人员登记</h2>
+          <ul class="ul_list count_flow">
+            <table class="table table-bordered table-condensed table-hover">
+		          <thead>
+	              <tr>
+	                <th class="info w50">序号</th>
+	                <th class="info">注册名称</th>
+	                <th class="info">注册人数</th>
+	                <th class="info w50">操作</th>
+	              </tr>
+		          </thead>
+              <c:forEach items="${listRegPerson}" var="regPrson" varStatus="vs">
+                <tr>
+                  <td class="tc">${vs.index + 1}</td>
+                  <td class="tc">${regPrson.regType}</td>
+                  <td class="tc">${regPrson.regNumber}</td>
+                  <td class="tc w50">
+                    <p onclick="reasonEngineering('${regPrson.id}','工程-注册人员登记信息');" id="${regPrson.id}_hidden2" class="btn">审核</p>
+                    <a id="${regPrson.id }_show2" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+                  </td>
+                </tr>
+              </c:forEach>
+            </table>
+          </ul>
+          <h2 class="count_flow"><i>4</i>法人代表信息</h2>
+          <ul class="ul_list count_flow">
+	          
+			      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
+			        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+			          <input id="orgName" type="text" value="${supplierMatEngs.orgName }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName');"</c:if>/>
+	            </div>
+	          </li>
+	          <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术负责人：</span>
+	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	              <input id="totalTech" type="text" value="${supplierMatEngs.totalTech }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech');"</c:if>/>
+	            </div>
+	          </li>
+	          <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">中级及以上职称人员：</span>
+	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	              <input id="totalGlNormal" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalGlNormal')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalGlNormal');"</c:if>/>
+	            </div>
+	          </li>
+	          <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
+	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	              <input id="totalMange" type="text"  value="${supplierMatEngs.totalMange }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange');"</c:if>/>
+	            </div>
+	          </li>
+	          <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术工人：</span>
+	            <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	              <input id="totalTechWorker" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalTechWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTechWorker');"</c:if>/>
+			        </div>
+			      </li>
+          </ul>
+							
+					  				</div>
+								</c:if>
+								<c:if test="${fn:contains(supplierTypeNames, '服务')}">
+									<div class="tab-pane fade height-200" id="tab-4">					
+										<h2 class="count_flow"><i>1</i>供应商资服务质证书</h2>
+          <ul class="ul_list count_flow">
+            <table class="table table-bordered table-condensed table-hover">
+	            <thead>
+	              <tr>
+	                <th class="info w50">序号</th>
+	                <th class="info">资质证书名称</th>
+	                <th class="info">资质等级</th>
+	                <th class="info">发证机关</th>
+	                <th class="info">有效期(起止时间)</th>
+	                <th class="info">是否年检</th>
+	                <!-- <th class="info">附件</th> -->
+	                <th class="info w50">操作</th>
+	              </tr>
+	            </thead>
+	            <c:forEach items="${supplierCertSes}" var="s" varStatus="vs">
+	              <tr>
+	                <td class="tc">${vs.index + 1}</td>
+	                <td class="tc" id="${s.id}" >${s.name }</td>
+	                <td class="tc" >${s.levelCert}</td>
+	                <td class="tc" >${s.licenceAuthorith }</td>
+	                <td class="tc" >
+	                  <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
+	                  <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
+	                </td>
+	                <td class="tc">
+	                 <c:if test="${s.mot==0 }">否</c:if>
+	                 <c:if test="${s.mot==1 }">是</c:if>
+	                </td>
+	                <%-- <td class="tc">
+	                  <a class="mt3 color7171C6" href="javascript:download('${s.attachId}', '${sysKey}')">${s.attach}</a>
+	                </td> --%>
+	                <td class="tc w50">
+	                  <p onclick="reasonService('${s.id}');" id="${s.id}_hidden" class="btn">审核</p>
+	                  <a  id="${s.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+	                </td>
+	              </tr>
+	            </c:forEach>
+            </table>
+          </ul>
+
+          <h2 class="count_flow"><i>2</i>法人代表信息</h2>
+            <ul class="ul_list">
+	            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="orgName" class="span5" type="text" value="${supplierMatSes.orgName }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName');"</c:if>/>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="totalPerson" class="span5" type="text" value="${supplierMatSes.totalPerson }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson');"</c:if>/>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="totalMange" class="span5" type="text"  value="${supplierMatSes.totalMange }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange');"</c:if>/>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="totalTech" class="span5" type="text"  value="${supplierMatSes.totalTech }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech');"</c:if>/>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="totalWorker" class="span5" type="text" value="${supplierMatSes.totalWorker }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker');"</c:if>/>
+	              </div>
+	            </li>
+            </ul>
+							
+					  				</div>
+								</c:if>					
 								
 								
 								
@@ -550,7 +1038,7 @@
 								
 								<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
 									<a class="btn" type="button" onclick="lastStep();">上一步</a>
-									<a class="btn" type="button" onclick="nextStep('${url}');">下一步</a>
+									<a class="btn" type="button" onclick="nextStep();">下一步</a>
 								</div>
 								</div>
 							</div>

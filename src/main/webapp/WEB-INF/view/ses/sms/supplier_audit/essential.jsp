@@ -298,7 +298,7 @@
 							<a aria-expanded="false">股东信息</a>
 							<i></i>
 						</li>
-						<c:if test="${fn:contains(supplierTypeNames, '生产')}">
+						<%--<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 							<li onclick="jump('materialProduction')">
 								<a aria-expanded="false">生产信息</a>
 								<i></i>
@@ -322,7 +322,7 @@
 								<i></i>
 							</li>
 						</c:if>
-						<li onclick = "jump('supplierType')">
+						--%><li onclick = "jump('supplierType')">
            	  <a aria-expanded="false">供应商类型</a>
             	<i></i>
 	          </li>
