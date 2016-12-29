@@ -290,16 +290,16 @@
           			<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
 		            <c:if test="${status == 0}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="审核通过 " id="tongguo">
-		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
-		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(3)" value="审核不通过">
+		              <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
+		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过">
 		            </c:if>
 		            <c:if test="${status == 4}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
-		              <input class="btn btn-windows edit"  type="button" onclick="shenhe(6)" value="复核不通过">
+		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过">
 		            </c:if>
 		            <c:if test="${status == 5}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(7)" value="合格 " id="hege">
-		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(8)" value="不合格">
+		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(8)" value="不合格">
 		            </c:if>
 	              </div>
 	            </div>

@@ -21,7 +21,7 @@
                 type : 2,
                 title : '选择供应商',
                 // skin : 'layui-layer-rim', //加上边框
-                area : [ '1000px', '420px' ], //宽高
+                area : [ '80%', '420px' ], //宽高
                 offset : '100px',
                 scrollbar : false,
                 content : '${pageContext.request.contextPath}/supplier_blacklist/list_supplier.html', //url
@@ -68,7 +68,7 @@
                  <h2 class="count_flow"><i>1</i>添加供应商</h2>
                     <ul class="ul_list">
                             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商名称</span>
+                             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商名称</span>
                                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                   <input name="id" type="hidden" value="${supplierBlacklist.id}">
                                   <input name="supplierId" type="hidden" value="${supplier.id}">
@@ -124,7 +124,7 @@
                              </li>
                     </ul>
                 </div>
-                <div class="col-md-12 tc">
+                <div class="col-md-12 tc col-sm-12 col-xs-12 mt10">
                     <input class="btn btn-windows save" type="submit" value="保存" />
                     <input class="btn btn-windows back" onclick="location='${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html'" type="button" value="返回">
                 </div>

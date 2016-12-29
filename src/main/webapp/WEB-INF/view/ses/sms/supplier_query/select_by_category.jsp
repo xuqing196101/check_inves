@@ -265,10 +265,10 @@
 									<label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
 								</li>
 							</ul>
-							<input class="btn" onclick="tijiao()" type="button" value="查询">
-							<button type="button" class="btn" onclick="resetQuery()">重置</button>
+							<input class="btn mt1" onclick="tijiao()" type="button" value="查询">
+							<button type="button" class="btn mt1" onclick="resetQuery()">重置</button>
 						</form>
-						<div class="content table_box">
+						<div class="content table_box pl0">
 							<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 								<thead>
 									<tr>
@@ -285,7 +285,7 @@
 									<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 										<tr>
 											<td class="tc">${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
-											<td>
+											<td class="pl20">
 												<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a>
 											</td>
 											<td class="tc">${list.contactName}</td>

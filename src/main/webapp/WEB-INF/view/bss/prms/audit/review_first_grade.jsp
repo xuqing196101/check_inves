@@ -135,7 +135,7 @@ $(document).ready(function() {
 			url: "${pageContext.request.contextPath}/reviewFirstAudit/zanCun.do",
 			data: {"expertId": expertId, "packageId": packageId, "projectId": projectId},
 			success: function(){
-				layer.msg("已暂存!",{offset: ['300px', '750px']});
+				layer.msg("已暂存!",{offset: ['400px', '750px']});
 			}
 		});
 	}
@@ -149,7 +149,7 @@ $(document).ready(function() {
   </script>
   </head>
   
-<body style="font-size: x-large">
+<body style="font-size: 5px !important;">
   <div class="dnone">
   	<form  id="score_form">
   	  <input type="hidden" name="supplierIds" id="supplierIds">
