@@ -130,8 +130,7 @@
 		              shadeClose: true,
 		              shade: 0.01,
 		              offset: '20px',
-		              move: false,
-		              area: ['90%', '430px'],
+		              area: ['90%', '70%'],
 		              content: '${pageContext.request.contextPath}/ExpExtract/reasonnumber.do?expertsTypeCode='+$("#expertsTypeCode").val()+'&&addressReson='+$("#city option:selected").val()+ $("#area option:selected").val()+'&&eCount='+$("#eCount").val(),
 		              success: function(layero, index) {
 		                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
