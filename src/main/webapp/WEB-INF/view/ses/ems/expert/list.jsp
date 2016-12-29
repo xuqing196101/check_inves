@@ -288,11 +288,7 @@
                   </li>
 		        </ul>
 		              <input class="btn fl mt1"  value="查询" type="submit">
-<<<<<<< Updated upstream
-                      <input class="btn fl mt1" id="button" onclick="clearSearch();" value="重置" type="reset">  
-=======
                       <input class="btn  fl mt1" id="button" onclick="clearSearch();" value="重置" type="reset">  
->>>>>>> Stashed changes
                    </form>
                    </h2>
 			<!-- 表格开始-->
@@ -321,7 +317,7 @@
 						</tr>
 					</thead>
 					<c:forEach items="${result.list }" var="e" varStatus="vs">
-						<tr>
+						<tr class="pointer">
 							<td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id },${e.status}"></td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td onclick="view('${e.id}');" >${e.relName}</td>

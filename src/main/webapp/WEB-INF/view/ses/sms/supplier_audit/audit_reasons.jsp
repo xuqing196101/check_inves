@@ -268,9 +268,9 @@
                      <c:if test="${reasons.auditType == 'contract_page'}">品目合同</c:if>
                      <c:if test="${reasons.auditType == 'upload_page'}">申请表</c:if>
                    </td>
-                   <td class="tc">${reasons.auditFieldName }</td>
-                   <td class="tc">${reasons.auditContent}</td>
-                   <td class="tc">${reasons.suggest}</td>
+                   <td class="tl pl20">${reasons.auditFieldName }</td>
+                   <td class="tl pl20">${reasons.auditContent}</td>
+                   <td class="tl pl20">${reasons.suggest}</td>
                  </tr>
                </c:forEach>
             </table>

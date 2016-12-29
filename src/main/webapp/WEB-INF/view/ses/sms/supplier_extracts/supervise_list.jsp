@@ -125,14 +125,14 @@
      <form id="form1" >
      <input name="projectId" value="${projectId}" type="hidden">
      <input name="type" value="${type}" type="hidden" > 
-        <table class="table table-bordered table-condensed table_input">
+        <table class="table table-bordered table-condensed table_input left_table">
 		<thead>
 		<tr>
 		  <th class="info">姓名</th>
 		  <th class="info">单位</th>
 		  <th class="info">职务</th>
 		  <th class="info">手机号</th>
-		  <th class="info">操作</th>
+		  <th class="info ">操作</th>
 		</tr>
 		</thead>
 		<tbody id="tbody">
@@ -142,9 +142,9 @@
 					   <td class="tc"><input type="text" name="company" value="${list.company}" /></td>
 					   <td class="tc"><input type="text" name="duties" value="${list.duties}" /> </td>
 					   <td class="tc"><input type="text" name="phone" value="${list.phone}" /> </td>
-					   <td class="tc">
-					     <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十"/>
-	             <input type="button" onclick="delBranch(this)" class="btn list_btn" value="一"/>
+					   <td class="tl pl20">
+					     <input type="button" onclick="addBranch(this)" class="btn  tl pl20" value="十"/>
+	                     <input type="button" onclick="delBranch(this)" class="btn" value="一"/>
 					  </td>
 				</tr>
 		</c:forEach>
@@ -154,9 +154,9 @@
             <td class="tc"><input type="text" name="company" /></td>
             <td class="tc"><input type="text" name="duties"  /> </td>
             <td class="tc"><input type="text" name="phone"  /> </td>
-            <td class="tc">
-              <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十"/>
-              <input type="button" onclick="delBranch(this)" class="btn list_btn" value="一"/>
+            <td class="">
+              <input type="button" onclick="addBranch(this)" class="btn tl pl20" value="十"/>
+              <input type="button" onclick="delBranch(this)" class="btn" value="一"/>
             </td>
         </tr>
 		</c:if>

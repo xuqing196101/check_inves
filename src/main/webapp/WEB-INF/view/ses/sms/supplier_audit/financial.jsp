@@ -314,10 +314,10 @@
 										<th class="info">事务所联系电话</th>
 										<th class="info">审计人姓名</th>
 										<!-- <th class="info">指标</th> -->
-										<th class="info">资产总额</th>
-										<th class="info">负债总额</th>
-										<th class="info">净资产总额</th>
-										<th class="info">营业收入</th>
+										<th class="info">资产总额(万元)</th>
+										<th class="info">负债总额(万元)</th>
+										<th class="info">净资产总额(万元)</th>
+										<th class="info">营业收入(万元)</th>
 										<th class="info w50">操作</th>
 									</tr>
 								</thead>
@@ -352,7 +352,7 @@
 								</tr>
 							</thead>
 							<tbody id="finance_attach_list_tbody_id">
-								<tr>
+								<tr class="tc">
 									<td class="tc w50">${f.year}</td>
 									<td class="tc">
 										<u:show showId="fina_${vs.index}_pro" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" />

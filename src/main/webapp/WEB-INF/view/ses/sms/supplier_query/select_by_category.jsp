@@ -252,7 +252,7 @@
 				<div class="col-md-12" style="min-height:400px;">
 					<div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
-							<input type="text" id="key" value="" class="empty" /><br/>
+							<input type="text" id="key"  value="" class="empty w220" /><br/>
 							<ul id="treeDemo" class="ztree" />
 						</div>
 					</div>
@@ -265,8 +265,8 @@
 									<label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
 								</li>
 							</ul>
-							<input class="btn mt1" onclick="tijiao()" type="button" value="查询">
-							<button type="button" class="btn mt1" onclick="resetQuery()">重置</button>
+							<input class="btn fl mt1" onclick="tijiao()" type="button" value="查询">
+							<button type="button" class="btn fl mt1" onclick="resetQuery()">重置</button>
 						</form>
 						<div class="content table_box pl0">
 							<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">

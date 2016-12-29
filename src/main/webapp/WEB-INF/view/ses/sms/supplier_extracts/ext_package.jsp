@@ -143,16 +143,16 @@
      <form  action="${pageContext.request.contextPath}/SupplierExtracts/packageList.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
      <li class="fl">
-       <label class="fl">包名称：
-        <span>
+     <span>
+       <label class="fl">包名称：</label>
 	        <input type="hidden" name="page" id="page">
 	        <input type="text" name="packName" id="proName" value="${packName}"/>
 	        <input type="hidden" name="projectId"  value="${projectId}"  > 
         </span>
-        </label>
+        
        </li>
-         <button class="btn" type="submit">查询</button>
-         <button type="button" class="btn" onclick="resetQuery();">重置</button> 
+         <button class="btn fl mt1" type="submit">查询</button>
+         <button type="button" class="btn fl mt1" onclick="resetQuery();">重置</button> 
      </ul>
      <div class="clear"></div>
     </form>

@@ -67,7 +67,7 @@
 						<c:forEach items="${listBlacklistLogs.list}" var="log" varStatus="vs">
 							<tr class="hand">
 								<td class="tc">${vs.index + 1}</td>
-								<td class="tc">${log.supplierName}</td>
+								<td class="tl pl20">${log.supplierName}</td>
 								<td class="tc"><fmt:formatDate value="${log.startTime}" pattern="yyyy-MM-dd"/></td>
 								<td class="tc">
 									<c:if test="${log.term == 3}">3个月</c:if>
@@ -92,7 +92,7 @@
 										外网发布
 									</c:if>
 								</td>
-								<td class="tc">${log.reason}</td>
+								<td class="tl pl20">${log.reason}</td>
 								<td class="tc">
 									<c:if test="${log.operationType == 0}">
 										新增

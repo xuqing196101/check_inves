@@ -122,8 +122,8 @@
 			  		</select>
 			   	</span>
 			</li>
-		  	<button class="btn" type="button" onclick="queryResult()">查询</button>
-		  	<button class="btn" type="button" onclick="resetResult()">重置</button>
+		  	<button class="btn fl mt1" type="button" onclick="queryResult()">查询</button>
+		  	<button class="btn fl mt1" type="button" onclick="resetResult()">重置</button>
   		</ul>
   		<div class="clear"></div>
   	</h2>

@@ -104,7 +104,7 @@
 			title : '供应商黑名单记录表',
 			// skin : 'layui-layer-rim', //加上边框
 			area : [ '1000px', '420px' ], //宽高
-			offset : '100px',
+			offset : '50px',
 			scrollbar : false,
 			content : '${pageContext.request.contextPath}/blacklist_log/list.html?supplierId=' + supplierId, //url
 			closeBtn : 1, //不显示关闭按钮
@@ -196,7 +196,7 @@
 							<tr class="hand">
 								<td class="tc"><input id="${supplierBlacklist.supplierId}" name="checkbox" value="${supplierBlacklist.id}" type="checkbox"></td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">${vs.index + 1}</td>
-								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.supplierName}</td>
+								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.supplierName}</td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')"><fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd"/></td>
 								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
 									<c:if test="${supplierBlacklist.term == 3}">3个月</c:if>
@@ -232,7 +232,7 @@
 										手动移除
 									</c:if>
 								</td>
-								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.reason}</td>
+								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.reason}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
