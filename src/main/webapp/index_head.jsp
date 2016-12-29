@@ -58,19 +58,19 @@ function importAdd(){
 	<div class="header-v4 clear">
     <!-- Navbar -->
     <div class="navbar navbar-default mega-menu" role="navigation">
-	  <div class="head_main">
+	  <div class="head_main reg_head">
       <div class="container">
         <!-- logo和搜索 -->
         <div class="navbar-header">
           <div class="row container margin-bottom-10">
-            <div class="col-md-8 m20_0">
+            <div class="col-md-6 col-sm-6 col-xs-12 m20_0">
               <a href="${pageContext.request.contextPath}/index/selectIndexNews.html">
                  <img alt="Logo" src="${pageContext.request.contextPath}/public/portal/images/logo.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->
-            <div class="col-md-4 p0">
-              <div class="search-block-v2">
+            <div class="col-md-6 col-sm-6 col-xs-12 p0 search_gpgz">
+              <div class="search-block-v2 col-md-offset-4 col-sm-offset-4 col-xs-offset-0">
                   <form id="form1" accept-charset="UTF-8" action="${pageContext.request.contextPath}/index/solrSearch.html" method="get">
 				    <div style="display:none">
 				     <input name="utf8" value="✓" type="hidden">

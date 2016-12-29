@@ -104,8 +104,8 @@
 }
 /*非空提示星号*/
 .star_red{
-    width: 10px;
-    height: 30px;
+    width: 5px;
+    height: 20px;
     margin-right: 5px;
     display: inline-block;
 }

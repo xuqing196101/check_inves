@@ -77,15 +77,18 @@
             <!-- logo和搜索 -->
             <div class="navbar-header">
               <div class="row container margin-bottom-10">
-                <div class="col-md-8 m20_0">
+                <div class="col-md-5 col-sm-6 col-xs-12 m20_0">
                   <a href="${pageContext.request.contextPath}/index/selectIndexNews.html">
                     <img alt="Logo" src="${pageContext.request.contextPath}/public/portal/images/logo.png" id="logo-header">
                   </a>
                 </div>
+                <div class="col-md-7 col-sm-6 col-xs-12 p0 gpgz">
+                
+                </div>
               </div>
             </div>
-
-            <button data-target=".navbar-responsive-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+<!-- 
+            <button data-target=".navbar-responsive-collapse" data-toggle="collapse" class="navbar-toggle" type="button"> -->
             <span class="icon-toggle">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
