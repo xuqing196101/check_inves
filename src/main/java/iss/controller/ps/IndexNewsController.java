@@ -502,7 +502,11 @@ public class IndexNewsController extends BaseSupplierController{
 			model.addAttribute("nums", "0");
 		}
 		indexMapper.put("picList", indexPics);
-		model.addAttribute("picSize", indexPics.size());
+		if(indexPics!=null){
+			model.addAttribute("picSize", indexPics.size());
+		}else{
+			model.addAttribute("picSize", 0);
+		}
 		ArticleType articlejcw = articleTypeService.selectTypeByPrimaryKey("3");
 		model.addAttribute("articlejcw",articlejcw.getShowNum());
 		ArticleType articlejcg = articleTypeService.selectTypeByPrimaryKey("8");
