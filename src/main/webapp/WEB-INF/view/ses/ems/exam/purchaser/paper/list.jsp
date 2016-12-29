@@ -247,7 +247,7 @@
 							<tr class="tc">
 								<td><input type="checkbox" name="info" value="${paper.id }" /></td>
 								<td class="pointer" onclick="view('${paper.id }')">${(vs.index+1)+(paperList.pageNum-1)*(paperList.pageSize)}</td>
-								<td class="pointer" onclick="view('${paper.id }')">${paper.name }</td>
+								<td class="tl pl20 pointer" onclick="view('${paper.id }')">${paper.name }</td>
 								<td class="pointer" onclick="view('${paper.id }')">${paper.year }</td>
 								<td class="pointer" onclick="view('${paper.id }')">${paper.startTrueDate }</td>
 								<td class="pointer" onclick="view('${paper.id }')">${paper.offTrueDate }</td>

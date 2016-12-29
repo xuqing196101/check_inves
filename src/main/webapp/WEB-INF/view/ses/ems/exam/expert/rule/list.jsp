@@ -197,14 +197,14 @@
 							<tr class="pointer tc">
 								<td><input type="checkbox" name="info" value="${rule.id }" onclick="check()" /></td>
 								<td onclick="view('${rule.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-								<td onclick="view('${rule.id }')">${rule.discribution }</td>
-								<td onclick="view('${rule.id }')">${rule.paperScore }分</td>
-								<td onclick="view('${rule.id }')">${rule.passStandard }分</td>
+								<td class="tl pl20" onclick="view('${rule.id }')">${rule.discribution }</td>
+								<td class="tc" onclick="view('${rule.id }')">${rule.paperScore }分</td>
+								<td class="tc" onclick="view('${rule.id }')">${rule.passStandard }分</td>
 								<c:if test="${rule.status==0 }">
-									<td onclick="view('${rule.id }')">停用中</td>
+									<td class="tl pl20" onclick="view('${rule.id }')">停用中</td>
 								</c:if>
 								<c:if test="${rule.status==1 }">
-									<td onclick="view('${rule.id }')">启用中</td>
+									<td class="tl pl20" onclick="view('${rule.id }')">启用中</td>
 								</c:if>
 							</tr>
 						</c:forEach>

@@ -321,7 +321,7 @@
 						<tr class="info">
 							<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()" /></th>
 							<th class="w50">序号</th>
-							<th class="w60">题型</th>
+							<th>题型</th>
 							<th>题干</th>
 							<th>选项</th>
 							<th>答案</th>
@@ -332,19 +332,19 @@
 						<c:forEach items="${purchaserQuestionList.list }" var="purchaser" varStatus="vs">
 							<tr class="pointer">
 								<td class="tc"><input type="checkbox" name="info" value="${purchaser.id }" onclick="check()" /></td>
-								<td class="tc w50" onclick="view('${purchaser.id }')">${(vs.index+1)+(purchaserQuestionList.pageNum-1)*(purchaserQuestionList.pageSize)}</td>
-								<td class="w60 tc" onclick="view('${purchaser.id }')">${purchaser.examQuestionType.name }</td>
-								<c:if test="${fn:length(purchaser.topic)>28}">
-									<td onclick="view('${purchaser.id }')" onmouseover="titleMouseOver('${purchaser.topic}',this)" onmouseout="titleMouseOut()">${fn:substring(purchaser.topic,0,28)}...</td>
+								<td class="tc" onclick="view('${purchaser.id }')">${(vs.index+1)+(purchaserQuestionList.pageNum-1)*(purchaserQuestionList.pageSize)}</td>
+								<td class="tl pl20" onclick="view('${purchaser.id }')">${purchaser.examQuestionType.name }</td>
+								<c:if test="${fn:length(purchaser.topic)>25}">
+									<td class="tl pl20" onclick="view('${purchaser.id }')" onmouseover="titleMouseOver('${purchaser.topic}',this)" onmouseout="titleMouseOut()">${fn:substring(purchaser.topic,0,25)}...</td>
 								</c:if>
-								<c:if test="${fn:length(purchaser.topic)<=28}">
-									<td onclick="view('${purchaser.id }')">${purchaser.topic }</td>
+								<c:if test="${fn:length(purchaser.topic)<=25}">
+									<td class="tl pl20" onclick="view('${purchaser.id }')">${purchaser.topic }</td>
 								</c:if>
-								<c:if test="${fn:length(purchaser.items)>28}">
-									<td onclick="view('${purchaser.id }')" onmouseover="titleMouseOver('${purchaser.items}',this)" onmouseout="titleMouseOut()">${fn:substring(purchaser.items,0,28)}...</td>
+								<c:if test="${fn:length(purchaser.items)>25}">
+									<td class="tl pl20" onclick="view('${purchaser.id }')" onmouseover="titleMouseOver('${purchaser.items}',this)" onmouseout="titleMouseOut()">${fn:substring(purchaser.items,0,25)}...</td>
 								</c:if>
-								<c:if test="${fn:length(purchaser.items)<=28}">
-									<td onclick="view('${purchaser.id }')">${purchaser.items }</td>
+								<c:if test="${fn:length(purchaser.items)<=25}">
+									<td class="tl pl20" onclick="view('${purchaser.id }')">${purchaser.items }</td>
 								</c:if>
 								<td class="tc" onclick="view('${purchaser.id }')">${purchaser.answer }</td>
 								<td class="tc" onclick="view('${purchaser.id }')">

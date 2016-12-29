@@ -317,7 +317,7 @@
 						<tr class="info">
 							<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()" /></th>
 							<th class="w50">序号</th>
-							<th class="w60">题型</th>
+							<th>题型</th>
 							<th>题干</th>
 							<th>选项</th>
 							<th>答案</th>
@@ -329,18 +329,18 @@
 							<tr class="pointer">
 								<td class="tc"><input type="checkbox" name="info" value="${c.id }" onclick="check()" /></td>
 								<td class="tc" onclick="view('${c.id }')">${(vs.index+1)+(commerceList.pageNum-1)*(commerceList.pageSize)}</td>
-								<td class="tc" onclick="view('${c.id }')">${c.examQuestionType.name }</td>
-								<c:if test="${fn:length(c.topic)>28}">
-									<td onclick="view('${c.id }')" onmouseover="titleMouseOver('${c.topic}',this)" onmouseout="titleMouseOut()">${fn:substring(c.topic,0,28)}...</td>
+								<td class="tl pl20" onclick="view('${c.id }')">${c.examQuestionType.name }</td>
+								<c:if test="${fn:length(c.topic)>25}">
+									<td class="tl pl20" onclick="view('${c.id }')" onmouseover="titleMouseOver('${c.topic}',this)" onmouseout="titleMouseOut()">${fn:substring(c.topic,0,25)}...</td>
 								</c:if>
-								<c:if test="${fn:length(c.topic)<=28}">
-									<td onclick="view('${c.id }')">${c.topic }</td>
+								<c:if test="${fn:length(c.topic)<=25}">
+									<td class="tl pl20" onclick="view('${c.id }')">${c.topic }</td>
 								</c:if>
-								<c:if test="${fn:length(c.items)>28}">
-									<td onclick="view('${c.id }')" onmouseover="titleMouseOver('${c.items}',this)" onmouseout="titleMouseOut()">${fn:substring(c.items,0,28)}...</td>
+								<c:if test="${fn:length(c.items)>25}">
+									<td class="tl pl20" onclick="view('${c.id }')" onmouseover="titleMouseOver('${c.items}',this)" onmouseout="titleMouseOut()">${fn:substring(c.items,0,25)}...</td>
 								</c:if>
-								<c:if test="${fn:length(c.items)<=28}">
-									<td onclick="view('${c.id }')">${c.items }</td>
+								<c:if test="${fn:length(c.items)<=25}">
+									<td class="tl pl20" onclick="view('${c.id }')">${c.items }</td>
 								</c:if>
 								<td class="tc" onclick="view('${c.id }')">${c.answer}</td>
 								<td class="tc" onclick="view('${c.id }')">
