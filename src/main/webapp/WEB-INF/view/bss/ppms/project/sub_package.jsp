@@ -17,7 +17,10 @@
 					if(clickState == 1) {
 						//如果状态为1就什么都不做
 					} else {
-						clickState = 1; //如果状态不是1  则添加状态 1
+						if(clickCortisone!=2){
+							clickState = 1;
+						}
+						 //如果状态不是1  则添加状态 1
 						//setTimeout("addPack()", 300);
 					}
 				})
@@ -164,7 +167,8 @@
 					});
 				});
 			}
-
+			
+			var clickCortisone = 2;
 			//添加分包
 			function addPack() {
 				var projectId = $("#projectId").val();
@@ -177,12 +181,14 @@
 						count++;
 					}
 				}
-				if(count == 0) {
-					layer.alert("请选择明细", {
-						offset: ['20%', '40%']
-					});
-					$(".layui-layer-shade").remove();
-					return;
+				if(info.length>0){
+					if(count == 0) {
+						layer.alert("请选择明细", {
+							offset: ['20%', '40%']
+						});
+						$(".layui-layer-shade").remove();
+						return;
+					}
 				}
 				for(var i = 0; i < info.length; i++) {
 					if(info[i].checked) {
@@ -190,18 +196,19 @@
 					}
 				}
 				if(info.length == 0) {
-					layer.alert("项目中已经没有明细可以用于分包", {
+					layer.alert("项目中已无明细可以用于分包", {
 						offset: ['30%', '40%']
 					});
 					$(".layui-layer-shade").remove();
 					return;
 				}
 				if(clickState != 1) {
+					clickState = 1;
+					clickCortisone = 1;
 					$.ajax({
 						type: "POST",
 						url: "${pageContext.request.contextPath }/project/addPack.do?id=" + ids + "&projectId=" + projectId+"&num="+num,
 						success: function(data) {
-							clickState = 1;
 							layer.msg('添加成功', {
 								offset: ['40%', '45%']
 							});
@@ -311,17 +318,28 @@
 			var packId = "";
 			//添加明细
 			function addDetail(obj) {
-				layer.open({
-					type: 1,
-					title: '明细信息',
-					skin: 'layui-layer-rim',
-					shadeClose: true,
-					area: ['90%', '90%'],
-					offset: ['5%', '5%'],
-					content: $("#oddDetail")
-				});
-				$(".layui-layer-shade").remove();
-				packId = $(obj).next().next().val();
+				var info = document.getElementsByName("info");
+				if(info.length==0){
+					layer.alert("项目中已无明细可以添加", {
+						offset: ['30%', '40%']
+					});
+					$(".layui-layer-shade").remove();
+					return;
+				}else{
+					layer.open({
+						type: 1,
+						title: '明细信息',
+						skin: 'layui-layer-rim',
+						shadeClose: true,
+						area: ['90%', '90%'],
+						offset: ['5%', '5%'],
+						content: $("#oddDetail")
+					});
+					$(".layui-layer-shade").remove();
+					packId = $(obj).next().next().val();
+				}
+				
+				
 			}
 
 			//取消
@@ -353,11 +371,12 @@
 					}
 				}
 				if(clickState != 1) {
+					clickState = 1;
+					clickCortisone = 1;
 					$.ajax({
 						type: "POST",
 						url: "${pageContext.request.contextPath }/project/addDetailById.do?id=" + id + "&projectId=" + projectId + "&packageId=" + packId,
 						success: function(data) {
-							clickState = 1;
 							layer.msg('添加成功', {
 								offset: ['40%', '45%']
 							});
@@ -578,7 +597,8 @@
 			 
 			<button class="btn" type="button" onclick="next();">下一步</button>
 		</div>
-		<%-- 
+		
+		
 		<c:if test="${!empty list}">
 			<div class="content table_box dnone" id="oddDetail">
 				<table class="table table-bordered table-condensed table-hover table-striped">
@@ -608,7 +628,7 @@
 						<tr class="tc">
 							<td class="w30"><input type="checkbox" value="${obj.id }" name="infoAdd" onclick="selectedAddBox(this)"></td>
 							<td class="w50">${obj.serialNumber }</td>
-							<td>${obj.department}</td>
+							<td>${obj.orgName }</td>
 							<td>${obj.goodsName}</td>
 							<td>${obj.stand}</td>
 							<td>${obj.qualitStand}</td>
@@ -638,7 +658,7 @@
 				</div>
 			</div>
 
-		</c:if> --%>
+		</c:if> 
 	</body>
 
 </html>
