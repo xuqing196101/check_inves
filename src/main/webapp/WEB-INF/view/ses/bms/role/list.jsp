@@ -200,7 +200,7 @@
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: '110px',
+			  offset: '80px',
 			  shadeClose: false,
 			  content: '${pageContext.request.contextPath}/role/add.html'
 			});
@@ -245,9 +245,10 @@
 					        </select>
 				        </span>
 				      </li> 
-				    	<button type="button" onclick="query()" class="btn">查询</button>
-				    	<button type="reset" onclick="resetQuery()" class="btn">重置</button>  	
-			    	</ul>
+				    </ul>
+				    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
+				    	<button type="reset" onclick="resetQuery()" class="btn fl mt1">重置</button>  	
+			    	
 		    	  	<div class="clear"></div>
 		        </form>
 		     </h2>

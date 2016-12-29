@@ -119,23 +119,22 @@
 		   <div class="drop_window">
 		   	   <input type="hidden" name="id" id="pid" value="${pmenu.id }">
 			   <ul class="list-unstyled">
-			     <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-				   <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>上级</label>
-				    <span class="col-md-12 col-xs-12">
+			     <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+				   <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red">*</div>上级</span>
+				    <div class="col-md-12 col-xs-12 col-sm-12 p0 input_group input-append">
 	                   <input id="citySel" class="title col-md-12" name="pname" type="text" readonly value="${pmenu.name }"  onclick="showMenu();" />
-	                </span>
-			       
+	                </div>			       
 				 </li>
 			     <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-				   <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>名称</label>
-				   <span class="col-md-12 col-xs-12">
+				  <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red">*</div>名称</span>
+				  <div class="col-md-12 col-xs-12 col-sm-12 p0 input_group input-append">
 				        <input class="title col-md-12" name="name" maxlength="30" type="text">
-                    </span>
+                  </div>
 				 </li>
-				 <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
-				 	<label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>类型</label>
-				 	<span class="col-md-12 col-xs-12">
-					<select name="type"  class="w180 mt5">
+				 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+				 	<span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red">*</div>类型</span>
+				 	<div class="col-md-12 col-xs-12 col-sm-12 p0 select_common">
+					<select name="type">
 					 	<option value=""> -请选择-</option>
 					   	<option value="navigation">导航</option>
 					   	<option value="accordion">折叠导航</option>
@@ -145,37 +144,37 @@
 					</span>
 				</li>
 				<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-				 	<label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>状态</label>
-				 	<span class="col-md-12 col-xs-12">
-					<select  name="status" class="w180 mt5" >
+				 	<span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red">*</div>状态</span>
+				 	<div class="col-md-12 col-xs-12 col-sm-12 p0 select_common">
+					<select  name="status">
 					   	<option value="0">可用</option>
 					   	<option value="1">冻结</option>
 				    </select>
-				    </span>
+				    </div>
 				</li>
-				<li class="mt10 col-md-12 p0 col-xs-12">
-				   <label class="col-md-12 pl20 col-xs-12">路径</label>
-				     <span class="col-md-12 col-xs-12">
-                        <input class="col-xs-12 h80 mt6" name="url" maxlength="300" type="text">
-                     </span>
+				<li class="col-md-12 col-xs-12 col-sm-12">
+				     <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12">路径</span>
+				     <div class="col-md-12 col-xs-12 col-sm-12 p0 input_group input-append">
+                        <input name="url" type="text">
+                     </div>
 				 </li>
-			     <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
-				   <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>排序</label>
-				    <span class="col-md-12 col-xs-12">
-                        <input class="title col-md-12" name="position" maxlength="3" type="text">
-                    </span>
+			     <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+				    <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12"><div class="star_red">*</div>排序</span>
+				    <div class="col-md-12 col-xs-12 col-sm-12 input_group input-append p0">
+                        <input class="title" name="position" maxlength="3" type="text">
+                    </div>
 				 </li>
 				<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-				   <label class="col-md-12 pl20 col-xs-12">图标</label>
-				    <span class="col-md-12 col-xs-12">
-                        <input class="title col-md-12" name="icon" maxlength="200" type="text">
-                    </span>
+				    <span class="col-md-12 padding-left-5 col-xs-12 col-sm-12">图标</span>
+				    <div class="col-md-12 col-xs-12 col-sm-12 p0 input_group input-append">
+                        <input name="icon" type="text">
+                    </div>
 				 </li>
 				 <div class="clear"></div>
 			   </ul>
 		  </div> 
 	   
-		  <div class="tc mt10 col-md-12 col-xs-12">
+		  <div class="tc col-md-12 col-xs-12 col-sm-12">
 			    <button class="btn btn-windows save" id="save" type="button">保存</button>
 			    <button class="btn btn-windows back" id="backups" type="button">返回</button>
 		  </div>

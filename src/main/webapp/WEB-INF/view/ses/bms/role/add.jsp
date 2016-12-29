@@ -44,29 +44,29 @@
               <ul class="list-unstyled">
 				<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>名称</label>
-                  <span class="col-md-12 col-sm-12 col-xs-12 p0">
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
                    <input style="padding-right: 20px;" name="name" maxlength="30" type="text">
-                  </span>
+                  </div>
                 </li>
                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>唯一编码</label>
-                  <span class="col-md-12 col-sm-12 col-xs-12 p0">
-                  <input style="padding-right: 20px;" name="code" maxlength="30" type="text">
-                  </span>
+                   <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                    <input style="padding-right: 20px;" name="code" maxlength="30" type="text">
+                   </div>
                 </li>
                 
                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>状态</label>
-                  <span class="col-md-12 col-sm-12 col-xs-12 select_common p0">
+                  <div class="col-md-12 col-sm-12 col-xs-12 select_common p0 ">
                    <select name="status" class="">
                         <option value="0">可用</option>
                         <option value="1">禁用</option>
                     </select>
-                  </span>
+                  </div>
                 </li>
                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>角色所属后台</label>
-                  <span class="col-md-12 col-sm-12 col-xs-12 select_common p0">
+                  <div class="col-md-12 col-sm-12 col-xs-12 select_common p0">
                    <select name="kind" class="">
                    			<option value="">请选择</option>
                    		<c:forEach items="${dds}" var="dd" varStatus="vs">
@@ -79,19 +79,19 @@
                    			</option>
                    		</c:forEach>
                     </select>
-                  </span>
+                  </div>
                 </li>
                 <li class="col-md-12 col-sm-12 col-xs-12">
                   <label class="col-md-12 pl20 col-xs-12 padding-left-5">描述</label>
-                   <span class="col-md-12 col-sm-12 col-xs-12 p0">
+                   <div class="col-md-12 col-sm-12 col-xs-12 p0">
                     <textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="description" maxlength="200" title="" placeholder=""></textarea>
-                   </span>
+                   </div>
                 </li>
                 <div class="clear"></div>
              </ul>
              <div class="col-md-12 col-sm-12 col-xs-12 tc mt20">
                  <button class="btn btn-windows save" id="save" type="button">保存</button>
-                <button class="btn btn-windows back" id="backups" type="button">返回</button>
+                 <button class="btn btn-windows back" id="backups" type="button">返回</button>
               </div>
            </div>
         </form>  

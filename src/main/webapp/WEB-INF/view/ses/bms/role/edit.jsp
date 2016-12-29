@@ -44,28 +44,28 @@
 			  <ul class="list-unstyled">
 				 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>名称</label>
-                  <span class="col-md-12 col-sm-12 col-xs-12 p0">
-                   <input class="h80 mt6" name="name" maxlength="30" value="${role.name }" type="text">
-                  </span>
+                   <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   <input class="" name="name" maxlength="30" value="${role.name }" type="text">
+                  </div>
                 </li>
                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>唯一编码</label>
-                  <span class="col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="h80 mt6" name="code" maxlength="30" value="${role.code }" readonly type="text">
-                  </span>
+                   <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                     <input class="" name="code" maxlength="30" value="${role.code }" readonly type="text">
+                   </div>
                 </li>
 				 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
 				 	 <label class="col-md-12 col-sm-12 col-xs-12 col-lg-12  padding-left-5 padding-left-5"><div class="star_red">*</div>状态</label>
-				 	 <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 select_common p0">
-					<select  name="status"  class="">
+				 	 <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 select_common p0">
+					   <select  name="status"  class="">
 					   	<option value="0" <c:if test="${'0' eq role.status}">selected</c:if>>可用</option>
 					   	<option value="1" <c:if test="${'1' eq role.status}">selected</c:if>>禁用</option>
-				    </select>
-				    </span>
+				       </select>
+				    </div>
 				</li>
 				<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>角色所属后台</label>
-                  <span class="col-md-12 col-sm-12 col-xs-12 select_common p0">
+                  <div class="col-md-12 col-sm-12 col-xs-12 select_common p0">
                    <select name="kind" class="">
                    		<c:forEach items="${dds}" var="dd" varStatus="vs">
                    			<option value="${dd.id}" <c:if test="${dd.id eq role.kind}">selected</c:if>>
@@ -77,13 +77,13 @@
 	                   		</option>
                    		</c:forEach>
                     </select>
-                  </span>
+                  </div>
                 </li>
-			     <li class="mt10 col-md-12 col-sm-12 col-xs-12 col-lg-12">
+			     <li class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
 				   <label class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">描述</label>
-				  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
-			        <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" name="description"  maxlength="400" title="" placeholder="">${role.description }</textarea>
-			       </span>
+				   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+			          <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" name="description"  maxlength="400" title="" placeholder="">${role.description }</textarea>
+			       </div>
 				 </li> 
 				 <div class="clear"></div>
 			   </ul>
