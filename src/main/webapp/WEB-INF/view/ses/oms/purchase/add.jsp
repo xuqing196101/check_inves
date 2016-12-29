@@ -236,7 +236,7 @@ function onCheck(e, treeId, treeNode) {
               </div>
             </li>
             
-            <li class="col-md-3 margin-0 padding-0  ">
+            <li class="col-md-3 col-sm-6 col-xs-12 ">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">毕业院校</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                 <input class="input_group" name="graduateSchool" value="${purchaseInfo.graduateSchool}" type="text"> 
@@ -280,7 +280,7 @@ function onCheck(e, treeId, treeNode) {
 			</li>
 			
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
-			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资质开始日期</span>
+			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购资质开始日期</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			    <input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />"/> 
 			    <div class="cue">${err_sDate}</div>
@@ -288,7 +288,7 @@ function onCheck(e, treeId, treeNode) {
 			</li>
 			
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
-			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>采购资质截止日期</span>
+			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购资质截止日期</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			    <input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" value="<fmt:formatDate value="${purchaseInfo.quaEdndate}" pattern="yyyy-MM-dd" />"   /> 
 			    <div class="cue">${err_eDate}</div>
@@ -307,7 +307,7 @@ function onCheck(e, treeId, treeNode) {
 			  </div>
 		    </li>
 		    
-			<li class="col-md-6 p0"><span class=""><i class="star_red">＊</i>采购资格证书</span>
+			<li class="col-md-3 col-sm-6 col-xs-12"><span class=""><span class="star_red">*</span>采购资格证书</span>
 			  <div class="uploader orange m0">
 			    <u:show showId="purShowId" businessId="${mainId}" sysKey="2" />
 				<u:upload id="purUploadId" auto="true" businessId="${mainId}" sysKey="2" />

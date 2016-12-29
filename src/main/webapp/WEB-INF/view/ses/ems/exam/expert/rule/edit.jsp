@@ -124,7 +124,7 @@
 										<input type="radio" name="single" onclick="checkSingleNo(this)" class="mt0" value="无" />无
 									</div>
 									<div class="fl" id="sin">
-										<input type="text" value="${singleNum }" name="singleNum" id="singleNum" class="ml10 w50" onkeyup="countScore()" />条<input type="text" value="${singlePoint }" name="singlePoint" id="singlePoint" class="ml10 w50" onkeyup="countScore()" />分/条
+										<input type="text" value="${singleNum }" name="singleNum" id="singleNum" class="ml10 w50 tc" onkeyup="countScore()" />条<input type="text" value="${singlePoint }" name="singlePoint" id="singlePoint" class="ml10 w50 tc" onkeyup="countScore()" />分/条
 									</div>
 									<div class="cue">${ERR_single }</div>
 								</div>
@@ -135,7 +135,7 @@
 										<input type="radio" name="multiple" onclick="checkMultipleNo(this)" class="mt0" value="无" />无
 									</div>
 									<div class="fl" id="mul">
-										<input type="text" value="${multipleNum }" name="multipleNum" id="multipleNum" class="ml10 w50" onkeyup="countScore()" />条<input type="text" value="${multiplePoint }" name="multiplePoint" id="multiplePoint" class="ml10 w50" onkeyup="countScore()" />分/条
+										<input type="text" value="${multipleNum }" name="multipleNum" id="multipleNum" class="ml10 w50 tc" onkeyup="countScore()" />条<input type="text" value="${multiplePoint }" name="multiplePoint" id="multiplePoint" class="ml10 w50 tc" onkeyup="countScore()" />分/条
 									</div>
 									<div class="cue">${ERR_multiple }</div>
 								</div>
@@ -145,14 +145,14 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>总分值：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
-								<input type="text" name="paperScore" id="paperScore" value="${examRule.paperScore }" readonly="readonly" />分
+								<input type="text" name="paperScore" id="paperScore" class="pl20" value="${examRule.paperScore }" readonly="readonly" />分
 							</div>
 						</li>
 
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>及格标准：</span>
 							<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
-								<div class="fl"><input type="text" name="passStandard" id="passStandard" value="${examRule.passStandard }" />分</div>
+								<div class="fl"><input type="text" name="passStandard" class="pl20" id="passStandard" value="${examRule.passStandard }" />分</div>
 								<div class="cue">${ERR_passStandard }</div>
 							</div>
 						</li>

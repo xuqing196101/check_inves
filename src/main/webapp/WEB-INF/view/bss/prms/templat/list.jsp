@@ -169,7 +169,7 @@
 			<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-			<button class="btn btn-windows add" type="button" onclick="addFirstAudit()">初审项定义</button>
+			<!-- <button class="btn btn-windows add" type="button" onclick="addFirstAudit()">初审项定义</button> -->
 		</div>
 
 		<div class="content table_box">

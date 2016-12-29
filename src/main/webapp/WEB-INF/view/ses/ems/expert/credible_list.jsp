@@ -85,12 +85,12 @@
     		}else if(count==1){
     			index = layer.open({
     		          type: 2, //page层
-    		          area: ['500px', '300px'],
+    		         area: ['50px', '300px'],
     		          title: '修改',
     		          shade:0.01, //遮罩透明度
     		          moveType: 1, //拖拽风格，0是默认，1是传统拖动
     		          shift: 1, //0-6的动画形式，-1不开启
-    		          offset: ['220px', '650px'],
+    		          offset: ['110px', '30%'],
     		          shadeClose: true,
     		          content:"${pageContext.request.contextPath}/credible/toUpdate.html?id="+id
     		        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
@@ -151,12 +151,12 @@
    	function openWindow(){
 		index = layer.open({
 	          type: 1, //page层
-	          area: ['500px', '300px'],
+	          area: ['50px', '300px'],
 	          title: '新增',
 	          shade:0.01, //遮罩透明度
 	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
 	          shift: 1, //0-6的动画形式，-1不开启
-	          offset: ['220px', '650px'],
+	          offset: ['80px', '30%'],
 	          shadeClose: true,
 	          content:$('#openWindow') //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 		 });
@@ -215,37 +215,36 @@
    <div class="headline-v2">
      <h2>专家诚信列表</h2>
    </div>   
-     <h2 class="search_detail">
+    <h2 class="search_detail">
   
    <form action="${pageContext.request.contextPath}/credible/list.html"  id="form1"  method="post"   class="mb0"> 
   <input type="hidden" name="page" id="page">
   <input type="hidden" name="flag" value="0">
-                    <table>
-                    <tr>
-                    <td>
-                    <span >关键字：</span><input type="text" id="relName" name="badBehavior" value="${expertCredible.badBehavior }">
-                    </td>
-                    <td>&nbsp;
-						 <span>状态：</span>
+                   <ul class="demand_list">
+                   <li>
+                    <label>关键字：</label><span><input type="text" id="relName" name="badBehavior" value="${expertCredible.badBehavior }"></span>
+                       </li>
+                       <li>
+                       <span class="fl">
+						 <label class="fl">状态：</label>
 						   <select  name="isStatus" id="expertsFrom" class="w178">
 						    <option selected="selected" value=''>-请选择-</option>
 						   	<option <c:if test="${expertCredible.isStatus ==1}">selected</c:if> value="1">启用</option>
 						   	<option <c:if test="${expertCredible.isStatus ==2 }">selected</c:if> value="2">停用</option>
-						   </select>
-					</td>
-					<td>&nbsp;
-                          <input class="btn"  value="搜索" type="submit">
-                          <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
-                     </td>
-                        </tr>
-                        </table>
+						      </select>
+						   </span>
+					   </li>
+					</ul>
+                          <input class="btn fl mt1"  value="查询" type="submit">
+                          <input class="btn fl  mt1" id="button" onclick="clearSearch();" value="重置" type="reset">
                   </form>
                   </h2>
                   </div>
-                  </div>  
+                  </div>
+               
 <!-- 表格开始-->
    <div class="container">
-   <div class="col-md-12 pl20 mt10">
+   <div class="col-md-12 col-sm-12 col-xs-12 pl20 mt10">
     <!-- <button class="btn btn-windows add" type="submit">新增</button>
 	<button class="btn btn-windows edit" type="submit">修改</button>
 	<button class="btn btn-windows delete" type="submit">删除</button> -->
@@ -254,7 +253,7 @@
 	<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
 	</div>
    
-   <div class="content table_box">
+   <div class="content table_box ">
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>

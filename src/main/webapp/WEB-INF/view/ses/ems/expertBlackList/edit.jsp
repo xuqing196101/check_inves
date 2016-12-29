@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib prefix="up" uri="/tld/upload"%>
+
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
@@ -99,17 +99,17 @@
 			</ul>
 			<h2 class="count_flow"><i>2</i>附件上传</h2>
             <ul class="ul_list">
-                <li class="col-md-6 p0 mt10 mb25">
-                    <span class="col-md-5 pl20" ><div class="star_red">*</div>批准文件:</span>
+                <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12" ><div class="star_red">*</div>批准文件:</span>
                     <%-- <input class="span5" type="file" name="attachmentCertFile"/>
                     <a onclick="downloadFile('${expert.attachmentCert}')" style="cursor:pointer" id="attachmentCert">${expert.attachmentCert}</a> --%>
-                    <up:upload id="id_up"  businessId="${expert.id}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" auto="true" /> 
-                    <up:show showId="id_show"  businessId="${expert.id}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" />
+                    <u:upload id="id_up"  businessId="${expert.id}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" auto="true" /> 
+                    <u:show showId="id_show"  businessId="${expert.id}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" />
                 </li>
             </ul>
 	         <div class="margin-bottom-0  categories">
 	            <div class="col-md-12 add_regist tc">
-	                <button class="btn btn-windows save" type="submit">保存</button>
+	                <button class="btn btn-windows edit" type="submit">更新</button>
 	                <a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 	            </div>
 	        </div>

@@ -113,7 +113,7 @@ public class RoleServiceImpl implements RoleServiceI {
         RolePreMenu rm = new RolePreMenu();
         rm.setRole(r);
         roleMapper.deleteRoelMenu(rm);
-        //删除用户与该角色权限的关联
+        /*//删除用户与该角色权限的关联
         List<Role> rlist = roleMapper.selectRole(r);
         List<UserPreMenu> ups = new ArrayList<UserPreMenu>();
         if(rlist != null && rlist.size() > 0){
@@ -148,7 +148,7 @@ public class RoleServiceImpl implements RoleServiceI {
             if(batchSqlSession != null){
                 batchSqlSession.close();
             }
-        }
+        }*/
         // 删除角色
         roleMapper.deleteByPrimaryKey(r.getId());
     }
@@ -157,7 +157,7 @@ public class RoleServiceImpl implements RoleServiceI {
     public void saveRoleMenu(Role role, String ids) {
         //先删除该角色下用户的用户-权限菜单关联
         List<Role> rlist = roleMapper.selectRole(role);
-        List<UserPreMenu> ups = new ArrayList<UserPreMenu>();
+        /*List<UserPreMenu> ups = new ArrayList<UserPreMenu>();
         if(rlist != null && rlist.size() > 0){
             //该角色所有用户
             List<User> ulist = rlist.get(0).getUsers();
@@ -171,19 +171,19 @@ public class RoleServiceImpl implements RoleServiceI {
                     ups.add(userPreMenu);
                 }
             }
-        }
+        }*/
         SqlSession batchSqlSession = null;
         batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         int batchCount = 50;//每批commit的个数
         try{
-            for(int index = 0; index < ups.size();index++){
+            /*for(int index = 0; index < ups.size();index++){
                 UserPreMenu up = ups.get(index);
                 batchSqlSession.getMapper(UserMapper.class).deleteUserMenu(up);
                 if(index !=0 && index%batchCount == 0){
                     batchSqlSession.commit();
                 }
             }
-            batchSqlSession.commit();
+            batchSqlSession.commit();*/
             //删除该角色的角色-权限菜单关联
             RolePreMenu rm = new RolePreMenu();
             rm.setRole(role);
@@ -200,7 +200,7 @@ public class RoleServiceImpl implements RoleServiceI {
                     rolePreMenu.setPreMenu(preMenu);
                     rolePreMenu.setRole(role);
                     rolePreMenus.add(rolePreMenu);
-                    //保存该角色下用户的用户-权限菜单关联
+                    /*//保存该角色下用户的用户-权限菜单关联
                     if(rlist != null && rlist.size() > 0){
                         List<User> ulist = rlist.get(0).getUsers();
                         for (User user : ulist) {
@@ -209,7 +209,7 @@ public class RoleServiceImpl implements RoleServiceI {
                             userPreMenu.setUser(user);
                             userPreMenus.add(userPreMenu);
                         }
-                    }
+                    }*/
                 }
                 for(int index = 0; index < rolePreMenus.size();index++){
                     RolePreMenu rolePreMenu = rolePreMenus.get(index);
@@ -218,13 +218,13 @@ public class RoleServiceImpl implements RoleServiceI {
                         batchSqlSession.commit();
                     }
                 }
-                for(int index = 0; index < userPreMenus.size();index++){
+                /*for(int index = 0; index < userPreMenus.size();index++){
                     UserPreMenu userPreMenu = userPreMenus.get(index);
                     batchSqlSession.getMapper(UserMapper.class).saveUserMenu(userPreMenu);
                     if(index !=0 && index%batchCount == 0){
                         batchSqlSession.commit();
                     }
-                }
+                }*/
             }
             batchSqlSession.commit();
         }catch (Exception e){

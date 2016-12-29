@@ -298,6 +298,10 @@
 			function fileup(){
 				$("#up_form").submit();
 			} 
+			
+			function view(no) {
+        window.location.href = "${pageContext.request.contextPath }/collect/view.html?planNo="+no;
+      }
  
 		</script>
 	</head>
@@ -402,13 +406,13 @@
               </c:if>
 			   <input type="hidden"  value="${obj.department }">
 			  </td>
-			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tl pl20">${obj.department}</td>
+			  <td class="tc w50"  onclick="view('${obj.planNo}')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  <td class="tl pl20" onclick="view('${obj.planNo}')">${obj.department}</td>
 			    
 			    
-			  <td class="tl pl20"  >${obj.planName }</td>
+			  <td class="tl pl20" onclick="view('${obj.planNo}')" >${obj.planName }</td>
 			
-			  <td class="tl pl20"  >
+			  <td class="tl pl20" onclick="view('${obj.planNo}')" >
 			   <c:forEach items="${dic }" var="dic">
 				   <c:if test="${obj.planType==dic.id}">
 				   ${dic.name }
@@ -416,8 +420,8 @@
 			   </c:forEach>
 			  
 			  </td>
-			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tr pr20"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tc"  onclick="view('${obj.planNo}')"><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tr pr20" onclick="view('${obj.planNo}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
 	<%-- 		 <c:if test="${obj.status=='1' }">
 			 	 已编制为采购计划

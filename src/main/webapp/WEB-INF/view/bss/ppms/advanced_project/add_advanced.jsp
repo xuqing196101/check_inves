@@ -119,6 +119,11 @@
         }
         
       }
+      
+      
+      function goBack(){
+         window.location.href = "${pageContext.request.contextPath}/collect/list.html";
+      }
     </script>
   </head>
 

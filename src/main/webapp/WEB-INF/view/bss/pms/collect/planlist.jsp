@@ -271,6 +271,10 @@
 			function cant() {
 				layer.close(index);
 			}
+			
+			function view(id) {
+        window.location.href = "${pageContext.request.contextPath }/look/view1.html?id="+id;
+      }
 
 			function resetQuery() {
 				$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
@@ -393,14 +397,14 @@
 								<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">  
 							</td>
 							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td class="tl pl20">${obj.fileName }</td>
-							<td class="tr pr20">
+							<td class="tl pl20" onclick="view('${obj.id}')">${obj.fileName }</td>
+							<td class="tr pr20" onclick="view('${obj.id}')">
                         		<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 							</td>
-							<td class="tc ">
+							<td class="tc " onclick="view('${obj.id}')">
 								<fmt:formatDate value="${obj.createdAt }" />
 							</td>
-							<td class="tl pl20">
+							<td class="tl pl20" onclick="view('${obj.id}')">
 								<c:if test="${obj.status=='1' }">
 									审核轮次设置
 								</c:if>

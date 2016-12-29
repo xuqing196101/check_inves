@@ -132,9 +132,9 @@
 												<!-- 是否发布 -->
 												<%-- <td class="tc" onclick="show('${u.id}');">${p.gender}</td> --%>
 												<!-- 是否发布 -->
-												<td class="tc" onclick="show('${u.id}');">${u.address}</td>
+												<td class="tl pl20" onclick="show('${u.id}');">${u.address}</td>
 												<!-- 是否发布 -->
-												<td class="tc" onclick="show('${u.id}');">${u.email}</td>
+												<td class="tl pl20" onclick="show('${u.id}');">${u.email}</td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -184,31 +184,31 @@
 												<!-- 序号 -->
 												<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
 												<!-- 标题 -->
-												<td class="tc" onclick="show('${p.id}');">${p.name}</td>
+												<td class="tl pl20" onclick="show('${p.id}');">${p.name}</td>
 												<!-- 内容 -->
-												<td class="tc" onclick="show('${p.id}');">${p.shortName}</td>
+												<td class="tl pl20" onclick="show('${p.id}');">${p.shortName}</td>
 												<!-- 创建人-->
 												<td class="tc" onclick="show('${p.id}');">${p.orgCode}</td>
 												<!-- 是否发布 -->
 												<td class="tc" onclick="show('${p.id}');">${p.mobile}</td>
 												<!-- 是否发布 -->
-												<td class="tc" onclick="show('${p.id}');">${p.areaId}</td>
+												<td class="tl pl20" onclick="show('${p.id}');">${p.areaId}</td>
 												<!-- 是否发布 -->
-												<td class="tc" onclick="show('${p.id}');">${p.detailAddr}</td>
+												<td class="tl pl20" onclick="show('${p.id}');">${p.detailAddr}</td>
 												<!-- 是否发布 -->
 												<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
 												<!-- 是否发布 -->
 												<td class="tc" onclick="show('${p.id}');">${p.fax}</td>
 												<!-- 创建人-->
-												<td class="tc" onclick="show('${p.id}');">${p.website}</td>
+												<td class="tl pl20" onclick="show('${p.id}');">${p.website}</td>
 												<!-- 是否发布 -->
 												<td class="tc" onclick="show('${p.id}');">${p.princinpal}</td>
 												<!-- 是否发布 -->
 												<%-- <td class="tc" onclick="show('${p.id}');">${p.quaCode}</td> --%>
 												<!-- 是否发布 -->
-												<td class="tc" onclick="show('${p.id}');">${p.princinpalIdCard}</td>
+												<td class="tl pl20" onclick="show('${p.id}');">${p.princinpalIdCard}</td>
 												<!-- 是否发布 -->
-												<td class="tc" onclick="show('${p.id}');">${p.nature}</td>
+												<td class="tl pl20" onclick="show('${p.id}');">${p.nature}</td>
 											</tr>
 										</c:forEach>
 									</tbody>

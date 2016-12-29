@@ -146,7 +146,11 @@
 								title: '信息',
 								skin: 'layui-layer-rim',
 								shadeClose: true,
+<<<<<<< Updated upstream
 								area: ['50%', 'auto'],
+=======
+								area: ['680px', '500px'],
+>>>>>>> Stashed changes
 								content: $("#purchaser")
 							});
 							$(".layui-layer-shade").remove();
@@ -201,7 +205,7 @@
 									title: '错误信息',
 									skin: 'layui-layer-rim',
 									shadeClose: true,
-									area: ['580px', '510px'],
+									area: ['400px', '400px'],
 									content: $("#errorPurchaser")
 								});
 								$(".layui-layer-shade").remove();
@@ -226,7 +230,7 @@
 									title: '错误信息',
 									skin: 'layui-layer-rim',
 									shadeClose: true,
-									area: ['580px', '510px'],
+									area: ['400px', '400px'],
 									content: $("#errorPurchaser")
 								});
 								$(".layui-layer-shade").remove();
@@ -291,8 +295,8 @@
 					    	<input type="text" id="depName" name="depName"/>
 				   		</span>
 				     </li>
-				    <button class="btn" type="button" onclick="query()">查询</button>
-		    		<button class="btn" type="button" onclick="resetResult()">重置</button>
+				    <button class="btn fl mt1" type="button" onclick="query()">查询</button>
+		    		<button class="btn fl mt1" type="button" onclick="resetResult()">重置</button>
 			    </ul>
 			    <div class="clear"></div>
 		 	</h2>
@@ -300,6 +304,7 @@
 			<!-- 按钮 -->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
+			    <input class="btn btn-windows back" value="返回" type="button" onclick="back()">
 			</div>
 
 			<div class="content table_box">
@@ -330,9 +335,7 @@
 		</div>
 
 		<!-- 返回按钮 -->
-		<div class="mt20 clear tc">
-			<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
-		</div>
+		
 
 		<input type="hidden" value="${examPaper.id }" name="paperId" id="paperId" />
 

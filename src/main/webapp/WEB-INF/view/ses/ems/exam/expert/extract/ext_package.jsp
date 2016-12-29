@@ -142,8 +142,8 @@
         </span>
         </label>
        </li>
-         <button class="btn" type="submit">查询</button>
-         <button type="button" class="btn" onclick="resetQuery();">重置</button> 
+         <button class="btn fl" type="submit">查询</button>
+         <button type="button" class="btn fl" onclick="resetQuery();">重置</button> 
      </ul>
      <div class="clear"></div>
     </form>

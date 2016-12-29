@@ -196,7 +196,7 @@
 					if(value[1] == 1) {
 						index = layer.open({
 							type: 2, //page层
-							area: ['700px', '600px'],
+							area: ['700px', '440px'],
 							title: '诚信登记',
 							shade: 0.01, //遮罩透明度
 							moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -250,10 +250,10 @@
 		  <input type="hidden" name="flag" value="0">
 		      <ul class="demand_list">
 		          <li>
-		            <label class="fl">姓名：</label><span><input type="text" id="relName" name="relName" value="${expert.relName }"></span>
+		            <label class="fl">专家姓名：</label><span><input type="text" id="relName" name="relName" value="${expert.relName }"></span>
 		          </li>
 		          <li>
-		            <label class="fl">来源：</label>
+		            <label class="fl">专家来源：</label>
 		            <span class="fl">
 		              <select  name="expertsFrom" id="expertsFrom" >
                             <option selected="selected" value="">-请选择-</option>
@@ -263,18 +263,6 @@
                            </select>
 		            </span>
 		          </li>
-		          <li>
-                    <label class="fl">状态：</label>
-                    <span class="fl">
-                      <select name="status" id="status">
-                         <option selected="selected" value=''>-请选择-</option>
-                         <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">未审核</option>
-                         <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">审核通过</option>
-                         <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">审核未通过</option>
-                         <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
-                       </select>
-                    </span>
-                  </li>
                   <li>
                     <label class="fl">专家类型：</label>
                     <span class="fl">
@@ -286,9 +274,25 @@
                       </select>
                     </span>
                   </li>
+		          <li>
+                    <label class="fl">审核状态：</label>
+                    <span class="fl">
+                      <select name="status" id="status">
+                         <option selected="selected" value=''>-请选择-</option>
+                         <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">未审核</option>
+                         <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">审核通过</option>
+                         <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">审核未通过</option>
+                         <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
+                       </select>
+                    </span>
+                  </li>
 		        </ul>
 		              <input class="btn fl mt1"  value="查询" type="submit">
+<<<<<<< Updated upstream
                       <input class="btn fl mt1" id="button" onclick="clearSearch();" value="重置" type="reset">  
+=======
+                      <input class="btn  fl mt1" id="button" onclick="clearSearch();" value="重置" type="reset">  
+>>>>>>> Stashed changes
                    </form>
                    </h2>
 			<!-- 表格开始-->

@@ -730,6 +730,10 @@
 				and STATUS = #{status}
 			</if>
 			
+			<if test="department != null">
+         and DEPARTMENT = #{department}
+      </if>
+			
 			<if test="parentId != null">
                 and PARENT_ID = #{parentId}
             </if>

@@ -119,14 +119,16 @@
      <form  action="${pageContext.request.contextPath}/ExpExtract/projectlist.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
     
-     <li class="fl">
-       <label class="fl">项目名称：<span><input type="hidden" name="page" id="page"><input type="text" name="name" id="proName" value="${projects.name }"/></span></label>
+     <li>
+       <label>项目名称：</label><input type="text" name="name" id="proName" value="${projects.name }"/>
        </li>
-       <li class="fl">
-      <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/> </label> 
+       <li >
+      <span class="fl"><label class="fl">项目编号：</label>
+      <input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/>
+      </span>
        </li>
-         <button class="btn" type="submit">查询</button>
-         <button type="reset" class="btn" onclick="resetQuery();">重置</button> 
+         <button class="btn fl mt1" type="submit">查询</button>
+         <button type="reset" class="btn fl mt1" onclick="resetQuery();">重置</button> 
      </ul>
      <div class="clear"></div>
     </form>

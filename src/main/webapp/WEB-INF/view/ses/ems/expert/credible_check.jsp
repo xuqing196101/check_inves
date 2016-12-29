@@ -115,8 +115,8 @@ $(function(){
                        <label class="fl">关键字：</label><span><input type="text" id="relName" name="badBehavior" value="${badBehavior }"></span>
                     </li>
                   </ul>
-                         <input class="btn fl mt1"  value="搜索" type="submit">
-                         <input class="btn btn-windows reset fl mt1" id="button" onclick="clearSearch();" value="重置" type="reset">
+                         <input class="btn fl mt1"  value="查询" type="submit">
+                         <input class="btn fl mt1" id="button" onclick="clearSearch();" value="重置" type="reset">
    </form>
   </h2>
 <form action="${pageContext.request.contextPath}/credible/list.html"  method="post"   class="registerform"> 

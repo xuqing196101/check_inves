@@ -252,13 +252,13 @@
 											type="checkbox" name="chkItem" value="${p.id}" />
 										</td>
 										<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
-										<td class="tc" >
+										<td class="tl pl20" >
 										<a href="javascript:void(0)" onclick="show('${p.id}');">${p.name}</a>
 										</td>
 										<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
-										<td class="tc" onclick="show('${p.id}');">${p.address}</td>
+										<td class="tl pl20" onclick="show('${p.id}');">${p.address}</td>
 										<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
-										<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
+										<td class="tl pl20" onclick="show('${p.id}');">${p.quaCode}</td>
 										<td class="tc" onclick="show('${p.id}');">
 										  <c:if test="${p.quaLevel == '1'}">
 										        一级
