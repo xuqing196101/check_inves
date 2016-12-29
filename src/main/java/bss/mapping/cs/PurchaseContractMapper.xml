@@ -57,6 +57,7 @@
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId"/>
     <result column="FINALLY_CLOSED" jdbcType="DECIMAL" property="finallyClosed"/>
     <result column="SUPPLIER_CHECK_IDS" jdbcType="VARCHAR" property="supplierCheckIds"/>
+    <association property="supplier" column="SUPPLIER_DEP_NAME" select="ses.dao.sms.SupplierMapper.selectOne"/>
   </resultMap>
   
   <resultMap extends="purContractMap" id="purContractBlob" type="bss.model.cs.PurchaseContract">

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.sms.Supplier;
+
 public class PurchaseContract {
 	private String id;
 	
@@ -137,6 +139,16 @@ public class PurchaseContract {
 	
 	private String supplierCheckIds;
 	
+	private Supplier supplier;
+	
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
 	public String getSupplierCheckIds() {
 		return supplierCheckIds;
 	}
