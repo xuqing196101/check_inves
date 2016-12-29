@@ -586,7 +586,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("serviceInformation")
-	public String serviceInformation(HttpServletRequest request,SupplierMatServe supplierMatSe){
+	public String serviceInformation(HttpServletRequest request,SupplierMatServe supplierMatSe, SupplierMatSell supplierMatSell){
 		String supplierId = supplierMatSe.getSupplierId();
 		request.setAttribute("supplierId", supplierId);
 		//资质证书信息
@@ -627,6 +627,84 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		return "ses/sms/supplier_audit/service_information";
 	}
+	
+	@RequestMapping("supplierType")
+	public String supplierType(HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId){
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierId", supplierId);	
+		/*//文件
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);*/
+		
+		//查出全部修改的
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+		 StringBuffer field = new StringBuffer();
+		for(int i=0; i<editList.size(); i++){
+			String beforeField = editList.get(i).getBeforeField();
+			field.append( beforeField + ",");	
+		}
+		request.setAttribute("field", field);
+				
+		/**
+		 * 生产
+		 */
+		//资质资格证书信息
+		List<SupplierCertPro> materialProduction = supplierAuditService.findBySupplierId(supplierId);
+		supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
+		request.setAttribute("supplierTypeNames", supplierTypeName);
+		request.setAttribute("materialProduction",materialProduction);
+		request.setAttribute("supplierMatPros", supplierMatPro);
+
+		
+		/**
+		 * 销售
+		 */
+		//资质资格证书
+		List<SupplierCertSell> supplierCertSell=supplierAuditService.findCertSellBySupplierId(supplierId);
+		//供应商组织机构和人员
+		supplierMatSell = supplierService.get(supplierId).getSupplierMatSell();
+		request.setAttribute("supplierTypeNames", supplierTypeName);
+		request.setAttribute("supplierCertSell", supplierCertSell);
+		request.setAttribute("supplierMatSells", supplierMatSell);
+		request.setAttribute("supplierId", supplierId);
+		
+		/**
+		 * 工程
+		 */
+		if(supplierId != null){
+			//资质资格证书信息
+			List<SupplierCertEng> supplierCertEng= supplierAuditService.findCertEngBySupplierId(supplierId);
+			request.setAttribute("supplierCertEng", supplierCertEng);
+			
+			//资质资格信息
+			List<SupplierAptitute> supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
+			request.setAttribute("supplierAptitutes", supplierAptitute);
+			
+			//组织结构
+			supplierMatEng = supplierAuditService.findMatEngBySupplierId(supplierId);
+			request.setAttribute("supplierMatEngs",supplierMatEng);
+			
+			//注册人人员
+			 List<SupplierRegPerson> listSupplierRegPersons = supplierService.get(supplierId).getSupplierMatEng().getListSupplierRegPersons();
+			 request.setAttribute("listRegPerson", listSupplierRegPersons);
+			}
+		
+		/**
+		 * 服务
+		 */
+		//资质证书信息
+		List<SupplierCertServe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
+		request.setAttribute("supplierCertSes", supplierCertSe);
+		//组织结构和人员
+		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
+		request.setAttribute("supplierMatSes", supplierMatSe);	
+
+		return "ses/sms/supplier_audit/supplierType";
+	}
+	
+	
 	/**
 	 * @Title: auditReasons
 	 * @author Xu Qing

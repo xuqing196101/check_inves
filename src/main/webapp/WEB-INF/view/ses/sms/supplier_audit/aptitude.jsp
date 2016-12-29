@@ -13,7 +13,7 @@
 					$(this).find("p").hide();
 				});
 			});
-		
+
 			function reason(auditFieldName, auditContent, dex) {
 				var supplierId = $("#supplierId").val();
 				var index = layer.prompt({
@@ -25,7 +25,14 @@
 						$.ajax({
 							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 							type: "post",
-						  data: {"auditType":"aptitude_page","auditFieldName":auditFieldName,"auditContent":auditContent+"附件信息","suggest":text,"supplierId":supplierId,"auditField":auditContent},
+							data: {
+								"auditType": "aptitude_page",
+								"auditFieldName": auditFieldName,
+								"auditContent": auditContent + "附件信息",
+								"suggest": text,
+								"supplierId": supplierId,
+								"auditField": auditContent
+							},
 							dataType: "json",
 							success: function(result) {
 								result = eval("(" + result + ")");
@@ -38,12 +45,11 @@
 							}
 						});
 
-							$("#" + dex + "_hidden").hide();
-							$("#" + dex + "_show").show();
-							layer.close(index);
+						$("#" + dex + "_hidden").hide();
+						$("#" + dex + "_show").show();
+						layer.close(index);
 					});
 			}
-		
 		</script>
 		<script type="text/javascript">
 			function jump(str) {
@@ -198,7 +204,7 @@
 								<c:set value="0" var="prolength" />
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<table class="table table-bordered">
-									<thead>
+										<thead>
 											<tr>
 												<th class="tc info">名称</th>
 												<th class="tc info">环保管理体系认证证书</th>
@@ -206,16 +212,16 @@
 												<th class="tc info">质量管理体系认证证书</th>
 												<th class="tc info">审核操作</th>
 											</tr>
-											</thead>
+										</thead>
 										<c:forEach items="${cateList }" var="obj" varStatus="vs">
 											<tr>
 												<td class="tc">${obj.categoryName } </td>
-													<c:forEach items="${obj.list }" var="quaPro">
+												<c:forEach items="${obj.list }" var="quaPro">
 													<td class="tc">
 														<c:set value="${prolength+1}" var="prolength"></c:set>
 														<u:show showId="pShow${prolength}" groups="${saleShow}" delete="false" businessId="${quaPro.id}" sysKey="1" typeId="1" />
 													</td>
-													</c:forEach>
+												</c:forEach>
 												<td class="tc w100">
 													<a onclick="reason('物资生产品目信息','${obj.categoryName }','${vs.index + 1}');" id="${vs.index + 1}_hidden" class="btn">审核</a>
 													<p id="${vs.index + 1}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
@@ -231,7 +237,7 @@
 								<c:set value="0" var="length"> </c:set>
 								<div class="tab-pane fade height-300" id="tab-2">
 									<table class="table table-bordered">
-									<thead>
+										<thead>
 											<tr>
 												<th class="tc info">名称</th>
 												<th class="tc info">环保管理体系认证证书</th>
@@ -239,7 +245,7 @@
 												<th class="tc info">质量管理体系认证证书</th>
 												<th class="tc info">审核操作</th>
 											</tr>
-											</thead>
+										</thead>
 										<c:forEach items="${saleQua }" var="sale">
 											<tr>
 												<td>${sale.categoryName } </td>
@@ -273,8 +279,8 @@
 												<th class="tc info">质量管理体系认证证书</th>
 												<th class="tc info">审核操作</th>
 											</tr>
-											</thead>
-										
+										</thead>
+
 										<c:forEach items="${projectQua }" var="project">
 											<tr>
 												<td class="info">${project.categoryName }
@@ -309,7 +315,7 @@
 												<th class="tc info">质量管理体系认证证书</th>
 												<th class="tc info">审核操作</th>
 											</tr>
-											</thead>
+										</thead>
 										<c:forEach items="${serviceQua }" var="server">
 											<tr>
 												<td class="info">${project.categoryName }

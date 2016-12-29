@@ -235,6 +235,9 @@
 				if(str == "reasonsList") {
 					action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
 				}
+				if(str == "supplierType") {
+					action = "${pageContext.request.contextPath}/supplierAudit/supplierType.html";
+				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
@@ -319,6 +322,10 @@
 								<i></i>
 							</li>
 						</c:if>
+						<li onclick = "jump('supplierType')">
+           	  <a aria-expanded="false">供应商类型</a>
+            	<i></i>
+	          </li>
 						<li onclick="jump('items')">
 							<a aria-expanded="false">品目信息</a>
 							<i></i>
