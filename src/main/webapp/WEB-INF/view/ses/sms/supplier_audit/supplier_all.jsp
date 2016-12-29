@@ -134,15 +134,18 @@
 									<a href="#">供应商审核</a>
 								</li>
 							</c:otherwise>
-						</c:choose>
-						<li class="active">
+						   </c:choose>
+						
 							<c:if test="${sign == 1}">
+							<li class="active">
 								<a href="#">供应商审核列表</a>
+							</li>
 							</c:if>
 							<c:if test="${sign == 2}">
+							<li class="active">
 								<a href="#">供应商复核列表</a>
+							</li>
 							</c:if>
-						</li>
 					</ul>
 				</div>
 			</div>
@@ -204,16 +207,14 @@
 		       </select> 
 		    </li> --%>
         </ul>
-        <input type="submit" class="btn" value="查询" />
-			  <button onclick="resetForm();" class="btn" type="button">重置</button>
+        <input type="submit" class="btn fl" value="查询" />
+			  <button onclick="resetForm();" class="btn fl" type="button">重置</button>
       </form>
     </h2>
 				<!-- 表格开始-->
 				<div class="col-md-12 pl20 mt10">
-					<button class="btn btn-windows check" type="button" onclick="shenhe();">
-						<c:if test="${sign == 1 || sign == 2}">审核</c:if>
-						<c:if test="${sign == 3}">考察</c:if>
-					</button>
+						<c:if test="${sign == 1 || sign == 2}"><button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button></c:if>
+						<c:if test="${sign == 3}"><button class="btn btn-windows check" type="button" onclick="shenhe();">考察</button></c:if>
 				</div>
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover hand">

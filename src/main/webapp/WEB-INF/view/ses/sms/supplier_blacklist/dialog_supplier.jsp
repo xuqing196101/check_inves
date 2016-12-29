@@ -63,12 +63,12 @@
 	<div class="wrapper">
 		<!-- 查询条件 -->
 		<div class="container">
-			<div class="p10_25">
-				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_blacklist/list_supplier.html" method="get">
+			<div class="search_detail ml0">
+				<form id="search_form_id" action="${pageContext.request.contextPath}/supplier_blacklist/list_supplier.html" method="get">
 					<input name="page" type="hidden" />
 					<ul class="demand_list">
 						<li class="fl">
-							<label class="fl mt5">供应商名称：</label>
+							<label class="fl">供应商名称：</label>
 							<span><input name="supplierName" type="text" value="${supplierName}" /></span>
 						</li>
 						<li class="fl mt1">
@@ -82,7 +82,7 @@
 		</div>
 
 		<div class="container margin-top-5">
-			<div class="content padding-left-25 padding-right-25 padding-top-5">
+			<div class="content padding-top-5">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
@@ -99,10 +99,10 @@
 							<tr>
 								<td class="tc"><input name="id" type="radio" value="${supplier.id}"></td>
 								<td class="tc">${vs.index + 1}</td>
-								<td class="tc">${supplier.supplierName}</td>
+								<td class="pl20">${supplier.supplierName}</td>
 								<td class="tc">${supplier.contactName}</td>
 								<td class="tc">${supplier.contactTelephone}</td>
-								<td class="tc">${supplier.address}</td>
+								<td class="pl20">${supplier.address}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -112,7 +112,7 @@
 			<div class="col-md-12">
 				<div class="tc mb10">
 					<a class="btn btn-windows save" onclick="checkSupplier()">选择</a>
-					<a target="_parent" class="btn btn-windows reset" href="${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html">返回</a>
+					<a target="_parent" class="btn btn-windows back" href="${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html">返回</a>
 				</div>
 			</div>
 			<form target="_parent" id="check_form_id" action="${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html" method="post">

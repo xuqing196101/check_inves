@@ -723,6 +723,8 @@ li:first-child {
 .poster h2{
 	font-size: 16px;
 	padding-left:40px!important;
+	height:28px;
+	line-height: 28px;
 }
 .poster ul{
 	list-style-type: none;

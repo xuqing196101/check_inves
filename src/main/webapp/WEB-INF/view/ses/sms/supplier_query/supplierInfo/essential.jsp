@@ -129,30 +129,30 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="bggrey">供应商名称：</td>
-										<td>${suppliers.supplierName}</td>
-										<td class="bggrey ">公司网址：</td>
+										<td class="bggrey" width="20%">供应商名称：</td>
+										<td width="30%">${suppliers.supplierName}</td>
+										<td class="bggrey" width="20%">公司网址：</td>
 										<td>${suppliers.website}</td>
 									</tr>
 									<tr>
-										<td class="bggrey ">成立日期：</td>
+										<td class="bggrey" width="20%">成立日期：</td>
 										<td>
 											<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd' />
 										</td>
-										<td class="bggrey">营业执照登记类型：</td>
+										<td class="bggrey" width="20%">营业执照登记类型：</td>
 										<td onmouseover="out('${suppliers.businessType }')">${suppliers.businessType}</td>
 									</tr>
 									<tr>
-										<td class="bggrey">地址：</td>
+										<td class="bggrey" width="20%">地址：</td>
 										<td>${suppliers.address}</td>
-										<td class="bggrey">开户行名称：</td>
+										<td class="bggrey" width="20%" width="20%">开户行名称：</td>
 										<td>${suppliers.bankName}</td>
 									</tr>
 									<tr>
-										<td class="bggrey">开户行账户：</td>
-										<td>${suppliers.bankAccount}</td>
-										<td class="bggrey">邮编：</td>
-										<td colspan="3">${suppliers.postCode }</td>
+										<td class="bggrey" width="20%">开户行账户：</td>
+										<td width="30%">${suppliers.bankAccount}</td>
+										<td class="bggrey" width="20%">邮编：</td>
+										<td width="30%">${suppliers.postCode }</td>
 									</tr>
 								</tbody>
 							</table>
@@ -163,22 +163,22 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="bggrey">近三个月完税凭证：</td>
-										<td>
+										<td class="bggrey" width="20%">近三个月完税凭证：</td>
+										<td width="30%">
 											<up:show showId="taxcert_show" delete="flase" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
 										</td>
-										<td class="bggrey">近三年银行账单：</td>
-										<td>
+										<td class="bggrey" width="20%">近三年银行账单：</td>
+										<td width="30%">
 											<up:show showId="billcert_show" delete="flase" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
 										</td>
 									</tr>
 									<tr>
-										<td class="bggrey">近三个月保险凭证：</td>
-										<td>
+										<td class="bggrey" width="20%">近三个月保险凭证：</td>
+										<td width="30%">
 											<up:show showId="curitycert_show" delete="flase" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
 										</td>
-										<td class="bggrey">近三年违法记录：</td>
-										<td>
+										<td class="bggrey" width="20%">近三年违法记录：</td>
+										<td width="30%">
 											<up:show showId="bearchcert_show" delete="flase" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 										</td>
 									</tr>
@@ -191,16 +191,16 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="bggrey">法定代表人姓名：</td>
-										<td>${suppliers.legalName}</td>
-										<td class="bggrey ">身份证号：</td>
-										<td>${suppliers.legalIdCard}</td>
+										<td class="bggrey" width="20%">法定代表人姓名：</td>
+										<td width="30%">${suppliers.legalName}</td>
+										<td class="bggrey" width="20%">身份证号：</td>
+										<td width="30%">${suppliers.legalIdCard}</td>
 									</tr>
 									<tr>
-										<td class="bggrey ">固定电话：</td>
-										<td>${suppliers.legalTelephone}</td>
-										<td class="bggrey">手机：</td>
-										<td>${suppliers.legalMobile }</td>
+										<td class="bggrey" width="20%">固定电话：</td>
+										<td width="30%">${suppliers.legalTelephone}</td>
+										<td class="bggrey" width="20%">手机：</td>
+										<td width="30%">${suppliers.legalMobile }</td>
 									</tr>
 								</tbody>
 							</table>
@@ -210,22 +210,22 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="bggrey">姓名：</td>
-										<td>${suppliers.contactName } </td>
-										<td class="bggrey">传真：</td>
-										<td>${suppliers.contactFax }</td>
+										<td class="bggrey" width="20%">姓名：</td>
+										<td width="30%">${suppliers.contactName } </td>
+										<td class="bggrey" width="20%">传真：</td>
+										<td width="30%">${suppliers.contactFax }</td>
 									</tr>
 									<tr>
-										<td class="bggrey">地址：</td>
-										<td>${suppliers.contactAddress}</td>
-										<td class="bggrey">固定电话：</td>
-										<td>${suppliers.contactTelephone }</td>
+										<td class="bggrey" width="20%">地址：</td>
+										<td width="30%">${suppliers.contactAddress}</td>
+										<td class="bggrey" width="20%">固定电话：</td>
+										<td width="30%">${suppliers.contactTelephone }</td>
 									</tr>
 									<tr>
-										<td class="bggrey">手机：</td>
-										<td>${suppliers.contactMobile } </td>
-										<td class="bggrey">邮箱：</td>
-										<td>${suppliers.contactEmail }</td>
+										<td class="bggrey" width="20%">手机：</td>
+										<td width="30%">${suppliers.contactMobile } </td>
+										<td class="bggrey" width="20%">邮箱：</td>
+										<td width="30%">${suppliers.contactEmail }</td>
 									</tr>
 								</tbody>
 							</table>
@@ -235,33 +235,33 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="bggrey">统一社会信用代码：</td>
-										<td>${suppliers.creditCode } </td>
-										<td class="bggrey">登记机关：</td>
-										<td>${suppliers.registAuthority}</td>
+										<td class="bggrey" width="20%">统一社会信用代码：</td>
+										<td width="30%">${suppliers.creditCode } </td>
+										<td class="bggrey" width="20%">登记机关：</td>
+										<td width="30%">${suppliers.registAuthority}</td>
 									</tr>
 
 									<tr>
-										<td class="bggrey">注册资本：</td>
-										<td>${suppliers.registFund }</td>
-										<td class="bggrey">营业期限：</td>
-										<td>
+										<td class="bggrey" width="20%">注册资本：</td>
+										<td width="30%">${suppliers.registFund }</td>
+										<td class="bggrey" width="20%">营业期限：</td>
+										<td width="30%">
 											<fmt:formatDate value="${suppliers.businessStartDate}" pattern="yyyy-MM-dd" />至
 											<fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" /> </td>
 									</tr>
 									<tr>
-										<td class="bggrey">邮编：</td>
-										<td> ${suppliers.businessPostCode } </td>
-										<td class="bggrey">营业执照：</td>
-										<td class="hand">
+										<td class="bggrey" width="20%">邮编：</td>
+										<td width="30%"> ${suppliers.businessPostCode } </td>
+										<td class="bggrey" width="20%">营业执照：</td>
+										<td class="hand" width="30%">
 											<up:show showId="business_show" delete="flase" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
 										</td>
 									</tr>
 									<tr>
-										<td class="bggrey">生产或经营地址：</td>
-										<td>${suppliers.businessAddress}</td>
-										<td class="bggrey">营业范围：</td>
-										<td>${suppliers.businessScope}</td>
+										<td class="bggrey" width="20%">生产或经营地址：</td>
+										<td width="30%">${suppliers.businessAddress}</td>
+										<td class="bggrey" width="20%">营业范围：</td>
+										<td width="30%">${suppliers.businessScope}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -271,22 +271,22 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="bggrey">境外分支机构：</td>
-										<td>
+										<td class="bggrey" width="20%">境外分支机构：</td>
+										<td width="30%">
 											<c:if test="${suppliers.overseasBranch==0}">无</c:if>
 											<c:if test="${suppliers.overseasBranch==1}">有</c:if>
 										</td>
-										<td class="bggrey">国家：</td>
-										<td>${suppliers.branchCountry}</td>
+										<td class="bggrey" width="20%">国家：</td>
+										<td width="30%">${suppliers.branchCountry}</td>
 									</tr>
 									<tr>
-										<td class="bggrey">分支地址：</td>
-										<td>${suppliers.branchAddress}</td>
-										<td class="bggrey">机构名称：</td>
-										<td>${suppliers.branchName}</td>
+										<td class="bggrey" width="20%">分支地址：</td>
+										<td width="30%">${suppliers.branchAddress}</td>
+										<td class="bggrey" width="20%">机构名称：</td>
+										<td width="30%">${suppliers.branchName}</td>
 									</tr>
 									<tr>
-										<td class="bggrey">分支生产经营范围：</td>
+										<td class="bggrey" width="20%">分支生产经营范围：</td>
 										<td colspan="3">${suppliers.branchBusinessScope } </td>
 									</tr>
 								</tbody>

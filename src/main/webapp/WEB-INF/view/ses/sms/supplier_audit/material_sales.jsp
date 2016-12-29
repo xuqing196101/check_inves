@@ -5,14 +5,6 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<title>物资-销售型专业信息</title>
-		<style type="text/css">
-			td {
-			  cursor:pointer;
-			}
-			input {
-			  cursor:pointer;
-			}
-		</style>
 		
     <script type="text/javascript">
 	   //默认不显示叉
