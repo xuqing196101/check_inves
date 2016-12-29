@@ -888,8 +888,8 @@
 							<th class="info">规格型号</th>
 							<th class="info">计量单位</th>
 							<th class="info">数量</th>
-							<th class="info">单价(元)</th>
-							<th class="info">合计金额(元)</th>
+							<th class="info">单价(万元)</th>
+							<th class="info">合计金额(万元)</th>
 							<th class="info">交付时间</th>
 							<th class="info">备注</th>
 						</tr>
@@ -973,14 +973,14 @@
 		              </div>
 		            </li>
 				    <li class="col-md-3">
-		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>单价</label>
+		    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>单价(万元)</label>
 	                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
 	                   <input id="univalent" name="price_string" onblur="sum1()" value="" type="text" class="col-md-12 p0">
 	                   <div class="cue" id="dj"></div>
 		              </div>
 		            </li>
 				    <li class="col-md-3">
-		    	      <label class="col-md-12 padding-left-5">合计</label>
+		    	      <label class="col-md-12 padding-left-5">合计(万元)</label>
 	                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
 	                   <input id="purBudgetSum" name="amount_string" value="" readonly="readonly" type="text" class="col-md-12 p0">
 		              </div>

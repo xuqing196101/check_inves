@@ -34,7 +34,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import bss.model.ppms.Packages;
 
 import com.github.pagehelper.PageInfo;
 
@@ -98,6 +97,134 @@ public class IndexNewsController extends BaseSupplierController{
 	public String sign(){
 		return "iss/ps/index/sign";
 	}
+	
+	public void topNews(Map<String, Object> indexMapper){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.clear();
+		String[] idArray = {"3","24"};
+		map.put("idArray", idArray);
+		List<Article> xinxicaiwuziList = articleService.selectAllByParId(map);
+//		xinxicaiwuziList.addAll(article3List);
+//		xinxicaiwuziList.addAll(article24List);
+		indexMapper.put("xinxicaiwuziList", xinxicaiwuziList);
+//		List<Article> xinxicaigongchengList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray1 = {"8","29"};
+		map.put("idArray", idArray1);
+		List<Article> xinxicaigongchengList = articleService.selectAllByParId(map);
+//		xinxicaigongchengList.addAll(article8List);
+//		xinxicaigongchengList.addAll(article29List);
+		indexMapper.put("xinxicaigongchengList", xinxicaigongchengList);
+//		List<Article> xinxicaifuwuList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray2 = {"13","34"};
+		map.put("idArray", idArray2);
+		List<Article> xinxicaifuwuList = articleService.selectAllByParId(map);
+//		xinxicaifuwuList.addAll(article13List);
+//		xinxicaifuwuList.addAll(article34List);
+		indexMapper.put("xinxicaifuwuList", xinxicaifuwuList);
+//		List<Article> xinxicaijinkouList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray3 = {"18","39"};
+		map.put("idArray", idArray3);
+		List<Article> xinxicaijinkouList = articleService.selectAllByParId(map);
+//		xinxicaijinkouList.addAll(article18List);
+//		xinxicaijinkouList.addAll(article39List);
+		indexMapper.put("xinxicaijinkouList", xinxicaijinkouList);
+//		List<Article> xinxizhongwuziList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray4 = {"46","67"};
+		map.put("idArray", idArray4);
+		List<Article> xinxizhongwuziList = articleService.selectAllByParId(map);
+//		xinxizhongwuziList.addAll(article46List);
+//		xinxizhongwuziList.addAll(article67List);
+		indexMapper.put("xinxizhongwuziList", xinxizhongwuziList);
+//		List<Article> xinxizhonggongchengList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray5 = {"51","72"};
+		map.put("idArray", idArray5);
+		List<Article> xinxizhonggongchengList = articleService.selectAllByParId(map);
+//		xinxizhonggongchengList.addAll(article51List);
+//		xinxizhonggongchengList.addAll(article72List);
+		indexMapper.put("xinxizhonggongchengList", xinxizhonggongchengList);
+//		List<Article> xinxizhongfuwuList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray6 = {"56","77"};
+		map.put("idArray", idArray6);
+		List<Article> xinxizhongfuwuList = articleService.selectAllByParId(map);
+//		xinxizhongfuwuList.addAll(article56List);
+//		xinxizhongfuwuList.addAll(article77List);
+		indexMapper.put("xinxizhongfuwuList", xinxizhongfuwuList);
+//		List<Article> xinxizhongjinkouList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray7 = {"61","82"};
+		map.put("idArray", idArray7);
+		List<Article> xinxizhongjinkouList = articleService.selectAllByParId(map);
+//		xinxizhongjinkouList.addAll(article61List);
+//		xinxizhongjinkouList.addAll(article82List);
+		indexMapper.put("xinxizhongjinkouList", xinxizhongjinkouList);
+//		List<Article> xinxidanwuziList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray8 = {"89","94"};
+		map.put("idArray", idArray8);
+		List<Article> xinxidanwuziList = articleService.selectAllByArticleType(map);
+//		xinxidanwuziList.addAll(article89List);
+//		xinxidanwuziList.addAll(article94List);
+		indexMapper.put("xinxidanwuziList", xinxidanwuziList);
+//		List<Article> xinxidangongchengList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray9 = {"90","95"};
+		map.put("idArray", idArray9);
+		List<Article> xinxidangongchengList = articleService.selectAllByArticleType(map);
+//		xinxidangongchengList.addAll(article90List);
+//		xinxidangongchengList.addAll(article95List);
+		indexMapper.put("xinxidangongchengList", xinxidangongchengList);
+//		List<Article> xinxidanfuwuList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray10 = {"91","96"};
+		map.put("idArray", idArray10);
+		List<Article> xinxidanfuwuList = articleService.selectAllByArticleType(map);
+//		xinxidanfuwuList.addAll(article91List);
+//		xinxidanfuwuList.addAll(article96List);
+		indexMapper.put("xinxidanfuwuList", xinxidanfuwuList);
+//		List<Article> xinxidanjinkouList = new ArrayList<Article>();
+		map.clear();
+		String[] idArray11 = {"92","97"};
+		map.put("idArray", idArray11);
+		List<Article> xinxidanjinkouList = articleService.selectAllByArticleType(map);
+//		xinxidanjinkouList.addAll(article92List);
+//		xinxidanjinkouList.addAll(article97List);
+		indexMapper.put("xinxidanjinkouList", xinxidanjinkouList);
+		map.clear();
+		map.put("typeId","103");
+		List<Article> article103List = articleService.selectArticleByArticleType(map);
+		indexMapper.put("select103List", article103List);
+		map.clear();
+		map.put("typeId","104");
+		List<Article> article104List = articleService.selectArticleByArticleType(map);
+		indexMapper.put("select104List", article104List);
+		map.clear();
+		map.put("typeId","105");
+		List<Article> article105List = articleService.selectArticleByArticleType(map);
+		indexMapper.put("select105List", article105List);
+		map.clear();
+		map.put("typeId","112");
+		List<Article> article112List = articleService.selectArticleByArticleType(map);
+		indexMapper.put("select112List", article112List);
+		map.clear();
+		map.put("typeId","107");
+		List<Article> article107List = articleService.selectArticleByArticleType(map);
+		indexMapper.put("select107List", article107List);
+		map.clear();
+		map.put("typeId","108");
+		List<Article> article108List = articleService.selectArticleByArticleType(map);
+		indexMapper.put("select108List", article108List);
+		map.clear();
+		map.put("typeId","109");
+		List<Article> article109List = articleService.selectArticleByArticleType(map);
+		indexMapper.put("select109List", article109List);
+	}
+	
 	/**
 	 * 
 	* @Title: selectIndexNews
@@ -111,9 +238,9 @@ public class IndexNewsController extends BaseSupplierController{
 	public String selectIndexNews(Model model,HttpServletRequest request) throws Exception{
 		Map<String, Object> indexMapper = new HashMap<String, Object>();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", "111");
-		List<Article> article111List = articleService.selectJob(map);
-		indexMapper.put("select111List", article111List);
+		map.put("id", "110");
+		List<Article> article110List = articleService.selectJob(map);
+		indexMapper.put("select110List", article110List);
 		map.clear();
 		map.put("parId","3");
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
@@ -364,8 +491,8 @@ public class IndexNewsController extends BaseSupplierController{
 				List<UploadFile> uploadList = uploadService.getFilesOther(article.getId(), attachTypeId, sysKey);
 				if(uploadList.size()>0){
 					article.setUploadId(uploadList.get(0).getId());
+					indexPics.add(article);
 				}
-				indexPics.add(article);
 			}
 		}
 		if(indexPics!=null){
@@ -375,6 +502,7 @@ public class IndexNewsController extends BaseSupplierController{
 			model.addAttribute("nums", "0");
 		}
 		indexMapper.put("picList", indexPics);
+		model.addAttribute("picSize", indexPics.size());
 		ArticleType articlejcw = articleTypeService.selectTypeByPrimaryKey("3");
 		model.addAttribute("articlejcw",articlejcw.getShowNum());
 		ArticleType articlejcg = articleTypeService.selectTypeByPrimaryKey("8");
@@ -472,6 +600,9 @@ public class IndexNewsController extends BaseSupplierController{
 		if(twoArticleList.size()>0){
 			articleList = twoArticleList;
 		}
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
+		model.addAttribute("indexMapper", indexMapper);
 		model.addAttribute("id", id);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
@@ -507,6 +638,8 @@ public class IndexNewsController extends BaseSupplierController{
 		if(twoArticleList.size()>0){
 			articleList = twoArticleList;
 		}
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
 		return "iss/ps/index/sumParId_two";
@@ -541,6 +674,8 @@ public class IndexNewsController extends BaseSupplierController{
 		if(twoArticleList.size()>0){
 			articleList = twoArticleList;
 		}
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
 		model.addAttribute("id", id);
 		model.addAttribute("twoid", twoid);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
@@ -577,6 +712,8 @@ public class IndexNewsController extends BaseSupplierController{
 		if(twoArticleList.size()>0){
 			articleList = twoArticleList;
 		}
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
 		model.addAttribute("id", id);
 		model.addAttribute("twoid", twoid);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
@@ -600,20 +737,20 @@ public class IndexNewsController extends BaseSupplierController{
 	public String selectIndexNewsByTypeId(Model model,Integer page,HttpServletRequest request) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> countMap = new HashMap<String, Object>();
-		Map<String,Object> indexMapper = new HashMap<String, Object>();
-		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
-		for(int i=0;i<26;i++){
-			List<Article> indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
-			if(!indexNewsList.isEmpty()){
-				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNewsList);
-			}else{
-				List<Article> indexNews = new ArrayList<Article>();
-				Article article = new Article();
-				article.setArticleType(articleTypeList.get(i));
-				indexNews.add(article);
-				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
-			}
-		}
+//		Map<String,Object> indexMapper = new HashMap<String, Object>();
+//		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
+//		for(int i=0;i<26;i++){
+//			List<Article> indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
+//			if(!indexNewsList.isEmpty()){
+//				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNewsList);
+//			}else{
+//				List<Article> indexNews = new ArrayList<Article>();
+//				Article article = new Article();
+//				article.setArticleType(articleTypeList.get(i));
+//				indexNews.add(article);
+//				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
+//			}
+//		}
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		String pageSize = config.getString("pageSize");
 		if(page==null){
@@ -637,6 +774,8 @@ public class IndexNewsController extends BaseSupplierController{
 				endRow = startRow+(indexNewsList.size()-1);
 			}
 		}
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
 		model.addAttribute("total", pages);
 		model.addAttribute("startRow", startRow);
 		model.addAttribute("endRow", endRow);
@@ -666,20 +805,22 @@ public class IndexNewsController extends BaseSupplierController{
 		Integer showCount = articleDetail.getShowCount();
 		articleDetail.setShowCount(showCount+1);
 		articleService.update(articleDetail);
-		Map<String,Object> indexMapper = new HashMap<String, Object>();
-		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
-		for(int i=0;i<26;i++){
-			List<Article> indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
-			if(!indexNewsList.isEmpty()){
-				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNewsList);
-			}else{
-				List<Article> indexNews = new ArrayList<Article>();
-				Article articless = new Article();
-				articless.setArticleType(articleTypeList.get(i));
-				indexNews.add(articless);
-				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
-			}
-		}
+//		Map<String,Object> indexMapper = new HashMap<String, Object>();
+//		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
+//		for(int i=0;i<26;i++){
+//			List<Article> indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
+//			if(!indexNewsList.isEmpty()){
+//				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNewsList);
+//			}else{
+//				List<Article> indexNews = new ArrayList<Article>();
+//				Article articless = new Article();
+//				articless.setArticleType(articleTypeList.get(i));
+//				indexNews.add(articless);
+//				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
+//			}
+//		}
+		Map<String, Object> indexMapper = new HashMap<String, Object>();
+		topNews(indexMapper);
 		model.addAttribute("articleId", article.getId());
 		DictionaryData da=new DictionaryData();
 		da.setCode("GGWJ");
@@ -688,10 +829,13 @@ public class IndexNewsController extends BaseSupplierController{
 		if(dlists.size()>0){
 			model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
 		}
+		
+		List<UploadFile> uploadList = uploadService.getFilesOther(article.getId(), dlists.get(0).getId(), Constant.TENDER_SYS_KEY.toString());
 //		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(articleDetail.getId());
 //		articleDetail.setArticleAttachments(articleAttaList);
+		model.addAttribute("fileSize", uploadList.size());
 		model.addAttribute("articleDetail", articleDetail);
-		model.addAttribute("indexMapper", indexMapper);
+//		model.addAttribute("indexMapper", indexMapper);
 		return "iss/ps/index/index_details";
 	}
 	

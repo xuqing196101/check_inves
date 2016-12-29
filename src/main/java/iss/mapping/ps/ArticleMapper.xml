@@ -480,6 +480,7 @@
 		T_ISS_PS_ARTICLE
 	where
 		LAST_ARTICLE_TYPE_ID = 111
+		and IS_DELETED = 0
 		and rownum &lt;=6
 	ORDER BY
 		PUBLISHED_AT DESC 

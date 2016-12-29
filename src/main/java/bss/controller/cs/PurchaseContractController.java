@@ -186,9 +186,8 @@ public class PurchaseContractController extends BaseSupplierController{
 						flag = false;
 					}
 				}
-				
-//						||or.getTypeName().equals("1")&&or.getDepId().equals(project.getPurchaseDep().getId())
-//						||or.getTypeName().equals("2")&&or.getId().equals(project.getSectorOfDemand())){
+//					||or.getTypeName().equals("1")&&or.getDepId().equals(project.getPurchaseDep().getId())
+//					||or.getTypeName().equals("2")&&or.getId().equals(project.getSectorOfDemand())){
 					pa.setProject(project);
 					pa.setSupplier(supplier);
 //					SupplierCheckPass sucp = new SupplierCheckPass();
