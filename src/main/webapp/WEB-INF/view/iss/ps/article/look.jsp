@@ -133,12 +133,15 @@
                   <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
                 </li>
                 
+               <c:if test="${article.lastArticleType.id=='111' }">
                 <li class="col-md-6 col-sm-12 col-xs-12 mt10 pl0" id="picNone">
                   <span class="fl">已上传的图片：</span>
                   <div class="fl">
                     <u:show showId="artice_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }" />
                   </div>
                 </li>
+               </c:if>
+                
               </ul>
             </div>
           </div>
