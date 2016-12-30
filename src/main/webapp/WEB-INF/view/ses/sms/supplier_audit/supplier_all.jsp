@@ -232,8 +232,8 @@
 							<tr>
 								<td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
 								<td class="tc w50" onclick="shenhe('${list.id }');">${page.count}</td>
-								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierName }</td>
-								<td class="tl" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
+								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierName }</td>
+								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">
 								  <c:forEach items="${enterpriseTypeList}" var="type">
 								  	 <c:if test="${list.businessType == type.id}">${type.name}</c:if>

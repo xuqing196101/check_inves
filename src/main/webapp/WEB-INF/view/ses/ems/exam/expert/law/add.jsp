@@ -27,9 +27,9 @@
 				var ahtml = "";
 				for(var i = 0; i < array.length; i++) {
 					if($(errorOption[i]).val() == "" || $(errorOption[i]).val() == null) {
-						ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>" + array[i] + "</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0'></textarea></div>";
+						ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>" + array[i] + "</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 pl5'></textarea></div>";
 					} else {
-						ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>" + array[i] + "</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 pl20'>" + $(errorOption[i]).val() + "</textarea></div>";
+						ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>" + array[i] + "</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10pl50'>" + $(errorOption[i]).val() + "</textarea></div>";
 					}
 					if(queType == 1) {
 						if(queAnswer.indexOf(array[i]) > -1) {
@@ -97,7 +97,7 @@
 				var ohtml = "";
 				var ahtml = "";
 				for(var i = 0; i < array.length; i++) {
-					ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='star_red fl'>*</div>" + array[i] + "</div><textarea name='option' class=' pl20 ml5 col-md-10 col-sm-10 col-xs-10 '></textarea></div>";
+					ohtml = ohtml + "<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='star_red fl'>*</div>" + array[i] + "</div><textarea name='option' class=' pl5 ml5 col-md-10 col-sm-10 col-xs-10 '></textarea></div>";
 					if(queType == 1) {
 						ahtml = ahtml + "<input type='radio' name='answer'  value='" + array[i] + "' class='mt0'/>" + array[i] + "&nbsp";
 					} else if(queType == 2) {
@@ -174,7 +174,7 @@
 						<li class="col-md-12 col-sm-12 col-xs-12">
 							<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red fl">*</div>题干：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0">
-								<textarea class="col-md-10 col-sm-10 col-xs-10 h80 pl20" name="topic" id="queTopic">${errData["topic"] }</textarea>
+								<textarea class="col-md-10 col-sm-10 col-xs-10 h80 pl5" name="topic" id="queTopic">${errData["topic"] }</textarea>
 								<div class="clear red">${ERR_topic}</div>
 							</div>
 						</li>
