@@ -679,14 +679,15 @@ WHERE
   </select>
   
   <select id="selectJob" parameterType="Map" resultMap="ArticleMapper">
-  	SELECT
+  	select * from (SELECT
 	*
 	FROM
 	T_ISS_PS_ARTICLE
 	WHERE
-	LAST_ARTICLE_TYPE_ID = #{id} and status=2 and rownum &lt;=10
-	and IS_DELETED = 0
+	LAST_ARTICLE_TYPE_ID = #{id}
 	order by published_at desc
+) where 1=1 and status=2 and rownum &lt;=10
+	and IS_DELETED = 0
   </select>
   
   <select id="selectByTimer" parameterType="Map" resultType="Object">
