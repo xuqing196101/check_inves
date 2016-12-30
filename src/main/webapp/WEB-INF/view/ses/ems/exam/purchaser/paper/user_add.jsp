@@ -146,11 +146,7 @@
 								title: '信息',
 								skin: 'layui-layer-rim',
 								shadeClose: true,
-<<<<<<< Updated upstream
-								area: ['50%', 'auto'],
-=======
 								area: ['680px', '500px'],
->>>>>>> Stashed changes
 								content: $("#purchaser")
 							});
 							$(".layui-layer-shade").remove();

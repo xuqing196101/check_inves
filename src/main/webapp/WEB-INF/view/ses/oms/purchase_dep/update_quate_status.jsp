@@ -53,15 +53,16 @@
         <input type="hidden" name="quaStatus" value="${purchaseStarus}" id="quaStatus"/>
         <input type="hidden" name="purchaseId" value="${purchaseDepId}"/>
          <div class="drop_window" id="delTask">
-           <ul class="ul_list">
-				<li class="col-md-11 margin-0 padding-0 "><span
-					class="col-md-12 padding-left-5">理由:</span>
-					<div class="">
-						<textarea class="col-md-12"  title="不超过800个字" name="quaStashReason"></textarea>
+           <ul>
+				<li class="col-md-12 col-sm-12 col-xs-12 pl15">
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">理由:</span>
+					<div class="col-md-12 col-sm-12 col-xs-12 p0">
+						<textarea class="w100p h80"  title="不超过800个字" name="quaStashReason"></textarea>
 					</div>
 				</li>
-				<li class="col-md-11 margin-0 padd"><span class="col-md-12 padding-left-5">批文扫描文件:</span> 
-					<div class="">
+				<li class="col-md-12 col-sm-12 col-xs-12 mt10">
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">批文扫描文件:</span> 
+					<div class="col-md-12 col-sm-12 col-xs-12 p0">
 					   <u:upload id="qua" auto="true" multiple="true" exts="png,jpeg,jpg,bmp" businessId="${id}" typeId="${purchaseTypeId}" sysKey="2"/>
 					   <u:show showId="qua" businessId="${id}" typeId="${purchaseTypeId}" sysKey="2"/>
 					</div>
@@ -69,9 +70,9 @@
               </ul>
          </div>
         
-        <div class="tc mt10 col-md-12">
+        <div class="tc mt10 col-md-12 col-sm-12 col-xs-12 mt20">
           <button class="btn btn-windows save" type="button" onclick="start();">确认</button>
-          <button class="btn btn-windows reset"  type="button" onclick="cancel();">取消</button>
+          <button class="btn btn-windows cancel"  type="button" onclick="cancel();">取消</button>
         </div>
       </form>  
 </body>

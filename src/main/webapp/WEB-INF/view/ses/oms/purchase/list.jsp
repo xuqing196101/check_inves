@@ -138,8 +138,8 @@
 							value="${purchaseInfo.purchaseDepName }"/>
 							</span>
 							</li>
-							<button type="button" onclick="submit();" class="btn">查询</button>
-                            <button type="button" onclick="resetQuery();" class="btn">重置</button>
+							<button type="button" onclick="submit();" class="btn fl mt1">查询</button>
+                            <button type="button" onclick="resetQuery();" class="btn fl mt1">重置</button>
 						</ul>
 						<div class="clear"></div>
 					</form>

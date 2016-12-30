@@ -162,9 +162,9 @@
 		}
 		layer.open({
 			type : 2, 
-			area : [ '600px', '500px' ],
+			area : [ '600px', '330px' ],
 			title : title,
-			offset : [ '220px', '630px' ],
+			offset : [ '30px', '400px' ],
 			shadeClose : true,
 			content : '${pageContext.request.contextPath}/purchaseManage/updateQuateStatus.html?id='+id[0]+'&quaStatus=' + status
 		 });
@@ -207,8 +207,8 @@
 			          <li>
 			            <label class="fl">名称：</label><span><input type="text" name="name" value="${purchaseDep.name }"></span>
 			          </li>
-			         <button type="button" onclick="submit()" class="btn">查询</button>
-					<button type="button" onclick="resetQuery();" class="btn">重置</button>
+			         <button type="button" onclick="submit()" class="btn fl mt1">查询</button>
+					<button type="button" onclick="resetQuery();" class="btn fl mt1">重置</button>
 			        </ul>
 			        <div class="clear"></div>
 			       </form>

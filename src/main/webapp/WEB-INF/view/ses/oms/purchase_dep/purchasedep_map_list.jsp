@@ -250,7 +250,7 @@ function chongzhi(){
                         <label class="fl">资质起止日期：</label>
                         <input id="quaStartDate" name="quaStartDate" class="Wdate w230" type="text"  value='<fmt:formatDate value="${purchaseDep.quaStartDate }" pattern="YYYY-MM-dd"/>'
                         onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaStartDate\')}'})"/>
-                        <span >至</span>
+                        <span  class="f14" >至</span>
                         <input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
                       </li>
                       <li>
