@@ -255,11 +255,7 @@
                 <input class="hide" name="id" type="hidden" value="${purchaseDepIds}">
                 <input class="hide" name="ids" id="ids" type="hidden" >
                 <ul class="ul_list">
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>采购机构名称</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>采购机构名称</span>
->>>>>>> Stashed changes
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="name" value="${purchaseDep.name}" type="text">
                       <span class="add-on">i</span>
@@ -267,44 +263,28 @@
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构简称</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购机构简称</span>
->>>>>>> Stashed changes
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="shortName" type="text" value="${purchaseDep.shortName }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_shortName}</div>
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人姓名</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>联系人姓名</span>
->>>>>>> Stashed changes
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="contactName" type="text" value="${purchaseDep.contactName }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_contactName}</div>
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人电话</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>联系人电话</span>
->>>>>>> Stashed changes
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="contactMobile" type="text" value="${purchaseDep.contactMobile }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_contactMobile}</div>
                     </div>
                   </li>
 
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构单位级别</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购机构单位级别</span>
->>>>>>> Stashed changes
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="levelDep">
                         <c:forEach items="${unitLevelList}" var="unitLevel">
@@ -314,11 +294,7 @@
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>行政隶属单位</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>行政隶属单位</span>
->>>>>>> Stashed changes
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="subordinateOrgName" value="${purchaseDep.subordinateOrgName }" type="text">
                       <span class="add-on">i</span>
@@ -326,11 +302,7 @@
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>省</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>省</span>
->>>>>>> Stashed changes
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="provinceId" id="province" onchange="loadCities(this.value);">
                       </select> <input type="hidden"  id="pid" value="${purchaseDep.provinceId }">
@@ -338,11 +310,7 @@
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>市</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>市</span>
->>>>>>> Stashed changes
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="cityId" id="city" onchange="loadCities(this.value);">
                       </select> <input type="hidden"  id="cid" value="${purchaseDep.cityId }">
@@ -350,55 +318,35 @@
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构地址</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购机构地址</span>
->>>>>>> Stashed changes
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="address" type="text" value="${purchaseDep.address }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_address}</div>
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>邮编</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>邮编</span>
->>>>>>> Stashed changes
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="postCode" value="${purchaseDep.postCode}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_postCode}</div>
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>传真号</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>传真号</span>
->>>>>>> Stashed changes
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="fax" type="text" value="${purchaseDep.fax}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_fax}</div>
                     </div>
                   </li>
 
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>值班室电话</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>值班室电话</span>
->>>>>>> Stashed changes
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                       <input class="input_group" name="dutyRoomPhone" type="text"  value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_dutyRoomPhone}</div>
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否具有审核供应商资格</span>
-=======
-                  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>是否具有审核供应商资格</span>
->>>>>>> Stashed changes
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                       <select name="isAuditSupplier">
                        <option  value="" <c:if test="${null eq purchaseDep.isAuditSupplier}">selected="selected" </c:if>>请选择</option>
@@ -409,11 +357,7 @@
                     </div>
                   </li>
                   
-<<<<<<< Updated upstream
                   <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购业务范围</span>
-=======
-                  <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购业务范围</span>
->>>>>>> Stashed changes
                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
 							        <textarea class="col-md-12 col-sm-12 col-xs-12" name="businessRange" style="height:130px" title="不超过800个字">${purchaseDep.businessRange }</textarea>
 							        <div class="cue">${ERR_businessRange}</div>

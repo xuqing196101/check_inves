@@ -410,13 +410,8 @@ function onCheck(e, treeId, treeNode) {
 			  
 			  <li class="col-md-12 col-sm-12 col-xs-12"> 
 			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系地址</span>
-<<<<<<< Updated upstream
-				<div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group ">
-				  <input title="不超过800个字" name="address" value="${purchaseInfo.address}">
-=======
 				<div class="col-md-12 col-sm-12 col-xs-12 p0">
 				  <textarea  class="w100p" title="不超过800个字" name="address" >${purchaseInfo.address}</textarea>
->>>>>>> Stashed changes
 				</div>
 			  </li>
 			</ul>
