@@ -976,7 +976,7 @@
 			    </div>
               </div>
             </div>
-            <div class="tab-pane fade " id="tab-3">
+            <div class="tab-pane fade h800" id="tab-3">
              <div class="mt10 mb10">
 	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
@@ -986,7 +986,7 @@
 	     	<!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
 	        <input type="button" class="btn btn-windows save" onclick="saveFile()" value="存至服务器"></input>
 	    	</div>
-            <form id="MyFile" method="post">
+            <form id="MyFile" method="post" >
 				<input type="hidden" id="ope" value="${ope }">
     			<input type="hidden" id="contractId" value="${id }">
     			<input type="hidden" id="contractName" value="">

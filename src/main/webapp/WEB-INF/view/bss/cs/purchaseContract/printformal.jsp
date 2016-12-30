@@ -91,7 +91,7 @@
 	     	<!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
 	        <%--<input type="button" class="btn btn-windows save" onclick="saveFile()" value="存至服务器"></input>
 	    	--%></div>
-            <form id="MyFile" method="post">
+            <form id="MyFile" method="post" class="h800">
 				<input type="hidden" id="ope" value="${ope }">
     			<input type="hidden" id="contractId" value="${id}">
     			<input type="hidden" id="contractName" value="">

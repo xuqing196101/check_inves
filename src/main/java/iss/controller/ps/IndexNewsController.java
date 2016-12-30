@@ -1,5 +1,6 @@
 package iss.controller.ps;
 
+import gui.ava.html.image.generator.HtmlImageGenerator;
 import iss.model.ps.Article;
 import iss.model.ps.ArticleAttachments;
 import iss.model.ps.ArticleType;
@@ -12,22 +13,33 @@ import iss.service.ps.DownloadUserService;
 import iss.service.ps.IndexNewsService;
 import iss.service.ps.SolrNewsService;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.ImageIcon;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -39,7 +51,9 @@ import com.github.pagehelper.PageInfo;
 
 import common.constant.Constant;
 import common.model.UploadFile;
+import common.service.DownloadService;
 import common.service.UploadService;
+import common.utils.UploadUtil;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
@@ -84,6 +98,9 @@ public class IndexNewsController extends BaseSupplierController{
 	
 	@Autowired
 	private UploadService uploadService;
+	
+	@Autowired
+	private DownloadService downloadService;
 	/**
 	 * 
 	* @Title: sign
@@ -791,6 +808,123 @@ public class IndexNewsController extends BaseSupplierController{
 		return "iss/ps/index/index_two";
 	}
 	
+	
+	public static void markByText(String logoText, String srcImgPath,String targerPath) {
+		markByText(logoText, srcImgPath, targerPath, null);
+	}
+	
+//	private static int interval = 20;
+	
+	public static void markByText(String logoText,String srcImgPath,String targetPath,Integer degree){
+		//主图片路径
+		InputStream is = null;
+		FileOutputStream os = null;
+		try {
+			Image srcImg = ImageIO.read(new File(srcImgPath));
+			BufferedImage buffImg = new BufferedImage(srcImg.getWidth(null),
+					srcImg.getHeight(null), BufferedImage.TYPE_INT_RGB);
+			
+			//得到画笔对象
+			Graphics2D g = buffImg.createGraphics();
+			
+			//设置对线段的锯齿状边缘处理
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, 
+					RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			
+			g.drawImage(srcImg.getScaledInstance(srcImg.getWidth(null), srcImg.getHeight(null), Image.SCALE_SMOOTH),0,0,null);
+			if(null!=degree){
+				//设置水印旋转
+				g.rotate(Math.toRadians(degree),(double) buffImg.getWidth()/2,(double) buffImg.getHeight()/2);
+			}
+			
+			ImageIcon imgIcon = new ImageIcon(logoText);
+			
+			Image img = imgIcon.getImage();
+//			//设置颜色
+//			g.setColor(Color.red);
+//			
+//			//设置 Font
+//			g.setFont(new Font("宋体",Font.BOLD,30));
+			
+			float alpha = 0.5f;
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha));
+			g.drawImage(img,200,10,null);
+			//第一参数->设置内容，后面两个参数->文字在图片上的坐标位置(x,y)
+//			for(int height=0;height<buffImg.getHeight();height = height+40){
+//				for(int weight=130;weight<buffImg.getWidth();weight=weight+200){
+//					g.drawString(logoText, weight-30, height);
+//				}
+//			}
+			
+//			g.drawString(logoText, 0,0);
+//			g.drawString(logoText, 300, 20);
+//			g.drawString(logoText, 500, 20);
+			
+			g.dispose();
+			
+			os = new FileOutputStream(targetPath);
+			
+			//生成图片
+			ImageIO.write(buffImg, "jpg", os);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(null!=is)
+					is.close();
+				if(null!=os)
+					os.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+//	private static double degree = 0f;
+//	private static int interval = 0;
+//	private static float alpha = 0.5f;
+//	public static void setImageMarkOptions(float alphat,int degreet,int intervalt){
+//		if(alpha!=0.0f){
+//			alpha = alphat;
+//		}
+//		if(degree!=0f){
+//			degree = degreet;
+//		}
+//		if(interval!=0f){
+//			interval = intervalt;
+//		}
+//	}
+	
+	@RequestMapping("/downloadDetailsImage")
+	public void downloadDetailsImage(HttpServletRequest request,HttpServletResponse response){
+		String filePath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
+		String targerPath2 = filePath+"/glisteningPath.jpg";
+		InputStream fis = null;
+		try {
+			File file = new File(targerPath2);
+            response.setContentType("image/*");
+            fis = new BufferedInputStream(new FileInputStream(file));  
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            byte[] b = new byte[fis.available()];
+            fis.read(b);
+            toClient.write(b);
+            toClient.flush();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally{
+			if(fis!=null)
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
+	}
+	
 	/**
 	 * 
 	* @Title: selectArticleNewsById
@@ -805,10 +939,47 @@ public class IndexNewsController extends BaseSupplierController{
 	 */
 	@RequestMapping("/selectArticleNewsById")
 	public String selectArticleNewsById(Article article,Model model,HttpServletRequest request) throws Exception{
+		String filePath = request.getSession().getServletContext().getRealPath("/")+"/zanpic";
+		String glisteningPath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
+		String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
+		File stagingFile = new File(filePath);
+		File glisFile = new File(glisteningPath);
+		if(stagingFile.exists()){
+			stagingFile.delete();
+		}
+		if(glisFile.exists()){
+			glisFile.delete();
+		}
+		File file = new File(filePath);
+		if(!file.exists()){
+			file.mkdir();
+		}
+		File glisteningfile = new File(glisteningPath);
+		if(!glisteningfile.exists()){
+			glisteningfile.mkdir();
+		}
 		Article articleDetail = articleService.selectArticleById(article.getId());
 		Integer showCount = articleDetail.getShowCount();
 		articleDetail.setShowCount(showCount+1);
 		articleService.update(articleDetail);
+		
+		HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
+		String htmlstr = articleDetail.getContent();
+		imageGenerator.loadHtml(htmlstr);
+		imageGenerator.getBufferedImage();
+		imageGenerator.saveAsImage(filePath+"/zancun.png");
+		String zancunPicPath = filePath+"/zancun.png";
+		
+		String srcImgPath = zancunPicPath; 
+//		String logoText = "军队采购网";  
+		String iconPath = proWaterPath;
+		String targerPath2 = glisteningPath+"/glisteningPath.jpg";
+		
+		// 给图片添加水印
+//		markByText(logoText, srcImgPath, targerPath);
+		
+		//给图片添加水印，水印旋转-45
+		markByText(iconPath, srcImgPath,targerPath2,0);
 //		Map<String,Object> indexMapper = new HashMap<String, Object>();
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 //		for(int i=0;i<26;i++){

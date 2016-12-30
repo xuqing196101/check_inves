@@ -1002,7 +1002,7 @@
 			    </div>
               </div>
             </div>
-            <div class="tab-pane fade " id="tab-3">
+            <div class="tab-pane fade h800" id="tab-3">
              <div class="mt10 mb10">
 	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
@@ -1020,7 +1020,6 @@
 			</form>
           </div> 
 		</div> 
-		</form>
 		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save mb20" onclick="staging()" value="暂存"/>
    			<input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案"/>
@@ -1063,10 +1062,6 @@
 				 <input type="button" class="btn" onclick="toprintmodel()" value="确定"/>
 				</li>
 			</ul>
-     </div>
-  </div>
-</div>
-</div>
 <!-- 页签结束 -->
 
 </body>

@@ -482,6 +482,7 @@
 		LAST_ARTICLE_TYPE_ID = 111
 		and IS_DELETED = 0
 		and rownum &lt;=6
+		and status = 2
 	ORDER BY
 		PUBLISHED_AT DESC 
   </select>
@@ -501,6 +502,7 @@
 			PARENT_ID = #{parId}
 	)
 	and status = 2
+	and IS_DELETED = 0
 	and rownum &lt;=6
 	order by published_at desc
   </select>
@@ -523,6 +525,7 @@
     </foreach>
 	)
 	and status = 2
+	and IS_DELETED = 0
 	and rownum &lt;=6
 	order by published_at desc
   </select>
@@ -542,6 +545,7 @@
 			PARENT_ID = #{parId}
 	)
 	and status = 2
+	and IS_DELETED = 0
 	order by published_at desc
   </select>
   
@@ -553,6 +557,7 @@
 	WHERE
 	LAST_ARTICLE_TYPE_ID = #{typeId}
 	and status = 2
+	and IS_DELETED = 0
 	and rownum &lt;=6
 	order by published_at desc
   </select>
@@ -568,6 +573,7 @@
     	#{item}
     </foreach>
 	and status = 2
+	and IS_DELETED = 0
 	and rownum &lt;=6
 	order by published_at desc
   </select>
@@ -581,6 +587,7 @@
     	#{item}
     </foreach>
     and status=2
+    and IS_DELETED = 0
     order by published_at desc
   </select>
   
@@ -599,6 +606,7 @@ WHERE
 			PARENT_ID = #{id} or parent_id = #{twoid}
 	)
 	and status=2
+	and IS_DELETED = 0
 	order by published_at desc
   </select>
   
@@ -610,6 +618,7 @@ WHERE
 	WHERE
 	LAST_ARTICLE_TYPE_ID = #{id} or LAST_ARTICLE_TYPE_ID = #{twoid}
 	and status=2
+	and IS_DELETED = 0
 	order by published_at desc
   </select>
   
@@ -620,6 +629,7 @@ WHERE
 	T_ISS_PS_ARTICLE
 	WHERE
 	LAST_ARTICLE_TYPE_ID = #{id} and status=2 and rownum &lt;=10
+	and IS_DELETED = 0
 	order by published_at desc
   </select>
   
@@ -642,6 +652,8 @@ AND LAST_ARTICLE_TYPE_ID IN (
 	WHERE
 		PARENT_ID = #{id}
 )
+and IS_DELETED = 0
+and status = 2
   </select>
   
   <select id="selectByTimerByType" parameterType="Map" resultType="Object">
@@ -656,6 +668,8 @@ WHERE
 		#{nowTime}, 'yyyy-mm-dd hh24:mi:ss'
 	) 
 AND LAST_ARTICLE_TYPE_ID = #{id}
+and IS_DELETED = 0
+and status = 2
   </select>
   
   

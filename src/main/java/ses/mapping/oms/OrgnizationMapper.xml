@@ -591,7 +591,7 @@
 		SELECT 
 		<include refid="baseSearchSql"/>
 		FROM T_SES_OMS_ORG
-		WHERE IS_DELETED = 0 AND TYPE_NAME = 0 AND QUA_STATUS = 1
+		WHERE IS_DELETED = 0 AND TYPE_NAME = 0
 	</select>
 	
 	<!-- 根据类型查询采购机构 -->

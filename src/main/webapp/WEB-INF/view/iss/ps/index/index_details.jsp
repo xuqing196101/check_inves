@@ -33,8 +33,10 @@ $(document).ready(function(){
 	   <div class="title bbgrey ">${articleDetail.name}</div>
 	 </h3>
 	 <div class="source" ><div class="fr"><span>文章来源：${articleDetail.source}</span><span class="ml15"><i class="mr5"><img src="${pageContext.request.contextPath}/public/portal/images/block.png"/></i><fmt:formatDate value='${articleDetail.createdAt}' pattern="yyyy.MM.dd" /></span></div></div>
-	 <div class="clear margin-top-20 new_content">
+	 <div class="clear margin-top-20 new_content"><%--
 	    ${articleDetail.content }
+	 --%>
+	 	<img src="${pageContext.request.contextPath}/index/downloadDetailsImage.html" width="100%" height="100%"/>
 	 </div>
 	 <div class="extra_file">
 	      <span id="extra_file" class="fl mt12"> 所有文件：</span>
