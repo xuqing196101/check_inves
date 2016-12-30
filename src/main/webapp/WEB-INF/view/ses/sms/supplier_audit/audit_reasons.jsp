@@ -155,6 +155,9 @@
 		        <a href="#"> 首页</a>
 		      </li>
 		      <li>
+						<a href="#">支撑环境</a>
+					</li>
+		      <li>
 		        <a href="#">供应商管理</a>
 		      </li>
 		      <li>
@@ -166,7 +169,7 @@
     <div class="container container_box">
       <div class="content">
         <div class="col-md-12 tab-v2 job-content">
-	          <ul class="nav nav-tabs bgdd">
+	          <ul class="flow_step">
 		          <li onclick = "jump('essential')">
 		            <a aria-expanded="false" href="#tab-1">详细信息</a>
 		            <i></i>
@@ -274,6 +277,9 @@
                  </tr>
                </c:forEach>
             </table>
+            <div class="col-md-12 add_regist tc">
+	           <a class="btn"  type="button" onclick="lastStep();">上一步</a>
+	         </div>
           </ul>
 	        <c:if test="${status == 5}">
 		        <h2 class="count_flow"><i>2</i>供应商考察表</h2>

@@ -135,9 +135,13 @@
 	      <ul class="breadcrumb margin-left-0">
 	        <li>
 	          <a href="#"> 首页</a>
-	          </li><li>
+	        </li>
+	        <li>
+						<a href="#">支撑环境</a>
+					</li>
+	        <li>
 	          <a href="#">供应商管理</a>
-	          </li><li>
+	        </li><li>
 	          <a href="#">供应商审核</a>
 	        </li>
 	      </ul>
@@ -168,17 +172,17 @@
         <li class=""><a >审核汇总</a></li>
         </ul> --%>
                     
-        <ul class="nav nav-tabs bgdd">
+        <ul class="flow_step">
           <li onclick = "jump('essential')">
-            <a aria-expanded="false" href="#tab-1">详细信息</a>
+            <a aria-expanded="false" >详细信息</a>
             <i></i>
           </li>
           <li onclick = "jump('financial')">
-            <a aria-expanded="true" href="#tab-2">财务信息</a>
+            <a aria-expanded="true">财务信息</a>
             <i></i>                            
           </li>
           <li onclick = "jump('shareholder')"  class="active" >
-            <a aria-expanded="false" href="#tab-3"  data-toggle="tab" >股东信息</a>
+            <a aria-expanded="false">股东信息</a>
             <i></i>
           </li>
           <%--<c:if test="${fn:contains(supplierTypeNames, '生产')}">
@@ -210,22 +214,23 @@
             	<i></i>
 	          </li>
           <li onclick = "jump('items')">
-            <a aria-expanded="false" href="#tab-4" >品目信息</a>
+            <a aria-expanded="false" >品目信息</a>
             <i></i>
 	        </li>
 	        <li onclick="jump('aptitude')">
-						<a aria-expanded="false" href="#tab-4">资质文件</a>
+						<a aria-expanded="false" >资质文件</a>
 						<i></i>
 					</li>
           <li onclick="jump('contract')">
-					  <a aria-expanded="false" href="#tab-4">品目合同</a>
+					  <a aria-expanded="false" >品目合同</a>
+					  <i></i>
 					</li>
           <li onclick = "jump('applicationForm')">
-            <a aria-expanded="false" href="#tab-4" >申请表</a>
+            <a aria-expanded="false" >申请表</a>
             <i></i>
           </li>
           <li onclick = "jump('reasonsList')">
-            <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+            <a aria-expanded="false" >审核汇总</a>
           </li>
         </ul>
 

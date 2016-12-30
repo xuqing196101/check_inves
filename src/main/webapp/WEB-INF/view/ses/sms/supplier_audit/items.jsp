@@ -460,6 +460,9 @@
 						<a href="#"> 首页</a>
 					</li>
 					<li>
+						<a href="#">支撑环境</a>
+					</li>
+					<li>
 						<a href="#">供应商管理</a>
 					</li>
 					<li>
@@ -471,15 +474,15 @@
 		<div class="container container_box">
 			<div class="content ">
 				<div class="col-md-12 tab-v2 job-content">
-					<ul class="nav nav-tabs bgdd">
+					<ul class="flow_step">
 						<li onclick="jump('essential')">
-							<a aria-expanded="false" href="#tab-1">详细信息</a>
+							<a aria-expanded="false">详细信息</a>
 						</li>
 						<li onclick="jump('financial')">
-							<a aria-expanded="true" href="#tab-2">财务信息</a>
+							<a aria-expanded="true">财务信息</a>
 						</li>
 						<li onclick="jump('shareholder')">
-							<a aria-expanded="false" href="#tab-3">股东信息</a>
+							<a aria-expanded="false">股东信息</a>
 						</li>
 						<%--<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 							<li onclick="jump('materialProduction')">
@@ -503,23 +506,27 @@
 						</c:if>
 						--%>
 						<li onclick = "jump('supplierType')">
-		           	  <a aria-expanded="false">供应商类型</a>
-		            	<i></i>
-			          </li>
+           	  <a aria-expanded="false">供应商类型</a>
+            	<i></i>
+	          </li>
 						<li onclick="jump('items')" class="active">
-							<a aria-expanded="false" href="#tab-4">品目信息</a>
+							<a aria-expanded="false">品目信息</a>
+							<i></i>
 						</li>
 						<li onclick="jump('aptitude')">
-							<a aria-expanded="false" href="#tab-4">资质文件</a>
+							<a aria-expanded="false">资质文件</a>
+							<i></i>
 						</li>
 						<li onclick="jump('contract')">
-							<a aria-expanded="false" href="#tab-4">品目合同</a>
+							<a aria-expanded="false">品目合同</a>
+							<i></i>
 						</li>
 						<li onclick="jump('applicationForm')">
-							<a aria-expanded="false" href="#tab-4">申请表</a>
+							<a aria-expanded="false">申请表</a>
+							<i></i>
 						</li>
 						<li onclick="jump('reasonsList')">
-							<a aria-expanded="false" href="#tab-4">审核汇总</a>
+							<a aria-expanded="false">审核汇总</a>
 						</li>
 					</ul>
 					<ul class="count_flow ul_list">

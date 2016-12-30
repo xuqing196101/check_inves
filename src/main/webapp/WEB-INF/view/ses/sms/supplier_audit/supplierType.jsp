@@ -472,6 +472,9 @@
 						<a href="#"> 首页</a>
 					</li>
 					<li>
+						<a href="#">支撑环境</a>
+					</li>
+					<li>
 						<a href="#">供应商管理</a>
 					</li>
 					<li>
@@ -483,7 +486,7 @@
 		<div class="container container_box">
 			<div class="content">
 				<div class="col-md-12 col-sm-12 col-xs-12 tab-v2 job-content">
-					<ul class="nav nav-tabs bgdd">
+					<ul class="flow_step">
 						<li onclick="jump('essential')">
 							<a aria-expanded="false">详细信息</a>
 							<i></i>
@@ -510,6 +513,7 @@
 						</li>
 						<li onclick="jump('contract')">
 							<a aria-expanded="false">品目合同</a>
+							<i></i>
 						</li>
 						<li onclick="jump('applicationForm')">
 							<a aria-expanded="false">申请表</a>

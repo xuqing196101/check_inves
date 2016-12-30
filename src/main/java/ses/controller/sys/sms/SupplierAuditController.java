@@ -67,7 +67,6 @@ import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -687,8 +686,11 @@ public class SupplierAuditController extends BaseSupplierController{
 			request.setAttribute("supplierMatEngs",supplierMatEng);
 			
 			//注册人人员
-			 List<SupplierRegPerson> listSupplierRegPersons = supplierService.get(supplierId).getSupplierMatEng().getListSupplierRegPersons();
-			 request.setAttribute("listRegPerson", listSupplierRegPersons);
+			SupplierMatEng matEng = supplierService.get(supplierId).getSupplierMatEng();
+			if(matEng != null){
+				List<SupplierRegPerson> listSupplierRegPersons = matEng.getListSupplierRegPersons();
+				 request.setAttribute("listRegPerson", listSupplierRegPersons);
+				}
 			}
 		
 		/**
