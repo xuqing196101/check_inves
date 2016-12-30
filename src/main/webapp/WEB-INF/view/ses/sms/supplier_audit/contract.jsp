@@ -58,6 +58,7 @@
 				$("td").each(function() {
 					$(this).find("p").hide();
 				});
+				
 			});
 
 			function reason(auditField, auditFieldName) {
@@ -195,25 +196,30 @@
 					</ul>
 					<ul class="count_flow ul_list hand">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+							<c:set value="0" var="liCount"/>
 							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
+								<c:set value="${liCount+1}" var="liCount"/>
 								<li id="li_id_1" class="active">
 									<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a>
 								</li>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
-								<li id="li_id_2" class="">
+								<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>'>
 									<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型品目信息</a>
 								</li>
+								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-								<li id="li_id_3" class="">
+								<li id="li_id_3" class="<c:if test="${liCount == 0}">active</c:if>">
 									<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a>
 								</li>
+								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-								<li id="li_id_4" class="">
+								<li id="li_id_4" class="<c:if test="${liCount == 0}">active</c:if>">
 									<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务品目信息</a>
 								</li>
+								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
 						</ul>
 						<div class="count_flow">
@@ -267,7 +273,7 @@
 									</div>
 								</c:if>
 								<c:if test="${fn:contains(supplierTypeNames, '销售')}">
-									<div class="tab-pane fade height-300" id="tab-2">
+									<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-300" id="tab-2">
 										<table class="table table-bordered">
 											<tr>
 												<td class="tc info"> 品目名称</td>
@@ -315,7 +321,7 @@
 									</div>
 								</c:if>
 								<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-									<div class="tab-pane fade height-200" id="tab-3">
+									<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-200" id="tab-3">
 										<table class="table table-bordered">
 											<tr>
 												<td class="tc info"> 品目名称</td>
@@ -363,7 +369,7 @@
 									</div>
 								</c:if>
 								<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-									<div class="tab-pane fade height-200" id="tab-4">
+									<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-200" id="tab-4">
 										<table class="table table-bordered">
 											<tr>
 												<td class="tc info "> 品目名称</td>
