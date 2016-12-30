@@ -77,30 +77,18 @@
 						<td colspan="8">
 							<div class="col-md-12 col-xs-12 col-sm-12">
 								<c:forEach items="${conditionList}" var="con" varStatus="vs">
-								  <c:if test="${con.conditionList != null && fn:length(con.conditionList) != 0}">
-								    <p class="f16"><span class="b">包名：</span><span class="light_blue b">${con.packages.name}</span></p>
-									    <c:forEach items="${ con.conditionList}" var="conlist" varStatus="vs">
+								  <c:if test="${con.listSupplierCondition != null && fn:length(con.listSupplierCondition) != 0}">
+								    <p class="f16"><span class="b">包名：</span><span class="light_blue b">${con.name}</span></p>
+									    <c:forEach items="${ con.listSupplierCondition}" var="conlist" varStatus="vs">
 										    <p>第<span class="b orange">${(vs.index+1)}</span>次抽取，抽取条件如下：</p>
-										    <p> 供应商所在地区【${conlist.address}】</p>
+										    <p> 供应商所在地区【全国】</p>
 		                                    <ol>
-		                                        <c:forEach items="${conlist.conTypes }" var="contypes">
-		                                            <li><c:choose>
-		                                                    <c:when
-		                                                        test="${'18A966C6FF17462AA0C015549F9EAD79^E73923CC68A44E2981D5EA6077580372^' == contypes.supplieTypeId  }">
-		                                                                                                                                                             供应商类型【 生产型,销售型 】
-		                                                          </c:when>
-		                                                    <c:when
-		                                                        test='${contypes.supplieTypeId == "E73923CC68A44E2981D5EA6077580372^"}'>
-		                                                                                                                                                               供应商类型【生产型】
-		                                                  </c:when>
-		                                                    <c:when
-		                                                        test='${contypes.supplieTypeId == "18A966C6FF17462AA0C015549F9EAD79^" }'>
-		                                                                                                                                                    供应商类型【销售型】
-		                                                 </c:when>
-		                                                </c:choose> 
-		                                                <c:set value="${fn:substring(contypes.categoryName, 0, contypes.categoryName.length()-1)}" var="category" ></c:set>
-		                                                                                                                                               采购类别【 ${fn:replace(category,'^',',')}】，供应商抽取数量【${contypes.supplieCount}】 </li>
-		                                        </c:forEach>
+                                           <c:forEach items="${conlist.conTypes }" var="contypes">  
+                                           <li>
+                                           ${contypes.supplierType.name} 
+                                                                                                                                ，专家数量【${contypes.supplierCount}】 }     
+                                           </li>
+                                           </c:forEach>
 	                                    </ol>
 									    </c:forEach>
 								    </c:if>
@@ -119,21 +107,19 @@
 						<td align="center" >联系人</td>
 						<td align="center">手机号</td>
 						<td align="center" >传真</td>
-						<td align="center" >抽取批次</td>
 						<td align="center">能否参加</td>
 						<td align="center">不参加理由</td>
 					</tr>
 					<c:forEach items="${conditionList}" var="con" varStatus="vs">
-						<c:forEach items="${con.conditionList}" var="conlist" varStatus="vse">
+						<c:forEach items="${con.listSupplierCondition}" var="conlist" varStatus="vse">
 						  <c:forEach items="${conlist.extRelatesList}" var="ext" varStatus="vs">
 							<tr>
 								<td align="center">${vs.index+1 }</td>
 								<td align="center">${ext.supplier.supplierName}</td>
-							      <td align="center">${con.packages.name}</td>
+							      <td align="center">${con.name}</td>
 								<td align="center">${ext.supplier.contactName}</td>
 								<td align="center">${ext.supplier.mobile}</td>
 								<td align="center">${ext.supplier.contactFax}</td>
-								<td align="center">${vse.index+1}</td>
 								<td align="center"><c:if test="${ext.operatingType==1 }">
                                                                                          参加
                             </c:if> <c:if test="${ext.operatingType==2 }">
@@ -155,7 +141,6 @@
 						<td align="center">手机号</td>
 						<td align="center" >单位</td>
 						<td align="center" >职务</td>
-<!-- 						<td align="center" ></td> -->
 						<td colspan="2" align="center">签证</td>
 					</tr>
 					<tr>
@@ -164,31 +149,29 @@
 						<td align="center">${ExpExtractRecord.perpleUser.mobile}</td>
 						<td align="center">${ExpExtractRecord.perpleUser.org.name}</td>
 						<td align="center">${ExpExtractRecord.perpleUser.duties}</td>
-<!-- 						<td align="center">军23衔</td> -->
 						<td colspan="2" align="center"></td>
 					</tr>
 					<tr>
 						<td colspan="9" class="bggrey" align="center">监督人员</td>
 					</tr>
 					<tr>
-						<td align="center">序号</td>
-						<td align="center">姓名</td>
-						<td align="center">手机号</td>
-						<td align="center">单位</td>
-						<td align="center">职务</td>
-<!-- 						<td align="center">军衔</td> -->
+					   <td align="center">序号</td>
+            <td align="center">姓名</td>
+            <td align="center">单位</td>
+            <td align="center">手机号</td>
+            <td align="center">职务</td>
 						<td colspan="2" align="center">签字</td>
 					</tr>
 					<c:forEach items="${listUser}" var="tuser" varStatus="vs">
-						<tr>
-							<td align="center">${vs.index+1 }</td>
-							<td align="center">${tuser.relName}</td>
-							 <td align="center">${tuser.mobile}</td>
-							<td align="center">${tuser.org.name}</td>
-							<td align="center">${tuser.duties}</td>
-<!-- 							<td align="center">军23衔</td> -->
-							<td colspan="2" align="center"></td>
-						</tr>
+						  <tr>
+              <td align="center">${vs.index+1 }</td>
+              <td align="center">${tuser.relName}</td>
+              <td align="center">${tuser.relName}</td>
+              <td align="center">${tuser.company}</td>
+              <td align="center">${tuser.phone}</td>
+              <td align="center">${tuser.duties}</td> 
+              <td colspan="2" align="center"></td>
+            </tr>
 					</c:forEach>
 				</table>
 			</div>

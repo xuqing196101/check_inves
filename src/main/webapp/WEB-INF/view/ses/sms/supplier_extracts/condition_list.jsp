@@ -86,7 +86,7 @@
 
 
       function add() {
-//         var packageId= $("#packageId").find("option:selected").val();
+    	  
         var packageId=$("#packageId").val();
         $.ajax({
           cache: true,
@@ -107,15 +107,23 @@
             $("#packageNameError").text(map.packageNameError);
             $("#dSupervise").text(map.supervise);
             $("#extractionSitesError").text(map.extractionSitesError);
+            var projectId = map.projectId;
             if(map.status != null && map.status != 0) {
-              layer.alert("请全部抽取完之后在添加条件", {
-                shade: 0.01
-              });
+                layer.confirm('上次抽取未完成，是否继续上次抽取？', {
+                    btn: ['确定','取消'], shade:0.01 //按钮
+                  }, function(){
+                    window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
+                  }, function(){
+                    layer.closeAll();
+                  });
             }
             if(map.sccuess == "SCCUESS") {
-              var projectId = map.projectId;
               window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
-            }
+            }else if(map.packageError != null && map.packageError != ''){
+                layer.alert("请选择包", {
+                    shade: 0.01
+                        });
+        }
           }
         });
 
@@ -333,7 +341,7 @@
           </div>
            <div align="right" class=" pl20 mb10 " >
              <input class="input_group " readonly id="packageName" value="" onclick="showPackageType();"   type="text">
-              <input  readonly id="packageId"     type="hidden">
+              <input  readonly id="packageId" name="packageId"     type="hidden">
 <!--           <select class="w200" id="packageId" > -->
 <%--             <c:forEach items="${listResultSupplier}" var="list"> --%>
 <%--                 <option value="${list.id }" >${list.name }</option> --%>

@@ -191,7 +191,16 @@ return false;
                           tex+="<tr class='cursor'>"+
                               "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                               "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
-                              "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
+                              "<td class='tc' onclick='show();'>";
+                              var f=list[i].supplier.listSupplierTypeRelates;
+                              var st="";
+                              if(f !=null){
+                               for(var j=0;j < f.length ; j++){
+                                 st += f[j].supplierTypeName + ",";
+                               }  
+                              }
+                              tex+=st.substring(0, st.length-1);
+                             tex+="</td>"+
                               "<td class='tc' onclick='show();'>"+list[i].supplier.contactName+"</td>"+
                               "<td class='tc' onclick='show();'>"+list[i].supplier.contactTelephone+"</td>"+
                               "<td class='tc' onclick='show();'>"+list[i].supplier.contactMobile+"</td>"+
@@ -250,7 +259,7 @@ return false;
     	 layer.confirm('是否需要打印', {
              btn: ['打印','取消'],offset: ['40%', '40%'], shade:0.01
            }, function(index){
-        	   window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+        	   window.location.href="${pageContext.request.contextPath}/SupplierExtracts/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
            }, function(index){
              layer.close(index);
            });
@@ -471,6 +480,8 @@ return false;
        $("#supplierType").val(v);
        $("#supplierType").attr("title", v);
         $("#supplierTypeId").val(codes);
+        $("#expertsTypeId").val(codes);
+        selectLikeSupplier();
       }
     </script>
     
@@ -645,7 +656,16 @@ return false;
                              tex+="<tr class='cursor'>"+
                                  "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                                  "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
-                                 "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
+                                 "<td class='tc' onclick='show();'>";
+			                             var f=list[i].supplier.listSupplierTypeRelates;
+			                             var st="";
+			                             if(f !=null){
+			                              for(var j=0;j < f.length ; j++){
+			                                st += f[j].supplierTypeName + ",";
+			                              }  
+			                             }
+			                             tex+=st.substring(0, st.length-1);
+			                            tex+="</td>"+
                                  "<td class='tc' onclick='show();'>"+list[i].supplier.contactName+"</td>"+
                                  "<td class='tc' onclick='show();'>"+list[i].supplier.contactTelephone+"</td>"+
                                  "<td class='tc' onclick='show();'>"+list[i].supplier.contactMobile+"</td>"+
@@ -720,7 +740,7 @@ return false;
    
       <!-- 类型id -->
       <input  type="hidden" name="supplierTypeId" id="supplierTypeId" >
-          
+      <input type="hidden" name="expertsTypeId" id="expertsTypeId">
       
       <!--  满足多个条件 -->
       <input type="hidden" name="isMulticondition" id="isSatisfy" >
@@ -809,8 +829,8 @@ return false;
             <li class="col-md-3 col-sm-6 col-xs-12">
             <div class=" w300 pl20 mt24">
             <button class="btn " id="save" onclick="cityt();" type="button">抽取</button>
-              <button class="btn  " id="save" onclick="finish();" type="button">完成</button>
-            <button class="btn " id="save" onclick="resetQuery();" type="button">暂存</button>
+              <button class="btn  " id="save" onclick="finish();" type="button">完成抽取</button>
+            <button class="btn " id="save" onclick="temporary();" type="button">暂存</button>
           </div>
           </li>
           
@@ -824,8 +844,7 @@ return false;
       <div class="col-md-12" id="count" style="min-height: 400px;">
         <div id="extcontype">
          <c:forEach var="con" items="${extConType}">
-                
-                &nbsp;&nbsp;&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.supplierCount }                             
+                &nbsp;&nbsp;&nbsp;&nbsp;供应商类型:${con.expertsType.name }&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.supplierCount }                             
             <br />
           </c:forEach>
         </div>
@@ -850,7 +869,13 @@ return false;
                 <tr class='cursor '>
                   <td class='tc' onclick='show();'>${vs.index+1}</td>
                   <td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
-                  <td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
+                  <td class='tc' onclick='show();'>
+                  <c:set value="" var="name"></c:set>
+                  <c:forEach var="item" items="${listyes.supplier.listSupplierTypeRelates}">
+                   <c:set value="${name},${item.supplierTypeName}" var="name"></c:set>
+                  </c:forEach>
+                  ${fn:substring(name,1,name.length())}
+                  </td>
                   <td class='tc' onclick='show();'>${listyes.supplier.contactName}</td>
                   <td class='tc' onclick='show();'>${listyes.supplier.contactTelephone}</td>
                   <td class='tc' onclick='show();'>${listyes.supplier.contactMobile}</td>

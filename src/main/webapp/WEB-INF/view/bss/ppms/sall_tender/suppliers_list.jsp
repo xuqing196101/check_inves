@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -95,7 +94,8 @@
     }
     
     function goBack(){
-    	window.location.href = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId }';
+    	var path = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId }';
+    	   $("#tab-1").load(path);
     }
   </script>
 
@@ -122,8 +122,8 @@
         <tr>
           <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
           <th class="info">供应商名称</th>
-          <th class="info">联系人姓名</th>
-          <th class="info">联系人电话</th>
+          <th class="info">军队业务联系人姓名</th>
+          <th class="info">军队业务联系人电话</th>
           <th class="info">注册地址</th>
         </tr>
       </thead>
@@ -133,9 +133,9 @@
 
           <td class="tc opinter">${ext.supplierName }</td>
 
-          <td class="tc opinter">${ext.contactName}</td>
+          <td class="tc opinter">${ext.armyBusinessName}</td>
 
-          <td class="tc opinter">${ext.contactTelephone}</td>
+          <td class="tc opinter">${ext.armyBuinessTelephone}</td>
 
           <td class="tc opinter">${ext.addressName}</td>
         </tr>

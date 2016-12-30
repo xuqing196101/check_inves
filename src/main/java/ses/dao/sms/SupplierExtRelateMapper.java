@@ -97,4 +97,13 @@ public interface SupplierExtRelateMapper {
      * @param list
      */
     void insertList(List<SupplierExtRelate> list);
+    
+    /**
+     * 刪除未抽取的信息
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param projectId
+     */
+    void del(String projectId);
 }

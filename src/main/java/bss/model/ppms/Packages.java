@@ -11,6 +11,7 @@ import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCondition;
 
 
 
@@ -32,6 +33,8 @@ public class Packages {
     private List<ProjectExtract> listProjectExtract;
     
     private List<ExpExtCondition> listExpExtCondition;
+    
+    private List<SupplierCondition> listSupplierCondition;
     
 	private String id;
 	
@@ -392,6 +395,20 @@ public class Packages {
      */
     public void setListExpExtCondition(List<ExpExtCondition> listExpExtCondition) {
         this.listExpExtCondition = listExpExtCondition;
+    }
+
+    /**
+     * @return Returns the listSupplierCondition.
+     */
+    public List<SupplierCondition> getListSupplierCondition() {
+        return listSupplierCondition;
+    }
+
+    /**
+     * @param listSupplierCondition The listSupplierCondition to set.
+     */
+    public void setListSupplierCondition(List<SupplierCondition> listSupplierCondition) {
+        this.listSupplierCondition = listSupplierCondition;
     }
 	
 }

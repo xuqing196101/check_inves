@@ -3,7 +3,6 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-  <%@ include file="/WEB-INF/view/common.jsp" %>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title></title>
 
@@ -13,12 +12,22 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <script type="text/javascript">
+    
+    /**提交*/
+    function submit(){        
+      var supplierName = $('#supplierName').val();
+      var armyBuinessTelephone = $('#armyBuinessTelephone').val();
+      var path = "${pageContext.request.contextPath}/saleTender/view.html?projectId=${project.id}&&supplierName="+supplierName+"&&armyBuinessTelephone="+armyBuinessTelephone;
+      $("#tab-1").load(path);
+      
+    }
 
       function add(packId) {
         var kindName = $("#kindName").val();
         if(kindName == "公开招标") {
           var projectId = $("#projectId").val();
-          window.location.href = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId;
+         var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId;
+         $("#tab-1").load(path);
         } else {
           var id = [];
           $('input[name="chkItem"]:checked').each(function() {
@@ -34,7 +43,8 @@
                 shade: 0.01,
               });
             } else {
-              window.location.href = "${pageContext.request.contextPath }/saleTender/register.html?id=" + id + "&packId=" + packId + "&projectId=" + projectId;
+            	var path = "${pageContext.request.contextPath }/saleTender/register.html?id=" + id + "&packId=" + packId + "&projectId=" + projectId;
+            	$("#tab-1").load(path);
             }
           } else if(id.length > 1) {
             layer.msg("请选择一个登记的信息", {
@@ -76,12 +86,48 @@
       }
 
       function resetQuery() {
-        $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+    	  $('#supplierName').val("");
+    	  $('#armyBuinessTelephone').val("");
       }
       
      function provisional(packId) {
     	   var projectId = $("#projectId").val();
-    	  window.location.href = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}";
+    	  var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}";
+    	  $("#tab-1").load(path);
+     }
+     
+     /**删除供应商*/
+     function del(id,btn){
+             var ids =[]; 
+           $('input[name="chkItem"]:checked').each(function(){ 
+             ids.push($(this).val()); 
+           }); 
+           if(ids.length>0){
+             layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+               layer.close(index);
+               var supplierId = $("#"+ids).parent().parent().find("#supplierId").val();
+               $.ajax({
+                     type: "POST",
+                     dataType : "json",
+                     url:'${pageContext.request.contextPath}/saleTender/deleteSale.do?supplierId='+supplierId+'&&packagesId='+id,
+                     async: false,
+                     success: function(data) {
+                    
+                      if(data == 'SUCCESS'){
+                    
+                    	   $("#"+ids).parent().parent().remove();
+                      }
+                     }
+                 });
+               
+               
+             });
+           }else{
+             layer.alert("请选择要移除的供应商",{offset: ['222px', '390px'], shade:0.01});
+           }
+    
+    	 
+    	
      }
 
       $(function() {
@@ -91,7 +137,11 @@
         $(divObj).removeClass("hide");
         $("#package").removeClass("shrink");        
         $("#package").addClass("spread");
-      })
+      });
+     
+    
+      
+      
     </script>
   </head>
 
@@ -100,16 +150,16 @@
     <%-- <h2 class="list_title">项目编号：${project.projectNumber }  项目名称：${project.name }</h2> --%>
 
     <div class="search_detail ml0">
-      <form action="${pageContext.request.contextPath}/saleTender/view.html?projectId=${project.id}" method="post" id="form1" class="mb0">
-        <ul class="demand_list">
+     
+        <ul class="demand_list" id="from1">
           <li><label class="fl">供应商名称：</label>
             <span>
-            <input type="text" id="topic" class="w147" value="${supplierName}" name="supplierName" />
+            <input type="text"  class="w147" value="${supplierName}" id="supplierName" />
           </span>
           </li>
-          <li><label class="fl">联系人电话：</label>
+          <li><label class="fl">军队业务联系人电话：</label>
             <span>
-            <input type="text" id="topic" class="w147" value="${contactTelephone}" name="contactTelephone" />
+            <input type="text" class="w147" value="${armyBuinessTelephone}" id="armyBuinessTelephone" />
           </span>
           </li>
           <!-- <li><label class="fl">标书费状态：</label>
@@ -124,11 +174,10 @@
 
         </ul>
         <div class="fl">
-          <input type="submit" class="btn fl" value="查询" />
+          <input type="button"  class="btn fl" onclick="submit();" value="查询" />
           <button type="button" onclick="resetQuery();" class="btn fl">重置</button>
         </div>
         <div class="clear"></div>
-      </form>
     </div>
 
     <!-- 表格开始-->
@@ -149,6 +198,7 @@
           <div class="fl mt20 ml10">
              <button class="btn btn-windows add" onclick="add('${pack.id }')" type="button">登记</button>
              <button class="btn btn-windows add" onclick="provisional('${pack.id}');" type="button">添加临时供应商</button>
+             <button class="btn btn-windows delete" onclick="del('${pack.id}');" type="button">移除供应商</button>
            </div>
              
           <input type="hidden" id="packId" value="${pack.id }" />
@@ -161,8 +211,8 @@
               <tr>
                 <th class="info w50">选择</th>
                 <th class="info ">供应商名称</th>
-                <th class="info w100">联系人</th>
-                <th class="info w110">联系电话</th>
+                <th class="info w150">军队业务联系人姓名</th>
+                <th class="info w150">军队业务联系人电话</th>
                 <th class="info w150">发售日期</th>
                 <th class="info w100">标书费状态</th>
               </tr>
@@ -170,7 +220,7 @@
             <tbody>
               <c:forEach items="${pack.saleTenderList}" var="obj" varStatus="vs">
                 <tr>
-                  <td class="tc opinter w50"><input onclick="check()" type="radio" name="chkItem" value="${obj.id}" /></td>
+                  <td class="tc opinter w50"><input onclick="check()" type="radio" id="${obj.id}" name="chkItem" value="${obj.id}" /></td>
                   <td class="tc opinter " title="${obj.suppliers.supplierName}">
                   <c:choose>
 			              <c:when test="${fn:length(obj.suppliers.supplierName) > 12}">
@@ -181,9 +231,12 @@
 			              </c:otherwise>
 			            </c:choose>
                   </td>
-                  <td class="tc opinter w100">${obj.suppliers.contactName}</td>
+                  <td class="tc opinter w150">
+                  ${obj.suppliers.armyBusinessName}
+                  <input type="hidden" value="${obj.suppliers.id }" id="supplierId"/>
+                  </td>
 
-                  <td class="tc opinter w110">${obj.suppliers.contactTelephone}</td>
+                  <td class="tc opinter w150">${obj.suppliers.armyBuinessTelephone}</td>
 
                   <td class="tc opinter w150">
                     <fmt:formatDate value='${obj.createdAt}' pattern='yyyy-MM-dd' />
@@ -196,6 +249,7 @@
                       已缴纳
                     </c:if>
                   </td>
+                  
                 </tr>
               </c:forEach>
             </tbody>

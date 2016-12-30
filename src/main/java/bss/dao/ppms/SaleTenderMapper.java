@@ -139,4 +139,14 @@ public interface SaleTenderMapper {
      * @param map
      */
     void editSumScore(Map<String, Object> map);
+    
+    /**
+     * 
+     *〈简述〉移除供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param supplierId
+     * @param packagesId
+     */
+    void delSaleDelete(Map<String, String> map);
 }

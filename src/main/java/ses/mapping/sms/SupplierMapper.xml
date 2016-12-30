@@ -8,7 +8,7 @@
 		<result column="PASSWORD" property="password" />
 		<result column="SUPPLIER_NAME" property="supplierName" />
 		<result column="WEBSITE" property="website" />
-		<result column="FOUND_DATE" property="foundDate" jdbcType="TIMESTAMP"/>
+		<result column="FOUND_DATE" property="foundDate" jdbcType="TIMESTAMP" />
 		<result column="BUSINESS_TYPE" property="businessType" />
 		<result column="BUSINESS_CERT" property="businessCert" />
 		<result column="ADDRESS" property="address" />
@@ -33,8 +33,10 @@
 		<result column="CREDIT_CODE" property="creditCode" />
 		<result column="REGIST_AUTHORITY" property="registAuthority" />
 		<result column="REGIST_FUND" property="registFund" />
-		<result column="BUSINESS_START_DATE" property="businessStartDate" jdbcType="TIMESTAMP"/>
-		<result column="BUSINESS_END_DATE" property="businessEndDate" jdbcType="TIMESTAMP"/>
+		<result column="BUSINESS_START_DATE" property="businessStartDate"
+			jdbcType="TIMESTAMP" />
+		<result column="BUSINESS_END_DATE" property="businessEndDate"
+			jdbcType="TIMESTAMP" />
 		<result column="BUSINESS_SCOPE" property="businessScope" />
 		<result column="BUSINESS_ADDRESS" property="businessAddress" />
 		<result column="BUSINESS_POST_CODE" property="businessPostCode" />
@@ -54,8 +56,8 @@
 		<result column="SUPPLIER_REVIEW_LIST" property="supplierReviewList" />
 		<result column="SUPPLIER_CHANGE_LIST" property="supplierChangeList" />
 		<result column="SUPPLIER_EXIT_LIST" property="supplierExitList" />
-		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
-		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
 		<result column="SCORE" property="score" />
 		<result column="NAME" property="name" />
 		<result column="DETAIL_ADDRESS" property="detailAddress" />
@@ -65,7 +67,7 @@
 		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
 		<result column="ARMY_BUSINESS_EMAIL" property="armyBuinessEmail" />
 		<result column="ARMY_BUSINESS_ADDRESS" property="armyBuinessAddress" />
-		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
+		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP" />
 		<result column="BUSINESSTYPENAME" property="businessTypeName" />
 		<result column="ISEXTRACT" property="isExtract" />
 
@@ -75,6 +77,12 @@
 		<result column="ARMY_BUSINESS_CITY" property="armyBuinessCity" />
 		<result column="IS_PROVISIONAL" property="isProvisional" />
 
+	</resultMap>
+
+	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap" extends="BaseResultMap">
+		<collection property="listSupplierTypeRelates"
+	     select="ses.dao.sms.SupplierTypeRelateMapper.findSupplierTypeBySupplierId"
+			column="ID" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE,
@@ -94,7 +102,8 @@
 		SUPPLIER_PLEDGE,
 		SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
 		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST,
-		CREATED_AT, UPDATED_AT, BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
+		CREATED_AT, UPDATED_AT,
+		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL
 	</sql>
@@ -102,9 +111,12 @@
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
 		resultType="java.lang.String">
 		select wm_concat(t1.name) from(
-		SELECT T2."NAME",T1.SUPPLIER_ID FROM "JDCG"."T_SES_SMS_SUPPLIER_TYPE_RELATE" t1
-		LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE T3 ON T1.ID = T3.SUPPLIER_ID
-		LEFT JOIN T_SES_BMS_DICTIONARY_DATA t2 on T1.SUPPLIER_TYPE_ID=T2.CODE
+		SELECT T2."NAME",T1.SUPPLIER_ID FROM
+		"JDCG"."T_SES_SMS_SUPPLIER_TYPE_RELATE" t1
+		LEFT JOIN
+		T_SES_SMS_SUPPLIER_TYPE_RELATE T3 ON T1.ID = T3.SUPPLIER_ID
+		LEFT JOIN
+		T_SES_BMS_DICTIONARY_DATA t2 on T1.SUPPLIER_TYPE_ID=T2.CODE
 		) t1
 		where
 		1=1
@@ -113,21 +125,20 @@
 		</if>
 		GROUP BY T1.SUPPLIER_ID
 	</select>
-	
-	<select id="findAllUsefulSupplier"
-		resultMap="BaseResultMap">
+
+	<select id="findAllUsefulSupplier" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER 
+		from T_SES_SMS_SUPPLIER
 	</select>
-	
+
 	<select id="selectOne" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER WHERE   id = #{id}
+		from T_SES_SMS_SUPPLIER WHERE id = #{id}
 	</select>
-	
+
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select
@@ -135,23 +146,32 @@
 		from T_SES_SMS_SUPPLIER
 		where ID = #{id}
 	</select>
+	
+	<select id="selectByPrimaryKeyItem" parameterType="java.lang.String"
+    resultMap="supplierTypeMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER
+    where ID = #{id}
+  </select>
 
-	<select id="selectByProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
-		<!-- SELECT T2.* FROM (
-		SELECT SUPPLIER_ID FROM "JDCG"."T_BSS_PPMS_SALE_TENDER"
-		where PROJECT_ID =#{projectId} GROUP
-		BY SUPPLIER_ID) T1
-		LEFT JOIN T_SES_SMS_SUPPLIER T2 ON T2.ID
-		=T1.SUPPLIER_ID
-		 -->
+	<select id="selectByProjectId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- SELECT T2.* FROM ( SELECT SUPPLIER_ID FROM "JDCG"."T_BSS_PPMS_SALE_TENDER" 
+			where PROJECT_ID =#{projectId} GROUP BY SUPPLIER_ID) T1 LEFT JOIN T_SES_SMS_SUPPLIER 
+			T2 ON T2.ID =T1.SUPPLIER_ID -->
 		select * from(
-		select SUPPLIER_ID,wm_concat(NAME) AS packageName  from 
-		(select T1.PROJECT_ID,T1.SUPPLIER_ID,T2.NAME from T_BSS_PPMS_SALE_TENDER T1
-		LEFT JOIN T_BSS_PPMS_PACKAGE T2 on T1.PACKAGR_IDS = T2."ID"
+		select SUPPLIER_ID,wm_concat(NAME) AS packageName from
+		(select T1.PROJECT_ID,T1.SUPPLIER_ID,T2.NAME from
+		T_BSS_PPMS_SALE_TENDER T1
+		LEFT JOIN T_BSS_PPMS_PACKAGE T2 on
+		T1.PACKAGR_IDS = T2."ID"
 		)
-		WHERE PROJECT_ID = #{projectId} GROUP BY SUPPLIER_ID
-		) t1 
-		LEFT JOIN T_SES_SMS_SUPPLIER T3 ON T3.ID=T1.SUPPLIER_ID where id is not null
+		WHERE PROJECT_ID = #{projectId} GROUP BY
+		SUPPLIER_ID
+		) t1
+		LEFT JOIN T_SES_SMS_SUPPLIER T3 ON T3.ID=T1.SUPPLIER_ID where id is not
+		null
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from
@@ -215,7 +235,8 @@
 		#{supplierExtractsList}, #{supplierInspectList},
 		#{supplierReviewList}, #{supplierChangeList},
 		#{supplierExitList},
-		#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{score}, #{businessCert}
+		#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},
+		#{score}, #{businessCert}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.Supplier">
@@ -386,7 +407,7 @@
 			<if test="detailAddress != null">
 				DETAIL_ADDRESS,
 			</if>
-			
+
 			<if test="armyBusinessName != null">
 				ARMY_BUSINESS_NAME,
 			</if>
@@ -421,7 +442,7 @@
 				ARMY_BUSINESS_CITY,
 			</if>
 			<if test="isProvisional != null">
-			 IS_PROVISIONAL,
+				IS_PROVISIONAL,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -590,8 +611,8 @@
 			<if test="detailAddress != null">
 				#{detailAddress},
 			</if>
-			
-			
+
+
 			<if test="armyBusinessName != null">
 				#{armyBusinessName},
 			</if>
@@ -626,8 +647,8 @@
 				#{armyBuinessCity},
 			</if>
 			<if test="isProvisional != null">
-       #{isProvisional},
-      </if>
+				#{isProvisional},
+			</if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.Supplier">
@@ -718,10 +739,12 @@
 				REGIST_FUND = #{registFund},
 			</if>
 			<if test="businessStartDate != null">
-				BUSINESS_START_DATE = #{businessStartDate,jdbcType=TIMESTAMP},
+				BUSINESS_START_DATE =
+				#{businessStartDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="businessEndDate != null">
-				BUSINESS_END_DATE = #{businessEndDate,jdbcType=TIMESTAMP},
+				BUSINESS_END_DATE =
+				#{businessEndDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="businessScope != null">
 				BUSINESS_SCOPE = #{businessScope},
@@ -825,7 +848,7 @@
 			<if test="armyBuinessCity != null">
 				ARMY_BUSINESS_CITY=#{armyBuinessCity},
 			</if>
-			
+
 		</set>
 		where ID = #{id}
 	</update>
@@ -897,8 +920,10 @@
 		#{supplierReviewList},
 		SUPPLIER_CHANGE_LIST = #{supplierChangeList},
 		SUPPLIER_EXIT_LIST = #{supplierExitList},
-		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-		UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+		CREATED_AT =
+		#{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT =
+		#{updatedAt,jdbcType=TIMESTAMP},
 		BUSINESS_CERT = #{businessCert},
 		DETAIL_ADDRESS=#{detailAddress}
 		where ID =
@@ -926,7 +951,8 @@
 		LEFT JOIN T_SES_BMS_AREA T2 ON T1.ADDRESS=T2.ID
 		LEFT JOIN
 		T_SES_BMS_AREA T3 ON T2.PARENT_ID=T3.ID )
-		where 1=1  and SUPPLIER_STATUS=5
+		where 1=1 and
+		SUPPLIER_STATUS=5
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>
@@ -970,13 +996,16 @@
 			and tt1.BUSINESS_TYPE =#{businessType}
 		</if>
 		<if test="sign == 1">
-			and (tt1.SUPPLIER_STATUS = 0 or tt1.SUPPLIER_STATUS = 1 or tt1.SUPPLIER_STATUS = 2 or tt1.SUPPLIER_STATUS = 3)
+			and (tt1.SUPPLIER_STATUS = 0 or tt1.SUPPLIER_STATUS = 1 or
+			tt1.SUPPLIER_STATUS = 2 or tt1.SUPPLIER_STATUS = 3)
 		</if>
 		<if test="sign == 2">
-			and (tt1.SUPPLIER_STATUS = 4 or tt1.SUPPLIER_STATUS = 5 or tt1.SUPPLIER_STATUS = 6)
+			and (tt1.SUPPLIER_STATUS = 4 or tt1.SUPPLIER_STATUS = 5 or
+			tt1.SUPPLIER_STATUS = 6)
 		</if>
 		<if test="sign == 3">
-			and (tt1.SUPPLIER_STATUS = 5 or tt1.SUPPLIER_STATUS = 7 or tt1.SUPPLIER_STATUS = 8)
+			and (tt1.SUPPLIER_STATUS = 5 or tt1.SUPPLIER_STATUS = 7 or
+			tt1.SUPPLIER_STATUS = 8)
 		</if>
 		<if test="status != null">
 			and tt1.SUPPLIER_STATUS = #{status}
@@ -1006,7 +1035,8 @@
 			</foreach>
 		</if>
 		<if test="sign == 1">
-			ORDER BY decode(tt1.SUPPLIER_STATUS,'0',1,'1',2,'2',3,'3',4)
+			ORDER BY
+			decode(tt1.SUPPLIER_STATUS,'0',1,'1',2,'2',3,'3',4)
 		</if>
 		<if test="sign == 2">
 			ORDER BY decode(tt1.SUPPLIER_STATUS,'4',1,'5',2,'6',3)
@@ -1044,29 +1074,33 @@
 	</resultMap>
 
 	<!--供应商审核-查询供应商 -->
-	<select id="findSupplierAll" parameterType="ses.model.sms.Supplier" resultMap="BaseResultMap">
-		SELECT 
+	<select id="findSupplierAll" parameterType="ses.model.sms.Supplier"
+		resultMap="BaseResultMap">
+		SELECT
 		<include refid="Base_Column_List" />
-		FROM t_ses_sms_supplier  
-		WHERE 
+		FROM t_ses_sms_supplier
+		WHERE
 		1=1
 		<if test="sign == 1">
-			and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)
+			and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or
+			SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)
 		</if>
 		<if test="sign == 2">
-			and (SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 6)
+			and (SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or
+			SUPPLIER_STATUS = 6)
 		</if>
 		<if test="sign == 3">
-			and (SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or SUPPLIER_STATUS = 8)
+			and (SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7 or
+			SUPPLIER_STATUS = 8)
 		</if>
 		<if test="supplierName != null and supplierName !=''">
-		 AND SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+			AND SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
 		</if>
 		<if test="status != null">
-		 AND SUPPLIER_STATUS = #{status}
+			AND SUPPLIER_STATUS = #{status}
 		</if>
 		<if test="businessType != null and businessType !=''">
-		 AND BUSINESS_TYPE = #{businessType}
+			AND BUSINESS_TYPE = #{businessType}
 		</if>
 		ORDER BY SUPPLIER_STATUS ASC, UPDATED_AT DESC
 	</select>
@@ -1135,10 +1169,10 @@
 			</foreach>
 		</if>
 		<if test="scoreStart != null and scoreStart != '' ">
-			and SCORE &gt;= #{scoreStart} 
+			and SCORE &gt;= #{scoreStart}
 		</if>
 		<if test="scoreEnd != null and scoreEnd != ''">
-			and SCORE &lt; #{scoreEnd} 
+			and SCORE &lt; #{scoreEnd}
 		</if>
 		ORDER BY FOUND_DATE DESC
 	</select>
@@ -1187,7 +1221,7 @@
 		ORDER BY FOUND_DATE DESC
 	</select>
 
-		<!-- 根据供应商Id更新状态 -->
+	<!-- 根据供应商Id更新状态 -->
 	<update id="updateStatus" parameterType="ses.model.sms.Supplier">
 		update
 		T_SES_SMS_SUPPLIER
@@ -1201,7 +1235,7 @@
 		</set>
 		where ID = #{id}
 	</update>
-	
+
 	<update id="updateSupplierInspectListById" parameterType="ses.model.sms.Supplier">
 		update
 		T_SES_SMS_SUPPLIER
@@ -1245,84 +1279,86 @@
 		update T_SES_SMS_SUPPLIER
 		set SCORE = #{score} where ID = #{id}
 	</update>
-<!-- 供应商抽取集合 -->
-  <!-- AND ee.ADDRESS = #{address} -->
-  <!-- AND EE.EXPERTS_FROM =#{expertsFrom} -->
-  <!-- AND EE.SUPPLIER_STATUS = 1 -->
-  <!-- AND IS_BLACK = 0 -->
-  <select id="listExtractionExpert" parameterType="ses.model.sms.SupplierCondition"
-    resultMap="findSupplierMap">
-    select * from(
-    select t1.typeId,t1.categoryId,t2.* from(
-    select id,
-    wm_concat(DISTINCT(categoryId)) as
-    categoryId,wm_concat(DISTINCT(typeId)) as typeId from (
-    SELECT
-    T1.*,t2.CATEGORY_ID as categoryId ,t3.SUPPLIER_TYPE_ID as typeId FROM
-    "JDCG"."T_SES_SMS_SUPPLIER" t1
-    left join T_SES_SMS_SUPPLIER_TYPE_RELATE
-    t3 on t1. ID = t3.SUPPLIER_ID
-    LEFT JOIN (
-    SELECT T1. ID, CATEGORY_ID
-    FROM "JDCG"."T_SES_SMS_SUPPLIER" t1
-    RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM
-    t2 ON T1. ID = T2.SUPPLIER_ID
-    ) t2 ON t1.id =t2.id
-    ) GROUP BY id )t1
-    left JOIN T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
-    ) where 1=1
-    <if test="address != null and address != '' ">
-      AND ADDRESS = #{address}
-    </if>
-    <if
-      test="address == null and  address != '' and addressSplit != null and addressSplit != '' ">
-      AND
-      <foreach collection="addressSplit" item="split" open="("
-        close=")" separator="OR">
-        ADDRESS = #{split}
-      </foreach>
-    </if>
-    <foreach item="item" collection="conTypes">
-      <if
-        test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
-        <if test="item.isMulticondition==2">
-          <if test="item.arraySupplierTypeId !=null and item.arraySupplierTypeId != '' ">
-          AND
-            <foreach item="type" collection="item.arraySupplierTypeId" open="(" close=")" separator="OR">
-              "INSTR"(typeId,
-              #{type})>0
-            </foreach>
-          </if>
-          <if test="item.categorySplit != null and item.categorySplit != ''">
-          AND (
-            <foreach item="category" index="index" collection="item.categorySplit"
-              open="" separator="AND" close="">
-               "INSTR"(categoryId, #{category})>0
-            </foreach>
-            )
-          </if>
-        </if>
-        <if test="item.isMulticondition==1">
-          <if test="item.arraySupplierTypeId !=null and item.arraySupplierTypeId != '' ">
-            AND
-            <foreach item="type" collection="item.arraySupplierTypeId" open="(" close=")" separator="OR">
-               "INSTR"(typeId,#{type})>0
-            </foreach>
-          </if>
-          <if test="item.categorySplit != null and item.categorySplit != ''">
-            AND (
-            <foreach item="category" index="index" collection="item.categorySplit"
-              open="" separator="OR" close="">
-               "INSTR"(categoryId, #{category})>0
-            </foreach>
-            )
-          </if>
+	<!-- 供应商抽取集合 -->
+<!-- SUPPLIER_STATUS = 1 -->
+	<select id="listExtractionExpert" parameterType="ses.model.sms.SupplierCondition"
+		resultMap="findSupplierMap">
+		select * from(
+		select t1.typeId,t1.categoryId,t2.* from(
+		select id,
+		wm_concat(DISTINCT(categoryId)) as
+		categoryId,wm_concat(DISTINCT(typeId)) as typeId from (
+		SELECT
+		T1.*,t2.CATEGORY_ID as categoryId ,t3.SUPPLIER_TYPE_ID as typeId FROM
+		"JDCG"."T_SES_SMS_SUPPLIER" t1
+		left join T_SES_SMS_SUPPLIER_TYPE_RELATE
+		t3 on t1. ID = t3.SUPPLIER_ID
+		LEFT JOIN (
+		SELECT T1. ID, CATEGORY_ID
+		FROM "JDCG"."T_SES_SMS_SUPPLIER" t1
+		RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM
+		t2 ON T1. ID = T2.SUPPLIER_ID
+		) t2 ON t1.id =t2.id
+		) GROUP BY id )t1
+		left JOIN T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
+		) where 1=1
+	 AND IS_PROVISIONAL = 0
+		<if test="address != null and address != '' ">
+			AND ADDRESS = #{address}
+		</if>
+		<if
+			test="address == null and  address != '' and addressSplit != null and addressSplit != '' ">
+			AND
+			<foreach collection="addressSplit" item="split" open="("
+				close=")" separator="OR">
+				ADDRESS = #{split}
+			</foreach>
+		</if>
+		<foreach item="item" collection="conTypes">
+			<if
+				test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
+				<if test="item.isMulticondition==2">
+					<if
+						test="item.arraySupplierTypeId !=null and item.arraySupplierTypeId != '' ">
+						AND
+						<foreach item="type" collection="item.arraySupplierTypeId"
+							open="(" close=")" separator="OR">
+							"INSTR"(typeId,
+							#{type})>0
+						</foreach>
+					</if>
+					<if test="item.categorySplit != null and item.categorySplit != ''">
+						AND (
+						<foreach item="category" index="index" collection="item.categorySplit"
+							open="" separator="AND" close="">
+							"INSTR"(categoryId, #{category})>0
+						</foreach>
+						)
+					</if>
+				</if>
+				<if test="item.isMulticondition==1">
+					<if
+						test="item.arraySupplierTypeId !=null and item.arraySupplierTypeId != '' ">
+						AND
+						<foreach item="type" collection="item.arraySupplierTypeId"
+							open="(" close=")" separator="OR">
+							"INSTR"(typeId,#{type})>0
+						</foreach>
+					</if>
+					<if test="item.categorySplit != null and item.categorySplit != ''">
+						AND (
+						<foreach item="category" index="index" collection="item.categorySplit"
+							open="" separator="OR" close="">
+							"INSTR"(categoryId, #{category})>0
+						</foreach>
+						)
+					</if>
 
-        </if>
-      </if>
-    </foreach>
-    ORDER BY FOUND_DATE DESC
-  </select>
+				</if>
+			</if>
+		</foreach>
+		ORDER BY FOUND_DATE DESC
+	</select>
 
 	<select id="findLoginName" resultType="String">
 		select t1.LOGIN_NAME from
@@ -1357,24 +1393,25 @@
 		AND ER.PROJECT_ID = #{projectId}
 	</select>
 
-	<select id="queryByName" parameterType="String"  resultMap="BaseResultMap">
-	select
-	<include refid="Base_Column_List"/>
-	from T_SES_SMS_SUPPLIER where LOGIN_NAME = #{name}
-	</select>
-	
-	<!--校验查询  -->
-	<select id="query" parameterType="ses.model.sms.Supplier" resultMap="BaseResultMap">
+	<select id="queryByName" parameterType="String" resultMap="BaseResultMap">
 		select
-	<include refid="Base_Column_List"/>
-	from T_SES_SMS_SUPPLIER
-	<where>
-		1=1
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER where LOGIN_NAME = #{name}
+	</select>
+
+	<!--校验查询 -->
+	<select id="query" parameterType="ses.model.sms.Supplier"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER
+		<where>
+			1=1
 			<if test="mobile != null">
-				and	MOBILE = #{mobile}
+				and MOBILE = #{mobile}
 			</if>
 			<if test="creditCode != null">
-				and	CREDIT_CODE=#{creditCode}
+				and CREDIT_CODE=#{creditCode}
 			</if>
 			<if test="legalIdCard != null">
 				and LEGAL_ID_CARD = #{legalIdCard}
@@ -1382,32 +1419,32 @@
 			<if test="legalTelephone != null">
 				and LEGAL_TELEPHONE = #{legalTelephone}
 			</if>
-	</where>
-	
+		</where>
+
 	</select>
-	
+
 	<!-- 获取手机的数量 -->
-	<select id="getCountMobile"  resultType="java.lang.Integer">
-	   SELECT count(1) 
-	   FROM T_SES_SMS_SUPPLIER 
-	   WHERE MOBILE= #{mobile}
+	<select id="getCountMobile" resultType="java.lang.Integer">
+		SELECT count(1)
+		FROM T_SES_SMS_SUPPLIER
+		WHERE MOBILE= #{mobile}
 	</select>
-	
+
 	<!-- 根据创建日期查询已提交的供应商 -->
 	<select id="getCommintSupplierList" resultMap="BaseResultMap">
-	  SELECT 
-	  <include refid="Base_Column_List" />
-	  FROM T_SES_SMS_SUPPLIER
-	  WHERE SUPPLIER_STATUS = 0
-	  AND TO_CHAR(CREATED_AT, 'yyyy-MM-dd') = #{createDate}
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE SUPPLIER_STATUS = 0
+		AND TO_CHAR(CREATED_AT, 'yyyy-MM-dd') = #{createDate}
 	</select>
-	
+
 	<!-- 根据修改日期查询已提交的供应商 -->
 	<select id="getModifySupplierByDate" resultMap="BaseResultMap">
-	  SELECT 
-	  <include refid="Base_Column_List" />
-	  FROM T_SES_SMS_SUPPLIER
-	  WHERE SUPPLIER_STATUS = 0
-	  AND TO_CHAR(UPDATED_AT, 'yyyy-MM-dd') = #{modifyDate}
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE SUPPLIER_STATUS = 0
+		AND TO_CHAR(UPDATED_AT, 'yyyy-MM-dd') = #{modifyDate}
 	</select>
 </mapper>

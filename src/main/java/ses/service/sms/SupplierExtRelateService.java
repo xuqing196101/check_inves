@@ -78,6 +78,15 @@ public interface SupplierExtRelateService {
      */
     void updateStatusCount(String type,String conTypeId);
     
+    /**
+     * 
+     *〈简述〉抽取完成后删除未抽取出的数据
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id
+     */
+    void del(String id);
+    
     
     
     
