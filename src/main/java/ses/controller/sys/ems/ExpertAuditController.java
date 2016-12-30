@@ -25,11 +25,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Area;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -453,6 +456,105 @@ public class ExpertAuditController {
 		return "ses/ems/expertAudit/product";
 	}
 	
+	/**
+     *〈简述〉
+     * 异步加载zTree
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @param id
+     * @param categoryId
+     * @return
+     */
+    @RequestMapping(value = "getCategory", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+	public String getCategory(String expertId, String categoryId){
+        List<CategoryTree> allCategories = new ArrayList<CategoryTree>();
+        // 将根节点插入
+        DictionaryData parent = dictionaryDataServiceI.getDictionaryData(categoryId);    
+        CategoryTree ct = new CategoryTree();
+        ct.setName(parent.getName());
+        ct.setId(parent.getId());
+        ct.setIsParent("true");
+        // 设置是否被选中
+        ct.setChecked(true);
+        allCategories.add(ct);
+        // 查询所有被选中的
+        List<ExpertCategory> MyCate = expertCategoryService.getListByExpertId(expertId);
+        for (ExpertCategory ec : MyCate) {
+            Category cate = categoryService.findById(ec.getCategoryId());
+            CategoryTree ct1 = new CategoryTree();
+            ct1.setName(cate.getName());
+            ct1.setId(cate.getId());
+            ct1.setParentId(cate.getParentId());
+            // 判断是否是子节点
+            List<Category> nodesList = categoryService.findPublishTree(cate.getId(), null);
+            if (nodesList != null && nodesList.size() > 0) {
+                ct1.setIsParent("true");
+            }
+            // 设置是否被选中
+            ct1.setChecked(true);
+            allCategories.add(ct1);
+            // 判断是否父级节点为根节点
+            if (!categoryId.equals(ct1.getParentId())) {
+                // 如果不是根节点则假如该节点的所有父节点
+                List<CategoryTree> parentNodeList = getParentNodeList(ct1.getId(), categoryId);
+                allCategories.addAll(parentNodeList);
+            }
+        }
+        // 去重
+        removeSame(allCategories);
+        return JSON.toJSONString(allCategories);
+	}
+    
+    /**
+     *〈简述〉品目去重
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param allCategories
+     * @return
+     */
+    public void removeSame(List<CategoryTree> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+    
+    /**
+     *〈简述〉获取当前节点的所有父级节点Tree
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param nodeId 节点Id
+     * @return 返回CategoryTreeList
+     */
+    public List<CategoryTree> getParentNodeList(String nodeId, String categoryId) {
+        List<CategoryTree> parentNodeList = new ArrayList<CategoryTree>();
+        Category category = categoryService.findById(nodeId);
+        if (category != null) {
+            String parentId = category.getParentId();
+            if (parentId != null && !"".equals(parentId) && !categoryId.equals(parentId)) {
+                Category cate = categoryService.findById(parentId);
+                if (cate != null) {
+                    CategoryTree ct1 = new CategoryTree();
+                    ct1.setName(cate.getName());
+                    ct1.setId(cate.getId());
+                    ct1.setParentId(cate.getParentId());
+                    ct1.setIsParent("true");
+                    // 设置是否被选中
+                    ct1.setChecked(true);
+                    parentNodeList.add(ct1);
+                    List<CategoryTree> parentList = getParentNodeList(ct1.getId(), categoryId);
+                    parentNodeList.addAll(parentList);
+                }
+            }
+        }
+        return parentNodeList;
+    }
+    
 	/**
 	 * @Title: expertFile
 	 * @author XuQing 
