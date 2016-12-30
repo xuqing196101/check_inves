@@ -424,7 +424,10 @@ public class PqInfoController extends BaseSupplierController{
 		List<String> supplierIds = pqInfoService.queryDepName(page==null?1:page);
 		List<String> supplierNames = new ArrayList<>();
 		for (String id : supplierIds) {
-			supplierNames.add(supplierService.get(id).getSupplierName());
+			Supplier ss = supplierService.get(id);
+			if(supplierService.get(id)!=null){
+				supplierNames.add(supplierService.get(id).getSupplierName());
+			}
 		}
 		List<Supplier_pqinfo> supplier_pqinfos= new ArrayList<Supplier_pqinfo>();
 		for (int i = 0; i < supplierNames.size(); i++) {

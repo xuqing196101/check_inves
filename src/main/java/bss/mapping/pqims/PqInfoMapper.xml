@@ -331,12 +331,13 @@
   
    <!-- 11.根据供应商名称查询列表supplierDepName -->
   <select id="selectByDepName" resultType="Object" parameterType="Object">
-    select c.SUPPLIER_DEP_NAME
+    select s.SUPPLIER_NAME
     from T_BSS_PQIMS_PQINFO p inner JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
+    LEFT JOIN T_SES_SMS_SUPPLIER s on c.SUPPLIER_DEP_NAME = s.ID
     <if test="contract.supplierDepName != null and contract.supplierDepName != ''">
-    where c.SUPPLIER_DEP_NAME LIKE '%'||#{contract.supplierDepName}||'%'
+    where s.SUPPLIER_NAME LIKE '%'||#{contract.supplierDepName}||'%'
     </if>
-    GROUP BY c.SUPPLIER_DEP_NAME ORDER BY c.SUPPLIER_DEP_NAME 
+    GROUP BY s.SUPPLIER_NAME ORDER BY s.SUPPLIER_NAME 
   </select>
     
   <!-- selet2查询合同,根据采购方式 -->
