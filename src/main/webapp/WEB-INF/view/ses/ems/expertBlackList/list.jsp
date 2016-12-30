@@ -197,8 +197,8 @@
 						  </select>
 					 </li>
 	                 <li>
-	                 <input type="submit" class="btn btn_back fl  " value="查询" />
-	                 <button onclick="resetForm();" class="btn btn_back fl" type="button">重置</button>
+	                 <input type="submit" class="btn  fl  mt1 " value="查询" />
+	                 <button onclick="resetForm();" class="btn fl" type="button">重置</button>
 	                 </li>
 	             </ul>
 	             <div class="clear"></div>
@@ -245,7 +245,7 @@
 			               <c:if test="${e.status == 1}">过期</c:if>
 			               <c:if test="${e.status == 2}">手动移除</c:if>
                        </td>
-	                   <td class="tc">${e.reason }</td>
+	                   <td class="tl pl20">${e.reason }</td>
 	               </tr>
                 </c:forEach>
                 </table>
