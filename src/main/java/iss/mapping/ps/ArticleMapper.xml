@@ -479,59 +479,82 @@
   
   <select id="selectPics" resultMap="ArticleMapper">
   	SELECT
-		*
-	FROM
-		T_ISS_PS_ARTICLE
-	where
-		LAST_ARTICLE_TYPE_ID = 111
-		and IS_DELETED = 0
-		and rownum &lt;=6
-		and status = 2
-	ORDER BY
-		PUBLISHED_AT DESC 
+	*
+FROM
+	(
+		SELECT
+			*
+		FROM
+			T_ISS_PS_ARTICLE
+		WHERE
+			LAST_ARTICLE_TYPE_ID = 111
+		ORDER BY
+			PUBLISHED_AT DESC
+	)
+WHERE
+	1 = 1
+AND IS_DELETED = 0
+AND ROWNUM &lt;= 6
+AND status = 2
   </select>
   
   <select id="selectArticleByParId" parameterType="Map" resultMap="ArticleMapper">
   	SELECT
-		*
-	FROM
-		T_ISS_PS_ARTICLE
-	WHERE
-	LAST_ARTICLE_TYPE_ID IN (
+	*
+FROM
+	(
 		SELECT
-			ID
+			*
 		FROM
-			T_ISS_PS_ARTICLE_TYPE
+			T_ISS_PS_ARTICLE
 		WHERE
-			PARENT_ID = #{parId}
+			LAST_ARTICLE_TYPE_ID IN (
+				SELECT
+					ID
+				FROM
+					T_ISS_PS_ARTICLE_TYPE
+				WHERE
+					PARENT_ID = '3'
+			)
+		ORDER BY
+			published_at DESC
 	)
-	and status = 2
-	and IS_DELETED = 0
-	and rownum &lt;=6
-	order by published_at desc
+WHERE
+	1 = 1
+AND status = 2
+AND IS_DELETED = 0
+AND ROWNUM &lt;= 6
   </select>
   
   <select id="selectAllByParId" parameterType="Map" resultMap="ArticleMapper">
-  	SELECT
-		*
-	FROM
-		T_ISS_PS_ARTICLE
-	WHERE
-	LAST_ARTICLE_TYPE_ID IN (
+	SELECT
+	*
+FROM
+	(
 		SELECT
-			ID
+			*
 		FROM
-			T_ISS_PS_ARTICLE_TYPE
+			T_ISS_PS_ARTICLE
 		WHERE
-			PARENT_ID in 
-	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
-    	#{item}
-    </foreach>
+			LAST_ARTICLE_TYPE_ID IN (
+				SELECT
+					ID
+				FROM
+					T_ISS_PS_ARTICLE_TYPE
+				WHERE
+					PARENT_ID IN 
+					<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    				#{item}
+    				</foreach>
+			)
+		ORDER BY
+			published_at DESC
 	)
-	and status = 2
-	and IS_DELETED = 0
-	and rownum &lt;=6
-	order by published_at desc
+WHERE
+	1 = 1
+AND status = 2
+AND IS_DELETED = 0
+AND ROWNUM &lt;= 6
   </select>
   
   <select id="selectArticleByParIdTwo" parameterType="Map" resultMap="ArticleMapper">
@@ -554,20 +577,20 @@
   </select>
   
   <select id="selectArticleByArticleType" parameterType="Map" resultMap="ArticleMapper">
-  	SELECT
+  	select * from (SELECT
 		*
 	FROM
 		T_ISS_PS_ARTICLE
 	WHERE
-	LAST_ARTICLE_TYPE_ID = #{typeId}
+	LAST_ARTICLE_TYPE_ID = 3 order by published_at desc)
+where 1=1
 	and status = 2
 	and IS_DELETED = 0
 	and rownum &lt;=6
-	order by published_at desc
   </select>
   
   <select id="selectAllByArticleType" parameterType="Map" resultMap="ArticleMapper">
-  	SELECT
+	select * from (SELECT
 		*
 	FROM
 		T_ISS_PS_ARTICLE
@@ -576,10 +599,11 @@
 	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
     	#{item}
     </foreach>
+	order by PUBLISHED_AT desc
+) where 1=1
 	and status = 2
 	and IS_DELETED = 0
 	and rownum &lt;=6
-	order by published_at desc
   </select>
   
   <select id="selectsumByParId" parameterType="Map" resultMap="ArticleMapper">
