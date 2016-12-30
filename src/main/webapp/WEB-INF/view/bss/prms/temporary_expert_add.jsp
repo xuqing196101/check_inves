@@ -23,25 +23,7 @@ $(function idType(){
 });
  
 function sumbits(){
-	alert("as");
-	$.ajax({
-        cache: true,
-        type: "POST",
-        url:"${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do",
-        data:$('#form').serialize(),// 你的formid
-        async: false,
-        dataType:"json",
-        error: function(request) {
-        },
-        success: function(data) {
-        	alert("asd");
-        	alert(data.sccuess);
-            if(data.sccuess == "sccuess"){
-            	alert(data.sccuess);
-            	  window.location.href = '${pageContext.request.contextPath}/packageExpert/assignedExpert.html?projectId='+id;
-            }
-        }
-    });
+	$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do",$("#form").serialize());
 	}
 </script>
 
@@ -66,8 +48,8 @@ function sumbits(){
             }
           },
           callback: {
-            beforeClick: beforeClick,
-            onCheck: onCheck
+            beforeClick: beforeClickEP,
+            onCheck: onCheckEP
           }
         };
         $.ajax({
@@ -101,13 +83,13 @@ function sumbits(){
 
       }
 
-      function beforeClick(treeId, treeNode) {
+      function beforeClickEP(treeId, treeNode) {
         var zTree = $.fn.zTree.getZTreeObj("treeExpertType");
         zTree.checkNode(treeNode, !treeNode.checked, null, true);
         return false;
       }
 
-      function onCheck(e, treeId, treeNode) {
+      function onCheckEP(e, treeId, treeNode) {
         var zTree = $.fn.zTree.getZTreeObj("treeExpertType"),
           nodes = zTree.getCheckedNodes(true),
           v = "";
@@ -132,11 +114,93 @@ function sumbits(){
 	  	$("#tab-1").load(path);
       }
     </script>
+    
+    <script type="text/javascript">
+      function showPackageType() {
+        var setting = {
+          check: {
+            enable: true,
+            chkboxType: {
+              "Y": "",
+              "N": ""
+            }
+          },
+          view: {
+            dblClickExpand: false
+          },
+          data: {
+            simpleData: {
+              enable: true,
+              idKey: "id",
+              pIdKey: "parentId"
+            }
+          },
+          callback: {
+            beforeClick: beforeClick,
+            onCheck: onCheck
+          }
+        };
+        
+        $.ajax({
+          type: "GET",
+          async: false,
+          url: "${pageContext.request.contextPath}/SupplierExtracts/getpackage.do?projectId=${projectId}",
+          dataType: "json",
+          success: function(zNodes) {
+            tree = $.fn.zTree.init($("#treePackageType"), setting, zNodes);
+            tree.expandAll(true); //全部展开
+          }
+        });
+        var cityObj = $("#packageName");
+        var cityOffset = $("#packageName").offset();
+        $("#packageContent").css({
+          left: cityOffset.left + "px",
+          top: cityOffset.top + cityObj.outerHeight() + "px"
+        }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDownPackageType);
+      }
+
+      function onBodyDownPackageType(event) {
+        if(!(event.target.id == "menuBtn" || $(event.target).parents("#packageContent").length > 0)) {
+          hidePackageType();
+        }
+      }
+
+      function hidePackageType() {
+        $("#packageContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDownPackageType);
+
+      }
+
+      function beforeClick(treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treePackageType");
+        zTree.checkNode(treeNode, !treeNode.checked, null, true);
+        return false;
+      }
+
+      function onCheck(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treePackageType"),
+          nodes = zTree.getCheckedNodes(true),
+          v = "";
+        var rid = "";
+        for(var i = 0, l = nodes.length; i < l; i++) {
+          v += nodes[i].name + ",";
+          rid += nodes[i].id + ",";
+        }
+        if(v.length > 0) v = v.substring(0, v.length - 1);
+        if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
+        var cityObj = $("#packageName");
+        cityObj.attr("value", v);
+        cityObj.attr("title", v);
+        $("#packageId").val(rid);
+      }
+    </script>
 
 <body>
-
-   
-
+  <body>
+   <div id="packageContent" class="packageContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    <ul id="treePackageType" class="ztree" style="margin-top:0;"></ul>
+  </div>
      <div id="expertTypeContent" class="expertTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
     <ul id="treeExpertType" class="ztree" style="margin-top:0;"></ul>
   </div>
@@ -236,6 +300,15 @@ function sumbits(){
           <div class="cue" >${loginPwdError}</div>
         </div>
      </li>  
+      <li class="col-md-3 col-sm-6 col-xs-12 ">
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">添加包</span>
+         <div class="input-append input_group col-sm-12 col-xs-12 p0">
+            <input  class="title col-md-12" name="packageName"  readonly id="packageName" value="${packageName}" onclick="showPackageType();"   type="text">
+              <input  readonly id="packageId" name="packageId"     type="hidden">
+          <span class="add-on">i</span>
+          <div class="cue" >${packageIdError}</div>
+        </div>
+     </li>
       <li class="col-md-12 col-sm-12 col-xs-12">
        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">备注</span>
        <div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -247,8 +320,8 @@ function sumbits(){
    </div>
   <div  class="col-md-12">
    <div class="col-md-6" align="center">
-      <button class="btn btn-windows save"  type="submit">保存</button>
-      <button class="btn btn-windows back" type="button" onclick="goBack()">返回</button>
+      <button class="btn btn-windows save"  type="button" onclick="sumbits();" >保存</button>
+      <button class="btn btn-windows back" type="button" onclick="goBack();">返回</button>
 	</div>
   </div>
   </sf:form>

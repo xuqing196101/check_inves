@@ -141,14 +141,16 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         expert.setIsSubmit("1");
         ExpertService.insertSelective(expert);
         //插入专家抽取关联表
-        ProjectExtract extract = new ProjectExtract();
-        extract.setExpertId(uuId);
-        extract.setOperatingType((short)1);
-        extract.setIsProvisional((short)1);
-        ExpExtPackage expExtPackage=new ExpExtPackage();
-        expExtPackage.setPackageId(packageId);
-        extract.setProjectId(packageId);
-        extractService.insertProjectExtract(extract);
+        String[] arrayPackId = packageId.split(",");
+        for (String pId : arrayPackId) {
+          ProjectExtract extract = new ProjectExtract();
+          extract.setExpertId(uuId);
+          extract.setOperatingType((short)1);
+          extract.setIsProvisional((short)1);
+          extract.setProjectId(pId);
+          extractService.insertProjectExtract(extract);
+        }
+      
         //插入登录表
         User user = new User();
         user.setLoginName(loginName);
@@ -183,22 +185,6 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         }
 
 
-
-        //插入到包关联专家
-        PackageExpert record = new PackageExpert();
-        record.setProjectId(projectId);
-        record.setPackageId(packageId);
-        record.setExpertId(uuId);
-        // 评审状态 未评审
-        record.setIsAudit((short) 0);
-        // 初审是否汇总 未汇总
-        record.setIsGather((short) 0);
-        // 是否评分
-        record.setIsGrade((short) 0);
-        // 评分是否汇总
-        record.setIsGatherGather((short) 0);
-        record.setIsGroupLeader((short) 0);
-        service.save(record);
         map.put("sccuess", "sccuess");
         return map;
     }

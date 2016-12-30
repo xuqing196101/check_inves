@@ -982,6 +982,11 @@ public class ExpExtractRecordController extends BaseController {
         model.addAttribute("idType", DictionaryDataUtil.find(9));
         //专家类型
         model.addAttribute("ddList", expExtractRecordService.ddList());
+        //获取专家
+        Packages packages = new Packages();
+        packages.setProjectId(projectId);
+        List<Packages> find = packagesService.find(packages);
+        model.addAttribute("packList", find);
         return "bss/prms/temporary_expert_add";
     }
 
@@ -993,8 +998,8 @@ public class ExpExtractRecordController extends BaseController {
      * @param model  实体
      * @param  id 专家id
      */
-    @RequestMapping("/AddtemporaryExpert")
-    public  Object addTemporaryExpert(@Valid Expert expert, BindingResult result, Model model, String projectId,String packageId, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq){
+    @RequestMapping(value="/AddtemporaryExpert",produces = "text/html;charset=UTF-8")
+    public  Object addTemporaryExpert(@Valid Expert expert, BindingResult result, Model model, String projectId,String packageId,String packageName, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq){
         Integer type = 0;
         //校验字段
         if (result.hasErrors()){
@@ -1016,6 +1021,12 @@ public class ExpExtractRecordController extends BaseController {
             model.addAttribute("loginPwdError", "不能为空");
             type = 1;
         }
+        
+        if(packageId == null || "".equals(packageId)){
+          
+          model.addAttribute("packageIdError", "不能为空");
+          type = 1;
+        }
 
 
         if (type == 1){
@@ -1024,6 +1035,7 @@ public class ExpExtractRecordController extends BaseController {
             model.addAttribute("loginPwd", loginPwd);
             model.addAttribute("projectId", projectId);
             model.addAttribute("packageId", packageId);
+            model.addAttribute("packageName", packageName);
             model.addAttribute("flowDefineId", flowDefineId);
             //专家类型
             model.addAttribute("ddList", expExtractRecordService.ddList());

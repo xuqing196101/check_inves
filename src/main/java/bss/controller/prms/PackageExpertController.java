@@ -2998,28 +2998,28 @@ public class PackageExpertController {
               packageExpertService.save(packageExpert);
             }
             //保存到场签到的临时专家
-            if (packageExpert.getIsSigin() == 1 && packageExpert.getIsTempExpert() == 0) {
-              packageExpertService.saveTempExpert(packageExpert,packageExpert.getPackageId());
-              Expert expert = packageExpert.getExpert();
-              if (expert != null ) {
-                packageExpert.setExpertId(expert.getId());
-              }
-              packageExpert.setIsAudit((short)0);
-              packageExpert.setIsGather((short)0);
-              packageExpert.setIsGrade((short)0);
-              packageExpert.setIsGatherGather((short)0);
-              String tempTypeId = packageExpert.getReviewTypeId();
-              DictionaryData tempdd = DictionaryDataUtil.findById(tempTypeId);
-              //技术类型
-              if ("GOODS".equals(tempdd.getCode()) || "PROJECT".equals(tempdd.getCode()) || "SERVICE".equals(tempdd.getCode())) {
-                packageExpert.setReviewTypeId(DictionaryDataUtil.getId("TECHNOLOGY"));
-              }
-              //经济类型
-              if ("GOODS_SERVER".equals(tempdd.getCode()) || "GOODS_PROJECT".equals(tempdd.getCode())) {
-                packageExpert.setReviewTypeId(DictionaryDataUtil.getId("ECONOMY"));
-              }
-              packageExpertService.save(packageExpert);
-            }
+//            if (packageExpert.getIsSigin() == 1 && packageExpert.getIsTempExpert() == 0) {
+//              packageExpertService.saveTempExpert(packageExpert,packageExpert.getPackageId());
+//              Expert expert = packageExpert.getExpert();
+//              if (expert != null ) {
+//                packageExpert.setExpertId(expert.getId());
+//              }
+//              packageExpert.setIsAudit((short)0);
+//              packageExpert.setIsGather((short)0);
+//              packageExpert.setIsGrade((short)0);
+//              packageExpert.setIsGatherGather((short)0);
+//              String tempTypeId = packageExpert.getReviewTypeId();
+//              DictionaryData tempdd = DictionaryDataUtil.findById(tempTypeId);
+//              //技术类型
+//              if ("GOODS".equals(tempdd.getCode()) || "PROJECT".equals(tempdd.getCode()) || "SERVICE".equals(tempdd.getCode())) {
+//                packageExpert.setReviewTypeId(DictionaryDataUtil.getId("TECHNOLOGY"));
+//              }
+//              //经济类型
+//              if ("GOODS_SERVER".equals(tempdd.getCode()) || "GOODS_PROJECT".equals(tempdd.getCode())) {
+//                packageExpert.setReviewTypeId(DictionaryDataUtil.getId("ECONOMY"));
+//              }
+//              packageExpertService.save(packageExpert);
+//            }
           }
           //修改项目状态
           //Project project = projectService.selectById(projectId);
