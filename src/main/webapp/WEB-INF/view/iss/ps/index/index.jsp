@@ -925,12 +925,12 @@
         <div class="col-md-12">
           <div class="border1 flow_btn fl mr14">
             <div class="ywbl_01">
-              <a href="javascript:void(0)" onclick="setting()" class="qyzc">
+              <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc">
                 <span>企业注册</span>
               </a>
             </div>
             <div class="ywbl_01">
-              <a href="javascript:void(0)" onclick="setting()" class="zjzc">
+              <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc">
                 <span>专家注册</span>
               </a>
             </div>

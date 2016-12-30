@@ -169,13 +169,13 @@ session.setAttribute("tokenSession", tokenValue);
 		       </div>
 		        
 			 </li>
-			 <li class="p0">
+			 <!-- <li class="p0">
 			   <span class=""><i class="red mr5">*</i>验证码：</span>
 			   <div class="input-append">
 		        <input class="span2" name="yzm" maxlength="6" type="text" value="">
 		        <span class="add-on">i</span>
 		       </div><font  id="yzm"></font>
-			 </li>
+			 </li> -->
    </ul>
   </div> 
 	  <div  class="col-md-12">
@@ -186,6 +186,7 @@ session.setAttribute("tokenSession", tokenValue);
 	 </div>
   </form>
  </div>
+ 
  <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>
