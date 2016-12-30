@@ -129,6 +129,14 @@ public class PurchaseDep extends Orgnization{
     private String accessWay;
     
     private String videoSurveillance;
+    
+    private String flag;
+    public String getFlag() {
+        return flag;
+    }
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
     public PurchaseDep(String id) {
     	super();
     	super.setId(id);

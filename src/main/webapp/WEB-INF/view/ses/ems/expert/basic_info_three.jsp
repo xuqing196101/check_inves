@@ -198,6 +198,7 @@ session.setAttribute("tokenSession", tokenValue);
 	
 	function showJiGou(){
 		$("#purchase_orgs").empty();
+		$("#purchase_orgs2").empty();
 		//采购机构
 		var sup = $("#purchaseDepId").val();
 		var purDepId="";
@@ -235,8 +236,14 @@ session.setAttribute("tokenSession", tokenValue);
 					if(princinpal==null)princinpal="";
 					if(detailAddr==null)detailAddr="";
 					if(mobile==null)mobile="";
+					var flag;
+					if (result.flag == '1') {
+						flag = "purchase_orgs";
+					} else {
+						flag = "purchase_orgs2";
+					}
 					if(purDepId==result.id){
-						$("#purchase_orgs").append(
+						$("#"+flag).append(
 								"<tr align='center' ><td><input checked='checked' type='radio' name='purchaseDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
@@ -245,7 +252,7 @@ session.setAttribute("tokenSession", tokenValue);
 								"<td>"+mobile+"</td></tr>"
 							);
 					}else{
-						$("#purchase_orgs").append(
+						$("#"+flag).append(
 								"<tr align='center' ><td><input type='radio' name='purchaseDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
@@ -386,7 +393,7 @@ session.setAttribute("tokenSession", tokenValue);
             <table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 					<tr>
-					  <th class="info w30"><input type="radio"   disabled="disabled"  id="purchaseDepId2" ></th>
+					  <th class="info w30"><input type="radio"   disabled="disabled"></th>
 					  <th class="info w50">序号</th>
 					  <th class="info">采购机构</th>
 					  <th class="info">联系人</th>
@@ -402,6 +409,7 @@ session.setAttribute("tokenSession", tokenValue);
 			<table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 					<tr>
+					  <th class="info w30"><input type="radio" disabled="disabled"></th>
 					  <th class="info w50">序号</th>
 					  <th class="info">采购机构</th>
 					  <th class="info">联系人</th>
@@ -410,15 +418,7 @@ session.setAttribute("tokenSession", tokenValue);
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${allPurList}" var="pur" varStatus="vs">
-					<tr>
-					  <td class="tc w50">${vs.count}</td>
-					  <td class="tc">${pur.name}</td>
-					  <td class="tc">${pur.princinpal}</td>
-					  <td class="tc">${pur.detailAddr}</td>
-					  <td class="tc">${pur.mobile}</td>
-					</tr>
-					</c:forEach>
+					<tbody id="purchase_orgs2"></tbody>
 				</tbody>
 			</table>
 			<h6>
