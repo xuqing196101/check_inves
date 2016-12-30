@@ -216,12 +216,10 @@
     </if>
   </select>
   
-  <update id="updateIsDeleteByExpertId" parameterType="ses.model.ems.ExpertAudit">
+  <update id="updateIsDeleteByExpertId">
   	update 
   		T_SES_EMS_EXPERT_AUDIT
-  	<if test="isDelete != null">
-        IS_DELETE = '1'
-    </if>
+    		set IS_DELETE = '1'
     where
     	EXPERT_ID = #{expertId}
   </update>
