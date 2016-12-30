@@ -128,6 +128,16 @@
     						 		layer.close(index);
     						 		window.location.href="${pageContext.request.contextPath}/";
     						 	    });
+    					}else if(flag[0]=="reject"){
+    						//询问框
+    						layer.confirm('您提交的审核被退回，是否前去修改？', {
+    						 	btn: ['是','否'] //按钮
+    						}, function(){
+    						  window.location.href="${pageContext.request.contextPath}/supplier/login.html?name="+flag[1];
+    						 	}, function(){
+    						 		layer.close(index);
+    						 		window.location.href="${pageContext.request.contextPath}/";
+    						 	    });
     					} else if (data == "firstNotPass") {
     						layer.msg("抱歉,您的审核没有通过,无法登陆！");
     						layer.close(index);
