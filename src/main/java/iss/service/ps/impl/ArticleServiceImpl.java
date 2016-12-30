@@ -302,7 +302,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public List<Article> selectListByTitle(String title, Integer page) {
-        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
         return articleMapper.selectListByTitle(title);
     }
     

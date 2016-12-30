@@ -54,8 +54,8 @@
             <c:otherwise>
 	        <c:forEach items="${info.list}" var="i">
               <li>
-               <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${i.id}" target="_self"><span class="f18 mr5">·</span>${i.title }</a>
-               <span class="hex pull-right"><fmt:formatDate value='${i.publishtime}' pattern="yyyy年MM月dd日 " /></span>
+               <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${i.id}" target="_self"><span class="f18 mr5">·</span>${i.name }</a>
+               <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
               </li> 
             </c:forEach>  
             </c:otherwise> 
