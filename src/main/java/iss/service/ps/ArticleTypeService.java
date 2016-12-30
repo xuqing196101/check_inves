@@ -100,4 +100,15 @@ public interface ArticleTypeService {
      * @return ArticleType
       */
      void updateShowNum();
+     
+     /**
+      * @Title: articleTypeList
+      * @author Shen Zhenfei 
+      * @date 2016-12-26 上午10:32:56  
+      * @Description: 根据parentId获取栏目
+      * @param @param parentId
+      * @param @return      
+      * @return ArticleType
+       */
+     List<ArticleType> selectShowNumByParId(String parentId);
 }

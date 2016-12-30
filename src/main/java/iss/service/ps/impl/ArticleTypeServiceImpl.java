@@ -82,4 +82,9 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 	public void updateShowNum() {
 		articleTypeMapper.updateShowNum();
 	}
+
+	@Override
+	public List<ArticleType> selectShowNumByParId(String parentId) {
+		return articleTypeMapper.selectShowNumByParId(parentId);
+	}
 }

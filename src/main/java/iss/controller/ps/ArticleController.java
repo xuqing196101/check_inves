@@ -820,6 +820,10 @@ public class ArticleController extends BaseSupplierController{
       User user = (User) request.getSession().getAttribute("loginUser");
       findOneArticle.setPublishedName(user.getRelName());
       findOneArticle.setPublishedAt(new Date());
+//      ArticleType articleType = findOneArticle.getLastArticleType();
+//      Integer showNum = Integer.parseInt(articleType.getShowNum())+1;
+//      articleType.setShowNum(showNum.toString());
+//      articleTypeService.updateByPrimaryKey(articleType);
       solrNewsService.addIndex(findOneArticle);
       articleService.update(findOneArticle);
     }
