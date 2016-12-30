@@ -357,9 +357,6 @@ session.setAttribute("tokenSession", tokenValue);
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">
-		      <div class="headline-v2">
-			     <h2>选择采购机构</h2>
-			   </div>  
 			<table id="tb1"  class="table table-bordered table-condensed table-hover table-striped">
 			  <ul class="ul_list">
 				<li class="col-md-3 col-sm-6 col-xs-12">
@@ -380,6 +377,9 @@ session.setAttribute("tokenSession", tokenValue);
 	            </li>
               </ul>
             </table>
+            <div class="headline-v2">
+			     <h2>推荐采购机构</h2>
+			   </div> 
             <table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 					<tr>
@@ -392,6 +392,31 @@ session.setAttribute("tokenSession", tokenValue);
 					</tr>
 				</thead>
 				<tbody id="purchase_orgs"></tbody>
+			</table>
+			<div class="headline-v2">
+				<h2>其他采购机构</h2>
+			</div> 
+			<table class="table table-bordered table-condensed table-hover table-striped">
+				<thead>
+					<tr>
+					  <th class="info w50">序号</th>
+					  <th class="info">采购机构</th>
+					  <th class="info">联系人</th>
+					  <th class="info">联系地址</th>
+					  <th class="info">联系电话</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${allPurList}" var="pur" varStatus="vs">
+					<tr>
+					  <td class="tc w50">${vs.count}</td>
+					  <td class="tc">${pur.name}</td>
+					  <td class="tc">${pur.princinpal}</td>
+					  <td class="tc">${pur.detailAddr}</td>
+					  <td class="tc">${pur.mobile}</td>
+					</tr>
+					</c:forEach>
+				</tbody>
 			</table>
 			<h6>
 		               友情提示：请专家记录好初审采购机构的相关信息，以便进行及时沟通

@@ -292,7 +292,7 @@
 										</li>
 									</ul><!-- <br /> -->
 									<h2 class="f16 ">
-										 采购机构列表
+										推荐采购机构
 									</h2>
 									<table class="table table-bordered table-condensed">
 										<thead>
@@ -309,6 +309,29 @@
 												<tr>
 												
 													<td class="tc"><input type="radio" value="${org1.id}" name="radio" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
+													<td class="tc">${vs.index + 1}</td>
+													<td class="tc">${org1.name}</td>
+													<td class="tc">${org1.shortName}</td>
+													<td class="tc">${org1.provinceName}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+									<h2 class="f16 ">
+										 其他采购机构
+									</h2>
+									<table class="table table-bordered table-condensed">
+										<thead>
+											<tr>
+												<th class="info">序号</th>
+												<th class="info">采购机构名称</th>
+												<th class="info">机构代称</th>
+												<th class="info">所在城市</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach items="${allPurList}" var="org1" varStatus="vs">
+												<tr>
 													<td class="tc">${vs.index + 1}</td>
 													<td class="tc">${org1.name}</td>
 													<td class="tc">${org1.shortName}</td>

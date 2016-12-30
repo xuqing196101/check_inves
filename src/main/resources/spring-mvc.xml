@@ -93,6 +93,8 @@ http://www.springframework.org/schema/task/spring-task-3.2.xsd
  			<mvc:exclude-mapping path="/expert/getPIdandCIdByPurDepId.*" />
  			<mvc:exclude-mapping path="/expert/download.*" />
  			<mvc:exclude-mapping path="/expert/downloadBook.*" />
+ 			<mvc:exclude-mapping path="/expert/downloadSupplier.*" />
+ 			<mvc:exclude-mapping path="/expert/downloadSupplierNotice.*" />
  			<mvc:exclude-mapping path="/expert/downNotice.*" />
  			<mvc:exclude-mapping path="/area/find_by_parent_id.*" />
 			<mvc:exclude-mapping path="/area/find_by_id.*" />

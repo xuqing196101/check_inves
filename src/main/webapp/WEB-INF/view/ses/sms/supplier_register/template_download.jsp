@@ -10,6 +10,14 @@
 		$("input[name='flag']").val(flag);
 		$("#template_download_form_id").submit();
 	}
+	//下载
+	function download1(){
+		window.location.href="${pageContext.request.contextPath}/expert/downloadSupplier.html";
+	}
+	//下载
+	function download2(){
+		window.location.href="${pageContext.request.contextPath}/expert/downloadSupplierNotice.html";
+	}
 </script>
 
 </head>

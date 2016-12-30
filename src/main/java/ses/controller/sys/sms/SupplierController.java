@@ -386,6 +386,11 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("listOrgnizations1", listOrgnizations1);
 //		request.getSession().setAttribute("listOrgnizations2", listOrgnizations2);
 //		request.getSession().setAttribute("jump.page", "procurement_dep");
+		HashMap<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("typeName", "1");
+        List<PurchaseDep> list = purchaseOrgnizationService
+                .findPurchaseDepList(map1);  
+        model.addAttribute("allPurList", list);
 		return "ses/sms/supplier_register/procurement_dep";
 	}
 
@@ -691,6 +696,11 @@ public class SupplierController extends BaseSupplierController {
 			String orgId = supplier.getProcurementDepId();
 //			orgnizationServiceI.findOrgnizationList(map)
 			model.addAttribute("currSupplier", supplier);
+			HashMap<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("typeName", "1");
+            List<PurchaseDep> list = purchaseOrgnizationService
+                    .findPurchaseDepList(map1);  
+            model.addAttribute("allPurList", list);
 			return "ses/sms/supplier_register/procurement_dep";
 		}else{
 			supplier = supplierService.get(supplier.getId());
@@ -748,6 +758,11 @@ public class SupplierController extends BaseSupplierController {
 			
 			model.addAttribute("currSupplier", supplier);
 			model.addAttribute("supplierTypeIds", supplierTypeIds);
+			HashMap<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("typeName", "1");
+            List<PurchaseDep> list = purchaseOrgnizationService
+                    .findPurchaseDepList(map1);  
+            model.addAttribute("allPurList", list);
 			return "ses/sms/supplier_register/procurement_dep";
 		}
 		
