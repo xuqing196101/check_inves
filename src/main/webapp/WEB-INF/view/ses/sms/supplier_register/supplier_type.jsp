@@ -109,7 +109,6 @@
  
  //暂存
  function ajaxSave(){
-	 alert(" 测试赛")
 	 var id =[]; 
 	 $('input[name="chkItem"]:checked').each(function(){ 
 		id.push($(this).val()); 
