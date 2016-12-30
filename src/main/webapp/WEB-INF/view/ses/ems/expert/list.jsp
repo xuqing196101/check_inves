@@ -320,11 +320,11 @@
 						<tr class="pointer">
 							<td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id },${e.status}"></td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-							<td onclick="view('${e.id}');" >${e.relName}</td>
+							<td class="tc" onclick="view('${e.id}');" >${e.relName}</td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc">${e.gender}</td>
-							<td onclick="view('${e.id}');" >${e.expertsTypeId}</td>
-							<td onclick="view('${e.id}');">${e.graduateSchool }</td>
-							<td onclick="view('${e.id}');">${e.workUnit }</td>
+							<td class="tl pl20" onclick="view('${e.id}');" >${e.expertsTypeId}</td>
+							<td class="tl pl20"  onclick="view('${e.id}');">${e.graduateSchool }</td>
+							<td class="tl pl20"  onclick="view('${e.id}');">${e.workUnit }</td>
 							<td class="tc w80" onclick="view('${e.id}');" class="tc">
 								<fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM" />
 							</td>

@@ -109,7 +109,11 @@ public class PurchaseRequired {
   private Integer advancedStatus;
     
   private Integer projectStatus;
-    
+  
+  private String uniqueId;
+  
+  private String fileId;
+
   public Integer getProjectStatus() {
     return projectStatus;
   }
@@ -501,6 +505,22 @@ public class PurchaseRequired {
   public void setReferenceNo(String referenceNo) {
     this.referenceNo = referenceNo;
   }
+
+	public String getUniqueId() {
+		return uniqueId;
+	}
+	
+	public void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
+	}
+	
+	public String getFileId() {
+		return fileId;
+	}
+	
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
+	}
 	
 	
 	

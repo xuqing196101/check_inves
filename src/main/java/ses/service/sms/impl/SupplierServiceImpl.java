@@ -26,6 +26,7 @@ import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
@@ -46,6 +47,7 @@ import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryParameterService;
@@ -141,6 +143,9 @@ public class SupplierServiceImpl implements SupplierService {
     
     @Autowired
     private  QualificationMapper qualificationMapper;
+    
+    @Autowired
+    private  SupplierStockholderMapper supplierStockholderMapper;
     
     @Override
     public Supplier get(String id) {
@@ -372,6 +377,12 @@ public class SupplierServiceImpl implements SupplierService {
 		if(supplier.getListSupplierFinances()!=null && supplier.getListSupplierFinances().size()>0){
 			supplierFinanceService.add(supplier.getListSupplierFinances(),supplier.getId());
 		}
+		
+		 if(supplier.getListSupplierStockholders()!=null&&supplier.getListSupplierStockholders().size()>0){
+			 for(SupplierStockholder s:supplier.getListSupplierStockholders()){
+					supplierStockholderMapper.insertSelective(s); 
+			 }
+		 }
     }
 
     /**

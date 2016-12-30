@@ -199,4 +199,8 @@ public interface PurchaseRequiredService {
 	* @throws
 	 */
 	public List<PurchaseRequired> seqAgain(String id);
+	
+	
+	
+	public List<PurchaseRequired> queryList(PurchaseRequired purchaseRequired);
 }

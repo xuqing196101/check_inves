@@ -38,6 +38,10 @@ $(function() {
 	if ("${currSupplier.status}" == 7) {
 		showReason();
 	}
+	if ("${currSupplier.overseasBranch}"== '0') {
+		$("li[name='branch']").hide();
+	}
+	
 });
 
 /** 加载地区根节点 */
@@ -124,10 +128,28 @@ function checkAll(ele, id) {
 			}
 		});
 	}
+	//listSupplierStockholders
 
 	function openStockholder() {
+		
+		var stocIndex=$("#stockIndex").val();
 		var supplierId = $("input[name='id']").val();
-		if (!supplierId) {
+		$("#stockholder_list_tbody_id").append("<tr>"+
+				"<td class='tc'><input type='checkbox' value='' /><input type='hidden' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].supplierId' value="+supplierId+">"+
+				"</td>"+
+				"<td class='tc'>  <select  name='listSupplierStockholders["+stocIndex+"].nature'>"+
+				 "<option value='1'>法人</option>"+
+					" <option value='2'>自然人</option>"+
+				"</select> </td>"+
+				"<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].name' value=''> </td>"+
+			    "<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].identity' value=''> </td>"+
+				"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].shares' value=''></td>"+
+				"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].proportion' value=''> </td>"+ "</tr>");
+	
+	
+		
+		
+	/* 	if (!supplierId) {
 			layer.msg("请暂存供应商基本信息 !", {
 				offset : '300px',
 			});
@@ -142,26 +164,40 @@ function checkAll(ele, id) {
 				content : globalPath + '/supplier_stockholder/add_stockholder.html?&supplierId=' + supplierId + '&sign=1', //url
 				closeBtn : 1, //不显示关闭按钮
 			});
-		}
+		} */
 	}
 
 		function deleteStockholder() {
 			var checkboxs = $("#stockholder_list_tbody_id").find(":checkbox:checked");
-			var stockholderIds = "";
-			var supplierId = $("input[name='id']").val();
+	    	var stockholderIds = "";
+			var supplierId = $("input[name='id']").val(); 
 			$(checkboxs).each(function(index) {
-				if (index > 0) {
+			 	var tr=$(this).parent().parent();
+			 	$(tr).remove();
+			    if (index > 0) {
 					stockholderIds += ",";
 				}
-				stockholderIds += $(this).val();
+				stockholderIds += $(this).val();   
 			});
-			var size = checkboxs.length;
+     	var size = checkboxs.length;
 			if (size > 0) {
 				layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
 					offset : '200px',
 					scrollbar : false,
 				}, function(index) {
-					window.location.href = globalPath + "/supplier_stockholder/delete_stockholder.html?stockholderIds=" + stockholderIds + "&supplierId=" + supplierId;
+					//window.location.href = globalPath + "/supplier_stockholder/delete_stockholder.html?stockholderIds=" + stockholderIds + "&supplierId=" + supplierId;
+					
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplier_stockholder/delete_stockholder.do",
+						async: false,
+						data: {
+							"stockholderIds":stockholderIds,
+							"supplierId":supplierId
+						},
+					});
+					
+					
+					
 					layer.close(index);
 		
 				});
@@ -170,7 +206,7 @@ function checkAll(ele, id) {
 					offset : '200px',
 					scrollbar : false,
 				});
-			}
+			}  
 		}
 		
 		
@@ -277,17 +313,20 @@ function deleteFinance() {
 	function dis(obj){
 		var vals=$(obj).val();
 		if(vals==1){
-			$('#sup_country').removeAttr('disabled');
+			$("li[name='branch']").show();
+		/* 	$('#sup_country').removeAttr('disabled');
 			$('#sup_businessScope').removeAttr('disabled');
 			$('#sup_branchName').removeAttr('disabled');
-			$('#sup_branchAddress').removeAttr('disabled');
-		}else{
-			$('#sup_country').attr('disabled',"true");
+			$('#sup_branchAddress').removeAttr('disabled'); */
+		}
+		  else{
+			$("li[name='branch']").hide();
+	/* 		$('#sup_country').attr('disabled',"true");
 			$('#sup_businessScope').attr('disabled',"true");
 			$('#sup_branchName').attr('disabled',"true");
-			$('#sup_branchAddress').attr('disabled',"true");
+			$('#sup_branchAddress').attr('disabled',"true"); */
 			
-		}
+		}  
 	}
 	
 	function checknums(obj){
@@ -366,14 +405,14 @@ function deleteFinance() {
 		var inde=$("#branchIndex").val();
 		inde++;
 		$("#branchIndex").val(inde);
-		$(li).after("<li class='col-md-3 col-sm-6 col-xs-12'>"+
+		$(li).after("<li name='branch' class='col-md-3 col-sm-6 col-xs-12'>"+
 				 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'>机构名称</span>"+
 					" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
 			    	 " <input type='text' name='branchList["+inde+"].organizationName' id='sup_branchName'  value='' />"+
 			    	 	"   <span class='add-on cur_point'>i</span>"+
 				        "   </div>"+
 		       	 "  </li>"+
-				"<li class='col-md-3 col-sm-6 col-xs-12'>"+
+				"<li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>"+
 				" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'>所在国家（地区）</span>"+
 				"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
 				 	"<select name='branchList["+inde +"].country'  id='overseas_branch_select_id'>"+
@@ -383,7 +422,7 @@ function deleteFinance() {
 			        " </div>"+
 			 " </li>"+
 			
-			 "  <li class='col-md-3 col-sm-6 col-xs-12'>"+
+			 "  <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>"+
 			 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'>详细地址</span>"+
 				" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
 		    	 " <input type='text' name='branchList["+inde+"].detailAddress'  id='sup_branchAddress' value='' />"+
@@ -391,7 +430,7 @@ function deleteFinance() {
 			        " </div>"+
 	       	 " </li>"+
 	
-			 " <li class='col-md-3 col-sm-6 col-xs-12'>"+
+			 " <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>"+
 			 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>"+
 				 	" <div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>"+
 					" <input type='button' onclick='addBranch(this)' class='btn list_btn' value='十'/>"+
@@ -399,7 +438,7 @@ function deleteFinance() {
 					" </div>"+
 					" </li>"+
 			
-			"  <li  class='col-md-12 col-xs-12 col-sm-12 mb25'>"+
+			"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>"+
 			  " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'> 生产经营范围</span>"+
 		    	" <div class='col-md-12 col-xs-12 col-sm-12 p0'>"+
 		    	"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80'  id='sup_businessScope' title='不超过80个字' name='branchList["+inde+"].businessSope'></textarea>"+
@@ -1226,7 +1265,7 @@ function deleteFinance() {
 			
 			<c:forEach items="${currSupplier.branchList }" var="bran"  varStatus="vs">
 			
-			 <li class="col-md-3 col-sm-6 col-xs-12">
+			 <li name="branch" class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">机构名称</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		    	 	<input type="text" name="branchList[${vs.index }].organizationName" id="sup_branchName"  value="${bran.organizationName}" />
@@ -1235,7 +1274,7 @@ function deleteFinance() {
 			 </li>
 			 
 			 
-		  	 <li class="col-md-3 col-sm-6 col-xs-12">
+		  	 <li name="branch"  class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 ">所在国家（地区）</span>
 		    	 <div class="select_common col-md-12 col-sm-12 col-xs-12  p0">
 		    	 <%-- 	<input name="branchList[${vs.index }].country" id="sup_country" type="text" value="${bran.country}" />
@@ -1249,7 +1288,7 @@ function deleteFinance() {
 	       	    </div>
 			 </li>
 			
-			 <li class="col-md-3 col-sm-6 col-xs-12">
+			 <li name="branch"  class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">详细地址</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		    	 	<input type="text" name="branchList[${vs.index }].detailAddress"  id="sup_branchAddress" value="${bran.detailAddress}" />
@@ -1259,7 +1298,7 @@ function deleteFinance() {
 		
 			
 			
-			 <li class="col-md-3 col-sm-6 col-xs-12">
+			 <li name="branch"  class="col-md-3 col-sm-6 col-xs-12">
 				 	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
 						<input type="button" onclick="addBranch(this)" class="btn list_btn" value="十"/>
@@ -1267,7 +1306,7 @@ function deleteFinance() {
 					</div>
 			</li>
 			
-			  <li  class="col-md-12 col-xs-12 col-sm-12 mb25">
+			  <li name="branch" class="col-md-12 col-xs-12 col-sm-12 mb25">
 		    	<span class="col-md-12 c ol-xs-12 col-sm-12 padding-left-5"> 生产经营范围</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
 			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80"  id="branchbusinessSope" title="不超过80个字" name="branchList[${vs.index }].businessSope">${bran.businessSope}</textarea>
@@ -1314,30 +1353,30 @@ function deleteFinance() {
 										</td> --%>
 										<td class="tc">
 										<input type="hidden"name="listSupplierFinances[${vs.index }].id" value="${finance.id}"> 
-										<input type="text" style="border:0px;width:70px;" name="listSupplierFinances[${vs.index }].year" value="${finance.year}"> </td>
+										<input type="text" required="required" style="border:0px;width:70px;" name="listSupplierFinances[${vs.index }].year" value="${finance.year}"> </td>
 										<td class="tc">
-											<input type="text" style="border:0px;width:200px;" name="listSupplierFinances[${vs.index }].name" value="${finance.name}">
+											<input type="text" required="required" style="border:0px;width:200px;" name="listSupplierFinances[${vs.index }].name" value="${finance.name}">
 										 </td>
 										<td class="tc">
-										<input type="text" style="border:0px;width:200px;" name="listSupplierFinances[${vs.index }].telephone" value="${finance.telephone}">
+										<input type="text" required="required" style="border:0px;width:200px;" name="listSupplierFinances[${vs.index }].telephone" value="${finance.telephone}">
 										</td>
 										<td class="tc">
-						    				<input type="text" style="border:0px;width:200px;" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}">
+						    				<input type="text" required="required" style="border:0px;width:200px;" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}">
 										 
 										 </td>
 									<%-- 	<td class="tc">${finance.quota}</td> --%>
 										<td class="tc">
-										<input type="text" style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}">
+										<input type="text" required="required" style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}">
 									 		
 									 		</td>
 										<td class="tc">
-										<input type="text" style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalLiabilities" value="${finance.totalLiabilities}">
+										<input type="text" required="required" style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalLiabilities" value="${finance.totalLiabilities}">
 										 </td>
 										<td class="tc">
-											<input type="text" style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalNetAssets" value="${finance.totalNetAssets}">
+											<input type="text" required="required" style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalNetAssets" value="${finance.totalNetAssets}">
 										</td>
 										<td class="tc">
-											<input type="text" style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}">
+											<input type="text"required="required"  style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}">
 									</td>
 									</tr>
 					 		<%-- </c:if> --%>
@@ -1485,12 +1524,10 @@ function deleteFinance() {
 											<td class="tc"><input type="checkbox" value="${stockholder.id}" />
 											</td>
 											<td class="tc">
-											<c:if test="${stockholder.nature==1}">
-											法人
-											</c:if>
-											<c:if test="${stockholder.nature==2}">
-											自然人
-											</c:if>
+											 <select  name="nature" >
+ 														 <option value="1" <c:if test="${stockholder.nature==1}"> selected="selected"</c:if> >法人</option>
+ 														 <option value="2" <c:if test="${stockholder.nature==2}"> selected="selected" </c:if> >自然人</option>
+ 											</select>
 											</td>
 											
 											<td class="tc">${stockholder.name}</td>
@@ -1512,6 +1549,7 @@ function deleteFinance() {
 	
 	<input type="hidden" id="index" value="0">
 	<input type="hidden" id="branchIndex" value="0">
+	<input type="hidden" id="stockIndex" value="0">
 	<div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	    <button type="button" class="btn save" onclick="temporarySave();">暂存</button>

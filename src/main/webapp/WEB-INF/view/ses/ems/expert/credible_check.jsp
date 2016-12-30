@@ -122,7 +122,7 @@ $(function(){
 <form action="${pageContext.request.contextPath}/credible/list.html"  method="post"   class="registerform"> 
    <div class="col-md-12 pl20 mt10">
 	<button class="btn btn-windows git fl mt1 " type="button" onclick="submit1();">提交</button>
-	<button class="btn btn-windows cancel fl mt1" type="button" onclick="cancel();">关闭</button>
+	<button class="btn btn-windows cancel fl mt1" type="button" onclick="cancel();">取消</button>
     </div>
 <!-- 表格开始-->
    <div class="content table_box">
@@ -143,7 +143,7 @@ $(function(){
 		<tr style="cursor: pointer; ">
 		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id }"></td>
 		  <td  class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-		  <td class="tc" title="${e.badBehavior}">
+		  <td class="tl pl20" title="${e.badBehavior}">
 		     <c:if test="${fn:length(e.badBehavior)>5}">${fn:substring(e.badBehavior, 0, 5)}...</c:if> 
 		     <c:if test="${fn:length(e.badBehavior)<6}">${e.badBehavior}</c:if>
 		  </td>

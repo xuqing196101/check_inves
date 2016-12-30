@@ -289,7 +289,7 @@
 												<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a>
 											</td>
 											<td class="tc">${list.contactName}</td>
-											<td class="tl">${list.supplierType }</td>
+											<td class="tl pl20">${list.supplierType }</td>
 											<td class="tc">
 												<c:if test="${list.status==-1 }">
 													暂存、未提交
