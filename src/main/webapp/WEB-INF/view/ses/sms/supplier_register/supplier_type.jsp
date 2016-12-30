@@ -926,7 +926,7 @@
 															
 															</td>
 															<td class="tc">
-															<div class="fl w220 h30">
+															<div class="fl w220 ">
 															 <u:upload id="pro_up" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
 															 <u:show showId="pro_show" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
 															</div>
