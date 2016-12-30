@@ -189,6 +189,15 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
         map.put("conTypeId", conTypeId);
         supplierExtRelateMapper.updateStatusCount(map);
     }
+    
+    /**
+     * 删除未抽取的抽取信息
+     * @see ses.service.sms.SupplierExtRelateService#del(java.lang.String)
+     */
+    @Override
+    public void del(String id) {
+        supplierExtRelateMapper.del(id);
+    }
 }
 
 

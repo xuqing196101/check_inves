@@ -131,7 +131,7 @@ public class SupplierExtractsServiceImpl implements SupplierExtractsService {
         String uuId=WfUtil.createUUID();
         suuplier.setId(uuId);
         suuplier.setIsProvisional(new Short("1"));
-        suuplier.setStatus(1);
+        suuplier.setStatus(5);
         supplierMapper.insertSelective(suuplier);
         //插入供应商关联表
         SaleTender saleTender = new SaleTender();

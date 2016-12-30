@@ -146,11 +146,11 @@
 						<tr>
 							<td align="center">${vs.index+1 }</td>
 							<td align="center">${tuser.relName}</td>
-                             <td align="center">${tuser.relName}</td>
-                            <td align="center">${tuser.company}</td>
-                            <td align="center">${tuser.phone}</td>
-                           <td align="center">${tuser.duties}</td> 
-                            <td colspan="2" align="center"></td>
+              <td align="center">${tuser.relName}</td>
+              <td align="center">${tuser.company}</td>
+              <td align="center">${tuser.phone}</td>
+              <td align="center">${tuser.duties}</td> 
+              <td colspan="2" align="center"></td>
 						</tr>
 					</c:forEach>
 				</table>

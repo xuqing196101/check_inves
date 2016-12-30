@@ -18,7 +18,7 @@
 
 		<!-- 供应商 -->
 		<association column="SUPPLIER_ID" property="supplier"
-			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
+			select="ses.dao.sms.SupplierMapper.selectByPrimaryKeyItem" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
@@ -303,5 +303,16 @@
 		SUPPLIER_CONDITION_ID=#{supplierId} AND (OPERATING_TYPE =1 OR
 		OPERATING_TYPE =2 OR OPERATING_TYPE =3)
 	</select>
+	
+	 <!-- 删除未抽取的的数据 -->
+  <select id="delPe" parameterType="java.lang.String">
+    DELETE FROM (
+    SELECT T1.* FROM
+    T_SES_SMS_SUPPLIER_EXT_RELATE t1 LEFT JOIN
+    T_BSS_PPMS_PACKAGE t2 ON
+    T1.PROJECT_ID=t2."ID" WHERE t2.PROJECT_ID
+    =#{projectId} AND
+    t1.OPERATING_TYPE = 0 )
+  </select>
 
 </mapper>

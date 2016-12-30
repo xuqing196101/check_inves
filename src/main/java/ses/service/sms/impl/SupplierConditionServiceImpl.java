@@ -11,6 +11,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bss.model.ppms.Packages;
+import bss.service.ppms.PackageService;
+
 import com.github.pagehelper.PageHelper;
 
 import ses.dao.sms.SupplierConditionMapper;
@@ -54,6 +57,9 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
     
     @Autowired
     SupplierExtRelateMapper supplierExtRelateMapper;
+    
+    @Autowired
+    PackageService packageService;
 	
 	/**
 	 * @Description:添加
@@ -90,7 +96,7 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
 	 * @return List<ExpExtCondition>
 	 */
 	public List<SupplierCondition> list(SupplierCondition condition,Integer pageNum){
-	    if(pageNum!=0){
+	    if(pageNum != null && pageNum!=0){
 	        PageHelper.startPage(pageNum,PropUtil.getIntegerProperty("pageSize"));
 	    }
 		return conditionMapper.list(condition);
@@ -119,8 +125,22 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
      * @return
      */
     @Override
-    public Integer getCount(String packId) {
-        return conditionMapper.getCount(packId);
+    public String getCount(String[] packId) {
+        String packageId = "";
+        Packages pack = new Packages();
+        pack.setId(packId[0]);
+        List<Packages> find = packageService.find(pack);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId",find.get(0).getProjectId());
+        List<Packages> findPackageById = packageService.findPackageById(map);
+        for (Packages packages : findPackageById) {
+            Integer count = conditionMapper.getCount(packages.getId());
+            if(count > 0 ){
+                packageId += packages.getId()+ ",";
+            }
+        }
+        return packageId;
+    
     }
 
     /**

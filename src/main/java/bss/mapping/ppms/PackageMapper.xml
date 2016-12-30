@@ -53,6 +53,8 @@
 	 id="ResultExpExtCondition"> 
 	 <collection property="listExpExtCondition" column="ID"
 	 select="ses.dao.ems.ExpExtConditionMapper.selectByPackageId" ofType="ses.model.ems.ExpExtCondition" /> 
+	       <collection property="listSupplierCondition" column="ID"
+   select="ses.dao.sms.SupplierConditionMapper.selectByPackageId" ofType="ses.model.sms.SupplierCondition" /> 
 	 </resultMap>
 
 

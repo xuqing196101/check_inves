@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.dao.sms.SupplierMapper;
 import ses.model.bms.DictionaryData;
@@ -37,6 +39,7 @@ import bss.model.ppms.SaleTender;
 import bss.model.prms.FirstAudit;
 import bss.service.ppms.SaleTenderService;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
 import freemarker.template.Configuration;
@@ -52,6 +55,12 @@ import freemarker.template.TemplateException;
  */
 @Service
 public class SaleTenderServiceImpl implements SaleTenderService {
+    
+    /** SCCUESS */
+    private static final String SUCCESS = "SUCCESS";
+    /** ERROR */
+    private static final String ERROR = "ERROR";
+    
     @Autowired
     private ProjectAttachmentsMapper attachmentMapper;
     @Autowired
@@ -546,6 +555,25 @@ public class SaleTenderServiceImpl implements SaleTenderService {
      */
     public void editSumScore(Map<String, Object> map) {
         saleTenderMapper.editSumScore(map);
+    }
+    
+    /**
+     * 
+     *〈简述〉移除供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param supplierId
+     * @param packagesId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/deleteSale")
+    public String delSale(String supplierId,String packagesId){
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("supplierId", supplierId);
+        map.put("packagesId", packagesId);
+        saleTenderMapper.delSaleDelete(map);
+        return JSON.toJSONString(SUCCESS);
     }
 }
 

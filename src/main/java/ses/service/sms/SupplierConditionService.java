@@ -69,7 +69,7 @@ public interface SupplierConditionService {
      * @param id
      * @return
      */
-    Integer getCount(String packId);
+    String getCount(String[] packagesId);
 
     /**
      * 直接删除查询结果的查询条件

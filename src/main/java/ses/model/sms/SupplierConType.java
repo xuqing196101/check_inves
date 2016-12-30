@@ -22,10 +22,8 @@ public class SupplierConType {
      */
     private String[] supplierTypeSplit;
     
-    /**
-     * 抽取类型
-     */
-    private DictionaryData expertsType ; 
+    private DictionaryData supplierType; 
+    
     
     
     /**
@@ -121,7 +119,7 @@ public class SupplierConType {
     private Short isMulticondition;
 
     
-    private Integer expertsTypeId;
+
     /**
      * <pre>
      * 获取：null
@@ -380,13 +378,6 @@ public class SupplierConType {
         this.isMulticondition = isMulticondition;
     }
 
-	public Integer getExpertsTypeId() {
-		return expertsTypeId;
-	}
-
-	public void setExpertsTypeId(Integer expertsTypeId) {
-		this.expertsTypeId = expertsTypeId;
-	}
 
     /**
      * @return Returns the alreadyCount.
@@ -431,20 +422,18 @@ public class SupplierConType {
     }
 
     /**
-     * @return Returns the expertsType.
+     * @return Returns the supplierType.
      */
-    public DictionaryData getExpertsType() {
-        return expertsType;
+    public DictionaryData getSupplierType() {
+        return supplierType;
     }
 
     /**
-     * @param expertsType The expertsType to set.
+     * @param supplierType The supplierType to set.
      */
-    public void setExpertsType(DictionaryData expertsType) {
-        this.expertsType = expertsType;
+    public void setSupplierType(DictionaryData supplierType) {
+        this.supplierType = supplierType;
     }
-
-  
     
     
     

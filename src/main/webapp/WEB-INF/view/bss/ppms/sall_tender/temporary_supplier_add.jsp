@@ -2,7 +2,6 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
 
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -35,6 +34,12 @@ function sumbits(){
         }
     });
 	}
+	/**返回*/
+	function onback(){
+		  var path = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId }';
+	         $("#tab-1").load(path);
+	}	
+	
 	
 </script>
 
@@ -133,7 +138,7 @@ function sumbits(){
      <input type="hidden" value="${packageId}" name="packageId"/>
      <input type="hidden" value="${flowDefineId}" name="flowDefineId"/>
    <div>
-    <h2 class="count_flow"><i>1</i>添加临时供应商</h2>
+    <h2 class="count_flow">添加临时供应商</h2>
    <ul class="ul_list">
       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">供应商名称：</span>
@@ -195,7 +200,7 @@ function sumbits(){
   <div  class="col-md-12">
    <div class="col-md-6" align="center">
       <button class="btn btn-windows save"  type="submit">保存</button>
-      <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+      <button class="btn btn-windows back" type="button" onclick="onback();">返回</button>
 	</div>
   </div>
   </form>

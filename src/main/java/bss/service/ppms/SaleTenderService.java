@@ -171,4 +171,14 @@ public interface SaleTenderService   {
      * @param map
      */
     void editSumScore(Map<String, Object> map);
+    
+    /**
+     * 
+     *〈简述〉删除发售标书中的供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param supplierId
+     * @param packagesId
+     */
+    String delSale(String supplierId, String packagesId);
 }

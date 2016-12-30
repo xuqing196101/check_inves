@@ -38,6 +38,7 @@ import bss.service.ppms.SaleTenderService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
@@ -54,16 +55,19 @@ import common.service.UploadService;
 @Scope("prototype")
 @RequestMapping("/saleTender")
 public class SaleTenderController {
+
+
+
     @Autowired
     private SupplierExtRelateService extRelateService; //关联表
     @Autowired
     private SaleTenderService saleTenderService; //关联表
     @Autowired
     private SupplierAuditService auditService;//查询所有供应商
-    
+
     @Autowired
     private SupplierService supplierService;//查询全部的供应商
-    
+
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;//TypeId
     @Autowired
@@ -72,19 +76,19 @@ public class SaleTenderController {
     private UploadService uploadService;
     @Autowired
     private DownloadService downloadService;
-    
+
     /**
      * @Fields projectService : 引用项目业务实现接口
      */
     @Autowired
     private ProjectService projectService;
-    
+
     /**
      * @Fields packageService : 引用分包业务逻辑接口
      */
     @Autowired
     private PackageService packageService;
-    
+
 
     /**
      * @Description:展示发售标书列表
@@ -108,96 +112,96 @@ public class SaleTenderController {
         model.addAttribute("supplierName",supplierName);
         return "bss/ppms/sall_tender/list";
     }
-    
-    
+
+
     /**
-    * @Title: view
-    * @author Shen Zhenfei 
-    * @date 2016-12-12 下午4:40:49  
-    * @Description: 根据包名，或者供应商
-    * @param @param projectId
-    * @param @param model
-    * @param @return      
-    * @return String
+     * @Title: view
+     * @author Shen Zhenfei 
+     * @date 2016-12-12 下午4:40:49  
+     * @Description: 根据包名，或者供应商
+     * @param @param projectId
+     * @param @param model
+     * @param @return      
+     * @return String
      */
     @RequestMapping("/view")
-    public String view(String projectId, Model model,String supplierName,String contactTelephone,Integer statusBid, String flowDefineId){
-    	//项目信息
+    public String view(String projectId, Model model,String supplierName,String armyBuinessTelephone,Integer statusBid, String flowDefineId){
+        //项目信息
         Project project=projectService.selectById(projectId);
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId",projectId);
         List<Packages> list = packageService.findPackageById(map);
-        
+
         List<Packages> lists = new ArrayList<>();
-        
-       if(list != null && list.size()>0){
-//            for(Packages ps:list){
-//                saleTender.setPackages(ps.getId());
-//                saleTender.setSuppliers(supplier);
-//               //供应商
-//                List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
-//                if(saleTenderList.size()>0){
-//                	ps.setSaleTenderList(saleTenderList);
-//                }
-//            }
+
+        if(list != null && list.size()>0){
+            //            for(Packages ps:list){
+            //                saleTender.setPackages(ps.getId());
+            //                saleTender.setSuppliers(supplier);
+            //               //供应商
+            //                List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+            //                if(saleTenderList.size()>0){
+            //                	ps.setSaleTenderList(saleTenderList);
+            //                }
+            //            }
             for(int i=0;i<list.size();i++){
-            	Packages packages = list.get(i);
-            	Supplier supplier=new Supplier();
+                Packages packages = list.get(i);
+                Supplier supplier=new Supplier();
                 if(supplierName!=null){
-                	supplier.setSupplierName("%"+supplierName+"%");
+                    supplier.setSupplierName("%"+supplierName+"%");
                 }
-                if(contactTelephone!=null){
-                	supplier.setContactTelephone(contactTelephone);
+                if(armyBuinessTelephone!=null){
+                    supplier.setArmyBuinessTelephone(armyBuinessTelephone);
                 }
                 SaleTender saleTender = new SaleTender();
                 if(statusBid!=null){
-                	saleTender.setStatusBid(statusBid.shortValue());
+                    saleTender.setStatusBid(statusBid.shortValue());
                 }
                 saleTender.setProjectId(projectId);
-            	saleTender.setPackages(packages.getId());
-            	saleTender.setSuppliers(supplier);
-            	List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
-            //	if(saleTenderList.size()>0){
-            		packages.setSaleTenderList(saleTenderList);
-            		lists.add(packages);
-            //    }
+                saleTender.setPackages(packages.getId());
+                saleTender.setSuppliers(supplier);
+                List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+                //	if(saleTenderList.size()>0){
+                packages.setSaleTenderList(saleTenderList);
+                lists.add(packages);
+                //    }
             }
-            
+
         }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("packageList", lists);
         model.addAttribute("project", project);
         model.addAttribute("supplierName",supplierName);
-        model.addAttribute("contactTelephone",contactTelephone);
+        model.addAttribute("armyBuinessTelephone",armyBuinessTelephone);
         model.addAttribute("statusBid",statusBid);
         model.addAttribute("flowDefineId", flowDefineId);
         return "bss/ppms/sall_tender/view";
     }
-    
-    
+
+
     /**
-    * @Title: register
-    * @author Shen Zhenfei 
-    * @date 2016-12-13 上午11:20:16  
-    * @Description: 登记其他采购方式
-    * @param @param id
-    * @param @param packId
-    * @param @param saleTender
-    * @param @return      
-    * @return String
+     * @Title: register
+     * @author Shen Zhenfei 
+     * @date 2016-12-13 上午11:20:16  
+     * @Description: 登记其他采购方式
+     * @param @param id
+     * @param @param packId
+     * @param @param saleTender
+     * @param @return      
+     * @return String
      */
     @RequestMapping("/register")
     public String register(String id,String packId,String projectId,SaleTender saleTender){
-    	
-    	saleTender.setUpdatedAt(new Date());
-    	saleTender.setCreatedAt(new Date());
-    	saleTender.setStatusBid((short)2);
-    	saleTenderService.update(saleTender);
-    	
-    	return "redirect:view.html?projectId="+projectId;
+
+        saleTender.setUpdatedAt(new Date());
+        saleTender.setCreatedAt(new Date());
+        saleTender.setStatusBid((short)2);
+        saleTenderService.update(saleTender);
+
+        return "redirect:view.html?projectId="+projectId;
     }
-    
+
     /**
      * @Description:展示供应商列表
      *
@@ -208,17 +212,17 @@ public class SaleTenderController {
      */
     @RequestMapping("/showSupplier")
     public  String showSupplier(Model model, String projectId,String page,Supplier supplier){
-    	//查询list方法里面的供应商id 为了过滤供应商 已经有的就不显示了
-    	SaleTender saleTender=new SaleTender();
-    	saleTender.setProjectId(projectId);
-    	List<SaleTender> list = saleTenderService.list(saleTender,page==null||"".equals(page)?1:Integer.valueOf(page));
-    	List<String> stsupplierIds=new ArrayList<String>();
-    	if(list.size()>0){
-	    	for(SaleTender st:list){
-	    		stsupplierIds.add(st.getSuppliers().getId());
-	    	}
-	    	supplier.setStsupplierIds(stsupplierIds);
-    	}
+        //查询list方法里面的供应商id 为了过滤供应商 已经有的就不显示了
+        SaleTender saleTender=new SaleTender();
+        saleTender.setProjectId(projectId);
+        List<SaleTender> list = saleTenderService.list(saleTender,page==null||"".equals(page)?1:Integer.valueOf(page));
+        List<String> stsupplierIds=new ArrayList<String>();
+        if(list.size()>0){
+            for(SaleTender st:list){
+                stsupplierIds.add(st.getSuppliers().getId());
+            }
+            supplier.setStsupplierIds(stsupplierIds);
+        }
         List<Supplier> allSupplier = auditService.getAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
         //当前项目的所有包
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -230,36 +234,36 @@ public class SaleTenderController {
         model.addAttribute("supplierName", supplier.getSupplierName());
         return "bss/ppms/sall_tender/supplier_list";
     }
-    
-    
+
+
     /**
-    * @Title: showAllSupplier
-    * @author Shen Zhenfei 
-    * @date 2016-12-13 上午10:50:50  
-    * @Description: 公开招标获取全部供应商
-    * @param @param model
-    * @param @param projectId
-    * @param @param page
-    * @param @param packId
-    * @param @param supplier
-    * @param @return      
-    * @return String
+     * @Title: showAllSupplier
+     * @author Shen Zhenfei 
+     * @date 2016-12-13 上午10:50:50  
+     * @Description: 公开招标获取全部供应商
+     * @param @param model
+     * @param @param projectId
+     * @param @param page
+     * @param @param packId
+     * @param @param supplier
+     * @param @return      
+     * @return String
      */
     @RequestMapping("/showAllSuppliers")
     public  String showAllSuppliers(Model model, String projectId,String page,String packId,Supplier supplier){
-    	SaleTender saleTender=new SaleTender();
-    	Project project = new Project();
-    	project.setId(projectId);
-    	saleTender.setProject(project);
-    	saleTender.setPackages(packId);
-    	List<SaleTender> list = saleTenderService.getPackegeSuppliers(saleTender);
-    	List<String> stsupplierIds=new ArrayList<String>();
-    	if(list.size()>0){
-	    	for(SaleTender st:list){
-	    		stsupplierIds.add(st.getSuppliers().getId());
-	    	}
-	    	supplier.setStsupplierIds(stsupplierIds);
-    	}
+        SaleTender saleTender=new SaleTender();
+        Project project = new Project();
+        project.setId(projectId);
+        saleTender.setProject(project);
+        saleTender.setPackages(packId);
+        List<SaleTender> list = saleTenderService.getPackegeSuppliers(saleTender);
+        List<String> stsupplierIds=new ArrayList<String>();
+        if(list.size()>0){
+            for(SaleTender st:list){
+                stsupplierIds.add(st.getSuppliers().getId());
+            }
+            supplier.setStsupplierIds(stsupplierIds);
+        }
         List<Supplier> allSupplier = auditService.selectAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
         model.addAttribute("list",new PageInfo<>(allSupplier));
         model.addAttribute("packId", packId);
@@ -267,8 +271,8 @@ public class SaleTenderController {
         model.addAttribute("supplierName", supplier.getSupplierName());
         return "bss/ppms/sall_tender/suppliers_list";
     }
-    
-    
+
+
     /**
      * 
      * @Description:修改状态
@@ -318,7 +322,7 @@ public class SaleTenderController {
 
         return "bss/ppms/sall_tender/upload";
     }
-    
+
     /**
      *〈简述〉打开上传标书费页面
      *〈详细描述〉
@@ -346,7 +350,7 @@ public class SaleTenderController {
         model.addAttribute("tenderKey", tenderKey);
         return "bss/ppms/sall_tender/upload_bsf";
     }
-    
+
     /**
      *〈简述〉ajax修改状态
      *〈详细描述〉
@@ -363,7 +367,7 @@ public class SaleTenderController {
         saleTenderService.download(projectId,saleId);
         return JSON.toJSONString(upload);
     }
-    
+
     /**
      * @Description:缴费
      *
@@ -389,38 +393,38 @@ public class SaleTenderController {
     @RequestMapping("/save")
     public String save(String ids,String packages,String status,HttpServletRequest sq,String projectId){
         User attribute = (User) sq.getSession().getAttribute("loginUser");
-    	if (attribute != null){
-    		List<String> listIds=Arrays.asList(ids.split(","));
-    		for(String str:listIds){
-    			saleTenderService.insert(new SaleTender(projectId, (short)1, str, (short)2, attribute.getId(),packages));
-    		}
+        if (attribute != null){
+            List<String> listIds = Arrays.asList(ids.split(","));
+            for (String str:listIds){
+                saleTenderService.insert(new SaleTender(projectId, (short)1, str, (short)2, attribute.getId(),packages));
+            }
         }
-        return "redirect:list.html?projectId="+projectId;
+        return "redirect:manage.html?projectId="+projectId;
     }
-    
+
     /**
-    * @Title: saveSupplier
-    * @author Shen Zhenfei 
-    * @date 2016-12-13 上午10:50:04  
-    * @Description: 公开招标添加供应商
-    * @param @param ids
-    * @param @param packages
-    * @param @param status
-    * @param @param sq
-    * @param @param projectId
-    * @param @return      
-    * @return String
+     * @Title: saveSupplier
+     * @author Shen Zhenfei 
+     * @date 2016-12-13 上午10:50:04  
+     * @Description: 公开招标添加供应商
+     * @param @param ids
+     * @param @param packages
+     * @param @param status
+     * @param @param sq
+     * @param @param projectId
+     * @param @return      
+     * @return String
      */
     @RequestMapping("/saveSupplier")
     public String saveSupplier(String ids,String packages,String status,HttpServletRequest sq,String projectId){
         User attribute = (User) sq.getSession().getAttribute("loginUser");
-    	if (attribute != null){
-    		List<String> listIds=Arrays.asList(ids.split(","));
-    		for(String str:listIds){
-    			saleTenderService.insert(new SaleTender(projectId, (short)2, str, (short)2, attribute.getId(),packages));
-    		}
+        if (attribute != null){
+            List<String> listIds=Arrays.asList(ids.split(","));
+            for(String str:listIds){
+                saleTenderService.insert(new SaleTender(projectId, (short)2, str, (short)2, attribute.getId(),packages));
+            }
         }
-        return "redirect:view.html?projectId="+projectId;
+        return "redirect:manage.html?projectId="+projectId;
     }
 
     /**
@@ -441,7 +445,7 @@ public class SaleTenderController {
         //saleTenderService.download(projectId,id);
         return "redirect:list.html?projectId="+projectId;
     }
-    
+
     /**
      *〈简述〉 根据供应商下载标书
      *〈详细描述〉
@@ -457,7 +461,7 @@ public class SaleTenderController {
     public void downloads(HttpServletRequest request, HttpServletResponse response, String projectId, String id){
         String typeId = DictionaryDataUtil.getId("PROJECT_BID");
         List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
-        
+
         if (files != null && files.size() > 0) {
             downloadService.downloadOther(request, response, files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
             /*
@@ -478,57 +482,74 @@ public class SaleTenderController {
         //saleTenderService.download(projectId,id);
         //return "redirect:view.html?projectId="+projectId;
     }
-    
-    
+
+
     @RequestMapping("/downList")
     public String downList(Model model, String projectId, String flowDefineId){
-      Project project = projectService.selectById(projectId);
-      SaleTender saleTender = new SaleTender();
-      saleTender.setProject(project);
-      //去重后的供应商
-      List<SaleTender> saleTenders = saleTenderService.findByCon(saleTender);
-      for (int i = 0; i < saleTenders.size()-1; i++) {
-        SaleTender st = saleTenders.get(i);
-        for (int j = saleTenders.size()-1; j > i; j--) {
-          SaleTender st2 = saleTenders.get(j);
-          if (st.getSuppliers().getId().equals(st2.getSuppliers().getId())) {
-            saleTenders.remove(st2);
-          }
-        }
-      }
-      
-      for (SaleTender saleTender2 : saleTenders) {
-        String packageName = "";
-        SaleTender st = new SaleTender();
-        st.setSuppliers(saleTender2.getSuppliers());
-        st.setProject(project);
-        //该供应商参与的包
-        List<SaleTender> ls = saleTenderService.findByCon(st);
-        if (ls != null && ls.size() > 0) {
-          for (int i = 0; i < ls.size(); i++) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("id", ls.get(i).getPackages());
-            List<Packages> list = packageService.findPackageById(map);
-            if (list != null && list.size() > 0) {
-              String pName = list.get(0).getName();
-              if (i == 0) {
-                packageName += pName;
-              } else {
-                packageName += ","+pName;
-              }
+        Project project = projectService.selectById(projectId);
+        SaleTender saleTender = new SaleTender();
+        saleTender.setProject(project);
+        //去重后的供应商
+        List<SaleTender> saleTenders = saleTenderService.findByCon(saleTender);
+        for (int i = 0; i < saleTenders.size()-1; i++) {
+            SaleTender st = saleTenders.get(i);
+            for (int j = saleTenders.size()-1; j > i; j--) {
+                SaleTender st2 = saleTenders.get(j);
+                if (st.getSuppliers().getId().equals(st2.getSuppliers().getId())) {
+                    saleTenders.remove(st2);
+                }
             }
-          }
         }
-        saleTender2.setPackageNames(packageName);
-      }
-      model.addAttribute("sds", saleTenders);
-      return "bss/ppms/sall_tender/download_list";
+
+        for (SaleTender saleTender2 : saleTenders) {
+            String packageName = "";
+            SaleTender st = new SaleTender();
+            st.setSuppliers(saleTender2.getSuppliers());
+            st.setProject(project);
+            //该供应商参与的包
+            List<SaleTender> ls = saleTenderService.findByCon(st);
+            if (ls != null && ls.size() > 0) {
+                for (int i = 0; i < ls.size(); i++) {
+                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    map.put("id", ls.get(i).getPackages());
+                    List<Packages> list = packageService.findPackageById(map);
+                    if (list != null && list.size() > 0) {
+                        String pName = list.get(0).getName();
+                        if (i == 0) {
+                            packageName += pName;
+                        } else {
+                            packageName += ","+pName;
+                        }
+                    }
+                }
+            }
+            saleTender2.setPackageNames(packageName);
+        }
+        model.addAttribute("sds", saleTenders);
+        return "bss/ppms/sall_tender/download_list";
     }
-    
+
     @RequestMapping("/manage")
     public String manage(Model model, String projectId, String flowDefineId){
-      model.addAttribute("projectId", projectId);
-      model.addAttribute("flowDefineId", flowDefineId);
-      return "bss/ppms/sall_tender/manage";
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("flowDefineId", flowDefineId);
+        return "bss/ppms/sall_tender/manage";
+    }
+
+    /**
+     * 
+     *〈简述〉移除供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param supplierId
+     * @param packagesId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/deleteSale")
+    public String delSaleDelete(String supplierId,String packagesId){
+        String status = saleTenderService.delSale(supplierId, packagesId);
+        return status;
+
     }
 }

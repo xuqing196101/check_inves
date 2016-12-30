@@ -3,7 +3,6 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-  	<%@ include file="/WEB-INF/view/common.jsp" %>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title></title>
 
