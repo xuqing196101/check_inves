@@ -217,9 +217,8 @@
   </select>
   
   <update id="updateIsDeleteByExpertId">
-  	update 
+  	delete
   		T_SES_EMS_EXPERT_AUDIT
-    		set IS_DELETE = '1'
     where
     	EXPERT_ID = #{expertId}
   </update>
