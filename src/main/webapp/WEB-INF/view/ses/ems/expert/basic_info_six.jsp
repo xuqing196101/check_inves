@@ -253,17 +253,17 @@ function errorMsg(auditField){
 		    <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
 			  <c:if test="${cate.code eq 'GOODS'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
-			    <ul id="tab-${vs.index + 1}" class="ztree center"></ul>
+			    <ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 			  </c:if>
 			  <c:if test="${cate.code eq 'PROJECT'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
-			    <ul id="tab-${vs.index + 1}" class="ztree center"></ul>
+			    <ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 			  </c:if>
 			  <c:if test="${cate.code eq 'SERVICE'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
-			    <ul id="tab-${vs.index + 1}" class="ztree center"></ul>
+			    <ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 			  </c:if>
 		    </c:forEach>
