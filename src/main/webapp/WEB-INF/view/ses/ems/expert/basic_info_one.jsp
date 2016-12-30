@@ -639,6 +639,9 @@ session.setAttribute("tokenSession", tokenValue);
 			}
 		});
 	}
+	function zc(){
+		layer.msg("已暂存",{offset: ['300px', '750px']});
+	}
 </script>
 </head>
 <body>
@@ -1048,6 +1051,7 @@ session.setAttribute("tokenSession", tokenValue);
 			</ul> -->
 				<div class="btmfix">
 	  	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  	    <button class="btn" type="button" onclick='zc()'>暂存</button>
 	  	  	    <button class="btn" id="nextBind"  type="button" onclick='fun()' >下一步</button>
 	  	  	  </div>
 			</div>

@@ -97,6 +97,9 @@ session.setAttribute("tokenSession", tokenValue);
 			data: {"expertId" : expertId, "categoryId" : treeNode.id, "type" : clickFlag}
 		});
 	}
+	function zc(){
+		layer.msg("已暂存",{offset: ['300px', '750px']});
+	}
 </script>
 <script type="text/javascript">
 function showDivTree(obj){
@@ -277,7 +280,7 @@ function errorMsg(auditField){
     <div class="btmfix">
 	  	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	    <button class="btn"  type="button" onclick="pre()">上一步</button>
-	  <!-- <button class="btn" onclick="zancunCategory('${count}')"  type="button">暂存</button> -->
+	  <button class="btn" onclick="zc()"  type="button">暂存</button>
 	  <button class="btn"  type="button" onclick="nextCategory()">下一步</button>
 	  	  	  </div>
 			</div>
