@@ -130,7 +130,6 @@
                  <label class="">地区名称：</label><input class="w110" type="text" id="search_condition" name="name" /> 
                 <button  class="btn  ml5 fl mt1 " onclick="selectTree();">查询</button>
                 </li>
-                
             </ul>
             <br>
          </h2>

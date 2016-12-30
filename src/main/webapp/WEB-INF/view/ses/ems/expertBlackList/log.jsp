@@ -65,7 +65,7 @@
 	               </li>
 	               <li>
 	                   <label class="fl">操作类型：</label>
-	                     <select name="operationType"  id="operationType" class="w178">
+	                     <select name="operationType"  id="operationType" class="">
 	                         <option value="">-请选择-</option>
 	                       <option <c:if test="${operationType =='0' }">selected</c:if> value="0">新增</option>
 	                       <option <c:if test="${operationType =='1' }">selected</c:if> value="1">修改</option>

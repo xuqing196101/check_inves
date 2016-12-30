@@ -297,8 +297,9 @@ function onCheck(e, treeId, treeNode) {
 			  <div class="uploader orange m0">
 				<u:show showId="purShowId" businessId="${mainId}" sysKey="2"/>
 				<u:upload id="purUploadId" auto="true" businessId="${mainId}" sysKey="2" />
+				<u:show showId="purShowId" businessId="${mainId}" sysKey="2"/>
+			  <div class="cue">${mainId_msg}</div>
 			  </div>
-			  <div class="cue"><br>${mainId_msg}</div>
 			</li>
 		  </ul>
 		</div>
@@ -307,7 +308,7 @@ function onCheck(e, treeId, treeNode) {
 		  <h2 class="count_flow"><i>4</i>个人信息</h2>
 			<ul class="ul_list">
 			  <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
-				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>姓名</span>
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>姓名</span>
 				<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				  <input  name="relName" value="${purchaseInfo.relName}"  type="text">
 				  <span class="add-on">i</span>
@@ -345,7 +346,7 @@ function onCheck(e, treeId, treeNode) {
 			  </li>
 			  
 			  <li class="col-md-3 col-sm-6 col-xs-12"> 
-			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>身份证号</span>
+			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>身份证号</span>
 				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			      <input class="input_group" name="idCard" value="${purchaseInfo.idCard}" type="text"> 
 				  <span class="add-on">i</span>
@@ -366,7 +367,7 @@ function onCheck(e, treeId, treeNode) {
 			  </li>
 				                     
 			  <li class="col-md-3 col-sm-6 col-xs-12 pl15">  
-			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>手机号码</span>
+			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>手机号码</span>
 				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				  <input class="input_group" name="mobile" value="${purchaseInfo.mobile}" type="text"> 
 				  <span class="add-on">i</span>
@@ -391,7 +392,7 @@ function onCheck(e, treeId, treeNode) {
 			  </li>
 			  
 			  <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
-				<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>邮箱</span>
+				<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><div class="star_red">*</div>邮箱</span>
 				<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				  <input  name="email" value="${purchaseInfo.email}" maxlength="100" type="text">
 				  <span class="add-on">i</span>
@@ -409,8 +410,8 @@ function onCheck(e, treeId, treeNode) {
 			  
 			  <li class="col-md-12 col-sm-12 col-xs-12"> 
 			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系地址</span>
-				<div class="col-md-12 col-sm-12 col-xs-12 p0">
-				  <textarea  class="col-md-12 col-sm-12 col-xs-12" title="不超过800个字" name="address" >${purchaseInfo.address}</textarea>
+				<div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group ">
+				  <input title="不超过800个字" name="address" value="${purchaseInfo.address}">
 				</div>
 			  </li>
 			</ul>

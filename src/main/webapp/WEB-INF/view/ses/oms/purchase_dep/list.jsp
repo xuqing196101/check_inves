@@ -208,7 +208,11 @@
 			            <label class="fl">名称：</label><span><input type="text" name="name" value="${purchaseDep.name }"></span>
 			          </li>
 			         <button type="button" onclick="submit()" class="btn fl mt1">查询</button>
+<<<<<<< Updated upstream
 					<button type="button" onclick="resetQuery();" class="btn fl mt1">重置</button>
+=======
+					<button type="button" onclick="resetQuery();" class="btn  fl mt1">重置</button>
+>>>>>>> Stashed changes
 			        </ul>
 			        <div class="clear"></div>
 			       </form>

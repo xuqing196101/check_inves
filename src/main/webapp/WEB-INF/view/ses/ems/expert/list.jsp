@@ -261,6 +261,7 @@
 						     <option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
 							</c:forEach>
                            </select>
+                           
 		            </span>
 		          </li>
                   <li>

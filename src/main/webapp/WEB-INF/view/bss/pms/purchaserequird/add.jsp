@@ -165,24 +165,21 @@
 			//保存
 			function incr() {
 			
+			alert("cehis");
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
-				var reNo=$("#jhwh").val();
 				var mobile = $("#mobile").val();
 				var type = $("#wtype").val();
 				var depName = $("#xqbm").val();
 				if($.trim(name) == "") {
 					layer.tips("计划名称不允许为空", "#jhmc");
-				} else if($.trim(reNo) == "") {
-					layer.tips("录入计划文号不允许为空", "#jhwh");
-				}else if($.trim(mobile) == "") {
+				} else if($.trim(mobile) == "") {
 					layer.tips("录入人手机号不允许为空", "#mobile");
 				}else if($.trim(depName) == ""){
 					layer.tips("需求部门不允许为空", "#xqbm");
 				}else {
 					$("#detailJhmc").val(name);
 					$("#detailJhbh").val(no);
-					$("#detailJhwh").val(reNo);
 					$("#detailType").val(type);
 					$("#detailMobile").val(mobile);
 					$("#detailXqbm").val(depName);
@@ -525,8 +522,8 @@
 	                        success: function (data) { 
 	                        
 						    	eachData(data);
-	                       layer.closeAll();
-	                       },error: function (data, status, e) {
+	                        },  error: function (data, status, e) {
+	                        alert(e);
 	                            layer.msg("上传失败");
 	                        }
 	                    }); 
@@ -633,7 +630,7 @@
 		</div>
 		<div class="container container_box">
 			<div>
-				<h2 class="count_flow"><i>1</i>需求计划主信息</h2>
+				<h2 class="count_flow"><i>1</i>计划主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>计划名称</span>
@@ -649,14 +646,6 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12">
-					    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span> 计划文号</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" name="reNo" value="${referenceNo }" id="jhwh">
-							<span class="add-on">i</span>
-						</div>
-					</li>
-					
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
@@ -701,16 +690,16 @@
 						<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 							<table class="table table-bordered table-condensed table_input">
 								<thead>
-									<tr class="info">
+									<tr class="info space_nowrap">
 										<th class="w50">序号</th>
 										<th class="w100">需求部门</th>
 										<th class="w200">物种名称</th>
 										<th class="w100">规格型号</th>
 										<th class="w100">质量技术标准（技术参数）</th>
-										<th class="w100">计量单位</th>
-										<th class="w100">采购数量</th>
-										<th class="w150">单价（元）</th>
-										<th class="w150">预算金额（万元）</th>
+										<th class="w80">计量单位</th>
+										<th class="w80">采购数量</th>
+										<th class="w80">单价（元）</th>
+										<th class="w80">预算金额（万元）</th>
 										<th class="w100">交货期限</th>
 										<th class="w120">采购方式建议</th>
 										<th class="w200">供应商名称</th>
@@ -728,12 +717,12 @@
 									<tr name="detailRow">
 										<td class="tc w50 p0">
 											<input type="hidden" name="list[0].id" id="purid" value="" >
-											<input type="text" name="list[0].seq" value="" class="m0">
+											<input type="text" name="list[0].seq" value="" class="m0 w50">
 										</td>
 										<td class="w100 p0" name="department">
 										
 								  		<input type="hidden" name="list[0].department" value="${orgId }" >
-								  		<input type="text"  readonly="readonly" value="${orgName}" class="m0" >
+								  		<input type="text"  readonly="readonly" value="${orgName}" class="m0 w100" >
 								  		  
 										<%-- 	<select name="list[0].department" class="pt" id="pType[0]">
 												<option value="">请选择</option>
@@ -745,14 +734,14 @@
 											
 										</td>
 										<td class="w200 p0">
-											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0"/>
+											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0 w200"/>
 										</td>
-										<td class="tc w100 p0"><input type="text" name="list[0].stand" class="m0"></td>
-										<td class="tc w100 p0"><input type="text" name="list[0].qualitStand" class="m0"></td>
-										<td class="tc w100 p0"><input type="text" name="list[0].item" class="m0"></td>
-										<td class="tc w100 p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0"></td>
-										<td class="tc w150 p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0"></td>
-										<td class="tc w150 p0"><input type="text" name="list[0].budget" class="m0" ></td>
+										<td class="tc w100 p0"><input type="text" name="list[0].stand" class="m0 w100"></td>
+										<td class="tc w100 p0"><input type="text" name="list[0].qualitStand" class="m0 w100"></td>
+										<td class="tc w80 p0"><input type="text" name="list[0].item" class="m0 w80"></td>
+										<td class="tc w80 p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 w80"></td>
+										<td class="tc w80 p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 w80"></td>
+										<td class="tc w80 p0"><input type="text" name="list[0].budget" class="m0 w80" ></td>
 										<td class="w100 p0"><input type="text" name="list[0].deliverDate" class="m0"></td>
 										<td class="w120 p0">
 											<select name="list[0].purchaseType" class="pt m0" onchange="changeType(this)" id="pType[0]">

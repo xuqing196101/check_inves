@@ -244,10 +244,9 @@
 					        </select>
 					        </span>
 				      </li> 
-				    </ul>
-				    <button type="submit"  class="btn fl mt1">查询</button>
-				    <button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>  	
-			    	
+				    	<button type="submit"  class="btn fl mt1">查询</button>
+				    	<button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>  	
+			    	</ul>
 		    	  	<div class="clear"></div>
 		        </form>
 		     </h2>

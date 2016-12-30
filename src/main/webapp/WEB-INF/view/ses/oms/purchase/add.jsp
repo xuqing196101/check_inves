@@ -322,7 +322,7 @@ function onCheck(e, treeId, treeNode) {
 		  <h2 class="count_flow"><i>4</i>个人信息</h2>
 		  <ul class="ul_list">
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
-			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>姓名</span>
+			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>姓名</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				<input  name="relName" value="${purchaseInfo.relName}"  type="text">
 				<span class="add-on">i</span>
@@ -332,7 +332,7 @@ function onCheck(e, treeId, treeNode) {
 			</li>
 								 	 
 			<li class="col-md-3 col-sm-6 col-xs-12">
-			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>性别</span>
+			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><div class="star_red">*</div>性别</span>
 			  <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				<select id="gender" name="gender">
 				  <c:forEach items="${genders}" var="g" varStatus="vs">
@@ -361,7 +361,7 @@ function onCheck(e, treeId, treeNode) {
 			</li>
 			
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
-			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>身份证号</span>
+			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>身份证号</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				<input class="input_group" name="idCard" value="${purchaseInfo.idCard}" type="text"> 
 				<span class="add-on">i</span>
@@ -382,7 +382,7 @@ function onCheck(e, treeId, treeNode) {
 			</li>
 				                     
 			<li class="col-md-3 col-sm-6 col-xs-12 pl15">  
-			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>手机号码</span>
+			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>手机号码</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				<input class="input_group" name="mobile" value="${purchaseInfo.mobile}" type="text">
 				<span class="add-on">i</span>

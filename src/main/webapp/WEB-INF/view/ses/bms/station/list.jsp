@@ -148,8 +148,8 @@
                 <option value="1">未操作</option>
               </select>
             </li>
-            <button type="submit" class="btn">查询</button>
-            <button type="button" onclick="resetQuery()" class="btn">重置</button>
+            <button type="submit" class="btn fl mt1">查询</button>
+            <button type="button" onclick="resetQuery()" class="btn fl mt1">重置</button>
           </ul>
           <div class="clear"></div>
         </form>

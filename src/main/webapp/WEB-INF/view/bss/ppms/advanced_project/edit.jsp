@@ -186,9 +186,10 @@
     <div>
     <h2 class="count_flow"><i>2</i>修改项目明细</h2>
     <div class="ul_list">
+     <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll h365">
       <table id="table" class="table table-bordered table_wrap">
         <thead>
-          <tr>
+          <tr class="space_nowrap">
           <th class="info w50">序号</th>
           <th class="info">需求部门</th>
           <th class="info">物资名称</th>
@@ -196,7 +197,7 @@
           <th class="info">质量技术标准</th>
             <th class="info">计量单位</th>
           <th class="info">采购数量</th>
-          <th class="info">单价（元）</th>
+          <th class="info p0">单价（元）</th>
           <th class="info">预算金额<br>（万元）</th>
           <th class="info">交货期限</th>
             <th class="info">采购方式</th>
@@ -209,13 +210,13 @@
         </thead>
         <c:forEach items="${lists}" var="obj" varStatus="vs">
         <tr class="${obj.parentId}" style="cursor: pointer;">
-          <td class="tc w50">${obj.serialNumber}</td>
-            <td class="tc">
+          <td class="tc w50 p0">${obj.serialNumber}</td>
+            <td class="">
             <c:if test="${obj.department == orgnization.id}">
                           ${orgnization.name}
                         </c:if></td>
-          <td class="tc">${obj.goodsName}</td>
-          <td class="tc">${obj.stand}</td>
+          <td class="">${obj.goodsName}</td>
+          <td class="">${obj.stand}</td>
           <td class="tc">${obj.qualitStand}</td>
           <td class="tc">${obj.item}</td>
           <td class="tc p0">
@@ -264,6 +265,7 @@
           </tr>
         </c:forEach>
       </table>
+      </div>
       </div>
     </div>
     <div class="col-md-12 tc">
