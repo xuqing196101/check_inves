@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
+import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
@@ -81,7 +82,7 @@ import ses.util.WordUtil;
 
 @Controller
 @RequestMapping("/expert")
-public class ExpertController {
+public class ExpertController extends BaseController {
     @Autowired
     private UserServiceI userService;// 用户管理
     @Autowired
@@ -828,7 +829,7 @@ public class ExpertController {
         map.put("typeName", "1");
         List<PurchaseDep> allPurList = purchaseOrgnizationService.findPurchaseDepList(map);
         for (PurchaseDep purchaseDep : allPurList) {
-            if ((purchaseDep.getProvinceId() != null && purchaseDep.getProvinceId().equals(pId)) || (purchaseDep.getCityId() != null && purchaseDep.getCityId().equals(zId))) {
+            if ((purchaseDep.getProvinceId() != null && purchaseDep.getCityId() == null && purchaseDep.getProvinceId().equals(pId)) || (purchaseDep.getCityId() != null && purchaseDep.getCityId().equals(zId))) {
                 purchaseDep.setFlag("1");
             } else {
                 purchaseDep.setFlag("0");

@@ -6,7 +6,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<script type="text/javascript">
-			$(function() {
+			/*$(function() {
 				var expertId = $("#expertId").val();
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expert/getAllCategory.do",
@@ -24,7 +24,7 @@
 								async: {
 									autoParam: ["id"],
 									enable: true,
-									url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId=" + expertId,
+									url: "${pageContext.request.contextPath}/expertAudit/getCategory.do?expertId=" + expertId,
 									otherParam: {
 										id: id
 									},
@@ -56,7 +56,7 @@
 						$("#tab-1").attr("style", "");
 					}
 				});
-			});
+			});*/
 
 			/* function showTree(tabId) {
 				var expertId = $("#expertId").val();
@@ -106,16 +106,34 @@
 					}
 		</script>
 		<script type="text/javascript">
+
+		function initTree(){
+			showTree("tab-1");
+			$("#tab-1").attr("style", "");
+			$("li_id_1").attr("class", "active");
+			$("li_1").attr("aria-expanded", "true");
+			$("#tab-2").attr("style", "display: none");
+			$("#tab-3").attr("style", "display: none");
+		}
 			function showTree(tabId) {
 				var id = $("#" + tabId + "-value").val();
 				var zTreeObj;
 				var zNodes;
 				var expertId = $("#expertId").val();
+				$.ajax({
+					url: "${pageContext.request.contextPath}/expertAudit/getCategory.do",
+					async: false,
+					data: {"categoryId": id,"expertId": expertId},
+					success: function(data){
+						zNodes = data;
+					},
+					dataType: "json"
+				});
 				var setting = {
-					async: {
+					/*async: {
 						autoParam: ["id"],
 						enable: true,
-						url: "${pageContext.request.contextPath}/expert/getCategory.do",
+						url: "${pageContext.request.contextPath}/expertAudit/getCategory.do",
 						otherParam: {
 							"categoryId": id,
 							"expertId": expertId
@@ -123,7 +141,7 @@
 						dataFilter: ajaxDataFilter,
 						dataType: "json",
 						type: "get"
-					},
+					},*/
 					check: {
 						enable: true,
 						chkStyle: "checkbox",
@@ -148,7 +166,7 @@
 				zTreeObj.expandAll(true); //全部展开
 			}
 
-			function ajaxDataFilter(treeId, parentNode, childNodes) {
+			/*function ajaxDataFilter(treeId, parentNode, childNodes) {
 				// 判断是否为空
 				if(childNodes) {
 					// 判断如果父节点是第三极,则将查询出来的子节点全部改为isParent = false
@@ -159,7 +177,7 @@
 					}
 				}
 				return childNodes;
-			}
+			}*/
 
 			function showDivTree(obj) {
 				$("#tab-1").attr("style", "display: none");
