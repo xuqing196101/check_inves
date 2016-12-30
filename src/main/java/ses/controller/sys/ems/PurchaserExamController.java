@@ -1747,15 +1747,15 @@ public class PurchaserExamController extends BaseSupplierController{
 		}else if(singleNum!=0&&multipleNum==0&&judgeNum==0 ){
 			model.addAttribute("typeDistribution", "单选题"+singleNum+"题，每题"+singlePoint+"分。");
 		}else if(singleNum==0&&multipleNum!=0&&judgeNum==0){
-			model.addAttribute("typeDistribution", "多选题"+singleNum+"题，每题"+singlePoint+"分。");
+			model.addAttribute("typeDistribution", "多选题"+multipleNum+"题，每题"+multiplePoint+"分。");
 		}else if(singleNum==0&&multipleNum==0&&judgeNum!=0){
-			model.addAttribute("typeDistribution", "判断题"+singleNum+"题，每题"+singlePoint+"分。");
+			model.addAttribute("typeDistribution", "判断题"+judgeNum+"题，每题"+judgePoint+"分。");
 		}else if(singleNum!=0&&multipleNum!=0&&judgeNum==0){
 			model.addAttribute("typeDistribution", "单选题"+singleNum+"题，每题"+singlePoint+"分；多选题"+multipleNum+"题，每题"+multiplePoint+"分。");
 		}else if(singleNum!=0&&multipleNum==0&&judgeNum!=0){
-			model.addAttribute("typeDistribution", "单选题"+singleNum+"题，每题"+singlePoint+"分；判断题"+multipleNum+"题，每题"+multiplePoint+"分。");
+			model.addAttribute("typeDistribution", "单选题"+singleNum+"题，每题"+singlePoint+"分；判断题"+judgeNum+"题，每题"+judgePoint+"分。");
 		}else if(singleNum==0&&multipleNum!=0&&judgeNum!=0 ){
-			model.addAttribute("typeDistribution", "多选题"+singleNum+"题，每题"+singlePoint+"分；判断题"+multipleNum+"题，每题"+multiplePoint+"分。");
+			model.addAttribute("typeDistribution", "多选题"+multipleNum+"题，每题"+multiplePoint+"分；判断题"+judgeNum+"题，每题"+judgePoint+"分。");
 		}
 		return "ses/ems/exam/purchaser/paper/view";
 	}
