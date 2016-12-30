@@ -225,7 +225,7 @@
 												<td class="tc info"> 品目名称</td>
 												<td colspan="3" class="tc info">合同上传</td>
 												<td colspan="3" class="tc info">收款进账单</td>
-												<td class="tc info" rowspan="2">操作</td>
+												<td class="tc info w50" rowspan="2">操作</td>
 											</tr>
 											<tr>
 												<td class="tc info"> 末级节点</td>
@@ -273,7 +273,7 @@
 												<td class="tc info"> 品目名称</td>
 												<td colspan="3" class="tc info">合同上传</td>
 												<td colspan="3" class="tc info">收款进账单</td>
-												<td class="tc info" rowspan="2">操作</td>
+												<td class="tc info w50" rowspan="2">操作</td>
 											</tr>
 											<tr>
 												<td class="tc info"> 末级节点</td>
@@ -321,7 +321,7 @@
 												<td class="tc info"> 品目名称</td>
 												<td colspan="3" class="tc info">合同上传</td>
 												<td colspan="3" class="tc info">收款进账单</td>
-												<td class="tc info" rowspan="2">操作</td>
+												<td class="tc info w50" rowspan="2">操作</td>
 											</tr>
 											<tr>
 												<td class="tc info"> 末级节点</td>
@@ -366,10 +366,10 @@
 									<div class="tab-pane fade height-200" id="tab-4">
 										<table class="table table-bordered">
 											<tr>
-												<td class="tc info"> 品目名称</td>
+												<td class="tc info "> 品目名称</td>
 												<td colspan="3" class="tc info">合同上传</td>
 												<td colspan="3" class="tc info">收款进账单</td>
-												<td class="tc info" rowspan="2">操作</td>
+												<td class="tc info w50" rowspan="2">操作</td>
 											</tr>
 											<tr>
 												<td class="tc info"> 末级节点</td>
