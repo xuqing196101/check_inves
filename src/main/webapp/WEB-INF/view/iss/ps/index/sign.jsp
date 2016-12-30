@@ -128,29 +128,43 @@
     						 		layer.close(index);
     						 		window.location.href="${pageContext.request.contextPath}/";
     						 	    });
-    					}else if(flag[0]=="commit"){
-    						//询问框
-    						layer.confirm("您的信息已于" + flag[1]+ "提交审核,将于45天内审核完成,请耐心等待!", {
-    						 	btn: ['是','否'] //按钮
-    						},  function(){
-    							
-    						 		layer.close(index);
-    						 		window.location.href="${pageContext.request.contextPath}/";
-    						 	    });
-    					}
-    					else if(flag[0]=="beyong"){
-    						//询问框
-    					     layer.open({
-    		    					type : 2,
-    		    					title : '初审机构信息',
-    		    					// skin : 'layui-layer-rim', //加上边框
-    		    					area : [ '720px', '420px' ], //宽高
-    		    					offset : '100px',
-    		    					scrollbar : false,
-    		    					content :'${pageContext.request.contextPath}/supplier/audit_org?id='+flag[1], //url
-    		    					closeBtn : 1, //不显示关闭按钮
-    		    				});
-    		                    
+    					} else if (data == "firstNotPass") {
+    						layer.msg("抱歉,您的审核没有通过,无法登陆！");
+    						layer.close(index);
+    					} else if (data == "secondNotPass") {
+    						layer.msg("抱歉,您的复核没有通过,无法登陆！");
+    						layer.close(index);
+    					} else if (data == "thirdNotPass") {
+    						layer.msg("抱歉,您的实地考察不合格,无法登陆！");
+    						layer.close(index);
+    					} else if(flag[0]=="commit"){
+    						$.ajax({
+    							url: "${pageContext.request.contextPath}/supplier/validateAuditTime.do",
+    							data: {"userId" : flag[1]},
+    							dataType: "json",
+    							async: false,
+    							success: function(response){
+    								if (response.isok == "1") {
+    									// 没有超过45天
+    									//询问框
+    		    						layer.confirm("您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待!", {
+    		    							btn : [ '确定' ]
+    		    						//按钮
+    		    						}, function() {
+    		    							window.location.href = "${pageContext.request.contextPath}/";
+    		    						});
+    								} else {
+    									// 超过45天
+    									//询问框
+    		    						layer.confirm("您的信息提交审核已经超过45天,请耐心等待或联系相关初审机构(" + response.contact + ":" + response.contactTelephone + ")!", {
+    		    							btn : [ '确定' ]
+    		    						//按钮
+    		    						}, function() {
+    		    							window.location.href = "${pageContext.request.contextPath}/";
+    		    						});
+    								}
+    							}
+    						});    
     					}  
     					
     					

@@ -114,15 +114,13 @@
 		</div>
 
 		<!-- 修改订列表开始-->
-		<div class="container">
+		<div class="container container_box">
 			<form action="${pageContext.request.contextPath}/importRecommend/update.html" method="post">
 				<div>
-					<div class="headline-v2">
-						<h2>进口代理商修改</h2>
-					</div>
+				  <h2 class="list_title">进口代理商修改</h2>
 					<ul class="ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>登录名：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>登录名：</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								<input type="hidden" name="id" value="${ir.id }" />
 								<input class="input_group" id="loginName" readonly name="loginName" value="${ir.loginName }" type="text">
@@ -132,7 +130,7 @@
 						</li>
 
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>登录密码：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>登录密码：</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" id="password" name="password" value="${ir.password }" type="password">
 								<span class="add-on">i</span>
@@ -141,7 +139,7 @@
 						</li>
 
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>企业名称：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>企业名称：</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" id="name" name="name" value="${ir.name }" type="text">
 								<span class="add-on">i</span>
@@ -150,7 +148,7 @@
 						</li>
 
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>法定代表人：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>法定代表人：</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" id="legalName" name="legalName" value="${ir.legalName }" type="text">
 								<span class="add-on">i</span>
@@ -159,7 +157,7 @@
 						</li>
 
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>企业地址：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>企业地址：</span>
 							<div class="select_common">
 								<select id="choose1" class="w100" onchange="fun();">
 									<option class="w100">-请选择-</option>
@@ -172,7 +170,7 @@
 						</li>
 
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>进口代理商类型：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>进口代理商类型：</span>
 							<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 								<select id="type" name="type">
 									<option value="1">正式代理商</option>
@@ -182,7 +180,7 @@
 						</li>
 
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>推荐单位：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>推荐单位：</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								<input class="input_group" id="recommendDep" name="recommendDep" value="${ir.recommendDep }" type="text">
 								<span class="add-on">i</span>

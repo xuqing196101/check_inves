@@ -890,7 +890,7 @@
 											  <button type="button" class="btn btn-windows delete" onclick="deleteCertPro()">删除</button>
 											  <span class="red">${cert_pro }</span>
 											</div>
-					
+					                       <div class="col-md-12 col-xs-12 col-sm-12 over_scroll">
 					                       <table class="table table-bordered table-condensed mt5 table_input table_wrap left_table">
 												<thead>
 													<tr>
@@ -926,7 +926,7 @@
 															
 															</td>
 															<td class="tc">
-															<div class="fl w220 h30">
+															<div class="fl w220 ">
 															 <u:upload id="pro_up" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
 															 <u:show showId="pro_show" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
 															</div>
@@ -940,6 +940,7 @@
 									  </div>
 									</fieldset>
 								</div>
+							</div>
 				<%-- 			</c:if>
 				
  

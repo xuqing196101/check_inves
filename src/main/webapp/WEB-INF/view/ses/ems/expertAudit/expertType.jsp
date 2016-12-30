@@ -60,6 +60,21 @@
 		      layer.close(index);
 			    });
 		  	}
+		  	
+		  	
+		  	// 提示之前的信息
+			function isCompare(inputName,fieldName, type){
+				$.ajax({
+					url: "${pageContext.request.contextPath}/expertAudit/getFieldContent.do",
+					data: {"field":fieldName,"type":type,"expertId":"${expertId}"},
+					async: false,
+					success: function(response){
+						layer.tips("原值:" + response, "#" + inputName, {
+		    				tips : 3
+		    			});
+					}
+				});
+			}
 		</script>
 		<script type="text/javascript">
 			function jump(str){

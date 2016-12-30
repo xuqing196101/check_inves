@@ -477,12 +477,15 @@
 					<ul class="flow_step">
 						<li onclick="jump('essential')">
 							<a aria-expanded="false">详细信息</a>
+							<i></i>
 						</li>
 						<li onclick="jump('financial')">
 							<a aria-expanded="true">财务信息</a>
+							<i></i>
 						</li>
 						<li onclick="jump('shareholder')">
 							<a aria-expanded="false">股东信息</a>
+							<i></i>
 						</li>
 						<%--<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 							<li onclick="jump('materialProduction')">
@@ -565,7 +568,7 @@
 							<c:if test="${fn:contains(supplierTypeNames, '生产型')}">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
-									<div class="lr0_tbauto w200" onclick="reason(this.id,'item_pro_page')">
+									<div class="lr0_tbauto " onclick="reason(this.id,'item_pro_page')">
 										<ul id="tree_ul_id_1" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
@@ -573,7 +576,7 @@
 							<c:if test="${fn:contains(supplierTypeNames, '销售型')}">
 								<!-- 物资销售型 -->
 								<div class="tab-pane fade height-300" id="tab-2">
-									<div class="lr0_tbauto w200">
+									<div class="lr0_tbauto ">
 										<ul id="tree_ul_id_2" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
@@ -581,7 +584,7 @@
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 								<!-- 服务 -->
 								<div class="tab-pane fade height-200" id="tab-3">
-									<div class="lr0_tbauto w200">
+									<div class="lr0_tbauto ">
 										<ul id="tree_ul_id_3" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
@@ -589,7 +592,7 @@
 							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 								<!-- 生产 -->
 								<div class="tab-pane fade height-200" id="tab-4">
-									<div class="lr0_tbauto w200">
+									<div class="lr0_tbauto ">
 										<ul id="tree_ul_id_4" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
