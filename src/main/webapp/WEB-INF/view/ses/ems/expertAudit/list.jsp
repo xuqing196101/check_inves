@@ -162,7 +162,7 @@
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
-				<a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">下载</a>
+				<!-- <a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">下载</a> -->
 			</div>
 
 			<div class="content table_box">
