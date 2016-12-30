@@ -1010,7 +1010,7 @@ public class IndexNewsController extends BaseSupplierController{
 //		articleDetail.setArticleAttachments(articleAttaList);
 		model.addAttribute("fileSize", uploadList.size());
 		model.addAttribute("articleDetail", articleDetail);
-//		model.addAttribute("indexMapper", indexMapper);
+		model.addAttribute("indexMapper", indexMapper);
 		return "iss/ps/index/index_details";
 	}
 	

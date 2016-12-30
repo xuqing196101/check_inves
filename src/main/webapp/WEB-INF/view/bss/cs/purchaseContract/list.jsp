@@ -119,11 +119,13 @@
   		var supid = [];
   		var supcheckid = [];
   		var isCreateContract = [];
+  		var transactionAmount = [];
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
 			supid.push($(this).parent().next().text());
 			supcheckid.push($(this).parent().next().next().text());
 			isCreateContract.push($(this).parent().next().next().next().text());
+			transactionAmount.push($(this).parent().next().next().next().next().text());
 		}); 
 		if(ids.length>0){
 			if(ids.length>1){
@@ -154,7 +156,7 @@
 						});
 		  			}
 		  		});*/
-		  		window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids+"&supcheckid="+supcheckid;
+		  		window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids+"&supcheckid="+supcheckid+"&transactionAmount="+transactionAmount;
 				}
 			}
 		}else{
@@ -192,12 +194,14 @@
   		var suppliers=[];
   		var supcheckid = [];
   		var isCreateContract = [];
+  		var transactionAmount = [];
   		var flag = true;
 		$('input[name="chkItem"]:checked').each(function(){
 			ids.push($(this).val()); 
 			suppliers.push($(this).parent().next().text());
 			supcheckid.push($(this).parent().next().next().text());
 			isCreateContract.push($(this).parent().next().next().next().text());
+			transactionAmount.push($(this).parent().next().next().next().next().text());
 		});
 		if(ids.length>0){
 			if(ids.length>1){
@@ -216,7 +220,7 @@
 							var dd = data.replace("\"","");
 							var ss = dd.split("=");
 							if(ss[0]=="true"){
-								window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id="+ids+"&supid="+suppliers+"&supcheckid="+supcheckid;
+								window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id="+ids+"&supid="+suppliers+"&supcheckid="+supcheckid+"&transactionAmount="+transactionAmount;
 							}else if(ss[0]=="false"){
 								layer.alert(ss[1],{offset: ['222px', '390px'], shade:0.01});
 							}
@@ -308,6 +312,7 @@
 				<th class="tnone"></th>
 				<th class="tnone"></th>
 				<th class="tnone"></th>
+				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
 				<th class="info">采购项目名称</th>
 				<th class="info">编号</th>
@@ -324,6 +329,7 @@
 				<td class="tnone">${pack.supplierId}</td>
 				<td class="tnone">${pack.supplierCheckPassId}</td>
 				<td class="tnone">${pack.isCreateContract}</td>
+				<td class="tnone">${pack.wonPrice}</td>
 				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${pack.project.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
@@ -342,7 +348,7 @@
 					<td class="pointer" title="${code}">${code}</td>
 				</c:if>
 				<td class="tl pl20 pointer">${pack.name}</td>
-				<td class="tr pr20 pointer">${pack.project.amount}</td>
+				<td class="tr pr20 pointer">${pack.wonPrice}</td>
 				<td class="tl pl20 pointer">${pack.supplier.supplierName}</td>
 				<td class="tl pl20 pointer">${pack.project.purchaseDep.depName}</td>
 				<td>

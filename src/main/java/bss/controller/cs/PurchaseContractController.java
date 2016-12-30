@@ -542,6 +542,12 @@ public class PurchaseContractController extends BaseSupplierController{
 	@RequestMapping("/createCommonContract")
 	public String createCommonContract(HttpServletRequest request,Model model) throws Exception{
 		String supcheckid = request.getParameter("supcheckid");
+		String transactionAmount = request.getParameter("transactionAmount");
+		String[] transactionAmounts = transactionAmount.split(",");
+		BigDecimal amounts = new BigDecimal(0);
+		for(String tranAmount:transactionAmounts){
+			amounts = amounts.add(new BigDecimal(tranAmount));
+		}
 		String contractuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
 		model.addAttribute("attachuuid", contractuuid);
 		DictionaryData dd=new DictionaryData();
@@ -582,6 +588,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(project.getSectorOfDemand());
 		project.setOrgnization(org);
 		model.addAttribute("project", project);
+		model.addAttribute("transactionAmount", amounts);
 		model.addAttribute("id", contractuuid);
 		model.addAttribute("supcheckid",supcheckid);
 		return "bss/cs/purchaseContract/newContract";

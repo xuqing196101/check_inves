@@ -3,6 +3,7 @@
  */
 package bss.model.ppms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -74,6 +75,8 @@ public class Packages {
 	
 	private String contractId;
 	
+	private BigDecimal wonPrice;
+	
 	/**
 	 * 是否维护符合性审查项 0 未维护 1:维护中 2：已维护
 	 */
@@ -84,6 +87,14 @@ public class Packages {
 	 */
 	private Integer isEditSecond;
 	
+	public BigDecimal getWonPrice() {
+		return wonPrice;
+	}
+
+	public void setWonPrice(BigDecimal wonPrice) {
+		this.wonPrice = wonPrice;
+	}
+
 	public String getContractId() {
 		return contractId;
 	}

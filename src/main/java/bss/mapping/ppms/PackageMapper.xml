@@ -309,7 +309,7 @@
 		select distinct pa.id as id,pa.PROJECT_ID projectId,pa.NAME
 		name,pa.updated_at,ch.supplier_id supplierId,ch.CONTRACT_ID
 		contractId,ch.id supplierCheckPassId,ch.IS_CREATE_CONTRACT
-		isCreateContract FROM
+		isCreateContract,ch.WON_PRICE wonPrice FROM
 		T_BSS_PPMS_PACKAGE pa,
 		T_BSS_PPMS_SUPPLIER_CHECK_PASS ch
 		where
