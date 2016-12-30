@@ -203,10 +203,11 @@
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>
 	    <div class="mb5 fr">
 	    	<c:if test="${isEnd != 1}">
-			    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核</button>
-			    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束</button>
+			    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核检查</button>
+			    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性审查</button>
+			    <button class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
 	    	</c:if>
-		    <button class="btn" onclick="window.print();" type="button">打印</button>
+		    <button class="btn" onclick="window.print();" type="button">打印汇总表</button>
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">

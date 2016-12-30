@@ -125,12 +125,12 @@
               <ul class="clear p0 col-md-12 col-xs-12 col-sm-12 ">
                 <li class="col-md-6 col-sm-12 col-xs-12 mt10">
                   <span class="fl">已上传的附件：</span>
-                  <u:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+                  <u:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${articleSysKey}" typeId="${artiAttachTypeId}" />
                 </li>
                 
                 <li class="col-md-6 col-sm-12 col-xs-12 mt10">
                   <span class="fl">单位及保密委员会审核表：</span>
-                  <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                  <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
                 </li>
                 
                <c:if test="${article.lastArticleType.id=='111' }">

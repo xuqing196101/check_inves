@@ -615,6 +615,15 @@ public class ArticleController extends BaseSupplierController{
     	ArticleType four = articleTypeService.selectTypeByPrimaryKey(article.getFourArticleTypeId());
         model.addAttribute("four", four.getName());
     }
+    
+    DictionaryData da=new DictionaryData();
+    da.setCode("GGWJ");
+    List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+    request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
+    if(dlists.size()>0){
+      model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
+    }
+    
     DictionaryData dd=new DictionaryData();
     dd.setCode("POST_ATTACHMENT");
     List<DictionaryData> lists = dictionaryDataServiceI.find(dd);

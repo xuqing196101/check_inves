@@ -24,7 +24,7 @@
         var id = $("#id").val();
         layer.confirm('您确定需要发布吗?', {
           title: '提示',
-          offset: ['222px', '360px'],
+          offset: '222px',
           shade: 0.01
         }, function(index) {
           layer.close(index);

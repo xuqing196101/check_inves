@@ -246,10 +246,10 @@
               <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
               <td class="tc" onclick="view('${article.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <c:if test="${fn:length(article.name)>30}">
-                <td class="tl pl20" onclick="view('${article.id }')" onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()">${fn:substring(article.name,0,30)}...</td>
+                <td class="tl pl20" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,30)}...</td>
               </c:if>
               <c:if test="${fn:length(article.name)<=30}">
-                <td class="tl pl20" onclick="view('${article.id }')">${article.name }</td>
+                <td class="tl pl20" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
               </c:if>
               <td class="tl pl20" onclick="view('${article.id }')">
                 <c:if test="${article.range=='0' }">
@@ -271,13 +271,13 @@
                   <input type="hidden" name="status" value="${article.status }">待发布
                 </c:if>
                 <c:if test="${article.status=='2' }">
-                  <input type="hidden" name="status" value="${article.status }">发布
+                  <input type="hidden" name="status" value="${article.status }">已发布
                 </c:if>
                 <c:if test="${article.status=='3' }">
-                  <input type="hidden" name="status" value="${article.status }">退回
+                  <input type="hidden" name="status" value="${article.status }">已退回
                 </c:if>
                 <c:if test="${article.status=='4' }">
-                  <input type="hidden" name="status" value="${article.status }">撤回
+                  <input type="hidden" name="status" value="${article.status }">已撤回
                 </c:if>
               </td>
               <td class="tl pl20">

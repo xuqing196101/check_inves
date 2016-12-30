@@ -477,7 +477,7 @@
         </ul>
 
         <div class="col-md-12 col-xs-12 col-sm-12 tc">
-          <button class="btn btn-windows edit" type="submit">编辑</button>
+          <button class="btn btn-windows save" type="submit">更新</button>
           <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
         </div>
     </div>

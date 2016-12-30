@@ -122,10 +122,10 @@
 		<h3>包名称：${pack.name}</h3>
 	    <div class="mb5 fr">
 	      <c:if test="${isEnd != 1}">
-			  <button class="btn" id="endId" onclick="toTotal()" type="button">结束</button>
-			  <button class="btn" id="backId" onclick="backScore()" type="button">复核</button>
+			  <button class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>
+			  <button class="btn" id="backId" onclick="backScore()" type="button">复核评分</button>
 		  </c:if>
-		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印</button>
+		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印汇总表</button>
 		</div>
 		<!--循环供应商  -->
 		<table class="table table-bordered table-condensed table-hover table-striped">
