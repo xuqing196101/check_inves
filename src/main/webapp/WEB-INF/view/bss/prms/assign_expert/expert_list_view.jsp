@@ -163,7 +163,7 @@
 		                <td>
 		                	已到场
 		                </td>
-                		<td class="tc">${packageExpert.expert.idNumber}</td>
+                		<td class="tc">${packageExpert.expert.idCardNumber}</td>
 		                <td class="tc">${packageExpert.expert.atDuty}</td>
 		                <td class="tc">${packageExpert.expert.mobile}</td>
 		            </tr>

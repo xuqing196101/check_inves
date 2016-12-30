@@ -236,6 +236,8 @@
 	 
 	 //添加临时专家
 	 function addExpert(index,projectId,packageId){
+	 		$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/showTemporaryExpert.html?projectId="+projectId+"&flowDefineId=${flowDefineId}");
+	 		/* 列表里添加临时专家
 	 		var listCount =  parseInt($("#listCountId").val()) + parseInt(1);
 	 		$("#listCountId").val(listCount);
 	 		var tbyId = "#tby_"+index+" tr";
@@ -271,18 +273,18 @@
 				 		trhtml += "<select class='tc w80' name='packageExperts["+listCount+"].isSigin'>";
 				 		trhtml += "<option value='1'>已到场</option><option value='0'>未到场</option></select>";
 				 		trhtml += "</td>";
-				 		trhtml += "<td><input type='text' class='tc w100' maxlength='40' name='packageExperts["+listCount+"].expert.idNumber'/></td>";
+				 		trhtml += "<td><input type='text' class='tc w100' maxlength='40' name='packageExperts["+listCount+"].expert.idCardNumber'/></td>";
 				 		trhtml += "<td><input type='text' class='tc w100' maxlength='50' name='packageExperts["+listCount+"].expert.atDuty'/></td>";
 				 		trhtml += "<td><input type='text' class='tc w80' maxlength='16' name='packageExperts["+listCount+"].expert.mobile'/></td>";
 				 		trhtml += "</tr>";
 	 				$("#tby_"+index).append(trhtml);
                   }
                 }
-            });
+            }); */
 	 }
   </script>
   <body>
-        <h2 class="list_title">专家签到</h2>
+        <h2 class="list_title">专家签到<button class="btn fr" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button></h2>
         <input type="hidden" id="reviewTypeTds">
         <form id="save_sign"  method="post">
         	<input name="projectId" type="hidden" value="${project.id}">
@@ -294,7 +296,7 @@
 	          		<div class="fl mt20 ml10">
 		             <button class="btn" name="addExp_btn" onclick="relate('${pack.id}','${vs.index}','${pack.name}')" type="button">设为组长</button>
 		             <button class="btn dnone" name="viewExp_btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
-		             <button class="btn" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button>
+		             <%-- <button class="btn" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button> --%>
 		           	</div>
 		        </div>
 	        	<div class="p0${vs.index} hide">
@@ -347,7 +349,7 @@
 										<option value="0">未到场</option>
 									</select>
 				                </td>
-		                		<td class="tc">${projectExtract.expert.idNumber}</td>
+		                		<td class="tc">${projectExtract.expert.idCardNumber}</td>
 				                <td class="tc">${projectExtract.expert.atDuty}</td>
 				                <td class="tc">${projectExtract.expert.mobile}</td>
 				            </tr>

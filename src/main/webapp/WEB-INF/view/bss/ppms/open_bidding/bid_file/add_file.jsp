@@ -47,17 +47,41 @@
 		var flowDefineId = $("#flowDefineId").val();
 		var projectName = $("#projectName").val();
 		var obj = document.getElementById("TANGER_OCX");
-		//参数说明
-		//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
-		obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_招标文件.doc", "MyFile");
-		//obj.ShowTipMessage("提示","招标文件已上传至服务器");
-		if (flag == '0') {
-			alert("招标文件已暂存");
-		}
-		if (flag == '1') {
-			//obj.ShowTipMessage("提示","招标文件已提交");
-			alert("招标文件已提交");
-			$("#handle").attr("class","dnone");
+		//提交
+		if (flag == "1") {
+			//判断有没有上传审批文件
+			$.ajax({
+			    type: 'post',
+			    url: "${pageContext.request.contextPath}/open_bidding/isLoadAuditFile.do",
+			    dataType:'json',
+			    data : {"projectId":projectId},
+			    success: function(data) {
+			    	if(!data.success){
+	                    alert("请上传审批文件");
+                   	}else{
+						//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
+						obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_招标文件.doc", "MyFile");
+						if (flag == '1') {
+							//obj.ShowTipMessage("提示","招标文件已提交");
+							alert("招标文件已提交");
+							$("#handle").attr("class","dnone");
+							$("#audit_file_add").attr("class","dnone");
+							$("#audit_file_view").removeAttr("class","dnone");
+						}
+                   }
+			   }
+			});
+		} 
+		
+		//暂存
+		if (flag == "0") {
+			//参数说明
+			//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
+			obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_招标文件.doc", "MyFile");
+			//obj.ShowTipMessage("提示","招标文件已上传至服务器");
+			if (flag == '0') {
+				alert("招标文件已暂存");
+			}
 		}
 	}
 	
@@ -192,11 +216,29 @@
 	    </div>
 	 </c:if>
 	<form id="MyFile" method="post" class="h800">
-		<input type="hidden" id="ope" value="${ope }">
+		<c:if test="${project.confirmFile != 1}">
+			<div class="clear" id="audit_file_add">
+				<span ><span class="star_red">*</span>上传审批文件</span>
+		        <u:upload id="a" buttonName="上传审批文件"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+		        <u:show  showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+			</div>
+			<div class="clear dnone" id="audit_file_view">
+				<span ><span class="star_red">*</span>审批文件</span>
+		        <u:show  showId="d" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+			</div>
+		</c:if>
+		
+		<c:if test="${project.confirmFile == 1}">
+			<div class="clear" >
+				<span ><span class="star_red">*</span>审批文件</span>
+		        <u:show  showId="c" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+			</div>
+		</c:if>
+		<input type="hidden" id="ope" value="${ope}">
 		<input type="hidden" id="confirmFileId" value="${project.confirmFile}">
 		<input type="hidden" id="flowDefineId" value="${flowDefineId }">
-    	<input type="hidden" id="projectId" value="${project.id }">
-    	<input type="hidden" id="projectName" value="${project.name }">
+    	<input type="hidden" id="projectId" value="${project.id}">
+    	<input type="hidden" id="projectName" value="${project.name}">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 	</form>
 </body>
