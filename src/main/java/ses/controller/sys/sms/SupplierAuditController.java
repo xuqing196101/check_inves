@@ -744,11 +744,12 @@ public class SupplierAuditController extends BaseSupplierController{
 		String auditField = supplierAudit.getAuditField();
 		String auditType = supplierAudit.getAuditType();
 		String auditFieldName = supplierAudit.getAuditFieldName();
+		String auditContent = supplierAudit.getAuditContent();
 		supplierAudit.setSupplierId(id);
 		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		boolean same= true;
 		for(int i=0 ;i<reasonsList.size(); i++){
-			if(reasonsList.get(i).getAuditField().equals(auditField ) && reasonsList.get(i).getAuditType().equals(auditType) && reasonsList.get(i).getAuditFieldName().equals(auditFieldName)){
+			if(reasonsList.get(i).getAuditField().equals(auditField ) && reasonsList.get(i).getAuditType().equals(auditType) && reasonsList.get(i).getAuditFieldName().equals(auditFieldName) && reasonsList.get(i).getAuditContent().equals(auditContent)){
 				same = false; 
 				break;
 			}

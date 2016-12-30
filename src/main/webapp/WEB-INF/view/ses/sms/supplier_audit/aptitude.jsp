@@ -29,7 +29,7 @@
 				$("#form_id").submit();
 			}
 			
-			function reason(auditFieldName, auditContent, dex) {
+			/* function reason(auditFieldName, auditContent, dex) {
 				var supplierId = $("#supplierId").val();
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
@@ -64,6 +64,34 @@
 						$("#" + dex + "_show").show();
 						layer.close(index);
 					});
+			}
+			 */
+			
+			function reason(auditField, auditFieldName, auditContent, str) {
+				var supplierId = $("#supplierId").val();
+				var index = layer.prompt({
+					title: '请填写不通过的理由：',
+					formType: 2,
+					offset: '100px'
+				}, function(text) {
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+						type: "post",
+						data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=aptitude_page" + "&auditContent=" + auditContent + "&auditField=" + auditField,
+						dataType: "json",
+						success: function(result) {
+							result = eval("(" + result + ")");
+							if(result.msg == "fail") {
+								layer.msg('该条信息已审核过！', {
+									shift: 6, //动画类型
+									offset: '100px'
+								});
+							}
+						}
+					});
+					$("#" + auditField +"_"+str+"").show(); //显示叉
+					layer.close(index);
+				});
 			}
 		</script>
 		<script type="text/javascript">
@@ -236,7 +264,7 @@
 								<c:set value="0" var="prolength" />
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<table class="table table-bordered">
-										<thead>
+										<!-- <thead>
 											<tr>
 												<th class="tc info">名称</th>
 												<th class="tc info">环保管理体系认证证书</th>
@@ -244,20 +272,22 @@
 												<th class="tc info">质量管理体系认证证书</th>
 												<th class="tc info">审核操作</th>
 											</tr>
-										</thead>
+										</thead> -->
 										<c:forEach items="${cateList }" var="obj" varStatus="vs">
 											<tr>
-												<td class="tc">${obj.categoryName } </td>
+												<td class="tc info">${obj.categoryName } </td>
 												<c:forEach items="${obj.list }" var="quaPro">
-													<td class="tc">
+													<td>
 														<c:set value="${prolength+1}" var="prolength"></c:set>
+														<span class="hand" onclick="reason('${quaPro.id}','${obj.categoryName }','生产-${quaPro.name}','生产');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${quaPro.name}：</span>
 														<u:show showId="pShow${prolength}" groups="${saleShow}" delete="false" businessId="${quaPro.id}" sysKey="1" typeId="1" />
+														<p id="${quaPro.id}_生产" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</c:forEach>
-												<td class="tc w100">
+												<%-- <td class="tc w100">
 													<a onclick="reason('物资生产品目信息','${obj.categoryName }','${vs.index + 1}');" id="${vs.index + 1}_hidden" class="btn">审核</a>
 													<p id="${vs.index + 1}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
-												</td>
+												</td> --%>
 											</tr>
 										</c:forEach>
 									</table>
@@ -269,7 +299,7 @@
 								<c:set value="0" var="length"> </c:set>
 								<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-300" id="tab-2">
 									<table class="table table-bordered">
-										<thead>
+										<!-- <thead>
 											<tr>
 												<th class="tc info">名称</th>
 												<th class="tc info">环保管理体系认证证书</th>
@@ -277,21 +307,22 @@
 												<th class="tc info">质量管理体系认证证书</th>
 												<th class="tc info">审核操作</th>
 											</tr>
-										</thead>
+										</thead> -->
 										<c:forEach items="${saleQua }" var="sale">
 											<tr>
-												<td>${sale.categoryName } </td>
-												<td>
-													<c:forEach items="${sale.list }" var="saua" varStatus="vs">
+												<td class="tc info">${sale.categoryName } </td>
+												<c:forEach items="${sale.list }" var="saua" varStatus="vs">
+													<td>
 														<c:set value="${length+1}" var="length"></c:set>
-														<%-- <u:upload id="saleUp${length}" buttonName="${saua.name}" groups="${saleUp}" businessId="${saua.id}" sysKey="1" typeId="1" auto="true" /> --%>
+														<span class="hand" onclick="reason('${saua.id}','${sale.categoryName }','销售-${saua.name}','销售');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${saua.name}：</span>
 														<u:show showId="saleShow${length}" groups="${saleShow}" delete="false" businessId="${saua.id}" sysKey="1" typeId="1" />
-													</c:forEach>
-												</td>
-												<td class="tc w100">
+														<p id="${saua.id}_销售" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+													</td>
+												</c:forEach>
+												<%-- <td class="tc w100">
 													<a onclick="reason('物资销售品目信息','${sale.categoryName }','${vs.index + 1}');" id="${vs.index + 1}_hidden" class="btn">审核</a>
 													<p id="${vs.index + 1}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
-												</td>
+												</td> --%>
 											</tr>
 										</c:forEach>
 									</table>
@@ -303,7 +334,7 @@
 								<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-200" id="tab-3">
 									<table class="table table-bordered">
 										<c:set value="0" var="plength"> </c:set>
-										<thead>
+										<!-- <thead>
 											<tr>
 												<th class="tc info">名称</th>
 												<th class="tc info">环保管理体系认证证书</th>
@@ -311,23 +342,23 @@
 												<th class="tc info">质量管理体系认证证书</th>
 												<th class="tc info">审核操作</th>
 											</tr>
-										</thead>
+										</thead> -->
 
 										<c:forEach items="${projectQua }" var="project">
 											<tr>
 												<td class="info">${project.categoryName }
-												</td>
-												<td class="tc">
-													<c:forEach items="${project.list }" var="project" varStatus="vs">
-														<c:set value="${plength+1}" var="plength"></c:set>
-														<%-- <u:upload id="projectUp${plength}" buttonName="${project.name}" groups="${saleUp}" businessId="${project.id}" sysKey="1" typeId="1" auto="true" /> --%>
-														<u:show showId="projectShow${plength}" delete="false" groups="${saleShow}" businessId="${project.id}" sysKey="1" typeId="1" />
+													<c:forEach items="${project.list }" var="pr" varStatus="vs">
+														<td class="tc">
+															<c:set value="${plength+1}" var="plength"></c:set>
+															<span class="hand" onclick="reason('${pr.id}','${project.categoryName }','工程-${pr.name}','工程');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${pr.name}：</span>
+															<u:show showId="projectShow${plength}" delete="false" groups="${saleShow}" businessId="${pr.id}" sysKey="1" typeId="1" />
+															<p id="${pr.id}_工程" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+														</td>
 													</c:forEach>
-												</td>
-												<td class="tc w100">
+												<%-- <td class="tc w100">
 													<a onclick="reason('工程品目信息','${project.categoryName }','${vs.index + 1}');" id="${vs.index + 1}_hidden" class="btn">审核</a>
 													<p id="${vs.index + 1}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
-												</td>
+												</td> --%>
 											</tr>
 										</c:forEach>
 									</table>
@@ -339,7 +370,7 @@
 								<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-200" id="tab-4">
 									<table class="table table-bordered">
 										<c:set value="0" var="slength"> </c:set>
-										<thead>
+										<!-- <thead>
 											<tr>
 												<th class="tc info">名称</th>
 												<th class="tc info">环保管理体系认证证书</th>
@@ -347,22 +378,24 @@
 												<th class="tc info">质量管理体系认证证书</th>
 												<th class="tc info">审核操作</th>
 											</tr>
-										</thead>
+										</thead> -->
 										<c:forEach items="${serviceQua }" var="server">
 											<tr>
-												<td class="info">${project.categoryName }
+												<td class="info">${server.categoryName }
 												</td>
-												<td class="tc">
 													<c:forEach items="${server.list }" var="ser" varStatus="vs">
-														<c:set value="${slength+1}" var="slength"></c:set>
-														<%-- <u:upload id="serverUp${plength}" buttonName="${ser.name}" groups="${saleUp}" businessId="${ser.id}" sysKey="1" typeId="1" auto="true" /> --%>
-														<u:show showId="serverShow${plength}" delete="false" groups="${saleShow}" businessId="${ser.id}" sysKey="1" typeId="1" />
+														<td class="tc">
+															<c:set value="${slength+1}" var="slength"></c:set>
+															<span class="hand" onclick="reason('${ser.id}','${server.categoryName }','服务-${ser.name}','服务');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${ser.name}：</span>
+															<u:show showId="serverShow${plength}" delete="false" groups="${saleShow}" businessId="${ser.id}" sysKey="1" typeId="1" />
+															<p id="${ser.id}_服务"><img src='/zhbj/public/backend/images/sc.png'></p>
+														</td>
 													</c:forEach>
-												</td>
-												<td class="tc w100">
+												
+												<%-- <td class="tc w100">
 													<a onclick="reason('服务品目信息','${ser.categoryName }','${vs.index + 1}');" id="${vs.index + 1}_hidden" class="btn">审核</a>
-													<p id="${vs.index + 1}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
-												</td>
+													<p id="${saua.id}_销售" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+												</td> --%>
 											</tr>
 										</c:forEach>
 									</table>
