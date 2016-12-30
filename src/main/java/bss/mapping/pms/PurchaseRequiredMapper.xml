@@ -51,6 +51,9 @@
 		<result column="RECORDER_MOBILE" jdbcType="VARCHAR"  property="recorderMobile"/>
 		<result column="ADVANCED_STATUS" jdbcType="VARCHAR"  property="advancedStatus"/>
 		<result column="PROJECT_STATUS" jdbcType="VARCHAR"  property="projectStatus"/>
+		
+		<result column="UNIQUE_ID" jdbcType="VARCHAR"  property="uniqueId"/>
+		<result column="FILE_ID" jdbcType="VARCHAR"  property="fileId"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, PLAN_NAME, PLAN_NO, REFERENCE_NO, PLAN_TYPE, DEPARTMENT, MATERIAL_NAME, STAND,
@@ -58,7 +61,8 @@
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		MATERIAL_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
 		STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
-		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS,PROJECT_STATUS
+		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS,
+		PROJECT_STATUS,UNIQUE_ID,FILE_ID
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="PurchaseRequired_Map">
@@ -261,8 +265,15 @@
 				ADVANCED_STATUS,
 			</if>
 			<if test="projectStatus != null">
-        PROJECT_STATUS,
-      </if>
+	          PROJECT_STATUS,
+		    </if>
+		    
+		     <if test="uniqueId != null">
+	          UNIQUE_ID,
+		    </if>
+		    <if test="fileId != null">
+	          FILE_ID,
+		    </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -409,9 +420,13 @@
 			<if test="advancedStatus != null">
 				#{ADVANCED_STATUS,jdbcType=VARCHAR},
 			</if>
-			<if test="projectStatus != null">
-        #{PROJECT_STATUS,jdbcType=VARCHAR},
-      </if>
+			<if test="uniqueId != null">
+	          #{UNIQUE_ID,jdbcType=VARCHAR},
+		   </if>
+		   	<if test="fileId != null">
+	          #{FILE_ID,jdbcType=VARCHAR},
+		   </if>
+		   
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -559,8 +574,15 @@
 				ADVANCED_STATUS=#{advancedStatus,jdbcType=VARCHAR},
 			</if>
 			<if test="projectStatus != null">
-        PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR},
-      </if>
+		        PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR},
+		     </if>
+		     
+		     <if test="uniqueId != null">
+		        UNIQUE_ID=#{uniqueId,jdbcType=VARCHAR},
+		     </if>
+		     <if test="fileId != null">
+		        FILE_ID=#{fileId,jdbcType=VARCHAR},
+		     </if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>

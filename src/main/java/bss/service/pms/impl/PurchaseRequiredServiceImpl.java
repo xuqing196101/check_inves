@@ -17,6 +17,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.oms.OrgnizationMapper;
+import ses.model.oms.Orgnization;
 import ses.model.oms.util.CommonConstant;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -47,6 +49,9 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	
 	@Autowired
 	private CollectPurchaseMapper collectPurchaseMapper;
+	
+	@Autowired
+	private OrgnizationMapper orgnizationMapper;
 	
 	@Override
 	public void add(PurchaseRequired purcharseRequired) {
@@ -228,6 +233,13 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	public List<PurchaseRequired> queryList(PurchaseRequired purchaseRequired) {
 		List<PurchaseRequired> list = purchaseRequiredMapper.query(purchaseRequired);
 		return list;
+	}
+
+	@Override
+	public  Orgnization queryByName(String name) {
+     Orgnization orgnization = orgnizationMapper.queryByName(name);
+	 
+		return orgnization;
 	}
 	
 
