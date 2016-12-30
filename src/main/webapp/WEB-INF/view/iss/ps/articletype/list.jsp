@@ -131,20 +131,20 @@
 		</thead>
 		
 		<c:forEach items="${list.list}" var="articletype" varStatus="vs">
-			<tr>
-				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${articletype.id}" /></td>
-				<td class="tc pointer" onclick="view('${articletype.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.name}</td>
+			<tr class="pointer">
+				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${articletype.id}" /></td>
+				<td class="tc" onclick="view('${articletype.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tl pl20" onclick="view('${articletype.id}')">${articletype.name}</td>
 				
 				<c:set value="${articletype.describe}" var="describe"></c:set>
 				<c:set value="${fn:length(describe)}" var="length"></c:set>
 				<c:if test="${length>20}">
-					<td onclick="view('${articletype.id}')" class="tc pointer ">${fn:substring(describe,0,10)}...</td>
+					<td onclick="view('${articletype.id}')" class="tl pl20">${fn:substring(describe,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=20}">
-					<td onclick="view('${articletype.id}')" class="tc pointer ">${articletype.describe } </td>
+					<td onclick="view('${articletype.id}')" class="tl pl20">${articletype.describe } </td>
 				</c:if>	
-				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.code}</td>
+				<td class="tl pl20" onclick="view('${articletype.id}')">${articletype.code}</td>
 			</tr>
 		</c:forEach>
 	</table>

@@ -39,7 +39,7 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 	@Override
 	public List<ArticleType> selectAllArticleType(Integer page) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
 		return articleTypeMapper.selectAllArticleType();
 	}
 	
