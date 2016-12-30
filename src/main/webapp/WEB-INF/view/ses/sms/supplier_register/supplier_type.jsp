@@ -166,7 +166,7 @@
 	    		layer.msg("请选择供应商类型");
 	    	}
 		}
-	    $("#cert_pro_list_tbody_id").find("input").each(function(index,element){
+	    $("#cert_pro_list_tbody_id").find("input[type='text']").each(function(index,element){
 	    	if (element.value == "") {
 	    		flag = false;
 	    		layer.msg("物资生产资质证书信息不能为空! ");
@@ -280,15 +280,19 @@
 	/** 打开物资生产证书 */
 	var proIndex;
 	function openCertPro() {
+<<<<<<< Updated upstream
 	var matProId = $("input[name='supplierMatPro.id']").val();
 	var supplierId = $("input[name='id']").val();
 		/* var matProId = $("input[name='supplierMatPro.id']").val();
+=======
+		  var matProId = $("input[name='supplierMatPro.id']").val();
+>>>>>>> Stashed changes
 		var supplierId = $("input[name='id']").val();
 		if (!matProId) {
 			layer.msg("请暂存物资生产专业信息 !", {
 				offset : '300px',
 			});
-		} else { */
+		} else {  
 			proIndex=layer.open({
 				type : 2,
 				title : '添加物资生产证书信息',
@@ -299,7 +303,7 @@
 				content : '${pageContext.request.contextPath}/supplier_cert_pro/add_cert_pro.html?matProId=' + matProId + '&supplierId=' + supplierId+'&sign='+1, //url
 				closeBtn : 1, //不显示关闭按钮
 			});
-		/* } */
+		 }  
 	}
 	
 	/** 供应商保存专业生产信息 */	
@@ -718,7 +722,7 @@
 			              <div class=" ">
 			              	  <h2 class="list_title">物资-生产型专业信息</h2>
 			              	    <ul class="list-unstyled f14">
-									<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatPro.id}" />
+									<input type="hidden" name="supplierMatPro.id" value="pro123456789" />
 									<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />
 								 <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 										<legend>供应商组织机构和人员</legend>
@@ -894,7 +898,7 @@
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_pro_list_tbody_id')"/></th>
-														<th class="info">资质证书名称</th>
+														<th class="info" style="width: 120px">资质证书名称</th>
 														<th class="info">资质等级</th>
 														<th class="info">发证机关</th>
 														<th class="info">有效期（起止时间）</th>
@@ -907,14 +911,14 @@
 													<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
 														<tr>
 															<td class="tc"><input type="checkbox" value="${certPro.id}" /></td>
-															<td class="tc"><input type="text" nam="listSupplierCertPros[${vs.index }].name" value="${certPro.name}"/> </td>
-															<td class="tc"><input type="text" nam="listSupplierCertPros[${vs.index }].levelCert" value="${certPro.levelCert}" /> </td>
-															<td class="tc"><input type="text" nam="listSupplierCertPros[${vs.index }].licenceAuthorith" value="${certPro.levelCert}"  value="${certPro.licenceAuthorith}"/></td>
+															<td class="tc"><input style="width: 120px"   type="text" nam="listSupplierCertPros[${vs.index }].name" value="${certPro.name}"/> </td>
+															<td class="tc"><input style="width: 70px" type="text" nam="listSupplierCertPros[${vs.index }].levelCert" value="${certPro.levelCert}" /> </td>
+															<td class="tc"><input  style="width: 100px"  type="text" nam="listSupplierCertPros[${vs.index }].licenceAuthorith" value="${certPro.levelCert}"  value="${certPro.licenceAuthorith}"/></td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="listSupplierCertPros[${vs.index }].expStartDate" value="<fmt:formatDate value="${certPro.expEndDate}"/>"   />
+															<input type="text" style="width: 100px"  readonly="readonly" onClick="WdatePicker()" name="listSupplierCertPros[${vs.index }].expStartDate" value="<fmt:formatDate value="${certPro.expEndDate}"/>"   />
 														  </td>
 															<td class="tc">
-																<input type="text" readonly="listSupplierCertPros[${vs.index }].expEndDate" onClick="WdatePicker()" name="businessStartDate" value="<fmt:formatDate value="${certPro.expEndDate}"/>"  />
+																<input type="text" style="width: 100px"   readonly="listSupplierCertPros[${vs.index }].expEndDate" onClick="WdatePicker()" name="businessStartDate" value="<fmt:formatDate value="${certPro.expEndDate}"/>"  />
 														 </td>
 															<td class="tc">
 															   <select name="listSupplierCertPros[${vs.index }].mot" class="w100p">
@@ -948,7 +952,7 @@
 						  <div class="">
 			              	  <h2 class="list_title" >物资-销售专业信息</h2>
 			              	    <ul class="list-unstyled" style="font-size: 14px">
-										<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatSell.id}" />
+										<input type="hidden" name="supplierMatSell.id" value="sale123456789" />
 										<input type="hidden" name="supplierMatSell.supplierId" value="${currSupplier.id}" />
 								        <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 	 			 						     <legend>供应商组织机构和人员 </legend>
@@ -1062,7 +1066,7 @@
 			              	  <h2 class="list_title">工程专业信息</h2>
 			              	    <ul class="list-unstyled" style="font-size: 14">
 									   <!--   <div class="col-md-5 title"><span class="star_red fl">*</span>工程专业信息：</div> -->
-										<input type="hidden" name="supplierMatEng.id" value="${currSupplier.supplierMatEng.id}" />
+										<input type="hidden" name="supplierMatEng.id" value="project123456789" />
 										<input type="hidden" name="supplierMatEng.supplierId" value="${currSupplier.id}" />
 										 
 										 	<fieldset class="col-md-12 border_font mt20">
@@ -1311,7 +1315,7 @@
 					              	    <ul class="list-unstyled" style="font-size: 14px">
 							 	
 									 
-										<input type="hidden" name="supplierMatSe.id" value="${currSupplier.supplierMatSe.id}" />
+										<input type="hidden" name="supplierMatSe.id" value="server123456789" />
 										<input type="hidden" name="supplierMatSe.supplierId" value="${currSupplier.id}" />
 												<fieldset class="col-md-12 border_font mt20">
 											 	  <legend>法人代表信息</legend>

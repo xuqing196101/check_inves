@@ -504,8 +504,16 @@ public class SupplierController extends BaseSupplierController {
             model.addAttribute("wlist", wlist);
             //物资生产类型的必须有的证书
             if(supplier.getSupplierMatPro()==null){
-            	 SupplierMatPro pro = supplierMatProService.init();
-           	  supplier.setSupplierMatPro(pro);
+//                if(supplier.getSupplierMatPro().getOrgName()==null){
+                    SupplierMatPro pro = supplierMatProService.init();
+                    supplier.setSupplierMatPro(pro);
+//                }
+                
+            	
+            }else if(supplier.getSupplierMatPro().getOrgName()==null){
+                supplier.setSupplierMatPro(null);
+                SupplierMatPro pro = supplierMatProService.init();
+                supplier.setSupplierMatPro(pro);
             }
           String attid = DictionaryDataUtil.getId("SUPPLIER_PRODUCT");
   
@@ -565,9 +573,9 @@ public class SupplierController extends BaseSupplierController {
 	 * @param supplier {@link Supplier}
 	 * @return
 	 */
-	@ResponseBody
+//	@ResponseBody
 	@RequestMapping(value="/saveSupplierType",produces="html/text;charset=UTF-8")
-	public String saveSupplierType(Supplier supplier){
+	public String saveSupplierType(Supplier supplier,Model model){
 	    
 	    if (supplier != null){
 	        if (StringUtils.isNotBlank(supplier.getSupplierTypeIds())){
@@ -589,7 +597,8 @@ public class SupplierController extends BaseSupplierController {
 	        }
 	        supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 	    }
-	    return StaticVariables.SUCCESS;
+	    model.addAttribute("currSupplier", supplier);
+	    return "ses/sms/supplier_register/supplier_type";
 	}
 
 	/**
@@ -644,7 +653,7 @@ public class SupplierController extends BaseSupplierController {
 			}
 		}
 		 supplierTypeRelateService.saveSupplierTypeRelate(supplier);
-		 supplier = supplierService.get(supplier.getId());
+//		 supplier = supplierService.get(supplier.getId());
 		 String[] split = supplier.getSupplierTypeIds().split(",");
 		 int length = split.length;
 		 model.addAttribute("length", length);
@@ -1035,7 +1044,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_legalMobile", "固话格式不正确 !");
 			count++;
 		}*/
-		if(supplier.getLegalTelephone()==null||!supplier.getLegalTelephone().matches("^1[0-9]{10}$")||supplier.getLegalName().length()>11){
+		if(supplier.getLegalTelephone()==null||!supplier.getLegalTelephone().matches("^1[0-9]{10}$")||supplier.getLegalTelephone().length()>11){
 			model.addAttribute("err_legalPhone", "格式不正确 !");
 			count++;
 		}
@@ -1293,10 +1302,10 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("tQc", "不能为空");
 			bool=false;	
 		}
-		if(supplierMatPro.getTotalQc()!=null&&!supplierMatPro.getTotalDevice().toString().matches("^[0-9]*$")){
+	/*	if(supplierMatPro.getTotalQc()!=null&&!supplierMatPro.getTotalDevice().toString().matches("^[0-9]*$")){
 			model.addAttribute("tQc", "格式不正确");
 			bool=false;	
-		}
+		}*/
 		if(supplierMatPro.getQcLead()==null||supplierMatPro.getQcLead().length()>12){
 			model.addAttribute("tqcLead", "不能为空");
 			bool=false;	
