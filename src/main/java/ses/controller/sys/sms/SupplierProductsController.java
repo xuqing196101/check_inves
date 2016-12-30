@@ -21,10 +21,12 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierProducts;
 import ses.service.bms.AreaServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierProductsService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -47,6 +49,9 @@ public class SupplierProductsController extends BaseSupplierController {
 	
 	@Autowired
 	private AreaServiceI  areaService;
+	
+	@Autowired
+	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
 	
 	
 	/**
@@ -173,6 +178,11 @@ public class SupplierProductsController extends BaseSupplierController {
 		}else if(flag.equals("store")){
 			return "ses/sms/supplier_register/products";	
 		}else{
+		    HashMap<String, Object> map1 = new HashMap<String, Object>();
+	        map1.put("typeName", "1");
+	        List<PurchaseDep> list1 = purchaseOrgnizationService
+	                .findPurchaseDepList(map1);  
+	        model.addAttribute("allPurList", list1);
 			return "ses/sms/supplier_register/procurement_dep";	
 		}
 		

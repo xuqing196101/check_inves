@@ -145,6 +145,11 @@ public class SupplierItemController extends BaseController{
 	 
 		//采购机构页面
 		if(flag.equals("5")){
+		    HashMap<String, Object> map1 = new HashMap<String, Object>();
+	        map1.put("typeName", "1");
+	        List<PurchaseDep> list1 = purchaseOrgnizationService
+	                .findPurchaseDepList(map1);  
+	        model.addAttribute("allPurList", list1);
 			return "ses/sms/supplier_register/procurement_dep";	
 		}
 		//查询所有的三级品目生产

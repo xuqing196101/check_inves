@@ -66,7 +66,7 @@
 										 申请表和承诺书下载 
 										</h2>
 										
-									<p style="font-size:15px;">	下载 《供应商入库申请表》<a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i></a> <span style="margin-left:200px;"></span> 下载《军队供应商承诺书》<a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i></a></p>
+									<p style="font-size:15px;">	下载 《供应商入库申请表》<a class="mt3 color7171C6" href="javascript:download1()"><i class="download mr5"></i></a> <span style="margin-left:200px;"></span> 下载《军队供应商承诺书》<a class="mt3 color7171C6" href="javascript:download2()"><i class="download mr5"></i></a></p>
 										
 										
 										 <!-- <table class="table table-bordered">
