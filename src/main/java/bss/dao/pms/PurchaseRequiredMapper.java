@@ -234,4 +234,15 @@ public interface PurchaseRequiredMapper {
     * @throws
      */
     PurchaseRequired seqAgain(PurchaseRequired purchaseRequired);
+    /**
+     * 
+    * @Title: queryDepartMent
+    * @Description: 查询所有的采购机构
+    * author: Li Xiaoxiao 
+    * @param @param list
+    * @param @return     
+    * @return List<String>     
+    * @throws
+     */
+    List<Map<String,Object>> queryOrg(List<String>  list);
 }

@@ -215,21 +215,14 @@
 							
 							<td class="p0">
 							<select onchange="sel(this)" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
-	                               <%-- <c:forEach items="${list2 }" var="purtype">
-		                               <c:if test="${purtype.id==obj.purchaseType}">
-											<option value="${obj.id }" selected="selected" >${purtype.name }</option>
-										</c:if>
-										 <c:if test="${purtype.id!=obj.purchaseType}">
-	                                        <option value="${obj.id }" >${purtype.name }</option>
-	                                    </c:if>
-									 </c:forEach> --%>
+	                              
 									 <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
 			                </select>
 							</td>
 							<td class="tc">
-							<select class="org"  onchange="org(this)" name="list[${vs.index }].organization">
+							<select class="org" <c:if test="${obj.purchaseCount!=null }"> required='required'</c:if> <c:if test="${obj.purchaseCount==null }"> onchange="org(this)"</c:if>    name="list[${vs.index }].organization">
 							<option value="">请选择</option>
 								<c:forEach items="${org }" var="ss">
 									<option value="${ss.id }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>

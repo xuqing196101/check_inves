@@ -223,6 +223,12 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		
 		return null;
 	}
+
+	@Override
+	public List<PurchaseRequired> queryList(PurchaseRequired purchaseRequired) {
+		List<PurchaseRequired> list = purchaseRequiredMapper.query(purchaseRequired);
+		return list;
+	}
 	
 
 }

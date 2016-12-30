@@ -359,7 +359,7 @@ public class PurchaseRequiredController extends BaseController{
 			}
 		}
 		String jsonString = JSON.toJSONString(list);
-		//purchaseRequiredService.batchAdd(list);
+		 purchaseRequiredService.batchAdd(list);
 		
 		return jsonString;
 	}

@@ -668,13 +668,7 @@
 						</div>
 					</li>
 					
-					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>需求部门</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group"  readonly="readonly" name="depName" value="${orgName }" id="xqbm" onkeyup="assignDepartment(this)">
-							<span class="add-on">i</span>
-						</div>
-					</li>
+				  
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>录入人手机号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">

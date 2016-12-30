@@ -79,7 +79,7 @@ public class ExcelUtil {
 	        		}
 	        	}
 	        
-	        	if(row.getRowNum()>1){
+	        	if(row.getRowNum()>2){
 	        		
 	        
 	        	 
