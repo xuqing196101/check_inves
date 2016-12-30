@@ -112,12 +112,17 @@
 		</div>
 
 		<!-- 修改订列表开始-->
-		<div class="container">
-			<div>
-				<div class="headline-v2">
-					<h2>进口代理商查看</h2>
-				</div>
-				<h2 class="count_flow jbxx">详细信息</h2>
+    <div class="container mt20">
+      <div class="tab-content">
+        <div class="tab-v2">
+          <ul class="nav nav-tabs bgwhite">
+            <li id="li_id_1" class="active">
+              <a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">详细信息</a>
+            </li>
+          </ul>
+            <div class="tab-content padding-top-20">
+              <div class="tab-pane fade active in" id="tab-1">
+                <h2 class="count_flow jbxx">基本信息</h2>
 				<table class="table table-bordered">
 					<tbody>
 						<tr>
@@ -163,6 +168,8 @@
 					<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 				</div>
 			</div>
+		</div>
+		</form>
 		</div>
 	</body>
 

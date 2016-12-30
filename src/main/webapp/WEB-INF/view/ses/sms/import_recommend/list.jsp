@@ -253,10 +253,10 @@
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">代理商名称：</label><span><input type="text" id="name" name="name" value="${ir.name }" class=""/></span>
-	      </li>
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="button" class="btn" onclick="resetQuery()">重置</button>  	
+	      </li> 	
     	</ul>
+	    	<button type="button" onclick="query()" class="btn fl">查询</button>
+	    	<button type="button" class="btn fl" onclick="resetQuery()">重置</button> 
     	  <div class="clear"></div>
        </form>
      </h2>

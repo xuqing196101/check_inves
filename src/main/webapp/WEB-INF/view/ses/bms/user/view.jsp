@@ -20,10 +20,8 @@
    <div class="container bggrey border1 mt20">
    <form action="" method="post">
    <div>
-   <div class="headline-v2 bggrey">
-   <h2>查看用户</h2>
-   </div>
-   <div class="tag-box tag-box-v4 col-md-9">
+   <h2 class="list_title">查看用户</h2>
+   <div class="tag-box tag-box-v4 col-md-12">
 	 	<table class="table table-bordered">
 		 	<tbody>
 		 		<tr>
@@ -72,7 +70,7 @@
    </div>
   </div> 
    
-  <div class="col-md-12 tc mt20" >
+  <div class="col-md-12 col-sm-12 col-xs-12 tc" >
     	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
   </form>
