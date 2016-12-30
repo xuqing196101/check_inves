@@ -63,6 +63,7 @@ public class SupplierStockholderController extends BaseController{
 	}
 	
 	@RequestMapping(value = "delete_stockholder")
+	@ResponseBody
 	public String deleteCertEng(HttpServletRequest request, String stockholderIds, String supplierId,Model model) {
 		supplierStockholderService.deleteStockholder(stockholderIds);
 		Supplier supplier = supplierService.get(supplierId);

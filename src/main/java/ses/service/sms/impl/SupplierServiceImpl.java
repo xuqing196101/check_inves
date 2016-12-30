@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -377,10 +378,16 @@ public class SupplierServiceImpl implements SupplierService {
 		if(supplier.getListSupplierFinances()!=null && supplier.getListSupplierFinances().size()>0){
 			supplierFinanceService.add(supplier.getListSupplierFinances(),supplier.getId());
 		}
-		
 		 if(supplier.getListSupplierStockholders()!=null&&supplier.getListSupplierStockholders().size()>0){
 			 for(SupplierStockholder s:supplier.getListSupplierStockholders()){
-					supplierStockholderMapper.insertSelective(s); 
+				 if(s.getId()==null){
+						String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+						s.setId(id);
+						supplierStockholderMapper.insertSelective(s); 
+				 }else{
+					 supplierStockholderMapper.updateByPrimaryKeySelective(s);
+				 }
+					
 			 }
 		 }
     }

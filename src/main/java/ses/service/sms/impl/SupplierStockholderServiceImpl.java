@@ -1,5 +1,7 @@
 package ses.service.sms.impl;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,9 @@ public class SupplierStockholderServiceImpl implements SupplierStockholderServic
 
 	@Override
 	public void saveOrUpdateStockholder(SupplierStockholder supplierStockholder) {
-//		String id = supplierStockholder.getId();
-//		if (id != null && !"".equals(id)) {
-//			supplierStockholderMapper.updateByPrimaryKeySelective(supplierStockholder);
-//		} else {
+		String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+				supplierStockholder.setId(id);
+ 
 			supplierStockholderMapper.insertSelective(supplierStockholder);
 //		}
 	}

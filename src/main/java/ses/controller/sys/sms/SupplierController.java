@@ -1163,7 +1163,7 @@ public class SupplierController extends BaseSupplierController {
 //				model.addAttribute("finace", "请添加财务信息!");
 //		}
 		List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
-		if(stock!=null&&stock.size()<1){
+		if(supplier.getListSupplierStockholders()==null||supplier.getListSupplierStockholders().size()<1){
 		    count++;
 			model.addAttribute("stock", "请添加股东信息!");
 	}
