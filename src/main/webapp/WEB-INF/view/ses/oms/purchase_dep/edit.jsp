@@ -228,7 +228,22 @@
   </head>
 
   <body>
-    <div class="container">
+		<!--面包屑导航开始-->
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li><a href="#"> 首页</a>
+					</li>
+					<li><a href="#">支撑系统</a>
+					</li>
+					<li><a href="#">后台管理</a>
+					</li>
+					<li class="active"><a href="#">采购机构管理</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+    <div class="container mt20">
       <div class="tab-content">
         <div class="tab-v2">
           <ul class="nav nav-tabs bgwhite">
@@ -767,7 +782,7 @@
                            <tr>
                              <td class="tc w50"><input type="checkbox" value="${obj.id }" name="selectedItem"></td>
                               <td class="tc w50">${(vs.index+1)}</td>
-                              <td class="tc w50">${obj.name}</td>
+                              <td class="pl20">${obj.name}</td>
                            </tr>
                           </c:forEach>
                           </c:if>
@@ -778,7 +793,7 @@
                 </div>
               </div>
 
-              <div class="mt40 tc mb50">
+              <div class="col-md-12 col-sm-12 col-xs-12 tc">
                 <input type="button"  onclick="save()" class="btn btn-windows save"  value="保存" />
                 <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回" />
               </div>
