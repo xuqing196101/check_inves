@@ -316,6 +316,9 @@ session.setAttribute("tokenSession", tokenValue);
 			async:false,
 		});
 	}
+	function zc(){
+		layer.msg("已暂存",{offset: ['300px', '750px']});
+	}
 </script>
 </head>
 <body>
@@ -424,7 +427,7 @@ session.setAttribute("tokenSession", tokenValue);
 			<div class="btmfix">
 	  	  	  <div class="mt15 tc">
 	  	  	    <button class="btn"   type="button" onclick="pre6()">上一步</button>
-				<!-- <button class="btn" onclick='submitformExpert()'  type="button">暂存</button> -->
+				<button class="btn" onclick='zc()'  type="button">暂存</button>
 				<button class="btn"   type="button" onclick='addPurList()'>下一步</button>
 	  	  	  </div>
 			</div>
