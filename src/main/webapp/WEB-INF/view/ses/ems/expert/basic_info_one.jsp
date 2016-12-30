@@ -369,7 +369,7 @@ session.setAttribute("tokenSession", tokenValue);
 		}
 		
 		if(telephone != ""){
-			var reg = /^(\d{3,4}-)?\d{7,8}$/
+			var reg = /^(\d{3,4}-{0,1})?\d{7,8}$/
 			if(!reg.test(telephone)){
 				layer.msg("固定电话格式有误!",{offset: ['300px', '750px']});
 				return false;
@@ -398,7 +398,7 @@ session.setAttribute("tokenSession", tokenValue);
 			return false;
 		}
 		var fax = $("#fax").val();
-		var faxReg = /^(\d{3,4}-)?\d{7,8}$/
+		var faxReg = /^(\d{3,4}-{0,1})?\d{7,8}$/
 		if(fax != "" && !faxReg.test(fax)){
 			layer.msg("传真电话格式有误 !",{offset: ['300px', '750px']});
 			return false;
