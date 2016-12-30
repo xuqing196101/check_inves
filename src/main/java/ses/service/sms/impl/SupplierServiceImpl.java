@@ -503,15 +503,10 @@ public class SupplierServiceImpl implements SupplierService {
             map.put("status", "unperfect");
             //			map.put("status", "信息未提交, 请提交审核 !");
 //        } else if (status == 0 || status == 8) {
-        }
-        else if (status == 0 || status == 2) {
-        	Date today=new Date();
-        	Date date = addDate(supplier.getAuditDate(),3,45);
-        	 map.put("status", "commit");
-        	if(today.getTime()>date.getTime()){
-        		map.put("status", "beyong");
-        	}
-           
+        } else if (status == 0) {
+        	map.put("status", "commit");
+        } else if (status == 2) {
+            map.put("status", "reject");
         } else if (status == 1) {
             map.put("status", "success");
         } else if (status == 3) {
@@ -523,8 +518,6 @@ public class SupplierServiceImpl implements SupplierService {
             map.put("supplier", supplier);
         } else if (status == 6) {
             map.put("status", "复核未通过");
-        } else if (status == 0) {
-            map.put("status", "信息初审中");
         } else if (status == 7) {
             map.put("status", "success");
             map.put("supplier", supplier);

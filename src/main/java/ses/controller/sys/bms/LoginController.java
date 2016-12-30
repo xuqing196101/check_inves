@@ -170,8 +170,10 @@ public class LoginController {
                         out.print("thirdNotPass");
                     } else  if("复核未通过".equals(msg)){
                         out.print("secondNotPass");
-                    } else  if("信息初审中".equals(msg)){
+                    } else  if("commit".equals(msg)){
                         out.print("commit," + u.getId());
+                    } else  if("reject".equals(msg)){
+                        out.print("reject," + u.getLoginName());
                     }
                 } else {
                     req.getSession().setAttribute("loginUser", u);
