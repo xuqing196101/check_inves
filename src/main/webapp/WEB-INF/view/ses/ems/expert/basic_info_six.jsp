@@ -18,7 +18,7 @@ session.setAttribute("tokenSession", tokenValue);
 	// 如果状态为退回,判断品目有没有被退回
 	function setFontCss(treeId, treeNode){
 		// 如果状态是为退回才进行判断
-		if (expertStatus == '3' || expertStatus　== 3) {
+		if (expertStatus == '3' || expertStatus == 3) {
 			return errorField.indexOf(treeNode.id) != -1 ? {color:"red"} : {};
 		} else {
 			return {};
@@ -236,15 +236,19 @@ function errorMsg(auditField){
 	<div class="col-md-12 tab-v2 job-content">
 	  <div class="padding-top-10">
 	  	<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+	  	<c:set value="0" var="liCount"/>
 		  <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">	  	
 			<c:if test="${cate.code eq 'GOODS'}">
-			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="fujian f18">物资</a></li>
+				<c:set value="${liCount+1}" var="liCount"/>
+			  <li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="fujian f18">物资</a></li>
 			</c:if>
 			<c:if test="${cate.code eq 'PROJECT'}">
-			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="fujian f18">工程</a></li>
+			  <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="fujian f18">工程</a></li>
+				<c:set value="${liCount+1}" var="liCount"/>
 			</c:if>
 			<c:if test="${cate.code eq 'SERVICE'}">
-			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="fujian f18">服务</a></li>
+			  <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="fujian f18">服务</a></li>
+				<c:set value="${liCount+1}" var="liCount"/>
 			</c:if>
 		  </c:forEach>
 		</ul>

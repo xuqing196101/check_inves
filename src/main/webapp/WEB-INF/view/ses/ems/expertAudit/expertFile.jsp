@@ -87,21 +87,21 @@
 		<div class="container container_box">
 			<div class=" content height-350">
 				<div class="col-md-12 tab-v2 job-content">
-					<ul class="nav nav-tabs bgdd">
+					<ul class="flow_step">
 						<li onclick="jump('basicInfo')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a><i></i>
 						</li>
 						<li onclick="jump('experience')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">经历经验</a>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">经历经验</a><i></i>
 						</li>
 						<li onclick="jump('expertType')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a><i></i>
 						</li>
 						<li onclick="jump('product')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品目录</a>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品目录</a><i></i>
 						</li>
 						<li class="active">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a><i></i>
 						</li>
 						<li onclick="jump('reasonsList')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
@@ -110,12 +110,12 @@
 					
 					<ul class="ul_list hand count_flow">
 						<li class="col-md-6 p0 mt10 mb25">
-							<span class="col-md-5 padding-left-5" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="application" onclick="reason(this);">专家申请表：</span>
+							<span class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="application" onclick="reason(this);">专家申请表：</span>
 								<up:show showId="show1" groups="show1,show2" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" />
 								<a style="visibility:hidden" id="application1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 						</li>
 						<li class="col-md-6 p0 mt10 mb25">
-							<span class="col-md-5 padding-left-5" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" id="contract" onclick="reason(this);">专家承诺书：</span>
+							<span class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="contract" onclick="reason(this);">专家承诺书：</span>
 								<up:show showId="show2" groups="show1,show2" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" />
 								<a style="visibility:hidden" id="contract1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 						</li>

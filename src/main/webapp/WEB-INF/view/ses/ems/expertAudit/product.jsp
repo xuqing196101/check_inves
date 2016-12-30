@@ -55,7 +55,7 @@
 						$("#tab-1").attr("style", "");
 					}
 				});
-			}); */
+			});
 			
 	/* function showTree(tabId) {
 		var expertId = $("#expertId").val();
@@ -270,21 +270,26 @@
 			<input value="服务" type="hidden" name="tab-3">
 			<div id="reg_box_id_4" class="container container_box">
 				<div class=" content height-350">
-					<ul class="nav nav-tabs bgdd">
+					<ul class="flow_step">
 						<li onclick="jump('basicInfo')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a>
+							<i></i>
 						</li>
 						<li onclick="jump('experience')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">经历经验</a>
+							<i></i>
 						</li>
 						<li onclick="jump('expertType')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a>
+							<i></i>
 						</li>
 						<li class="active">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品目录</a>
+							<i></i>
 						</li>
 						<li onclick="jump('expertFile')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a>
+							<i></i>
 						</li>
 						<li onclick="jump('reasonsList')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
@@ -316,17 +321,17 @@
 								<c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
 									<c:if test="${cate.name eq '物资'}">
 										<c:set var="count" value="${count + 1}"></c:set>
-										<ul id="tab-${vs.index + 1}" class="ztree center" style="display: none" ></ul>
+										<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30" style="display: none" ></ul>
 										<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden" >
 									</c:if>
 									<c:if test="${cate.name eq '工程'}">
 										<c:set var="count" value="${count + 1}"></c:set>
-										<ul id="tab-${vs.index + 1}" class="ztree center" style="display: none" ></ul>
+										<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30" style="display: none" ></ul>
 										<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 									</c:if>
 									<c:if test="${cate.name eq '服务'}">
 										<c:set var="count" value="${count + 1}"></c:set>
-										<ul id="tab-${vs.index + 1}" class="ztree center" style="display: none" ></ul>
+										<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30" style="display: none" ></ul>
 										<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 									</c:if>
 								</c:forEach>

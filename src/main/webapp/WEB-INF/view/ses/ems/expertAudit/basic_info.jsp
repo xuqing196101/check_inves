@@ -17,9 +17,9 @@
 		<script type="text/javascript">
 			$(function() {
 	      $(":input").each(function() {
-	        var onmouseover = "this.style.border='solid 1px #FF0000'";
-	        var onmouseout = "this.style.border='solid 1px #D3D3D3'";
-	        $(this).attr("onmousemove",onmouseover);
+	        var onMouseMove = "this.style.background='#E8E8E8'";
+					var onmouseout = "this.style.background='#FFFFFF'";
+	        $(this).attr("onMouseMove",onMouseMove);
 	        $(this).attr("onmouseout",onmouseout);
 	    	});
 	    	
@@ -63,7 +63,7 @@
 				        }
 				      }
 				    });
-				    $("#"+obj.id+"").css('border-color','#FF0000');
+				   /*  $("#"+obj.id+"").css('border-color','#FF0000'); */
 						$(obj).after(html);
 		      	layer.close(index);
 			    });
@@ -196,24 +196,30 @@
 		<div class="container container_box">
 			<div class=" content height-350">
 				<div class="col-md-12 tab-v2 job-content">
-					<ul class="nav nav-tabs bgdd">
+					<!-- <ul class="nav nav-tabs bgdd"> -->
+						<ul class="flow_step">
 						<li class="active">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a>
+							<a aria-expanded="false"  data-toggle="tab">基本信息</a>
+							<i></i>
 						</li>
 						<li onclick="jump('experience')" >
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">经历经验</a>
+							<a aria-expanded="false"  data-toggle="tab">经历经验</a>
+							<i></i>
 						</li>
 						<li onclick="jump('expertType')" >
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a>
+							<a aria-expanded="false"  data-toggle="tab">专家类别</a>
+							<i></i>
 						</li>
 						<li onclick="jump('product')" >
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品目录</a>
+							<a aria-expanded="false"  data-toggle="tab">产品目录</a>
+							<i></i>
 						</li>
 						<li onclick="jump('expertFile')" >
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a>
+							<a aria-expanded="false"  data-toggle="tab">附件</a>
+							<i></i>
 						</li>
 						<li onclick="jump('reasonsList')" >
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
+							<a aria-expanded="false"  data-toggle="tab">审核汇总</a>
 						</li>
 					</ul>
 					
