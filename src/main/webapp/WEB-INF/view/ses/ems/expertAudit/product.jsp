@@ -123,22 +123,22 @@
 							dataType: "json",
 							type: "get"
 						},
-						check: {
+					  check: {
 							enable : true,
 							chkStyle:"checkbox",  
 							chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
 							chkDisabledInherit: true
 						},
 						data: {
-							simpleData: {
-								enable: true,
-								idKey: "id",
-								pIdKey: "parentId"
-							}
-						},
-							callback:{
-								onClick: ztreeOnClick
-							}
+						simpleData: {
+							enable: true,
+							idKey: "id",
+							pIdKey: "parentId",
+						}
+					},
+					callback:{
+						onClick: ztreeOnClick
+					}
 					};
 					zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
 					zTreeObj.expandAll(true);//全部展开
@@ -272,47 +272,51 @@
 				<div class=" content height-350">
 					<ul class="flow_step">
 						<li onclick="jump('basicInfo')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a>
+							<a aria-expanded="false"  data-toggle="tab">基本信息</a>
 							<i></i>
 						</li>
 						<li onclick="jump('experience')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">经历经验</a>
+							<a aria-expanded="false"  data-toggle="tab">经历经验</a>
 							<i></i>
 						</li>
 						<li onclick="jump('expertType')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a>
+							<a aria-expanded="false"  data-toggle="tab">专家类别</a>
 							<i></i>
 						</li>
 						<li class="active">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品目录</a>
+							<a aria-expanded="false"  data-toggle="tab">产品目录</a>
 							<i></i>
 						</li>
 						<li onclick="jump('expertFile')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a>
+							<a aria-expanded="false"  data-toggle="tab">附件</a>
 							<i></i>
 						</li>
 						<li onclick="jump('reasonsList')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">审核汇总</a>
+							<a aria-expanded="false"  data-toggle="tab">审核汇总</a>
 						</li>
 					</ul>
 					<div class="col-md-12 tab-v2 job-content">
 						<div class="padding-top-10">
 							<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+							  <c:set value="0" var="liCount"/>
 								<c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
 									<c:if test="${cate.name eq '物资'}">
-										<li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);">
+									  <c:set value="${liCount+1}" var="liCount"/>
+										<li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);">
 											<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资</a>
 										</li>
 									</c:if>
 									<c:if test="${cate.name eq '工程'}">
-										<li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);">
+										<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 											<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程</a>
 										</li>
+										<c:set value="${liCount+1}" var="liCount"/>
 									</c:if>
 									<c:if test="${cate.name eq '服务'}">
-										<li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);">
+										<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 											<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务</a>
 										</li>
+										<c:set value="${liCount+1}" var="liCount"/>
 									</c:if>
 								</c:forEach>
 							</ul>
