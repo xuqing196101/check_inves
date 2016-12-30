@@ -112,8 +112,10 @@
                   </tr>
                 </tbody>
               </table>
-              <h2 class="count_flow jbxx">信息正文</h2>
-             <div class="col-md-12 col-xs-12 col-sm-12 border1 min-h130">${article.content}</div>
+             <h2 class="count_flow jbxx">信息正文</h2>
+             <div class="col-md-12 col-xs-12 col-sm-12 border1 min-h130 article-content-backend">
+             	${article.content}
+             </div>
               <c:if test="${article.status==2 }">
                 <h2 class="count_flow jbxx clear">审核结果:审核通过</h2>
               </c:if>

@@ -1080,7 +1080,11 @@ public class IndexNewsController extends BaseSupplierController{
 		articleService.update(articleDetail);
 		
 		HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
-		String htmlstr = articleDetail.getContent();
+		StringBuffer divStyle = new StringBuffer();
+		divStyle.append("<div class='article_content' style='font-size: 14px; line-height: 35px; padding: 20px; width:900px'>");
+		divStyle.append(articleDetail.getContent());
+		divStyle.append("</div>");
+		String htmlstr = divStyle.toString();
 		imageGenerator.loadHtml(htmlstr);
 		imageGenerator.getBufferedImage();
 		imageGenerator.saveAsImage(filePath+"/zancun.png");

@@ -894,3 +894,9 @@ a.redhover:hover{
 .min-h130{
 	min-height: 130px;
 }
+
+.article-content-backend {
+	font-size: 14px;
+    line-height: 35px;
+    padding: 20px;
+}
