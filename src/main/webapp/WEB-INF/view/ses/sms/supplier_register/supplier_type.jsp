@@ -109,6 +109,7 @@
  
  //暂存
  function ajaxSave(){
+	 alert(" 测试赛")
 	 var id =[]; 
 	 $('input[name="chkItem"]:checked').each(function(){ 
 		id.push($(this).val()); 
@@ -280,13 +281,10 @@
 	/** 打开物资生产证书 */
 	var proIndex;
 	function openCertPro() {
-<<<<<<< Updated upstream
 	var matProId = $("input[name='supplierMatPro.id']").val();
 	var supplierId = $("input[name='id']").val();
-		/* var matProId = $("input[name='supplierMatPro.id']").val();
-=======
-		  var matProId = $("input[name='supplierMatPro.id']").val();
->>>>>>> Stashed changes
+	  var matProId = $("input[name='supplierMatPro.id']").val();
+
 		var supplierId = $("input[name='id']").val();
 		if (!matProId) {
 			layer.msg("请暂存物资生产专业信息 !", {
@@ -1433,7 +1431,7 @@
 	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev();">上一步</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="ajaxSave();">暂存</button>
-				<input type="button" class="btn padding-left-20 padding-right-20 margin-5" value="下一步" onclick="next(1)"></input>
+				<input type="button" class="btn padding-left-20 padding-right-20 margin-5" value="下一步" onclick="next(1)"/>
 	  	  </div>
 	</div>
 	

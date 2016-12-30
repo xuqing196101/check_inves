@@ -19,20 +19,20 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 
 	@Override
 	public void saveOrUpdateSupplierMatPro(Supplier supplier) {
-		String id = supplier.getSupplierMatEng().getId();
-		if (id != null && !"".equals(id)) {
-			supplier.getSupplierMatEng().setUpdatedAt(new Date());
-			supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
-		} else {
-			String sid = UUID.randomUUID().toString().replaceAll("-", "");
-			supplier.getSupplierMatEng().setId(sid);
+//		String id = supplier.getSupplierMatEng().getId();
+//		if (id != null && !"".equals(id)) {
+//			supplier.getSupplierMatEng().setUpdatedAt(new Date());
+//			supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
+//		} else {
+//			String sid = UUID.randomUUID().toString().replaceAll("-", "");
+//			supplier.getSupplierMatEng().setId(sid);
 			supplier.getSupplierMatEng().setCreatedAt(new Date());
 			SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
 			if(eng==null){
 				supplierMatEngMapper.insertSelective(supplier.getSupplierMatEng());
 			}
 			
-		}
+//		}
 	}
 	
 	/**
