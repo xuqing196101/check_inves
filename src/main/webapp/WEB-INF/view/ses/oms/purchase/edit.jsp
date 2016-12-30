@@ -234,14 +234,14 @@ function onCheck(e, treeId, treeNode) {
             <li class="col-md-12 col-sm-12 col-xs-12">
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工作经历</span>
 			  <div class="col-md-12 col-sm-12 col-xs-12 p0">
-				<textarea  class="col-md-12 col-sm-12 col-xs-12 h130" name="workExperience" title="不超过800个字">${purchaseInfo.workExperience}</textarea>
+				<textarea  class="w100p h130" name="workExperience" title="不超过800个字">${purchaseInfo.workExperience}</textarea>
 			  </div>
 			</li> 
 			
-			<li class="col-md-12 col-sm-12 col-xs-12">
+			<li class="col-md-12 col-sm-12 col-xs-12 mt15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">培训经历</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea  class="col-md-12 col-sm-12 col-xs-12 h130"  name="trainExperience" title="不超过800个字">${purchaseInfo.trainExperience}</textarea>
+                <textarea  class="w100p h130"  name="trainExperience" title="不超过800个字">${purchaseInfo.trainExperience}</textarea>
               </div>
             </li>
 		  </ul>
@@ -410,8 +410,13 @@ function onCheck(e, treeId, treeNode) {
 			  
 			  <li class="col-md-12 col-sm-12 col-xs-12"> 
 			    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系地址</span>
+<<<<<<< Updated upstream
 				<div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group ">
 				  <input title="不超过800个字" name="address" value="${purchaseInfo.address}">
+=======
+				<div class="col-md-12 col-sm-12 col-xs-12 p0">
+				  <textarea  class="w100p" title="不超过800个字" name="address" >${purchaseInfo.address}</textarea>
+>>>>>>> Stashed changes
 				</div>
 			  </li>
 			</ul>
