@@ -322,10 +322,18 @@
 					<target>${jdk.version}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<skip>true</skip> 
+					<webResources>
+					  <resource>
+                        <directory>lib/</directory>
+                        <targetPath>WEB-INF/lib</targetPath>
+                        <includes>
+                            <include>**/*.jar</include>
+                        </includes>
+	                  </resource>
+				  </webResources>
 				</configuration>
 			</plugin>
 		</plugins>
-
 		<finalName>zhbj</finalName>
 	</build>
 
