@@ -155,6 +155,18 @@ public class Article{
     
     private String uploadId;
     
+    /**
+     * group
+     */
+    private String groupsUploadId;
+    private String groupShowId;
+    
+    /**
+     * id
+     */
+    private String groupsUpload;
+    private String groupShow;
+    
 	public String getUploadId() {
 		return uploadId;
 	}
@@ -405,4 +417,38 @@ public class Article{
 	public void setLastArticleType(ArticleType lastArticleType) {
 		this.lastArticleType = lastArticleType;
 	}
+
+	public String getGroupsUpload() {
+		return groupsUpload;
+	}
+
+	public void setGroupsUpload(String groupsUpload) {
+		this.groupsUpload = groupsUpload;
+	}
+
+	public String getGroupShow() {
+		return groupShow;
+	}
+
+	public void setGroupShow(String groupShow) {
+		this.groupShow = groupShow;
+	}
+
+	public String getGroupsUploadId() {
+		return groupsUploadId;
+	}
+
+	public void setGroupsUploadId(String groupsUploadId) {
+		this.groupsUploadId = groupsUploadId;
+	}
+
+	public String getGroupShowId() {
+		return groupShowId;
+	}
+
+	public void setGroupShowId(String groupShowId) {
+		this.groupShowId = groupShowId;
+	}
+	
+	
 }
