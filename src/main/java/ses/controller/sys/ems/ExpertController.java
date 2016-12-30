@@ -823,13 +823,18 @@ public class ExpertController {
     @RequestMapping(value = "showJiGou", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String showJiGou(String pId, String zId) {
+        // 全部的采购机构
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("typeName", "1");
-        map.put("provinceId", pId);
-        map.put("cityId", zId);
-        List<PurchaseDep> purchaseDepList = purchaseOrgnizationService
-                .findPurchaseDepList(map);
-        return JSON.toJSONString(purchaseDepList);
+        List<PurchaseDep> allPurList = purchaseOrgnizationService.findPurchaseDepList(map);
+        for (PurchaseDep purchaseDep : allPurList) {
+            if ((purchaseDep.getProvinceId() != null && purchaseDep.getProvinceId().equals(pId)) || (purchaseDep.getCityId() != null && purchaseDep.getCityId().equals(zId))) {
+                purchaseDep.setFlag("1");
+            } else {
+                purchaseDep.setFlag("0");
+            }
+        }
+        return JSON.toJSONString(allPurList);
     }
     
     /**
