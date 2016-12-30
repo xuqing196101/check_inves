@@ -33,6 +33,34 @@
     <association property="lastArticleType" column="LAST_ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
   </resultMap> 
   
+  <!-- 无关联查询 -->
+  <resultMap id="ArticleBase" type="iss.model.ps.Article">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="PUBLISHED_AT" jdbcType="TIMESTAMP" property="publishedAt" />
+    <result column="IS_PIC_SHOW" property="isPicShow" />
+    <result column="POSITION" property="position" />
+    <result column="SHOW_COUNT" property="showCount" />
+    <result column="DOWNLOAD_COUNT" property="downloadCount"/>
+    <result column="STATUS" property="status" />
+    <result column="PIC" property="pic" />
+    <result column="PUBLISHED_NAME" property="publishedName" />
+    <result column="IS_INDEX" property="isIndex" />
+    <result column="TYPE" property="type" />
+    <result column="PROJECT_ID" property="projectId" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="RANGE" property="range" />
+    <result column="IS_DELETED" property="isDeleted" />
+    <result column="REASON" property="reason" />
+    <result column="SOURCE" property="source" />
+    <result column="SOURCE_LINK" property="sourceLink" />
+    
+    <result column="SECOND_ARTICLE_TYPE_ID" property="secondArticleTypeId" />
+    <result column="THREE_ARTICLE_TYPE_ID" property="threeArticleTypeId" />
+    <result column="FOUR_ARTICLE_TYPE_ID" property="fourArticleTypeId" />
+  </resultMap>
+  
   <resultMap extends="ArticleMapper" id="ArticleBlob" type="iss.model.ps.Article">
     <result column="CONTENT" jdbcType="CLOB" property="content"/>
   </resultMap>
@@ -514,7 +542,7 @@ FROM
 				FROM
 					T_ISS_PS_ARTICLE_TYPE
 				WHERE
-					PARENT_ID = '3'
+					PARENT_ID = #{parId}
 			)
 		ORDER BY
 			published_at DESC
@@ -582,7 +610,7 @@ AND ROWNUM &lt;= 6
 	FROM
 		T_ISS_PS_ARTICLE
 	WHERE
-	LAST_ARTICLE_TYPE_ID = 3 order by published_at desc)
+	LAST_ARTICLE_TYPE_ID = #{typeId} order by published_at desc)
 where 1=1
 	and status = 2
 	and IS_DELETED = 0
@@ -711,4 +739,13 @@ and status = 2
     </set>
     where ID = #{id}
   </update>
+  
+  <!-- 查询 -->
+  <select id="selectListByTitle"  parameterType="java.lang.String" resultMap="ArticleBase">
+    SELECT 
+    <include refid="Article_Column_List" />
+    FROM T_ISS_PS_ARTICLE
+    WHERE IS_DELETED = 0
+    AND NAME like CONCAT(CONCAT('%', #{name}), '%')
+  </select>
 </mapper>

@@ -1149,27 +1149,31 @@ public class IndexNewsController extends BaseSupplierController{
 	@RequestMapping("/solrSearch")
 	public String solrSearch(Model model,HttpServletRequest request,Integer page) throws Exception{
 		String condition = request.getParameter("condition");
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		String pageSize = config.getString("pageSize");
+		//PropertiesUtil config = new PropertiesUtil("config.properties");
+		//String pageSize = config.getString("pageSize");
 		if(page==null){
 			page=1;
 		}
-		Integer pages=0;
+		/*Integer pages=0;
 		Integer startRow=0;
 		Integer endRow=0;
-		Map<String, Object> map = null;
+		Map<String, Object> map = null;*/
+		List<Article> articleList = new ArrayList<>();
 		if(condition!=null && !condition.equals("")){
-			map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
-			pages = (Integer)map.get("tdsTotal");
+			//map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
+			articleList = articleService.selectListByTitle(condition,page);
+			/*pages = (Integer)map.get("tdsTotal");
 			startRow = (page-1)*Integer.parseInt(pageSize)+1;
-			endRow = startRow+(((List<IndexEntity>)map.get("indexList")).size()-1);
+			endRow = startRow+(((List<IndexEntity>)map.get("indexList")).size()-1);*/
 		}
-		model.addAttribute("total", pages);
+		PageInfo<Article> list = new PageInfo<>(articleList);
+		model.addAttribute("info", list);
+		/*model.addAttribute("total", pages);
 		model.addAttribute("startRow", startRow);
 		model.addAttribute("endRow", endRow);
-		model.addAttribute("solrMap",map);
+		model.addAttribute("solrMap",map);*/
 		model.addAttribute("oldCondition", condition);
-		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
+		/*model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));*/
 		return "iss/ps/index/index_solr";
 	}
 	

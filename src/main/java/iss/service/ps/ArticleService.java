@@ -295,4 +295,14 @@ public interface ArticleService {
 	List<Article> selectAllByArticleType(Map<String, Object> map);
 	
 	StringBuilder getContents(List<AdvancedPackages> listPackages);
+
+	/**
+	 * 
+	 *〈简述〉根据文章标题进行查询
+	 *〈详细描述〉
+	 * @author myc
+	 * @param title
+	 * @return Article 集合
+	 */
+    List<Article>  selectListByTitle(String title, Integer page);
 }

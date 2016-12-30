@@ -24,6 +24,7 @@ import com.github.pagehelper.PageHelper;
 
 import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 
@@ -294,4 +295,16 @@ public class ArticleServiceImpl implements ArticleService {
                 sb.append("<tr><td>说明</td><td colspan=8>1. 投标人须对所投包内所有产品和数量进行投标报价，否则视为无效投标。<br/>2. 运杂费：</td></tr></table>");
                 return sb;
     }
+    
+    /**
+     * 
+     * @see iss.service.ps.ArticleService#selectListByTitle(java.lang.String)
+     */
+    @Override
+    public List<Article> selectListByTitle(String title, Integer page) {
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
+        return articleMapper.selectListByTitle(title);
+    }
+    
+    
 }

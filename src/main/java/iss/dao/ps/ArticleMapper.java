@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 
 
 /*
@@ -308,4 +310,14 @@ public interface ArticleMapper {
 	List<Article> selectAllByParId(Map<String, Object> map);
 	
 	List<Article> selectAllByArticleType(Map<String, Object> map);
+	
+	/**
+	 * 
+	 *〈简述〉根据标题查询
+	 *〈详细描述〉
+	 * @author myc
+	 * @param name 文章标题
+	 * @return
+	 */
+    List<Article> selectListByTitle(@Param("name")String name);
 }
