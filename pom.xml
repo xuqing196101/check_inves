@@ -321,12 +321,9 @@
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
-					<compilerArguments>
-                        <extdirs>src\main\webapp\WEB-INF\lib</extdirs>
-                    </compilerArguments>
 					<skip>true</skip> 
 					<compilerArguments>
-                        <extdirs>src\main\webapp\WEB-INF\lib</extdirs>
+                        <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
                     </compilerArguments>
 				</configuration>
 			</plugin>
