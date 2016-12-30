@@ -72,7 +72,48 @@ public class ScoreModel implements Serializable{
 	//该打分项所在在页码， 不做数据存储
 	private Integer page;
 	
-	public String getId() {
+	//是否有基准数额 0 是 1 否
+	private Integer isHave;
+	//基准数额
+	private String standScores;
+	//与基准数关系 0 大于等于 1 小于等于
+	private Integer relation;
+	//关系分数 0最高分 1最低分
+	private Integer relationScore;
+
+    public Integer getIsHave() {
+        return isHave;
+    }
+
+    public void setIsHave(Integer isHave) {
+        this.isHave = isHave;
+    }
+
+    public String getStandScores() {
+        return standScores;
+    }
+
+    public void setStandScores(String standScores) {
+        this.standScores = standScores;
+    }
+
+    public Integer getRelation() {
+        return relation;
+    }
+
+    public void setRelation(Integer relation) {
+        this.relation = relation;
+    }
+
+    public Integer getRelationScore() {
+        return relationScore;
+    }
+
+    public void setRelationScore(Integer relationScore) {
+        this.relationScore = relationScore;
+    }
+
+    public String getId() {
 		return id;
 	}
 

@@ -286,6 +286,10 @@ public class IntelligentScoringController extends BaseController{
                                         sm.setIntervalNumber(scoreModel.getIntervalNumber());
                                         sm.setIntervalTypeName(scoreModel.getIntervalTypeName());
                                         sm.setAddSubtractTypeName(scoreModel.getAddSubtractTypeName());
+                                        sm.setIsHave(scoreModel.getIsHave());
+                                        sm.setStandScores(scoreModel.getStandScores());
+                                        sm.setRelation(scoreModel.getRelation());
+                                        sm.setRelationScore(scoreModel.getRelationScore());
                                         scoreModelService.saveScoreModel(sm);
                                     }
                                 }

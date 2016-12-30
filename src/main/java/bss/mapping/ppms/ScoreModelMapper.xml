@@ -31,6 +31,11 @@
    	<result column="updated_at"  property="updatedAt" jdbcType="TIMESTAMP"/>
    	<result column="status"  property="status" />
    	<result column="judge_number"  property="judgeNumber" />
+   	<!--新加下面字段  -->
+   	<result column="IS_FLAG"  property="isHave" />
+   	<result column="STAND_SCORES"  property="standScores" />
+   	<result column="RELATION"  property="relation" />
+   	<result column="RELATION_SCORE"  property="relationScore" />
    	<!-- <association property="markTerm" column="mark_term_id" select="bss.dao.ppms.MarkTermMapper.findMarkTermById"/> -->
    	<association property="markTerm" javaType="bss.model.ppms.MarkTerm">
    		<id column="mark_term_id" property="id"/>
@@ -83,6 +88,11 @@
    	<result column="updated_at"  property="updatedAt" jdbcType="TIMESTAMP"/>
    	<result column="status"  property="status" />
    	<result column="judge_number"  property="judgeNumber" />
+   	<!--新加下面字段  -->
+   	<result column="IS_FLAG"  property="isHave" />
+   	<result column="STAND_SCORES"  property="standScores" />
+   	<result column="RELATION"  property="relation" />
+   	<result column="RELATION_SCORE"  property="relationScore" />
    	<!-- <association property="markTerm" column="mark_term_id" select="bss.dao.ppms.MarkTermMapper.findMarkTermById"/> -->
    	<association property="markTerm" javaType="bss.model.ppms.MarkTerm">
    		<id column="mark_term_id" property="id"/>
@@ -286,6 +296,18 @@
        <if test="judgeNumber != null">
         judge_number ,
       </if>
+      <if test="isHave != null">
+        IS_FLAG ,
+      </if>
+      <if test="standScores != null">
+        STAND_SCORES ,
+      </if>
+      <if test="relation != null">
+        RELATION ,
+      </if>
+      <if test="relationScore != null">
+        RELATION_SCORE ,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       sysdate,
@@ -370,6 +392,19 @@
       <if test="judgeNumber != null">
          #{judgeNumber},
       </if>
+       <if test="isHave != null">
+         #{isHave},
+      </if>
+      
+       <if test="standScores != null">
+         #{standScores},
+      </if>
+       <if test="relation != null">
+         #{relation},
+      </if>
+       <if test="relationScore != null">
+         #{relationScore},
+      </if>
     </trim>
   </insert>
   <update id="updateScoreModel" parameterType="bss.model.ppms.ScoreModel">
@@ -453,6 +488,18 @@
       </if>
        <if test="judgeNumber != null">
         ,judge_number = #{judgeNumber}
+      </if>
+       <if test="isHave != null">
+       ,IS_FLAG =  #{isHave}
+      </if>
+       <if test="standScores != null">
+       ,STAND_SCORES =  #{standScores}
+      </if>
+       <if test="relation != null">
+        ,RELATION = #{relation}
+      </if>
+       <if test="relationScore != null">
+        ,RELATION_SCORE = #{relationScore}
       </if>
       where 1=1
       <if test="id !=null">

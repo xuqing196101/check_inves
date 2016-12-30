@@ -849,11 +849,53 @@
 	</table>
 	<table id="model3" style="display: none;" class="w499">
 		<tbody>
+			 <tr>
+		    	<td>是否有基准数额：</td>
+		    	<td>
+		    		<select name="isHave" id="isHave">
+		    			<option value="0" <c:if test="${scoreModel.isHave == 0}"> selected="selected"</c:if>>是</option>
+		    			<option value="1" <c:if test="${scoreModel.isHave == 1}"> selected="selected"</c:if>>否</option>
+		    		</select>
+		    		<br/>
+					<span class="blue">*是否有基准数额</span>
+		    	</td>
+		    </tr>
+		    <tr>
+		   		 <td>基准数额：</td>
+		    	 <td><input name="standScores" id="standScores" value="${scoreModel.standScores }"  />
+		    	 	<br/>
+		    	 	<span class="blue">*当是否由基准数额为否时此项非必填</span>
+		    	    <br/>
+					<span class="blue">*评审数额小于等于基准数额的时候,加分类型得最高分减分类型得最低分，其他按照排序得分</span>
+		    	 </td>
+		    </tr>
+		    <tr>
+		    	<td>与基准数额关系：</td>
+		    	<td>
+		    	    <select name="relation" id="relation">
+		    	           <option <c:if test="${scoreModel.relation == 0}"> selected="selected" </c:if> value="0">大于等于</option>
+		    	           <option <c:if test="${scoreModel.relation == 1}"> selected="selected" </c:if> value="1">小于等于</option>
+		    	     </select>
+		    		<br/>
+					<span class="blue">*与基准数关系大于等于或者小于等于</span>
+		    	</td>
+		    </tr>
+		    <tr>
+		    	<td>关系分数：</td>
+		    	<td>
+		    	    <select name="relationScore" id="relationScore">
+		    	     	<option value="0" <c:if test="${scoreModel.relationScore == 0}"> selected="selected"</c:if> >最高分</option>
+		    	     	<option value="1" <c:if test="${scoreModel.relationScore == 1}"> selected="selected"</c:if> >最低分</option>
+		    	     </select>
+		    		<br/>
+					<span class="blue">*基准数额为限制最高分或者为最低分</span>
+		    	</td>
+		    </tr>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例如，矿泉水容量从小到大排列，第一名得最低分，依次递增">
+				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例如，矿泉水容量从大到小排列，第一名得最高分，依次递减">
 					<br/>
-					<span class="blue">*例如，矿泉水容量从小到大排列，第一名得最低分，依次递增</span>
+					<span class="blue">*例如，矿泉水容量从大到小排列，第一名得最高分，依次递减</span>
 				</td>
 			</tr>
 			<tr>
@@ -903,6 +945,48 @@
 	</table>
 	<table id="model4" style="display: none;" class="w499">
 		<tbody>
+			 <tr>
+		    	<td>是否有基准数额：</td>
+		    	<td>
+		    		<select name="isHave" id="isHave">
+		    			<option value="0" <c:if test="${scoreModel.isHave == 0} "> selected="selected"</c:if>>是</option>
+		    			<option value="1" <c:if test="${scoreModel.isHave == 1}"> selected="selected"</c:if>>否</option>
+		    		</select>
+		    		<br/>
+					<span class="blue">*是否有基准数额</span>
+		    	</td>
+		    </tr>
+		    <tr>
+		   		 <td>基准数额：</td>
+		    	 <td><input name="standScores" id="standScores" value="${scoreModel.standScores }"  />
+		    	    <br/>
+		    	 	<span class="blue">*当是否由基准数额为否时此项非必填</span>
+		    	    <br/>
+					<span class="blue">*评审数额小于等于基准数额的时候,加分类型得最高分减分类型得最低分，其他按照排序得分</span>
+		    	 </td>
+		    </tr>
+		    <tr>
+		    	<td>与基准数额关系：</td>
+		    	<td>
+		    	    <select name="relation" id="relation">
+		    	           <option <c:if test="${scoreModel.relation == 0}"> selected="selected" </c:if> value="0">大于等于</option>
+		    	           <option <c:if test="${scoreModel.relation == 1}"> selected="selected" </c:if> value="1">小于等于</option>
+		    	     </select>
+		    		<br/>
+					<span class="blue">*与基准数关系大于等于或者小于等于</span>
+		    	</td>
+		    </tr>
+		    <tr>
+		    	<td>关系分数：</td>
+		    	<td>
+		    	    <select name="relationScore" id="relationScore">
+		    	     	<option value="0" <c:if test="${scoreModel.relationScore == 0}"> selected="selected"</c:if> >最高分</option>
+		    	     	<option value="1" <c:if test="${scoreModel.relationScore == 1}"> selected="selected"</c:if> >最低分</option>
+		    	     </select>
+		    		<br/>
+					<span class="blue">*基准数额为限制最高分或者为最低分</span>
+		    	</td>
+		    </tr>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
 				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例如自行车重量从小到大排序，第一名得最高分，依次递减分值">
