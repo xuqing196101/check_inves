@@ -46,6 +46,10 @@
       function drugs() {
         layer.msg("正在建设中");
       }
+      
+      function registerTip(){
+		layer.msg("暂未开放，请耐心等待！");
+	  }	
     </script>
   </head>
 

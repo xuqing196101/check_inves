@@ -245,6 +245,8 @@ public class OpenBiddingController {
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("project", project);
         model.addAttribute("ope", "add");
+        model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+        model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
         return "bss/ppms/open_bidding/bid_file/add_file";
     }
     
@@ -557,6 +559,7 @@ public class OpenBiddingController {
             result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
             //flag：1，招标文件为提交状态
             if ("1".equals(flag)) {
+              //
               Project project = projectService.selectById(projectId);
               project.setConfirmFile(1);
               projectService.update(project);
@@ -585,6 +588,40 @@ public class OpenBiddingController {
             }
         }
         System.out.println(result);
+    }
+    
+    /**
+     *〈简述〉判断是否上传招标文件审批文件
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param response
+     * @param projectId 项目id
+     * @throws IOException
+     */
+    @RequestMapping("/isLoadAuditFile")
+    public void isLoadAuditFile(String projectId, HttpServletResponse response) throws IOException{
+      try {
+         String msg = "";
+        //判断该项目是否上传过招标文件
+        String typeId = DictionaryDataUtil.getId("BID_FILE_AUDIT");
+        List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+        if (files == null || files.size() == 0) {
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter()
+          .print("{\"success\": " + false + ", \"msg\": \"" + msg
+              + "\"}");
+        } else {
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter()
+          .print("{\"success\": " + true + ", \"msg\": \"" + msg
+              + "\"}");
+        }
+        response.getWriter().flush();
+      } catch (Exception e) {
+          e.printStackTrace();
+      } finally{
+          response.getWriter().close();
+      }
     }
     
     /**

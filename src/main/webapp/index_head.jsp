@@ -462,7 +462,11 @@ function importAdd(){
 	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
 	      <div class="drop_main">
 	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login">
+<<<<<<< HEAD
 	        <a href="javascript:void(0)" onclick="setting()" >
+=======
+	         <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
+>>>>>>> be3203dbe3b5b37da1b55d4bdd94d72149d08188
 		     供应商注册
 		     <i></i>
 		    </a>	  

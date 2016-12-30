@@ -2432,4 +2432,19 @@ public class ProjectController extends BaseController {
         
     }
     
+    /**
+     * 
+    * @Title: findDetailById
+    * @author ZhaoBo
+    * @date 2016-12-30 下午1:52:31  
+    * @Description: 通过明细ID找到明细 
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/findDetailById")
+    @ResponseBody
+    public ProjectDetail findDetailById(HttpServletRequest request){
+    	return detailService.selectByPrimaryKey(request.getParameter("id"));
+    }
+    
 }

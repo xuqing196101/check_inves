@@ -154,11 +154,11 @@
 						<li>
 							<div>
 								<c:forEach items="${spList}" var="sp">
-									<span class="margin-left-30 hand" onclick="reason('${sp.id}','${sp.name}技术');"><input type="checkbox"  disabled="disabled"  name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
+									<span <c:if test="${fn:contains(errorField,jj.id)}">style="border: 1px solid #FF8C00;"</c:if>   class="margin-left-30 hand" onclick="reason('${sp.id}','${sp.name}技术');"><input type="checkbox"  disabled="disabled"  name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
 									<a class="b f18 ml10 red" id="${sp.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
 								</c:forEach>
 								<c:forEach items="${jjList}" var="jj">
-									<span class="margin-left-30 hand" onclick="reason('${jj.id}','${jj.name}');"><input type="checkbox"  disabled="disabled" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
+									<span <c:if test="${fn:contains(errorField,jj.id)}">style="border: 1px solid #FF8C00;"</c:if>  class="margin-left-30 hand" onclick="reason('${jj.id}','${jj.name}');"><input type="checkbox"  disabled="disabled" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
 									<a class="b f18 ml10 red" id="${jj.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
 								</c:forEach>
 							</div>

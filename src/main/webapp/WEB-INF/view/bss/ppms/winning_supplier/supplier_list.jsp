@@ -41,7 +41,7 @@
     }
 
     /** 单选 */
-    function check(){
+    function check(index){
          var count=0;
          var checklist = document.getElementsByName ("chkItem");
          var checkAll = document.getElementById("checkAll");
@@ -59,6 +59,15 @@
                 
                  }
            }
+         var associate = document.getElementsByName("associate"+index);
+         for(var i=0;i<associate.length;i++){
+        	 if($("#rela"+index).prop("checked")){
+        		 $(associate[i]).prop("checked","checked");
+        	 }else{
+        		 $(associate[i]).prop("checked",false);
+        	 }
+        	 
+         }
          ratio();
       
     }
@@ -224,6 +233,101 @@
         }
       }
       
+      //点击中标供应商隐藏显示所属明细
+      function ycDiv(obj,index) {
+    	  //var bfb = parseFloat($(obj).parent().parent().find("td:eq(7)").text())/100;
+    	  if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+              $(obj).removeClass("shrink");
+              $(obj).addClass("spread");
+            } else {
+              if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+                $(obj).removeClass("spread");
+                $(obj).addClass("shrink");
+              }
+            }
+	    	  	if ($(obj).parent().parent().next().hasClass("hide")) {
+		    		  $(obj).parent().parent().next().removeClass("hide");
+			      } else {
+			    	  $(obj).parent().parent().next().addClass("hide");
+			      }
+		    	  var detail = document.getElementsByName("detail"+index);
+		    	  for(var i=0;i<detail.length;i++){
+		    		  if($(detail[i]).hasClass("hide")){
+		    			  $(detail[i]).removeClass("hide");
+				      } else {
+				    	  $(detail[i]).addClass("hide");
+				      }
+		    	  }
+      }
+      
+      //关联选中
+      function associateSelected(id,obj,index){
+    	  var associate = document.getElementsByName("associate"+index);
+    	  for(var i=0;i<associate.length;i++){
+    		  if(associate[i].checked){
+    			  $("#rela"+index).prop("checked","checked");
+    			  break;
+    		  }else if(i==associate.length-1){
+    			  $("#rela"+index).prop("checked",false);
+    		  }
+    	  }
+    	  var count = 0;
+        var checklist = document.getElementsByName ("chkItem");
+        var checkAll = document.getElementById("checkAll");
+        for(var i=0;i<checklist.length;i++){
+           if(checklist[i].checked == false){
+               checkAll.checked = false;
+               break;
+           }
+           for(var j=0;j<checklist.length;j++){
+               if(checklist[j].checked == true){
+                  checkAll.checked = true;
+                  count++;
+               }
+           }
+        }
+        ratio();
+        $.ajax({
+					type: "POST",
+					dataType: "json",
+					async: false, //请求是否异步，默认为异步
+					url: "${pageContext.request.contextPath }/project/findDetailById.do?id=" + id,
+					success: function(data) {
+						var purchaseCount = data.purchaseCount;
+						var bfb = parseFloat($("#rela"+index).parent().parent().find("td:eq(7)").text())/100;
+						if($("#rela"+index).prop("checked")){
+							if("${quote}"==0){
+								$(obj).parent().parent().find("td:eq(7)").text("");
+								$(obj).parent().parent().find("td:eq(8)").text("");
+							}else{
+								var price = $(obj).parent().parent().find("td:eq(8)").text();
+								$(obj).parent().parent().find("td:eq(7)").text(parseFloat(bfb*purchaseCount));
+								$(obj).parent().parent().find("td:eq(9)").text(parseFloat(bfb*purchaseCount*price)/10000);
+							}
+						}else{
+							$(obj).parent().parent().find("td:eq(7)").text("");
+							$(obj).parent().parent().find("td:eq(9)").text("");
+						}
+						if("${quote}"==1){
+							var aociate = document.getElementsByName("associate"+index);
+							var realPrice = 0;
+							for(var i=0;i<aociate.length;i++){
+								var detailPrice = $(aociate[i]).parent().parent().find("td:eq(9)").text();
+								if(detailPrice!=""){
+									realPrice = realPrice + parseFloat(detailPrice);
+								}
+							}
+							if(realPrice==0){
+								$("#singQuote"+index).text("");
+							}else{
+								$("#singQuote"+index).text(realPrice);
+							}
+						}else{
+							$(obj).parent().parent().find("td:eq(9)").text($("#wonPrice"+index).text());
+						}
+					}
+				});
+      }
   </script>
 
   <body>
@@ -238,7 +342,7 @@
             <i></i>
         </li>
         <li>
-              <a href="javascript:void(0);" onclick="tabthree();">03、未中标通知书</a>
+            <a href="javascript:void(0);" onclick="tabthree();">03、未中标通知书</a>
         </li>
       </ul>
     </div>
@@ -253,24 +357,25 @@
       <div class="content table_box pl0">
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
-            <tr>
-                 <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-              <th class="info">供应商名称</th>
-              <th class="info">参加时间</th>
-              <th class="info">总报价（万元）</th>
-              <th class="info">总得分</th>
-              <th class="info">排名</th>
+            <tr class="info">
+              <th class="w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+              <th>供应商名称</th>
+              <th>参加时间</th>
+              <th>总报价（万元）</th>
+              <th>总得分</th>
+              <th>排名</th>
               <c:if test="${view == 1}">
-                <th class="info">中标状态</th>
+                <th>中标状态</th>
               </c:if>
-              <th class="info">占比（%）</th>
-              <th class="info">中标金额（万元）</th>
+              <th>占比（%）</th>
+              <th>实际成交总价（万元）</th>
+              <th>中标金额（万元）</th>
             </tr>
           </thead>
           <c:forEach items="${supplierCheckPass}" var="checkpass" varStatus="vs">
             <tr id="${checkpass.id}">
-              <td class="tc opinter"><input onclick="check();" type="checkbox" name="chkItem" value="${checkpass.id}" /></td>
-              <td class="tc opinter" onclick="">${checkpass.supplier.supplierName}</td>
+              <td class="tc opinter"><input onclick="check(${vs.index});" id="rela${vs.index }" type="checkbox" name="chkItem" value="${checkpass.id}" /></td>
+              <td class="opinter" onclick=""><span onclick="ycDiv(this,'${vs.index}')" class="count_flow shrink hand"></span>${checkpass.supplier.supplierName}</td>
               <td class="tc opinter" onclick="">
                 <fmt:formatDate value='${checkpass.joinTime}' pattern="yyyy-MM-dd " />
               </td>
@@ -279,15 +384,56 @@
               <td class="tc opinter" onclick="">${(vs.index+1)}</td>
                 <c:if test="${view == 1}">
                <c:if test="${checkpass.isWonBid != 1}">
-                <td class="tc opinter" >未中标</td>
+                <td class="tc opinter">未中标</td>
                </c:if>
                <c:if test="${checkpass.isWonBid == 1}">
-                <td class="tc opinter" >已中标</td>
+                <td class="tc opinter">已中标</td>
                </c:if>
                </c:if>
-                 <td class="tc opinter" id="priceRatio">${checkpass.priceRatio}</td>
-                <td class="tc opinter" id="wonPrice">${checkpass.wonPrice }</td>
+               <td class="tc opinter" id="priceRatio">${checkpass.priceRatio}</td>
+               <td class="tc opinter" id="singQuote${vs.index }">
+               		<c:if test="${quote==0 }">
+               			<input type="text" name="" id=""/>
+               		</c:if>
+               		<c:if test="${quote==1 }">
+               			
+               		</c:if>
+               </td>
+               <td class="tc opinter" id="wonPrice${vs.index }">${checkpass.wonPrice }</td>
             </tr>
+            <tr class="tc hide">
+            	<td></td>
+            	<td></td>
+            	<td>序号</td>
+            	<td>物资名称</td>
+            	<td>规格型号</td>
+            	<td>质量技术标准</td>
+            	<td>计量单位</td>
+            	<td>采购数量</td>
+            	<td>单价（元）</td>
+            	<td>报价（万元）</td>
+            </tr>
+            <c:forEach items="${detailList }" var="detail" varStatus="p">
+            	<tr name="detail${vs.index }" class="tc hide">
+            		<td></td>
+	            	<td><input type="checkbox" onclick="associateSelected('${detail.id}',this,${vs.index })" name="associate${vs.index }"/></td>
+	            	<td>${detail.serialNumber }</td>
+	            	<td>${detail.goodsName }</td>
+	            	<td>${detail.stand }</td>
+	            	<td>${detail.qualitStand }</td>
+	            	<td>${detail.item }</td>
+	            	<c:if test="${quote==0 }">
+	            		<td></td>
+	            		<td></td>
+	            		<td>${checkpass.wonPrice }</td>
+	            	</c:if>
+	            	<c:if test="${quote==1 }">
+	            		<td>${detail.purchaseCount*checkpass.priceRatio/100 }</td>
+	            		<td>${detail.price }</td>
+	            		<td>${detail.purchaseCount*detail.price/10000 }</td>
+	            	</c:if>
+            	</tr>
+            </c:forEach>
           </c:forEach>
         </table>
            <div class="col-md-12 tc">

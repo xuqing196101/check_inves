@@ -572,6 +572,26 @@ public class ExpertAuditController {
         
         Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
+		
+		// 判断有没有进行修改
+        ExpertHistory oldExpert = service.selectOldExpertById(expertId);
+        Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
+        // 如果isEdit==1代表没有进行任何修改就进行了二次提交
+        if (compareMap.isEmpty()) {
+            // 没有修改
+            model.addAttribute("isEdit", "0");
+        } else {
+            // 有修改
+            model.addAttribute("isEdit", "1");
+        }
+        Set<String> keySet = compareMap.keySet();
+        List<String> editFields = new ArrayList<String>();
+        for (String method : keySet) {
+            if ("getTypeId".equals(method)) {
+                editFields.add(method);
+            }
+        }
+        model.addAttribute("editFields", editFields);
         
 		return "ses/ems/expertAudit/expertType";
 	}

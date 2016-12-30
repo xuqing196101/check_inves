@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.StationMessage;
+import ses.model.sms.Quote;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierQuoteService;
@@ -33,10 +34,12 @@ import common.model.UploadFile;
 import common.service.UploadService;
 import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
+import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SupplierCheckPass;
 import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.SupplierCheckPassService;
 
 /**
@@ -86,7 +89,9 @@ public class WinningSupplierController extends BaseController {
     @Autowired
     private FlowMangeService flowMangeService;//环节
 
-
+    @Autowired
+    private ProjectDetailService detailService;
+    
     /**
      * 文件上传
      */
@@ -162,6 +167,20 @@ public class WinningSupplierController extends BaseController {
         }
         //             //修改流程状态
         flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
+        Quote quote = new Quote();
+        quote.setPackageId(packageId);
+        List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+        if(quoteList.size()>0){
+        	if(quoteList.get(0).getQuotePrice()!=null&&quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+        		model.addAttribute("quote", 0);//提示唱总价
+        	}else if(quoteList.get(0).getQuotePrice()!=null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+        		model.addAttribute("quote", 1);//提示唱明细
+        	}
+        }
+    	HashMap<String,Object> map = new HashMap<>();
+        map.put("packageId", packageId);
+        List<ProjectDetail> detailList = detailService.selectById(map);
+        model.addAttribute("detailList", detailList);
         return "bss/ppms/winning_supplier/supplier_list";
     }
 

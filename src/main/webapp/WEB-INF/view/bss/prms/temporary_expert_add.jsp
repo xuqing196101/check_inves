@@ -1,16 +1,17 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML>
+<html>
+  <head>
+    
+    <title>My JSP 'expert_list.jsp' starting page</title>
+    
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">    
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
 
-<!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
 </head>
 
 <script type="text/javascript">
@@ -123,6 +124,13 @@ function sumbits(){
         $("#expertsTypeId").val(rid);
         
       }
+      
+      function goBack(){
+      	var projectId = $("#projectId").val();
+  	    var flowDefineId = $("#flowDefineId").val();
+	  	var path = "${pageContext.request.contextPath}/packageExpert/assignedExpert.html?projectId="+projectId+"&flowDefineId="+flowDefineId;
+	  	$("#tab-1").load(path);
+      }
     </script>
 
 <body>
@@ -136,10 +144,9 @@ function sumbits(){
    <div class="container container_box">
    <sf:form id="form" action="${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do" method="post" modelAttribute="expert">
      <input type="hidden" value="${projectId}" name="projectId"/>
-     <input type="hidden" value="${packageId}" name="packageId"/>
      <input type="hidden" value="${flowDefineId}" name="flowDefineId"/>
    <div>
-    <h2 class="count_flow"><i>1</i>添加临时专家</h2>
+    <h2 class="count_flow">添加临时专家</h2>
    <ul class="ul_list">
       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
          <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家姓名：</span>
@@ -241,7 +248,7 @@ function sumbits(){
   <div  class="col-md-12">
    <div class="col-md-6" align="center">
       <button class="btn btn-windows save"  type="submit">保存</button>
-      <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+      <button class="btn btn-windows back" type="button" onclick="goBack()">返回</button>
 	</div>
   </div>
   </sf:form>

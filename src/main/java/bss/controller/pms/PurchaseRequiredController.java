@@ -199,7 +199,8 @@ public class PurchaseRequiredController extends BaseController{
 		Map<String,Object> map=new HashMap<String,Object>();
 		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
 		model.addAttribute("requires",requires);
-	  model.addAttribute("orgName", user.getOrg().getName());
+	    model.addAttribute("orgName", user.getOrg().getName());
+	    model.addAttribute("planNo", randomPlano());
 		return "bss/pms/purchaserequird/add";
 	}
 	

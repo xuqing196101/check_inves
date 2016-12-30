@@ -3,7 +3,6 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <%@ include file="/WEB-INF/view/common.jsp" %>
     <title>My JSP 'expert_list.jsp' starting page</title>
     
 	<meta http-equiv="pragma" content="no-cache">

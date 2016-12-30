@@ -511,17 +511,22 @@
 			
 		 function fileup(){
 			 
-			 var name=$("#jhmc").val();
-		     var no=$("#jhbh").val();
-		     var planType=$("#wtype").val();
+			/*  var name=$("#jhmc").val();
+		     var no=$("#jhbh").val(); 
+		     var planType=$("#wtype").val();*/
 	           $.ajaxFileUpload ( {
-	                        url: "${pageContext.request.contextPath}/purchaser/upload.do?type="+planType,  
+	                        url: "${pageContext.request.contextPath}/purchaser/upload.do?",  
 	                        secureuri: false,  
 	                        fileElementId: 'fileName', 
 	                        dataType: 'json',
 	                        success: function (data) { 
-	                        
-						    	eachData(data);
+	                        var	flag=jud(data);
+	                        if(flag==false){
+	                        	 layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
+	                        }else{
+	                        	eachData(data);
+	                        }
+						    	
 	                        },  error: function (data, status, e) {
 	                        alert(e);
 	                            layer.msg("上传失败");
@@ -532,12 +537,12 @@
 			
 			//循环生存html
 			function eachData(jsonData){
-				if (jsonData != null && jsonData !=""){
+				
 				   $("#detailZeroRow").empty();
 				   for(var i = 0 ;i<jsonData.length;i++ ){
 				     $("#detailZeroRow").append(pageHtml(i,jsonData[i]));
 				   }
-				}
+				  
 			}
 			
 			//组装html
@@ -604,6 +609,22 @@
 				}
 				return value;
 			}
+			
+			function  jud(data) {
+				var flag=true;
+				var chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+			     for(var i = 0; i < chars.length ; i ++) {
+			    	 if(data.indexOf(chars[id])!=-1){
+			    		 flag= false;
+			    	 }
+			     }
+			     if(data.indexOf("文本格式")!=-1){
+			    	 flag= false; 
+			     }
+			     return flag;
+			}
+			
+			
 		</script>
 	</head>
 
