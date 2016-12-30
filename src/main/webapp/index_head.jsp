@@ -46,7 +46,10 @@ function importAdd(){
   <div class="head_top col-md-12 col-xs-12 col-sm-12">
    <div class="container p0">
     <div class="row">
-    <div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a></div> 
+    <div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到中国军队采购网！
+      <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a>
+      <%-- <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【旧系统登录】</a> --%>
+    </div> 
        <div class="col-md-3 col-xs-3 col-sm-3 head_right"> 
     <!-- 根据session判断 -->
     	 <a onclick="myInfo()">我的信息</a>     
@@ -455,14 +458,14 @@ function importAdd(){
 
       <!-- 专家 -->
         <li class="dropdown other zhuanjia_li mega-menu-fullwidth">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="zhuanjia nav_icon"></i>供应商</a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
 	<!--供应商鼠标移动开始-->
 		<div class="drop_next dropdown-menu" >
 	     <div class="row magazine-page clear">
 	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
 	      <div class="drop_main">
 	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login">
-	         <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
+	         <a href="javascript:void(0);" onclick="registerTip();" >
 		     供应商注册
 		     <i></i>
 		    </a>	  
@@ -522,7 +525,7 @@ function importAdd(){
 	<div class="col-md-12 col-sm-12 col-xs-12 drop_hover"  id="drop-4">
 	 <div class="drop_main">
 	  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
-	    <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">
+	    <a href="javascript:void(0);" onclick="registerTip();">
 		 专家注册
 		 <i></i>
 		</a>	  
