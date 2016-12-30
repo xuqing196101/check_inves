@@ -138,7 +138,7 @@
 					}
 				}
 				if(count == 0) {
-					layer.alert("请选择一项", {
+					layer.alert("请选择明细", {
 						offset: ['30%', '40%']
 					});
 					$(".layui-layer-shade").remove();
@@ -423,6 +423,29 @@
 					}
 				});
 			}
+			
+			//隐藏包的信息
+			function ycDiv(obj,index) {
+		    	if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+		          $(obj).removeClass("shrink");
+		          $(obj).addClass("spread");
+		      } else {
+		       	  if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+		            $(obj).removeClass("spread");
+		            $(obj).addClass("shrink");
+		          }
+		      }
+		      if ($("#handle"+index).hasClass("hide")) {
+		    	  $("#handle"+index).removeClass("hide");
+		      } else {
+		    	  $("#handle"+index).addClass("hide");
+		      }
+		      if ($("#show"+index).hasClass("hide")) {
+		    	  $("#show"+index).removeClass("hide");
+		      } else {
+		    	  $("#show"+index).addClass("hide");
+		      }
+		 	}
 		</script>
 	</head>
 
@@ -514,13 +537,15 @@
 				</div>
 			</c:if>
 
-			<div class="content table_box">
-				<c:forEach items="${packageList }" var="pack" varStatus="p">
+			
+			<c:forEach items="${packageList }" var="pack" varStatus="p">
+				<div class="content table_box">
 					<div class="col-md-6 col-sm-6 col-xs-12 p0">
+						<span onclick="ycDiv(this,${p.index})" class="count_flow spread hand"></span>
 						<span class="f16 b">包名：</span>
 						<span class="f14 blue" name="packageName">${pack.name }</span>
 					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12 tr p0 mb5">
+					<div class="col-md-6 col-sm-6 col-xs-12 tr p0 mb5" id="handle${p.index }">
 						<input class="btn btn-windows edit" type="button" onclick="edit(this)" value="修改包名" />
 						<input class="btn" name="sure" type="button" onclick="sure(this)" value="确定" />
 						<input class="btn btn-windows add" type="button" onclick="addDetail(this)" value="添加" />
@@ -528,7 +553,7 @@
 						<input type="hidden" value="${pack.id }" />
 					</div>
 
-					<table class="table table-bordered table-condensed table-hover">
+					<table class="table table-bordered table-condensed table-hover" id="show${p.index }">
 						<thead>
 							<tr class="info">
 								<th class="w50">选择</th>
@@ -580,8 +605,8 @@
 							</tr>
 						</c:forEach>
 					</table>
-				</c:forEach>
-			</div>
+				</div>
+			</c:forEach>
 		</div>
 		
 		<!-- 按钮 -->

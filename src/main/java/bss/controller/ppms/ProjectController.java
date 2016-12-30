@@ -1030,7 +1030,26 @@ public class ProjectController extends BaseController {
         return str;
     }
     
-    
+    /**
+     * 
+    * @Title: test
+    * @author ZhaoBo
+    * @date 2016-12-29 下午9:19:56  
+    * @Description: 序号相关 
+    * @param @param num
+    * @param @return      
+    * @return String
+     */
+    public String test(int num) {
+        String[] str = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
+        String s = String.valueOf(num);
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < s.length(); i++) {
+            String index = String.valueOf(s.charAt(i));
+            sb = sb.append(str[Integer.parseInt(index)]);
+        }
+        return sb.toString();
+    }
     
     /**
      * 
@@ -1122,7 +1141,17 @@ public class ProjectController extends BaseController {
         List<Packages> packages = packageService.findPackageById(pack);
         if(packages.size()!=0){
             for(Packages ps:packages){
-            	int serialN = 0;
+            	int serialoneOne = 1;
+            	int serialtwoTwo = 1;
+            	int serialthreeThree = 1;
+            	int serialfourFour = 1;
+            	int serialfiveFive = 0;
+            	int serialOne = 1;
+            	int serialTwo = 1;
+            	int serialThree = 1;
+            	int serialFour = 1;
+            	int serialSix = 0;
+            	int serialFive = 0;
                 HashMap<String,Object> packageId = new HashMap<>();
                 packageId.put("packageId", ps.getId());
                 List<ProjectDetail> detailList = detailService.selectById(packageId);
@@ -1143,11 +1172,17 @@ public class ProjectController extends BaseController {
                 ComparatorDetail comparator = new ComparatorDetail();
                 Collections.sort(newDetails, comparator);
                 List<String> newParentId = new ArrayList<>();
+                List<String> oneParentId = new ArrayList<>();
+                List<String> twoParentId = new ArrayList<>();
+                List<String> threeParentId = new ArrayList<>();
+                List<String> fourParentId = new ArrayList<>();
+                List<String> fiveParentId = new ArrayList<>();
                 for(int i=0;i<newDetails.size();i++){
                 	HashMap<String,Object> detailMap = new HashMap<>();
                     detailMap.put("id",newDetails.get(i).getRequiredId());
                     detailMap.put("projectId", id);
                     List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+                    List<ProjectDetail> plist = detailService.selectByParent(detailMap);
                     if(dlist.size()>1){
                     	HashMap<String,Object> dMap = new HashMap<>();
                     	dMap.put("projectId", id);
@@ -1161,19 +1196,83 @@ public class ProjectController extends BaseController {
                     	double money = budget;
                     	newDetails.get(i).setBudget(money);
                     }
+                    if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+                    	if(!oneParentId.contains(newDetails.get(i).getParentId())){
+                    		oneParentId.add(newDetails.get(i).getParentId());
+                    		//serialoneOne = 1;
+                    	}
+                    	newDetails.get(i).setSerialNumber(test(serialoneOne));
+                    	serialoneOne ++;
+                    }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+                    	if(!twoParentId.contains(newDetails.get(i).getParentId())){
+                    		twoParentId.add(newDetails.get(i).getParentId());
+                    		//serialtwoTwo = 1;
+                    	}
+                    	newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
+                    	serialtwoTwo ++;
+                    }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+                    	if(!threeParentId.contains(newDetails.get(i).getParentId())){
+                    		threeParentId.add(newDetails.get(i).getParentId());
+                    		//serialthreeThree = 1;
+                    	}
+                    	newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
+                    	serialthreeThree ++;
+                    }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+                    	if(!fourParentId.contains(newDetails.get(i).getParentId())){
+                    		fourParentId.add(newDetails.get(i).getParentId());
+                    		//serialfourFour = 1;
+                    	}
+                    	newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
+                    	serialfourFour ++;
+                    }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+                    	if(!fiveParentId.contains(newDetails.get(i).getParentId())){
+                    		fiveParentId.add(newDetails.get(i).getParentId());
+                    		//serialfiveFive = 0;
+                    	}
+                    	char serialNum = (char) (97 + serialfiveFive);
+                    	newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                    	serialfiveFive++;
+                    }
                     if(dlist.size()==1){
+                    	map.put("projectId", id);
+                        map.put("id", newDetails.get(i).getRequiredId());
+                        List<ProjectDetail> list = detailService.selectByParent(map);
                     	if(!newParentId.contains(newDetails.get(i).getParentId())){
-                    		serialN = 0;
+                    		serialOne = 1;
+                    		serialTwo = 1;
+                    		serialThree = 1;
+                    		serialFour = 1;
+                    		serialFive = 0;
+                    		serialSix = 0;
                     		newParentId.add(newDetails.get(i).getParentId());
                     	}
-                    	char serialNum = (char) (97 + serialN);
-                		newDetails.get(i).setSerialNumber("（"+serialNum+"）");
-                		serialN ++;
+                    	if(list.size()==1){
+                    		newDetails.get(i).setSerialNumber(test(serialOne));
+                    		serialOne ++;
+                    	}else if(list.size()==2){
+                    		newDetails.get(i).setSerialNumber("（"+test(serialTwo)+"）");
+                    		serialTwo ++;
+                    	}else if(list.size()==3){
+                    		newDetails.get(i).setSerialNumber(String.valueOf(serialThree));
+                    		serialThree ++;
+                    	}else if(list.size()==4){
+                    		newDetails.get(i).setSerialNumber("（"+String.valueOf(serialFour)+"）");
+                    		serialFour ++;
+                    	}else if(list.size()==5){
+                    		char serialNum = (char) (97 + serialFive);
+                    		newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                    		serialFive ++;
+                    	}else if(list.size()==6){
+                    		char serialNum = (char) (97 + serialSix);
+                    		newDetails.get(i).setSerialNumber("（"+serialNum+"）");
+                    		serialSix ++;
+                    	}
                     }
                     /*if(newDetails.get(i).getDepartment()!=null){
                     	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(newDetails.get(i).getDepartment());
                     	newDetails.get(i).setOrgName(orgnization.getName());
                     }*/
+                    
                 }
                 ps.setProjectDetails(newDetails);
             }
