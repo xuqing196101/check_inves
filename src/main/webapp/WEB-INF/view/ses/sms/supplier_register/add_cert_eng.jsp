@@ -105,7 +105,7 @@
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<input name="matEngId" value="${matEngId}" type="hidden" />
 							<input name="id" value="${uuid}" type="hidden" />
-							<div class="tab-content padding-top-20">
+							<div class="padding-top-20">
 								<!-- 详细信息 -->
 										<ul class="list-unstyled">
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格类型：</span>
