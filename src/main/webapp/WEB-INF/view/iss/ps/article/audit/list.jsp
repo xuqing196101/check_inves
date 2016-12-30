@@ -281,7 +281,7 @@
                 </c:if>
               </td>
               <td class="tl pl20">
-                <u:show showId="artice_secret_show" delete="false" businessId="${article.id }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                <u:show showId="${article.groupShow}" groups="${article.groupsUploadId}" delete="false" businessId="${article.id }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
               </td>
             </tr>
           </c:forEach>

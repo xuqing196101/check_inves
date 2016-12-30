@@ -30,10 +30,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
+
+
+
+import ses.model.oms.Orgnization;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
+import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.impl.CollectPlanServiceImpl;
+import bss.service.pms.impl.PurchaseRequiredServiceImpl;
 
 /**
  *
@@ -46,6 +52,11 @@ import bss.service.pms.impl.CollectPlanServiceImpl;
 public class ExcelUtil {
   @Autowired
   private CollectPlanService collectPlanService;
+  
+  @Autowired
+  private PurchaseRequiredService  purchaseRequiredService;
+  
+  
 	/**
 	 * @throws FileNotFoundException 
 	 *
@@ -57,6 +68,8 @@ public class ExcelUtil {
 	* @return List<PurchaseRequired>     
 	 */
 	public static Map<String,Object> readExcel(MultipartFile file) throws Exception{
+		
+		PurchaseRequiredService  purchase=new PurchaseRequiredServiceImpl();
 		Map<String,Object> map=new HashMap<String,Object>();
 		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
 		 //FileInputStream fis = new FileInputStream(path);
@@ -108,6 +121,14 @@ public class ExcelUtil {
 	        			 }
 	        			 if(cell.getColumnIndex()==1){
 	        				 if(cell.getCellType()==1){
+	        					 Orgnization orgnization = purchase.queryByName(cell.getStringCellValue());
+	        					 if(orgnization==null){
+	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，需求部门不存在，请在系统中维护！";
+			        				 map.put("errMsg", errMsg);
+			        				 continue;
+	        					 }
+	        				
+		        				 bool=false;
 	        					 rq.setDepartment(cell.getStringCellValue());
 		        				 continue;
 		        			}else{
@@ -161,6 +182,7 @@ public class ExcelUtil {
 		        				 errMsg=String.valueOf(row.getRowNum()+1)+"行，F列错误";
 		        				 map.put("errMsg", errMsg);
 		        				 bool=false;
+		        				 continue;
 		        			}
 	        			 }
 	        			 if(cell.getColumnIndex()==6){

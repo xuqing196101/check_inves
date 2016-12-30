@@ -37,6 +37,7 @@ import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 
 
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -72,7 +73,7 @@ public class ArticleController extends BaseSupplierController{
   
   @Autowired
   private UploadService uploadService;
-
+  
   private Logger logger = Logger.getLogger(LoginController.class); 
 
   /**
@@ -683,7 +684,28 @@ public class ArticleController extends BaseSupplierController{
     if(secrets.size()>0){
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
-    
+    Integer num = 0;
+    StringBuilder groupUpload = new StringBuilder("");
+    StringBuilder groupShow = new StringBuilder("");
+    for(Article a : list){
+    	num++;
+    	groupUpload = groupUpload.append("artice_secret_show" + num +",");
+        groupShow = groupShow.append("artice_secret_show" + num +",");
+        a.setGroupsUpload("artice_secret_show"+num);
+        a.setGroupShow("artice_secret_show"+num);
+    }
+    String groupUploadId =  "";
+    String groupShowId = "";
+    if (!"".equals(groupUpload.toString())) {
+        groupUploadId = groupUpload.toString().substring(0, groupUpload.toString().length()-1);
+   }
+   if (!"".equals(groupShow.toString())) {
+        groupShowId = groupShow.toString().substring(0, groupShow.toString().length()-1);
+   }
+   for (Article act : list) {
+	   act.setGroupsUploadId(groupUploadId);
+	   act.setGroupShowId(groupShowId);
+   }
     model.addAttribute("list", new PageInfo<Article>(list));
     model.addAttribute("articleName", name);
     model.addAttribute("articlesRange", range);

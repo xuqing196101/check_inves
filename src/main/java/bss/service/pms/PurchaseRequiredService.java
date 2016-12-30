@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+import org.omg.CORBA.ORB;
 
+import ses.model.oms.Orgnization;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.ProjectDetail;
 
@@ -203,4 +205,7 @@ public interface PurchaseRequiredService {
 	
 	
 	public List<PurchaseRequired> queryList(PurchaseRequired purchaseRequired);
+	
+	
+	public Orgnization queryByName(String name);
 }

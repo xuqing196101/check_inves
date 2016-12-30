@@ -127,4 +127,16 @@ public interface OrgnizationMapper {
      * @return
      */
     List<Orgnization> getRelaPurchaseOrgList(HashMap<String, Object> map);
+    
+    /**
+     * 
+     *〈简述〉根据需求部门查看是否存在
+     *〈详细描述〉
+     * @author myc
+     * @param map
+     * @return
+     */
+    Orgnization queryByName(@Param("name")String name);
+    
+    
 }

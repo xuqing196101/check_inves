@@ -42,6 +42,7 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.ems.Expert;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
@@ -63,6 +64,8 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
+import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
@@ -151,6 +154,9 @@ public class SupplierController extends BaseSupplierController {
 	private AreaServiceI areaService;
 	
 	@Autowired
+	private ExpertService expertService;
+	
+	@Autowired
 	private SupplierAddressService supplierAddressService;
 	
 	@Autowired
@@ -166,6 +172,9 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+	
+	@Autowired
+	private UserServiceI userService;
 	
 	/**
 	 * @Title: getIdentity
@@ -2086,5 +2095,43 @@ public class SupplierController extends BaseSupplierController {
 
 		}
 		
+		/**
+	     *〈简述〉
+	     * 判断提交审核后有没有超过45天以及查询初审机构信息
+	     *〈详细描述〉
+	     * @author WangHuijie
+	     * @param userId
+	     * @return
+	     * @throws Exception 
+	     */
+	    @RequestMapping(value = "validateAuditTime", produces = "application/json;charset=UTF-8")
+	    @ResponseBody
+	    public String validateAuditTime(String userId) throws Exception{
+	        HashMap<String, Object> allInfo = new HashMap<String, Object>();
+	        // 根据userId查询出Expert
+	        Supplier supplier = supplierService.selectById(userService.getUserById(userId).getTypeId());   
+	        Date submitDate = supplier.getAuditDate();
+	        allInfo.put("submitDate", new SimpleDateFormat("yyyy年MM月dd日").format(submitDate));
+	        // 判断有没有超过45天
+	        String isok;
+	        int betweenDays = expertService.daysBetween(submitDate);
+	        if (betweenDays > 45) {
+	            isok = "0";
+	        } else {
+	            isok = "1";
+	        }
+	        allInfo.put("isok", isok);
+	        // 查询初审机构信息
+	        HashMap<String, Object> map = new HashMap<String, Object>();
+	        map.put("id", supplier.getProcurementDepId());
+	        map.put("typeName", "1");
+	        List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
+	        if (depList != null && depList.size() > 0) {
+	            PurchaseDep purchaseDep = depList.get(0);
+	            allInfo.put("contact", purchaseDep.getContact() == null ? "暂无" : purchaseDep.getContact());
+	            allInfo.put("contactTelephone", purchaseDep.getContactTelephone() == null ? "暂无" : purchaseDep.getContactTelephone());
+	        }
+	        return JSON.toJSONString(allInfo);
+	    }
 		
 }
