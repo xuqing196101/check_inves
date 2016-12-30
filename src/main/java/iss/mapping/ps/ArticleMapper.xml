@@ -514,7 +514,7 @@ FROM
 				FROM
 					T_ISS_PS_ARTICLE_TYPE
 				WHERE
-					PARENT_ID = '3'
+					PARENT_ID = #{parId}
 			)
 		ORDER BY
 			published_at DESC
@@ -582,7 +582,7 @@ AND ROWNUM &lt;= 6
 	FROM
 		T_ISS_PS_ARTICLE
 	WHERE
-	LAST_ARTICLE_TYPE_ID = 3 order by published_at desc)
+	LAST_ARTICLE_TYPE_ID = #{typeId} order by published_at desc)
 where 1=1
 	and status = 2
 	and IS_DELETED = 0
