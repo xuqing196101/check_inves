@@ -162,14 +162,16 @@ public class LoginController {
                         req.getSession().setAttribute("loginUser", u);
                         req.getSession().setAttribute("resource", u.getMenus());
                         out.print("scuesslogin");
-                    }else  if("unperfect".equals(msg)){
+                    } else  if("unperfect".equals(msg)){
                         out.print("unperfect," + u.getLoginName());
-                    }
-                    else  if("beyong".equals(msg)){
-                        out.print("beyong," + orgnization.getId());
-                    }
-                    else  if("commit".equals(msg)){
-                        out.print("commit," + date);
+                    } else  if("初审未通过".equals(msg)){
+                        out.print("firstNotPass");
+                    } else  if("考察不合格".equals(msg)){
+                        out.print("thirdNotPass");
+                    } else  if("复核未通过".equals(msg)){
+                        out.print("secondNotPass");
+                    } else  if("信息初审中".equals(msg)){
+                        out.print("commit," + u.getId());
                     }
                 } else {
                     req.getSession().setAttribute("loginUser", u);
