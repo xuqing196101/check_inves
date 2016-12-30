@@ -440,7 +440,7 @@ public class PqInfoController extends BaseSupplierController{
 				countFail=new BigDecimal(0);
 			}
 			
-			sPqinfo.setSupplierName(supplierName);
+			sPqinfo.setSupplierName(supplierNames.get(i));
 			sPqinfo.setSuccessCount(countSuccess);
 			sPqinfo.setFailCount(countFail);
 			sPqinfo.setAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
