@@ -86,8 +86,9 @@
 
 .w230 {
   width: 230px; }
+  
 .w220 {
-  width: 220px; }
+  width: 220px!important; }
 
 .w258 {
   width: 258px; }

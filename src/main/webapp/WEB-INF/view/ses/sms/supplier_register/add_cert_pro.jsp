@@ -91,7 +91,7 @@
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<input name="matProId" value="${supplierCertPro.matProId}" type="hidden" />
 							<input name="sign" value="${sign}" type="hidden" />
-							<div class="tab-content padding-top-20">
+							<div class="padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class=" margin-bottom-0">

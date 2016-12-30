@@ -98,7 +98,7 @@
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled">
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质证书名称：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质证书名称：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input type="text" name="name" />
 													<div class="cue" id="cert_name"></div>

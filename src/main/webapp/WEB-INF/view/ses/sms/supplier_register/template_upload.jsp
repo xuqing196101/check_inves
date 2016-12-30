@@ -77,7 +77,7 @@
 		</c:if>
 
 		<!--基本信息-->
-		<div class="container content height-350">
+		<div class="container content">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
@@ -93,15 +93,15 @@
 							
 							<div class="tab-content padding-top-20">
 								<!-- 物资生产型 -->
-								<div class="tab-pane fade active in height-300" id="tab-1">
+								<div class="tab-pane fade active in " id="tab-1">
 									<div class="margin-bottom-0  categories">
 										<!-- <h2 class="f16 jbxx mt40">
 											<i>01</i>申请表和承诺书上传
 										</h2> -->
 										
 											<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
-												   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>供应商申请表上传</span> 
-												   <div class="col-md-6 col-sm-12 col-xs-12 p0">
+												   <span class="col-md-4 col-sm-12 col-xs-12 padding-left-5 mt15"><i class="red">*</i>供应商申请表上传</span> 
+												   <div class="col-md-8 col-sm-12 col-xs-12 p0">
 													   <u:upload id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
 													   <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
 												   </div>
@@ -110,8 +110,8 @@
 											</li>
 				
 											<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
-												   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>供应商承诺书上传</span> 
-												   <div class="col-md-6 col-sm-12 col-xs-12 p0">
+												   <span class="col-md-4 col-sm-12 col-xs-12 padding-left-5 mt15"><i class="red">*</i>供应商承诺书上传</span> 
+												   <div class="col-md-8 col-sm-12 col-xs-12 p0">
 													   <u:upload id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
 													   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
 												   </div>

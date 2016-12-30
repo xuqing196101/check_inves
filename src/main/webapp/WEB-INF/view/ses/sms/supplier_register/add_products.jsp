@@ -68,49 +68,51 @@
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 产品名称：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="name" value="${supplierProducts.name}" />
+											<li class="col-md-6 col-sm-6 col-xs-12 p0 pl15">
+											   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 产品名称：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+													<input class="" type="text" name="name" value="${supplierProducts.name}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 品牌：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="brand" value="${supplierProducts.brand}" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 品牌：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+													<input class="" type="text" name="brand" value="${supplierProducts.brand}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 规格型号：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="models" value="${supplierProducts.models}" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 规格型号：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+													<input class="" type="text" name="models" value="${supplierProducts.models}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 尺寸：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="proSize" value="${supplierProducts.proSize}" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 尺寸：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+													<input class="" type="text" name="proSize" value="${supplierProducts.proSize}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 生产产地：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="orgin" value="${supplierProducts.orgin}" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产产地：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+													<input class="" type="text" name="orgin" value="${supplierProducts.orgin}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 保质期：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 保质期：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
 													<fmt:formatDate value="${supplierProducts.expirationDate}" pattern="yyyy-MM-dd" var="expirationDate"/>
-													<input class="span3" type="text" name="expirationDate" readonly="readonly" onClick="WdatePicker()" value="${expirationDate}" />
+													<input class="" type="text" name="expirationDate" readonly="readonly" onClick="WdatePicker()" value="${expirationDate}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 生产商：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="producer" value="${supplierProducts.producer}" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产商：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+													<input class="" type="text" name="producer" value="${supplierProducts.producer}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 参考价格：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="referencePrice" value="${supplierProducts.referencePrice}" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 参考价格：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+													<input class="" type="text" name="referencePrice" value="${supplierProducts.referencePrice}" />
 												</div>
 											</li>
 											
-											<li id="product_li_id" class="col-md-6 p0"><span class=""><i class="red">＊</i> 产品图片：</span>
+											<li id="product_li_id" class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+											    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 产品图片：</span>
 												<c:if test="${supplierProducts.productPic != null}">
 													<div>
 														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${supplierProducts.productPic}')">下载附件</a>
@@ -127,7 +129,7 @@
 													</div>
 												</c:if>
 											</li>
-											<li id="qr_li_id" class="col-md-6 p0 mt5"><span class=""><i class="red">＊</i> 商品二维码：</span>
+											<li id="qr_li_id" class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class=""><i class="red">*</i> 商品二维码：</span>
 												<c:if test="${supplierProducts.qrCode != null}">
 													<div>
 														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${supplierProducts.qrCode}')">下载附件</a>

@@ -92,7 +92,7 @@
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<input name="matEngId" value="${matEngId}" type="hidden" />
 							<input name="id" value="${id}" type="hidden" />
-							<div class="tab-content padding-top-20">
+							<div class=" padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-100" id="tab-1">
 									<div class=" margin-bottom-0">

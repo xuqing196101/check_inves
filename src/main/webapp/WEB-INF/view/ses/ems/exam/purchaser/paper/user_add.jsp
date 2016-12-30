@@ -146,7 +146,7 @@
 								title: '信息',
 								skin: 'layui-layer-rim',
 								shadeClose: true,
-								area: ['680px', '500px'],
+								area: ['50%', 'auto'],
 								content: $("#purchaser")
 							});
 							$(".layui-layer-shade").remove();

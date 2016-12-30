@@ -659,7 +659,7 @@ function deleteFinance() {
 	 			<legend>地址信息</legend>
 	 			   <ul class="list-unstyled" style="font-size: 14">
 	 		   		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5 "><i class="red">*</i>注册地址邮编</span>
+					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5 "><i class="red">*</i> 注册地址邮编</span>
 					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				        <input type="text" name="postCode" value="${currSupplier.postCode}" />
 				        <span class="add-on cur_point">i</span>
@@ -668,7 +668,7 @@ function deleteFinance() {
 					</li> 
 				 
 				 	<li class="col-md-3 col-sm-6 col-xs-12">
-				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>注册公司地址</span>
+				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 注册公司地址</span>
 				    	<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren(this)">
 				    	 <option value="">请选择</option>
@@ -761,7 +761,7 @@ function deleteFinance() {
 				 </li>  
 				 
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>生产经营详细地址</span>
+				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营详细地址</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				<%--     <c:if test="${addr.detailAddress!=null  }"> --%>
 			        <input type="text" name="addressList[${vs.index }].detailAddress"  value="${addr.detailAddress }">
@@ -854,7 +854,7 @@ function deleteFinance() {
 		   	 </li> 
 		    
 		   	 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>身份证号</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证号</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalIdCard" value="${currSupplier.legalIdCard}" />
 		        <span class="add-on cur_point">i</span>
@@ -995,7 +995,7 @@ function deleteFinance() {
 		    
 		    
 		     	<li class="col-md-3 col-sm-6 col-xs-12">
-				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>地址</span>
+				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 地址</span>
 				    	<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" name="concatProvince" onchange="loadChildren(this)">
 				     
@@ -1087,7 +1087,7 @@ function deleteFinance() {
 		    
 		    
 		      	<li class="col-md-3 col-sm-6 col-xs-12">
-				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>地址</span>
+				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 地址</span>
 				    	<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" name="armyBuinessProvince" onchange="loadChildren(this)">
 				     
@@ -1216,7 +1216,7 @@ function deleteFinance() {
 				</li>
 				 --%>
 		    
-		        <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>营业执照</span>
+		        <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 营业执照</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
 				  	 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
 				     <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
@@ -1233,7 +1233,7 @@ function deleteFinance() {
 		  </ul> 
 		</fieldset>
 		
-	 <h2 class="count_flow"> <i>2</i> 境外信息</h2>
+	 <h2 class="count_flow clear pt20"> <i>2</i> 境外信息</h2>
 		<fieldset class="col-md-12 border_font mt20">
 	 	  <legend>境外分支</legend>
 		   <ul class="list-unstyled" style="font-size: 14">
@@ -1320,11 +1320,11 @@ function deleteFinance() {
 			</ul>			
 		</fieldset>
 	  <!-- 财务信息 -->
-	  <h2 class="count_flow"> <i>3</i> 近三年财务信息</h2>
+	  <h2 class="count_flow clear pt20"> <i>3</i> 近三年财务信息</h2>
 	  <div class="padding-top-10 clear">
 	  <c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
-	    	<h2 class="count_flow">${finance.year}年财务信息  <span style="float:right">（金额单位：万元）</span>  </h2>
-	    	<fieldset class="col-md-12 col-xs-12 col-sm-12 border_font">
+	    	<h2 class="count_flow clear">${finance.year}年财务信息  <span style="float:right">（金额单位：万元）</span>  </h2>
+	    	<div class="col-md-12 col-xs-12 col-sm-12 border_font">
 	 	  <!--   <legend>列表</legend> -->
 			<div  class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" >
 				<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
@@ -1455,7 +1455,7 @@ function deleteFinance() {
 					  
 				 </div>
 			    </div>
-			   </fieldset>
+			   </div>
 			  <%--  <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 	 	    	   <legend>附件</legend>
 	 	    	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -1499,7 +1499,7 @@ function deleteFinance() {
 		 
 		
 			<div class="padding-top-10 clear">
-			    <h2 class="count_flow"> <i>4</i> 出资人（股东）信息  （说明：出资人（股东）多余10人的，列出出资金额前十位的信息，但出资比例高于50%）</h2>
+			    <h2 class="count_flow clear pt20"> <i>4</i> 出资人（股东）信息  （说明：出资人（股东）多余10人的，列出出资金额前十位的信息，但出资比例高于50%）</h2>
 				<div  class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
 				   <div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
@@ -1507,8 +1507,8 @@ function deleteFinance() {
 							<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()" >删除</button>
 							<span class="red">${stock }</span>
 						</div>
-						<div class="col-md-12 col-sm-12 col-xs-12 p0">
-							<table id="share_table_id" class="table table-bordered table-condensed mt5">
+						<div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll">
+							<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap">
 								<thead>
 									<tr>
 										<th class="info"><input type="checkbox" onchange="checkAll(this, 'stockholder_list_tbody_id')" />

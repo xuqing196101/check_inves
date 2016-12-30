@@ -825,3 +825,6 @@ font-size: 17px; }
 .over_scroll{
 	overflow: scroll;
 }
+.space_nowrap{
+	white-space: nowrap;
+}

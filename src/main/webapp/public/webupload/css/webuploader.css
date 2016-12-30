@@ -35,5 +35,8 @@
 }
 .wu-example .btns{
 	height:30px;
-	float: left;
+	float:left;
+}
+.table_input .wu-example{
+	float:left;
 }

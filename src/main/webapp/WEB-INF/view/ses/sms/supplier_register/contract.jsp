@@ -97,7 +97,8 @@
 							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
-								<table class="table table-bordered">
+								<div class="col-md-12 col-xs-12 col-sm-12 p0 over_scroll">
+								<table class="table table-bordered space_nowrap">
 										  <tr>
 										    <td class="info"> 品目名称</td>
 										    <td colspan="3">合同上传</td>
@@ -107,10 +108,10 @@
 										   <tr>
 									        <td class="info"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info">${year}</td>
+											     <td class="info w220">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info">${year}</td>
+											     <td class="info w220">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
@@ -118,44 +119,44 @@
 										  <c:forEach items="${contract}" var="obj" varStatus="vs">
 									      <tr>
 									        <td class="info">${obj.name }</td>
-										    <td class="info">
+										    <td class="info w220">
 										  
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="info w220">
 										 
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="info w220">
 										     
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-3}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-3}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
-										    <td class="info"> 
+										    <td class="info w220"> 
 										 
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="info w220">
 										 
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="info w220">
 									   
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
 											  </div>
@@ -166,14 +167,14 @@
 										</c:forEach>
 										
 									</table> 
-									
-									
+									</div>
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'SALES')}">
 								<!-- 物资销售型 -->
-								<div class="tab-pane fade height-300" id="tab-2">
-								 <table class="table table-bordered">
+								<div class="tab-pane fade height-300 " id="tab-2">
+								<div class="col-xs-12 col-sm-12 col-md-12 p0 over_scroll">
+								 <table class="table table-bordered space_nowrap">
 						  
 										  <tr>
 										    <td class="info"> 品目名称</td>
@@ -197,42 +198,42 @@
 									        <td class="info">${obj.name }</td>
 										    <td class="info">
 										  
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
 										    <td class="info">
 										 
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
 										    <td class="info">
 										     
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-3}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-3}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
 										    <td class="info"> 
 										 
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
 										    <td class="info">
 										 
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
 										    <td class="info">
 									   
-										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
+										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
 											  </div>
@@ -243,7 +244,7 @@
 										</c:forEach>
 										
 									</table> 
-									
+									</div>
 									 
 								  
 									 
