@@ -21,15 +21,15 @@
 					 $("#contractId").val(json.id);
 					 $("#contractName").val(json.name);
 					 $("#projectType").val(json.purchaseType);	
-					 $("#procurementId").val(json.supplierPurId);	
-					 $("#supplierName").val(json.supplierDepName);
+					 $("#procurementId").val(json.supplier.creditCode);	
+					 $("#supplierName").val(json.supplier.supplierName);
 					 $("#contractCodeErr").text("合同编号不存在");
 				}else{
 				 $("#contractId").val(json.id);
 				 $("#contractName").val(json.name);
 				 $("#projectType").val(json.purchaseType);	
-				 $("#procurementId").val(json.supplierPurId);	
-				 $("#supplierName").val(json.supplierDepName);
+				 $("#procurementId").val(json.supplier.creditCode);	
+				 $("#supplierName").val(json.supplier.supplierName);
 				 $("#contractCodeErr").text("");
 				}
      		}
@@ -96,7 +96,7 @@
     		 	<li class="col-md-3 col-sm-6 col-xs-12">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">统一社会信用代码：</span>
 		        	<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        		<input class="span5 procurementId" id="procurementId" type="text"  readonly="readonly" value = '${pqinfo.contract.supplierPurId}'>
+		        		<input class="span5 procurementId" id="procurementId" type="text"  readonly="readonly" value = '${pqinfo.contract.supplier.creditCode}'>
 		        		<span class="add-on">i</span>
 		        		<span class="input-tip">填写合同编号合同信息自动生成</span>
        				</div>
@@ -104,7 +104,7 @@
 		    	<li class="col-md-3 col-sm-6 col-xs-12">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商名称：</span>
 			   		<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        		<input class="span5 supplier_name" id="supplierName" type="text"  value = '${pqinfo.contract.supplierDepName}' readonly="readonly">
+		        		<input class="span5 supplier_name" id="supplierName" type="text"  value = '${pqinfo.contract.supplier.supplierName}' readonly="readonly">
 		        		<span class="add-on">i</span>
                 		<span class="input-tip">填写合同编号合同信息自动生成</span>
 		       		</div>

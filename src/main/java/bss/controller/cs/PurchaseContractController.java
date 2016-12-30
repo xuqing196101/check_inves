@@ -1,6 +1,6 @@
 package bss.controller.cs;
 
-
+import ses.util.DictionaryDataUtil;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -515,9 +515,13 @@ public class PurchaseContractController extends BaseSupplierController{
 	public PurchaseContract selectByCode(HttpServletRequest request) throws Exception{
 		String code = request.getParameter("code");
 		PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
+		String projectType= "";
 		if(purchaseCon==null){
 			purchaseCon=new PurchaseContract();
 			purchaseCon.setCode("ErrCode");
+		}else{
+			projectType = purchaseCon.getPurchaseType();
+			purchaseCon.setPurchaseType(DictionaryDataUtil.findById(projectType).getName());
 		}
 		return purchaseCon;
 	}

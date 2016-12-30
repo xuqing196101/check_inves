@@ -220,7 +220,7 @@
 				
 				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.code}</td>
 			
-				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplierDepName}</td>
+				<td class="tl pl20 pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplier.supplierName}</td>
 			
 				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.type}</td>
 				

@@ -22,6 +22,10 @@
 			  content: $("#photo")
 			});
 	}
+  function goback(){
+		window.location.href="${pageContext.request.contextPath}/pqinfo/getAll.html";
+	  	
+	}
   </script>
   <body>
   
@@ -53,13 +57,13 @@
                       <td width="15%" class="bggrey ">合同编号：</td>
 	                  <td width="35%">${pqinfo.contract.code}</td>
 	                  <td width="15%" class="bggrey ">项目类别：</td>
-	                  <td width="35%">${pqinfo.projectType}</td>
+	                  <td width="35%">${pqinfo.contract.purchaseType}</td>
 	                 </tr>
 	                 <tr>
 	                  <td width="15%"class="bggrey ">供应商名称：</td>
-	                  <td width="35%">${pqinfo.contract.supplierDepName}</td>
+	                  <td width="35%">${pqinfo.contract.supplier.supplierName}</td>
 	                  <td width="15%" class="bggrey ">供应商组织机构代码：</td>
-	                  <td width="35%">${pqinfo.contract.supplierPurId}</td>
+	                  <td width="35%">${pqinfo.contract.supplier.creditCode}</td>
 	                 </tr> 
                  </tbody>
                  </table>
@@ -101,7 +105,7 @@
                  </table>
 	<!-- 底部按钮 -->			          
   <div  class="col-md-12 col-sm-12 col-cs-12 tc mb10">
-    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+    <button class="btn btn-windows back" onclick="goback()" type="button">返回</button>
   </div>
    </div>
 	</div>  	

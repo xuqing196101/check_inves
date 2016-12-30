@@ -28,17 +28,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
+import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 
 
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 
 import bss.model.cs.PurchaseContract;
+import bss.model.ppms.Project;
 import bss.model.pqims.PqInfo;
 import bss.model.pqims.Supplier_pqinfo;
 import bss.model.sstps.Select;
 import bss.service.cs.PurchaseContractService;
+import bss.service.ppms.ProjectService;
 import bss.service.pqims.PqInfoService;
 
 /**
@@ -58,6 +63,12 @@ public class PqInfoController extends BaseSupplierController{
 	@Resource
 	private PurchaseContractService purchaseContractService;
 	
+    @Autowired
+    private SupplierService supplierService;
+	
+    @Autowired
+    private ProjectService projectService;
+    
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	/**
@@ -157,6 +168,11 @@ public class PqInfoController extends BaseSupplierController{
 			flag = false;
 		}
 		if(flag == false){
+			String id = pqInfo.getContract().getSupplierDepName();
+			Supplier supplier = supplierService.selectOne(id);
+			PurchaseContract pc = pqInfo.getContract();
+			pc.setSupplierDepName(supplier.getSupplierName());
+			pqInfo.setContract(pc);
 			model.addAttribute("pqinfo", pqInfo);
 			url="bss/pqims/pqinfo/add";
 		}else{
@@ -251,6 +267,11 @@ public class PqInfoController extends BaseSupplierController{
 			flag = false;
 		}
 		if(flag == false){
+			String id = pqInfo.getContract().getSupplierDepName();
+			Supplier supplier = supplierService.selectOne(id);
+			PurchaseContract pc = pqInfo.getContract();
+			pc.setSupplierDepName(supplier.getSupplierName());
+			pqInfo.setContract(pc);
 			model.addAttribute("pqinfo", pqInfo);
 			url="bss/pqims/pqinfo/edit";
 		}else{
@@ -299,7 +320,9 @@ public class PqInfoController extends BaseSupplierController{
 	 */
 	@RequestMapping("/view")
 	public String view(Model model,String id){
-		model.addAttribute("pqinfo",pqInfoService.get(id));
+		PqInfo pqInfo = pqInfoService.get(id);
+		pqInfo.getContract().setPurchaseType(DictionaryDataUtil.findById(pqInfo.getContract().getPurchaseType()).getName());
+		model.addAttribute("pqinfo",pqInfo);
 		return "bss/pqims/pqinfo/view";
 	}
 	
@@ -337,6 +360,14 @@ public class PqInfoController extends BaseSupplierController{
 	@RequestMapping("/getAllReasult")
 	public String getAllResult(Model model,Integer page){
 		List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
+		int i = 0;
+		for (PqInfo pqInfo : pqInfos) {
+			String projectId = pqInfo.getContract().getProjectId();
+			String purchaseDepName = projectService.selectById(projectId).getPurchaseDepName();
+			pqInfo.getContract().setPurchaseDepName(purchaseDepName);
+			pqInfos.set(i, pqInfo);
+			i++;
+		}
 		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
 		return "bss/pqims/pqinfo/resultList";
 	}
@@ -354,9 +385,25 @@ public class PqInfoController extends BaseSupplierController{
 	public String searchResult(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
 		if(pqInfo!=null){
 			List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
+			int i = 0;
+			for (PqInfo pqInfo1 : pqInfos) {
+				String projectId = pqInfo1.getContract().getProjectId();
+				String purchaseDepName = projectService.selectById(projectId).getPurchaseDepName();
+				pqInfo1.getContract().setPurchaseDepName(purchaseDepName);
+				pqInfos.set(i, pqInfo1);
+				i++;
+			}
 			model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
 		}else{
 			List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
+			int i = 0;
+			for (PqInfo pqInfo1 : pqInfos) {
+				String projectId = pqInfo1.getContract().getProjectId();
+				String purchaseDepName = projectService.selectById(projectId).getPurchaseDepName();
+				pqInfo1.getContract().setPurchaseDepName(purchaseDepName);
+				pqInfos.set(i, pqInfo1);
+				i++;
+			}
 			model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
 		}
 		model.addAttribute("pqinfo",pqInfo);
@@ -374,11 +421,15 @@ public class PqInfoController extends BaseSupplierController{
 	 */
 	@RequestMapping("/getAllSupplierPqInfo")
 	public String getAllSupplierPqInfo(Model model,Integer page,HttpServletRequest request){
-		List<String> supplierNames = pqInfoService.queryDepName(page==null?1:page);
+		List<String> supplierIds = pqInfoService.queryDepName(page==null?1:page);
+		List<String> supplierNames = new ArrayList<>();
+		for (String id : supplierIds) {
+			supplierNames.add(supplierService.get(id).getSupplierName());
+		}
 		List<Supplier_pqinfo> supplier_pqinfos= new ArrayList<Supplier_pqinfo>();
 		for (int i = 0; i < supplierNames.size(); i++) {
 			Supplier_pqinfo sPqinfo =new Supplier_pqinfo();
-			String supplierName = supplierNames.get(i);
+			String supplierName = supplierIds.get(i);
 			
 			BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierName);
 			if (countSuccess==null) {
@@ -423,7 +474,7 @@ public class PqInfoController extends BaseSupplierController{
 				countFail=new BigDecimal(0);
 			}
 			
-			sPqinfo.setSupplierName(supplierName);
+			sPqinfo.setSupplierName(supplierNames.get(i));
 			sPqinfo.setSuccessCount(countSuccess);
 			sPqinfo.setFailCount(countFail);
 			sPqinfo.setAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
