@@ -48,4 +48,12 @@ public interface SupplierItemService {
 	* @throws
 	 */
 	public List<Category> getCategory(String supplierId,String type);
+	
+	/**
+	 *〈简述〉删除被取消选中的节点
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param supplierItem
+	 */
+	public void deleteItems(SupplierItem supplierItem);
 }

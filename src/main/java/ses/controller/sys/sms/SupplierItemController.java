@@ -82,11 +82,12 @@ public class SupplierItemController extends BaseController{
 	 * @return: String
 	 */
 	@RequestMapping(value = "save_or_update")
-	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String flag, Model model,String supplierTypeIds) {
-		
-		
-		
-		if(flag.equals("4")){
+	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String flag, Model model,String supplierTypeIds, String clickFlag) {
+	    
+	    // 判断是否是取消选中
+		if ("0".equals(clickFlag) && flag.equals("4")) {
+		    supplierItemService.deleteItems(supplierItem);
+		} else if(flag.equals("4")){
 			supplierItemService.saveOrUpdate(supplierItem);
 		}
 		

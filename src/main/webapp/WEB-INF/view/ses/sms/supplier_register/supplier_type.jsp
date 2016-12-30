@@ -153,19 +153,28 @@
 				boo=true;
 			} 
 		 }
+	    var flag = true;
 		$("input[name='supplierTypeIds']").val(id);
 	    $("input[name='flag']").val(obj);
 	    if(bool==true&&boo!=true){
 	    	layer.msg("请勾选产品货物类属性");
 	    }else{
-	    	 if(id.length>0){
-	    		 $("#save_pro_form_id").submit();
-	    	    }else{
-	    	    	layer.msg("请选择供应商类型");
-	    	    }
-	   		 }
-	    
-	    $("#save_pro_form_id").submit();
+	   		if(id.length>0){
+	    		flag = true;
+	    	}else{
+	    		flag = false;
+	    		layer.msg("请选择供应商类型");
+	    	}
+		}
+	    $("#cert_pro_list_tbody_id").find("input").each(function(index,element){
+	    	if (element.value == "") {
+	    		flag = false;
+	    		layer.msg("物资生产资质证书信息不能为空! ");
+	    	}
+	    });
+	    if (flag == true) {
+		    $("#save_pro_form_id").submit();
+	    }
 	    
     }
  
@@ -915,10 +924,8 @@
 															
 															</td>
 															<td class="tc">
-															<div>
 															 <u:upload id="pro_up" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
 															 <u:show showId="pro_show" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
-															</div>
 															</td>
 														</tr>
 													</c:forEach>
@@ -1418,7 +1425,7 @@
 	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev();">上一步</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="ajaxSave();">暂存</button>
-				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
+				<input type="button" class="btn padding-left-20 padding-right-20 margin-5" value="下一步" onclick="next(1)"></input>
 	  	  </div>
 	</div>
 	

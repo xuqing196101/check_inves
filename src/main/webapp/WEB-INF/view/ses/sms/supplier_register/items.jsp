@@ -167,7 +167,7 @@
 	}
 	
 	function prev(flag){
-		 getCategoryId();
+		getCategoryId();
 		$("#flag").val(flag);
 		$("#items_info_form_id").submit();
 	}
@@ -191,7 +191,6 @@
 	}
 	
 	function saveCategory(event, treeId, treeNode){
-		
 		/* getCategoryId(); */
 		
 		var clickFlag;
@@ -200,19 +199,23 @@
 		} else {
 			clickFlag = "0";
 		}
+		$("#clickFlag").val(clickFlag);	 	
 		
 		var ids=[]; 
 		var tree = $.fn.zTree.getZTreeObj(treeId);
-		if(tree!=null){
-			nodes = tree.getCheckedNodes(true);
-			for (var j = 0; j < nodes.length; j++) {
-			 
+		if (clickFlag == "1") {
+			if(tree!=null){
+				nodes = tree.getCheckedNodes(true);
+				for (var j = 0; j < nodes.length; j++) {
 					ids.push(nodes[j].id);
-				 
+				}
+			}
+		} else {
+			nodes = tree.getChangeCheckedNodes();
+			for (var j = 0; j < nodes.length; j++) {
+				ids.push(nodes[j].id);
 			}
 		}
-		
-	 
 		$("#categoryId").val(ids);
 		var attr1=$("#li_id_1").attr("class");
 		if(attr1=='active'){
@@ -236,6 +239,12 @@
 			async: false,
 			data: $("#items_info_form_id").serialize(),
 		});
+		
+		//清理善后工作,将状态改变的节点的old状态改为当前状态  
+	    allNodes = tree.getChangeCheckedNodes();  
+	   	for (var i=0; i < allNodes.length; i++) {  
+	   		allNodes[i].checkedOld = nodes[i].checked;  
+	    }  
 	}
 	
 	function supCategory(){
@@ -387,7 +396,7 @@
 	
 	 <div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
-	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev(3)">上一步</button>
+	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev('3')">上一步</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems(2)">暂存</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
 	  	  </div>
@@ -397,6 +406,7 @@
 	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier_item/save_or_update.html" method="post">
 		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
+		<input name="clickFlag" value=""  id="clickFlag" type="hidden" /> 
 		<input name="flag" value=""  id="flag" type="hidden" /> 
 		<input name="supplierTypeIds" type="hidden" value="${currSupplier.supplierTypeIds }" /> 
 		<input name="supplierTypeRelateId"  id="supplierTypeRelateId" type="hidden" value="" /> 

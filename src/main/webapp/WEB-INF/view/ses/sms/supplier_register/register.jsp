@@ -90,7 +90,7 @@
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>验证码：</label> 
 								<div class="col-md-7 col-xs-12 col-sm-12 p0">
-								    <input type="text" name="identifyCode" value="${supplier.identifyCode}" class="col-md-4 col-sm-3 col-xs-4">
+								    <input type="text" name="identifyCode" id="identifyCode" value="${supplier.identifyCode}" class="col-md-4 col-sm-3 col-xs-4">
 								    <div class="fl">
 								       <div class="yzm fl">
 										<img id="identity_code_img_id" class="hand" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()" />

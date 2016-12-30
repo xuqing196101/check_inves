@@ -220,6 +220,9 @@
 			<if test="type != null and type != ''">
 				and SUPPLIER_TYPE_RELATE_ID = #{type}
 			</if>
+			<if test="supplierId != null and supplierId != ''">
+				and SUPPLIER_ID = #{supplierId}
+			</if>
 		</where>
 	</delete>
 	

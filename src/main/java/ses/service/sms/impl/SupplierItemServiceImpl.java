@@ -191,6 +191,27 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		
 		return cateList;
 	}
+
+	
+    /**
+     * @see ses.service.sms.SupplierItemService#deleteItems(ses.model.sms.SupplierItem)
+     */
+    @Override
+    public void deleteItems(SupplierItem supplierItem) {
+        if(supplierItem.getCategoryId()!=null){
+            String categoryIds = supplierItem.getCategoryId().trim();
+            if(categoryIds.length() > 0){
+                String ids[] =categoryIds.split(",");
+                for (String categoryId : ids) {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("supplierId", supplierItem.getSupplierId());
+                    params.put("categoryId", categoryId);
+                    params.put("type", supplierItem.getSupplierTypeRelateId());
+                    supplierItemMapper.deleteByMap(params);
+                }
+            }
+        }
+    }
 		 
 		
  
