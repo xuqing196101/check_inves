@@ -255,7 +255,7 @@ public class TackController extends BaseController{
 	                 List<ProjectTask> projectTask = projectTaskService.queryByNo(map1);
 	                 if(projectTask != null && projectTask.size()>0){
 	                     AdvancedProject project = advancedProjectService.selectById(projectTask.get(0).getProjectId());
-	                     project.setStatus(3);
+	                     //project.setStatus(3);
 	                     advancedProjectService.update(project);
 	                 }
 	             }
@@ -372,6 +372,14 @@ public class TackController extends BaseController{
                     map.put("planNo", s);
                     List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
                     listp.addAll(list2);
+                }
+            }
+            
+            for(int i=0;i<listp.size();i++){
+                if(listp.get(i).getPrice()!=null){
+                    if(!listp.get(i).getOrganization().equals(user.getOrg().getId())){
+                        listp.remove(listp.get(i)); 
+                    }
                 }
             }
             model.addAttribute("lists", listp);
@@ -529,7 +537,9 @@ public class TackController extends BaseController{
 	
 	@ResponseBody
 	@RequestMapping("/comparison")
-	public String comparison(String id, HttpServletRequest request){
+	public String comparison(@CurrentUser User user,String id, HttpServletRequest request){
+	    
+	    
 	    String num = "1";
 	    String number = "2";
 	    String thId = null;
@@ -562,6 +572,7 @@ public class TackController extends BaseController{
                 for (String uu : list) {
                     Map<String,Object> map1=new HashMap<String,Object>();
                     map1.put("planNo", uu);
+                    map1.put("organization", user.getOrg().getId());
                     List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map1);
                     if (list2 != null && list2.size() > 0) {
                         if(thIds == null){
@@ -574,31 +585,37 @@ public class TackController extends BaseController{
             }
         }
         
-        
-        String[] detailId = thId.split(",");
-        String[] detailIds = null;
-        if (thIds != null) {
-            detailIds = thIds.split(",");
-        }
-        request.getSession().setAttribute("thId", thId);
-        request.getSession().setAttribute("thIds", thIds);
-        outer:
-        for (int j = 0; j < detailId.length; j++ ) {
-            if (detailIds != null) {
-                for (int k = 0; k < detailIds.length; k++ ) {
-                    if(detailId[j].equals(detailIds[k])){
-                        AdvancedDetail advancedDetail = detailService.selectByRequiredId(detailId[j]);
-                        PurchaseRequired requireds = purchaseRequiredService.queryById(detailIds[k]);
-                        if(advancedDetail.getDepartment().equals(requireds.getDepartment())){
-                            return num;
-                        }else{
-                            break outer;
+        if(thId != null){
+            String[] detailIds = null;
+            if (thIds != null) {
+                detailIds = thIds.split(",");
+            }
+            
+            String[] detailId = thId.split(",");
+            outer:
+            for (int j = 0; j < detailId.length; j++ ) {
+                if (detailIds != null) {
+                    for (int k = 0; k < detailIds.length; k++ ) {
+                        if(detailId[j].equals(detailIds[k])){
+                            AdvancedDetail advancedDetail = detailService.selectByRequiredId(detailId[j]);
+                            PurchaseRequired requireds = purchaseRequiredService.queryById(detailIds[k]);
+                            if(advancedDetail.getDepartment().equals(requireds.getDepartment())){
+                                return num;
+                            }else{
+                                break outer;
+                            }
+                            
                         }
-                        
                     }
                 }
-            }
-        }    
+            } 
+            
+        }
+     
+        request.getSession().setAttribute("thId", thId);
+        request.getSession().setAttribute("thIds", thIds);
+      
+       
         
         return number;
 	    
@@ -651,7 +668,7 @@ public class TackController extends BaseController{
                     project.setPlanType(advancedProject.getPlanType());
                     projectService.add(project);
                     
-                    advancedProject.setStatus(0);
+                    //advancedProject.setStatus(0);
                     advancedProjectService.update(advancedProject);
                     
                     String id = project.getId();

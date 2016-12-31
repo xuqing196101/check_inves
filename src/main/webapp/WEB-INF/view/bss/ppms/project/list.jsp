@@ -79,7 +79,7 @@
 		status = $.trim(status);
 		var currPage = ${info.pageNum};
 		if (id.length == 1) {
-	  	if (status == "实施中") {
+	  	/* if (status == "实施中") {
 				window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
 	  	} else if (status == "已立项") {
 				$.ajax({
@@ -107,7 +107,38 @@
 		  			}
 		  		}
 				});
+	  	} */
+	  	
+	  	if(status == "已立项，待分包"){
+	  	  $.ajax({
+          url : "${pageContext.request.contextPath}/project/viewPackage.html",
+          data : "id=" + id,
+          type : "post",
+          dataType : "json",
+          success : function(result) {
+            if(result==0){
+              layer.open({
+                type : 2, //page层
+                area : [ '800px', '500px' ],
+                title : '请上传项目批文',
+                shade : 0.01, //遮罩透明度
+                moveType : 1, //拖拽风格，0是默认，1是传统拖动
+                shift : 1, //0-6的动画形式，-1不开启
+                shadeClose : true,
+                content : '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
+              });
+            }else if(result==1){
+              layer.alert("项目中有明细尚未分包", {
+                offset: ['30%', '40%']
+              });
+              $(".layui-layer-shade").remove();
+            }
+          }
+        });
+	  	}else{
+	  	  window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
 	  	}
+	  	
 		} else if (id.length > 1) {
 	  	layer.alert("只能选择一个", {
 		    offset : [ '222px', '390px' ],
@@ -275,7 +306,6 @@
 		  <c:forEach items="${info.list}" var="obj" varStatus="vs">
 		    <tr class="pointer">
 			  	<td class="tc w30">
-			    	<input type="hidden" value="${obj.status }" />
 			    	<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
 			  	</td>
 			  	<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
@@ -287,9 +317,9 @@
 	            </c:forEach>
 			  	</td>
 			  	<td class="tc">
-						<c:if test="${'1'==obj.status}">实施中</c:if> 
-						<c:if test="${'2'==obj.status}">已成交</c:if> 
-						<c:if test="${'3'==obj.status}">已立项</c:if>
+			  	  <c:forEach items="${status}" var="status" >
+                 <c:if test="${status.id == obj.status}">${status.name}</c:if>
+            </c:forEach>
 			  	</td>
 			  	<td class="tc" onclick="view('${obj.id}')">${obj.projectContractor}</td>
 				</tr>

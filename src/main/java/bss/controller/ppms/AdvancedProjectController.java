@@ -212,7 +212,7 @@ public class AdvancedProjectController extends BaseController {
         project.setPurchaseType(purchaseType);
         project.setPlanType(planType);
         project.setPurchaseDep(new PurchaseDep(organization));
-        project.setStatus(0);
+     //   project.setStatus(0);
         advancedProjectService.save(project);
         
         //下达
@@ -363,7 +363,7 @@ public class AdvancedProjectController extends BaseController {
         if(projectIds != null){
             AdvancedProject project = advancedProjectService.selectById(projectIds);
             project.setCreateAt(new Date());
-            project.setStatus(3);
+           // project.setStatus(3);
             project.setName(advancedProject.getName());
             project.setProjectNumber(advancedProject.getProjectNumber());
             if(list.getList().get(0).getOrganization() != null){
@@ -911,7 +911,7 @@ public class AdvancedProjectController extends BaseController {
         User user = userService.getUserById(principal);
         project.setPrincipal(principal);
         project.setIpone(user.getMobile());
-        project.setStatus(1);
+        // project.setStatus(1);
         project.setStartTime(new Date());
         advancedProjectService.update(project);
         return "redirect:list.html";

@@ -163,6 +163,7 @@ public class ProjectController extends BaseController {
 				}
             }
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+            model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
             model.addAttribute("info", new PageInfo<Project>(list));
             model.addAttribute("projects", project);
         }
@@ -320,11 +321,11 @@ public class ProjectController extends BaseController {
             }
             model.addAttribute("kind", DictionaryDataUtil.find(5));
             
-            List<PurchaseRequired> sessionList=  (List<PurchaseRequired>)request.getSession().getAttribute("sessionList");
+           /* List<PurchaseRequired> sessionList=  (List<PurchaseRequired>)request.getSession().getAttribute("sessionList");
             if(sessionList!=null&&sessionList.size()>0){
             	
                 list1.addAll(sessionList);
-            }
+            }*/
             model.addAttribute("lists", list1);
             
             request.getSession().setAttribute("sessionList", list1);
@@ -402,7 +403,7 @@ public class ProjectController extends BaseController {
                     return "bss/ppms/project/add";
                 }
                 project.setCreateAt(new Date());
-                project.setStatus(3);
+                //project.setStatus(3);
                 if(chkItem != null){
                     project.setIsRehearse(0);
                 }else{
@@ -737,13 +738,14 @@ public class ProjectController extends BaseController {
     
     @RequestMapping("/addProject")
     public String addProject(@CurrentUser User user,Project project,String id, String bidAddress, String flowDefineId,String deadline, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
-        //Project project = projectService.selectById(id);
-    	String userId = request.getParameter("userId");
+    	String status = DictionaryDataUtil.getId("XMXXWHZ");
+        String userId = request.getParameter("userId");
     	project.setPrincipal(userId);
         project.setLinkman(linkman);
         project.setLinkmanIpone(linkmanIpone);
         project.setSupplierNumber(supplierNumber);
         project.setBidAddress(bidAddress);
+        project.setStatus(status);
         Date date = new Date();   
         Date date1 = new Date();
         //注意format的格式要与日期String的格式相匹配   
@@ -799,16 +801,15 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/start")
     public String start(String id, String principal,HttpServletRequest request) {
+        String status = DictionaryDataUtil.getId("YFB_DSS");
         Project project = projectService.selectById(id);
-        //User user = userService.findByTypeId(principal);
         User user = userService.getUserById(principal);
         project.setPrincipal(principal);
         project.setIpone(user.getMobile());
-        project.setStatus(1);
+        project.setStatus(status);
         project.setStartTime(new Date());
         projectService.update(project);
         return "redirect:list.html";
-        //return "redirect:excute.html?id=" + project.getId();
     }
     
     @RequestMapping("/mplement")
@@ -2092,8 +2093,8 @@ public class ProjectController extends BaseController {
      
      @RequestMapping("/nextStep")
      public String nextStep(Project project,Model model, String num){
-    	 
-    	 project.setStatus(3);
+    	 String status = DictionaryDataUtil.getId("YLX_DFB");
+    	 project.setStatus(status);
     	 project.setIsRehearse(0);
     	 project.setIsProvisional(0);
     	 projectService.update(project);

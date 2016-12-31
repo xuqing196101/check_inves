@@ -251,7 +251,15 @@ public class AdIntelligentScoringController extends BaseController{
                                         sm.setReviewContent(scoreModel.getReviewContent());
                                         sm.setScore(scoreModel.getScore());
                                         sm.setUnit(scoreModel.getUnit());
+                                        sm.setDeadlineNumber(scoreModel.getDeadlineNumber());
+                                        sm.setReviewStandScore(scoreModel.getReviewStandScore());
+                                        sm.setIntervalNumber(scoreModel.getIntervalNumber());
+                                        sm.setIntervalTypeName(scoreModel.getIntervalTypeName());
                                         sm.setAddSubtractTypeName(scoreModel.getAddSubtractTypeName());
+                                        sm.setIsHave(scoreModel.getIsHave());
+                                        sm.setStandScores(scoreModel.getStandScores());
+                                        sm.setRelation(scoreModel.getRelation());
+                                        sm.setRelationScore(scoreModel.getRelationScore());
                                         scoreModelService.saveScoreModel(sm);
                                     }
                                 }

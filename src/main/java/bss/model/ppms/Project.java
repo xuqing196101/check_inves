@@ -18,7 +18,7 @@ public class Project {
     @NotBlank(message="不能为空")
     private String projectNumber; //项目编号
 
-    private Integer status; //状态
+    private String status; //状态
 
     private String principal; //项目负责人
 
@@ -196,15 +196,15 @@ public class Project {
 	}
 
 
-	public Integer getStatus() {
-		return status;
-	}
+	public String getStatus() {
+        return status;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public String getPrincipal() {
+    public String getPrincipal() {
 		return principal;
 	}
 

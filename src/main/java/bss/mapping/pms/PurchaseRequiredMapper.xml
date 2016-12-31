@@ -742,7 +742,7 @@
 		<where>
 		HISTORY_STATUS='0' and IS_DELETE='0'
 			<if test="planNo !=null">
-				and PLAN_NO=#{planNo}
+				and UNIQUE_ID=#{planNo}
 			</if>
 			<if test="referenceNo !=null">
 				and REFERENCE_NO=#{referenceNo}
@@ -757,11 +757,13 @@
 			<if test="department != null">
          and DEPARTMENT = #{department}
       </if>
-			
+			<if test="organization!=null">
+			   and  ORGANIZATION_ID=#{organization} 
+			</if>
 			<if test="parentId != null">
                 and PARENT_ID = #{parentId}
-            </if>
-            
+       </if>
+      
 		</where>
 		ORDER BY IS_MASTER
 		

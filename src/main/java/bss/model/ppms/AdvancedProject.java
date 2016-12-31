@@ -18,7 +18,7 @@ public class AdvancedProject {
     @NotBlank(message="不能为空")
     private String projectNumber; //项目编号
 
-    private Integer status; //状态
+    private String status; //状态
 
     private String principal; //项目负责人
 
@@ -173,12 +173,11 @@ public class AdvancedProject {
         this.projectNumber = projectNumber;
     }
 
-
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

@@ -1242,12 +1242,10 @@
   </insert>
     
   <select id="selectProjectsByConition" parameterType="java.util.Map" resultMap="BaseResultMap">
-    SELECT * FROM
-    (
     SELECT 
     <include refid="Base_Column_List" />
     FROM T_BSS_PPMS_PROJECTS
-    WHERE 1=1 AND IS_REHEARSE = 0 AND IS_PROVISIONAL = 0 AND STATUS != 1
+    WHERE 1=1 AND IS_REHEARSE = 0 AND IS_PROVISIONAL = 0 
      <if test="name != null and name != ''">
        AND NAME LIKE '%'||#{name}||'%'  
       </if>
@@ -1255,24 +1253,7 @@
        AND PROJECT_NUMBER LIKE '%'||#{projectNumber}||'%'
       </if>
       <if test="status != null">
-       AND STATUS LIKE '%${status}%'
-      </if>
-      <if test="purchaseDep != null">
-       AND PURCHASE_DEP_ID = #{purchaseDepId}
-      </if>
-     UNION ALL
-     SELECT 
-    <include refid="Base_Column_List" />
-    FROM T_BSS_PPMS_PROJECTS
-    WHERE 1=1 AND IS_REHEARSE = 0 AND IS_PROVISIONAL = 0 AND STATUS = 1
-     <if test="name != null and name != ''">
-       AND NAME LIKE '%'||#{name}||'%'  
-      </if>
-       <if test="projectNumber != null and projectNumber != ''">
-       AND PROJECT_NUMBER LIKE '%'||#{projectNumber}||'%'
-      </if>
-      <if test="status != null">
-       AND STATUS LIKE '%${status}%'
+       AND STATUS  = #{status}
       </if>
       <if test="purchaseDep != null">
        AND PURCHASE_DEP_ID = #{purchaseDepId}
@@ -1280,7 +1261,6 @@
       <if test="principal != null">
        AND PRINCIPAL = #{principal}
       </if>
-      )
       ORDER BY CREATED_AT DESC
   </select>
     
