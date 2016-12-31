@@ -130,7 +130,7 @@ session.setAttribute("tokenSession", tokenValue);
 
 			<h2 class="count_flow margin-left-30"><font color="red" class="margin-left-30"> 注：军队单位人员，请登录内网进行注册!</font></h2>
             <ul class="list-unstyled overflow_h mt20">
-			 <li class="login_item col-md-12  col-sm-12 col-xs-12 pl15">
+			 <li class="login_item col-md-12  col-sm-12 col-xs-12 pl10">
 			  <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>专家类型：</span>
 			  <div class="col-md-7 col-xs-12 col-sm-12 p0 select_common">
 		        <select  name="expertsFrom" id="expertsFrom" onblur="validateFrom();">
@@ -166,13 +166,13 @@ session.setAttribute("tokenSession", tokenValue);
 			 <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>手机号码：</span>
 			   <div class="col-md-7 col-xs-12 col-sm-12 p0 input-append input_group">
-			    <div class="col-md-6 col-sm-6 col-xs-6 pl0">
+			    <!--<div class="col-md-12 col-sm-12 col-xs-12 pl0">-->
+			    <div class="col-md-12 col-sm-12 col-xs-12 p0">
 		          <input name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validatePhone();"  value="" type="text">
 		        </div>
-		        <button type="button" class="btn ml10">发送验证码</button>
+		        <!-- <button type="button" class="btn ml10">发送验证码</button>-->
 		        <div class="cue" id="phone2"></div>
-		       </div>
-		        
+		       </div>  
 			 </li>
 			 <!-- <li class="p0">
 			   <span class=""><i class="red mr5">*</i>验证码：</span>
