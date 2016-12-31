@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
+
+
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
@@ -108,6 +110,8 @@ public class SupplierConditionController {
         String[] expertsTypeSplit = conType.getSupplierTypeSplit();
         String[] projectId = condition.getProjectId().split(",");
         String conditionId = "";
+      //保存单个conid
+        String conId = "";
         Map<String, Object> map = new HashMap<String, Object>();
         if(conType.getSupplierCount() == null || conType.getSupplierCount() == 0 ){
             map.put("count", "不能为空");
@@ -118,10 +122,14 @@ public class SupplierConditionController {
             String[] split = condition.getProjectId().split(",");
             for (String proid : split) {
                 condition.setProjectId(proid);
+                
                 conditionService.insert(condition);
                 //如果有id就修改没有就新增
                 conType.setConditionId(condition.getId());
                 conditionId += condition.getId()+",";
+                if("".equals(conId)){
+                  conId = condition.getId();
+                }
                 if (expertsTypeSplit != null && expertsTypeSplit.length != 0 && !"".equals(expertsTypeSplit[0])){
                     for (String code : expertsTypeSplit) {
                         if ("GOODS".equals(code)){
@@ -162,7 +170,7 @@ public class SupplierConditionController {
             }
 
         }
-        map.put("conId",condition.getId());
+        map.put("conId",conId);
         map.put("sccuess", "sccuess");
         List<Area> listArea = areaService.findTreeByPid("1",null);
         sq.setAttribute("listArea", listArea);
@@ -171,11 +179,12 @@ public class SupplierConditionController {
 
         Map<String, Integer> mapcount = new HashMap<String, Integer>();
         User user = (User) sq.getSession().getAttribute("loginUser");
-
-        List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(condition.getId()), "");
+        Integer sum = conTypeService.getSum(conId);
+        PageHelper.startPage(1, sum*2);
+        List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(conId), "");
         if (list == null || list.size() == 0){
-            extRelateService.insert(condition.getId(), user != null && !"".equals(user.getId()) ? user.getId() : "",projectId,conditionId);
-            list = extRelateService.list(new SupplierExtRelate(condition.getId()),"");
+            extRelateService.insert(conId, user != null && !"".equals(user.getId()) ? user.getId() : "",projectId,conditionId);
+            list = extRelateService.list(new SupplierExtRelate(conId),"");
         }
         //已操作的
         List<SupplierExtRelate> projectExtractListYes = new ArrayList<SupplierExtRelate>();
@@ -197,7 +206,7 @@ public class SupplierConditionController {
             }
         }
         //获取查询条件类型
-        List<SupplierCondition> listCondition = conditionService.list(new SupplierCondition(condition.getId(), ""), 0);
+        List<SupplierCondition> listCondition = conditionService.list(new SupplierCondition(conId, ""), 0);
         List<SupplierConType> conTypes = null;
         if (listCondition != null && listCondition.size() !=0 ){
             conTypes = listCondition.get(0).getConTypes();
@@ -219,7 +228,7 @@ public class SupplierConditionController {
             projectExtractListNo.remove(0);
         } else {
             //已抽取
-            conditionService.update(new SupplierCondition(condition.getId(), (short)2));
+            conditionService.update(new SupplierCondition(conId, (short)2));
         }
         map.put("extRelateListYes", projectExtractListYes);
         map.put("extRelateListNo", projectExtractListNo);
