@@ -2069,6 +2069,13 @@ margin-top:0px!important;
 .floor_kind{
 	height:240px;
 }
+.floor_news{
+	height:355px;
+	position:relative;
+}
+.floor_news h2 li a b{
+  display: none;
+}
 .floor_kind h2 span{
   background:#ffffff;
   padding:0 10px;
@@ -2095,9 +2102,6 @@ a.news_more{
 }
 .floor_kind h2 li a{
   padding: 8px 12px;
-}
-.floor_kind h2 li a b{
-  display: none;
 }
 .floor_kind h2 li.active a{
   color:#555;
@@ -2453,6 +2457,11 @@ a.yjfk{
 .floor_kind .tab-content .tab-pane{
 	height:200px;
 	position: relative;
+}
+
+.floor_news .tab-content .tab-pane {
+    height: 320px;
+    position: relative;
 }
 .tab_more{
 	position: absolute;

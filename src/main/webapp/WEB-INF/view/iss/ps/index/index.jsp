@@ -181,7 +181,7 @@
       </div>
       <div class="row magazine-page clear">
         <div class="col-md-4 mb10 login_box">
-          <div class=" border1 job-content floor_kind">
+          <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		 	  <span class="col-md-4 col-sm-4 col-xs-6">采购公告</span>
 		  	  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
@@ -304,7 +304,7 @@
         </div>
 
         <div class="col-md-4 mb10 login_box">
-          <div class=" border1 job-content floor_kind">
+          <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <span class="col-md-4 col-sm-4 col-xs-6">中标公告</span>
 		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
@@ -424,7 +424,7 @@
         </div>
 
         <div class="col-md-4 mb10 login_box">
-          <div class=" border1 job-content floor_kind">
+          <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <span class="col-md-4 col-sm-4 col-xs-6">单一来源公告</span>
 		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
@@ -554,7 +554,7 @@
       </div>
       <div class="row magazine-page clear">
         <div class="col-md-4 mb10 login_box">
-          <div class=" border1 job-content floor_kind">
+          <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <span class="col-md-4 col-sm-4 col-xs-6">采购公告</span>
 		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
@@ -674,7 +674,7 @@
         </div>
 
         <div class="col-md-4 mb10 login_box">
-          <div class=" border1 job-content floor_kind">
+          <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <span class="col-md-4 col-sm-4 col-xs-6">中标公告</span>
 		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">
@@ -793,7 +793,7 @@
           </div>
         </div>
         <div class="col-md-4 mb10 login_box">
-          <div class=" border1 job-content floor_kind">
+          <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <span class="col-md-4 col-sm-4 col-xs-6">单一来源公告</span>
 		  <ul class="list-unstyled col-md-8 col-sm-8 col-xs-6 buyer_news m0 p0">

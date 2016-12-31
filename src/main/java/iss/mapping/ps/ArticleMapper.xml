@@ -551,7 +551,7 @@ WHERE
 	1 = 1
 AND status = 2
 AND IS_DELETED = 0
-AND ROWNUM &lt;= 6
+AND ROWNUM &lt;= 10
   </select>
   
   <select id="selectAllByParId" parameterType="Map" resultMap="ArticleMapper">
