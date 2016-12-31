@@ -101,7 +101,7 @@
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12 clear" >
 							   <div id="valid" class="col-md-12 col-xs- 12 col-sm-12 p0">
-								 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">供应商报价低于有效供应商报价平均值的百分比(%)：</span> 
+								 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">供应商报价不得高于有效供应商报价平均值的百分比(%)：</span> 
 								 <div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								    <input name="valid"  type="text" value="${bidMethod.valid }">
 								    <span class="add-on">i</span>

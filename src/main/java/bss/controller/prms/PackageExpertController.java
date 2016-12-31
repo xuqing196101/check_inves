@@ -6,9 +6,12 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1141,24 +1144,6 @@ public class PackageExpertController {
     @RequestMapping("/scoreTotal")
     @ResponseBody
     public void scoreTotal(String packageId, String projectId) {
-        //评分办法计算
-        //包内供应商总得分
-        BigDecimal totalScore = new BigDecimal(0);
-        //包内供应商平均得分
-        BigDecimal totalScoreAver = new BigDecimal(0);
-        //低于标准的分数
-        BigDecimal totalScoreStandard = new BigDecimal(0);
-        //包内供应商总报价
-        BigDecimal totalPrice = new BigDecimal(0);
-        //包内供应商平均报价
-        BigDecimal totalPriceAver = new BigDecimal(0);
-        //高于报价的金额数
-        BigDecimal totalPriceStandard = new BigDecimal(0);
-        //报价比例
-        BigDecimal totalPricePercent = new BigDecimal(0);
-        //评分比例
-        BigDecimal totalScorePercent = new BigDecimal(0);
-        
         // 供应商信息
         List<SaleTender> allSupplierList = saleTenderService.list(new SaleTender(projectId), 0);
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
@@ -1168,20 +1153,15 @@ public class PackageExpertController {
                 supplierList.add(sale);
             }
         }
+        //改为结束状态
         expertScoreService.gather(packageId, projectId, supplierList);
         // 将供应商的经济技术总分存入SaleTender表中
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("packageId", packageId);
-        int supplierNum0 = supplierList.size();
-        BigDecimal supplierNum = new BigDecimal(supplierNum0);
-        //计算所有供应商总分
-        totalScore = getTotalScore(supplierList, map);
-        totalScoreAver = totalScore.divide(supplierNum);
-        totalScoreStandard = totalScoreAver.multiply(totalScorePercent);
-        //计算总报价
-        totalPrice = getTotalPrice(packageId, projectId, supplierList);
-        totalPriceAver = totalPrice.divide(supplierNum);
-        totalPriceStandard = totalPriceAver.multiply(totalPricePercent);
+        
+        //根据评分办法筛选后的供应商
+        List<SaleTender> finalSupplier = new ArrayList<SaleTender>();
+        
         for (SaleTender saleTender : supplierList) {
             String msg = "";
             map.put("supplierId", saleTender.getSuppliers().getId());
@@ -1216,86 +1196,22 @@ public class PackageExpertController {
             // 将算好的总分放入map
             map.put("economicScore", economicScore);
             map.put("technologyScore", technologyScore);
+            saleTender.setEconomicScore(economicScore);
+            saleTender.setTechnologyScore(technologyScore);
             //是否偏离
             int flag = 0;
-            //该供应商总报价
-            BigDecimal totalPriceSupplier = new BigDecimal(0);
-            //四种评分办法计算
-            BidMethod condition = new BidMethod();
-            condition.setProjectId(projectId);
-            condition.setPackageId(packageId);
-            List<BidMethod> bmList = bidMethodService.findScoreMethod(condition);
-            List<DictionaryData> ddList = DictionaryDataUtil.find(27);
-            ddList.get(Integer.parseInt(bmList.get(0).getTypeName()));
-            if (bmList != null && bmList.size() > 0 && ddList != null && ddList.size() > 0) {
-              Integer position = Integer.parseInt(bmList.get(0).getTypeName());
-              String aduitMethodCode = ddList.get(position).getCode();
-              //综合评分法
-              if ("OPEN_ZHPFF".equals(aduitMethodCode)) {
-                totalScorePercent = bmList.get(0).getBusiness().divide(new BigDecimal(100));
-                totalPricePercent = bmList.get(0).getValid().divide(new BigDecimal(100));
-                //该供应商平均分偏离计算
-                BigDecimal totalSupplier = new BigDecimal(0);
-                totalSupplier= totalSupplier.add(economicScore);
-                totalSupplier= totalSupplier.add(technologyScore);
-                if (totalSupplier.compareTo(totalScoreAver) == -1) {
-                    //小于平均分的分数
-                    BigDecimal v = totalScoreAver.subtract(totalSupplier);
-                    //如果偏离值大于标准偏离值
-                    if (totalScoreStandard.compareTo(v) == -1) {
-                      BigDecimal percent = totalScorePercent.multiply(new BigDecimal(100));
-                      msg += "经济技术平均得分低于有效经济技术平均得分的"+percent+"%.";
-                      flag = 1;
-                    }
-                } else {
-                  msg += "";
-                }
-                //该供应商平均报价偏离计算
-                Supplier supplier = saleTender.getSuppliers();
-                Quote quote = new Quote();
-                quote.setProjectId(projectId);
-                quote.setPackageId(packageId);
-                quote.setSupplierId(supplier.getId());
-                List<Quote> allQuote = supplierQuoteService.get(quote);
-                if (allQuote != null && allQuote.size()>0) {
-                    if (allQuote.get(0).getQuotePrice() == null) {
-                      totalPriceSupplier = totalPriceSupplier.add(allQuote.get(0).getTotal());
-                    } else {
-                        BigDecimal totalPrice2 = BigDecimal.ZERO;
-                        for (Quote q : allQuote) {
-                            totalPrice2 = q.getQuotePrice().add(totalPrice2);
-                        }
-                        totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
-                    }
-                }
-                if (totalPriceSupplier.compareTo(totalPriceAver) == -1) {
-                    //小于平均分的分数
-                    BigDecimal v = totalPriceAver.subtract(totalPriceSupplier);
-                    //如果偏离值大于标准偏离值
-                    if (totalPriceStandard.compareTo(v) == -1) {
-                      BigDecimal percent = totalScorePercent.multiply(new BigDecimal(100));
-                      msg += "报价高于有效平均报价的"+percent+"%.";
-                      flag = 1;
-                    }
-                } else {
-                  msg += "";
-                }
-              }
-              //基准价法
-              if ("PBFF_JZJF".equals(aduitMethodCode)) {
-                
-              }
-              //性价比法
-              if ("PBFF_XJBF".equals(aduitMethodCode)) {
-                
-              }
-              //最低价法
-              if ("PBFF_ZDJF".equals(aduitMethodCode)) {
-                
-              }
-              
+            //根据评分办法计算
+            HashMap<String, Object> resultMap = service.countMethod(supplierList, projectId, packageId, saleTender, economicScore, technologyScore);
+            
+            SaleTender finalSa = (SaleTender) resultMap.get("finalSupplier");
+            if (finalSa != null) {
+              finalSupplier.add(finalSa);
             }
-            // 2.向SUPPLIER_CHECK_PASS表中插入不偏离数据
+            
+            flag = (int) resultMap.get("flag");
+            //供应商总报价
+            BigDecimal totalPriceSupplier = (BigDecimal) resultMap.get("totalPriceSupplier");
+            // 向SUPPLIER_CHECK_PASS表中插入不偏离数据
             if (flag == 0) {
               BigDecimal totalSupplier = new BigDecimal(0);
               totalSupplier= totalSupplier.add(economicScore);
@@ -1321,82 +1237,21 @@ public class PackageExpertController {
               }
               checkPassService.insert(record);
             }
-            map.put("reviewResult", msg);
+            map.put("reviewResult", resultMap.get("reviewResult"));
             saleTenderService.editSumScore(map);
         }
-    }
-    
-    //计算供应商总得分
-    BigDecimal getTotalScore(List<SaleTender> supplierList, Map<String, Object> map){
-      //包内供应商总得分
-      BigDecimal totalScore = new BigDecimal(0);  
-      for (SaleTender saleTender : supplierList) {
-          map.put("supplierId", saleTender.getSuppliers().getId());
-          List<ExpertScore> scoreList = expertScoreService.selectByMap(map);
-          // 去重
-          removeRankSame(scoreList);
-          BigDecimal economicScore = new BigDecimal(0);
-          BigDecimal technologyScore = new BigDecimal(0);
-          for (ExpertScore score : scoreList) {
-              ScoreModel scoModel = new ScoreModel();
-              scoModel.setId(score.getScoreModelId());
-              // 根据id查看scoreModel对象
-              ScoreModel scoreModel = scoreModelService.findScoreModelByScoreModel(scoModel);
-              if (scoreModel != null) {
-                  MarkTerm mt = null;
-                  if (scoreModel.getMarkTermId() != null && !"".equals(scoreModel.getMarkTermId())){
-                      mt = markTermService.findMarkTermById(scoreModel.getMarkTermId());
-                      if (mt.getTypeName() == null || "".equals(mt.getTypeName())) {
-                          mt = markTermService.findMarkTermById(mt.getPid());
-                      }
-                  }
-                  DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
-                  if ("ECONOMY".equals(data.getCode())) {
-                      // 经济
-                      economicScore = economicScore.add(score.getScore());
-                  } else if ("TECHNOLOGY".equals(data.getCode())) {
-                      // 技术
-                      technologyScore = technologyScore.add(score.getScore());
-                  }
-              }
-          }
-          // 将算好的总分放入map
-          map.put("economicScore", economicScore);
-          map.put("technologyScore", technologyScore);
-          totalScore = totalScore.add(economicScore);
-          totalScore = totalScore.add(technologyScore);
+        //往saleTener插入最终供应商排名
+        service.rank(packageId, projectId, finalSupplier);
+        for (int i = 0; i < finalSupplier.size(); i++) {
+          //插入排名
+          HashMap<String, Object> ranMap = new HashMap<String, Object>();
+          ranMap.put("reviewResult", i+1);
+          ranMap.put("supplierId", finalSupplier.get(i).getSuppliers().getId());
+          ranMap.put("packageId", finalSupplier.get(i).getPackages());
+          saleTenderService.updateRank(ranMap);
         }
-        return totalScore;
     }
     
-    //计算供应商总报价
-    BigDecimal getTotalPrice(String packageId, String projectId, List<SaleTender> supplierList){
-      BigDecimal totalPrice = new BigDecimal(0);
-      for (SaleTender sale : supplierList) {
-        BigDecimal totalPriceSupplier = new BigDecimal(0);
-        Supplier supplier = sale.getSuppliers();
-        Quote quote = new Quote();
-        quote.setProjectId(projectId);
-        quote.setPackageId(packageId);
-        quote.setSupplierId(supplier.getId());
-        List<Quote> allQuote = supplierQuoteService.get(quote);
-        if (allQuote != null && allQuote.size()>0) {
-            if (allQuote.get(0).getQuotePrice() == null) {
-              totalPriceSupplier = totalPriceSupplier.add(allQuote.get(0).getTotal());
-            } else {
-                BigDecimal totalPrice2 = BigDecimal.ZERO;
-                for (Quote q : allQuote) {
-                    totalPrice2 = q.getQuotePrice().add(totalPrice2);
-                }
-                totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
-            }
-        }
-        totalPrice = totalPrice.add(totalPriceSupplier);
-      }
-      return totalPrice;
-    }
-    
-
     /**
      *〈简述〉查看专家对各供应商的初审明细
      *〈详细描述〉
@@ -1723,6 +1578,12 @@ public class PackageExpertController {
         model.addAttribute("supplierList", supplierList);
         model.addAttribute("supplierExtList", supplierExtList);
         model.addAttribute("packExpertExtList", packExpertExtList);
+        Project project = projectService.selectById(projectId);
+        DictionaryData dd = DictionaryDataUtil.findById(project.getPurchaseType());
+        if (dd != null) {
+          String purcahseCode = dd.getCode();
+          model.addAttribute("purcahseCode", purcahseCode);
+        }
         return "bss/prms/first_audit/view";
     }
 
@@ -1770,6 +1631,10 @@ public class PackageExpertController {
                 review.setIsFinish(isFinish);
             }
         }
+        
+        //按包的创建时间排序
+        ListSort(reviewProgressList);
+        
         // 包信息
         model.addAttribute("packageList", packages);
         model.addAttribute("projectId", projectId);
@@ -1777,6 +1642,40 @@ public class PackageExpertController {
         model.addAttribute("reviewProgressList", reviewProgressList);
         model.addAttribute("flowDefineId", flowDefineId);
         return "bss/prms/score_audit/list";
+    }
+    
+    private void ListSort(List<ReviewProgress> reviewProgressList) {
+      Collections.sort(reviewProgressList, new Comparator<ReviewProgress>() {
+          @Override
+          public int compare(ReviewProgress o1, ReviewProgress o2) {
+              try {
+                  Packages p1 = null;
+                  Packages p2 = null;
+                  HashMap<String, Object> hashMap1 = new HashMap<String, Object>();
+                  hashMap1.put("id", o1.getPackageId());
+                  List<Packages> packages1 = packageService.findPackageById(hashMap1);
+                  if (packages1 != null && packages1.size() > 0) {
+                    p1 = packages1.get(0);
+                  }
+                  HashMap<String, Object> hashMap2 = new HashMap<String, Object>();
+                  hashMap2.put("id", o2.getPackageId());
+                  List<Packages> packages2 = packageService.findPackageById(hashMap2);
+                  if (packages2 != null && packages2.size() > 0) {
+                    p2 = packages2.get(0);
+                  }
+                  if (p1.getCreatedAt().getTime() > p2.getCreatedAt().getTime()) {
+                      return 1;
+                  } else if (p1.getCreatedAt().getTime() < p2.getCreatedAt().getTime()) {
+                      return -1;
+                  } else {
+                      return 0;
+                  }
+              } catch (Exception e) {
+                  e.printStackTrace();
+              }
+              return 0;
+          }
+      });
     }
     
     /**

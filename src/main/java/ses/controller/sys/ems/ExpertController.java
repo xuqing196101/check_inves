@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1780,6 +1782,9 @@ public class ExpertController extends BaseController {
                         packageList.add(packages.get(0));
                     }
                 }
+                //包按创建时间排序
+                ListSort(packageList);
+                
                 // 循环包集合 根据包中的项目id 查询出项目集合
                 if (packageList != null && packageList.size() > 0) {
                     List<ProjectExt> projectExtList = new ArrayList<ProjectExt>();
@@ -1824,6 +1829,26 @@ public class ExpertController extends BaseController {
         }
 
         return "bss/prms/audit/list";
+    }
+    
+    private void ListSort(List<Packages> packageList) {
+      Collections.sort(packageList, new Comparator<Packages>() {
+          @Override
+          public int compare(Packages o1, Packages o2) {
+              try {
+                  if (o1.getCreatedAt().getTime() > o2.getCreatedAt().getTime()) {
+                      return 1;
+                  } else if (o1.getCreatedAt().getTime() < o2.getCreatedAt().getTime()) {
+                      return -1;
+                  } else {
+                      return 0;
+                  }
+              } catch (Exception e) {
+                  e.printStackTrace();
+              }
+              return 0;
+          }
+      });
     }
     
     /**

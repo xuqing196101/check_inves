@@ -181,4 +181,13 @@ public interface SaleTenderService   {
      * @param packagesId
      */
     String delSale(String supplierId, String packagesId);
+
+
+     /**
+     *〈简述〉插入供应商排名
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param ranMap
+     */
+    public void updateRank(HashMap<String, Object> ranMap);
 }

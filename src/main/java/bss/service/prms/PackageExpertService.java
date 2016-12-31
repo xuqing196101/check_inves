@@ -1,8 +1,13 @@
 package bss.service.prms;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.sms.Supplier;
+
+import bss.model.ppms.SaleTender;
 import bss.model.prms.PackageExpert;
 
 public interface PackageExpertService {
@@ -106,5 +111,9 @@ public interface PackageExpertService {
         String isFirstGather(String packageId, String projectId);
         
         void saveTempExpert(PackageExpert packageExpert,String packageId);
+        
+        HashMap<String, Object> countMethod(List<SaleTender> supplierList, String projectId, String packageId, SaleTender saleTender, BigDecimal economicScore, BigDecimal technologyScore);
+       
+        void rank(String packageId, String projectId, List<SaleTender> finalSupplier);
         
 }

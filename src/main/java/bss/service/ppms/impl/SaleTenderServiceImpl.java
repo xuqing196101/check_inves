@@ -575,5 +575,10 @@ public class SaleTenderServiceImpl implements SaleTenderService {
         saleTenderMapper.delSaleDelete(map);
         return JSON.toJSONString(SUCCESS);
     }
+
+    @Override
+    public void updateRank(HashMap<String, Object> ranMap) {
+      saleTenderMapper.updateRank(ranMap);
+    }
 }
 
