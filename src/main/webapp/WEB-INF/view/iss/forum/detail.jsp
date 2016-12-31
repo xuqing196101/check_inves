@@ -1,17 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-<!DOCTYPE HTML >
+<!DOCTYPE HTML>
 <html>
-
 	<head>
-     <%@ include file="../../front.jsp"%>
-
-		<title>论坛管理</title>
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
-		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-		<meta http-equiv="description" content="This is my page">
+    <%@ include file="/WEB-INF/view/front.jsp"%>
 		<script type="text/javascript">
 			$(function() {
 				var replyLength = "${replyLength}";
@@ -245,10 +237,10 @@
 			</div>
 		</div>
 		<div class="my_poster">
-			<a href='${ pageContext.request.contextPath }/post/mypost.html' class="my_post f18">
+			<a href='${pageContext.request.contextPath }/post/mypost.html' class="my_post f18">
 				我的帖子
 			</a>
-			<a href='${ pageContext.request.contextPath }/post/publish.html' class="publish_post f18">
+			<a href='${pageContext.request.contextPath }/post/publish.html' class="publish_post f18">
 				我要发帖
 			</a>
 		</div>

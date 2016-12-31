@@ -2,17 +2,9 @@
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
-
 	<head>
-        <%@ include file="../../front.jsp"%>
-		<title></title>
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
-		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-		<meta http-equiv="description" content="This is my page">
 		<link href="${pageContext.request.contextPath }/public/front/css/forum.css" media="screen" rel="stylesheet">
-
+		<%@ include file="/WEB-INF/view/front.jsp"%>
 		<script type="text/javascript">
 			$(function() {
 				$("#parkId").val("${parkId}");

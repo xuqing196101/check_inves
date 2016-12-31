@@ -776,13 +776,13 @@ th.bg_tc {
 	color:#ffffff;
 }
 .publish_post{
-    position: absolute;
-    width:32px;
-    height:130px;
-    border:1px solid #e5e5e5;
-    right:0px;
-    top:140;
-    text-align:center;
+  position: absolute;
+  width:32px;
+  height:130px;
+  border:1px solid #e5e5e5;
+  right:0px;
+  top:140px;
+  text-align:center;
 	overflow: hidden;
 	background-color:#157c82;
 	padding: 10px 0 10px 0;

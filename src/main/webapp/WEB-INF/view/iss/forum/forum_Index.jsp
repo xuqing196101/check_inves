@@ -5,7 +5,7 @@
 <html>
 
 	<head>
-		<%@ include file="/WEB-INF/view/common.jsp"%>
+		<%@ include file="/WEB-INF/view/front.jsp"%>
 	</head>
 
 	<body>
@@ -172,10 +172,10 @@
 		</div>
 	</body>
 	<div class="my_poster">
-		<a href='${ pageContext.request.contextPath }/post/mypost.html' class="my_post f18">
+		<a href='${pageContext.request.contextPath }/post/mypost.html' class="my_post f18">
 			我的帖子
 		</a>
-		<a href='${ pageContext.request.contextPath }/post/publish.html' class="publish_post f18">
+		<a href='${pageContext.request.contextPath }/post/publish.html' class="publish_post f18">
 			我要发帖
 		</a>
 	</div>
