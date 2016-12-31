@@ -1874,8 +1874,8 @@ img.img-mouse {
 			line-height:19px;
         }
       #logo-header{
-		  width:350px;
-		  height:80px;
+		  width:100%;
+		  height:auto;
 	  }
       .header-v4 .navbar-default .navbar-nav > li > a {
 		  padding:0px 11px!important;
