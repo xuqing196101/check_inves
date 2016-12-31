@@ -70,10 +70,10 @@
 	                <li class="item">
 	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/2.jpg" width="100%" height="100%"></a>
 	                </li>
-	                <%--<li class="item">
+	                <li class="item">
 	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.jpg" width="100%" height="100%"></a>
 	                </li>
-	            --%></c:when>
+	            </c:when>
 	            <c:otherwise>
 	            	<c:forEach items="${indexMapper['picList']}" var="pic" varStatus="vs">
 					  	<c:choose>
@@ -97,8 +97,8 @@
             <c:if test="${nums=='0'}">
               <b class="down">1</b>
               <b>2</b>
-              <%--<b>3</b>
-            --%></c:if>
+              <b>3</b>
+            </c:if>
             <c:if test="${nums=='1'}">
               <b class="down">1</b>
             </c:if>
