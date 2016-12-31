@@ -1127,10 +1127,12 @@ public class ProjectController extends BaseController {
                         	double money = budget;
                         	showDetails.get(j).setBudget(money);
                         }
-                        /*if(showDetails.get(j).getDepartment()!=null){
+                        if(showDetails.get(j).getDepartment()!=null){
                         	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(showDetails.get(j).getDepartment());
-                            showDetails.get(j).setOrgName(orgnization.getName());
-                        }*/
+                            if(orgnization!=null){
+                            	showDetails.get(j).setOrgName(orgnization.getName());
+                            }
+                        }
                     }
             		model.addAttribute("list", showDetails);
             	}
@@ -1268,10 +1270,12 @@ public class ProjectController extends BaseController {
                     		serialSix ++;
                     	}
                     }
-                    /*if(newDetails.get(i).getDepartment()!=null){
+                    if(newDetails.get(i).getDepartment()!=null){
                     	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(newDetails.get(i).getDepartment());
-                    	newDetails.get(i).setOrgName(orgnization.getName());
-                    }*/
+                    	if(orgnization!=null){
+                    		newDetails.get(i).setOrgName(orgnization.getName());
+                    	}
+                    }
                     
                 }
                 ps.setProjectDetails(newDetails);
