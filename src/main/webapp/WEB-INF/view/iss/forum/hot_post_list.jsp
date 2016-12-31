@@ -92,6 +92,7 @@
 					<div id="pagediv" align="right"></div>
 				</div>
 			</div>
+			</div>
 			<div class="my_poster">
 				<a href='${pageContext.request.contextPath }/post/mypost.html' class="my_post f18">
 					我的帖子

@@ -84,7 +84,7 @@
 					<!--置顶帖子  -->
 					<c:choose>
 						<c:when test="${topPost != null }">
-							<div class="col-md-12 topics-group">
+							<div class="col-md-12 col-xs-12 col-sm-12 topics-group">
 								<div class="topic media topic-31080">
 									<!-- 左边头像 -->
 									<div class="avatar media-left">
@@ -163,8 +163,9 @@
 							</div>
 						</div>
 					</c:forEach>
-					<div id="pagediv" align="right"></div>
+					<div id="pagediv" align="right" class="mr10"></div>
 				</div>
+			</div>
 			</div>
 			<div class="my_poster">
 				<a href='${pageContext.request.contextPath }/post/mypost.html' class="my_post f18">

@@ -1,9 +1,17 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+
 <!DOCTYPE HTML>
 <html>
+
 	<head>
-    <%@ include file="/WEB-INF/view/front.jsp"%>
+        <%@ include file="../../front.jsp"%>
+		<title></title>
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="This is my page">
 		<script type="text/javascript">
 			//2级联动
 			function change(id) {
@@ -62,21 +70,21 @@
 				<h2 class="f30 tc">发布帖子</h2>
 				<div class="col-md-12 p20 border1 margin-top-20 mb40">
 					<form id="form" action="${pageContext.request.contextPath}/post/indexsave.html" method="post">
-						<ul class="list-unstyled list-flow p0_20 f18">
+						<ul class="list-unstyled list-flow p0_20 f16 col-md-offset-1 col-sm-offset-0">
 
-							<li class="col-md-12  p0  mb10">
-								<span class="fl"><div class="red star_red">*</div>帖子名称：</span>
-								<div class="select_common col-md-9 p0">
-									<input class="col-md-12" id="name" name="name" type="text" value='${post.name }' />
+							<li class="col-md-12 col-xs-12 col-sm-12 pl10">
+								<div class="fl"><div class="red star_red">*</div>帖子名称：</div>
+								<div class="input_group input-append col-md-9 col-sm-9 col-xs-12 p0">
+									<input id="name" name="name" type="text" value='${post.name }' />
 									<div class="cue">${ERR_name}</div>
 								</div>
 								<%--<span class="add-on">i</span>--%>
 
 							</li>
 
-							<li class="col-md-6 p0">
-								<span class="fl"><div class="red star_red">*</div>所属版块：</span>
-								<div class="select_common">
+							<li class="col-md-6 col-sm-6 col-xs-12">
+								<div class="fl"><div class="red star_red">*</div>所属版块：</div>
+								<div class="select_common col-md-6 col-sm-6 col-xs-12 p0">
 									<select id="parkId" name="parkId" onchange="change(this.options[this.selectedIndex].value)">
 										<option></option>
 										<c:forEach items="${parks}" var="park">
@@ -87,9 +95,9 @@
 								</div>
 							</li>
 
-							<li class="col-md-6  p0">
-								<span class="fl"><div class="red star_red">*</div>所属主题：</span>
-								<div class="select_common">
+							<li class="col-md-6 col-sm-6 col-xs-12">
+								<div class="fl"><div class="red star_red">*</div>所属主题：</div>
+								<div class="select_common col-md-6 col-sm-6 col-xs-12 p0">
 									<select id="topics" name="topicId">
 										<option></option>
 									</select>
@@ -97,19 +105,19 @@
 								</div>
 							</li>
 
-							<li class="col-md-12 p0">
-								<span class="fl"><div class="red star_red">*</div>帖子内容：</span>
-								<div class="fl mt5 col-md-9 col-sm-9 col-xs-9 p0 cengdie">
+							<li class="col-md-12 col-xs-12 col-sm-12">
+								<div class="fl"><div class="red star_red">*</div>帖子内容：</div>
+								<div class="fl mt5 col-md-9 col-sm-9 col-xs-12 p0 cengdie">
 									<script id="editor" name="content" type="text/plain" class=""></script>
 									<div class="red clear f12">${ERR_content}</div>
 								</div>
 							</li>
 							<input type="hidden" name="id" value='${post.id}'></input>
-							<li class="col-md-12 col-sm-12 col-xs-12 p0">
-								<span>上传附件：</span>
-								<div class="fl f14">
-									<up:upload id="post_attach_up" multiple="true" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-									<up:show showId="post_attach_show" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
+							<li class="col-md-12 col-xs-12 col-sm-12">
+								<div class="fl">上传附件：</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<u:upload id="post_attach_up" multiple="true" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+									<u:show showId="post_attach_show" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
 								</div>
 							</li>
 						</ul>
@@ -122,6 +130,7 @@
 					</form>
 				</div>
 			</div>
+		
 			<div class="my_poster">
 				<a href='${ pageContext.request.contextPath }/post/mypost.html' class="my_post f18">
 					我的帖子

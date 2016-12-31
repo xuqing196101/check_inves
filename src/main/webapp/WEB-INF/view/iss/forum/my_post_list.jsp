@@ -119,8 +119,9 @@
 							</div>
 						</div>
 					</c:forEach>
-					<div id="pagediv" align="right"></div>
+					<div id="pagediv" align="right" class="mr10"></div>
 				</div>
+			</div>
 			</div>
 			<div class="my_poster">
 				<a href='${pageContext.request.contextPath }/post/mypost.html' class="my_post f18">
