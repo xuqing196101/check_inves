@@ -210,7 +210,7 @@
 					id.push($(this).val());
 				});
 				$("#goodsType").val(type);
-				$("#plannos").val(id);
+				$("#uniqueId").val(id);
 				$("#dep").val(de);
 				$("#collect_form").submit();
 
@@ -474,7 +474,7 @@
                  <li class="mt10 col-md-12 col-sm-12 col-xs-12">
                   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">计划编号</span>
                   <div class="col-md-12 col-xs-12 col-sm-12 input-append input_group p0">
-                        <input class="col-xs-12 h80 mt6" name="cno" id="cno"  maxlength="300" type="text">
+                        <input class="col-xs-12 h80 mt6" name="planNo" id="cno"  maxlength="300" type="text">
                     </div>
                  </li>
                  <!-- <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
@@ -487,7 +487,7 @@
 					</ul>
 				</div>
 				<div class="tc mt10 col-md-12 col-xs-12 col-dm-12">
-					<input type="hidden" name="planNo" id="plannos" value="">
+					<input type="hidden" name="uniqueId" id="uniqueId" value="">
 					<input type="hidden" name="department" id="dep" value="">
 					<input type="hidden" name="goodsType" id="goodsType" value="">
 					<button class="btn padding-left-10 padding-right-10 btn_back" onclick="closeLayer()">生成采购计划</button>

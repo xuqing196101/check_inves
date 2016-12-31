@@ -147,17 +147,17 @@ public class CollectPlanController extends BaseController {
 		 * @throws
 		  */
   @RequestMapping("/add")
-    public String queryCollect(CollectPlan collectPlan,String cno,String goodsType) {
+    public String queryCollect(CollectPlan collectPlan,String uniqueId,String goodsType) {
     PurchaseRequired p = new PurchaseRequired();
     List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
     //Set<String> set=new HashSet<String>();
-    if ( collectPlan.getPlanNo() != null ) {
-      String[] plano = collectPlan.getPlanNo().split(",");
-      for (String no:plano) {
-        p.setPlanNo(no);
+    if (uniqueId != null ) {
+      String[] uid = uniqueId.split(",");
+      for (String u:uid) {
+        p.setUniqueId(u);
         p.setIsMaster(1);
-        
-        List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
+        //修改状态
+        List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
 					p.setStatus("4");//修改
 					p.setIsMaster(null);
 					purchaseRequiredService.updateStatus(p);
@@ -182,14 +182,14 @@ public class CollectPlanController extends BaseController {
 						collectPlan.setPosition(1);
 						
 					}
-					String[] plano = collectPlan.getPlanNo().split(",");
+					String[] uid = uniqueId.split(",");
 					CollectPurchase c=new CollectPurchase();
-					for(String no:plano){
+					for(String u:uid){
 						c.setCollectPlanId(id);
-						c.setPlanNo(no);
+						c.setPlanNo(u);
 						collectPurchaseService.add(c);
 					}
-					collectPlan.setPlanNo(cno);
+//					collectPlan.setPlanNo(cno);
 					collectPlan.setGoodsType(goodsType);
 					collectPlanService.add(collectPlan);
 //				}

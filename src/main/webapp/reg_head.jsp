@@ -79,10 +79,10 @@
               <div class="row container margin-bottom-10">
                 <div class="col-md-5 col-sm-6 col-xs-12 m20_0">
                   <a href="${pageContext.request.contextPath}/index/selectIndexNews.html">
-                    <img alt="Logo" src="${pageContext.request.contextPath}/public/portal/images/logo.png" id="logo-header">
+                    <img alt="Logo" src="${pageContext.request.contextPath}/public/portal/images/logo.png" id="logo-header" width="100%">
                   </a>
                 </div>
-                <div class="col-md-7 col-sm-6 col-xs-12 p0 gpgz">
+                <div class="col-md-6 col-md-offset-1 col-sm-6 col-xs-12 p0 gpgz">
                 
                 </div>
               </div>

@@ -241,6 +241,18 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	 
 		return orgnization;
 	}
+
+	@Override
+	public List<Map<String, Object>> queryOrg(List<String> list) {
+		// TODO Auto-generated method stub
+		return purchaseRequiredMapper.queryOrg(list);
+	}
+
+	@Override
+	public List<PurchaseRequired> queryUnique(PurchaseRequired purchaseRequired) {
+		// TODO Auto-generated method stub
+		return purchaseRequiredMapper.queryByUinuqe(purchaseRequired);
+	}
 	
 
 }

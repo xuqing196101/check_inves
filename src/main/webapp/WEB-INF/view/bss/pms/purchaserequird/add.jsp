@@ -164,25 +164,20 @@
 			
 			//保存
 			function incr() {
-			
-		
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
 				var mobile = $("#mobile").val();
 				var type = $("#wtype").val();
-				var depName = $("#xqbm").val();
+				//var depName = $("#xqbm").val();
 				if($.trim(name) == "") {
 				  alert("cehddiwssss");
 					layer.tips("计划名称不允许为空", "#jhmc");
 				} else if($.trim(mobile) == "") {
 				alert("cehddiws");
 					layer.tips("录入人手机号不允许为空", "#mobile");
-				}
-				
-			/* 	else if($.trim(depName) == ""){
-				  alert("cehiws");
-					layer.tips("需求部门不允许为空", "#xqbm");
-				} */
+				} else if($.trim(type) == ""){
+					layer.tips("请选择物资类别", "#wtype");
+				}  
 				
 				else {
 					$("#detailJhmc").val(name);

@@ -245,4 +245,21 @@ public interface PurchaseRequiredMapper {
     * @throws
      */
     List<Map<String,Object>> queryOrg(List<String>  list);
+    
+    
+    
+    /**
+     * 
+    * @Title: queryByUinuqe
+    * @Description: TODO 
+    * author: Li Xiaoxiao 
+    * @param @param PurchaseRequired
+    * @param @return     
+    * @return List<PurchaseRequired>     
+    * @throws
+     */
+    List<PurchaseRequired> queryByUinuqe(PurchaseRequired PurchaseRequired);
+    
+   
+    
 }

@@ -208,4 +208,30 @@ public interface PurchaseRequiredService {
 	
 	
 	public Orgnization queryByName(String name);
+	
+	/**
+	 * 
+	* @Title: queryOrg
+	* @Description:查询机构然后进行下达
+	* author: Li Xiaoxiao 
+	* @param @param list
+	* @param @return     
+	* @return List<Map<String,Object>>     
+	* @throws
+	 */
+    List<Map<String,Object>> queryOrg(List<String>  list);
+    
+    /**
+     * 
+    * @Title: queryOrg
+    * @Description: 不分页查询 明细
+    * author: Li Xiaoxiao 
+    * @param @param purchaseRequired
+    * @param @return     
+    * @return List<PurchaseRequired>     
+    * @throws
+     */
+    List<PurchaseRequired> queryUnique(PurchaseRequired purchaseRequired); 
+    
+    
 }

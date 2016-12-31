@@ -31,7 +31,7 @@
 		<result column="HISTORY_STATUS" jdbcType="VARCHAR" property="historyStatus" />
 		<result column="MATERIAL_TYPE" jdbcType="VARCHAR" property="goodsType" />
 		<result column="AUDIT_DATE" jdbcType="TIMESTAMP" property="auditDate" />
-		<result column="ORGANIZATION" jdbcType="VARCHAR" property="organization" />
+		<result column="ORGANIZATION_ID" jdbcType="VARCHAR" property="organization" />
 		<result column="IS_MASTER" jdbcType="DECIMAL" property="isMaster" />
 		<result column="IS_DELETE" jdbcType="INTEGER"  property="isDelete" />
 		<result column="IS_COLLECT" jdbcType="INTEGER"  property="isCollect"/>
@@ -60,7 +60,7 @@
 		QUALIT_STAND, ITEM,
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		MATERIAL_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
-		STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
+		STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION_ID,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
 		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS,
 		PROJECT_STATUS,UNIQUE_ID,FILE_ID
 	</sql>
@@ -93,7 +93,7 @@
 		DELIVER_DATE, PURCHASE_TYPE, SUPPLIER,
 		IS_FREE_TAX, MATERIAL_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
-		REQ_LEVEL, STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
+		REQ_LEVEL, STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION_ID,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
 		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,
 		ADVANCED_STATUS,PROJECT_STATUS,UNIQUE_ID,FILE_ID
 		)
@@ -210,7 +210,7 @@
 				AUDIT_DATE,
 			</if>
 			<if test="organization != null">
-				ORGANIZATION,
+				ORGANIZATION_ID,
 			</if>
 			<if test="isMaster != null">
 				IS_MASTER,
@@ -519,7 +519,7 @@
 				AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
 			</if>
 			<if test="organization != null">
-				ORGANIZATION = #{organization,jdbcType=VARCHAR},
+				ORGANIZATION_ID = #{organization,jdbcType=VARCHAR},
 			</if>
 			<if test="isMaster != null">
 				IS_MASTER = #{isMaster,jdbcType=DECIMAL},
@@ -618,7 +618,7 @@
 		HISTORY_STATUS = #{historyStatus,jdbcType=VARCHAR},
 		MATERIAL_TYPE = #{goodsType,jdbcType=VARCHAR},
 		AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
-		ORGANIZATION = #{organization,jdbcType=VARCHAR},
+		ORGANIZATION_ID = #{organization,jdbcType=VARCHAR},
 		IS_MASTER = #{isMaster,jdbcType=DECIMAL},
 		IS_DELETE = #{isDelete,jdbcType=INTEGER},
 		IS_COLLECT = #{isCollect,jdbcType=INTEGER},
@@ -662,10 +662,10 @@
 			<if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
 			</if>
-			<if test="status==1">
+	<!-- 		<if test="status==1">
 				and STATUS in('1','2')
 			</if>
-<!-- 			<if test="status== 2 ">
+			<if test="status== 2 ">
 				and STATUS in('2','3')
 			</if>
 			<if test="status==3 ">
@@ -682,7 +682,7 @@
 				and PURCHASE_TYPE = #{purchaseType}
 			</if>
 			<if test="organization != null">
-				and	ORGANIZATION = #{organization}
+				and	ORGANIZATION_ID = #{organization}
 			</if>
 			
 			<if test="department != null">
@@ -730,7 +730,7 @@
 		IS_COLLECT = #{isCollect}
 	</if>
 	</set>	
-		where HISTORY_STATUS='0' and PLAN_NO=#{planNo}
+		where HISTORY_STATUS='0' and UNIQUE_ID =#{uniqueId}
 		
 	</update>
 	
@@ -796,10 +796,10 @@
 	
 	<select id="statisticOrg" parameterType="Map" resultType="Map" >
 		select
-		 count(*) as count, ORGANIZATION as organization
+		 count(*) as count, ORGANIZATION_ID as organization
 		 from T_BSS_PMS_PURCHASE_REQUIRED
 	 	<include refid="param"/>
-		 group by ORGANIZATION
+		 group by ORGANIZATION_ID
 	</select>
 	
 	
@@ -815,7 +815,7 @@
 	 	and to_char(CREATED_AT,'yyyy')=#{year}
 	 	</if>
 	 	<if test="organization !=null">
-	 	and ORGANIZATION=#{organization}
+	 	and ORGANIZATION_ID=#{organization}
 	 	</if>
 	 	<if test="budget != null">
 			and BUDGET = #{budget}
@@ -878,5 +878,37 @@
 	 group by DEPARTMENT
  
     </select>
+    
+    
+        <select id="queryOrg" resultType="Map">
+			    select  ORGANIZATION_ID as organizationId
+				      from T_BSS_PMS_PURCHASE_REQUIRED where PRICE is not null and ORGANIZATION_ID is not null　and  UNIQUE_ID  in  
+					 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+					  #{item}  
+					 </foreach>  
+				 group by ORGANIZATION_ID
+    </select>
+    
+    
+    
+    	<select id="queryByUinuqe" parameterType="bss.model.pms.PurchaseRequired"
+		resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_REQUIRED
+		<where>
+			HISTORY_STATUS='0'  and IS_DELETE='0' 
+			<if test="uniqueId !=null">
+				and UNIQUE_ID =#{uniqueId}
+			</if>
+			 <if test="isMaster != null">
+				and IS_MASTER = #{isMaster}
+			</if>
+		</where>
+		ORDER BY IS_MASTER desc
+	</select>
+	
+	
+    
     
 </mapper>

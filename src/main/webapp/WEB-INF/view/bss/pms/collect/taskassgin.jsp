@@ -84,7 +84,7 @@
 		  $("#aduit_Name").val(val);
 		  $("#aduit_Name").attr("title",val);
 		}
-		if(id.length>=1){  
+		if(id.length==1){  
 			
 			index=layer.open({
 				  type: 1, //page层
