@@ -110,12 +110,9 @@ public class InnerExpertServiceImpl implements InnerExpertService {
     public void saveCategory(List<ExpertCategory> categories) {
         if (categories != null && categories.size() > 0) {
             Expert expert = expertService.selectByPrimaryKey(categories.get(0).getExpertId());
-            StringBuffer ids = new StringBuffer();
             for (ExpertCategory expertCategory : categories) {
-                ids.append(expertCategory.getCategoryId());
-                ids.append(",");
+                expertCategoryService.save(expert, expertCategory.getCategoryId(), expertCategory.getTypeId());
             }
-            expertCategoryService.save(expert, ids.toString());
         }
     }
     
