@@ -535,7 +535,7 @@ public class ArticleController extends BaseSupplierController{
     }
     if(article.getStatus()!=null&&article.getStatus()==2){
       article.setStatus(0);
-      solrNewsService.deleteIndex(article.getId());
+//      solrNewsService.deleteIndex(article.getId());
     }
 
 //    String isPicShow = request.getParameter("isPicShow");
@@ -577,7 +577,7 @@ public class ArticleController extends BaseSupplierController{
       Article article = articleService.selectArticleById(str);
       if(article.getStatus()==2){
         article.setStatus(0);
-        solrNewsService.deleteIndex(article.getId());
+//        solrNewsService.deleteIndex(article.getId());
         articleService.update(article);
       }
       articleService.delete(str);
@@ -793,7 +793,7 @@ public class ArticleController extends BaseSupplierController{
 //      Integer showNum = Integer.parseInt(articleType.getShowNum())+1;
 //      articleType.setShowNum(showNum.toString());
 //      articleTypeService.updateByPrimaryKey(articleType);
-      solrNewsService.addIndex(findOneArticle);
+//      solrNewsService.addIndex(findOneArticle);
       articleService.update(findOneArticle);
     }
     if(article.getStatus()==3){
@@ -878,7 +878,7 @@ public class ArticleController extends BaseSupplierController{
       article.setId(str);
       articleService.updateStatus(article);
       Article findOneArticle = articleService.selectArticleById(str);
-      solrNewsService.addIndex(findOneArticle);
+//      solrNewsService.addIndex(findOneArticle);
     }
     return "redirect:getAll.html";
   }
@@ -901,7 +901,7 @@ public class ArticleController extends BaseSupplierController{
 	    for (String str : id) {
 	      article.setId(str);
 	      articleService.updateStatus(article);
-	      solrNewsService.deleteIndex(str);
+//	      solrNewsService.deleteIndex(str);
 	    }
     return "redirect:getAll.html";
   }
@@ -1020,7 +1020,7 @@ public class ArticleController extends BaseSupplierController{
       return "iss/ps/article/audit/edit";
     }
     if(article.getStatus()!=null&&article.getStatus()==2){
-      solrNewsService.deleteIndex(article.getId());
+//      solrNewsService.deleteIndex(article.getId());
     }
 
 //    String isPicShow = request.getParameter("isPicShow");
@@ -1034,7 +1034,7 @@ public class ArticleController extends BaseSupplierController{
     articleService.update(article);
     
     Article findOneArticle = articleService.selectArticleById(article.getId());
-    solrNewsService.addIndex(findOneArticle);
+//    solrNewsService.addIndex(findOneArticle);
     
     return "redirect:auditlist.html";
   }
@@ -1180,7 +1180,7 @@ public class ArticleController extends BaseSupplierController{
       return "iss/ps/article/editor";
     }
     if(article.getStatus()!=null&&article.getStatus()==2){
-      solrNewsService.deleteIndex(article.getId());
+//      solrNewsService.deleteIndex(article.getId());
     }
 
 //    String isPicShow = request.getParameter("isPicShow");
