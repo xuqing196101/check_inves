@@ -90,6 +90,11 @@ public class Packages {
 	 */
 	private Integer isEditSecond;
 	
+	/**
+	 * 是否结束报价  0：未结束 1：已结束
+	 */
+	private Integer isEndPrice;
+	
 	public BigDecimal getWonPrice() {
 		return wonPrice;
 	}
@@ -410,5 +415,14 @@ public class Packages {
     public void setListSupplierCondition(List<SupplierCondition> listSupplierCondition) {
         this.listSupplierCondition = listSupplierCondition;
     }
+
+	public Integer getIsEndPrice() {
+		return isEndPrice;
+	}
+
+	public void setIsEndPrice(Integer isEndPrice) {
+		this.isEndPrice = isEndPrice;
+	}
 	
+    
 }

@@ -13,6 +13,7 @@
 		<result column="BID_METHOD_ID" property="bidMethodId" />
 		<result column="PURCHASE_TYPE" property="purchaseType" />
 		<result column="IS_IMPORT" property="isImport" />
+		<result column="IS_END_PRICE" property="isEndPrice" />
 		<association property="project" column="PROJECT_ID"
 			select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
@@ -25,8 +26,9 @@
 		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
 		<result column="STATUS" property="status" />
 		<result column="MARK_TERM_TREE" property="markTermTree" />
+		<result column="IS_END_PRICE" property="isEndPrice" />
 		<association property="project" column="PROJECT_ID"
-			select="bss.dao.ppms.projectMapper.selectProjectByPrimaryKey" />
+			select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
 
 	<!-- 专家 -->
@@ -77,7 +79,7 @@
 
 	<sql id="Base_Column_List">
 		ID, NAME,
-		PROJECT_ID,IS_DELETED,CREATED_AT,UPDATED_AT,STATUS,MARK_TERM_TREE,BID_METHOD_ID,PURCHASE_TYPE,IS_IMPORT
+		PROJECT_ID,IS_DELETED,CREATED_AT,UPDATED_AT,STATUS,MARK_TERM_TREE,BID_METHOD_ID,PURCHASE_TYPE,IS_IMPORT,IS_END_PRICE
 	</sql>
 
 	<insert id="insertSelective" parameterType="bss.model.ppms.Packages">
@@ -119,6 +121,9 @@
 			<if test="bidMethodId != null">
 				BID_METHOD_ID,
 			</if>
+			<if test="isEndPrice != null">
+				IS_END_PRICE,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -153,6 +158,9 @@
 			</if>
 			<if test="bidMethodId != null">
 				#{bidMethodId},
+			</if>
+			<if test="isEndPrice != null">
+				#{isEndPrice},
 			</if>
 		</trim>
 	</insert>
@@ -189,6 +197,9 @@
 			<if test="bidMethodId != null">
 				BID_METHOD_ID = #{bidMethodId},
 			</if>
+			<if test="isEndPrice != null">
+				IS_END_PRICE = #{isEndPrice},
+			</if>
 		</set>
 		where ID = #{id}
 	</update>
@@ -202,7 +213,8 @@
 		STATUS AS status,
 		MARK_TERM_TREE AS markTermTree,
 		PURCHASE_TYPE AS purchaseType,
-		IS_IMPORT AS isImport
+		IS_IMPORT AS isImport,
+		IS_END_PRICE AS isEndPrice
 		FROM
 		T_BSS_PPMS_PACKAGE
 		WHERE
@@ -439,6 +451,9 @@
 			<if test="bidMethodId != null">
 				BID_METHOD_ID,
 			</if>
+			<if test="isEndPrice != null">
+				IS_END_PRICE,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -473,6 +488,9 @@
 			</if>
 			<if test="bidMethodId != null">
 				#{bidMethodId},
+			</if>
+			<if test="isEndPrice != null">
+				#{isEndPrice},
 			</if>
 		</trim>
 	</insert>
