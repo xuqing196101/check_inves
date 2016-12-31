@@ -263,7 +263,7 @@
                 </c:if>
               </td>
               <td class="tc" onclick="view('${article.id }')">
-                <fmt:formatDate value='${article.publishedAt }' pattern="yyyy年MM月dd日   HH:mm:ss" />
+                <fmt:formatDate value='${article.publishedAt }' pattern="yyyy-MM-dd   HH:mm:ss" />
               </td>
               <td class="tl pl20" onclick="view('${article.id }')">${article.articleType.name }</td>
               <td class="tl pl20">
