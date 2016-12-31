@@ -156,22 +156,14 @@ public class CollectPlanController extends BaseController {
       for (String no:plano) {
         p.setPlanNo(no);
         p.setIsMaster(1);
+        
         List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
-//					p.setIsCollect(2);//修改
 					p.setStatus("4");//修改
 					p.setIsMaster(null);
 					purchaseRequiredService.updateStatus(p);
 					list.addAll(one);
 				}
 			}
-//			if(collectPlan.getDepartment()!=null){
-//				String[] department = collectPlan.getDepartment().split(",");
-//				for(String dep:department){
-//						set.add(dep);
-//				}
-//			}
-//			if(set!=null&&set.size()>0){
-//				for(String dep:set){
 					BigDecimal budget=BigDecimal.ZERO;
 					for(PurchaseRequired pr:list){
 						budget=budget.add(pr.getBudget());
@@ -229,6 +221,8 @@ public class CollectPlanController extends BaseController {
 			for(String no:planNo){
 				c.setCollectPlanId(collectPlan.getId());
 				c.setPlanNo(no);
+				
+				//保存至中间表
 				collectPurchaseService.add(c);
 				
 				p.setPlanNo(no);

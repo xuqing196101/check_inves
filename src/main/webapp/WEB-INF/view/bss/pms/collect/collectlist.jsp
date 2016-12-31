@@ -399,10 +399,10 @@
 			  <input type="hidden" value="${obj.planType }"> 
 			
 			 <c:if test="${obj.status==3 }">
-              <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
+              <input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()"  alt="">
               </c:if>
-               <c:if test="${obj.status=='4 ' }">
-              <input type="checkbox" disabled="disabled"  value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
+               <c:if test="${obj.status!=3 }">
+              <input type="checkbox" disabled="disabled"  value="${obj.uniqueId }" name="chkItem" onclick="check()"  alt="">
               </c:if>
 			   <input type="hidden"  value="${obj.department }">
 			  </td>

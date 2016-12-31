@@ -67,7 +67,7 @@ public class ExcelUtil {
 	* @param @return     
 	* @return List<PurchaseRequired>     
 	 */
-	public static Map<String,Object> readExcel(MultipartFile file) throws Exception{
+	public  Map<String,Object> readExcel(MultipartFile file) throws Exception{
 		
 		PurchaseRequiredService  purchase=new PurchaseRequiredServiceImpl();
 		Map<String,Object> map=new HashMap<String,Object>();
@@ -100,13 +100,13 @@ public class ExcelUtil {
 	        		
 	        			 if(cell.getColumnIndex()==0){
 			        			if(cell.getCellType()==1){
-//			        				if(cell.getStringCellValue().contains("(")){
-//			        					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能包含英文括号!";
-//				        				 map.put("errMsg", errMsg);
-//				        				 bool=false;
-//				        				 continue;
-//			        				}
-			        				rq.setSeq(cell.getRichStringCellValue().toString());
+ 			        				if(cell.getStringCellValue().contains("(")||cell.getStringCellValue().contains(")")){
+ 			        					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能包含英文括号!";
+ 			        					 map.put("errMsg", errMsg);
+ 			        					 bool=false;
+ 				        				 continue;
+ 			        				}
+ 			        				rq.setSeq(cell.getRichStringCellValue().toString());
 			        				 continue;
 			        			} 
 			        			if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
@@ -121,14 +121,16 @@ public class ExcelUtil {
 	        			 }
 	        			 if(cell.getColumnIndex()==1){
 	        				 if(cell.getCellType()==1){
-	        					 Orgnization orgnization = purchase.queryByName(cell.getStringCellValue());
+	        				 /*    String dep = cell.getStringCellValue();
+	        					 Orgnization orgnization = purchaseRequiredService.queryByName(dep);
 	        					 if(orgnization==null){
 	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，需求部门不存在，请在系统中维护！";
 			        				 map.put("errMsg", errMsg);
+			        				  bool=false;
 			        				 continue;
-	        					 }
+	        					 }*/
 	        				
-		        				 bool=false;
+		        				
 	        					 rq.setDepartment(cell.getStringCellValue());
 		        				 continue;
 		        			}else{

@@ -94,7 +94,8 @@
 		IS_FREE_TAX, MATERIAL_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
 		REQ_LEVEL, STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
-		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS,PROJECT_STATUS
+		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,
+		ADVANCED_STATUS,PROJECT_STATUS,UNIQUE_ID,FILE_ID
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
@@ -114,7 +115,8 @@
 		#{isCollect,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{onePurchaseType,jdbcType=VARCHAR}, #{oneOrganiza,jdbcType=VARCHAR}, #{oneAdvice,jdbcType=VARCHAR},
 		#{twoTechAdvice,jdbcType=VARCHAR}, #{twoAdvice,jdbcType=VARCHAR},  
 		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
-		#{userUnit,jdbcType=VARCHAR},#{detailStatus,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR},#{recorderMobile,jdbcType=VARCHAR},#{advancedStatus,jdbcType=VARCHAR},#{projectStatus,jdbcType=VARCHAR}
+		#{userUnit,jdbcType=VARCHAR},#{detailStatus,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR},#{recorderMobile,jdbcType=VARCHAR},#{advancedStatus,jdbcType=VARCHAR},#{projectStatus,jdbcType=VARCHAR},
+  	#{uniqueId,jdbcType=VARCHAR},#{fileId,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -663,12 +665,12 @@
 			<if test="status==1">
 				and STATUS in('1','2')
 			</if>
-			<if test="status== 2 ">
+<!-- 			<if test="status== 2 ">
 				and STATUS in('2','3')
 			</if>
 			<if test="status==3 ">
 				and STATUS in('3','4')
-			</if>
+			</if> -->
 			
 			<if test="isCollect != null">
 				and IS_COLLECT = #{isCollect}

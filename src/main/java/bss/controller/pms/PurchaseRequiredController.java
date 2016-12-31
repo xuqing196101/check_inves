@@ -200,6 +200,11 @@ public class PurchaseRequiredController extends BaseController{
 		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
 		model.addAttribute("requires",requires);
 	    model.addAttribute("orgName", user.getOrg().getName());
+	    String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
+	    
+	    String fileId = UUID.randomUUID().toString().replaceAll("-", "");
+	    model.addAttribute("fileId", fileId);
+	    model.addAttribute("typeId", typeId);
 	    model.addAttribute("planNo", randomPlano());
 		return "bss/pms/purchaserequird/add";
 	}
@@ -222,30 +227,23 @@ public class PurchaseRequiredController extends BaseController{
  
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="/upload",method=RequestMethod.POST,produces="text/html;charset=UTF-8" )
+	@RequestMapping(value="/upload", produces="text/html;charset=UTF-8" )
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,String planDepName,MultipartFile file,String type,String planName,String planNo,Model model) throws Exception{
-        ResponseBean bean = new ResponseBean();
-        if (file == null){
-            bean.setSuccess(false);
-//            bean.setObj("文件不能为空");
-//            return bean;
-        }
         String fileName = file.getOriginalFilename();  
         if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){
- 
-//            bean.setObj();
         	return "文件格式不支持";
         }  
         
 		List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
-	 
-		    Map<String,Object>  maps= (Map<String, Object>) ExcelUtil.readExcel(file);
+		ExcelUtil util=new ExcelUtil();
+		    Map<String,Object>  maps= (Map<String, Object>) util.readExcel(file);
 		     list = (List<PurchaseRequired>) maps.get("list");
 		     String errMsg=(String) maps.get("errMsg");
 		
 		     if(errMsg!=null){
-					return errMsg;
+		          String jsonString = JSON.toJSONString(errMsg);
+					return jsonString;
 				
 					
 			}
@@ -279,13 +277,13 @@ public class PurchaseRequiredController extends BaseController{
 				p.setIsMaster(count);
 				p.setCreatedAt(new Date());
 				p.setUserId(user.getId());
-				if(p.getPurchaseType()!=null){
+				/*if(p.getPurchaseType()!=null){
 					DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
 					p.setPurchaseType(data.getId());
-				}
+				}*/
 				
 				//p.setOrganization(user.getOrg().getName());
-				p.setDetailStatus(0);
+				p.setDetailStatus(1);
 				
 //				if(p.getBudget()!=null){
 //					budget=budget.add(p.getBudget());
@@ -360,7 +358,7 @@ public class PurchaseRequiredController extends BaseController{
 			}
 		}
 		String jsonString = JSON.toJSONString(list);
-		 purchaseRequiredService.batchAdd(list);
+		// purchaseRequiredService.batchAdd(list);
 		
 		return jsonString;
 	}
@@ -379,70 +377,108 @@ public class PurchaseRequiredController extends BaseController{
 	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request) throws IOException{
 		User user = (User) request.getSession().getAttribute("loginUser");
 		List<PurchaseRequired> plist = list.getList();
-		List<String> parentId = new ArrayList<>();
+		// List<String> parentId = new ArrayList<>();
+		
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+        String pid = UUID.randomUUID().toString().replaceAll("-", "");
+        String cid = UUID.randomUUID().toString().replaceAll("-", "");
+        String ccid = UUID.randomUUID().toString().replaceAll("-", "");
+        String cccid = UUID.randomUUID().toString().replaceAll("-", "");
+        String ccccid = UUID.randomUUID().toString().replaceAll("-", "");
+        
+        String unqueId = UUID.randomUUID().toString().replaceAll("-", "");
+        
+        
 		int count=1;
-		int endNum = 0;//最底层记录数
-		int meanNum = 0;//中间数
 		if(list!=null){
 			if(plist!=null&&plist.size()>0){
 				for(int i=0;i<plist.size();i++){
-					if(i==0){
-						PurchaseRequired p = list.getList().get(0);
-							String id = UUID.randomUUID().toString().replaceAll("-", "");
-//							p.setGoodsType(type);
-							p.setPlanNo(planNo);
-							if(p.getPlanName()==null){
-								p.setPlanName(planName);
-							}
-						
-							
-							parentId.add(p.getId());
-							p.setParentId("1");
-							p.setPlanType(planType);
-							p.setHistoryStatus("0");
-							p.setIsDelete(0);
-							p.setIsMaster(count);
-							p.setStatus("1");
-							p.setCreatedAt(new Date());
-							p.setUserId(user.getId());
-							p.setRecorderMobile(recorderMobile);
-							p.setProjectStatus(0);
-//							p.setOrganization(user.getOrg().getName());
-//							purchaseRequiredService.add(p);	
-					}else{
-							PurchaseRequired p = list.getList().get(i);
-							String id = UUID.randomUUID().toString().replaceAll("-", "");
-//							p.setGoodsType(type);
-							p.setPlanNo(planNo);
-							p.setPlanName(planName);
-							
-							parentId.add(p.getId());
-//							if(p.getParentId()==null){
-								
-							
-									if(p.getPurchaseCount()!=null){
-										if(meanNum==0){
-											endNum = count;
-										}
-										meanNum++;
-										p.setParentId(parentId.get(endNum-2));
-									}else{
-										p.setParentId(parentId.get(count-2));
-									}
-//							}
-							p.setPlanType(planType);
-							p.setHistoryStatus("0");
-							p.setIsDelete(0);
-							p.setIsMaster(count);
-							p.setStatus("1");
-							p.setCreatedAt(new Date());
-							p.setUserId(user.getId());
-							p.setProjectStatus(0);
-							p.setRecorderMobile(recorderMobile);
-//							p.setOrganization(user.getOrg().getName());
-//							purchaseRequiredService.add(p);	
-					}
-					count++;
+				    
+				    PurchaseRequired p = plist.get(i);
+	                p.setPlanNo(planNo);
+	              /*  if(p.getPlanName()!=null){
+	                     
+	                }else{*/
+	                    p.setPlanName(planName);    
+	               // }
+	                p.setPlanType(planType);
+	                p.setHistoryStatus("0");
+	                p.setIsDelete(0);
+	                p.setIsMaster(count);
+	                p.setCreatedAt(new Date());
+	                p.setUserId(user.getId());
+	                p.setRecorderMobile(recorderMobile);
+                    p.setProjectStatus(0);
+                    p.setAdvancedStatus(0);
+                    p.setIsDelete(0);
+                    p.setStatus("1");
+                    if(p.getPurchaseType()!=null){
+                        DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
+                        p.setPurchaseType(data.getId());
+                    }
+                    
+                    
+                    if(p.getSeq().matches("[\u4E00-\u9FA5]")&&!p.getSeq().contains("（")){
+                        p.setSeq("一");
+                        count=1;
+                        p.setIsMaster(count);
+                        p.setParentId("1");//注释
+                        id = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级id赋值
+                        p.setId(id);//注释
+                        
+                        unqueId= UUID.randomUUID().toString().replaceAll("-", "");
+                        p.setUniqueId(unqueId);
+                        count++;
+                        continue;
+                    }
+                //判断是否是二级节点(一)
+                   if(isContainChinese(p.getSeq())){
+                        p.setParentId(id);
+                        pid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级pid赋值
+                        p.setId(pid);
+                        p.setUniqueId(unqueId);
+                        count++;
+                        continue;  
+                   }
+                   
+                    
+                   //判断是否是三级节点1,2,3
+                   else  if(isInteger(p.getSeq())){
+               
+                     p.setParentId(pid);
+                     cid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+                     p.setId(cid);
+                     p.setUniqueId(unqueId);
+                     count++;
+                     continue; 
+                   }
+                   
+                   //判断是否四级节点(1),(2)
+                   else if(isContainIntger(p.getSeq())){
+                   
+                       p.setParentId(cid);
+                       ccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+                       p.setId(ccid);
+                       p.setUniqueId(unqueId);
+                        count++;
+                       continue;
+                   }
+                   //五级节点
+                   else if(isEng(p.getSeq())){
+                       p.setId(cccid);
+                   
+                       cccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+                       p.setParentId(ccid);
+                       p.setUniqueId(unqueId);
+                        count++;
+                       continue;
+                   }else{
+                       p.setId(ccccid);
+                       ccccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+                       p.setParentId(cccid);
+                       p.setUniqueId(unqueId);
+                       count++;
+                   }
 					
 				}
 			}

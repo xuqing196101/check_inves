@@ -165,36 +165,42 @@
 			//保存
 			function incr() {
 			
-			alert("cehis");
+		
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
 				var mobile = $("#mobile").val();
 				var type = $("#wtype").val();
 				var depName = $("#xqbm").val();
 				if($.trim(name) == "") {
+				  alert("cehddiwssss");
 					layer.tips("计划名称不允许为空", "#jhmc");
 				} else if($.trim(mobile) == "") {
+				alert("cehddiws");
 					layer.tips("录入人手机号不允许为空", "#mobile");
-				}else if($.trim(depName) == ""){
+				}
+				
+			/* 	else if($.trim(depName) == ""){
+				  alert("cehiws");
 					layer.tips("需求部门不允许为空", "#xqbm");
-				}else {
+				} */
+				
+				else {
 					$("#detailJhmc").val(name);
 					$("#detailJhbh").val(no);
 					$("#detailType").val(type);
 					$("#detailMobile").val(mobile);
-					$("#detailXqbm").val(depName);
-					$.ajax({
+			  	$.ajax({
 						url: "${pageContext.request.contextPath}/purchaser/queryNo.html",
 						data:{no:no},
 						type: "post",
 						success: function(data) {
-							if(data!='1'){
+							if(data!='1'){  
 								$("#add_form").submit();
-							}else{
+		 			}else{
 								layer.tips("计划编号已存在", "#jhbh");
 							}
 						}
-					});
+					});  
 					
 				}
 				
@@ -482,7 +488,7 @@
 					}
 				}
 			}
-			
+			var index;
 			function uploadExcel() {
 				index = layer.open({
 					type: 1, //page层
@@ -500,10 +506,10 @@
 			function gtype(obj){
 				var vals=$(obj).val();
 				if(vals == 'FC9528B2E74F4CB2A9E74735A8D6E90A'){
-					  $("#dnone").removeClass("dnone");  
+					  $("#dnone").show();  
 				}else{
 				
-					 $("#dnone").addClass("dnone");
+					 $("#dnone").hide();
 				}
 				
 				$("#detailType").val(vals);
@@ -520,16 +526,76 @@
 	                        fileElementId: 'fileName', 
 	                        dataType: 'json',
 	                        success: function (data) { 
-	                        var	flag=jud(data);
-	                        if(flag==false){
-	                        	 layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
-	                        }else{
-	                        	eachData(data);
+	                    
+	                        var chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+							           for(var i = 0; i < chars.length ; i ++) {
+							             if(data.indexOf(chars[i])!=-1){
+							              layer.msg(data);  
+							             }
+							           }
+							            if(data.indexOf("文本格式")!=-1){
+							              layer.msg(data);
+							           }else{
+							             layer.msg("上传成功");
+							              $("#jhmc").val(data[0].planName);
+							              $("#detailZeroRow").empty();
+									           for(var i = 0 ;i<data.length;i++ ){
+									             $("#detailZeroRow").append("<tr> "
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='hidden' name='list[" + i + "].id' value='"+data[i].id+"' />"
+												               +"    <input ityle='border: 0px;' type='text' name='list[" + i + "].seq' value='"+data[i].seq+"'/>"
+												               +"    <input style='border: 0px;' value='" + data[i].parentId + "' type='hidden' name='list[" + i + "].parentId' />"
+												               +"  </td> "
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].department' value='"+isValueLegal(data[i].department)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data[i].goodsName)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data[i].stand)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data[i].qualitStand)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].item' value='"+isValueLegal(data[i].item)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].budget' value='"+isValueLegal(data[i].budget)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].purchaseType' value='"+isValueLegal(data[i].purchaseType)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data[i].isFreeTax)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsUse' value='"+isValueLegal(data[i].goodsUse)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data[i].useUnit)+"'/>"
+												               +"  </td>"
+												               +"  <td class='tc p0'>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
+												               +"  </td> <td class='tc w100 p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
+												               +"</tr>");
+									           }
+							           layer.close(index);
+	                        	// eachData(json);
 	                        }
-						    	
-	                        },  error: function (data, status, e) {
-	                        alert(e);
-	                            layer.msg("上传失败");
 	                        }
 	                    }); 
 				
@@ -597,7 +663,7 @@
 				 	     +"  </td>"
 				 	     +"  <td class='tc p0'>"
 				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data.memo)+"'/>"
-				 	     +"  </td>"
+				 	     +"  </td> <td class='tc w100 p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
 				 	     +"</tr>";
 				 return html;
 			}
@@ -610,7 +676,8 @@
 				return value;
 			}
 			
-			function  jud(data) {
+/* 			function  jud() {
+		  var data="5行A列有错误信息";
 				var flag=true;
 				var chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 			     for(var i = 0; i < chars.length ; i ++) {
@@ -621,8 +688,10 @@
 			     if(data.indexOf("文本格式")!=-1){
 			    	 flag= false; 
 			     }
+			     
+			     alert(flag);
 			     return flag;
-			}
+			} */
 			
 			
 		</script>
@@ -671,6 +740,7 @@
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 							<select name="planType" id="wtype" onchange="gtype(this)">
+							<option value="">请选择</option>
 								<c:forEach items="${list }" var="obj">
 									<option value="${obj.id }">${obj.name }</option>
 								</c:forEach>
@@ -686,11 +756,24 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" id="dnone" >
+					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" style="display:none" id="dnone" >
             <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                 <input type="checkbox" value="进口" />进口
             </div>
           </li>
+          
+            <li class="col-md-3 col-sm-6 col-xs-12">
+            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>附件信息</span>
+                      <u:upload id="detail"  multiple="true" buttonName="上传文档类型"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
+                        <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
+          </li>
+          
+          
+          
+       
+                         
+                         
+                         
 				</ul>
 
 			</div>
@@ -814,12 +897,12 @@
 											<select name="list[${vs.index }].purchaseType" class="pt" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="objd">
-												<c:if test="${objd.id ==objs.purchaseType }">
-													<option value="${objd.id }" selected="selected">${objd.name }</option>
-													</c:if>
-													<c:if test="${objd.id !=objs.purchaseType }">
-													<option value="${objd.id }">${objd.name }</option>
-													</c:if>
+													<c:if test="${objd.id ==objs.purchaseType }">
+														<option value="${objd.id }" selected="selected">${objd.name }</option>
+														</c:if>
+														<c:if test="${objd.id !=objs.purchaseType }">
+														<option value="${objd.id }">${objd.name }</option>
+														</c:if>
 												</c:forEach>
 											</select>
 										</td>
