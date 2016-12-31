@@ -74,7 +74,8 @@
 			//生产
 			function reasonProduction1(obj) {
 				var supplierId = $("#supplierId").val();
-				var auditField = obj.id;;
+				var appear = obj.id;
+				var auditField = obj.id.replace("_production", "").trim();
 				var auditContent;
 				var auditFieldName;
 				var html = "<a class='abolish' style='margin-top: 6px;'><img src='/zhbj/public/backend/images/sc.png'></a>";
@@ -111,7 +112,7 @@
 							}
 						});
 						$(obj).after(html);
-						$("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
+						$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
 						layer.close(index);
 					});
 			}
@@ -155,7 +156,8 @@
 
 			function reasonSale1(obj) {
 				var supplierId = $("#supplierId").val();
-				var auditField = obj.id;;
+				var appear = obj.id;
+				var auditField = obj.id.replace("_sale", "").trim();
 				var auditContent;
 				var auditFieldName;
 				var html = "<a class='abolish' style='margin-top: 6px;'><img src='/zhbj/public/backend/images/sc.png'></a>";
@@ -191,7 +193,7 @@
 						}
 					});
 					$(obj).after(html);
-					$("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
+					$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
 					layer.close(index);
 				});
 			}
@@ -247,7 +249,8 @@
 			//工程
 			function reasonEngineering1(obj) {
 				var supplierId = $("#supplierId").val();
-				var auditField = obj.id;;
+			  var appear = obj.id;
+				var auditField = obj.id.replace("_engineering", "").trim();
 				var auditContent;
 				var auditFieldName;
 				var html = "<a class='abolish' style='margin-top: 6px;'><img src='/zhbj/public/backend/images/sc.png'></a>";
@@ -287,7 +290,7 @@
 						/* $("#"+id3+"").show();
 						$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
 						$(obj).after(html);
-						$("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
+						$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
 						layer.close(index);
 					});
 			}
@@ -332,7 +335,8 @@
 			//服务
 			function reasonService1(obj) {
 				var supplierId = $("#supplierId").val();
-				var auditField = obj.id;;
+				var appear = obj.id;
+				var auditField = obj.id.replace("_service", "").trim();
 				var auditContent;
 				var auditFieldName;
 				var html = "<a class='abolish' style='margin-top: 6px;'><img src='/zhbj/public/backend/images/sc.png'></a>";
@@ -371,7 +375,7 @@
 						/* $("#"+id3+"").show();
 						$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
 						$(obj).after(html);
-						$("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
+						$("#"+appear+"").css('border-color','#FF0000'); //边框变红色
 						layer.close(index);
 					});
 			}
@@ -603,31 +607,31 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="orgName" type="text" value="${supplierMatPros.orgName }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName','production');"</c:if>/>
+												<input id="orgName_production" type="text" value="${supplierMatPros.orgName }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalPerson" type="text" value="${supplierMatPros.totalPerson }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalPerson')}"> style="border: 1px solid #FF8C00;"style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson','production');"</c:if>/>
+												<input id="totalPerson_production" type="text" value="${supplierMatPros.totalPerson }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalPerson')}"> style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalMange" type="text" value="${supplierMatPros.totalMange }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange','production');"</c:if>/>
+												<input id="totalMange_production" type="text" value="${supplierMatPros.totalMange }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalTech" type="text" value="${supplierMatPros.totalTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech','production');"</c:if>/>
+												<input id="totalTech_production" type="text" value="${supplierMatPros.totalTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalWorker" type="text" value="${supplierMatPros.totalWorker }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker','production');"</c:if>/>
+												<input id="totalWorker_production" type="text" value="${supplierMatPros.totalWorker }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker','production');"</c:if>/>
 											</div>
 										</li>
 									</ul>
@@ -637,43 +641,43 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="scaleTech" type="text" value="${supplierMatPros.scaleTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','production');"</c:if>/>
+												<input id="scaleTech_production" type="text" value="${supplierMatPros.scaleTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'scaleTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleTech','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级技术人员比例(%)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="scaleHeightTech" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','production');"</c:if>/>
+												<input id="scaleHeightTech_production" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'scaleHeightTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('scaleHeightTech','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门名称：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="researchName" type="text" value="${supplierMatPros.researchName }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'researchName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchName','production');"</c:if>/>
+												<input id="researchName_production" type="text" value="${supplierMatPros.researchName }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'researchName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchName','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this)">研发部门人数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalResearch" type="text" value="${supplierMatPros.totalResearch }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalResearch')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalResearch','production');"</c:if>/>
+												<input id="totalResearch_production" type="text" value="${supplierMatPros.totalResearch }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalResearch')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalResearch','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">研发部门负责人：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="researchLead" type="text" value="${supplierMatPros.researchLead }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'researchLead')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchLead','production');"</c:if>/>
+												<input id="researchLead_production" type="text" value="${supplierMatPros.researchLead }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'researchLead')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('researchLead','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家军队科研项目：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="countryPro" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.countryPro }" <c:if test="${fn:contains(field,'countryPro')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryPro','production');"</c:if>>
+												<input id="countryPro_production" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.countryPro }" <c:if test="${fn:contains(field,'countryPro')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryPro','production');"</c:if>>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家军队科技奖项：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="countryReward" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.countryReward }" <c:if test="${fn:contains(field,'countryReward')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryReward','production');"</c:if>>
+												<input id="countryReward_production" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.countryReward }" <c:if test="${fn:contains(field,'countryReward')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryReward','production');"</c:if>>
 											</div>
 										</li>
 									</ul>
@@ -683,13 +687,13 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">生产线名称数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalBeltline" type="text" value="${supplierMatPros.totalBeltline }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalBeltline')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalBeltline','production');"</c:if>/>
+												<input id="totalBeltline_production" type="text" value="${supplierMatPros.totalBeltline }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalBeltline')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalBeltline','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">生产设备名称数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalDevice" type="text" value="${supplierMatPros.totalDevice }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalDevice','production');"</c:if>/>
+												<input id="totalDevice_production" type="text" value="${supplierMatPros.totalDevice }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalDevice','production');"</c:if>/>
 											</div>
 										</li>
 									</ul>
@@ -699,25 +703,25 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测部门：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="qcName" type="text" value="${supplierMatPros.qcName }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'qcName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcName','production');"</c:if>/>
+												<input id="qcName_production" type="text" value="${supplierMatPros.qcName }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'qcName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcName','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测人数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalQc" type="text" value="${supplierMatPros.totalQc }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalQc')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalQc','production');"</c:if>/>
+												<input id="totalQc_production" type="text" value="${supplierMatPros.totalQc }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'totalQc')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalQc','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质检部门负责人：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="qcLead" type="text" value="${supplierMatPros.qcLead }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'qcLead')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcLead','production');"</c:if>/>
+												<input id="qcLead_production" type="text" value="${supplierMatPros.qcLead }" onclick="reasonProduction1(this)" <c:if test="${fn:contains(field,'qcLead')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcLead','production');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测设备名称：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="qcDevice" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.qcDevice }" <c:if test="${fn:contains(field,'qcDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcDevice','production');"</c:if>>
+												<input id="qcDevice_production" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.qcDevice }" <c:if test="${fn:contains(field,'qcDevice')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('qcDevice','production');"</c:if>>
 											</div>
 										</li>
 									</ul>
@@ -769,31 +773,31 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="orgName" type="text" value="${supplierMatSells.orgName }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName','sale');"</c:if>/>
+												<input id="orgName_sale" type="text" value="${supplierMatSells.orgName }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName','sale');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalPerson" type="text" value="${supplierMatSells.totalPerson }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson','sale');"</c:if>/>
+												<input id="totalPerson_sale" type="text" value="${supplierMatSells.totalPerson }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson','sale');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalMange" type="text" value="${supplierMatSells.totalMange }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange','sale');"</c:if>/>
+												<input id="totalMange_sale" type="text" value="${supplierMatSells.totalMange }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange','sale');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalTech" type="text" value="${supplierMatSells.totalTech }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech','sale');"</c:if>/>
+												<input id="totalTech_sale" type="text" value="${supplierMatSells.totalTech }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech','sale');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalWorker" type="text" value="${supplierMatSells.totalWorker }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker','sale');"</c:if>/>
+												<input id="totalWorker_sale" type="text" value="${supplierMatSells.totalWorker }" onclick="reasonSale1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker','sale');"</c:if>/>
 											</div>
 										</li>
 									</ul>
@@ -940,31 +944,31 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="orgName" type="text" value="${supplierMatEngs.orgName }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName','engineering');"</c:if>/>
+												<input id="orgName_engineering" type="text" value="${supplierMatEngs.orgName }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName','engineering');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术负责人：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalTech" type="text" value="${supplierMatEngs.totalTech }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech','engineering');"</c:if>/>
+												<input id="totalTech_engineering" type="text" value="${supplierMatEngs.totalTech }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech','engineering');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">中级及以上职称人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalGlNormal" type="text" value="${supplierMatEngs.totalGlNormal }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalGlNormal')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalGlNormal','engineering');"</c:if>/>
+												<input id="totalGlNormal_engineering" type="text" value="${supplierMatEngs.totalGlNormal }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalGlNormal')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalGlNormal','engineering');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalMange" type="text" value="${supplierMatEngs.totalMange }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange','engineering');"</c:if>/>
+												<input id="totalMange_engineering" type="text" value="${supplierMatEngs.totalMange }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange','engineering');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术工人：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalTechWorker" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalTechWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTechWorker','engineering');"</c:if>/>
+												<input id="totalTechWorker_engineering" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalTechWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTechWorker','engineering');"</c:if>/>
 											</div>
 										</li>
 									</ul>
@@ -1016,31 +1020,31 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="orgName" class="span5" type="text" value="${supplierMatSes.orgName }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName','service');"</c:if>/>
+												<input id="orgName_service" class="span5" type="text" value="${supplierMatSes.orgName }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'orgName')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('orgName','service');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员总数：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalPerson" class="span5" type="text" value="${supplierMatSes.totalPerson }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson','service');"</c:if>/>
+												<input id="totalPerson_service" class="span5" type="text" value="${supplierMatSes.totalPerson }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalPerson')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalPerson','service');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalMange" class="span5" type="text" value="${supplierMatSes.totalMange }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange','service');"</c:if>/>
+												<input id="totalMange_service" class="span5" type="text" value="${supplierMatSes.totalMange }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange','service');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalTech" class="span5" type="text" value="${supplierMatSes.totalTech }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech','service');"</c:if>/>
+												<input id="totalTech_service" class="span5" type="text" value="${supplierMatSes.totalTech }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech','service');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工人(职员)：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input id="totalWorker" class="span5" type="text" value="${supplierMatSes.totalWorker }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker','service');"</c:if>/>
+												<input id="totalWorker_service" class="span5" type="text" value="${supplierMatSes.totalWorker }" onclick="reasonService1(this)" <c:if test="${fn:contains(field,'totalWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalWorker','service');"</c:if>/>
 											</div>
 										</li>
 									</ul>
