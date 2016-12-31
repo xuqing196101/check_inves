@@ -211,6 +211,7 @@
 		NAME AS name,
 		PROJECT_ID AS projectId,
 		STATUS AS status,
+		CREATED_AT AS createdAt,
 		MARK_TERM_TREE AS markTermTree,
 		PURCHASE_TYPE AS purchaseType,
 		IS_IMPORT AS isImport,
@@ -357,6 +358,8 @@
 		WHERE
 		IS_DELETED=0
 		AND PROJECT_ID = #{projectId}
+		ORDER BY
+		CREATED_AT ASC
 	</select>
 
 	<!-- 根据包信息返回抽取出的供应商 -->
@@ -368,6 +371,8 @@
 		T_BSS_PPMS_PACKAGE
 		WHERE IS_DELETED=0
 		AND PROJECT_ID = #{projectId}
+		ORDER BY
+		CREATED_AT ASC
 	</select>
 
 	<select id="listSupplierCheckPass" parameterType="java.lang.String"
@@ -389,6 +394,8 @@
 		WHERE
 		IS_DELETED=0
 		AND PROJECT_ID = #{projectId}
+		ORDER BY
+		CREATED_AT ASC
 	</select>
 
 	<!-- 返回所有专家 -->
@@ -399,6 +406,8 @@
 		FROM T_BSS_PPMS_PACKAGE
 		WHERE
 		IS_DELETED=0 AND PROJECT_ID = #{projectId}
+		ORDER BY
+		CREATED_AT ASC
 	</select>
 
 	<!-- -->

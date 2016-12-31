@@ -198,7 +198,7 @@ public class ScoreModelUtil {
                 if(i==0){
                     supplyMarkList.get(i).setScore(minScore);
                 }else {
-                         if (isHave == 0 && new Double(supplyMarkList.get(i).getPrarm()) <= (new Double(scoreModel.getStandardScore()))){
+                         if (isHave == 0 && new Double(supplyMarkList.get(i).getPrarm()) <= (new Double(scoreModel.getStandScores()))){
                          	supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
                          }else if (isHave == 0 && new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(scoreModel.getStandardScore()))){
                           	supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));

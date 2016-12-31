@@ -205,7 +205,9 @@
 	    	<c:if test="${isEnd != 1}">
 			    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核检查</button>
 			    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性审查</button>
-			    <button class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
+			    <c:if test="${purcahseCode == 'JZXTP' || purcahseCode == 'DYLY'}">
+				    <button class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
+			    </c:if>
 	    	</c:if>
 		    <button class="btn" onclick="window.print();" type="button">打印汇总表</button>
 	   	</div>

@@ -47,7 +47,7 @@
 											<c:if test="${vs.index == bidMethod.typeName}">${list.name}</c:if>
 									</c:forEach>
 								</td>
-								<td class="bggrey ">下浮比例：</td>
+								<td class="bggrey ">浮动比例：</td>
 								<td>${bidMethod.floatingRatio}%</td>
 							  </tr>
 								<tr>

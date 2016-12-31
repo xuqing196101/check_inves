@@ -149,4 +149,12 @@ public interface SaleTenderMapper {
      * @param packagesId
      */
     void delSaleDelete(Map<String, String> map);
+
+    /**
+     *〈简述〉插入供应商排名
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param ranMap
+     */
+    void updateRank(HashMap<String, Object> ranMap);
 }
