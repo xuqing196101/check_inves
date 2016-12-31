@@ -276,8 +276,8 @@
 								<c:if test="${obj.status=='2' }">
 									<input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()" alt="">
 								</c:if>
-								<c:if test="${obj.status=='4'||obj.status=='5'||obj.status=='6' }">
-									<input type="checkbox" disabled="disabled" value="${obj.planNo }" name="chkItem" onclick="check()" alt="">
+								<c:if test="${obj.status!='2' }">
+								 
 								</c:if>
 							</td>
 							<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
@@ -299,14 +299,19 @@
 								<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 							</td>
 							<td class="tc">
-								<c:if test="${obj.status==2 }">
-								 
-									待受理
-								</c:if>
-								<c:if test="${obj.status==3 }">
-							 
-									   已受理
-								</c:if>
+								<c:if test="${obj.status=='1' }">
+							 		未提交
+							  	</c:if>
+							    <c:if test="${obj.status=='2' }">
+							 		已提交
+							  	</c:if>
+							  	<c:if test="${obj.status=='3' }">
+							 		已受理
+							  	</c:if>
+							  	
+							  	<c:if test="${obj.status=='4' }">
+							 		已汇总
+							  	</c:if>
 							<%-- 	<c:if test="${obj.status=='4'||obj.status=='5'||obj.status=='6' }">
 									已受理
 								</c:if> --%>

@@ -27,6 +27,7 @@ import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.TaskService;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 /**
  * 
@@ -68,8 +69,9 @@ public class TaskAssignController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String list(CollectPlan collectPlan,Integer page,Model model){
+	public String list(@CurrentUser User user,CollectPlan collectPlan,Integer page,Model model){
 		collectPlan.setStatus(2);
+		collectPlan.setUserId(user.getId());
 		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 		PageInfo<CollectPlan> info = new PageInfo<>(list);
 		model.addAttribute("info", info);

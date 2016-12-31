@@ -50,6 +50,7 @@ public class CollectPlan {
 
     private Integer auditTurn;
     
+    private String userId;
     
     public String getId() {
         return id;
@@ -185,6 +186,14 @@ public class CollectPlan {
 
 	public void setAuditTurn(Integer auditTurn) {
 		this.auditTurn = auditTurn;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
    
 	

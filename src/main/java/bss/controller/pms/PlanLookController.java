@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -39,6 +40,7 @@ import bss.service.pms.PurchaseAuditService;
 import bss.service.pms.PurchaseRequiredService;
 
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 /**
  * 
  * @Title: PlanLookController
@@ -100,16 +102,13 @@ public class PlanLookController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String list(CollectPlan collectPlan,Integer page,Model model){
+	public String list(@CurrentUser User user,CollectPlan collectPlan,Integer page,Model model){
 		collectPlan.setStatus(1);
+		collectPlan.setUserId(user.getId());
 		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 		PageInfo<CollectPlan> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", collectPlan);
-		DictionaryData	dictionaryData=new DictionaryData();
-//		DictionaryData p=new DictionaryData();
-//		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
-//		dictionaryData.setParent(p);
 		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		model.addAttribute("dic", dic);
 		return "bss/pms/collect/planlist";

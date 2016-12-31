@@ -277,7 +277,7 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr class="pointer">
 			  <td class="tc w30">
-                 <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()">
+                 <input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()">
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tl pl20" onclick="view('${obj.planNo }')">
@@ -301,6 +301,13 @@
 			  	</c:if>
 			    <c:if test="${obj.status=='2' }">
 			 		已提交
+			  	</c:if>
+			  	<c:if test="${obj.status=='3' }">
+			 		已受理
+			  	</c:if>
+			  	
+			  	<c:if test="${obj.status=='4' }">
+			 		已汇总
 			  	</c:if>
 
 			</tr>

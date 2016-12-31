@@ -423,19 +423,21 @@
 			  <td class="tc"  onclick="view('${obj.planNo}')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tr pr20" onclick="view('${obj.planNo}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
-	<%-- 		 <c:if test="${obj.status=='1' }">
-			 	 已编制为采购计划
-			  </c:if>
+	 
+			                   <c:if test="${obj.status=='1' }">
+							 		未提交
+							  	</c:if>
+							    <c:if test="${obj.status=='2' }">
+							 		已提交
+							  	</c:if>
+							  	<c:if test="${obj.status=='3' }">
+							 		已受理
+							  	</c:if>
+							  	
+							  	<c:if test="${obj.status=='4' }">
+							 		已汇总
+							  	</c:if>
 			  
-			     <c:if test="${obj.status=='2' }">
-			 	已提交
-			  </c:if> --%>
-			  <c:if test="${obj.status=='3' }">
-			 		未汇总
-			  </c:if>
-			    <c:if test="${obj.status=='4' }">
-				已汇总
-			  </c:if>
 				<%--    <c:if test="${obj.status=='5' }">
 			 	已汇总
 			  </c:if>

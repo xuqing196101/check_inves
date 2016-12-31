@@ -147,7 +147,7 @@ public class CollectPlanController extends BaseController {
 		 * @throws
 		  */
   @RequestMapping("/add")
-    public String queryCollect(CollectPlan collectPlan,String uniqueId,String goodsType) {
+    public String queryCollect(@CurrentUser User user,CollectPlan collectPlan,String uniqueId,String goodsType) {
     PurchaseRequired p = new PurchaseRequired();
     List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
     //Set<String> set=new HashSet<String>();
@@ -190,6 +190,7 @@ public class CollectPlanController extends BaseController {
 						collectPurchaseService.add(c);
 					}
 //					collectPlan.setPlanNo(cno);
+					collectPlan.setUserId(user.getId());
 					collectPlan.setGoodsType(goodsType);
 					collectPlanService.add(collectPlan);
 //				}

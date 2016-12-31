@@ -96,12 +96,13 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
+	public String queryPlan(@CurrentUser User user,PurchaseRequired purchaseRequired,Integer page,Model model){
 		purchaseRequired.setIsMaster(1);
 		purchaseRequired.setStatus("1");
 		if (page == null ){
 		    page = StaticVariables.DEFAULT_PAGE;
 		}
+		purchaseRequired.setUserId(user.getId());
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
 		model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
 		model.addAttribute("inf", purchaseRequired);
@@ -591,7 +592,7 @@ public class PurchaseRequiredController extends BaseController{
 	    @RequestMapping("/submit")
 	    public String submit(String planNo){
 	    	PurchaseRequired p=new PurchaseRequired();
-	    	p.setPlanNo(planNo);
+	    	p.setUniqueId(planNo);
 	    	p.setStatus("2");
 	    	p.setDetailStatus(0);
 	    	purchaseRequiredService.updateStatus(p);

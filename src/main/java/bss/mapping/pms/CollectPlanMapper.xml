@@ -19,11 +19,11 @@
     <result column="TASK_ID" jdbcType="VARCHAR" property="taskId" />
     <result column="TOTAL_AUDIT" jdbcType="VARCHAR" property="totalAudit" />
     <result column="AUDIT_TURN" jdbcType="VARCHAR" property="auditTurn" />
-      
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, FILE_NAME, PASSWORD, DEPARTMENT, BUDGET, STATUS, PURCHASE_ID, CREATED_AT, ORDER_AT, 
-    UPDATED_AT, POSITION,PLAN_NUMBER,GOODS_TYPE,PURCHASE_TYPE,TASK_ID,TOTAL_AUDIT,AUDIT_TURN
+    UPDATED_AT, POSITION,PLAN_NUMBER,GOODS_TYPE,PURCHASE_TYPE,TASK_ID,TOTAL_AUDIT,AUDIT_TURN,USER_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="CollectPlan_Map">
     select 
@@ -39,12 +39,12 @@
     insert into T_BSS_PMS_COLLECT_PLAN (ID, FILE_NAME, PASSWORD, 
       DEPARTMENT, BUDGET, STATUS, 
       PURCHASE_ID, CREATED_AT, ORDER_AT,GOODS_TYPE,PURCHASE_TYPE 
-      UPDATED_AT, POSITION,PLAN_NUMBER,TOTAL_AUDIT,AUDIT_TURN)
+      UPDATED_AT, POSITION,PLAN_NUMBER,GOODS_TYPE,PURCHASE_TYPE,TASK_ID,TOTAL_AUDIT,AUDIT_TURN,USER_ID)
     values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{department,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
       #{purchaseId,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{orderAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{position,jdbcType=DECIMAL}, #{PLAN_NUMBER,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, 
-      #{purchaseType,jdbcType=VARCHAR},#{TASK_ID,jdbcType=VARCHAR}, #{totalAudit,jdbcType=DECIMAL},#{auditTurn,jdbcType=DECIMAL})
+      #{purchaseType,jdbcType=VARCHAR},#{taskId,jdbcType=VARCHAR}, #{totalAudit,jdbcType=DECIMAL},#{auditTurn,jdbcType=DECIMAL},#{userId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.pms.CollectPlan">
     insert into T_BSS_PMS_COLLECT_PLAN
@@ -100,6 +100,9 @@
        <if test="auditTurn != null">
         AUDIT_TURN,
       </if>
+       <if test="userId != null">
+        USER_ID,
+      </if>
       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -154,6 +157,9 @@
        <if test="auditTurn != null">
            #{auditTurn,jdbcType=DECIMAL},
       </if>
+      <if test="userId != null">
+          #{userId,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.CollectPlan">
@@ -207,6 +213,10 @@
        <if test="auditTurn != null">
         AUDIT_TURN= #{auditTurn,jdbcType=DECIMAL},
       </if>
+       <if test="userId != null">
+         USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      
       
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -228,8 +238,8 @@
       PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
 	  TASK_ID = #{taskId,jdbcType=VARCHAR},
       TOTAL_AUDIT = #{totalAudit,jdbcType=DECIMAL},
-      AUDIT_TURN= #{auditTurn,jdbcType=DECIMAL}
-      
+      AUDIT_TURN= #{auditTurn,jdbcType=DECIMAL},
+      USER_ID= #{userId,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -238,12 +248,14 @@
   select 
   <include refid="Base_Column_List"/>
   from T_BSS_PMS_COLLECT_PLAN
-  	<where>
-  	<if test="budget">
+  	<where> 1=1
+   
   	  <if test="budget != null">
-        BUDGET=#{budget}
+       and  BUDGET=#{budget}
       </if>
-  	</if>
+      <if test="userId != null">
+       and  USER_ID=#{userId}
+      </if>
   	<if test="status ==1 ">
   		AND  STATUS in(1,3,4,5,6,7)
   		  order by STATUS  , CREATED_AT desc

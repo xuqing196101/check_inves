@@ -691,9 +691,12 @@
 			<if test="budget != null">
 				and BUDGET = #{budget}
 			</if>
-				<if test="planType != null">
-				and PLAN_TYPE = #{planType}
-		</if>
+			<if test="planType != null">
+				 and PLAN_TYPE = #{planType}
+			</if>
+			<if test="userId != null">
+				 and USER_ID = #{userId}
+			</if>
 		</where>
 		ORDER BY STATUS ASC, CREATED_AT DESC,IS_MASTER
 	</select>

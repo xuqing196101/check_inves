@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -42,6 +43,7 @@ import bss.service.pms.PurchaseAuditService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.UpdateFiledService;
 import bss.service.ppms.ProjectAttachmentsService;
+import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 
 import com.ctc.wstx.util.StringUtil;
@@ -105,7 +107,8 @@ public class TaskAdjustController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String list(Model model,CollectPlan collectPlan,Integer page){
+	public String list(@CurrentUser User user,Model model,CollectPlan collectPlan,Integer page){
+		collectPlan.setUserId(user.getId());
 		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page== null ? 1: page);
 		PageInfo<CollectPlan> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
