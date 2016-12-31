@@ -271,6 +271,79 @@
         </if>
     </select>
 	
+	  <!-- 根据id查询 -->
+    <select id="selectByOrgId" parameterType="java.lang.String" resultType="ses.model.oms.PurchaseDep">
+               select d.id  as id,
+               d.LEVEL_DEP       as levelDep,
+               d.SUBORDINATE_ORG_ID       as subordinateOrgId,
+               d.SUBORDINATE_ORG_NAME     as subordinateOrgName,
+               d.BUSINESS_DEP         as businessDep,
+               d.BUSINESS_DEP_ID       as businessDepId,
+               d.BUSINESS_RANGE       as businessRange,
+               d.QUA_CODE         as quaCode,
+               d.QUA_LEVEL      as quaLevel,
+               d.QUA_EDNDATE    as quaEdndate,
+               d.QUA_RANGE  as quaRange,
+               d.QUA_CERT   as quaCert,
+               d.LEADER_TELEPHONE as leaderTelephone,
+               d.OFFICER_COUNTNUM   as officerCountnum,
+               d.OFFICER_NOW_COUNTS   as officerNowCounts,
+               d.SOLDIER_NUM   as soldierNum,
+               d.SOLDIER_NOW_COUNTS   as soldierNowCounts,
+               d.STAFF_NUM   as staffNum,
+               d.STAFF_NOW_COUNTS   as staffNowCounts,
+               d.PURCHASERS_COUNT   as purchasersCount,
+               d.JUNIOR_PUR_COUNT   as juniorPurCount,
+               d.SENIOR_PUR_COUNT   as seniorPurCount,
+               d.DEP_NAME   as depName,
+               d.LEGAL   as legal,
+               d.AGENT   as agent,
+               d.CONTACT   as contact,
+               d.CONTACT_TELEPHONE   as contactTelephone,
+               d.CONTACT_ADDRESS   as contactAddress,
+               d.UNIT_POST_CODE   as unitPostCode,
+               d.PAY_DEP   as payDep,
+               d.BANK   as bank,
+               d.BANK_ACCOUNT   as bankAccount,
+               d.ACCESS_NETWORK   as accessNetwork,
+               d.ACCESS_WAY   as accessWay,
+               d.VIDEO_SURVEILLANCE   as videoSurveillance,
+               d.OFFICE_AREA   as officeArea,
+               d.OFFICE_COUNT  as officeCount,
+               d.METTING_ROOM_COUNT   as mettingRoomCount,
+               d.INVITE_ROOM_COUNT   as inviteRoomCount,
+               d.BID_ROOM_COUNT   as bidRoomCount,
+               d.IS_DELETED   as isDeleted,
+               d.UPDATED_AT   as updatedAt,
+               d.CREATED_AT   as createdAt,
+               o.id       as orgId,
+               o.NAME         as name,
+               o.SHORT_NAME   as shortName,
+               o.ORG_CODE     as orgCode,
+               o.type_name    as typeName,
+               o.address      as address,
+               o.post_code    as postCode,
+               CONCAT(a.name, b.name) as areaName,
+               d.DUTY_ROOM_PHONE  as dutyRoomPhone,
+               a.id               as provinceId,
+               a.name             as provinceName,
+               b.id               as cityId,
+               b.name             as cityName,
+               nvl(d.IS_AUDIT_SUPPLIER,0) as isAuditSupplier,
+               d.QUA_START_DATE    as quaStartDate,
+               d.QUA_STATUS        as quaStatus,
+               d.QUA_STASH_REASON  as quaStashReason,
+               o.QUA_NORMAL_REASON  as quaNormalReason,
+               o.QUA_TERMINAL_REASON  as quaTerminalReason
+          from T_SES_OMS_ORG o 
+          LEFT JOIN T_SES_OMS_PURCHASE_DEP     d on d.ORG_ID = o.id
+          LEFT JOIN T_SES_BMS_AREA a on o.province_id=a.id
+          LEFT JOIN T_SES_BMS_AREA b on o.city_id=b.id
+         where nvl(d.is_deleted,0)=0
+         <if test="_parameter != null and _parameter != ''">
+            and o.id= #{_parameter}
+        </if>
+    </select>
 	
 	<!-- 保存采购机构 -->
 	<insert id="savePurchaseDep" parameterType="ses.model.oms.PurchaseDep">

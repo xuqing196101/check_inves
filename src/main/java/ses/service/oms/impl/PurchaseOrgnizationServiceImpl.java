@@ -68,6 +68,12 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 		// TODO Auto-generated method stub
 		return purchaseDepMapper.findByOrgId(id);
 	}
+	
+	@Override
+    public PurchaseDep selectByOrgId(String id) {
+        // TODO Auto-generated method stub
+        return purchaseDepMapper.selectByOrgId(id);
+    }
 
 	@Override
 	public int savePurchaseDep(PurchaseDep purchaseDep, String ids, String[] purchaseUnitName, String[] purchaseUnitDuty,

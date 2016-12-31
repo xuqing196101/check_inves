@@ -24,6 +24,7 @@ public interface PurchaseOrgnizationServiceI {
 	           String[] siteType,String[] siteNumber,String[] location,String[] area,String[] crewSize);
 	
 	PurchaseDep findByOrgId(String id);
+	PurchaseDep selectByOrgId(String id);
 	
 	Map<String, String> findPIDandCIDByOrgId(String purDepId);
 	
