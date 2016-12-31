@@ -114,7 +114,7 @@
 						<li class="col-md-12 col-sm-12 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">版块介绍：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0">
-								<textarea class="col-md-12 col-sm-12 col-xs-12 h130" title="不超过800个字" name="content">${park.content}</textarea>
+								<textarea class="w100p h130" title="不超过800个字" name="content">${park.content}</textarea>
 							</div>
 						</li>
 

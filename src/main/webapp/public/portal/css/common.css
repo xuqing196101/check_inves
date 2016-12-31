@@ -747,15 +747,21 @@ th.bg_tc {
 .no_break {
   table-layout: fixed;
   word-break: break-all;
-  overflow: hidden; }
+  overflow: hidden;
+}
+
 .overflow_h{
   overflow: hidden; 
 }
+
 .bround4{
-  border-radius:4px!important;}
+  border-radius:4px!important;
+}
+
 .bround8{
   border-radius:8px !important;
 }
+
 .bround14{
   border-radius:14px!important;
 }

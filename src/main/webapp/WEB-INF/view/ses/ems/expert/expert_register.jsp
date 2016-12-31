@@ -118,54 +118,59 @@ session.setAttribute("tokenSession", tokenValue);
 
 </head>
 <body>
- 	 <jsp:include page="/reg_head.jsp"></jsp:include>
-<!-- 修改订列表开始-->
-   <div class="container">
-   <form action="${pageContext.request.contextPath}/expert/register.html" method="post"  id="formExpert">
-	 <input type="hidden"  name="token2" value="<%=tokenValue%>">
-	 <input type="hidden" id="message" value="${message }"/>
-   <div>
-	<br/><br/>
-   <ul class="list-unstyled list-flow" style="margin-left: 250px;">
+ <jsp:include page="/reg_head.jsp"></jsp:include>
+   <!-- 修改订列表开始-->
+  <div class="container clear margin-top-30">
+    <div class="col-md-12 col-sm-12 col-xs-12 margin-top-40">
+	  <div class="row" style="background-color:#f6f6f6;">
+		<div class="col-md-6 col-sm-6 col-xs-12 p20">
+   			<form action="${pageContext.request.contextPath}/expert/register.html" method="post"  id="formExpert">
+			   <input type="hidden"  name="token2" value="<%=tokenValue%>">
+		       <input type="hidden" id="message" value="${message }"/>
+
 			<h2 class="count_flow margin-left-30"><font color="red" class="margin-left-30"> 注：军队单位人员，请登录内网进行注册!</font></h2>
-			 <li class="p0">
-			  <span class=""><i class="red mr5">*</i>专家类型：</span>
-			  <div class="input-append">
+            <ul class="list-unstyled overflow_h mt20">
+			 <li class="login_item col-md-12  col-sm-12 col-xs-12 pl15">
+			  <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>专家类型：</span>
+			  <div class="col-md-7 col-xs-12 col-sm-12 p0 select_common">
 		        <select  name="expertsFrom" id="expertsFrom" onblur="validateFrom();">
 				  <option selected="selected" value="">-请选择-</option>
 				  <c:forEach items="${lyTypeList}" var="ly">
 				    <option value="${ly.id}">${ly.name}</option>
 				  </c:forEach>
 				</select>
-		      </div><font id="fro"></font>
+				 <div id="fro" class="cue"></div>
+		      </div>
 			</li>
-     		<li class="p0">
-			   <span class=""><i class="red mr5">*</i>用户名：</span>
-			   <div class="input-append">
-		        <input class="span2" name="loginName" id="loginName" placeholder="用户名为3~16位" maxlength="16" type="text" onblur="validataLoginName();" value="">
-		        <span class="add-on mr10">i</span>
-		       </div><font id="spp"></font>
+     		 <li class="login_item col-md-12  col-sm-12 col-xs-12">
+			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>用户名：</span>
+			  <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
+		        <input name="loginName" id="loginName" placeholder="用户名为3~16位" maxlength="16" type="text" onblur="validataLoginName();" value="">
+		        <div id="spp" class="cue"></div>
+		       </div>
 			 </li>
-		      <li class="p0 ">
-			   <span class=""><i class="red mr5">*</i>密码：</span>
-			   <div class="input-append">
-		        <input class="span2" name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onblur="validataPassword();"  type="password" >
-		        <span class="add-on mr10">i</span>
-		       </div><font  id="pwd1"></font>
+		     <li class="login_item col-md-12  col-sm-12 col-xs-12">
+			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>密码：</span>
+			   <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
+		        <input name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onblur="validataPassword();"  type="password" >
+		        <div id="pwd1" class="cue"></div>
+		       </div>
 			 </li> 
-	 		
-			  <li class="p0 ">
-			   <span class=""><i class="red mr5">*</i>确认密码：</span>
-			   <div class="input-append">
-		        <input class="span2" id="password2"  maxlength="20" onblur="validataPwd2();" type="password" value="">
-		        <span class="add-on mr10">i</span>
-		       </div><font  id="pwd2"></font>
+	 		 <li class="login_item col-md-12  col-sm-12 col-xs-12">
+			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>确认密码：</span>
+			   <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
+		        <input id="password2"  maxlength="20" onblur="validataPwd2();" type="password" value="">
+		        <div class="cue" id="pwd2">
+		       </div>
 			 </li> 
-			 <li class="p0 ">
-			   <span class=""><i class="red mr5">*</i>手机号码：</span>
-			   <div class="input-append">
-		        <input class="span2" name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validatePhone();"  value="" type="text">
-		        <span class="add-on mr10">i</span>&nbsp;<input class="btn" type="button" value="发送验证码"><font  id="phone2"></font>
+			 <li class="login_item col-md-12  col-sm-12 col-xs-12">
+			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>手机号码：</span>
+			   <div class="col-md-7 col-xs-12 col-sm-12 p0 input-append input_group">
+			    <div class="col-md-6 col-sm-6 col-xs-6 pl0">
+		          <input name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validatePhone();"  value="" type="text">
+		        </div>
+		        <button type="button" class="btn ml10">发送验证码</button>
+		        <div class="cue" id="phone2"></div>
 		       </div>
 		        
 			 </li>
@@ -176,17 +181,19 @@ session.setAttribute("tokenSession", tokenValue);
 		        <span class="add-on">i</span>
 		       </div><font  id="yzm"></font>
 			 </li> -->
-   </ul>
-  </div> 
-	  <div  class="col-md-12">
-	   <div class="padding-10" align="center">
+        </ul>
+	  <div  class="col-md-12 col-sm-12 col-xs-12 tc">
 		   <button class="btn btn-windows add"    type="button" onclick="submitForm1();"  >注册</button>
 		   <button class="btn btn-windows reset"  type="button" onclick="location.href='javascript:history.go(-1);'"> 返回</button>
-		</div>
 	 </div>
   </form>
  </div>
- 
+ <div class="col-md-6 col-sm-6 col-xs-12">
+	<img src="${pageContext.request.contextPath}/public/front/images/sup_login.jpg" width="100%" />
+</div>
+ </div>
+ </div>
+ </div>
  <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>
