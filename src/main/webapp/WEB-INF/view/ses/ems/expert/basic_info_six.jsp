@@ -62,7 +62,8 @@ session.setAttribute("tokenSession", tokenValue);
 				}
 			},
 			callback: {
-				onCheck: saveCategory
+				onCheck: saveCategory,
+				beforeCheck: zTreeBeforeCheck
 			},
 			view: {
 				fontCss: setFontCss
@@ -97,6 +98,18 @@ session.setAttribute("tokenSession", tokenValue);
 			async: false,
 			data: {"expertId" : expertId, "categoryId" : treeNode.id, "type" : clickFlag, "typeId" : typeId}
 		});
+	}
+	function zTreeBeforeCheck(treeId, treeNode) {
+		if (!treeNode.checked) {
+			if (treeNode.isParent) {
+				layer.msg("请选择最末级节点进行保存!",{offset: ['300px', '750px']});
+			    return false;
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
 	}
 	function zc(){
 		layer.msg("已暂存",{offset: ['300px', '750px']});

@@ -490,26 +490,26 @@ public class ExpertController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/saveCategory")
-    public void saveCategory(String expertId, String categoryId, String type, String typeId){
+    public void saveCategory(String expertId, String categoryId, String type, String typeId, String level){
         if ("1".equals(type)) {
             // 1代表增加
             // 判断是否是子节点,如果是父节点被选中则添加该节点的所有子节点
-            List<Category> list = categoryService.findPublishTree(categoryId, null);
+            //List<Category> list = categoryService.findPublishTree(categoryId, null);
             Expert expert = new Expert();
             expert.setId(expertId);
-            if (list == null || list.size() == 0) {
-                ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, categoryId);
-                if (expertCategory == null) {
-                    expertCategoryService.save(expert, categoryId, typeId);
-                }
-            } else {
+            //if (list == null || list.size() == 0) {
+            ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, categoryId);
+            if (expertCategory == null) {
+                expertCategoryService.save(expert, categoryId, typeId);
+            }
+            /*} else {
                 for (Category cate : list) {
                     List<Category> list1 = categoryService.findPublishTree(cate.getId(),null);
                     if (list1 == null || list1.size() == 0) {
                         expertCategoryService.save(expert, cate.getId(), typeId);
                     }
                 }
-            }
+            }*/
         } else if ("0".equals(type)) {
             // 0代表删除
             // 判断是否是子节点,如果是父节点被取消则删除该节点的所有子节点
@@ -575,7 +575,7 @@ public class ExpertController extends BaseController {
             ct.setId(parent.getId());
             ct.setIsParent("true");
             // 设置是否被选中
-            ct.setChecked(isChecked(ct.getId(), expertId));
+            ct.setChecked(isChecked(ct.getId(), expertId, categoryId));
             allCategories.add(ct);
         } else {
             List<Category> childNodes = categoryService.findPublishTree(id, null);
@@ -591,7 +591,7 @@ public class ExpertController extends BaseController {
                         ct.setIsParent("true");
                     }
                     // 判断是否被选中
-                    ct.setChecked(isChecked(ct.getId(), expertId));
+                    ct.setChecked(isChecked(ct.getId(), expertId, categoryId));
                     allCategories.add(ct);
                 }
                 // 判断专家是否为被退回状态
@@ -625,8 +625,8 @@ public class ExpertController extends BaseController {
      * @param expertId
      * @return
      */
-    public boolean isChecked (String categoryId, String expertId) {
-        List<ExpertCategory> allCategoryList = expertCategoryService.getListByExpertId(expertId, null);
+    public boolean isChecked (String categoryId, String expertId, String typeId) {
+        List<ExpertCategory> allCategoryList = expertCategoryService.getListByExpertId(expertId, typeId);
         boolean isChecked = false;
         for (ExpertCategory expertCategory : allCategoryList) {
             String id = expertCategory.getCategoryId();
