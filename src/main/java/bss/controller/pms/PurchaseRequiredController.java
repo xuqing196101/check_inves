@@ -569,7 +569,7 @@ public class PurchaseRequiredController extends BaseController{
 	  @RequestMapping("download")    
 	    public ResponseEntity<byte[]> download(HttpServletRequest request,String filename) throws IOException {
 //	    	filename = new String(filename.getBytes("iso8859-1"),"UTF-8");
-	    	String path = PathUtil.getWebRoot() + "excel/模板.xls";;  
+	    	String path = PathUtil.getWebRoot() + "excel/需求计划模板.xlsx";;  
 	        File file=new File(path);
 	        
 	        HttpHeaders headers = new HttpHeaders();    
