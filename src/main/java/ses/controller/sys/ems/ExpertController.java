@@ -1358,11 +1358,15 @@ public class ExpertController extends BaseController {
    */
   @ResponseBody
   @RequestMapping("/add1")
-  public void add1(String categoryId, String sysId, Expert expert,
+  public String add1(String categoryId, String sysId, Expert expert,
       String userId, Model model, RedirectAttributes attr,
       HttpSession session, String token2, HttpServletRequest request,
       HttpServletResponse response, String gitFlag) {
-    try {
+    Expert exp = service.selectByPrimaryKey(expert.getId());
+      if("1".equals(exp.getIsSubmit())) {
+        return "1";
+    } else {
+      try {
         String expertId = sysId;
         // 正常提交
         User user = (User) session.getAttribute("loginUser");
@@ -1392,7 +1396,9 @@ public class ExpertController extends BaseController {
       // 未做异常处理
     }
     attr.addAttribute("userId", userId);
+    return "0";
     //return "redirect:toAddBasicInfo.html";
+    }
   }
 
     /**
@@ -2311,9 +2317,15 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "/initData", produces = "application/json;charset=UTF-8")
     public String initData(String expertId){
         Expert expert = service.selectByPrimaryKey(expertId);
-        expert.setGender(dictionaryDataServiceI.getDictionaryData(expert.getGender()).getName());
+        DictionaryData gender = dictionaryDataServiceI.getDictionaryData(expert.getGender());
+        if (gender != null) {
+            expert.setGender(gender.getName());
+        }
         // 政治面貌
-        expert.setPoliticsStatus(dictionaryDataServiceI.getDictionaryData(expert.getPoliticsStatus()).getName());
+        DictionaryData politics = dictionaryDataServiceI.getDictionaryData(expert.getPoliticsStatus());
+        if (politics != null) {
+            expert.setPoliticsStatus(politics.getName());
+        }
         String address = expert.getAddress();
         Area area = areaServiceI.listById(address);
         // 市

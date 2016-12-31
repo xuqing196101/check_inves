@@ -24,14 +24,24 @@ session.setAttribute("tokenSession", tokenValue);
 				url:"${pageContext.request.contextPath}/expert/add1.do?gitFlag=1",
 				async:false,
 				data:$('#formExpert').serialize(),
-				success:function(){
-					layer.confirm('您已成功提交,请等待审核结果!', {
-						btn : [ '确定' ],
-						shade: false //不显示遮罩
-					//按钮
-					}, function() {
-						window.location.href='${pageContext.request.contextPath}/';
-					});	
+				success:function(data){
+					if (data == "0") {
+						layer.confirm('您已成功提交,请等待审核结果!', {
+							btn : [ '确定' ],
+							shade: false //不显示遮罩
+						//按钮
+						}, function() {
+							window.location.href='${pageContext.request.contextPath}/';
+						});	
+					} else {
+						layer.confirm('您已提交,请勿重复操作!', {
+							btn : [ '确定' ],
+							shade: false //不显示遮罩
+						//按钮
+						}, function() {
+							window.location.href='${pageContext.request.contextPath}/';
+						});
+					}
 				}
 			});
 		}
