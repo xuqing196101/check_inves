@@ -243,6 +243,9 @@
 		<if test="reason != null and reason != ''">
 			AND pe.OPERATING_TYPE in (${reason})
 		</if>
+		<if test="conTypeId != null and conTypeId != ''">
+		  AND pe.REVIEW_TYPE IS NOT NULL
+		</if>
 		<if test="projectId != null and projectId != ''">
 			AND pe.PROJECT_ID =#{projectId}
 			ORDER BY

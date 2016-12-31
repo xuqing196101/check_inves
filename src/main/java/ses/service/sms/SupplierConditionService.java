@@ -103,4 +103,13 @@ public interface SupplierConditionService {
      * @return
      */
     List<DictionaryData>  supplierTypeList();
+    
+    /**
+     * 添加包信息
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    String addPackage(String packagesName,String projectId);
 }

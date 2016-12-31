@@ -85,9 +85,11 @@
       })
 
 
+      
       function add() {
     	  
         var packageId=$("#packageId").val();
+        var typeclassId = "${typeclassId}";
         $.ajax({
           cache: true,
           type: "POST",
@@ -123,7 +125,31 @@
                 layer.alert("请选择包", {
                     shade: 0.01
                         });
-        }
+           }else if(typeclassId != null && typeclassId != ''){
+        	   $("#projectId").val(projectId);
+        	   var iframeWin;
+               layer.open({
+                 type: 2,
+                 title: "选择包",
+                 shadeClose: true,
+                 shade: 0.01,
+                 offset: '20px',
+                 move: false,
+                 area: ['50%', '50%'],
+                 content: '${pageContext.request.contextPath}/SupplierExtracts/showPackage.do?projectId='+projectId,
+                 success: function(layero, index) {
+                   iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                 },
+                 btn: ['保存', '关闭'],
+                 yes: function() {
+                   iframeWin.add();
+
+                 },
+                 btn2: function() {
+                   layer.closeAll();
+                 }
+               });
+           }
           }
         });
 
@@ -340,6 +366,8 @@
                     <div class="ww50 fl">抽取信息</div>
           </div>
            <div align="right" class=" pl20 mb10 " >
+            <button class="btn mb10" 
+                onclick="add();" type="button">添加包</button>
              <input class="input_group " readonly id="packageName" value="" onclick="showPackageType();"   type="text">
               <input  readonly id="packageId" name="packageId"     type="hidden">
 <!--           <select class="w200" id="packageId" > -->
@@ -393,7 +421,6 @@
         </div>
       </form>
     </div>
-
   </body>
 
 </html>

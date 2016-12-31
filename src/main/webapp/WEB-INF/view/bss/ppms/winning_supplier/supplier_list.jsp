@@ -359,23 +359,33 @@
           <thead>
             <tr class="info">
               <th class="w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-              <th>供应商名称</th>
-              <th>参加时间</th>
-              <th>总报价（万元）</th>
-              <th>总得分</th>
-              <th>排名</th>
+              <th class="w200">供应商名称</th>
+              <th class="w100">参加时间</th>
+              <th style="width: 110px;">&nbsp;总报价&nbsp;（万元）</th>
+              <th style="width: 50px;">总得分</th>
+              <th style="width: 20px;">排名</th>
               <c:if test="${view == 1}">
-                <th>中标状态</th>
+                <th style="width: 50px;">中标状态</th>
               </c:if>
-              <th>占比（%）</th>
-              <th>实际成交总价（万元）</th>
-              <th>中标金额（万元）</th>
+              <th class="w50">占比（%）</th>
+              <th class="w100">实际成交总价（万元）</th>
+              <th style="width: 80px;">中标金额（万元）</th>
             </tr>
           </thead>
           <c:forEach items="${supplierCheckPass}" var="checkpass" varStatus="vs">
             <tr id="${checkpass.id}">
               <td class="tc opinter"><input onclick="check(${vs.index});" id="rela${vs.index }" type="checkbox" name="chkItem" value="${checkpass.id}" /></td>
-              <td class="opinter" onclick=""><span onclick="ycDiv(this,'${vs.index}')" class="count_flow shrink hand"></span>${checkpass.supplier.supplierName}</td>
+              <td class="opinter" title="${checkpass.supplier.supplierName }">
+               <span onclick="ycDiv(this,'${vs.index}')" class="count_flow shrink hand"></span>
+                <c:choose>
+                 <c:when test="${fn:length(checkpass.supplier.supplierName) >10}">
+                    ${fn:substring(checkpass.supplier.supplierName , 0, 10)}...
+                 </c:when>
+                 <c:otherwise>
+                  ${checkpass.supplier.supplierName}
+                 </c:otherwise>
+                 </c:choose>
+               </td>
               <td class="tc opinter" onclick="">
                 <fmt:formatDate value='${checkpass.joinTime}' pattern="yyyy-MM-dd " />
               </td>
@@ -401,41 +411,62 @@
                </td>
                <td class="tc opinter" id="wonPrice${vs.index }">${checkpass.wonPrice }</td>
             </tr>
-            <tr class="tc hide">
-            	<td></td>
-            	<td></td>
-            	<td>序号</td>
-            	<td>物资名称</td>
-            	<td>规格型号</td>
-            	<td>质量技术标准</td>
-            	<td>计量单位</td>
-            	<td>采购数量</td>
-            	<td>单价（元）</td>
-            	<td>报价（万元）</td>
-            </tr>
-            <c:forEach items="${detailList }" var="detail" varStatus="p">
-            	<tr name="detail${vs.index }" class="tc hide">
-            		<td></td>
-	            	<td><input type="checkbox" onclick="associateSelected('${detail.id}',this,${vs.index })" name="associate${vs.index }"/></td>
-	            	<td>${detail.serialNumber }</td>
-	            	<td>${detail.goodsName }</td>
-	            	<td>${detail.stand }</td>
-	            	<td>${detail.qualitStand }</td>
-	            	<td>${detail.item }</td>
-	            	<c:if test="${quote==0 }">
-	            		<td></td>
-	            		<td></td>
-	            		<td>${checkpass.wonPrice }</td>
-	            	</c:if>
-	            	<c:if test="${quote==1 }">
-	            		<td>${detail.purchaseCount*checkpass.priceRatio/100 }</td>
-	            		<td>${detail.price }</td>
-	            		<td>${detail.purchaseCount*detail.price/10000 }</td>
-	            	</c:if>
-            	</tr>
-            </c:forEach>
-          </c:forEach>
-        </table>
+              <tr class="tc hide" >
+                <td colspan="10">
+	                <table class="table table-bordered table-condensed table-hover table-striped">
+	                <tr class="tc ">
+	                 <th></th>
+			              <th class="w30">序号</th>
+			              <th class="150">物资名称</th>
+			              <th>规格型号</th>
+			              <th>质量技术标准</th>
+			              <th>计量单位</th>
+			              <th>采购数量</th>
+			              <th>单价（元）</th>
+			              <th>报价（万元）</th>
+			             </tr>
+	                <c:forEach items="${detailList }" var="detail" varStatus="p">
+	                  <tr name="detail${vs.index }" class="tc hide">
+	                    <td><input type="checkbox" onclick="associateSelected('${detail.id}',this,${vs.index })" name="associate${vs.index }"/></td>
+	                    <td>${detail.serialNumber }</td>
+	                    <td>${detail.goodsName }</td>
+	                    <td class="w150" title=" ${detail.stand }">
+	                     <c:choose>
+                       <c:when test="${fn:length(detail.stand) > 20}">
+                           ${fn:substring(detail.stand , 0, 20)}......
+                       </c:when>
+                       <c:otherwise>
+                           ${detail.stand }
+                        </c:otherwise>
+                       </c:choose>
+	                    </td>
+	                    <td title="${detail.qualitStand }">
+	                     <c:choose>
+                       <c:when test="${fn:length(detail.qualitStand ) > 20}">
+                           ${fn:substring(detail.qualitStand , 0, 20)}......
+                       </c:when>
+                       <c:otherwise>
+                            ${detail.qualitStand }
+                        </c:otherwise>
+                       </c:choose>
+	                     </td>
+	                    <td>${detail.item }</td>
+	                    <c:if test="${quote==0 }">
+	                      <td>${checkpass.wonPrice }</td>
+	                    </c:if>
+	                    <c:if test="${quote==1 }">
+	                      <td>${detail.purchaseCount*checkpass.priceRatio/100 }</td>
+	                      <td>${detail.price }</td>
+	                      <td>${detail.purchaseCount*detail.price/10000 }</td>
+	                    </c:if>
+	                  </tr>
+	              </c:forEach>
+	            </table>
+            </td>
+         </tr>
+         </c:forEach>
+         
+         </table>
            <div class="col-md-12 tc">
               <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
             </div>

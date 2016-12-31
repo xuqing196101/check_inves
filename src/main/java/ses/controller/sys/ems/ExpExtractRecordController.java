@@ -379,6 +379,7 @@ public class ExpExtractRecordController extends BaseController {
       List<ExtConType> conTypes = listCon.get(0).getConTypes();
       if (conTypes != null && conTypes.size() == 1  &&  ( conTypes.get(0).getExpertsTypeId() == null || !"".equals(conTypes.get(0).getExpertsTypeId())) ){
         ProjectExtract projectExtrac = new ProjectExtract();
+        projectExtrac.setConTypeId("1");
         projectExtrac.setExpertConditionId(listCon.get(0).getId());
         List<ProjectExtract> peList = extractService.list(projectExtrac);
         conTypes.get(0).setAlreadyCount(peList == null ? 0 : peList.size());
@@ -607,6 +608,7 @@ public class ExpExtractRecordController extends BaseController {
     List<ExtConType> conTypes = listCondition.get(0).getConTypes();
     if (conTypes != null && conTypes.size() == 1  &&  ( conTypes.get(0).getExpertsTypeId() == null || !"".equals(conTypes.get(0).getExpertsTypeId())) ){
       ProjectExtract projectExtrac = new ProjectExtract();
+      projectExtrac.setConTypeId("1");
       projectExtrac.setExpertConditionId(listCondition.get(0).getId());
       List<ProjectExtract> peList = extractService.list(projectExtrac);
       conTypes.get(0).setAlreadyCount(peList == null ? 0 : peList.size());
@@ -790,6 +792,7 @@ public class ExpExtractRecordController extends BaseController {
     String expertTypeId = "";
     if (conTypes != null && conTypes.size() == 1  &&  ( conTypes.get(0).getExpertsTypeId() == null || !"".equals(conTypes.get(0).getExpertsTypeId())) ){
       ProjectExtract projectExtrac = new ProjectExtract();
+      projectExtrac.setConTypeId("1");
       projectExtrac.setExpertConditionId(listCondition.get(0).getId());
       List<ProjectExtract> peList = extractService.list(projectExtrac);
       conTypes.get(0).setAlreadyCount(peList == null ? 0 : peList.size());
