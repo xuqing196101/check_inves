@@ -480,7 +480,7 @@ public class ExpertAuditController {
         ct.setChecked(true);
         allCategories.add(ct);
         // 查询所有被选中的
-        List<ExpertCategory> MyCate = expertCategoryService.getListByExpertId(expertId);
+        List<ExpertCategory> MyCate = expertCategoryService.getListByExpertId(expertId, categoryId);
         for (ExpertCategory ec : MyCate) {
             Category cate = categoryService.findById(ec.getCategoryId());
             CategoryTree ct1 = new CategoryTree();

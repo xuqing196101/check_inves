@@ -33,7 +33,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
       * @return List<ExpertCategory>
      */
 	@Override
-	public void save(Expert expert,String ids) {
+	public void save(Expert expert,String ids,String typeId) {
 	    if(ids!=null && StringUtils.isNotEmpty(ids)){
             String[] code = ids.split(",");
             ExpertCategory expertCategory = new ExpertCategory();
@@ -43,6 +43,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
                 //String id = DictionaryDataUtil.getId(string);
                 expertCategory.setCategoryId(id);
                 expertCategory.setExpertId(expert.getId());
+                expertCategory.setTypeId(typeId);
                 //逐条保存
                 mapper.insert(expertCategory);
             }
@@ -61,9 +62,9 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
       * @return List<ExpertCategory>
      */
 	@Override
-	public List<ExpertCategory> getListByExpertId(String expertId) {
+	public List<ExpertCategory> getListByExpertId(String expertId, String typeId) {
 		
-		List<ExpertCategory> list = mapper.selectListByExpertId(expertId);
+		List<ExpertCategory> list = mapper.selectListByExpertId(expertId, typeId);
 		/*List<String> dataList = new ArrayList<>();
 		//关联表的所有id  再根据id查询出所有的code
 		for (ExpertCategory expertCategory : list) {

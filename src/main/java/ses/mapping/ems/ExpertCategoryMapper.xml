@@ -4,18 +4,22 @@
   <resultMap id="BaseResultMap" type="ses.model.ems.ExpertCategory">
     <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
     <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+    <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
   </resultMap>
   
   <sql id="baseExpertSql">
-     EXPERT_ID, CATEGORY_ID
+     EXPERT_ID, CATEGORY_ID, TYPE_ID
   </sql>
   
   <!-- 根据专家id查询品目id集合 -->
-  <select id="selectListByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectListByExpertId" resultMap="BaseResultMap">
     select 
-    *
+    <include refid="baseExpertSql"/>
     from T_SES_EMS_EXPERT_CATEGORY
-    where EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+    where EXPERT_ID = #{param1,jdbcType=VARCHAR}
+    <if test="param2 != null">
+    and TYPE_ID = #{param2,jdbcType=VARCHAR}
+    </if>
   </select>
   
    <!-- 根据专家id和品目id查询品目Id集合 -->
@@ -23,7 +27,7 @@
     select 
     <include refid="baseExpertSql" />
     from T_SES_EMS_EXPERT_CATEGORY
-    where EXPERT_ID = #{expertId,jdbcType=VARCHAR} AND CATEGORY_ID=#{categoryId,jdbcType=VARCHAR}
+    where EXPERT_ID = #{param1,jdbcType=VARCHAR} AND CATEGORY_ID=#{param2,jdbcType=VARCHAR}
   </select>
   <!--根据专家id删除当前数据  -->
   <delete id="deleteByExpertId" parameterType="java.lang.String">
@@ -31,8 +35,8 @@
    		 where EXPERT_ID = #{expertId}
   </delete>
   <insert id="insert" parameterType="ses.model.ems.ExpertCategory">
-    insert into T_SES_EMS_EXPERT_CATEGORY (EXPERT_ID, CATEGORY_ID)
-    values (#{expertId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR})
+    insert into T_SES_EMS_EXPERT_CATEGORY (EXPERT_ID, CATEGORY_ID, TYPE_ID)
+    values (#{expertId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertCategory">
     insert into T_SES_EMS_EXPERT_CATEGORY
@@ -43,6 +47,9 @@
       <if test="categoryId != null">
         CATEGORY_ID,
       </if>
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="expertId != null">
@@ -50,6 +57,9 @@
       </if>
       <if test="categoryId != null">
         #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

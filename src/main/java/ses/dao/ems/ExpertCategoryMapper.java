@@ -21,7 +21,7 @@ public interface ExpertCategoryMapper {
       * @param @return      
       * @return List<ExpertCategory>
      */
-    List<ExpertCategory> selectListByExpertId(String expertId);
+    List<ExpertCategory> selectListByExpertId(String expertId, String typeId);
     /**
      * 
       * @Title: deleteByExpertId
