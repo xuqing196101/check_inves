@@ -75,18 +75,18 @@
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>手机号码：</label> 
 								<div class="col-md-7 col-xs-12 col-sm-12 p0">
-								   <input type="text" name="mobile" value="${supplier.mobile}" class="col-md-6 col-sm-4 col-xs-6">
-								   <button type="button" class="btn ml10">发送验证码</button>
+								   <input type="text" name="mobile" value="${supplier.mobile}" class="col-md-12 col-sm-12 col-xs-12">
+								   <!-- <button type="button" class="btn ml10">发送验证码</button> -->
 								   <span class="red clear col-md-12 col-xs-12 col-sm-12 p0">${err_msg_mobile }</span> 
 								</div>
 							</div>
-							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12">
+							<%-- <div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>手机验证码：</label> 
 								<div class="col-md-7 col-xs-12 col-sm-12 p0">
 								    <input type="text" name="mobileCode" value="${supplier.mobileCode}" class="col-md-12 col-sm-12 col-xs-12">
 							        <span class="red clear col-md-12 col-xs-12 col-sm-12 p0">${err_msg_mobileCode }</span> 
 								</div>
-							</div>
+							</div> --%>
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>验证码：</label> 
 								<div class="col-md-7 col-xs-12 col-sm-12 p0">

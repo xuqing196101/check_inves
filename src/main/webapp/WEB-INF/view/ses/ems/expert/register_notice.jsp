@@ -43,11 +43,10 @@
 						<div class="fl">
 							文件下载：<span class="ml10">评审专家须知</span><a onclick='downNotice()' href="javascript:void(0)" class="download"></a>
 						</div>
-						<div class="clear"></div>
 					</div>
 					<div class="mt40">
 						<div class="fl">
-							文件下载：<span class="ml10">产品目录</span><a onclick='downNotice()' href="javascript:void(0)" class="download"></a>
+							产品目录<a onclick='downNotice()' href="javascript:void(0)" class="download"></a>
 						</div>
 						<div class="clear"></div>
 					</div>
