@@ -25,7 +25,7 @@ public interface ExpertCategoryService {
 	  * @param @param ids      
 	  * @return void
 	 */
-	void save(Expert expert, String ids);
+	void save(Expert expert, String ids, String typeId);
 	
 	/**
 	 *〈简述〉
@@ -46,7 +46,7 @@ public interface ExpertCategoryService {
       * @param @return      
       * @return List<ExpertCategory>
      */
-    List<ExpertCategory> getListByExpertId(String expertId);
+    List<ExpertCategory> getListByExpertId(String expertId, String typeId);
 
     /**
      * 

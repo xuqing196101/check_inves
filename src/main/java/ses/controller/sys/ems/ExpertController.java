@@ -490,7 +490,7 @@ public class ExpertController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/saveCategory")
-    public void saveCategory(String expertId, String categoryId, String type){
+    public void saveCategory(String expertId, String categoryId, String type, String typeId){
         if ("1".equals(type)) {
             // 1代表增加
             // 判断是否是子节点,如果是父节点被选中则添加该节点的所有子节点
@@ -500,13 +500,13 @@ public class ExpertController extends BaseController {
             if (list == null || list.size() == 0) {
                 ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, categoryId);
                 if (expertCategory == null) {
-                    expertCategoryService.save(expert, categoryId);
+                    expertCategoryService.save(expert, categoryId, typeId);
                 }
             } else {
                 for (Category cate : list) {
                     List<Category> list1 = categoryService.findPublishTree(cate.getId(),null);
                     if (list1 == null || list1.size() == 0) {
-                        expertCategoryService.save(expert, cate.getId());
+                        expertCategoryService.save(expert, cate.getId(), typeId);
                     }
                 }
             }
@@ -522,7 +522,7 @@ public class ExpertController extends BaseController {
                 expertCategoryService.deleteByMap(map);
             } else {
                 // 需要删除所有的子节点
-                List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expertId);
+                List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expertId, null);
                 Expert expert = new Expert();
                 expert.setId(expertId);
                 for (ExpertCategory category : allList) {
@@ -626,7 +626,7 @@ public class ExpertController extends BaseController {
      * @return
      */
     public boolean isChecked (String categoryId, String expertId) {
-        List<ExpertCategory> allCategoryList = expertCategoryService.getListByExpertId(expertId);
+        List<ExpertCategory> allCategoryList = expertCategoryService.getListByExpertId(expertId, null);
         boolean isChecked = false;
         for (ExpertCategory expertCategory : allCategoryList) {
             String id = expertCategory.getCategoryId();
@@ -1421,7 +1421,7 @@ public class ExpertController extends BaseController {
             service.userManager(user, userId, expert, expertId);
             // 调用service逻辑 实现暂存
             StringBuffer categories = new StringBuffer();
-            List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId());
+            List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId(), null);
             for (ExpertCategory expertCategory : allList) {
                 Category category = categoryService.selectByPrimaryKey(expertCategory.getCategoryId());
                 categories.append(category == null ? "" : category.getName());
@@ -1452,7 +1452,7 @@ public class ExpertController extends BaseController {
     @RequestMapping("/getCategoryByExpertId")
     @ResponseBody
     public String getCategoryByExpertId(String expertId) {
-        List<ExpertCategory> list = expertCategoryService.getListByExpertId(expertId);
+        List<ExpertCategory> list = expertCategoryService.getListByExpertId(expertId, null);
         List<String> categoryList = new ArrayList<String>();
         for (ExpertCategory expertCategory : list) {
             categoryList.add(expertCategory.getCategoryId());
@@ -2173,7 +2173,7 @@ public class ExpertController extends BaseController {
         dataMap.put("fax", expert.getFax() == null ? "" : expert.getFax());
         dataMap.put("email", expert.getEmail() == null ? "" : expert.getEmail());
         StringBuffer categories = new StringBuffer();
-        List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId());
+        List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId(), null);
         for (ExpertCategory expertCategory : allList) {
             categories.append(categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getName());
             categories.append("、");
@@ -2349,7 +2349,7 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @RequestMapping("/isHaveCategory")
     public String isHaveCategory (String expertId) {
-        List<ExpertCategory> list = expertCategoryService.getListByExpertId(expertId);
+        List<ExpertCategory> list = expertCategoryService.getListByExpertId(expertId, null);
         return list != null && list.size() > 0 ? "1" : "0";
     }
 }

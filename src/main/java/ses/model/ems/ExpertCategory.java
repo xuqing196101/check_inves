@@ -11,6 +11,8 @@ public class ExpertCategory implements Serializable{
     private String expertId;
     //品目id
     private String categoryId;
+    // 类型id(根)
+    private String typeId;
 
     public String getExpertId() {
         return expertId;
@@ -26,5 +28,13 @@ public class ExpertCategory implements Serializable{
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId == null ? null : categoryId.trim();
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 }

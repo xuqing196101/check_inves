@@ -91,10 +91,11 @@ session.setAttribute("tokenSession", tokenValue);
 			clickFlag = "0";
 		}
 		var expertId = "${expert.id}";
+		var typeId = $("#" + treeId + "-value").val();
 		$.ajax({
 			url: "${pageContext.request.contextPath}/expert/saveCategory.do",
 			async: false,
-			data: {"expertId" : expertId, "categoryId" : treeNode.id, "type" : clickFlag}
+			data: {"expertId" : expertId, "categoryId" : treeNode.id, "type" : clickFlag, "typeId" : typeId}
 		});
 	}
 	function zc(){
