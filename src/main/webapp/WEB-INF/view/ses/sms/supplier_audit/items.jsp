@@ -565,32 +565,28 @@
 							<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
 						</form>
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
-							<c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-								<!-- 物资生产型 -->
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 								<div class="tab-pane fade active in height-300" id="tab-1">
-									<div class="lr0_tbauto " onclick="reason(this.id,'item_pro_page')">
+									<div class="lr0_tbauto">
 										<ul id="tree_ul_id_1" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '销售型')}">
-								<!-- 物资销售型 -->
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
 								<div class="tab-pane fade height-300" id="tab-2">
 									<div class="lr0_tbauto ">
 										<ul id="tree_ul_id_2" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-								<!-- 服务 -->
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 								<div class="tab-pane fade height-200" id="tab-3">
 									<div class="lr0_tbauto ">
 										<ul id="tree_ul_id_3" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-								<!-- 生产 -->
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
 								<div class="tab-pane fade height-200" id="tab-4">
 									<div class="lr0_tbauto ">
 										<ul id="tree_ul_id_4" class="ztree_supplier mt30"></ul>

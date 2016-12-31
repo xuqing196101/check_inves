@@ -78,7 +78,7 @@
 				      }
 				    });
 					$(obj).after(html);
-					$("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
+					/* $("#"+obj.id+"").css('border-color','#FF0000'); */ //边框变红色
 		      layer.close(index);
 			    });
 		  	}
