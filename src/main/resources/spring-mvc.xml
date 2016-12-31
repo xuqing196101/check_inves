@@ -84,6 +84,7 @@ http://www.springframework.org/schema/task/spring-task-3.2.xsd
  			<mvc:exclude-mapping path="/expert/getCategory.*" />
  			<mvc:exclude-mapping path="/expert/getAllCategory.*" />
  			<mvc:exclude-mapping path="/expert/showJiGou.*" />
+ 			<mvc:exclude-mapping path="/expert/searchCate.*" />
  			<mvc:exclude-mapping path="/expert/findAllLoginName.*" />
  			<mvc:exclude-mapping path="/expert/validatePhone.*" />
  			<mvc:exclude-mapping path="/expert/validateAge.*" />

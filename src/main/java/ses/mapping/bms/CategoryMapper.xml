@@ -438,4 +438,12 @@
 		FROM T_SES_BMS_CATEGORY
 		WHERE ID = #{_parameter}
 	</select>
+	
+	<!-- 根据名称模糊查询 -->
+	<select id="searchByName" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY
+		WHERE NAME like '%${_parameter}%'
+	</select>
 </mapper>

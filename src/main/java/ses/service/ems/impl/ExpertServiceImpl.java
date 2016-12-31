@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
@@ -27,6 +26,7 @@ import ses.dao.ems.ExpertAttachmentMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.Todos;
@@ -58,11 +58,13 @@ public class ExpertServiceImpl implements ExpertService {
 	@Autowired
 	private ExpertAuditMapper expertAuditMapper;
 	@Autowired
-	private ExpertCategoryMapper categoryMapper;
+	private ExpertCategoryMapper expertCategoryMapper;
 	@Autowired
 	private TodosMapper todosMapper;
 	@Autowired
 	private DictionaryDataMapper dictionaryDataMapper;
+	@Autowired
+	private CategoryMapper categoryMapper;
 	@Autowired
     private RoleServiceI roleService;
 	@Override
@@ -542,7 +544,7 @@ public class ExpertServiceImpl implements ExpertService {
 		if(ids!=null && StringUtils.isNotEmpty(ids) && ids != null){
 			String[] code = ids.split(",");
 			ExpertCategory expertCategory = new ExpertCategory();
-			categoryMapper.deleteByExpertId(expert.getId());
+			expertCategoryMapper.deleteByExpertId(expert.getId());
 			//循环品目id集合
 			for (String id : code) {
 				//根据编码查询id
@@ -550,7 +552,7 @@ public class ExpertServiceImpl implements ExpertService {
 				expertCategory.setCategoryId(id);
 				expertCategory.setExpertId(expert.getId());
 				//逐条保存
-				categoryMapper.insert(expertCategory);
+				expertCategoryMapper.insert(expertCategory);
 			}
 		}
 		
@@ -682,7 +684,7 @@ public class ExpertServiceImpl implements ExpertService {
         saveCategory(expert, categoryIds);
       }else{
         //不是技术专家就删除品目关联信息
-        categoryMapper.deleteByExpertId(expert.getId());
+          expertCategoryMapper.deleteByExpertId(expert.getId());
       }
     }else{
     expert.setId(expertId);
@@ -833,6 +835,13 @@ public class ExpertServiceImpl implements ExpertService {
     public List<Expert> getModifyExpertByDate(String updateDate) {
         return mapper.getModifyExpertByDate(updateDate);
     }
+
+    @Override
+    public List<Category> searchByName(String cateName) {
+        // TODO Auto-generated method stub
+        return categoryMapper.searchByName(cateName);
+    }
+    
 }
 
 

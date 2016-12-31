@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
@@ -356,4 +357,13 @@ public interface ExpertService {
      * @return 专家集合
      */
     List<Expert> getModifyExpertByDate(String updateDate);
+    
+    /**
+     *〈简述〉根据产品名模糊查询
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param cateName
+     * @return
+     */
+    List<Category> searchByName(String cateName);
 }

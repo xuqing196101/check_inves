@@ -2352,4 +2352,63 @@ public class ExpertController extends BaseController {
         List<ExpertCategory> list = expertCategoryService.getListByExpertId(expertId, null);
         return list != null && list.size() > 0 ? "1" : "0";
     }
+    
+    public String getParentId(String cateId){
+        Category cate = categoryService.selectByPrimaryKey(cateId);
+        if (cate != null) {
+            cateId = getParentId(cate.getParentId());
+        }
+        return cateId;
+    }
+
+    /**
+     *〈简述〉品目去重
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param allCategories
+     * @return
+     */
+    public void removeSame(List<Category> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/searchCate",produces = "application/json;charset=utf-8")
+    public String searchCate(String typeId, String cateName, String expertId) {
+        // 查询出所有满足条件的品目
+        List<Category> categoryList = service.searchByName(cateName);
+        // 循环判断是不是当前树的节点
+        List<Category> cateList = new ArrayList<Category>();
+        for (Category category : categoryList) {
+            String parentId = getParentId(category.getId());
+            if (parentId.equals(typeId)) {
+                cateList.add(category);
+            }
+        }
+        // 去重
+        removeSame(cateList);
+        // 将筛选完的List转换为CategoryTreeList
+        List<CategoryTree> treeList = new ArrayList<CategoryTree>();
+        for (Category category : cateList) {
+            CategoryTree treeNode = new CategoryTree();
+            treeNode.setId(category.getId());
+            treeNode.setName(category.getName());
+            treeNode.setParentId(category.getParentId());
+            // 判断是否为父级节点
+            List<Category> nodesList = categoryService.findPublishTree(category.getId(), null);
+            if (nodesList != null && nodesList.size() > 0) {
+                treeNode.setIsParent("true");
+            }
+            // 判断是否被选中
+            treeNode.setChecked(isChecked(category.getId(), expertId, typeId));
+            treeList.add(treeNode);
+        }
+        return JSON.toJSONString(treeList);
+    }
 }

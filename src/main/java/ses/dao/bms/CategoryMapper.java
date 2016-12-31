@@ -241,5 +241,12 @@ public interface CategoryMapper {
       */
      public List<Category> findPublishTree(@Param("id")String id, @Param("status")Integer status);
      
-     
+     /**
+     *〈简述〉根据产品名称模糊查询
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param cateName 产品名称
+     * @return Category 集合
+     */
+    public List<Category> searchByName(String cateName);
 }

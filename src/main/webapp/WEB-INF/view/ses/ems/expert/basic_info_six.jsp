@@ -118,20 +118,28 @@ session.setAttribute("tokenSession", tokenValue);
 <script type="text/javascript">
 function showDivTree(obj){
 	$("#tab-1").attr("style", "display: none");
+	$("#div-1").attr("style", "display: none");
 	$("#tab-2").attr("style", "display: none");
+	$("#div-2").attr("style", "display: none");
 	$("#tab-3").attr("style", "display: none");
+	$("#div-3").attr("style", "display: none");
 	var id = obj.id;
 	var page = "tab-" + id.charAt(id.length - 1);
+	var divId = "div-" + id.charAt(id.length - 1);
 	$("#" + page).attr("style", "");
+	$("#" + divId).attr("style", "");
 	showTree(page);
 }
 function initTree(){
 	showTree("tab-1");
 	$("#tab-1").attr("style", "");
+	$("#div-1").attr("style", "");
 	$("li_id_1").attr("class", "active");
 	$("li_1").attr("aria-expanded", "true");
 	$("#tab-2").attr("style", "display: none");
+	$("#div-2").attr("style", "display: none");
 	$("#tab-3").attr("style", "display: none");
+	$("#div-3").attr("style", "display: none");
 }
 function zancunCategory(count){
 	var ids = new Array();
@@ -210,10 +218,55 @@ function errorMsg(auditField){
 		}
 	});
 }
+function cateReset(cateId){
+	$("#" + cateId).val("");
+}
+function searchCate(cateId, treeId) {
+	var zNodes;
+	var zTreeObj;
+	var setting = {
+			check: {
+				enable : true,
+				chkStyle:"checkbox",  
+				chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+			},
+			data: {
+				simpleData: {
+					enable: true,
+					idKey: "id",
+					pIdKey: "parentId"
+				}
+			},
+			callback: {
+				onCheck: saveCategory,
+				beforeCheck: zTreeBeforeCheck
+			},
+			view: {
+				fontCss: setFontCss
+			},
+		};
+	var cateName = $("#" + cateId).val();
+	if (cateName == "") {
+		showTree(treeId);
+	} else {
+		var expertId="${expert.id}";
+		var id = $("#" + treeId + "-value").val();
+		$.ajax({
+			url: "${pageContext.request.contextPath}/expert/searchCate.do",
+			data: {"typeId" : id, "cateName" : cateName, "expertId" : expertId},
+			async: false,
+			dataType: "json",
+			success: function(data){
+				zNodes = data;
+				zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
+				zTreeObj.expandAll(true);//全部展开
+			}
+		});
+	}
+}
 </script>
 </head>
 <body onload="initTree()">
-<form method="post" action="">
   <jsp:include page="/reg_head.jsp"></jsp:include>
   <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
   <input type="hidden" name="userId" value="${user.id}"/>
@@ -274,16 +327,31 @@ function errorMsg(auditField){
 		    <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
 			  <c:if test="${cate.code eq 'GOODS'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
+			  	<div id="div-${vs.index + 1}">
+			  	<input type="text" id="cate-${vs.index + 1}">
+			  	<input class="btn" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
+			  	<input class="btn" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/>
+			  	</div>
 			    <ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 			  </c:if>
 			  <c:if test="${cate.code eq 'PROJECT'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
+			  	<div id="div-${vs.index + 1}">
+			  	<input type="text" id="cate-${vs.index + 1}">
+			  	<input class="btn" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
+			  	<input class="btn" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/>
+			  	</div>
 			    <ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 			  </c:if>
 			  <c:if test="${cate.code eq 'SERVICE'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
+			  	<div id="div-${vs.index + 1}">
+			  	<input type="text" id="cate-${vs.index + 1}">
+			  	<input class="btn" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
+			  	<input class="btn" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/>
+			  	</div>
 			    <ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 			  </c:if>
@@ -302,6 +370,5 @@ function errorMsg(auditField){
   <div></div>
 </form>
 <jsp:include page="/index_bottom.jsp"></jsp:include>
-</form>
 </body>
 </html>
