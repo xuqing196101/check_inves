@@ -309,4 +309,6 @@ public interface ArticleService {
 	 * @return Article 集合
 	 */
     List<Article>  selectListByTitle(String title, Integer page);
+    
+    Map<String, Object> topNews();
 }

@@ -65,13 +65,13 @@
               <c:choose>
               	<c:when test="${picSize<=0}">
 	              	<li class="item" style="left:0px;">
-	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.jpg" width="100%" height="100%"></a>
+	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.png" width="100%" height="100%"></a>
 	                </li>
 	                <li class="item">
-	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/2.jpg" width="100%" height="100%"></a>
+	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/2.png" width="100%" height="100%"></a>
 	                </li>
 	                <li class="item">
-	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.jpg" width="100%" height="100%"></a>
+	                  <a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.png" width="100%" height="100%"></a>
 	                </li>
 	            </c:when>
 	            <c:otherwise>

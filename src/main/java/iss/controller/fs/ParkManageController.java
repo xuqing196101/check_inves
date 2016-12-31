@@ -8,6 +8,7 @@ import iss.service.fs.ParkService;
 import iss.service.fs.PostService;
 import iss.service.fs.ReplyService;
 import iss.service.fs.TopicService;
+import iss.service.ps.ArticleService;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -63,6 +64,8 @@ public class ParkManageController extends BaseSupplierController {
 	private UserServiceI userService;
 	@Autowired
 	private RoleServiceI roleService;
+	@Autowired
+	private ArticleService articleService;
 
 	/**
 	 * @Title: getParkList
@@ -422,7 +425,9 @@ public class ParkManageController extends BaseSupplierController {
 			List<Post> posts = postService.selectByParkID(park.getId());
 			park.setPosts(posts);
 		}
+		Map<String, Object> indexMapper = articleService.topNews();
 		model.addAttribute("list", parklist2);
+		model.addAttribute("indexMapper", indexMapper);
 		List<Post> hotPostList = postService.queryHotPost();
 		model.addAttribute("hotPostList", hotPostList);
 		return "iss/forum/forum_Index";

@@ -2605,3 +2605,13 @@ h2.list_title{
     height: 30px!important;
     line-height: 28px!important;
 }
+
+
+/*二级页面search*/
+.search_box{
+	line-height: 30px;
+	padding:10px;
+	border:1px solid #dddddd;
+	margin:10px 0; 
+	background-color:#fafafa;
+}

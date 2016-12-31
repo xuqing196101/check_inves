@@ -358,7 +358,7 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 				if(pur.getStatus()==2){
 					t=configuration.getTemplate("formalcontract.ftl");
 				}else{
-					t=configuration.getTemplate("formalcontract.ftl");
+					t=configuration.getTemplate("contract.ftl");
 				}
 			}else{
 				t = configuration.getTemplate("contract.ftl");
@@ -367,7 +367,6 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 			if(pur.getStatus()==null){
 				t = configuration.getTemplate("contract.ftl");
 			}else if (pur.getStatus()==2) {
-				
 				t=configuration.getTemplate("formalcontract.ftl");
 			}
 			
