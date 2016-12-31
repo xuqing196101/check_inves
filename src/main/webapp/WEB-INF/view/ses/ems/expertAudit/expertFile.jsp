@@ -26,6 +26,21 @@
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
+			
+			
+			//下一步
+			function nextStep() {
+				var action = "${pageContext.request.contextPath}/expertAudit/reasonsList.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
+			}
+
+			//上一步
+			function lastStep() {
+				var action = "${pageContext.request.contextPath}/expertAudit/product.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
+			}
 		</script>
 		<script type="text/javascript">
 			function reason(obj,str){
@@ -121,6 +136,11 @@
 						</li>
 					</ul>
 				</div>
+				<div class="col-md-12 add_regist tc">
+					<a class="btn" type="button" onclick="lastStep();">上一步</a>
+					<a class="btn" type="button" onclick="nextStep();">下一步</a>
+				</div>
+				
 			</div>
 		</div>
 

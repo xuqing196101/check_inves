@@ -4,7 +4,7 @@
 
 	<head>
 		<%@ include file="../../../common.jsp"%>
-		<title>物资-生产型专业信息</title>
+		<title>供应商类型</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
@@ -111,6 +111,7 @@
 							}
 						});
 						$(obj).after(html);
+						$("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
 						layer.close(index);
 					});
 			}
@@ -190,6 +191,7 @@
 						}
 					});
 					$(obj).after(html);
+					$("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
 					layer.close(index);
 				});
 			}
@@ -285,6 +287,7 @@
 						/* $("#"+id3+"").show();
 						$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
 						$(obj).after(html);
+						$("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
 						layer.close(index);
 					});
 			}
@@ -368,6 +371,7 @@
 						/* $("#"+id3+"").show();
 						$("#"+id3+"").parents("li").find("input").css("padding-right","30px"); */
 						$(obj).after(html);
+						$("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
 						layer.close(index);
 					});
 			}

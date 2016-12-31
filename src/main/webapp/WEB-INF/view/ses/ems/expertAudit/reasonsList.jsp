@@ -112,6 +112,13 @@
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
+			
+			//上一步
+			function lastStep() {
+				var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
+			}
 		</script>
 	</head>
 
@@ -190,6 +197,9 @@
 								</tr>
 							</c:forEach>
 						</table>
+						<div class="col-md-12 add_regist tc">
+							<a class="btn" type="button" onclick="lastStep();">上一步</a>
+						</div>
 					</ul>
 					<div class="col-md-12 add_regist tc">
 						<form id="form_shenhe" action="${pageContext.request.contextPath}/expertAudit/updateStatus.html" >

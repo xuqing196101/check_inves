@@ -231,6 +231,21 @@
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
+			
+			
+			//下一步
+			function nextStep() {
+				var action = "${pageContext.request.contextPath}/expertAudit/expertFile.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
+			}
+
+			//上一步
+			function lastStep() {
+				var action = "${pageContext.request.contextPath}/expertAudit/expertType.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
+			}
 		</script>
 		<script type="text/javascript">
 			function reason(auditContent, str) {
@@ -362,6 +377,10 @@
 								</c:if>
 							</c:forEach>
 						</div>
+					</div>
+					<div class="col-md-12 add_regist tc">
+						<a class="btn" type="button" onclick="lastStep();">上一步</a>
+						<a class="btn" type="button" onclick="nextStep();">下一步</a>
 					</div>
 				</div>
 			</div>

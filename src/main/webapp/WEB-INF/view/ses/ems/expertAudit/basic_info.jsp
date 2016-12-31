@@ -63,7 +63,7 @@
 				        }
 				      }
 				    });
-				   /*  $("#"+obj.id+"").css('border-color','#FF0000'); */
+				   $("#"+obj.id+"").css('border-color','#FF0000');
 						$(obj).after(html);
 		      	layer.close(index);
 			    });
@@ -145,6 +145,13 @@
 		    			});
 					}
 				});
+			}
+			
+			//下一步
+			function nextStep() {
+				var action = "${pageContext.request.contextPath}/expertAudit/experience.html";
+				$("#form_id").attr("action", action);
+				$("#form_id").submit();
 			}
 		</script>
 		<script type="text/javascript">
@@ -417,6 +424,9 @@
 							</div>
 						</li>
 					</ul> --%>
+				</div>
+				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
+					<a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>
 			</div>
 		</div>

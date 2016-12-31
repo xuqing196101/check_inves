@@ -78,7 +78,7 @@
 				      }
 				    });
 					$(obj).after(html);
-					/* $("#"+obj.id+"").css('border-color','#FF0000'); */ //边框变红色
+				 $("#"+obj.id+"").css('border-color','#FF0000'); //边框变红色
 		      layer.close(index);
 			    });
 		  	}
@@ -420,7 +420,7 @@
 							</div>
 						</li>
 						<!-- 遍历生产地址 -->
-						<%-- <c:forEach items="${supplierAddress }" var="supplierAddress" varStatus="vs">
+						<c:forEach items="${supplierAddress }" var="supplierAddress" varStatus="vs">
 							<li class="col-md-3 col-sm-6 col-xs-12">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="code2">生产经营地址邮编：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -428,21 +428,21 @@
 									<div id="code3" class="abolish">×</div>
 								</div>
 							</li>
-							<li class="col-md-3 col-sm-6 col-xs-12">
+							<%-- <li class="col-md-3 col-sm-6 col-xs-12">
 								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="address2">生产经营地址：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input type="text" id="address" value="<c:forEach items=" ${privnce } " var="privnce " varStatus="vs "><c:if test="${supplierAddress.parentId eq privnce.id} ">${privnce.name }</c:if></c:forEach>${supplierAddress.subAddressName }" class="hand " onclick="reason(this.id,'address')">
 									<div id="address3" class="abolish">×</div>
 								</div>
-							</li>
+							</li> --%>
 							<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">生产经营详细地址：
+								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">生产经营详细地址：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input type="text" id="detailAddress" value="${supplierAddress.detailAddress}" class="hand " onclick="reason(this.id,'detailAddress')">
 									<div id="detailAddress3" class="abolish">×</div>
 								</div>
 							</li>
-						</c:forEach> --%>
+						</c:forEach>
 					</ul>
 
 					<h2 class="count_flow"><i>3</i>资质资信</h2>
