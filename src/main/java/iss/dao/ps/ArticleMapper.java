@@ -1,3 +1,4 @@
+
 package iss.dao.ps;
 
 import iss.model.ps.Article;
@@ -310,6 +311,8 @@ public interface ArticleMapper {
 	List<Article> selectAllByParId(Map<String, Object> map);
 	
 	List<Article> selectAllByArticleType(Map<String, Object> map);
+	
+	BigDecimal selectDanByTimer(Map<String, Object> map);
 	
 	/**
 	 * 

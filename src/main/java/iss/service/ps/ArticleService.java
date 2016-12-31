@@ -1,3 +1,4 @@
+
 package iss.service.ps;
 
 import iss.model.ps.Article;
@@ -295,6 +296,9 @@ public interface ArticleService {
 	List<Article> selectAllByArticleType(Map<String, Object> map);
 	
 	StringBuilder getContents(List<AdvancedPackages> listPackages);
+	
+	BigDecimal selectDanByTimer(Map<String, Object> map);
+	
 
 	/**
 	 * 

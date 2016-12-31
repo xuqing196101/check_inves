@@ -713,6 +713,22 @@ and IS_DELETED = 0
 and status = 2
   </select>
   
+  <select id="selectDanByTimer" parameterType="Map" resultType="Object">
+  	SELECT
+	COUNT (ID)
+FROM
+	t_iss_ps_article
+WHERE
+	published_at between TO_DATE (
+		#{qianDate}, 'yyyy-mm-dd hh24:mi:ss'
+	) and TO_DATE (
+		#{nowTime}, 'yyyy-mm-dd hh24:mi:ss'
+	) 
+AND LAST_ARTICLE_TYPE_ID = #{id}
+and IS_DELETED = 0
+and status = 2
+  </select>
+  
   <select id="selectByTimerByType" parameterType="Map" resultType="Object">
   	SELECT
 	COUNT (ID)

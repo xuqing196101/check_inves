@@ -1,3 +1,4 @@
+
 package iss.controller.ps;
 
 import gui.ava.html.image.generator.HtmlImageGenerator;
@@ -644,49 +645,49 @@ public class IndexNewsController extends BaseSupplierController{
 		timerMap.put("nowTime", time);
 		timerMap.put("qianDate", qiantime);
 		timerMap.put("id", "89");
-		BigDecimal articlejdw = articleService.selectByTimer(timerMap);
+		BigDecimal articlejdw = articleService.selectDanByTimer(timerMap);
 		model.addAttribute("articlejdw",articlejdw);
 		timerMap.clear();
 		timerMap.put("nowTime", time);
 		timerMap.put("qianDate", qiantime);
 		timerMap.put("id", "90");
-		BigDecimal articlejdg = articleService.selectByTimer(timerMap);
+		BigDecimal articlejdg = articleService.selectDanByTimer(timerMap);
 		model.addAttribute("articlejdg",articlejdg);
 		timerMap.clear();
 		timerMap.put("nowTime", time);
 		timerMap.put("qianDate", qiantime);
 		timerMap.put("id", "91");
-		BigDecimal articlejdf = articleService.selectByTimer(timerMap);
+		BigDecimal articlejdf = articleService.selectDanByTimer(timerMap);
 		model.addAttribute("articlejdf",articlejdf);
 		timerMap.clear();
 		timerMap.put("nowTime", time);
 		timerMap.put("qianDate", qiantime);
 		timerMap.put("id", "92");
-		BigDecimal articlejdj = articleService.selectByTimer(timerMap);
+		BigDecimal articlejdj = articleService.selectDanByTimer(timerMap);
 		model.addAttribute("articlejdj",articlejdj);
 		timerMap.clear();
 		timerMap.put("nowTime", time);
 		timerMap.put("qianDate", qiantime);
 		timerMap.put("id", "94");
-		BigDecimal articlebdw = articleService.selectByTimer(timerMap);
+		BigDecimal articlebdw = articleService.selectDanByTimer(timerMap);
 		model.addAttribute("articlebdw",articlebdw);
 		timerMap.clear();
 		timerMap.put("nowTime", time);
 		timerMap.put("qianDate", qiantime);
 		timerMap.put("id", "95");
-		BigDecimal articlebdg = articleService.selectByTimer(timerMap);
+		BigDecimal articlebdg = articleService.selectDanByTimer(timerMap);
 		model.addAttribute("articlebdg",articlebdg);
 		timerMap.clear();
 		timerMap.put("nowTime", time);
 		timerMap.put("qianDate", qiantime);
 		timerMap.put("id", "96");
-		BigDecimal articlebdf = articleService.selectByTimer(timerMap);
+		BigDecimal articlebdf = articleService.selectDanByTimer(timerMap);
 		model.addAttribute("articlebdf",articlebdf);
 		timerMap.clear();
 		timerMap.put("nowTime", time);
 		timerMap.put("qianDate", qiantime);
 		timerMap.put("id", "97");
-		BigDecimal articlebdj = articleService.selectByTimer(timerMap);
+		BigDecimal articlebdj = articleService.selectDanByTimer(timerMap);
 		model.addAttribute("articlebdj",articlebdj);
 //		for(int i=0;i<articleTypeList.size();i++){
 //			List<Article> indexNewsList = null;
@@ -1149,31 +1150,27 @@ public class IndexNewsController extends BaseSupplierController{
 	@RequestMapping("/solrSearch")
 	public String solrSearch(Model model,HttpServletRequest request,Integer page) throws Exception{
 		String condition = request.getParameter("condition");
-		//PropertiesUtil config = new PropertiesUtil("config.properties");
-		//String pageSize = config.getString("pageSize");
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		String pageSize = config.getString("pageSize");
 		if(page==null){
 			page=1;
 		}
-		/*Integer pages=0;
+		Integer pages=0;
 		Integer startRow=0;
 		Integer endRow=0;
-		Map<String, Object> map = null;*/
-		List<Article> articleList = new ArrayList<>();
+		Map<String, Object> map = null;
 		if(condition!=null && !condition.equals("")){
-			//map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
-			articleList = articleService.selectListByTitle(condition,page);
-			/*pages = (Integer)map.get("tdsTotal");
+			map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
+			pages = (Integer)map.get("tdsTotal");
 			startRow = (page-1)*Integer.parseInt(pageSize)+1;
-			endRow = startRow+(((List<IndexEntity>)map.get("indexList")).size()-1);*/
+			endRow = startRow+(((List<IndexEntity>)map.get("indexList")).size()-1);
 		}
-		PageInfo<Article> list = new PageInfo<>(articleList);
-		model.addAttribute("info", list);
-		/*model.addAttribute("total", pages);
+		model.addAttribute("total", pages);
 		model.addAttribute("startRow", startRow);
 		model.addAttribute("endRow", endRow);
-		model.addAttribute("solrMap",map);*/
+		model.addAttribute("solrMap",map);
 		model.addAttribute("oldCondition", condition);
-		/*model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));*/
+		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
 		return "iss/ps/index/index_solr";
 	}
 	
