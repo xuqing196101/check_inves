@@ -12,7 +12,7 @@ public class Task {
 	@NotBlank(message = "任务名称不能为空") 
     private String name; //任务名称
 	
-    private String purchaseId; //采购部门
+    private String purchaseId; //采购机构
 	
 	@NotBlank(message = "计划编号不能为空") 
     private String documentNumber;
@@ -38,6 +38,8 @@ public class Task {
     private String passWord;
     
     private Integer taskNature;
+    
+    private String orgId; //采购管理部门
     
     private String orgName;
     
@@ -188,4 +190,13 @@ public class Task {
     public void setNotDetail(Integer notDetail) {
         this.notDetail = notDetail;
     }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+    
 }

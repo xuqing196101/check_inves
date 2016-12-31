@@ -18,6 +18,7 @@
     <result column="TASK_NATURE" property="taskNature" />
     <result property="purchaseId" column="PURCHASE_ID" />
     <result property="orgName" column="orgName" />
+    <result property="orgId" column="ORG_ID" />
     <result property="notDetail" column="NOT_DETAIL" />
   </resultMap>
   
@@ -31,7 +32,7 @@
   
   <sql id="Base_Column_List">
     ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED,
-    MATERIALS_TYPE,YEAR,ACCEPT_TIME,COLLECT_ID,PASS_WORD,TASK_NATURE,NOT_DETAIL
+    MATERIALS_TYPE,YEAR,ACCEPT_TIME,COLLECT_ID,PASS_WORD,TASK_NATURE,NOT_DETAIL,ORG_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -96,6 +97,7 @@
     t.TASK_NATURE as taskNature,
     t.GIVE_TIME as giveTime,
     t.MATERIALS_TYPE as materialsType,
+    t.ORG_ID as orgId,
     o.NAME as orgName 
     from T_BSS_PPMS_TASK t left join T_SES_OMS_ORG o on t.PURCHASE_ID = o.ID where 1=1
     and t.IS_DELETED = 0 
@@ -291,6 +293,9 @@
       <if test="notDetail != null">
         NOT_DETAIL,
       </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -341,6 +346,9 @@
        <if test="notDetail != null">
         #{notDetail},
       </if>
+      <if test="orgId != null">
+        #{orgId},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Task">
@@ -390,6 +398,9 @@
       </if>
       <if test="notDetail != null">
         NOT_DETAIL = #{notDetail},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId},
       </if>
     </set>
     where ID = #{id}
