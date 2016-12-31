@@ -74,8 +74,9 @@ $(document).ready(function() {
 								$(obj).parent().parent().find("input[name='supplierId']").each(function(){
 									//算出的分数
 									if(data[i].supplierId == $(this).val()){
-										$(this).next().val(data[i].score);
-										$(this).next().next().html("<font color='red' size='5px'>" + data[i].score + "</font>");
+										var dataScore = toDecimal(data[i].score);
+										$(this).next().val(dataScore);
+										$(this).next().next().html("<font color='red' size='5px'>" + dataScore + "</font>");
 									}
 								});
 							}
@@ -97,6 +98,7 @@ $(document).ready(function() {
 				type:"post",
 				dataType:"JSON",
 				success:function(data){
+					data = toDecimal(data);
 					$(obj).parent().next().find("input[name='expertScore']").val(data);
 					// 修改,将input框改为直接显示,input设置为hidden,将input值传给span
 					$(obj).parent().next().find("input[name='expertScore']").next().html("<font color='red' size='5px'>" + data + "</font>");
@@ -107,6 +109,15 @@ $(document).ready(function() {
 		}
 		
 	}
+	//功能：将浮点数四舍五入，取小数点后2位    
+    function toDecimal(x) {    
+        var f = parseFloat(x);    
+        if (isNaN(f)) {    
+            return;    
+        }    
+        f = Math.round(x*100)/100;    
+        return f;    
+    } 
 	//提交
 	function submit1(){
 		var count = 0;
@@ -190,8 +201,8 @@ $(document).ready(function() {
 			  <tr>
 			   	  	  <th>评审项目</th>
 			   	      <th>评审指标</th>
-			   	      <th>指标模型</th>
-			   	      <th>标准分值</th>
+			   	      <th class="w100">指标模型</th>
+			   	      <th class="w100">标准分值</th>
 			   	  	  <c:forEach items="${supplierList}" var="supplier">
 			        	<th>评委填写</th>
      		        	<th>评审得分</th>
@@ -217,9 +228,9 @@ $(document).ready(function() {
 				 	      <c:forEach items="${supplierList}" var="supplier">
 					 	    <c:choose>
 					 	      <c:when test="${score.typeName == '0'}">
-					 	        <td class="tc w80 p0">
+					 	        <td class="tc w100 p0">
 					 	          <select name="expertValue" 
-					 	            style="width: 80px;"  onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	            style="width: 55px;"  onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	          >
 					 	            <option value=""></option>
 					 	            <option value="1" 
@@ -232,17 +243,17 @@ $(document).ready(function() {
 					 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id and sco.expertValue eq '0'}">selected=selected</c:if>
 					 	              </c:forEach>
 					 	            >否</option>
-					 	          </select>
+					 	          </select>(${score.unit})
 					 	        </td>
 					 	      </c:when>
 					 	      <c:otherwise>
-					 	        <td class="tc w80 p0">
+					 	        <td class="tc w100 p0">
 					 	          <input type="text" name="expertValue" id="ipt5" onpaste="return false;"
-					 	            style="width: 80px; ime-mode:disabled" onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	            style="width: 55px; ime-mode:disabled" onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	            <c:forEach items="${scores}" var="sco">
 					 	              <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.expertValue}"</c:if>
 					 	            </c:forEach>
-					 	          >
+					 	          >(${score.unit})
 					 	        </td>
 					 	      </c:otherwise>
 					 	    </c:choose>
