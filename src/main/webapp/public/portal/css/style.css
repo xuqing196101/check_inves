@@ -2102,6 +2102,7 @@ a.news_more{
 }
 .floor_kind h2 li a{
   padding: 8px 12px;
+  position: relative;
 }
 .floor_kind h2 li.active a{
   color:#555;
@@ -2115,7 +2116,7 @@ a.news_more{
   line-height:37px;
   position: relative;
 }
-.floor_kind h2 li.active a b{
+.floor_kind h2 li a b{
 	width:20px;
 	height:20px;
 	border-radius:100%!important;
@@ -2130,6 +2131,7 @@ a.news_more{
     text-align: center;
     font-weight: normal;
     display: block;
+    z-index:10000;
 }
 .floor_kind .tab-content .categories{
   padding:0 10px;

@@ -495,17 +495,17 @@ function importAdd(){
 		    <div id="tab-36" class="categories tab-pane fade active in">
              <ul class="p0_10">   
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=17">更多>></a>
+          <a class="tab_more" href="#">更多>></a>
         </div>
 		    <div id="tab-37" class="categories tab-pane fade">
              <ul class="p0_10">   
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=18">更多>></a>
+          <a class="tab_more" href="#">更多>></a>
         </div>
 		    <div id="tab-38" class="categories tab-pane fade">
              <ul class="p0_10">   
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=19">更多>></a>
+          <a class="tab_more" href="#">更多>></a>
         </div>
 		</div>
 	  </div>
@@ -552,12 +552,12 @@ function importAdd(){
 		    <div id="tab-39" class="categories tab-pane fade active in">
              <ul class="p0_10">   
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=21">更多>></a>
+          <a class="tab_more" href="#">更多>></a>
           </div>
 		    <div id="tab-40" class="categories tab-pane fade">
              <ul class="p0_10">   
           </ul>
-          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=22">更多>></a>
+          <a class="tab_more" href="#">更多>></a>
         </div>
 		</div>
 	  </div>
