@@ -328,9 +328,9 @@ function searchCate(cateId, treeId) {
 			  <c:if test="${cate.code eq 'GOODS'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
 			  	<div id="div-${vs.index + 1}">
-			  	<input type="text" id="cate-${vs.index + 1}">
-			  	<input class="btn" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
-			  	<input class="btn" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/>
+			  	产品名称:<input type="text" id="cate-${vs.index + 1}">
+			  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
+			  	<input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/>
 			  	</div>
 			    <ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
@@ -338,9 +338,9 @@ function searchCate(cateId, treeId) {
 			  <c:if test="${cate.code eq 'PROJECT'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
 			  	<div id="div-${vs.index + 1}">
-			  	<input type="text" id="cate-${vs.index + 1}">
-			  	<input class="btn" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
-			  	<input class="btn" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/>
+			  	产品名称:<input type="text" id="cate-${vs.index + 1}">
+			  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
+			  	<input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/>
 			  	</div>
 			    <ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
@@ -348,9 +348,9 @@ function searchCate(cateId, treeId) {
 			  <c:if test="${cate.code eq 'SERVICE'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
 			  	<div id="div-${vs.index + 1}">
-			  	<input type="text" id="cate-${vs.index + 1}">
-			  	<input class="btn" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
-			  	<input class="btn" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/>
+			  	产品名称:<input type="text" id="cate-${vs.index + 1}">
+			  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
+			  	<input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/>
 			  	</div>
 			    <ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">

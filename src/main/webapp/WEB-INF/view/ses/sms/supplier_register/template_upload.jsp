@@ -8,7 +8,15 @@
 	/** 保存基本信息 */
 	function saveTemplate(flag) {
 		$("input[name='jsp']").val(flag);
-		$("#template_upload_form_id").submit();
+		if (flag == "commit") {
+			layer.confirm('您已成功提交,请等待审核结果!', {
+				btn : [ '确定' ],
+				shade: false //不显示遮罩
+			//按钮
+			}, function() {
+				$("#template_upload_form_id").submit();
+			});	
+		}
 
 	}
 	
