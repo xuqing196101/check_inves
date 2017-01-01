@@ -1222,7 +1222,7 @@ public class PackageExpertController {
               record.setProjectId(projectId);
               record.setSupplierId(saleTender.getSuppliers().getId());
               record.setTotalScore(totalSupplier);
-              record.setTotalPrice(totalPriceSupplier.longValue());
+              record.setTotalPrice(totalPriceSupplier);
               
               SupplierCheckPass checkPass = new SupplierCheckPass();
               checkPass.setPackageId(packageId);

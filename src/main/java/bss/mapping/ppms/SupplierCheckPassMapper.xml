@@ -7,7 +7,7 @@
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="JOIN_TIME" jdbcType="TIMESTAMP" property="joinTime" />
 		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
-		<result column="BID_STATUS" jdbcType="DECIMAL" property="bidStatus" />
+		<result column="RANKING" jdbcType="DECIMAL" property="ranking" />
 		<result column="TOTAL_PRICE" jdbcType="DECIMAL" property="totalPrice" />
 		<result column="TOTAL_SCORE" jdbcType="DECIMAL" property="totalScore" />
 		<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
@@ -46,7 +46,7 @@
 			<id column="ID" jdbcType="VARCHAR" property="id" />
 			<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 			<result column="JOIN_TIME" jdbcType="TIMESTAMP" property="joinTime" />
-			<result column="BID_STATUS" jdbcType="DECIMAL" property="bidStatus" />
+			<result column="RANKING" jdbcType="DECIMAL" property="ranking" />
 			<result column="TOTAL_PRICE" jdbcType="DECIMAL" property="totalPrice" />
 			<result column="TOTAL_SCORE" jdbcType="DECIMAL" property="totalScore" />
 			<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
@@ -61,7 +61,7 @@
 
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
-		cp.ID, cp.PROJECT_ID, cp.JOIN_TIME, cp.SUPPLIER_ID, cp.BID_STATUS,
+		cp.ID, cp.PROJECT_ID, cp.JOIN_TIME, cp.SUPPLIER_ID, cp.RANKING,
 		cp.TOTAL_PRICE,
 		cp.TOTAL_SCORE, cp.PACKAGE_ID,
 		cp.IS_WON_BID,
@@ -85,7 +85,7 @@
 	<insert id="insert" parameterType="bss.model.ppms.SupplierCheckPass">
 		<!-- @mbggenerated -->
 		insert into T_BSS_PPMS_SUPPLIER_CHECK_PASS (ID, PROJECT_ID, JOIN_TIME,
-		SUPPLIER_ID, BID_STATUS, TOTAL_PRICE,
+		SUPPLIER_ID, RANKING, TOTAL_PRICE,
 		TOTAL_SCORE, PACKAGE_ID,
 		IS_WON_BID,
 		IS_SEND_NOTICE, CREATED_AT, UPDATED_AT
@@ -94,7 +94,7 @@
 		(#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
 		#{joinTime,jdbcType=TIMESTAMP},
 		#{supplierId,jdbcType=VARCHAR},
-		#{bidStatus,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL},
+		#{ranking,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL},
 		#{totalScore,jdbcType=DECIMAL}, #{packageId,jdbcType=VARCHAR},
 		#{isWonBid,jdbcType=DECIMAL},
 		#{isSendNotice,jdbcType=DECIMAL},
@@ -117,8 +117,8 @@
 			<if test="supplierId != null">
 				SUPPLIER_ID,
 			</if>
-			<if test="bidStatus != null">
-				BID_STATUS,
+			<if test="ranking != null">
+				RANKING,
 			</if>
 			<if test="totalPrice != null">
 				TOTAL_PRICE,
@@ -161,8 +161,8 @@
 			<if test="supplierId != null">
 				#{supplierId,jdbcType=VARCHAR},
 			</if>
-			<if test="bidStatus != null">
-				#{bidStatus,jdbcType=DECIMAL},
+			<if test="ranking != null">
+				#{ranking,jdbcType=DECIMAL},
 			</if>
 			<if test="totalPrice != null">
 				#{totalPrice,jdbcType=DECIMAL},
@@ -200,8 +200,8 @@
 			<if test="joinTime != null">
 				JOIN_TIME = #{joinTime,jdbcType=TIMESTAMP},
 			</if>
-			<if test="bidStatus != null">
-				BID_STATUS = #{bidStatus,jdbcType=DECIMAL},
+			<if test="ranking != null">
+				RANKING = #{ranking,jdbcType=DECIMAL},
 			</if>
 			<if test="totalPrice != null">
 				TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
@@ -253,8 +253,8 @@
 		#{projectId,jdbcType=VARCHAR},
 		JOIN_TIME = #{joinTime,jdbcType=TIMESTAMP},
 		SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-		BID_STATUS =
-		#{bidStatus,jdbcType=DECIMAL},
+		RANKING =
+		#{ranking,jdbcType=DECIMAL},
 		TOTAL_PRICE =
 		#{totalPrice,jdbcType=DECIMAL},
 		TOTAL_SCORE =

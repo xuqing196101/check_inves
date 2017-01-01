@@ -844,7 +844,7 @@ return false;
       <div class="col-md-12" id="count" style="min-height: 400px;">
         <div id="extcontype">
          <c:forEach var="con" items="${extConType}">
-                &nbsp;&nbsp;&nbsp;&nbsp;供应商类型:${con.expertsType.name }&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.supplierCount }                             
+                &nbsp;&nbsp;&nbsp;&nbsp;供应商类型:${con.supplierType.name }&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.supplierCount }                             
             <br />
           </c:forEach>
         </div>
