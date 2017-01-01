@@ -1200,19 +1200,22 @@ public class PackageExpertController {
             saleTender.setTechnologyScore(technologyScore);
             //是否偏离
             int flag = 0;
-            //根据评分办法计算
+            //根据评分办法去除不合格供应商
             HashMap<String, Object> resultMap = service.countMethod(supplierList, projectId, packageId, saleTender, economicScore, technologyScore);
-            
-            SaleTender finalSa = (SaleTender) resultMap.get("finalSupplier");
-            if (finalSa != null) {
-              finalSupplier.add(finalSa);
-            }
             
             flag = (int) resultMap.get("flag");
             //供应商总报价
             BigDecimal totalPriceSupplier = (BigDecimal) resultMap.get("totalPriceSupplier");
+            
+            SaleTender finalSa = (SaleTender) resultMap.get("finalSupplier");
+            
+            if (finalSa != null) {
+              finalSa.setTotalPrice(totalPriceSupplier);
+              finalSupplier.add(finalSa);
+            }
+            
             // 向SUPPLIER_CHECK_PASS表中插入不偏离数据
-            if (flag == 0) {
+            /*if (flag == 0) {
               BigDecimal totalSupplier = new BigDecimal(0);
               totalSupplier= totalSupplier.add(economicScore);
               totalSupplier= totalSupplier.add(technologyScore);
@@ -1236,19 +1239,44 @@ public class PackageExpertController {
                 }
               }
               checkPassService.insert(record);
-            }
+            }*/
             map.put("reviewResult", resultMap.get("reviewResult"));
             saleTenderService.editSumScore(map);
         }
         //往saleTener插入最终供应商排名
         service.rank(packageId, projectId, finalSupplier);
         for (int i = 0; i < finalSupplier.size(); i++) {
+          SaleTender st = finalSupplier.get(i);
           //插入排名
           HashMap<String, Object> ranMap = new HashMap<String, Object>();
           ranMap.put("reviewResult", i+1);
-          ranMap.put("supplierId", finalSupplier.get(i).getSuppliers().getId());
-          ranMap.put("packageId", finalSupplier.get(i).getPackages());
+          ranMap.put("supplierId", st.getSuppliers().getId());
+          ranMap.put("packageId", st.getPackages());
           saleTenderService.updateRank(ranMap);
+          //向SUPPLIER_CHECK_PASS表中插入预中标供应商
+          BigDecimal totalSupplier = new BigDecimal(0);
+          totalSupplier= totalSupplier.add(st.getEconomicScore());
+          totalSupplier= totalSupplier.add(st.getTechnologyScore());
+          SupplierCheckPass record = new SupplierCheckPass();
+          record.setId(WfUtil.createUUID());
+          record.setPackageId(packageId);
+          record.setProjectId(projectId);
+          record.setSupplierId(st.getSuppliers().getId());
+          record.setTotalScore(totalSupplier);
+          record.setTotalPrice(st.getTotalPrice());
+          record.setRanking(i+1);
+          SupplierCheckPass checkPass = new SupplierCheckPass();
+          checkPass.setPackageId(packageId);
+          checkPass.setSupplierId(st.getSuppliers().getId());
+          //判断是否有旧数据
+          List<SupplierCheckPass> oldList= checkPassService.listCheckPass(checkPass);
+          if (oldList != null && oldList.size() > 0) {
+            for (SupplierCheckPass supplierCheckPass : oldList) {
+              //删除原数据
+              checkPassService.delete(supplierCheckPass.getId());
+            }
+          }
+          checkPassService.insert(record);
         }
     }
     
@@ -1786,8 +1814,8 @@ public class PackageExpertController {
         }
         // 循环遍历判断名次
         for (SupplierRank rank : rankList) {
-            int count = 0;
-            int sum = 0;
+            /*int count = 0;
+            int sum = 0;*/
             // 判断review_result是否不为空
             SaleTender saleTend = new SaleTender();
             saleTend.setPackages(rank.getPackageId());
@@ -1807,16 +1835,18 @@ public class PackageExpertController {
                         Supplier supp = new Supplier();
                         supp.setId(temp.getSupplierId());
                         sale.setSuppliers(supp);
-                        String review = saleTenderService.findByCon(sale).get(0).getReviewResult();
+                        rank.setRank(0);
+                        rank.setReviewResult(temp.getReviewResult());
+                        /*String review = saleTenderService.findByCon(sale).get(0).getReviewResult();
                         if (review == null || "".equals(review)) {
                             sum++;
                             if (rank.getSumScore().compareTo(temp.getSumScore()) != -1 && rank != temp) {
                                 count++;
                             }
-                        }
+                        }*/
                     }
                 }
-                rank.setRank(sum - count);
+//                rank.setRank(sum - count);
             }
         }
         model.addAttribute("rankList", rankList);
@@ -1917,7 +1947,7 @@ public class PackageExpertController {
     @RequestMapping("detailedReview")
     public String detailedReview(String projectId, String packageId, Model model) {
         HashMap<String, Object> searchMap = new HashMap<String, Object>();
-        
+        searchMap.put("id", packageId);
         Packages packageModel = packageService.findPackageById(searchMap).get(0);
         model.addAttribute("pack", packageModel);
         // 项目分包信息
