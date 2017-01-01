@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
@@ -18,6 +20,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -33,7 +38,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
+
+
+
+
+
 import ses.model.oms.Orgnization;
+import ses.service.bms.DictionaryDataServiceI;
+import ses.util.DictionaryDataUtil;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
@@ -49,15 +61,30 @@ import bss.service.pms.impl.PurchaseRequiredServiceImpl;
  * @date  2016年9月12日,上午9:18:29
  *
  */
+@Component
 public class ExcelUtil {
-  @Autowired
-  private CollectPlanService collectPlanService;
+ 
   
   @Autowired
   private PurchaseRequiredService  purchaseRequiredService;
   
+  private static ExcelUtil excelUtil;
   
-	/**
+  
+  public void setDdService(PurchaseRequiredService purchaseRequiredService){
+      this.purchaseRequiredService = purchaseRequiredService;
+  }
+  
+  @PostConstruct 
+  public void init(){
+	  excelUtil = this;
+	  excelUtil.purchaseRequiredService = this.purchaseRequiredService;
+  }
+  
+  
+  
+ 
+  	/**
 	 * @throws FileNotFoundException 
 	 *
 	* @Title: readExcel
@@ -67,7 +94,7 @@ public class ExcelUtil {
 	* @param @return     
 	* @return List<PurchaseRequired>     
 	 */
-	public  Map<String,Object> readExcel(MultipartFile file) throws Exception{
+	public static Map<String,Object> readExcel(MultipartFile file) throws Exception{
 		
 		PurchaseRequiredService  purchase=new PurchaseRequiredServiceImpl();
 		Map<String,Object> map=new HashMap<String,Object>();
@@ -92,9 +119,16 @@ public class ExcelUtil {
 	        		}
 	        	}
 	        
-	        	if(row.getRowNum()>2){
+	        	if(row.getRowNum()>1){
+	        		Cell cel = row.getCell(0);
+	        		if(cel==null){
+    					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能为空!";
+    					 map.put("errMsg", errMsg);
+    					 bool=false;
+        				 break;
+    				}
 	        		
-	        
+	        		
 	        	 
 	        		for (Cell cell : row) {
 	        		
@@ -121,14 +155,16 @@ public class ExcelUtil {
 	        			 }
 	        			 if(cell.getColumnIndex()==1){
 	        				 if(cell.getCellType()==1){
-	        				 /*    String dep = cell.getStringCellValue();
-	        					 Orgnization orgnization = purchaseRequiredService.queryByName(dep);
-	        					 if(orgnization==null){
-	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，需求部门不存在，请在系统中维护！";
-			        				 map.put("errMsg", errMsg);
-			        				  bool=false;
-			        				 continue;
-	        					 }*/
+	        				     String dep = cell.getStringCellValue();
+	        				     if(dep.trim().length()!=0){
+	        				    	 Orgnization orgnization = excelUtil.purchaseRequiredService.queryByName(dep);
+		        					 if(orgnization==null){
+		        						 errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，需求部门不存在，请在系统中维护！";
+				        				 map.put("errMsg", errMsg);
+				        				  bool=false;
+				        				 continue; 
+		        					 }
+	        					 }
 	        				
 		        				
 	        					 rq.setDepartment(cell.getStringCellValue());

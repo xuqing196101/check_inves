@@ -124,8 +124,8 @@ public class PurchaseRequiredController extends BaseController{
 	@RequestMapping("/queryByNo")
 	public String getById(@CurrentUser User user,String planNo,Model model,String type){
 		PurchaseRequired p=new PurchaseRequired();
-		p.setPlanNo(planNo.trim());
-		List<PurchaseRequired> list = purchaseRequiredService.query(p,0);
+		p.setUniqueId(planNo.trim());
+		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
 		model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
 		model.addAttribute("list", list);
 		Map<String,Object> map=new HashMap<String,Object>();
@@ -151,28 +151,24 @@ public class PurchaseRequiredController extends BaseController{
 	 */
 	@RequestMapping("/update")
 	public String updateById(PurchaseRequiredFormBean list){
-		Map<String,Object> map=new HashMap<String,Object>();
+//		Map<String,Object> map=new HashMap<String,Object>();
 		if(list!=null){
 			if(list.getList()!=null&&list.getList().size()>0){
 				for( PurchaseRequired p:list.getList()){
 					if( p.getId()!=null){
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						map.put("oid", id);
-//						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
-						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
-						map.put("historyStatus", s);
-						map.put("id", p.getId());
-						purchaseRequiredService.update(map);
-//						if(p.getParentId()!=null){
-//							p.setParentId(p.getParentId());
-//						}
-//						queryById.setId(p.getId());
-						p.setHistoryStatus("0");
-						purchaseRequiredService.add(p);	
-					}else{
+						//历史数据
 //						String id = UUID.randomUUID().toString().replaceAll("-", "");
-//						p.setId(id);
-//						purchaseRequiredService.add(p);	
+//						map.put("oid", id);
+//						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
+//						map.put("historyStatus", s);
+//						map.put("id", p.getId());
+//						purchaseRequiredService.update(map);
+						
+						purchaseRequiredService.updateByPrimaryKeySelective(p);
+						
+						//保存新数据 
+						// p.setHistoryStatus("0");
+						//purchaseRequiredService.add(p);	
 					}
 				
 					
@@ -207,6 +203,7 @@ public class PurchaseRequiredController extends BaseController{
 	    model.addAttribute("fileId", fileId);
 	    model.addAttribute("typeId", typeId);
 	    model.addAttribute("planNo", randomPlano());
+	    model.addAttribute("orgType", user.getOrg().getTypeName());
 		return "bss/pms/purchaserequird/add";
 	}
 	
@@ -237,8 +234,8 @@ public class PurchaseRequiredController extends BaseController{
         }  
         
 		List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
-		ExcelUtil util=new ExcelUtil();
-		    Map<String,Object>  maps= (Map<String, Object>) util.readExcel(file);
+//		ExcelUtil util=new ExcelUtil();
+		    Map<String,Object>  maps= (Map<String, Object>) ExcelUtil.readExcel(file);
 		     list = (List<PurchaseRequired>) maps.get("list");
 		     String errMsg=(String) maps.get("errMsg");
 		
@@ -375,7 +372,7 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/adddetail")
-	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request) throws IOException{
+	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request,String referenceNo) throws IOException{
 		User user = (User) request.getSession().getAttribute("loginUser");
 		List<PurchaseRequired> plist = list.getList();
 		// List<String> parentId = new ArrayList<>();

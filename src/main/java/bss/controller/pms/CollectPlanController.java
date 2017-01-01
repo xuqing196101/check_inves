@@ -99,8 +99,8 @@ public class CollectPlanController extends BaseController {
     @RequestMapping("/view")
     public String getById(@CurrentUser User user,String planNo,Model model,String type){
         PurchaseRequired p=new PurchaseRequired();
-        p.setPlanNo(planNo.trim());
-        List<PurchaseRequired> list = purchaseRequiredService.query(p,0);
+        p.setUniqueId(planNo.trim());
+        List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("list", list);
         Map<String,Object> map=new HashMap<String,Object>();

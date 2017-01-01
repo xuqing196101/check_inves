@@ -73,11 +73,11 @@
 	}
 	
 	
-	 function sum2(obj){  //数量
+/* 	 function sum2(obj){  //数量
 	        var purchaseCount = $(obj).val()-0;//数量
 	        var price2 = $(obj).parent().next().children(":last").prev();//价钱
 	        var price = $(price2).val()-0;
-	        var sum = purchaseCount*price;
+	        var sum = purchaseCount*price/10000;
 	        var budget = $(obj).parent().next().next().children(":last").prev();
 	        $(budget).val(sum);
 	      	var id=$(obj).next().val();
@@ -87,7 +87,7 @@
 	       function sum1(obj){
 	        var purchaseCount = $(obj).val()-0; //价钱
 	         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
-	      	 var sum = purchaseCount*price2;
+	      	 var sum = purchaseCount*price2/10000;
 	         $(obj).parent().next().children(":last").prev().val(sum);
 		     	var id=$(obj).next().val();
 		     	aa(id);
@@ -129,8 +129,9 @@
 	 	    			total=total+same;
 	 	    		 }
 	    	   }); 
+	    	    total=total/10000;
 	    	    $("table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
-	       }
+	       } */
 	         
 	      function sel(obj) {
 		    var val = $(obj).val();
@@ -254,7 +255,7 @@
                      <input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
                      <input type="hidden" name="list[${vs.index }].useUnit" value="${obj.useUnit }">
                      <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">--%>
-                     <input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
+          <%--            <input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
                      <input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
                      <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
                      <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
@@ -268,7 +269,7 @@
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq}">
                      <input type="hidden" name="list[${vs.index }].userId" value="${obj.userId}">
                      <input type="hidden" name="list[${vs.index }].createdAt" value="${obj.createdAt}">
-                     <input type="hidden" name="list[${vs.index }].department" value="${obj.department}"> 
+                     <input type="hidden" name="list[${vs.index }].department" value="${obj.department}">  --%>
                    </td>
                    <td class="tc w100"><input type="text" value="暂存" readonly="readonly"></td>
                  </tr>

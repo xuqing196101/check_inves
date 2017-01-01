@@ -906,11 +906,13 @@
 			<if test="uniqueId !=null">
 				and UNIQUE_ID =#{uniqueId}
 			</if>
-			 <if test="isMaster != null">
+			<!--  <if test="isMaster != null">
 				and IS_MASTER = #{isMaster}
-			</if>
+			</if> -->
 		</where>
-		ORDER BY IS_MASTER desc
+		<if test="isMaster==null">
+			ORDER BY IS_MASTER
+		</if>
 	</select>
 	
 	
