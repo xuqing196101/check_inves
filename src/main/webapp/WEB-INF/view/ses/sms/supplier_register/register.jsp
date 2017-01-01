@@ -27,6 +27,7 @@
 							$("#login_input_id").next().text("用户名重复 !");
 							$("#submit_button_id").prop("disabled", true);
 						} else {
+							$("#login_input_id").next().text("");
 							$("#submit_button_id").prop("disabled", false);
 						}
 					}
@@ -49,7 +50,7 @@
 		<div class="container clear margin-top-30">
 			<div class="col-md-12 col-sm-12 col-xs-12 margin-top-40">
 				<div class="row" style="background-color:#f6f6f6;">
-					<div class="mt20 col-md-6 col-sm-6 col-xs-12 p20">
+					<div class="mt80 col-md-6 col-sm-6 col-xs-12 p20">
 						<form action="${pageContext.request.contextPath}/supplier/register.html" method="post">
 							<div class="login_item col-md-12  col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"> <i class="red mr5">*</i>用户名：</label>
@@ -87,7 +88,7 @@
 							        <span class="red clear col-md-12 col-xs-12 col-sm-12 p0">${err_msg_mobileCode }</span> 
 								</div>
 							</div> --%>
-							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12">
+							<!-- <div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>验证码：</label> 
 								<div class="col-md-7 col-xs-12 col-sm-12 p0">
 								    <input type="text" name="identifyCode" id="identifyCode" value="${supplier.identifyCode}" class="col-md-4 col-sm-3 col-xs-4">
@@ -99,7 +100,7 @@
 								    </div>
 								 <span class="red clear col-md-12 col-xs-12 col-sm-12 p0">${err_msg_code }</span> 
 								</div>
-							</div>
+							</div> -->
 							<input type="hidden" name="id" value="${id }">
 							<div class="tc mt10 clear col-md-12 col-sm-12 col-xs-12">
 								<button id="submit_button_id" type="submit" class="btn margin-5">注册</button>

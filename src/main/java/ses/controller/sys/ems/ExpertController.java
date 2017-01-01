@@ -63,6 +63,7 @@ import ses.model.ems.ExpertCategory;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
+import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -76,6 +77,7 @@ import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
@@ -123,6 +125,8 @@ public class ExpertController extends BaseController {
     private ProjectExtractService projectExtractService;//是否被抽取查询
     @Autowired
     private CategoryService categoryService;//品目
+    @Autowired
+    private SupplierItemService supplierItemService;//品目
 
     /**
      * 
@@ -577,7 +581,7 @@ public class ExpertController extends BaseController {
             ct.setId(parent.getId());
             ct.setIsParent("true");
             // 设置是否被选中
-            ct.setChecked(isChecked(ct.getId(), expertId, categoryId));
+            ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId));
             allCategories.add(ct);
         } else {
             List<Category> childNodes = categoryService.findPublishTree(id, null);
@@ -593,7 +597,7 @@ public class ExpertController extends BaseController {
                         ct.setIsParent("true");
                     }
                     // 判断是否被选中
-                    ct.setChecked(isChecked(ct.getId(), expertId, categoryId));
+                    ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId));
                     allCategories.add(ct);
                 }
                 // 判断专家是否为被退回状态
@@ -627,7 +631,7 @@ public class ExpertController extends BaseController {
      * @param expertId
      * @return
      */
-    public boolean isChecked (String categoryId, String expertId, String typeId) {
+    public boolean isExpertChecked (String categoryId, String expertId, String typeId) {
         List<ExpertCategory> allCategoryList = expertCategoryService.getListByExpertId(expertId, typeId);
         boolean isChecked = false;
         for (ExpertCategory expertCategory : allCategoryList) {
@@ -655,6 +659,23 @@ public class ExpertController extends BaseController {
             }
         }
         return isChecked;
+    }
+    /**
+     *〈简述〉
+     * 判断该节点是否需要被选中
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param categoryId
+     * @param expertId
+     * @return
+     */
+    public boolean isSupplierChecked (String categoryId, String supplierId, String type) {
+        List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId, type);
+        if (category != null && category.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
     /*Expert expert = service.selectByPrimaryKey(expertId);
         List<CategoryTree> allCategories = new ArrayList<CategoryTree>();
@@ -2417,7 +2438,16 @@ public class ExpertController extends BaseController {
     
     @ResponseBody
     @RequestMapping(value = "/searchCate",produces = "application/json;charset=utf-8")
-    public String searchCate(String typeId, String cateName, String expertId) {
+    public String searchCate(String typeId, String cateName, String expertId, String supplierId) {
+        String type = null;
+        if (supplierId != null) {
+            type = typeId;
+            if (typeId.equals("SALES") || typeId.equals("PRODUCT")) {
+                typeId = DictionaryDataUtil.getId("GOODS");
+            } else {
+                typeId = DictionaryDataUtil.getId(typeId);
+            }
+        }
         // 查询出所有满足条件的品目
         List<Category> categoryList = service.searchByName(cateName);
         // 循环判断是不是当前树的节点
@@ -2443,7 +2473,11 @@ public class ExpertController extends BaseController {
                 treeNode.setIsParent("true");
             }
             // 判断是否被选中
-            treeNode.setChecked(isChecked(category.getId(), expertId, typeId));
+            if (expertId != null) {
+                treeNode.setChecked(isExpertChecked(category.getId(), expertId, typeId));
+            } else if (supplierId != null) {
+                treeNode.setChecked(isSupplierChecked(category.getId(), supplierId, type));
+            }
             treeList.add(treeNode);
         }
         return JSON.toJSONString(treeList);
