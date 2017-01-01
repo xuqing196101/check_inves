@@ -71,9 +71,11 @@
                data:$('#form1').serialize(),// 你的formid
                async: false,
                success: function(data) {
+            	   alert(data.superviseId);
             	   if(data != 'ERROR'){
-            		   parent.$('#supervises').val(data);
-                   parent.$('#supervises').attr(data);
+            		   parent.$('#supervises').val(data.relName);
+                   parent.$('#supervises').attr(data.relName);
+                   parent.$('#superviseId').val(data.superviseId);
                    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
                    parent.layer.close(index);
             	   }else{

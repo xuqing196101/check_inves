@@ -241,6 +241,7 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
         Packages pack = new Packages();
         pack.setProjectId(projectId);
         pack.setName(name);
+        pack.setIsDeleted(0);
         packageService.insertSelective(pack);
         packagesId += pack.getId() + ",";
       }
