@@ -106,4 +106,13 @@ public interface SupplierExtRelateMapper {
      * @param projectId
      */
     void del(String projectId);
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param delId
+     */
+    void delPe(String projectId);
 }

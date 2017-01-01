@@ -198,6 +198,15 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
     public void del(String id) {
         supplierExtRelateMapper.del(id);
     }
+    
+    /**
+     * 抽取完成后删除信息
+     */
+    @Override
+    public void delPe(String id) {
+      // TODO Auto-generated method stub
+      supplierExtRelateMapper.delPe(id);
+    }
 }
 
 

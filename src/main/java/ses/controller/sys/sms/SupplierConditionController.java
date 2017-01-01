@@ -184,6 +184,7 @@ public class SupplierConditionController {
         List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(conId), "");
         if (list == null || list.size() == 0){
             extRelateService.insert(conId, user != null && !"".equals(user.getId()) ? user.getId() : "",projectId,conditionId);
+            PageHelper.startPage(1, sum*2);
             list = extRelateService.list(new SupplierExtRelate(conId),"");
         }
         //已操作的
