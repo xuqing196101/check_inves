@@ -121,6 +121,7 @@ session.setAttribute("tokenSession", tokenValue);
 	
 	function purDepBack(){
 		$("#purchase_orgs").empty();
+		$("#purchase_orgs2").empty();
 		var purDepId = "${expert.purchaseDepId}";
 		$.ajax({
 			url:'${pageContext.request.contextPath}/expert/getPIdandCIdByPurDepId.do',
@@ -169,8 +170,14 @@ session.setAttribute("tokenSession", tokenValue);
 					if(princinpal==null)princinpal="";
 					if(detailAddr==null)detailAddr="";
 					if(mobile==null)mobile="";
+					var flag;
+					if (result.flag == '1') {
+						flag = "purchase_orgs";
+					} else {
+						flag = "purchase_orgs2";
+					}
 					if(purDepId==result.id){
-						$("#purchase_orgs").append(
+						$("#"+flag).append(
 								"<tr align='center' ><td><input checked='checked' type='radio' name='purchaseDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
@@ -179,7 +186,7 @@ session.setAttribute("tokenSession", tokenValue);
 								"<td>"+mobile+"</td></tr>"
 							);
 					}else{
-						$("#purchase_orgs").append(
+						$("#"+flag).append(
 								"<tr align='center' ><td><input type='radio' name='purchaseDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+

@@ -182,6 +182,8 @@ public class ExpertAuditController {
 		if(expert.getExpertsFrom() != null){
 			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
 			model.addAttribute("expertsFrom", expertsFrom.getName());
+			// 专家来源
+			model.addAttribute("froms", expertsFrom.getCode());
 		}
 		//性别
 		if(expert.getGender() != null){
@@ -709,7 +711,6 @@ public class ExpertAuditController {
             }
             model.addAttribute("editFields", editFields);
         }
-        
 		return "ses/ems/expertAudit/expertType";
 	}
     
