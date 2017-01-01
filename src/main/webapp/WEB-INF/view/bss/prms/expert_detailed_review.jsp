@@ -116,6 +116,24 @@
 	function showViewBySupplierId(supplierId){
 		window.open("${pageContext.request.contextPath}/packageExpert/showViewBySupplierId.html?projectId=${projectId}&packageId=${packageId}&supplierId=" + supplierId, "评分详情");
 	}
+	function printRank(){
+		var packageId = "${packageId}";
+		$.ajax({
+			url:"${pageContext.request.contextPath}/packageExpert/isGathered.do",
+			data:{"packageIds" : packageId},
+			async:false,
+			success:function (response) {
+				if (response == "0") {
+					layer.alert("该包暂未结束评分!", {
+						offset : [ y, x ],
+						shade : 0.01
+					});
+				} else {
+					window.open("${pageContext.request.contextPath}/packageExpert/printRank.html?projectId=${projectId}&packageId=${packageId}", "打印汇总表");
+				}
+			}
+		});
+	}
 </script>
 </head>
 <body>
@@ -125,7 +143,7 @@
 			  <button class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>
 			  <button class="btn" id="backId" onclick="backScore()" type="button">复核评分</button>
 		  </c:if>
-		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印汇总表</button>
+		  <button class="btn btn-windows input" onclick="printRank()" type="button">打印汇总表</button>
 		</div>
 		<!--循环供应商  -->
 		<table class="table table-bordered table-condensed table-hover table-striped">

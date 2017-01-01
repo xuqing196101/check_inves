@@ -2990,4 +2990,215 @@ public class PackageExpertController {
       }
       
     }
+    
+    /**
+     *〈简述〉判断是否是已汇总状态
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param packageId 包ID
+     * @return 1已汇总  0未汇总
+     */
+    @ResponseBody
+    @RequestMapping("/isGathered")
+    public String isGathered(String packageId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("packageId", packageId);
+        List<PackageExpert> list = packageExpertService.selectList(map);
+        if (list != null && list.size() > 0 && list.get(0).getIsGatherGather() == 1) {
+            return "1";
+        } else {
+            return "0";
+        }
+    }
+    
+    @RequestMapping("/printRank")
+    public String printRank(String packages, Model model) {
+        // 分包信息
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("id", packages);
+        Packages pack = packageService.findPackageById(map).get(0);
+        
+        // 供应商信息
+        SaleTender saleTender = new SaleTender();
+        List<SaleTender> supplierList = new ArrayList<SaleTender>();
+        saleTender.setPackages(pack.getId());
+        supplierList.addAll(saleTenderService.find(saleTender));
+        List<SaleTender> suppList = new ArrayList<SaleTender>();
+        for (SaleTender supp : supplierList) {
+            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved())) {
+                suppList.add(supp);
+            }
+        }
+        model.addAttribute("supplierList", suppList);
+        // 分数
+        List<ExpertScore> scores = new ArrayList<ExpertScore>();
+        Map<String, Object> searchMap = new HashMap<String, Object>();
+        searchMap.put("packageId", pack.getId());
+        scores.addAll(expertScoreService.selectByMap(searchMap));
+        removeRankSame(scores);
+        // 供应商经济总分,技术总分,总分
+        List<SupplierRank> rankList = new ArrayList<SupplierRank>();
+        for (SaleTender supp : suppList) {
+            SupplierRank rank = new SupplierRank();
+            rank.setSupplierId(supp.getSuppliers().getId());
+            rank.setPackageId(supp.getPackages());
+            // 查询该供应商的经济总分
+            //BigDecimal econScore = new BigDecimal(0);
+            // 查询该供应商的技术总分
+            //BigDecimal techScore = new BigDecimal(0);
+            /*for (ExpertScore score : scores) {
+                if (score.getSupplierId().equals(supp.getSuppliers().getId())) {
+                    ScoreModel scoModel = new ScoreModel();
+                    scoModel.setId(score.getScoreModelId());
+                    // 根据id查看scoreModel对象
+                    ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
+                    if (scoreModel1 != null) {
+                        MarkTerm mt = null;
+                        if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
+                            mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
+                            if (mt.getTypeName() == null || "".equals(mt.getTypeName())) {
+                                mt = markTermService.findMarkTermById(mt.getPid());
+                            }
+                        }
+                        DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
+                        if ("ECONOMY".equals(data.getCode())) {
+                            // 经济
+                            econScore = econScore.add(score.getScore());
+                        } else if ("TECHNOLOGY".equals(data.getCode())) {
+                            // 技术
+                            techScore = techScore.add(score.getScore());
+                        }
+                    }
+                }
+            }*/
+            BigDecimal es = supp.getEconomicScore();
+            if (es == null) {
+              rank.setEconScore(null);
+            } else {
+              rank.setEconScore(es);
+            }
+            BigDecimal ts = supp.getTechnologyScore();
+            if (ts == null) {
+              rank.setTechScore(null);
+            } else {
+              rank.setTechScore(ts);
+            }
+            if (es == null || ts == null) {
+              rank.setSumScore(null);
+            } else {
+              rank.setSumScore(supp.getEconomicScore().add(supp.getTechnologyScore()));
+            }
+            rankList.add(rank);
+        }
+        // 循环遍历判断名次
+        for (SupplierRank rank : rankList) {
+            int count = 0;
+            int sum = 0;
+            // 判断review_result是否不为空
+            SaleTender saleTend = new SaleTender();
+            saleTend.setPackages(rank.getPackageId());
+            Supplier supplier = new Supplier();
+            supplier.setId(rank.getSupplierId());
+            saleTend.setSuppliers(supplier);
+            String reviewResult = saleTenderService.findByCon(saleTend).get(0).getReviewResult();
+            if (reviewResult != null && !"".equals(reviewResult)) {
+                rank.setRank(0);
+                rank.setReviewResult(reviewResult);
+            } else {
+                for (SupplierRank temp : rankList) {
+                    if (rank.getPackageId().equals(temp.getPackageId())) {
+                        // 判断review_result是否不为空
+                        SaleTender sale = new SaleTender();
+                        sale.setPackages(temp.getPackageId());
+                        Supplier supp = new Supplier();
+                        supp.setId(temp.getSupplierId());
+                        sale.setSuppliers(supp);
+                        String review = saleTenderService.findByCon(sale).get(0).getReviewResult();
+                        if (review == null || "".equals(review)) {
+                            sum++;
+                            if (rank.getSumScore().compareTo(temp.getSumScore()) != -1 && rank != temp) {
+                                count++;
+                            }
+                        }
+                    }
+                }
+                rank.setRank(sum - count);
+            }
+        }
+        model.addAttribute("rankList", rankList);
+        // 项目中抽取的专家信息
+        Map<String, Object> mapSearch1 = new HashMap<String, Object>(); 
+        List<PackageExpert> expList = new ArrayList<PackageExpert>();
+        mapSearch1.put("packageId", pack.getId());
+        expList.addAll(packageExpertService.selectList(mapSearch1));
+        // 将专家进行排序,先经济,后技术
+        List<PackageExpert> expertList = new ArrayList<PackageExpert>();
+        for (PackageExpert exp : expList) {
+            DictionaryData data = dictionaryDataServiceI.getDictionaryData(exp.getReviewTypeId());
+            if (data != null && "ECONOMY".equals(data.getCode())) {
+                expertList.add(exp);
+            }
+        }
+        for (PackageExpert exp : expList) {
+            DictionaryData data = dictionaryDataServiceI.getDictionaryData(exp.getReviewTypeId());
+            if (data != null && "TECHNOLOGY".equals(data.getCode())) {
+                
+                expertList.add(exp);
+            }
+        }
+        // 遍历排好序的expertList设置rowspan
+        // 获取经济类型的个数
+        int count = 0;
+        // 该包内的专家总数
+        int sumCount = 0;
+        for (PackageExpert exp : expertList) {
+            if (pack.getId().equals(exp.getPackageId())) {
+                sumCount++;
+                DictionaryData data = dictionaryDataServiceI.getDictionaryData(exp.getReviewTypeId());
+                if (data != null && "ECONOMY".equals(data.getCode())) {
+                    count++;
+                }
+            }
+        }
+        // 给指定位置设置rowspan
+        int flag = 0;
+        for (PackageExpert exp : expertList) {
+            if (pack.getId().equals(exp.getPackageId())) {
+                if (count == 0 && flag == 0) {
+                    // 如果没有经济类型,只有技术类型
+                    exp.setCount(sumCount);
+                } else if (count == sumCount && flag == 0) {
+                    // 如果全是经济类型
+                    exp.setCount(sumCount);
+                } else if (count < sumCount && count > 0) {
+                    // 都有
+                    if (flag == 0) {
+                        // 设置第一个rowspan为经济的个数
+                        exp.setCount(count);
+                    } else if (flag == count) {
+                        // 设置第一个技术类型的rowspan为全部减去经济的个数
+                        exp.setCount(sumCount - count);
+                    } else {
+                        exp.setCount(0);
+                    };
+                }
+                flag++;
+            }
+        }
+        // 将reviewTypeId的值改为name
+        for (PackageExpert expert : expertList) {
+            DictionaryData data = dictionaryDataServiceI.getDictionaryData(expert.getReviewTypeId());
+            if (data != null) {
+                expert.setReviewTypeId(data.getName());
+            }
+        }
+        model.addAttribute("expertList", expertList);
+        // 专家给每个供应商打得分
+        List<ExpertSuppScore> expertScoreList = new ArrayList<ExpertSuppScore>();
+        searchMap.put("packageId", pack.getId());
+        expertScoreList.addAll(expertScoreService.getScoreByMap(searchMap));
+        model.addAttribute("expertScoreList", expertScoreList);
+        // 跳转
+        return "bss/prms/rank/supplier_rank";
+    }
 }

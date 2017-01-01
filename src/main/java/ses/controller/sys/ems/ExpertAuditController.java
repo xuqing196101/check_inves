@@ -705,8 +705,8 @@ public class ExpertAuditController {
             Set<String> keySet = compareMap.keySet();
             List<String> editFields = new ArrayList<String>();
             for (String method : keySet) {
-                if ("getTypeId".equals(method)) {
-                    editFields.add(method);
+                if ("getExpertsTypeId".equals(method)) {
+                    editFields.add(compareMap.get("getExpertsTypeId").toString());
                 }
             }
             model.addAttribute("editFields", editFields);
