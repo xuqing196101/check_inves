@@ -37,7 +37,7 @@ import com.github.pagehelper.PageHelper;
  * @date  2016年9月12日,下午2:03:45
  *
  */
-@Service
+@Service("purchaseRequiredService")
 public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 
 	@Autowired

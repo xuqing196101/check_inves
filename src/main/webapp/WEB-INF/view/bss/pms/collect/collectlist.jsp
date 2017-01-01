@@ -65,10 +65,10 @@
 				}
 			}
 
-			function view(no) {
-
+		/* 	function view(no) {
+				alert("测试");
 				window.location.href = "${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo=" + no + "&&type=1";
-			}
+			} */
 
 			function edit() {
 				var id = [];
@@ -406,13 +406,13 @@
               </c:if>
 			   <input type="hidden"  value="${obj.department }">
 			  </td>
-			  <td class="tc w50"  onclick="view('${obj.planNo}')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tl pl20" onclick="view('${obj.planNo}')">${obj.department}</td>
+			  <td class="tc w50"  onclick="view('${obj.uniqueId}')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  <td class="tl pl20" onclick="view('${obj.uniqueId}')">${obj.department}</td>
 			    
 			    
-			  <td class="tl pl20" onclick="view('${obj.planNo}')" >${obj.planName }</td>
+			  <td class="tl pl20" onclick="view('${obj.uniqueId}')" >${obj.planName }</td>
 			
-			  <td class="tl pl20" onclick="view('${obj.planNo}')" >
+			  <td class="tl pl20" onclick="view('${obj.uniqueId}')" >
 			   <c:forEach items="${dic }" var="dic">
 				   <c:if test="${obj.planType==dic.id}">
 				   ${dic.name }
@@ -420,8 +420,8 @@
 			   </c:forEach>
 			  
 			  </td>
-			  <td class="tc"  onclick="view('${obj.planNo}')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tr pr20" onclick="view('${obj.planNo}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tc"  onclick="view('${obj.uniqueId}')"><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tr pr20" onclick="view('${obj.uniqueId}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
 	 
 			                   <c:if test="${obj.status=='1' }">

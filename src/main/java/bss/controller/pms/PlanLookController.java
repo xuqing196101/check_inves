@@ -248,28 +248,23 @@ public class PlanLookController extends BaseController {
 	 */
 	@RequestMapping("/auditlook")
 	public String auditlook(String id,Model model){
-		
-		DictionaryData	dictionaryData=new DictionaryData();
-//		DictionaryData p=new DictionaryData();
-//		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
-//		dictionaryData.setParent(p);
 		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
-		List<AuditParam> all=new LinkedList<AuditParam>();
-		AuditParam auditParam=new AuditParam();
-		
-		List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
-		if(dic!=null&&dic.size()>0){
-			for(DictionaryData d:dic){
-				AuditParamBean s=new AuditParamBean();
-				auditParam.setDictioanryId(d.getId());
-				List<AuditParam> a = auditParameService.query(auditParam, 1);
-				all.addAll(a);
-				s.setId(d.getId());
-				s.setSize(a.size());
-				s.setName(d.getName());
-				bean.add(s);
-			}
-		}
+//		List<AuditParam> all=new LinkedList<AuditParam>();
+//		AuditParam auditParam=new AuditParam();
+//		
+//		List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
+//		if(dic!=null&&dic.size()>0){
+//			for(DictionaryData d:dic){
+//				AuditParamBean s=new AuditParamBean();
+//				auditParam.setDictioanryId(d.getId());
+//				List<AuditParam> a = auditParameService.query(auditParam, 1);
+//				all.addAll(a);
+//				s.setId(d.getId());
+//				s.setSize(a.size());
+//				s.setName(d.getName());
+//				bean.add(s);
+//			}
+//		}
 		
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
@@ -282,28 +277,26 @@ public class PlanLookController extends BaseController {
 		List<String> depList = putchaseRequiredMapper.queryDepartMent(no);
 	
 		List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
-//		List<String> departMent = new ArrayList<>();
+		PurchaseRequired p=new PurchaseRequired();
 		if(no!=null&&no.size()>0){
 			for(String s:no){
-				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
+				p.setUniqueId(s);
+				p.setIsMaster(1);
+				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByUinuqe(p);
 				list.addAll(pur);
-//				Map<String,Object> departMap = new HashMap<String,Object>();
-//				departMap.put("planNo", s);
-//				departMent.add(purchaseRequiredService.getByMap(departMap).get(0).getDepartment());
 			}
 		}
 		model.addAttribute("list", list);
 		model.addAttribute("org",org);
 		model.addAttribute("id", id);
-//		model.addAttribute("departMent", departMent);
-		model.addAttribute("all", all);
+//		model.addAttribute("all", all);
+//		
+//		model.addAttribute("bean", bean);
 		
-		model.addAttribute("bean", bean);
-		
-		DictionaryData dd=new DictionaryData();
+/*		DictionaryData dd=new DictionaryData();
 		dd.setCode("CGJH_ADJUST");
 		String did = dictionaryDataServiceI.find(dd).get(0).getId();
-		model.addAttribute("aid", did);
+		model.addAttribute("aid", did);*/
 		
 		List<DictionaryData> mType = dictionaryDataServiceI.findByKind("5");
 		model.addAttribute("mType", mType);

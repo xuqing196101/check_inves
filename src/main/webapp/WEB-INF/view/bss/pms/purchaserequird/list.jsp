@@ -279,11 +279,11 @@
 			  <td class="tc w30">
                  <input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()">
 			  </td>
-			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td class="tl pl20" onclick="view('${obj.planNo }')">
+			  <td class="tc w50" onclick="view('${obj.uniqueId }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+			  <td class="tl pl20" onclick="view('${obj.uniqueId }')">
 			  	${obj.planName }
 				</td>
-		      <td class="tl pl20" onclick="view('${obj.planNo }')">
+		      <td class="tl pl20" onclick="view('${obj.uniqueId }')">
 		      ${obj.planNo }
 			  <%-- <td class="pl20">
 			     <div onclick="view('${obj.planNo }')">${obj.planName }</div>
@@ -292,23 +292,23 @@
 					  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
 			  	</c:forEach> --%>
 			  </td>  
-			  <td class="pr20 tr"><div onclick="view('${obj.planNo }')">${obj.budget }</div></td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.deliverDate } </td>
-			  <td class="tc" onclick="view('${obj.planNo }')">
+			  <td class="pr20 tr"><div onclick="view('${obj.uniqueId }')">${obj.budget }</div></td>
+			  <td class="tc" onclick="view('${obj.uniqueId }')"><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc" onclick="view('${obj.uniqueId }')">${obj.deliverDate } </td>
+			  <td class="tc" onclick="view('${obj.uniqueId }')">
 				 	<c:if test="${obj.status=='1' }">
 			 		未提交
 			  	</c:if>
-			    <c:if test="${obj.status=='2' }">
+			    <c:if test="${obj.status!='1' }">
 			 		已提交
 			  	</c:if>
-			  	<c:if test="${obj.status=='3' }">
+			 <%--  	<c:if test="${obj.status=='3' }">
 			 		已受理
 			  	</c:if>
 			  	
 			  	<c:if test="${obj.status=='4' }">
 			 		已汇总
-			  	</c:if>
+			  	</c:if> --%>
 
 			</tr>
 		 	</c:forEach>

@@ -145,115 +145,113 @@
           <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">按需求部门</a>
         </li>
       </ul>
+      
+     <div class="tab-content over_hideen">
       <div class="tab-pane fade active in" id="tab-1">
-            <div class="col-md-8 col-sm-8 col-xs-12 over_scroll"> 
-      <div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll p0 h365">
-        <table class="table table-bordered table-condensed mt5 table_wrap">
-          <thead>
-            <tr>
-              <th class="info w50">序号</th>
-              <th class="info w150">需求部门</th>
-              <th class="info w150">物资类别及物种名称</th>
-              <th class="info w150">规格型号</th>
-              <th class="info w150">质量技术标准（技术参数）</th>
-              <th class="info w150">计量单位</th>
-              <th class="info w150">采购数量</th>
-              <th class="info w150">单位（元）</th>
-              <th class="info w150">预算金额（万元）</th>
-              <th class="info w150">交货期限</th>
-              <th class="info w150">采购方式建议</th>
-              <th class="info w150">供应商名称</th>
-              <th class="info w150">是否申请办理免税</th>
-              <th class="info w150">物资用途（仅进口）</th>
-              <th class="info w150">使用单位（仅进口）</th>
-              <th class="info w150">备注</th>
-            </tr>
-          </thead>
-
-          <c:forEach items="${list }" var="obj" varStatus="vs">
-            <tr>
-              <td class="tc w50">${obj.seq } <input type="hidden" id="planNo" value="${obj.planNo}"/>
-              </td>
-              <td  class="tl pl20">${obj.department}</td >
-              <td title="${obj.goodsName}" class="tl pl20">
-              <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
-              <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
-              </td >
-              <td title="${obj.stand}" class="tl pl20">
-              <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
-              <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
-              </td >
-              <%-- <td class="tc"> ${obj.qualitStand }</td> --%>
-              <td title="${obj.qualitStand}" class="tl pl20">
-              <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
-              <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
-              </td >
-              <%-- <td class="tc"> ${obj.item }</td> --%>
-              <td title="${obj.item}" class="tl pl20">
-              <c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
-              <c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
-              </td >
-              <td class="tl pl20">${obj.purchaseCount }</td>
-              <td class="tr pr20">${obj.price }</td>
-              <td class="tr pr20">${obj.budget }</td>
-              <td class="tl pl20">${obj.deliverDate }</td>
-              <td class="tl pl20"> <c:forEach items="${kind}" var="kind" >
-                  <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                </c:forEach></td>
-              <%-- <td class="tc">${obj.supplier }</td> --%>
-              <td title="${obj.supplier}" class="tl pl20">
-              <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
-              <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
-              </td >
-              <%-- <td class="tc">${obj.isFreeTax }</td> --%>
-              <td title="${obj.isFreeTax}" class="tl pl20">
-              <c:if test="${fn:length (obj.isFreeTax) > 8}">${fn:substring(obj.isFreeTax,0,7)}...</c:if>
-              <c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
-              </td >
-              <%-- <td class="tc">${obj.goodsUse }</td> --%>
-              <td title="${obj.goodsUse}" class="tl pl20">
-              <c:if test="${fn:length (obj.goodsUse) > 8}">${fn:substring(obj.goodsUse,0,7)}...</c:if>
-              <c:if test="${fn:length(obj.goodsUse) <= 8}">${obj.goodsUse}</c:if>
-              </td > 
-              <td class="tl pl20">${obj.useUnit }</td>
-               <td title="${obj.memo}" class="tl pl20">
-              <c:if test="${fn:length (obj.memo) > 8}">${fn:substring(obj.memo,0,7)}...</c:if>
-              <c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
-              </td > 
-            </tr>
-
-          </c:forEach>
-        </table>
-        </div>
+			      <div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll p0 h365">
+			        <table class="table table-bordered table-condensed mt5 table_wrap">
+			          <thead>
+			            <tr>
+			              <th class="info w50">序号</th>
+			              <th class="info w150">需求部门</th>
+			              <th class="info w150">物资类别及物种名称</th>
+			              <th class="info w150">规格型号</th>
+			              <th class="info w150">质量技术标准（技术参数）</th>
+			              <th class="info w150">计量单位</th>
+			              <th class="info w150">采购数量</th>
+			              <th class="info w150">单位（元）</th>
+			              <th class="info w150">预算金额（万元）</th>
+			              <th class="info w150">交货期限</th>
+			              <th class="info w150">采购方式建议</th>
+			              <th class="info w150">供应商名称</th>
+			              <th class="info w150">是否申请办理免税</th>
+			              <th class="info w150">物资用途（仅进口）</th>
+			              <th class="info w150">使用单位（仅进口）</th>
+			              <th class="info w150">备注</th>
+			            </tr>
+			          </thead>
+			
+			          <c:forEach items="${list }" var="obj" varStatus="vs">
+			            <tr>
+			              <td class="tc w50">${obj.seq } <input type="hidden" id="planNo" value="${obj.planNo}"/>
+			              </td>
+			              <td  class="tl pl20">${obj.department}</td >
+			              <td title="${obj.goodsName}" class="tl pl20">
+			              <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
+			              <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
+			              </td >
+			              <td title="${obj.stand}" class="tl pl20">
+			              <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
+			              <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
+			              </td >
+			              <%-- <td class="tc"> ${obj.qualitStand }</td> --%>
+			              <td title="${obj.qualitStand}" class="tl pl20">
+			              <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
+			              <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
+			              </td >
+			              <%-- <td class="tc"> ${obj.item }</td> --%>
+			              <td title="${obj.item}" class="tl pl20">
+			              <c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
+			              <c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
+			              </td >
+			              <td class="tl pl20">${obj.purchaseCount }</td>
+			              <td class="tr pr20">${obj.price }</td>
+			              <td class="tr pr20">${obj.budget }</td>
+			              <td class="tl pl20">${obj.deliverDate }</td>
+			              <td class="tl pl20"> <c:forEach items="${kind}" var="kind" >
+			                  <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+			                </c:forEach></td>
+			              <%-- <td class="tc">${obj.supplier }</td> --%>
+			              <td title="${obj.supplier}" class="tl pl20">
+			              <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
+			              <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
+			              </td >
+			              <%-- <td class="tc">${obj.isFreeTax }</td> --%>
+			              <td title="${obj.isFreeTax}" class="tl pl20">
+			              <c:if test="${fn:length (obj.isFreeTax) > 8}">${fn:substring(obj.isFreeTax,0,7)}...</c:if>
+			              <c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
+			              </td >
+			              <%-- <td class="tc">${obj.goodsUse }</td> --%>
+			              <td title="${obj.goodsUse}" class="tl pl20">
+			              <c:if test="${fn:length (obj.goodsUse) > 8}">${fn:substring(obj.goodsUse,0,7)}...</c:if>
+			              <c:if test="${fn:length(obj.goodsUse) <= 8}">${obj.goodsUse}</c:if>
+			              </td > 
+			              <td class="tl pl20">${obj.useUnit }</td>
+			               <td title="${obj.memo}" class="tl pl20">
+			              <c:if test="${fn:length (obj.memo) > 8}">${fn:substring(obj.memo,0,7)}...</c:if>
+			              <c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
+			              </td > 
+			            </tr>
+			
+			          </c:forEach>
+			        </table>
+			        </div>
+     		 </div>
         
-      </div>
-        </div>
-        
-        <div class="tab-pane fade in" id="tab-2">
-                <table class="table table-bordered table-condensed mt5">
-                  <thead>
-            <tr>
-              <th class="info w50">序号</th>
-              <th class="info w150">需求部门</th>
-            </tr>
-          </thead>
-          <tbody>
-            <c:if test="${set != null}">
-            <c:forEach items="${set}" var="obj" varStatus="vs">
-              <tr style="cursor: pointer;">
-                <td class="tc w50">${(vs.index+1)}</td>  
-                <td class="tl pl20"  onclick="view('${obj}')">${obj }</td>
-              </tr>                            
-           </c:forEach>
-           </c:if>
-          </tbody>
-                   
-                  </table>
-              </div>
+		        <div class="tab-pane fade in" id="tab-2">
+		                <table class="table table-bordered table-condensed mt5">
+		                  <thead>
+					            <tr>
+					              <th class="info w50">序号</th>
+					              <th class="info w150">需求部门</th>
+					            </tr>
+					          </thead>
+					          <tbody>
+					            <c:if test="${set != null}">
+					            <c:forEach items="${set}" var="obj" varStatus="vs">
+					              <tr style="cursor: pointer;">
+					                <td class="tc w50">${(vs.index+1)}</td>  
+					                <td class="tl pl20"  onclick="view('${obj}')">${obj }</td>
+					              </tr>                            
+					           </c:forEach>
+					           </c:if>
+					          </tbody>
+		                  </table>
+		        </div>
+		 </div>       
         <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
-         <input class="btn btn-windows back" value="返回" type="button"
-                    onclick="location.href='javascript:history.go(-1);'">
-                    </div>
+        	 <input class="btn btn-windows back" value="返回" type="button"  onclick="location.href='javascript:history.go(-1);'">
+          </div>
         
         </div>
     </div>

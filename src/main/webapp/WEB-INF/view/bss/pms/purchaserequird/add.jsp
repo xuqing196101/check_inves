@@ -164,26 +164,35 @@
 			
 			//保存
 			function incr() {
+				var orgType="${orgType}";
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
 				var mobile = $("#mobile").val();
 				var type = $("#wtype").val();
-				//var depName = $("#xqbm").val();
-				if($.trim(name) == "") {
-				  alert("cehddiwssss");
-					layer.tips("计划名称不允许为空", "#jhmc");
+			 var refNo = $("#referenceNo").val();
+			 
+			 if(orgType!='0'){
+				 layer.msg("请用需求部门编制采购计划！"); 
+			 }else if($.trim(name) == "") {
+					 layer.msg("计划名称不允许为空"); 
 				} else if($.trim(mobile) == "") {
-				alert("cehddiws");
-					layer.tips("录入人手机号不允许为空", "#mobile");
+					 layer.msg("录入人手机号不允许为空"); 
+					//layer.tips("录入人手机号不允许为空", "#mobile");
 				} else if($.trim(type) == ""){
-					layer.tips("请选择物资类别", "#wtype");
-				}  
+					 layer.msg("请选择物资类别"); 
+				} 
+				else if($.trim(refNo) == ""){
+					 layer.msg("请 填写计划文号"); 
+				}
+				
+				
 				
 				else {
 					$("#detailJhmc").val(name);
 					$("#detailJhbh").val(no);
 					$("#detailType").val(type);
 					$("#detailMobile").val(mobile);
+					$("#detailRefNo").val(refNo);
 			  	$.ajax({
 						url: "${pageContext.request.contextPath}/purchaser/queryNo.html",
 						data:{no:no},
@@ -521,14 +530,17 @@
 	                        fileElementId: 'fileName', 
 	                        dataType: 'json',
 	                        success: function (data) { 
-	                    
-	                        var chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+	                        	var bool=true;
+	                           var chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 							           for(var i = 0; i < chars.length ; i ++) {
 							             if(data.indexOf(chars[i])!=-1){
-							              layer.msg(data);  
+							            	 bool=false;
 							             }
 							           }
-							            if(data.indexOf("文本格式")!=-1){
+							           if(bool!=true){
+							        	   layer.msg(data);   
+							           }
+							           else if(data.indexOf("文本格式")!=-1){
 							              layer.msg(data);
 							           }else{
 							             layer.msg("上传成功");
@@ -731,6 +743,17 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
+					
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>计划文号</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group" name="no" value="" id="referenceNo">
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					
+					
+					
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
@@ -928,6 +951,7 @@
 							<input type="hidden" name="planType" id="detailType">
 							<input type="hidden" name="recorderMobile" id="detailMobile">
 							<input type="hidden" name="planDepName" id="detailXqbm"/>
+						    <input type="hidden" name="referenceNo" id="detailRefNo"/>
 						 
 						</form>
 					</div>
