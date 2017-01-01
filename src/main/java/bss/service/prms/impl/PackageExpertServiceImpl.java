@@ -489,13 +489,13 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           //供应商总分数
           totalScore = getTotalScore(supplierList, map);
           //供应商平均得分
-          totalScoreAver = totalScore.divide(supplierNum);
+          totalScoreAver = totalScore.divide(supplierNum, 4);
           //平均得分偏离值
           totalScoreStandard = totalScoreAver.multiply(totalScorePercent);
           //计算总报价
           totalPrice = getTotalPrice(packageId, projectId, supplierList);
           //所有供应商平均报价
-          totalPriceAver = totalPrice.divide(supplierNum);
+          totalPriceAver = totalPrice.divide(supplierNum, 4);
           //平均报价偏离值
           totalPriceStandard = totalPriceAver.multiply(totalPricePercent);
           
@@ -554,10 +554,11 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         }
         //基准价法
         if ("PBFF_JZJF".equals(aduitMethodCode)) {
+          totalPricePercent = bmList.get(0).getValid().divide(new BigDecimal(100));
           //计算总报价
           totalPrice = getTotalPrice(packageId, projectId, supplierList);
           //所有供应商平均报价
-          totalPriceAver = totalPrice.divide(supplierNum);
+          totalPriceAver = totalPrice.divide(supplierNum, 4);
           //平均报价偏离值
           totalPriceStandard = totalPriceAver.multiply(totalPricePercent);
           //该供应商平均报价偏离计算
@@ -577,35 +578,32 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                   totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
               }
           }
-          if (totalPriceSupplier.compareTo(totalPriceAver) == -1) {
+          //如果供应商报价高于所有供应商的平均报价
+          if (totalPriceSupplier.compareTo(totalPriceAver) == 1) {
               //小于平均分的分数
-              BigDecimal v = totalPriceAver.subtract(totalPriceSupplier);
+              BigDecimal v = totalPriceSupplier.subtract(totalPriceAver);
               //如果偏离值大于标准偏离值
               if (totalPriceStandard.compareTo(v) == -1) {
-                BigDecimal percent = totalScorePercent.multiply(new BigDecimal(100));
+                BigDecimal percent = totalPricePercent.multiply(new BigDecimal(100));
                 msg += "报价高于有效平均报价的"+percent+"%.";
                 flag = 1;
               }
-          } else {
-            //基准价
-            BigDecimal benchmarkPrice = totalPriceAver;
-            //浮动比例
-            //BigDecimal slidingCales = ;
-            //中标参考价
-            //BigDecimal winConsultPrice = ;
-            //msg += "";
+          } 
+          if (flag == 1) {
+            resultMap.put("finalSupplier", null);
+          } 
+          if (flag == 0) {
             //返回有效供应商
             resultMap.put("finalSupplier", saleTender);
           }
-          
         }
         //性价比法
         if ("PBFF_XJBF".equals(aduitMethodCode)) {
-          
+          resultMap.put("finalSupplier", saleTender);
         }
         //最低价法
         if ("PBFF_ZDJF".equals(aduitMethodCode)) {
-          
+          resultMap.put("finalSupplier", saleTender);
         }
       }
       resultMap.put("reviewResult", msg);
@@ -758,7 +756,47 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       
       //基准价法
       if ("PBFF_JZJF".equals(aduitMethodCode)) {
+        //合格供应商总报价
+        BigDecimal passSupplierPrice = getTotalPrice(packageId, projectId, finalSupplier);
+        //合格供应商数量
+        int passNum = finalSupplier.size();
+        BigDecimal passSupplierNum = new BigDecimal(passNum);
+        //基准价
+        BigDecimal benchmarkPrice = passSupplierPrice.divide(passSupplierNum, 4);;
+        //浮动比例
+        BigDecimal slidingCales = new BigDecimal(bmList.get(0).getFloatingRatio());
+        slidingCales = slidingCales.divide(new BigDecimal(100));
         
+        //中标参考价
+        BigDecimal temp = new BigDecimal(1);
+        temp = temp.subtract(slidingCales);
+        final BigDecimal winConsultPrice = temp.multiply(benchmarkPrice);
+        //根据最接近中标参考价排名
+        Collections.sort(finalSupplier,new Comparator<SaleTender>(){
+          public int compare(SaleTender o1, SaleTender o2) {  
+            //供应商1报价
+            BigDecimal price1 = o1.getTotalPrice();
+            //供应商1报价与中标参考价的绝对值
+            BigDecimal temp1 = price1.subtract(winConsultPrice);
+            BigDecimal priceAbsolute1 = temp1.abs();
+            //供应商2报价
+            BigDecimal price2 = o2.getTotalPrice();
+            //供应商2报价与中标参考价的绝对值
+            BigDecimal temp2 = price2.subtract(winConsultPrice);
+            BigDecimal priceAbsolute2 = temp2.abs();
+            if(priceAbsolute1.compareTo(priceAbsolute2) == 1){  
+                return 1;
+            }  
+            //总得分相同则按报价排名
+            if(priceAbsolute1.compareTo(priceAbsolute2) == 0){
+                return 0;
+            }
+            if(priceAbsolute1.compareTo(priceAbsolute2) == -1){  
+              return -1;  
+            }  
+            return 0; 
+          }
+        });
       }
       //性价比法
       if ("PBFF_XJBF".equals(aduitMethodCode)) {
@@ -773,14 +811,14 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             BigDecimal totalPrice1 = getTocalPriceSupplier(o1, projectId, packageId);
             totalScore1 = totalScore1.add(o1.getEconomicScore());
             totalScore1 = totalScore1.add(o1.getTechnologyScore());
-            scorePrice1 = totalScore1.divide(totalPrice1);
+            scorePrice1 = totalScore1.divide(totalPrice1, 4);
                 
             BigDecimal scorePrice2 = new BigDecimal(0);
             BigDecimal totalScore2 = new BigDecimal(0);
             BigDecimal totalPrice2 = getTocalPriceSupplier(o2, projectId, packageId);
             totalScore2 = totalScore2.add(o2.getEconomicScore());
             totalScore2 = totalScore2.add(o2.getTechnologyScore());
-            scorePrice2 = totalScore2.divide(totalPrice2);
+            scorePrice2 = totalScore2.divide(totalPrice2, 4);
             if(scorePrice1.compareTo(scorePrice2) == 1){  
                 return -1;
             }  
@@ -806,16 +844,15 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         Collections.sort(finalSupplier,new Comparator<SaleTender>(){
           public int compare(SaleTender o1, SaleTender o2) {  
             BigDecimal totalPrice1 = getTocalPriceSupplier(o1, projectId, packageId);
-                
             BigDecimal totalPrice2 = getTocalPriceSupplier(o2, projectId, packageId);
             if(totalPrice1.compareTo(totalPrice2) == 1){  
-                return -1;
+                return 1;
             }  
             if(totalPrice1.compareTo(totalPrice2) == 0){  
                 return 0;  
             }
             if(totalPrice1.compareTo(totalPrice2) == -1){  
-              return 1;  
+              return -1;  
             }  
             return 0; 
           }

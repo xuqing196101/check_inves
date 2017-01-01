@@ -142,6 +142,11 @@ public class SaleTender {
     private BigDecimal technologyScore;
     
     /**
+     * 供应商报价总金额
+     */
+    private BigDecimal totalPrice;
+    
+    /**
      * 评审结果
      */
     private String reviewResult;
@@ -658,6 +663,15 @@ public class SaleTender {
     public void setIsFinish(Integer isFinish) {
         this.isFinish = isFinish;
     }
-    
+
+
+    public BigDecimal getTotalPrice() {
+      return totalPrice;
+    }
+
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+      this.totalPrice = totalPrice;
+    }
     
 }
