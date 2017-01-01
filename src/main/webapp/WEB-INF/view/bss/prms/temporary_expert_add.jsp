@@ -303,7 +303,7 @@ function sumbits(){
       <li class="col-md-3 col-sm-6 col-xs-12 ">
         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">添加包</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
-            <input  class="title col-md-12" name="packageName"  readonly id="packageName" value="${packageName}" onclick="showPackageType();"   type="text">
+            <input  class="title col-md-12" name="packageName" placeholder="请选择包"  readonly id="packageName" value="${packageName}" onclick="showPackageType();"   type="text">
               <input  readonly id="packageId" name="packageId"     type="hidden">
           <span class="add-on">i</span>
           <div class="cue" >${packageIdError}</div>

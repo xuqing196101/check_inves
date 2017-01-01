@@ -142,12 +142,23 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         ExpertService.insertSelective(expert);
         //插入专家抽取关联表
         String[] arrayPackId = packageId.split(",");
+        String[] array = expert.getExpertsTypeId().split(",");
+        int i = 0;
+        if(array.length > 0 ){
+          int max=array.length-1;
+          int min=0;
+          Random random = new Random();
+          i = random.nextInt(max)%(max-min+1) + min;
+        }
         for (String pId : arrayPackId) {
           ProjectExtract extract = new ProjectExtract();
           extract.setExpertId(uuId);
           extract.setOperatingType((short)1);
           extract.setIsProvisional((short)1);
           extract.setProjectId(pId);
+          if(array.length!=0){
+            extract.setReviewType(array[i]);
+          }
           extractService.insertProjectExtract(extract);
         }
       

@@ -654,13 +654,20 @@ public class ExpExtractRecordController extends BaseController {
 
     if ("1".equals(ids[2])){
       ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
+      //获取抽取类型
       List<ExpExtCondition> conList =  conditionService.list(new ExpExtCondition(expExtRelate.getExpertConditionId(), "") , null);
       String expertTypeId = conList.get(0).getExpertsTypeId();
+      //获取专家类型
+      String expTypeId = expExtRelate.getExpert().getExpertsTypeId();
       //截取专家类型 如果满足insert
       if (expertTypeId != null && !"".equals(expertTypeId)){
+        //抽取类型
         String[] expertTypeIdArray = expertTypeId.split(",");
+        //专家类型
+        String[] expTypeIdAry = expTypeId.split(",");
         ProjectExtract projectExtrac = new ProjectExtract();
         for (String typeId : expertTypeIdArray) {
+          
           //获取抽取的专家类别
           projectExtrac.setReviewType(typeId);
           projectExtrac.setExpertConditionId(ids[1]);
@@ -673,12 +680,21 @@ public class ExpExtractRecordController extends BaseController {
           if(counts !=0 && list.size() != 0 && list.size() >= counts){
             continue;
           }else{
-            //修改为抽取的类型
-            ProjectExtract extract = new ProjectExtract();
-            extract.setReviewType(typeId);
-            extract.setId(ids[0]);
-            extractService.update(extract); 
-            break;
+            int tp = 0;
+            for (String exptypeay : expTypeIdAry) {
+              if(exptypeay.equals(typeId)){
+                //修改为抽取的类型
+                ProjectExtract extract = new ProjectExtract();
+                extract.setReviewType(typeId);
+                extract.setId(ids[0]);
+                extractService.update(extract); 
+                tp = 1;
+              }
+            }
+            
+            if(tp == 1){
+              break; 
+            }
           }
 
         }
@@ -1181,10 +1197,6 @@ public class ExpExtractRecordController extends BaseController {
   @ResponseBody
   @RequestMapping("saveSupervise")
   public String saveSupervise(String[] relName,String[] company, String[] phone,String[] duties,String projectId,String type){
-    //专家
-    List<ProExtSupervise>  ProExtSupervise = new ArrayList<ProExtSupervise>();
-    //供应商
-    List<SupplierExtUser>  supplierExtUser = new ArrayList<SupplierExtUser>();
     //返回抽监督人id
     String superviseId = "";
     //姓名
