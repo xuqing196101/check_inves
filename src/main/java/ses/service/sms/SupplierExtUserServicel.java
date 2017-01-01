@@ -55,4 +55,13 @@ public interface SupplierExtUserServicel {
      */
     void listInsert(List<SupplierExtUser> listInsert);
     
+    /**
+     * 
+     *〈简述〉修改
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param extUser
+     */
+    void update(SupplierExtUser extUser);
+    
 }

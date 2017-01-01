@@ -374,8 +374,10 @@ public class SupplierExtractsController extends BaseController {
    */
   @ResponseBody
   @RequestMapping("/validateAddExtraction")
-  public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId){
+  public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type){
+   
     Map<String, String> map = new HashMap<String, String>();
+    map.put("type", "1");
     //后台数据校验
     int count=0;
     if (project.getName() == null || "".equals(project.getName())){
@@ -387,31 +389,33 @@ public class SupplierExtractsController extends BaseController {
       map.put("projectNumberError", "不能为空");
       count = 1;
     }
-    //    if(project.getId() == null || "".equals(project.getId())){
-    //      map.put("supervise", "不能为空");
-    //      count = 1;
-    //    }else{
-    //      List<SupplierExtUser> list = extUserServicl.list(new SupplierExtUser());
-    //      if (list == null || list.size() == 0 || "".equals(project.getId())){
-    //        map.put("supervise", "不能为空");
-    //        count = 1;
-    //      }
-    //    }
 
     if (extractionSites == null ||  "".equals(extractionSites)){
       map.put("extractionSitesError", "不能为空");
       count=1;
     }
     //独立
-    if(typeclassId == null || "".equals(typeclassId)){
+    if(typeclassId != null || !"".equals(typeclassId)){
+      if(superviseId == null || superviseId.length == 0){
+        map.put("supervise", "不能为空");
+        count = 1;
+      }
+    }else{
+      List<SupplierExtUser> list = extUserServicl.list(new SupplierExtUser());
+      if (list == null || list.size() == 0 || "".equals(project.getId())){
+        map.put("supervise", "不能为空");
+        count = 1;
+      } 
+    }
+    if(type == null || type != 1){
       if(packageId == null || packageId.length == 0 ){
         map.put("packageError", "不能为空");
         count = 1;
       }
     }
-
+ 
     if (count == 1){
-
+     
       return JSON.toJSONString(map);
 
     } else{
@@ -422,6 +426,16 @@ public class SupplierExtractsController extends BaseController {
         project.setIsProvisional(1);
         projectService.add(project);
         projectId = project.getId();
+        project.setId(projectId);
+        //修改监督人员
+        if(superviseId != null && superviseId.length != 0){
+          for (String id : superviseId) {
+            SupplierExtUser extUser = new SupplierExtUser();
+            extUser.setProjectId(projectId);
+            extUser.setId(id);
+            extUserServicel.update(extUser);
+          }
+        }
       }
       //抽取地址
       if (extractionSites != null && !"".equals(extractionSites)){
@@ -444,18 +458,18 @@ public class SupplierExtractsController extends BaseController {
           expExtractRecordService.insert(supplierExtracts);
         }
       }  
-      //监督人员
-      //      if (sids != null && sids.length != 0){
-      //        extUserServicel.deleteProjectId(project.getId());
-      //        for (String id : sids) {
-      //          if (!"".equals(id)){
-      //            SupplierExtUser  record1 = new SupplierExtUser();
-      //            record1.setProjectId(project.getId());
-      //            record1.setUserId(id);
-      //            extUserServicel.insert(record1);
-      //          }
-      //        }
-      //      }
+      //      监督人员
+//      if (sids != null && sids.length != 0){
+//        extUserServicel.deleteProjectId(project.getId());
+//        for (String id : sids) {
+//          if (!"".equals(id)){
+//            SupplierExtUser  record1 = new SupplierExtUser();
+//            record1.setProjectId(project.getId());
+//            record1.setUserId(id);
+//            extUserServicel.insert(record1);
+//          }
+//        }
+//      }
 
       //            获取抽取条件状态，未抽取不能在抽取
       map.put("projectId", project.getId());
@@ -467,7 +481,7 @@ public class SupplierExtractsController extends BaseController {
         } else {
           map.put("sccuess", "SCCUESS");
         }
-        
+
       }
     }
     return JSON.toJSONString(map);
@@ -867,10 +881,12 @@ public class SupplierExtractsController extends BaseController {
    */
   @RequestMapping("/showSupervise")
   public String showSupervise(Model model,String projectId){
-    model.addAttribute("projectId", projectId);
-    List<SupplierExtUser> list = extUserServicel.list(new SupplierExtUser(projectId));
-    model.addAttribute("list", list);
-    model.addAttribute("type", "supplier");
+    if(projectId != null && !"".equals(projectId)){
+      model.addAttribute("projectId", projectId);
+      List<SupplierExtUser> list = extUserServicel.list(new SupplierExtUser(projectId));
+      model.addAttribute("list", list);
+      model.addAttribute("type", "supplier");
+    }
     return "ses/sms/supplier_extracts/supervise_list";
   }
 

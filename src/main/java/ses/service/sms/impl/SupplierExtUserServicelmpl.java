@@ -68,4 +68,13 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
         supplierExtUserMapper.listInsert(list);
     }
 
+    /**
+     * 修改
+     * @see ses.service.sms.SupplierExtUserServicel#update(ses.model.sms.SupplierExtUser)
+     */
+    @Override
+    public void update(SupplierExtUser extUser) {
+      supplierExtUserMapper.updateByPrimaryKeySelective(extUser);
+    }
+
 }

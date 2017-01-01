@@ -82,11 +82,9 @@
         $(divObj).removeClass("hide");
         $("#package").removeClass("shrink");        
         $("#package").addClass("spread");
-      })
+      });
 
-
-      
-      function add() {
+      function add(type) {
     	  
         var packageId=$("#packageId").val();
         var typeclassId = "${typeclassId}";
@@ -94,7 +92,7 @@
           cache: true,
           type: "POST",
           dataType: "json",
-          url: '${pageContext.request.contextPath}/SupplierExtracts/validateAddExtraction.do',
+          url: '${pageContext.request.contextPath}/SupplierExtracts/validateAddExtraction.do?type='+type,
           data: $('#form').serialize(), // 你的formid
           async: false,
           success: function(data) {
@@ -127,29 +125,34 @@
                         });
            }else if(typeclassId != null && typeclassId != ''){
         	   $("#projectId").val(projectId);
-        	   var iframeWin;
-               layer.open({
-                 type: 2,
-                 title: "选择包",
-                 shadeClose: true,
-                 shade: 0.01,
-                 offset: '20px',
-                 move: false,
-                 area: ['50%', '50%'],
-                 content: '${pageContext.request.contextPath}/SupplierExtracts/showPackage.do?projectId='+projectId,
-                 success: function(layero, index) {
-                   iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                 },
-                 btn: ['保存', '关闭'],
-                 yes: function() {
-                   iframeWin.add();
-
-                 },
-                 btn2: function() {
-                   layer.closeAll();
-                 }
-               });
-           }
+        	   $("#pId").val(projectId);
+              	if(map.type != null && map.type == '1'){
+	        	   var iframeWin;
+	               layer.open({
+	                 type: 2,
+	                 title: "选择包",
+	                 shadeClose: true,
+	                 shade: 0.01,
+	                 offset: '20px',
+	                 move: false,
+	                 area: ['50%', '50%'],
+	                 content: '${pageContext.request.contextPath}/SupplierExtracts/showPackage.do?projectId='+projectId,
+	                 success: function(layero, index) {
+	                   iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+	                 },
+	                 btn: ['保存', '关闭'],
+	                 yes: function() {
+	                   iframeWin.add();
+	
+	                 },
+	                 btn2: function() {
+	                   layer.closeAll();
+	                 }
+	               });
+        		
+            	}
+	           }
+          
           }
         });
 
@@ -213,11 +216,11 @@
             onCheck: onCheck
           }
         };
-        
+        var projectId =$("#projectId").val();
         $.ajax({
           type: "GET",
           async: false,
-          url: "${pageContext.request.contextPath}/SupplierExtracts/getpackage.do?projectId=${projectId}",
+          url: "${pageContext.request.contextPath}/SupplierExtracts/getpackage.do?projectId="+projectId,
           dataType: "json",
           success: function(zNodes) {
             tree = $.fn.zTree.init($("#treePackageType"), setting, zNodes);
@@ -309,9 +312,11 @@
             <!-- 打开类型 -->
           <input type="hidden" value="${typeclassId}" name="typeclassId"/>
             <!-- 项目id  -->
-          <input type="hidden" id="projectId" value="${projectId}" name="id">
+          <input type="hidden" id="pId" value="${projectId}" name="id">
+           <!-- 监督人员id  -->
+          <input type="hidden" id="superviseId" value="${superviseId}" name="superviseId">          
            <!-- 包id  -->
-<%--           <input type="hidden" id="packageId" value="${packageId}" name="packageId"> --%>
+     <%--           <input type="hidden" id="packageId" value="${packageId}" name="packageId"> --%>
         <div>
           <h2 class="count_flow"><i>1</i>必填项</h2>
           <div class="ul_list">
@@ -367,7 +372,7 @@
           </div>
            <div align="right" class=" pl20 mb10 " >
             <button class="btn mb10" 
-                onclick="add();" type="button">添加包</button>
+                onclick="add(1);" type="button">添加包</button>
              <input class="input_group " readonly id="packageName" value="" onclick="showPackageType();"   type="text">
               <input  readonly id="packageId" name="packageId"     type="hidden">
 <!--           <select class="w200" id="packageId" > -->
@@ -376,7 +381,7 @@
 <%--             </c:forEach> --%>
 <!--           </select> -->
             <button class="btn mb10" 
-                onclick="add();" type="button">抽取</button>
+                onclick="add(2);" type="button">抽取</button>
 <!--             <button class="btn" -->
 <!--                 onclick="record();" type="button">引用其他包</button> -->
         </div>

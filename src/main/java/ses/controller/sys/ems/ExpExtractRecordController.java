@@ -1185,7 +1185,11 @@ public class ExpExtractRecordController extends BaseController {
     List<ProExtSupervise>  ProExtSupervise = new ArrayList<ProExtSupervise>();
     //供应商
     List<SupplierExtUser>  supplierExtUser = new ArrayList<SupplierExtUser>();
+    //返回抽监督人id
+    String superviseId = "";
+    //姓名
     String strRelName="";
+    Map<String, String> map = new HashMap<String, String>();
     ProExtSupervise ps=null;
     SupplierExtUser eu=null;
     if(relName.length == 0 || phone.length ==0 || company.length == 0){
@@ -1212,32 +1216,35 @@ public class ExpExtractRecordController extends BaseController {
         eu.setCompany(company[i]);
         eu.setPhone(phone[i]);
         eu.setRelName(relName[i]);
-        eu.setProjectId(projectId);
+        if(projectId != null && !"".equals(projectId)){
+          extUserServicel.deleteProjectId(projectId);
+          eu.setProjectId(projectId);
+        }
         eu.setDuties(duties[i]);
         strRelName+=relName[i]+",";
-        supplierExtUser.add(eu);
+        extUserServicel.insert(eu);
+        superviseId += eu.getId() + ",";
       }else{
         //专家
         ps.setCompany(company[i]);
         ps.setPhone(phone[i]);
         ps.setRelName(relName[i]);
+        if(projectId != null && !"".equals(projectId)){
+          projectSupervisorServicel.deleteProjectId(projectId);
+          eu.setProjectId(projectId);
+        }
         ps.setProjectId(projectId);
         ps.setDuties(duties[i]);
         strRelName+=relName[i]+",";
-        ProExtSupervise.add(ps);   
+        projectSupervisorServicel.insert(ps);
+        superviseId += ps.getId() + ",";
       }
 
 
     }
-    if(type != null && "supplier".equals(type)){
-      extUserServicel.deleteProjectId(projectId);
-      extUserServicel.listInsert(supplierExtUser);
-    }else{
-      projectSupervisorServicel.deleteProjectId(projectId);
-      projectSupervisorServicel.listInsert(ProExtSupervise);       
-    }
-
-    return JSON.toJSONString(strRelName.substring(0, strRelName.length()-1));
+    map.put("relName", strRelName.substring(0, strRelName.length()-1));
+    map.put("superviseId", superviseId.substring(0, superviseId.length()-1));
+    return JSON.toJSONString(map);
   }
 
   /**
@@ -1249,9 +1256,11 @@ public class ExpExtractRecordController extends BaseController {
    */
   @RequestMapping("/showSupervise")
   public String showSupervise(Model model,String projectId){
-    model.addAttribute("projectId", projectId);
-    List<ProExtSupervise> list = projectSupervisorServicel.list(new ProExtSupervise(projectId));
-    model.addAttribute("list", list);
+    if(projectId != null && !"".equals(projectId)){
+      model.addAttribute("projectId", projectId);
+      List<ProExtSupervise> list = projectSupervisorServicel.list(new ProExtSupervise(projectId));
+      model.addAttribute("list", list);
+    }
     return "ses/sms/supplier_extracts/supervise_list";
   }
 
