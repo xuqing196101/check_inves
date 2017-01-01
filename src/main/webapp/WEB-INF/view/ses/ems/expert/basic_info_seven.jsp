@@ -189,17 +189,17 @@ session.setAttribute("tokenSession", tokenValue);
 				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					<div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
 						<c:forEach items="${spList}" var="sp" >
-					      <span <c:if test="${fn:contains(errorField,sp.id)}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('${sp.id}')"</c:if> class="margin-left-30"><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
+					      <span <c:if test="${fn:contains(errorField,sp.id)}">style="color: #ef0000;" onmouseover="errorMsg('${sp.id}')"</c:if> class="margin-left-30"><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
 					    </c:forEach>
 					    <c:forEach items="${jjList}" var="jj" >
-							<span <c:if test="${fn:contains(errorField,jj.id)}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('${jj.id}')"</c:if> class="margin-left-30"><input type="checkbox" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
+							<span <c:if test="${fn:contains(errorField,jj.id)}">style="color: #ef0000;" onmouseover="errorMsg('${jj.id}')"</c:if> class="margin-left-30"><input type="checkbox" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
 						</c:forEach>
 					</div>
 				</li>
 			</ul>
 				<div class="btmfix">
 	  	  	  <div style="margin-top: 15px;text-align: center;">
-	  	  	    <button class="btn" id="nextBind"  type="button" onclick='pre()' >上一步</button>
+	  	  	    <button class="btn" id="nextBind"  type="button" onclick='pre()'>上一步</button>
 			      <button class="btn" onclick='zc()'  type="button">暂存</button>
 					<button class="btn" id="nextBind"  type="button" onclick='fun()' >下一步</button>
 	  	  	  </div>
