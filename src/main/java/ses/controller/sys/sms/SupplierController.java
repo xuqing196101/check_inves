@@ -953,14 +953,14 @@ import ses.util.WfUtil;
      }
 
 
-     if (supplier.getMobileCode() == null) {
+     /*if (supplier.getMobileCode() == null) {
        model.addAttribute("err_msg_mobileCode", "手机验证码错误 !");
        count++;
-     }
-     if (supplier.getIdentifyCode() == null || !supplier.getIdentifyCode().equals(identifyCode)) {
+     }*/
+     /*if (supplier.getIdentifyCode() == null || !supplier.getIdentifyCode().equals(identifyCode)) {
        model.addAttribute("err_msg_code", "验证码错误 !");
        count++;
-     }
+     }*/
      if (StringUtils.isNotBlank(supplier.getMobile())){
        Integer mobileCount = supplierService.getCountMobile(supplier.getMobile());
        if(mobileCount > 0){

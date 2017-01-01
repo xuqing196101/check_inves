@@ -310,14 +310,14 @@ function searchCate(cateId, treeId) {
 		  <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">	  	
 			<c:if test="${cate.code eq 'GOODS'}">
 				<c:set value="${liCount+1}" var="liCount"/>
-			  <li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资</a></li>
+			  <li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资品目信息</a></li>
 			</c:if>
 			<c:if test="${cate.code eq 'PROJECT'}">
-			  <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程</a></li>
+			  <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程品目信息</a></li>
 				<c:set value="${liCount+1}" var="liCount"/>
 			</c:if>
 			<c:if test="${cate.code eq 'SERVICE'}">
-			  <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务</a></li>
+			  <li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);"><a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务品目信息</a></li>
 				<c:set value="${liCount+1}" var="liCount"/>
 			</c:if>
 		  </c:forEach>

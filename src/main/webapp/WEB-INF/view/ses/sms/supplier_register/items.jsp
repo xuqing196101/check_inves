@@ -287,6 +287,47 @@
 			content : '${pageContext.request.contextPath}/supplierAudit/showReasonsList.html?&auditType=item_pro_page,item_sell_page,item_eng_page,item_serve_page' + '&jsp=dialog_item_reason' + '&supplierId=' + supplierId, //url
 		});
 	}
+	function searchCate(cateId, treeId,type,seq) {
+		var zNodes;
+		var zTreeObj;
+		var setting = {
+			check : {
+				enable : true,
+				chkStyle:"checkbox",  
+				chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+			},
+			data : {
+				simpleData : {
+					enable : true,
+					idKey: "id",
+					pIdKey: "parentId",
+				}
+			},
+			callback: {
+				onCheck: saveCategory
+			},view: {
+				showLine: false
+			}
+		};
+		var cateName = $("#" + cateId).val();
+		if (cateName == "") {
+			loadTab(type,treeId,seq);
+		} else {
+			var supplierId= $("#supplierId").val();
+			var id = type;
+			$.ajax({
+				url: "${pageContext.request.contextPath}/expert/searchCate.do",
+				data: {"typeId" : id, "cateName" : cateName, "supplierId" : supplierId},
+				async: false,
+				dataType: "json",
+				success: function(data){
+					zNodes = data;
+					zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
+					zTreeObj.expandAll(true);//全部展开
+				}
+			});
+		}
+	}
 </script>
 </head>
 
@@ -342,6 +383,11 @@
 									<h2 class="f16 ">
 											勾选物资生产型品目信息
 									</h2>
+									<div id="div-1">
+								  	产品名称:<input type="text" id="cate-1">
+								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-1','tree_ul_id_1','PRODUCT',1)"/>
+								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+								  	</div>
 									<div class="lr0_tbauto">
 										<ul id="tree_ul_id_1" class="ztree_supplier mt30"></ul>
 									</div>
@@ -353,6 +399,11 @@
 									<h2 class="f16 ">
 											勾选物资销售型品目信息
 									</h2>
+									<div id="div-2">
+								  	产品名称:<input type="text" id="cate-2">
+								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-2','tree_ul_id_2','SALES',2)"/>
+								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+								  	</div>
 									<div class="lr0_tbauto">
 										<ul id="tree_ul_id_2" class="ztree_supplier mt30"></ul>
 									</div>
@@ -364,6 +415,11 @@
 									<h2 class="f16  ">
 									      	勾选工程品目信息
 									</h2>
+									<div id="div-3">
+								  	产品名称:<input type="text" id="cate-3">
+								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-3','tree_ul_id_3','PROJECT',null)"/>
+								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+								  	</div>
 									<div class="lr0_tbauto">
 										<ul id="tree_ul_id_3" class="ztree_supplier mt30"></ul>
 									</div>
@@ -375,6 +431,11 @@
 									<h2 class="f16">
 										 勾选服务品目信息
 									</h2>
+									<div id="div-4">
+								  	产品名称:<input type="text" id="cate-4">
+								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tree_ul_id_4','SERVICE',null)"/>
+								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+								  	</div>
 									<div class="lr0_tbauto">
 										<ul id="tree_ul_id_4" class="ztree_supplier mt30"></ul>
 									</div>
@@ -404,7 +465,7 @@
 	
 	
 	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier_item/save_or_update.html" method="post">
-		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
+		<input name="supplierId" id="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
 		<input name="clickFlag" value=""  id="clickFlag" type="hidden" /> 
 		<input name="flag" value=""  id="flag" type="hidden" /> 
