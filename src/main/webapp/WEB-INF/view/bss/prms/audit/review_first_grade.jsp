@@ -213,16 +213,16 @@ $(document).ready(function() {
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
 			    	      <td class="tc w100" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
-			    	      <td class="">${score.name}</td>
+			    	      <td class=""><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
 			 	  		  <td class="">
-			 	    	    <c:if test="${score.typeName == 0}"><a href="javascript:void();" title="${score.reviewContent}">模型一</a></c:if>
-			 	            <c:if test="${score.typeName == 1}"><a href="javascript:void();" title="${score.reviewContent}">模型二</a></c:if>
-				 	        <c:if test="${score.typeName == 2}"><a href="javascript:void();" title="${score.reviewContent}">模型三</a></c:if>
-				 	        <c:if test="${score.typeName == 3}"><a href="javascript:void();" title="${score.reviewContent}">模型四</a></c:if>
-				 	        <c:if test="${score.typeName == 4}"><a href="javascript:void();" title="${score.reviewContent}">模型五</a></c:if>
-				 	        <c:if test="${score.typeName == 5}"><a href="javascript:void();" title="${score.reviewContent}">模型六</a></c:if>
-				 	        <c:if test="${score.typeName == 6}"><a href="javascript:void();" title="${score.reviewContent}">模型七</a></c:if>
-				 	        <c:if test="${score.typeName == 7}"><a href="javascript:void();" title="${score.reviewContent}">模型八</a></c:if>
+			 	    	    <c:if test="${score.typeName == 0}">模型一</c:if>
+			 	            <c:if test="${score.typeName == 1}">模型二</c:if>
+				 	        <c:if test="${score.typeName == 2}">模型三</c:if>
+				 	        <c:if test="${score.typeName == 3}">模型四</c:if>
+				 	        <c:if test="${score.typeName == 4}">模型五</c:if>
+				 	        <c:if test="${score.typeName == 5}">模型六</c:if>
+				 	        <c:if test="${score.typeName == 6}">模型七</c:if>
+				 	        <c:if test="${score.typeName == 7}">模型八</c:if>
 				 	      </td>
 				 	      <td class="tc">${score.standardScore}</td>
 				 	      <c:forEach items="${supplierList}" var="supplier">
