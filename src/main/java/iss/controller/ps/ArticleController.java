@@ -264,7 +264,11 @@ public class ArticleController extends BaseSupplierController{
       article.setShowCount(0);
       article.setDownloadCount(0);
       articleService.addArticle(article);
-      url = "redirect:getAll.html?news=1";
+      if(article.getStatus()==1){
+    	  url = "redirect:getAll.html?news=0";
+      }else{
+    	  url = "redirect:getAll.html?news=1";
+      }
     }
     return url;
   }
@@ -562,7 +566,13 @@ public class ArticleController extends BaseSupplierController{
     }
     article.setUpdatedAt(new Date());
     articleService.update(article);
-    return "redirect:getAll.html?news=1";
+    String url="";
+    if(article.getStatus()=='1'){
+    	url = "redirect:getAll.html?news=0";
+    }else{
+    	url = "redirect:getAll.html?news=1";
+    }
+    return url;
   }
 
   /**
@@ -821,45 +831,157 @@ public class ArticleController extends BaseSupplierController{
    * @throws Exception 
    */
   @RequestMapping("/audit")
-  public String audit(String id,Article article,HttpServletRequest request,Model model,Integer page) throws Exception{
+  public String audit(String[] ranges,String id,Article article,HttpServletRequest request,Model model,Integer page) throws Exception{
     //Article findOneArticle = articleService.selectArticleById(article.getId());
 	 article.setUpdatedAt(new Date());
+	 String url = "";
     if(article.getStatus()==2){
     	article.setReason("");
     	article.setStatus(2);
       User user = (User) request.getSession().getAttribute("loginUser");
-      article.setPublishedName(user.getRelName());
-      article.setPublishedAt(new Date());
-//      ArticleType articleType = findOneArticle.getLastArticleType();
-//      Integer showNum = Integer.parseInt(articleType.getShowNum())+1;
-//      articleType.setShowNum(showNum.toString());
-//      articleTypeService.updateByPrimaryKey(articleType);
-//      solrNewsService.addIndex(findOneArticle);
-//      String contype = request.getParameter("article.id");
-//      if(ValidateUtils.isNull(article.getFourArticleTypeId())){
-//    	  if(ValidateUtils.isNull(article.getThreeArticleTypeId())){
-//    		  if(ValidateUtils.isNull(article.getSecondArticleTypeId())){
-//    			  article.setLastArticleTypeId(contype);
-//    		  }else{
-//    			  article.setLastArticleTypeId(article.getSecondArticleTypeId());
-//    		  }
-//    	  }else{
-//    		  article.setLastArticleTypeId(article.getThreeArticleTypeId());
-//    	  }
-//      }else{
-//    	  article.setLastArticleTypeId(article.getFourArticleTypeId());
+      List<ArticleType> listType = articleTypeService.selectAllArticleTypeForSolr();
+      model.addAttribute("list", listType);
+      boolean flag = true;
+
+      if(ValidateUtils.isNull(article.getName())){
+        model.addAttribute("ERR_name", "标题名称不能为空");
+        flag = false;
+      }else 
+        if(article.getName().length()>50){
+        model.addAttribute("ERR_name", "标题名称不能超过50字符");
+        flag = false;
+      }
+      List<Article> art = articleService.selectAllArticle(null,1);
+      if(art!=null){
+        for(Article ar:art){
+          if(ar.getName().equals(article.getName())){
+        	if(ar.getId().equals(article.getId())){
+        		continue;
+        	}else{
+	            flag = false;
+	            model.addAttribute("ERR_name", "标题名称不能重复");
+        	}
+          }
+        }
+      }
+      String contype = request.getParameter("articleType.id");
+      if(ValidateUtils.isNull(contype)){
+        flag = false;
+        model.addAttribute("ERR_typeId", "信息栏目不能为空");
+      }
+//      String isPicShow = request.getParameter("isPicShow");
+//      if(isPicShow!=null&&!isPicShow.equals("")){
+//        articleService.updateisPicShow(isPicShow);
 //      }
-      articleService.update(article);
-    }
-    if(article.getStatus()==3){
-      articleService.updateStatus(article);
-    }
+      if(ranges!=null&&!ranges.equals("")){
+        if(ranges.length>1){
+          article.setRange(2);
+        }else{
+          for(int i=0;i<ranges.length;i++){
+            article.setRange(Integer.valueOf(ranges[i]));
+          }
+        }
+      }else{
+        flag = false;
+        model.addAttribute("ERR_range", "发布范围不能为空");
+      }
+      
+      if(article.getSource() != null  && article.getSource().length()>50){
+        model.addAttribute("ERR_source", "文章来源不能超过50字符");
+        flag = false;
+      }
+      
+      if(article.getSourceLink() != null  && article.getSourceLink().length()>100){
+        model.addAttribute("ERR_sourceLink", "连接来源不能超过100字符");
+        flag = false;
+      }
+      
+      if(ValidateUtils.isNull(article.getContent())){
+        flag = false;
+        model.addAttribute("ERR_content", "信息正文不能为空");
+      }
+      
+      if(article.getSecondArticleTypeId()!=null){
+      	if(article.getSecondArticleTypeId().equals("111")){
+      		List<UploadFile> gzdt= uploadService.findBybusinessId(id,Constant.FORUM_SYS_KEY);
+      		if(gzdt.size()<1){
+      			flag = false;
+      			model.addAttribute("ERR_auditPic", "请上传图片!");
+      		}
+      	}
+      }
+      
+      List<UploadFile> auditDoc = uploadService.findBybusinessId(id,Constant.EXPERT_SYS_KEY);
+//  	if(auditDoc.size()<1){
+//  		flag = false;
+//  		model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
+//  	}
+      
+      DictionaryData dd=new DictionaryData();
+      dd.setCode("POST_ATTACHMENT");
+      List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+      request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+      if(lists.size()>0){
+        model.addAttribute("attachTypeId", lists.get(0).getId());
+      }
 
-    List<Article> list = articleService.selectAllArticle(null, page==null?1:page);
-    model.addAttribute("list", new PageInfo<Article>(list));
+      model.addAttribute("articleId", article.getId());
+      DictionaryData da=new DictionaryData();
+      da.setCode("GGWJ");
+      List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+      request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
+      if(dlists.size()>0){
+        model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
+      }
+      
+      DictionaryData sj=new DictionaryData();
+      sj.setCode("SHWJ");
+      List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+      request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
+      if(secrets.size()>0){
+        model.addAttribute("secretTypeId", secrets.get(0).getId());
+      }
 
-    model.addAttribute("status", "1");
-    return "redirect:auditlist.html";
+      if(flag==false){
+        model.addAttribute("article", article);
+        model.addAttribute("articleId", id);
+        List<ArticleType> articleList = articleTypeService.selectAllArticleTypeForSolr();
+        model.addAttribute("list", articleList);
+        url = "iss/ps/article/audit/audit";
+      }else{
+	      article.setPublishedName(user.getRelName());
+	      article.setPublishedAt(new Date());
+	//      ArticleType articleType = findOneArticle.getLastArticleType();
+	//      Integer showNum = Integer.parseInt(articleType.getShowNum())+1;
+	//      articleType.setShowNum(showNum.toString());
+	//      articleTypeService.updateByPrimaryKey(articleType);
+	//      solrNewsService.addIndex(findOneArticle);
+	      if(ValidateUtils.isNull(article.getFourArticleTypeId())){
+	    	  if(ValidateUtils.isNull(article.getThreeArticleTypeId())){
+	    		  if(ValidateUtils.isNull(article.getSecondArticleTypeId())){
+	    			  article.setLastArticleTypeId(contype);
+	    		  }else{
+	    			  article.setLastArticleTypeId(article.getSecondArticleTypeId());
+	    		  }
+	    	  }else{
+	    		  article.setLastArticleTypeId(article.getThreeArticleTypeId());
+	    	  }
+	      }else{
+	    	  article.setLastArticleTypeId(article.getFourArticleTypeId());
+	      }
+	      articleService.update(article);
+	    if(article.getStatus()==3){
+	      articleService.updateStatus(article);
+	    }
+	
+	    List<Article> list = articleService.selectAllArticle(null, page==null?1:page);
+	    model.addAttribute("list", new PageInfo<Article>(list));
+	
+	    model.addAttribute("status", "1");
+	    url = "redirect:auditlist.html";
+    }
+  }
+    return url;
   }
 
   /**

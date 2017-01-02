@@ -351,13 +351,14 @@
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="ol-md-12 col-sm-12 col-xs-12 padding-left-5">信息标题：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input class="span2" type="text" name="name" disabled="disabled" value="${article.name }">
+                <input class="span2" type="text" name="name" value="${article.name }">
+                <div class="cue">${ERR_name}</div>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><div class="star_red">*</div>信息栏目：</span>
               <div class="select_common col-md-12 col-xs-12 col-sm-12 input_group p0">
-                <select id="articleTypes" name="articleType.id" disabled="disabled" class="p0 select col-md-12 col-xs-12 col-sm-12 " onchange="typeInfo()">
+                <select id="articleTypes" name="articleType.id" class="p0 select col-md-12 col-xs-12 col-sm-12 " onchange="typeInfo()">
                 </select>
                 <div class="cue">${ERR_typeId}</div>
               </div>
@@ -366,7 +367,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="second">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div id="lmsx" class="star_red">*</div>栏目属性：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <select id="secondType" name="secondArticleTypeId" disabled="disabled" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="secondTypeInfo()">
+                <select id="secondType" name="secondArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="secondTypeInfo()">
                 </select>
                 <div class="cue" id="ERR_secondType"></div>
               </div>
@@ -375,7 +376,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="three">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>栏目类型：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <select id="threeType" name="threeArticleTypeId" disabled="disabled" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="threeTypeInfo()">
+                <select id="threeType" name="threeArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="threeTypeInfo()">
                 </select>
                 <div class="cue" id="ERR_threeType"></div>
               </div>
@@ -384,7 +385,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="four">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购方式：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <select id="fourType" name="fourArticleTypeId" disabled="disabled" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="fourTypeInfo()">
+                <select id="fourType" name="fourArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="fourTypeInfo()">
                 </select>
                 <div class="cue" id="ERR_fourType"></div>
               </div>
@@ -394,36 +395,40 @@
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发布范围：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
                 <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
-                <label class="ml10 fl"><input type="checkbox" disabled="disabled" name="ranges" value="1">外网</label>
+                <label class="ml10 fl"><input type="checkbox" name="ranges" value="1">外网</label>
+                <div class="cue">${ERR_range}</div>
               </div>
             </li>
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息正文：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <script id="editor" type="text/plain" class="col-md-12 p0"></script>
+                <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
+              </div>
+              <div class="red f14 clear col-ms-12 col-xs-12 col-sm-12 p0">${ERR_content}</div>
+            </li>
+            <li class="col-md-6 col-sm-6 col-xs-12 mt10">
+              <span class="fl">附件上传：</span>
+              <div>
+                <u:upload id="artice_file_up" buttonName="上传文档" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+                <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
               </div>
             </li>
-            <li class="col-md-6 col-xs-6 col-sm-12 mt10">
-              <span class="fl">已上传的附件：</span>
-              <div class="fl">
-                <u:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
-              </div>
-            </li>
-
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">单位及保密委员会审核表：</span>
               <div>
-                <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" auto="true" />
+                <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
               </div>
+              <div class="cue">${ERR_auditDoc}</div>
             </li>
-
             <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">
-              <span class="fl">图片上传：</span>
-              <div>
-                <u:show showId="artice_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
+              <span class="fl"><div class="star_red">*</div>图片上传：</span>
+              <div class="mb20 h30">
+                <u:upload id="artice_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+                <u:show showId="artice_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
+                <div class="cue">${ERR_auditPic}</div>
               </div>
             </li>
-
           </ul>
         </div>
         <div class="padding-top-10 clear">
@@ -438,7 +443,7 @@
           </ul>
           <div class="col-md-12 tc">
             <button class="btn btn-windows check" type="submit">发布</button>
-            <button class="btn btn-windows withdraw" type="button" onclick="back()">驳回</button>
+            <button class="btn btn-windows withdraw" type="button" onclick="back()">退回</button>
             <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
           </div>
         </div>
@@ -465,7 +470,6 @@
       var content = '${article.content}';
       ue.ready(function() {
         ue.setContent(content);
-        ue.setDisabled([]);
       });
     </script>
 
