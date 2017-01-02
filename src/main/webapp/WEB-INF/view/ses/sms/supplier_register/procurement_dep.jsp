@@ -57,7 +57,6 @@
 				return;
 			}
 			var procurementDepId = $(":radio:checked").val();
-			alert(procurementDepId);
 			$("input[name='procurementDepId']").val(procurementDepId);
 			  $("input[name='flag']").val(flag);
 			  $("#procurement_dep_form_id").submit();

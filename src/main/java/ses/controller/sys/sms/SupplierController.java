@@ -852,6 +852,18 @@ import ses.util.WfUtil;
      request.getSession().removeAttribute("listOrgnizations2");
      return "redirect:../index/selectIndexNews.html";
    }
+   
+   @ResponseBody
+   @RequestMapping("/isCommit")
+   public String isCommit(Model model, Supplier supplier) {
+       boolean bool = validateUpload(model,supplier.getId());
+       if(bool!=true){
+           // 返回
+           return "1";
+       } else {
+           return "0";
+       }
+   }
 
    /**
     * @Title: page_jump

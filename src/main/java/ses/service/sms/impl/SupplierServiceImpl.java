@@ -429,7 +429,7 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public void commit(Supplier supplier) {
-        if (supplier.getStatus() == 7) {
+        if (supplier.getStatus() == 2) {
             Map<String, Object> param = new HashMap<String, Object>();
             param.put("isDeleted", 1);
             param.put("supplierId", supplier.getId());
@@ -450,6 +450,10 @@ public class SupplierServiceImpl implements SupplierService {
         }
         todos.setName(supplier.getSupplierName()+"供应商初审 !");// 待办名称
         todos.setOrgId(supplier.getProcurementDepId());// 机构ID
+        //发送人id
+        User user = userService.findByTypeId(supplier.getId());
+        todos.setSenderId(user.getId());
+        todos.setSenderName(supplier.getSupplierName());
         todos.setPowerId(PropUtil.getProperty("gyscs"));// 权限 ID
         todos.setUrl("supplierAudit/essential.html?supplierId=" + supplier.getId());// URL
         todos.setUndoType((short) 1);// 类型

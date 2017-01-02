@@ -94,11 +94,19 @@ session.setAttribute("tokenSession", tokenValue);
 		}
 		var expertId = "${expert.id}";
 		var typeId = $("#" + treeId + "-value").val();
-		$.ajax({
-			url: "${pageContext.request.contextPath}/expert/saveCategory.do",
-			async: false,
-			data: {"expertId" : expertId, "categoryId" : treeNode.id, "type" : clickFlag, "typeId" : typeId}
-		});
+		if (clickFlag == "1") {
+			$.ajax({
+				url: "${pageContext.request.contextPath}/expert/saveCategory.do",
+				async: false,
+				data: {"expertId" : expertId, "categoryId" : treeNode.id, "type" : clickFlag, "typeId" : typeId}
+			});
+		} else {
+			$.ajax({
+				url: "${pageContext.request.contextPath}/expert/saveCategory.do",
+				async: false,
+				data: {"expertId" : expertId, "categoryId" : treeNode.id, "type" : clickFlag, "typeId" : typeId, "isParent" : treeNode.isParent}
+			});
+		}
 	}
 	function zTreeBeforeCheck(treeId, treeNode) {
 		if (!treeNode.checked) {
@@ -262,8 +270,16 @@ function searchCate(cateId, treeId) {
 			dataType: "json",
 			success: function(data){
 				zNodes = data;
+				$.fn.zTree.init($("#" + treeId), setting, null);
 				zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
 				zTreeObj.expandAll(true);//全部展开
+				var treeNodes = zTreeObj.getNodes();
+				for (var i = 0; i < treeNodes.length; i++) {
+					if (treeNodes[i].level > 2) {
+						treeNodes[i].isParent = false;
+						zTreeObj.updateNode(treeNodes[i]);
+					}
+				}
 			}
 		});
 	}

@@ -496,7 +496,7 @@ public class ExpertController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/saveCategory")
-    public void saveCategory(String expertId, String categoryId, String type, String typeId, String level){
+    public void saveCategory(String expertId, String categoryId, String type, String typeId, boolean isParent){
         if ("1".equals(type)) {
             // 1代表增加
             // 判断是否是子节点,如果是父节点被选中则添加该节点的所有子节点
@@ -519,10 +519,9 @@ public class ExpertController extends BaseController {
         } else if ("0".equals(type)) {
             // 0代表删除
             // 判断是否是子节点,如果是父节点被取消则删除该节点的所有子节点
-            List<Category> list = categoryService.findPublishTree(categoryId, null);
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("expertId", expertId);
-            if (list == null || list.size() == 0) {
+            if (!isParent) {
                 // 代表是子节点,只需要在中间表中删除自身即可
                 map.put("categoryId", categoryId);
                 expertCategoryService.deleteByMap(map);
@@ -531,6 +530,8 @@ public class ExpertController extends BaseController {
                 List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expertId, null);
                 Expert expert = new Expert();
                 expert.setId(expertId);
+                map.put("categoryId", categoryId);
+                expertCategoryService.deleteByMap(map); 
                 for (ExpertCategory category : allList) {
                     String id = category.getCategoryId();
                     boolean isDel = false;
