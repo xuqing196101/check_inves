@@ -255,7 +255,6 @@ public class ArticleController extends BaseSupplierController{
       article.setCreatedAt(new Date());
       article.setUpdatedAt(new Date());
       article.setIsDeleted(0);
-      article.setStatus(0);
       article.setShowCount(0);
       article.setDownloadCount(0);
       articleService.addArticle(article);

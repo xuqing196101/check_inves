@@ -416,7 +416,7 @@
         <button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
         <button class="btn btn-windows git" type="button" onclick="sub()">提交</button>
         <%-- <button class="btn btn-windows apply" type="button" onclick="apply()">发布</button> --%>
-        <button class="btn btn-windows withdraw" type="button" onclick="withdraw()">撤回</button>
+        <button class="btn btn-windows withdraw" type="button" onclick="withdraw()">取消发布</button>
       </div>
 
       <div class="content table_box">

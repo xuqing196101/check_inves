@@ -323,7 +323,10 @@
        }
       }
 
-      
+      function tijiao(){
+    	  $("#articleStatus").val("1");
+    	  $("#myform").submit();
+      }
     </script>
   </head>
 
@@ -351,7 +354,8 @@
     </div>
 
     <div class="container container_box">
-      <form action="${pageContext.request.contextPath }/article/save.html" onsubmit="return clk()" method="post">
+      <form id="myform" action="${pageContext.request.contextPath }/article/save.html" onsubmit="return clk()" method="post">
+      <input type="hidden" name="status" id="articleStatus" value="0"/>
         <div class="">
           <h2 class="list_title">新增信息</h2>
 
@@ -447,6 +451,7 @@
 
           <div class="col-md-12 tc">
             <button class="btn btn-windows save" type="submit">保存</button>
+            <button class="btn btn-windows save" type="button" onclick="tijiao()">提交</button>
             <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
           </div>
         </div>
