@@ -286,10 +286,10 @@
 							<c:set value="${park.content}" var="content"></c:set>
 							<c:set value="${fn:length(content)}" var="length"></c:set>
 							<c:if test="${length>30}">
-								<td onclick="view('${park.id}')" class="tl pl20 pointer" onmouseover="titleMouseOver('${content}',this)" onmouseout="titleMouseOut()">${fn:substring(content,0,30)}...</td>
+								<td onclick="view('${park.id}')" class="tl pl20 pointer" title="${content }">${fn:substring(content,0,30)}...</td>
 							</c:if>
 							<c:if test="${length<=30}">
-								<td onclick="view('${park.id}')" class=" tl pl20 /8pointer">${content } </td>
+								<td onclick="view('${park.id}')" class="tl pl20 pointer" title="${content }">${content } </td>
 							</c:if>
 							<td class="tl pl20 pointer" onclick="view('${park.id}')">${park.user.relName}</td>
 							<c:if test="${park.isHot == 0||park.isHot==''||park.isHot==null}">

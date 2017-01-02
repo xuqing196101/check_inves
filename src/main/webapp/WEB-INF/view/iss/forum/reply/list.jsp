@@ -238,10 +238,10 @@
 							<c:set value="${reply.post.name}" var="postContent"></c:set>
 							<c:set value="${fn:length(postContent)}" var="length"></c:set>
 							<c:if test="${length>16}">
-								<td onclick="view('${reply.id}')" class="pointer" onmouseover="titleMouseOver('${postContent}',this)" onmouseout="titleMouseOut()">${fn:substring(postContent,0,16)}...</td>
+								<td onclick="view('${reply.id}')" class="pointer" title="${postContent }">${fn:substring(postContent,0,16)}...</td>
 							</c:if>
 							<c:if test="${length<=16}">
-								<td onclick="view('${reply.id}')" class="pointer">${postContent }</td>
+								<td onclick="view('${reply.id}')" class="pointer" title="${postContent }">${postContent }</td>
 							</c:if>
 							<c:set value="${reply.reply.content}" var="replyContent"></c:set>
 							<c:set value="${fn:length(replyContent)}" var="length"></c:set>
