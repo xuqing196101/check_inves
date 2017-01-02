@@ -18,6 +18,13 @@
                 shade: 0.01
               });
     	}
+    	if(saveNews=='0'){
+    		layer.alert("提交成功", {
+                offset: ['222px', '390px'],
+                width: '200px',
+                shade: 0.01
+              });
+    	}
         laypage({
           cont: $("#pagediv"), 
           pages: "${list.pages}", 
@@ -169,10 +176,19 @@
 
       function sub() {
         var ids = [];
+        var status=[];
+        var flag=true;
         $('input[name="chkItem"]:checked').each(function() {
           ids.push($(this).val());
+          status.push($(this).parent().next().text());
         });
         if(ids.length > 0) {
+       	  for(var i=0;i<status.length;i++){
+       		  if(status[i]=='1'){
+       			  flag=false;
+       		  }
+       	  }
+       	  if(flag){
           layer.confirm('您确定要提交吗?', {
             title: '提示',
             offset: ['222px', '360px'],
@@ -181,6 +197,12 @@
             layer.close(index);
             window.location.href = "${ pageContext.request.contextPath }/article/sumbit.html?ids=" + ids;
           });
+       	  }else{
+       		layer.alert("已提交的不可提交", {
+                offset: ['222px', '390px'],
+                shade: 0.01
+              }); 
+       	  }
         } else {
           layer.alert("请选择要提交的信息", {
             offset: ['222px', '390px'],
