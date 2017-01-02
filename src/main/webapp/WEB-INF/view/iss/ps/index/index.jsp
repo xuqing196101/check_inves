@@ -524,7 +524,7 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?id=89&id2=90&id3=91&id4=92">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByDanTabs.html?id=89&id2=90&id3=91&id4=92">更多>></a>
               </div>
             
               <div id="tab-9" class="tab-pane fade">
@@ -959,7 +959,7 @@
                     </c:if>
                   </c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?id=94&id2=95&id3=96&id4=97">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByDanTabs.html?id=94&id2=95&id3=96&id4=97">更多>></a>
               </div>
             
               <div id="tab-18" class="tab-pane fade">

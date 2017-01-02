@@ -453,4 +453,16 @@ public class ArticleServiceImpl implements ArticleService {
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return articleMapper.selectAllByTabs(map);
 	}
+
+	@Override
+	public List<Article> selectAllByDanTab(Map<String, Object> map) {
+		return articleMapper.selectAllByDanTab(map);
+	}
+
+	@Override
+	public List<Article> selectAllByDanTabs(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return articleMapper.selectAllByDanTabs(map);
+	}
 }

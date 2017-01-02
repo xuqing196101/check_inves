@@ -50,8 +50,12 @@
 						FROM
 							T_ISS_PS_ARTICLE
 						WHERE STATUS = 2
+						and is_deleted = 0
 						<if test="articleTypeId!=null and articleTypeId!=''">
 						 	and LAST_ARTICLE_TYPE_ID = #{articleTypeId}
+						</if>
+						<if test="title!=null and title!=''">
+						 	and name like '%'||#{title}||'%'
 						</if>
 						order by PUBLISHED_AT desc
 					) t
@@ -86,8 +90,12 @@
 	FROM
 		T_ISS_PS_ARTICLE
 	WHERE STATUS = 2
+	and is_deleted = 0
 	<if test="articleTypeId!=null and articleTypeId!=''">
 	 	and LAST_ARTICLE_TYPE_ID = #{articleTypeId}
+	</if>
+	<if test="title!=null and title!=''">
+	 	and name like '%'||#{title}||'%'
 	</if>
   </select>
 </mapper>

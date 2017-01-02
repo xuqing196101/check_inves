@@ -254,10 +254,9 @@
 				</a>
 			  </td>
 			  <td class="tc">
-			  <c:if test="${'0'==obj.status}">已成为正式项目</c:if>
-				<c:if test="${'1'==obj.status}">实施中</c:if> 
-				<c:if test="${'2'==obj.status}">已成交</c:if> 
-				<c:if test="${'3'==obj.status}">已立项</c:if>
+			    <c:forEach items="${status}" var="status" >
+            <c:if test="${status.id == obj.status}">${status.name}</c:if>
+          </c:forEach>
 			  </td>
 			</tr>
 			</c:if>

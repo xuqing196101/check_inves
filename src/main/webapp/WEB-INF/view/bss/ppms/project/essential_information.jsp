@@ -425,7 +425,7 @@
                   <span class="f14 blue">${pack.name }</span>
                 </div>
                 <input type="hidden" value="${pack.id }" />
-                <table class="table table-bordered table-condensed table-hover table-striped">
+                <table class="table table-bordered table-condensed table-hover table-striped left_table">
                   <thead>
                     <tr>
                       <th class="info w50">序号</th>
