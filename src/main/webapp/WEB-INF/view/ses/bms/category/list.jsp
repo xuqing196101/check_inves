@@ -381,11 +381,14 @@
  function showQua(cate){
 	 $("#generaQuaTr").show();
 	 $("#profileQuaTr").show();
+	 $("#profileQuaTr_sales").show();
 	 if (cate != null && cate !="" && cate !="undefined" && cate !="null"){
 		 $("#generalIQuaId").val(cate.generalQuaIds);
 		 $("#generalIQuaName").val(cate.generalQuaNames);
 		 $("#profileIQuaId").val(cate.profileQuaIds);
 		 $("#profileIQuaName").val(cate.profileQuaNames);
+		 $("#profileSalesId").val(cate.profileSalesQuaIds);
+		 $("#profileSalesName").val(cate.profileSalesQuaNames);
 	 }
  }
   
@@ -405,7 +408,11 @@
 	 }
 	 if (type == 2){
 		 ids = $("#profileIQuaId").val();
-		 title ="添加专业资质要求";
+		 title ="添加物资生成型专业资质要求";
+	 }
+	 if (type == 3){
+		 ids = $("#profileSalesId").val();
+		 title ="添加物资销售型专业资质要求";
 	 }
 	 layer.open({
 			type : 2, 
@@ -422,10 +429,16 @@
 	 $("#generalIQuaName").val(name);
  }
  
- //添加专用的
+ //添加物资生成型专用的
  function addProfileValue(ids,name){
 	 $("#profileIQuaId").val(ids);
 	 $("#profileIQuaName").val(name);
+ }
+ 
+ //添加物资销售型专用的
+ function addProfileSalesValue(ids,name){
+	 $("#profileSalesId").val(ids);
+	 $("#profileSalesName").val(name);
  }
  
  //获取数量
@@ -596,8 +609,15 @@
        				  <span id="posTipsId" class="red clear span_style" />
        		      </td>
            	    </tr>
+           	    <tr id="typeTrId">
+       			  <td class='info'>类型<span class="red">*</span></td>
+       			  <td>
+       				<div class="col-md-8 col-sm-8 col-xs-7" id="typeId" >
+       				</div>
+       		      </td>
+           	    </tr>
            	    <tr id="profileQuaTr" class="dnone">
-       			  <td class='info'>专业资质要求</td>
+       			  <td class='info'>物资生产型专业资质要求</td>
        			  <td>
        				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" >
        				  <input id="profileIQuaId" type="hidden" name="profileQuaIds" />
@@ -607,11 +627,15 @@
        				  <span id="posTipsId" class="red clear span_style" />
        		      </td>
            	    </tr>
-           	    <tr id="typeTrId">
-       			  <td class='info'>类型<span class="red">*</span></td>
+           	    <tr id="profileQuaTr_sales" class="dnone">
+       			  <td class='info'>物资销售型专业资质要求</td>
        			  <td>
-       				<div class="col-md-8 col-sm-8 col-xs-7" id="typeId" >
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" >
+       				  <input id="profileSalesId" type="hidden" name="profileSalesIds" />
+       				  <input id="profileSalesName" readonly="readonly" type="text" name='profileSalesNames' onclick="openLayer(3);" />
+       				  <span class="add-on">i</span>
        				</div>
+       				  <span id="posTipsId" class="red clear span_style" />
        		      </td>
            	    </tr>
            	    <tr>

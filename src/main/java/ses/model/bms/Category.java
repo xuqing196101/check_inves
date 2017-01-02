@@ -109,10 +109,14 @@ public class Category {
    private transient String generalQuaIds;
    /** 通用资质names **/
    private transient String generalQuaNames;
-   /** 专业资质ids **/
+   /** 物资生产型专业资质ids **/
    private transient String profileQuaIds;
-   /** 专业资质names **/
+   /** 物资生产型专业资质names **/
    private transient String profileQuaNames;
+   /** 物资销售型专业资质ids **/
+   private transient String profileSalesQuaIds;
+   /** 物资销售型专业资质names **/
+   private transient String profileSalesQuaNames;
    
    
    
@@ -356,6 +360,22 @@ public void setOrgnization(Orgnization orgnization) {
 
     public void setProfileQuaNames(String profileQuaNames) {
         this.profileQuaNames = profileQuaNames;
+    }
+
+    public String getProfileSalesQuaIds() {
+      return profileSalesQuaIds;
+    }
+
+    public void setProfileSalesQuaIds(String profileSalesQuaIds) {
+      this.profileSalesQuaIds = profileSalesQuaIds;
+    }
+
+    public String getProfileSalesQuaNames() {
+      return profileSalesQuaNames;
+    }
+
+    public void setProfileSalesQuaNames(String profileSalesQuaNames) {
+      this.profileSalesQuaNames = profileSalesQuaNames;
     }
 
 	

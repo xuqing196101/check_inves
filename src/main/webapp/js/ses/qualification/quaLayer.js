@@ -11,6 +11,10 @@ $(function(){
 function list(curr){
 	var name = $("#name").val();
 	var type = $("#type").val();
+	//如果是查物资生产型和物资销售型都查type为2的资质
+	if (type == 2 || type == 3) {
+		type = 2;
+	}
 	$.ajax({
 		url: globalPath + "/qualification/list.do",
 		type:"post",
@@ -125,6 +129,9 @@ function ok(){
 	}
 	if (type == 2){
 		parent.addProfileValue(ids.toString(),names.toString());
+	}
+	if (type == 3){
+		parent.addProfileSalesValue(ids.toString(),names.toString());
 	}
 	cancel();
 }

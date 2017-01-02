@@ -127,6 +127,8 @@ public class CategoryServiceImpl implements CategoryService {
             String generalNames = "";
             String profileIds = "";
             String profileNames = "";
+            String profileSalesIds = "";
+            String profileSalesNames = "";
             for (CategoryQua cq : list){
                 if (StringUtils.isNotBlank(cq.getQuaId())){
                     Qualification  qua = quaMapper.getQualification(cq.getQuaId());
@@ -141,6 +143,12 @@ public class CategoryServiceImpl implements CategoryService {
                             profileIds += cq.getQuaId() + ",";
                             profileNames += qua.getName() + ",";
                         }
+                        
+                        //如果是物资销售型资质文件
+                        if (cq.getQuaType() == StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE){
+                            profileSalesIds += cq.getQuaId() + ",";
+                            profileSalesNames += qua.getName() + ",";
+                        }
                     }
                 }
             }
@@ -152,6 +160,12 @@ public class CategoryServiceImpl implements CategoryService {
             if (profileIds.contains(StaticVariables.COMMA_SPLLIT)){
                 category.setProfileQuaIds(profileIds.substring(0, profileIds.length() -1));
                 category.setProfileQuaNames(profileNames.substring(0, profileNames.length() -1));
+            }
+            
+            //如果是物资销售型资质文件
+            if (profileSalesIds.contains(StaticVariables.COMMA_SPLLIT)){
+                category.setProfileSalesQuaIds(profileSalesIds.substring(0, profileSalesIds.length() -1));
+                category.setProfileSalesQuaNames(profileSalesNames.substring(0, profileSalesNames.length() -1));
             }
         }
         return category;
@@ -192,6 +206,8 @@ public class CategoryServiceImpl implements CategoryService {
         String desc = request.getParameter("description");
         String generalIds = request.getParameter("generalQuaIds");
         String profileIds = request.getParameter("profileQuaIds");
+        //物资销售型文件类型id
+        String profileSalesIds = request.getParameter("profileSalesIds");
         String isPublish = request.getParameter("isPublish");
         String classify = request.getParameter("classify");
         
@@ -256,6 +272,8 @@ public class CategoryServiceImpl implements CategoryService {
             insertSelective(category);
             saveGeneral(id, generalIds);
             saveProfile(id, profileIds);
+            //保存物资销售型资质文件id
+            saveProfileSales(id, profileSalesIds);
             res.setSuccess(true);
         }
         /**
@@ -278,12 +296,34 @@ public class CategoryServiceImpl implements CategoryService {
                 delCategoryQua(id);
                 saveGeneral(id, generalIds);
                 saveProfile(id, profileIds);
+                //保存物资销售型资质文件id
+                saveProfileSales(id, profileSalesIds);
                 res.setSuccess(true);
             }
         }
         return res;
     }
     
+    /**
+     *〈简述〉批量保存物资销售型专业
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param categorId 品目Id
+     * @param profileSalesIds 物资销售型资质Id
+     */
+    private void saveProfileSales(String categorId, String profileSalesIds){
+        if (StringUtils.isNotBlank(profileSalesIds)){
+            if (profileSalesIds.contains(StaticVariables.COMMA_SPLLIT)){
+                String [] profileArray = profileSalesIds.split(",");
+                for (String profileId : profileArray){
+                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE);
+                }
+            } else {
+                saveCategoryQua(categorId, profileSalesIds, StaticVariables.CATEGORY_QUALIFICATION_SALES_PROFILE);
+            }
+        }
+    }
+
     /**
      * 
      *〈简述〉根据品目Id删除品目资质信息

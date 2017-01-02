@@ -186,7 +186,7 @@ public interface SupplierService {
 	* @return List<QualificationBean>     
 	* @throws
 	 */
-   public List<QualificationBean>  queryCategoyrId(List<Category> list);
+   public List<QualificationBean>  queryCategoyrId(List<Category> list, Integer quaType);
 
    /**
     * 
