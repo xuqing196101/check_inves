@@ -33,6 +33,16 @@
       #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER})
   </insert>
   
+  <!-- 插入 -->
+  <insert id="saveFile"    parameterType="common.model.UploadFile">
+    INSERT INTO ${tableName} (ID, NAME, PATH, 
+      BUSINESS_ID, TYPE_ID, FILE_SIZE, 
+      CREATED_AT, UPDATED_AT,IS_DELETED)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{businessId,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER})
+  </insert>
+  
   <!-- 获取文件 -->
   <select id="getFiles" resultMap="BaseResultMap_File" >
   	 SELECT 
@@ -111,4 +121,53 @@
      WHERE IS_DELETED = 0 
      AND BUSINESS_ID = #{businessId}
   </select>
+  
+  <!-- 根据日期查询 -->
+  <select id="getFileByDate" parameterType="java.lang.String" resultMap="BaseResultMap_File">
+     SELECT 
+     <include refid="BASE_FILE_LIST" />
+     FROM ${tableName}
+     WHERE IS_DELETED = 0 
+     AND to_char(CREATED_AT,'yyyy-MM-dd') = #{date}
+  </select>
+  
+  <!-- 根据主键查询 -->
+  <select id="getFileCount" resultType="java.lang.Integer">
+    SELECT count(1)
+    from ${tableName}
+    WHERE IS_DELETED = 0 
+    AND ID = #{id}
+  </select>
+  
+  <!-- 更新文件 -->
+  <update id="updateFileById" parameterType="common.model.UploadFile">
+  	update  ${tableName} 
+  	<set>
+  	  <if test="name != null and name !=''">
+  	    NAME = #{name}
+  	  </if>
+  	  <if test="path != null and path !=''">
+  	    PATH = #{path}
+  	  </if>
+  	   <if test="businessId != null and businessId !=''">
+  	    BUSINESS_ID = #{businessId}
+  	  </if>
+  	   <if test="typeId != null and typeId !=''">
+  	    TYPE_ID = #{typeId}
+  	  </if>
+  	  <if test="size != null">
+  	    FILE_SIZE = #{size,jdbcType=INTEGER}
+  	  </if>
+  	  <if test="createDate != null">
+  	    CREATED_AT = #{createDate,jdbcType=TIMESTAMP}
+  	  </if>
+  	  <if test="updateDate != null">
+  	    UPDATED_AT = #{updateDate,jdbcType=TIMESTAMP}
+  	  </if>
+  	  <if test="isDelete != null">
+  	    IS_DELETED = #{updateDate,jdbcType=INTEGER}
+  	  </if>
+  	</set>
+  	WHERE ID = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>

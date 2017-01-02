@@ -1,0 +1,53 @@
+package synchro.util;
+
+/**
+ * 
+ * 版权：(C) 版权所有 
+ * <简述>静态常量
+ * <详细描述>
+ * @author   myc
+ * @version  
+ * @since
+ * @see
+ */
+public class Constant {
+
+    /** 数据类型-供应商注册 **/
+    public final static Integer DATA_TYPE_SUPPLIER_REG = 1;
+    /** 数据类型-供应商修改 **/
+    public final static Integer DATA_TYPE_SUPPLIER_MODIFY = 2;
+    
+    /** 数据类型-供应商修改 **/
+    public final static Integer DATA_TYPE_SUPPLIER_AUDIT = 5;
+    
+    /** 操作类型-导出 **/
+    public final static Integer OPER_TYPE_EXPORT = 1;
+    /** 操作类型-导入**/
+    public final static Integer OPER_TYPE_IMPORT = 2;
+    /** 新提交供应商描述 **/
+    public final static String NEW_COMMIT_SUPPLIER = "新提交供应商数量:";
+    
+    /** 数据类型-专家注册 **/
+    public final static Integer DATA_TYPE_EXPERT_REG = 3;
+    
+    /** 数据类型-专家修改 **/
+    public final static Integer DATA_TYPE_EXPERT_MODIFY = 4;
+    
+    /** 数据类型-信息 **/
+    public final static Integer DATA_TYPE_INFOS_CREATED = 5;
+    
+    /** 数据类型-附件 **/
+    public final static Integer DATA_TYPE_ATTACH = 6;
+    
+    /** 新提交专家描述 **/
+    public final static String NEW_COMMIT_EXPERT = "新提交专家数量:";
+    
+    /** 修改专家描述 **/
+    public final static String MODIFY_COMMIT_EXPERT = "修改专家数量:";
+    
+    /** 提交信息描述 **/
+    public final static String CREATED_COMMIT_INFOS = "同步信息数量:";
+    
+    /** 提交附件描述 **/
+    public final static String CREATED_COMMIT_ATTACH = "同步附件数量:";
+}

@@ -48,6 +48,12 @@ public class FileUtils {
     /** 修改专家文件名称 **/
     public final static String M_EXPERT_FILENAME = "_m_expert.dat";
     
+    /** 信息文件名称 **/
+    public final static String C_INFOS_FILENAME = "_c_infos.dat";
+    
+    /** 附件文件名称 **/
+    public final static String C_ATTACH_FILENAME = "_c_attach.dat";
+    
     /**
      * 
      *〈简述〉创建根目录
@@ -150,6 +156,35 @@ public class FileUtils {
         final File file = new File(path,fileName);
         return file;
     }
+    
+    /**
+     * 
+     *〈简述〉获取新注册供应商导出文件
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final File getInfoBackUpFile(){
+        String fileName = System.currentTimeMillis() + C_INFOS_FILENAME;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+    }
+    
+    /**
+     * 
+     *〈简述〉获取附件
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final File getInfoAttachmentFile(){
+        String fileName = System.currentTimeMillis() + C_ATTACH_FILENAME;
+        String path = getBackUpPath();
+        final File file = new File(path,fileName);
+        return file;
+    }
+    
     
     /**
      * 

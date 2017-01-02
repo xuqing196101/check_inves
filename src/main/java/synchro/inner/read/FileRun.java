@@ -27,6 +27,7 @@ public class FileRun implements Runnable {
     
     /** 获取专家service **/
     private InnerExpertService expertService;
+    
 
     /** 构造方法 **/
     public FileRun(final File file){

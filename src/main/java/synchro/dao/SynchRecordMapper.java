@@ -1,5 +1,7 @@
 package synchro.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import synchro.model.SynchRecord;
 
 /**
@@ -22,4 +24,15 @@ public interface SynchRecordMapper {
      * @param synchRecord {@link SynchRecord}
      */
     public void save(SynchRecord synchRecord);
+    
+    /**
+     * 
+     *〈简述〉根据同步类型同步最近一次的的同步时间
+     *〈详细描述〉
+     * @author myc
+     * @param operType 操作类型
+     * @param dataType 同步类型
+     * @return
+     */
+    public String getSynchTime(@Param("operType") Integer operType,@Param("dataType")Integer dataType);
 }

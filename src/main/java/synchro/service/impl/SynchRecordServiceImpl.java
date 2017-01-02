@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import synchro.dao.SynchRecordMapper;
 import synchro.model.SynchRecord;
 import synchro.service.SynchRecordService;
+import synchro.util.Constant;
 
 /**
  * 
@@ -22,32 +23,7 @@ import synchro.service.SynchRecordService;
 @Service
 public class SynchRecordServiceImpl implements SynchRecordService {
     
-    /** 数据类型-供应商注册 **/
-    private final static Integer DATA_TYPE_SUPPLIER_REG = 1;
-    /** 数据类型-供应商修改 **/
-    private final static Integer DATA_TYPE_SUPPLIER_MODIFY = 2;
     
-    /** 数据类型-供应商修改 **/
-    private final static Integer DATA_TYPE_SUPPLIER_AUDIT = 5;
-    
-    /** 操作类型-导出 **/
-    private final static Integer OPER_TYPE_EXPORT = 1;
-    /** 操作类型-导入**/
-    private final static Integer OPER_TYPE_IMPORT = 2;
-    /** 新提交供应商描述 **/
-    private final static String NEW_COMMIT_SUPPLIER = "新提交供应商数量:";
-    
-    /** 数据类型-专家注册 **/
-    private final static Integer DATA_TYPE_EXPERT_REG = 3;
-    
-    /** 数据类型-专家修改 **/
-    private final static Integer DATA_TYPE_EXPERT_MODIFY = 4;
-    
-    /** 新提交专家描述 **/
-    private final static String NEW_COMMIT_EXPERT = "新提交专家数量:";
-    
-    /** 修改专家描述 **/
-    private final static String MODIFY_COMMIT_EXPERT = "修改专家数量:";
     
     /** 记录表mapper **/
     @Autowired
@@ -59,7 +35,8 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void backNewSupplierRecord(String content) {
-        SynchRecord sr  = getSynchRecord(DATA_TYPE_SUPPLIER_REG, OPER_TYPE_EXPORT, NEW_COMMIT_SUPPLIER + content);
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_SUPPLIER_REG, Constant.OPER_TYPE_EXPORT, 
+                        Constant.NEW_COMMIT_SUPPLIER + content);
         mapper.save(sr);
     }
     
@@ -69,7 +46,8 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void backNewExpertRecord(String content) {
-        SynchRecord sr  = getSynchRecord(DATA_TYPE_EXPERT_REG, OPER_TYPE_EXPORT, NEW_COMMIT_EXPERT + content);
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_EXPERT_REG, Constant.OPER_TYPE_EXPORT, 
+                        Constant.NEW_COMMIT_EXPERT + content);
         mapper.save(sr);
     }
     
@@ -79,7 +57,8 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void backModifySupplierRecord(String content) {
-        SynchRecord sr  = getSynchRecord(DATA_TYPE_SUPPLIER_AUDIT, OPER_TYPE_EXPORT, NEW_COMMIT_SUPPLIER + content);
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_SUPPLIER_AUDIT, Constant.OPER_TYPE_EXPORT,
+                Constant.NEW_COMMIT_SUPPLIER + content);
         mapper.save(sr);
     }
     
@@ -89,7 +68,8 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void backModifyExpertRecord(String content) {
-        SynchRecord sr  = getSynchRecord(DATA_TYPE_EXPERT_MODIFY, OPER_TYPE_EXPORT, MODIFY_COMMIT_EXPERT + content);
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_EXPERT_MODIFY, Constant.OPER_TYPE_EXPORT, 
+                Constant.MODIFY_COMMIT_EXPERT + content);
         mapper.save(sr);
     }
 
@@ -99,7 +79,8 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void importNewSupplierRecord(String content) {
-        SynchRecord sr  = getSynchRecord(DATA_TYPE_SUPPLIER_REG, OPER_TYPE_IMPORT, NEW_COMMIT_SUPPLIER + content);
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_SUPPLIER_REG, Constant.OPER_TYPE_IMPORT, 
+                Constant.NEW_COMMIT_SUPPLIER + content);
         mapper.save(sr);
     }
     
@@ -109,7 +90,8 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void importModifySupplierRecord(String content) {
-        SynchRecord sr  = getSynchRecord(DATA_TYPE_SUPPLIER_MODIFY, OPER_TYPE_IMPORT, NEW_COMMIT_SUPPLIER + content);
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_SUPPLIER_MODIFY, Constant.OPER_TYPE_IMPORT, 
+                Constant.NEW_COMMIT_SUPPLIER + content);
         mapper.save(sr);
     }
 
@@ -119,7 +101,8 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void importNewExpertRecord(String content) {
-        SynchRecord sr  = getSynchRecord(DATA_TYPE_EXPERT_REG, OPER_TYPE_IMPORT, NEW_COMMIT_EXPERT + content);
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_EXPERT_REG, Constant.OPER_TYPE_IMPORT, 
+                        Constant.NEW_COMMIT_EXPERT + content);
         mapper.save(sr);
     }
     
@@ -129,7 +112,61 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void importModifyExpertRecord(String content) {
-        SynchRecord sr  = getSynchRecord(DATA_TYPE_EXPERT_MODIFY, OPER_TYPE_IMPORT, MODIFY_COMMIT_EXPERT + content);
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_EXPERT_MODIFY, Constant.OPER_TYPE_IMPORT, 
+                         Constant.MODIFY_COMMIT_EXPERT + content);
+        mapper.save(sr);
+    }
+    
+    /**
+     * 
+     * @see synchro.service.SynchRecordService#backupInfos(java.lang.String)
+     */
+    @Override
+    public void backupInfos(String content) {
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_INFOS_CREATED, Constant.OPER_TYPE_EXPORT, 
+                        Constant.CREATED_COMMIT_INFOS + content);
+        mapper.save(sr);
+    }
+    
+    /**
+     * 
+     * @see synchro.service.SynchRecordService#importInfos(java.lang.String)
+     */
+    @Override
+    public void importInfos(String content) {
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_INFOS_CREATED, Constant.OPER_TYPE_IMPORT, 
+                        Constant.CREATED_COMMIT_INFOS + content);
+        mapper.save(sr);
+    }
+    
+    /**
+     * 
+     * @see synchro.service.SynchRecordService#getSynchTime(java.lang.Integer)
+     */
+    @Override
+    public String getSynchTime(Integer operType,Integer dataType) {
+        return mapper.getSynchTime(operType, dataType);
+    }
+    
+    /**
+     * 
+     * @see synchro.service.SynchRecordService#backupAttach(java.lang.String)
+     */
+    @Override
+    public void backupAttach(String content) {
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_ATTACH, Constant.OPER_TYPE_EXPORT, 
+                Constant.CREATED_COMMIT_ATTACH + content);
+        mapper.save(sr);
+    }
+    
+    /**
+     * 
+     * @see synchro.service.SynchRecordService#importAttach(java.lang.String)
+     */
+    @Override
+    public void importAttach(String content) {
+        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_ATTACH, Constant.OPER_TYPE_IMPORT, 
+                Constant.CREATED_COMMIT_ATTACH + content);
         mapper.save(sr);
     }
 
@@ -151,5 +188,6 @@ public class SynchRecordServiceImpl implements SynchRecordService {
         sr.setDescriptions(desc);
         return sr;
     }
+    
     
 }

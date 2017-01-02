@@ -84,4 +84,50 @@ public interface SynchRecordService {
      */
     public void importModifyExpertRecord(String content);
     
+    /**
+     * 
+     *〈简述〉记录信息同步
+     *〈详细描述〉
+     * @author myc
+     * @param content 内容
+     */
+    public void backupInfos(String content);
+    
+    /**
+     * 
+     *〈简述〉记录信息导入
+     *〈详细描述〉
+     * @author myc
+     * @param content 内容
+     */
+    public void importInfos(String content);
+    
+    /**
+     * 
+     *〈简述〉备份附件
+     *〈详细描述〉
+     * @author myc
+     * @param content 内容
+     */
+    public void backupAttach(String content);
+    
+    /**
+     * 
+     *〈简述〉备份附件
+     *〈详细描述〉
+     * @author myc
+     * @param content 内容
+     */
+    public void importAttach(String content);
+    
+    /**
+     * 
+     *〈简述〉根据类型获取最近一次的同步时间
+     *〈详细描述〉
+     * @author myc
+     * @param dataType 类型Id
+     * @return
+     */
+    public String getSynchTime(Integer operType, Integer dataType);
+    
 }

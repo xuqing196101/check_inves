@@ -9,7 +9,7 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 	
 	<!-- 引入属性文件 -->
 	<context:property-placeholder location="classpath:config.properties" />
-	 <task:annotation-driven/>  
+	<!-- <task:annotation-driven/>   -->
 	<!-- 自动扫描(自动注入) -->
 	<context:component-scan base-package="ses.service,iss.service,bss.service,bss.util,ses.util,common.service,synchro.*" />
 	
@@ -20,6 +20,12 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 	<task:scheduled-tasks>
         <task:scheduled ref="myTask" method="task11" cron="0 11 14 * * ?"/>   
 	</task:scheduled-tasks>  -->
+	
+	<!-- <task:scheduled-tasks>
+     <task:scheduled ref="InnerInfoTask" method="exportInfo" cron="0 0 */1 * * ?"/> 
+        <task:scheduled ref="innerAttachTask" method="exportAttach" cron="0 0 */1 * * ?"/> 
+        <task:scheduled ref="outerReadTask" method="outerReadTask" cron="0 0 */1 * * ?"/>   
+	</task:scheduled-tasks> -->
 	
 	<!-- 线程池 -->
 	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">

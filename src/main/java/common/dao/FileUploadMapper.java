@@ -31,6 +31,15 @@ public interface FileUploadMapper {
     
     /**
      * 
+     *〈简述〉保存文件
+     *〈详细描述〉
+     * @author myc
+     * @param file
+     */
+    void saveFile(UploadFile file);
+    
+    /**
+     * 
      *〈简述〉删除文件
      *〈详细描述〉
      * @author myc
@@ -100,4 +109,35 @@ public interface FileUploadMapper {
     UploadFile findById(@Param("id")String id,@Param("tableName")String tableName);
     
     List<UploadFile> findBybusinessId(@Param("businessId")String businessId,@Param("tableName")String tableName);
+    
+    /**
+     * 
+     *〈简述〉根据时间查询附件
+     *〈详细描述〉
+     * @author myc
+     * @param date 日期
+     * @param tableName 附件表名称
+     * @return
+     */
+    List<UploadFile> getFileByDate(@Param("date")String date, @Param("tableName")String tableName);
+    
+    /**
+     * 
+     *〈简述〉根据Id查询
+     *〈详细描述〉
+     * @author myc
+     * @param id 主键
+     * @param tableName 表名称
+     * @return
+     */
+    Integer getFileCount(@Param("id")String id,@Param("tableName")String tableName);
+    
+    /**
+     * 
+     *〈简述〉更新附件表
+     *〈详细描述〉
+     * @author myc
+     * @param file
+     */
+    void updateFileById(UploadFile file);
 }

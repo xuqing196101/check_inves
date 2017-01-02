@@ -80,6 +80,25 @@ public class UploadServiceImpl implements UploadService {
         return "";
     }
 
+    /**
+     * 
+     * @see common.service.UploadService#getListByBusinessId(java.lang.Integer)
+     */
+    @Override
+    public List<UploadFile> getListByBusinessId(String date,Integer systemKey) {
+        String tableName = Constant.fileSystem.get(systemKey);
+        List<UploadFile> files =  uploadDao.getFileByDate(date,tableName);
+        return files;
+    }
+    
+    /**
+     * @see common.service.UploadService#findCountById(java.lang.String, java.lang.Integer)
+     */
+    @Override
+    public Integer findCountById(String id, Integer tenderSysKey) {
+        String tableName = Constant.fileSystem.get(tenderSysKey);
+        return uploadDao.getFileCount(id, tableName);
+    }
 
     /**
      * 
@@ -126,7 +145,17 @@ public class UploadServiceImpl implements UploadService {
         }
         return IS_ERR;
     }
-
+    
+    /**
+     * 
+     * @see common.service.UploadService#insertFile(common.model.UploadFile)
+     */
+    @Override
+    public void insertFile(UploadFile file, Integer systemKey) {
+        String tableName = Constant.fileSystem.get(systemKey);
+        file.setTableName(tableName);
+        uploadDao.saveFile(file);
+    }
 
     /**
      * 
@@ -537,14 +566,28 @@ public class UploadServiceImpl implements UploadService {
         return res;
     }
 
-
+    
 	@Override
 	public List<UploadFile> findBybusinessId(String businessId, Integer sysKey) {
 		String tableName = Constant.fileSystem.get(sysKey);
 		return uploadDao.findBybusinessId(businessId,tableName);
 	}
+	
+	/**
+	 * 
+	 * @see common.service.UploadService#updateFile(common.model.UploadFile, java.lang.Integer)
+	 */
+	@Override
+    public void updateFile(UploadFile file, Integer systemKey) {
+	    String tableName = Constant.fileSystem.get(systemKey);
+	    file.setTableName(tableName);
+	    uploadDao.updateFileById(file);
+    }
 
-
+    /**
+	 * 
+	 * @see common.service.UploadService#updateLoad(common.model.UploadFile)
+	 */
     @Override
     public void updateLoad(UploadFile file) {
 

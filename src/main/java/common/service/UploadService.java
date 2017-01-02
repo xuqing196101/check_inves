@@ -32,6 +32,26 @@ public interface UploadService {
      * @return 
      */
     public String saveFile(HttpServletRequest request);
+    
+    /**
+     * 
+     *〈简述〉保存
+     *〈详细描述〉
+     * @author myc
+     * @param file {@link UploadFile}
+     */
+    public void insertFile(UploadFile file,Integer systemKey);
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author myc
+     * @param file 文件
+     * @param systemKey 系统key
+     */
+    public void updateFile(UploadFile file,Integer systemKey);
+    
     /**
      * 
      *〈简述〉文件上传
@@ -41,6 +61,7 @@ public interface UploadService {
      * @return 成功返回文件路径,失败返回空字符串
      */
     public String upload(HttpServletRequest request);
+    
     /**
      * 
      *〈简述〉文件删除
@@ -60,6 +81,16 @@ public interface UploadService {
      * @return 成功返回文件对象List,否则为空list
      */
     public List<UploadFile> getFiles(HttpServletRequest request);
+    
+    /**
+     * 
+     *〈简述〉获取同步的附件
+     *〈详细描述〉
+     * @author myc
+     * @param systemKey 系统key
+     * @return
+     */
+    public List<UploadFile> getListByBusinessId(String date, Integer systemKey);
     
     /***
      * 
@@ -151,5 +182,16 @@ public interface UploadService {
      * @return {@link ResBean}
      */
     public ResBean fileExist(HttpServletRequest request);
+    
+    /**
+     * 
+     *〈简述〉根据Id查询
+     *〈详细描述〉
+     * @author myc
+     * @param id
+     * @param tenderSysKey 系统key
+     * @return
+     */
+    public Integer findCountById(String id, Integer tenderSysKey);
 
 }
