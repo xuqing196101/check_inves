@@ -255,7 +255,7 @@ public class TackController extends BaseController{
 	                 List<ProjectTask> projectTask = projectTaskService.queryByNo(map1);
 	                 if(projectTask != null && projectTask.size()>0){
 	                     AdvancedProject project = advancedProjectService.selectById(projectTask.get(0).getProjectId());
-	                     //project.setStatus(3);
+	                     project.setStatus(DictionaryDataUtil.getId("YLX_DFB"));
 	                     advancedProjectService.update(project);
 	                 }
 	             }
@@ -668,7 +668,7 @@ public class TackController extends BaseController{
                     project.setPlanType(advancedProject.getPlanType());
                     projectService.add(project);
                     
-                    //advancedProject.setStatus(0);
+                    advancedProject.setStatus("0");
                     advancedProjectService.update(advancedProject);
                     
                     String id = project.getId();

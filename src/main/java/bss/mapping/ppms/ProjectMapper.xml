@@ -1242,25 +1242,73 @@
   </insert>
     
   <select id="selectProjectsByConition" parameterType="java.util.Map" resultMap="BaseResultMap">
+   <!--  SELECT * FROM
+    (
     SELECT 
     <include refid="Base_Column_List" />
     FROM T_BSS_PPMS_PROJECTS
     WHERE 1=1 AND IS_REHEARSE = 0 AND IS_PROVISIONAL = 0 
+    <if test="ddList != null and ddList != ''">
+      and STATUS in
+      <foreach item="dd" index="index" collection="ddList"  open="(" separator="," close=")">
+          #{dd.id}
+      </foreach>
+    </if>
      <if test="name != null and name != ''">
        AND NAME LIKE '%'||#{name}||'%'  
       </if>
        <if test="projectNumber != null and projectNumber != ''">
        AND PROJECT_NUMBER LIKE '%'||#{projectNumber}||'%'
       </if>
-      <if test="status != null">
-       AND STATUS  = #{status}
+      <if test="purchaseDep != null">
+       AND PURCHASE_DEP_ID = #{purchaseDepId}
+      </if>
+     UNION ALL
+     SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PPMS_PROJECTS
+    WHERE 1=1 AND IS_REHEARSE = 0 AND IS_PROVISIONAL = 0 
+      <if test="ddList != null and ddList != ''">
+          and STATUS in
+      <foreach item="dds" index="index" collection="ddLists"
+        open="(" separator="," close=")">
+                #{dds.id}
+      </foreach>
+    </if>
+     <if test="name != null and name != ''">
+       AND NAME LIKE '%'||#{name}||'%'  
+      </if>
+       <if test="projectNumber != null and projectNumber != ''">
+       AND PROJECT_NUMBER LIKE '%'||#{projectNumber}||'%'
       </if>
       <if test="purchaseDep != null">
        AND PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
-      <if test="principal != null">
-       AND PRINCIPAL = #{principal}
+      <if test="principal != null and principal != ''">
+        and PRINCIPAL = #{principal}
       </if>
+
+      )
+      ORDER BY CREATED_AT DESC -->
+      
+      
+      SELECT
+      <include refid="Base_Column_List" />
+      FROM
+        T_BSS_PPMS_PROJECTS
+      WHERE
+      
+   <if test="purchaseDepId != null and purchaseDepId != ''">
+          PURCHASE_DEP_ID = #{purchaseDepId}
+      </if>
+      <if test="principal != null and principal != ''">
+        and (PRINCIPAL = #{principal} OR PRINCIPAL IS NULL) 
+      </if>
+      
+      
+     <!--  <if test="purchaseDepId != null">
+       OR PURCHASE_DEP_ID = #{purchaseDepId}
+      </if> -->
       ORDER BY CREATED_AT DESC
   </select>
     

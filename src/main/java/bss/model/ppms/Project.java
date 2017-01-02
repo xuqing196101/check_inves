@@ -128,6 +128,18 @@ public class Project {
     
     private String projectContractor;//项目承办人
     
+    //状态条件查询
+    private List<DictionaryData> ddList;
+    
+    
+    public List<DictionaryData> getDdList() {
+        return ddList;
+    }
+
+    public void setDdList(List<DictionaryData> ddList) {
+        this.ddList = ddList;
+    }
+
     public Orgnization getOrgnization() {
 		return orgnization;
 	}

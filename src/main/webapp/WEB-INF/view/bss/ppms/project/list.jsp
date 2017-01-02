@@ -79,38 +79,12 @@
 		status = $.trim(status);
 		var currPage = ${info.pageNum};
 		if (id.length == 1) {
-	  	/* if (status == "实施中") {
-				window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
-	  	} else if (status == "已立项") {
-				$.ajax({
-			  	url : "${pageContext.request.contextPath}/project/viewPackage.html",
-			  	data : "id=" + id,
-			  	type : "post",
-			  	dataType : "json",
-		  		success : function(result) {
-		  			if(result==0){
-		  				layer.open({
-								type : 2, //page层
-								area : [ '800px', '500px' ],
-								title : '请上传项目批文',
-								shade : 0.01, //遮罩透明度
-								moveType : 1, //拖拽风格，0是默认，1是传统拖动
-								shift : 1, //0-6的动画形式，-1不开启
-								shadeClose : true,
-								content : '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
-					  	});
-		  			}else if(result==1){
-		  				layer.alert("项目中有明细尚未分包", {
-								offset: ['30%', '40%']
-							});
-							$(".layui-layer-shade").remove();
-		  			}
-		  		}
-				});
-	  	} */
-	  	
-	  	if(status == "已立项，待分包"){
-	  	  $.ajax({
+		  if (status == "项目基本信息已完善" || status == "拟制评审文件" || status == "招标公告拟制完毕" || status == "供应商抽取完毕" || status == "发售标书完毕" || status == "抽取评审专家完毕" || status == "开标唱标完毕" || status == "专家签到完成"
+		  || status == "资格性和符合性审查中" || status == "经济技术审查中" || status == "评审完成" || status == "拟制中标公告完毕" || status == "确认中标供应商" || status == "实施结束" || status == "拟制评分标准" || status == "待开标"
+		  || status == "招标文件已提交") {
+        window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
+      } else if (status == "已立项，待分包" || status == "已分包，待实施") {
+        $.ajax({
           url : "${pageContext.request.contextPath}/project/viewPackage.html",
           data : "id=" + id,
           type : "post",
@@ -135,10 +109,7 @@
             }
           }
         });
-	  	}else{
-	  	  window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
-	  	}
-	  	
+      } 
 		} else if (id.length > 1) {
 	  	layer.alert("只能选择一个", {
 		    offset : [ '222px', '390px' ],

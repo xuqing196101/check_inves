@@ -135,13 +135,14 @@ public class AdvancedProjectController extends BaseController {
      */
     @RequestMapping("/list")
     public String list(@CurrentUser User user, Model model, AdvancedProject advancedProject, @ModelAttribute PageInfo<AdvancedProject> page){
-        //if(user != null && user.getOrg().getId() != null){
+        if(user != null && user.getOrg().getId() != null){
             PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
             List<AdvancedProject> list = advancedProjectService.selectByList(advancedProject);
             model.addAttribute("info", new PageInfo<AdvancedProject>(list));
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+            model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
             model.addAttribute("project", advancedProject);
-        //}
+        }
         return "bss/ppms/advanced_project/list";
     }
     
@@ -212,7 +213,7 @@ public class AdvancedProjectController extends BaseController {
         project.setPurchaseType(purchaseType);
         project.setPlanType(planType);
         project.setPurchaseDep(new PurchaseDep(organization));
-     //   project.setStatus(0);
+        project.setStatus("0");
         advancedProjectService.save(project);
         
         //下达
@@ -363,7 +364,7 @@ public class AdvancedProjectController extends BaseController {
         if(projectIds != null){
             AdvancedProject project = advancedProjectService.selectById(projectIds);
             project.setCreateAt(new Date());
-           // project.setStatus(3);
+            project.setStatus(DictionaryDataUtil.getId("YLX_DFB"));
             project.setName(advancedProject.getName());
             project.setProjectNumber(advancedProject.getProjectNumber());
             if(list.getList().get(0).getOrganization() != null){
