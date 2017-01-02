@@ -12,7 +12,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +50,6 @@ import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
-import bss.model.pms.CollectPurchase;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
@@ -190,336 +188,147 @@ public class ProjectController extends BaseController {
         return "bss/ppms/project/list";
     }
     
-    @ResponseBody
-    @RequestMapping("/clean")
-    public void clean(HttpServletRequest request){
-    	request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
-    }
-    
     /**
-     * 〈简述〉 〈详细描述〉
-     * 
-     * @author FengTian
-     * @param page 分页
-     * @param model 内置对象
-     * @param purchaseRequired 需求计划实体
-     * @param request 内置对象
-     * @return 添加页面
-     */
-    @SuppressWarnings("unchecked")
-    @RequestMapping("/add")
-    public String add(Integer page, Model model, String id, String checkedIds,
-                      HttpServletRequest request,PurchaseRequiredFormBean listBean) {
-        List<Task> list = taskservice.listByTask(null, page==null?1:page);
-        PageInfo<Task> info = new PageInfo<Task>(list);
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        model.addAttribute("info", info);
-        //显示项目明细
-        if(id != null){
-            List<PurchaseRequired> lists  = new ArrayList<>();
-            String[] ids = id.split(",");
-            int bud = 0;
-            for (int i = 0; i < ids.length; i++ ) {
-                PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
-                map.put("id", purchaseRequired.getId());
-                List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(map);
-                if(lis.size() == 1){
-                    for (PurchaseRequired purchaseRequired2 : lis) {
-                        bud+=purchaseRequired2.getBudget().intValue();
-                    }
-                }
-                    lists.add(purchaseRequired);
-            }
-            
-            //
-            for(int j=0;j<lists.size();j++){
-        		PurchaseRequired p = lists.get(j);
-        		String ass= p.getSeq();
-        		if(ass.equals("19968")){
-        			char charass = (char)Integer.parseInt(ass);
-        			p.setSeq(String.valueOf(charass));
-        		}
-        	}
-            
-            Map<String,Object> mapTwo = new HashMap<>();
-            List<PurchaseRequired> list1 = new ArrayList<>();
-            for (PurchaseRequired pur : lists) {
-                mapTwo.put("id", pur.getId());
-                List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(mapTwo);
-                if(lis.size()>1){
-                    pur.setBudget(new BigDecimal(bud));
-                }
-                list1.add(pur);
-            }
-            model.addAttribute("kind", DictionaryDataUtil.find(5));
-            
-            List<PurchaseRequired> sessionList=  (List<PurchaseRequired>)request.getSession().getAttribute("sessionList");
-            if(sessionList!=null&&sessionList.size()>0){
-            	
-            	  for(int k=0;k<sessionList.size();k++){
-              		PurchaseRequired p = sessionList.get(k);
-              		String ass= p.getSeq();
-              		if(ass.equals("19968")){
-              			char charass = (char)Integer.parseInt(ass);
-              			p.setSeq(String.valueOf(charass));
-              		}
-              	}
-            	
-                list1.addAll(sessionList);
-            }
-            model.addAttribute("lists", list1);
-            
-            request.getSession().setAttribute("sessionList", list1);
-            String name = request.getParameter("name");
-            String projectNumber = request.getParameter("projectNumber");
-            model.addAttribute("name", name);
-            model.addAttribute("projectNumber", projectNumber);
-            model.addAttribute("ids", id);
-            model.addAttribute("checkedIds", checkedIds);
-        }
-        
-        return "bss/ppms/project/add";
-    }
-    
-    
-    
-    /**
-    * @Title: addSession
-    * @author Shen Zhenfei 
-    * @date 2016-12-15 下午6:54:31  
-    * @Description: 获取移除后的session
-    * @param @param page
-    * @param @param model
-    * @param @param id
-    * @param @param checkedIds
-    * @param @param request
-    * @param @param listBean
-    * @param @return      
-    * @return String
-     */
-    @RequestMapping("/addSession")
-    public String addSession(Integer page, Model model, String id, String checkedIds,
-            HttpServletRequest request,PurchaseRequiredFormBean listBean){
-    	
-    	request.getSession().removeAttribute("sessionList");
-    	
-    	List<Task> list = taskservice.listByTask(null, page==null?1:page);
-        PageInfo<Task> info = new PageInfo<Task>(list);
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        model.addAttribute("info", info);
-        //显示项目明细
-        if(id != null){
-            List<PurchaseRequired> lists  = new ArrayList<>();
-            String[] ids = id.split(",");
-            int bud = 0;
-            for (int i = 0; i < ids.length; i++ ) {
-                PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
-                map.put("id", purchaseRequired.getId());
-                List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(map);
-                if(lis.size() == 1){
-                    for (PurchaseRequired purchaseRequired2 : lis) {
-                        bud+=purchaseRequired2.getBudget().intValue();
-                    }
-                }
-                    lists.add(purchaseRequired);
-            }
-            Map<String,Object> mapTwo = new HashMap<>();
-            List<PurchaseRequired> list1 = new ArrayList<>();
-            for (PurchaseRequired pur : lists) {
-                mapTwo.put("id", pur.getId());
-                List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(mapTwo);
-                if(lis.size()>1){
-                    pur.setBudget(new BigDecimal(bud));
-                }
-                list1.add(pur);
-            }
-            model.addAttribute("kind", DictionaryDataUtil.find(5));
-            
-           /* List<PurchaseRequired> sessionList=  (List<PurchaseRequired>)request.getSession().getAttribute("sessionList");
-            if(sessionList!=null&&sessionList.size()>0){
-            	
-                list1.addAll(sessionList);
-            }*/
-            model.addAttribute("lists", list1);
-            
-            request.getSession().setAttribute("sessionList", list1);
-            String name = request.getParameter("name");
-            String projectNumber = request.getParameter("projectNumber");
-            model.addAttribute("name", name);
-            model.addAttribute("projectNumber", projectNumber);
-            model.addAttribute("ids", id);
-            model.addAttribute("checkedIds", checkedIds);
-        }
-    	return "bss/ppms/project/add";
-    }
-    
+     * @Title: add
+     * @author Shen Zhenfei 
+     * @date 2016-12-16 下午5:59:59  
+     * @Description: 添加信息页面
+     * @param @param page
+     * @param @param model
+     * @param @param name
+     * @param @param projectNumber
+     * @param @param request
+     * @param @return      
+     * @return String
+      */
+     @RequestMapping("/add")
+     public String add(@CurrentUser User user,String id, Integer page, Model model, String name,String projectNumber,
+             HttpServletRequest request){
+         //生成ID
+         String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+         //获取采购明细
+         HashMap<String, Object> map = new HashMap<>();
+         String planName = request.getParameter("planName");
+         String orgName = request.getParameter("orgName");
+         String documentNumber = request.getParameter("documentNumber");
+         if(planName !=null && !planName.equals("")){
+             map.put("name", planName);
+         }
+         if(orgName !=null && !orgName.equals("")){
+             map.put("orgName", orgName);
+         }
+         if(documentNumber != null && !documentNumber.equals("")){
+             map.put("documentNumber", documentNumber);
+         }
+         map.put("userId", user.getId());
+         if(page==null){
+             page = 1;
+         }
+         map.put("page", page.toString());
+         PageHelper.startPage(page,Integer.parseInt("10"));
+         List<Task> taskList = taskservice.listByProjectTask(map);
+         HashMap<String, Object> map1 = new HashMap<>();
+         map1.put("typeName", "0");
+         List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map1);
+         model.addAttribute("list2",orgnizations);
+         model.addAttribute("list", new PageInfo<Task>(taskList));
+         model.addAttribute("id", uuid);
+         model.addAttribute("orgId", user.getOrg().getId());
+         model.addAttribute("name", name);
+         model.addAttribute("projectNumber", projectNumber);
+         model.addAttribute("planName", planName);
+         model.addAttribute("orgName", orgName);
+         model.addAttribute("documentNumber", documentNumber);
+         if(id != null) {
+             Project project = projectService.selectById(id);
+             HashMap<String , Object> map2 = new HashMap<>();
+             map2.put("id", project.getId());
+             List<ProjectDetail> details = detailService.selectById(map);
+             List<Task> taskList1 = taskservice.listByTask(null, page==null?1:page);
+             PageInfo<Task> list1 = new PageInfo<Task>(taskList1);
+             model.addAttribute("list", list1);
+             model.addAttribute("lists", details);
+             model.addAttribute("orgId", user.getOrg().getId());
+             model.addAttribute("name", project.getName());
+             model.addAttribute("projectNumber", project.getProjectNumber());
+         }
+         return "bss/ppms/project/add";
+     }
+     
+     
+     
+     /**
+      * @Title: addDetails
+      * @author Shen Zhenfei 
+      * @date 2016-12-16 下午5:53:24  
+      * @Description: 采购项目明细表
+      * @param @param purchaseRequired
+      * @param @param model
+      * @param @param name
+      * @param @param projectNumber
+      * @param @return      
+      * @return String
+       */
+      @RequestMapping("/addDetails")
+      public String addDetails(@CurrentUser User user, String projectId,String id,Model model,String name, String orgId,String projectNumber) {
+          //根据采购明细ID，获取项目明细
+          Task task = taskservice.selectById(projectId);
+          List<PurchaseRequired> lists=new LinkedList<PurchaseRequired>();
+          List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+          for(String s:list){
+              Map<String,Object> map=new HashMap<String,Object>();
+              map.put("planNo", s);
+              List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+              lists.addAll(list2);
+          }
+          for (PurchaseRequired required : lists) {
+              Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getDepartment());
+              model.addAttribute("orgnization", orgnization);
+          }
+          model.addAttribute("kind", DictionaryDataUtil.find(5));
+          model.addAttribute("orgId", orgId);
+          model.addAttribute("user", user.getOrg().getId());
+          model.addAttribute("projectId", projectId);
+          model.addAttribute("id", id);
+          model.addAttribute("lists", lists);
+          model.addAttribute("name", name);
+          model.addAttribute("projectNumber", projectNumber);
+          return "bss/ppms/project/addDetail";
+      }
     
     /**
      * 
-     *〈预研项目选择采购明细〉
+     *〈立项〉
      *〈详细描述〉
      * @author Administrator
-     * @param purchaseRequired
+     * @param project
      * @param model
+     * @param num
      * @return
      */
-    @RequestMapping("/addDetail")
-    public String addDetail(PurchaseRequired purchaseRequired,Model model) {
-        List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,0);
-        model.addAttribute("info", list);
-        return "bss/ppms/project/addDetail";
-    }
-    
-    /**
-     * 
-     *〈添加明细〉
-     *〈详细描述〉
-     * @author Administrator
-     * @param id
-     * @param chkItem
-     * @param token2
-     * @param list
-     * @param name
-     * @param projectNumber
-     * @param model
-     * @param request
-     * @return
-     */
-    @RequestMapping("/create")
-    public String create(String id, String chkItem, String token2, PurchaseRequiredFormBean list, @Valid Project project, Model model, BindingResult result, HttpServletRequest request) {
-        request.getSession().removeAttribute("sessionList");
-        try {
-            // 判断表单是否重复提交
-            HttpSession session = request.getSession();
-            Object tokenValue = session.getAttribute("tokenSession");
-            if (tokenValue != null && tokenValue.equals(token2)) {
-                // 正常提交
-                session.removeAttribute("tokenSession");
-            } else {
-                // 重复提交
-                return "redirect:list.html";
-            }
-            if(result.hasErrors()){
-                List<FieldError> errors=result.getFieldErrors();
-                for(FieldError fieldError:errors){
-                    model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-                }
-                return "bss/ppms/project/add";
-            }
-            //新增项目信息
-            if(project != null){
-                if(project.getName().length()>50){
-                    model.addAttribute("ERR_name", "字符太大");
-                    return "bss/ppms/project/add";
-                }
-                if(project.getProjectNumber().length()>50){
-                    model.addAttribute("ERR_projectNumber", "字符太大");
-                    return "bss/ppms/project/add";
-                }
-                project.setCreateAt(new Date());
-                //project.setStatus(3);
-                if(chkItem != null){
-                    project.setIsRehearse(0);
-                }else{
-                    project.setIsRehearse(1);
-                }
-                if(list.getList().get(0).getOrganization() != null){
-                    project.setPurchaseDep(new PurchaseDep(list.getList().get(0).getOrganization()));
-                }
-                if(list.getList().get(0).getGoodsUse() != null || list.getList().get(0).getUseUnit() != null){
-                    project.setIsImport(1);
-                }else{
-                    project.setIsImport(0);
-                }
-                if(list.getList().get(0).getPlanType() != null){
-                    project.setPlanType(list.getList().get(0).getPlanType());
-                }
-                project.setPurchaseType(list.getList().get(0).getPurchaseType());
-                projectService.add(project);    
-            }
-            //中间表
-            String[] idss = chkItem.split(",");
-            for (int i = 0; i < idss.length; i++ ) {
-                ProjectTask projectTask = new ProjectTask();
-                projectTask.setTaskId(idss[i]);
-                projectTask.setProjectId(project.getId());
-                projectTaskService.insertSelective(projectTask);
-            }
-            //新增项目明细
-            int i=1;
-            if(list != null){
-                if(list.getList()!=null&&list.getList().size()>0){
-                    for (PurchaseRequired purchaseRequired:list.getList()) {
-                        ProjectDetail projectDetail = new ProjectDetail();
-                        projectDetail.setRequiredId(purchaseRequired.getId());
-                        projectDetail.setSerialNumber(purchaseRequired.getSeq());
-                        projectDetail.setDepartment(purchaseRequired.getDepartment());
-                        projectDetail.setGoodsName(purchaseRequired.getGoodsName());
-                        projectDetail.setStand(purchaseRequired.getStand());
-                        projectDetail.setQualitStand(purchaseRequired.getQualitStand());
-                        projectDetail.setItem(purchaseRequired.getItem());
-                        projectDetail.setCreatedAt(new Date());
-                        projectDetail.setProject(new Project(project.getId()));
-                        if (purchaseRequired.getPurchaseCount() != null) {
-                            projectDetail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
-                        }
-                        if (purchaseRequired.getPrice() != null) {
-                            projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
-                        }
-                        if (purchaseRequired.getBudget() != null) {
-                            projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
-                        }
-                        if (purchaseRequired.getDeliverDate() != null) {
-                            projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
-                        }
-                        if (purchaseRequired.getPurchaseType() != null) {
-                            projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
-                        }
-                        if (purchaseRequired.getSupplier() != null) {
-                            projectDetail.setSupplier(purchaseRequired.getSupplier());
-                        }
-                        if (purchaseRequired.getIsFreeTax() != null) {
-                            projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
-                        }
-                        if (purchaseRequired.getGoodsUse() != null) {
-                            projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
-                        }
-                        if (purchaseRequired.getUseUnit() != null) {
-                            projectDetail.setUseUnit(purchaseRequired.getUseUnit());
-                        }
-                        if (purchaseRequired.getParentId() != null) {
-                            projectDetail.setParentId(purchaseRequired.getParentId());
-                        }
-                        if (purchaseRequired.getDetailStatus() != null) {
-                            projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
-                        }
-                        projectDetail.setPosition(i);
-                        i++;
-                        detailService.insert(projectDetail);
-                    }
-                }
-            }
-            HashMap<String,Object> projectMap = new HashMap<String,Object>();
-            projectMap.put("projectNumber", project.getProjectNumber());
-            Project newProject = projectService.selectProjectByCode(projectMap).get(0);
-            String pId = newProject.getId(); 
-            HashMap<String,Object> map = new HashMap<>();
-            map.put("id", pId);
-            //拿到一个项目所有的明细
-            List<ProjectDetail> details = detailService.selectById(map);
-            for (ProjectDetail projectDetail2 : details) {
-                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail2.getDepartment());
-                model.addAttribute("orgnization", orgnization);
-            }
-            model.addAttribute("list", details);
-            model.addAttribute("kind", DictionaryDataUtil.find(5));
-            model.addAttribute("project", newProject);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "bss/ppms/project/sub_package";
-    }
-    
+     @RequestMapping("/nextStep")
+     public String nextStep(Project project,Model model, String num){
+         String status = DictionaryDataUtil.getId("YLX_DFB");
+         project.setStatus(status);
+         project.setIsRehearse(0);
+         project.setIsProvisional(0);
+         projectService.update(project);
+         
+         HashMap<String,Object> projectMap = new HashMap<String,Object>();
+         projectMap.put("projectNumber", project.getProjectNumber());
+         Project newProject = projectService.selectProjectByCode(projectMap).get(0);
+         String pId = newProject.getId(); 
+         HashMap<String,Object> map = new HashMap<>();
+         map.put("id", pId);
+         //拿到一个项目所有的明细
+         List<ProjectDetail> details = detailService.selectById(map);
+         model.addAttribute("list", details);
+         model.addAttribute("kind", DictionaryDataUtil.find(5));
+         model.addAttribute("project", newProject);
+         model.addAttribute("num", num);
+         return "bss/ppms/project/sub_package";
+     }
+     
     
     /**
      * 
@@ -549,6 +358,287 @@ public class ProjectController extends BaseController {
         model.addAttribute("checkedIds", checkedIds);
         return "bss/ppms/project/saveDetail";
     }
+    
+    
+    
+    
+    
+    
+    /**
+     * @Title: save
+     * @author Shen Zhenfei 
+     * @date 2016-12-16 下午6:03:10  
+     * @Description: 保存采购项目信息
+     * @param @param id
+     * @param @return      
+     * @return String
+      */
+     @RequestMapping("/save")
+     public String save(String projectId,Project project,String orgId, Integer page,String purchaseType,PurchaseRequiredFormBean list,String checkIds,int uncheckId,Model model, BindingResult result, HttpServletRequest request){
+         String id = project.getId();
+         Project proId = projectService.selectById(project.getId());
+         int k=1;
+         if(proId!=null && !proId.equals("")){
+             //不为空查询最大的排序
+             ProjectDetail max = detailService.getMax(id);
+             if(max!=null){
+                 k = max.getPosition()+1;
+             }
+             
+         }else{
+             project.setCreateAt(new Date());
+             project.setStatus("4");
+             project.setIsProvisional(1);
+             project.setIsImport(0);
+             project.setPurchaseType(purchaseType);
+             project.setPurchaseDep(new PurchaseDep(orgId));
+             project.setPlanType(list.getList().get(0).getPlanType());
+             projectService.insert(project); 
+         }
+             ProjectTask projectTask = new ProjectTask();
+             projectTask.setTaskId(projectId);
+             projectTask.setProjectId(project.getId());
+             projectTaskService.insertSelective(projectTask);
+             List<PurchaseRequired> sss=new ArrayList<PurchaseRequired>();
+             if(checkIds.trim().length()!=0){
+                 String[] detailIds = checkIds.split(",");
+                 List<ProjectDetail> advance = detailService.getByPidAndRid(id, detailIds[0]);
+                 //取到同一个父节点下面的子节点
+                 String parId=null ;
+                 if(advance.size() > 0){
+                     for (int i = 0; i < detailIds.length; i++ ) {
+                         HashMap<String, Object> map = new HashMap<String, Object>();
+                         
+                         map.put("id", detailIds[i]);
+                         List<PurchaseRequired> lists = purchaseRequiredService.selectByParentId(map);
+                         
+                         if(lists.size() == 1){//查询最底层明细的节点
+                             parId=lists.get(0).getParentId(); 
+                             PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(parId);
+                             sss.add(purchaseRequired);
+                         }
+                     }
+                 }
+                 
+                 //第二次追加
+                 if(advance.size()>0){
+                     int position= advance.size()+1;
+                     ProjectDetail max = detailService.getMax(id);
+                     if(max!=null){
+                         k = max.getPosition()+1;
+                     }
+                     String planNo = null;
+                     for(String pid:detailIds){
+                         PurchaseRequired required = purchaseRequiredService.queryById(pid);
+                         planNo = required.getPlanNo();
+                         if(required.getParentId().equals(parId)){
+                             required.setProjectStatus(1);
+                             purchaseRequiredService.updateByPrimaryKeySelective(required);
+                             insertDeatil(required,k,id);
+                         } 
+                     }
+                     String ids = request.getParameter("projectId");
+                     Task task = taskservice.selectById(ids);
+                     if(task.getCollectId() != null){
+                         List<String> list5 = conllectPurchaseService.getNo(task.getCollectId());
+                         List<PurchaseRequired> list3 = new ArrayList<>();
+                          for(String s:list5){
+                              Map<String,Object> pMap=new HashMap<String,Object>();
+                              pMap.put("planNo", s);
+                              List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(pMap);
+                              list3.addAll(list2);
+                          }
+                         if(list3 != null && list3.size() > 0){
+                              
+                              List<PurchaseRequired> bottomDetails = new ArrayList<>();
+                              for(int i=0;i<list3.size();i++){
+                                  Map<String,Object> bId = new HashMap<String,Object>();
+                                  bId.put("id", list3.get(i).getId());
+                                  List<PurchaseRequired> pr = purchaseRequiredService.selectByParentId(bId);
+                                  if(pr.size()==1){
+                                      bottomDetails.add(list3.get(i));
+                                  }
+                              }
+                              for(int i=0;i<bottomDetails.size();i++){
+                                  if(bottomDetails.get(i).getProjectStatus()==0){
+                                      break;
+                                  }else if(i==bottomDetails.size()-1){
+                                      List<String> purchase = conllectPurchaseService.getId(bottomDetails.get(0).getUniqueId());
+                                      if(purchase.size() > 0){
+                                          Task task1 = taskservice.selectByCollectId(purchase.get(0));
+                                          task1.setNotDetail(1);
+                                          taskservice.update(task1);
+                                      }
+                                      
+                                  }
+                              }
+                               
+                           }
+                      }
+                     
+                     if(uncheckId==0){
+                        purchaseRequiredService.updateProjectStatus(planNo);
+                     }
+                     
+                 }else{
+                     
+                    //第一次添加
+                     List<PurchaseRequired> lists  = new ArrayList<>();
+                     HashMap<String, Object> maps = new HashMap<String, Object>();
+                     if(checkIds != null){
+                         String[] checkId = checkIds.split(",");
+                         int bud = 0;
+                         for (int i = 0; i < checkId.length; i++ ) {
+                             PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(checkId[i]);
+                             maps.put("id", purchaseRequired.getId());
+                             List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(maps);
+                             if(lis.size() == 1){
+                                 for (PurchaseRequired purchaseRequired2 : lis) {
+                                     bud+=purchaseRequired2.getBudget().intValue();
+                                 }
+                             }
+                             lists.add(purchaseRequired);
+                         }
+                         
+                         for (PurchaseRequired purchaseRequired:lists) {
+                            PurchaseRequired required = purchaseRequiredService.queryById(purchaseRequired.getId());
+                            Map<String,Object> map=new HashMap<String,Object>();
+                            map.put("id", required.getId());
+                            List<PurchaseRequired> list2 = purchaseRequiredService.selectByParentId(map);
+                            if(list2.size()==1){
+                                required.setProjectStatus(1);
+                                 purchaseRequiredService.updateByPrimaryKeySelective(required);
+                            }
+                             ProjectDetail projectDetail = new ProjectDetail();
+                             projectDetail.setRequiredId(purchaseRequired.getId());
+                             projectDetail.setSerialNumber(purchaseRequired.getSeq());
+                             projectDetail.setDepartment(purchaseRequired.getDepartment());
+                             projectDetail.setGoodsName(purchaseRequired.getGoodsName());
+                             projectDetail.setStand(purchaseRequired.getStand());
+                             projectDetail.setQualitStand(purchaseRequired.getQualitStand());
+                             projectDetail.setItem(purchaseRequired.getItem());
+                             projectDetail.setCreatedAt(new Date());
+                             projectDetail.setProject(new Project(project.getId()));
+                             if (purchaseRequired.getPurchaseCount() != null) {
+                                 projectDetail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
+                             }
+                             if (purchaseRequired.getPrice() != null) {
+                                 projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
+                             }
+                             if (purchaseRequired.getBudget() != null) {
+                                 projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
+                             }
+                             if (purchaseRequired.getDeliverDate() != null) {
+                                 projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
+                             }
+                             if (purchaseRequired.getPurchaseType() != null) {
+                                 projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
+                             }
+                             if (purchaseRequired.getSupplier() != null) {
+                                 projectDetail.setSupplier(purchaseRequired.getSupplier());
+                             }
+                             if (purchaseRequired.getIsFreeTax() != null) {
+                                 projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
+                             }
+                             if (purchaseRequired.getGoodsUse() != null) {
+                                 projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
+                             }
+                             if (purchaseRequired.getUseUnit() != null) {
+                                 projectDetail.setUseUnit(purchaseRequired.getUseUnit());
+                             }
+                             if (purchaseRequired.getParentId() != null) {
+                                 projectDetail.setParentId(purchaseRequired.getParentId());
+                             }
+                             if (purchaseRequired.getDetailStatus() != null) {
+                                 projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
+                             }
+                             projectDetail.setPosition(k);
+                             k++;
+                             detailService.insert(projectDetail);
+                         }
+                         
+                         String ids = request.getParameter("projectId");
+                         Task task = taskservice.selectById(ids);
+                         if(task.getCollectId() != null){
+                            List<String> list5 = conllectPurchaseService.getNo(task.getCollectId());
+                            List<PurchaseRequired> list3 = new ArrayList<>();
+                             for(String s:list5){
+                                 Map<String,Object> pMap=new HashMap<String,Object>();
+                                 pMap.put("planNo", s);
+                                 List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(pMap);
+                                 list3.addAll(list2);
+                             }
+                            if(list3 != null && list3.size() > 0){
+                                 
+                                 List<PurchaseRequired> bottomDetails = new ArrayList<>();
+                                 for(int i=0;i<list3.size();i++){
+                                     Map<String,Object> bId = new HashMap<String,Object>();
+                                     bId.put("id", list3.get(i).getId());
+                                     List<PurchaseRequired> pr = purchaseRequiredService.selectByParentId(bId);
+                                     if(pr.size()==1){
+                                         bottomDetails.add(list3.get(i));
+                                     }
+                                 }
+                                 for(int i=0;i<bottomDetails.size();i++){
+                                     if(bottomDetails.get(i).getProjectStatus()==0){
+                                         break;
+                                     }else if(i==bottomDetails.size()-1){
+                                         List<String> purchase = conllectPurchaseService.getId(bottomDetails.get(0).getUniqueId());
+                                         if(purchase.size() > 0){
+                                             Task task1 = taskservice.selectByCollectId(purchase.get(0));
+                                             task1.setNotDetail(1);
+                                             taskservice.update(task1);
+                                         }
+                                         
+                                     }
+                                 }
+                                  
+                              }
+                         }
+                     
+                         
+                         if(uncheckId==0){
+                            purchaseRequiredService.updateProjectStatus(lists.get(0).getPlanNo());
+                         }
+                 }
+                 
+             }
+             }
+             
+             HashMap<String, Object> map = new HashMap<String, Object>();
+             map.put("id", id);
+             List<ProjectDetail> detail = detailService.selectById(map);
+             for (ProjectDetail projectDetail2 : detail) {
+                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail2.getDepartment());
+                model.addAttribute("orgnization", orgnization);
+            }
+             model.addAttribute("lists", detail);
+             
+             if(page == null){
+                 page = 1;
+             }
+             HashMap<String, Object> map2 = new HashMap<>();
+             map2.put("page", page.toString());
+             PageHelper.startPage(page,Integer.parseInt("10"));
+             List<Task> taskList = taskservice.listByProjectTask(map2);
+             PageInfo<Task> listT = new PageInfo<Task>(taskList);
+             model.addAttribute("list", listT);
+             
+             model.addAttribute("kind", DictionaryDataUtil.find(5));
+             model.addAttribute("id", id);
+             model.addAttribute("name", project.getName());
+             model.addAttribute("projectNumber", project.getProjectNumber());
+             
+         return "bss/ppms/project/add";
+         
+     }
+    
+    
+    
+    
+    
+    
+    
     
     /**
      * 
@@ -734,8 +824,6 @@ public class ProjectController extends BaseController {
         map.put("id", id);
         List<ProjectDetail> detail = detailService.selectById(map);
         for (ProjectDetail projectDetail : detail) {
-            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail.getDepartment());
-            model.addAttribute("orgnization", orgnization);
             HashMap<String,Object> detailMap = new HashMap<>();
             detailMap.put("id",projectDetail.getRequiredId());
             detailMap.put("projectId", id);
@@ -744,6 +832,10 @@ public class ProjectController extends BaseController {
                 projectDetail.setDetailStatus(0);
             }
         }
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("typeName", "0");
+        List<Orgnization> orgnization = orgnizationService.findOrgnizationList(map1);
+        model.addAttribute("orgnization",orgnization);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", detail);
         model.addAttribute("project", project);
@@ -1699,381 +1791,12 @@ public class ProjectController extends BaseController {
     }
     
     
-    /**
-    * @Title: projectList
-    * @author Shen Zhenfei 
-    * @date 2016-12-16 下午5:59:59  
-    * @Description: 添加信息页面
-    * @param @param page
-    * @param @param model
-    * @param @param name
-    * @param @param projectNumber
-    * @param @param request
-    * @param @return      
-    * @return String
-     */
-    @RequestMapping("/projectList")
-    public String projectList(@CurrentUser User user,String id, Integer page, Model model, String name,String projectNumber,
-            HttpServletRequest request){
-    	//生成ID
-    	String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-    	//获取采购明细
-    	HashMap<String, Object> map = new HashMap<>();
-    	String planName = request.getParameter("planName");
-    	String orgName = request.getParameter("orgName");
-    	String documentNumber = request.getParameter("documentNumber");
-	    if(planName !=null && !planName.equals("")){
-	    	map.put("name", planName);
-	    }
-	    if(orgName !=null && !orgName.equals("")){
-	    	map.put("orgName", orgName);
-	    }
-		if(documentNumber != null && !documentNumber.equals("")){
-			map.put("documentNumber", documentNumber);
-		}
-		map.put("userId", user.getId());
-	    if(page==null){
-			page = 1;
-		}
-	    map.put("page", page.toString());
-	    PageHelper.startPage(page,Integer.parseInt("10"));
-    	List<Task> taskList = taskservice.listByProjectTask(map);
-        HashMap<String, Object> map1 = new HashMap<>();
-        map1.put("typeName", "0");
-        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map1);
-        model.addAttribute("list2",orgnizations);
-        model.addAttribute("list", new PageInfo<Task>(taskList));
-    	model.addAttribute("id", uuid);
-    	model.addAttribute("orgId", user.getOrg().getId());
-    	model.addAttribute("name", name);
-        model.addAttribute("projectNumber", projectNumber);
-        model.addAttribute("planName", planName);
-        model.addAttribute("orgName", orgName);
-        model.addAttribute("documentNumber", documentNumber);
-        if(id != null) {
-            Project project = projectService.selectById(id);
-            HashMap<String , Object> map2 = new HashMap<>();
-            map2.put("id", project.getId());
-            List<ProjectDetail> details = detailService.selectById(map);
-            List<Task> taskList1 = taskservice.listByTask(null, page==null?1:page);
-            PageInfo<Task> list1 = new PageInfo<Task>(taskList1);
-            model.addAttribute("list", list1);
-            model.addAttribute("lists", details);
-            model.addAttribute("orgId", user.getOrg().getId());
-            model.addAttribute("name", project.getName());
-            model.addAttribute("projectNumber", project.getProjectNumber());
-        }
-    	return "bss/ppms/project/project";
-    }
     
     
-    /**
-     * @Title: addDetails
-     * @author Shen Zhenfei 
-     * @date 2016-12-16 下午5:53:24  
-     * @Description: 采购项目明细表
-     * @param @param purchaseRequired
-     * @param @param model
-     * @param @param name
-     * @param @param projectNumber
-     * @param @return      
-     * @return String
-      */
-     @RequestMapping("/addDetails")
-     public String addDetails(@CurrentUser User user, String projectId,String id,Model model,String name, String orgId,String projectNumber) {
-     	 //根据采购明细ID，获取项目明细
-     	 Task task = taskservice.selectById(projectId);
-         List<PurchaseRequired> lists=new LinkedList<PurchaseRequired>();
-         List<String> list = conllectPurchaseService.getNo(task.getCollectId());
-         for(String s:list){
-             Map<String,Object> map=new HashMap<String,Object>();
-             map.put("planNo", s);
-             List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-             lists.addAll(list2);
-         }
-         for (PurchaseRequired required : lists) {
-             Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getDepartment());
-             model.addAttribute("orgnization", orgnization);
-         }
-         model.addAttribute("kind", DictionaryDataUtil.find(5));
-         model.addAttribute("orgId", orgId);
-         model.addAttribute("user", user.getOrg().getId());
-         model.addAttribute("projectId", projectId);
-         model.addAttribute("id", id);
-         model.addAttribute("lists", lists);
-         model.addAttribute("name", name);
-         model.addAttribute("projectNumber", projectNumber);
-         return "bss/ppms/project/addDetails";
-     }
+    
+   
      
-     /**
-     * @Title: save
-     * @author Shen Zhenfei 
-     * @date 2016-12-16 下午6:03:10  
-     * @Description: 保存采购项目信息
-     * @param @param id
-     * @param @return      
-     * @return String
-      */
-     @RequestMapping("/save")
-     public String save(String projectId,Project project,String orgId, Integer page,String purchaseType,PurchaseRequiredFormBean list,String checkIds,int uncheckId,Model model, BindingResult result, HttpServletRequest request){
-    	 String id = project.getId();
-    	 Project proId = projectService.selectById(project.getId());
-    	 int k=1;
-    	 if(proId!=null && !proId.equals("")){
-    		 //不为空查询最大的排序
-    		 ProjectDetail max = detailService.getMax(id);
-    		 if(max!=null){
-    			 k = max.getPosition()+1;
-    		 }
-    		 
-    	 }else{
-    		 project.setCreateAt(new Date());
-             //project.setStatus(4);
-             project.setIsProvisional(1);
-             project.setIsImport(0);
-             project.setPurchaseType(purchaseType);
-             project.setPurchaseDep(new PurchaseDep(orgId));
-             project.setPlanType(list.getList().get(0).getPlanType());
-             projectService.insert(project); 
-    	 }
-	    	 ProjectTask projectTask = new ProjectTask();
-	         projectTask.setTaskId(projectId);
-	         projectTask.setProjectId(project.getId());
-	         projectTaskService.insertSelective(projectTask);
-	         List<PurchaseRequired> sss=new ArrayList<PurchaseRequired>();
-	         if(checkIds.trim().length()!=0){
-	        	 String[] detailIds = checkIds.split(",");
-	             List<ProjectDetail> advance = detailService.getByPidAndRid(id, detailIds[0]);
-	             //取到同一个父节点下面的子节点
-	             String parId=null ;
-	             if(advance.size() > 0){
-	                 for (int i = 0; i < detailIds.length; i++ ) {
-	                     HashMap<String, Object> map = new HashMap<String, Object>();
-	                     
-	                     map.put("id", detailIds[i]);
-	                     List<PurchaseRequired> lists = purchaseRequiredService.selectByParentId(map);
-	                     
-	                     if(lists.size() == 1){//查询最底层明细的节点
-	                    	 parId=lists.get(0).getParentId(); 
-	                    	 PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(parId);
-	                    	 sss.add(purchaseRequired);
-	                     }
-	                 }
-	             }
-	             
-	             //第二次追加
-	             if(advance.size()>0){
-	                 int position= advance.size()+1;
-	                 ProjectDetail max = detailService.getMax(id);
-	        		 if(max!=null){
-	        			 k = max.getPosition()+1;
-	        		 }
-	                 String planNo = null;
-	                 for(String pid:detailIds){
-	                	 PurchaseRequired required = purchaseRequiredService.queryById(pid);
-	                	 planNo = required.getPlanNo();
-	                     if(required.getParentId().equals(parId)){
-		                     required.setProjectStatus(1);
-		                     purchaseRequiredService.updateByPrimaryKeySelective(required);
-	                         insertDeatil(required,k,id);
-	                     } 
-	                 }
-	                 String ids = request.getParameter("projectId");
-                     Task task = taskservice.selectById(ids);
-                     if(task.getCollectId() != null){
-                         List<String> list5 = conllectPurchaseService.getNo(task.getCollectId());
-                         List<PurchaseRequired> list3 = new ArrayList<>();
-                          for(String s:list5){
-                              Map<String,Object> pMap=new HashMap<String,Object>();
-                              pMap.put("planNo", s);
-                              List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(pMap);
-                              list3.addAll(list2);
-                          }
-                         if(list3 != null && list3.size() > 0){
-                              
-                              List<PurchaseRequired> bottomDetails = new ArrayList<>();
-                              for(int i=0;i<list3.size();i++){
-                                  Map<String,Object> bId = new HashMap<String,Object>();
-                                  bId.put("id", list3.get(i).getId());
-                                  List<PurchaseRequired> pr = purchaseRequiredService.selectByParentId(bId);
-                                  if(pr.size()==1){
-                                      bottomDetails.add(list3.get(i));
-                                  }
-                              }
-                              for(int i=0;i<bottomDetails.size();i++){
-                                  if(bottomDetails.get(i).getProjectStatus()==0){
-                                      break;
-                                  }else if(i==bottomDetails.size()-1){
-                                      List<String> purchase = conllectPurchaseService.getId(bottomDetails.get(0).getPlanNo());
-                                      if(purchase.size() > 0){
-                                          Task task1 = taskservice.selectByCollectId(purchase.get(0));
-                                          task1.setNotDetail(1);
-                                          taskservice.update(task1);
-                                      }
-                                      
-                                  }
-                              }
-                               
-                           }
-                      }
-	                 
-	                 if(uncheckId==0){
-	 		            purchaseRequiredService.updateProjectStatus(planNo);
-	 		         }
-	                 
-	             }else{
-	            	 
-	 	        	//第一次添加
-	 		         List<PurchaseRequired> lists  = new ArrayList<>();
-	 		         HashMap<String, Object> maps = new HashMap<String, Object>();
-	 		         if(checkIds != null){
-	 		             String[] checkId = checkIds.split(",");
-	 		             int bud = 0;
-	 		             for (int i = 0; i < checkId.length; i++ ) {
-	 		                 PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(checkId[i]);
-	 		                 maps.put("id", purchaseRequired.getId());
-	 		                 List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(maps);
-	 		                 if(lis.size() == 1){
-	 		                     for (PurchaseRequired purchaseRequired2 : lis) {
-	 		                         bud+=purchaseRequired2.getBudget().intValue();
-	 		                     }
-	 		                 }
-	 		                 lists.add(purchaseRequired);
-	 		             }
-	 		             
-	 		             for (PurchaseRequired purchaseRequired:lists) {
-	 		            	PurchaseRequired required = purchaseRequiredService.queryById(purchaseRequired.getId());
-	 		            	Map<String,Object> map=new HashMap<String,Object>();
-	 		            	map.put("id", required.getId());
-	 		            	List<PurchaseRequired> list2 = purchaseRequiredService.selectByParentId(map);
-	 		            	if(list2.size()==1){
-	 		            		required.setProjectStatus(1);
-			                     purchaseRequiredService.updateByPrimaryKeySelective(required);
-	 		            	}
-	 	                     ProjectDetail projectDetail = new ProjectDetail();
-	 	                     projectDetail.setRequiredId(purchaseRequired.getId());
-	 	                     projectDetail.setSerialNumber(purchaseRequired.getSeq());
-	 	                     projectDetail.setDepartment(purchaseRequired.getDepartment());
-	 	                     projectDetail.setGoodsName(purchaseRequired.getGoodsName());
-	 	                     projectDetail.setStand(purchaseRequired.getStand());
-	 	                     projectDetail.setQualitStand(purchaseRequired.getQualitStand());
-	 	                     projectDetail.setItem(purchaseRequired.getItem());
-	 	                     projectDetail.setCreatedAt(new Date());
-	 	                     projectDetail.setProject(new Project(project.getId()));
-	 	                     if (purchaseRequired.getPurchaseCount() != null) {
-	 	                         projectDetail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
-	 	                     }
-	 	                     if (purchaseRequired.getPrice() != null) {
-	 	                         projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
-	 	                     }
-	 	                     if (purchaseRequired.getBudget() != null) {
-	 	                         projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
-	 	                     }
-	 	                     if (purchaseRequired.getDeliverDate() != null) {
-	 	                         projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
-	 	                     }
-	 	                     if (purchaseRequired.getPurchaseType() != null) {
-	 	                         projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
-	 	                     }
-	 	                     if (purchaseRequired.getSupplier() != null) {
-	 	                         projectDetail.setSupplier(purchaseRequired.getSupplier());
-	 	                     }
-	 	                     if (purchaseRequired.getIsFreeTax() != null) {
-	 	                         projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
-	 	                     }
-	 	                     if (purchaseRequired.getGoodsUse() != null) {
-	 	                         projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
-	 	                     }
-	 	                     if (purchaseRequired.getUseUnit() != null) {
-	 	                         projectDetail.setUseUnit(purchaseRequired.getUseUnit());
-	 	                     }
-	 	                     if (purchaseRequired.getParentId() != null) {
-	 	                         projectDetail.setParentId(purchaseRequired.getParentId());
-	 	                     }
-	 	                     if (purchaseRequired.getDetailStatus() != null) {
-	 	                         projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
-	 	                     }
-	 	                     projectDetail.setPosition(k);
-	 	                     k++;
-	 	                     detailService.insert(projectDetail);
-	 	                 }
-	 		             
-	 		             String ids = request.getParameter("projectId");
-	 		             Task task = taskservice.selectById(ids);
-	 		             if(task.getCollectId() != null){
-	 		                List<String> list5 = conllectPurchaseService.getNo(task.getCollectId());
-	                        List<PurchaseRequired> list3 = new ArrayList<>();
-	                         for(String s:list5){
-	                             Map<String,Object> pMap=new HashMap<String,Object>();
-	                             pMap.put("planNo", s);
-	                             List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(pMap);
-	                             list3.addAll(list2);
-	                         }
-	                        if(list3 != null && list3.size() > 0){
-	                             
-	                             List<PurchaseRequired> bottomDetails = new ArrayList<>();
-	                             for(int i=0;i<list3.size();i++){
-	                                 Map<String,Object> bId = new HashMap<String,Object>();
-	                                 bId.put("id", list3.get(i).getId());
-	                                 List<PurchaseRequired> pr = purchaseRequiredService.selectByParentId(bId);
-	                                 if(pr.size()==1){
-	                                     bottomDetails.add(list3.get(i));
-	                                 }
-	                             }
-	                             for(int i=0;i<bottomDetails.size();i++){
-	                                 if(bottomDetails.get(i).getProjectStatus()==0){
-	                                     break;
-	                                 }else if(i==bottomDetails.size()-1){
-	                                     List<String> purchase = conllectPurchaseService.getId(bottomDetails.get(0).getPlanNo());
-	                                     if(purchase.size() > 0){
-	                                         Task task1 = taskservice.selectByCollectId(purchase.get(0));
-	                                         task1.setNotDetail(1);
-	                                         taskservice.update(task1);
-	                                     }
-	                                     
-	                                 }
-	                             }
-	                              
-	                          }
-	 		             }
-	 		         
-	 		             
-	 		             if(uncheckId==0){
-	 		            	purchaseRequiredService.updateProjectStatus(lists.get(0).getPlanNo());
-	 		             }
-	             }
-	        	 
-	         }
-	         }
-	         
-	         HashMap<String, Object> map = new HashMap<String, Object>();
-	         map.put("id", id);
-	         List<ProjectDetail> detail = detailService.selectById(map);
-	         for (ProjectDetail projectDetail2 : detail) {
-                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail2.getDepartment());
-                model.addAttribute("orgnization", orgnization);
-            }
-	         model.addAttribute("lists", detail);
-	         
-	         if(page == null){
-	             page = 1;
-	         }
-	         HashMap<String, Object> map2 = new HashMap<>();
-	         map2.put("page", page.toString());
-	         PageHelper.startPage(page,Integer.parseInt("10"));
-	         List<Task> taskList = taskservice.listByProjectTask(map2);
-	         PageInfo<Task> listT = new PageInfo<Task>(taskList);
-	         model.addAttribute("list", listT);
-	         
-	         model.addAttribute("kind", DictionaryDataUtil.find(5));
-	         model.addAttribute("id", id);
-	         model.addAttribute("name", project.getName());
-	         model.addAttribute("projectNumber", project.getProjectNumber());
-	         
-	     return "bss/ppms/project/project";
-    	 
-     }
+    
      
      
      @RequestMapping("/delete")
@@ -2101,32 +1824,11 @@ public class ProjectController extends BaseController {
          model.addAttribute("name", name);
          model.addAttribute("projectNumber", projectNumber);
     	 
-    	 return "bss/ppms/project/project";
+    	 return "bss/ppms/project/add";
      }
      
      
-     @RequestMapping("/nextStep")
-     public String nextStep(Project project,Model model, String num){
-    	 String status = DictionaryDataUtil.getId("YLX_DFB");
-    	 project.setStatus(status);
-    	 project.setIsRehearse(0);
-    	 project.setIsProvisional(0);
-    	 projectService.update(project);
-    	 
-    	 HashMap<String,Object> projectMap = new HashMap<String,Object>();
-         projectMap.put("projectNumber", project.getProjectNumber());
-         Project newProject = projectService.selectProjectByCode(projectMap).get(0);
-         String pId = newProject.getId(); 
-         HashMap<String,Object> map = new HashMap<>();
-         map.put("id", pId);
-         //拿到一个项目所有的明细
-         List<ProjectDetail> details = detailService.selectById(map);
-         model.addAttribute("list", details);
-         model.addAttribute("kind", DictionaryDataUtil.find(5));
-         model.addAttribute("project", newProject);
-         model.addAttribute("num", num);
-    	 return "bss/ppms/project/sub_package";
-     }
+     
      
      
      @RequestMapping("/checkDeailTops")
