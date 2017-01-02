@@ -1380,22 +1380,22 @@ public class SupplierAuditController extends BaseSupplierController{
 		List<Category> list2 = getSupplier(supplierId,supplierTypeIds);
 		
 		//根据品目id查询所有的证书信息
-		List<QualificationBean> list3 = supplierService.queryCategoyrId(list2);
+		List<QualificationBean> list3 = supplierService.queryCategoyrId(list2, 2);
 	 
 		//查询所有的三级品目销售
 		List<Category> listSlae = getSale(supplierId,supplierTypeIds);
 		//根据品目id查询所有的证书信息
-	    List<QualificationBean> saleQua= supplierService.queryCategoyrId(listSlae);
+	    List<QualificationBean> saleQua= supplierService.queryCategoyrId(listSlae, 3);
 		   
 	    //查询所有的三级目录工程
 	    List<Category> listProject = getSale(supplierId,supplierTypeIds);
 	    //根据品目id查询所有的工证书
-	    List<QualificationBean> projectQua= supplierService.queryCategoyrId(listProject);
+	    List<QualificationBean> projectQua= supplierService.queryCategoyrId(listProject, 1);
 	   
 	    //查询所有的三级品目服务
 	    List<Category> listService = getSale(supplierId,supplierTypeIds);
 		//根据品目id查询所有的服务证书信息
-	    List<QualificationBean> serviceQua= supplierService.queryCategoyrId(listService);
+	    List<QualificationBean> serviceQua= supplierService.queryCategoyrId(listService, 1);
 	   
 	    //生产证书
 	    List<Qualification> qaList=new ArrayList<Qualification>();

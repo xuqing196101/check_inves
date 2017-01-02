@@ -21,6 +21,14 @@
       <include refid="BASE_COLUMN_SQL" />
       FROM T_SES_BMS_CATEGORY_QUA
       WHERE CATEGORY_ID = #{categoryId}
+    </select>
+    
+    <!-- 查询 -->
+    <select id="findListSupplier" resultMap="categoryQuaMap">
+      SELECT 
+      <include refid="BASE_COLUMN_SQL" />
+      FROM T_SES_BMS_CATEGORY_QUA
+      WHERE CATEGORY_ID = #{categoryId}
       AND QUA_TYPE = #{quaType}
     </select>
 	

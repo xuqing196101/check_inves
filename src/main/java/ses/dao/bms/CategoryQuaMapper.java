@@ -35,7 +35,17 @@ public interface CategoryQuaMapper {
      * @param categoryId 品目id
      * @return  
      */
-    List<CategoryQua> findList(@Param("categoryId")String categoryId, Integer type);
+    List<CategoryQua> findList(@Param("categoryId")String categoryId);
+    
+    /**
+     * 
+     *〈简述〉根据品目Id查询关联资质信息
+     *〈详细描述〉
+     * @author myc
+     * @param categoryId 品目id
+     * @return  
+     */
+    List<CategoryQua> findListSupplier(@Param("categoryId")String categoryId, Integer type);
     
     /**
      * 
