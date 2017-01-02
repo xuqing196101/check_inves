@@ -5,7 +5,6 @@ package ses.controller.sys.bms;
 
 import java.util.List;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-import com.github.pagehelper.PageInfo;
-
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.oms.PurchaseDep;
 import ses.service.bms.TodosService;
+import ses.service.oms.PurchaseOrgnizationServiceI;
+
+import com.github.pagehelper.PageInfo;
 
 /**
  * @Description: 通知
@@ -34,6 +34,9 @@ public class ToDoController {
 
     @Autowired
     private TodosService todosService;
+    
+    @Autowired
+    private PurchaseOrgnizationServiceI purchaseOrgnizationService;
 
 
     /**
@@ -54,7 +57,10 @@ public class ToDoController {
             todos.setReceiverId(user.getId());
             //机构id
             if (user.getOrg() != null && user.getOrg().getId() != null ){
-                todos.setOrgId(user.getOrg().getId());
+                PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(user.getOrg().getId());
+                if (dep != null && dep.getId() != null) {
+                    todos.setOrgId(dep.getId());
+                }
             }
             //角色id
             if (user.getRoles() != null && user.getRoles().size() != 0){
@@ -80,7 +86,10 @@ public class ToDoController {
             todos.setIsFinish(new Short("1"));
             todos.setReceiverId(user.getId());
             if(user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
-                todos.setOrgId(user.getOrg().getId());
+                PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(user.getOrg().getId());
+                if (dep != null && dep.getId() != null) {
+                    todos.setOrgId(dep.getId());
+                }
             }
             if (user.getRoles() != null && user.getRoles().size() !=0){
                 todos.setRoleIdArray(user.getRoles());
