@@ -3017,7 +3017,7 @@ public class PackageExpertController {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", packages);
         Packages pack = packageService.findPackageById(map).get(0);
-        
+        model.addAttribute("pack", pack);
         // 供应商信息
         SaleTender saleTender = new SaleTender();
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
@@ -3042,35 +3042,6 @@ public class PackageExpertController {
             SupplierRank rank = new SupplierRank();
             rank.setSupplierId(supp.getSuppliers().getId());
             rank.setPackageId(supp.getPackages());
-            // 查询该供应商的经济总分
-            //BigDecimal econScore = new BigDecimal(0);
-            // 查询该供应商的技术总分
-            //BigDecimal techScore = new BigDecimal(0);
-            /*for (ExpertScore score : scores) {
-                if (score.getSupplierId().equals(supp.getSuppliers().getId())) {
-                    ScoreModel scoModel = new ScoreModel();
-                    scoModel.setId(score.getScoreModelId());
-                    // 根据id查看scoreModel对象
-                    ScoreModel scoreModel1 = scoreModelService.findScoreModelByScoreModel(scoModel);
-                    if (scoreModel1 != null) {
-                        MarkTerm mt = null;
-                        if (scoreModel1.getMarkTermId() != null && !"".equals(scoreModel1.getMarkTermId())){
-                            mt = markTermService.findMarkTermById(scoreModel1.getMarkTermId());
-                            if (mt.getTypeName() == null || "".equals(mt.getTypeName())) {
-                                mt = markTermService.findMarkTermById(mt.getPid());
-                            }
-                        }
-                        DictionaryData data = dictionaryDataServiceI.getDictionaryData(mt.getTypeName());
-                        if ("ECONOMY".equals(data.getCode())) {
-                            // 经济
-                            econScore = econScore.add(score.getScore());
-                        } else if ("TECHNOLOGY".equals(data.getCode())) {
-                            // 技术
-                            techScore = techScore.add(score.getScore());
-                        }
-                    }
-                }
-            }*/
             BigDecimal es = supp.getEconomicScore();
             if (es == null) {
               rank.setEconScore(null);
@@ -3199,6 +3170,6 @@ public class PackageExpertController {
         expertScoreList.addAll(expertScoreService.getScoreByMap(searchMap));
         model.addAttribute("expertScoreList", expertScoreList);
         // 跳转
-        return "bss/prms/rank/supplier_rank";
+        return "bss/prms/rank/print_info";
     }
 }

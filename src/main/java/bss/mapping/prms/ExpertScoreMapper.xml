@@ -182,8 +182,14 @@
    select sum(SCORE) score,SUPPLIER_ID supplierId,
    PACKAGE_ID packageId,EXPERT_ID expertId
    from T_BSS_PRMS_EXPERT_SCORE
-   where PROJECT_ID = #{projectId}
-   and PACKAGE_ID = #{packageId}
+   <where>
+     <if test="projectId != null">
+	   and PROJECT_ID = #{projectId}
+     </if>
+     <if test="packageId != null">
+	   and PACKAGE_ID = #{packageId}
+     </if>
+   </where> 
    <!-- and IS_HISTORY = '0' -->
    group by PACKAGE_ID,EXPERT_ID,SUPPLIER_ID
   </select>
