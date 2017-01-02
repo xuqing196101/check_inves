@@ -10,8 +10,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
-	<meta name="author" content="WangHuijie">
- <jsp:include page="../../ses/bms/page_style/backend_common.jsp"></jsp:include>	
+	<meta name="author" content="">
+<jsp:include page="../../ses/bms/page_style/backend_common.jsp"></jsp:include>
+<jsp:include page="../../common.jsp"></jsp:include>
 <script type="text/javascript">
 	function backUp(){
 		$("#tab-6").load("${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId=${packageId}&projectId=${projectId}");

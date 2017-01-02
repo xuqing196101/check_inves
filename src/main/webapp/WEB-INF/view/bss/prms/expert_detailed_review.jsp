@@ -118,21 +118,15 @@
 	}
 	function printRank(){
 		var packageId = "${packageId}";
-		$.ajax({
-			url:"${pageContext.request.contextPath}/packageExpert/isGathered.do",
-			data:{"packageIds" : packageId},
-			async:false,
-			success:function (response) {
-				if (response == "0") {
-					layer.alert("该包暂未结束评分!", {
-						offset : [ y, x ],
-						shade : 0.01
-					});
-				} else {
-					window.open("${pageContext.request.contextPath}/packageExpert/printRank.html?projectId=${projectId}&packageId=${packageId}", "打印汇总表");
-				}
-			}
-		});
+		var isEnd = "${isEnd}";
+		if (isEnd != "1") {
+			layer.alert("该包暂未结束评分!", {
+				offset : [ y, x ],
+				shade : 0.01
+			});
+		} else {
+			window.open("${pageContext.request.contextPath}/packageExpert/printRank.html?packages=${packageId}", "打印汇总表");
+		}
 	}
 </script>
 </head>
