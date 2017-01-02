@@ -175,15 +175,15 @@
     								}
     							}
     						});    
-    					}  
-    					
-    					
-    					else if (flag[0] == "reset") {
+    					} else if (flag[0] == "reset") {
     						window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=" + flag[1];
+    					} else if (data == "outer_net_limit") {
+    						layer.msg("管理员账号请在内网登录");
+    						layer.close(index);
     					} else if (data = "deleteLogin") {
     						layer.msg("账号不存在!");
     						layer.close(index);
-    					}
+    					} 
     					getIdentityCode();
     				}
     			});

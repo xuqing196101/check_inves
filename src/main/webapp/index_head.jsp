@@ -15,7 +15,7 @@
 var user = "${sessionScope.loginUser.relName}";
 $(function(){
 	if(user!=null && user!=''){
-		$("#welcome").html(user+"你好，欢迎来到中国军队采购网！");
+		$("#welcome").html(user+"你好，欢迎来到军队采购网！");
 	}
 	
 	$(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
@@ -46,7 +46,7 @@ function importAdd(){
   <div class="head_top col-md-12 col-xs-12 col-sm-12">
    <div class="container p0">
     <div class="row">
-    <div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到中国军队采购网！
+    <div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到军队采购网！
       <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a>
       <%-- <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【旧系统登录】</a> --%>
     </div> 

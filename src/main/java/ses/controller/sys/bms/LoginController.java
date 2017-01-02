@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
@@ -28,6 +30,7 @@ import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierService;
+import ses.util.PropUtil;
 import common.constant.Constant;
 import common.utils.AuthUtil;
 
@@ -122,6 +125,11 @@ public class LoginController {
                 expertMap.put("userId", u.getId());
                 expertMap.put("code", "EXPERT_R");
                 List<Role> ers = roleService.selectByUserIdCode(expertMap);
+                //查询该用户是否是内部超级管理员
+                HashMap<String, Object> adminMap = new HashMap<String, Object>();
+                adminMap.put("userId", u.getId());
+                adminMap.put("code", "ADMIN_R");
+                List<Role> adminRoles = roleService.selectByUserIdCode(adminMap);
                 //进入专家后台
                 if (ers != null && ers.size() > 0) {
                     try {
@@ -176,9 +184,23 @@ public class LoginController {
                         out.print("reject," + u.getLoginName());
                     }
                 } else {
-                    req.getSession().setAttribute("loginUser", u);
-                    req.getSession().setAttribute("resource", u.getMenus());
-                    out.print("scuesslogin");
+                    /*if (adminRoles != null && adminRoles.size() > 0) {
+                      //如果当前用户是管理员
+                      //查看当前是内网还是外网
+                      String ipAddressType = PropUtil.getProperty("ipAddressType");
+                      if ("1".equals(ipAddressType)) {
+                        //外网限制管理员登录
+                        out.print("outer_net_limit");
+                      } else if ("0".equals(ipAddressType)) {
+                        req.getSession().setAttribute("loginUser", u);
+                        req.getSession().setAttribute("resource", u.getMenus());
+                        out.print("scuesslogin");
+                      }
+                    } else {*/
+                      req.getSession().setAttribute("loginUser", u);
+                      req.getSession().setAttribute("resource", u.getMenus());
+                      out.print("scuesslogin");
+                    /*}*/
                 }
 
             } else {
