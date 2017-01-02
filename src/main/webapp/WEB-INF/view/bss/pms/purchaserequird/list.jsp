@@ -270,7 +270,7 @@
 		  <th class="info">计划编号</th>
 		  <th class="info">金额（万元）</th>
 		  <th class="info">编制时间</th>
-		  <th class="info">完成时间</th>
+	<!-- 	  <th class="info">完成时间</th> -->
 		  <th class="info">状态</th>
 		</tr>
 		</thead>
@@ -296,7 +296,7 @@
 			  </td>  
 			  <td class="pr20 tr"><div onclick="view('${obj.uniqueId }')">${obj.budget }</div></td>
 			  <td class="tc" onclick="view('${obj.uniqueId }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc" onclick="view('${obj.uniqueId }')">${obj.deliverDate } </td>
+			 <%--  <td class="tc" onclick="view('${obj.uniqueId }')">${obj.deliverDate } </td> --%>
 			  <td class="tc" onclick="view('${obj.uniqueId }')">
 				 <c:if test="${obj.status=='1' }">
 			 		未提交
