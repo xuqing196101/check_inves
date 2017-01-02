@@ -122,7 +122,6 @@ public class PurchaseAcceptController extends BaseController{
     @RequestMapping("/update")
     public String submit(PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status){
     	
-    	System.out.println("askdhash");
     	String id="";
     	User user = (User) request.getSession().getAttribute("loginUser");
     	if(list!=null){

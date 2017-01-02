@@ -359,8 +359,7 @@
 								   	<option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> >受理退回</option>
 								   	<option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> >已受理</option>
 								   	<option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> >已汇总</option>
-								   	<option value="6" <c:if test="${inf.status=='6'}"> selected</c:if> >审核通过</option>
-						   	   	<option value="6" <c:if test="${inf.status=='7'}"> selected</c:if> >审核暂存</option>
+						 
 			 	   	   		</select>
 				    		</span>
 				      </li>
@@ -376,7 +375,7 @@
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">添加至已有计划中</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="advanced()">下达预研项目</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="loadplan()">导入采购计划</button>
+		<!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="loadplan()">导入采购计划</button> -->
 	 </div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped ">
@@ -402,7 +401,7 @@
               <input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()"  alt="">
               </c:if>
                <c:if test="${obj.status!=3 }">
-              <input type="checkbox" disabled="disabled"  value="${obj.uniqueId }" name="chkItem" onclick="check()"  alt="">
+             <%--  <input type="checkbox" disabled="disabled"  value="${obj.uniqueId }" name="chkItem" onclick="check()"  alt=""> --%>
               </c:if>
 			   <input type="hidden"  value="${obj.department }">
 			  </td>
@@ -424,17 +423,12 @@
 			  <td class="tr pr20" onclick="view('${obj.uniqueId}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
 	 
-			                   <c:if test="${obj.status=='1' }">
-							 		未提交
-							  	</c:if>
-							    <c:if test="${obj.status=='2' }">
-							 		已提交
-							  	</c:if>
+			                 
 							  	<c:if test="${obj.status=='3' }">
-							 		已受理
+							 		待汇总
 							  	</c:if>
 							  	
-							  	<c:if test="${obj.status=='4' }">
+							  	<c:if test="${obj.status=='5' }">
 							 		已汇总
 							  	</c:if>
 			  

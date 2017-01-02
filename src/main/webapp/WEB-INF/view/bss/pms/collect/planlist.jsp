@@ -408,28 +408,49 @@
 								<c:if test="${obj.status=='1' }">
 									审核轮次设置
 								</c:if>
-								<%-- <c:if test="${obj.status=='2' }">
-									已审核
-								</c:if> --%>
-								<c:if test="${obj.status==3 }">
-									第一轮审核
+							 
+							 
+								<c:if test="${obj.status == 12 && obj.auditTurn == null}">
+								 		已直接下达
 								</c:if>
-									<c:if test="${obj.status==4 }">
+							
+							    <c:if test="${(obj.status == 2 || obj.status == 12  )  && obj.auditTurn == 1}">
+								 		第一轮审核
+								</c:if>
+							
+								<c:if test="${obj.status==3 }">
+									   第一轮审核
+								</c:if>
+								
+								<c:if test="${obj.status == 2 && obj.auditTurn == 2}">
+								 	   第二轮审核
+								</c:if>
+								
+								<c:if test="${obj.status == 2 && obj.auditTurn == 3}">
+								 	  第三轮审核
+								</c:if>
+								
+							<%--    <c:if test="${obj.status == 2 && obj.auditTurn == null}">
+								 	  第三轮审核
+								</c:if> --%>
+								
+								
+								
+								<c:if test="${obj.status==4 }">
 									第二轮审核人员设置
 								</c:if>
+							   
 							    <c:if test="${obj.status==5 }">
 									第二轮审核
 								</c:if>
-								
-							<%-- 	<c:if test="${obj.status=='4' }">
-									已下达
-								</c:if> --%>
 								<c:if test="${obj.status=='6' }">
 									第三轮审核人员设置
 								</c:if>
 								<c:if test="${obj.status=='7' }">
 									第三轮审核
 								</c:if>
+								
+								
 							</td>
 							<td class="tc">
 							<c:if test="${obj.auditTurn == 1}">

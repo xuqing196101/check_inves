@@ -158,7 +158,7 @@ public class CollectPlanController extends BaseController {
         p.setIsMaster(1);
         //修改状态
         List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
-					p.setStatus("4");//修改
+					p.setStatus("5");//修改
 					p.setIsMaster(null);
 					purchaseRequiredService.updateStatus(p);
 					list.addAll(one);
@@ -230,7 +230,7 @@ public class CollectPlanController extends BaseController {
 				p.setIsMaster(1);
 				List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
 //				p.setIsCollect(2);//修改
-				p.setStatus("4");//修改
+				p.setStatus("5");//修改
 				p.setIsMaster(null);
 				purchaseRequiredService.updateStatus(p);
 				list.addAll(one);

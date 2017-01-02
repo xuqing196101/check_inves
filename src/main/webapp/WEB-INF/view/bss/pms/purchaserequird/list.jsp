@@ -277,7 +277,9 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr class="pointer">
 			  <td class="tc w30">
+			  <c:if test="${obj.status=='1' || obj.status=='4'  }">
                  <input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()">
+              </c:if>
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.uniqueId }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tl pl20" onclick="view('${obj.uniqueId }')">
@@ -296,19 +298,22 @@
 			  <td class="tc" onclick="view('${obj.uniqueId }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="view('${obj.uniqueId }')">${obj.deliverDate } </td>
 			  <td class="tc" onclick="view('${obj.uniqueId }')">
-				 	<c:if test="${obj.status=='1' }">
+				 <c:if test="${obj.status=='1' }">
 			 		未提交
 			  	</c:if>
-			    <c:if test="${obj.status!='1' }">
+			  	
+  				<c:if test="${obj.status=='4' }">
+			 		受理退回
+			  	</c:if> 
+			  	
+		<%-- 	    <c:if test="${obj.status =='2' }">
+			 		已提交
+			  	</c:if> --%>
+		 
+			   <c:if test="${obj.status =='2' || obj.status =='3' || obj.status=='5' }">
 			 		已提交
 			  	</c:if>
-			 <%--  	<c:if test="${obj.status=='3' }">
-			 		已受理
-			  	</c:if>
-			  	
-			  	<c:if test="${obj.status=='4' }">
-			 		已汇总
-			  	</c:if> --%>
+			  
 
 			</tr>
 		 	</c:forEach>

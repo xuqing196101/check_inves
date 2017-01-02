@@ -90,7 +90,7 @@
 	 var value=$("#reson").val();
 
 	 if(value!=null&&value!=""){
-		 $("#status").val(3);
+		 $("#status").val(4);
 		 $("#acc_form").submit();
 	 }else{
 			layer.tips("退回理由不允许为空","#reson");
@@ -222,12 +222,14 @@
 			                </select>
 							</td>
 							<td class="tc">
-							<select class="org" <c:if test="${obj.purchaseCount!=null }"> required='required'</c:if> <c:if test="${obj.purchaseCount==null }"> onchange="org(this)"</c:if>    name="list[${vs.index }].organization">
+							<c:if test="${obj.purchaseCount!=null }"> 
+							<select class="org"   name="list[${vs.index }].organization">
 							<option value="">请选择</option>
 								<c:forEach items="${org }" var="ss">
 									<option value="${ss.id }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 								</c:forEach>
 							</select>
+							</c:if>
 							</td>
 							
 							<td class="tl pl20">${obj.supplier }</td>
