@@ -21,14 +21,15 @@
       });
 
       function sub() {
-        var id = $("#id").val();
+        //var id = $("#id").val();
         layer.confirm('您确定需要发布吗?', {
           title: '提示',
           offset: '222px',
           shade: 0.01
         }, function(index) {
           layer.close(index);
-          window.location.href = "${pageContext.request.contextPath }/article/audit.html?id=" + id + "&status=2";
+          //window.location.href = "${pageContext.request.contextPath }/article/audit.html?id=" + id + "&status=2";
+        	$("#form").submit();
         });
       }
 
@@ -57,11 +58,6 @@
         $("#threeType").select2("val", "");
         $("#fourType").empty();
         $("#fourType").select2("val", "");
-        
-        $("#secondType").attr("disabled","disabled");
-        $("#threeType").attr("disabled","disabled");
-        $("#fourType").attr("disabled","disabled");
-        $("#articleTypes").attr("disabled","disabled");
         
         $.ajax({
           contentType: "application/json;charset=UTF-8",
@@ -175,6 +171,149 @@
         });
 
       })
+      
+      function typeInfo() {
+        var typeId = $("#articleTypes").select2("data").text;
+        var parentId = $("#articleTypes").select2("val");
+        $("#secondType").empty();
+        $("#threeType").empty();
+        $("#threeType").select2("val", "");
+        $("#fourType").empty();
+        $("#fourType").select2("val", "");
+        if(typeId == "工作动态") {
+          $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+          $("#second").show();
+          $("#three").hide();
+          $("#four").hide();
+          $("#lmsx").addClass("tphide");
+          getSencond(parentId);
+        }else if(typeId == "采购公告"){
+            $("#second").show();
+            $("#three").show();
+            $("#four").show();
+            $("#lmsx").removeClass("tphide");
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+            getSencond(parentId);
+         }else if(typeId == "中标公示"){
+             $("#second").show();
+             $("#three").show();
+             $("#four").show();
+             $("#lmsx").removeClass("tphide");
+             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+             getSencond(parentId);
+         }else if(typeId == "单一来源公示"){
+             $("#second").show();
+             $("#three").show();
+             $("#four").hide();
+             $("#lmsx").removeClass("tphide");
+             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+             getSencond(parentId);
+         }else if(typeId == "商城竞价公告"){
+        	  $("#second").show();
+        	  $("#three").hide();
+            $("#four").hide();
+            $("#lmsx").removeClass("tphide");
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+        	  getSencond(parentId);
+         }else if(typeId == "网上竞价公告"){
+            $("#second").show();
+            $("#three").hide();
+            $("#four").hide();
+            $("#lmsx").removeClass("tphide");
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+            getSencond(parentId);
+         }else if(typeId == "采购法规"){
+            $("#second").show();
+            $("#three").hide();
+            $("#four").hide();
+            $("#lmsx").removeClass("tphide");
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+            getSencond(parentId);
+         }else {
+          $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+          $("#second").hide();
+          $("#three").hide();
+          $("#four").hide();
+          $("#lmsx").removeClass("tphide");
+          $("#secondType").empty();
+          $("#threeType").empty();
+          $("#fourType").empty();
+        }
+      }
+      
+      function secondTypeInfo(){
+    	  $("#threeType").empty();
+    	  $("#fourType").empty();
+    	  $("#fourType").select2("val", "");
+    	  var parentId = $("#secondType").select2("val");
+    	  var TtypeId = $("#secondType").select2("data").text;
+        if(TtypeId == "图片新闻"){
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
+        }
+    	  $.ajax({
+              contentType: "application/json;charset=UTF-8",
+              url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+parentId,
+              type: "POST",
+              dataType: "json",
+              success: function(articleTypes) {
+                if(articleTypes) {
+                  $("#threeType").append("<option></option>");
+                  $.each(articleTypes, function(i, articleType) {
+                    if(articleType.name != null && articleType.name != '') {
+                      $("#threeType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                    }
+                  });
+                }
+                $("#threeType").select2();
+              }
+            });
+      }
+      
+      function threeTypeInfo(){
+          $("#fourType").empty();
+          var parentId = $("#threeType").select2("val");
+          $.ajax({
+                contentType: "application/json;charset=UTF-8",
+                url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+parentId,
+                type: "POST",
+                dataType: "json",
+                success: function(articleTypes) {
+                  if(articleTypes) {
+                    $("#fourType").append("<option></option>");
+                    $.each(articleTypes, function(i, articleType) {
+                      if(articleType.name != null && articleType.name != '') {
+                        $("#fourType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                      }
+                    });
+                  }
+                  $("#fourType").select2();
+                }
+              });
+        }
+      
+      
+      function getSencond(parentId){
+    	  $("#secondType").empty();
+    	  $("#threeType").empty();
+    	  $("#fourType").empty();
+    	  $.ajax({
+              contentType: "application/json;charset=UTF-8",
+              url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+parentId,
+              type: "POST",
+              dataType: "json",
+              success: function(articleTypes) {
+                if(articleTypes) {
+                  $("#secondType").append("<option></option>");
+                  $.each(articleTypes, function(i, articleType) {
+                    if(articleType.name != null && articleType.name != '') {
+                      $("#secondType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                    }
+                  });
+                }
+                $("#secondType").select2();
+              }
+            });
+      }
     </script>
   </head>
 
@@ -202,17 +341,17 @@
     </div>
 
     <div class="container container_box">
-      <form action="${ pageContext.request.contextPath }/article/audit.html?status=2" method="post">
+      <form action="${pageContext.request.contextPath }/article/audit.html?status=2" method="post" id="form">
         <div>
           <h2 class="count_flow"><i>1</i>审核信息</h2>
-          <input type="hidden" name="id" id="id" value="${article.id }" readonly>
-          <input type="hidden" name="user.id" id="user.id" value="${article.user.id }" readonly>
+          <input type="hidden" name="id" id="id" value="${article.id }">
+          <input type="hidden" name="user.id" id="user.id" value="${article.user.id }">
 
           <ul class="ul_list mb20">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="ol-md-12 col-sm-12 col-xs-12 padding-left-5">信息标题：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input class="span2" type="text" name="name" value="${article.name }" readonly>
+                <input class="span2" type="text" name="name" value="${article.name }">
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
@@ -254,8 +393,8 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发布范围：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
-                <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" disabled>内网</label>
-                <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" disabled>外网</label>
+                <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
+                <label class="ml10 fl"><input type="checkbox" name="ranges" value="1">外网</label>
               </div>
             </li>
             <li class="col-md-12 col-sm-12 col-xs-12">
@@ -298,7 +437,7 @@
             </li>
           </ul>
           <div class="col-md-12 tc">
-            <button class="btn btn-windows check" type="button" onclick="sub()">发布</button>
+            <button class="btn btn-windows check" type="submit">发布</button>
             <button class="btn btn-windows withdraw" type="button" onclick="back()">驳回</button>
             <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
           </div>
@@ -326,7 +465,6 @@
       var content = '${article.content}';
       ue.ready(function() {
         ue.setContent(content);
-        ue.setDisabled(true);
       });
     </script>
 

@@ -227,10 +227,10 @@ public class ArticleController extends BaseSupplierController{
     }
     
     List<UploadFile> auditDoc = uploadService.findBybusinessId(id,Constant.EXPERT_SYS_KEY);
-	if(auditDoc.size()<1){
-		flag = false;
-		model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
-	}
+//	if(auditDoc.size()<1){
+//		flag = false;
+//		model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
+//	}
 
     if(flag==false){
       model.addAttribute("article", article);
@@ -453,7 +453,6 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("list", list);
       return "iss/ps/article/edit";
     }
-    
     List<Article> check = articleService.checkName(article);
     for(Article ar:check){
       if(ar.getName().equals(name)){
@@ -489,18 +488,18 @@ public class ArticleController extends BaseSupplierController{
     }
     
     List<UploadFile> auditDoc = uploadService.findBybusinessId(article.getId(),Constant.EXPERT_SYS_KEY);
-	if(auditDoc.size()<1){
-        model.addAttribute("article.id", article.getId());
-        model.addAttribute("article.name", name);
-        Article artc = articleService.selectArticleById(article.getId());
-        List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
-        artc.setArticleAttachments(articleAttaList);
-        model.addAttribute("article",article);
-        List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
-        model.addAttribute("list", list);
-        model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
-        return "iss/ps/article/edit";
-	}
+//	if(auditDoc.size()<1){
+//        model.addAttribute("article.id", article.getId());
+//        model.addAttribute("article.name", name);
+//        Article artc = articleService.selectArticleById(article.getId());
+//        List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+//        artc.setArticleAttachments(articleAttaList);
+//        model.addAttribute("article",article);
+//        List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+//        model.addAttribute("list", list);
+//        model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
+//        return "iss/ps/article/edit";
+//	}
 
     if(ranges!=null&&!ranges.equals("")){
       if(ranges.length>1){
@@ -781,20 +780,20 @@ public class ArticleController extends BaseSupplierController{
    */
   @RequestMapping("/audit")
   public String audit(String id,Article article,HttpServletRequest request,Model model,Integer page) throws Exception{
-    Article findOneArticle = articleService.selectArticleById(article.getId());
-    findOneArticle.setUpdatedAt(new Date());
+    //Article findOneArticle = articleService.selectArticleById(article.getId());
+	 article.setUpdatedAt(new Date());
     if(article.getStatus()==2){
-      findOneArticle.setReason("");
-      findOneArticle.setStatus(2);
+    	article.setReason("");
+    	article.setStatus(2);
       User user = (User) request.getSession().getAttribute("loginUser");
-      findOneArticle.setPublishedName(user.getRelName());
-      findOneArticle.setPublishedAt(new Date());
+      article.setPublishedName(user.getRelName());
+      article.setPublishedAt(new Date());
 //      ArticleType articleType = findOneArticle.getLastArticleType();
 //      Integer showNum = Integer.parseInt(articleType.getShowNum())+1;
 //      articleType.setShowNum(showNum.toString());
 //      articleTypeService.updateByPrimaryKey(articleType);
 //      solrNewsService.addIndex(findOneArticle);
-      articleService.update(findOneArticle);
+      articleService.update(article);
     }
     if(article.getStatus()==3){
       articleService.updateStatus(article);

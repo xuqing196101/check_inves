@@ -178,7 +178,7 @@
   
   <!-- 校验信息标题-->
   <select id="checkName" parameterType="Object" resultMap="ArticleMapper">
-  	select NAME
+  	select
   	<include refid="Article_Column_List"/>
   	,
     <include refid="Article_BlOB_Column_List" />
