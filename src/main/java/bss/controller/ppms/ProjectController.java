@@ -1308,35 +1308,35 @@ public class ProjectController extends BaseController {
                     if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
                     	if(!oneParentId.contains(newDetails.get(i).getParentId())){
                     		oneParentId.add(newDetails.get(i).getParentId());
-                    		//serialoneOne = 1;
+                    		serialoneOne = 1;
                     	}
                     	newDetails.get(i).setSerialNumber(test(serialoneOne));
                     	serialoneOne ++;
                     }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
                     	if(!twoParentId.contains(newDetails.get(i).getParentId())){
                     		twoParentId.add(newDetails.get(i).getParentId());
-                    		//serialtwoTwo = 1;
+                    		serialtwoTwo = 1;
                     	}
                     	newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
                     	serialtwoTwo ++;
                     }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
                     	if(!threeParentId.contains(newDetails.get(i).getParentId())){
                     		threeParentId.add(newDetails.get(i).getParentId());
-                    		//serialthreeThree = 1;
+                    		serialthreeThree = 1;
                     	}
                     	newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
                     	serialthreeThree ++;
                     }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
                     	if(!fourParentId.contains(newDetails.get(i).getParentId())){
                     		fourParentId.add(newDetails.get(i).getParentId());
-                    		//serialfourFour = 1;
+                    		serialfourFour = 1;
                     	}
                     	newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
                     	serialfourFour ++;
                     }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
                     	if(!fiveParentId.contains(newDetails.get(i).getParentId())){
                     		fiveParentId.add(newDetails.get(i).getParentId());
-                    		//serialfiveFive = 0;
+                    		serialfiveFive = 0;
                     	}
                     	char serialNum = (char) (97 + serialfiveFive);
                     	newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
