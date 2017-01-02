@@ -512,8 +512,8 @@ public class PurchaseRequiredController extends BaseController{
 		 
 		}
 		PurchaseRequired p=new PurchaseRequired();
-		p.setPlanNo(planNo.trim());
-		List<PurchaseRequired> list = purchaseRequiredService.query(p,0);
+		p.setUniqueId(planNo.trim());
+		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
 		
 		
 		HSSFWorkbook workbook = new HSSFWorkbook();

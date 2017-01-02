@@ -274,7 +274,7 @@
 						<tr class="pointer tc">
 							<td class="w30">
 								<c:if test="${obj.status=='2' }">
-									<input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()" alt="">
+									<input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()" alt="">
 								</c:if>
 								<c:if test="${obj.status!='2' }">
 								 
