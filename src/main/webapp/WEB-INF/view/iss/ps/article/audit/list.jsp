@@ -66,7 +66,7 @@
       }
 
       function view(id) {
-        window.location.href = "${pageContext.request.contextPath }/article/auditInfo.html?id=" + id;
+        window.location.href = "${pageContext.request.contextPath }/article/showaudit.html?id=" + id;
       }
 
       function audit() {
