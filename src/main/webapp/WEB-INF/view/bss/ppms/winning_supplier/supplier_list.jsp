@@ -30,13 +30,23 @@
       if(checkAll.checked) {
         for(var i = 0; i < checklist.length; i++) {
           checklist[i].checked = true;
-          
-        }
+		      var associate = document.getElementsByName("associate"+checklist[i].value);
+		      for(var k=0;k<associate.length;k++){
+		    	  associate[k].checked = true;
+		      }
+		    	  
+		      }
+		          
       } else {
         for(var j = 0; j < checklist.length; j++) {
           checklist[j].checked = false;
+          var associate = document.getElementsByName("associate"+checklist[j].value);
+          for(var k=0;k<associate.length;k++){
+        	  associate[k].checked = false;
+            }
         }
       }
+      
       ratio();
     }
 
@@ -59,6 +69,7 @@
                 
                  }
            }
+         
          var associate = document.getElementsByName("associate"+index);
          for(var i=0;i<associate.length;i++){
         	 if($("#rela"+index).prop("checked")){
@@ -68,16 +79,19 @@
         	 }
         	 
          }
-         ratio();
-      
+         
+         ratio(index);
+       
     }
     
-    function ratio(){
+    function ratio(index){
    
     	var checklist = document.getElementsByName ("chkItem");
     	 for(var j = 0; j < checklist.length; j++) {
              $("#"+checklist[j].value).find("#priceRatio").text("");
              $("#"+checklist[j].value).find("#wonPrice").text("");
+             $("#"+checklist[j].value).find("#singQuote").text("");
+             
            }
     	
     	   var lengths=$("input[name='chkItem']:checked").length;
@@ -101,16 +115,27 @@
             }
             var i=0;
             
+
+            
+            //算出实际成交金额
             $('input[name="chkItem"]:checked').each(function() {
             	   id.push($(this).val());
                 $("#"+$(this).val()).find("#priceRatio").text(ratio[i]);
-         
-               var totalprice = $("#"+id[0]).find("#totalPrice").text();
-              toDecimal((ratio[i]/100)*totalprice);
-                $("#"+$(this).val()).find("#wonPrice").text( toDecimal((ratio[i]/100)*totalprice));
+//                var totalprice = $("#"+id[0]).find("#totalPrice").text();
+               var price = 0;
+                $('input[name="associate'+$(this).val()+'"]:checked').each(function() {
+//                  id.push($(this).val());
+                 var quote =  $("#"+$(this).val()).find("#Quotedamount").text();
+                 
+                 var count =  $("#"+$(this).val()).find("#purchaseCount").text();
+                 price =parseFloat(price) + toDecimal((ratio[i]/100)*count*quote);
+//                  alert(quote);     
+//                  alert(count);
+                 
+              });
+                $("#"+$(this).val()).find("#singQuote").text(price);
+               
                 i++;
-              
-                
               });
             
          } 
@@ -331,21 +356,6 @@
   </script>
 
   <body>
-    <div class="col-md-12 col-xs-12 col-sm-12 p0">
-      <ul class="flow_step">
-        <li class="active">
-          <a href="javascript:void(0);" onclick="tabone();">01、确认中标供应商</a>
-          <i></i>
-        </li>
-        <li>
-            <a href="javascript:void(0);" onclick="tabtwo();">02、中标通知书</a>
-            <i></i>
-        </li>
-        <li>
-            <a href="javascript:void(0);" onclick="tabthree();">03、未中标通知书</a>
-        </li>
-      </ul>
-    </div>
 
       <h2 class="list_title mb0 clear">确认中标供应商</h2>
 
@@ -360,7 +370,7 @@
             <tr class="info">
               <th class="w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
               <th class="w200">供应商名称</th>
-              <th class="w100">参加时间</th>
+<!--               <th class="w100">参加时间</th> -->
               <th style="width: 110px;">&nbsp;总报价&nbsp;（万元）</th>
               <th style="width: 50px;">总得分</th>
               <th style="width: 20px;">排名</th>
@@ -369,14 +379,14 @@
               </c:if>
               <th class="w50">占比（%）</th>
               <th class="w100">实际成交总价（万元）</th>
-              <th style="width: 80px;">中标金额（万元）</th>
+<!--               <th style="width: 80px;">中标金额（万元）</th> -->
             </tr>
           </thead>
           <c:forEach items="${supplierCheckPass}" var="checkpass" varStatus="vs">
             <tr id="${checkpass.id}">
-              <td class="tc opinter"><input onclick="check(${vs.index});" id="rela${vs.index }" type="checkbox" name="chkItem" value="${checkpass.id}" /></td>
+              <td class="tc opinter"><input onclick="check('${checkpass.id}');" id="rela${checkpass.id}" type="checkbox" name="chkItem" value="${checkpass.id}" /></td>
               <td class="opinter" title="${checkpass.supplier.supplierName }">
-               <span onclick="ycDiv(this,'${vs.index}')" class="count_flow shrink hand"></span>
+               <span onclick="ycDiv(this,'${checkpass.id}')" class="count_flow shrink hand"></span>
                 <c:choose>
                  <c:when test="${fn:length(checkpass.supplier.supplierName) >10}">
                     ${fn:substring(checkpass.supplier.supplierName , 0, 10)}...
@@ -386,9 +396,9 @@
                  </c:otherwise>
                  </c:choose>
                </td>
-              <td class="tc opinter" onclick="">
-                <fmt:formatDate value='${checkpass.joinTime}' pattern="yyyy-MM-dd " />
-              </td>
+<!--               <td class="tc opinter" onclick=""> -->
+<%--                 <fmt:formatDate value='${checkpass.joinTime}' pattern="yyyy-MM-dd " /> --%>
+<!--               </td> -->
               <td class="tc opinter" id="totalPrice" onclick="">${checkpass.totalPrice}</td>
               <td class="tc opinter" onclick="">${checkpass.totalScore}</td>
               <td class="tc opinter" onclick="">${(vs.index+1)}</td>
@@ -401,21 +411,21 @@
                </c:if>
                </c:if>
                <td class="tc opinter" id="priceRatio">${checkpass.priceRatio}</td>
-               <td class="tc opinter" id="singQuote${vs.index }">
+               <td class="tc opinter" id="singQuote">
                		<c:if test="${quote==0 }">
                			<input type="text" name="" id=""/>
                		</c:if>
                		<c:if test="${quote==1 }">
-               			
+               		
                		</c:if>
                </td>
-               <td class="tc opinter" id="wonPrice${vs.index }">${checkpass.wonPrice }</td>
+<%--                <td class="tc opinter" id="wonPrice${vs.index }">${checkpass.wonPrice }</td> --%>
             </tr>
               <tr class="tc hide" >
                 <td colspan="10">
 	                <table class="table table-bordered table-condensed table-hover table-striped">
 	                <tr class="tc ">
-	                 <th></th>
+	                 <th class="hide"></th>
 			              <th class="w30">序号</th>
 			              <th class="150">物资名称</th>
 			              <th>规格型号</th>
@@ -426,10 +436,19 @@
 			              <th>报价（万元）</th>
 			             </tr>
 	                <c:forEach items="${detailList }" var="detail" varStatus="p">
-	                  <tr name="detail${vs.index }" class="tc hide">
-	                    <td><input type="checkbox" onclick="associateSelected('${detail.id}',this,${vs.index })" name="associate${vs.index }"/></td>
+	                  <tr name="detail${checkpass.id}" id="${detail.id}" class="tc hide">
+	                    <td class="hide"><input type="checkbox" value="${detail.id}" onclick="associateSelected('${detail.id}',this,${checkpass.id})" name="associate${checkpass.id}"/></td>
 	                    <td>${detail.serialNumber }</td>
-	                    <td>${detail.goodsName }</td>
+	                    <td title="${detail.goodsName}">
+	                       <c:choose>
+                       <c:when test="${fn:length(detail.goodsName ) > 20}">
+                           ${fn:substring(detail.goodsName  , 0, 20)}......
+                       </c:when>
+                       <c:otherwise>
+                                ${detail.goodsName }
+                        </c:otherwise>
+                       </c:choose>
+	                    </td>
 	                    <td class="w150" title=" ${detail.stand }">
 	                     <c:choose>
                        <c:when test="${fn:length(detail.stand) > 20}">
@@ -454,11 +473,9 @@
 	                    <c:if test="${quote==0 }">
 	                      <td>${checkpass.wonPrice }</td>
 	                    </c:if>
-	                    <c:if test="${quote==1 }">
-	                      <td>${detail.purchaseCount*checkpass.priceRatio/100 }</td>
+	                      <td id="purchaseCount">${detail.purchaseCount}</td>
 	                      <td>${detail.price }</td>
-	                      <td>${detail.purchaseCount*detail.price/10000 }</td>
-	                    </c:if>
+	                      <td id="Quotedamount">${detail.price }</td>
 	                  </tr>
 	              </c:forEach>
 	            </table>

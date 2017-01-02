@@ -99,17 +99,17 @@ public interface SupplierExtRelateMapper {
     void insertList(List<SupplierExtRelate> list);
     
     /**
-     * 刪除未抽取的信息
+     * 删除满足条件后的其他抽取信息
      *〈简述〉
      *〈详细描述〉
      * @author Wang Wenshuai
      * @param projectId
      */
-    void del(String projectId);
+    void del(Map<String, String> map);
     
     /**
      * 
-     *〈简述〉
+     *〈简述〉抽取完成后删除信息
      *〈详细描述〉
      * @author Wang Wenshuai
      * @param delId

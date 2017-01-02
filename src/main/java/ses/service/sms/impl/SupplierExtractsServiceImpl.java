@@ -3,6 +3,8 @@
  */
 package ses.service.sms.impl;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 
 
 
@@ -131,6 +135,7 @@ public class SupplierExtractsServiceImpl implements SupplierExtractsService {
         String uuId=WfUtil.createUUID();
         suuplier.setId(uuId);
         suuplier.setIsProvisional(new Short("1"));
+        suuplier.setCreatedAt(new Timestamp(new Date().getTime()));
         suuplier.setStatus(5);
         supplierMapper.insertSelective(suuplier);
         //插入供应商关联表

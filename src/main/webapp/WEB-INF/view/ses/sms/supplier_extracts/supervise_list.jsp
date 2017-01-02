@@ -71,7 +71,6 @@
                data:$('#form1').serialize(),// 你的formid
                async: false,
                success: function(data) {
-            	   alert(data.superviseId);
             	   if(data != 'ERROR'){
             		   parent.$('#supervises').val(data.relName);
                    parent.$('#supervises').attr(data.relName);

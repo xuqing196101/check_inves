@@ -79,4 +79,9 @@ public class ProjectSupervisorServicelmpl implements ProjectSupervisorServicel {
         extSuperviseMapper.listInsert(list);
     }
 
+    @Override
+    public void update(ProExtSupervise extSupervise) {
+      extSuperviseMapper.updateByPrimaryKeySelective(extSupervise);      
+    }
+
 }

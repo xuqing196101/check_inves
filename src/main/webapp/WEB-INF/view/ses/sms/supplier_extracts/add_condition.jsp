@@ -250,7 +250,7 @@ return false;
 }
     /**暂存*/
     function temporary(){
-    	 window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+    	 window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}";
     }
     
     
@@ -844,7 +844,11 @@ return false;
       <div class="col-md-12" id="count" style="min-height: 400px;">
         <div id="extcontype">
          <c:forEach var="con" items="${extConType}">
-                &nbsp;&nbsp;&nbsp;&nbsp;供应商类型:${con.supplierType.name }&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.supplierCount }                             
+         <c:if test="${con.supplierType != null  }">
+                &nbsp;&nbsp;&nbsp;&nbsp;供应商类型:${con.supplierType.name }
+         </c:if>
+                
+                &nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.supplierCount }                             
             <br />
           </c:forEach>
         </div>

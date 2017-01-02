@@ -371,8 +371,10 @@
                     <div class="ww50 fl">抽取信息</div>
           </div>
            <div align="right" class=" pl20 mb10 " >
-            <button class="btn mb10" 
-                onclick="add(1);" type="button">添加包</button>
+               <c:if test="${typeclassId!=null && typeclassId !='' }">
+                <button class="btn mb10" 
+                 onclick="add(1);" type="button">添加包</button>
+                </c:if>
              <input class="input_group " readonly id="packageName" value="" onclick="showPackageType();"   type="text">
               <input  readonly id="packageId" name="packageId"     type="hidden">
 <!--           <select class="w200" id="packageId" > -->

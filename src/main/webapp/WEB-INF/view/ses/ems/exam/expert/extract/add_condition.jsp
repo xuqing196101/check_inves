@@ -58,7 +58,7 @@
       
       /**暂存*/
       function temporary(){
-    	  window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+    	  window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}";
       }
       
       function selectLikeExpert(){
@@ -900,13 +900,15 @@
       <div class="col-md-12"  >
         <div id="extcontype">
         <c:forEach var="con" items="${extConType}">
-                  <c:if test="${con.expertsType.kind == 6 }">
+        <c:if test="con.expertsType != null">
+         <c:if test="${con.expertsType.kind == 6 }">
                                               专家类别：${con.expertsType.name }技术
                   </c:if>
                   <c:if test="${con.expertsType.kind != 6 }">
                                             专家类别：${con.expertsType.name }
                    
                   </c:if>
+        </c:if>
                           &nbsp;&nbsp;&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.expertsCount }                             
             <br />
           </c:forEach>

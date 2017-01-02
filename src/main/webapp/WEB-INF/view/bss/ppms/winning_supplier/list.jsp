@@ -144,22 +144,6 @@
   </script>
 
   <body>
-    <div class="col-md-12 col-xs-12 col-sm-12 p0">
-      <ul class="flow_step">
-        <li class="active">
-          <a href="javascript:void(0);" onclick="tabone();">01、确认中标供应商</a>
-          <i></i>
-        </li>
-        <li>
-	          <a href="javascript:void(0);" onclick="tabtwo();">02、中标通知书</a>
-	          <i></i>
-        </li>
-        <li>
-              <a href="javascript:void(0);" onclick="tabthree();">03、未中标通知书</a>
-            <i></i>
-        </li>
-      </ul>
-    </div>
       <h2 class="list_title mb0 clear">包列表</h2>
       <c:if test="${execute != 'SCCUESS' }">
         <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">

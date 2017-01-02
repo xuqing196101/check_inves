@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -192,12 +193,22 @@ public class SupplierExtractsController extends BaseController {
    */
   @RequestMapping("/Extraction")	
   public String listExtraction(Model model,String projectId,String page,String typeclassId,String packageId){
+
     if (packageId != null && !"".equals(packageId)){
       //已抽取
-      SupplierCondition con = new SupplierCondition();
-      con.setProjectId(packageId);
-      con.setStatus((short)2);
-      conditionService.update(con);
+      String[] packageIds =  packageId.split(",");
+      if(packageIds.length != 0 ){
+        SupplierCondition con = null;
+        for (String pckId : packageIds) {
+          if(pckId != null && !"".equals(pckId)){
+            //已抽取
+            con = new SupplierCondition();
+            con.setProjectId(packageId);
+            con.setStatus((short)2);
+            conditionService.update(con);
+          }
+        }
+      }
     }
 
 
@@ -346,7 +357,7 @@ public class SupplierExtractsController extends BaseController {
           projectExtractListNo.remove(0);
         } else {
           //已抽取
-          conditionService.update(new SupplierCondition(conId, (short)2));
+          //          conditionService.update(new SupplierCondition(conId, (short)2));
         }
         model.addAttribute("extRelateListYes", projectExtractListYes);
         model.addAttribute("extRelateListNo", projectExtractListNo);
@@ -379,7 +390,7 @@ public class SupplierExtractsController extends BaseController {
   public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest sq,String[] packageId, String[] superviseId,Integer type){
 
     Map<String, String> map = new HashMap<String, String>();
-    map.put("type", "1");
+    map.put("type", type.toString());
     //后台数据校验
     int count=0;
     if (project.getName() == null || "".equals(project.getName())){
@@ -397,13 +408,13 @@ public class SupplierExtractsController extends BaseController {
       count=1;
     }
     //独立
-    if(typeclassId != null || !"".equals(typeclassId)){
+    if(typeclassId != null && !"".equals(typeclassId)){
       if(superviseId == null || superviseId.length == 0){
         map.put("supervise", "不能为空");
         count = 1;
       }
     }else{
-      List<SupplierExtUser> list = extUserServicl.list(new SupplierExtUser());
+      List<SupplierExtUser> list = extUserServicl.list(new SupplierExtUser(project.getId()));
       if (list == null || list.size() == 0 || "".equals(project.getId())){
         map.put("supervise", "不能为空");
         count = 1;
@@ -500,11 +511,14 @@ public class SupplierExtractsController extends BaseController {
    * @return
    */
   @ResponseBody
-  @RequestMapping("getpackage")
+  @RequestMapping("/getpackage")
   public String getPackage(String projectId){
-    HashMap<String, Object> map = new HashMap<String, Object>();
-    map.put("projectId",projectId);
-    List<Packages> findPackageById = packagesService.findPackageById(map);
+    List<Packages> findPackageById = new ArrayList<Packages>();
+    if(projectId != null && !"".equals(projectId)){
+      HashMap<String, Object> map = new HashMap<String, Object>();
+      map.put("projectId",projectId);
+      findPackageById = packagesService.findPackageById(map);
+    }
     return  JSON.toJSONString(findPackageById);
   }
 
@@ -585,7 +599,7 @@ public class SupplierExtractsController extends BaseController {
       projectExtractListNo.remove(0);
     } else {
       //已抽取
-      conditionService.update(new SupplierCondition(cId, (short)2));
+      //      conditionService.update(new SupplierCondition(cId, (short)2));
     }
     model.addAttribute("extRelateListYes", projectExtractListYes);
     model.addAttribute("extRelateListNo", projectExtractListNo);
@@ -647,13 +661,53 @@ public class SupplierExtractsController extends BaseController {
             }
 
           }
-
         }
 
-
+      }else{
+        //修改为抽取的类型
+        SupplierExtRelate extRelate = new SupplierExtRelate();
+        extRelate.setSupplierConditionId(ids[1]);
+        List<SupplierExtRelate> list = extRelateService.list(extRelate,null);
+        if (list != null && list.size() != 0){
+          SupplierExtRelate extract = new SupplierExtRelate();
+          int i = 0;
+          String  supplierType= supplierTypeRelateService.findBySupplier(list.get(0).getSupplierId());
+          String[] split = supplierType.split(",");
+          if(split.length > 0 ){
+            int max=split.length-1;
+            int min=0;
+            Random random = new Random();
+            i = random.nextInt(max)%(max-min+1) + min;
+          }
+          extract.setReviewType(split[i]);
+          extract.setId(ids[0]);
+          extRelateService.update(extract); 
+        }
+      
+      }
+      String expertTypeIds = "";
+      for (SupplierConType extConType1 : conList.get(0).getConTypes()) {
+        //获取抽取的供应商类别
+        SupplierExtRelate extRelate = new SupplierExtRelate();
+        extRelate.setReviewType(extConType1.getSupplierTypeId());
+        extRelate.setSupplierConditionId(ids[1]);
+        List<SupplierExtRelate> list = extRelateService.list(extRelate,null);
+        extConType1.setAlreadyCount(list == null ? 0 : list.size());
+        //删除满足数量的
+        if(list.size() >= extConType1.getSupplierCount()){
+          expertTypeIds += extConType1.getSupplierCount() + ",";
+        }
+      }
+      if (expertTypeIds != null && !"".equals(expertTypeIds)){
+        Packages packages = new Packages();
+        packages.setId(conList.get(0).getProjectId());
+        List<Packages> find = packagesService.find(packages);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("projectId", find.get(0).getProjectId());
+        map.put("typeId", expertTypeIds.substring(0, expertTypeIds.length()-1));
+        extRelateService.del(map);
       }
     }
-
 
     if (reason != null && !"".equals(reason)){
       extRelateService.update(new SupplierExtRelate(ids[0],new Short(ids[2]),reason));
@@ -763,7 +817,7 @@ public class SupplierExtractsController extends BaseController {
       projectExtractListYes.add(projectExtractListNo.get(0));
     }else{
       //已抽取
-      conditionService.update(new SupplierCondition(ids[1],(short)2));
+      //      conditionService.update(new SupplierCondition(ids[1],(short)2));
     }
     return projectExtractListYes;
   }

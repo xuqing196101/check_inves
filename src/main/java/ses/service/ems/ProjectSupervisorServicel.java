@@ -54,4 +54,13 @@ public interface ProjectSupervisorServicel {
      * @param list
      */
     void  listInsert(List<ProExtSupervise> list);
+    
+    /**
+     * 修改
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param extSupervise
+     */
+    void update(ProExtSupervise extSupervise);
 }

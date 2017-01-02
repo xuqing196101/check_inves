@@ -220,22 +220,6 @@ public class ExpExtConditionController extends BaseController {
       //获取查询条件类型
       List<ExpExtCondition> listCondition = conditionService.list(new ExpExtCondition(conId, ""), 0);
       List<ExtConType> conTypes = listCondition.get(0).getConTypes();
-      if (conTypes != null && conTypes.size() == 1  &&  ( conTypes.get(0).getExpertsTypeId() == null || !"".equals(conTypes.get(0).getExpertsTypeId())) ){
-        ProjectExtract projectExtrac = new ProjectExtract();
-        projectExtrac.setExpertConditionId(listCondition.get(0).getId());
-        List<ProjectExtract> peList = extractService.list(projectExtrac);
-        conTypes.get(0).setAlreadyCount(peList == null ? 0 : peList.size());
-      }else{
-        for (ExtConType extConType1 : conTypes) {
-          //获取抽取的专家类别
-          ProjectExtract projectExtrac = new ProjectExtract();
-          projectExtrac.setReviewType(extConType1.getExpertsTypeId());
-          projectExtrac.setExpertConditionId(listCondition.get(0).getId());
-          List<ProjectExtract> peList = extractService.list(projectExtrac);
-          extConType1.setAlreadyCount(peList == null ? 0 : peList.size());
-        }
-      }
-
       map.put("extConType", conTypes);
 
       if (projectExtractListNo.size() != 0) {

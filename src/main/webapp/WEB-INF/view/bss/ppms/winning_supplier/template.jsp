@@ -100,21 +100,6 @@
 </head>
 
 <body>
-	<div class="col-md-12 p0">
-		 <ul class="flow_step">
-        <li >
-          <a href="javascript:void(0);" onclick="tabone();">01、确认中标供应商</a>
-          <i></i>
-        </li>
-        <li class="active">
-            <a href="javascript:void(0);" onclick="tabtwo();">02、中标通知书</a>
-            <i></i>
-        </li>
-        <li>
-              <a href="javascript:void(0);" onclick="tabthree();">03、未中标通知书</a>
-        </li>
-      </ul>
-	</div>
 	<div class="container content height-350">
 		<div class="row">
 			<div class="col-md-12 col-xs-12 col-sm-12" style="min-height: 400px;">

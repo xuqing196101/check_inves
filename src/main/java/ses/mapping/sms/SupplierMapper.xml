@@ -1280,7 +1280,7 @@
 		set SCORE = #{score} where ID = #{id}
 	</update>
 	<!-- 供应商抽取集合 -->
-<!-- SUPPLIER_STATUS = 1 -->
+<!-- -->
 	<select id="listExtractionExpert" parameterType="ses.model.sms.SupplierCondition"
 		resultMap="findSupplierMap">
 		select * from(
@@ -1302,7 +1302,8 @@
 		) GROUP BY id )t1
 		left JOIN T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
 		) where 1=1
-	 AND IS_PROVISIONAL = 0
+	 AND IS_PROVISIONAL = 0 and ( SUPPLIER_STATUS = 1   or  SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7  )
+	
 		<if test="address != null and address != '' ">
 			AND ADDRESS = #{address}
 		</if>

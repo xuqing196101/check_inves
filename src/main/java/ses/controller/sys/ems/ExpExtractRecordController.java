@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+
+
+
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,10 +230,18 @@ public class ExpExtractRecordController extends BaseController {
   public String listExtraction(Model model,String projectId,String page,String typeclassId,String packageId){
     if (packageId != null && !"".equals(packageId)){
       //已抽取
-      ExpExtCondition con=new ExpExtCondition();
-      con.setProjectId(packageId);
-      con.setStatus((short)2);
-      conditionService.update(con);
+      String[] packageIds =  packageId.split(",");
+      if(packageIds.length != 0 ){
+        ExpExtCondition con = null;
+        for (String pckId : packageIds) {
+          if(pckId != null && !"".equals(pckId)){
+            con = new ExpExtCondition();
+            con.setProjectId(pckId);
+            con.setStatus((short)2);
+            conditionService.update(con);
+          }
+        }
+      }
     }
 
     List<Area> listArea = areaService.findTreeByPid("0",null);
@@ -401,7 +414,7 @@ public class ExpExtractRecordController extends BaseController {
         projectExtractListNo.remove(0);
       }else{
         //已抽取
-        conditionService.update(new ExpExtCondition(condition.getId(), (short)2));
+        //        conditionService.update(new ExpExtCondition(condition.getId(), (short)2));
       }
       model.addAttribute("extRelateListYes", projectExtractListYes);
       model.addAttribute("extRelateListNo", projectExtractListNo);
@@ -430,8 +443,9 @@ public class ExpExtractRecordController extends BaseController {
   @SuppressWarnings("unused")
   @ResponseBody
   @RequestMapping("/validateAddExtraction")
-  public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest rq,String[] packageId){
+  public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extractionSites,HttpServletRequest rq,String[] packageId,String[] superviseId,Integer type){
     Map<String, String> map = new HashMap<String, String>();
+    map.put("type", type.toString());
     //后台数据校验
     int count=0;
     if (project.getName() == null || "".equals(project.getName())){
@@ -444,15 +458,35 @@ public class ExpExtractRecordController extends BaseController {
       count = 1;
     }
 
-    List<ProExtSupervise> list = projectSupervisorServicel.list(new ProExtSupervise(project.getId()));
-    if (list == null || list.size() == 0){
-      map.put("supervise", "不能为空");
-      count = 1;
+    //独立
+    if(typeclassId != null && !"".equals(typeclassId)){
+      if(superviseId == null || superviseId.length == 0){
+        map.put("supervise", "不能为空");
+        count = 1;
+      }
+    }else{
+      List<ProExtSupervise> list = projectSupervisorServicel.list(new ProExtSupervise(project.getId()));
+      if (list == null || list.size() == 0 || "".equals(project.getId())){
+        map.put("supervise", "不能为空");
+        count = 1;
+      } 
     }
-    if(packageId == null || packageId.length == 0 ){
-      map.put("packageError", "不能为空");
-      count = 1;
+    if(type == null || type != 1){
+      if(packageId == null || packageId.length == 0 ){
+        map.put("packageError", "不能为空");
+        count = 1;
+      }
     }
+
+    //    List<ProExtSupervise> list = projectSupervisorServicel.list(new ProExtSupervise(project.getId()));
+    //    if (list == null || list.size() == 0){
+    //      map.put("supervise", "不能为空");
+    //      count = 1;
+    //    }
+    //    if(packageId == null || packageId.length == 0 ){
+    //      map.put("packageError", "不能为空");
+    //      count = 1;
+    //    }
     //        //时
     //        String hour = rq.getParameter("hour");
     //        //分
@@ -479,18 +513,16 @@ public class ExpExtractRecordController extends BaseController {
         project.setIsProvisional(1);
         projectService.add(project);
         projectId = project.getId();
-        Packages packages = new Packages();
-        packages.setName(packageName);
-        packages.setProjectId(project.getId());
-        packages.setIsDeleted(0);
-        packagesService.insertSelective(packages);
-        //                packageId = packages.getId();
-        ExpExtPackage sExtPackage = new ExpExtPackage();
-        sExtPackage.setPackageId(packages.getId());
-        sExtPackage.setProjectId(project.getId());
-
-        expExtPackageServicel.insert(sExtPackage);
-        project.setId(sExtPackage.getId());
+        project.setId(projectId);
+        //修改监督人员
+        if(superviseId != null && superviseId.length != 0){
+          for (String id : superviseId) {
+            ProExtSupervise extUser = new ProExtSupervise();
+            extUser.setProjectId(projectId);
+            extUser.setId(id);
+            projectSupervisorServicel.update(extUser);
+          }
+        }
       }
       //抽取地址
       if (extractionSites != null && !"".equals(extractionSites)){
@@ -527,16 +559,19 @@ public class ExpExtractRecordController extends BaseController {
           }
         }
       }
-      //            获取抽取条件状态，未抽取不能在抽取
-      String count2 = conditionService.getCount(packageId);
       map.put("projectId", project.getId());
-      if (count2 != null && !"".equals(count2)){
-        map.put("status", "1");
-        map.put("packageId",count2);
+      //            获取抽取条件状态，未抽取不能在抽取
+      if(packageId != null && !"".equals(packageId) && packageId.length != 0){
+        String count2 = conditionService.getCount(packageId);
 
-      } else {
+        if (count2 != null && !"".equals(count2)){
+          map.put("status", "1");
+          map.put("packageId",count2);
 
-        map.put("sccuess", "SCCUESS");
+        } else {
+
+          map.put("sccuess", "SCCUESS");
+        }
       }
       return JSON.toJSONString(map);
     }
@@ -630,7 +665,7 @@ public class ExpExtractRecordController extends BaseController {
       projectExtractListNo.remove(0);
     }else{
       //已抽取
-      conditionService.update(new ExpExtCondition(listCondition.get(0).getId(), (short)2));
+      //      conditionService.update(new ExpExtCondition(listCondition.get(0).getId(), (short)2));
     }
     model.addAttribute("extRelateListYes", projectExtractListYes);
     model.addAttribute("extRelateListNo", projectExtractListNo);
@@ -667,7 +702,7 @@ public class ExpExtractRecordController extends BaseController {
         String[] expTypeIdAry = expTypeId.split(",");
         ProjectExtract projectExtrac = new ProjectExtract();
         for (String typeId : expertTypeIdArray) {
-          
+
           //获取抽取的专家类别
           projectExtrac.setReviewType(typeId);
           projectExtrac.setExpertConditionId(ids[1]);
@@ -691,7 +726,7 @@ public class ExpExtractRecordController extends BaseController {
                 tp = 1;
               }
             }
-            
+
             if(tp == 1){
               break; 
             }
@@ -706,10 +741,40 @@ public class ExpExtractRecordController extends BaseController {
         List<ProjectExtract> list = extractService.list(projectExtrac);
         if (list != null && list.size() != 0){
           ProjectExtract extract = new ProjectExtract();
-          extract.setReviewType(list.get(0).getExpert().getExpertsTypeId().split(",")[0]);
+          int i = 0;
+          String[] split = list.get(0).getExpert().getExpertsTypeId().split(",");
+          if(split.length > 0 ){
+            int max=split.length-1;
+            int min=0;
+            Random random = new Random();
+            i = random.nextInt(max)%(max-min+1) + min;
+          }
+          extract.setReviewType(split[i]);
           extract.setId(ids[0]);
           extractService.update(extract); 
         }
+      }
+      String expertTypeIds = "";
+      for (ExtConType extConType1 : conList.get(0).getConTypes()) {
+        //获取抽取的专家类别
+        ProjectExtract projectExtrac = new ProjectExtract();
+        projectExtrac.setReviewType(extConType1.getExpertsTypeId());
+        projectExtrac.setExpertConditionId(ids[1]);
+        List<ProjectExtract> list = extractService.list(projectExtrac);
+        extConType1.setAlreadyCount(list == null ? 0 : list.size());
+        //删除满足数量的
+        if(list.size() >= extConType1.getExpertsCount()){
+          expertTypeIds += extConType1.getExpertsTypeId() + ",";
+        }
+      }
+      if (expertTypeIds != null && !"".equals(expertTypeIds)){
+        Packages packages = new Packages();
+        packages.setId(conList.get(0).getProjectId());
+        List<Packages> find = packagesService.find(packages);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("projectId", find.get(0).getProjectId());
+        map.put("typeId", expertTypeIds.substring(0, expertTypeIds.length()-1));
+        extractService.del(map);
       }
     }
 
@@ -833,7 +898,7 @@ public class ExpExtractRecordController extends BaseController {
       Map<String, String> map = new HashMap<String, String>();
       map.put("projectId", find.get(0).getProjectId());
       map.put("typeId", expertTypeId.substring(0, expertTypeId.length()-1));
-      extractService.del(find.get(0).getProjectId());
+      extractService.del(map);
     }
 
     projectExtractListYes.get(0).setConType(conTypes);
@@ -842,7 +907,7 @@ public class ExpExtractRecordController extends BaseController {
       projectExtractListYes.add(projectExtractListNo.get(0));
     }else{
       //已抽取
-      conditionService.update(new ExpExtCondition(ids[1],(short)2));
+      //      conditionService.update(new ExpExtCondition(ids[1],(short)2));
     }
 
     return projectExtractListYes;

@@ -86,15 +86,15 @@
 			        };
 			      }
 
-			function add() {
+			function add(type) {
 				 var packageId=$("#packageId").val();
 					 // $("#packageId").find("option:selected").val();
-				
+				     var typeclassId = "${typeclassId}";
 				$.ajax({
 					cache: true,
 					type: "POST",
 					dataType: "json",
-					url: '${pageContext.request.contextPath}/ExpExtract/validateAddExtraction.do',
+					url: '${pageContext.request.contextPath}/ExpExtract/validateAddExtraction.do?type='+type,
 					data: $('#form').serialize(), // 你的formid
 					async: false,
 					success: function(data) {
@@ -130,7 +130,35 @@
 						            layer.alert("请选择包", {
 			                    shade: 0.01
 						                  });
-							}
+						}else if(typeclassId != null && typeclassId != ''){
+					             $("#projectId").val(projectId);
+					             $("#pId").val(projectId);
+					                if(map.type != null && map.type == '1'){
+					               var iframeWin;
+					                 layer.open({
+					                   type: 2,
+					                   title: "选择包",
+					                   shadeClose: true,
+					                   shade: 0.01,
+					                   offset: '20px',
+					                   move: false,
+					                   area: ['50%', '50%'],
+					                   content: '${pageContext.request.contextPath}/SupplierExtracts/showPackage.do?projectId='+projectId,
+					                   success: function(layero, index) {
+					                     iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+					                   },
+					                   btn: ['保存', '关闭'],
+					                   yes: function() {
+					                     iframeWin.add();
+					  
+					                   },
+					                   btn2: function() {
+					                     layer.closeAll();
+					                   }
+					                 });
+					            
+					              }
+					             }
 					}
 				});
 			  
@@ -307,7 +335,9 @@
 				<!-- 打开类型 -->
 				<input type="hidden" value="${typeclassId}" name="typeclassId" />
 				<!-- 项目id  -->
-				<input type="hidden" id="projectId" value="${projectId}" name="id">
+				<input type="hidden" id="pid" value="${projectId}" name="id">
+				  <!-- 监督人员id  -->
+          <input type="hidden" id="superviseId" value="${superviseId}" name="superviseId">  
 				<div>
 					<h2 class="count_flow"><i>1</i>必填项</h2>
 					<ul class="ul_list">
@@ -379,6 +409,10 @@
                     <div class="ww50 fl">抽取信息</div>
           </h2>
            <div align="right" class=" pl20 mb10 "  >
+               <c:if test="${typeclassId!=null && typeclassId !='' }">
+                       <button class="btn mb10" 
+                onclick="add(1);" type="button">添加包</button>
+                </c:if>
              <input class=" " readonly id="packageName" value="" placeholder="请选择包" onclick="showPackageType();"   type="text">
               <input  readonly id="packageId"  name="packageId"     type="hidden">
 <!--            <select class="w200 dnone" id="packageId"  > -->
@@ -387,7 +421,7 @@
 <%--             </c:forEach> --%>
 <!--           </select> -->
             <button class="btn mb10" 
-                onclick="add();" type="button">抽取</button>
+                onclick="add(2);" type="button">抽取</button>
             <button class="btn dnone"
                 onclick="record();" type="button">引用其他包</button>
         </div>

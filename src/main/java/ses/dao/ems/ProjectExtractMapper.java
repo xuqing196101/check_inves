@@ -108,7 +108,7 @@ public interface ProjectExtractMapper {
      * @author Wang Wenshuai
      * @param projectId
      */
-    void del(String projectId);
+    void del(Map<String, String> map);
     
     /**
      * 
