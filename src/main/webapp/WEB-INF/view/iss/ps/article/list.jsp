@@ -419,7 +419,7 @@
                 <option value="1">已提交</option>
                 <option value="2">已发布</option>
                 <option value="3">已退回</option>
-                <option value="4">已撤回</option>
+                <option value="4">已取消发布</option>
                </select>
            </span>
             </li>
@@ -500,7 +500,7 @@
                   <input type="hidden" name="status" value="${article.status }">已退回
                 </c:if>
                 <c:if test="${article.status=='4' }">
-                  <input type="hidden" name="status" value="${article.status }">已撤回
+                  <input type="hidden" name="status" value="${article.status }">已取消发布
                 </c:if>
               </td>
               <td class="tl pl20">${article.showCount }</td>

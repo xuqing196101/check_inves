@@ -958,7 +958,7 @@ public class ArticleController extends BaseSupplierController{
 	      articleService.updateStatus(article);
 //	      solrNewsService.deleteIndex(str);
 	    }
-    return "redirect:getAll.html";
+    return "redirect:auditlist.html?status=1";
   }
   
   
