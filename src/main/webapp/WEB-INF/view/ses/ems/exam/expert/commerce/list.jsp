@@ -329,7 +329,7 @@
 							<tr class="pointer">
 								<td class="tc"><input type="checkbox" name="info" value="${c.id }" onclick="check()" /></td>
 								<td class="tc" onclick="view('${c.id }')">${(vs.index+1)+(commerceList.pageNum-1)*(commerceList.pageSize)}</td>
-								<td class="tl pl20" onclick="view('${c.id }')">${c.examQuestionType.name }</td>
+								<td class="tc" onclick="view('${c.id }')">${c.examQuestionType.name }</td>
 								<c:if test="${fn:length(c.topic)>25}">
 									<td class="tl pl20" onclick="view('${c.id }')" onmouseover="titleMouseOver('${c.topic}',this)" onmouseout="titleMouseOut()">${fn:substring(c.topic,0,25)}...</td>
 								</c:if>
