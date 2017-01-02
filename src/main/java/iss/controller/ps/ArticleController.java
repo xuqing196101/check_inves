@@ -91,6 +91,9 @@ public class ArticleController extends BaseSupplierController{
 	if(saveNews.equals("1")){
 		model.addAttribute("saveNews", saveNews);
 	}
+	if(saveNews.equals("0")){
+		model.addAttribute("saveNews", saveNews);
+	}
 	}
     List<Article> list = articleService.selectAllArticle(null, page==null?1:page);
     model.addAttribute("list", new PageInfo<Article>(list));
@@ -1075,6 +1078,7 @@ public class ArticleController extends BaseSupplierController{
 	  String[] id=ids.split(",");
 	    Article article = new Article();
 	    article.setStatus(4);
+	    article.setShowCount(0);
 	    for (String str : id) {
 	      article.setId(str);
 	      articleService.updateStatus(article);
