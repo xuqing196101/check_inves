@@ -1225,7 +1225,7 @@ function deleteFinance() {
                 
                 
 		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">
-		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 营业范围（按照营业执照上填写）</span>
+		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">*</i>营业范围（按照营业执照上填写）</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
 			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80" title="不超过80个字" name="businessScope">${currSupplier.bankName}</textarea>
 	       	    </div>
@@ -1323,7 +1323,7 @@ function deleteFinance() {
 	  <h2 class="count_flow clear pt20"> <i>3</i> 近三年财务信息</h2>
 	  <div class="padding-top-10 clear">
 	  <c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
-	    	<h2 class="count_flow clear">${finance.year}年财务信息  <span style="float:right">（金额单位：万元）</span>  </h2>
+	    	<h2 class="count_flow clear">${finance.year}年财务信息  <span style="float:right" class="b">（金额单位：万元）</span>  </h2>
 	    	<div class="col-md-12 col-xs-12 col-sm-12 border_font">
 	 	  <!--   <legend>列表</legend> -->
 			<div  class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" >
