@@ -74,7 +74,7 @@
         $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
         });
-        var audit = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
+        var audit = $("input[name='chkItem']:checked").parents("tr").find("td").eq(7).text();
         if(id.length == 1) {
           if($.trim(audit) == "待发布") {
             window.location.href = "${pageContext.request.contextPath }/article/auditInfo.html?id=" + id;
