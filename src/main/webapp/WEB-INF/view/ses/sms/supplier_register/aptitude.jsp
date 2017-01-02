@@ -184,7 +184,7 @@
 									 	 
 									  <c:forEach items="${serviceQua }" var="server">
 									      <tr>
-										    <td class="info">${project.categoryName } 
+										    <td class="info">${server.categoryName } 
 										    </td>
 											 <td>
 						  					    <c:forEach items="${server.list }" var="ser">

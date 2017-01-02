@@ -50,6 +50,18 @@ public interface SupplierItemService {
 	public List<Category> getCategory(String supplierId,String type);
 	
 	/**
+	 * 
+	 * @Title: getCategory
+	 * @Description:获取末级节点的值。
+	 * author: Li Xiaoxiao 
+	 * @param @param supplierId
+	 * @param @return     
+	 * @return List<Category>     
+	 * @throws
+	 */
+	public List<Category> getCategoryShenhe(String supplierId,String type);
+	
+	/**
 	 *〈简述〉删除被取消选中的节点
 	 *〈详细描述〉
 	 * @author WangHuijie

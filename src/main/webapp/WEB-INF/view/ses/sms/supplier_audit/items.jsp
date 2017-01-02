@@ -335,7 +335,8 @@
 					}
 
 				};
-				$.fn.zTree.init($("#" + kind), setting, zNodes);
+				var ztreeObj = $.fn.zTree.init($("#" + kind), setting, zNodes);
+				ztreeObj.expandAll(true); //全部展开
 			}
 
 			//加载tab页签

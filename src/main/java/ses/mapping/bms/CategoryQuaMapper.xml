@@ -28,8 +28,8 @@
       SELECT 
       <include refid="BASE_COLUMN_SQL" />
       FROM T_SES_BMS_CATEGORY_QUA
-      WHERE CATEGORY_ID = #{categoryId}
-      AND QUA_TYPE = #{quaType}
+      WHERE CATEGORY_ID = #{param1}
+      AND QUA_TYPE = #{param2}
     </select>
 	
 	<!-- 保存 -->

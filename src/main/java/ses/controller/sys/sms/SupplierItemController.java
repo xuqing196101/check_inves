@@ -242,8 +242,8 @@ public class SupplierItemController extends BaseController{
 	   
 	   /*saleUp.append(sbUp);
 	   saleShow.append(sbShow);*/
-	   model.addAttribute("saleUp", sbUp);
-	   model.addAttribute("saleShow", sbShow);
+	   model.addAttribute("saleUp", sbUp.toString());
+	   model.addAttribute("saleShow", sbShow.toString());
 	/*	model.addAttribute("sbUp", sbUp);
 		model.addAttribute("sbShow", sbShow);*/
 		model.addAttribute("cateList",  list3);

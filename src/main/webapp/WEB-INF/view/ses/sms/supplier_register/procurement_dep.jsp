@@ -56,8 +56,8 @@
 				});
 				return;
 			}
-			var procurementDepId = $("input[name='radio']:checked").val();
-	 
+			var procurementDepId = $(":radio:checked").val();
+			alert(procurementDepId);
 			$("input[name='procurementDepId']").val(procurementDepId);
 			  $("input[name='flag']").val(flag);
 			  $("#procurement_dep_form_id").submit();
@@ -96,6 +96,8 @@
 	
 	
 		function showJiGou(obj){
+			$("#purchase_orgs").empty();
+			$("#purchase_orgs2").empty();
 /* 		$("#thead").empty();
 		//采购机构
 		var sup = $("#purchaseDepId").val();
@@ -117,6 +119,7 @@
 		var shengId = $("#root_area_select_id").val();
 		var shiId = $(obj).val();
 		var orgId = $("#orgId").val();
+		var purDepId = "${currSupplier.procurementDepId}";
 		$.ajax({
 			url:'${pageContext.request.contextPath}/expert/showJiGou.do',
 			data:{"pId":shengId,"zId":shiId},
@@ -125,36 +128,39 @@
 			cache: false,
 	        async: false,
 			success:function(obj){
-				if(obj.length<1){
-					$("#purchase_orgs").empty();
-				}
 				$.each(obj,function(i,result){
 					i=i+1;
 					var name=result.name;
-					var princinpal=result.shortName;
-					var detailAddr=result.provinceName;
+					var princinpal=result.princinpal;
+					var detailAddr=result.detailAddr;
 					var mobile = result.mobile;
 					if(name==null)name="";
 					if(princinpal==null)princinpal="";
 					if(detailAddr==null)detailAddr="";
 					if(mobile==null)mobile="";
-					if(orgId==result.id){
-						$("#purchase_orgs").append(
-								"<tr align='center' ><td><input checked='checked' type='radio' name='radio'  value='"+result.id+"' /></td>"+
+					var flag;
+					if (result.flag == '1') {
+						flag = "purchase_orgs";
+					} else {
+						flag = "purchase_orgs2";
+					}
+					if(purDepId==result.id){
+						$("#"+flag).append(
+								"<tr align='center' ><td><input checked='checked' type='radio' name='procurementDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
 								"<td>"+princinpal+"</td>"+
-								"<td>"+detailAddr+"</td>" 
-								/* "<td>"+mobile+"</td></tr>" */
+								"<td>"+detailAddr+"</td>"+
+								"<td>"+mobile+"</td></tr>"
 							);
 					}else{
-						$("#purchase_orgs").append(
-								"<tr align='center' ><td><input type='radio' name='radio'  value='"+result.id+"' /></td>"+
+						$("#"+flag).append(
+								"<tr align='center' ><td><input type='radio' name='procurementDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
 								"<td>"+princinpal+"</td>"+
-								"<td>"+detailAddr+"</td>"
-							/* 	"<td>"+mobile+"</td></tr>" */
+								"<td>"+detailAddr+"</td>"+
+								"<td>"+mobile+"</td></tr>"
 							);
 					}
 				});
@@ -297,25 +303,15 @@
 									<table class="table table-bordered table-condensed">
 										<thead>
 											<tr>
-												<th class="info">选择</th>
-												<th class="info">序号</th>
-												<th class="info">采购机构名称</th>
-												<th class="info">机构代称</th>
-												<th class="info">所在城市</th>
+												<th class="info w30"><input type="radio" disabled="disabled"></th>
+												<th class="info w50">序号</th>
+												<th class="info">采购机构</th>
+												<th class="info">联系人</th>
+												<th class="info">联系地址</th>
+												<th class="info">联系电话</th>
 											</tr>
 										</thead>
-										<tbody id="purchase_orgs">
-											<c:forEach items="${listOrgnizations1}" var="org1" varStatus="vs">
-												<tr>
-												
-													<td class="tc"><input type="radio" value="${org1.id}" name="radio" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
-													<td class="tc">${vs.index + 1}</td>
-													<td class="tc">${org1.name}</td>
-													<td class="tc">${org1.shortName}</td>
-													<td class="tc">${org1.provinceName}</td>
-												</tr>
-											</c:forEach>
-										</tbody>
+										<tbody id="purchase_orgs"></tbody>
 									</table>
 									<h2 class="f16 ">
 										 其他采购机构
@@ -323,19 +319,23 @@
 									<table class="table table-bordered table-condensed">
 										<thead>
 											<tr>
-												<th class="info">序号</th>
-												<th class="info">采购机构名称</th>
-												<th class="info">机构代称</th>
-												<th class="info">所在城市</th>
+												<th class="info w30"><input type="radio" disabled="disabled"></th>
+											    <th class="info w50">序号</th>
+											    <th class="info">采购机构</th>
+											    <th class="info">联系人</th>
+											    <th class="info">联系地址</th>
+											    <th class="info">联系电话</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody id="purchase_orgs2">
 											<c:forEach items="${allPurList}" var="org1" varStatus="vs">
 												<tr>
+													<td class="tc"><input type="radio" value="${org1.id}" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs.index + 1}</td>
 													<td class="tc">${org1.name}</td>
-													<td class="tc">${org1.shortName}</td>
-													<td class="tc">${org1.provinceName}</td>
+													<td class="tc">${org1.princinpal}</td>
+													<td class="tc">${org1.detailAddr}</td>
+													<td class="tc">${org1.mobile}</td>
 												</tr>
 											</c:forEach>
 										</tbody>

@@ -1816,7 +1816,24 @@ public class SupplierAuditController extends BaseSupplierController{
 	@ResponseBody
 	@RequestMapping(value = "/getTree", produces = "application/json;charset=utf-8")
 	public String getTree (String supplierId, String code) {
-	    List<Category> categoryList = supplierItemService.getCategory(supplierId, code);
+	    List<Category> categoryList = supplierItemService.getCategoryShenhe(supplierId, code);
+	    // 最后加入根节点
+	    String typeId = null;
+	    if ("PRODUCT".equals(code) || "SALES".equals(code)) {
+	        typeId = DictionaryDataUtil.getId("GOODS");
+	    } else {
+	        typeId = DictionaryDataUtil.getId(code);
+	    }
+        DictionaryData data = DictionaryDataUtil.findById(typeId);
+        Category root = new Category();
+        root.setId(data.getId());
+        if ("PRODUCT".equals(code)) {
+            data.setName(data.getName() + "生产");
+        } else if ("SALES".equals(code)) {
+            data.setName(data.getName() + "销售");
+        }
+        root.setName(data.getName());
+        categoryList.add(root);
 	    List<CategoryTree> treeList = new ArrayList<CategoryTree>();
 	    for (Category cate : categoryList) {
 	        CategoryTree node = new CategoryTree();
@@ -1832,6 +1849,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	        }
 	        treeList.add(node);
         }
+	    
 	    return JSON.toJSONString(treeList);
 	}
 }

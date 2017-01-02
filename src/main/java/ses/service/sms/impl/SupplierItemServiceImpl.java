@@ -191,6 +191,24 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		
 		return cateList;
 	}
+	
+
+
+    @Override
+    public List<Category> getCategoryShenhe(String supplierId,String type) {
+        List<Category> cateList=new ArrayList<Category>();
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("supplierId", supplierId);
+        map.put("type", type);
+        List<SupplierItem> list = supplierItemMapper.findByMap(map);
+        for(SupplierItem item:list){
+            Category category = categoryService.selectByPrimaryKey(item.getCategoryId());
+            if (category != null) {
+                cateList.add(category); 
+            }
+        }
+        return cateList;
+    }
 
 	
     /**
