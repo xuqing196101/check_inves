@@ -25,7 +25,7 @@
 	<button class="btn" onclick="window.print();" type="button">打印</button>
   </div>
   <!-- 表格开始-->
-  <div>
+  <div class="mt10">
             <table class="table table-bordered table-condensed table-hover table-striped">
               <tr>
                 <td class="tc" colspan="2">专家/供应商</td>

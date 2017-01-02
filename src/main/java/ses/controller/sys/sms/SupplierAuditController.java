@@ -30,6 +30,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAptitute;
@@ -54,6 +55,7 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
@@ -144,6 +146,10 @@ public class SupplierAuditController extends BaseSupplierController{
 	/** 供应商关联类型 */
 	@Autowired
 	private SupplierTypeRelateService supplierTypeRelateService;
+	
+	/**  **/
+	@Autowired
+	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
 	
 	/**
 	 * @Title: daiBan
@@ -1261,7 +1267,19 @@ public class SupplierAuditController extends BaseSupplierController{
 		}
 		
 		List<Supplier> list = supplierAuditService.getAuditSupplierList(supplier, page);
-		PageInfo<Supplier> pageInfo =  new PageInfo<Supplier>(list);
+		// 判断权限
+		List<Supplier> supplierList = new ArrayList<Supplier>();
+        User user = (User) request.getSession().getAttribute("loginUser");
+        String orgId = user.getOrg().getId();
+        PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(orgId);
+        if (dep != null && dep.getId() != null) {
+            for (Supplier supp : list) {
+                if (supp.getProcurementDepId() != null && supp.getProcurementDepId().equals(dep.getId())) {
+                    supplierList.add(supp);
+                }
+            }
+        }
+		PageInfo<Supplier> pageInfo =  new PageInfo<Supplier>(supplierList);
 		request.setAttribute("result", getSupplierType(pageInfo));
 		
 		//企业性质
@@ -1793,5 +1811,27 @@ public class SupplierAuditController extends BaseSupplierController{
 		 model.addAttribute("supplierId", supplierId);
 		  
 		return "ses/sms/supplier_audit/contract";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getTree", produces = "application/json;charset=utf-8")
+	public String getTree (String supplierId, String code) {
+	    List<Category> categoryList = supplierItemService.getCategory(supplierId, code);
+	    List<CategoryTree> treeList = new ArrayList<CategoryTree>();
+	    for (Category cate : categoryList) {
+	        CategoryTree node = new CategoryTree();
+	        node.setId(cate.getId());
+	        node.setName(cate.getName());
+	        node.setParentId(cate.getParentId());
+	        // 判断是不是父级节点
+	        List<Category> parentTree = categoryService.findPublishTree(cate.getId(), null);
+	        if (parentTree != null && parentTree.size() > 0) {
+	            node.setIsParent("true");
+	        } else {
+	            node.setIsParent("false");
+	        }
+	        treeList.add(node);
+        }
+	    return JSON.toJSONString(treeList);
 	}
 }

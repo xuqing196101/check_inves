@@ -143,7 +143,7 @@
 						type: "get"
 					},*/
 					check: {
-						enable: true,
+						enable: false,
 						chkStyle: "checkbox",
 						chkboxType: {
 							"Y": "ps",

@@ -310,27 +310,16 @@
 			//加载对应的节点数据
 			function loadZtree(code, kind, status) {
 				var supplierId = $("#supplierId").val();
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplierAudit/getTree.do",
+					data: {"supplierId": supplierId,"code": code},
+					async: false,
+					dataType: "json",
+					success: function(response){
+						zNodes = response;
+					}
+				});
 				var setting = {
-					async: {
-						autoParam: ["id","code"],
-						enable: true,
-						url: "${pageContext.request.contextPath}/supplier/category_type.do?shenhe=true",
-						otherParam: {
-							"code": code,
-							"supplierId": supplierId,
-							"status": status
-						},
-						dataType: "json",
-						type: "post",
-					},
-					/* check: {
-						enable: true,
-						chkStyle: "checkbox",
-						chkboxType: {
-							"Y": "ps",
-							"N": "ps"
-						}, //勾选checkbox对于父子节点的关联关系  
-					}, */
 					data: {
 						simpleData: {
 							enable: true,

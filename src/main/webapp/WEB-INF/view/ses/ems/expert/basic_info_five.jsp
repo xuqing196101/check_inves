@@ -183,6 +183,5 @@ session.setAttribute("tokenSession", tokenValue);
 			</div>
 		</div></div>
 	</form>
-	<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>
