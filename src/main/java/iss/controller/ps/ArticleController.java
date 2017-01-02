@@ -770,6 +770,43 @@ public class ArticleController extends BaseSupplierController{
     
     return "iss/ps/article/audit/audit";
   }
+  
+  @RequestMapping("/showaudit")
+  public  String showaudit(Model model,String id,HttpServletRequest request){
+    Article article = articleService.selectArticleById(id);
+    List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
+    article.setArticleAttachments(articleAttaList);
+    model.addAttribute("article",article);
+    List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+    model.addAttribute("list", list);
+
+    DictionaryData dd=new DictionaryData();
+    dd.setCode("POST_ATTACHMENT");
+    List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+    request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+    if(lists.size()>0){
+      model.addAttribute("attachTypeId", lists.get(0).getId());
+    }
+
+    model.addAttribute("articleId", article.getId());
+    DictionaryData da=new DictionaryData();
+    da.setCode("GGWJ");
+    List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+    request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
+    if(dlists.size()>0){
+      model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
+    }
+    
+    DictionaryData sj=new DictionaryData();
+    sj.setCode("SHWJ");
+    List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
+    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
+    if(secrets.size()>0){
+      model.addAttribute("secretTypeId", secrets.get(0).getId());
+    }
+    
+    return "iss/ps/article/audit/showaudit";
+  }
 
   /**
    * @Title: audit
@@ -798,6 +835,20 @@ public class ArticleController extends BaseSupplierController{
 //      articleType.setShowNum(showNum.toString());
 //      articleTypeService.updateByPrimaryKey(articleType);
 //      solrNewsService.addIndex(findOneArticle);
+//      String contype = request.getParameter("article.id");
+//      if(ValidateUtils.isNull(article.getFourArticleTypeId())){
+//    	  if(ValidateUtils.isNull(article.getThreeArticleTypeId())){
+//    		  if(ValidateUtils.isNull(article.getSecondArticleTypeId())){
+//    			  article.setLastArticleTypeId(contype);
+//    		  }else{
+//    			  article.setLastArticleTypeId(article.getSecondArticleTypeId());
+//    		  }
+//    	  }else{
+//    		  article.setLastArticleTypeId(article.getThreeArticleTypeId());
+//    	  }
+//      }else{
+//    	  article.setLastArticleTypeId(article.getFourArticleTypeId());
+//      }
       articleService.update(article);
     }
     if(article.getStatus()==3){
@@ -1211,8 +1262,10 @@ public class ArticleController extends BaseSupplierController{
    */
   @RequestMapping(value="/aritcleTypeParentId",produces="application/json;charest=utf-8")
   public void aritcleTypeParentId(HttpServletResponse response,String parentId,HttpServletRequest request) throws Exception{
-    List<ArticleType> list = articleTypeService.selectByParentId(parentId);
+	if(parentId!=null){  
+	List<ArticleType> list = articleTypeService.selectByParentId(parentId);
     super.writeJson(response, list);
+  }
   }
   
   

@@ -399,7 +399,7 @@
             </li>
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息正文：</span>
-              <div class="col-md-12 col-sm-12 col-xs-12 p0">
+              <div class="col-md-12 col-sm-12 col-xs-12 p0 ">
                 <script id="editor" type="text/plain" class="col-md-12 p0"></script>
               </div>
             </li>
@@ -432,13 +432,11 @@
             <li class=" col-md-12 col-sm-12 col-xs-12">
               <span class=" col-md-12 col-sm-12 col-xs-12 padding-left-5">退回理由：</span>
               <div class=" col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="h130 col-md-12 col-sm-12 col-xs-12" id="reason" name="reason" title="不超过250个字" placeholder="不超过250个字"></textarea>
+                <textarea class="h130 col-md-12 col-sm-12 col-xs-12" disabled="disabled" id="reason" name="reason" >${article.reason }</textarea>
               </div>
             </li>
           </ul>
           <div class="col-md-12 tc">
-            <button class="btn btn-windows check" type="submit">发布</button>
-            <button class="btn btn-windows withdraw" type="button" onclick="back()">驳回</button>
             <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
           </div>
         </div>

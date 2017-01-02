@@ -169,6 +169,12 @@
       }
 
       $(function() {
+    	  var range = "${article.range}";
+    	  $("input[name='ranges']").each(function(){
+    		  if($(this).val()==range){
+    			  $(this).attr('checked','true');
+    		  }
+    	  });
           var typeId;
            $("#secondType").empty();
            $("#secondType").select2("val", "");
