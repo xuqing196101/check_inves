@@ -91,9 +91,9 @@ public class PurchaseAcceptController extends BaseController{
     @RequestMapping("/submit")
     public String submit(String planNo,Model model){
     	PurchaseRequired p=new PurchaseRequired();
-		p.setPlanNo(planNo.trim());
-		List<PurchaseRequired> list = purchaseRequiredService.query(p,0);
-		model.addAttribute("planNo", list.get(0).getPlanNo());
+		p.setUniqueId(planNo);
+		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
+		model.addAttribute("planNo", list.get(0).getUniqueId());
 		model.addAttribute("list", list);
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
@@ -143,16 +143,16 @@ public class PurchaseAcceptController extends BaseController{
     			
     		}
     	}
-    	if(reason!=null){
-    		User  maker = userServiceI.getUserById(id);
-    		StationMessage sm =new StationMessage();
-			String sid = UUID.randomUUID().toString().replaceAll("-", "");
-			sm.setId(sid);
-    		sm.setReceiverId(id);
-    		sm.setName(maker.getRelName());
-    		sm.setSenderId(user.getId());
-    		stationMessageService.insertStationMessage(sm);
-    	}
+//    	if(reason!=null){
+//    		User  maker = userServiceI.getUserById(id);
+//    		StationMessage sm =new StationMessage();
+//			String sid = UUID.randomUUID().toString().replaceAll("-", "");
+//			sm.setId(sid);
+//    		sm.setReceiverId(id);
+//    		sm.setName(maker.getRelName());
+//    		sm.setSenderId(user.getId());
+//    		stationMessageService.insertStationMessage(sm);
+//    	}
 //    	purchaseRequiredService.updateStatus(p);
     	return "redirect:list.html";
     }

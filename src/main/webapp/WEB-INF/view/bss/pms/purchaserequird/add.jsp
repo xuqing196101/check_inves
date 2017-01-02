@@ -755,7 +755,7 @@
 					
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
+						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>类别</span>
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 							<select name="planType" id="wtype" onchange="gtype(this)">
 							<option value="">请选择</option>
@@ -781,8 +781,8 @@
           </li>
           
             <li class="col-md-3 col-sm-6 col-xs-12">
-            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>附件信息</span>
-                      <u:upload id="detail"  multiple="true" buttonName="上传文档类型"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
+            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
+                      <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
                         <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
           </li>
           

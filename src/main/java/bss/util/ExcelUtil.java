@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 
@@ -24,6 +26,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
 
 
 
@@ -157,13 +160,15 @@ public class ExcelUtil {
 	        				 if(cell.getCellType()==1){
 	        				     String dep = cell.getStringCellValue();
 	        				     if(dep.trim().length()!=0){
-	        				    	 Orgnization orgnization = excelUtil.purchaseRequiredService.queryByName(dep);
-		        					 if(orgnization==null){
-		        						 errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，需求部门不存在，请在系统中维护！";
-				        				 map.put("errMsg", errMsg);
-				        				  bool=false;
-				        				 continue; 
-		        					 }
+	        				    	 if(isContainChinese(dep)==true){
+	        				    		 Orgnization orgnization = excelUtil.purchaseRequiredService.queryByName(dep);
+			        					 if(orgnization==null){
+			        						 errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，需求部门不存在，请在系统中维护！";
+					        				 map.put("errMsg", errMsg);
+					        				  bool=false;
+					        				 continue; 
+			        					 }
+	        				    	 }
 	        					 }
 	        				
 		        				
@@ -253,6 +258,7 @@ public class ExcelUtil {
 		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误";
 			        				 map.put("errMsg", errMsg); 
 			        				 bool=false;
+			        				 continue;
 		        				 }
 	        				
 	        				 }
@@ -486,6 +492,21 @@ public class ExcelUtil {
     }    
  
 
+    
+    public static boolean isContainChinese(String str){
+		boolean bool=true;
+		Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+		Matcher m = p.matcher(str);
+	    if(m.find()==true&&str.contains("（")){
+	        	bool=true;
+	     }else{
+	        	bool=false;
+	    }
+		return bool;
+	}
+    
+    
+    
     
  
 }
