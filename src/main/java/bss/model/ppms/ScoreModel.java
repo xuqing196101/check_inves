@@ -24,7 +24,7 @@ public class ScoreModel implements Serializable{
 	private String markTermId;//打分项名称
 	private String markTermName;//打分项名称
 	private String name;//模型名称
-	private String typeName;//类型名称
+	private String typeName;//类型名称  0:模型一A ;1:模型二  ;2:模型三  ;3:模型四 A ;4:模型五   ;5:模型六  ;6:模型七   ;7:模型八  ;8:模型一B  ;9:模型四B  
 	private String reviewContent;//评审内容
 	private String remark;//备注
 	private String easyUnderstandContent;//通俗易懂，白话文内容

@@ -108,7 +108,7 @@
 			var nodes = getCurrentRoot(node);
 			$("#operaFlag").val('add');
 			if (level == 2){
-				showQua();
+				showQua(null, nodes.classify);
 			}
 			if (node) {
 				$("#typeId").empty();
@@ -173,7 +173,7 @@
 					$("#descId").val(cate.description);
 					showInit();
 					if (level == 3){
-						showQua(cate);
+						showQua(cate, node.classify);
 					}
 					if (node.classify && node.classify == "GOODS"){
 						$("#typeTrId").show();
@@ -378,10 +378,17 @@
   }
 
   //显示资质要求
- function showQua(cate){
+ function showQua(cate, type){
 	 $("#generaQuaTr").show();
 	 $("#profileQuaTr").show();
-	 $("#profileQuaTr_sales").show();
+	 if (type == "GOODS") {
+		 $("#profileQuaTr_sales").show();
+		 var tdArr = $("#profileQuaTr").children();
+		 tdArr.eq(0).html("物资生成型专业资质要求");
+	 } else {
+	     var tdArr = $("#profileQuaTr").children();
+		 tdArr.eq(0).html("专业资质要求");
+	 }
 	 if (cate != null && cate !="" && cate !="undefined" && cate !="null"){
 		 $("#generalIQuaId").val(cate.generalQuaIds);
 		 $("#generalIQuaName").val(cate.generalQuaNames);
@@ -396,6 +403,7 @@
  function hideQua(){
 	 $("#generaQuaTr").hide();
 	 $("#profileQuaTr").hide();
+	 $("#profileQuaTr_sales").hide();
  }
  
  //初始化类型
@@ -559,7 +567,6 @@
 	 	 <div><ul id="ztree" class="ztree s_ztree"></ul></div>
 	   </div>
      </div>
-     
      <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
    	   <button class="btn btn-windows add" type="button" onclick="add();" >新增</button>
    	   <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
@@ -617,7 +624,7 @@
        		      </td>
            	    </tr>
            	    <tr id="profileQuaTr" class="dnone">
-       			  <td class='info'>物资生产型专业资质要求</td>
+       			  <td class='info'>专业资质要求</td>
        			  <td>
        				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" >
        				  <input id="profileIQuaId" type="hidden" name="profileQuaIds" />

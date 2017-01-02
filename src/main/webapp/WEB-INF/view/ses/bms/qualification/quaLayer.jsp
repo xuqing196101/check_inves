@@ -12,6 +12,8 @@
         <div class="tab-v2">
           <input type="hidden" id="type"  name="type" value="${type}"/>
           <input type="hidden" id="ids" name="ids" value="${ids}"/>
+          <input type="hidden" id="choseIds">
+	 	  <input type="hidden" id="choseNames">
           <div class="tab-content">
 		      <h2 class="search_detail">
 				<ul class="demand_list">
@@ -38,7 +40,7 @@
 				 <tbody>
 				   <c:forEach items="${list.list}" var="qualification" varStatus="vs">
 				     <tr>
-					   <td class="tc"><input  type="checkbox" name="chkItem" value="${qualification.id}" /></td>
+					   <td class="tc"><input type="checkbox" name="chkItem" value="${qualification.id}" /></td>
 					   <td class="tc">${vs.index+1}</td>
 					   <td class="textl">${qualification.name}</td>
 					  </tr>

@@ -97,6 +97,12 @@ System.out.print(scoreModel);
 				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
 				$("#model73").hide();
 			}
+		}else if (model == "8") {
+			$("#show_table tbody tr").remove();
+			$("#model9 tbody tr").clone().appendTo("#show_table tbody");
+			$("#showbutton").show();
+		}else if (model == "9") {
+			
 		}
 	}
 	function modelTwoAddSubstact21(){
@@ -205,7 +211,12 @@ System.out.print(scoreModel);
 			gerneratorSeven();
 		}else if(model=="7"){
 			gerneratorEight();
+		}else if(model=="8"){
+			gerneratorNine();
+		}else if(model=="9"){
+			gerneratorTen();
 		}
+		
 	}
 	//动态添加参数区间
 	var num2 =1;
@@ -630,19 +641,21 @@ System.out.print(scoreModel);
 				<span>选择模型: </span>
 				 <select id="model" name="typeName" onchange="choseModel();">
 					<option value="">请选择</option>
-					<option value="0">模型1:是否判断</option>
-					<option value="1">模型2:按项加减分</option>
-					<option value="2">模型3:评审数额最高递减</option>
-					<option value="3">模型4:评审数额最低递增</option>
-					<option value="4">模型5:评审数额高计算</option>
-					<option value="5">模型6:评审数额低计算</option>
-					<option value="6">模型7:评审数额低区间递增</option>
-					<option value="7">模型8:评审数额高区间递减</option>
+					<option value="0">模型一A（是否判断）</option>
+					<option value="8">模型一B（按项匹配分值）</option>
+					<option value="1">模型二（按项加减分）</option>
+					<option value="2">模型三（以评审数额最高分值为基准排序递减）</option>
+					<option value="3">模型四A（以评审数额最低值为基准排序递增）</option>
+					<option value="9">模型四B（按照排名递减/递增分值）</option>
+					<option value="4">模型五（以评审数额最高值为基准按比例计算）</option>
+					<option value="5">模型六（以评审数额最低为基准按比例计算）</option>
+					<option value="6">模型七（以评审数额最低区间为基准递增排序）</option>
+					<option value="7">模型八（以评审数额最高区间为基准递减排序）</option>
 				</select>
 			</div>
 			<div class="fl">评审指标内容及规则说明: </div>
-		       <div>
-		   	   <textarea  class="col-md-12 col-sm-12 col-xs-12 h80 w500" name="reviewContent" id="reviewContent" >${scoreModel.reviewContent}</textarea>
+		       <div class="">
+		   	   <textarea  class="col-md-12 col-sm-12 col-xs-12 h80 mb10 w500" name="reviewContent" id="reviewContent" >${scoreModel.reviewContent}</textarea>
 		       </div>
 			<input id="packageId" name="packageId" type="hidden" value="${packageId }">
 			<input id="projectId" name="projectId" type="hidden" value="${projectId }">
@@ -1293,6 +1306,39 @@ System.out.print(scoreModel);
 			</tr>
 		</tbody>
 	</table>
+	<!-- 模型一B -->
+	<table id="model9" style="display: none;" class="w499">
+		<tbody>
+			<tr>
+				<td style="width: 300px;">评审参数</td>
+				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam}" title="该参数代表需要录入供应商的参数名称">
+					<br/>
+					<span class="blue">*该参数代表需要录入供应商的参数名称</span>
+				</td>
+			</tr>
+			<tr>
+				<table>
+					<tr>
+						<td>选择项目</td>
+						<td><input name="" id="" value="${scoreModel.}" ></td>
+						<td>对应分数</td>
+						<td><input name="" id="" value="${scoreModel.}" ></td>
+						<td><button class="btn btn-windows delete" type="button" onclick="">删除</button></td>
+					</tr>
+				</table>
+				
+			</tr>
+			<tr>
+				<td>翻译成白话文内容</td>
+				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent8" >${scoreModel.easyUnderstandContent }</textarea></td>
+			</tr>
+			<tr>
+				<td>当前模型标准解释</td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">按项匹配分值</textarea></td>
+			</tr>
+		</tbody>
+	</table>	
+	
 	<!-- 八大模型 -->
 </body>
 </html>

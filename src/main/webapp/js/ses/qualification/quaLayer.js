@@ -98,7 +98,7 @@ function selectAll(){
 function loadData(data,index,pageNum,pageSize){
 	var html = "<tr> "
 		     + "  <td class='tc'>"
-	         + "    <input  type='checkbox' name='chkItem' value='"+data.id+"' />"
+	         + "    <input  type='checkbox' name='chkItem' value='"+data.id+"' onclick='choseedValue()'/>"
 		     + "  </td>"
 		     + "  <td class='tc'>"+((index+1) +  (pageNum -1) * pageSize) +"</td>"
 		     + "  <td class='tc'>"+data.name+"</td>"
@@ -106,14 +106,46 @@ function loadData(data,index,pageNum,pageSize){
 	$("#dataTable tbody").append(html);
 }
 
+function choseedValue(){
+	var choseedIds = $("#choseIds").val();
+	var choseedNames = $("#choseNames").val();
+	var ids = [], names = [];
+	$("input[name='chkItem']:checked").each(function(){
+		ids.push($(this).val());
+		names.push($(this).parents('tr').find('td').eq(2).text()+ " ");
+	});
+	if (choseedIds == '' || choseedIds == null) {
+		choseedIds += ids.toString();
+	} else {
+		for ( var i = 0; i < ids.length; i++) {
+			if(choseedIds.indexOf(ids[i]) == -1 ){
+				choseedIds += ","+ids[i];
+			} 
+		}
+	}
+	if (choseedNames == '' || choseedNames == null) {
+		choseedNames += names.toString();
+	} else {
+		for ( var i = 0; i < names.length; i++) {
+			if(choseedNames.indexOf(names[i]) == -1 ){
+				choseedNames += ","+names[i];
+			} 
+		}
+	}
+	$("#choseIds").val(choseedIds);
+	$("#choseNames").val(choseedNames);
+}
+
+
 /**
  * 
  * @returns
  */
 function ok(){
-	
+	var choseedIds = $("#choseIds").val();
+	var choseedNames = $("#choseNames").val();
 	var ids = [], names = [];
-	$("input[name='chkItem']:checked").each(function(){
+	/*$("input[name='chkItem']:checked").each(function(){
 		ids.push($(this).val());
 		names.push($(this).parents('tr').find('td').eq(2).text()+ " ");
 	});
@@ -121,10 +153,13 @@ function ok(){
 	if (ids.length == 0){
 		layer.msg("请选择资质信息");
 		return ;
+	}*/
+	if (choseedIds == '' || choseedIds == null) {
+		layer.msg("请选择资质信息");
+		return ;
 	}
-	
 	var type = $("#type").val(); 
-	if (type == 1){
+	/*if (type == 1){
 		parent.addGeneralValue(ids.toString(),names.toString());
 	}
 	if (type == 2){
@@ -132,6 +167,15 @@ function ok(){
 	}
 	if (type == 3){
 		parent.addProfileSalesValue(ids.toString(),names.toString());
+	}*/
+	if (type == 1){
+		parent.addGeneralValue(choseedIds,choseedNames);
+	}
+	if (type == 2){
+		parent.addProfileValue(choseedIds,choseedNames);
+	}
+	if (type == 3){
+		parent.addProfileSalesValue(choseedIds,choseedNames);
 	}
 	cancel();
 }
