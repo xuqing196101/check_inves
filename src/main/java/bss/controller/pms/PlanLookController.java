@@ -249,29 +249,11 @@ public class PlanLookController extends BaseController {
 	@RequestMapping("/auditlook")
 	public String auditlook(String id,Model model){
 		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
-//		List<AuditParam> all=new LinkedList<AuditParam>();
-//		AuditParam auditParam=new AuditParam();
-//		
-//		List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
-//		if(dic!=null&&dic.size()>0){
-//			for(DictionaryData d:dic){
-//				AuditParamBean s=new AuditParamBean();
-//				auditParam.setDictioanryId(d.getId());
-//				List<AuditParam> a = auditParameService.query(auditParam, 1);
-//				all.addAll(a);
-//				s.setId(d.getId());
-//				s.setSize(a.size());
-//				s.setName(d.getName());
-//				bean.add(s);
-//			}
-//		}
-		
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
 		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
 		
-//		CollectPlan plan = collectPlanService.queryById(id);
 		List<String> no = collectPurchaseService.getNo(id);
 		
 		List<String> depList = putchaseRequiredMapper.queryDepartMent(no);
@@ -286,17 +268,18 @@ public class PlanLookController extends BaseController {
 				list.addAll(pur);
 			}
 		}
+		
+	/*	for(int i=0;i<list.size();i++){
+			if(i<list.size()-1){
+				if(list.get(i).getDepartment().equals(p)){
+					pr.setSeq("");
+				}
+			}
+			
+		}*/
 		model.addAttribute("list", list);
 		model.addAttribute("org",org);
 		model.addAttribute("id", id);
-//		model.addAttribute("all", all);
-//		
-//		model.addAttribute("bean", bean);
-		
-/*		DictionaryData dd=new DictionaryData();
-		dd.setCode("CGJH_ADJUST");
-		String did = dictionaryDataServiceI.find(dd).get(0).getId();
-		model.addAttribute("aid", did);*/
 		
 		List<DictionaryData> mType = dictionaryDataServiceI.findByKind("5");
 		model.addAttribute("mType", mType);

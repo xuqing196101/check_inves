@@ -415,7 +415,7 @@
 								</c:if>
 							
 							    <c:if test="${(obj.status == 2 || obj.status == 12  )  && obj.auditTurn == 1}">
-								 		第一轮审核
+								 		第一轮已审核
 								</c:if>
 							
 								<c:if test="${obj.status==3 }">
@@ -423,22 +423,22 @@
 								</c:if>
 								
 								<c:if test="${obj.status == 12 && obj.auditTurn == 2}">
-								 	   第二轮审核
+								 	   第二轮已审核
 								</c:if>
 								
 								
 							   <c:if test="${obj.status == 2 && obj.auditTurn == 2}">
-								 	   第二轮审核
+								 	   第二轮已审核
 								</c:if>
 								
 								
 								
 								<c:if test="${obj.status == 2 && obj.auditTurn == 3}">
-								 	  第三轮审核
+								 	  第三已轮审核
 								</c:if>
 								
 									<c:if test="${obj.status == 12 && obj.auditTurn == 3}">
-								 	  第三轮审核
+								 	  第三已轮审核
 								</c:if>
 							<%--    <c:if test="${obj.status == 2 && obj.auditTurn == null}">
 								 	  第三轮审核

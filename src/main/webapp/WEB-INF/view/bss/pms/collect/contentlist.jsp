@@ -18,9 +18,7 @@
 		var planNo=parent.ids;
 		var index = parent.layer.getFrameIndex(window.name); 
 		var  ctype  = $('input[name="chkItem"]:checked').next().val(); 
-		alert(ctype);
 		var ptype="${type}";
-		alert(ptype);
 	      if(ctype!=ptype){
 	    	  layer.alert("物资类别不一样",{offset: ['100px', '100px'], shade:0.01});
 	      }

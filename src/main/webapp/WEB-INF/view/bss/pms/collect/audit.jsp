@@ -409,12 +409,14 @@
 										<tr>
 											<td class="tc w50"><input readonly="readonly" type="text" class="w50" name="list[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
 											<td class="tl pl20">
-												<c:forEach items="${requires }" var="re">
+											
+											${obj.department }
+											<%-- 	<c:forEach items="${requires }" var="re">
 								        			<c:if test="${re.id==obj.department }">
 														<input type="hidden"  name="list[${vs.index }].department" value="${obj.id }">
 														<input readonly="readonly" type="text" value="${re.name}">
 													</c:if>
-												</c:forEach>
+												</c:forEach> --%>
 											</td>
 											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
 											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
@@ -458,7 +460,7 @@
 											<td class="tc">
 												<select class="org" name="list[${vs.index }].organization">
 													<c:forEach items="${org }" var="ss">
-														<option value="${ss.name }" <c:if test="${ss.name==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
+														<option value="${ss.name }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 													</c:forEach>
 												</select>
 											</td>
@@ -578,7 +580,7 @@
 								<td class="tl pl20">
 									<select name="list[${vs.index}].threeOrganiza">
 										<c:forEach items="${org }" var="ss">
-											<option value="${ss.name }">${ss.name}</option>
+											<option value="${ss.id }">${ss.name}</option>
 										</c:forEach>
 									</select>
 								</td>

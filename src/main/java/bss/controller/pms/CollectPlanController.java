@@ -150,7 +150,6 @@ public class CollectPlanController extends BaseController {
     public String queryCollect(@CurrentUser User user,CollectPlan collectPlan,String uniqueId,String goodsType) {
     PurchaseRequired p = new PurchaseRequired();
     List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
-    //Set<String> set=new HashSet<String>();
     if (uniqueId != null ) {
       String[] uid = uniqueId.split(",");
       for (String u:uid) {
@@ -162,18 +161,22 @@ public class CollectPlanController extends BaseController {
 					p.setIsMaster(null);
 					purchaseRequiredService.updateStatus(p);
 					list.addAll(one);
+					
+					
 				}
 			}
 					BigDecimal budget=BigDecimal.ZERO;
 					for(PurchaseRequired pr:list){
-						budget=budget.add(pr.getBudget());
+						if(pr.getPurchaseCount()!=null){
+							budget=budget.add(pr.getBudget());
+						}
+						
 					}
 					String id = UUID.randomUUID().toString().replaceAll("-", "");
 					collectPlan.setId(id);
 					collectPlan.setStatus(1);
 					collectPlan.setBudget(budget);
 					collectPlan.setCreatedAt(new Date());
-//					collectPlan.setDepartment(dep);
 					Integer max = collectPlanService.getMax();
 					if(max!=null){
 						max+=1;
@@ -189,7 +192,6 @@ public class CollectPlanController extends BaseController {
 						c.setPlanNo(u);
 						collectPurchaseService.add(c);
 					}
-//					collectPlan.setPlanNo(cno);
 					collectPlan.setUserId(user.getId());
 					collectPlan.setGoodsType(goodsType);
 					collectPlanService.add(collectPlan);
@@ -226,9 +228,9 @@ public class CollectPlanController extends BaseController {
 				//保存至中间表
 				collectPurchaseService.add(c);
 				
-				p.setPlanNo(no);
+				p.setUniqueId(no);
 				p.setIsMaster(1);
-				List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
+				List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
 //				p.setIsCollect(2);//修改
 				p.setStatus("5");//修改
 				p.setIsMaster(null);

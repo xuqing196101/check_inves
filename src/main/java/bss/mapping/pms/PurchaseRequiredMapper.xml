@@ -726,7 +726,7 @@
 	
 		update T_BSS_PMS_PURCHASE_REQUIRED
 			set IS_DELETE='1'
-			where HISTORY_STATUS='0'  and UNIQUE_ID =#{planNo}
+			where HISTORY_STATUS='0'  and ID =#{planNo}
 		
 	</update>
 	
@@ -884,7 +884,7 @@
     
     <select id="queryDepartMent" resultType="String">
     select DEPARTMENT
-	      from T_BSS_PMS_PURCHASE_REQUIRED where PLAN_NO in  
+	      from T_BSS_PMS_PURCHASE_REQUIRED where IS_MASTER=1 and UNIQUE_ID in  
 		 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
 		  #{item}  
 		 </foreach>  
