@@ -121,6 +121,8 @@ public class AdvancedProject {
 
     private List<AdvancedPackages> packagesList;
     
+    private String projectContractor;//项目承办人
+    
     
     public AdvancedProject(String id) {
         super();
@@ -571,5 +573,14 @@ public class AdvancedProject {
     public void setPurchaseDepId(String purchaseDepId) {
         this.purchaseDepId = purchaseDepId;
     }
+
+    public String getProjectContractor() {
+        return projectContractor;
+    }
+
+    public void setProjectContractor(String projectContractor) {
+        this.projectContractor = projectContractor;
+    }
+    
     
 }

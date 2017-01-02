@@ -572,7 +572,7 @@ public class TackController extends BaseController{
                 for (String uu : list) {
                     Map<String,Object> map1=new HashMap<String,Object>();
                     map1.put("planNo", uu);
-                    map1.put("organization", user.getOrg().getId());
+                    //map1.put("organization", user.getOrg().getId());
                     List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map1);
                     if (list2 != null && list2.size() > 0) {
                         if(thIds == null){
@@ -600,6 +600,8 @@ public class TackController extends BaseController{
                             AdvancedDetail advancedDetail = detailService.selectByRequiredId(detailId[j]);
                             PurchaseRequired requireds = purchaseRequiredService.queryById(detailIds[k]);
                             if(advancedDetail.getDepartment().equals(requireds.getDepartment())){
+                                request.getSession().setAttribute("thIdoo", thId);
+                                request.getSession().setAttribute("thIdsee", thIds);
                                 return num;
                             }else{
                                 break outer;
@@ -611,12 +613,6 @@ public class TackController extends BaseController{
             } 
             
         }
-     
-        request.getSession().setAttribute("thId", thId);
-        request.getSession().setAttribute("thIds", thIds);
-      
-       
-        
         return number;
 	    
 	}
@@ -625,10 +621,10 @@ public class TackController extends BaseController{
 	
 	@RequestMapping("/quote")
 	public String quote(HttpServletRequest request) throws Exception{
-	    String ide = (String)request.getSession().getAttribute("thId");
-	    request.removeAttribute("thId");
-	    String idss = (String)request.getSession().getAttribute("thIds");
-	    request.removeAttribute("idss");
+	    String ide = (String)request.getSession().getAttribute("thIdoo");
+	    request.removeAttribute("thIdoo");
+	    String idss = (String)request.getSession().getAttribute("thIdsee");
+	    request.removeAttribute("thIdsee");
 	    String[] detailId = ide.split(",");
         String[] detailIds = idss.split(",");
         outer:
@@ -829,7 +825,7 @@ public class TackController extends BaseController{
                                     if(markTerm.getTypeName() != null){
                                         term.setTypeName(markTerm.getTypeName());
                                     }
-                                    markTermService.insert(term);
+                                    markTermService.saveMarkTerm(term);
                                     String markTermId = term.getId();
                                     
                                     ScoreModel scoreModel = new ScoreModel();

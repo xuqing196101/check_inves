@@ -49,7 +49,15 @@ public class AdvancedPackages {
     private String bidMethodTypeName;//评标方法
     private String bidMethodMaxScore ;//
     
+    /**
+     * 是否维护符合性审查项 0 未维护 1:维护中 2：已维护
+     */
+    private Integer isEditFirst;
     
+    /**
+     * 是否维护经济技术评分细则 0 未维护 1:维护中 2：已维护
+     */
+    private Integer isEditSecond;
 
     public String getId() {
         return id;
@@ -185,6 +193,22 @@ public class AdvancedPackages {
 
     public void setBidMethodMaxScore(String bidMethodMaxScore) {
         this.bidMethodMaxScore = bidMethodMaxScore;
+    }
+
+    public Integer getIsEditFirst() {
+        return isEditFirst;
+    }
+
+    public void setIsEditFirst(Integer isEditFirst) {
+        this.isEditFirst = isEditFirst;
+    }
+
+    public Integer getIsEditSecond() {
+        return isEditSecond;
+    }
+
+    public void setIsEditSecond(Integer isEditSecond) {
+        this.isEditSecond = isEditSecond;
     }
     
     

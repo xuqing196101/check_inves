@@ -68,73 +68,62 @@
     window.location.href = "${pageContext.request.contextPath}/advancedProject/view.html?id=" + id;
   }
 
-  //进入实施页面
+  
+  
+   //进入实施页面
   var flag = true;
   function start() {
     var id = [];
-	$('input[name="chkItem"]:checked').each(function() {
-	  id.push($(this).val());
-	});
-	var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
-	status = $.trim(status);
-	var currPage = ${info.pageNum};
-	if (id.length == 1) {
-	  if (status == "实施中") {
-		window.location.href = "${pageContext.request.contextPath}/advancedProject/excute.html?id=" + id + "&page=" + currPage;
-	  } else if (status == "已立项") {
-		$.ajax({
-		  url : "${pageContext.request.contextPath}/advancedProject/viewPackage.html",
-		  data : "id=" + id,
-		  type : "post",
-		  dataType : "json",
-		  success : function(result) {
-			for ( var i = 0; i < result.length; i++) {
-			  var packageId = result[i].packageId;
-			  if (packageId == null) {
-			    flag = false;
-				layer.alert("请先分包", {
-				  offset : [ '222px', '690px' ],
-				  shade : 0.01,
-				});
-			  }
-			}
-			
-			if (flag == false) {
-			  layer.alert("请先分包", {
-				offset : [ '222px', '690px' ],
-				shade : 0.01,
-			  });
-			} else if (flag == true) {
-			  layer.open({
-				type : 2, //page层
-				area : [ '800px', '500px' ],
-				title : '请上传项目批文',
-				shade : 0.01, //遮罩透明度
-				moveType : 1, //拖拽风格，0是默认，1是传统拖动
-				shift : 1, //0-6的动画形式，-1不开启
-				shadeClose : true,
-				content : '${pageContext.request.contextPath}/advancedProject/startProject.html?id=' + id,
-			  });
-			}
-		  },
-		  error : function() {
-			layer.msg("失败", {
-			  offset : [ '222px', '390px' ],
-			});
-		  }
-		});
-	  }
-	} else if (id.length > 1) {
-	  layer.alert("只能选择一个", {
-	    offset : [ '222px', '390px' ],
-		shade : 0.01,
-	  });
-	} else {
-	  layer.alert("请选择需要启动的项目", {
-		offset : [ '222px', '390px' ],
-		shade : 0.01,
-	  });
-	}
+    $('input[name="chkItem"]:checked').each(function() { 
+      id.push($(this).val());
+    });
+    var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+    status = $.trim(status);
+    var currPage = ${info.pageNum};
+    if (id.length == 1) {
+      if (status == "项目基本信息已完善" || status == "拟制评审文件" || status == "招标公告拟制完毕" || status == "供应商抽取完毕" || status == "发售标书完毕" || status == "抽取评审专家完毕" || status == "开标唱标完毕" || status == "专家签到完成"
+      || status == "资格性和符合性审查中" || status == "经济技术审查中" || status == "评审完成" || status == "拟制中标公告完毕" || status == "确认中标供应商" || status == "实施结束" || status == "拟制评分标准" || status == "待开标"
+      || status == "招标文件已提交"  || status == "已分包，待实施") {
+        window.location.href = "${pageContext.request.contextPath}/advancedProject/excute.html?id=" + id + "&page=" + currPage;
+      } 
+      if (status == "已立项，待分包") {
+        $.ajax({
+          url : "${pageContext.request.contextPath}/advancedProject/viewPackage.html",
+          data : "id=" + id,
+          type : "post",
+          dataType : "json",
+          success : function(result) {
+            if(result==0){
+              layer.open({
+                type : 2, //page层
+                area : [ '800px', '500px' ],
+                title : '请上传项目批文',
+                shade : 0.01, //遮罩透明度
+                moveType : 1, //拖拽风格，0是默认，1是传统拖动
+                shift : 1, //0-6的动画形式，-1不开启
+                shadeClose : true,
+                content : '${pageContext.request.contextPath}/advancedProject/startProject.html?id=' + id,
+              });
+            }else if(result==1){
+              layer.alert("项目中有明细尚未分包", {
+                offset: ['30%', '40%'],
+              });
+              $(".layui-layer-shade").remove();
+            }
+          }
+        });
+      } 
+    } else if (id.length > 1) {
+      layer.alert("只能选择一个", {
+        offset : [ '222px', '390px' ],
+        shade : 0.01,
+      });
+    } else {
+      layer.alert("请选择需要启动的项目", {
+        offset : [ '222px', '390px' ],
+        shade : 0.01,
+      });
+    }
   }
 
 
@@ -233,6 +222,7 @@
 			<th class="info">项目编号</th>
 			<th class="info">采购方式</th>
 			<th class="info">项目状态</th>
+			<th class="info">项目承办人</th>
 		  </tr>
 		</thead>
 		<tbody id="tbody_id">
@@ -240,7 +230,6 @@
 		    <c:if test="${'0' != obj.status}">
 		    <tr style="cursor: pointer;">
 			  <td class="tc w30">
-			    <input type="hidden" value="${obj.status }" />
 			    <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 			  </td>
 			  <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
@@ -258,6 +247,7 @@
             <c:if test="${status.id == obj.status}">${status.name}</c:if>
           </c:forEach>
 			  </td>
+			  <td class="tc" onclick="view('${obj.id}')">${obj.projectContractor}</td>
 			</tr>
 			</c:if>
 		  </c:forEach>

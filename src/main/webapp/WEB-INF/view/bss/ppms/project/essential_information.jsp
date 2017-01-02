@@ -308,7 +308,7 @@
                     <tr>
                       <td class="bggrey">项目承办人:</td>
                       <td class="p0"><input type="hidden" name="userId" id="userId" value="${project.principal}"/><select id="principal" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select></td>
-                      <td class="bggrey">经办人手机:</td>
+                      <td class="bggrey">承办人手机:</td>
                       <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text"/></td>
                     </tr>
                     <tr>

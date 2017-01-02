@@ -33,6 +33,13 @@
             }
           }
         });
+        
+         var row = $("#table2 tr").length;
+        if(row == 1) {
+          $("table#table2").find("tr:eq('0')").remove();
+          $("#remove").addClass("hide");
+        }
+        
       });
 
       function checkInfo(ele) {
@@ -89,17 +96,8 @@
         window.location.href = "${pageContext.request.contextPath}/project/addDetails.html?projectId=" + projectId + "&id=" + id + "&name=" + name + "&projectNumber=" + projectNumber+"&orgId="+orgId;
       };
 
-      $(function() {
-        var row = $("#table2 tr").length;
-        if(row == 1) {
-          $("table#table2").find("tr:eq('0')").remove();
-          $("#remove").addClass("hide");
-        }
-      });
-      
       
       var flag = true;
-
       function verify() {
         var projectNumber = $("input[name='projectNumber']").val();
         $.ajax({
@@ -116,7 +114,6 @@
               $("#sps").html("");
               flag = true;
             }
-
           },
         });
       }

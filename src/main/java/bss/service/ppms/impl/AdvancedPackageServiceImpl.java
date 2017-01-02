@@ -62,4 +62,9 @@ public class AdvancedPackageServiceImpl implements AdvancedPackageService {
         return packageMapper.findPackageAndBidMethodById(map);
     }
 
+    @Override
+    public void saves(AdvancedPackages packages) {
+        packageMapper.insert(packages);   
+    }
+
 }

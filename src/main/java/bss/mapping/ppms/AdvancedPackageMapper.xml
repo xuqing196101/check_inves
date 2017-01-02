@@ -168,6 +168,78 @@
 			</if>
 		</trim>
 	</insert>
+	
+	<insert id="insert" parameterType="bss.model.ppms.AdvancedPackages">
+    insert into T_BSS_PPMS_ADVANCED_PACKAGE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="projectId != null">
+        AD_PROJECT_ID,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE,
+      </if>
+      <if test="isImport != null">
+        IS_IMPORT,
+      </if>
+      <if test="bidMethodId != null">
+        BID_METHOD_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType},
+      </if>
+      <if test="isImport != null">
+        #{isImport},
+      </if>
+      <if test="bidMethodId != null">
+        #{bidMethodId},
+      </if>
+    </trim>
+  </insert>
+	
+	
+	
+	
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.AdvancedPackages">
 		update T_BSS_PPMS_ADVANCED_PACKAGE
 		<set>

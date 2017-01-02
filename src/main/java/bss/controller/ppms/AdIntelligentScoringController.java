@@ -36,7 +36,9 @@ import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
+import bss.model.ppms.Packages;
 import bss.model.ppms.ParamInterval;
+import bss.model.ppms.Project;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
 import bss.model.prms.FirstAuditTemplat;
@@ -88,8 +90,10 @@ public class AdIntelligentScoringController extends BaseController{
 	@ResponseBody
 	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id, String moxing2){
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
-	    Double score = 0.0;
-	    Integer result = 0;
+        Double score = 0.0;
+        Integer result = 0;
+        String typename = "";
+        ScoreModel sm = new ScoreModel();
         for (DictionaryData dictionaryData : ddList) {
             MarkTerm mt = new MarkTerm();
             mt.setTypeName(dictionaryData.getId());
@@ -106,6 +110,11 @@ public class AdIntelligentScoringController extends BaseController{
                 List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
                 for (MarkTerm markTerm : mtValue) {
                     if (markTerm.getSmId().equals(id)){
+                        sm.setId(id);
+                        ScoreModel scoreModel = scoreModelService.findScoreModelByScoreModel(sm);
+                        if (scoreModel != null) {
+                            typename = scoreModel.getTypeName();
+                        }
                         continue;
                     }
                     Double scscore = markTerm.getScscore();
@@ -116,40 +125,53 @@ public class AdIntelligentScoringController extends BaseController{
                 }
             }
         }
-	    if (standScore != null && !"".equals(standScore)) {
-	        double resultScore = Double.parseDouble(standScore) + score;
-	        if (resultScore <= 100){
-	            result = 1;
-	        }
-	    } else {
-	        if (maxScore != null && !"".equals(maxScore)){
-	            double resultScore = Double.parseDouble(maxScore) + score;
-	            if (resultScore <= 100){
-	                result = 1;
-	            }
-	        }else {
-	            double resultScore = Double.parseDouble(moxing2) + score;
+        if (standScore != null && !"".equals(standScore)) {
+            double resultScore = Double.parseDouble(standScore) + score;
+            if (resultScore <= 100){
+                result = 1;
+            }
+        } else {
+            if (maxScore != null && !"".equals(maxScore)){
+                if (moxing2 == null || "0".equals(moxing2)) {
+                    double resultScore = Double.parseDouble(maxScore) + score;
+                    if (resultScore <= 100){
+                        result = 1;
+                    }
+                } else {
+                    if ("6".equals(typename) || "7".equals(typename)) {
+                        double resultScore = Double.parseDouble(maxScore) + score;
+                        if (resultScore <= 100){
+                            result = 1;
+                        }
+                    } else {
+                        double resultScore = Double.parseDouble(moxing2) + score;
+                        if (resultScore <= 100){
+                            result = 1;
+                        }
+                    }
+                }
+            } else {
+                double resultScore = Double.parseDouble(moxing2) + score;
                 if (resultScore <= 100){
                     result = 1;
                 }
-	        }
-	       
-	    }
-	    return result;
+            }
+        }
+        return result;
 	}
 	
 	@RequestMapping(value = "addScoreMethod")
     public String addScoreMethod(Model model, String packageId, String projectId) {
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(27);
-	    model.addAttribute("projectId", projectId);
-	    model.addAttribute("packageId", packageId);
-	    model.addAttribute("ddList", ddList);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("ddList", ddList);
         return "bss/ppms/advanced_project/advanced_bid_file/add_score_method";
     }
 	
 	@RequestMapping(value = "showScoreMethod")
     public String showScoreMethod(Model model, BidMethod bm) {
-        List<BidMethod> bidMethod = bidMethodService.findScoreMethod(bm);
+	    List<BidMethod> bidMethod = bidMethodService.findScoreMethod(bm);
         if (bidMethod != null && bidMethod.size() > 0){
             model.addAttribute("bidMethod", bidMethod.get(0));
         }
@@ -171,54 +193,54 @@ public class AdIntelligentScoringController extends BaseController{
 	@RequestMapping("/loadTemplat")
 	public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
 	    try{
-	        //模板导入前首先给现有的东西删除掉所有的项目id都一样。所以按照项目id删除
-	        HashMap<String, Object> condition = new HashMap<String, Object>();
-	        condition.put("projectId", projectId);
-	        condition.put("packageId", packageId);
-	        bidMethodService.delBidMethodByMap(condition);
-	        markTermService.delMarkTermByMap(condition);
-	        scoreModelService.delScoreModelByMap(condition);
-	        //然后再来修改模板数据的projectid和packageid
-	        BidMethod bmCondition = new BidMethod();
-	        bmCondition.setProjectId(id);
-	        List<BidMethod> bmList = bidMethodService.findListByBidMethod(bmCondition);
-	        //模板中的数据
-	        MarkTerm mtCondition = new MarkTerm();
+	      //模板导入前首先给现有的东西删除掉所有的项目id都一样。所以按照项目id删除
+            HashMap<String, Object> condition = new HashMap<String, Object>();
+            condition.put("projectId", projectId);
+            condition.put("packageId", packageId);
+            bidMethodService.delBidMethodByMap(condition);
+            markTermService.delMarkTermByMap(condition);
+            scoreModelService.delScoreModelByMap(condition);
+            //然后再来修改模板数据的projectid和packageid
+            BidMethod bmCondition = new BidMethod();
+            bmCondition.setProjectId(id);
+            List<BidMethod> bmList = bidMethodService.findListByBidMethod(bmCondition);
+            //模板中的数据
+            MarkTerm mtCondition = new MarkTerm();
             mtCondition.setProjectId(id);
             List<MarkTerm> mtList = markTermService.findListByMarkTerm(mtCondition);
             //模板中数据
             ScoreModel smCondition = new ScoreModel();
             smCondition.setProjectId(id);
             List<ScoreModel> smList = scoreModelService.findListByScoreModel(smCondition);
-	        for (BidMethod bidMethod : bmList) {
-	            //修改之前新增一条
-	            BidMethod bm = new BidMethod();
-	            bm.setId(null);
-	            bm.setName(bidMethod.getName());
-	            bm.setProjectId(id);
-	            bm.setIsDeleted("0");
-	            bm.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-	            bm.setRemainScore(bidMethod.getRemainScore());
-	            bm.setRemark(bidMethod.getRemark());
-	            //bm.setPackageId(packageId);
-	            bidMethodService.save(bm);
-	           
-	            for (MarkTerm markTerm : mtList) {
-	                if (markTerm.getBidMethodId() != null && markTerm.getBidMethodId().equals(bidMethod.getId())) {
-	                    MarkTerm mt = new MarkTerm();
-	                    mt.setId(null);
-	                    mt.setPid("0");
-	                    mt.setName(markTerm.getName());
-	                    mt.setIsDeleted(0);
-	                    mt.setCreatedAt(new Date());
-	                    mt.setMaxScore(markTerm.getMaxScore());
-	                    mt.setProjectId(id);
-	                    mt.setRemainScore(markTerm.getRemainScore());
-	                    mt.setTypeName(markTerm.getTypeName());
-	                    mt.setBidMethodId(bm.getId());
-	                    markTermService.save(mt);
-	                    
-	                    for (MarkTerm markTerm2 : mtList) {
+            for (BidMethod bidMethod : bmList) {
+                //修改之前新增一条
+                BidMethod bm = new BidMethod();
+                bm.setId(null);
+                bm.setName(bidMethod.getName());
+                bm.setProjectId(id);
+                bm.setIsDeleted("0");
+                bm.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                bm.setRemainScore(bidMethod.getRemainScore());
+                bm.setRemark(bidMethod.getRemark());
+                //bm.setPackageId(packageId);
+                bidMethodService.save(bm);
+               
+                for (MarkTerm markTerm : mtList) {
+                    if (markTerm.getBidMethodId() != null && markTerm.getBidMethodId().equals(bidMethod.getId())) {
+                        MarkTerm mt = new MarkTerm();
+                        mt.setId(null);
+                        mt.setPid("0");
+                        mt.setName(markTerm.getName());
+                        mt.setIsDeleted(0);
+                        mt.setCreatedAt(new Date());
+                        mt.setMaxScore(markTerm.getMaxScore());
+                        mt.setProjectId(id);
+                        mt.setRemainScore(markTerm.getRemainScore());
+                        mt.setTypeName(markTerm.getTypeName());
+                        mt.setBidMethodId(bm.getId());
+                        markTermService.save(mt);
+                        
+                        for (MarkTerm markTerm2 : mtList) {
                             if (markTerm.getId().equals(markTerm2.getPid())) {
                                 MarkTerm mtChildren = new MarkTerm();
                                 mtChildren.setId(null);
@@ -265,122 +287,122 @@ public class AdIntelligentScoringController extends BaseController{
                                 }
                             }
                         }
-	                }
-	            }
-	            bidMethod.setProjectId(projectId);
+                    }
+                }
+                bidMethod.setProjectId(projectId);
                 bidMethod.setPackageId(packageId);
                 bidMethodService.updateBidMethod(bidMethod);
             }
-	        
+            
             for (MarkTerm markTerm : mtList) {
                 markTerm.setProjectId(projectId);
                 markTerm.setPackageId(packageId);
                 markTermService.updateMarkTerm(markTerm);
             }
-	        
-	        for (ScoreModel scoreModel : smList) {
-	            scoreModel.setProjectId(projectId);
-	            scoreModel.setPackageId(packageId);
-	            scoreModelService.updateScoreModel(scoreModel);
-	        }
-	      String msg = "引入成功";
-	      response.setContentType("text/html;charset=utf-8");
-	      response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
-	      response.getWriter().flush();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    } finally{
-	        response.getWriter().close();
-	    }
+            
+            for (ScoreModel scoreModel : smList) {
+                scoreModel.setProjectId(projectId);
+                scoreModel.setPackageId(packageId);
+                scoreModelService.updateScoreModel(scoreModel);
+            }
+          String msg = "引入成功";
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+          response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
 	  }
 	
 	@RequestMapping(value = "deleteScoreModel")
 	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
 	    //为2为顶级结点     1 为子节点
-	    HashMap<String, Object> map = new HashMap<String, Object>();
-	    if (deleteStatus == 1) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        if (deleteStatus == 1) {
             scoreModelService.deleteScoreModelByMtId(id);
             map.put("id", id);
             markTermService.delMarkTermByid(map);
-	    } else {
-	        MarkTerm condition = new MarkTerm();
-	        condition.setPid(id);
-	        //顶级
-	        List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
-	        for (MarkTerm markTerm : mtList) {
-	            scoreModelService.deleteScoreModelByMtId(markTerm.getId());
-	            map.put("id", markTerm.getId());
-	            markTermService.delMarkTermByid(map);
-	        }
-	        MarkTerm mt = markTermService.findMarkTermById(id);
-	        map.put("id", mt.getBidMethodId());
-	        bidMethodService.delBidMethodByMap(map);
-	        map.put("id", id);
-	        markTermService.delMarkTermByid(map);
-	    }
+        } else {
+            MarkTerm condition = new MarkTerm();
+            condition.setPid(id);
+            //顶级
+            List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
+            for (MarkTerm markTerm : mtList) {
+                scoreModelService.deleteScoreModelByMtId(markTerm.getId());
+                map.put("id", markTerm.getId());
+                markTermService.delMarkTermByid(map);
+            }
+            MarkTerm mt = markTermService.findMarkTermById(id);
+            map.put("id", mt.getBidMethodId());
+            bidMethodService.delBidMethodByMap(map);
+            map.put("id", id);
+            markTermService.delMarkTermByid(map);
+        }
 	    return "redirect:editPackageScore.html?projectId=" + projectId + "&packageId=" + packageId;
 	}
 	
 	@RequestMapping(value = "saveScore")
 	public void saveScore(HttpServletResponse response, BidMethod bm) throws IOException {
 	    try {
-	        int count = 0;
-	        String msg = "";
-	        if (bm.getName() == null || "".equals(bm.getName())) {
-	          msg += "请输入评审项名称";
-	          count ++;
-	        }
-	        if (bm.getRemainScore()== null) {
-	          if (count > 0) {
-	            msg += "、序号";
-	          } else {
-	            msg += "请输入排序号";
-	          }
-	          count ++;
-	        }
-	        if (bm.getRemark()== null || "".equals(bm.getRemark())) {
-	          if (count > 0) {
-	            msg += "和评审内容";
-	          } else {
-	            msg += "请输入评审内容";
-	          }
-	          count ++;
-	        }
-	        if (count > 0) {
-	          response.setContentType("text/html;charset=utf-8");
-	          response.getWriter()
-	                  .print("{\"success\": " + false + ", \"msg\": \"" + msg+ "\"}");
-	        }
-	        if (count == 0) {
-	          msg += "添加成功";
-	          if (bm.getId() != null && !"".equals(bm.getId())) {
-	              bidMethodService.updateBidMethod(bm);
-	          } else {
-	              bidMethodService.saveBidMethod(bm);
-	          }
-	          response.setContentType("text/html;charset=utf-8");
-	          response.getWriter()
-	                  .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
-	        }
-	        response.getWriter().flush();
-	      } catch (Exception e) {
-	          e.printStackTrace();
-	      } finally{
-	          response.getWriter().close();
-	      }
+            int count = 0;
+            String msg = "";
+            if (bm.getName() == null || "".equals(bm.getName())) {
+              msg += "请输入评审项名称";
+              count ++;
+            }
+            if (bm.getRemainScore()== null) {
+              if (count > 0) {
+                msg += "、序号";
+              } else {
+                msg += "请输入排序号";
+              }
+              count ++;
+            }
+            if (bm.getRemark()== null || "".equals(bm.getRemark())) {
+              if (count > 0) {
+                msg += "和评审内容";
+              } else {
+                msg += "请输入评审内容";
+              }
+              count ++;
+            }
+            if (count > 0) {
+              response.setContentType("text/html;charset=utf-8");
+              response.getWriter()
+                      .print("{\"success\": " + false + ", \"msg\": \"" + msg+ "\"}");
+            }
+            if (count == 0) {
+              msg += "添加成功";
+              if (bm.getId() != null && !"".equals(bm.getId())) {
+                  bidMethodService.updateBidMethod(bm);
+              } else {
+                  bidMethodService.saveBidMethod(bm);
+              }
+              response.setContentType("text/html;charset=utf-8");
+              response.getWriter()
+                      .print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
+            }
+            response.getWriter().flush();
+          } catch (Exception e) {
+              e.printStackTrace();
+          } finally{
+              response.getWriter().close();
+          }
 	}
 	
 	@RequestMapping(value = "editScore")
 	@ResponseBody
     public BidMethod editScore(HttpServletResponse response, BidMethod bm) throws IOException {
-	  MarkTerm mt = markTermService.findMarkTermById(bm.getId());
-	  bm.setId(mt.getBidMethodId());
-      List<BidMethod> bmList = bidMethodService.findListByBidMethod(bm);
-      if (bmList != null && bmList.size() >0 ){
-          return bmList.get(0);
-      } else {
-          return bm;
-      }
+	    MarkTerm mt = markTermService.findMarkTermById(bm.getId());
+	      bm.setId(mt.getBidMethodId());
+	      List<BidMethod> bmList = bidMethodService.findListByBidMethod(bm);
+	      if (bmList != null && bmList.size() >0 ){
+	          return bmList.get(0);
+	      } else {
+	          return bm;
+	      }
     }
 	
 	@RequestMapping("/editPackageScore")
@@ -517,7 +539,6 @@ public class AdIntelligentScoringController extends BaseController{
                             count2++;
                         }
                     } else {
-                        //sb.append("<tr><td>" + markKey.getName() + "</td><td></td><td></td><td></td></tr>");
                         sb.append("<tr><td>");
                         sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
                         sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
@@ -569,17 +590,29 @@ public class AdIntelligentScoringController extends BaseController{
 	
 	@RequestMapping("packageList")
 	public String packageList(@ModelAttribute AdvancedPackages packages,Model model,HttpServletRequest request, String msg){
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("projectId", packages.getProjectId());
-		AdvancedProject project = projectService.selectById(packages.getProjectId());
-		model.addAttribute("project", project);
-		List<AdvancedPackages> packagesList = packageService.findPackageAndBidMethodById(map);
-		//增加一个字段判断又没有评分办法
+	    HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("projectId", packages.getProjectId());
+        AdvancedProject project = projectService.selectById(packages.getProjectId());
+        model.addAttribute("project", project);
+        List<AdvancedPackages> packagesList = packageService.findPackageAndBidMethodById(map);
+        //增加一个字段判断又没有评分办法
+        BidMethod bm = new BidMethod();
         for (AdvancedPackages packages2 : packagesList) {
             BidMethod condition = new BidMethod();
             condition.setProjectId(packages.getProjectId());
             condition.setPackageId(packages2.getId());
             List<BidMethod> bmList = bidMethodService.findScoreMethod(condition);
+            bm.setProjectId(packages.getProjectId());
+            bm.setPackageId(packages2.getId());
+            List<BidMethod> bl = bidMethodService.findListByBidMethod(bm);
+            //  第一条是评分办法 大于1 说明有模型列表有值
+            if (bl != null && bl.size() > 1) {
+                packages2.setIsEditSecond(2);
+            } else if (bl != null && bl.size() == 1){
+                packages2.setIsEditSecond(1);
+            } else {
+                packages2.setIsEditSecond(0);
+            }
             if (bmList != null && bmList.size() > 0) {
                 packages2.setIsHaveScoreMethod(1);
                 packages2.setBidMethodTypeName(bmList.get(0).getTypeName());
@@ -589,10 +622,10 @@ public class AdIntelligentScoringController extends BaseController{
         }
         List<DictionaryData> ddList = DictionaryDataUtil.find(27);
         model.addAttribute("ddList", ddList);
-		//
-		model.addAttribute("packagesList", packagesList);
-		model.addAttribute("projectId", packages.getProjectId());
-		model.addAttribute("msg", msg);
+        //
+        model.addAttribute("packagesList", packagesList);
+        model.addAttribute("projectId", packages.getProjectId());
+        model.addAttribute("msg", msg);
 		return "bss/ppms/advanced_project/advanced_bid_file/scoring_rubric";
 	}
 	
@@ -608,7 +641,7 @@ public class AdIntelligentScoringController extends BaseController{
 	 */
 	@RequestMapping("packageListView")
     public String packageListView(@ModelAttribute AdvancedPackages packages,Model model,HttpServletRequest request){
-        HashMap<String,Object> map = new HashMap<String,Object>();
+	    HashMap<String,Object> map = new HashMap<String,Object>();
         map.put("projectId", packages.getProjectId());
         AdvancedProject project = projectService.selectById(packages.getProjectId());
         model.addAttribute("project", project);
@@ -1118,7 +1151,7 @@ public class AdIntelligentScoringController extends BaseController{
 	 */
 	@RequestMapping("scoreModelList")
     public String scoreModelList(Model model,@ModelAttribute ScoreModel scoreModel,Integer page,HttpServletRequest request){
-        //每页显示十条
+	    //每页显示十条
         PageHelper.startPage(page == null ? 1 : page,CommonConstant.PAGE_SIZE);
         List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
         model.addAttribute("scoreModelList",scoreModelList);
@@ -1127,13 +1160,13 @@ public class AdIntelligentScoringController extends BaseController{
         model.addAttribute("list",new PageInfo<ScoreModel>(scoreModelList));
         model.addAttribute("scoreModel", scoreModel);
         model.addAttribute("projectId", request.getParameter("proid"));
-        return "bss/ppms/open_bidding/show_score_model";
+        return "bss/ppms/advanced_project/advanced_bid_file/show_score_model";
     }
 	@RequestMapping("showScoreModel")
 	public String showScoreModel(Model model,@ModelAttribute ScoreModel scoreModel,HttpServletRequest request){
 	    scoreModel = scoreModelService.findScoreModelByScoreModel(scoreModel);
 	    model.addAttribute("scoreModel", scoreModel);
-	    return "bss/ppms/open_bidding/show_treebody";
+	    return "bss/ppms/advanced_project/advanced_bid_file/show_treebody";
 	}
 	//-----------------------------------方法封装-------------------------------------------------------------------------------
 	public void setPackageMarkTermTree(String packageId,String method,MarkTerm markTerm){
@@ -1572,7 +1605,7 @@ public class AdIntelligentScoringController extends BaseController{
 	
 	@RequestMapping("/viewModel")
     public String viewModel(String packageId, Model model, String projectId){    
-        //显示经济技术 和子节点  子节点的子节点就是模型
+	    //显示经济技术 和子节点  子节点的子节点就是模型
         List<DictionaryData> ddList = DictionaryDataUtil.find(23);
         String str ="";
         for (DictionaryData dictionaryData : ddList) {

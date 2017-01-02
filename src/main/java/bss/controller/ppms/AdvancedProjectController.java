@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -136,8 +137,25 @@ public class AdvancedProjectController extends BaseController {
     @RequestMapping("/list")
     public String list(@CurrentUser User user, Model model, AdvancedProject advancedProject, @ModelAttribute PageInfo<AdvancedProject> page){
         if(user != null && user.getOrg().getId() != null){
+            HashMap<String,Object> map = new HashMap<String,Object>();
+            if(advancedProject.getName() !=null && !advancedProject.getName().equals("")){
+                map.put("name", advancedProject.getName());
+            }
+            if(advancedProject.getProjectNumber() != null && !advancedProject.getProjectNumber().equals("")){
+                map.put("projectNumber", advancedProject.getProjectNumber());
+            }
+            map.put("purchaseDepId", user.getOrg().getId());
+            map.put("principal", user.getId());
             PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
             List<AdvancedProject> list = advancedProjectService.selectByList(advancedProject);
+            for(int i=0;i<list.size();i++){
+                try {
+                    User contractor = userService.getUserById(list.get(i).getPrincipal());
+                    list.get(i).setProjectContractor(contractor.getRelName());
+                } catch (Exception e) {
+                    list.get(i).setProjectContractor("");
+                }
+            }
             model.addAttribute("info", new PageInfo<AdvancedProject>(list));
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
             model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
@@ -162,12 +180,6 @@ public class AdvancedProjectController extends BaseController {
         HashMap<String, Object> map = new HashMap<>();
         map.put("planNo", id);
         List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-        for (PurchaseRequired purchaseRequired : list) {
-            Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getDepartment());
-            model.addAttribute("orgnization", orgnization);
-            /*Orgnization org = orgnizationService.getOrgByPrimaryKey(purchaseRequired.getOrganization());
-            model.addAttribute("org", org);*/
-        }
         HashMap<String, Object> maps = new HashMap<>();
         maps.put("typeName", "1");
         List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(maps);
@@ -670,6 +682,82 @@ public class AdvancedProjectController extends BaseController {
     
     /**
      * 
+     *〈查看明细是否分包〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param id
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/viewPackage")
+    @ResponseBody
+    public String viewPackage(String id, HttpServletResponse response) throws IOException{
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("advancedProject", id);
+        List<AdvancedDetail> details = detailService.selectByAll(map);
+        List<AdvancedDetail> bottomDetails = new ArrayList<>();
+        for(AdvancedDetail detail:details){
+            HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",detail.getRequiredId());
+            detailMap.put("projectId", id);
+            List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
+            if(dlist.size()==1){
+                bottomDetails.add(detail);
+            }
+        }
+        int bottomLength = 0;
+        int subLength = 0;
+        for(int i=0;i<bottomDetails.size();i++){
+            if(bottomDetails.get(i).getPackageId()==null){
+                bottomLength++;
+            }
+            if(bottomDetails.get(i).getPackageId()!=null){
+                subLength++;
+            }
+        }
+        String str = null;
+        if(bottomLength==bottomDetails.size()){
+            AdvancedProject project = advancedProjectService.selectById(id);
+            AdvancedPackages pg = new AdvancedPackages();
+            String pId = UUID.randomUUID().toString().replaceAll("-", "");
+            pg.setId(pId);
+            pg.setName("第1包");
+            pg.setProjectId(id);
+            pg.setIsDeleted(0);
+            if(project.getIsImport()==1){
+                pg.setIsImport(1);
+            }else{
+                pg.setIsImport(0);
+            }
+            if(bottomDetails.get(0).getStatus().equals("1")){
+                pg.setStatus(1);
+            }else{
+                pg.setStatus(0);
+            }
+            pg.setPurchaseType(project.getPurchaseType());
+            pg.setCreatedAt(new Date());
+            pg.setUpdatedAt(new Date());
+            packageService.saves(pg);
+            for(int i=0;i<bottomDetails.size();i++){
+                AdvancedDetail projectDetail = new AdvancedDetail();
+                projectDetail.setId(bottomDetails.get(i).getId());
+                projectDetail.setPackageId(pId);
+                projectDetail.setUpdateAt(new Date());
+                detailService.update(projectDetail);
+            }
+            str = "0";//明细都未分包，默认一包
+        }else{
+            if(subLength == bottomDetails.size()){
+                str = "0";//明细都分完包了
+            }else{
+                str = "1";//有明细分包，还没分完全
+            }
+        }
+        return str;
+    }
+    
+    /**
+     * 
      *〈分包〉
      *〈详细描述〉
      * @author Administrator
@@ -895,24 +983,12 @@ public class AdvancedProjectController extends BaseController {
     
     @RequestMapping("/start")
     public String start(String id, String principal, HttpServletRequest request) {
-        /*HashMap<String, Object> map = new HashMap<String, Object>();
-        AdvancedProject project = advancedProjectService.selectById(id);
-        map.put("purchaseDepName", principal);
-        List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseList(map);
-        if(purchaseInfo != null && purchaseInfo.size()>0){
-            String mobile = purchaseInfo.get(0).getMobile();
-            project.setPrincipal(principal);
-            project.setIpone(mobile);
-            project.setStatus(1);
-            project.setStartTime(new Date());
-            advancedProjectService.update(project);
-        }
-        return "redirect:excute.html?id=" + project.getId();*/
+        String status = DictionaryDataUtil.getId("YFB_DSS");
         AdvancedProject project = advancedProjectService.selectById(id);
         User user = userService.getUserById(principal);
         project.setPrincipal(principal);
         project.setIpone(user.getMobile());
-        // project.setStatus(1);
+        project.setStatus(status);
         project.setStartTime(new Date());
         advancedProjectService.update(project);
         return "redirect:list.html";
@@ -954,13 +1030,14 @@ public class AdvancedProjectController extends BaseController {
     
     @RequestMapping("/addProject")
     public String addProject(@CurrentUser User user,AdvancedProject project,String id, String bidAddress, String flowDefineId,String deadline, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
-        //Project project = projectService.selectById(id);
+        String status = DictionaryDataUtil.getId("XMXXWHZ");
         String userId = request.getParameter("userId");
         project.setPrincipal(userId);
         project.setLinkman(linkman);
         project.setLinkmanIpone(linkmanIpone);
         project.setSupplierNumber(supplierNumber);
         project.setBidAddress(bidAddress);
+        project.setStatus(status);
         Date date = new Date();   
         Date date1 = new Date();
         //注意format的格式要与日期String的格式相匹配   
@@ -1028,67 +1105,6 @@ public class AdvancedProjectController extends BaseController {
         return "bss/ppms/advanced_project/essential_information";
     }
     
-    /**
-     *〈简述〉根据采购方式获取流程环节list
-     *〈详细描述〉
-     * @author Ye MaoLin
-     * @param code 采购方式编码
-     * @return 流程环节
-     */
-    public Map<String, Object> getFlowDefine(String purchaseTypeId, String projectId){
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        FlowDefine fd = new FlowDefine();
-        fd.setPurchaseTypeId(purchaseTypeId);
-        //该采购方式定义的流程环节
-        List<FlowDefine> fds = flowMangeService.find(fd);
-        //该项目已执行的流程环节
-        FlowExecute flowExecute = new FlowExecute();
-        flowExecute.setProjectId(projectId);
-        List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(flowExecute);
-        //如果项目已开始实施执行
-        if (flowExecutes != null && flowExecutes.size() > 0) {
-            for (FlowDefine flowDefine : fds) {
-                //将要执行的步骤
-                Integer willStep = flowExecutes.get(0).getStep()+1;
-                flowExecute.setFlowDefineId(flowDefine.getId());
-                //获取该项目该环节的执行情况
-                List<FlowExecute> flowExecutes2 = flowMangeService.findFlowExecute(flowExecute);
-                if (flowExecutes2 != null && flowExecutes2.size() > 0) {
-                    Integer s = flowExecutes2.get(0).getStatus();
-                    if (s == 1) {
-                        //已执行状态
-                        flowDefine.setStatus(1);
-                    } else if (s == 2) {
-                        //执行中状态
-                        flowDefine.setStatus(2);
-                    }
-                } else {
-                    if (flowDefine.getStep() == willStep) {
-                        //将要执行状态
-                        flowDefine.setStatus(4);
-                        map.put("url", flowDefine.getUrl()+"?projectId="+projectId+"&flowDefineId="+flowDefine.getId());
-                    } else {
-                        //未执行状态
-                        flowDefine.setStatus(3);
-                    }
-                }
-            }
-            if (flowExecutes.get(0).getStep() == fds.size()) {
-                fds.get(fds.size()-1).setStatus(4);
-                map.put("url", fds.get(fds.size()-1).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(fds.size()-1).getId());
-            }
-        } else {
-            //默认第一个为将要执行状态
-            fds.get(0).setStatus(4);
-            map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
-        }
-        if (map.get("url") == null || "".equals(map.get("url"))) {
-            fds.get(0).setStatus(4);
-            map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
-        }
-        map.put("fds", fds);
-        return map;
-    }
     
     
     @RequestMapping("/judgeNext")

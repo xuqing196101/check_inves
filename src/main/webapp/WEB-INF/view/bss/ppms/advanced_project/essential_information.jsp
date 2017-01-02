@@ -304,7 +304,7 @@
                     <tr>
                       <td class="bggrey">项目经办人:</td>
                      <td class="p0"><input type="hidden" name="userId" id="userId" value="${project.principal}"/><select id="principal" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select></td>
-                      <td class="bggrey">经办人手机:</td>
+                      <td class="bggrey">承办人手机:</td>
                       <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text"/></td>
                     </tr>
                     <tr>
@@ -413,7 +413,7 @@
               </div>
             </form>
           </div>
-          <div class="tab-pane fade " id="tab-2">
+          <div class="tab-pane fade over_scroll" id="tab-2">
             <table class="table table-bordered table-condensed mt5">
               <c:forEach items="${packageList }" var="pack" varStatus="p">
                 <div class="col-md-6 col-sm-6 col-xs-12 p0">
@@ -421,7 +421,7 @@
                   <span class="f14 blue">${pack.name }</span>
                 </div>
                 <input type="hidden" value="${pack.id }" />
-                <table class="table table-bordered table-condensed table-hover table-striped">
+                <table class="table table-bordered table-condensed table-hover table-striped table_wrap">
                   <thead>
                     <tr>
                       <th class="info w50">序号</th>

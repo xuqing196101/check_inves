@@ -37,6 +37,8 @@ public interface AdvancedPackageService {
      */
     void save(AdvancedPackages packages);
     
+    void saves(AdvancedPackages packages);
+    
     /**
      * 
      *〈删除〉

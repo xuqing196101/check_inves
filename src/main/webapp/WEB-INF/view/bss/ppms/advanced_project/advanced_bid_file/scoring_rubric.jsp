@@ -228,9 +228,9 @@
 								<td class="tc">${p.name}</td>
 								<td class="tc">
 									<c:forEach items="${ddList}" var="list" varStatus="vs">
-										<c:if test="${vs.index == p.bidMethodTypeName }"><a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a></c:if>
-										
-									</c:forEach>
+                    <c:if test="${vs.index == p.bidMethodTypeName }"><a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a></c:if>
+                    
+                  </c:forEach>
 								</td>
 								 <td class="tc">
 								   <c:if test="${p.isHaveScoreMethod == 1}">
@@ -241,7 +241,7 @@
 				                       <button class="btn" type="button" onclick="addScoreMethod('${p.id}','${projectId}')">选择评分方法</button>
 								   </c:if>
 								   
-								   <c:if test="${project.confirmfile == 1}">
+								   <c:if test="${project.confirmFile == 1}">
                                <button class="btn" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
                    </c:if>
 				                </td>

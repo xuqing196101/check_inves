@@ -23,7 +23,7 @@
   }); 
   
   function back(){
-    location.href = '${pageContext.request.contextPath}/project/list.html';
+    location.href = '${pageContext.request.contextPath}/advancedProject/list.html';
   }
   
   function jumpLoad(url, projectId){

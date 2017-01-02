@@ -10,47 +10,6 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
-      /*分页  */
-   /*    $(function() {
-        // 前台验证
-        $("#form1").validate({
-          rules: {
-            name: {
-              remote: {
-                type: "post",
-                url: "${pageContext.request.contextPath}/advancedProject/verify.html",
-                dataType: "json",
-                data: {
-                  name: function() {
-                    return $("#pic").val();
-                  }
-                }
-              }
-            },
-            projectNumber: {
-              remote: {
-                type: "post",
-                url: "${pageContext.request.contextPath}/advancedProject/verify.html",
-                dataType: "json",
-                data: {
-                  projectNumber: function() {
-                    return $("#pc").val();
-                  }
-                }
-              }
-            },
-          },
-          messages: {
-            name: {
-              remote: "<div class='cue'>该项目名称已存在</div>"
-            },
-            projectNumber: {
-              remote: "<div class='cue'>该项目编号已存在</div>"
-            },
-          }
-        });
-
-      }); */
       
       function check(ele){
         var flag = $(ele).prop("checked");
@@ -204,12 +163,9 @@
                     <tr class="tc">
                       <td class="tc w50">${obj.seq} <input type="hidden" id="planNo" name="planNo" value="${obj.planNo}"/></td>
                       <td class="tc">
-                        <c:if test="${obj.department == orgnization.id}">
-                          ${orgnization.name}
-                           <input type="hidden" id="orgName" name="orgName" value="${orgnization.name}"/>
-                            <input type="hidden" id="department" name="department" value="${obj.department}"/>
-                        </c:if>
-                        <input type="hidden" id="orgIds" name="organization" value="${obj.organization}"/>
+                          ${obj.department}
+                           <input type="hidden" id="orgName" name="department" value="${obj.department}"/>
+                        
                         <input type="hidden" id="id" name="id" value="${obj.id}"/>
                       </td>
                       <td class="tc">${obj.goodsName}</td>
@@ -233,6 +189,7 @@
                       <c:if test="${list2 != null}">
                         <c:forEach items="${list2}" var="list" varStatus="vs">
                           <c:if test="${obj.organization eq list.id}">${list.name}</c:if>
+                          <input type="hidden" id="orgIds" name="organization" value="${list.id}"/>
                         </c:forEach>
                         </c:if>
                       </td>

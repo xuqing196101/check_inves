@@ -37,6 +37,8 @@ public interface AdvancedPackageMapper {
      */
     int insertSelective(AdvancedPackages packages);
     
+    int insert(AdvancedPackages packages);
+    
     /**
      * 
      *〈删除〉
