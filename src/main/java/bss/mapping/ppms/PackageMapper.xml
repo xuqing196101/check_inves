@@ -304,7 +304,8 @@
 		MARK_TERM_TREE AS markTermTree,
 		PURCHASE_TYPE AS
 		purchaseType,
-		IS_IMPORT AS isImport
+		IS_IMPORT AS isImport,
+		IS_END_PRICE as isEndPrice
 		FROM
 		T_BSS_PPMS_PACKAGE
 		WHERE

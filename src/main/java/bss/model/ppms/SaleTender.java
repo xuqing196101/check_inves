@@ -188,6 +188,31 @@ public class SaleTender {
     //显示文件名称
     private String bidFileId;
     
+    /**
+     * 多次报价时间（查询报价历史的时候用得到）
+     */
+    private List<Date> dataList;
+    
+    private Integer isEndPrice;
+    
+    public Integer getIsEndPrice() {
+        return isEndPrice;
+    }
+
+
+    public void setIsEndPrice(Integer isEndPrice) {
+        this.isEndPrice = isEndPrice;
+    }
+
+
+    public List<Date> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<Date> dataList) {
+        this.dataList = dataList;
+    }
+    
     public String getBidFileId() {
         return bidFileId;
     }

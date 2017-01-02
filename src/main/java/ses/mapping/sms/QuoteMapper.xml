@@ -40,6 +40,9 @@
     <if test="productId != null and productId != '' ">
 	AND  PRODUCT_ID = #{productId,jdbcType=VARCHAR}
     </if>
+     <if test="createdAt != null and createdAt != '' ">
+	AND  CREATED_AT = #{createdAt,jdbcType=TIMESTAMP}
+    </if>
     ORDER BY CREATED_AT ASC
   </select>
   <!--查询报价次数  -->
@@ -48,6 +51,9 @@
   	
   	<if test="projectId != null and projectId != '' ">
 	AND  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+    </if>
+    <if test="packageId != null and packageId != '' ">
+	AND  PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
     </if>
     <if test="supplierId != null and supplierId != '' ">
 	AND  SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
@@ -59,6 +65,9 @@
   	SELECT 
   	 <include refid="Base_Column_List" />
   	  FROM "JDCG"."T_SES_SMS_SUPPLIER_QUOTE" where 1=1 
+     <if test="packageId != null and packageId != '' ">
+	AND  PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+    </if>
      <if test="packageId != null and packageId != '' ">
 	AND  PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
     </if>

@@ -95,6 +95,19 @@ public class Packages {
 	 */
 	private Integer isEndPrice;
 	
+	 /**
+     * 多次报价时间（查询报价历史的时候用得到）
+     */
+    private List<Date> dataList;
+    
+    public List<Date> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<Date> dataList) {
+        this.dataList = dataList;
+    }
+	
 	public BigDecimal getWonPrice() {
 		return wonPrice;
 	}

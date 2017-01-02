@@ -297,14 +297,23 @@ public class PackageExpertController {
     @RequestMapping("/toSupplierQuote")
     public String supplierQuote(HttpServletRequest req, String projectId, Model model, String flowDefineId) throws ParseException {
         boolean status = false;
+        Project project = projectService.selectById(projectId);
+        DictionaryData dd = null;
+        if (project != null && project.getPurchaseType() != null ){
+            dd = DictionaryDataUtil.findById(project.getPurchaseType());
+        }
         if (!status) {
             //去saletender查出项目对应的所有的包
             List<String> packageIds = saleTenderService.getPackageIds(projectId);
+            model.addAttribute("packageIds", packageIds);
             //这里用这个是因为hashMap是无序的
             TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
             SaleTender condition = new SaleTender();
             HashMap<String, Object> map = new HashMap<String, Object>();
             HashMap<String, Object> map1 = new HashMap<String, Object>();
+            Quote quotes = new Quote();
+            Quote quote2 = new Quote();
+            Quote quote3 = new Quote();
             if (packageIds != null) {
                 labe:for (String packageId : packageIds) {
                     condition.setProjectId(projectId);
@@ -320,20 +329,57 @@ public class PackageExpertController {
                         projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
                     }
                     //再次点击 查看
+                    quote3.setProjectId(projectId);
+                    quote3.setPackageId(packageId);
+                    List<Date> listDate1 = supplierQuoteService.selectQuoteCount(quote3);
+                    List<Quote> listQuotebyPackage1 = new ArrayList<Quote>();
+                    if (listDate1 != null && listDate1.size() > 1) {
+                      //给第二次报价的数据查到
+                        if ("JZXTP".equals(dd.getCode())) {
+                            quote2.setProjectId(projectId);
+                            quote2.setPackageId(packageId);
+                            quote2.setCreatedAt(new Timestamp(listDate1.get(listDate1.size()-1).getTime()));
+                            listQuotebyPackage1 = supplierQuoteService.selectQuoteHistoryList(quote2);
+                        }
+                    } 
+                    
                     for (SaleTender saleTender : stList) {
                         Quote quote = new Quote();
                         quote.setProjectId(projectId);
                         quote.setPackageId(packageId);
                         quote.setSupplierId(saleTender.getSupplierId());
+                        if (listDate1 != null && listDate1.size() > 0) {
+                            quote.setCreatedAt(new Timestamp(listDate1.get(0).getTime()));
+                        }
                         List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
                         if (allQuote != null && allQuote.size() > 0) {
                             if (allQuote.get(0).getQuotePrice() != null ) {
                                 status = true;
                                 break labe;
                             }
+                            
                             for (Quote conditionQuote : allQuote) {
                                 if (conditionQuote.getSupplier()!=null&&conditionQuote.getSupplier().getId().equals(saleTender.getSuppliers().getId()) &&
                                     conditionQuote.getProjectId().equals(saleTender.getProject().getId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
+                                    if ("JZXTP".equals(dd.getCode())) {
+                                      //给每条数据加入历史报价时间
+                                        quotes.setProjectId(projectId);
+                                        quotes.setPackageId(packageId);
+                                        List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
+                                        Collections.reverse(listDate);
+                                        saleTender.setDataList(listDate);
+                                    }
+                                    
+                                    for (Quote qp : listQuotebyPackage1) {
+                                        if (qp.getPackageId().equals(conditionQuote.getPackageId()) && qp.getSupplierId().equals(conditionQuote.getSupplierId())) {
+                                            conditionQuote.setTotal(qp.getTotal());
+                                            conditionQuote.setQuotePrice(qp.getQuotePrice());
+                                            conditionQuote.setRemark(qp.getRemark());
+                                            conditionQuote.setDeliveryTime(qp.getDeliveryTime());
+                                            conditionQuote.setIsTurnUp(qp.getIsTurnUp());
+                                        }
+                                    }
+                                    saleTender.setIsEndPrice(conditionQuote.getPackages().getIsEndPrice());
                                     saleTender.setTotal(conditionQuote.getTotal());
                                     saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
                                     saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
@@ -377,21 +423,47 @@ public class PackageExpertController {
                     listPackage.add(packages);
                 }
             }
+            model.addAttribute("packageIds", listPackage);
             //开始循环包
             List<HashMap<List<Supplier>,List<ProjectDetail>>> listPd = new ArrayList<HashMap<List<Supplier>,List<ProjectDetail>>>();
+            Quote quotes = new Quote();
+            Quote quote1 = new Quote();
             for (Packages pk:listPackage) {
+                
+                if ("JZXTP".equals(dd.getCode())) {
+                    //给每条数据加入历史报价时间
+                      quotes.setProjectId(projectId);
+                      quotes.setPackageId(pk.getId());
+                      List<Date> listDatebyPackage = supplierQuoteService.selectQuoteCount(quotes);
+                      Collections.reverse(listDatebyPackage);
+                      pk.setDataList(listDatebyPackage);
+                  }
+                
                 HashMap<List<Supplier>,List<ProjectDetail>> hashMap = new HashMap<List<Supplier>,List<ProjectDetail>>();
                 List<Supplier> supplierList = new ArrayList<Supplier>();
                 map1.put("packageId", pk.getId());
                 //
-                Quote quotes = new Quote();
                 quotes.setProjectId(projectId);
-                List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
+                quotes.setPackageId(pk.getId());
+                List<Date> listDate =  supplierQuoteService.selectQuoteCount(quotes);
+                List<Quote> listQuotebyPackage = new ArrayList<Quote>();
+                if (listDate !=null && listDate.size() > 0) {
+                    if ("JZXTP".equals(dd.getCode())) {
+                        quote1.setProjectId(projectId);
+                        quote1.setPackageId(pk.getId());
+                        quote1.setCreatedAt(new Timestamp(listDate.get(listDate.size()-1).getTime()));
+                        listQuotebyPackage = supplierQuoteService.selectQuoteHistoryList(quote1);
+                   } 
+                }
+                
                 List<ProjectDetail> detailList = null;
                 if (listDate.size() != 0) {
                     Quote quote=new Quote();
                     quote.setProjectId(projectId);
-                    quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1).getTime()));
+                    //list get(0)因为公开招标只有一次报价，又多次报价的  我在上面给最后一次报价的数据查询出来 然后替换  2.在这里加上时间 是因为多次报价后 会有多个重复的包存在 就会查询出冗余数据
+                    if (listDate != null && listDate.size() > 0) {
+                        quote.setCreatedAt(new Timestamp(listDate.get(0).getTime()));
+                    }
                     List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
                     detailList = detailService.selectByCondition(map1, null);
                     if (listQuote != null && listQuote.size() > 0 && detailList != null && detailList.size() > 0) {
@@ -399,6 +471,16 @@ public class PackageExpertController {
                     }
                     List<ProjectDetail> detailList1 = new ArrayList<ProjectDetail>();
                     for (Quote q : listQuote) {
+                        for (Quote qp : listQuotebyPackage) {
+                            if (qp.getPackageId().equals(q.getPackageId()) && qp.getSupplierId().equals(q.getSupplierId())) {
+                                q.setTotal(qp.getTotal());
+                                q.setQuotePrice(qp.getQuotePrice());
+                                q.setRemark(qp.getRemark());
+                                q.setDeliveryTime(qp.getDeliveryTime());
+                                q.setIsTurnUp(qp.getIsTurnUp());
+                            }
+                        }
+                        
                         for (ProjectDetail projectDetail : detailList) {
                             if (q.getProjectDetail().getId().equals(projectDetail.getId())) {
                                 ProjectDetail pd = new ProjectDetail();
@@ -447,75 +529,8 @@ public class PackageExpertController {
             model.addAttribute("projectId", projectId);
         }
         model.addAttribute("status", status);
-        return "bss/prms/supplier_quote/quote_list";
-    }
-
-    /**
-     *〈简述〉跳转供应商报价
-     *〈详细描述〉
-     * @author Ye MaoLin
-     * @param projectId 项目id
-     * @param model
-     * @param flowDefineId 
-     * @return
-     * @throws ParseException 处理异常
-     */
-    //@RequestMapping("/toSupplierQuote")
-    public String toSupplierQuote(HttpServletRequest req, String projectId, Model model, String flowDefineId) throws ParseException {
-        List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
-        List<Packages> packages = packageService.listResultExpert(projectId);
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("projectId", projectId);
-        List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
-        java.text.DecimalFormat df=new java.text.DecimalFormat("#.00");
-        for (SaleTender stender : supplierList) {
-            Quote qt = new Quote();
-            qt.setProjectId(projectId);
-            qt.setSupplierId(stender.getSuppliers().getId());
-            List<Date> listDate = supplierQuoteService.selectQuoteCount(qt);
-            List<Packages> listPackageEach = new ArrayList<Packages>();
-            SaleTender st = new SaleTender();
-            st.setProjectId(projectId);
-            st.setSupplierId(stender.getSuppliers().getId());
-            List<SaleTender> stList = saleTenderService.find(st);
-            if (stList != null && stList.size() > 0) {
-                String packageStr = stList.get(0).getPackages();
-                for (Packages packa : listPackage) {
-                    if (packageStr.indexOf(packa.getId()) != -1) {
-                        listPackageEach.add(packa);
-                    }
-                }
-            }
-            List<Money> listMoney = new ArrayList<Money>();
-            for (Packages pk:listPackageEach) {
-                Money money = new Money();
-                Quote quote = new Quote();
-                if(listDate != null && listDate.size() > 0){
-                    quote.setCreatedAt(new Timestamp(listDate.get(listDate.size()-1).getTime()));
-                    quote.setPackageId(pk.getId());
-                    List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
-                    BigDecimal totalMoney = BigDecimal.ZERO;
-                    for (Quote q : quoteList) {
-                        totalMoney = totalMoney.add(q.getTotal());
-                    }
-                    money.setPackageName(pk.getName());
-                    money.setTotalMoney(new BigDecimal(df.format(totalMoney)));
-                    money.setUpperName(CnUpperCaser.getCnString(totalMoney.doubleValue()));
-                }else{
-                    money.setPackageName(pk.getName());
-                    money.setTotalMoney(BigDecimal.ZERO);
-                    money.setUpperName(CnUpperCaser.getCnString(0));
-                }
-                listMoney.add(money);
-            }
-            stender.setMoney(listMoney);
-        }
-        //----
-        // 包信息
-        model.addAttribute("packageList", packages);
-        model.addAttribute("supplierList", supplierList);
-        model.addAttribute("projectId", projectId);
-        model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("project", project);
+        model.addAttribute("dd", dd);
         return "bss/prms/supplier_quote/quote_list";
     }
 

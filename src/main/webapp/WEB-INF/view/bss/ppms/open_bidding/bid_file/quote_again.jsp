@@ -10,6 +10,10 @@
 
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
+
+function back() {
+	$("#tab-3").load("${pageContext.request.contextPath}/packageExpert/toSupplierQuote.html?projectId=${projectId}&flowDefineId=${flowDefineId}");
+}
 	function update(obj, supplierId, packageId, projectId, quoteId){
 		var reg = /^\d+\.?\d*$/;
 		var flag = false;
@@ -40,8 +44,7 @@
 			url:"${pageContext.request.contextPath}/open_bidding/save.html?total=" + total +
 			 "&supplierId="+ supplierId+ "&deliveryTime="+ deliveryTime+ "&isTurnUp="+ isTurnUp + "&packageId="+ packageId + "&projectId="+ projectId+ "&quoteId="+ quoteId,
 			success:function(data){
-				//layer.msg("暂存成功",{offset: [y, x], shade:0.01});
-				window.location.reload();
+				window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}&flowDefineId=${flowDefineId}";
 			}
 		});
 	}
@@ -56,7 +59,7 @@
 		var allTable = document.getElementsByTagName("table");
 		var priceStr = "";
 		var count = 0;
-		for(var i = 1; i < allTable.length; i++) {
+		for(var i = 0; i < allTable.length; i++) {
 			for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
 				var total = $(allTable[i].rows).eq(j).find("td").eq("2").find("input").val();
 				var time = $(allTable[i].rows).eq(j).find("td").eq("3").find("input").val();
@@ -74,7 +77,7 @@
 			};
 		}
 		if (count == 0) {
-			for(var i = 1; i < allTable.length; i++) {
+			for(var i = 0; i < allTable.length; i++) {
 				for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
 					var inputObj = $(allTable[i].rows).eq(j).find("td").eq("0").find("input");
 					$(inputObj).click();	
@@ -144,46 +147,17 @@
 				<c:set value="${count+1 }" var="index"></c:set>
 				<tr>
 				    <td class="tc w50">${vs.index+1}
-				    	<c:if test="${empty treemapValue.total}">
-							<%-- <td class="tc hide"><span class="btn btn-windows git" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')">提交</span></td> --%>
 			    			<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')" />
-			    		</c:if>
 				    </td>
 				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
-					<c:if test="${not empty treemapValue.total}">
-				    	<td class="tc">${treemapValue.total}</td>
-				    	<td class="tc">${treemapValue.deliveryTime }</td>
-						<td class="tc">
-								<c:if test="${treemapValue.isTurnUp ==2 }">已到场</c:if>
-								<c:if test="${treemapValue.isTurnUp ==1 }">未到场</c:if>
-						</td>
-					</c:if>
-					
-					<c:if test="${empty treemapValue.total}">
-						<td class="tc"><input class="w60"  maxlength="16" /></td>
-						<td class="tc"><input class="w90"/></td>
-						<td class="tc">
-							<select>
-								<option>已到场</option>
-								<option>未到场</option>
-							</select>
-						</td>
-					</c:if>
-					<%-- <td>
-						  <c:if test="${empty treemapValue.bidFileName && empty treemapValue.total}">
-						    <c:if test="${fn:length(treemap.value) > 1}">
-								<u:upload id="${treemapValue.groupsUpload}" exts="txt,rar,zip,doc,docx" groups="${treemapValue.groupsUploadId}" buttonName="上传附件" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-								<u:show showId="${treemapValue.groupShow}" groups="${treemapValue.groupShowId}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" />
-						  	</c:if>
-						  	<c:if test="${fn:length(treemap.value) == 1}">
-								<u:upload id="${treemapValue.groupsUpload}" exts="txt,rar,zip,doc,docx" businessId="${treemapValue.id}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-								<u:show showId="${treemapValue.groupShow}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" />
-						  	</c:if>
-						  </c:if>
-						  <c:if test="${not empty treemapValue.bidFileName}">
-								<a class="mt3 color7171C6" href="javascript:download('${treemapValue.bidFileId}', '${sysKey}')">${treemapValue.bidFileName}</a>							
-						  </c:if>
-					</td> --%>
+					<td class="tc"><input class="w60"  maxlength="16" /></td>
+					<td class="tc"><input class="w90" value=""/></td>
+					<td class="tc">
+						<select>
+							<option>已到场</option>
+							<option>未到场</option>
+						</select>
+					</td>
 			    </tr>
 		</c:forEach>
 		</table>
@@ -191,9 +165,8 @@
 	</c:forEach>
 </c:forEach>
 		<div class="col-md-12 tc">
-		   <c:if test="${flag == false }">
 			<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
-		   </c:if>
+			<input class="btn btn-windows reset" value="返回" type="button" onclick="history.go(-1)">
 		</div>
 </div>
 </body>
