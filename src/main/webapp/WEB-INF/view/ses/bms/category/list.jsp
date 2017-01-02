@@ -544,6 +544,17 @@
  		return treeNode;
  	}
  }
+ 
+ function viewIQua(){
+ 	layer.tips($("#profileIQuaName").val(), "#profileIQuaName", {
+	  tips: 3
+	});
+ }
+ function viewSales(){
+ 	layer.tips($("#profileSalesName").val(), "#profileSalesName", {
+	  tips: 3
+	});
+ }
 </script>
 
 </head>
@@ -610,7 +621,7 @@
        			  <td>
        				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" >
        				  <input id="generalIQuaId" type="hidden" name="generalQuaIds" />
-       				  <input id="generalIQuaName" readonly="readonly" type="text" name='generalQuaNames' onclick="openLayer(1);" />
+       				  <input id="generalIQuaName" readonly="readonly" type="text" name='generalQuaNames' onclick="openLayer(1);"/>
        				  <span class="add-on">i</span>
        				</div>
        				  <span id="posTipsId" class="red clear span_style" />
@@ -628,7 +639,7 @@
        			  <td>
        				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" >
        				  <input id="profileIQuaId" type="hidden" name="profileQuaIds" />
-       				  <input id="profileIQuaName" readonly="readonly" type="text" name='profileQuaNames' onclick="openLayer(2);" />
+       				  <input id="profileIQuaName" onmouseover="viewIQua();" onmouseout="viewIQua();" readonly="readonly" type="text" name='profileQuaNames' onclick="openLayer(2);" />
        				  <span class="add-on">i</span>
        				</div>
        				  <span id="posTipsId" class="red clear span_style" />
@@ -639,7 +650,7 @@
        			  <td>
        				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" >
        				  <input id="profileSalesId" type="hidden" name="profileSalesIds" />
-       				  <input id="profileSalesName" readonly="readonly" type="text" name='profileSalesNames' onclick="openLayer(3);" />
+       				  <input id="profileSalesName" onmouseover="viewSales();" onmouseout="viewSales();" readonly="readonly" type="text" name='profileSalesNames' onclick="openLayer(3);" />
        				  <span class="add-on">i</span>
        				</div>
        				  <span id="posTipsId" class="red clear span_style" />
