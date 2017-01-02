@@ -323,10 +323,10 @@
 							<c:set value="${post.name}" var="name"></c:set>
 							<c:set value="${fn:length(name)}" var="length"></c:set>
 							<c:if test="${length>10}">
-								<td onclick="view('${post.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut()">${fn:substring(name,0,10)}...</td>
+								<td onclick="view('${post.id}')" class="pointer" title="${name }">${fn:substring(name,0,10)}...</td>
 							</c:if>
 							<c:if test="${length<=10}">
-								<td onclick="view('${post.id}')" class="pointer">${name } </td>
+								<td onclick="view('${post.id}')" class="pointer" title="${name }">${name } </td>
 							</c:if>
 							<c:if test="${post.isTop == 0 ||post.isTop == ''||post.isTop == null }">
 								<td class="tc pointer" onclick="view('${post.id}')">否</td>

@@ -558,9 +558,9 @@ public class PurchaserExamController extends BaseSupplierController{
 				String[] opt = item.split(",");
 				for(int i=3;i<row.getPhysicalNumberOfCells();i++){
 					if(row.getCell(j).toString().indexOf(".")>-1){
-						sb_items.append(opt[j-3]+"."+row.getCell(j).toString().substring(0, row.getCell(j).toString().indexOf("."))+";");
+						sb_items.append(opt[i-3]+"."+row.getCell(i).toString().substring(0, row.getCell(i).toString().indexOf("."))+";");
 					}else{
-						sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+						sb_items.append(opt[i-3]+"."+row.getCell(i).toString()+";");
 					}
 				}
 				examQuestion.setItems(sb_items.toString());

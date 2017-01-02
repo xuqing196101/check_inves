@@ -175,7 +175,7 @@
 
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试开始时间：</span>
-							<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
+							<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0 input_group">
 								<input type="text" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" />
 								<div class="cue">${ERR_startTime }</div>
 							</div>
@@ -183,7 +183,7 @@
 
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试截止时间：</span>
-							<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
+							<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0 input_group">
 								<input type="text" value="${offTime }" name="offTime" id="offTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" />
 								<div class="cue">${ERR_offTime }</div>
 							</div>
