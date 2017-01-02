@@ -155,6 +155,44 @@
           });
         }
       }
+      
+      function quxiaoaudit() {
+          var applys = [];
+          var ids = [];
+          var flag = true;
+          $('input[name="chkItem"]:checked').each(function() {
+            ids.push($(this).val());
+            applys.push($(this).parent().next().text());
+          });
+          if(ids.length > 0) {
+        	for(var i=0;i<applys.length;i++){
+        		if(applys[i]!='2'){
+        			flag=false;
+        		}
+        	}
+        	if(flag){
+            layer.confirm('您确定要取消发布吗?', {
+              title: '提示',
+              offset: ['222px', '360px'],
+              shade: 0.01
+            }, function(index) {
+              layer.close(index);
+              window.location.href = "${pageContext.request.contextPath }/article/withdraw.html?ids=" + ids;
+            });
+        	}else{
+        		layer.alert("只可取消已发布的信息", {
+                    offset: ['222px', '390px'],
+                    shade: 0.01
+                  });
+        	}
+
+          } else {
+            layer.alert("请选择要取消发布的信息", {
+              offset: '222px',
+              shade: 0.01
+            });
+          }
+        }
     </script>
 
   </head>
@@ -225,6 +263,7 @@
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows check" type="button" onclick="audit()">发布</button>
         <button class="btn btn-windows edit" type="button" onclick="edit()">编辑</button>
+        <button class="btn" type="button" onclick="quxiaoaudit()">取消发布</button>
       </div>
 
       <div class="content table_box">
@@ -232,6 +271,7 @@
           <thead>
             <tr>
               <th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+              <th class="tnone"></th>
               <th class="info">序号</th>
               <th class="info">信息标题</th>
               <th class="info">发布范围</th>
@@ -244,6 +284,7 @@
           <c:forEach items="${list.list}" var="article" varStatus="vs">
             <tr class="pointer">
               <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
+              <td class="tnone">${article.status }</td>
               <td class="tc" onclick="view('${article.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <c:if test="${fn:length(article.name)>30}">
                 <td class="tl pl20" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,30)}...</td>

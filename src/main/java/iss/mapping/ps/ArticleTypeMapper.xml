@@ -90,6 +90,7 @@
     <include refid="ArticleType_Column_List" />
     from T_ISS_PS_ARTICLE_TYPE
     where PARENT_ID = #{parentId}
+    order by id
   </select>
   
   <select id="selectShowNumByParId" parameterType="java.lang.String" resultMap="ArticleTypeMapper">

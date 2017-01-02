@@ -85,7 +85,13 @@ public class ArticleController extends BaseSupplierController{
    * @return String
    */
   @RequestMapping("/getAll")
-  public String getAll(Model model,Integer page){
+  public String getAll(Model model,Integer page,HttpServletRequest request){
+	String saveNews = request.getParameter("news");
+	if(saveNews!=null){
+	if(saveNews.equals("1")){
+		model.addAttribute("saveNews", saveNews);
+	}
+	}
     List<Article> list = articleService.selectAllArticle(null, page==null?1:page);
     model.addAttribute("list", new PageInfo<Article>(list));
     logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
@@ -258,7 +264,7 @@ public class ArticleController extends BaseSupplierController{
       article.setShowCount(0);
       article.setDownloadCount(0);
       articleService.addArticle(article);
-      url = "redirect:getAll.html";
+      url = "redirect:getAll.html?news=1";
     }
     return url;
   }
@@ -556,7 +562,7 @@ public class ArticleController extends BaseSupplierController{
     }
     article.setUpdatedAt(new Date());
     articleService.update(article);
-    return "redirect:getAll.html";
+    return "redirect:getAll.html?news=1";
   }
 
   /**

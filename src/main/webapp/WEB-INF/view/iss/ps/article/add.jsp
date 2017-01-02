@@ -450,7 +450,7 @@
           </ul>
 
           <div class="col-md-12 tc">
-            <button class="btn btn-windows save" type="submit">保存</button>
+            <button class="btn btn-windows save" type="submit">暂存</button>
             <button class="btn btn-windows save" type="button" onclick="tijiao()">提交</button>
             <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
           </div>

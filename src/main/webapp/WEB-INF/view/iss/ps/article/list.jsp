@@ -10,6 +10,14 @@
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <script type="text/javascript">
       $(function() {
+    	var saveNews="${saveNews}";
+    	if(saveNews=='1'){
+    		layer.alert("保存成功", {
+                offset: ['222px', '390px'],
+                width: '200px',
+                shade: 0.01
+              });
+    	}
         laypage({
           cont: $("#pagediv"), 
           pages: "${list.pages}", 
@@ -120,10 +128,19 @@
 
       function del() {
         var ids = [];
+        var status = [];
+        var flag = true;
         $('input[name="chkItem"]:checked').each(function() {
           ids.push($(this).val());
+          status.push($(this).parent().next().text());
         });
         if(ids.length > 0) {
+        for(var i=0;i<status.length;i++){
+        	if(status[i]=='1'||status=='2'){
+        		flag=false;
+        	}
+        }
+        if(flag){
           layer.confirm('您确定要删除吗?', {
             title: '提示',
             offset: ['222px', '360px'],
@@ -132,6 +149,12 @@
             layer.close(index);
             window.location.href = "${ pageContext.request.contextPath }/article/delete.html?ids=" + ids;
           });
+        }else{
+        	layer.alert("不可删除已发布或已提交的信息", {
+                offset: ['180px', '200px'],
+                shade: 0.01,
+              });
+        }
         } else {
           layer.alert("请选择要删除的信息", {
             offset: ['222px', '390px'],
@@ -305,13 +328,14 @@
 
       function editor() {
         var id = [];
+        var status = "";
         $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
+          status=$(this).parent().next().text();
         });
-        var editor = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
         if(id.length == 1) {
-          if($.trim(editor) == "发布") {
-            layer.alert("请先撤回发布信息", {
+          if(status=='2' || status=='1') {
+            layer.alert("不可修改已发布或已提交的信息", {
               offset: ['180px', '200px'],
               shade: 0.01,
             });
@@ -416,14 +440,15 @@
         <button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
         <button class="btn btn-windows git" type="button" onclick="sub()">提交</button>
         <%-- <button class="btn btn-windows apply" type="button" onclick="apply()">发布</button> --%>
-        <button class="btn btn-windows withdraw" type="button" onclick="withdraw()">取消发布</button>
-      </div>
+        <%--<button class="btn btn-windows withdraw" type="button" onclick="withdraw()">撤回</button>
+      --%></div>
 
       <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr>
               <th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+              <th class="tnone"></th>
               <th class="info">序号</th>
               <th class="info">信息标题</th>
               <th class="info">发布范围</th>
@@ -436,6 +461,7 @@
           <c:forEach items="${list.list}" var="article" varStatus="vs">
             <tr class="pointer">
               <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
+              <td class="tnone">${article.status}</td>
               <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 
               <c:if test="${fn:length(article.name)>30}">
