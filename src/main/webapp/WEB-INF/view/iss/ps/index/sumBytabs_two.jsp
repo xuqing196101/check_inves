@@ -6,26 +6,30 @@
 <jsp:include page="/index_head.jsp"></jsp:include>
 <script type="text/javascript">
 $(function(){
-	  laypage({
-		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: "${pages}", //总页数
-		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    skip: true, //是否开启跳页
-		    groups: "${pages}">=3?3:"${pages}", //连续显示分页数
-    		total: "${total}",
-		    startRow: "${startRow}",
-		    endRow : "${endRow}",
-		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-		        var page = location.search.match(/page=(\d+)/);
-		        return page ? page[1] : 1;
-		    }(), 
-		    jump: function(e, first){ //触发分页后的回调
-		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        	var articleTypeId = "${articleTypeId}";
-		            location.href = "${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?page="+e.curr+"&id="+articleTypeId;
-		        }
-		    }
-		});
+	laypage({
+	    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+	    pages: "${list.pages}", //总页数
+	    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+	    skip: true, //是否开启跳页
+	    total: "${list.total}",
+	    startRow: "${list.startRow}",
+	    endRow: "${list.endRow}",
+	    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+	    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+	        var page = location.search.match(/page=(\d+)/);
+	        return page ? page[1] : 1;
+	    }(), 
+	    jump: function(e, first){ //触发分页后的回调
+	        if(!first){ //一定要加此判断，否则初始时会无限刷新
+	        	var id = "${id}";
+	        	var id2 = "${id2}";
+	        	var id3 = "${id3}";
+	        	var id4 = "${id4}";
+	      		window.location.href="${pageContext.request.contextPath}/index/selectAllByTabs.html?page="+e.curr
+	      				+"&id="+id+"&id2="+id2+"&id3="+id3+"&id4="+id4;
+	        }
+	    }
+	});
 });
 </script>
 </head>
@@ -35,17 +39,12 @@ $(function(){
    <div class="margin-top-10 breadcrumbs">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="${pageContext.request.contextPath}/index/selectIndexNews.html"> 首页</a></li><li><a href="#">${typeName}</a></li>
+		   <li><a href="${pageContext.request.contextPath}/index/selectIndexNews.html"> 首页</a></li><li><a href="#">信息公告</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
-
   <div class="container content job-content ">
-      <div class="search_box col-md-12 col-sm-12 col-xs-12">
-         	<input name="title" type="text"/>
-        	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
-      </div>
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
             <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
           		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">标题</div>

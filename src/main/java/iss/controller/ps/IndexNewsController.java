@@ -2,6 +2,7 @@
 package iss.controller.ps;
 
 import gui.ava.html.image.generator.HtmlImageGenerator;
+import iss.dao.ps.ArticleMapper;
 import iss.model.ps.Article;
 import iss.model.ps.ArticleAttachments;
 import iss.model.ps.ArticleType;
@@ -280,6 +281,11 @@ public class IndexNewsController extends BaseSupplierController{
 		List<Article> article18List = articleService.selectArticleByParId(map);
 		indexMapper.put("select18List", article18List);
 		map.clear();
+		String idAr[] = {"3","8","13","18"};
+		map.put("idArray", idAr);
+		List<Article> cjList = articleService.selectAllByTab(map);
+		indexMapper.put("cjList", cjList);
+		map.clear();
 		map.put("parId","24");
 		List<Article> article24List = articleService.selectArticleByParId(map);
 		indexMapper.put("select24List", article24List);
@@ -295,6 +301,11 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("parId","39");
 		List<Article> article39List = articleService.selectArticleByParId(map);
 		indexMapper.put("select39List", article39List);
+		map.clear();
+		String idAr1[] = {"24","29","34","39"};
+		map.put("idArray", idAr1);
+		List<Article> cbList = articleService.selectAllByTab(map);
+		indexMapper.put("cbList", cbList);
 		map.clear();
 		map.put("parId","46");
 		List<Article> article46List = articleService.selectArticleByParId(map);
@@ -312,6 +323,11 @@ public class IndexNewsController extends BaseSupplierController{
 		List<Article> article61List = articleService.selectArticleByParId(map);
 		indexMapper.put("select61List", article61List);
 		map.clear();
+		String idAr2[] = {"46","51","56","61"};
+		map.put("idArray", idAr2);
+		List<Article> czList = articleService.selectAllByTab(map);
+		indexMapper.put("czList", czList);
+		map.clear();
 		map.put("parId","67");
 		List<Article> article67List = articleService.selectArticleByParId(map);
 		indexMapper.put("select67List", article67List);
@@ -327,6 +343,11 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("parId","82");
 		List<Article> article82List = articleService.selectArticleByParId(map);
 		indexMapper.put("select82List", article82List);
+		map.clear();
+		String idAr3[] = {"67","72","77","82"};
+		map.put("idArray", idAr3);
+		List<Article> bzList = articleService.selectAllByTab(map);
+		indexMapper.put("bzList", bzList);
 		map.clear();
 		map.put("typeId","89");
 		List<Article> article89List = articleService.selectArticleByArticleType(map);
@@ -344,6 +365,11 @@ public class IndexNewsController extends BaseSupplierController{
 		List<Article> article92List = articleService.selectArticleByArticleType(map);
 		indexMapper.put("select92List", article92List);
 		map.clear();
+		String idAr4[] = {"89","90","91","92"};
+		map.put("idArray", idAr4);
+		List<Article> jdList = articleService.selectAllByTab(map);
+		indexMapper.put("jdList", jdList);
+		map.clear();
 		map.put("typeId","94");
 		List<Article> article94List = articleService.selectArticleByArticleType(map);
 		indexMapper.put("select94List", article94List);
@@ -359,6 +385,11 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("typeId","97");
 		List<Article> article97List = articleService.selectArticleByArticleType(map);
 		indexMapper.put("select97List", article97List);
+		map.clear();
+		String idAr5[] = {"94","95","96","97"};
+		map.put("idArray", idAr5);
+		List<Article> bdList = articleService.selectAllByTab(map);
+		indexMapper.put("bdList", bdList);
 		map.clear();
 		map.put("typeId","103");
 		List<Article> article103List = articleService.selectArticleByArticleType(map);
@@ -1260,5 +1291,32 @@ public class IndexNewsController extends BaseSupplierController{
               }
         }  
        
+	}
+	
+	@RequestMapping("/selectAllByTabs")
+	public String selectAllByTabs(Model model,HttpServletRequest request,Integer page){
+		String[] idArray = new String[4];
+		if(page==null){
+			page=1;
+		}
+		String id1 = request.getParameter("id");
+		String id2 = request.getParameter("id2");
+		String id3 = request.getParameter("id3");
+		String id4 = request.getParameter("id4");
+		idArray[0] = id1;
+		idArray[1] = id2;
+		idArray[2] = id3;
+		idArray[3] = id4;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("idArray", idArray);
+		map.put("page", page);
+		List<Article> indexList = articleService.selectAllByTabs(map);
+		model.addAttribute("indexList", indexList);
+		model.addAttribute("list", new PageInfo<Article>(indexList));
+		model.addAttribute("id2", id2);
+		model.addAttribute("id3", id3);
+		model.addAttribute("id4", id4);
+		model.addAttribute("id", id1);
+		return "iss/ps/index/sumBytabs_two";
 	}
 }

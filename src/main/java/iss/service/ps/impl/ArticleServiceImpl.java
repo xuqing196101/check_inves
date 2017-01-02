@@ -441,4 +441,16 @@ public class ArticleServiceImpl implements ArticleService {
 			indexMapper.put("select109List", article109List);
 			return indexMapper;
 		}
+
+	@Override
+	public List<Article> selectAllByTab(Map<String, Object> map) {
+		return articleMapper.selectAllByTab(map);
+	}
+
+	@Override
+	public List<Article> selectAllByTabs(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return articleMapper.selectAllByTabs(map);
+	}
 }

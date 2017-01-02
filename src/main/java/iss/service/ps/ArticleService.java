@@ -311,4 +311,8 @@ public interface ArticleService {
     List<Article>  selectListByTitle(String title, Integer page);
     
     Map<String, Object> topNews();
+    
+    List<Article> selectAllByTab(Map<String, Object> map);
+    
+    List<Article> selectAllByTabs(Map<String, Object> map);
 }

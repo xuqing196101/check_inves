@@ -765,4 +765,55 @@ and status = 2
     WHERE IS_DELETED = 0
     AND NAME like CONCAT(CONCAT('%', #{name}), '%')
   </select>
+  
+  <select id="selectAllByTab" parameterType="Map" resultMap="ArticleMapper">
+  	select * from (
+	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+		LAST_ARTICLE_TYPE_ID in 
+		(SELECT
+					ID
+				FROM
+					T_ISS_PS_ARTICLE_TYPE
+				WHERE
+					PARENT_ID in 
+			<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    			#{item}
+   			</foreach>
+		)
+		and IS_DELETED = 0
+	AND status = 2
+	ORDER BY
+		PUBLISHED_AT DESC
+) where 1=1
+and ROWNUM &lt;=10
+  </select>
+  
+  <select id="selectAllByTabs" parameterType="Map" resultMap="ArticleMapper">
+  	select * from (
+	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+		LAST_ARTICLE_TYPE_ID in 
+		(SELECT
+					ID
+				FROM
+					T_ISS_PS_ARTICLE_TYPE
+				WHERE
+					PARENT_ID in 
+			<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    			#{item}
+   			</foreach>
+		)
+		and IS_DELETED = 0
+	AND status = 2
+	ORDER BY
+		PUBLISHED_AT DESC
+) where 1=1
+  </select>
 </mapper>

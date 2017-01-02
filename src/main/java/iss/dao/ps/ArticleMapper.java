@@ -323,4 +323,8 @@ public interface ArticleMapper {
 	 * @return
 	 */
     List<Article> selectListByTitle(@Param("name")String name);
+    
+    List<Article> selectAllByTab(Map<String, Object> map);
+    
+    List<Article> selectAllByTabs(Map<String, Object> map);
 }
