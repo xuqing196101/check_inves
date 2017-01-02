@@ -214,12 +214,14 @@
 							<td>${obj.deliverDate } </td>
 							
 							<td class="p0">
+							<c:if test="${obj.purchaseCount!=null }"> 
 							<select onchange="sel(this)" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
-	                              
 									 <c:forEach items="${kind}" var="kind" >
-                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
-                        </c:forEach>
+			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
+			                        </c:forEach>
 			                </select>
+			                
+			                </c:if>
 							</td>
 							<td class="tc">
 							<c:if test="${obj.purchaseCount!=null }"> 

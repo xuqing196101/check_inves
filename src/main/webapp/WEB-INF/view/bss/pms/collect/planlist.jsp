@@ -422,14 +422,24 @@
 									   第一轮审核
 								</c:if>
 								
-								<c:if test="${obj.status == 2 && obj.auditTurn == 2}">
+								<c:if test="${obj.status == 12 && obj.auditTurn == 2}">
 								 	   第二轮审核
 								</c:if>
+								
+								
+							   <c:if test="${obj.status == 2 && obj.auditTurn == 2}">
+								 	   第二轮审核
+								</c:if>
+								
+								
 								
 								<c:if test="${obj.status == 2 && obj.auditTurn == 3}">
 								 	  第三轮审核
 								</c:if>
 								
+									<c:if test="${obj.status == 12 && obj.auditTurn == 3}">
+								 	  第三轮审核
+								</c:if>
 							<%--    <c:if test="${obj.status == 2 && obj.auditTurn == null}">
 								 	  第三轮审核
 								</c:if> --%>

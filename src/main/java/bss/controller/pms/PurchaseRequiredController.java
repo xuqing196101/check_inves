@@ -40,8 +40,10 @@ import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
 import bss.controller.base.BaseController;
@@ -85,6 +87,9 @@ public class PurchaseRequiredController extends BaseController{
 	
 	@Autowired
 	private DictionaryDataMapper dictionaryDataMapper;
+	
+	@Autowired
+	private PurchaseOrgnizationServiceI purchserOrgnaztionService;
 	/**
 	 * 
 	* @Title: queryPlan
@@ -128,9 +133,10 @@ public class PurchaseRequiredController extends BaseController{
 		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
 		model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
 		model.addAttribute("list", list);
-		Map<String,Object> map=new HashMap<String,Object>();
-		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
-		model.addAttribute("requires", requires);
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("typeName", "1");
+		List<PurchaseDep> list2 = purchserOrgnaztionService.findPurchaseDepList(map);
+		model.addAttribute("requires", list2);
 		
 		if(type.equals("1")){
 			return "bss/pms/purchaserequird/view";
@@ -548,10 +554,15 @@ public class PurchaseRequiredController extends BaseController{
 	@ResponseBody
 	public void delete(HttpServletRequest request){
 		String planNo = request.getParameter("planNo");
-		String[] no = planNo.split(",");
-		for(int i=0;i<no.length;i++){
-			purchaseRequiredService.delete(no[i]);
-		}
+
+			PurchaseRequired p=new PurchaseRequired();
+			p.setUniqueId(planNo.trim());
+			List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
+			for(PurchaseRequired pr:list){
+				purchaseRequiredService.delete(pr.getId());
+			}
+	 
+		
 	}
 	
 	/**

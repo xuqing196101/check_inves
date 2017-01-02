@@ -317,12 +317,6 @@ public class ExcelUtil {
 	        			 if(cell.getColumnIndex()==11){
 	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
 	        					 String str = cell.getStringCellValue();
-	        					 if(!str.equals("公开招标")){
-	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行L列错误，目前只允许公开招标!";
-			        				 map.put("errMsg", errMsg); 
-//			        				 continue;
-			        				 bool=false;
-	        					 }
 	        					 rq.setPurchaseType(str);
 	        				 }else if(cell.getCellType()!=3){
 	        					 errMsg=String.valueOf(row.getRowNum()+1)+"L行列错误，非文本格式!";

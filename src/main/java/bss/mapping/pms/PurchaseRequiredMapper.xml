@@ -726,7 +726,7 @@
 	
 		update T_BSS_PMS_PURCHASE_REQUIRED
 			set IS_DELETE='1'
-			where HISTORY_STATUS='0' and PLAN_NO=#{planNo}
+			where HISTORY_STATUS='0'  and UNIQUE_ID =#{planNo}
 		
 	</update>
 	

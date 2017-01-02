@@ -98,17 +98,14 @@
 			});
 			if(id.length>0){
 				layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-					layer.close(index);
 				 	$.ajax({
 		 			 	url:"${pageContext.request.contextPath}/purchaser/delete.html?planNo="+id,
 		 			 	type:"post",
 		 			 	success:function(){
-		 					layer.msg('删除成功', {
-								offset: ['40%', '45%']
-							});
-							window.setTimeout(function() {
+		 					layer.msg('删除成功', { offset: ['40%', '45%'] });
+						/* 	window.setTimeout(function() { */
 								window.location.reload();
-							}, 500);
+						/* 	}, 500); */
 		 			 	}
 		 		 });
 				});
@@ -176,7 +173,8 @@
 	
 	function sub(){
 		var id=[]; 
-		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(7).text();
+		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
+		
 		status = $.trim(status);
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
@@ -267,7 +265,7 @@
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">计划名称</th>
-		  <th class="info">计划编号</th>
+		  <th class="info">计划文号</th>
 		  <th class="info">金额（万元）</th>
 		  <th class="info">编制时间</th>
 	<!-- 	  <th class="info">完成时间</th> -->
@@ -286,7 +284,7 @@
 			  	${obj.planName }
 				</td>
 		      <td class="tl pl20" onclick="view('${obj.uniqueId }')">
-		      ${obj.planNo }
+		      ${obj.referenceNo }
 			  <%-- <td class="pl20">
 			     <div onclick="view('${obj.planNo }')">${obj.planName }</div>
 			  </td> --%>

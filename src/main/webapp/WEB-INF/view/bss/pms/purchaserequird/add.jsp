@@ -113,48 +113,48 @@
 						var s = detailRow.length;
 						// var trs = $(obj).parent().parent();
 						if(detailRow.length==0){
-							$("#detailZeroRow").html("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + 0 + "].id' />" +
-									"<input type='text' name='list[" + 0 + "].seq' /></td>" +
-									"<td name='department'><input type='text' name='list[" + 0 + "].department'  value='"+value+"'/></td>" +
-									"<td><input type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
-									"<td><input type='text' name='list[" + 0 + "].stand' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].qualitStand' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].item' /> </td>" +
-									"<td name='purchaseQuantity'><input type='text' name='list[" + 0 + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
-									"<td name='unitPrice'><input type='text' name='list[" + 0 + "].price' onkeyup='checkNum(this,2)'/></td>" +
-									"<td><input type='text' name='list[" + 0 + "].budget' readonly='readonly' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].deliverDate' /></td>" +
-									"<td><select name='list[" + 0 + "].purchaseType' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
+							$("#detailZeroRow").html("<tr name='detailRow' class='tc w50 p0'><td><input type='hidden' name='list[" + 0 + "].id' />" +
+									"<input class='m0 w50' type='text' name='list[" + 0 + "].seq' /></td>" +
+									"<td class='w100'  name='department'><input class='m0 w100'  type='text' name='list[" + 0 + "].department'  value=''/></td>" +
+									"<td class='ww00' ><input class='m0 w200' type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
+									"<td class='w100'  ><input class='m0 w100' type='text' name='list[" + 0 + "].stand' /></td>" +
+									"<td class='w80' ><input class='m0 w100' type='text' name='list[" + 0 + "].qualitStand' /></td>" +
+									"<td class='w80' ><input class='m0 w100' type='text' name='list[" + 0 + "].item' /> </td>" +
+									"<td class='w80'  name='purchaseQuantity'><input class='m0 w80' type='text' name='list[" + 0 + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
+									"<td class='w80' name='unitPrice'><input class='m0 w80' type='text' name='list[" + 0 + "].price' onkeyup='checkNum(this,2)'/></td>" +
+									"<td class='w80' ><input type='text' class='m0 w80'  name='list[" + 0 + "].budget' readonly='readonly' /></td>" +
+									"<td class='w100' ><input type='text' class='m0' name='list[" + 0 + "].deliverDate' /></td>" +
+									"<td class='w120'><select name='list[" + 0 + "].purchaseType' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
 									" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
-									"<td><input type='text' name='list[" + 0 + "].supplier' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].isFreeTax' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].goodsUse' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].useUnit' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].memo' /></td>" +
+									"<td class='w200' ><input type='text' name='list[" + 0 + "].supplier' /></td>" +
+									"<td class='w80' ><input type='text' name='list[" + 0 + "].isFreeTax' /></td>" +
+									"<td class='w200' ><input type='text' name='list[" + 0 + "].goodsUse' /></td>" +
+									"<td class='w200'  ><input type='text' name='list[" + 0 + "].useUnit' /></td>" +
+									"<td class='w200'  ><input type='text' name='list[" + 0 + "].memo' /></td>" +
 								/* 	"<td><input type='text' name='list[" + 0 + "].status' value='暂存' readonly='readonly' /></td>" + */
-									"<td><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
+									"<td class='w100'  ><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 									"<tr/>");
 						}else{
 						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + s + "].id' />" +
-							"<input type='text' name='list[" + s + "].seq' /></td>" +
-							"<td name='department'><input type='text' name='list[" + s + "].department' readonly='readonly' value='"+value+"'/></td>" +
-							"<td><input type='text' name='list[" + s + "].goodsName' onkeyup='listName(this)'/></td>" +
-							"<td><input type='text' name='list[" + s + "].stand' /></td>" +
-							"<td><input type='text' name='list[" + s + "].qualitStand' /></td>" +
-							"<td><input type='text' name='list[" + s + "].item' /> </td>" +
-							"<td name='purchaseQuantity'><input type='text' name='list[" + s + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
-							"<td name='unitPrice'><input type='text' name='list[" + s + "].price' onkeyup='checkNum(this,2)'/></td>" +
-							"<td><input type='text' name='list[" + s + "].budget' readonly='readonly' /></td>" +
-							"<td><input type='text' name='list[" + s + "].deliverDate' /></td>" +
-							"<td><select name='list[" + s + "].purchaseType' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
+							"<input  class='m0 w50'  type='text' name='list[" + s + "].seq' /></td>" +
+							"<td class='w100'  name='department'><input   class='m0 w100'  type='text' name='list[" + s + "].department' readonly='readonly' value=''/></td>" +
+							"<td  class='ww00' ><input class='m0 w200' type='text' name='list[" + s + "].goodsName' onkeyup='listName(this)'/></td>" +
+							"<td  class='ww00' ><input class='m0 w100' type='text' name='list[" + s + "].stand' /></td>" +
+							"<td  class='w80' ><input class='m0 w200' type='text' name='list[" + s + "].qualitStand' /></td>" +
+							"<td class='w80' ><input  class='m0 w80'  type='text' name='list[" + s + "].item' /> </td>" +
+							"<td class='w80' name='purchaseQuantity'><input class='m0 w80'   type='text' name='list[" + s + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
+							"<td class='w80' name='unitPrice'><input class='m0 w80'   type='text' name='list[" + s + "].price' onkeyup='checkNum(this,2)'/></td>" +
+							"<td class='w80' ><input type='text' class='m0 w80'  name='list[" + s + "].budget' readonly='readonly' /></td>" +
+							"<td class='w100' ><input lass='m0' type='text' name='list[" + s + "].deliverDate' /></td>" +
+							"<td  class='w120' ><select class='pt m0' name='list[" + s + "].purchaseType' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
 							" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
-							"<td><input type='text' name='list[" + s + "].supplier' /></td>" +
-							"<td><input type='text' name='list[" + s + "].isFreeTax' /></td>" +
-							"<td><input type='text' name='list[" + s + "].goodsUse' /></td>" +
-							"<td><input type='text' name='list[" + s + "].useUnit' /></td>" +
-							"<td><input type='text' name='list[" + s + "].memo' /></td>" +
+							"<td class='w200' ><input class='pt w200' type='text' name='list[" + s + "].supplier' /></td>" +
+							"<td class='w80'><input class='pt w80' type='text' name='list[" + s + "].isFreeTax' /></td>" +
+							"<td class='w200' ><input class='pt w200'  type='text' name='list[" + s + "].goodsUse' /></td>" +
+							"<td class='w200' ><input class='pt w200'   type='text' name='list[" + s + "].useUnit' /></td>" +
+							"<td class='w200' ><input class='pt w200'  type='text' name='list[" + s + "].memo' /></td>" +
 							/* "<td><input type='text' name='list[" + s + "].status' value='暂存' readonly='readonly' /></td>" + */
-							"<td><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
+							"<td class='w200' ><button  type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 							"<tr/>");
 						}
 					}
@@ -538,12 +538,16 @@
 							             }
 							           }
 							           if(bool!=true){
-							        	   layer.msg(data);   
+							        	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
+							        	  //  layer.msg(data);   
 							           }
 							           else if(data.indexOf("文本格式")!=-1){
-							              layer.msg(data);
+							        	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
+							        	    
+							              //layer.msg(data);
 							           }else{
-							             layer.msg("上传成功");
+							        	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
+							            //  layer.msg("上传成功");
 							              $("#jhmc").val(data[0].planName);
 							              $("#detailZeroRow").empty();
 									           for(var i = 0 ;i<data.length;i++ ){
@@ -758,7 +762,6 @@
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>类别</span>
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 							<select name="planType" id="wtype" onchange="gtype(this)">
-							<option value="">请选择</option>
 								<c:forEach items="${list }" var="obj">
 									<option value="${obj.id }">${obj.name }</option>
 								</c:forEach>
@@ -776,7 +779,7 @@
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" style="display:none" id="dnone" >
             <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <input type="checkbox" value="进口" />进口
+                <input type="checkbox" name="" onchange="" value="进口" />进口
             </div>
           </li>
           
@@ -859,7 +862,7 @@
 											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0 w200"/>
 										</td>
 										<td class="tc w100 p0"><input type="text" name="list[0].stand" class="m0 w100"></td>
-										<td class="tc w100 p0"><input type="text" name="list[0].qualitStand" class="m0 w100"></td>
+										<td class="tc w100 p0"><input type="text" name="list[0].qualitStand" class="m0 w200"></td>
 										<td class="tc w80 p0"><input type="text" name="list[0].item" class="m0 w80"></td>
 										<td class="tc w80 p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 w80"></td>
 										<td class="tc w80 p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 w80"></td>
