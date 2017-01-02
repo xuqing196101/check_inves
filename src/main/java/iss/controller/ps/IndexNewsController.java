@@ -367,7 +367,7 @@ public class IndexNewsController extends BaseSupplierController{
 		map.clear();
 		String idAr4[] = {"89","90","91","92"};
 		map.put("idArray", idAr4);
-		List<Article> jdList = articleService.selectAllByTab(map);
+		List<Article> jdList = articleService.selectAllByDanTab(map);
 		indexMapper.put("jdList", jdList);
 		map.clear();
 		map.put("typeId","94");
@@ -388,7 +388,7 @@ public class IndexNewsController extends BaseSupplierController{
 		map.clear();
 		String idAr5[] = {"94","95","96","97"};
 		map.put("idArray", idAr5);
-		List<Article> bdList = articleService.selectAllByTab(map);
+		List<Article> bdList = articleService.selectAllByDanTab(map);
 		indexMapper.put("bdList", bdList);
 		map.clear();
 		map.put("typeId","103");
@@ -758,11 +758,13 @@ public class IndexNewsController extends BaseSupplierController{
 	@RequestMapping("/selectIndexNewsByParId")
 	public String selectIndexNewsByParId(Model model,Integer page,String id,HttpServletRequest request) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
+		String title = request.getParameter("title");
 		if(page==null){
 			page=1;
 		}
 		map.put("parId",id);
 		map.put("page", page);
+		map.put("title", title);
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		List<Article> articleList = null;
 		List<Article> twoArticleList = articleService.selectArticleByParIdTwo(map);
@@ -775,6 +777,7 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("id", id);
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
+		model.addAttribute("title", title);
 		return "iss/ps/index/parindex_two";
 	}
 	
@@ -832,12 +835,14 @@ public class IndexNewsController extends BaseSupplierController{
 		Map<String, Object> map = new HashMap<String, Object>();
 		String id = request.getParameter("id");
 		String twoid = request.getParameter("twoid");
+		String title = request.getParameter("title");
 		if(page==null){
 			page=1;
 		}
 		map.put("id",id);
 		map.put("twoid", twoid);
 		map.put("page", page);
+		map.put("title", title);
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		List<Article> articleList = null;
 		List<Article> twoArticleList = articleService.selectsumBynews(map);
@@ -851,6 +856,7 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
 		model.addAttribute("indexMapper", indexMapper);
+		model.addAttribute("title", title);
 		return "iss/ps/index/sumBynews_two";
 	}
 	
@@ -871,12 +877,14 @@ public class IndexNewsController extends BaseSupplierController{
 		Map<String, Object> map = new HashMap<String, Object>();
 		String id = request.getParameter("id");
 		String twoid = request.getParameter("twoid");
+		String title = request.getParameter("title");
 		if(page==null){
 			page=1;
 		}
 		map.put("id",id);
 		map.put("twoid", twoid);
 		map.put("page", page);
+		map.put("title", title);
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		List<Article> articleList = null;
 		List<Article> twoArticleList = articleService.selectsumBydanNews(map);
@@ -890,6 +898,7 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("list", new PageInfo<Article>(articleList));
 		model.addAttribute("indexList", articleList);
 		model.addAttribute("indexMapper", indexMapper);
+		model.addAttribute("title", title);
 		return "iss/ps/index/sumBydanNews_two";
 	}
 	
@@ -929,10 +938,13 @@ public class IndexNewsController extends BaseSupplierController{
 			page=1;
 		}
 		String articleTypeId = request.getParameter("id");
+		String title = request.getParameter("title");
 		map.put("articleTypeId", articleTypeId);
 		map.put("page", page);
 		map.put("pageSize", pageSize);
+		map.put("title", title);
 		countMap.put("articleTypeId", articleTypeId);
+		countMap.put("title", title);
 		List<Article> indexNewsList = indexNewsService.selectNewsByArticleTypeId(map);
 		ArticleType articleTypeOne = articleTypeService.selectTypeByPrimaryKey(articleTypeId);
 		Integer pages = indexNewsService.selectCount(countMap);
@@ -955,6 +967,7 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("indexList", indexNewsList);
 		model.addAttribute("typeName", articleTypeOne.getName());
 		model.addAttribute("articleTypeId", articleTypeId);
+		model.addAttribute("title", title);
 		model.addAttribute("indexMapper", indexMapper);
 		return "iss/ps/index/index_two";
 	}
@@ -1303,6 +1316,7 @@ public class IndexNewsController extends BaseSupplierController{
 		String id2 = request.getParameter("id2");
 		String id3 = request.getParameter("id3");
 		String id4 = request.getParameter("id4");
+		String title = request.getParameter("title");
 		idArray[0] = id1;
 		idArray[1] = id2;
 		idArray[2] = id3;
@@ -1310,6 +1324,7 @@ public class IndexNewsController extends BaseSupplierController{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("idArray", idArray);
 		map.put("page", page);
+		map.put("title", title);
 		List<Article> indexList = articleService.selectAllByTabs(map);
 		model.addAttribute("indexList", indexList);
 		model.addAttribute("list", new PageInfo<Article>(indexList));
@@ -1317,6 +1332,37 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("id3", id3);
 		model.addAttribute("id4", id4);
 		model.addAttribute("id", id1);
+		model.addAttribute("title", title);
 		return "iss/ps/index/sumBytabs_two";
+	}
+	
+	@RequestMapping("/selectAllByDanTabs")
+	public String selectAllByDanTabs(Model model,HttpServletRequest request,Integer page){
+		String[] idArray = new String[4];
+		String title = request.getParameter("title");
+		if(page==null){
+			page=1;
+		}
+		String id1 = request.getParameter("id");
+		String id2 = request.getParameter("id2");
+		String id3 = request.getParameter("id3");
+		String id4 = request.getParameter("id4");
+		idArray[0] = id1;
+		idArray[1] = id2;
+		idArray[2] = id3;
+		idArray[3] = id4;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("idArray", idArray);
+		map.put("page", page);
+		map.put("title", title);
+		List<Article> indexList = articleService.selectAllByDanTabs(map);
+		model.addAttribute("indexList", indexList);
+		model.addAttribute("list", new PageInfo<Article>(indexList));
+		model.addAttribute("id2", id2);
+		model.addAttribute("id3", id3);
+		model.addAttribute("id4", id4);
+		model.addAttribute("id", id1);
+		model.addAttribute("title", title);
+		return "iss/ps/index/sumByDantabs_two";
 	}
 }

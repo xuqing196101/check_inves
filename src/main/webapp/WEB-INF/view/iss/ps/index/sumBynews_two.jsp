@@ -5,6 +5,9 @@
 <head>
 <jsp:include page="/index_head.jsp"></jsp:include>
 <script type="text/javascript">
+var id = "${id}";
+var twoid = "${twoid}";
+var title = "${title}";
 $(function(){
 	laypage({
 	    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -21,13 +24,16 @@ $(function(){
 	    }(), 
 	    jump: function(e, first){ //触发分页后的回调
 	        if(!first){ //一定要加此判断，否则初始时会无限刷新
-	        	var id = "${id}";
-	        	var twoid = "${twoid}";
-	      		window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?page="+e.curr+"&id="+id+"&twoid="+twoid;
+	      		window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?page="+e.curr+"&id="+id+"&twoid="+twoid+"&title="+title;
 	        }
 	    }
 	});
 });
+
+function query(){
+	var title = $("#title").val();
+	window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?id="+id+"&twoid="+twoid+"&title="+title;
+}
 </script>
 </head>
 
@@ -41,7 +47,11 @@ $(function(){
 		<div class="clear"></div>
 	  </div>
    </div>
-  <div class="container content job-content ">
+  <div class="container job-content ">
+  <div class="search_box col-md-12 col-sm-12 col-xs-12">
+         	<input name="title" type="text" id="title" value="${title }"/>
+        	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+      </div>
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
             <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
           		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">标题</div>

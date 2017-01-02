@@ -315,4 +315,8 @@ public interface ArticleService {
     List<Article> selectAllByTab(Map<String, Object> map);
     
     List<Article> selectAllByTabs(Map<String, Object> map);
+    
+    List<Article> selectAllByDanTab(Map<String, Object> map);
+    
+    List<Article> selectAllByDanTabs(Map<String, Object> map);
 }

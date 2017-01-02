@@ -599,6 +599,9 @@ AND ROWNUM &lt;= 6
 		WHERE
 			PARENT_ID = #{parId}
 	)
+	<if test="title!=null and title!=''">
+	 	and name like '%'||#{title}||'%'
+	</if>
 	and status = 2
 	and IS_DELETED = 0
 	order by published_at desc
@@ -661,6 +664,9 @@ WHERE
 		WHERE
 			PARENT_ID = #{id} or parent_id = #{twoid}
 	)
+	<if test="title!=null and title!=''">
+		and name like '%'||#{title}||'%'
+	</if>
 	and status=2
 	and IS_DELETED = 0
 	order by published_at desc
@@ -673,6 +679,9 @@ WHERE
 	T_ISS_PS_ARTICLE
 	WHERE
 	LAST_ARTICLE_TYPE_ID = #{id} or LAST_ARTICLE_TYPE_ID = #{twoid}
+	<if test="title!=null and title!=''">
+		and name like '%'||#{title}||'%'
+	</if>
 	and status=2
 	and IS_DELETED = 0
 	order by published_at desc
@@ -792,6 +801,25 @@ and status = 2
 and ROWNUM &lt;=10
   </select>
   
+  <select id="selectAllByDanTab" parameterType="Map" resultMap="ArticleMapper">
+  	select * from (
+	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+		LAST_ARTICLE_TYPE_ID in 
+			<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    			#{item}
+   			</foreach>
+		and IS_DELETED = 0
+	AND status = 2
+	ORDER BY
+		PUBLISHED_AT DESC
+) where 1=1
+and ROWNUM &lt;=10
+  </select>
+  
   <select id="selectAllByTabs" parameterType="Map" resultMap="ArticleMapper">
   	select * from (
 	SELECT
@@ -810,8 +838,32 @@ and ROWNUM &lt;=10
     			#{item}
    			</foreach>
 		)
-		and IS_DELETED = 0
+	<if test="title!=null and title!=''">
+		and name like '%'||#{title}||'%'
+	</if>
+	and IS_DELETED = 0
 	AND status = 2
+	ORDER BY
+		PUBLISHED_AT DESC
+) where 1=1
+  </select>
+  
+  <select id="selectAllByDanTabs" parameterType="Map" resultMap="ArticleMapper">
+  	select * from (
+	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+		LAST_ARTICLE_TYPE_ID in 
+			<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    			#{item}
+   			</foreach>
+	and IS_DELETED = 0
+	AND status = 2
+	<if test="title!=null and title!=''">
+		and name like '%'||#{title}||'%'
+	</if>
 	ORDER BY
 		PUBLISHED_AT DESC
 ) where 1=1

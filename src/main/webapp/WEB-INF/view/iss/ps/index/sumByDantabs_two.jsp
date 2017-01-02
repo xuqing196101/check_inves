@@ -9,7 +9,7 @@ var id = "${id}";
 var id2 = "${id2}";
 var id3 = "${id3}";
 var id4 = "${id4}";
-var title = "${title}";
+var title ="${title}";
 $(function(){
 	laypage({
 	    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -26,7 +26,7 @@ $(function(){
 	    }(), 
 	    jump: function(e, first){ //触发分页后的回调
 	        if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		window.location.href="${pageContext.request.contextPath}/index/selectAllByTabs.html?page="+e.curr
+	      		window.location.href="${pageContext.request.contextPath}/index/selectAllByDanTabs.html?page="+e.curr
 	      				+"&id="+id+"&id2="+id2+"&id3="+id3+"&id4="+id4+"&title="+title;
 	        }
 	    }
@@ -35,7 +35,7 @@ $(function(){
 
 function query(){
 	var title = $("#title").val();
-	window.location.href="${pageContext.request.contextPath}/index/selectAllByTabs.html?id="+id+"&id2="+id2+"&id3="+id3+"&id4="+id4+"&title="+title;
+	window.location.href="${pageContext.request.contextPath}/index/selectAllByDanTabs.html?id="+id+"&id2="+id2+"&id3="+id3+"&id4="+id4+"&title="+title;
 }
 </script>
 </head>
@@ -52,8 +52,8 @@ function query(){
    </div>
   <div class="container job-content ">
   <div class="search_box col-md-12 col-sm-12 col-xs-12">
-         	<input name="title" type="text" id="title" value="${title }"/>
-        	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
+        <input name="title" type="text" id="title" value="${title}"/>
+       	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
       </div>
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
             <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
