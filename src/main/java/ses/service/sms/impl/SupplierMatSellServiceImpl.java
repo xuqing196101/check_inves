@@ -19,20 +19,20 @@ public class SupplierMatSellServiceImpl implements SupplierMatSellService {
 
 	@Override
 	public void saveOrUpdateSupplierMatSell(Supplier supplier) {
-//		String id = supplier.getSupplierMatSell().getId();
-//		if (id != null && !"".equals(id)) {
-//			supplier.getSupplierMatSell().setUpdatedAt(new Date());
-//			supplierMatSellMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSell());
-//		} else {
-//			String sid = UUID.randomUUID().toString().replaceAll("-", "");
-//			supplier.getSupplierMatPro().setId(sid);
-//			supplier.getSupplierMatPro().setCreatedAt(new Date());
-//			SupplierMatSell sale = supplierMatSellMapper.getMatSellBySupplierId(supplier.getId());
-//			if(sale==null){
+		String id = supplier.getSupplierMatSell().getId();
+		if (id != null && !"".equals(id)) {
+			supplier.getSupplierMatSell().setUpdatedAt(new Date());
+			supplierMatSellMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSell());
+		} else {
+			String sid = UUID.randomUUID().toString().replaceAll("-", "");
+			supplier.getSupplierMatPro().setId(sid);
+			supplier.getSupplierMatPro().setCreatedAt(new Date());
+			SupplierMatSell sale = supplierMatSellMapper.getMatSellBySupplierId(supplier.getId());
+			if(sale==null){
 				supplierMatSellMapper.insertSelective(supplier.getSupplierMatSell());
-//			}
+			}
 			
-//		}
+		}
 	}
 	
 	/**

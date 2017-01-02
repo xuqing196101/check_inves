@@ -147,7 +147,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	@Autowired
 	private SupplierTypeRelateService supplierTypeRelateService;
 	
-	/**  **/
+	/** 采购机构 **/
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
 	

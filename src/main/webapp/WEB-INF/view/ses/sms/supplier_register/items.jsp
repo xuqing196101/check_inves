@@ -103,11 +103,12 @@
 			}
 		},
 		callback: {
-			onCheck: saveCategory
+			onCheck: saveCategory,
+			showLine: true
 		},
 		
 		view: {
-			showLine: false
+			showLine: true
 		}
 		 	
 	 };
@@ -116,6 +117,7 @@
 	
 	//加载tab页签
 	function loadTab(code,kind, status){
+		$("#cate-" + kind.charAt(kind.length - 1)).val("");
 		loadZtree(code,kind, status);
 	}
  
@@ -306,7 +308,7 @@
 			callback: {
 				onCheck: saveCategory
 			},view: {
-				showLine: false
+				showLine: true
 			}
 		};
 		var cateName = $("#" + cateId).val();

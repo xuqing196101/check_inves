@@ -734,7 +734,7 @@
 			              <div class=" ">
 			              	  <h2 class="list_title">物资-生产型专业信息</h2>
 			              	    <ul class="list-unstyled f14">
-									<input type="hidden" name="supplierMatPro.id" value="pro123456789" />
+									<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatEng.id}" />
 									<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />
 								 <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 										<legend>供应商组织机构和人员</legend>
@@ -965,7 +965,7 @@
 						  <div class="">
 			              	  <h2 class="list_title" >物资-销售专业信息</h2>
 			              	    <ul class="list-unstyled" style="font-size: 14px">
-										<input type="hidden" name="supplierMatSell.id" value="sale123456789" />
+										<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatPro.id}" />
 										<input type="hidden" name="supplierMatSell.supplierId" value="${currSupplier.id}" />
 								        <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 	 			 						     <legend>供应商组织机构和人员 </legend>
@@ -1079,7 +1079,7 @@
 			              	  <h2 class="list_title">工程专业信息</h2>
 			              	    <ul class="list-unstyled" style="font-size: 14">
 									   <!--   <div class="col-md-5 title"><span class="star_red fl">*</span>工程专业信息：</div> -->
-										<input type="hidden" name="supplierMatEng.id" value="project123456789" />
+										<input type="hidden" name="supplierMatEng.id" value="${currSupplier.supplierMatSell.id }" />
 										<input type="hidden" name="supplierMatEng.supplierId" value="${currSupplier.id}" />
 										 
 										 	<fieldset class="col-md-12 border_font mt20">
@@ -1328,7 +1328,7 @@
 					              	    <ul class="list-unstyled" style="font-size: 14px">
 							 	
 									 
-										<input type="hidden" name="supplierMatSe.id" value="server123456789" />
+										<input type="hidden" name="supplierMatSe.id" value="${currSupplier.supplierMatSe.id}" />
 										<input type="hidden" name="supplierMatSe.supplierId" value="${currSupplier.id}" />
 												<fieldset class="col-md-12 border_font mt20">
 											 	  <legend>法人代表信息</legend>

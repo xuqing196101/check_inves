@@ -159,7 +159,8 @@
 						}
 					},
 					callback: {
-						onClick: ztreeOnClick
+						onClick: ztreeOnClick,
+						showLine: true
 					}
 				};
 				zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);

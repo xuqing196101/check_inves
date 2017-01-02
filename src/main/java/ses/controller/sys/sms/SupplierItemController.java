@@ -383,6 +383,7 @@ public class SupplierItemController extends BaseController{
 	                   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 	    		       for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+	    		    	 cate.setId(c.getId());
 	    		    	 categoryList.add(cate);
 	    	             }
 	                 }

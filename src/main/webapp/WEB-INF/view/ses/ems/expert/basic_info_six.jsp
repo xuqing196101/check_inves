@@ -66,7 +66,8 @@ session.setAttribute("tokenSession", tokenValue);
 				beforeCheck: zTreeBeforeCheck
 			},
 			view: {
-				fontCss: setFontCss
+				fontCss: setFontCss,
+				showLine: true
 			},
 		};
 		zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
@@ -126,8 +127,10 @@ function showDivTree(obj){
 	var id = obj.id;
 	var page = "tab-" + id.charAt(id.length - 1);
 	var divId = "div-" + id.charAt(id.length - 1);
+	var cateId = "cate-" + id.charAt(id.length - 1);
 	$("#" + page).attr("style", "");
 	$("#" + divId).attr("style", "");
+	$("#" + cateId).val("");
 	showTree(page);
 }
 function initTree(){
@@ -242,7 +245,8 @@ function searchCate(cateId, treeId) {
 				beforeCheck: zTreeBeforeCheck
 			},
 			view: {
-				fontCss: setFontCss
+				fontCss: setFontCss,
+				showLine: true
 			},
 		};
 	var cateName = $("#" + cateId).val();

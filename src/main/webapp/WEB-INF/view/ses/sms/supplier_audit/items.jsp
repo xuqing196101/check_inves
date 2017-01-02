@@ -331,7 +331,7 @@
 						onClick: zTreeOnClick
 						},
 					view: {
-						showLine: false
+						showLine: true
 					}
 
 				};
