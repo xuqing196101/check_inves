@@ -113,7 +113,7 @@ public class ExpertAuditController {
 			expert.setSign(signs);
 			request.getSession().removeAttribute("signs");
 		}
-		//是否被抽取
+		
 		List<Expert> expList = expertService.findExpertAuditList(expert, pageNum==null?1:pageNum);
 		// 筛选,只有指定机构的人可以看到
 		List<Expert> expertList = new ArrayList<Expert>();

@@ -26,7 +26,7 @@
 					skin: 'layui-layer-molv', //样式类名
 					closeBtn: 0,
 					offset: '100px',
-					shift: 1 //动画类型
+					shift: 4 //动画类型
 				});
 			});
 

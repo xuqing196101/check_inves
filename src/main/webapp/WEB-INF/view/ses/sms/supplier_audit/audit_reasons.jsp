@@ -263,11 +263,13 @@
                      <c:if test="${reasons.auditType == 'basic_page'}">详细信息</c:if>
                      <c:if test="${reasons.auditType == 'finance_page'}">财务信息</c:if>
                      <c:if test="${reasons.auditType == 'stockholder_page'}">股东信息</c:if>
-                     <c:if test="${reasons.auditType == 'mat_pro_page'}">生产信息</c:if>
-                     <c:if test="${reasons.auditType == 'mat_sell_page'}">销售信息</c:if>
+                     <%-- <c:if test="${reasons.auditType == 'mat_pro_page'}">物资-生产信息</c:if>
+                     <c:if test="${reasons.auditType == 'mat_sell_page'}">物资-销售信息</c:if>
                      <c:if test="${reasons.auditType == 'mat_eng_page'}">工程信息</c:if>
-                     <c:if test="${reasons.auditType == 'mat_serve_page'}">服务信息</c:if>
+                     <c:if test="${reasons.auditType == 'mat_serve_page'}">服务信息</c:if> --%>
+                     <c:if test="${reasons.auditType == 'mat_pro_page' || reasons.auditType == 'mat_sell_page' || reasons.auditType == 'mat_eng_page' || reasons.auditType == 'mat_serve_page'}">供应商类型</c:if>
                      <c:if test="${reasons.auditType == 'mat_serve_page' || reasons.auditType == 'item_sell_page' || reasons.auditType == 'item_eng_page' || reasons.auditType == 'item_serve_page'}">品目信息</c:if>
+                     <c:if test="${reasons.auditType == 'aptitude_page'}">资质文件</c:if>
                      <c:if test="${reasons.auditType == 'contract_page'}">品目合同</c:if>
                      <c:if test="${reasons.auditType == 'upload_page'}">申请表</c:if>
                    </td>
