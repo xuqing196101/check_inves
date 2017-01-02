@@ -98,9 +98,9 @@
 	       			<label class="fl">主题介绍：</label>
 	      	 		<span><input type="text" id="content" value="${content }"/></span>
 	       		</li>
-	         	<button class="btn" onclick="search()">查询</button>
-	         	<button class="btn" onclick="reset()">重置</button>
 	     	</ul>
+	         	<button class="btn fl mt1" onclick="search()">查询</button>
+	         	<button class="btn fl mt1" onclick="reset()">重置</button>
 	     	<div class="clear"></div>
   		</div>
 
@@ -126,14 +126,14 @@
 					<c:forEach items="${list.list}" var="topic" varStatus="vs">
 						<tr>
 							<td class="tc pointer" onclick="view('${topic.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td class="pointer" onclick="view('${topic.id}')">${topic.name}</td>
+							<td class="pointer pl20" onclick="view('${topic.id}')">${topic.name}</td>
 							<c:set value="${topic.content}" var="content"></c:set>
 							<c:set value="${fn:length(content)}" var="length"></c:set>
 							<c:if test="${length>30}">
-								<td onclick="view('${topic.id}')" class="pointer" onmouseover="titleMouseOver('${content}',this)" onmouseout="titleMouseOut()">${fn:substring(content,0,30)}...</td>
+								<td onclick="view('${topic.id}')" class="pointer pl20" onmouseover="titleMouseOver('${content}',this)" onmouseout="titleMouseOut()">${fn:substring(content,0,30)}...</td>
 							</c:if>
 							<c:if test="${length<=30}">
-								<td onclick="view('${topic.id}')" class="pointer">${content } </td>
+								<td onclick="view('${topic.id}')" class="pointer pl20">${content } </td>
 							</c:if>
 							<td class="tc pointer" onclick="view('${topic.id}')">${topic.user.relName}</td>
 							<td class="tc pointer" onclick="view('${topic.id}')">${topic.postcount }</td>

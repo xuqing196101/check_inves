@@ -114,8 +114,8 @@
 							</li>
 							<input type="hidden" name="id" value='${post.id}'></input>
 							<li class="col-md-12 col-xs-12 col-sm-12">
-								<div class="fl">上传附件：</div>
-								<div class="col-md-6 col-sm-6 col-xs-12">
+								<div class="fl ml10">上传附件：</div>
+								<div class="col-md-6 col-sm-6 col-xs-12 p0">
 									<u:upload id="post_attach_up" multiple="true" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 									<u:show showId="post_attach_show" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
 								</div>

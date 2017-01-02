@@ -90,7 +90,7 @@
 								<h2 class="count_flow jbxx ">版块介绍</h2>
 								<div class="col-md-12 col-sm-12 col-cs-12 p0">
 									<script id="editor" name="content" type="text/plain" class="mt20"></script>
-									<textarea class="h130 col-md-12 col-xs-12 col-sm-12" title="不超过800个字" readonly="readonly">${park.content}</textarea>
+									<textarea class="h130 w100p" title="不超过800个字" readonly="readonly">${park.content}</textarea>
 								</div>
 								<!-- 底部按钮 -->
 								<div class="col-md-12 tc">
