@@ -6,10 +6,12 @@ import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,6 +22,7 @@ import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.Packages;
 import bss.model.ppms.ProjectDetail;
+import common.constant.StaticVariables;
 
 import com.github.pagehelper.PageHelper;
 
@@ -465,4 +468,34 @@ public class ArticleServiceImpl implements ArticleService {
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return articleMapper.selectAllByDanTabs(map);
 	}
+	
+	/**
+	 * 
+	 * @see iss.service.ps.ArticleService#getListBypublishedTime(java.lang.String, java.lang.String)
+	 */
+    @Override
+    public List<Article> getListBypublishedTime(String startTime, String endTime) {
+        List<Article> list =  articleMapper.getListByPublishedTime(startTime,  endTime);
+        if (list != null && list.size() > 0){
+            return list;
+        }
+        return new ArrayList<>();
+    }
+    
+    /**
+     * 
+     * @see iss.service.ps.ArticleService#getCount(java.lang.String)
+     */
+    @Override
+    public Integer getArticleCount(String id) {
+        if (StringUtils.isNotBlank(id)){
+            Integer count = articleMapper.getArticleCount(id);
+            return count;
+        }
+        return 0;
+    }
+    
+    
+	
+	
 }

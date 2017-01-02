@@ -319,4 +319,26 @@ public interface ArticleService {
     List<Article> selectAllByDanTab(Map<String, Object> map);
     
     List<Article> selectAllByDanTabs(Map<String, Object> map);
+    
+    
+    /**
+     * 
+     *〈简述〉根据发布时间查询
+     *〈详细描述〉
+     * @author myc
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @return
+     */
+    List<Article> getListBypublishedTime(String startTime, String endTime);
+    
+    /**
+     * 
+     *〈简述〉获取数量
+     *〈详细描述〉
+     * @author myc
+     * @param id 主键
+     * @return
+     */
+    Integer getArticleCount(String id);
 }
