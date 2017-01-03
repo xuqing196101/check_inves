@@ -113,14 +113,14 @@
 						var s = detailRow.length;
 						// var trs = $(obj).parent().parent();
 						if(detailRow.length==0){
-							$("#detailZeroRow").html("<tr name='detailRow' class='tc w50 p0'><td><input type='hidden' name='list[" + 0 + "].id' />" +
-									"<input class='m0 w50' type='text' name='list[" + 0 + "].seq' /></td>" +
-									"<td class=''  name='department'><input class='m0 w100'  type='text' name='list[" + 0 + "].department'  value=''/></td>" +
-									"<td class=''' ><input class='m0 ' type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
+							$("#detailZeroRow").html("<tr name='detailRow' class='tc p0'><td><input type='hidden' name='list[" + 0 + "].id' />" +
+									"<input class='m0 ' type='text' name='list[" + 0 + "].seq' /></td>" +
+									"<td class=''  name='department'><input class='m0'  type='text' name='list[" + 0 + "].department'  value=''/></td>" +
+									"<td class='' ><input class='m0 ' type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
 									"<td class=''  ><input class='m0' type='text' name='list[" + 0 + "].stand' /></td>" +
-									"<td class=' ><input class='m0 ' type='text' name='list[" + 0 + "].qualitStand' /></td>" +
-									"<td class=''' ><input class='m0 ' type='text' name='list[" + 0 + "].item' /> </td>" +
-									"<td class='''  name='purchaseQuantity'><input class='m0' type='text' name='list[" + 0 + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
+									"<td class='' ><input class='m0 ' type='text' name='list[" + 0 + "].qualitStand' /></td>" +
+									"<td class='' ><input class='m0 ' type='text' name='list[" + 0 + "].item' /> </td>" +
+									"<td class=''  name='purchaseQuantity'><input class='m0' type='text' name='list[" + 0 + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
 									"<td class='' name='unitPrice'><input class='m0' type='text' name='list[" + 0 + "].price' onkeyup='checkNum(this,2)'/></td>" +
 									"<td class='' ><input type='text' class='m0'  name='list[" + 0 + "].budget' readonly='readonly' /></td>" +
 									"<td class='' ><input type='text' class='m0' name='list[" + 0 + "].deliverDate' /></td>" +
