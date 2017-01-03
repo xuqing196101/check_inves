@@ -40,6 +40,8 @@ import ses.util.ValidateUtils;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -85,17 +87,23 @@ public class ArticleController extends BaseSupplierController{
    * @return String
    */
   @RequestMapping("/getAll")
-  public String getAll(Model model,Integer page,HttpServletRequest request){
+  public String getAll(@CurrentUser User user,Model model,Integer page,HttpServletRequest request){
 	String saveNews = request.getParameter("news");
 	if(saveNews!=null){
-	if(saveNews.equals("1")){
-		model.addAttribute("saveNews", saveNews);
+		if(saveNews.equals("1")){
+			model.addAttribute("saveNews", saveNews);
+		}
+		if(saveNews.equals("0")){
+			model.addAttribute("saveNews", saveNews);
+		}
 	}
-	if(saveNews.equals("0")){
-		model.addAttribute("saveNews", saveNews);
+	if(page==null){
+		page=1;
 	}
-	}
-    List<Article> list = articleService.selectAllArticle(null, page==null?1:page);
+	Map<String,Object> map = new HashMap<String, Object>();
+	map.put("userId", user.getId());
+	map.put("page", page);
+    List<Article> list = articleService.selectByJurisDiction(map);
     model.addAttribute("list", new PageInfo<Article>(list));
     logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
     return "iss/ps/article/list";
@@ -659,7 +667,7 @@ public class ArticleController extends BaseSupplierController{
    * @return String
    */
   @RequestMapping("/auditlist")
-  public String auditlist(Model model,Integer status,Integer range,Integer page,HttpServletRequest request){
+  public String auditlist(@CurrentUser User user,Model model,Integer status,Integer range,Integer page,HttpServletRequest request){
     Article article = new Article();
     ArticleType articleType = new ArticleType();
 
@@ -686,6 +694,7 @@ public class ArticleController extends BaseSupplierController{
       page = 1;
     }
     map.put("page", page.toString());
+    map.put("userId", user.getId());
     PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
 

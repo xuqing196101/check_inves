@@ -352,4 +352,6 @@ public interface ArticleMapper {
      * @return
      */
     Integer getArticleCount(@Param("id")String id);
+    
+    List<Article> selectByJurisDiction(Map<String,Object> map);
 }

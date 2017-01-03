@@ -341,4 +341,6 @@ public interface ArticleService {
      * @return
      */
     Integer getArticleCount(String id);
+    
+    List<Article> selectByJurisDiction(Map<String,Object> map);
 }

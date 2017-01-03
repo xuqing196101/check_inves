@@ -114,6 +114,19 @@
     <!-- order by decode(STATUS,4,0,0,1,1,2,3,3,2,4), CREATED_AT DESC -->
   </select>
   
+  <select id="selectByJurisDiction" parameterType="Map" resultMap="ArticleWithAttach">
+  	select
+  	<include refid="Article_Column_List"/>
+  	,
+    <include refid="Article_BlOB_Column_List" />
+    from T_ISS_PS_ARTICLE
+    where IS_DELETED = 0
+    <if test="userId!=null and userId!=''">
+    	and USER_ID = #{userId}
+    </if>
+    order by CREATED_AT DESC
+  </select>
+  
   <!-- 查询附件 -->
   <select id="selectByFile" resultMap="ArticleWithAttach">
   	select 
@@ -140,6 +153,9 @@
         </if>
 	  	<if test="range != null">
 	  	  AND RANGE = #{range}
+	  	</if>
+	  	<if test="userId!=null and userId!=''">
+	  		and USER_ID = #{userId}
 	  	</if>
     <!-- order by decode(STATUS,4,0,1,1,3,2,2,3), PUBLISHED_AT DESC -->
     order by STATUS ASC, PUBLISHED_AT DESC 
