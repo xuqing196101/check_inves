@@ -220,4 +220,12 @@ public interface SupplierService {
     */
    void saveSupplier(Supplier supplier);
 
+   /**
+    *〈简述〉社会统一信用代码唯一校验
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param creditCode 信用代码
+    * @return
+    */
+   List<Supplier> validateCreditCode(String creditCode);
 }

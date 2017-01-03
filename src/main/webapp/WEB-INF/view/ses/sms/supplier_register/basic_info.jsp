@@ -106,9 +106,37 @@ function checkAll(ele, id) {
 
 	/** 保存基本信息 */
 	function saveBasicInfo(obj) {
-		$("input[name='flag']").val(obj);
-		$("#basic_info_form_id").submit();
-	
+		var supplierId = $("input[name='id']").val();
+		var msg = "";
+		var flag = true;
+		// 非空校验
+		$("#financeInfo").find("input[type='text']").each(function(index,element){
+			if (element.value == "") {
+				msg = "近三年财务信息不能为空!";
+				flag = false;
+			}
+		});
+		// 社会统一信用代码唯一校验
+		var creditCode = $("#creditCode").val();
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/validateCreditCode.do",
+			async: false,
+			data: {"creditCode" : creditCode, "supplierId" : supplierId},
+			success: function(data){
+				if (data == "1") {
+					flag = false;
+					msg = "营业执照中统一社会信用代码已被占用! ";
+				} else {
+					flag = true;
+				}
+			}
+		});
+		if (flag) {
+			$("input[name='flag']").val(obj);
+			$("#basic_info_form_id").submit();
+		} else {
+			layer.msg(msg);
+		}
 	}
 	
 	/** 暂存 */
@@ -1159,7 +1187,7 @@ function deleteFinance() {
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 统一社会信用代码</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        <input type="text" name="creditCode" value="${currSupplier.creditCode}" />
+		        <input type="text" name="creditCode" id="creditCode" value="${currSupplier.creditCode}" />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_creditCide} </div>
 	       	   </div>
@@ -1346,7 +1374,7 @@ function deleteFinance() {
 		</fieldset>
 	  <!-- 财务信息 -->
 	  <h2 class="count_flow clear pt20"> <i>3</i><font color=red>*</font> 近三年财务信息</h2>
-	  <div class="padding-top-10 clear">
+	  <div class="padding-top-10 clear" id="financeInfo">
 	  <c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
 	    	<h2 class="count_flow clear">${finance.year}年财务信息  <span style="float:right" class="b">（金额单位：万元）</span>  </h2>
 	    	<div class="col-md-12 col-xs-12 col-sm-12 border_font">
@@ -1380,7 +1408,7 @@ function deleteFinance() {
 										<%-- <td class="tc">  <input type="checkbox" value="${finance.id}" />  
 										</td> --%>
 										<td class="tc">
-										<input type="hidden"name="listSupplierFinances[${vs.index }].id" value="${finance.id}"> 
+										<input type="hidden" name="listSupplierFinances[${vs.index }].id" value="${finance.id}"> 
 										<input type="text" required="required" style="border:0px;width:70px;" name="listSupplierFinances[${vs.index }].year" value="${finance.year}"> </td>
 										<td class="tc">
 											<input type="text" required="required" style="border:0px;width:200px;" name="listSupplierFinances[${vs.index }].name" value="${finance.name}">

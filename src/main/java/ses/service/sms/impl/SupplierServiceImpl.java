@@ -729,7 +729,14 @@ public class SupplierServiceImpl implements SupplierService {
 			
 		return list;
 	}
-	
+
+    /**
+     * @see ses.service.sms.SupplierService#validateCreditCode(java.lang.String)
+     */
+    @Override
+    public List<Supplier> validateCreditCode(String creditCode) {
+        return supplierMapper.validateCreditCode(creditCode);
+    }
     
 	
 }
