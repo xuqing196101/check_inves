@@ -2608,10 +2608,33 @@ h2.list_title{
 
 
 /*indec_two search*/
+/*二级页面search*/
 .search_box{
 	line-height: 30px;
 	padding:10px;
 	border:1px solid #dddddd;
 	margin:10px 0; 
 	background-color:#fafafa;
+}
+/*表头固定表格*/
+.t_left {
+    width: 30%;
+    height: auto;
+    float: left;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+}
+.cl_freeze {
+    height: 200px;
+    overflow: hidden;
+    width: 100%;
+}
+.t_left table{
+    border-collapse: collapse;
+    border-spacing: 0px;
+    width: 100%;
+    border: #000 solid 0px;
+}
+.bordertop {
+    border-top: 0px;
 }
