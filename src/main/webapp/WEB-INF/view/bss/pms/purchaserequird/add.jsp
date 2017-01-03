@@ -126,6 +126,7 @@
 									"<td class='' ><input type='text' class='m0' name='list[" + 0 + "].deliverDate' /></td>" +
 									"<td class=''><select name='list[" + 0 + "].purchaseType' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
 
+
 									" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
 									"<td class='' ><input type='text' name='list[" + 0 + "].supplier' /></td>" +
 									"<td class='' ><input type='text' name='list[" + 0 + "].isFreeTax' /></td>" +
@@ -863,7 +864,7 @@
 											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0"/>
 										</td>
 										<td class="tc  p0"><input type="text" name="list[0].stand" class="m0 "></td>
-										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 w100p "></td>
+										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 "></td>
 										<td class="tc p0"><input type="text" name="list[0].item" class="m0 "></td>
 										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 "></td>
 										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 "></td>
