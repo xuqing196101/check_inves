@@ -281,11 +281,11 @@
 <!-- 项目戳开始 -->
      <div class="search_detail">
     	<ul class="demand_list">
-          <li class="fl"><label class="fl">采购项目名称：</label><span><input type="text" value="${projectName }" id="projectName" class=""/></span></li>
-	      <li class="fl"><label class="fl">编号：</label><span><input type="text" value="${projectCode }" id="projectCode" class=""/></span></li>
-	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="${purchaseDep }" id="purchaseDep" class=""/></span></li>
-	      <li class="fl"><label class="fl">状态：</label><span>
-	      	<select id="isCreate" name="isCreateContract" class="mb0 mt5 w100">
+          <li class="fl pl20"><label class="fl">采购项目名称：</label><span><input type="text" value="${projectName }" id="projectName" class=""/></span></li>
+	      <li class="fl pl50"><label class="fl">采购项目编号：</label><span><input type="text" value="${projectCode }" id="projectCode" class=""/></span></li>
+	      <li class="fl pl50"><label class="fl">采购机构：</label><span><input type="text" value="${purchaseDep }" id="purchaseDep" class=""/></span></li>
+	      <li class="fl pl20"><label class="fl">采购项目状态：</label><span>
+	      	<select id="isCreate" name="isCreateContract" class="mb0 mt5 w178">
 	      		<option value="">--请选择--</option>
 	      		<option value="2">暂存</option>
 	      		<option value="0">未生成</option>
@@ -342,16 +342,16 @@
 				<c:set value="${pack.project.projectNumber}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td class="pointer" title="${code}">${fn:substring(code,0,10)}...</td>
+					<td class=" tl pl20 pointer" title="${code}">${fn:substring(code,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td class="pointer" title="${code}">${code}</td>
+					<td class=" tl pl20 pointer" title="${code}">${code}</td>
 				</c:if>
-				<td class="tl pl20 pointer">${pack.name}</td>
+				<td class="tc pointer">${pack.name}</td>
 				<td class="tr pr20 pointer">${pack.wonPrice}</td>
 				<td class="tl pl20 pointer">${pack.supplier.supplierName}</td>
-				<td class="tl pl20 pointer">${pack.project.purchaseDep.depName}</td>
-				<td>
+				<td class="tc pointer">${pack.project.purchaseDep.depName}</td>
+				<td class="tc">
 					<c:if test="${pack.isCreateContract==2}">暂存</c:if>
 					<c:if test="${pack.isCreateContract==1}">已生成</c:if>
 					<c:if test="${pack.isCreateContract==0}">未生成</c:if>
