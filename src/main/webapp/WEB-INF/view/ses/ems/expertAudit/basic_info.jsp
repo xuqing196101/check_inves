@@ -286,22 +286,23 @@
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">社保证明：</span>
-              			  		<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
-              			  		<up:show showId="show1" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
-           				  		<a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
-            					</div>
-            				<li>
+              	<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
+              		<up:show showId="show1" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
+           				<a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
+            		</div>
+            	<li>
 						</c:if>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" >居民身份证号码：</span>
+						
+						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idCardNumberFile" onclick="reasonFile(this);">居民身份证：</span>
+            	<up:show showId="show2" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}"/>
+           		<a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
+            <li>
+            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" >居民身份证号码：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.idCardNumber}" <c:if test="${fn:contains(editFields,'getIdCardNumber')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('idCardNumber','getIdCardNumber','0');"</c:if> id="idCardNumber" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idCardNumberFile" onclick="reasonFile(this);">居民身份证：</span>
-              			  	<up:show showId="show2" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}"/>
-           				  	<a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
-            			<li>
-            			<c:if test="${froms eq 'ARMY'}">
+            <c:if test="${froms eq 'ARMY'}">
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 hand">军队人员身份证件类型：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input id="idType" <c:if test="${fn:contains(editFields,'getIdType')}">onmouseover="isCompare('idType','getIdType','1');"</c:if> value="${idType }" type="text" onclick="reason(this);"/>
@@ -313,10 +314,10 @@
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idTypeFile" onclick="reasonFile(this);">军队人员身份证件：</span>
-              			  		<up:show showId="show3" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
-           				  		<a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
-            				<li>
-            			</c:if>
+              	<up:show showId="show3" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
+           				<a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
+            	<li>
+            </c:if>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">健康状态：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.healthState}" <c:if test="${fn:contains(editFields,'getHealthState')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('healthState','getHealthState','0');"</c:if> id="healthState" type="text" onclick="reason(this);"/>

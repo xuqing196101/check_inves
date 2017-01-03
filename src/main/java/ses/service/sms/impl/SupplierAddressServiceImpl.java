@@ -34,4 +34,19 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
 		return supplierAddressMapper.getBySupplierId(sid);
 	}
 
+	/**
+	 * @Title: queryBySupplierId
+	 * @author XuQing 
+	 * @date 2017-1-3 下午6:19:52  
+	 * @Description:联表查询供应商地址信息
+	 * @param @param supplierId
+	 * @param @return      
+	 * @return List<SupplierAddress>
+	 */
+	@Override
+	public List<SupplierAddress> queryBySupplierId(String supplierId) {
+		
+		return supplierAddressMapper.queryBySupplierId(supplierId);
+	}
+
 }
