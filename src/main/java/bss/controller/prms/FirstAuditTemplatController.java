@@ -289,7 +289,7 @@ public class FirstAuditTemplatController extends BaseController{
         mt.setPid("0");
         List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
         Integer count3 = 0;
-        int judge = 1;
+        int judge = 50;
         for (MarkTerm mtKey : mtList) {
             //强转为int也是越来越大 所以不会有bug 做法不太好
             MarkTerm mt1 = new MarkTerm();
@@ -302,7 +302,7 @@ public class FirstAuditTemplatController extends BaseController{
             } else {
                 count3 += mtValue.size();
             }
-            mtKey.setJudge(judge ++);
+            mtKey.setJudge(judge --);
             map.put(mtKey, mtValue);
         }
         StringBuilder sb = new StringBuilder("");

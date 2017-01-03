@@ -91,7 +91,7 @@
 			<h2 class="list_title">编辑模板</h2>
 			<ul class="ul_list">
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>初审项模板名称</span>
+                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板名称</span>
 					<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						<input class="input_group" type="text" id="name" maxlength="30" name="name" value="${templat.name}">
 						<span class="add-on">i</span>
