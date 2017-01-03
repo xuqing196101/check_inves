@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pqims.SupplierPqrecordMapper">
+  <resultMap id="SupplierPqrecordResultMap" type="bss.model.pqims.SupplierPqrecord">
+    <id column="ID" property="id" />  
+    <result column="SUCCESSED_COUNT" jdbcType="INTEGER" property="successedCount" />
+	<result column="FAILED_COUNT" jdbcType="INTEGER" property="failedCount" />
+	<result column="SUCCESSED_AVG" jdbcType="VARCHAR" property="successedAvg" />
+    <!-- 查询供应商  -->
+    <association column="SUPPLIER_ID"  property="supplier" select="ses.dao.sms.SupplierMapper.selectOne" />  
+  </resultMap>
+  
+  <!-- 表名 -->
+  <sql id="Tabel_Name">
+    T_BSS_PQIMS_SUPPLIER_PQRECORD
+  </sql>
+  
+  <!-- 表中所有列 -->
+  <sql id="Base_Column_List">
+    p.ID,p.SUCCESSED_COUNT,p.FAILED_COUNT,p.SUCCESSED_AVG,p.SUPPLIER_ID
+  </sql>
+  
+  
+   <!-- 1.根据id查询 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="SupplierPqrecordResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PQIMS_SUPPLIER_PQRECORD p
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   <!-- 2.查询 -->
+  <select id="queryByList" resultMap="SupplierPqrecordResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PQIMS_SUPPLIER_PQRECORD p
+    order by SUCCESSED_COUNT DESC
+  </select>
+  
+  <!-- 3.根据供应商名称查询 -->
+  <select id="queryByName" resultMap="SupplierPqrecordResultMap" parameterType="Object">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PQIMS_SUPPLIER_PQRECORD p LEFT JOIN T_SES_SMS_SUPPLIER s on p.SUPPLIER_ID = s.ID
+    <if test="supplier.supplierName != null and supplier.supplierName != ''">
+   		where s.SUPPLIER_NAME LIKE '%'||#{supplier.supplierName}||'%'
+    </if>
+    order by SUCCESSED_COUNT DESC
+  </select>
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="bss.model.pqims.SupplierPqrecord">
+	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_PQIMS_SUPPLIER_PQRECORD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="successedCount != null">
+        SUCCESSED_COUNT
+      </if>
+      <if test="failedCount != null">
+        FAILED_COUNT,
+      </if>
+      <if test="successedAvg != null and successedAvg != ''">
+        SUCCESSED_AVG,
+      </if>
+      <if test="supplier != null">
+        SUPPLIER_ID,
+      </if> 
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="successedCount != null">
+        #{successedCount},
+      </if>
+      <if test="failedCount != null">
+        #{failedCount}, 
+      </if>
+      <if test="successedAvg != null and successedAvg != ''">
+        #{successedAvg}, 
+      </if>
+      <if test="supplier != null">
+        #{supplier.id},
+      </if> 
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="bss.model.pqims.SupplierPqrecord">
+    update T_BSS_PQIMS_SUPPLIER_PQRECORD
+    <set>
+      <if test="successedCount != null">
+        SUCCESSED_COUNT = #{successedCount}, 
+      </if>
+      <if test="failedCount != null">
+        FAILED_COUNT = #{failedCount}, 
+      </if>
+      <if test="successedAvg != null and successedAvg != ''">
+        SUCCESSED_AVG = #{successedAvg}, 
+      </if>
+      <if test="supplier != null">
+        SUPPLIER_ID = #{supplier.id},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+	
+	<select id="selectByName" parameterType="java.lang.String" resultMap="SupplierPqrecordResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PQIMS_SUPPLIER_PQRECORD p LEFT JOIN T_SES_SMS_SUPPLIER s on p.SUPPLIER_ID = s.ID
+    where s.SUPPLIER_NAME = #{name,jdbcType=VARCHAR}
+  </select>
+
+
+  <!-- 2.根据id删除 -->
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_PQIMS_SUPPLIER_PQRECORD
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 3.插入数据 -->
+  <insert id="insertSupplierId" parameterType="Object">
+	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_PQIMS_SUPPLIER_PQRECORD p
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        p.ID,
+      </if>
+      <if test="supplierId != null">
+        p.SUPPLIER_ID,
+      </if> 
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="id != null">
+        #{id},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if> 
+    </trim>
+  </insert>
+</mapper>

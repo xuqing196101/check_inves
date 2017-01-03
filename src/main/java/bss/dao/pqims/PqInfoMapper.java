@@ -3,6 +3,8 @@ package bss.dao.pqims;
 import java.math.BigDecimal;
 import java.util.List;
 
+import ses.model.sms.Supplier;
+
 import bss.model.pqims.PqInfo;
 import bss.model.sstps.Select;
 
@@ -102,7 +104,7 @@ public interface PqInfoMapper {
      * @param:     
      * @return:
      */
-    Integer queryByCount();
+    Integer queryByCount(String id);
     
     /**
      * 
@@ -157,7 +159,7 @@ public interface PqInfoMapper {
      * @param:     
      * @return:
      */
-    List<String> selectByDepName(PqInfo pqInfo);
+    List<Supplier> selectByDepName(PqInfo pqInfo);
     
     /**
      * 
