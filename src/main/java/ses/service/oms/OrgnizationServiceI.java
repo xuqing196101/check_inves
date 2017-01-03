@@ -130,4 +130,5 @@ public interface OrgnizationServiceI {
 	Orgnization selectByName(String name);
 	
 	List<Orgnization> findOrgPartByParam(Map<String,Object> map);
+
 }

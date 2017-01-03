@@ -134,6 +134,7 @@ function onCheck(e, treeId, treeNode) {
 	  <input type="hidden" name ="originOrgId" value="${originOrgId}"/>
 	  <input  name="password" value="${purchaseInfo.password}"  type="hidden" />
 	  <input  name="password2" value="${purchaseInfo.password}"  type="hidden" />
+	  <input type="hidden" name = "typeName" value="1">
 	  <div>
 	    <h2 class="count_flow"><i>1</i>基本信息</h2>
 		  <ul class="ul_list">

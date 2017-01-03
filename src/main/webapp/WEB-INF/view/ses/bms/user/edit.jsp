@@ -28,6 +28,10 @@
 		}
 		function showOrg() {
 		//	var typeName_id = $("#typeName_id").val();
+			var orgType = $("#org_type").val();
+			if (orgType == '3') {
+				return;
+			}
 			var userId = $("#uId").val();
 			var setting = {
 				check: {
@@ -51,7 +55,7 @@
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/user/getOrgTree.do?userId="+userId,
+             url: "${pageContext.request.contextPath}/user/getOrgTree.do?userId="+userId+"&orgType="+orgType,
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -170,6 +174,30 @@
 			}
 			
 		}
+		
+		//控制显示输入框和下来框
+		function viewOrgType(){
+			//获取机构类型
+			var orgType = $("#org_type").val();
+			if (orgType == '3') {
+				$("#oId").val("");
+				$("#orgSel").hide();
+				$("#oId").attr("type","text");
+			} else {
+				$("#orgSel").show();
+				$("#oId").attr("type","hidden");
+			}
+		}
+		
+		//回显机构
+		$(function(){
+			var orgTypeName = "${user.typeName}";
+			if (orgTypeName == '3') {
+				$("#orgSel").hide();
+				$("#oId").attr("type","text");
+				$("#oId").val("${user.orgName}");
+			}
+		});
 	</script>
 </head>
 <body>
@@ -291,15 +319,41 @@
 				        </div>
 			 		</li> --%>
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>机构类型</span>
+				        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+					        <c:choose> 
+						        <c:when  test="${not empty origin}">
+						            <select id="org_type" name="typeName" >
+							        	<option value="${typeName}" >
+							        		<c:if test="${typeName == '1'}">采购机构</c:if>
+							        		<c:if test="${typeName == '2'}">采购管理部门</c:if>
+							        		<c:if test="${typeName == '0'}">需求部门</c:if>
+							        		<c:if test="${typeName == '3'}">其他</c:if>
+							        	</option>
+							        </select>
+						        </c:when >
+						        <c:otherwise>
+						        	<select id="org_type" name="typeName" onclick="viewOrgType()">
+						        	<option value="1" <c:if test="${user.typeName == '1'}">selected</c:if>>采购机构</option>
+						        	<option value="2" <c:if test="${user.typeName == '2'}">selected</c:if>>采购管理部门</option>
+						        	<option value="0" <c:if test="${user.typeName == '0'}">selected</c:if>>需求部门</option>
+						        	<option value="3" <c:if test="${user.typeName == '3'}">selected</c:if>>其他</option>	
+						        </select>
+						        </c:otherwise>
+						    </c:choose>
+					        <div class="cue"><sf:errors path="typeName"/></div>
+				        </div>
+				 	</li>
+			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>所属机构</span>
 					   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-						   	<input id="oId" name="orgId" type="hidden" value="${orgId }">
+						   	<input id="oId" name="orgId" type="hidden" value="${orgId}">
 						   	<c:choose>
 						   		<c:when test="${not empty origin}">
-						   		   <input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName }"  />
+						   		   <input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName}"  />
 						   		</c:when>
 						   		<c:otherwise>
-						   			<input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName }"  onclick="showOrg();" />
+						   			<input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName}"  onclick="showOrg();" />
 						   		</c:otherwise>
 						   	</c:choose>
 					        <div class="drop_up" onclick="showOrg();">

@@ -75,7 +75,7 @@
 			var iframeWin;
 			layer.open({
 			  type: 2, //page层
-			  area: ['300px', '500px'],
+			  area: ['300px', '420px'],
 			  title: '配置权限',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度

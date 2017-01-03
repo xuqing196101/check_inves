@@ -455,4 +455,5 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
     public List<Orgnization> findOrgPartByParam(Map<String, Object> map) {
         return orgniztionMapper.findOrgPartByParam(map);
     }
+
 }

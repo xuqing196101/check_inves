@@ -125,7 +125,7 @@
 			var iframeWin;
 			layer.open({
 			  type: 2, //page层
-			  area: ['300px', '500px'],
+			  area: ['300px', '420px'],
 			  title: '配置权限',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -280,7 +280,10 @@
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tl pl20" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
 					  <td class="tc">${user.relName}</td>
-					  <td class="tl pl20">${user.org.name}</td>
+					  <td class="tl pl20">
+					  	<c:if test="${user.org != null }">${user.org.name}</c:if>
+					  	<c:if test="${user.org == null }">${user.orgName}</c:if>
+					  </td>
 					  <td class="tc">${user.mobile}</td>
 					  <td class="tc">
 					  	<c:set var="roleCode" value=""/>

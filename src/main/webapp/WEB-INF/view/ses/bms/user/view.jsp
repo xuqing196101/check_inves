@@ -59,8 +59,16 @@
 		 			<td class="bggrey">修改日期：</td><td><fmt:formatDate value='${user.updatedAt}' pattern='yyyy-MM-dd  HH:mm:ss'/></td>
 		 		</tr>
 		 		<tr>
-		 			<td class="bggrey">联系电话：</td><td>${user.telephone}</td>
-		 			<td class="bggrey">角色：</td><td colspan="5">${roleName}</td>
+		 			<td class="bggrey">座机：</td><td>${user.telephone}</td>
+		 			<td class="bggrey">机构：</td>
+		 			<td colspan="3">
+		 				<c:if test="${user.typeName == '3' }">${user.orgName}</c:if>
+		 				<c:if test="${user.typeName != '3' }">${user.org.name}</c:if>
+		 			</td>
+		 		</tr>
+		 		<tr>
+		 			
+		 			<td class="bggrey">角色：</td><td colspan="3">${roleName}</td>
 		 		</tr>
 		 		<tr>
 		 			<td class="bggrey w160">详细地址：</td><td colspan="3">${user.address}</td>
