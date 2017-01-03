@@ -39,7 +39,7 @@ $(document).ready(function(){
 	 	<img src="${pageContext.request.contextPath}/index/downloadDetailsImage.html" width="100%" height="100%"/>
 	 </div>
 	 <div class="extra_file">
-	      <span id="extra_file" class="fl mt12"> 所有文件：</span>
+	      <span id="extra_file" class="fl mt12"> 附件：</span>
 	      <div>
 	          <u:show showId="artice_file_show" delete="false" businessId="${articleId}" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 	      </div>

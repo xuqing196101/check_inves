@@ -2638,3 +2638,10 @@ h2.list_title{
 .bordertop {
     border-top: 0px;
 }
+
+.articleover li{
+	overflow: hidden;
+	line-height:30px;
+	height:30px;
+	width:95%;
+}
