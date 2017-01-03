@@ -247,7 +247,7 @@ public class PlanLookController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/auditlook")
-	public String auditlook(String id,Model model){
+	public String auditlook(String id,Model model,HttpServletRequest request){
 		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
@@ -258,16 +258,16 @@ public class PlanLookController extends BaseController {
 		
 		List<String> depList = putchaseRequiredMapper.queryDepartMent(no);
 	
-		List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
-		PurchaseRequired p=new PurchaseRequired();
-		if(no!=null&&no.size()>0){
-			for(String s:no){
-				p.setUniqueId(s);
-				p.setIsMaster(1);
-				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByUinuqe(p);
-				list.addAll(pur);
-			}
-		}
+//		List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
+//		PurchaseRequired p=new PurchaseRequired();
+//		if(no!=null&&no.size()>0){
+//			for(String s:no){
+//				p.setUniqueId(s);
+//				p.setIsMaster(1);
+//				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByUinuqe(p);
+//				list.addAll(pur);
+//			}
+//		}
 		
 	/*	for(int i=0;i<list.size();i++){
 			if(i<list.size()-1){
@@ -277,6 +277,9 @@ public class PlanLookController extends BaseController {
 			}
 			
 		}*/
+		
+		List<PurchaseRequired> list = collectPlanService.getAll(id,request);
+		
 		model.addAttribute("list", list);
 		model.addAttribute("org",org);
 		model.addAttribute("id", id);

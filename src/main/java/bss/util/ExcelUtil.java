@@ -141,7 +141,13 @@ public class ExcelUtil {
  			        					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能包含英文括号!";
  			        					 map.put("errMsg", errMsg);
  			        					 bool=false;
- 				        				 continue;
+ 				        				 break;
+ 			        				}
+ 			        				if(cell.getStringCellValue().trim().length()<1){
+ 			        					errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能为空!";
+			        					 map.put("errMsg", errMsg);
+			        					 bool=false;
+				        				 break;
  			        				}
  			        				rq.setSeq(cell.getRichStringCellValue().toString());
 			        				 continue;
@@ -153,20 +159,21 @@ public class ExcelUtil {
 			        			else {
 			        					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不允许为空！";
 				        				 map.put("errMsg", errMsg);
-				        				 bool=false;
+				        				 break;
 			        				}
 	        			 }
 	        			 if(cell.getColumnIndex()==1){
 	        				 if(cell.getCellType()==1){
 	        				     String dep = cell.getStringCellValue();
 	        				     if(dep.trim().length()!=0){
-	        				    	 if(isContainChinese(dep)==true){
+	        				    	 boolean chinese = isContainChinese(rq.getSeq());
+	        				    	 if(chinese==true){
 	        				    		 Orgnization orgnization = excelUtil.purchaseRequiredService.queryByName(dep);
 			        					 if(orgnization==null){
 			        						 errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，需求部门不存在，请在系统中维护！";
 					        				 map.put("errMsg", errMsg);
 					        				  bool=false;
-					        				 continue; 
+					        				  break; 
 			        					 }
 	        				    	 }
 	        					 }
@@ -178,7 +185,7 @@ public class ExcelUtil {
 		        				if(cell.getCellType()!=3){
 		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，请输入文本类型！";
 			        				 map.put("errMsg", errMsg);
-			        				 bool=false;
+			        				 break;
 		        				}
 	        				 }
 	        			 }
@@ -191,7 +198,7 @@ public class ExcelUtil {
 	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，C列错误";
 		        				 map.put("errMsg", errMsg);
 		        				 bool=false;
-		        				 continue;
+		        				 break;
 		        			}
 	        			 }
 	        			 if(cell.getColumnIndex()==3){
@@ -201,7 +208,7 @@ public class ExcelUtil {
 		        			}if(cell.getCellType()!=3){
 		        				 errMsg=String.valueOf(row.getRowNum()+1)+"行，D列错误";
 		        				 map.put("errMsg", errMsg);
-		        				 bool=false;
+		        				 break;
 		        			}
 	        			 }
 	        			 if(cell.getColumnIndex()==4){
@@ -212,7 +219,7 @@ public class ExcelUtil {
 		        				 errMsg=String.valueOf(row.getRowNum()+1)+"行，E列错误";
 		        				 map.put("errMsg", errMsg);
 		        				 bool=false;
-		        				 continue;
+		        				 break;
 		        			}
 	        			 }
 	        			 if(cell.getColumnIndex()==5){
@@ -225,7 +232,7 @@ public class ExcelUtil {
 		        				 errMsg=String.valueOf(row.getRowNum()+1)+"行，F列错误";
 		        				 map.put("errMsg", errMsg);
 		        				 bool=false;
-		        				 continue;
+		        				 break;
 		        			}
 	        			 }
 	        			 if(cell.getColumnIndex()==6){
@@ -240,20 +247,27 @@ public class ExcelUtil {
 	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误";
 		        				 map.put("errMsg", errMsg);
 		        				 bool=false;
+		        				 break;
 	        				 	}
 	        				 }
 	        			 }
 	        			 if(cell.getColumnIndex()==7){
 	        				 boolean addMer = isAddMer(sheet,row.getRowNum(),cell.getColumnIndex());
 	        				 if(rq.getItem()!=null){
-	        					 if(addMer==true){
-        							 rq.setPrice(getMergedRegionValue(sheet,row.getRowNum(),cell.getColumnIndex()));
-		        				 }
-	        					 
+	        					
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
 			        				  rq.setPrice(new BigDecimal(cell.getNumericCellValue()));
 		        					 continue;
-		        				 } 
+		        				 }
+	        					 
+//	        					 else  if(addMer==true){
+//	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误,不能合并单元格！";
+//			        				 map.put("errMsg", errMsg); 
+//			        				 bool=false;
+//			        				 break;
+//			        				 
+//			        				 
+//		        				 } 
 	        					 if(cell.getCellType()!=3){
 		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，H列错误";
 			        				 map.put("errMsg", errMsg); 
@@ -265,10 +279,15 @@ public class ExcelUtil {
 	        			 }
 	        			 if(cell.getColumnIndex()==8){
 //	        				 if(rq.getItem()!=null){
-	        				 boolean addMer = isAddMer(sheet,row.getRowNum(),cell.getColumnIndex());
-	        				 if(addMer==true){
-    							 rq.setBudget(getMergedRegionValue(sheet,row.getRowNum(),cell.getColumnIndex()));
-	        				 }
+//	        				 boolean addMer = isAddMer(sheet,row.getRowNum(),cell.getColumnIndex());
+//	        				 if(addMer==true){
+//    							 rq.setBudget(getMergedRegionValue(sheet,row.getRowNum(),cell.getColumnIndex()));
+//	        					 
+//	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，I列错误,不能合并单元格！";
+//		        				 map.put("errMsg", errMsg);
+//		        				 bool=false;
+//		        				 break;
+//	        				 }
 	        				 
 	        				 
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC||cell.getCellType()==HSSFCell.CELL_TYPE_FORMULA){
@@ -279,6 +298,7 @@ public class ExcelUtil {
 		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，I列错误";
 			        				 map.put("errMsg", errMsg);
 			        				 bool=false;
+			        				 break;
 		        				 }
 //	        				 }
 	        				
@@ -300,6 +320,7 @@ public class ExcelUtil {
 		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，J列错误";
 			        				 map.put("errMsg", errMsg); 
 			        				 bool=false;
+			        				 break;
 		        				 }
 	        				}
 	        			 }
@@ -322,6 +343,7 @@ public class ExcelUtil {
 	        					 errMsg=String.valueOf(row.getRowNum()+1)+"L行列错误，非文本格式!";
 		        				 map.put("errMsg", errMsg); 
 		        				 bool=false;
+		        				 break;
 	        				 }
 	        				
 	        			 }
@@ -358,6 +380,7 @@ public class ExcelUtil {
 	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行M列错误";
 		        				 map.put("errMsg", errMsg);
 		        				 bool=false;
+		        				 break;
 	        				}
 	        			 }
 	        			 if(cell.getColumnIndex()==13){
@@ -369,6 +392,7 @@ public class ExcelUtil {
 		        				 map.put("errMsg", errMsg);
 //		        				 continue;
 		        				 bool=false;
+		        				 break;
 	        				}
 	        			 }
 	        			 rq.setPlanName(planName);
@@ -491,7 +515,7 @@ public class ExcelUtil {
 		boolean bool=true;
 		Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
 		Matcher m = p.matcher(str);
-	    if(m.find()==true&&str.contains("（")){
+	    if(m.find()==true&&!str.contains("（")){
 	        	bool=true;
 	     }else{
 	        	bool=false;

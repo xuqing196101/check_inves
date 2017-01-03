@@ -253,6 +253,18 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		// TODO Auto-generated method stub
 		return purchaseRequiredMapper.queryByUinuqe(purchaseRequired);
 	}
+
+	@Override
+	public List<PurchaseRequired> getUnique(String unique) {
+		// TODO Auto-generated method stub
+		return purchaseRequiredMapper.getByUinuqeId(unique);
+	}
+
+	@Override
+	public Integer getChilden(String children) {
+		// TODO Auto-generated method stub
+		return purchaseRequiredMapper.queryChilden(children);
+	}
 	
 
 }

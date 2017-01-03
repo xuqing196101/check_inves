@@ -83,4 +83,24 @@ public class Aaa extends Cbb{
 		
 		
 	}
+	@Test
+	public void same(){
+		String str[]={"1","1","2"};
+		for(int i=0;i<str.length;i++){
+			if(i<str.length){
+				if(str[i]==str[i+1]){
+						// list[i]的值第一个的几个子节点 返回值
+					    //查询str[i+1]的值
+						//list.get(i+1).seq((list[i]返回的字节的值加一));的值
+					    // listget(i+1)的修改parent的值list[i]的id
+					
+					
+				}
+			}
+			
+		}
+		
+		
+		}
+	
 	}

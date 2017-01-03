@@ -235,8 +235,10 @@ public class PurchaseRequiredController extends BaseController{
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,String planDepName,MultipartFile file,String type,String planName,String planNo,Model model) throws Exception{
         String fileName = file.getOriginalFilename();  
-        if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){
-        	return "文件格式不支持";
+        if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){  
+        	
+        	String errors="";
+        	return "1";
         }  
         
 		List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
