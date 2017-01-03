@@ -113,20 +113,22 @@ public class ExpertAuditController {
 			expert.setSign(signs);
 			request.getSession().removeAttribute("signs");
 		}
-		
-		List<Expert> expList = expertService.findExpertAuditList(expert, pageNum==null?1:pageNum);
-		// 筛选,只有指定机构的人可以看到
-		List<Expert> expertList = new ArrayList<Expert>();
+		//获取登录人的机构id
 		User user = (User) request.getSession().getAttribute("loginUser");
 		String orgId = user.getOrg().getId();
-		PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(orgId);
-		if (dep != null && dep.getId() != null) {
+		PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
+		expert.setPurchaseDepId(depId.getId());
+		List<Expert> expertList = expertService.findExpertAuditList(expert, pageNum==null?1:pageNum);
+		// 筛选,只有指定机构的人可以看到
+		/*List<Expert> expertList = new ArrayList<Expert>();*/
+		
+		/*if (dep != null && dep.getId() != null) {
 		    for (Expert exp : expList) {
 		        if (exp.getPurchaseDepId() != null && exp.getPurchaseDepId().equals(dep.getId())) {
 		            expertList.add(exp);
 		        }
 		    }
-		}
+		}*/
 		/*if(expert.getSign() == 2){
 			List<Expert> list = new ArrayList<Expert>();
 			for(Expert e : expertList){

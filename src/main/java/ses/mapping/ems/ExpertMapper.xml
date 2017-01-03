@@ -1038,6 +1038,7 @@
 		T_SES_BMS_DICTIONARY_DATA t2
 		on t1.GENDER = t2.ID
 		where 1=1
+		and PURCHASE_DEP_ID = #{purchaseDepId}
 		<if test="sign == 1">
 			and IS_SUBMIT = 1
 			and (STATUS = 0 or STATUS = 1 or STATUS = 2 or STATUS = 3)

@@ -15,8 +15,8 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
 .t_r{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
 .t_r_t{width:100%; overflow:hidden;} 
 .bordertop{ border-top:0px;} 
-.t_r table{width:1700px;} 
-.t_r_title{width:1720px;}
+.t_r table{max-width:1700px;min-width:735px;} 
+.t_r_title{max-width:1700px;min-width:735px;}
 </style>
 	<!-- Meta -->
 	<meta charset="utf-8">
@@ -49,17 +49,17 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
   </div>
   <!-- 表格开始-->
   <div>
-	        <div class="t_left"> 
+	        <div class="t_left mt20"> 
 			<div style="width:100%;"> 
-	        <table class="table table-bordered table-condensed table_input" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
+	        <table class="m0" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
 			      <th colspan="4"></th>
 			  </tr>
 			  <tr>
-		   	  	  <th class="w100">评审项目</th>
-		   	      <th class="w100">评审指标</th>
-		   	      <th class="w100">指标模型</th>
-		   	      <th class="w100">标准分值</th>
+		   	  	  <th width="25%" class="tc">评审项目</th>
+		   	      <th width="25%" class="tc">评审指标</th>
+		   	      <th width="25%" class="tc">指标模型</th>
+		   	      <th width="25%" class="tc">标准分值</th>
 			  </tr>
 			</table>
 			</div> 
@@ -69,9 +69,9 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			    	      <td class="tc w100" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
-			    	      <td class="w100"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
-			 	  		  <td class="w100">
+			    	      <td width="25%" class="tc" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
+			    	      <td width="25%" class="tc" ><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
+			 	  		  <td width="25%" class="tc" >
 			 	    	    <c:if test="${score.typeName == 0}">模型一</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型二</c:if>
 				 	        <c:if test="${score.typeName == 2}">模型三</c:if>
@@ -81,7 +81,7 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
 				 	        <c:if test="${score.typeName == 6}">模型七</c:if>
 				 	        <c:if test="${score.typeName == 7}">模型八</c:if>
 				 	      </td>
-				 	      <td class="tc w100">${score.standardScore}</td>
+				 	      <td width="25%" class="tc" >${score.standardScore}</td>
 				 	    </tr>
 				 	  </c:if>
 				 	</c:forEach>
@@ -89,7 +89,7 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
 			</table>	    
 		  </div>
 		  </div>
-		  <div class="t_r"> 
+		  <div class="t_r mt20"> 
 			<div class="t_one">
 			<div class="t_r_t" id="t_r_t"> 
 			<div class="t_r_title"> 
