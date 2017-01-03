@@ -172,11 +172,12 @@
               <td align="center">${tuser.duties}</td> 
               <td colspan="2" align="center"></td>
             </tr>
+
 					</c:forEach>
 				</table>
 			</div>
 		</div>
-		<div class="col-md-12 col-xs-12 col-sm-12">
+		<div class="col-md-12 col-xs-12 col-sm-12 tc">
 				<button class="btn btn-windows back" onclick="history.go(-1)"
 					type="button">返回</button>
 		</div>

@@ -113,78 +113,49 @@
 						var s = detailRow.length;
 						// var trs = $(obj).parent().parent();
 						if(detailRow.length==0){
-<<<<<<< Updated upstream
 							$("#detailZeroRow").html("<tr name='detailRow' class='tc w50 p0'><td><input type='hidden' name='list[" + 0 + "].id' />" +
 									"<input class='m0 w50' type='text' name='list[" + 0 + "].seq' /></td>" +
-									"<td class='w100'  name='department'><input class='m0 w100'  type='text' name='list[" + 0 + "].department'  value=''/></td>" +
-									"<td class='ww00' ><input class='m0 w200' type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
-									"<td class='w100'  ><input class='m0 w100' type='text' name='list[" + 0 + "].stand' /></td>" +
-									"<td class='w80' ><input class='m0 w100' type='text' name='list[" + 0 + "].qualitStand' /></td>" +
-									"<td class='w80' ><input class='m0 w100' type='text' name='list[" + 0 + "].item' /> </td>" +
-									"<td class='w80'  name='purchaseQuantity'><input class='m0 w80' type='text' name='list[" + 0 + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
-									"<td class='w80' name='unitPrice'><input class='m0 w80' type='text' name='list[" + 0 + "].price' onkeyup='checkNum(this,2)'/></td>" +
-									"<td class='w80' ><input type='text' class='m0 w80'  name='list[" + 0 + "].budget' readonly='readonly' /></td>" +
-									"<td class='w100' ><input type='text' class='m0' name='list[" + 0 + "].deliverDate' /></td>" +
-									"<td class='w120'><select name='list[" + 0 + "].purchaseType' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
-=======
-							$("#detailZeroRow").html("<tr name='detailRow' class='tc'><td class='w50 left_table'><input type='hidden' name='list[" + 0 + "].id' class='w50'/>" +
-									"<input type='text' name='list[" + 0 + "].seq'class='w50 m0' /></td>" +
-									"<td name='department'><input type='text' name='list[" + 0 + "].department'  value='"+value+"'/></td>" +
-									"<td><input type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
-									"<td><input type='text' name='list[" + 0 + "].stand' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].qualitStand' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].item' /> </td>" +
-									"<td name='purchaseQuantity'><input type='text' name='list[" + 0 + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
-									"<td name='unitPrice'><input type='text' name='list[" + 0 + "].price' onkeyup='checkNum(this,2)'/></td>" +
-									"<td><input type='text' name='list[" + 0 + "].budget' readonly='readonly' /></td>" +
-									"<td><input type='text' name='list[" + 0 + "].deliverDate' /></td>" +
-									"<td><select name='list[" + 0 + "].purchaseType' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
->>>>>>> Stashed changes
+									"<td class=''  name='department'><input class='m0 w100'  type='text' name='list[" + 0 + "].department'  value=''/></td>" +
+									"<td class=''' ><input class='m0 ' type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
+									"<td class=''  ><input class='m0' type='text' name='list[" + 0 + "].stand' /></td>" +
+									"<td class=' ><input class='m0 ' type='text' name='list[" + 0 + "].qualitStand' /></td>" +
+									"<td class=''' ><input class='m0 ' type='text' name='list[" + 0 + "].item' /> </td>" +
+									"<td class='''  name='purchaseQuantity'><input class='m0' type='text' name='list[" + 0 + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
+									"<td class='' name='unitPrice'><input class='m0' type='text' name='list[" + 0 + "].price' onkeyup='checkNum(this,2)'/></td>" +
+									"<td class='' ><input type='text' class='m0'  name='list[" + 0 + "].budget' readonly='readonly' /></td>" +
+									"<td class='' ><input type='text' class='m0' name='list[" + 0 + "].deliverDate' /></td>" +
+									"<td class=''><select name='list[" + 0 + "].purchaseType' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
+
 									" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
-									"<td class='w200' ><input type='text' name='list[" + 0 + "].supplier' /></td>" +
-									"<td class='w80' ><input type='text' name='list[" + 0 + "].isFreeTax' /></td>" +
-									"<td class='w200' ><input type='text' name='list[" + 0 + "].goodsUse' /></td>" +
-									"<td class='w200'  ><input type='text' name='list[" + 0 + "].useUnit' /></td>" +
-									"<td class='w200'  ><input type='text' name='list[" + 0 + "].memo' /></td>" +
+									"<td class='' ><input type='text' name='list[" + 0 + "].supplier' /></td>" +
+									"<td class='' ><input type='text' name='list[" + 0 + "].isFreeTax' /></td>" +
+									"<td class='' ><input type='text' name='list[" + 0 + "].goodsUse' /></td>" +
+									"<td class=''  ><input type='text' name='list[" + 0 + "].useUnit' /></td>" +
+									"<td class=''  ><input type='text' name='list[" + 0 + "].memo' /></td>" +
 								/* 	"<td><input type='text' name='list[" + 0 + "].status' value='暂存' readonly='readonly' /></td>" + */
-									"<td class='w100'  ><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
+									"<td class=''  ><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 									"<tr/>");
 						}else{
-<<<<<<< Updated upstream
 						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + s + "].id' />" +
-							"<input  class='m0 w50'  type='text' name='list[" + s + "].seq' /></td>" +
-							"<td class='w100'  name='department'><input   class='m0 w100'  type='text' name='list[" + s + "].department' readonly='readonly' value=''/></td>" +
-							"<td  class='ww00' ><input class='m0 w200' type='text' name='list[" + s + "].goodsName' onkeyup='listName(this)'/></td>" +
-							"<td  class='ww00' ><input class='m0 w100' type='text' name='list[" + s + "].stand' /></td>" +
-							"<td  class='w80' ><input class='m0 w200' type='text' name='list[" + s + "].qualitStand' /></td>" +
-							"<td class='w80' ><input  class='m0 w80'  type='text' name='list[" + s + "].item' /> </td>" +
-							"<td class='w80' name='purchaseQuantity'><input class='m0 w80'   type='text' name='list[" + s + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
-							"<td class='w80' name='unitPrice'><input class='m0 w80'   type='text' name='list[" + s + "].price' onkeyup='checkNum(this,2)'/></td>" +
-							"<td class='w80' ><input type='text' class='m0 w80'  name='list[" + s + "].budget' readonly='readonly' /></td>" +
-							"<td class='w100' ><input lass='m0' type='text' name='list[" + s + "].deliverDate' /></td>" +
-							"<td  class='w120' ><select class='pt m0' name='list[" + s + "].purchaseType' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
-=======
-						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'><td class='w50'><input type='hidden' name='list[" + s + "].id' />" +
-							"<input type='text' name='list[" + s + "].seq' /></td>" +
-							"<td name='department'><input type='text' name='list[" + s + "].department' readonly='readonly' value='"+value+"'/></td>" +
-							"<td><input type='text' name='list[" + s + "].goodsName' onkeyup='listName(this)'/></td>" +
-							"<td><input type='text' name='list[" + s + "].stand' /></td>" +
-							"<td><input type='text' name='list[" + s + "].qualitStand' /></td>" +
-							"<td><input type='text' name='list[" + s + "].item' /> </td>" +
-							"<td name='purchaseQuantity'><input type='text' name='list[" + s + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
-							"<td name='unitPrice'><input type='text' name='list[" + s + "].price' onkeyup='checkNum(this,2)'/></td>" +
-							"<td><input type='text' name='list[" + s + "].budget' readonly='readonly' /></td>" +
-							"<td><input type='text' name='list[" + s + "].deliverDate' /></td>" +
-							"<td><select name='list[" + s + "].purchaseType' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
->>>>>>> Stashed changes
+							"<input  class='m0'  type='text' name='list[" + s + "].seq' /></td>" +
+							"<td class=''  name='department'><input   class='m0'  type='text' name='list[" + s + "].department' readonly='readonly' value=''/></td>" +
+							"<td  class='' ><input class='m0 ' type='text' name='list[" + s + "].goodsName' onkeyup='listName(this)'/></td>" +
+							"<td  class='' ><input class='m0 ' type='text' name='list[" + s + "].stand' /></td>" +
+							"<td  class='' ><input class='m0' type='text' name='list[" + s + "].qualitStand' /></td>" +
+							"<td class='' ><input  class='m0'  type='text' name='list[" + s + "].item' /> </td>" +
+							"<td class='' name='purchaseQuantity'><input class='m0'   type='text' name='list[" + s + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
+							"<td class='' name='unitPrice'><input class='m0'   type='text' name='list[" + s + "].price' onkeyup='checkNum(this,2)'/></td>" +
+							"<td class='' ><input type='text' class='m0'  name='list[" + s + "].budget' readonly='readonly' /></td>" +
+							"<td class='' ><input lass='m0' type='text' name='list[" + s + "].deliverDate' /></td>" +
+							"<td  class='' ><select class='pt m0' name='list[" + s + "].purchaseType' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
 							" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
-							"<td class='w200' ><input class='pt w200' type='text' name='list[" + s + "].supplier' /></td>" +
-							"<td class='w80'><input class='pt w80' type='text' name='list[" + s + "].isFreeTax' /></td>" +
-							"<td class='w200' ><input class='pt w200'  type='text' name='list[" + s + "].goodsUse' /></td>" +
-							"<td class='w200' ><input class='pt w200'   type='text' name='list[" + s + "].useUnit' /></td>" +
-							"<td class='w200' ><input class='pt w200'  type='text' name='list[" + s + "].memo' /></td>" +
+							"<td class='' ><input class='pt ' type='text' name='list[" + s + "].supplier' /></td>" +
+							"<td class=''><input class='pt' type='text' name='list[" + s + "].isFreeTax' /></td>" +
+							"<td class='' ><input class='pt'  type='text' name='list[" + s + "].goodsUse' /></td>" +
+							"<td class='' ><input class='pt'   type='text' name='list[" + s + "].useUnit' /></td>" +
+							"<td class='' ><input class='pt '  type='text' name='list[" + s + "].memo' /></td>" +
 							/* "<td><input type='text' name='list[" + s + "].status' value='暂存' readonly='readonly' /></td>" + */
-							"<td class='w200' ><button  type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
+							"<td class='' ><button  type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 							"<tr/>");
 						}
 					}
@@ -850,7 +821,7 @@
 										<th class="">需求部门</th>
 										<th class="">物种名称</th>
 										<th class="">规格型号</th>
-										<th class="w179">质量技术标准（技术参数）</th>
+										<th class="">质量技术标准（技术参数）</th>
 										<th class="">计量单位</th>
 										<th class="">采购数量</th>
 										<th class="">单价（元）</th>
@@ -891,25 +862,14 @@
 										<td class=" p0">
 											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0"/>
 										</td>
-<<<<<<< Updated upstream
-										<td class="tc w100 p0"><input type="text" name="list[0].stand" class="m0 w100"></td>
-										<td class="tc w100 p0"><input type="text" name="list[0].qualitStand" class="m0 w200"></td>
-										<td class="tc w80 p0"><input type="text" name="list[0].item" class="m0 w80"></td>
-										<td class="tc w80 p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 w80"></td>
-										<td class="tc w80 p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 w80"></td>
-										<td class="tc w80 p0"><input type="text" name="list[0].budget" class="m0 w80" ></td>
-										<td class="w100 p0"><input type="text" name="list[0].deliverDate" class="m0"></td>
-										<td class="w120 p0">
-=======
 										<td class="tc  p0"><input type="text" name="list[0].stand" class="m0 "></td>
-										<td class="tc  w179"><input type="text" name="list[0].qualitStand" class="m0 "></td>
+										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 "></td>
 										<td class="tc p0"><input type="text" name="list[0].item" class="m0 "></td>
 										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 "></td>
-										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0 " ></td>
+										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 "></td>
+										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0" ></td>
 										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0"></td>
 										<td class=" p0">
->>>>>>> Stashed changes
 											<select name="list[0].purchaseType" class="pt m0" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
