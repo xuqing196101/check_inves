@@ -2174,5 +2174,11 @@ import ses.util.WfUtil;
      }
      return JSON.toJSONString(allInfo);
    }
+   
+   @ResponseBody
+   @RequestMapping("/getUUID")
+   public String getUUID() {
+       return UUID.randomUUID().toString().toUpperCase().replace("-", "");
+   }
 
  }
