@@ -1081,6 +1081,7 @@
 		FROM t_ses_sms_supplier
 		WHERE
 		1=1
+		and PROCUREMENT_DEP_ID = #{procurementDepId}
 		<if test="sign == 1">
 			and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or
 			SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)

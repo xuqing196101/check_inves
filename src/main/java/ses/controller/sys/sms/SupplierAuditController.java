@@ -1266,27 +1266,21 @@ public class SupplierAuditController extends BaseSupplierController{
 		    page = StaticVariables.DEFAULT_PAGE;
 		}
 		
-		List<Supplier> list = supplierAuditService.getAuditSupplierList(supplier, page);
-		// 判断权限
-		List<Supplier> supplierList = new ArrayList<Supplier>();
-        User user = (User) request.getSession().getAttribute("loginUser");
+		//获取登录人机构id
+		User user = (User) request.getSession().getAttribute("loginUser");
         String orgId = user.getOrg().getId();
-        PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(orgId);
-        if (dep != null && dep.getId() != null) {
-            for (Supplier supp : list) {
-                if (supp.getProcurementDepId() != null && supp.getProcurementDepId().equals(dep.getId())) {
-                    supplierList.add(supp);
-                }
-            }
-        }
+        PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
+        supplier.setProcurementDepId(depId.getId());
+        
+        //查询列表
+		List<Supplier> supplierList = supplierAuditService.getAuditSupplierList(supplier, page);
 		PageInfo<Supplier> pageInfo =  new PageInfo<Supplier>(supplierList);
 		request.setAttribute("result", getSupplierType(pageInfo));
 		
 		//企业性质
 		List<DictionaryData> enterpriseTypeList = DictionaryDataUtil.find(17);
 		request.setAttribute("enterpriseTypeList", enterpriseTypeList);
-		
-		
+
 		
 		//回显
 		String supplierName = supplier.getSupplierName();

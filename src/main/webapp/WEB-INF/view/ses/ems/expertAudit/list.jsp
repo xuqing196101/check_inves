@@ -16,7 +16,7 @@
 					total: "${result.total}",
 					startRow: "${result.startRow}",
 					endRow: "${result.endRow}",
-					groups: "${result.pages}" >= 5 ? 5 : "${result.pages}", //连续显示分页数
+					groups: "${result.pages}" >= 3 ? 3 : "${result.pages}", //连续显示分页数
 					curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
 						return "${result.pageNum}";
 					}(),
