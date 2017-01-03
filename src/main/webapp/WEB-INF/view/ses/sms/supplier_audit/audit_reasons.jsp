@@ -19,6 +19,8 @@
        var num = ${num};
        if(num == 0){
          $("#tuihui").attr("disabled", true);
+         $("#butongguo").attr("disabled", true);
+         $("#buhege").attr("disabled", true);
        }
        if(num != 0){
          $("#tongguo").attr("disabled", true);
@@ -308,15 +310,15 @@
 		            <c:if test="${status == 0}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="审核通过 " id="tongguo">
 		              <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
-		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过">
+		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">
 		            </c:if>
 		            <c:if test="${status == 4}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
-		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过">
+		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过" id="butongguo">
 		            </c:if>
 		            <c:if test="${status == 5}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(7)" value="合格 " id="hege">
-		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(8)" value="不合格">
+		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(8)" value="不合格" id="buhege">
 		            </c:if>
 	              </div>
 	            </div>

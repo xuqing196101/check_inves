@@ -128,6 +128,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
+  <!-- 供应商生产经营地址 -->
   <select id="queryBySupplierId"  resultMap="BaseResultMap">
      SELECT
 			t1.*, 

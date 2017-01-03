@@ -315,8 +315,15 @@ public class SupplierAuditController extends BaseSupplierController{
 			}
 		}
 		
-		
-		List<SupplierAddress> supplierAddress= supplierAddressService.getBySupplierId(supplierId);
+		//生产经营地址
+		List<SupplierAddress> supplierAddress= supplierAddressService.queryBySupplierId(supplierId);
+		for(Area a : privnce){
+			for(SupplierAddress s : supplierAddress){
+				if(a.getId().equals(s.getParentId())){
+					s.setParentName(a.getName());
+				}
+			}	
+		}
 		request.setAttribute("supplierAddress", supplierAddress);
 
 		//查出全部修改的
