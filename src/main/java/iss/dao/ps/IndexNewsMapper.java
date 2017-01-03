@@ -72,4 +72,6 @@ public interface IndexNewsMapper {
 	* @return Integer
 	 */
 	Integer selectCount(Map<String,Object> countMap);
+	
+	List<Article> selectAllByName(Map<String,Object> map);
 }

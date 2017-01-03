@@ -11,6 +11,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
 
 
 /**
@@ -62,5 +66,12 @@ public class IndexNewsServiceImpl implements IndexNewsService {
 	@Override
 	public List<Article> selectNewsForJob(String id) {
 		return indeNewsMapper.selectNewsForJob(id);
+	}
+
+	@Override
+	public List<Article> selectAllByName(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return indeNewsMapper.selectAllByName(map);
 	}
 }

@@ -1197,28 +1197,36 @@ public class IndexNewsController extends BaseSupplierController{
 	@RequestMapping("/solrSearch")
 	public String solrSearch(Model model,HttpServletRequest request,Integer page) throws Exception{
 		String condition = request.getParameter("condition");
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		String pageSize = config.getString("pageSize");
 		if(page==null){
 			page=1;
 		}
-		Integer pages=0;
-		Integer startRow=0;
-		Integer endRow=0;
-		Map<String, Object> map = null;
-		if(condition!=null && !condition.equals("")){
-			map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
-			pages = (Integer)map.get("tdsTotal");
-			startRow = (page-1)*Integer.parseInt(pageSize)+1;
-			endRow = startRow+(((List<IndexEntity>)map.get("indexList")).size()-1);
-		}
-		model.addAttribute("total", pages);
-		model.addAttribute("startRow", startRow);
-		model.addAttribute("endRow", endRow);
-		model.addAttribute("solrMap",map);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("title", condition);
+		map.put("page", page);
+		List<Article> articleList = indexNewsService.selectAllByName(map);
+		model.addAttribute("indexList", articleList);
 		model.addAttribute("oldCondition", condition);
-		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
-		return "iss/ps/index/index_solr";
+		model.addAttribute("list", new PageInfo<Article>(articleList));
+//		if(page==null){
+//			page=1;
+//		}
+//		Integer pages=0;
+//		Integer startRow=0;
+//		Integer endRow=0;
+//		Map<String, Object> map = null;
+//		if(condition!=null && !condition.equals("")){
+//			map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
+//			pages = (Integer)map.get("tdsTotal");
+//			startRow = (page-1)*Integer.parseInt(pageSize)+1;
+//			endRow = startRow+(((List<IndexEntity>)map.get("indexList")).size()-1);
+//		}
+//		model.addAttribute("total", pages);
+//		model.addAttribute("startRow", startRow);
+//		model.addAttribute("endRow", endRow);
+//		model.addAttribute("solrMap",map);
+//		model.addAttribute("oldCondition", condition);
+//		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
+		return "iss/ps/index/index_alltwo";
 	}
 	
 	/**

@@ -98,4 +98,16 @@
 	 	and name like '%'||#{title}||'%'
 	</if>
   </select>
+  
+  <select id="selectAllByName" parameterType="Map" resultMap="IndexNewsMapper">
+  	select 
+  	<include refid="IndexNews_Column_List"/>
+  	from t_iss_ps_article
+  	where is_deleted =0 
+  	<if test="title!=null and title!=''">
+  	and name like '%'||#{title}||'%'
+  	</if>
+  	and status=2
+  	order by published_at desc
+  </select>
 </mapper>
