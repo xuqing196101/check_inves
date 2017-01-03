@@ -1339,15 +1339,15 @@ function deleteFinance() {
 							<tr>
 							<!-- 	infotd=$(obj).parent().next().children().children(":last"); <th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
 								</th> -->
-								<th class="w50 info">年份</th>
-								<th class="info">会计事务所名称</th>
-								<th class="info">事务所联系电话</th>
-								<th class="info">审计人姓名</th>
+								<th class="w50 info"><i class="red">*</i> 年份</th>
+								<th class="info"><i class="red">*</i> 会计事务所名称</th>
+								<th class="info"><i class="red">*</i> 事务所联系电话</th>
+								<th class="info"><i class="red">*</i> 审计人姓名</th>
 								<!-- <th class="info">指标</th> -->
-								<th class="info">资产总额</th>
-								<th class="info">负债总额</th>
-								<th class="info">净资产总额</th>
-								<th class="info">营业收入</th>
+								<th class="info"><i class="red">*</i> 资产总额</th>
+								<th class="info"><i class="red">*</i> 负债总额</th>
+								<th class="info"><i class="red">*</i> 净资产总额</th>
+								<th class="info"><i class="red">*</i> 营业收入</th>
 							</tr>
 						</thead>
 						<tbody id="finance_list_tbody_id">
@@ -1392,12 +1392,12 @@ function deleteFinance() {
 							<tr>
 								<!-- <th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
 								</th> -->
-								<th class="w50 info">年份</th>
-								<th class="info">财务利润表</th>
-								<th class="info">审计报告的审计意见</th>
-								<th class="info">资产负债表</th>
-								<th class="info">现金流量表</th>
-								<th class="info">所有者权益变动表</th>
+								<th class="w50 info"><i class="red">*</i> 年份</th>
+								<th class="info"><i class="red">*</i> 财务利润表</th>
+								<th class="info"><i class="red">*</i> 审计报告的审计意见</th>
+								<th class="info"><i class="red">*</i> 资产负债表</th>
+								<th class="info"><i class="red">*</i> 现金流量表</th>
+								<th class="info"><i class="red">*</i> 所有者权益变动表</th>
 							</tr>
 						</thead>
 						<tbody id="finance_attach_list_tbody_id">
