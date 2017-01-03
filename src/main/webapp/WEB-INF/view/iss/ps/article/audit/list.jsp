@@ -251,9 +251,9 @@
                </select>
            </span>
             </li>
+          </ul>
             <button type="submit" class="btn">查询</button>
             <button type="button" class="btn" onclick="resetQuery()">重置</button>
-          </ul>
           <div class="clear"></div>
         </form>
       </div>
