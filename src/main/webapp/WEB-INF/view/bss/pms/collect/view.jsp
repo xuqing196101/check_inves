@@ -167,7 +167,7 @@
 		<div class="headline-v2 fl">
 			<h2>计划明细</h2>
 		</div>
-		<div class="container clear margin-top-30 over_scroll ">
+		<div class="container clear margin-top-30 over_scroll h365">
 
 			<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
 				<table class="table table-bordered table-condensed mt5 space_nowrap">

@@ -43,10 +43,10 @@
   </head>  
   
   <body>  
-    <div class="container clear margin-top-30" id="add_div" >
-    	<form action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
-    		<input type="file" name="file">
-    		 <input type="submit" value="导入" />
+    <div class=" mt30  id="add_div" >
+    	<form action="${pageContext.request.contextPath}/purchaser/upload.do" class="fl" method="post" enctype="multipart/form-data">
+    		<input type="file" name="file" class="fl pl20" >
+    		 <input type="submit" value="导入" class="fl" />
     	</form>
     
     <!--   <form>

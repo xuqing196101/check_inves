@@ -227,7 +227,7 @@
 		  <div class="content table_box">
 			<form id="adjust" action="${pageContext.request.contextPath}/adjust/update.html" method="post" enctype="multipart/form-data">
 				<!-- 前半部分 -->
-				<div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll">
+				<div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll h365">
 					<table id="table" class="table table-bordered table-condensed mt5 table_input">
 						<thead>
 							<tr>

@@ -113,6 +113,7 @@
 						var s = detailRow.length;
 						// var trs = $(obj).parent().parent();
 						if(detailRow.length==0){
+<<<<<<< Updated upstream
 							$("#detailZeroRow").html("<tr name='detailRow' class='tc w50 p0'><td><input type='hidden' name='list[" + 0 + "].id' />" +
 									"<input class='m0 w50' type='text' name='list[" + 0 + "].seq' /></td>" +
 									"<td class='w100'  name='department'><input class='m0 w100'  type='text' name='list[" + 0 + "].department'  value=''/></td>" +
@@ -125,6 +126,20 @@
 									"<td class='w80' ><input type='text' class='m0 w80'  name='list[" + 0 + "].budget' readonly='readonly' /></td>" +
 									"<td class='w100' ><input type='text' class='m0' name='list[" + 0 + "].deliverDate' /></td>" +
 									"<td class='w120'><select name='list[" + 0 + "].purchaseType' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
+=======
+							$("#detailZeroRow").html("<tr name='detailRow' class='tc'><td class='w50 left_table'><input type='hidden' name='list[" + 0 + "].id' class='w50'/>" +
+									"<input type='text' name='list[" + 0 + "].seq'class='w50 m0' /></td>" +
+									"<td name='department'><input type='text' name='list[" + 0 + "].department'  value='"+value+"'/></td>" +
+									"<td><input type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
+									"<td><input type='text' name='list[" + 0 + "].stand' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].qualitStand' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].item' /> </td>" +
+									"<td name='purchaseQuantity'><input type='text' name='list[" + 0 + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
+									"<td name='unitPrice'><input type='text' name='list[" + 0 + "].price' onkeyup='checkNum(this,2)'/></td>" +
+									"<td><input type='text' name='list[" + 0 + "].budget' readonly='readonly' /></td>" +
+									"<td><input type='text' name='list[" + 0 + "].deliverDate' /></td>" +
+									"<td><select name='list[" + 0 + "].purchaseType' class='pt' id='pType["+0+"]'> <option value='' >请选择</option>" +
+>>>>>>> Stashed changes
 									" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
 									"<td class='w200' ><input type='text' name='list[" + 0 + "].supplier' /></td>" +
 									"<td class='w80' ><input type='text' name='list[" + 0 + "].isFreeTax' /></td>" +
@@ -135,6 +150,7 @@
 									"<td class='w100'  ><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 									"<tr/>");
 						}else{
+<<<<<<< Updated upstream
 						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + s + "].id' />" +
 							"<input  class='m0 w50'  type='text' name='list[" + s + "].seq' /></td>" +
 							"<td class='w100'  name='department'><input   class='m0 w100'  type='text' name='list[" + s + "].department' readonly='readonly' value=''/></td>" +
@@ -147,6 +163,20 @@
 							"<td class='w80' ><input type='text' class='m0 w80'  name='list[" + s + "].budget' readonly='readonly' /></td>" +
 							"<td class='w100' ><input lass='m0' type='text' name='list[" + s + "].deliverDate' /></td>" +
 							"<td  class='w120' ><select class='pt m0' name='list[" + s + "].purchaseType' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
+=======
+						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'><td class='w50'><input type='hidden' name='list[" + s + "].id' />" +
+							"<input type='text' name='list[" + s + "].seq' /></td>" +
+							"<td name='department'><input type='text' name='list[" + s + "].department' readonly='readonly' value='"+value+"'/></td>" +
+							"<td><input type='text' name='list[" + s + "].goodsName' onkeyup='listName(this)'/></td>" +
+							"<td><input type='text' name='list[" + s + "].stand' /></td>" +
+							"<td><input type='text' name='list[" + s + "].qualitStand' /></td>" +
+							"<td><input type='text' name='list[" + s + "].item' /> </td>" +
+							"<td name='purchaseQuantity'><input type='text' name='list[" + s + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
+							"<td name='unitPrice'><input type='text' name='list[" + s + "].price' onkeyup='checkNum(this,2)'/></td>" +
+							"<td><input type='text' name='list[" + s + "].budget' readonly='readonly' /></td>" +
+							"<td><input type='text' name='list[" + s + "].deliverDate' /></td>" +
+							"<td><select name='list[" + s + "].purchaseType' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
+>>>>>>> Stashed changes
 							" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
 							"<td class='w200' ><input class='pt w200' type='text' name='list[" + s + "].supplier' /></td>" +
 							"<td class='w80'><input class='pt w80' type='text' name='list[" + s + "].isFreeTax' /></td>" +
@@ -816,38 +846,38 @@
 							<table class="table table-bordered table-condensed table_input">
 								<thead>
 									<tr class="info space_nowrap">
-										<th class="w50">序号</th>
-										<th class="w100">需求部门</th>
-										<th class="w200">物种名称</th>
-										<th class="w100">规格型号</th>
-										<th class="w100">质量技术标准（技术参数）</th>
-										<th class="w80">计量单位</th>
-										<th class="w80">采购数量</th>
-										<th class="w80">单价（元）</th>
-										<th class="w80">预算金额（万元）</th>
-										<th class="w100">交货期限</th>
-										<th class="w120">采购方式建议</th>
-										<th class="w200">供应商名称</th>
-										<th class="w80">是否申请办理免税</th>
-										<th class="w200">物资用途（仅进口）</th>
-										<th class="w200">使用单位（仅进口）</th>
-										<th class="w200">备注</th>
+										<th class="">序号</th>
+										<th class="">需求部门</th>
+										<th class="">物种名称</th>
+										<th class="">规格型号</th>
+										<th class="w179">质量技术标准（技术参数）</th>
+										<th class="">计量单位</th>
+										<th class="">采购数量</th>
+										<th class="">单价（元）</th>
+										<th class="">预算金额（万元）</th>
+										<th class="">交货期限</th>
+										<th class="">采购方式建议</th>
+										<th class="">供应商名称</th>
+										<th class="">是否申请办理免税</th>
+										<th class="">物资用途（仅进口）</th>
+										<th class="">使用单位（仅进口）</th>
+										<th class="">备注</th>
 										<!-- <th  style="width:300px;">附件</th> -->
 									<!-- 	<th class="w100">状态</th> -->
-										<th class="w100">操作</th>
+										<th class="">操作</th>
 									</tr>
 								</thead>
 								<tbody id="detailZeroRow">
 								<c:if test="${plist==null }">
 									<tr name="detailRow">
-										<td class="tc w50 p0">
-											<input type="hidden" name="list[0].id" id="purid" value="" >
-											<input type="text" name="list[0].seq" value="" class="m0 w50">
+										<td class=" p0">
+											<input type="hidden" name="list[0].id" id="purid" value="" class="m0">
+											<input type="text" name="list[0].seq" value="" class="m0  ">
 										</td>
-										<td class="w100 p0" name="department">
+										<td class=" p0" name="department">
 										
 								  		<input type="hidden" name="list[0].department" value="${orgId }" >
-								  		<input type="text"  readonly="readonly" value="${orgName}" class="m0 w100" >
+								  		<input type="text"  readonly="readonly" value="${orgName}" class="m0 " >
 								  		  
 										<%-- 	<select name="list[0].department" class="pt" id="pType[0]">
 												<option value="">请选择</option>
@@ -858,9 +888,10 @@
 											
 											
 										</td>
-										<td class="w200 p0">
-											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0 w200"/>
+										<td class=" p0">
+											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0"/>
 										</td>
+<<<<<<< Updated upstream
 										<td class="tc w100 p0"><input type="text" name="list[0].stand" class="m0 w100"></td>
 										<td class="tc w100 p0"><input type="text" name="list[0].qualitStand" class="m0 w200"></td>
 										<td class="tc w80 p0"><input type="text" name="list[0].item" class="m0 w80"></td>
@@ -869,6 +900,16 @@
 										<td class="tc w80 p0"><input type="text" name="list[0].budget" class="m0 w80" ></td>
 										<td class="w100 p0"><input type="text" name="list[0].deliverDate" class="m0"></td>
 										<td class="w120 p0">
+=======
+										<td class="tc  p0"><input type="text" name="list[0].stand" class="m0 "></td>
+										<td class="tc  w179"><input type="text" name="list[0].qualitStand" class="m0 "></td>
+										<td class="tc p0"><input type="text" name="list[0].item" class="m0 "></td>
+										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 "></td>
+										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0 " ></td>
+										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0"></td>
+										<td class=" p0">
+>>>>>>> Stashed changes
 											<select name="list[0].purchaseType" class="pt m0" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
@@ -877,26 +918,26 @@
 												</c:forEach>
 											</select>
 										</td>
-										<td class="tc w200 p0"><input type="text" name="list[0].supplier" class="m0"></td>
-										<td class="tc w80 p0"><input type="text" name="list[0].isFreeTax" class="m0"></td>
-										<td class="tc w200 p0"><input type="text" name="list[0].goodsUse" class="m0"></td>
-										<td class="tc w200 p0"><input type="text" name="list[0].useUnit" class="m0"></td>
-										<td class="tc w200 p0"><input type="text" name="list[0].memo" class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].supplier" class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].useUnit" class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0"></td>
 										<!-- <td class="tc w100 p0"></td> -->
 									<!-- 	<td class="tc w100 p0"></td> -->
-										<td class="tc w100 p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
+										<td class="tc p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
 								</c:if>
 				 
 								<c:if test="${plist!=null }" >
 								<c:forEach items="${plist}" var="objs" varStatus="vs">
 									<tr name="detailRow">
-										<td class="tc w50 p0">
+										<td class="tc  p0">
 											<input type="hidden" name="list[${vs.index }].id" id="purid" value="${objs.id}">
 											<input type="hidden" name="list[${vs.index }].parentId" id="purid" value="${objs.parentId}">
 											<input type="text" name="list[${vs.index }].seq" value="${objs.seq}" class="m0">
 										</td>
-										<td class="w100 p0" >
+										<td class=" p0" >
 										
 									<%-- 	<input type="text" name="list[${vs.index }].department"   value="${obj.department}"> --%>
 											<input type="hidden" name="list[${vs.index }].department" value="${orgId }" >
@@ -904,17 +945,17 @@
 											
 										
 										</td>
-										<td class="w200 p0">
+										<td class=" p0">
 											<input type="text" name="list[${vs.index }].goodsName" onkeyup="listName(this)" onblur="lossValue()" value="${objs.goodsName}" />
 										</td>
-										<td class="tc w100 p0"><input type="text" name="list[${vs.index }].stand" value="${objs.stand}"></td>
-										<td class="tc w100 p0"><input type="text" name="list[${vs.index }].qualitStand" value="${objs.qualitStand}"></td>
-										<td class="tc w100 p0"><input type="text" name="list[${vs.index }].item" value="${objs.item}" ></td>
-										<td class="tc w100 p0" name="purchaseQuantity"><input type="text" name="list[${vs.index }].purchaseCount" onkeyup="checkNum(this,1)" value="${objs.purchaseCount}" ></td>
-										<td class="tc w150 p0" name="unitPrice"><input type="text" name="list[${vs.index }].price" onkeyup="checkNum(this,2)" value="${objs.price}" ></td>
-										<td class="tc w150 p0"><input type="text" name="list[${vs.index }].budget"   value="${objs.budget}" ></td>
-										<td class="w100 p0"><input type="text" name="list[${vs.index }].deliverDate" value="${objs.deliverDate}" ></td>
-										<td class="w120 p0">
+										<td class="tc  p0"><input type="text" name="list[${vs.index }].stand" value="${objs.stand}"></td>
+										<td class="tc  p0"><input type="text" name="list[${vs.index }].qualitStand" value="${objs.qualitStand}" class=""></td>
+										<td class="tc  p0"><input type="text" name="list[${vs.index }].item" value="${objs.item}" ></td>
+										<td class="tc p0" name="purchaseQuantity"><input type="text" name="list[${vs.index }].purchaseCount" onkeyup="checkNum(this,1)" value="${objs.purchaseCount}" ></td>
+										<td class="tc  p0" name="unitPrice"><input type="text" name="list[${vs.index }].price" onkeyup="checkNum(this,2)" value="${objs.price}" ></td>
+										<td class="tc  p0"><input type="text" name="list[${vs.index }].budget"   value="${objs.budget}" ></td>
+										<td class=" p0"><input type="text" name="list[${vs.index }].deliverDate" value="${objs.deliverDate}" ></td>
+										<td class="p0">
 											<select name="list[${vs.index }].purchaseType" class="pt" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="objd">
@@ -927,11 +968,11 @@
 												</c:forEach>
 											</select>
 										</td>
-										<td class="tc w200 p0"><input type="text" name="list[${vs.index }].supplier"  class="m0"></td>
-										<td class="tc w80 p0"><input type="text" name="list[${vs.index }].isFreeTax" class="m0"></td>
-										<td class="tc w200 p0"><input type="text" name="list[${vs.index }].goodsUse" class="m0"></td>
-										<td class="tc w200 p0"><input type="text" name="list[${vs.index }].useUnit" class="m0"></td>
-										<td class="tc w200 p0"><input type="text" name="list[${vs.index }].memo" value="${obj.memo}" class="m0" ></td>
+										<td class="tc  p0"><input type="text" name="list[${vs.index }].supplier"  class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[${vs.index }].isFreeTax" class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[${vs.index }].goodsUse" class="m0"></td>
+										<td class="tc p0"><input type="text" name="list[${vs.index }].useUnit" class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[${vs.index }].memo" value="${obj.memo}" class="m0" ></td>
 									<%-- 	<td style="width:300px;" class="p0">
 											   <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 													<u:upload id="pUp${vs.index}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${attchid}" auto="true" />
@@ -941,7 +982,7 @@
 										
 										
 <%-- 										<td class="tc w100 "><input type="hidden"  name="list[${vs.index }].status" value="暂存" class="m0" > 暂存</td>
- --%>										<td class="tc w100"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
+ --%>										<td class="tc "><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
 									</c:forEach>
 								</c:if>
@@ -1007,9 +1048,10 @@
 		</div>
 		
 		
-	<div  class="container clear margin-top-30" id="file_div"  style="display:none;" >
+	<div  class=" clear margin-top-30" id="file_div"  style="display:none;" >
 <%--     	<form id="up_form" action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
- --%>    		<input type="file" id="fileName" class="input_group" name="file">
+ --%>    		<input type="file" id="fileName" class="input_group pl20 fl" name="file" >
+    		 <input type="button" class="btn  input fl" onclick="fileup()"   value="导入" />
     		<!-- 	 <input type="hidden"  name="planName" id="detailJhmcf">
 							<input type="hidden" name="planNo" id="detailJhbhf">
 							<input type="hidden" name="planType" id="detailTypfef">
@@ -1017,7 +1059,6 @@
 							<input type="hidden" name="planDepName" id="detailXqbmf"/> -->
 							
 							
-    		 <input type="button" class="btn m0 input" onclick="fileup()"   value="导入" />
     <!-- 	</form> -->
     </div>
     
