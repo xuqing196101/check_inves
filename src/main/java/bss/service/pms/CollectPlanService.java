@@ -3,7 +3,8 @@ package bss.service.pms;
 import java.util.List;
 
 import bss.model.pms.CollectPlan;
-
+import bss.model.pms.PurchaseRequired;
+import javax.servlet.http.HttpServletRequest;
 /**
  * 
  * @Title: CollectPlanService
@@ -78,4 +79,18 @@ public interface CollectPlanService {
 	 * @return:
 	 */
 	List<CollectPlan> getDepartmentList(Integer pageNum);
+	
+	/**
+	 * 
+	* @Title: getAll
+	* @Description: 根据采购计划id查询所有的需求明细
+	* author: Li Xiaoxiao 
+	* @param @param id
+	* @param @return     
+	* @return List<PurchaseRquired>     
+	* @throws
+	 */
+	List<PurchaseRequired> getAll(String id,HttpServletRequest request);
+	
+	
 }

@@ -260,6 +260,31 @@ public interface PurchaseRequiredMapper {
      */
     List<PurchaseRequired> queryByUinuqe(PurchaseRequired PurchaseRequired);
     
-   
+    
+    
+    /**
+     * 
+    * @Title: queryByUinuqe
+    * @Description: 根据 uniqueId查询计划的明细
+    * author: Li Xiaoxiao 
+    * @param @param uniqueId
+    * @param @return     
+    * @return List<PurchaseRequired>     
+    * @throws
+     */
+    List<PurchaseRequired> getByUinuqeId(@Param("uniqueId")String uniqueId);
+    
+    /**
+     * 
+    * @Title: queryByParentId
+    * @Description: 根据父id查询当前父节点有几个自己点
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return Integer     
+    * @throws
+     */
+    
+    Integer queryChilden(@Param("id")String id);
     
 }

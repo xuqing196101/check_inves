@@ -234,4 +234,30 @@ public interface PurchaseRequiredService {
     List<PurchaseRequired> queryUnique(PurchaseRequired purchaseRequired); 
     
     
+    /**
+     * 
+    * @Title: queryUnique
+    * @Description:根据唯一
+    * author: Li Xiaoxiao 
+    * @param @param unique
+    * @param @return     
+    * @return List<PurchaseRequired>     
+    * @throws
+     */
+    List<PurchaseRequired> getUnique(String unique); 
+    
+    /**
+     * 
+    * @Title: getChilden
+    * @Description: 根据当前节点查询有几个子节点
+    * author: Li Xiaoxiao 
+    * @param @param children
+    * @param @return     
+    * @return Integer     
+    * @throws
+     */
+    Integer getChilden(String children);
+    
+    
+    
 }

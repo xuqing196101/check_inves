@@ -215,7 +215,7 @@
 							
 							<td class="p0">
 							<c:if test="${obj.purchaseCount!=null }"> 
-							<select onchange="sel(this)" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
+							<select onchange="sel(this)" required="required" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
 									 <c:forEach items="${kind}" var="kind" >
 			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
 			                        </c:forEach>
@@ -225,7 +225,7 @@
 							</td>
 							<td class="tc">
 							<c:if test="${obj.purchaseCount!=null }"> 
-							<select class="org"   name="list[${vs.index }].organization">
+							<select class="org"  required="required"  name="list[${vs.index }].organization">
 							<option value="">请选择</option>
 								<c:forEach items="${org }" var="ss">
 									<option value="${ss.id }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>

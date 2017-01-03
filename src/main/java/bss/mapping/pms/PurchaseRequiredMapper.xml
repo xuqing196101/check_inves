@@ -904,7 +904,7 @@
     
     
     
-    	<select id="queryByUinuqe" parameterType="bss.model.pms.PurchaseRequired"
+   <select id="queryByUinuqe" parameterType="bss.model.pms.PurchaseRequired"
 		resultMap="PurchaseRequired_Map">
 		select
 		<include refid="Base_Column_List" />
@@ -922,6 +922,27 @@
 			ORDER BY IS_MASTER
 		</if>
 	</select>
+	
+	
+	
+	 <select id="getByUinuqeId" parameterType="String" resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_REQUIRED
+		<where>
+			HISTORY_STATUS='0'  and IS_DELETE='0' 
+			<if test="uniqueId !=null">
+				and UNIQUE_ID =#{uniqueId}
+			</if>
+		</where>
+			ORDER BY IS_MASTER
+	</select>
+	
+	 <select id="queryChilden" parameterType="String" resultType="Integer">
+		select count(*) from T_BSS_PMS_PURCHASE_REQUIRED
+	 	where PARENT_ID=#{id}
+	</select>
+	
 	
 	
     

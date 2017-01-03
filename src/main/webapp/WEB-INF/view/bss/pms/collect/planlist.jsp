@@ -410,10 +410,15 @@
 								</c:if>
 							 
 							 
-								<c:if test="${obj.status == 12 && obj.auditTurn == null}">
+								<c:if test="${(obj.status == 2 || obj.status == 12  ) && obj.auditTurn == null}">
 								 		已直接下达
 								</c:if>
 							
+						<%-- 	  <c:if test="${obj.status == 2}">
+								 		已直接下达
+								</c:if> --%>
+								
+								
 							    <c:if test="${(obj.status == 2 || obj.status == 12  )  && obj.auditTurn == 1}">
 								 		第一轮已审核
 								</c:if>

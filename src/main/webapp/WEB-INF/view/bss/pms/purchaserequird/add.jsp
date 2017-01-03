@@ -534,20 +534,20 @@
 	                        success: function (data) { 
 	                        	var bool=true;
 	                           var chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-							           for(var i = 0; i < chars.length ; i ++) {
+							           
+	                            if(data=="1"){
+					        	   layer.alert("文件格式错误",{offset: ['222px', '390px'], shade:0.01});
+					        	    
+					           } for(var i = 0; i < chars.length ; i ++) {
 							             if(data.indexOf(chars[i])!=-1){
 							            	 bool=false;
 							             }
 							           }
-							           if(bool!=true){
+							     if(bool!=true){
 							        	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
 							        	  //  layer.msg(data);   
-							           }
-							           else if(data.indexOf("文本格式")!=-1){
-							        	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
-							        	    
-							              //layer.msg(data);
-							           }else{
+							        }
+							           else{
 							        	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
 							            //  layer.msg("上传成功");
 							              $("#jhmc").val(data[0].planName);
@@ -608,8 +608,11 @@
 									           }
 							           layer.close(index);
 	                        	// eachData(json);
+	                           }
 	                        }
-	                        }
+	                        /* ,error: function (data, status, e) {
+	    						alert(e);
+	    					} */
 	                    }); 
 				
 			} 

@@ -19,6 +19,14 @@
 		<meta name="author" content="">
 
 		<script type="text/javascript">
+		function download(id, key) {
+			var form = $("<form>");
+			form.attr('style', 'display:none');
+			form.attr('method', 'post');
+			form.attr('action', globalPath + '/file/download.html?id=' + id + '&key=' + key);
+			$('body').append(form);
+			form.submit();
+		}
 		</script>
 	</head>
 
