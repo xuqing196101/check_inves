@@ -7,10 +7,10 @@
     <title>项目评分</title>
 <style> 
 table{border-collapse:collapse;border-spacing:0px; width:100%; border:#ddd solid 0px;} 
-table td{border:1px solid #ddd;height:30px; text-align:center; border-left:0px;} 
-table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:nowrap; height:30px; border-top:0px;border-left:0px;} 
+table td{border:1px solid #ddd;border-top:0px solid #ddd;height:30px; text-align:center; border-left:0px;} 
+table th{text-align:center; background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:nowrap; height:30px; border-top:0px;border-left:0px;} 
 .t_left{width:35%; height:auto; float:left;border-top:1px solid #ddd;border-left:1px solid #ddd;} 
-.t_r_content{width:100%; height:auto; background:#fff; overflow:auto;} 
+.t_r_content{width:100%; max-height:360px; background:#fff; overflow:auto;} 
 .cl_freeze{height:auto;overflow:hidden; width:100%;}  
 .t_r{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
 .t_r_t{width:100%; overflow:hidden;} 
@@ -186,17 +186,13 @@ $(document).ready(function() {
   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
   	</form>
   </div>
-  <div class="tab-content clear step_cont">
+  <div class="tab-content clear">
     <div class=class="col-md-12 tab-pane active"  id="tab-1">
  	  <div class="container clear margin-top-30" id="package">
- 	    <table >
- 	      <thead>
- 	        <th><h2>项目名称：</h2></th><th><h2>${project.name }（${pack.name }）&nbsp;&nbsp;&nbsp;&nbsp;</h2></th>
- 	        <th><h2>编号：</h2></th><th><h2>${project.projectNumber }</h2></th>
- 	        <tr>
- 	          <th></th>
- 	        </tr>
- 	      </thead>
+ 	    <div class="col-md-12 col-sm-12 col-xs-12 f18">
+		  <div class="col-md-6 col-xs-12 col-sm-6 p0">项目名称：${project.name }（${pack.name }）</div>
+		  <div  class="col-md-6 col-xs-12 col-sm-6 p0 tr">编号：${project.projectNumber }</div>
+        </div>
  	    </table>
 		<form action="${pageContext.request.contextPath}/expert/saveGrade.html" id="form1" method="post" >
 		  <!--项目id  -->
@@ -206,15 +202,15 @@ $(document).ready(function() {
 	        
 	        <div class="t_left"> 
 			<div style="width:100%;"> 
-	        <table class="table table-bordered table-condensed table_input" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
+	        <table class="m0" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
 			      <th colspan="4"></th>
 			  </tr>
 			  <tr>
-		   	  	  <th class="w100">评审项目</th>
-		   	      <th class="w100">评审指标</th>
-		   	      <th class="w100">指标模型</th>
-		   	      <th class="w100">标准分值</th>
+		   	  	  <th width="25% tc">评审项目</th>
+		   	      <th width="25% tc">评审指标</th>
+		   	      <th width="25% tc">指标模型</th>
+		   	      <th width="25% tc">标准分值</th>
 			  </tr>
 			</table>
 			</div> 
@@ -224,9 +220,9 @@ $(document).ready(function() {
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			    	      <td class="tc w100" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
-			    	      <td class="w100"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
-			 	  		  <td class="tc w100">
+			    	      <td width="25% tc" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
+			    	      <td width="25% tc"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
+			 	  		  <td width="25% tc">
 			 	    	    <c:if test="${score.typeName == 0}">模型一</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型二</c:if>
 				 	        <c:if test="${score.typeName == 2}">模型三</c:if>
@@ -236,7 +232,7 @@ $(document).ready(function() {
 				 	        <c:if test="${score.typeName == 6}">模型七</c:if>
 				 	        <c:if test="${score.typeName == 7}">模型八</c:if>
 				 	      </td>
-				 	      <td class="tc w100">${score.standardScore}</td>
+				 	      <td width="25% tc">${score.standardScore}</td>
 				 	    </tr>
 				 	  </c:if>
 				 	</c:forEach>
@@ -256,8 +252,8 @@ $(document).ready(function() {
 			  	</tr>
 			  	<tr>
 			  		<c:forEach items="${supplierList}" var="supplier">
-			        	<th class="tc w100">评委填写</th>
-		   		        <th class="tc w100">评审得分</th>
+			        	<th class="tc">评委填写</th>
+		   		        <th class="tc">评审得分</th>
 	   		  	  	</c:forEach>
 			  	</tr>
 		  	</table> 
@@ -292,8 +288,8 @@ $(document).ready(function() {
 					 	      </c:when>
 					 	      <c:otherwise>
 					 	        <td class="tc w100 p0">
-					 	          <input type="text" name="expertValue" id="ipt5" onpaste="return false;"
-					 	            style="width: 55px; ime-mode:disabled" onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	          <input type="text" name="expertValue" id="ipt5" onpaste="return false;" class="m0"
+					 	            onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	            <c:forEach items="${scores}" var="sco">
 					 	              <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.expertValue}"</c:if>
 					 	            </c:forEach>
@@ -309,7 +305,7 @@ $(document).ready(function() {
 					 	        </c:forEach>
 					 	      />
 					 	      <span><c:forEach items="${scores}" var="sco">
-					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><font size="5px" color="red">${sco.score}</font></c:if>
+					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><font color="red" class="f18">${sco.score}</font></c:if>
 					 	        </c:forEach></span>
 					 	    </td>
 				 	      </c:forEach>
@@ -321,7 +317,7 @@ $(document).ready(function() {
 			</div>
 			</div> 
 		</div>
-			<div class="tc col-md-12 col-sm-12 col-xs-12">
+			<div class="tc col-md-12 col-sm-12 col-xs-12 mt20">
 			  <input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
 			  <input type="button" onclick="zancun();"  value="暂存" class="btn btn-windows save">
 			  <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/><br/><br/>

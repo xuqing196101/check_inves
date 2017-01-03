@@ -164,12 +164,12 @@ session.setAttribute("tokenSession", tokenValue);
 	   	 <table class="table table-bordered">
 	   	   <tr>
 	   	     <td class="bggrey" width="15%"><i class="red">*</i>专家申请表：</td>
-	   	     <td <c:if test="${fn:contains(errorField,'专家申请表')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专家申请表')"</c:if>>
+	   	     <td <c:if test="${fn:contains(errorField,'专家申请表')}"> onmouseover="errorMsg('专家申请表')"</c:if>>
 	   	       <u:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" multiple="true" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" auto="true"/>
 			   <u:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}"/>
 	   	     </td>
 	   	     <td class="bggrey" width="15%" ><i class="red">*</i>专家承诺书：</td>
-	   	     <td <c:if test="${fn:contains(errorField,'专家承诺书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('专家承诺书')"</c:if>>
+	   	     <td <c:if test="${fn:contains(errorField,'专家承诺书')}"> onmouseover="errorMsg('专家承诺书')"</c:if>>
 	   	       <u:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" multiple="true" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
 			   <u:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>
 	   	     </td>

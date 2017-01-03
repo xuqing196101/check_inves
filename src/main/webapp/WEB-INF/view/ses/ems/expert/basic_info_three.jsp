@@ -374,8 +374,7 @@ session.setAttribute("tokenSession", tokenValue);
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">
-			<table id="tb1"  class="table table-bordered table-condensed table-hover table-striped">
-			  <ul class="ul_list">
+			  <ul class="ul_list mt20">
 				<li class="col-md-3 col-sm-6 col-xs-12">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">省</span>
 	                <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
@@ -393,10 +392,7 @@ session.setAttribute("tokenSession", tokenValue);
 	                </div>
 	            </li>
               </ul>
-            </table>
-            <div class="headline-v2">
-			     <h2>推荐采购机构</h2>
-			   </div> 
+			  <h2 class="list_title">推荐采购机构</h2>
             <table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 					<tr>
@@ -410,9 +406,7 @@ session.setAttribute("tokenSession", tokenValue);
 				</thead>
 				<tbody id="purchase_orgs"></tbody>
 			</table>
-			<div class="headline-v2">
-				<h2>其他采购机构</h2>
-			</div> 
+			 <h2 class="list_title">其他采购机构</h2>
 			<table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 					<tr>
@@ -424,8 +418,7 @@ session.setAttribute("tokenSession", tokenValue);
 					  <th class="info">联系电话</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tbody id="purchase_orgs2"></tbody>
+				<tbody id="purchase_orgs2">
 				</tbody>
 			</table>
 			<h6>
