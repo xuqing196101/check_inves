@@ -36,7 +36,7 @@
 		});
   })
  	$(function(){
-		$("#supplierDepName").val('${pqinfo.contract.supplierDepName}');
+		$("#supplierName").val('${supplierPqrecord.supplier.supplierName}');
 	});
   </script>
   <body>
@@ -61,7 +61,7 @@
 	   <li class="fl">
 	   	<label class="fl">供应商名称：</label>
 	   	<span>
-	   		<input type="text" name="contract.supplierDepName" id="supplierDepName" class="mb0" />
+	   		<input type="text" name="supplier.supplierName" id="supplierName" class="mb0" />
 	   	</span>
 	   </li>
 	   
@@ -90,13 +90,13 @@
 			<tr>
 				<td class="tc">${(vs.index+1)+(page.pageNum-1)*(page.pageSize)}</td>
 			
-				<td class="tl pl20">${PqInfo.supplierName}</td>
+				<td class="tl pl20">${PqInfo.supplier.supplierName}</td>
 			
-				<td class="tc">${PqInfo.successCount}</td>
+				<td class="tc">${PqInfo.successedCount}</td>
 				
-				<td class="tc">${PqInfo.failCount}</td>
+				<td class="tc">${PqInfo.failedCount}</td>
 			
-				<td class="tc">${PqInfo.avg}</td>
+				<td class="tc">${PqInfo.successedAvg}</td>
    				
 			</tr>
 		</c:forEach>

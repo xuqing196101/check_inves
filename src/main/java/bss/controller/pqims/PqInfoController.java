@@ -8,6 +8,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,8 +29,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
+import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 
@@ -40,11 +43,13 @@ import common.constant.Constant;
 import bss.model.cs.PurchaseContract;
 import bss.model.ppms.Project;
 import bss.model.pqims.PqInfo;
+import bss.model.pqims.SupplierPqrecord;
 import bss.model.pqims.Supplier_pqinfo;
 import bss.model.sstps.Select;
 import bss.service.cs.PurchaseContractService;
 import bss.service.ppms.ProjectService;
 import bss.service.pqims.PqInfoService;
+import bss.service.pqims.SupplierPqrecordService;
 
 /**
  * @Title:PqInfoController 
@@ -67,10 +72,16 @@ public class PqInfoController extends BaseSupplierController{
     private SupplierService supplierService;
 	
     @Autowired
+    private SupplierPqrecordService supplierPqrecordService;
+    
+    @Autowired
     private ProjectService projectService;
     
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+    private OrgnizationServiceI orgnizationService;
 	/**
 	 * 
 	 * @Title: getAll
@@ -119,6 +130,7 @@ public class PqInfoController extends BaseSupplierController{
 	 * @param:     
 	 * @return:
 	 */
+	@SuppressWarnings("null")
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request,@RequestParam("dateString") String dateString,
 			@Valid PqInfo pqInfo,BindingResult result,Model model){
@@ -176,13 +188,34 @@ public class PqInfoController extends BaseSupplierController{
 			model.addAttribute("pqinfo", pqInfo);
 			url="bss/pqims/pqinfo/add";
 		}else{
-		 String report=pqInfoService.queryPath(pqInfo.getId());
-		 if(report!=null && report!=""){
-			 pqInfo.setReport(report);
-		 }
-	     //封装质检信息实体类
-	     pqInfoService.add(pqInfo);
-	     url = "redirect:getAll.html";
+			 String report=pqInfoService.queryPath(pqInfo.getId());
+			 if(report!=null && report!=""){
+				 pqInfo.setReport(report);
+			 }
+		     //封装质检信息实体类
+		     pqInfoService.add(pqInfo);
+		     
+		     Supplier supplier = pqInfo.getContract().getSupplier();
+		     String id = supplier.getId();
+		     String supplierName = supplier.getSupplierName();
+		     SupplierPqrecord supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
+		     if (supplierPqrecord==null) {
+		    	 supplierPqrecordService.insert(id);
+		     }
+		     supplierPqrecord = supplierPqrecordService.selectByName(supplier.getSupplierName());
+		     BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierPqrecord.getSupplier().getId());
+		     if (countSuccess==null) {
+		    	 countSuccess=new BigDecimal(0);
+		     }
+		     BigDecimal countFail =pqInfoService.queryByCountFail(supplierPqrecord.getSupplier().getId());
+		     if (countFail==null) {
+		    	 countFail=new BigDecimal(0);
+		     }
+		     supplierPqrecord.setSuccessedCount(countSuccess.intValue());
+		     supplierPqrecord.setFailedCount(countFail.intValue());
+		     supplierPqrecord.setSuccessedAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
+		     supplierPqrecordService.update(supplierPqrecord);
+		     url = "redirect:getAll.html";
 		}
 		return url;
 	}
@@ -284,6 +317,26 @@ public class PqInfoController extends BaseSupplierController{
 				 pqInfo.setReport(report);
 			}
 	        pqInfoService.update(pqInfo);
+	        Supplier supplier = pqInfo.getContract().getSupplier();
+		     String id = supplier.getId();
+		     String supplierName = supplier.getSupplierName();
+		     SupplierPqrecord supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
+		     if (supplierPqrecord==null) {
+		    	 supplierPqrecordService.insert(id);
+		     }
+		     supplierPqrecord = supplierPqrecordService.selectByName(supplier.getSupplierName());
+		     BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierPqrecord.getSupplier().getId());
+		     if (countSuccess==null) {
+		    	 countSuccess=new BigDecimal(0);
+		     }
+		     BigDecimal countFail =pqInfoService.queryByCountFail(supplierPqrecord.getSupplier().getId());
+		     if (countFail==null) {
+		    	 countFail=new BigDecimal(0);
+		     }
+		     supplierPqrecord.setSuccessedCount(countSuccess.intValue());
+		     supplierPqrecord.setFailedCount(countFail.intValue());
+		     supplierPqrecord.setSuccessedAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
+		     supplierPqrecordService.update(supplierPqrecord);
 	        url="redirect:getAll.html";
 		}
 		return url;
@@ -304,7 +357,36 @@ public class PqInfoController extends BaseSupplierController{
 	public String delete(String ids){
 		String[] id=ids.split(",");
 		for (String str : id) {
+			PqInfo pqInfo = pqInfoService.get(str);
+			String supplierId = pqInfoService.get(str).getContract().getSupplier().getId();
+			String supplierName = pqInfoService.get(str).getContract().getSupplier().getSupplierName();
 			pqInfoService.delete(str);
+			int count = pqInfoService.queryByConut(supplierId);
+			if (count == 0) {
+				SupplierPqrecord sPqrecord = supplierPqrecordService.selectByName(supplierName);
+				supplierPqrecordService.delete(sPqrecord.getId());
+			}else {
+			     SupplierPqrecord supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
+			     if (supplierPqrecord==null) {
+			    	 Supplier supplier = pqInfo.getContract().getSupplier();
+			    	 supplier.setSupplierName(supplierName);
+					 supplierPqrecord.setSupplier(supplier);
+			    	 supplierPqrecordService.add(supplierPqrecord);
+			     }
+			     supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
+			     BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierPqrecord.getSupplier().getId());
+			     if (countSuccess==null) {
+			    	 countSuccess=new BigDecimal(0);
+			     }
+			     BigDecimal countFail =pqInfoService.queryByCountFail(supplierPqrecord.getSupplier().getId());
+			     if (countFail==null) {
+			    	 countFail=new BigDecimal(0);
+			     }
+			     supplierPqrecord.setSuccessedCount(countSuccess.intValue());
+			     supplierPqrecord.setFailedCount(countFail.intValue());
+			     supplierPqrecord.setSuccessedAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
+			     supplierPqrecordService.update(supplierPqrecord);
+			}
 		}
 		return "redirect:getAll.html";
 	}
@@ -363,10 +445,21 @@ public class PqInfoController extends BaseSupplierController{
 		int i = 0;
 		for (PqInfo pqInfo : pqInfos) {
 			String projectId = pqInfo.getContract().getProjectId();
-			String purchaseDepName = projectService.selectById(projectId).getPurchaseDepName();
-			pqInfo.getContract().setPurchaseDepName(purchaseDepName);
-			pqInfos.set(i, pqInfo);
-			i++;
+			Project project = projectService.selectById(projectId);
+			if(project!=null){
+				String purchaseDepName = project.getPurchaseDepId();
+				HashMap<String, Object> map = new HashMap<>();
+		        map.put("typeName", "1");
+		        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
+		        for(int j=0;j<orgnizations.size();j++){
+		        	if(purchaseDepName.equals(orgnizations.get(j).getId())){
+		        		pqInfo.getContract().setPurchaseDepName(orgnizations.get(j).getName());
+		        		pqInfos.set(i, pqInfo);
+						i++;
+						break;
+		        	}
+		        }
+			}
 		}
 		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
 		return "bss/pqims/pqinfo/resultList";
@@ -421,71 +514,21 @@ public class PqInfoController extends BaseSupplierController{
 	 */
 	@RequestMapping("/getAllSupplierPqInfo")
 	public String getAllSupplierPqInfo(Model model,Integer page,HttpServletRequest request){
-		List<String> supplierIds = pqInfoService.queryDepName(page==null?1:page);
-		List<String> supplierNames = new ArrayList<>();
-		for (String id : supplierIds) {
-			Supplier ss = supplierService.get(id);
-			if(supplierService.get(id)!=null){
-				supplierNames.add(supplierService.get(id).getSupplierName());
-			}
-		}
-		List<Supplier_pqinfo> supplier_pqinfos= new ArrayList<Supplier_pqinfo>();
-		for (int i = 0; i < supplierNames.size(); i++) {
-			Supplier_pqinfo sPqinfo =new Supplier_pqinfo();
-			String supplierName = supplierIds.get(i);
-			
-			BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierName);
-			if (countSuccess==null) {
-				countSuccess=new BigDecimal(0);
-			}
-			BigDecimal countFail =pqInfoService.queryByCountFail(supplierName);
-			if (countFail==null) {
-				countFail=new BigDecimal(0);
-			}
-			
-			sPqinfo.setSupplierName(supplierNames.get(i));
-			sPqinfo.setSuccessCount(countSuccess);
-			sPqinfo.setFailCount(countFail);
-			sPqinfo.setAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
-			supplier_pqinfos.add(sPqinfo);
-		}
-		model.addAttribute("list",new PageInfo<Supplier_pqinfo>(supplier_pqinfos));
-		model.addAttribute("page",new PageInfo<String>(supplierNames));
+		List<SupplierPqrecord> supplier_pqinfos = supplierPqrecordService.getAll(page==null?1:page);
+		model.addAttribute("list",new PageInfo<SupplierPqrecord>(supplier_pqinfos));
 		return "bss/pqims/pqinfo/supplier_pqinfo_list";
 	}
 	
 	@RequestMapping("/searchSupplier")
-	public String searchSupplier(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
-		List<String> supplierNames = new ArrayList<String>();
-		if(pqInfo!=null){
-			supplierNames =  pqInfoService.selectByDepName(page==null?1:page,pqInfo);
-			model.addAttribute("pqinfo",pqInfo);
+	public String searchSupplier(Model model,HttpServletRequest request,SupplierPqrecord supplierPqrecord,Integer page){
+		if (supplierPqrecord!=null) {
+			List<SupplierPqrecord> supplier_pqinfos = supplierPqrecordService.queryByName(supplierPqrecord.getSupplier().getSupplierName(), page==null?1:page);
+			model.addAttribute("list",new PageInfo<SupplierPqrecord>(supplier_pqinfos));
+			model.addAttribute("supplierPqrecord",supplierPqrecord);
+			return "bss/pqims/pqinfo/supplier_pqinfo_list";
 		}else{
-			supplierNames = pqInfoService.queryDepName(page==null?1:page);
+			return "redirect:getAllSupplierPqInfo.html";
 		}
-		List<Supplier_pqinfo> supplier_pqinfos= new ArrayList<Supplier_pqinfo>();
-		for (int i = 0; i < supplierNames.size(); i++) {
-			Supplier_pqinfo sPqinfo =new Supplier_pqinfo();
-			String supplierName = supplierNames.get(i);
-			
-			BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierName);
-			if (countSuccess==null) {
-				countSuccess=new BigDecimal(0);
-			}
-			BigDecimal countFail =pqInfoService.queryByCountFail(supplierName);
-			if (countFail==null) {
-				countFail=new BigDecimal(0);
-			}
-			
-			sPqinfo.setSupplierName(supplierNames.get(i));
-			sPqinfo.setSuccessCount(countSuccess);
-			sPqinfo.setFailCount(countFail);
-			sPqinfo.setAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
-			supplier_pqinfos.add(sPqinfo);
-		}
-		model.addAttribute("list",new PageInfo<Supplier_pqinfo>(supplier_pqinfos));
-		model.addAttribute("page",new PageInfo<String>(supplierNames));
-		return "bss/pqims/pqinfo/supplier_pqinfo_list";
 		
 	}
 	

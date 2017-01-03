@@ -269,8 +269,10 @@
   <!-- 7.列表总数 -->
   <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
     select count(1) 
-    from T_BSS_PQIMS_PQINFO
-    <!-- where IS_DELETED = 0 -->
+    from T_BSS_PQIMS_PQINFO p inner JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
+    LEFT JOIN T_SES_SMS_SUPPLIER s on c.SUPPLIER_DEP_NAME = s.ID
+    where s.ID = #{id}
+    
   </select>
   
   <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
@@ -331,13 +333,12 @@
   
    <!-- 11.根据供应商名称查询列表supplierDepName -->
   <select id="selectByDepName" resultType="Object" parameterType="Object">
-    select s.SUPPLIER_NAME
+    select s.SUPPLIER_NAME,s.ID
     from T_BSS_PQIMS_PQINFO p inner JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
     LEFT JOIN T_SES_SMS_SUPPLIER s on c.SUPPLIER_DEP_NAME = s.ID
     <if test="contract.supplierDepName != null and contract.supplierDepName != ''">
     where s.SUPPLIER_NAME LIKE '%'||#{contract.supplierDepName}||'%'
     </if>
-    GROUP BY s.SUPPLIER_NAME ORDER BY s.SUPPLIER_NAME 
   </select>
     
   <!-- selet2查询合同,根据采购方式 -->
@@ -359,4 +360,6 @@
 		AND
 		IS_DELETED = 0
   </select>
+  
+  
 </mapper>

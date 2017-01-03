@@ -6,6 +6,8 @@ package bss.service.pqims;
 import java.math.BigDecimal;
 import java.util.List;
 
+import ses.model.sms.Supplier;
+
 import bss.model.pqims.PqInfo;
 import bss.model.sstps.Select;
 
@@ -46,7 +48,7 @@ public interface PqInfoService {
 	/**
 	 * 6.查询模板条数
 	 */
-	Integer queryByConut();
+	Integer queryByConut(String id);
 	
 	/**
 	 * 7.根据条件查询
@@ -71,7 +73,7 @@ public interface PqInfoService {
 	/**
 	 * 11.根据供应商名称查询
 	 */
-	List<String> selectByDepName(Integer pageNum,PqInfo pqInfo);
+	List<Supplier> selectByDepName(Integer pageNum,PqInfo pqInfo);
 	
 	/*
 	 * 12.select2查询合同

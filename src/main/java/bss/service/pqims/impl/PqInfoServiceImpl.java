@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import ses.model.sms.Supplier;
 import ses.util.PropertiesUtil;
 
 import bss.dao.pqims.PqInfoMapper;
@@ -86,8 +87,8 @@ public class PqInfoServiceImpl implements PqInfoService {
 	 * 查询模板条数
 	 */
 	@Override
-	public Integer queryByConut() {
-		return pqInfoMapper.queryByCount();
+	public Integer queryByConut(String id) {
+		return pqInfoMapper.queryByCount(id);
 	}
 
 	/**
@@ -122,7 +123,7 @@ public class PqInfoServiceImpl implements PqInfoService {
 
 	
 	@Override
-	public List<String> selectByDepName(Integer pageNum, PqInfo pqInfo) {
+	public List<Supplier> selectByDepName(Integer pageNum, PqInfo pqInfo) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		return pqInfoMapper.selectByDepName(pqInfo);
