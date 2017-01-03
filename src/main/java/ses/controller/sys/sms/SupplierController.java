@@ -448,11 +448,11 @@ import ses.util.WfUtil;
      String res = StaticVariables.SUCCESS;
 
      //如果是附件上传页面
-     if(flag.equals("file")){
+     if(flag != null && flag.equals("file")){
        res = StaticVariables.SUCCESS;
      }
      //保存审核采购机构
-     else if(flag.equals("1")){
+     else if(flag != null && flag.equals("1")){
        try {
          supplierService.updateSupplierProcurementDep(supplier);
        } catch (Exception e) {

@@ -128,6 +128,20 @@ function checkAll(ele, id) {
 			}
 		});
 	}
+	$(function(){
+		$("input").bind("blur", tempSave);
+		$("select").bind("change", tempSave);
+	});
+	/** 无提示实时保存 */
+	function tempSave(){
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
+			type : "post",
+			async: false,
+			data : $("#basic_info_form_id").serializeArray(),
+			contextType: "application/x-www-form-urlencoded",
+		});
+	}
 	//listSupplierStockholders
 
 	function openStockholder() {
@@ -145,7 +159,9 @@ function checkAll(ele, id) {
 			    "<td class='tc'><input type='text' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].identity' value=''> </td>"+
 				"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].shares' value=''></td>"+
 				"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].proportion' value=''> </td>"+ "</tr>");
-	
+
+		stocIndex++;
+		$("#stockIndex").val(stocIndex);
 	
 		
 		
@@ -346,8 +362,6 @@ function deleteFinance() {
 	
 	function increaseAddress(obj){
 		var ind=$("#index").val();
-		ind++;
-		$("#index").val(ind);
 		var li=$(obj).parent().parent();
 		$(li).after("<li class='col-md-3 col-sm-6 col-xs-12 pl10'>"+
 				"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产公司邮编</span>"+
@@ -392,6 +406,8 @@ function deleteFinance() {
 				"	<input type='button' onclick='delAddress(this)'class='btn list_btn' value='一'/>"+
 				"</div></li>"
 				);
+		ind++;
+		$("#index").val(ind);
 	}
 	
 	function delAddress(obj){
@@ -406,8 +422,6 @@ function deleteFinance() {
 	function addBranch(obj){
 		var li=$(obj).parent().parent().next();
 		var inde=$("#branchIndex").val();
-		inde++;
-		$("#branchIndex").val(inde);
 		$(li).after("<li name='branch' class='col-md-3 col-sm-6 col-xs-12'>"+
 				 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'>机构名称</span>"+
 					" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
@@ -447,6 +461,8 @@ function deleteFinance() {
 		    	"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80'  id='sup_businessScope' title='不超过80个字' name='branchList["+inde+"].businessSope'></textarea>"+
 			       " </div>"+
 			" </li>");
+		inde++;
+		$("#branchIndex").val(inde);
 		
 	}
 	
@@ -1557,9 +1573,9 @@ function deleteFinance() {
 		</div>
 	</div>
 	
-	<input type="hidden" id="index" value="0">
-	<input type="hidden" id="branchIndex" value="0">
-	<input type="hidden" id="stockIndex" value="0">
+	<input type="hidden" id="index" value="${fn:length(currSupplier.addressList)}">
+	<input type="hidden" id="branchIndex" value="${fn:length(currSupplier.branchList)}">
+	<input type="hidden" id="stockIndex" value="${fn:length(currSupplier.listSupplierStockholders)}">
 	<div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	    <button type="button" class="btn save" onclick="temporarySave();">暂存</button>
