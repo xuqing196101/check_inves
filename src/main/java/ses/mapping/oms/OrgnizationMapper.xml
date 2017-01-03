@@ -733,7 +733,7 @@
         #{contactMobile},
       </if>
       <if test="fax != null and fax != ''">
-        #{fax}
+        #{fax},
       </if>
       <if test="telephone != null and telephone != ''">
         #{telephone}

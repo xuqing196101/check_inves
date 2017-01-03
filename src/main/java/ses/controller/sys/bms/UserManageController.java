@@ -31,17 +31,20 @@ import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.model.oms.util.Ztree;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import common.constant.StaticVariables;
 
 /**
  * Description: 用户管理控制类 
@@ -69,6 +72,9 @@ public class UserManageController extends BaseController{
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataService;
+	
+	@Autowired
+  private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
 
 	private Logger logger = Logger.getLogger(UserManageController.class);
 
@@ -228,10 +234,14 @@ public class UserManageController extends BaseController{
 		User currUser = (User) request.getSession().getAttribute("loginUser");
 		//机构
 		if(user.getOrgId() != null && !"".equals(user.getOrgId())){
-			Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrgId());
-			if (org != null){
-			    user.setOrg(org);
-			}
+			if ("3".equals(user.getTypeName())) {
+			  user.setOrgName(user.getOrgId());
+      } else {
+        Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrgId());
+        if (org != null){
+          user.setOrg(org);
+        }
+      }
 		}else{
 			user.setOrg(null);
 		}
@@ -444,10 +454,17 @@ public class UserManageController extends BaseController{
 			
 			//机构
 			if(orgId != null && !"".equals(orgId)){
-				HashMap<String, Object> orgMap = new HashMap<String, Object>();
-				orgMap.put("id", orgId);
-				List<Orgnization> olist = orgnizationService.findOrgnizationList(orgMap);
-				u.setOrg(olist.get(0));
+				if ("3".equals(u.getTypeName())) {
+				  u.setOrg(null);
+	        u.setOrgName(orgId);
+	      } else {
+	        HashMap<String, Object> orgMap = new HashMap<String, Object>();
+	        orgMap.put("id", orgId);
+	        List<Orgnization> olist = orgnizationService.findOrgnizationList(orgMap);
+	        if (olist != null && olist.size() > 0) {
+	          u.setOrg(olist.get(0));
+          }
+	      }
 			}else{
 				u.setOrg(null);
 			}
@@ -626,7 +643,7 @@ public class UserManageController extends BaseController{
 	 */
 	@RequestMapping(value = "getOrgTree",produces={"application/json;charset=UTF-8"})
 	@ResponseBody    
-	public String getOrgTree(HttpServletRequest request, HttpSession session, String userId, String typeNameId){
+	public String getOrgTree(HttpServletRequest request, HttpSession session, String userId, String typeNameId ,String orgType){
 		User user =null;
 		if(userId != null && !"".equals(userId) ){
 			user = userService.getUserById(userId);
@@ -646,8 +663,8 @@ public class UserManageController extends BaseController{
 		    typeName = "1";
 		}*/
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		//map.put("typeName", typeName);
-		List<Orgnization> oList = orgnizationService.findOrgnizationList(map);
+    map.put("typeName", orgType);
+    List<Orgnization> oList = orgnizationService.findOrgnizationList(map);
 		List<Ztree> treeList = new ArrayList<Ztree>();  
 		for(Orgnization o : oList){
 			Ztree z = new Ztree();
@@ -660,7 +677,7 @@ public class UserManageController extends BaseController{
 			List<Orgnization> chiildList = orgnizationService.findOrgnizationList(chimap);
 			if(chiildList != null && chiildList.size() > 0){
 				z.setIsParent("true");
-				z.setNocheck(true);
+				//z.setNocheck(true);
 			} else {
 				z.setIsParent("false");
 			}

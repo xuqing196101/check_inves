@@ -14,10 +14,11 @@
     <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
     <result column="EMAIL" jdbcType="VARCHAR" property="email" />
     <result column="DUTIES" jdbcType="VARCHAR" property="duties" />
-    <!-- <result column="TYPE_NAME"  property="typeName" /> -->
+    <result column="TYPE_NAME"  property="typeName" />
     <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
     <result column="RANDOM_CODE" jdbcType="VARCHAR" property="randomCode" />
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
     <!-- 查询机构 -->  
     <association column="ORG_ID"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
     <!-- 查询创建人 -->  
@@ -64,7 +65,7 @@
   <!-- 表中所有列 -->
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, PASSWORD, CREATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID, 
-    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, <!-- TYPE_NAME, --> TYPE_ID, ADDRESS, RANDOM_CODE 
+    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS, RANDOM_CODE, ORG_NAME 
   </sql>
   
   <!-- 查询条件 -->
@@ -149,14 +150,15 @@
       CREATED_AT, IS_DELETED, REL_NAME, 
       UPDATED_AT, USER_ID, MOBILE, 
       GENDER, TELEPHONE, EMAIL, 
-      ORG_ID, DUTIES, <!-- TYPE_NAME, --> 
-      TYPE_ID, ADDRESS, RANDOM_CODE)
+      ORG_ID, DUTIES, TYPE_NAME,
+      TYPE_ID, ADDRESS, RANDOM_CODE, ORG_NAME)
     values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{gender}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, <!-- #{typeName}, --> 
-      #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR})
+      #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, #{typeName}, 
+      #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR},
+      #{orgName,jdbcType=VARCHAR})
   </insert>
   
   <!-- 保存用户 -->
@@ -205,9 +207,9 @@
       <if test="duties != null and duties != ''">
         DUTIES,
       </if>
-      <!-- <if test="typeName != null">
+      <if test="typeName != null">
         TYPE_NAME,
-      </if> -->
+      </if>
       <if test="typeId != null and typeId != ''">
         TYPE_ID,
       </if>
@@ -216,6 +218,9 @@
       </if>
       <if test="randomCode != null and randomCode != ''">
         RANDOM_CODE,
+      </if>
+      <if test="orgName != null and orgName != ''">
+        ORG_NAME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -261,9 +266,9 @@
       <if test="duties != null and duties != ''">
         #{duties,jdbcType=VARCHAR},
       </if>
-      <!-- <if test="typeName != null">
+      <if test="typeName != null">
         #{typeName},
-      </if> -->
+      </if>
       <if test="typeId != null and typeId != ''">
         #{typeId,jdbcType=VARCHAR},
       </if>
@@ -272,6 +277,9 @@
       </if>
       <if test="randomCode != null and randomCode != ''">
         #{randomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null and orgName != ''">
+        #{orgName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -325,9 +333,9 @@
       <if test="duties != null and duties != ''">
         DUTIES,
       </if>
-      <!-- <if test="typeName != null">
+      <if test="typeName != null">
         TYPE_NAME,
-      </if> -->
+      </if>
       <if test="typeId != null and typeId != ''">
         TYPE_ID,
       </if>
@@ -336,6 +344,9 @@
       </if>
       <if test="randomCode != null and randomCode != ''">
         RANDOM_CODE,
+      </if>
+      <if test="orgName != null and orgName != ''">
+        ORG_NAME
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -381,9 +392,9 @@
       <if test="duties != null and duties != ''">
         #{duties,jdbcType=VARCHAR},
       </if>
-      <!-- <if test="typeName != null">
+      <if test="typeName != null">
         #{typeName},
-      </if> -->
+      </if>
       <if test="typeId != null and typeId != ''">
         #{typeId,jdbcType=VARCHAR},
       </if>
@@ -392,6 +403,9 @@
       </if>
       <if test="randomCode != null and randomCode != ''">
         #{randomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null and orgName != ''">
+        #{orgName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -436,12 +450,15 @@
       <if test="org != null">
         ORG_ID = #{org.id,jdbcType=VARCHAR},
       </if>
+      <if test="org == null">
+        ORG_ID = null,
+      </if>
       <if test="duties != null and duties != ''">
         DUTIES = #{duties,jdbcType=VARCHAR},
       </if>
-      <!-- <if test="typeName != null">
+      <if test="typeName != null">
         TYPE_NAME = #{typeName},
-      </if> -->
+      </if>
       <if test="typeId != null and typeId != ''">
         TYPE_ID = #{typeId,jdbcType=VARCHAR},
       </if>
@@ -450,6 +467,9 @@
       </if>
       <if test="randomCode != null and randomCode != ''">
         RANDOM_CODE = #{randomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null and orgName != ''">
+       ORG_NAME = #{orgName,jdbcType=VARCHAR}
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -471,10 +491,11 @@
       EMAIL = #{email,jdbcType=VARCHAR},
       ORG_ID = #{org.id,jdbcType=VARCHAR},
       DUTIES = #{duties,jdbcType=VARCHAR},
-      <!-- TYPE_NAME = #{typeName}, -->
+      TYPE_NAME = #{typeName},
       TYPE_ID = #{typeId,jdbcType=VARCHAR},
       ADDRESS = #{address,jdbcType=VARCHAR},
-      RANDOM_CODE = #{randomCode,jdbcType=VARCHAR} 
+      RANDOM_CODE = #{randomCode,jdbcType=VARCHAR},
+      ORG_NAME = #{orgName,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -687,9 +708,11 @@
 		    u.EMAIL AS EMAIL,
 		    u.ORG_ID AS ORG_ID,
 		    u.DUTIES AS DUTIES,
+		    u.TYPE_NAME AS TYPE_NAME,
 		    u.TYPE_ID AS TYPE_ID,
 		    u.ADDRESS AS ADDRESS,
-		    u.RANDOM_CODE AS RANDOM_CODE
+		    u.RANDOM_CODE AS RANDOM_CODE,
+		    u.ORG_NAME AS ORG_NAME
         FROM
             T_SES_BMS_USER u
 		LEFT JOIN T_SES_BMS_USER_ROLE ur ON u. ID = ur.USER_ID

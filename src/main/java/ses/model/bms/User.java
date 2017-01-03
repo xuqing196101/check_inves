@@ -83,24 +83,22 @@ public class User implements Serializable{
     /** 校验表单机构不为空 ，不作数据存储 */
     @NotNull(message = "机构不能为空") 
     private String orgId;
+    
+    /** 机构名称 */
+    private String orgName;
 
     /** 职务 */
     private String duties;
 
     /** 
-     * 用户类型
-     * 0:采购管理部门
+     * 机构类型
+     * 0:需求部门
      * 1:采购机构
-     * 2:需求部门
-     * 3:其他人员
-     * 4：供应商
-     * 5：专家
-     * 6：进口供应商
-     * 7：进口代理商
-     * 8：监督人员
+     * 2:采购管理部门
+     * 3:其他人
      */
-//    @NotNull(message = "用户类型不能为空")  
-//    private String typeName;
+    @NotNull(message = "机构类型不能为空")  
+    private String typeName;
     
     /** 关联用户ID */
     private String typeId;
@@ -330,12 +328,20 @@ public class User implements Serializable{
 		this.roleId = roleId;
 	}
 
-//    public String getTypeName() {
-//        return typeName;
-//    }
-//
-//    public void setTypeName(String typeName) {
-//        this.typeName = typeName;
-//    }
+  public String getTypeName() {
+      return typeName;
+  }
+
+  public void setTypeName(String typeName) {
+      this.typeName = typeName;
+  }
+
+  public String getOrgName() {
+    return orgName;
+  }
+
+  public void setOrgName(String orgName) {
+    this.orgName = orgName;
+  }
 
 }

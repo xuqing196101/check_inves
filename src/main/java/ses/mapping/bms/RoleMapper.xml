@@ -31,6 +31,7 @@
 	    <result column="uaddress"  property="address" />
 	    <result column="uemail"  property="email" />
 	    <result column="urandomCode"  property="randomCode" />
+	    <result column="uorgName"  property="orgName" />
 	  	<!-- 查询机构 -->  
     	<association column="org"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
 	    <!-- 查询创建人 -->
@@ -257,13 +258,14 @@
 			U .GENDER AS ugender,
 			U .TELEPHONE AS utelephone,
 			U .DUTIES AS uduties,
-			<!-- U .TYPE_NAME AS utypeName, -->
+			U .TYPE_NAME AS utypeName,
 			U .TYPE_ID AS utypeId,
 			U .ADDRESS AS uaddress,
 			U .EMAIL AS uemail,
 			U .ORG_ID AS org,
 			U .USER_ID AS creater,
 			U .RANDOM_CODE AS urandomCode,
+			U .ORG_NAME AS uorgName,
 			pm. ID AS mid,
 			pm. NAME AS mname,
 			pm.MENU_TYPE AS mtype,
