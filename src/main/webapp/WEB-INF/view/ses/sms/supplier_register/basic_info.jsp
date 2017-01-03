@@ -503,7 +503,7 @@ function deleteFinance() {
 						    <span class="add-on red" style="border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
 					    </c:if>
 					     <c:if test="${!fn:contains(errorField,'supplierName')}">
-							<span class="add-on cur_point">i</span>
+							<span class="add-on">i</span>
    					    </c:if>
 					    
 				     
@@ -531,6 +531,7 @@ function deleteFinance() {
 				    <fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate" />
 			        <input type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" <c:if test="${fn:contains(errorField,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('foundDate')"</c:if>  />
 			        <span class="add-on cur_point">i</span>
+			       	<span class="input-tip">成立时间须大于三年</span>
 			         <div class="cue"> ${err_msg_foundDate } </div>
 			       </div>
 				 </li> 

@@ -2230,6 +2230,7 @@ public class PackageExpertController {
         double length = (sum/supplierList.size())*100;
         model.addAttribute("length1", length + "%");
         model.addAttribute("length2", length/2 + "%");
+        model.addAttribute("size", supplierList.size());
         model.addAttribute("project", project);
         model.addAttribute("projectId", projectId);
         model.addAttribute("packageId", packageId);
@@ -2358,6 +2359,7 @@ public class PackageExpertController {
         double length = (sum/expertList.size())*100;
         model.addAttribute("length1", length + "%");
         model.addAttribute("length2", length/2 + "%");
+        model.addAttribute("size", expertList.size());
         model.addAttribute("project", project);
         model.addAttribute("projectId", projectId);
         model.addAttribute("packageId", packageId);

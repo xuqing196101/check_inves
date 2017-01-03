@@ -325,6 +325,7 @@ public class ReviewFirstAuditController {
 		double length = (sum/supplierList.size())*100;
 		model.addAttribute("length1", length + "%");
 		model.addAttribute("length2", length/2 + "%");
+        model.addAttribute("size", supplierList.size());
 		model.addAttribute("project", project);
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("packageId", packageId);

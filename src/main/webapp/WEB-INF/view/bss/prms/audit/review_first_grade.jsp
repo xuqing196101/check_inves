@@ -7,16 +7,19 @@
     <title>项目评分</title>
 <style> 
 table{border-collapse:collapse;border-spacing:0px; width:100%; border:#ddd solid 0px;} 
-table td{border:1px solid #ddd;border-top:0px solid #ddd;height:30px; text-align:center; border-left:0px;} 
-table th{text-align:center; background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:nowrap; height:30px; border-top:0px;border-left:0px;} 
+table td{border:1px solid #ddd;height:30px; text-align:center; border-left:0px;} 
+table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:nowrap; height:30px; border-top:0px;border-left:0px;} 
 .t_left{width:35%; height:auto; float:left;border-top:1px solid #ddd;border-left:1px solid #ddd;} 
-.t_r_content{width:100%; max-height:360px; background:#fff; overflow:auto;} 
+.t_r_content{width:100%; height:auto; background:#fff; overflow:auto;} 
 .cl_freeze{height:auto;overflow:hidden; width:100%;}  
-.t_r{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
+.t_r1{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
+.t_r2{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
 .t_r_t{width:100%; overflow:hidden;} 
 .bordertop{ border-top:0px;} 
-.t_r table{width:1700px;} 
-.t_r_title{width:1720px;}
+.t_r1 table{width:1700px;} 
+.t_r2 table{width:735px;} 
+.t_r_title1{width:1700px;}
+.t_r_title2{width:735px;}
 </style> 
 <script type="text/javascript">
 $(document).ready(function() { 
@@ -200,7 +203,7 @@ $(document).ready(function() {
 		  <!--包id  -->
 	   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
 	        
-	        <div class="t_left"> 
+	        <div class="t_left mt20"> 
 			<div style="width:100%;"> 
 	        <table class="m0" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
@@ -240,10 +243,10 @@ $(document).ready(function() {
 			</table>	    
 		  </div>
 		  </div>
-		  <div class="t_r"> 
+		  <div class="<c:if test="${size > 3}">t_r1</c:if> <c:if test="${size <= 3}">t_r2</c:if> mt20">
 			<div class="t_one">
 			<div class="t_r_t" id="t_r_t"> 
-			<div class="t_r_title"> 
+			<div class="<c:if test="${size > 3}">t_r_title1</c:if> <c:if test="${size <= 3}">t_r_title2</c:if>">
 			<table>
 				<tr>
 			      <c:forEach items="${supplierList}" var="supplier">
