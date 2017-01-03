@@ -154,7 +154,7 @@
 			    			<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')" />
 			    		</c:if>
 				    </td>
-				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
+				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					<c:if test="${not empty treemapValue.total}">
 				    	<td class="tc">${treemapValue.total}</td>
 				    	<td class="tc">${treemapValue.deliveryTime }</td>

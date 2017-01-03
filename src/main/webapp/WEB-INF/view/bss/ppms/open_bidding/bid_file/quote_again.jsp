@@ -149,7 +149,7 @@ function back() {
 				    <td class="tc w50">${vs.index+1}
 			    			<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')" />
 				    </td>
-				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
+				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					<td class="tc"><input class="w60"  maxlength="16" /></td>
 					<td class="tc"><input class="w90" value=""/></td>
 					<td class="tc">
