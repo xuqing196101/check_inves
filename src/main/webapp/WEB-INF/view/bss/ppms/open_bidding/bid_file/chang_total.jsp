@@ -6,8 +6,6 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-
-
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
 	function update(obj, supplierId, packageId, projectId, quoteId){

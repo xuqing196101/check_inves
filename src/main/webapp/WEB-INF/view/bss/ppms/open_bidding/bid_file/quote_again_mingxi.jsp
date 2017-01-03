@@ -142,7 +142,9 @@ function ycDiv(obj, index){
 		<c:forEach items="${listPd }" var="listProDel" varStatus="vs">
 		<c:set value="${vs.index}" var="index"></c:set>
 			   <div>
-				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listPackage[index].name }</span></h2>
+				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
+				 	<span>项目预算报价(万元)：${listPackage[index].projectBudget}</span>
+				 </h2>
                </div>
 			<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
 				<c:forEach items="${proDel.key }" var="pdkey" varStatus="vs">
@@ -199,7 +201,7 @@ function ycDiv(obj, index){
 		</c:forEach>
 		<div class="col-md-12 tc">
 			<input class="btn btn-windows save" value="结束报价" type="button" onclick="eachTable(this)">
-			<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
+			<input class="btn btn-windows reset" value="返回" type="button" onclick="history.go(-1)">
 		</div>
 	  </form>
 	</div>

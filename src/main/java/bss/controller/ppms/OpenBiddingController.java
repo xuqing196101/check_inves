@@ -1044,20 +1044,21 @@ public class OpenBiddingController {
         }
         model.addAttribute("project", project);
         //参与项目的所有供应商
-        List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
+        /*List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
         String supplierStr="";
         for(Supplier sup:listSupplier){
             supplierStr+=sup.getId()+",";
-        }
+        }*/
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId",projectId);
         map.put("purchaseType",DictionaryDataUtil.getId("GKZB"));
         //每个供应商的报价明细产品
-        List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
-        List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
-        boolean flag = false;
+        //List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
+        //List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
+        //boolean flag = false;
+        boolean flag = true;
         boolean flagButton = false;
-        if(listsupplierId.get(0).length() > 30){
+       /* if(listsupplierId.get(0).length() > 30){
             for(String str:listsupplierId){
                 Quote quotes = new Quote();
                 quotes.setProjectId(projectId);
@@ -1082,7 +1083,7 @@ public class OpenBiddingController {
 	            listQuoteList.add(listQuote);
 	        }
             model.addAttribute("listQuoteList", listQuoteList);
-        }
+        }*/
          //已开标 就是线下报价  -第一次进来的时候
         Quote quotes = new Quote();
         Quote quote1 = new Quote();
@@ -1131,6 +1132,13 @@ public class OpenBiddingController {
                     }
                     List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
                     detailList = detailService.selectByCondition(map1, null);
+                    
+                    BigDecimal projectBudget = BigDecimal.ZERO;
+                    for (ProjectDetail projectDetail : detailList) {
+                        projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+                    }
+                    pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
+                    
                     if (listQuote != null && listQuote.size() > 0 && detailList != null && detailList.size() > 0) {
                         flagButton = true;
                     }
@@ -1169,6 +1177,11 @@ public class OpenBiddingController {
                     detailList = detailList1;
                 } else {
                     detailList = detailService.selectByCondition(map1, null);
+                    BigDecimal projectBudget = BigDecimal.ZERO;
+                    for (ProjectDetail projectDetail : detailList) {
+                        projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+                    }
+                    pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
                 }
                 //
                 for (SaleTender saleTender : saleTenderList) {
@@ -1328,6 +1341,7 @@ public class OpenBiddingController {
     @RequestMapping(value="quoteAgainMingxi")
     public String quoteAgainMingxi(String projectId, String packId, String flowDefineId, Model model) throws ParseException{
         Project project = projectService.selectById(projectId);
+        BigDecimal projectBudget = BigDecimal.ZERO;
         DictionaryData dd = null;
         if (project != null && project.getPurchaseType() != null ){
             dd = DictionaryDataUtil.findById(project.getPurchaseType());
@@ -1370,6 +1384,9 @@ public class OpenBiddingController {
             quote.setCreatedAt(new Timestamp(listDate.get(0).getTime()));
             List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
             detailList = detailService.selectByCondition(map1, null);
+            for (ProjectDetail projectDetail : detailList) {
+                projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+            }
             List<ProjectDetail> detailList1 = new ArrayList<ProjectDetail>();
             for (Quote q : listQuote) {
                 for (Quote qp : listQuotebyPackage) {
@@ -1405,6 +1422,9 @@ public class OpenBiddingController {
             detailList = detailList1;
         } else {
             detailList = detailService.selectByCondition(map1, null);
+            for (ProjectDetail projectDetail : detailList) {
+                projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+            }
         }
         //
         for (SaleTender saleTender : saleTenderList) {
@@ -1431,6 +1451,9 @@ public class OpenBiddingController {
         HashMap<String, Object> condition = new HashMap<String, Object>();
         condition.put("id", packId);
         List<Packages> pList = packageService.findPackageById(condition);
+        if (pList != null && pList.size() > 0) {
+            pList.get(0).setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
+        }
         model.addAttribute("listPackage", pList);
         return "bss/ppms/open_bidding/bid_file/quote_again_mingxi";
     }
