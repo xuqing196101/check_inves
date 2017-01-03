@@ -53,7 +53,7 @@
 					<c:forEach items="${supplierList }" var="list" varStatus="vs">
 						<tr>
 							<td class="tc">${vs.index+1}</td>
-							<td class="tc">${list.supplierName}</td>
+							<td class="tl">${list.supplierName}</td>
 							<td class="tc">${list.packageName }</td>
 							<td>
 							    <c:if test="${empty list.bidFileName}">

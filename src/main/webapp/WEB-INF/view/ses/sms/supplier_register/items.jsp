@@ -385,7 +385,7 @@
 									<h2 class="f16 ">
 											勾选物资生产型品目信息
 									</h2>
-									<div id="div-1">
+									<div id="div-1" class="mb10">
 								  	产品名称:<input type="text" id="cate-1">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-1','tree_ul_id_1','PRODUCT',1)"/>
 								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
@@ -401,7 +401,7 @@
 									<h2 class="f16 ">
 											勾选物资销售型品目信息
 									</h2>
-									<div id="div-2">
+									<div id="div-2" class="mb10">
 								  	产品名称:<input type="text" id="cate-2">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-2','tree_ul_id_2','SALES',2)"/>
 								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
@@ -417,7 +417,7 @@
 									<h2 class="f16  ">
 									      	勾选工程品目信息
 									</h2>
-									<div id="div-3">
+									<div id="div-3" class="mb10">
 								  	产品名称:<input type="text" id="cate-3">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-3','tree_ul_id_3','PROJECT',null)"/>
 								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
@@ -433,7 +433,7 @@
 									<h2 class="f16">
 										 勾选服务品目信息
 									</h2>
-									<div id="div-4">
+									<div id="div-4" class="mb10">
 								  	产品名称:<input type="text" id="cate-4">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tree_ul_id_4','SERVICE',null)"/>
 								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->

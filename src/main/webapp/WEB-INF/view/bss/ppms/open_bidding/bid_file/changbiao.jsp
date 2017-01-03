@@ -90,12 +90,12 @@ function eachTable(obj) {
 			}
 			if(deliveryTime == "") {
 				 //layer.msg("第" + (i + 1) + "包,表格第" + (j + 1) + "行,交货时间未填写"); 
-				 layer.msg("表单未填写完整,单价和交货时间必须填写,请检查表单",{offset: [y, x]});
+				 layer.msg("表单未填写完整,总价和交货时间必须填写,请检查表单",{offset: [y, x]});
 				return;
 			}
 			if(price == "" || price.trim() == "") {
 				 //layer.msg("第" + (i + 1) + "包,表格第" + (j + 1) + "行,未报价"); 
-				layer.msg("表单未填写完整,单价和交货时间必须填写,请检查表单",{offset: [y, x]});
+				layer.msg("表单未填写完整,总价和交货时间必须填写,请检查表单",{offset: [y, x]});
 				return;
 				error++;
 			} else {
