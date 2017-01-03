@@ -270,11 +270,8 @@ function searchCate(cateId, treeId) {
 			dataType: "json",
 			success: function(data){
 				zNodes = data;
-				$.fn.zTree.init($("#" + treeId), setting, null);
 				zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
-				var nodes = zTreeObj.getNodesByFilter(filter); // 查找节点集合
-				var ztree = $.fn.zTree.init($("#" + treeId), setting, nodes);
-				ztree.expandAll(true);//全部展开
+				zTreeObj.expandAll(true);//全部展开
 			}
 		});
 	}

@@ -22,8 +22,7 @@
 		window.location.href="${pageContext.request.contextPath}/expert/downNotice.html";
 	}
 	function downCategory(){
-		// 不可用
-		//window.location.href="${pageContext.request.contextPath}/expert/downCategory.html";
+		window.location.href="${pageContext.request.contextPath}/expert/downCategory.html";
 	}
 </script>
 
@@ -46,7 +45,7 @@
 					</div>
 					<div class="mt40">
 						<div class="fl">
-							产品目录<a onclick='downNotice()' href="javascript:void(0)" class="download"></a>
+							产品目录<a onclick='downCategory()' href="javascript:void(0)" class="download"></a>
 						</div>
 						<div class="clear"></div>
 					</div>

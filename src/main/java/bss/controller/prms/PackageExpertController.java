@@ -2226,6 +2226,10 @@ public class PackageExpertController {
         }
         model.addAttribute("rankList", rankList);
         // 新增参数
+        double sum = 1;
+        double length = (sum/supplierList.size())*100;
+        model.addAttribute("length1", length + "%");
+        model.addAttribute("length2", length/2 + "%");
         model.addAttribute("project", project);
         model.addAttribute("projectId", projectId);
         model.addAttribute("packageId", packageId);
@@ -2350,6 +2354,10 @@ public class PackageExpertController {
         }
         model.addAttribute("scores", scores);
         // 新增参数
+        double sum = 1;
+        double length = (sum/expertList.size())*100;
+        model.addAttribute("length1", length + "%");
+        model.addAttribute("length2", length/2 + "%");
         model.addAttribute("project", project);
         model.addAttribute("projectId", projectId);
         model.addAttribute("packageId", packageId);

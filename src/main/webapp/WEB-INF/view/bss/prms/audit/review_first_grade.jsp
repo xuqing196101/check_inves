@@ -247,7 +247,7 @@ $(document).ready(function() {
 			<table>
 				<tr>
 			      <c:forEach items="${supplierList}" var="supplier">
-				      <th colspan="2" class="tc">${supplier.suppliers.supplierName}</th>
+				      <th colspan="2" class="tc" width="${length1}">${supplier.suppliers.supplierName}</th>
 				    </c:forEach>
 			  	</tr>
 			  	<tr>
@@ -268,9 +268,9 @@ $(document).ready(function() {
 				 	      <c:forEach items="${supplierList}" var="supplier">
 					 	    <c:choose>
 					 	      <c:when test="${score.typeName == '0'}">
-					 	        <td class="tc w100 p0">
+					 	        <td class="tc" width="${length2}">
 					 	          <select name="expertValue" 
-					 	            style="width: 55px;"  onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	            class="w50"  onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	          >
 					 	            <option value=""></option>
 					 	            <option value="1" 
@@ -287,8 +287,8 @@ $(document).ready(function() {
 					 	        </td>
 					 	      </c:when>
 					 	      <c:otherwise>
-					 	        <td class="tc w100 p0">
-					 	          <input type="text" name="expertValue" id="ipt5" onpaste="return false;" class="m0"
+					 	        <td class="tc" width="${length2}">
+					 	          <input type="text" name="expertValue" id="ipt5" onpaste="return false;" class="m0 w50"
 					 	            onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	            <c:forEach items="${scores}" var="sco">
 					 	              <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.expertValue}"</c:if>
@@ -297,7 +297,7 @@ $(document).ready(function() {
 					 	        </td>
 					 	      </c:otherwise>
 					 	    </c:choose>
-					 	    <td class="tc w80">
+					 	    <td class="tc" width="${length2}">
 					 	      <input type="hidden" name="supplierId"  value="${supplier.suppliers.id}"/>
 					 	      <input type="hidden" name="expertScore" readonly="readonly" style="width: 80px;" 
 					 	      	<c:forEach items="${scores}" var="sco">
