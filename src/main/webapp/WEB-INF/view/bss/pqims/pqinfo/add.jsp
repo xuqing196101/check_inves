@@ -194,10 +194,8 @@
 			 </li>
 			 <li class="col-md-12 col-sm-12 col-xs-12 mt10" id="picNone" >
 	   			<span class="fl">质检报告：</span>
-	    		<div class="fl">
 	        		<u:upload id="artice_up"  businessId="${pqinfoId }" sysKey="${sysKey}" typeId="${attachTypeId }" buttonName="上传质检报告图片" auto="true" exts="png,jpeg,jpg,bmp,git" />
 					<u:show showId="artice_show"  businessId="${pqinfoId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
-				</div>
 	 		</li>
 		     <%--
 		     <li class="col-md-12 p0 mt10">
