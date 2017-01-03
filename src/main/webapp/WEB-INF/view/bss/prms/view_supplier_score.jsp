@@ -96,12 +96,12 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
 			<table>
 				<tr>
 			      <c:forEach items="${expertList}" var="expert">
-				      <th class="tc w100">${expert.relName}</th>
+				      <th class="tc"  width="${length1}">${expert.relName}</th>
 				    </c:forEach>
 			  	</tr>
 			  	<tr>
 			  		<c:forEach items="${expertList}" var="expert">
-		   		        <th class="tc w100">评审得分</th>
+		   		        <th class="tc"  width="${length1}">评审得分</th>
 	   		  	  	</c:forEach>
 			  	</tr>
 		  	</table> 
@@ -118,7 +118,7 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
 					 	    <c:forEach items="${scores}" var="sco">
 					 	      <c:if test="${sco.packageId eq packageId and sco.expertId eq expert.id and sco.supplierId eq supplierId and sco.scoreModelId eq score.id}"><c:set var="expertScore" value="${sco.score}"/></c:if>
 					 	    </c:forEach>
-					 	    <td class="tc">
+					 	    <td class="tc" width="${length1}">
 					 	      <span>${expertScore}<c:if test="${expertScore eq '' and expertScore ne '0'}">未评分</c:if></span>
 					 	    </td>
 				 	      </c:forEach>
