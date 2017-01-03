@@ -1421,24 +1421,36 @@ public class ProjectController extends BaseController {
         String projectId = request.getParameter("projectId");
         HashMap<String,Object> map = new HashMap<String,Object>();
         ProjectDetail projectDetail = detailService.selectByPrimaryKey(request.getParameter("id"));
-        if("1".equals(projectDetail.getParentId())){
-            map.put("projectId", projectId);
-            map.put("id", projectDetail.getRequiredId());
-            List<ProjectDetail> list = detailService.selectByParentId(map);
-            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+//        if("1".equals(projectDetail.getParentId())){
+//            map.put("projectId", projectId);
+//            map.put("id", projectDetail.getRequiredId());
+//            List<ProjectDetail> list = detailService.selectByParentId(map);
+//            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+//            response.setContentType("text/html;charset=utf-8");
+//            response.getWriter().write(json);
+//            response.getWriter().flush();
+//            response.getWriter().close();
+//        }
+        map.put("projectId", projectId);
+        map.put("id", projectDetail.getRequiredId());
+        List<ProjectDetail> list = detailService.selectByParentId(map);
+        if(list.size()>1){
+        	String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write(json);
+            response.getWriter().flush();
+            response.getWriter().close();
+        }else{
+        	HashMap<String,Object> dMap = new HashMap<String,Object>();
+        	dMap.put("projectId", projectId);
+        	dMap.put("id", projectDetail.getRequiredId());
+        	List<ProjectDetail> dlist = detailService.selectByParent(map);
+        	String json = JSON.toJSONStringWithDateFormat(dlist, "yyyy-MM-dd HH:mm:ss");
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().write(json);
             response.getWriter().flush();
             response.getWriter().close();
         }
-        map.put("projectId", projectId);
-        map.put("id", projectDetail.getRequiredId());
-        List<ProjectDetail> list = detailService.selectByParent(map);
-        String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-        response.setContentType("text/html;charset=utf-8");
-        response.getWriter().write(json);
-        response.getWriter().flush();
-        response.getWriter().close();
     }
     /**
      * 
