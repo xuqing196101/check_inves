@@ -100,6 +100,17 @@ public class Packages {
      */
     private List<Date> dataList;
     
+    /**这个包的项目预算*/
+    private BigDecimal projectBudget;
+    
+    public BigDecimal getProjectBudget() {
+        return projectBudget;
+    }
+
+    public void setProjectBudget(BigDecimal projectBudget) {
+        this.projectBudget = projectBudget;
+    }
+
     public List<Date> getDataList() {
         return dataList;
     }

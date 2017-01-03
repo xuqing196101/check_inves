@@ -152,7 +152,7 @@ function ycDiv(obj, index){
 <body onload="addTotal()">
 <!-- 表格开始-->  
        <!--  <button class="btn btn-windows git tr" onclick="show()">唱标</button> -->
-       <c:if test="${flag == false}">
+      <%--  <c:if test="${flag == false}">
        	 <c:forEach items="${listQuoteList }" var="listQuote" varStatus="vs">
         <h3 class="tc">
             <c:choose>
@@ -201,7 +201,7 @@ function ycDiv(obj, index){
 			</tr>
         </table>
         </c:forEach>
-       </c:if>
+       </c:if> --%>
        <c:if test="${flag == true }">
        <div class="clear">
        <form id="form" action="${pageContext.request.contextPath}/open_bidding/savemingxi.html" method="post">
@@ -210,7 +210,9 @@ function ycDiv(obj, index){
 		<c:forEach items="${listPd }" var="listProDel" varStatus="vs">
 		<c:set value="${vs.index}" var="index"></c:set>
 			   <div>
-				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listPackage[index].name }</span></h2>
+				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
+				 	<span>项目预算报价(万元)：${listPackage[index].projectBudget}</span>
+				 </h2>
                </div>
 			<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
 				<c:forEach items="${proDel.key }" var="pdkey" varStatus="vs">
