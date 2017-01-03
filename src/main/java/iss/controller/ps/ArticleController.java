@@ -667,7 +667,7 @@ public class ArticleController extends BaseSupplierController{
    * @return String
    */
   @RequestMapping("/auditlist")
-  public String auditlist(@CurrentUser User user,Model model,Integer status,Integer range,Integer page,HttpServletRequest request){
+  public String auditlist(Model model,Integer status,Integer range,Integer page,HttpServletRequest request){
     Article article = new Article();
     ArticleType articleType = new ArticleType();
 
@@ -694,7 +694,6 @@ public class ArticleController extends BaseSupplierController{
       page = 1;
     }
     map.put("page", page.toString());
-    map.put("userId", user.getId());
     PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
 
