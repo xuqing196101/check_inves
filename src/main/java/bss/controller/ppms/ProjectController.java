@@ -1158,6 +1158,23 @@ public class ProjectController extends BaseController {
         return sb.toString();
     }
     
+    /** 
+     * 将List中相同的元素合并（即只保留相同元素中的一个） 
+     * @param list 需要被合并的List 
+     * @return 合并后的List 
+     */  
+    private List<ProjectDetail> joinList(List<ProjectDetail> list){  
+        List<ProjectDetail> list2 = new ArrayList<>();  
+        for(int i=0;i<list.size();i++){  
+            ProjectDetail obj = list.get(i);  
+            //如果当前元素不在list2中，则添加  
+            if(list2.indexOf(obj) == -1){  
+                list2.add(obj);  
+            }  
+        }
+        return list2;  
+    }  
+    
     /**
      * 
     * @Title: subPackage
@@ -1189,12 +1206,23 @@ public class ProjectController extends BaseController {
             }
         }
         String str = "";
-        List<ProjectDetail> showDetails = new ArrayList<>();
+        String pId = "";
+        List<ProjectDetail> showDetails = new ArrayList<>();//展示的明细
         for(int i=0;i<bottomDetails.size();i++){
             if(bottomDetails.get(i).getPackageId()==null){
-            	if(!parentIds.contains(bottomDetails.get(i).getParentId())){
+            	HashMap<String,Object> bMap = new HashMap<>();
+            	bMap.put("id", bottomDetails.get(i).getRequiredId());
+            	bMap.put("projectId", id);
+            	List<ProjectDetail> list2 = detailService.selectByParent(bMap);
+            	for(ProjectDetail detail:list2){
+            		if(detail.getParentId().equals("1")){
+            			pId = detail.getId();
+            			break;
+            		}
+            	}
+            	if(!parentIds.contains(pId)){
             		str = "无";
-            		parentIds.add(bottomDetails.get(i).getParentId());
+            		parentIds.add(pId);
             		HashMap<String,Object> detailMap = new HashMap<>();
                     detailMap.put("id",bottomDetails.get(i).getRequiredId());
                     detailMap.put("projectId", id);
@@ -1203,20 +1231,35 @@ public class ProjectController extends BaseController {
                        showDetails.add(dlist.get(j));
                     }
             	}else{
-            		if(showDetails.size()!=0){
-            			for(int j=0;j<showDetails.size();j++){
-                			if(showDetails.get(j).getParentId().equals(bottomDetails.get(i).getParentId())){
-                				showDetails.add(bottomDetails.get(i));
-                				break;
-                			}
-                		}
+            		//if(showDetails.size()!=0){
+//            			for(int j=0;j<showDetails.size();j++){
+//                			if(showDetails.get(j).getParentId().equals(bottomDetails.get(i).getParentId())){
+//                				showDetails.add(bottomDetails.get(i));
+//                				break;
+//                			}
+//                		}
+            		//}
+            		HashMap<String,Object> map2 = new HashMap<>();
+            		map2.put("projectId", id);
+            		map2.put("id", bottomDetails.get(i).getRequiredId());
+            		List<ProjectDetail> list3 = detailService.selectByParent(map2);
+            		for(int j=0;j<showDetails.size();j++){
+            			for(int k=0;k<list3.size();k++){
+            				if(showDetails.get(j).getId().equals(list3.get(k).getId())){
+            					list3.remove(list3.get(k));
+            					break;
+            				}
+            			}
             		}
+            		showDetails.addAll(list3);
             	}
             }
             if(i==bottomDetails.size()-1){
             	if(str.equals("")){
             		model.addAttribute("list", null);
             	}else{
+                	ComparatorDetail comparator = new ComparatorDetail();
+                    Collections.sort(showDetails, comparator);
             		for(int j=0;j<showDetails.size();j++){
                     	HashMap<String,Object> detailMap = new HashMap<>();
                         detailMap.put("id",showDetails.get(j).getRequiredId());
@@ -1234,12 +1277,12 @@ public class ProjectController extends BaseController {
                         	double money = budget;
                         	showDetails.get(j).setBudget(money);
                         }
-                        if(showDetails.get(j).getDepartment()!=null){
-                        	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(showDetails.get(j).getDepartment());
-                            if(orgnization!=null){
-                            	showDetails.get(j).setOrgName(orgnization.getName());
-                            }
-                        }
+//                        if(showDetails.get(j).getDepartment()!=null){
+//                        	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(showDetails.get(j).getDepartment());
+//                            if(orgnization!=null){
+//                            	showDetails.get(j).setOrgName(orgnization.getName());
+//                            }
+//                        }
                     }
             		model.addAttribute("list", showDetails);
             	}
@@ -1267,15 +1310,38 @@ public class ProjectController extends BaseController {
                 List<String> parentId = new ArrayList<>();
                 List<ProjectDetail> newDetails = new ArrayList<>();
                 for(int i=0;i<detailList.size();i++){
-                	if(!parentId.contains(detailList.get(i).getParentId())){
-                		parentId.add(detailList.get(i).getParentId());
+                	HashMap<String,Object> dMap = new HashMap<String,Object>();
+                	dMap.put("projectId", id);
+                	dMap.put("id", detailList.get(i).getRequiredId());
+                	List<ProjectDetail> lists = detailService.selectByParent(dMap);
+                	String ids = "";
+                	for(int k=0;k<lists.size();k++){
+                		if(lists.get(k).getParentId().equals("1")){
+                			ids = lists.get(k).getId();
+                			break;
+                		}
+                	}
+                	if(!parentId.contains(ids)){
+                		parentId.add(ids);
                 		HashMap<String,Object> parentMap = new HashMap<>();
                         parentMap.put("projectId", id);
                         parentMap.put("id", detailList.get(i).getRequiredId());
                         List<ProjectDetail> pList = detailService.selectByParent(parentMap);
                         newDetails.addAll(pList);
                 	}else{
-                		newDetails.add(detailList.get(i));
+                		HashMap<String,Object> map2 = new HashMap<>();
+                		map2.put("projectId", id);
+                		map2.put("id", detailList.get(i).getRequiredId());
+                		List<ProjectDetail> list3 = detailService.selectByParent(map2);
+                		for(int j=0;j<newDetails.size();j++){
+                			for(int k=0;k<list3.size();k++){
+                				if(newDetails.get(j).getId().equals(list3.get(k).getId())){
+                					list3.remove(list3.get(k));
+                					break;
+                				}
+                			}
+                		}
+                		newDetails.addAll(list3);
                 	}
                 }
                 ComparatorDetail comparator = new ComparatorDetail();
@@ -1306,6 +1372,17 @@ public class ProjectController extends BaseController {
                     	newDetails.get(i).setBudget(money);
                     }
                     if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+//                    	String ids = "";
+//                    	HashMap<String,Object> mapOne = new HashMap<>();
+//                    	mapOne.put("projectId", id);
+//                    	mapOne.put("id", newDetails.get(i).getRequiredId());
+//                    	List<ProjectDetail> lists = detailService.selectByParent(mapOne);
+//                    	for(int k=0;k<lists.size();k++){
+//                    		if(lists.get(k).getParentId().equals("1")){
+//                    			ids = lists.get(k).getId();
+//                    			break;
+//                    		}
+//                    	}
                     	if(!oneParentId.contains(newDetails.get(i).getParentId())){
                     		oneParentId.add(newDetails.get(i).getParentId());
                     		serialoneOne = 1;
@@ -1313,6 +1390,17 @@ public class ProjectController extends BaseController {
                     	newDetails.get(i).setSerialNumber(test(serialoneOne));
                     	serialoneOne ++;
                     }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+//                    	String ids = "";
+//                    	HashMap<String,Object> mapOne = new HashMap<>();
+//                    	mapOne.put("projectId", id);
+//                    	mapOne.put("id", newDetails.get(i).getRequiredId());
+//                    	List<ProjectDetail> lists = detailService.selectByParent(mapOne);
+//                    	for(int k=0;k<lists.size();k++){
+//                    		if(lists.get(k).getParentId().equals("1")){
+//                    			ids = lists.get(k).getId();
+//                    			break;
+//                    		}
+//                    	}
                     	if(!twoParentId.contains(newDetails.get(i).getParentId())){
                     		twoParentId.add(newDetails.get(i).getParentId());
                     		serialtwoTwo = 1;
@@ -1320,6 +1408,17 @@ public class ProjectController extends BaseController {
                     	newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
                     	serialtwoTwo ++;
                     }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+//                    	String ids = "";
+//                    	HashMap<String,Object> mapOne = new HashMap<>();
+//                    	mapOne.put("projectId", id);
+//                    	mapOne.put("id", newDetails.get(i).getRequiredId());
+//                    	List<ProjectDetail> lists = detailService.selectByParent(mapOne);
+//                    	for(int k=0;k<lists.size();k++){
+//                    		if(lists.get(k).getParentId().equals("1")){
+//                    			ids = lists.get(k).getId();
+//                    			break;
+//                    		}
+//                    	}
                     	if(!threeParentId.contains(newDetails.get(i).getParentId())){
                     		threeParentId.add(newDetails.get(i).getParentId());
                     		serialthreeThree = 1;
@@ -1327,6 +1426,17 @@ public class ProjectController extends BaseController {
                     	newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
                     	serialthreeThree ++;
                     }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+//                    	String ids = "";
+//                    	HashMap<String,Object> mapOne = new HashMap<>();
+//                    	mapOne.put("projectId", id);
+//                    	mapOne.put("id", newDetails.get(i).getRequiredId());
+//                    	List<ProjectDetail> lists = detailService.selectByParent(mapOne);
+//                    	for(int k=0;k<lists.size();k++){
+//                    		if(lists.get(k).getParentId().equals("1")){
+//                    			ids = lists.get(k).getId();
+//                    			break;
+//                    		}
+//                    	}
                     	if(!fourParentId.contains(newDetails.get(i).getParentId())){
                     		fourParentId.add(newDetails.get(i).getParentId());
                     		serialfourFour = 1;
@@ -1334,6 +1444,17 @@ public class ProjectController extends BaseController {
                     	newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
                     	serialfourFour ++;
                     }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+//                    	String ids = "";
+//                    	HashMap<String,Object> mapOne = new HashMap<>();
+//                    	mapOne.put("projectId", id);
+//                    	mapOne.put("id", newDetails.get(i).getRequiredId());
+//                    	List<ProjectDetail> lists = detailService.selectByParent(mapOne);
+//                    	for(int k=0;k<lists.size();k++){
+//                    		if(lists.get(k).getParentId().equals("1")){
+//                    			ids = lists.get(k).getId();
+//                    			break;
+//                    		}
+//                    	}
                     	if(!fiveParentId.contains(newDetails.get(i).getParentId())){
                     		fiveParentId.add(newDetails.get(i).getParentId());
                     		serialfiveFive = 0;
@@ -1346,6 +1467,13 @@ public class ProjectController extends BaseController {
                     	map.put("projectId", id);
                         map.put("id", newDetails.get(i).getRequiredId());
                         List<ProjectDetail> list = detailService.selectByParent(map);
+//                        String ids = "";
+//                        for(int k=0;k<list.size();k++){
+//                        	if(list.get(k).getParentId().equals("1")){
+//                        		ids = list.get(k).getId();
+//                        		break;
+//                        	}
+//                        }
                     	if(!newParentId.contains(newDetails.get(i).getParentId())){
                     		serialOne = 1;
                     		serialTwo = 1;
@@ -1377,12 +1505,12 @@ public class ProjectController extends BaseController {
                     		serialSix ++;
                     	}
                     }
-                    if(newDetails.get(i).getDepartment()!=null){
-                    	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(newDetails.get(i).getDepartment());
-                    	if(orgnization!=null){
-                    		newDetails.get(i).setOrgName(orgnization.getName());
-                    	}
-                    }
+//                    if(newDetails.get(i).getDepartment()!=null){
+//                    	Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(newDetails.get(i).getDepartment());
+//                    	if(orgnization!=null){
+//                    		newDetails.get(i).setOrgName(orgnization.getName());
+//                    	}
+//                    }
                     
                 }
                 ps.setProjectDetails(newDetails);
