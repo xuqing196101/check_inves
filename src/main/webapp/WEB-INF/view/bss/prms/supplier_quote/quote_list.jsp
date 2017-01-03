@@ -104,6 +104,11 @@ function quoteAgain(projectId, packId, status){
 	    var flowDefineId = $("#flowDefineId").val();
 		window.location.href="${pageContext.request.contextPath}/open_bidding/viewquoteAgainTotalMingxi.html?timestamp=" + data + "&projectId=" + projectId + "&packId=" + packId+ "&flowDefineId=" +flowDefineId;
 	}
+	$(function(){
+		for (var i = 1; i < 20; i++) {
+			$(".p0" + i).addClass("hide");
+		};
+	});
   </script>
   <body>
  <c:if test="${status == false }"> 
@@ -113,9 +118,14 @@ function quoteAgain(projectId, packId, status){
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
-			 <h2 onclick="ycDiv(this,'${index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span></h2>
+			 <c:if test="${vsKey.index == 0}">
+			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span></h2>
+			 </c:if>
+			 <c:if test="${vsKey.index != 0}">
+			 	<h2 onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span></h2>
+			 </c:if>
         </div>
-        <div class="p0${index}">
+        <div class="p0${vsKey.index}">
 		<table class="table table-bordered table-condensed mt5">
 			<thead>
 				<tr>

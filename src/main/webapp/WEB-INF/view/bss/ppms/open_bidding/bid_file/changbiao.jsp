@@ -118,6 +118,12 @@ function eachTable(obj) {
 	};
 }
 
+	$(function(){
+		for (var i = 1; i < 20; i++) {
+			$(".p0" + i).addClass("hide");
+		};
+	});
+
 function ycDiv(obj, index){
 	if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
 		$(obj).removeClass("jbxx");

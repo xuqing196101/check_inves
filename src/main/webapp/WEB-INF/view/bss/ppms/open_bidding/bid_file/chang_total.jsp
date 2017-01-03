@@ -115,19 +115,30 @@
 		$('body').append(form);
 		form.submit();
 	}
+	$(function(){
+		for (var i = 1; i < 20; i++) {
+			$(".p0" + i).addClass("hide");
+		};
+	});
 </script>
 </head>
 <body>
 <div id="showDiv" class="clear">
-<c:set value="1" var ="count"></c:set>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
-			 <h2 onclick="ycDiv(this,'${index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
-			 <span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
-			 </h2>
+			 	<c:if test="${vsKey.index ==0 }">
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow spread hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
+				 	</h2>
+			 	</c:if>
+			 	<c:if test="${vsKey.index != 0 }">
+				 	<h2  onclick="ycDiv(this,'${vsKey.index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${fn:substringBefore(treemapKey, "|")}</span>
+				 	<span>项目预算报价(万元)：${fn:substringAfter(treemapKey, "|")}</span>
+				 	</h2>
+			 	</c:if>
         </div>
-        <div class="p0${index}">
+        <div class="p0${vsKey.index}">
 		<table class="table table-bordered table-condensed mt5">
 			<thead>
 				<tr>
@@ -136,16 +147,12 @@
 					<th class="info">总价(万元)</th>
 					<th class="info">交货期限</th>
 					<th class="info">是否到场</th>
-					<!-- <th class="info">上传投标文件</th> -->
-					<!-- <th class="info">操作</th> -->
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
-				<c:set value="${count+1 }" var="index"></c:set>
 				<tr>
-				    <td class="tc w50">${vs.index+1}
+				    <td class="tc w50">${vs.index+1 }
 				    	<c:if test="${empty treemapValue.total}">
-							<%-- <td class="tc hide"><span class="btn btn-windows git" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')">提交</span></td> --%>
 			    			<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')" />
 			    		</c:if>
 				    </td>
@@ -169,21 +176,6 @@
 							</select>
 						</td>
 					</c:if>
-					<%-- <td>
-						  <c:if test="${empty treemapValue.bidFileName && empty treemapValue.total}">
-						    <c:if test="${fn:length(treemap.value) > 1}">
-								<u:upload id="${treemapValue.groupsUpload}" exts="txt,rar,zip,doc,docx" groups="${treemapValue.groupsUploadId}" buttonName="上传附件" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-								<u:show showId="${treemapValue.groupShow}" groups="${treemapValue.groupShowId}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" />
-						  	</c:if>
-						  	<c:if test="${fn:length(treemap.value) == 1}">
-								<u:upload id="${treemapValue.groupsUpload}" exts="txt,rar,zip,doc,docx" businessId="${treemapValue.id}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-								<u:show showId="${treemapValue.groupShow}" businessId="${treemapValue.id}" sysKey="${sysKey}" typeId="${typeId}" />
-						  	</c:if>
-						  </c:if>
-						  <c:if test="${not empty treemapValue.bidFileName}">
-								<a class="mt3 color7171C6" href="javascript:download('${treemapValue.bidFileId}', '${sysKey}')">${treemapValue.bidFileName}</a>							
-						  </c:if>
-					</td> --%>
 			    </tr>
 		</c:forEach>
 		</table>
