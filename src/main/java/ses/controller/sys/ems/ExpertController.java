@@ -2125,6 +2125,33 @@ public class ExpertController extends BaseController {
         return service.downloadFile(fileName, filePath, downFileName);
     }
     
+    
+    /**
+     *〈简述〉下载产品目录
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/downCategory")
+    public ResponseEntity<byte[]> downloadSupplierNotice(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext()
+                .getRealPath("/WEB-INF/upload_file/");
+        // 文件名称
+        String name = new String(("供应商承诺书.doc").getBytes("UTF-8"),
+                "UTF-8");
+        /** 生成word 返回文件名 */
+        String fileName = WordUtil.createWord(null, "supplierNotice.ftl",
+                name, request);
+        // 下载后的文件名
+        String downFileName = new String("供应商承诺书.doc".getBytes("UTF-8"),
+                "iso-8859-1");// 为了解决中文名称乱码问题
+        return service.downloadFile(fileName, filePath, downFileName);
+    }
+    
     /**
      *〈简述〉
      * 下载专家注册须知
@@ -2149,6 +2176,33 @@ public class ExpertController extends BaseController {
                 name, request);
         // 下载后的文件名
         String downFileName = new String("评审专家申请人注册须知.doc".getBytes("UTF-8"),
+                "iso-8859-1");// 为了解决中文名称乱码问题
+        return service.downloadFile(fileName, filePath, downFileName);
+    }
+    
+    /**
+     *〈简述〉
+     * 下载供应商注册须知
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param id
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/downSupplierNotice")
+    public ResponseEntity<byte[]> downSupplierNotice(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext()
+                .getRealPath("/WEB-INF/upload_file/");
+        // 文件名称
+        String name = new String(("供应商注册须知.doc").getBytes("UTF-8"),
+                "UTF-8");
+        /** 生成word 返回文件名 */
+        String fileName = WordUtil.createWord(null, "supplierNotices.ftl",
+                name, request);
+        // 下载后的文件名
+        String downFileName = new String("供应商注册须知.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
         return service.downloadFile(fileName, filePath, downFileName);
     }
