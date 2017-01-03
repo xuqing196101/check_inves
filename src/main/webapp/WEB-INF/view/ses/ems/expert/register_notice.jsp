@@ -45,7 +45,7 @@
 					</div>
 					<div class="mt40">
 						<div class="fl">
-							产品目录<a onclick='downCategory()' href="javascript:void(0)" class="download"></a>
+							产品目录<a href="javascript:downCategory()" class="download"></a>
 						</div>
 						<div class="clear"></div>
 					</div>
