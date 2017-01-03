@@ -128,6 +128,7 @@ http://www.springframework.org/schema/task/spring-task-3.2.xsd
 			<mvc:exclude-mapping path="/supplier/validateAuditTime.*" />
 			<mvc:exclude-mapping path="/supplier/isCommit.*" />
 			<mvc:exclude-mapping path="/supplier/getUUID.*" />
+			<mvc:exclude-mapping path="/supplier/validateCreditCode.*" />
 			
 <!-- 			地区管理 -->
 			<mvc:exclude-mapping path="/area/find_root_area.*" />

@@ -222,9 +222,9 @@
           </h2>
             <div class=" tab-content">
             <div id="tab-cjList" class="tab-pane fade active in">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['cjList']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -232,18 +232,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?id=3&id2=8&id3=13&id4=18">更多>></a>
               </div>
               <div id="tab-3" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select3List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -251,19 +251,19 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=3">更多>></a>
               </div>
 
               <div id="tab-4" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select8List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -271,19 +271,19 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=8">更多>></a>
               </div>
 
               <div id="tab-5" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select13List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -291,19 +291,19 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=13">更多>></a>
               </div>
               
               <div id="tabs-6" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select18List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -311,11 +311,11 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=18">更多>></a>
               </div>
@@ -366,9 +366,9 @@
             <div class=" tab-content">
             
             <div id="tab-czList" class="tab-pane fade active in">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['czList']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -376,19 +376,19 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?id=46&id2=51&id3=56&id4=61">更多>></a>
               </div>
             
               <div id="tab-6" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select46List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -396,18 +396,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=46">更多>></a>
               </div>
               <div id="tab-7" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select51List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -415,18 +415,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=51">更多>></a>
               </div>
               <div id="tab-8" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select56List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -434,18 +434,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=56">更多>></a>
               </div>
               <div id="tabs-8" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select61List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -453,11 +453,11 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=61">更多>></a>
               </div>
@@ -508,9 +508,9 @@
             <div class=" tab-content">
             
             <div id="tab-jdList" class="tab-pane fade active in">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['jdList']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -518,19 +518,19 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByDanTabs.html?id=89&id2=90&id3=91&id4=92">更多>></a>
               </div>
             
               <div id="tab-9" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select89List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -538,18 +538,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=89">更多>></a>
               </div>
               <div id="tab-10" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select90List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -557,18 +557,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=90">更多>></a>
               </div>
               <div id="tab-11" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select91List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -576,18 +576,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=91">更多>></a>
               </div>
               <div id="tabs-11" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select92List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -595,11 +595,11 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=92">更多>></a>
               </div>
@@ -660,9 +660,9 @@
             <div class=" tab-content">
             
             <div id="tab-cbList" class="tab-pane fade active in">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['cbList']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -670,19 +670,19 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?id=24&id2=29&id3=34&id4=39">更多>></a>
               </div>
             
               <div id="tab-12" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select24List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -690,18 +690,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=24">更多>></a>
               </div>
               <div id="tab-13" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select29List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -709,18 +709,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=29">更多>></a>
               </div>
               <div id="tab-14" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select34List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -728,18 +728,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=34">更多>></a>
               </div>
               <div id="tabs-14" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select39List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -747,11 +747,11 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=39">更多>></a>
               </div>
@@ -802,9 +802,9 @@
             <div class=" tab-content">
             
             <div id="tab-bzList" class="tab-pane fade active in">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['bzList']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -812,19 +812,19 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?id=67&id2=72&id3=77&id4=82">更多>></a>
               </div>
             
               <div id="tab-15" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select67List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -832,18 +832,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=67">更多>></a>
               </div>
               <div id="tab-16" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select72List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -851,18 +851,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=72">更多>></a>
               </div>
               <div id="tab-17" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select77List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -870,18 +870,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=77">更多>></a>
               </div>
               <div id="tabs-17" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select82List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -889,11 +889,11 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>【${sl.lastArticleType.name}】${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByParId.html?id=82">更多>></a>
               </div>
@@ -943,9 +943,9 @@
             <div class=" tab-content">
             
             <div id="tab-18" class="tab-pane fade active in">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['bdList']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -953,19 +953,19 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByDanTabs.html?id=94&id2=95&id3=96&id4=97">更多>></a>
               </div>
             
               <div id="tab-18" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select94List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -973,18 +973,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=94">更多>></a>
               </div>
               <div id="tab-19" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select95List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -992,18 +992,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=95">更多>></a>
               </div>
               <div id="tab-20" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select96List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -1011,18 +1011,18 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=96">更多>></a>
               </div>
               <div id="tabs-20" class="tab-pane fade">
-                <ul class="categories">
+                <ul class="categories articleover">
                   <c:forEach items="${indexMapper['select97List']}" var="sl">
-                    <c:set value="${sl.name}" var="name"></c:set>
+                    <%--<c:set value="${sl.name}" var="name"></c:set>
                     <c:set value="${fn:length(name)}" var="length"></c:set>
                     <c:if test="${length>23}">
                       <li>
@@ -1030,11 +1030,11 @@
                       </li>
                     </c:if>
                     <c:if test="${length<=23}">
-                      <li>
-                        <a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a>
+                      --%><li>
+                        <a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${sl.name}</a>
                       </li>
-                    </c:if>
-                  </c:forEach>
+                    <%--</c:if>
+                  --%></c:forEach>
                 </ul>
                 <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=97">更多>></a>
               </div>

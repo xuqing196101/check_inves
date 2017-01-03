@@ -2181,4 +2181,19 @@ import ses.util.WfUtil;
        return UUID.randomUUID().toString().toUpperCase().replace("-", "");
    }
 
+   @ResponseBody
+   @RequestMapping("/validateCreditCode")
+   public String validateCreditCode(String creditCode, String supplierId) {
+       List<Supplier> list = supplierService.validateCreditCode(creditCode);
+       boolean flag = true;
+       if (list !=null && list.size() > 0) {
+           for (Supplier supplier : list) {
+               if (!supplierId.equals(supplier.getId())) {
+                   flag = false;
+                   break;
+               }
+           }
+       }
+       return flag ? "0" : "1";
+   }
  }
