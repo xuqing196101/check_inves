@@ -419,27 +419,25 @@
 								<input id="detailAddress" class="hand fl" onclick="reason(this)" type="text" value="${suppliers.detailAddress}" <c:if test="${fn:contains(field,'detailAddress')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('detailAddress');"</c:if>>
 							</div>
 						</li>
+						<div class="clear"></div>
 						<!-- 遍历生产地址 -->
 						<c:forEach items="${supplierAddress }" var="supplierAddress" varStatus="vs">
 							<li class="col-md-3 col-sm-6 col-xs-12">
-								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="code2">生产经营地址邮编：</span>
+								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">生产经营地址邮编：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input type="text" id="code" value="${supplierAddress.code}" class="hand " onclick="reason(this.id,'code')">
-									<div id="code3" class="abolish">×</div>
+									<input type="text" id="${vs.index+1}code" value="${supplierAddress.code}" class="hand " onclick="reason(this)">
 								</div>
 							</li>
-							<%-- <li class="col-md-3 col-sm-6 col-xs-12">
-								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="address2">生产经营地址：</span>
+							<li class="col-md-3 col-sm-6 col-xs-12">
+								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">生产经营地址：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input type="text" id="address" value="<c:forEach items=" ${privnce } " var="privnce " varStatus="vs "><c:if test="${supplierAddress.parentId eq privnce.id} ">${privnce.name }</c:if></c:forEach>${supplierAddress.subAddressName }" class="hand " onclick="reason(this.id,'address')">
-									<div id="address3" class="abolish">×</div>
+									<input type="text" id="${vs.index+1}address" value="${supplierAddress.parentName }${supplierAddress.subAddressName }" class="hand " onclick="reason(this)">
 								</div>
-							</li> --%>
+							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">生产经营详细地址：</span>
+								<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">生产经营详细地址：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input type="text" id="detailAddress" value="${supplierAddress.detailAddress}" class="hand " onclick="reason(this.id,'detailAddress')">
-									<div id="detailAddress3" class="abolish">×</div>
+									<input type="text" id="${vs.index+1}detailAddress" value="${supplierAddress.detailAddress}" class="hand " onclick="reason(this)">
 								</div>
 							</li>
 						</c:forEach>
@@ -684,25 +682,25 @@
 	            	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所在国家(地区)：</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="branchCountry" class="hand " value="${supplierBranch.countryName } " type="text" onclick="reason(this)">
+										<input id="${vs.index+1 }branchCountry" class="hand " value="${supplierBranch.countryName } " type="text" onclick="reason(this)">
 									</div>
 								</li>
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">机构名称：</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="branchName" class="hand " value="${supplierBranch.organizationName } " type="text" onclick="reason(this)">
+										<input id="${vs.index+1 }branchName" class="hand " value="${supplierBranch.organizationName } " type="text" onclick="reason(this)">
 									</div>
 								</li>
 								<li class="col-md-3 col-sm-6 col-xs-12 ">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" >详细地址：</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="branchAddress" class="hand " value="${supplierBranch.detailAddress } " type="text" onclick="reason(this)">
+										<input id="${vs.index+1 }branchAddress" class="hand " value="${supplierBranch.detailAddress } " type="text" onclick="reason(this)">
 									</div>
 								</li>
 								<li class="col-md-12 col-sm-12 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">分支生产经营范围：</span>
 									<div class="col-md-12 col-sm-12 col-xs-12 p0">
-										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="branchBusinessScope" onclick="reason(this)">${supplierBranch.businessSope }</textarea>
+										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="${vs.index+1 }branchBusinessScope" onclick="reason(this)">${supplierBranch.businessSope }</textarea>
 									</div>
 								</li>
             	</c:if>

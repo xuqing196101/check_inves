@@ -16,6 +16,8 @@
 				var num = ${num};
 				if(num == 0) {
 					$("#tuihui").attr("disabled", true);
+					$("#butongguo").attr("disabled", true);
+					$("#tichu").attr("disabled", true);
 				}
 				if(num != 0) {
 					$("#tongguo").attr("disabled", true);
@@ -209,12 +211,12 @@
 									<div class="col-md-12 add_regist tc">
 										<c:if test="${status eq '0'}">
 											<input class="btn btn-windows git" type="button" onclick="shenhe(1);" value="初审通过 " id="tongguo">
-											<input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不通过">
+											<input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不通过" id="butongguo">
 											<input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
 										</c:if>
 										<c:if test="${status eq '4'}">
 											<input class="btn btn-windows git" type="button" onclick="shenhe(5);" value="复审通过 " id="tongguo">
-											<input class="btn btn-windows edit" type="button" onclick="shenhe(6);" value="踢出">
+											<input class="btn btn-windows edit" type="button" onclick="shenhe(6);" value="踢出" id="tichu">
 											<!-- <input class="btn btn-windows reset" type="button" onclick="shenhe(6);" value="退回" id="tuihui"> -->
 										</c:if>
 									</div>

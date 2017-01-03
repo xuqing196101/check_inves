@@ -62,6 +62,8 @@ public class SupplierAddress {
     
     private String parentId;
     
+    private String parentName;
+    
     public List<Area> getAreaList() {
 		return areaList;
 	}
@@ -217,6 +219,14 @@ public class SupplierAddress {
 
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
+	}
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
 	}
     
     
