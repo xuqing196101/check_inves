@@ -1,5 +1,6 @@
 package bss.service.ppms;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import bss.model.ppms.Packages;
@@ -61,7 +62,7 @@ public interface SupplierCheckPassService {
    * @author Wang Wenshuai
    * @param id
    */
-  void updateBid(String[] id);
+  void updateBid(String[] id,BigDecimal[] wonPrice);
 
   /**
    * 
