@@ -1500,7 +1500,7 @@ function deleteFinance() {
 		 
 		
 			<div class="padding-top-10 clear">
-			    <h2 class="count_flow clear pt20"> <i>4</i> 出资人（股东）信息  （说明：出资人（股东）多余10人的，列出出资金额前十位的信息，但出资比例高于50%）</h2>
+			    <h2 class="count_flow clear pt20"> <i>4</i><font color=red>*</font> 出资人（股东）信息  （说明：出资人（股东）多余10人的，列出出资金额前十位的信息，但出资比例高于50%）</h2>
 				<div  class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
 				   <div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
