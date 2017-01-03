@@ -5,7 +5,19 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title>专家评分详情</title>
-
+<style> 
+table{border-collapse:collapse;border-spacing:0px; width:100%; border:#ddd solid 0px;} 
+table td{border:1px solid #ddd;height:30px; text-align:center; border-left:0px;} 
+table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:nowrap; height:30px; border-top:0px;border-left:0px;} 
+.t_left{width:35%; height:auto; float:left;border-top:1px solid #ddd;border-left:1px solid #ddd;} 
+.t_r_content{width:100%; height:auto; background:#fff; overflow:auto;} 
+.cl_freeze{height:auto;overflow:hidden; width:100%;}  
+.t_r{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
+.t_r_t{width:100%; overflow:hidden;} 
+.bordertop{ border-top:0px;} 
+.t_r table{width:1700px;} 
+.t_r_title{width:1720px;}
+</style>
 	<!-- Meta -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +29,13 @@
 	function backUp(){
 		$("#tab-6").load("${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId=${packageId}&projectId=${projectId}");
 	}
+	// 控制滚动
+	function controlScroll(){ 
+		var a = document.getElementById("t_r_content").scrollTop; 
+		var b = document.getElementById("t_r_content").scrollLeft; 
+		document.getElementById("cl_freeze").scrollTop=a; 
+		document.getElementById("t_r_t").scrollLeft=b; 
+	} 
 </script>
 </head>
 <body>
@@ -29,29 +48,29 @@
   </div>
   <!-- 表格开始-->
   <div>
-	        <table class="table table-bordered table-condensed mt5" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
+	        <div class="t_left"> 
+			<div style="width:100%;"> 
+	        <table class="table table-bordered table-condensed table_input" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
-			    <th colspan="4"></th>
-			    <c:forEach items="${supplierList}" var="supplier">
-			      <th>${supplier.suppliers.supplierName}</th>
-			    </c:forEach>
+			      <th colspan="4"></th>
 			  </tr>
 			  <tr>
-			   	  	  <th>评审项目</th>
-			   	      <th>评审指标</th>
-			   	      <th>指标模型</th>
-			   	      <th>标准分值</th>
-			   	  	  <c:forEach items="${supplierList}" var="supplier">
-     		        	<th>评审得分</th>
-	    		  	  </c:forEach>
-			   		</tr>
+		   	  	  <th class="w100">评审项目</th>
+		   	      <th class="w100">评审指标</th>
+		   	      <th class="w100">指标模型</th>
+		   	      <th class="w100">标准分值</th>
+			  </tr>
+			</table>
+			</div> 
+			<div class="cl_freeze" id="cl_freeze"> 
+			<table>
 			    <c:forEach items="${markTermList}" var="markTerm">
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
 			    	      <td class="tc w100" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
-			    	      <td class=""><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
-			 	  		  <td class="">
+			    	      <td class="w100"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
+			 	  		  <td class="w100">
 			 	    	    <c:if test="${score.typeName == 0}">模型一</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型二</c:if>
 				 	        <c:if test="${score.typeName == 2}">模型三</c:if>
@@ -61,48 +80,55 @@
 				 	        <c:if test="${score.typeName == 6}">模型七</c:if>
 				 	        <c:if test="${score.typeName == 7}">模型八</c:if>
 				 	      </td>
-				 	      <td class="tc">${score.standardScore}</td>
+				 	      <td class="tc w100">${score.standardScore}</td>
+				 	    </tr>
+				 	  </c:if>
+				 	</c:forEach>
+				 </c:forEach>
+			</table>	    
+		  </div>
+		  </div>
+		  <div class="t_r"> 
+			<div class="t_one">
+			<div class="t_r_t" id="t_r_t"> 
+			<div class="t_r_title"> 
+			<table>
+				<tr>
+			      <c:forEach items="${supplierList}" var="supplier">
+				      <th class="tc w100">${supplier.suppliers.supplierName}</th>
+				    </c:forEach>
+			  	</tr>
+			  	<tr>
+			  		<c:forEach items="${supplierList}" var="supplier">
+		   		        <th class="tc w100">评审得分</th>
+	   		  	  	</c:forEach>
+			  	</tr>
+		  	</table> 
+			</div> 
+			</div> 
+		  <div class="t_r_content" id="t_r_content" onscroll="controlScroll()"> 
+			<table> 
+			<c:forEach items="${markTermList}" var="markTerm">
+			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
+			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
+			    	    <tr>
 				 	      <c:forEach items="${supplierList}" var="supplier">
 					 	    <c:set var="expertScore" value=""/>
 					 	    <c:forEach items="${scores}" var="sco">
 					 	      <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><c:set var="expertScore" value="${sco.score}"/></c:if>
 					 	    </c:forEach>
-					 	    <td class="tc">
-					 	      <span>${expertScore}</span>
+					 	    <td class="tc w100">
+					 	      <span>${expertScore}<c:if test="${expertScore eq '' and expertScore ne '0'}">未评分</c:if></span>
 					 	    </td>
 				 	      </c:forEach>
 					    </tr> 
 					  </c:if>
 			        </c:forEach>
 			    </c:forEach>
-			  <tr>
-			  	<td colspan="4" class="tc">合计:</td>
-			  	<c:forEach items="${supplierList}" var="supplier">
-     		      <td>
-     		        <c:forEach items="${rankList}" var="rank">
-     		          <c:if test="${supplier.suppliers.id eq rank.supplierId}">
-     		            <span>${rank.econScore}(经济)+${rank.techScore}(技术)=${rank.sumScore}(总分)</span>
-     		          </c:if>
-     		        </c:forEach>
-     		      </td>
-	    		</c:forEach>
-			  </tr>
-			  <tr>
-			  	<td colspan="4" class="tc">排名:</td>
-			  	<c:forEach items="${supplierList}" var="supplier">
-     		      <td class="tc">
-     		        <c:forEach items="${rankList}" var="rank">
-     		          <c:if test="${supplier.suppliers.id eq rank.supplierId and (rank.reviewResult == null or rank.reviewResult eq '')}">
-     		            <span>第${rank.rank}名</span>
-     		          </c:if>
-     		          <c:if test="${supplier.suppliers.id eq rank.supplierId and rank.reviewResult != null and rank.reviewResult ne ''}">
-     		            <span>${rank.reviewResult}</span>
-     		          </c:if>
-     		        </c:forEach>
-     		      </td>
-	    		</c:forEach>
-			  </tr>
-			</table>
+			</table> 
+			</div>
+			</div> 
+		</div>
 			<div class="tc">
 			  <%--<input class="btn btn-windows back" value="返回" type="button" onclick="backUp()">--%>
 		    </div>

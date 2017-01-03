@@ -272,17 +272,15 @@ function searchCate(cateId, treeId) {
 				zNodes = data;
 				$.fn.zTree.init($("#" + treeId), setting, null);
 				zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
-				zTreeObj.expandAll(true);//全部展开
-				var treeNodes = zTreeObj.getNodes();
-				for (var i = 0; i < treeNodes.length; i++) {
-					if (treeNodes[i].level > 2) {
-						treeNodes[i].isParent = false;
-						zTreeObj.updateNode(treeNodes[i]);
-					}
-				}
+				var nodes = zTreeObj.getNodesByFilter(filter); // 查找节点集合
+				var ztree = $.fn.zTree.init($("#" + treeId), setting, nodes);
+				ztree.expandAll(true);//全部展开
 			}
 		});
 	}
+}
+function filter(node) {
+    return (node.level < 4);
 }
 </script>
 </head>

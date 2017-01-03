@@ -5,6 +5,19 @@
   <head>
   	<%@ include file="/WEB-INF/view/common.jsp" %>
     <title>项目评分</title>
+<style> 
+table{border-collapse:collapse;border-spacing:0px; width:100%; border:#ddd solid 0px;} 
+table td{border:1px solid #ddd;height:30px; text-align:center; border-left:0px;} 
+table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:nowrap; height:30px; border-top:0px;border-left:0px;} 
+.t_left{width:35%; height:auto; float:left;border-top:1px solid #ddd;border-left:1px solid #ddd;} 
+.t_r_content{width:100%; height:auto; background:#fff; overflow:auto;} 
+.cl_freeze{height:auto;overflow:hidden; width:100%;}  
+.t_r{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
+.t_r_t{width:100%; overflow:hidden;} 
+.bordertop{ border-top:0px;} 
+.t_r table{width:1700px;} 
+.t_r_title{width:1720px;}
+</style> 
 <script type="text/javascript">
 $(document).ready(function() { 
 	 $("input[name='expertValue']").bind("keypress", function(event) {  
@@ -190,31 +203,30 @@ $(document).ready(function() {
 	   	  <input type="hidden" name="projectId" id="projectId" value="${projectId }">
 		  <!--包id  -->
 	   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
-	   	  <div style="overflow:scroll;">
+	        
+	        <div class="t_left"> 
+			<div style="width:100%;"> 
 	        <table class="table table-bordered table-condensed table_input" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
-			    <th colspan="4"></th>
-			    <c:forEach items="${supplierList}" var="supplier">
-			      <th colspan="2">${supplier.suppliers.supplierName}</th>
-			    </c:forEach>
+			      <th colspan="4"></th>
 			  </tr>
 			  <tr>
-			   	  	  <th>评审项目</th>
-			   	      <th>评审指标</th>
-			   	      <th class="w100">指标模型</th>
-			   	      <th class="w100">标准分值</th>
-			   	  	  <c:forEach items="${supplierList}" var="supplier">
-			        	<th>评委填写</th>
-     		        	<th>评审得分</th>
-	    		  	  </c:forEach>
-			   		</tr>
+		   	  	  <th class="w100">评审项目</th>
+		   	      <th class="w100">评审指标</th>
+		   	      <th class="w100">指标模型</th>
+		   	      <th class="w100">标准分值</th>
+			  </tr>
+			</table>
+			</div> 
+			<div class="cl_freeze" id="cl_freeze"> 
+			<table>
 			    <c:forEach items="${markTermList}" var="markTerm">
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
 			    	      <td class="tc w100" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
-			    	      <td class=""><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
-			 	  		  <td class="">
+			    	      <td class="w100"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
+			 	  		  <td class="tc w100">
 			 	    	    <c:if test="${score.typeName == 0}">模型一</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型二</c:if>
 				 	        <c:if test="${score.typeName == 2}">模型三</c:if>
@@ -224,7 +236,39 @@ $(document).ready(function() {
 				 	        <c:if test="${score.typeName == 6}">模型七</c:if>
 				 	        <c:if test="${score.typeName == 7}">模型八</c:if>
 				 	      </td>
-				 	      <td class="tc">${score.standardScore}</td>
+				 	      <td class="tc w100">${score.standardScore}</td>
+				 	    </tr>
+				 	  </c:if>
+				 	</c:forEach>
+				 </c:forEach>
+			</table>	    
+		  </div>
+		  </div>
+		  <div class="t_r"> 
+			<div class="t_one">
+			<div class="t_r_t" id="t_r_t"> 
+			<div class="t_r_title"> 
+			<table>
+				<tr>
+			      <c:forEach items="${supplierList}" var="supplier">
+				      <th colspan="2" class="tc">${supplier.suppliers.supplierName}</th>
+				    </c:forEach>
+			  	</tr>
+			  	<tr>
+			  		<c:forEach items="${supplierList}" var="supplier">
+			        	<th class="tc w100">评委填写</th>
+		   		        <th class="tc w100">评审得分</th>
+	   		  	  	</c:forEach>
+			  	</tr>
+		  	</table> 
+			</div> 
+			</div> 
+		  <div class="t_r_content" id="t_r_content" onscroll="controlScroll()"> 
+			<table> 
+			<c:forEach items="${markTermList}" var="markTerm">
+			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
+			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
+			    	    <tr>
 				 	      <c:forEach items="${supplierList}" var="supplier">
 					 	    <c:choose>
 					 	      <c:when test="${score.typeName == '0'}">
@@ -273,84 +317,10 @@ $(document).ready(function() {
 					  </c:if>
 			        </c:forEach>
 			    </c:forEach>
-			  <!-- 之前的代码
-			  <thead>
-			    <tr>
-			      <th></th>
-			   	  <th></th>
-			   	  <th></th>
-			   	  <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-			   	    <th colspan="3">${supplier.suppliers.supplierName }</th>
-			   	  </c:forEach>
-			   	</tr>
-			    <tr>
-			      <th>序号</th>
-			   	  <th>评审项目</th>
-			   	  <th>计分模型</th>
-			   	  <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-			   	    <th>标准分值</th>
-			   		<th>投标人填写</th>
-			   		<th>投标文件页码</th>
-			   		<th>系统初始得分</th>
-			        <th>评委填写</th>
-     		        <th>评审得分</th>
-	    		  </c:forEach>
-			   	</tr>
-			  </thead>
-			  <c:forEach items="${list }" var="l" varStatus="vs">
-			    <tr align="center">
-			 	  <td>${vs.count }</td>
-			 	  <td>${l.markTermName }</td>
-			 	  <td>
-			 	    <c:if test="${l.typeName == 0}">模型1:是否判断</c:if>
-			 	    <c:if test="${l.typeName == 1}">模型2:按项加减分</c:if>
-			 	    <c:if test="${l.typeName == 2}">模型3:评审数额最高递减</c:if>
-			 	    <c:if test="${l.typeName == 3}">模型4:评审数额最低递增</c:if>
-			 	    <c:if test="${l.typeName == 4}">模型5:评审数额高计算</c:if>
-			 	    <c:if test="${l.typeName == 5}">模型6:评审数额低计算</c:if>
-			 	    <c:if test="${l.typeName == 6}">模型7:评审数额低区间递增</c:if>
-			 	    <c:if test="${l.typeName == 7}">模型8:评审数额高区间递减</c:if>
-			 	  </td>
-			 	  <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-			 	    <td>${l.standardScore }</td>
-				 	<td>${l.supplierValue }</td>
-				 	<td>${l.page }</td>
-				 	<td>${l.initScore }</td>
-				 	<c:choose>
-				 	  <c:when test="${l.typeName == '0' }">
-				 	    <td>
-				 	      <select name="expertValue" 
-				 	        <c:if test="${l.round == 0  }"> style="width: 50px;"  onchange="audit(this,'${l.id}','${supplier.suppliers.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
-				 	        <c:if test="${l.round == 1  }"> style="width: 50px; color:red;"  onchange="audit(this,'${l.id}','${supplier.suppliers.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
-				 	        <c:if test="${l.round == 2  }"> disabled="disabled" style="width: 50px;"</c:if>
-				 	      >
-				 	        <option value=""> </option>
-				 	        <option <c:if test="${l.expertValue == 1 }">selected</c:if> value="1">是</option>
-				 	        <option <c:if test="${l.expertValue == 0 }">selected</c:if> value="0">否</option>
-				 	      </select>
-				 	    </td>
-				 	  </c:when>
-				 	  <c:otherwise>
-				 	    <td>
-				 	      <input type="text"  name="expertValue" id="ipt5" onpaste="return false;" value="${l.expertValue }"
-				 	        <c:if test="${l.round == 0  }">style="width: 50px; ime-mode:disabled" onchange="audit(this,'${l.id}','${supplier.suppliers.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
-				 	        <c:if test="${l.round == 1  }">style="width: 50px; color:red; ime-mode:disabled" onchange="audit(this,'${l.id}','${supplier.suppliers.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"</c:if>
-				 	        <c:if test="${l.round == 2  }">readonly="readonly" style="width: 50px;"</c:if>
-				 	      >
-				 	    </td>
-				 	  </c:otherwise>
-				 	</c:choose>
-				 	<td>
-				 	  <input type="hidden" name="supplierId"  value="${supplier.suppliers.id }"/>
-				 	  <input type="text" name="expertScore" readonly="readonly" value="${l.finalScore }"  style="width: 50px;"/>
-				 	</td>
-			 	  </c:forEach>
-				</tr> 
-			  </c:forEach>
-			  -->
-			</table>
-           
-		  </div>
+			</table> 
+			</div>
+			</div> 
+		</div>
 			<div class="tc col-md-12 col-sm-12 col-xs-12">
 			  <input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
 			  <input type="button" onclick="zancun();"  value="暂存" class="btn btn-windows save">
@@ -358,7 +328,7 @@ $(document).ready(function() {
 		    </div>
 		</form>
 		
-	  </div> 
+	  </div>
 	</div>
   </div>
 </body>
