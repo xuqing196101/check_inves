@@ -1,5 +1,7 @@
 package synchro.service;
 
+import java.util.Date;
+
 /**
  * 
  * 版权：(C) 版权所有 
@@ -91,7 +93,7 @@ public interface SynchRecordService {
      * @author myc
      * @param content 内容
      */
-    public void backupInfos(String content);
+    public void backupInfos(Date time,String content);
     
     /**
      * 

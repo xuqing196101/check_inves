@@ -27,10 +27,13 @@
   </insert>
   
   <!-- 获取同步时间 -->
-  <select id="getSynchTime" resultType="java.lang.String">
-    SELECT  MAX(SYNCH_DATE) AS synchTime 
+  <select id="getSynchRecordByOperType" parameterType="java.lang.Integer"  resultMap="resMap">
+    SELECT  
+    <include refid="baseSql" />,
+    to_char(SYNCH_DATE,'yyyy-MM-dd hh24:mi:ss') AS synchTime
     FROM T_SYNCH_RECORD
-    WHERE  OPER_TYPE=#{operType}
-    AND DATA_TYPE=#{dataType}
+    WHERE OPER_TYPE = #{operType,jdbcType=NUMERIC}
+    ORDER by SYNCH_DATE desc
   </select>
+  
 </mapper>

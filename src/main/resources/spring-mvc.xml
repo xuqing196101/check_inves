@@ -25,7 +25,7 @@ http://www.springframework.org/schema/task/spring-task-3.2.xsd
 	
      <task:annotation-driven />
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
-	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller" />
+	<context:component-scan base-package="ses.controller, iss.controller,bss.controller,common.controller,synchro.controller" />
 
 
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->

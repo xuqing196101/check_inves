@@ -29,6 +29,9 @@ public class SynchRecord {
     /** 描述 **/
     private String descriptions;
     
+    /** 同步时间  **/
+    private String synchTime;
+    
     
     public String getId() {
         return id;
@@ -60,10 +63,11 @@ public class SynchRecord {
     public void setDataType(int dataType) {
         this.dataType = dataType;
     }
-   
-    
-    
-    
-    
+    public String getSynchTime() {
+        return synchTime;
+    }
+    public void setSynchTime(String synchTime) {
+        this.synchTime = synchTime;
+    }
     
 }

@@ -228,7 +228,6 @@ function loadData(data,index,pageNum,pageSize){
 		     + "  <td class='tl pl20'>"+data.name+"</td>"
 		     + "</tr>";
 	$("#dataTable tbody").append(html);
-	
 	cancel();
 }
 

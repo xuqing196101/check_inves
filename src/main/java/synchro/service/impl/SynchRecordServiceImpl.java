@@ -122,9 +122,9 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      * @see synchro.service.SynchRecordService#backupInfos(java.lang.String)
      */
     @Override
-    public void backupInfos(String content) {
-        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_INFOS_CREATED, Constant.OPER_TYPE_EXPORT, 
-                        Constant.CREATED_COMMIT_INFOS + content);
+    public void backupInfos(Date date, String content) {
+        SynchRecord sr  = packSynchRecord(Constant.DATA_TYPE_INFOS_CREATED, Constant.OPER_TYPE_EXPORT, 
+                        Constant.CREATED_COMMIT_INFOS + content, date);
         mapper.save(sr);
     }
     
@@ -181,6 +181,21 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      * @return
      */
     private SynchRecord getSynchRecord(Integer dataType, Integer operType, String desc){
+        return packSynchRecord(dataType, operType, desc, new Date());
+    }
+    
+    /**
+     * 
+     *〈简述〉封装对象
+     *〈详细描述〉
+     * @author myc
+     * @param dataType 数据类型
+     * @param operType 操作类型
+     * @param desc 描述
+     * @param date 时间
+     * @return
+     */
+    private SynchRecord packSynchRecord(Integer dataType, Integer operType, String desc, Date date){
         SynchRecord sr = new SynchRecord();
         sr.setDataType(dataType);
         sr.setOperType(operType);
