@@ -19,6 +19,9 @@ import ses.util.MyAnnotation;
  */
 public class Supplier implements Serializable {
 	private static final long serialVersionUID = 8734428260706437179L;
+	
+	//关联报价
+	private List<Quote> listQuote = null; 
 
 	/**
 	 * <pre>
@@ -1448,12 +1451,27 @@ public class Supplier implements Serializable {
 	public String getArmyBuinessAddress() {
 		return armyBuinessAddress;
 	}
+	
 
 	public void setArmyBuinessAddress(String armyBuinessAddress) {
 		this.armyBuinessAddress = armyBuinessAddress;
 	}
 
-	public Date getAuditDate() {
+	/**
+   * @return Returns the listQuote.
+   */
+  public List<Quote> getListQuote() {
+    return listQuote;
+  }
+
+  /**
+   * @param listQuote The listQuote to set.
+   */
+  public void setListQuote(List<Quote> listQuote) {
+    this.listQuote = listQuote;
+  }
+
+  public Date getAuditDate() {
 		return auditDate;
 	}
 

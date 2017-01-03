@@ -135,9 +135,12 @@
 }
 
 .showimg {
-	background-image: url("webapp/public/ztree/css/img/plus_center.gif");
+	  background:url(/public/ztree/css/img/plus_center.gif)_no-repeat 5px !important;
 }
 
 .hideimg{
-	background-image: url("webapp/public/ztree/css/img/minus_center.gif");
+	 background:url(/public/ztree/css/img/minus_center.gif)_no-repeat 5px !important;
+}
+.inputborder{
+	border: 0px;
 }
