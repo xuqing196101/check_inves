@@ -141,7 +141,7 @@
 							"<td class=''  name='department'><input   class='m0'  type='text' name='list[" + s + "].department' readonly='readonly' value=''/></td>" +
 							"<td  class='' ><input class='m0 ' type='text' name='list[" + s + "].goodsName' onkeyup='listName(this)'/></td>" +
 							"<td  class='' ><input class='m0 ' type='text' name='list[" + s + "].stand' /></td>" +
-							"<td  class='' ><input class='m0' type='text' name='list[" + s + "].qualitStand' /></td>" +
+							"<td  class='' ><input class='m0 w100p' type='text' name='list[" + s + "].qualitStand' /></td>" +
 							"<td class='' ><input  class='m0'  type='text' name='list[" + s + "].item' /> </td>" +
 							"<td class='' name='purchaseQuantity'><input class='m0'   type='text' name='list[" + s + "].purchaseCount' onkeyup='checkNum(this,1)'/></td>" +
 							"<td class='' name='unitPrice'><input class='m0'   type='text' name='list[" + s + "].price' onkeyup='checkNum(this,2)'/></td>" +
@@ -863,7 +863,7 @@
 											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0"/>
 										</td>
 										<td class="tc  p0"><input type="text" name="list[0].stand" class="m0 "></td>
-										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 "></td>
+										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 w100p "></td>
 										<td class="tc p0"><input type="text" name="list[0].item" class="m0 "></td>
 										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 "></td>
 										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 "></td>
@@ -1010,8 +1010,12 @@
 		
 	<div  class=" clear margin-top-30" id="file_div"  style="display:none;" >
 <%--     	<form id="up_form" action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
- --%>    		<input type="file" id="fileName" class="input_group pl20 fl" name="file" >
-    		 <input type="button" class="btn  input fl" onclick="fileup()"   value="导入" />
+ --%>    	  <div class="col-md-12 col-sm-12 col-xs-12">
+ 				<input type="file" id="fileName" class="input_group" name="file" >
+ 			  </div>
+ 			  <div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
+    		    <input type="button" class="btn input" onclick="fileup()"   value="导入" />
+    		  </div>
     		<!-- 	 <input type="hidden"  name="planName" id="detailJhmcf">
 							<input type="hidden" name="planNo" id="detailJhbhf">
 							<input type="hidden" name="planType" id="detailTypfef">
