@@ -433,11 +433,11 @@
            </span>
             </li>
             <li>
-              <label class="fl w100">是否发布：</label>
+              <label class="fl w100">状态：</label>
               <span>
               <select id ="status" name="status" class="w100">
                 <option></option>
-                <option value="0">待提交</option>
+                <option value="0">暂存</option>
                 <option value="1">已提交</option>
                 <option value="2">已发布</option>
                 <option value="3">已退回</option>
@@ -476,7 +476,7 @@
               <th class="info">发布范围</th>
               <th class="info">发布时间</th>
               <th class="info">信息栏目</th>
-              <th class="info">是否发布</th>
+              <th class="info">状态</th>
               <th class="info">浏览量</th>
             </tr>
           </thead>
@@ -510,7 +510,7 @@
               <td class="tl pl20" onclick="view('${article.id }')">${article.articleType.name }</td>
               <td class="tl pl20">
                 <c:if test="${article.status=='0' }">
-                  <input type="hidden" name="status" value="${article.status }">待提交
+                  <input type="hidden" name="status" value="${article.status }">暂存
                 </c:if>
                 <c:if test="${article.status=='1' }">
                   <input type="hidden" name="status" value="${article.status }">已提交

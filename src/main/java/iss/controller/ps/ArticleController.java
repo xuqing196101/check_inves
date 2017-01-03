@@ -1008,7 +1008,7 @@ public class ArticleController extends BaseSupplierController{
    * @return String
    */
   @RequestMapping("/serch")
-  public String serch(Integer range,Integer status,Integer page,Model model,HttpServletRequest request){
+  public String serch(@CurrentUser User user,Integer range,Integer status,Integer page,Model model,HttpServletRequest request){
     Article article = new Article();
     ArticleType articleType = new ArticleType();
 
@@ -1033,11 +1033,12 @@ public class ArticleController extends BaseSupplierController{
     if(page==null){
       page = 1;
     }
-    map.put("page", page.toString());
+    map.put("page", page);
+    map.put("userId", user.getId());
     PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
 
-    List<Article> list = articleService.selectArticleByName(map);
+    List<Article> list = articleService.selectByJurisDiction(map);
     model.addAttribute("list", new PageInfo<Article>(list));
     model.addAttribute("articleName", name);
     model.addAttribute("articlesRange", range);
