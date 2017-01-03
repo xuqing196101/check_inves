@@ -836,7 +836,7 @@ public class OpenBiddingController {
                 map.put("id", packageId);
                 List<Packages> pack = packageService.findPackageById(map);
                 if (pack != null && pack.size() > 0) {
-                    treeMap.put(pack.get(0).getName()+"|"+projectBudget, stList);
+                    treeMap.put(pack.get(0).getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
                 } else {
                     treeMap.put("", stList);
                 };

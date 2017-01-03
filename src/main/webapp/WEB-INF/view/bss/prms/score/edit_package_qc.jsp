@@ -247,7 +247,7 @@
               <input type="hidden" name="id" id="id">
               <ul class="list-unstyled">
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
-                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</label>
+                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审项目</label>
 	                <span class="col-md-12 col-sm-12 col-xs-12 p0">
 	                   <input name="name" id="name" maxlength="30" type="text">
 	                </span>
