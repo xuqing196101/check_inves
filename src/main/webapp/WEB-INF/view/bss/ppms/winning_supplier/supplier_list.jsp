@@ -20,9 +20,25 @@
     <!--
     <link rel="stylesheet" type="text/css" href="styles.css">
     -->
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" type="text/css">
   </head>
   <script type="text/javascript">
+  $(function (){
+	  var quote = "${quote}";
+
+// 	  0总价 1明细
+//     alert(quote);
+	  if(quote == 0){
+		 
+	  }else{
+		    var singQuotelist = document.getElementsByName ("singQuote");
+		    for(var i = 0; i<singQuotelist.length;i++){
+		      $(singQuotelist[i]).attr("class","inputborder");
+		      $(singQuotelist[i]).attr("disabled",true);
+		    }
+	  }
+  });
+  
     /** 全选全不选 */
     function selectAll() {
       var checklist = document.getElementsByName("chkItem");
@@ -85,12 +101,20 @@
     }
     
     function ratio(index){
-   
+   var quote = "${quote}";
     	var checklist = document.getElementsByName ("chkItem");
     	 for(var j = 0; j < checklist.length; j++) {
              $("#"+checklist[j].value).find("#priceRatio").text("");
              $("#"+checklist[j].value).find("#wonPrice").text("");
-             $("#"+checklist[j].value).find("#singQuote").text("");
+             if(quote==0){
+            	   $("#"+checklist[j].value).find("#singQuote").val("");
+             }else{
+            	  $("#"+checklist[j].value).find("#singQuote").text("");
+            	  $("#"+checklist[j].value).find("#singQuotehhide").val("");
+            	  
+             }
+             
+          
              
            }
     	
@@ -119,21 +143,31 @@
             
             //算出实际成交金额
             $('input[name="chkItem"]:checked').each(function() {
-            	   id.push($(this).val());
                 $("#"+$(this).val()).find("#priceRatio").text(ratio[i]);
 //                var totalprice = $("#"+id[0]).find("#totalPrice").text();
                var price = 0;
-                $('input[name="associate'+$(this).val()+'"]:checked').each(function() {
-//                  id.push($(this).val());
-                 var quote =  $("#"+$(this).val()).find("#Quotedamount").text();
+               var id = $(this).val();
+                $('input[name="associate'+id+'"]:checked').each(function() {
+                	var quote =  $("#"+id+$(this).val()).find("#Quotedamount").text();
                  
-                 var count =  $("#"+$(this).val()).find("#purchaseCount").text();
+                 var count =  $("#"+id+$(this).val()).find("#purchaseCount").text();
                  price =parseFloat(price) + toDecimal((ratio[i]/100)*count*quote);
 //                  alert(quote);     
 //                  alert(count);
                  
               });
-                $("#"+$(this).val()).find("#singQuote").text(price);
+                if(price == 0){
+                	price = "";
+                }
+                var quote = "${quote}";
+                if(quote == 0){
+                	$("#"+$(this).val()).find("#singQuote").val(price);
+                }else{
+                	  $("#"+$(this).val()).find("#singQuote").text(price);	
+                	  $("#"+$(this).val()).find("#singQuotehhide").val(price);
+                }
+                
+                
                
                 i++;
               });
@@ -156,17 +190,42 @@
 
       function save() {
         var id = [];
+        var wonPrice = [];
+        var isNull = 0;
+        var quote = "${quote}";
+       
         $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
+        	
+          var sq = 0 ;
+          if(quote == 0){
+        	   sq = $("#"+$(this).val()).find("#singQuote").val();    
+          if(isNull == 0){
+	          if(sq == null || sq == '' ){
+	        	  isNull = 1;
+          }
+          }
+          }else{
+        	   sq = $("#"+$(this).val()).find("#singQuote").text();
+          }
+          wonPrice.push(sq);
         });
+        
+  
         if(id.length >= 1) {
+        	if(isNull == 1){
+        		 layer.alert("请选择填写实际成交金额", {
+        	            offset: ['100px', '390px'],
+        	            shade: 0.01
+        	          });
+        	}else{
         	 layer.confirm('确定后将不可修改,是否确定', {title:'提示',offset: ['100px','300px'],shade:0.01}, function(index){
         		   var json='${supplierCheckPassJosn}';
         		   layer.close(index);
                    $.ajax({
                          type: "post",
                          url:"${pageContext.request.contextPath}/winningSupplier/comparison.do",
-                         data:"checkPassId="+id+"&&jsonCheckPass="+json,
+                         data:"checkPassId="+id+"&&jsonCheckPass="+json+"&&wonPrice="+wonPrice,
                          dataType:"json",
                          success: function(data) {
 //                           alert(data);
@@ -181,7 +240,7 @@
                                          shadeClose: false,
                                          shade: 0.01,
                                          area: ['367px', '180px'], //宽高
-                                         content: '${pageContext.request.contextPath}/winningSupplier/upload.html?packageId=${packageId}&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&checkPassId='+id,
+                                         content: '${pageContext.request.contextPath}/winningSupplier/upload.html?packageId=${packageId}&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&checkPassId='+id+'&&wonPrice='+wonPrice,
                                          success: function(layero, index){
                                              iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                                            },
@@ -203,7 +262,7 @@
                              }     
                      });
              });
-      
+        	  }
         } else {
           layer.alert("请选择供应商", {
             offset: ['100px', '390px'],
@@ -343,9 +402,9 @@
 								}
 							}
 							if(realPrice==0){
-								$("#singQuote"+index).text("");
+								$("#singQuote"+index).val("");
 							}else{
-								$("#singQuote"+index).text(realPrice);
+								$("#singQuote"+index).val(realPrice);
 							}
 						}else{
 							$(obj).parent().parent().find("td:eq(9)").text($("#wonPrice"+index).text());
@@ -368,7 +427,9 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr class="info">
+            <c:if test="${view != 1}">
               <th class="w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+            </c:if>
               <th class="w200">供应商名称</th>
 <!--               <th class="w100">参加时间</th> -->
               <th style="width: 110px;">&nbsp;总报价&nbsp;（万元）</th>
@@ -384,7 +445,9 @@
           </thead>
           <c:forEach items="${supplierCheckPass}" var="checkpass" varStatus="vs">
             <tr id="${checkpass.id}">
+            <c:if test="${view != 1}">
               <td class="tc opinter"><input onclick="check('${checkpass.id}');" id="rela${checkpass.id}" type="checkbox" name="chkItem" value="${checkpass.id}" /></td>
+           </c:if>
               <td class="opinter" title="${checkpass.supplier.supplierName }">
                <span onclick="ycDiv(this,'${checkpass.id}')" class="count_flow shrink hand"></span>
                 <c:choose>
@@ -411,14 +474,18 @@
                </c:if>
                </c:if>
                <td class="tc opinter" id="priceRatio">${checkpass.priceRatio}</td>
-               <td class="tc opinter" id="singQuote">
-               		<c:if test="${quote==0 }">
-               			<input type="text" name="" id=""/>
-               		</c:if>
-               		<c:if test="${quote==1 }">
-               		
-               		</c:if>
-               </td>
+                <c:if test="${quote==0 }">
+                   <td class="tc opinter"  >
+                    <input type="text"  name="singQuote" id="singQuote" value="${checkpass.wonPrice }"/>
+                    </td>
+                  </c:if>
+                  <c:if test="${quote==1 }">
+                  <td class="tc opinter"  id="singQuote">
+                  ${checkpass.wonPrice }
+                  <input type="hidden" name="singQuote" id="singQuotehhide" >
+                  </td>
+                  </c:if>
+            
 <%--                <td class="tc opinter" id="wonPrice${vs.index }">${checkpass.wonPrice }</td> --%>
             </tr>
               <tr class="tc hide" >
@@ -433,12 +500,14 @@
 			              <th>计量单位</th>
 			              <th>采购数量</th>
 			              <th>单价（元）</th>
+			              <c:if test="${quote == 1 }">
 			              <th>报价（万元）</th>
+			              </c:if>
 			             </tr>
 	                <c:forEach items="${detailList }" var="detail" varStatus="p">
-	                  <tr name="detail${checkpass.id}" id="${detail.id}" class="tc hide">
-	                    <td class="hide"><input type="checkbox" value="${detail.id}" onclick="associateSelected('${detail.id}',this,${checkpass.id})" name="associate${checkpass.id}"/></td>
-	                    <td>${detail.serialNumber }</td>
+	                  <tr name="detail${checkpass.id}" id="${checkpass.id}${detail.id}" class="tc hide">
+	                    <td class="hide"><input type="checkbox" value="${detail.id}" onclick="associateSelected('${detail.id}',this,'${checkpass.id}')" name="associate${checkpass.id}"/></td>
+	                    <td>${detail.serialNumber}</td>
 	                    <td title="${detail.goodsName}">
 	                       <c:choose>
                        <c:when test="${fn:length(detail.goodsName ) > 20}">
@@ -470,12 +539,21 @@
                        </c:choose>
 	                     </td>
 	                    <td>${detail.item }</td>
-	                    <c:if test="${quote==0 }">
-	                      <td>${checkpass.wonPrice }</td>
-	                    </c:if>
+<%-- 	                    <c:if test="${quote==0 }"> --%>
+<%-- 	                      <td>${checkpass.wonPrice }</td> --%>
+<%-- 	                    </c:if> --%>
 	                      <td id="purchaseCount">${detail.purchaseCount}</td>
 	                      <td>${detail.price }</td>
-	                      <td id="Quotedamount">${detail.price }</td>
+	                      <c:if test="${quote == 1 }">
+	                      <td id="Quotedamount">
+	                      <c:forEach var="listQuote" items="${checkpass.supplier.listQuote }">
+	                       <c:if test="${detail.id == listQuote.productId }">
+	                         ${listQuote.quotePrice} 
+	                       </c:if>
+    	                    
+	                      </c:forEach>
+	                      </td>
+	                      </c:if>
 	                  </tr>
 	              </c:forEach>
 	            </table>

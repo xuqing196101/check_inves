@@ -59,6 +59,7 @@
       <input name="packageId" type="hidden" value="${packageId}">
       <input name="typeId" type="hidden" value="${checkPassBgyj}">
       <input name="checkPassId" type="hidden" value="${checkPassId}">
+      <input name="wonPrice" type="hidden" value="${wonPrice }">
              <ul class="demand_list">
                 <li>
                       <label class="fl"><span class="red textspan fl">*</span>变更依据:</label>

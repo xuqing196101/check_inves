@@ -131,14 +131,14 @@ public class WinningSupplierController extends BaseController {
    */
   @RequestMapping("/packageSupplier")
   public String selectpackage(Model model, String packageId, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
-    if(view != null && view == 1){  
+    if (view != null && view == 1) {  
       SupplierCheckPass scp = new SupplierCheckPass();
       scp.setPackageId(packageId);
       scp.setIsWonBid((short)1);
       List<SupplierCheckPass> listCheck = checkPassService.listCheckPass(scp);
-      String[] rat=ratio(listCheck.size());
-      for (int i = 0,l=listCheck.size(); i < l; i++ ) {
-        if(listCheck.get(i).getIsWonBid()==1 && listCheck.get(i).getWonPrice() == null && listCheck.get(i).getPriceRatio() ==null ){
+      String[] rat = ratio(listCheck.size());
+      for (int i = 0,l = listCheck.size(); i < l; i++ ) {
+        if (listCheck.get(i).getIsWonBid() == 1 && listCheck.get(i).getWonPrice() == null && listCheck.get(i).getPriceRatio() ==null ){
           Double  price = (Double.parseDouble(rat[i])/100)*Double.parseDouble(listCheck.get(0).getTotalPrice().toString());
           SupplierCheckPass supplierCheckPass = listCheck.get(i);
           supplierCheckPass.setWonPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -152,6 +152,15 @@ public class WinningSupplierController extends BaseController {
     SupplierCheckPass checkPass = new SupplierCheckPass();
     checkPass.setPackageId(packageId);
     List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPass(checkPass);
+    for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
+      //查询报价历史记录
+      Quote quote = new Quote();
+      quote.setPackageId(packageId);
+      quote.setSupplierId(supplierCheckPass.getSupplier().getId());
+      List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+      supplierCheckPass.getSupplier().setListQuote(quoteList);
+    }
+
     model.addAttribute("supplierCheckPass", listSupplierCheckPass);
     model.addAttribute("supplierCheckPassJosn",JSON.toJSONString(listSupplierCheckPass));
     model.addAttribute("flowDefineId", flowDefineId);
@@ -172,16 +181,21 @@ public class WinningSupplierController extends BaseController {
     quote.setPackageId(packageId);
     List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
     if(quoteList.size()>0){
-      if(quoteList.get(0).getQuotePrice()!=null&&quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+      if(quoteList.get(0).getQuotePrice() == null&&quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
         model.addAttribute("quote", 0);//提示唱总价
       }else if(quoteList.get(0).getQuotePrice()!=null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
         model.addAttribute("quote", 1);//提示唱明细
       }
     }
+    //展示框设置
+    if (view != null && view == 1) {
+      model.addAttribute("quote", 1);
+    }
     HashMap<String,Object> map = new HashMap<>();
     map.put("packageId", packageId);
     List<ProjectDetail> detailList = detailService.selectById(map);
     model.addAttribute("detailList", detailList);
+
     return "bss/ppms/winning_supplier/supplier_list";
   }
 
@@ -214,7 +228,7 @@ public class WinningSupplierController extends BaseController {
    */
   @ResponseBody
   @RequestMapping("/comparison")
-  public String comparison(String[] checkPassId, String jsonCheckPass){
+  public String comparison(String[] checkPassId, String jsonCheckPass,BigDecimal[] wonPrice){
     int type = 0; 
     List<SupplierCheckPass> supplierCheckPass = JSON.parseArray(jsonCheckPass, SupplierCheckPass.class);
     for (int i = 0; i < checkPassId.length; i++ ) {
@@ -225,7 +239,7 @@ public class WinningSupplierController extends BaseController {
     }
     //按照排名不需要上传变更依据
     if (type != 1){
-      checkPassService.updateBid(checkPassId);
+      checkPassService.updateBid(checkPassId,wonPrice);
       return JSON.toJSONString(SUCCESS);
     } else {
       return JSON.toJSONString(ERROR);
@@ -245,7 +259,7 @@ public class WinningSupplierController extends BaseController {
    * @return
    */
   @RequestMapping("/upload")
-  public String upload(Model model,String projectId, String packageId, String flowDefineId, String checkPassId){
+  public String upload(Model model,String projectId, String packageId, String flowDefineId, String checkPassId,String wonPrice){
     //凭证上传
     String id = DictionaryDataUtil.getId("CHECK_PASS_BGYJ");
     model.addAttribute("checkPassBgyj", id);
@@ -257,6 +271,7 @@ public class WinningSupplierController extends BaseController {
     model.addAttribute("projectId", projectId);
     model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("checkPassId", checkPassId);
+    model.addAttribute("wonPrice", wonPrice);
     return "bss/ppms/winning_supplier/upload";
   } 
 
@@ -455,12 +470,12 @@ public class WinningSupplierController extends BaseController {
    */
   @ResponseBody
   @RequestMapping("/getFilesOther")
-  public String getFilesOther(String packageId, String typeId, String[] checkPassId){
+  public String getFilesOther(String packageId, String typeId, String[] checkPassId,BigDecimal[] wonPrice){
     //招标系统key
     Integer tenderKey = Constant.TENDER_SYS_KEY;
     List<UploadFile> filesOther = uploadService.getFilesOther(packageId, typeId, tenderKey.toString());
     if (filesOther != null && filesOther.size() != ZERO){
-      checkPassService.updateBid(checkPassId);
+      checkPassService.updateBid(checkPassId,wonPrice);
       return JSON.toJSONString(SUCCESS);
     } else {
       return JSON.toJSONString(ERROR);

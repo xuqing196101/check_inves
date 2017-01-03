@@ -1,5 +1,6 @@
 package bss.service.ppms.impl;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -81,14 +82,37 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
    * @param id
    */
   @Override
-  public void updateBid(String[] ids) {
+  public void updateBid(String[] ids,BigDecimal[] wonPrice) {
     SupplierCheckPass record = null;
-    for (String sid : ids) {
+       String[] ratio = ratio(ids.length);
+    for (int i = 0; i < wonPrice.length; i++ ) {
       record = new SupplierCheckPass();
-      record.setId(sid);
+      record.setId(ids[i]);
       record.setIsWonBid((short) 1);
+      record.setWonPrice(wonPrice[i]);
+      record.setPriceRatio(ratio[i]);
       checkPassMapper.updateByPrimaryKeySelective(record);
     }
+  }
+
+  private String[] ratio(Integer key){
+    String[] str = null;
+    switch (key) {
+      case 1:
+        str= new String[]{"100"};
+        break;
+      case 2:
+        str= new String[]{"70","30"};
+        break;
+      case 3:
+        str= new String[]{"50","30","20"};
+        break;
+      case 4:
+        str= new String[]{"40","30","20","10"};
+        break;
+    }
+    return str;
+
   }
 
   /**
