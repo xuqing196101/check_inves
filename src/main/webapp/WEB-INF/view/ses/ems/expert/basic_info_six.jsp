@@ -342,7 +342,7 @@ function filter(node) {
 		    <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
 			  <c:if test="${cate.code eq 'GOODS'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
-			  	<div id="div-${vs.index + 1}">
+			  	<div id="div-${vs.index + 1}" class="mb10">
 			  	产品名称:<input type="text" id="cate-${vs.index + 1}">
 			  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
 			  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
@@ -352,7 +352,7 @@ function filter(node) {
 			  </c:if>
 			  <c:if test="${cate.code eq 'PROJECT'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
-			  	<div id="div-${vs.index + 1}">
+			  	<div id="div-${vs.index + 1}" class="mb10">
 			  	产品名称:<input type="text" id="cate-${vs.index + 1}">
 			  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
 			  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
@@ -362,7 +362,7 @@ function filter(node) {
 			  </c:if>
 			  <c:if test="${cate.code eq 'SERVICE'}">
 			  	<c:set var="count" value="${count + 1}"></c:set>
-			  	<div id="div-${vs.index + 1}">
+			  	<div id="div-${vs.index + 1}" class="mb10">
 			  	产品名称:<input type="text" id="cate-${vs.index + 1}">
 			  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')"/>
 			  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
