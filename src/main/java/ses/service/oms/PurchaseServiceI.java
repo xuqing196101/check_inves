@@ -39,4 +39,15 @@ public interface PurchaseServiceI {
 	 * @param id 主键
 	 */
 	void busDelPurchase(String id);
+
+	/**
+   * 
+   *〈简述〉将添加的采购机构用户保存到采购人表
+   *〈详细描述〉
+   * @author Ye Maolin
+   * @param id 主键
+   */
+  void saveUser(User user, String purTypeId);
+
+  void update(PurchaseInfo purchaseInfo);
 }

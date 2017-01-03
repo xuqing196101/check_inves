@@ -65,8 +65,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		user.setTelephone(purchaseInfo.getTelephone());
 		user.setEmail(purchaseInfo.getEmail());
 		user.setDuties(purchaseInfo.getDuites());
-
-		/*user.setTypeName(purchaseInfo.getTypeName());*/
+		user.setTypeName("1");
 		user.setCreatedAt(new Date());
 		
 		Orgnization org = new Orgnization();
@@ -106,9 +105,8 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 			user.setTelephone(purchaseInfo.getTelephone());
 			user.setEmail(purchaseInfo.getEmail());
 			user.setDuties(purchaseInfo.getDuites());
-
-			/*user.setTypeName(purchaseInfo.getTypeName());*/
-			user.setOrgId(purchaseInfo.getOrgId());
+	    user.setTypeName("1");
+	    user.setCreatedAt(new Date());
 			
 			Orgnization org = new Orgnization();
 			if(purchaseInfo.getOrgId()!=null && !purchaseInfo.getOrgId().equals("")){
@@ -116,6 +114,9 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 				user.setOrg(org);
 			}
 			userServiceI.update(user);
+			//删除旧角色
+			deleteRoleAndPreMenu(user);
+			
 			//保存角色
 			saveRoles(user,purchaseInfo.getRoleId());
 		}
@@ -124,8 +125,51 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		return purchaseInfoMapper.updatePurchase(purchaseInfo);
 	}
 
-	
-	@Override
+	/**
+   * 
+   *〈简述〉
+   *   删除角色、权限与用户的关联
+   *〈详细描述〉
+   * @author myc
+   * @return
+   */
+	private void deleteRoleAndPreMenu(User u) {
+	  User temp = new User();
+    temp.setId(u.getId());
+    // 查询旧数据的关联关系
+    List<User> users = userServiceI.find(temp);
+    if (users != null && users.size() > 0) {
+      User olduser = users.get(0);
+      List<Role> oldRole = olduser.getRoles();
+      if(oldRole != null && oldRole.size() > 0){
+        // 先删除之前的与角色的关联关系
+        for (Role role : oldRole) {
+          Userrole userrole = new Userrole();
+          userrole.setUserId(olduser);
+          userrole.setRoleId(role);
+          roleService.deleteRoelUser(userrole);
+        }
+        
+        //删除用户之前的与角色下权限菜单的关联关系
+        String[] oldrIds = new String[oldRole.size()];
+        for (int i = 0; i < oldRole.size(); i++) {
+          oldrIds[i] = oldRole.get(i).getId();
+        }
+        List<String> oldmids = preMenuService.findByRids(oldrIds);
+        List<UserPreMenu> ups = new ArrayList<UserPreMenu>();
+        for (String mid : oldmids) {
+          UserPreMenu userPreMenu = new UserPreMenu();
+          PreMenu menu = preMenuService.get(mid);
+          userPreMenu.setPreMenu(menu);
+          userPreMenu.setUser(olduser);
+          ups.add(userPreMenu);
+        }
+        userServiceI.deleteUserMenuBatch(ups);
+      }
+    }
+  }
+
+  @Override
 	public int delPurchaseByMap(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return purchaseInfoMapper.delPurchaseByMap(map);
@@ -233,6 +277,21 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
         
         return purchaseInfoMapper.findPurchaseUserList(id);
     }
-	
+
+    @Override
+    public void saveUser(User user, String PurTypeId) {
+      PurchaseInfo purchaseInfo = new PurchaseInfo();
+      purchaseInfo.setId(PurTypeId);
+      purchaseInfo.setPurchaseDepId(user.getOrgId());
+      purchaseInfo.setIsDeleted(0);
+      purchaseInfo.setUserId(user.getId());
+      purchaseInfo.setCreatedAt(new Date());
+      purchaseInfoMapper.savePurchase(purchaseInfo);
+    }
+
+    @Override
+    public void update(PurchaseInfo purchaseInfo) {
+      purchaseInfoMapper.updatePurchase(purchaseInfo);
+    }
 	
 }

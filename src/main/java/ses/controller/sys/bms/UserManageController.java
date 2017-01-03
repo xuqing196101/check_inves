@@ -32,6 +32,7 @@ import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseInfo;
 import ses.model.oms.util.Ztree;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
@@ -39,7 +40,9 @@ import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.WfUtil;
 import bss.controller.base.BaseController;
 
 import com.alibaba.fastjson.JSON;
@@ -75,6 +78,9 @@ public class UserManageController extends BaseController{
 	
 	@Autowired
   private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+	
+	@Autowired
+  private PurchaseServiceI purchaseServiceI;
 
 	private Logger logger = Logger.getLogger(UserManageController.class);
 
@@ -245,7 +251,13 @@ public class UserManageController extends BaseController{
 		}else{
 			user.setOrg(null);
 		}
+		String PurTypeId = WfUtil.createUUID();
+		user.setTypeId(PurTypeId);
 		userService.save(user, currUser);
+		if ("1".equals(user.getTypeName())) {
+      //保存到采购人表
+      purchaseServiceI.saveUser(user, PurTypeId);
+    }
 
 		if(user.getRoleId() != null && !"".equals(user.getRoleId())){
 			String[] roleIds = user.getRoleId().split(",");
@@ -468,11 +480,29 @@ public class UserManageController extends BaseController{
 			}else{
 				u.setOrg(null);
 			}
+			
+			//将采购机构用户修改为其他机构时，删除采购人表该用户对应数据
+			if ("1".equals(olduser.getTypeName()) && !"1".equals(u.getTypeName())) {
+			  //将采购人表该用户设为删除状态
+        purchaseServiceI.busDelPurchase(olduser.getTypeId());
+      }
 			u.setCreatedAt(olduser.getCreatedAt());
 			u.setUser(olduser.getUser());
 			u.setUpdatedAt(new Date());
 			userService.update(u);
-
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			if (users != null && users.size() > 0){
+			  map.put("id", users.get(0).getTypeId());
+			  List<PurchaseInfo> purchaseInfos = purchaseServiceI.findPurchaseList(map);
+			  if (purchaseInfos != null && purchaseInfos.size() > 0) {
+			    //修改采购人表的机构id
+			    PurchaseInfo purchaseInfo = purchaseInfos.get(0);
+			    purchaseInfo.setPurchaseDepId(orgId);
+			    purchaseServiceI.update(purchaseInfo);
+			  }
+			}
+			
 			if(roleId != null && !"".equals(roleId)){
 				String[] roleIds = roleId.split(",");
 				for (int i = 0; i < roleIds.length; i++) {
@@ -531,6 +561,11 @@ public class UserManageController extends BaseController{
 			userService.deleteUserMenu(userPreMenu);
 			//修改用户为删除状态
 			userService.deleteByLogic(str);
+			User u = userService.getUserById(str);
+			if ("1".equals(u.getTypeName())) {
+        //同时将采购人表该用户设为删除状态
+			  purchaseServiceI.busDelPurchase(u.getTypeId());
+      }
 		}
 		return "redirect:list.html";
 	}
