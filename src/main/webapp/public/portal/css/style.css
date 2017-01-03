@@ -1996,12 +1996,12 @@ img.img-mouse {
 	border-radius:20px!important; 
 	float:left;
 	margin:0 0 0 5px;
-	background:#157c82;
-	color:#ffffff;
+	background:#cccccc;
+	color:#333333;
 	text-align:center;
-	border:1px  solid #157c82;
+	border:1px  solid #cccccc;
 }
-.section-focus-pic .controler b.down{background:#ffffff;color:#157c82;}
+.section-focus-pic .controler b.down{background:#ffffff;color:#000000;}
 .section-focus-pic .controler2 a{display:block; width:40px;position:absolute;top:120px;height:40px;}
 .section-focus-pic .controler2 a i{cursor:pointer;display:block;width:22px;height:34px; background:url(imgs/star.png) no-repeat;}
 
