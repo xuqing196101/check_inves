@@ -177,6 +177,10 @@
 		};
 			$("#totalScore").text(totalScore);
     }
+    
+    function getBack(){
+    	window.location.href="${pageContext.request.contextPath}/auditTemplat/list.html";
+    }
  </script>
 <body onload="getTotal()">  
  <div class="margin-top-10 breadcrumbs ">
@@ -214,7 +218,7 @@
         </div>
     </div>
 	    <div class="mt40 tc mb50">
-	        <button class="btn btn-windows back" onclick="history.go(-1)">返回</button>
+	        <button class="btn btn-windows back" onclick="getBack()">返回</button>
 	    </div>
     <div id="openDiv" class="dnone layui-layer-wrap">
       <form id="form2" method="post" >
@@ -225,7 +229,7 @@
               <input type="hidden" name="id" id="id">
               <ul class="list-unstyled">
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
-                    <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审项目</div>
 	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
 	                   <input name="name" id="name" maxlength="30" type="text">
 	                </div>
