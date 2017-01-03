@@ -1010,8 +1010,6 @@ public class OpenBiddingController {
         for (Supplier supplier : listSupplier) {
             supplier.setGroupsUploadId(groupUploadId);
             supplier.setGroupShowId(groupShowId);
-        }
-        for (Supplier supplier : listSupplier) {
             List<UploadFile> blist = uploadService.getFilesOther(supplier.getProSupFile(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
             if (blist != null && blist.size() > 0) {
                 supplier.setBidFileName(blist.get(0).getName());

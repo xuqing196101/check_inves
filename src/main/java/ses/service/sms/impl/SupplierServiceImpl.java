@@ -380,9 +380,8 @@ public class SupplierServiceImpl implements SupplierService {
 		}
 		 if(supplier.getListSupplierStockholders()!=null&&supplier.getListSupplierStockholders().size()>0){
 			 for(SupplierStockholder s:supplier.getListSupplierStockholders()){
-				 if(s.getId()==null){
-						String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-						s.setId(id);
+			     SupplierStockholder stockHolder = supplierStockholderMapper.selectByPrimaryKey(s.getId());
+				 if(stockHolder==null){
 						supplierStockholderMapper.insertSelective(s); 
 				 }else{
 					 supplierStockholderMapper.updateByPrimaryKeySelective(s);

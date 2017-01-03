@@ -148,8 +148,16 @@ function checkAll(ele, id) {
 		
 		var stocIndex=$("#stockIndex").val();
 		var supplierId = $("input[name='id']").val();
+		var id;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
+			async:false,
+			success: function(data){
+				id = data;
+			}
+		});
 		$("#stockholder_list_tbody_id").append("<tr>"+
-				"<td class='tc'><input type='checkbox' value='' /><input type='hidden' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].supplierId' value="+supplierId+">"+
+				"<td class='tc'><input type='checkbox' value='' /><input type='hidden' name='listSupplierStockholders["+stocIndex+"].id' value="+id+"><input type='hidden' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].supplierId' value="+supplierId+">"+
 				"</td>"+
 				"<td class='tc'>  <select  name='listSupplierStockholders["+stocIndex+"].nature'>"+
 				 "<option value='1'>法人</option>"+
@@ -1541,6 +1549,8 @@ function deleteFinance() {
 								<tbody id="stockholder_list_tbody_id">
 									<c:forEach items="${currSupplier.listSupplierStockholders}" var="stockholder" varStatus="stockvs">
 										<tr>
+											<input type="hidden" name='listSupplierStockholders[${stockvs.index }].id' value="${stockholder.id}"/>
+											<input type="hidden" name='listSupplierStockholders[${stockvs.index }].supplierId' value="${stockholder.supplierId}"/>
 											<td class="tc"><input type="checkbox" value="${stockholder.id}" />
 											</td>
 											<td class="tc">
@@ -1549,17 +1559,12 @@ function deleteFinance() {
  														 <option value="2" <c:if test="${stockholder.nature==2}"> selected="selected" </c:if> >自然人</option>
  											</select>
  											
- 												<input type="hidden" name='listSupplierStockholders[${stockvs.index }].id' value="${stockholder.id}" >
- 												<input type="hidden" name='listSupplierStockholders[${stockvs.index }].supplierId' value="${currSupplier.id}" >
- 												
- 												
- 												
 											</td>
 											
 											<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'> </td>
 											
 											<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' value='${stockholder.identity}'>  </td>
-											<td class="tr"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].shares' value='${stockholder.shares}'> </td>
+											<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].shares' value='${stockholder.shares}'> </td>
 											<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}'></td>
 										</tr>
 									</c:forEach>
