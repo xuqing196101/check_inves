@@ -2117,8 +2117,8 @@ a.news_more{
   position: relative;
 }
 .floor_kind h2 li a b{
-	width:20px;
-	height:20px;
+	width:21px;
+	height:21px;
 	border-radius:100%!important;
 	display:block;
 	background-color:#ef0000;
@@ -2126,8 +2126,8 @@ a.news_more{
 	position: absolute;
 	right:-7px;
 	top:-7px;
-	font-size:6px;
-    line-height: 20px;
+	font-size:12px;
+    line-height: 21px;
     text-align: center;
     font-weight: normal;
     display: block;
