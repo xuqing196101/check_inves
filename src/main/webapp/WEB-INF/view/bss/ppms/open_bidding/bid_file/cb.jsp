@@ -15,6 +15,7 @@
 	   	$("#showDiv").removeClass("hide");
 	   	$("#showH").addClass("hide");
 	   	$("#showTime").addClass("hide");
+	   	$(".kaibiao_time").addClass("hide");
 	   } 
 	 });
 	 
@@ -140,7 +141,7 @@
    </div>
     <div id="showDiv" class="clear hide">
 	  <input type="hidden" id ="projectId" value="${project.id}" />
-	 <div class="tc col-md-12 col-sm-12 col-xs-12">
+	 <div class="tc col-md-12 col-sm-12 col-xs-12 mt20">
 	 	<button class="btn hand" onclick="changtotal(this)">唱总价</button>
 	 	<button class="btn hand" onclick="changmingxi(this)">唱明细</button>
 	 	<button id="quanping" class="btn" onclick="openNewWindow()">全屏</button>
