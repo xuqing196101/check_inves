@@ -205,9 +205,9 @@
 		      <input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }" /> 
 		    </span>
 		  </li>
-		  <button class="btn" type="submit">查询</button>
-	      <button type="reset" class="btn" onclick="clearSearch();">重置</button>
 		</ul>
+		  <button class="btn fl mt1" type="submit">查询</button>
+	      <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
 		<div class="clear"></div>
 	  </form>
     </h2>

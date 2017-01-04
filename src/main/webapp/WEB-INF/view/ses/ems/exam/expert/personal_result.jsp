@@ -31,6 +31,17 @@
 	</head>
 
 	<body>
+  <!--面包屑导航开始-->
+  <div class="margin-top-10 breadcrumbs ">
+    <div class="container">
+	  <ul class="breadcrumb margin-left-0">
+	    <li><a href="javascript:void(0)">首页</a></li>
+		<li><a href="javascript:void(0)">考试系统</a></li>
+		<li><a href="javascript:void(0)">成绩查询</a></li>
+	  </ul>
+	  <div class="clear"></div>
+    </div>
+  </div>
 		<div class="container">
 			<div class="headline-v2">
 				<h2>成绩信息</h2>
@@ -49,12 +60,12 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${list.list}" var="l" varStatus="vs">
-							<tr class="tc">
-								<td>${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-								<td>${l.relName }</td>
-								<td>${l.score }</td>
-								<td>${l.status }</td>
-								<td>${l.formatDate}</td>
+							<tr>
+								<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+								<td class="tc">${l.relName }</td>
+								<td class="tc">${l.score }</td>
+								<td class="tc">${l.status }</td>
+								<td class="tc">${l.formatDate}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
