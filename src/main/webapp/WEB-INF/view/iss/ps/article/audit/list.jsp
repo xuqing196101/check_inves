@@ -25,7 +25,11 @@
           }(),
           jump: function(e, first) { 
             if(!first) {
-              location.href = '${ pageContext.request.contextPath }/article/auditlist.html?page=' + e.curr;
+            	 var articleTypeId = "${articlesArticleTypeId}";
+               var range = "${articlesRange}";
+               var status = "${articlesStatus}";
+               var name = "${articleName}";
+              location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page=" + e.curr + "&articleTypeId=" + articleTypeId + "&range=" + range + "&status=" + status + "&name=" + name;
             }
           }
         });
