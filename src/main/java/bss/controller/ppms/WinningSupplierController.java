@@ -29,17 +29,21 @@ import com.alibaba.fastjson.JSON;
 
 
 
+
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
 import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SupplierCheckPass;
 import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
+import bss.service.ppms.ProjectService;
 import bss.service.ppms.SupplierCheckPassService;
 
 /**
@@ -91,6 +95,9 @@ public class WinningSupplierController extends BaseController {
 
   @Autowired
   private ProjectDetailService detailService;
+  
+  @Autowired
+  private ProjectService projectService;
 
   /**
    * 文件上传
@@ -176,14 +183,20 @@ public class WinningSupplierController extends BaseController {
     }
     //             //修改流程状态
     flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
+    
+    //修改项目流程
+/*    Project project = new Project();
+    project.setId(projectId);
+    project.setStatus(DictionaryDataUtil.getId("QRZBGYS"));
+    projectService.update(project);*/
     //查询报价历史记录
     Quote quote = new Quote();
     quote.setPackageId(packageId);
     List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
-    if(quoteList.size()>0){
-      if(quoteList.get(0).getQuotePrice() == null&&quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+    if (quoteList.size()>0) {
+      if (quoteList.get(0).getQuotePrice() == null&&quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
         model.addAttribute("quote", 0);//提示唱总价
-      }else if(quoteList.get(0).getQuotePrice()!=null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+      }else if(quoteList.get(0).getQuotePrice() != null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
         model.addAttribute("quote", 1);//提示唱明细
       }
     }
@@ -199,20 +212,22 @@ public class WinningSupplierController extends BaseController {
     return "bss/ppms/winning_supplier/supplier_list";
   }
 
-  private String[] ratio(Integer key){
+  private String[] ratio(Integer key) {
     String[] str = null;
     switch (key) {
       case 1:
-        str= new String[]{"100"};
+        str = new String[]{"100"};
         break;
       case 2:
-        str= new String[]{"70","30"};
+        str = new String[]{"70","30"};
         break;
       case 3:
-        str= new String[]{"50","30","20"};
+        str = new String[]{"50","30","20"};
         break;
       case 4:
-        str= new String[]{"40","30","20","10"};
+        str = new String[]{"40","30","20","10"};
+        break;
+      default:
         break;
     }
     return str;

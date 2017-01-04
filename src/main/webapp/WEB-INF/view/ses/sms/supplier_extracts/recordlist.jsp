@@ -29,7 +29,7 @@
 			                total: "${extractslist.total}",
 			                startRow: "${extractslist.startRow}",
 			                endRow: "${extractslist.endRow}",
-			                groups: "${extractslist.pages}">=5?5:"${list.pages}", //连续显示分页数
+			                groups: "${extractslist.pages}">=5?5:"${extractslist.pages}", //连续显示分页数
 			                curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 			                
 			                    return "${extractslist.pageNum}";

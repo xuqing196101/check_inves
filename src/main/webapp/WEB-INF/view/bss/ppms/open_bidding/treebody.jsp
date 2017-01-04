@@ -14,6 +14,27 @@ ScoreModel scoreModel = (ScoreModel)request.getAttribute("scoreModel");
 System.out.print(scoreModel);
 %>
 <script type="text/javascript">
+function judge(index) {
+		if (index == 0) {
+			var trArr = new Array();
+			trArr = $("tr");
+			var i;
+			for (i = 0; i < trArr.length; i++) {
+				if ($(trArr[i]).hasClass("show")) {
+					$(trArr[i]).removeClass("hide");
+				}
+			}
+		} else {
+			var trArr = new Array();
+			trArr = $("tr");
+			var i;
+			for (i = 0; i < trArr.length; i++) {
+				if ($(trArr[i]).hasClass("show")) {
+					$(trArr[i]).addClass("hide");
+				}
+			}
+		}
+	}
 	function choseModel(){
 		var model = $("#model").val();
 		console.dir(model);
@@ -344,13 +365,12 @@ System.out.print(scoreModel);
 	    var standScore = $("#standardScore").val();
 	    var maxScore = $("#maxScore").val();
 	    var id = $("#id").val();
-	    var moxing2 = $("#moxing2").val();
 		var s = validteModel().form();
 		console.dir(s);
 		if(s){
 			$.ajax({   
 	            type: "get",  
-	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&moxing2="+moxing2+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
+	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
 	            dataType:'json',
 	            success:function(result){
 	                  if (result == 0){
@@ -376,7 +396,6 @@ System.out.print(scoreModel);
 		}
 		//console.dir(model==undefined);
 		if(model !=undefined && model==""){
-			$("#showbutton").hide();
 			$("#show_table tbody tr").remove();
 		}else if(model=="0"){
 			$("#show_table tbody tr").remove();
@@ -389,7 +408,7 @@ System.out.print(scoreModel);
 			$("#addSubtractTypeName").val(addSubtractTypeName);
 			$("#show_table tbody tr").remove();
 			if('${addStatus}' !=1){
-				if(addSubtractTypeName!=undefined && addSubtractTypeName=="0"){
+				if(addSubtractTypeName!=undefined ){
 					$("#model21 tbody tr").clone().appendTo("#show_table tbody");
 				}else if(addSubtractTypeName=="1"){
 					$("#model22 tbody tr").clone().appendTo("#show_table tbody");
@@ -632,31 +651,38 @@ System.out.print(scoreModel);
 	<input type="hidden" id="sm7" value="${scoreModel.intervalTypeName }">
 	<div>
 		<form action="" method="post"  id="formID">
-		   <div class="mt50">
-		    	<span>评审指标名称:</span>
-		   		<input name="name" id="name" class="" type="text" value="${scoreModel.name}" >
-		   </div>
-		   
-		   <div class="mt5 mb10 mr20">
-				<span>选择模型: </span>
-				 <select id="model" name="typeName" onchange="choseModel();">
-					<option value="">请选择</option>
-					<option value="0">模型一A（是否判断）</option>
-					<option value="8">模型一B（按项匹配分值）</option>
-					<option value="1">模型二（按项加减分）</option>
-					<option value="2">模型三（以评审数额最高分值为基准排序递减）</option>
-					<option value="3">模型四A（以评审数额最低值为基准排序递增）</option>
-					<option value="9">模型四B（按照排名递减/递增分值）</option>
-					<option value="4">模型五（以评审数额最高值为基准按比例计算）</option>
-					<option value="5">模型六（以评审数额最低为基准按比例计算）</option>
-					<option value="6">模型七（以评审数额最低区间为基准递增排序）</option>
-					<option value="7">模型八（以评审数额最高区间为基准递减排序）</option>
-				</select>
-			</div>
-			<div class="fl">评审指标内容及规则说明: </div>
-		       <div class="">
-		   	   <textarea  class="col-md-12 col-sm-12 col-xs-12 h80 mb10 w500" name="reviewContent" id="reviewContent" >${scoreModel.reviewContent}</textarea>
-		       </div>
+		   <ul class="list-unstyled">
+                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>评审指标名称：</div>
+	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+	                   <input name="name" id="name" value="${scoreModel.name}" type="text">
+	                </div>
+                  </li>
+                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                     <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>选择模型 ：</div>
+	                 <div class="col-md-12 col-sm-12 col-xs-12 p0 select_common">
+	                   <select id="model" name="typeName" onchange="choseModel();">
+							<option value="">请选择</option>
+							<option value="0">模型一A（是否判断）</option>
+							<option value="8">模型一B（按项匹配分值）</option>
+							<option value="1">模型二（按项加减分）</option>
+							<option value="2">模型三（以评审数额最高分值为基准排序递减）</option>
+							<option value="3">模型四A（以评审数额最低值为基准排序递增）</option>
+							<option value="9">模型四B（按照排名递减/递增分值）</option>
+							<option value="4">模型五（以评审数额最高值为基准按比例计算）</option>
+							<option value="5">模型六（以评审数额最低为基准按比例计算）</option>
+							<option value="6">模型七（以评审数额最低区间为基准递增排序）</option>
+							<option value="7">模型八（以评审数额最高区间为基准递减排序）</option>
+				    </select>
+	                </div>
+                  </li>
+                  <li class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>评审指标内容及规则说明</div>
+	                <div class="col-md-12 col-sm-12 col-xs-12 p0">
+	                  <textarea  class="col-md-12 col-sm-12 col-xs-12 h80 mb10" name="reviewContent" id="reviewContent" >${scoreModel.reviewContent}</textarea>
+		            </div>
+                  </li>
+              </ul>
 			<input id="packageId" name="packageId" type="hidden" value="${packageId }">
 			<input id="projectId" name="projectId" type="hidden" value="${projectId }">
 			<input id="markTermId" name="markTermId" type="hidden" value="${markTermId }">
@@ -700,9 +726,8 @@ System.out.print(scoreModel);
 			</table>
 		</form>
 	</div>
-	<div class="col-md-12" id="showbutton" style="display: none;">
+	<div class="col-md-12" id="showbutton">
 		<div class="mt40 tc mb50">
-			<!-- <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="gernerator();" value="翻译成白话文">  -->
 			<input type="button" class="btn btn-windows save" onclick="associate();" value="保存">
 			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 		</div>
@@ -711,598 +736,532 @@ System.out.print(scoreModel);
 		<div class="mt40 tc mb50">
 			<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="addParamInterval();" value="添加参数区间"> 
 			<input type="button" class="btn btn-windows save" onclick="associate();" value="保存">
+			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 		</div>
 	</div>
 	<!-- 八大模型 -->
-	<table id="model1" style="display: none;" class="w499">
-		<tbody>
-			<tr>
-				<td style="">标准分值</td>
-				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少"><span class="blue">*该项的满分值为多少</span></td>
-			</tr>
-			<tr>
-				<td>判断内容</td>
-				<td>
-				  <textarea class="col-md-12 col-sm-12 col-xs-12 h80" onkeyup="gernerator();" name="judgeContent" id="judgeContent"  title="该项内容为判断的唯一依据">${scoreModel.judgeContent }</textarea>
-				  <span class="blue">*该项内容为判断的唯一依据</span>
-				</td>
-			</tr>
-			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent1" >${scoreModel.easyUnderstandContent }</textarea></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
-			</tr>
-		</tbody>
-	</table>
-	<table id="model21" style="display: none;" class="w499">
-		<tbody>
-			<tr>
-				<td style="width: 300px;">评审参数<input type="hidden" name="judgeModel" value="2" /></td>
-				<td>
-					<input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分">
-					<br/>
-					<span class="blue">*例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分</span>
-				</td>
-			</tr>
-			<tr>
-				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName" onchange="modelTwoAddSubstact21();"><option value="0" selected="selected">加分</option><option value="1">减分</option></select></td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">起始参数</td>
-				<td><input name="reviewStandScore" onkeyup="gernerator();" id="reviewStandScore" value="${scoreModel.reviewStandScore }" title="该项的起始分值为多少，默认是0">
-				    <br/>
-					<span class="blue">*该项的起始分值为多少，默认是0</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" onkeyup="gernerator();" id="maxScore" value="${scoreModel.maxScore }" title="该项的满分值是多少">
-					<br/>
-					<span class="blue">*该项的满分值是多少</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">每单位分值</td>
-				<td><input name="unitScore" onkeyup="gernerator();" id="unitScore" value="${scoreModel.unitScore }" title="每项单位得分值是多少">
-					<br/>
-					<span class="blue">*每项单位得分值是多少</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位">
-					<br/>
-					<span class="blue">*评审参数的单位</span>
-				</td>
-			</tr>
-			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent21">${scoreModel.easyUnderstandContent }</textarea></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain"  readonly="readonly">按项加减分.采购文件明确标准分值，加减分项，加减分值和最高最低分值限制，按照加减分项的项目名称，系统自动计算得分。如(正偏离，负偏离)</textarea></td>
-			</tr>
-		</tbody>
-	</table>
-	<table id="model22" style="display: none;" class="w499">
-		<tbody>
-			<tr>
-				<td style="width: 300px;">评审参数<input type="hidden" name="judgeModel" value="2" /></td>
-				<td><input name="reviewParam" id="reviewParam" onkeyup="gernerator();" value="${scoreModel.reviewParam }" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分">
-					<br/>
-					<span class="blue">*例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分</span>
-				</td>
-			</tr>
-			<tr>
-				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName" onchange="modelTwoAddSubstact22();"><option value="0">加分</option><option value="1" selected="selected">减分</option></select></td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">基准分值</td>
-				<td><input name="reviewStandScore" onkeyup="gernerator();" id="moxing2" value="${scoreModel.reviewStandScore }"  title="该项从基准分值往下开始扣分">
-					<br/>
-					<span class="blue">*该项从基准分值往下开始扣分</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" id="minScore" onkeyup="gernerator();" title="该项的最低分是多少" value="${scoreModel.minScore }">
-					<br/>
-					<span class="blue">*该项的最低分是多少</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">每单位分值</td>
-				<td><input name="unitScore" onkeyup="gernerator();" id="unitScore" value="${scoreModel.unitScore }" title="每项单位减分值是多少">
-					<br/>
-					<span class="blue">*每项单位减分值是多少</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位">
-					<br/>
-					<span class="blue">*评审参数的单位</span>
-				</td>
-			</tr>
-			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent22">${scoreModel.easyUnderstandContent }</textarea></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea name="standExplain" id="standExplain" class="col-md-12 col-sm-12 col-xs-12 h80" readonly="readonly">按项加减分.采购文件明确标准分值，加减分项，加减分值和最高最低分值限制，按照加减分项的项目名称，系统自动计算得分。如(正偏离，负偏离)</textarea></td>
-			</tr>
-		</tbody>
-	</table>
-	<table id="model3" style="display: none;" class="w499">
+	<table id="model1" class="hand table hide">
 		<tbody>
 		    <tr>
-		    	<td>是否有基准数额：</td>
+				<td class="tc w180"><span class="star_red">*</span>判断内容</td>
+				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" onkeyup="gernerator();" name="judgeContent" id="judgeContent">${scoreModel.judgeContent }</textarea></td>
+				<td><span class="blue">*该项内容为判断的唯一依据</span></td>
+			</tr>
+			<tr>
+				<td class=" tc"><span class="star_red">*</span>标准分值</td>
+				<td><input name="standardScore" type="text" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }"></td>
+				<td><span class="blue">*该项的满分值为多少</span></td>
+			</tr>
+			
+			<tr>
+				<td class=" tc">翻译成白话文内容</td>
+				<td colspan="2"><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent1" >${scoreModel.easyUnderstandContent }</textarea></td>
+			</tr>
+			<tr>
+				<td class=" tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">是否判断。采购文件明确满足或不满足项的指标临界值或有无的项目要求。评审系统自动识别满足或不满足项，生成通过或否决的结果。(如：必要设备，员工人数，关键技术指标参数等)</span></td>
+			</tr>
+		</tbody>
+	</table>
+	<table id="model21" class="hide">
+		<tbody>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" id="reviewParam" onkeyup="gernerator();" value="${scoreModel.reviewParam }" ></td>
+				<td><span class="blue">
+					*该参数代表需要供应商录入的参数<br/>
+					减分例子：近三年企业在投标过程中违规次数,1项减0.5分,最高分为2分,最低得0分,其中</span><span class="red">近三年企业在投标过程中违规次数</span><span class="blue">就为评审参数<br/>
+					加分例子：近五年内获得过省以上工商部门颁发知名品牌商标的数量,1项得0.5分,最多得2分,其中近<span class="red">五年内获得过省以上工商部门颁发知名品牌商标的数量</span>就为评审参数</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>加减分类型<input type="hidden" name="judgeModel" value="2" /></td>
+				<td>
+					<select name="addSubtractTypeName" id="addSubtractTypeName">
+						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
+						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option></select>
+				</td>
+				
+				<td><span class="blue">*该项加分类型或减分类型</span></td>
+			</tr>
+			
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>最高分</td>
+				<td><input name="maxScore" onkeyup="gernerator();" id="maxScore" value="${scoreModel.maxScore }">
+				</td>
+				<td><span class="blue">*最高分为多少分,[加分]类型时起始分为[最低分],最高分为此分数,[减分]类型此分数为减分基准分,依次递减</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>最低分</td>
+				<td><input name="minScore" id="minScore" onkeyup="gernerator();"  value="${scoreModel.minScore }"></td>
+				<td><span class="blue">*最低分为多少分,通常为0分,[加分]类型是此分数为起始分,[减分]类型时此分数为最低得分</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>每单位分值</td>
+				<td><input name="unitScore" onkeyup="gernerator();" id="unitScore" value="${scoreModel.unitScore }">
+				</td>
+				<td><span class="blue">*该项为每单位的对应的值,加分每单位加多少分,减分每单位减多少分</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc">单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
+				<td><span class="blue">*该项为评审参数的单位</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc">翻译成白话文内容</td>
+				<td colspan="2"><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent21">${scoreModel.easyUnderstandContent }</textarea></td>
+			</tr>
+			<tr>
+				<td class="w180 tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">按项加减分。采购文件明确标准分值，加减分项，加减分值和最高最低分值限制。按照加，减分项的项目名称，系统自动识别计数，并按加减分规则计算得分。(如：技术偏离表中任何一项，正偏离，负偏离等)</span></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table id="model3" class="w499 hide">
+		<tbody>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }"></td>
+				<td><span class="blue">
+					*该参数代表需要录入供应商的参数名称。<br/>
+					减分例子：上年度缴纳社保总金额由大至小排序评分,第一名得1分,其余依次递减0.15分,最低分为0分,其中</span><span class="red">上年度缴纳社保总金额</span><span class="blue">就为评审参数<br/>
+					加分例子：上年度消费管理局罚款金额大小排序评分,第一名得0分,其余依次递增0.15分,最高分为1分,其中</span><span class="red">上年度消费管理局罚款金额</span><span class="blue">就为评审参数</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>加减分类型</td>
+				<td>
+					<select name="addSubtractTypeName" id="addSubtractTypeName3">
+						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
+						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
+					</select>
+				</td>
+				<td><span class="blue">*以最高值为基准值排序递减,是加分还是减分</span></td>
+			</tr>
+			 <tr>
+		    	<td class="w180 tc"><span class="star_red">*</span>是否有基准数额</td>
 		    	<td>
-		    		<select name="isHave" id="isHave">
-		    			<option value="0" <c:if test="${scoreModel.isHave == 0} "> selected="selected"</c:if>>是</option>
+		    		<select name="isHave" id="isHave" onchange="judge(this.options[this.options.selectedIndex].value)">
+		    			<option value="0" <c:if test="${scoreModel.isHave == 0}"> selected="selected"</c:if>>是</option>
 		    			<option value="1" <c:if test="${scoreModel.isHave == 1}"> selected="selected"</c:if>>否</option>
 		    		</select>
-		    		<br/>
-					<span class="blue">*是否有基准数额</span>
 		    	</td>
+		    	<td><span class="blue">*是否有基准数额</span></td>
 		    </tr>
-		    <tr>
-		   		 <td>基准数额：</td>
-		    	 <td><input name="standScores" id="standScores" value="${scoreModel.standScores }"  />
-		    	    <br/>
-		    	 	<span class="blue">*当是否由基准数额为否时此项非必填</span>
-		    	    <br/>
-					<span class="blue">*评审数额小于等于基准数额的时候,加分类型得最高分减分类型得最低分，其他按照排序得分</span>
-		    	 </td>
+		    <tr class="show">
+		   		 <td class="w180 tc"><span class="star_red">*</span>基准数额</td>
+		    	 <td><input name="standScores" id="standScores" value="${scoreModel.standScores }"  /></td>
+		    	 <td><span class="blue">*评审数额低于（等于）[基准数额]时，[加分]类型得[最高分]，[减分]类型得[最低分],其他按照排序得分</span></td>
 		    </tr>
-		    <tr>
-		    	<td>与基准数额关系：</td>
+		    <tr class="show">
+		    	<td class="w180 tc"><span class="star_red">*</span>与基准数额关系</td>
 		    	<td>
 		    	    <select name="relation" id="relation">
 		    	           <option <c:if test="${scoreModel.relation == 0}"> selected="selected" </c:if> value="0">大于等于</option>
 		    	           <option <c:if test="${scoreModel.relation == 1}"> selected="selected" </c:if> value="1">小于等于</option>
 		    	     </select>
-		    		<br/>
-					<span class="blue">*与基准数关系大于等于或者小于等于</span>
 		    	</td>
+		    	<td><span class="blue">*与基准数额关系,大于等于还是小于等于</span></td>
 		    </tr>
-		    <tr>
-		    	<td>关系分数：</td>
+		    <tr class="show">
+		    	<td class="w180 tc"><span class="star_red">*</span>关系分数</td>
 		    	<td>
-		    	    <select name="relationScore" id="relationScore">
+		    	    <select name="relationScore" id="relationScore" disabled>
 		    	     	<option value="0" <c:if test="${scoreModel.relationScore == 0}"> selected="selected"</c:if> >最高分</option>
 		    	     	<option value="1" <c:if test="${scoreModel.relationScore == 1}"> selected="selected"</c:if> >最低分</option>
 		    	     </select>
-		    		<br/>
-					<span class="blue">*基准数额为限制最高分或者为最低分</span>
 		    	</td>
+		    	<td><span class="blue">*基准数额为限制,最高分还是最低分</span></td>
 		    </tr>
 			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例如，矿泉水容量从大到小排列，第一名得最高分，依次递减">
-					<br/>
-					<span class="blue">*例如，矿泉水容量从大到小排列，第一名得最高分，依次递减</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>最高分</td>
+				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }"></td>
+				<td><span class="blue">*最低分为多少分,通常为0分,[加分]类型是此分数为起始分,[减分]类型时此分数为最低得分</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位">
-					<br/>
-					<span class="blue">*评审参数的单位</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>最低分</td>
+				<td><input name="minScore" id="minScore" onkeyup="gernerator();" value="${scoreModel.minScore }"></td>
+				<td><span class="blue">*最低分为多少分,通常为0分,[加分]类型是此分数为起始分,[减分]类型时此分数为最低得分</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">分差</td>
-				<td><input name="unitScore" onkeyup="gernerator();" id="score" value="${scoreModel.unitScore }" title="依次加多少分">
-					<br/>
-					<span class="blue">*依次加多少分</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>分差</td>
+				<td><input name="unitScore" onkeyup="gernerator();" id="score" value="${scoreModel.unitScore }"></td>
+				<td><span class="blue">*依次排序递减/递增分值</span></td>
 			</tr>
 			<tr>
-				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName3"><option value="1" selected="selected">减分</option></select>
-					<br/>
-					<span class="blue">*以最高分为基准值排序递减</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
+				<td><span class="blue">*该项目内容为评审参数的单位</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }" title="该项的最高值是多少">
-					<br/>
-					<span class="blue">*该项的最高值是多少</span>
-				</td>
+				<td class="w180 tc">翻译成白话文内容</td>
+				<td colspan="2"><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent3" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" id="minScore" onkeyup="gernerator();" value="${scoreModel.minScore }" title="该项的最低分是多少">
-					<br/>
-					<span class="blue">*该项的最低分是多少</span>
-				</td>
-			</tr>
-			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent3" >${scoreModel.easyUnderstandContent }</textarea></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低值位基准排序递增，采购文件明确标准分值，排序分差和最高最低分限制，评审系统按照评审参数值，由高到低按照分差计算得分</textarea></td>
+				<td class="w180 tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">以评审数额最高值为基准排序递减。采购文件明确标准分值，排序分差和最高最低分值限制。评审系统按照绝对数值，自动识别由高到低进行排序，并按分差计分规则计算得分。(如：业绩，销售额，资产总额，净资产，指标参数等)</span></td>
 			</tr>
 		</tbody>
 	</table>
-	<table id="model4" style="display: none;" class="w499">
+	<table id="model4" class="w499 hide">
 		<tbody>
 			 <tr>
-		    	<td>是否有基准数额：</td>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" ></td>
+				<td><span class="blue">
+					*该参数代表需要录入供应商的参数名称。<br/>
+					减分例子：碳纤维自行车重量参数由小至大排序评分,第一名得1分,其余依次递减0.15分,最低分为0分,其中</span><span class="red">碳纤维自行车重量</span><span class="blue">就为评审参数<br/>
+					加分例子：矿泉水容量大小排序评分,第一名得0分,其余依次递增0.15分,最高分为1分,其中</span><span class="red">矿泉水容量</span><span class="blue">就为评审参数</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>加减分类型</td>
+				<td>
+					<select name="addSubtractTypeName" id="addSubtractTypeName4">
+						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
+						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
+					</select>
+				</td>
+				<td><span class="blue">*以最高值为基准值排序递减,是加分还是减分</span></td>
+			</tr>
+			 <tr>
+		    	<td class="w180 tc"><span class="star_red">*</span>是否有基准数额</td>
 		    	<td>
-		    		<select name="isHave" id="isHave">
+		    		<select name="isHave" id="isHave" onchange="judge(this.options[this.options.selectedIndex].value)">
 		    			<option value="0" <c:if test="${scoreModel.isHave == 0} "> selected="selected"</c:if>>是</option>
 		    			<option value="1" <c:if test="${scoreModel.isHave == 1}"> selected="selected"</c:if>>否</option>
 		    		</select>
-		    		<br/>
-					<span class="blue">*是否有基准数额</span>
 		    	</td>
+		    	<td><span class="blue">*是否有基准数额</span></td>
 		    </tr>
-		    <tr>
-		   		 <td>基准数额：</td>
-		    	 <td><input name="standScores" id="standScores" value="${scoreModel.standScores }"  />
-		    	    <br/>
-		    	 	<span class="blue">*当是否由基准数额为否时此项非必填</span>
-		    	    <br/>
-					<span class="blue">*评审数额小于等于基准数额的时候,加分类型得最高分减分类型得最低分，其他按照排序得分</span>
-		    	 </td>
+		    <tr class="show">
+		   		 <td class="w180 tc"><span class="star_red">*</span>基准数额</td>
+		    	 <td><input name="standScores" id="standScores" value="${scoreModel.standScores }"  /></td>
+		    	 <td><span class="blue">*评审数额低于（等于）[基准数额]时，[加分]类型得[最高分]，[减分]类型得[最低分],其他按照排序得分</span></td>
 		    </tr>
-		    <tr>
-		    	<td>与基准数额关系：</td>
+		    <tr class="show">
+		    	<td class="w180 tc"><span class="star_red">*</span>与基准数额关系</td>
 		    	<td>
 		    	    <select name="relation" id="relation">
 		    	           <option <c:if test="${scoreModel.relation == 0}"> selected="selected" </c:if> value="0">大于等于</option>
 		    	           <option <c:if test="${scoreModel.relation == 1}"> selected="selected" </c:if> value="1">小于等于</option>
 		    	     </select>
-		    		<br/>
-					<span class="blue">*与基准数关系大于等于或者小于等于</span>
 		    	</td>
+		    	<td><span class="blue">*与基准数额关系,大于等于还是小于等于</span></td>
 		    </tr>
-		    <tr>
-		    	<td>关系分数：</td>
+		    <tr class="show">
+		    	<td class="w180 tc"><span class="star_red">*</span>关系分数</td>
 		    	<td>
-		    	    <select name="relationScore" id="relationScore">
+		    	    <select name="relationScore" id="relationScore" disabled>
 		    	     	<option value="0" <c:if test="${scoreModel.relationScore == 0}"> selected="selected"</c:if> >最高分</option>
 		    	     	<option value="1" <c:if test="${scoreModel.relationScore == 1}"> selected="selected"</c:if> >最低分</option>
 		    	     </select>
-		    		<br/>
-					<span class="blue">*基准数额为限制最高分或者为最低分</span>
 		    	</td>
+		    	<td><span class="blue">*基准数额为限制,最高分还是最低分</span></td>
 		    </tr>
+			
 			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例如自行车重量从小到大排序，第一名得最高分，依次递减分值">
-					<br/>
-					<span class="blue">*例如自行车重量从小到大排序，第一名得最高分，依次递减分值</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>最高分</td>
+				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }"></td>
+				<td><span class="blue">*最低分为多少分,通常为0分,[加分]类型是此分数为起始分,[减分]类型时此分数为最低得分</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位">
-					<br/>
-					<span class="blue">*评审参数的单位</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>最低分</td>
+				<td><input name="minScore" id="minScore" onkeyup="gernerator();" value="${scoreModel.minScore }"></td>
+				<td><span class="blue">*最低分为多少分,通常为0分,[加分]类型是此分数为起始分,[减分]类型时此分数为最低得分</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">分差</td>
-				<td><input name="unitScore" id="score" onkeyup="gernerator();" value="${scoreModel.unitScore }" title="依次递减多少分">
-					<br/>
-					<span class="blue">*依次递减多少分</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>分差</td>
+				<td><input name="unitScore" id="score" onkeyup="gernerator();" value="${scoreModel.unitScore }"></td>
+				<td><span class="blue">*依次排序递减/递增分值</span></td>
 			</tr>
 			<tr>
-				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName4"><option value="0" selected="selected">加分</option></select>
-					<br/>
-					<span class="blue">*以最低分为基准值排序递增</span>
-				</td>
+				<td class="w180 tc">单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
+				<td><span class="blue">*该项目内容为评审参数的单位</span></td>
+			</tr>
+			
+			<tr>
+				<td class="w180 tc">翻译成白话文内容</td>
+				<td colspan="2"><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent4" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }" title="该项的最高值是多少">
-					<br/>
-					<span class="blue">*该项的最高值是多少</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" id="minScore" onkeyup="gernerator();" value="${scoreModel.minScore }" title="该项的最低值是多少">
-					<br/>
-					<span class="blue">*该项的最低值是多少</span>
-				</td>
-			</tr>
-			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent4" >${scoreModel.easyUnderstandContent }</textarea></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最高值位基准排序递减，采购文件明确标准分值，排序分差和最高最低分限制，评审系统按照评审参数值，由高到低按照分差计算得分</textarea></td>
+				<td class="w180 tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">以评审数额最低值为基准排序递增。采购文件明确标准分值，排序分差和最高最低分值限制。评审系统按照绝对数值，自动识别由高到低进行排序，并按分差计分规则计算得分。(如：产品重量，包装品重量，某些工艺指标用品参数等)</span></td>
 			</tr>
 		</tbody>
 	</table>
-	<table id="model5" style="display: none;" class="w499">
+	<table id="model5" class="w499 hide">
 		<tbody>
 			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例：根据企业近三年平均资产总额评分，最高值为基准分值,得分=(企业资产总额/基准值)*标准分值">
-					<br/>
-					<span class="blue">*例：根据企业近三年平均资产总额评分，最高值为基准分值,得分=(企业资产总额/基准值)*标准分值</span>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }"></td>
+				<td><span class="blue">
+					*该参数代表需要供应商需要录入的参数。<br/>
+					例：根据企业近三年平均资产总额评分，平均资产总额最高的为评审基准值，得分=（企业平均资产总额/基准值）*2，其中</span><span class="red">平均资产总额</span><span class="blue">就是评审参数</span>
 				</td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">标准分值</td>
-				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少">
-					<br/>
-					<span class="blue">*该项的满分值为多少</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>标准分值</td>
+				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }"></td>
+				<td><span class="blue">*该项内容代表当前评审项的满分值是多少</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位">
-					<br/>
-					<span class="blue">*评审参数的单位</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
+				<td><span class="blue">*该项内容为评审参数的单位,如果没有单位请为空</span></td>
 			</tr>
 			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent5" >${scoreModel.easyUnderstandContent }</textarea></td>
+				<td class="w180 tc">翻译成白话文内容</td>
+				<td colspan="2"><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent5" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最高值为基准，系统自动按照公式计算得分，得分=(投标人数值/评审参数的最高数额)*满分值</textarea></td>
+				<td class="w180 tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">以评审数额最高值为基准按比例计算。采购文件明确标准分值和最低最高分限制。系统自动按公式计算得分。评审得分=(投标人数值/绝对值最高数值)×满分。(如：售后服务，合同金额，财务指标，技术指标参数等)</span></td>
 			</tr>
 		</tbody>
 	</table>
-	<table id="model6" style="display: none;" class="w499">
+	<table id="model6"  class="w499 hide">
 		<tbody>
 			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例:满足招标文件要求且报价最低为基准值，得分=(基准值/最低报价)*标准分值 ">
-					<br/>
-					<span class="blue">*例:满足招标文件要求且报价最低为基准值，得分=(基准值/最低报价)*标准分值</span>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }"></td>
+				<td><span class="blue">
+					*该参数代表需要供应商需要录入的参数。<br/>
+					例：满足招标文件要求且报价最低得评审基准价，得分=（评审基准价/企业报价）*标准分值，其中</span><span class="red">企业报价</span><span class="blue">就是评审参数</span>
 				</td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">标准分值</td>
-				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少">
-					<br/>
-					<span class="blue">*该项的满分值为多少</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>标准分值</td>
+				<td><input name="standardScore" onkeyup="gernerator();" id="standardScore" value="${scoreModel.standardScore }"></td>
+				<td><span class="blue">*该项内容代表评审项的满分值是多少</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位">
-					<br/>
-					<span class="blue">*评审参数的单位</span>
-				</td>
-			</tr>
-			<!-- <tr>
-				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName4"><option value="0">加分</option><option value="1" selected="selected">减分</option></select></td>
-			</tr> -->
-			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent6" >${scoreModel.easyUnderstandContent }</textarea></td>
+				<td class="w180 tc">单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
+				<td><span class="blue">*该项内容为评审参数的单位,如果没有单位请为空</span></td>
 			</tr>
 			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低值为基准，系统自动按照公式计算得分，得分=(基准值/评审参数额)*满分值</textarea></td>
+				<td class="w180 tc">翻译成白话文内容</td>
+				<td colspan="2"><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent6" >${scoreModel.easyUnderstandContent }</textarea></td>
+			</tr>
+			<tr>
+				<td class="w180 tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">以评审数额最低值为基准按比例计算。采购文件明确标准分值和最低最高分限制。系统自动按公式计算得分。评审得分=(投标人数值/绝对值最高数值)×满分。(如：售后服务，合同金额，财务指标，技术指标参数等)</span></td>
 			</tr>
 		</tbody>
 	</table>
-	<table id="model71" style="display: none;" class="w499">
+	<table id="model71" class="w499 hide">
 		<tbody>
 			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数">
-					<br/>
-					<span class="blue">*例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数</span>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" ></td>
+				<td><span class="blue">
+					*该参数代表需要录入供应商的参数。<br/>
+					减分例子：百公里耗油,6升（不包括此值）以下为满分,每增加1升扣0.5分,最低分为0分,其中</span><span class="red">百公里耗油</span><span class="blue">就为评审参数<br/>
+					加分例子：手机按键正常次数,低于10万次（不包括此值）以下为0分,每增加1万次加0.5分,最高分为10分高于15万次,得10分,其中</span><span class="red">手机按键正常次数</span><span class="blue">就为评审参数</span>
 				</td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位">
-					<br/>
-					<span class="blue">*评审参数的单位</span>
+				<td class="w180 tc"><span class="star_red">*</span>加减分类型</td>
+				<td>
+					<select name="addSubtractTypeName"  id="addSubtractTypeName7">
+						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
+						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
+					</select>
 				</td>
+				<td><span class="blue">*如果为[加分],那么低于[评审基准数]为0分,高于[评审基准数]按照规则加分;如果为[减分]，那么低于[评审基准数]为满分,高于[评审基准数]按照规则减分</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">区间类型</td>
+				<td class="w180 tc"><span class="star_red">*</span>加减分分值</td>
+				<td><input name="score" id="score" onkeyup="gernerator();" value="${scoreModel.score }"></td>
+				<td><span class="blue">*每个区间的分之差,加分加多少分,减分减多少分</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>区间类型</td>
 				<td><select name="intervalTypeName" id="intervalTypeName71" onchange="modelSevenAddSubstact71();"><option value="0" selected="selected">差额相等</option><option value="1">差额区间</option></select></td>
+				<td><span class="blue">*如果每个区间差额都相等建议选用此区间类型</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">评审基准数</td>
-				<td><input name="reviewStandScore" onkeyup="gernerator();" id="reviewStandScore" value="${scoreModel.reviewStandScore }" title="该项内容为评审参数参照值">
-					<br/>
-					<span class="blue">*该项内容为评审参数参照值</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>每区间等差额</td>
+				<td><input name="intervalNumber" onkeyup="gernerator();" id="intervalNumber" value="${scoreModel.intervalNumber }"></td>
+				<td><span class="blue">*该项内容为每个区间之间的差额</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">每区间等差额</td>
-				<td><input name="intervalNumber" onkeyup="gernerator();" id="intervalNumber" value="${scoreModel.intervalNumber }" title="每个区间之间的差额">
-					<br/>
-					<span class="blue">*每个区间之间的差额</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>评审基准数</td>
+				<td><input name="reviewStandScore" onkeyup="gernerator();" id="reviewStandScore" value="${scoreModel.reviewStandScore }"></td>
+				<td><span class="blue">*该项内容为评审参数的参照数值</span></td>
 			</tr>
 			<tr>
-				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName7"><option value="0" selected="selected">加分</option><option value="1">减分</option></select>
-					<br/>
-					<span class="blue">*如果为[加分]，那么高于[评审基准数]为0分，低于[评审基准数]按照规则加分；如果为[减分]，那么高于[评审基准数]为满分，低于[评审基准数]按照规则减分</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数截止数</td>
+				<td><input name="deadlineNumber" onkeyup="gernerator();" id="deadlineNumber" value="${scoreModel.deadlineNumber }"></td>
+				<td><span class="blue">*评审参数的数额高于[截止数],如果[加分],高于[截止数]就是满分,如果[减分],高于[截止数]就是0分</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">加减分分值</td>
-				<td><input name="score"  id="score" onkeyup="gernerator();" value="${scoreModel.score }" title="加减多少分">
-					<br/>
-					<span class="blue">*加减多少分</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>最高分</td>
+				<td><input name="maxScore" onkeyup="gernerator();" id="maxScore" value="${scoreModel.maxScore }"></td>
+				<td><span class="blue">*该项为评审项供应商所得最高分,通常为该评审项的标准分值</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">评审参数截止数</td>
-				<td><input name="deadlineNumber" onkeyup="gernerator();" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，高于截止数为满分，如果减分，高于截止数为0分">
-					<br/>
-					<span class="blue">*如果加分，高于截止数为满分，如果减分，高于截止数为0分</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>最低分</td>
+				<td><input name="minScore" onkeyup="gernerator();" id="minScore" value="${scoreModel.minScore }"></td>
+				<td><span class="blue">*该项为评审项供应商所得最低分,通常为0分</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }" title="该项的满分值是多少">
-					<br/>
-					<span class="blue">*该项的满分值是多少</span>
-				</td>
+				<td class="w180 tc">单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }" ></td>
+				<td><span class="blue">*该项内容为评审参数的单位</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" id="minScore" onkeyup="gernerator();" value="${scoreModel.minScore }" title="该项的最低分是多少">
-					<br/>
-					<span class="blue">*该项的最低分是多少</span>
-				</td>
+				<td class="w180 tc">翻译成白话文内容</td>
+				<td colspan="2"><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent7" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>
 			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent7" >${scoreModel.easyUnderstandContent }</textarea></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低区间为基准递增排序，采购文件明确规定标准分值，分差和最低最高分值限制，并按分差计算规则计算得分</textarea></td>
+				<td class="w180 tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">以评审数额最低区间为基准递增排序。采购文件明确标准分值，区间排序分差和最高最低分值限制。系统自动识别区间由低到高进行排序，并按分差计分规则计算得分。(如:汽车油耗，耗水耗电量等指标)</span></td>
 			</tr>
 			
 		</tbody>
 	</table>
-	<table id="model72" style="display: none;" class="w499">
+	<table id="model72"  class="w499 hide">
 		<tbody>
 			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数">
-					<br/>
-					<span class="blue">*例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数</span>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }"></td>
+				<td><span class="blue">
+					*该参数代表需要录入供应商的参数。<br/>
+					减分例子：百公里耗油,6升（不包括此值）以下为满分,每增加1升扣0.5分,最低分为0分,其中</span><span class="red">百公里耗油</span><span class="blue">就为评审参数<br/>
+					加分例子：手机按键正常次数,低于10万次（不包括此值）以下为0分,每增加1万次加0.5分,最高分为10分高于15万次,得10分,其中</span><span class="red">手机按键正常次数</span><span class="blue">就为评审参数</span>
 				</td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位">
-					<br/>
-					<span class="blue">*评审参数的单位</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">区间类型</td>
+				<td class="w180 tc"><span class="star_red">*</span>区间类型</td>
 				<td><select name="intervalTypeName" id="intervalTypeName72" onchange="modelSevenAddSubstact72();"><option value="0">差额相等</option><option value="1" selected="selected">差额区间</option></select></td>
-			</tr>
-		</tbody>
-	</table>
-	<table id="model81" style="display: none;" class="w499">
-		<tbody>
-			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" title="例:生产工序，十道以上得满分，每减少两项减0.5分，最低分为0分，其中生产工序为评审参数">
-					<br/>
-					<span class="blue">*例:生产工序，十道以上得满分，每减少两项减0.5分，最低分为0分，其中生产工序为评审参数</span>
-				</td>
+				<td><span class="blue">*如果每个区间差额都相等建议选用此区间类型</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位">
-					<br/>
-					<span class="blue">*评审参数的单位</span>
-				</td>
+				<td class="w180 tc"><span class="star_red">*</span>最高分</td>
+				<td><input name="maxScore" id="maxScore" value="${scoreModel.maxScore }"></td>
+				<td><span class="blue">*该项为评审项供应商所得最高分,通常为该评审项的标准分值</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">区间类型</td>
-				<td><select name="intervalTypeName" id="intervalTypeName81" onchange="modelSevenAddSubstact81();"><option value="0" selected="selected">差额相等</option><option value="1">差额区间</option></select></td>
+				<td class="w180 tc"><span class="star_red">*</span>最低分</td>
+				<td><input name="minScore" id="minScore" value="${scoreModel.minScore }"></td>
+				<td><span class="blue">*该项为评审项供应商所得最低分,通常为0分</span></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">评审基准数</td>
-				<td><input name="reviewStandScore" id="reviewStandScore" value="${scoreModel.reviewStandScore }" title="该项内容为评审参数参照值">
-					<br/>
-					<span class="blue">*该项内容为评审参数参照值</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">每区间等差额</td>
-				<td><input name="intervalNumber" onkeyup="gernerator();" id="intervalNumber" value="${scoreModel.intervalNumber }" title="每个区间之间的差额">
-					<br/>
-					<span class="blue">*每个区间之间的差额</span>
-				</td>
-			</tr>
-			<tr>
-				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName8"><option value="0" selected="selected">加分</option><option value="1">减分</option></select>
-					<br/>
-					<span class="blue">*如果为[加分]，那么低于[评审基准数]为0分，高于[评审基准数]按照规则加分；如果为减分，那么低于[评审基准数]为满分，高于[评审基准数]按照规则减分</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">加减分分值</td>
-				<td><input name="score" id="score" onkeyup="gernerator();" value="${scoreModel.score }" title="加减多少分">
-					<br/>
-					<span class="blue">*加减多少分</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">评审参数截止数</td>
-				<td><input name="deadlineNumber" onkeyup="gernerator();" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，低于截止数为满分，如果减分，低于截止数为0分">
-					<br/>
-					<span class="blue">*如果加分，低于截止数为满分，如果减分，低于截止数为0分</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" onkeyup="gernerator();" id="maxScore" value="${scoreModel.maxScore }" title="该项的满分值是多少">
-					<br/>
-					<span class="blue">*该项的满分值是多少</span>
-				</td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" onkeyup="gernerator();" id="minScore" value="${scoreModel.minScore }" title="该项的最低分是多少">
-					<br/>
-					<span class="blue">*该项的最低分是多少</span>
-				</td>
-			</tr>
-			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent8" >${scoreModel.easyUnderstandContent }</textarea></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低区间为基准递增排序，采购文件明确规定标准分值，分差和最低最高分值限制，并按分差计算规则计算得分</textarea></td>
+				<td class="w180 tc">单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
+				<td><span class="blue">*该项内容为评审参数的单位</span></td>
 			</tr>
 			
 		</tbody>
 	</table>
-	<table id="model82" style="display: none;" class="w499">
+	<table id="model81" class="w499 hide">
 		<tbody>
 			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数">
-					<br/>
-					<span class="blue">*例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数</span>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }"></td>
+				<td><span class="blue">
+					*该参数代表需要录入供应商的参数。<br/>
+					减分例子：生产工序,10道（不包括此值）以上为满分,每减少2道工序扣0.5分,最低分为0分,其中</span><span class="red">生产工序</span><span class="blue">就为评审参数<br/>
+					加分例子：汽车尾气排放量,高于100立方米（不包括此值）以下为0分,每减少5立方米加0.5分,最高为15分,低于50立方米得15分,其中</span><span class="red">汽车尾气排放量</span><span class="blue">就为评审参数</span>
 				</td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位">
-					<br/>
-					<span class="blue">*评审参数的单位</span>
+				<td class="w180 tc"><span class="star_red">*</span>加减分类型</td>
+				<td>
+				<select name="addSubtractTypeName" id="addSubtractTypeName8">
+						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
+						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
+				</select>
+				</td>
+				<td><span class="blue">*如果为[加分],那么低于[评审基准数]为0分,高于[评审基准数]按照规则加分;如果为[减分]，那么低于[评审基准数]为满分,高于[评审基准数]按照规则减分</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>加减分分值</td>
+				<td><input name="score" id="score" onkeyup="gernerator();" value="${scoreModel.score }"></td>
+				<td><span class="blue">*每个区间的分之差,加分加多少分,减分减多少分</span></td>
+			</tr>
+			
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>区间类型</td>
+				<td><select name="intervalTypeName" id="intervalTypeName81" onchange="modelSevenAddSubstact81();"><option value="0" selected="selected">差额相等</option><option value="1">差额区间</option></select></td>
+				<td><span class="blue">*如果每个区间差额都相等建议选用此区间类型</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>每区间等差额</td>
+				<td><input name="intervalNumber" onkeyup="gernerator();" id="intervalNumber" value="${scoreModel.intervalNumber }"></td>
+				<td><span class="blue">*该项内容为每个区间之间的差额</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>评审基准数</td>
+				<td><input name="reviewStandScore" id="reviewStandScore" value="${scoreModel.reviewStandScore }"></td>
+				<td><span class="blue">*该项内容为评审参数的参照数值</span></td>
+			</tr>
+			
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数截止数</td>
+				<td><input name="deadlineNumber" onkeyup="gernerator();" id="deadlineNumber" value="${scoreModel.deadlineNumber }"></td>
+				<td><span class="blue">*评审参数的数额高于[截止数],如果[加分],高于[截止数]就是满分,如果[减分],高于[截止数]就是0分</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>最高分</td>
+				<td><input name="maxScore" onkeyup="gernerator();" id="maxScore" value="${scoreModel.maxScore }"></td>
+				<td><span class="blue">*该项为评审项供应商所得最高分,通常为该评审项的标准分值</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>最低分</td>
+				<td><input name="minScore" onkeyup="gernerator();" id="minScore" value="${scoreModel.minScore }"></td>
+				<td><span class="blue">*该项为评审项供应商所得最低分,通常为0分</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
+				<td><span class="blue">*该项内容为评审参数的单位</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc">翻译成白话文内容</td>
+				<td colspan="2"><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent8" >${scoreModel.easyUnderstandContent }</textarea></td>
+			</tr>
+			<tr>
+				<td class="w180 tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">以评审数额最高区间为基准递减排序。采购文件明确标准分值，区间排序分差和最高最低分值限制。系统自动识别区间由高到低进行排序，并按分差计分规则计算得分。(如:制氧量，工序等指标)</span></td>
+			</tr>
+			
+		</tbody>
+	</table>
+	<table id="model82"  class="w499 hide">
+		<tbody>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }"></td>
+				<td><span class="blue">
+				*该参数代表需要录入供应商的参数。<br/>
+				减分例子：生产工序,10道（不包括此值）以上为满分,每减少2道工序扣0.5分,最低分为0分,其中</span><span class="red">生产工序</span><span class="blue">就为评审参数<br/>
+				加分例子：汽车尾气排放量,高于100立方米（不包括此值）以下为0分,每减少5立方米加0.5分,最高为15分,低于50立方米得15分,其中</span><span class="red">汽车尾气排放量</span><span class="blue">就为评审参数</span>
 				</td>
 			</tr>
 			<tr>
-				<td style="width: 300px;">区间类型</td>
+				<td class="w180 tc"><span class="star_red">*</span>最高分</td>
+				<td><input name="maxScore" id="maxScore" value="${scoreModel.maxScore }"></td>
+				<td><span class="blue">*该项为评审项供应商所得最高分,通常为该评审项的标准分值</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>最低分</td>
+				<td><input name="minScore" id="minScore" value="${scoreModel.minScore }"></td>
+				<td><span class="blue">*该项为评审项供应商所得最低分,通常为0分</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc"><span class="star_red">*</span>区间类型</td>
 				<td><select name="intervalTypeName" id="intervalTypeName82" onchange="modelSevenAddSubstact82();"><option value="0">差额相等</option><option value="1" selected="selected">差额区间</option></select></td>
+				<td><span class="blue">*如果每个区间差额都相等建议选用此区间类型</span></td>
+			</tr>
+			<tr>
+				<td class="w180 tc">单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
+				<td><span class="blue">*该项内容为评审参数的单位</span></td>
 			</tr>
 		</tbody>
 	</table>
@@ -1317,7 +1276,7 @@ System.out.print(scoreModel);
 				</td>
 			</tr>
 			<tr>
-				<table>
+				<%-- <table>
 					<tr>
 						<td>选择项目</td>
 						<td><input name="" id="" value="${scoreModel.}" ></td>
@@ -1325,7 +1284,7 @@ System.out.print(scoreModel);
 						<td><input name="" id="" value="${scoreModel.}" ></td>
 						<td><button class="btn btn-windows delete" type="button" onclick="">删除</button></td>
 					</tr>
-				</table>
+				</table> --%>
 				
 			</tr>
 			<tr>

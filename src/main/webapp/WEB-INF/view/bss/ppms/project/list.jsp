@@ -85,7 +85,7 @@
         window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
       } else if (status == "已立项，待分包") {
         $.ajax({
-          url : "${pageContext.request.contextPath}/project/viewPackage.html",
+          url : "${pageContext.request.contextPath}/project/viewPackages.html",
           data : "id=" + id,
           type : "post",
           dataType : "json",
@@ -103,7 +103,7 @@
               })
             }else if(result==1){
             	layer.alert("项目中有明细尚未分包,请进修改页面进行分包", {
-								offset: ['30%', '40%']
+								offset: ['30%', '40%'],
 							});
 							$(".layui-layer-shade").remove();
             }

@@ -1869,10 +1869,10 @@ import ses.util.WfUtil;
      //合同
      String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
      String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-     String id3 = DictionaryDataUtil.getId("CATEGORY_THRE_YEAR");
+     String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
      //账单
-     String id4 = DictionaryDataUtil.getId("CATEGORY_ONE_BIL");
-     String id5 = DictionaryDataUtil.getId("CATEGORY_TWO_BIL");
+     String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+     String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
      String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
      int count=0;
      StringBuffer sbUp=new StringBuffer("");

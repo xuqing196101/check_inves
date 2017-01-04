@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 
 import bss.model.prms.PackageExpert;
 import bss.service.prms.PackageExpertService;
+import bss.util.PropUtil;
 
 import com.github.pagehelper.PageHelper;
 
@@ -106,7 +107,7 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
     public List<ExpExtractRecord> listExtractRecord(
         ExpExtractRecord expExtractRecord,Integer pageNum) {
         if(pageNum!=0){
-            PageHelper.startPage(pageNum, 10);
+            PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
         }
         return expExtractRecordMapper.list(expExtractRecord);
     }

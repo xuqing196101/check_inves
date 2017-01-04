@@ -189,7 +189,10 @@
       
       function ext(){
     	  $("#tbody").empty();
-          $("#address").val($("#city option:selected").val());
+          var v = document.getElementById("city").value;    
+          $("#address").val(v);
+          var area = document.getElementById("area").value; 
+          $("#province").val(area);
             $.ajax({
               cache: true,
               type: "POST",
@@ -311,17 +314,17 @@
       /**完成**/
       function finish(){
     	  
-    	 /*   layer.confirm('是否需要打印', {
+    	  layer.confirm('是否需要打印', {
                btn: ['打印','取消'],offset: ['40%', '40%'], shade:0.01
              }, function(index){
-                window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+                window.location.href="${pageContext.request.contextPath}/ExpExtract/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
              }, function(index){
                layer.close(index);
-             }); */
+             }); 
        
     	  
     	  
-       $.ajax({
+    /*    $.ajax({
                type: "POST",
                url: "${pageContext.request.contextPath}/ExpExtract/isFinish.do",
                data: {packageId:"${packageId}"},
@@ -340,7 +343,7 @@
             	          }
             	   }
               
-    	   }); 
+    	   });  */
     	  
       }
       
@@ -857,19 +860,23 @@
               <li class="col-md-3 col-sm-6 col-xs-12">
                 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家类别：</span>
                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                  <c:set value="" var="typeId"></c:set>
+                  <c:set value="" var="typeName"></c:set>
+                  <c:set value="" var="typeCode"></c:set>
+                 <c:set value="" var="typeId"></c:set>
                   <c:forEach items="${listCon.conTypes}" var="conType">
 		                <c:forEach items="${conType.expertsTypeSplit}" var="split">
 			                <c:forEach var="project" items="${ddList}">
 			                 <c:if test="${split eq project.id}">
-			                  <c:set value="${typeId},${project.name}" var="typeId"></c:set>
+			                  <c:set value="${typeName},${project.name}" var="typeName"></c:set>
+			                  <c:set value="${typeId},${project.id}" var="typeId"></c:set>
+			                  <c:set value="${typeCode},${project.code}" var="typeCode"></c:set>
 			                 </c:if>
 			                </c:forEach>
 		                </c:forEach>
                   </c:forEach>
-                   <input   id="expertsTypeName"  type="text" readonly name="expertsTypeName" value="${fn:substring(typeId,1,typeId.length() )}" onclick="showExpertType();" />
-                  <input type="hidden" name="expertsTypeId" id="expertsTypeId"  />
-                     <input type="hidden" name="expertsTypeCode" id="expertsTypeCode"  />
+                   <input   id="expertsTypeName"  type="text" readonly name="expertsTypeName" value="${fn:substring(typeName,1,typeName.length() )}" onclick="showExpertType();" />
+                  <input type="hidden" name="expertsTypeId" id="expertsTypeId" value="${fn:substring(typeId,1,typeId.length() )}"  />
+                     <input type="hidden" name="expertsTypeCode" id="expertsTypeCode" value="${fn:substring(typeCode,1,typeCode.length() )}"  />
                   <span class="add-on">i</span>
                 </div>
               </li>
@@ -900,15 +907,17 @@
       <div class="col-md-12"  >
         <div id="extcontype">
         <c:forEach var="con" items="${extConType}">
-        <c:if test="con.expertsType != null">
-         <c:if test="${con.expertsType.kind == 6 }">
+      <c:if test="${con.expertsType != null }">
+        <c:if test="${con.expertsType.kind == 6 }">
                                               专家类别：${con.expertsType.name }技术
                   </c:if>
                   <c:if test="${con.expertsType.kind != 6 }">
                                             专家类别：${con.expertsType.name }
                    
                   </c:if>
-        </c:if>
+      </c:if>
+       
+     
                           &nbsp;&nbsp;&nbsp;&nbsp;抽取数量${con.alreadyCount}/${con.expertsCount }                             
             <br />
           </c:forEach>

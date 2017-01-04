@@ -280,7 +280,7 @@
 													<td>
 														<c:set value="${prolength+1}" var="prolength"></c:set>
 														<span class="hand" onclick="reason('${quaPro.id}','${obj.categoryName }','生产-${quaPro.name}','生产');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${quaPro.name}：</span>
-														<u:show showId="pShow${prolength}" groups="${saleShow}" delete="false" businessId="${quaPro.id}" sysKey="1" typeId="1" />
+														<u:show showId="pShow${prolength}" groups="${saleShow}" delete="false" businessId="${quaPro.id}" sysKey="1" typeId="${typeId}" />
 														<p id="${quaPro.id}_生产" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</c:forEach>
@@ -315,7 +315,7 @@
 													<td>
 														<c:set value="${length+1}" var="length"></c:set>
 														<span class="hand" onclick="reason('${saua.id}','${sale.categoryName }','销售-${saua.name}','销售');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${saua.name}：</span>
-														<u:show showId="saleShow${length}" groups="${saleShow}" delete="false" businessId="${saua.id}" sysKey="1" typeId="1" />
+														<u:show showId="saleShow${length}" groups="${saleShow}" delete="false" businessId="${saua.id}" sysKey="1" typeId="${typeId}" />
 														<p id="${saua.id}_销售" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</c:forEach>
@@ -351,7 +351,7 @@
 														<td class="tc">
 															<c:set value="${plength+1}" var="plength"></c:set>
 															<span class="hand" onclick="reason('${pr.id}','${project.categoryName }','工程-${pr.name}','工程');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${pr.name}：</span>
-															<u:show showId="projectShow${plength}" delete="false" groups="${saleShow}" businessId="${pr.id}" sysKey="1" typeId="1" />
+															<u:show showId="projectShow${plength}" delete="false" groups="${saleShow}" businessId="${pr.id}" sysKey="1" typeId="${typeId}" />
 															<p id="${pr.id}_工程" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 														</td>
 													</c:forEach>
@@ -387,7 +387,7 @@
 														<td class="tc">
 															<c:set value="${slength+1}" var="slength"></c:set>
 															<span class="hand" onclick="reason('${ser.id}','${server.categoryName }','服务-${ser.name}','服务');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${ser.name}：</span>
-															<u:show showId="serverShow${plength}" delete="false" groups="${saleShow}" businessId="${ser.id}" sysKey="1" typeId="1" />
+															<u:show showId="serverShow${plength}" delete="false" groups="${saleShow}" businessId="${ser.id}" sysKey="1" typeId="${typeId}" />
 															<p id="${ser.id}_服务"><img src='/zhbj/public/backend/images/sc.png'></p>
 														</td>
 													</c:forEach>

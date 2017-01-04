@@ -93,14 +93,16 @@
         if(id.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }else{
-        	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/packageList.html?projectId="+id+"&&typeclassId=1";
+        	
+        	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId="+id+"&&typeclassId=${typeclassId}";
         }
     }
     function record(){
     	   location.href = '${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do';
     }
     function resetQuery(){
-        $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+    	$("#projectNumber").val("");
+        $("#proName").val("");
     }
   </script>
 </head>
@@ -167,10 +169,9 @@
                                     value="${obj.status }" /><input type="checkbox"
                                     value="${obj.id }" name="chkItem" onclick="check()" alt="">
                                 </td>
-                                <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.name}</a>
-                                </td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
+                                <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+                                <td >${obj.name}</td>
+                                <td>${obj.projectNumber}</td>
                                 <td class="tc">
                                 <c:forEach items="${kind}" var="kind" >
                                         <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>

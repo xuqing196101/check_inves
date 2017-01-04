@@ -4,8 +4,9 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-<title>项目管理</title>
+<title>项目</title>
 <script type="text/javascript">
+
   
   /*分页  */
   $(function(){
@@ -14,7 +15,10 @@
             pages: "${info.pages}", //总页数
             skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
             skip: true, //是否开启跳页
-            groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
+            total : "${info.total}",
+            startRow : "${info.startRow}",
+            endRow : "${info.endRow}",
+            groups: "${info.pages}">=5?5:"${info.pages}", //连续显示分页数
             curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 //                  var page = location.search.match(/page=(\d+)/);
 //                  return page ? page[1] : 1;
@@ -22,10 +26,9 @@
             }(), 
             jump: function(e, first){ //触发分页后的回调
                     if(!first){ //一定要加此判断，否则初始时会无限刷新
-                //  $("#page").val(e.curr);
-                    // $("#form1").submit();
+                 $("#page").val(e.curr);
+                    $("#form1").submit();
                     
-                 location.href = '${pageContext.request.contextPath}/project/list.do?page='+e.curr;
                 }  
             }
         });
@@ -76,7 +79,8 @@
         if(id.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }else{
-             window.location.href="${pageContext.request.contextPath}/ExpExtract/packageList.html?projectId="+id+"&&typeclassId=1";
+        	window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId="+id+"&&typeclassId=${typeclassId}";  
+             
         }
     }
   //查看明细
@@ -90,7 +94,8 @@
            location.href = '${pageContext.request.contextPath}/ExpExtract/resuleRecordlist.do';
     }
     function resetQuery(){
-        $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+    	$("#projectNumber").val("");
+    	$("#proName").val("");
     }
   </script>
 </head>
@@ -111,16 +116,16 @@
     <!-- 录入采购计划开始-->
     <div class="container">
         <div class="headline-v2">
-            <h2>立项列表</h2>
+            <h2>项目列表</h2>
         </div>
         
         <!-- 项目戳开始 -->
        <h2 class="search_detail">
-     <form  action="${pageContext.request.contextPath}/ExpExtract/projectlist.html" id="form1" method="post" class="mb0">
+     <form  action="${pageContext.request.contextPath}/ExpExtract/projectList.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
     
      <li>
-       <label>项目名称：</label><input type="text" name="name" id="proName" value="${projects.name }"/>
+       <label>项目名称：</label><input type="hidden" name="page" id="page"><input type="text" name="name" id="proName" value="${projects.name }"/>
        </li>
        <li >
       <span class="fl"><label class="fl">项目编号：</label>
@@ -153,15 +158,14 @@
         
        <tbody id="tbody_id">
                         <c:forEach items="${info.list}" var="obj" varStatus="vs">
-                            <tr style="cursor: pointer;">
+                            <tr >
                                 <td class="tc w30"><input type="hidden"
                                     value="${obj.status }" /><input type="checkbox"
                                     value="${obj.id }" name="chkItem" onclick="check()" alt="">
                                 </td>
-                                <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.name}</a>
-                                </td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
+                                <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+                                <td >${obj.name}</td>
+                                <td >${obj.projectNumber}</td>
                                 <td class="tc">
                                   <c:forEach items="${kind}" var="kind" >
                                         <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
