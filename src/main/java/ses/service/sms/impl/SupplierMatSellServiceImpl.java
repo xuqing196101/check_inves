@@ -51,8 +51,12 @@ public class SupplierMatSellServiceImpl implements SupplierMatSellService {
 
     @Override
     public String getMatSellIdBySupplierId(String supplierId) {
-        // TODO Auto-generated method stub
-        return supplierMatSellMapper.getMatSellBySupplierId(supplierId).getId();
+        SupplierMatSell sell = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
+        if (sell != null) {
+            return sell.getId();
+        } else {
+            return null;
+        }
     }
 	
 }

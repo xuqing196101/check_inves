@@ -49,8 +49,12 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 
     @Override
     public String getMatSeIdBySupplierId(String supplierId) {
-        // TODO Auto-generated method stub
-        return supplierMatSeMapper.getMatSeBySupplierId(supplierId).getId();
+        SupplierMatServe server = supplierMatSeMapper.getMatSeBySupplierId(supplierId);
+        if (server != null) {
+            return server.getId();
+        } else {
+            return null;
+        }
     }
 
 }
