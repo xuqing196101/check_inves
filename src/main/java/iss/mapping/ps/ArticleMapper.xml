@@ -397,29 +397,29 @@
       <if test="name != null">
         NAME = #{name},
       </if>
-      <if test="articleType != null">
+      <if test="articleType.id != null">
         ARTICLE_TYPE_ID = #{articleType.id},
       </if>
       <if test="publishedAt != null">
         PUBLISHED_AT = #{publishedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isPicShow != null">
-        IS_PIC_SHOW = #{isPicShow},
+        IS_PIC_SHOW = #{isPicShow,jdbcType=INTEGER},
       </if>
       <if test="position != null">
-        POSITION = #{position},
+        POSITION = #{position,jdbcType=INTEGER},
       </if>
-      <if test="user != null">
+      <if test="user.id != null">
         USER_ID = #{user.id},
       </if>
       <if test="showCount != null">
-        SHOW_COUNT = #{showCount},
+        SHOW_COUNT = #{showCount,jdbcType=INTEGER},
       </if>
       <if test="downloadCount != null">
-        DOWNLOAD_COUNT = #{downloadCount},
+        DOWNLOAD_COUNT = #{downloadCount,jdbcType=INTEGER},
       </if>
       <if test="status != null">
-        STATUS = #{status},
+        STATUS = #{status,jdbcType=INTEGER},
       </if>
       <if test="pic != null">
         PIC = #{pic},
@@ -428,7 +428,7 @@
         PUBLISHED_NAME = #{publishedName},
       </if>
       <if test="isIndex != null">
-        IS_INDEX = #{isIndex},
+        IS_INDEX = #{isIndex,jdbcType=INTEGER},
       </if>
       <if test="type != null">
         TYPE = #{type},
@@ -446,10 +446,10 @@
         CONTENT = #{content},
       </if>
       <if test="range != null">
-        RANGE = #{range},
+        RANGE = #{range,jdbcType=INTEGER},
       </if>
       <if test="isDeleted != null">
-        IS_DELETED = #{isDeleted},
+        IS_DELETED = #{isDeleted,jdbcType=INTEGER},
       </if>
       <if test="reason != null">
      	 REASON = #{reason},
@@ -561,7 +561,7 @@ FROM
 					T_ISS_PS_ARTICLE_TYPE
 				WHERE
 					PARENT_ID = #{parId}
-			)
+			) or LAST_ARTICLE_TYPE_ID = #{parId}
 		ORDER BY
 			published_at DESC
 	)

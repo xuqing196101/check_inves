@@ -346,7 +346,11 @@ public class Article{
     }
 
     public String getContent() {
-        return content;
+    	if(content!=null){
+    		return content.replaceAll("\\s*", "");
+    	}else{
+    		return content;
+    	}
     }
 
     public void setContent(String content) {
