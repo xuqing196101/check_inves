@@ -4,6 +4,7 @@
 package ses.service.sms.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,6 +109,7 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
         }
         //插入表中
         if(listRelate.size()!=0){
+          Collections.shuffle(listRelate);
           supplierExtRelateMapper.insertList(listRelate);
         }
 

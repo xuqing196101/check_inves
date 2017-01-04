@@ -99,7 +99,7 @@
                     dataType:"json",
                     success: function(data) {
                         if(data == "SCCUESS"){
-                              window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}&&flowDefineId=${flowDefineId}';
+                              window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}&&flowDefineId=${flowDefineId}&&isFinish=1';
                         }else{
                                layer.alert("请选择中标供应商",{offset: ['100', '300px'], shade:0.01});
                         }
@@ -145,9 +145,10 @@
 
   <body>
       <h2 class="list_title mb0 clear">包列表</h2>
-      <c:if test="${execute != 'SCCUESS' }">
+         <c:if test="${ error != null || error == 'ERROR' }">
         <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
-            <button class="btn " onclick="finish();" type="button">执行完成</button>
+          <button class="btn " onclick="finish();" type="button">执行完成</button>
+      
         </div>
       </c:if>
       <div class="content table_box pl0">

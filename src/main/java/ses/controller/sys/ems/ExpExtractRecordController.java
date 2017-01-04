@@ -4,6 +4,7 @@
 package ses.controller.sys.ems;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
 
 
 
@@ -277,7 +279,7 @@ public class ExpExtractRecordController extends BaseController {
           }
         }
         if(!"".equals(userName)){
-          model.addAttribute("userName", userName);
+          model.addAttribute("userName", userName.substring(0, userName.length()-1));
         }
       }
 
@@ -409,7 +411,6 @@ public class ExpExtractRecordController extends BaseController {
       model.addAttribute("extConType", conTypes);
 
       if (projectExtractListNo.size() != 0){
-        //                Collections.shuffle(projectExtractListNo);
         projectExtractListYes.add(projectExtractListNo.get(0));
         projectExtractListNo.remove(0);
       }else{
@@ -660,7 +661,6 @@ public class ExpExtractRecordController extends BaseController {
     model.addAttribute("extConType", conTypes);
 
     if (projectExtractListNo.size() != 0){
-      //            Collections.shuffle(projectExtractListNo);
       projectExtractListYes.add(projectExtractListNo.get(0));
       projectExtractListNo.remove(0);
     }else{
@@ -903,7 +903,6 @@ public class ExpExtractRecordController extends BaseController {
 
     projectExtractListYes.get(0).setConType(conTypes);
     if (projectExtractListNo.size() != 0){
-      //            Collections.shuffle(projectExtractListNo);
       projectExtractListYes.add(projectExtractListNo.get(0));
     }else{
       //已抽取

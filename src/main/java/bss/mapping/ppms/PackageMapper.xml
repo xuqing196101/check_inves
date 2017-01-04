@@ -379,11 +379,11 @@
 	<select id="listSupplierCheckPass" parameterType="java.lang.String"
 		resultMap="SupplierCheckPass">
 		SELECT
-		*
+	<include refid="Base_Column_List" />
 		FROM
 		T_BSS_PPMS_PACKAGE WHERE IS_DELETED=0 AND
 		PROJECT_ID=#{projectId}
-
+    ORDER BY CREATED_AT ASC
 	</select>
 
 	<!-- 返回所有专家 -->

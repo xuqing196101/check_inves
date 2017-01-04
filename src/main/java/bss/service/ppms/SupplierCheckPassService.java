@@ -53,7 +53,7 @@ public interface SupplierCheckPassService {
    *〈详细描述〉
    * @author Wang Wenshuai
    */
-  void update(SupplierCheckPass checkPass);
+  String update(SupplierCheckPass checkPass);
 
   /**
    * 

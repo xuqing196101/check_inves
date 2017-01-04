@@ -8,6 +8,10 @@ import ses.model.sms.Supplier;
 
 public class SupplierCheckPass {
 
+  /**
+   * 是否刪除
+   */
+  private Integer isDeleted;
 
   /**
    * 金额占比
@@ -479,4 +483,20 @@ public class SupplierCheckPass {
   public void setContractId(String contractId) {
     this.contractId = contractId;
   }
+
+  /**
+   * @return Returns the isDeleted.
+   */
+  public Integer getIsDeleted() {
+    return isDeleted;
+  }
+
+  /**
+   * @param isDeleted The isDeleted to set.
+   */
+  public void setIsDeleted(Integer isDeleted) {
+    this.isDeleted = isDeleted;
+  }
+  
+  
 }

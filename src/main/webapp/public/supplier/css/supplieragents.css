@@ -135,12 +135,15 @@
 }
 
 .showimg {
-	  background:url(/public/ztree/css/img/plus_center.gif)_no-repeat 5px !important;
+	background: url(/public/backend/images/minus_center.png) no-repeat 5px!important;
+	padding-left: 40px !important;
 }
 
-.hideimg{
-	 background:url(/public/ztree/css/img/minus_center.gif)_no-repeat 5px !important;
+.hideimg {
+	background: url(/public/backend/images/minus_center.png) no-repeat 5px!important;
+  padding-left: 40px !important;
 }
-.inputborder{
+
+.inputborder {
 	border: 0px;
 }

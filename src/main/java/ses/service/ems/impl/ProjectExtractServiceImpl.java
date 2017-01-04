@@ -5,6 +5,7 @@ package ses.service.ems.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -109,7 +110,9 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
           }
         }
         //                插入projectExtracts
-        if(projectExtracts2 != null && projectExtracts2.size() !=0){
+        if(projectExtracts2 != null && projectExtracts2.size() !=0)
+        {
+          Collections.shuffle(projectExtracts2);
           extractMapper.insertList(projectExtracts2);
         }
       }
