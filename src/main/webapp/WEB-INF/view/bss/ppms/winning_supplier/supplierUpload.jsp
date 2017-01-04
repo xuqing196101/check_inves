@@ -68,14 +68,14 @@
       <input name="saleId" type="hidden" value="${saleId}"  />
       <input name="projectId" type="hidden" value="${projectId}" />
       <input name="packageId" type="hidden" value="${packageId}">
-      <input name="typeId" type="hidden" value="${checkPassBgyj}">
+      <input name="typeId" type="hidden" value="${checkPassSupplierBgyj}">
       <input name="checkPassId" type="hidden" value="${checkPassId}">
       <input name="wonPrice" type="hidden" value="${wonPrice }">
              <ul class="demand_list">
                 <li>
                       <label class="fl"><span class="red textspan fl">*</span>变更依据:</label>
-                        <up:upload  id="bgyj" btnClass="fl"  businessId="${packageId}" sysKey="${tenderKey}" typeId="${checkPassBgyj}" auto="true" />
-                        <up:show showId="bgyj"   businessId="${packageId}" sysKey="${tenderKey}" typeId="${checkPassBgyj}"/>           
+                        <up:upload  id="bgyj" btnClass="fl"  businessId="${checkPassId}" sysKey="${tenderKey}" typeId="${checkPassSupplierBgyj}" auto="true" />
+                        <up:show showId="bgyj"   businessId="${checkPassId}" sysKey="${tenderKey}" typeId="${checkPassSupplierBgyj}"/>           
                 </li>
             </ul>
   </form>

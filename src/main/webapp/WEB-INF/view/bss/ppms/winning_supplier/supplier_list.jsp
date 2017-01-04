@@ -189,30 +189,31 @@
             }
             var i=0;
             //第一名的报价金额
-            var onePrice = 0;
+            var onePrice = [];
             //算出实际成交金额
             $('input[name="chkItem"]:checked').each(function() {
                 $("#"+$(this).val()).find("#priceRatio").text(ratio[i]);
 //                var totalprice = $("#"+id[0]).find("#totalPrice").text();
                var price = 0;
                
-             
                var id = $(this).val();
+               var j = 0;
                 $('input[name="associate'+id+'"]:checked').each(function() {
                 	//报价id
                 	var quote =  $("#"+id+$(this).val()).find("#Quotedamount").text();
                  var count =  $("#"+id+$(this).val()).find("#purchaseCount").text();
-               
+              
+//                  alert(onePrice[length-1]);
 //                  alert(quote);
 //                  alert(onePrice);
                  //第一名赋值报价
-                 if(onePrice == 0){
-                	
-                	 onePrice = quote; 	 
-                 
+                 if(onePrice[j] == null || onePrice[j] == ''){
+                	 onePrice[j] = quote; 	 
+//                   alert(onePrice[i]);
                  }else{
-                	if(onePrice >= price ){ 
-                     quote = onePrice;  
+                	 
+                	if(quote >= onePrice[j]){ 
+                     quote = onePrice[j];  
                 	}
 
                  }
@@ -221,6 +222,7 @@
                  
 //                  alert(quote);     
 //                  alert(count);
+                j++;
                  
               });
                 if(price == 0){

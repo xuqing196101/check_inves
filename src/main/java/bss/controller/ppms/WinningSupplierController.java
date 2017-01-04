@@ -291,8 +291,8 @@ public class WinningSupplierController extends BaseController {
   @RequestMapping("/supplierUpload")
   public String supplierUpload(Model model,String projectId, String packageId, String flowDefineId, String checkPassId,String wonPrice){
     //凭证上传
-    String id = DictionaryDataUtil.getId("CHECK_PASS_BGYJ");
-    model.addAttribute("checkPassBgyj", id);
+    String id = DictionaryDataUtil.getId("CHECK_PASS_SUPPLIER_BGYJ");
+    model.addAttribute("checkPassSupplierBgyj", id);
 
     //招标系统key
     Integer tenderKey = Constant.TENDER_SYS_KEY;
@@ -314,7 +314,7 @@ public class WinningSupplierController extends BaseController {
    */
   @ResponseBody
   @RequestMapping("/deleFile")
-  public String delFile(String packageId){
+  public String delFile(String packageId,String checkpassId){
     //凭证上传
     String id = DictionaryDataUtil.getId("CHECK_PASS_BGYJ");
     //招标系统key
@@ -322,6 +322,15 @@ public class WinningSupplierController extends BaseController {
     List<UploadFile> filesOther = uploadService.getFilesOther(packageId, id, tenderKey.toString());
     if (filesOther != null && filesOther.size() != 0){
       uploadService.updateFileOther(filesOther.get(0).getId(), tenderKey.toString());
+    } else {
+      //凭证上传
+      String ids = DictionaryDataUtil.getId("CHECK_PASS_SUPPLIER_BGYJ");
+      //招标系统key
+      Integer tenderKeys = Constant.TENDER_SYS_KEY;
+      List<UploadFile> filesOthers = uploadService.getFilesOther(checkpassId, ids, tenderKeys.toString());
+      if (filesOthers != null && filesOthers.size() != 0) {
+        uploadService.updateFileOther(filesOthers.get(0).getId(), tenderKey.toString());
+      }
     }
     return SUCCESS;
   }
@@ -508,8 +517,12 @@ public class WinningSupplierController extends BaseController {
       checkPassService.updateBid(checkPassId,wonPrice);
       return JSON.toJSONString(SUCCESS);
     } else {
-      return JSON.toJSONString(ERROR);
+      List<UploadFile> filesOthers = uploadService.getFilesOther(checkPassId[0], typeId, tenderKey.toString());
+      if (filesOthers != null && filesOthers.size() != ZERO){
+        return JSON.toJSONString(SUCCESS);
+      }
     }
+    return JSON.toJSONString(ERROR);
   }
 
   /**
