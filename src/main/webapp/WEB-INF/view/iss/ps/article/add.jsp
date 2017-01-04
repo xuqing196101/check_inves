@@ -360,13 +360,13 @@
     </div>
 
     <div class="container container_box">
-      <form id="myform" action="${pageContext.request.contextPath }/article/save.html" method="post">
+      <form id="myform" action="${pageContext.request.contextPath }/article/save.html" onsubmit="return clk()" method="post">
       <input type="hidden" name="status" id="articleStatus" value="0"/>
         <div class="">
           <h2 class="list_title">新增信息</h2>
 
           <ul class="ul_list mb20">
-            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+            <li class="col-md-12 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>信息标题：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input name="id" type="hidden" value="${articleId }">
@@ -384,7 +384,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="second">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><%--<div id="lmsx" class="star_red">*</div>--%>栏目属性：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div id="lmsx" class="star_red">*</div>栏目属性：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
                 <select id="secondType" name="secondArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="secondTypeInfo()">
                 </select>
@@ -392,7 +392,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="three">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><%--<div class="star_red">*</div>--%>栏目类型：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>栏目类型：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
                 <select id="threeType" name="threeArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="threeTypeInfo()">
                 </select>
@@ -400,7 +400,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="four">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><%--<div class="star_red">*</div>--%>采购方式：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购方式：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
                 <select id="fourType" name="fourArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="fourTypeInfo()">
                 </select>
