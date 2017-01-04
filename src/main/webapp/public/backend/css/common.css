@@ -900,3 +900,13 @@ a.redhover:hover{
     line-height: 35px;
     padding: 20px;
 }
+
+.release{
+	text-align: left;
+	padding-left: 20px!important;
+}
+
+.release ul{
+    margin: 0;
+    padding: 0;
+}

@@ -321,7 +321,7 @@
                   <input type="hidden" name="status" value="${article.status }">已撤回
                 </c:if>
               </td>
-              <td class="tl pl20">
+              <td class="release">
                 <u:show showId="${article.groupShow}" groups="${article.groupsUploadId}" delete="false" businessId="${article.id }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
               </td>
             </tr>
