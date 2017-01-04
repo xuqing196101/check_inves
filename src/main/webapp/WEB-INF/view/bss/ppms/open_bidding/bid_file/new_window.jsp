@@ -127,17 +127,17 @@
 </head>
 <body class="announce">
 <!-- 表格开始-->
-   <div class="col-md-6 col-sm-8 col-xs-10 col-md-offset-4 col-sm-offset-2 project_name">
+   <div class="col-md-6 col-sm-8 col-xs-10 col-md-offset-4 col-sm-offset-2 project_name kaibiao_window">
 	   <div class="col-md-12 col-sm-12 col-xs-12">项目名称：${project.name}</div>
 	   <div class="col-md-12 col-sm-12 col-xs-12">项目编号：${project.projectNumber}</div>
    </div>
-   <div class="kaibiao_time col-md-6 col-sm-8 col-xs-10 col-md-offset-4 col-sm-offset-2">
-       <span id="showH" class="col-md-12 col-sm-12 col-xs-12 kb_title"><span class="time">距离</span>开标时间还有：</span>
+   <div class="kaibiao_time col-md-6 col-sm-8 col-xs-10 col-md-offset-4 col-sm-offset-2 kaibiao_all">
+       <div id="showH" class="col-md-12 col-sm-12 col-xs-12 kb_title"><span class="time">距离</span>开标时间还有：</div>
        <div  id="showTime" class="col-md-12 col-xs-12 col-sm-12"></div>
    </div>
     <div id="showDiv" class="clear hide">
 	  <input type="hidden" id ="projectId" value="${project.id}" />
-	 <div class="tc col-md-12 col-sm-12 col-xs-12">
+	 <div class="tc col-md-12 col-sm-12 col-xs-12 kaibiao_btn">
 	 	<button class="btn hand" onclick="changtotal(this)">唱总价</button>
 	 	<button class="btn hand" onclick="changmingxi(this)">唱明细</button>
 	 </div>
