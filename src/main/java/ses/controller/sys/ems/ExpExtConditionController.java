@@ -125,12 +125,11 @@ public class ExpExtConditionController extends BaseController {
             if(province != null && !"".equals(province)){
 
               List<Area> findAreaByParentId = areaService.findAreaByParentId(province);
-              Integer size = findAreaByParentId.size();
-              String[] address = new String[size];
-              for (int i = 0; i < size; i++ ) {
-                address[i] = findAreaByParentId.get(i).getId();
+              String address = "";
+              for (int i = 0; i < findAreaByParentId.size(); i++ ) {
+               address += findAreaByParentId.get(i).getId() + ",";
               }
-              condition.setAddressSplit(address);
+              condition.setAddress(address);
 
 
             }

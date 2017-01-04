@@ -47,4 +47,14 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 	    return supplierMatSeMapper.getMatSeBySupplierId(supplierId);
 	}
 
+    @Override
+    public String getMatSeIdBySupplierId(String supplierId) {
+        SupplierMatServe server = supplierMatSeMapper.getMatSeBySupplierId(supplierId);
+        if (server != null) {
+            return server.getId();
+        } else {
+            return null;
+        }
+    }
+
 }

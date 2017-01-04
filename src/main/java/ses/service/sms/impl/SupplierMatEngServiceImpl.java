@@ -48,4 +48,14 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 	    return  supplierMatEngMapper.getMatEngBySupplierId(supplierId);
 	}
 
+    @Override
+    public String getMatEngIdBySupplierId(String supplierId) {
+        SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplierId);
+        if (eng != null) {
+            return eng.getId();
+        } else {
+            return null;
+        }
+    }
+
 }

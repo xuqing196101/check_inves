@@ -614,7 +614,12 @@ import ses.util.WfUtil;
        supplierTypeRelateService.saveSupplierTypeRelate(supplier);
      }
      //model.addAttribute("currSupplier", supplier);
-     return supplierMatProService.getMatProIdBySupplierId(supplier.getId());
+     StringBuffer idSb = new StringBuffer();
+     idSb.append(supplierMatProService.getMatProIdBySupplierId(supplier.getId()) + ",");
+     idSb.append(supplierMatSellService.getMatSellIdBySupplierId(supplier.getId()) + ",");
+     idSb.append(supplierMatEngService.getMatEngIdBySupplierId(supplier.getId()) + ",");
+     idSb.append(supplierMatSeService.getMatSeIdBySupplierId(supplier.getId()) + ",");
+     return idSb.toString();
    }
 
    /**
@@ -1826,7 +1831,22 @@ import ses.util.WfUtil;
      }
      return list;
    }
-
+   
+   /**
+    *〈简述〉去重
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param list
+    */
+   public void removeSame(List<Category> list) {
+       for (int i = 0; i < list.size() - 1; i++) {
+           for (int j = list.size() - 1; j > i; j--) {
+               if (list.get(j).getId().equals(list.get(i).getId())) {
+                   list.remove(j);
+               }
+           }
+       }
+    }
 
    /**
     * 
@@ -1849,10 +1869,10 @@ import ses.util.WfUtil;
      //合同
      String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
      String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-     String id3 = DictionaryDataUtil.getId("CATEGORY_THRE_YEAR");
+     String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
      //账单
-     String id4 = DictionaryDataUtil.getId("CATEGORY_ONE_BIL");
-     String id5 = DictionaryDataUtil.getId("CATEGORY_TWO_BIL");
+     String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+     String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
      String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
      int count=0;
      StringBuffer sbUp=new StringBuffer("");
@@ -1865,18 +1885,22 @@ import ses.util.WfUtil;
      for(String type:strs){
        if(type.equals("PRODUCT")){
          List<Category> list = supplierItemService.getCategory(supplierId,"PRODUCT");
+         removeSame(list);
          product.addAll(list);
        }
        if(type.equals("SALES")){
          List<Category> list = supplierItemService.getCategory(supplierId,"SALES");
+         removeSame(list);
          sale.addAll(list);
        }
        if(type.equals("PROJECT")){
          List<Category> list = supplierItemService.getCategory(supplierId,"PROJECT");
+         removeSame(list);
          project.addAll(list);
        }
        if(type.equals("SERVICE")){
          List<Category> list = supplierItemService.getCategory(supplierId,"SERVICE");
+         removeSame(list);
          server.addAll(list);
        }
      }

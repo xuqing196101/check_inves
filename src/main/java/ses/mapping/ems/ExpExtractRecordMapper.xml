@@ -222,6 +222,7 @@
 		<if test="id != null and id !='' ">
 			AND ID = #{id,jdbcType=VARCHAR}
 		</if>
+		ORDER BY CREATED_AT DESC
 	</select>
 
 	

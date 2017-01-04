@@ -929,10 +929,13 @@ public class ExpertAuditController {
 	        
 	        //未通过审核的字段
 	        List<ExpertAudit> reasonsList = expertAuditService.getListByExpertId(expert.getId());
+	        dataMap.put("reasonsList", reasonsList);
+	        
 	        boolean idCard = true;
 	        boolean armyIdCard = true;
 	        boolean qualification = true;
 	        boolean academicDegree = true;
+	        boolean coverNote = true;
 	        if(!reasonsList.isEmpty()){
 	        	for(ExpertAudit e : reasonsList){
 		        	if(e.getAuditField().equals("居民身份证")){
@@ -942,13 +945,19 @@ public class ExpertAuditController {
 		        	}
 		        }
 				
-		        for(ExpertAudit e : reasonsList){
-		        	if(e.getAuditField().equals("军队人员身份证件")){
-		        		dataMap.put("armyIdCard", "否");
-		        		armyIdCard = false;
-		        		break;
-		        	}
-		        }
+	        	if(expertsForm.getName().equals("军队") && expert.getExpertsFrom() != null){
+	        		for(ExpertAudit e : reasonsList){
+			        	if(e.getAuditField().equals("军队人员身份证件")){
+			        		dataMap.put("armyIdCard", "否");
+			        		armyIdCard = false;
+			        		break;
+			        	}
+			        }
+	        	}else{
+	        		dataMap.put("armyIdCard", "无");
+	        		armyIdCard = false;
+	        	}
+		        
 		        
 		        for(ExpertAudit e : reasonsList){
 		        	if(e.getAuditField().equals("技术职称/执业资格证书")){
@@ -965,6 +974,18 @@ public class ExpertAuditController {
 		        		break;
 		        	}
 		        }
+		        if(expertsForm.getName().equals("地方") && expert.getExpertsFrom() != null){
+			        for(ExpertAudit e : reasonsList){
+			        	if(e.getAuditField().equals("社保证明")){
+			        		dataMap.put("coverNote", "否");
+			        		coverNote = false;
+			        		break;
+			        	}
+			        }
+		        }else{
+		        	dataMap.put("coverNote", "无");
+		        	coverNote = false;
+		        }
 	        }
 	        
 	        if(idCard){
@@ -979,7 +1000,9 @@ public class ExpertAuditController {
 	        if(academicDegree){
 	        	dataMap.put("academicDegree", "是");
 	        }
-	        
+	        if(coverNote){
+	        	dataMap.put("coverNote", "是");
+	        }
 	        
 	        String fileName = new String(("军队采购评审专家入库审核表.doc").getBytes("UTF-8"), "UTF-8");
 	        /** 生成word 返回文件名 */

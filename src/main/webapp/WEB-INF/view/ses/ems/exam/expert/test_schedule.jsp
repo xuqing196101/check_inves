@@ -7,6 +7,17 @@
 	</head>
 
 	<body>
+  <!--面包屑导航开始-->
+  <div class="margin-top-10 breadcrumbs ">
+    <div class="container">
+	  <ul class="breadcrumb margin-left-0">
+	    <li><a href="javascript:void(0)">首页</a></li>
+		<li><a href="javascript:void(0)">考试系统</a></li>
+		<li><a href="javascript:void(0)">考试安排</a></li>
+	  </ul>
+	  <div class="clear"></div>
+    </div>
+  </div>
 		<div class="container">
 			<div class="headline-v2">
 				<h2>考试安排</h2>

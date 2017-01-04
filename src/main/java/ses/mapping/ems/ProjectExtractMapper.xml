@@ -360,7 +360,7 @@
 		FROM
 		T_SES_EMS_EXPERT
 		WHERE
-		EXPERTS_TYPE_ID = #{typeId}
+		EXPERTS_TYPE_ID = #{typeId} AND OPERATING_TYPE = 0
 		) )
 	</select>
 

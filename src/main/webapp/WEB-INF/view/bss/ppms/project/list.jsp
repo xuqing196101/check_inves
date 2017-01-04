@@ -85,7 +85,7 @@
         window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
       } else if (status == "已立项，待分包") {
         $.ajax({
-          url : "${pageContext.request.contextPath}/project/viewPackage.html",
+          url : "${pageContext.request.contextPath}/project/viewPackages.html",
           data : "id=" + id,
           type : "post",
           dataType : "json",
@@ -100,12 +100,12 @@
                 shift : 1, //0-6的动画形式，-1不开启
                 shadeClose : true,
                 content : '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
-              });
+              })
             }else if(result==1){
-              layer.alert("项目中有明细尚未分包", {
-                offset: ['30%', '40%']
-              });
-              $(".layui-layer-shade").remove();
+            	layer.alert("项目中有明细尚未分包,请进修改页面进行分包", {
+								offset: ['30%', '40%'],
+							});
+							$(".layui-layer-shade").remove();
             }
           }
         });
@@ -282,9 +282,9 @@
 			    	<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
 			  	</td>
 			  	<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  	<td onclick="view('${obj.id}')">${obj.name}</td>
-			  	<td onclick="view('${obj.id}')">${obj.projectNumber}</td>
-			  	<td onclick="view('${obj.id}')">
+			  	<td class="tl pl20" onclick="view('${obj.id}')">${obj.name}</td>
+			  	<td class="tl pl20" onclick="view('${obj.id}')">${obj.projectNumber}</td>
+			  	<td class="tc " onclick="view('${obj.id}')">
 					  	<c:forEach items="${kind}" var="kind" >
 	               <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
 	            </c:forEach>

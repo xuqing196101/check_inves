@@ -740,6 +740,10 @@
 	<if test="isCollect != null">
 		IS_COLLECT = #{isCollect}
 	</if>
+	<if test="auditDate != null">
+		AUDIT_DATE = #{auditDate}
+	 </if>
+	
 	</set>	
 		where HISTORY_STATUS='0' and UNIQUE_ID =#{uniqueId}
 		

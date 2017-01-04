@@ -508,8 +508,10 @@ public class ArticleServiceImpl implements ArticleService {
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return articleMapper.selectAllByTabss(map);
 	}
+
+	@Override
+	public BigDecimal selectAllByTimer(Map<String, Object> map) {
+		return articleMapper.selectAllByTimer(map);
+	}
     
-    
-	
-	
 }

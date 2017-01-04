@@ -10,13 +10,11 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -40,11 +38,8 @@ import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
-import ses.model.ems.ProExtSupervise;
-import ses.model.ems.ProjectExtract;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierConType;
@@ -53,7 +48,6 @@ import ses.model.sms.SupplierExtPackage;
 import ses.model.sms.SupplierExtRelate;
 import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
-import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -173,14 +167,14 @@ public class SupplierExtractsController extends BaseController {
    * @return String
    */
   @RequestMapping("/projectList")
-  public String list(Integer page, Model model, Project project){
+  public String list(Integer page, Model model, Project project,String typeclassId){
     List<Project> list = projectService.provisionalList(page == null?1:page, project);
     List<DictionaryData> find = DictionaryDataUtil.find(5);
     PageInfo<Project> info = new PageInfo<>(list);
     model.addAttribute("info", info);
     model.addAttribute("projects", project);
     model.addAttribute("kind", find);
-
+    model.addAttribute("typeclassId", typeclassId);
     return "ses/sms/supplier_extracts/project_list";
   }
   /**
@@ -556,7 +550,7 @@ public class SupplierExtractsController extends BaseController {
   @RequestMapping("/extractCondition")
   public String extractCondition(HttpServletRequest sq, Model model,String cId){
     Map<String, Integer> mapcount = new HashMap<String, Integer>();
-    User user = (User) sq.getSession().getAttribute("loginUser");
+//    User user = (User) sq.getSession().getAttribute("loginUser");
     List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(cId), "");
     if (list == null || list.size() == 0){
       //            extRelateService.insert(cId, user != null && !"".equals(user.getId()) ? user.getId() : "", null, cId);
@@ -673,7 +667,7 @@ public class SupplierExtractsController extends BaseController {
           int i = 0;
           String  supplierType= supplierTypeRelateService.findBySupplier(list.get(0).getSupplierId());
           String[] split = supplierType.split(",");
-          if(split.length > 0 ){
+          if(split.length > 1 ){
             int max=split.length-1;
             int min=0;
             Random random = new Random();
@@ -695,7 +689,7 @@ public class SupplierExtractsController extends BaseController {
         extConType1.setAlreadyCount(list == null ? 0 : list.size());
         //删除满足数量的
         if(list.size() >= extConType1.getSupplierCount()){
-          expertTypeIds += extConType1.getSupplierCount() + ",";
+          expertTypeIds += extConType1.getSupplierType() + ",";
         }
       }
       if (expertTypeIds != null && !"".equals(expertTypeIds)){

@@ -18,7 +18,8 @@ public class AdvancedProject {
     private String projectNumber; //项目编号
 
     private String status; //状态
-
+    
+    @NotBlank(message="不能为空")
     private String principal; //项目负责人
 
     private String ipone; // 项目负责人联系电话

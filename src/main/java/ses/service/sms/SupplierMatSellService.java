@@ -15,4 +15,6 @@ public interface SupplierMatSellService {
 	 * @return
 	 */
 	public SupplierMatSell getMatSell(String supplierId);
+
+    public String getMatSellIdBySupplierId(String supplierId);
 }

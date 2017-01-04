@@ -81,7 +81,7 @@
 		  <th class="info w50">序号</th>
 		  <th class="info">下达状态</th>
 		  <th class="info">采购计划名称</th>
-		  <th class="info">物资类别</th>
+		  <th class="info">采购类别</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
@@ -89,7 +89,7 @@
 			  <td class="tc w30"><input  type="radio" value="${obj.id }" name="chkItem"> <input type="hidden" value="${obj.goodsType}"> </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			    <td class="tl pl20"  >
-			    <c:if test="${obj.status ==1}">
+			    <c:if test="${obj.status !=2}">
 			    	未下达
 			    </c:if>
 			      <c:if test="${obj.status ==2}">
@@ -99,6 +99,8 @@
 			    </td>
 			    <td class="tl pl20"  >${obj.fileName }</td>
 			      <td class="tl pl20"  >
+			      ${obj.goodsType }
+			      
 					    <c:forEach items="${dicType }" var="mt">
 								<c:if test="${mt.id==obj.goodsType }"> ${mt.name} </c:if> 
 					    </c:forEach>

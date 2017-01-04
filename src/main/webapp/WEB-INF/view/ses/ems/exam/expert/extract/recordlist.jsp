@@ -217,7 +217,7 @@ $(function(){
 						<td class="tl pl20">${extract.projectName}</td>
 						<td class="tc"><fmt:formatDate
 								value="${extract.extractionTime}" pattern="yyyy年MM月dd日   " /></td>
-						<td class="tc">${extract.extractionSites }</td>
+						<td >${extract.extractionSites }</td>
 						<td class="tc"><c:if test="${extract.extractTheWay==1}">
 				             	             人工抽取
 					        </c:if> <c:if test="${extract.extractTheWay==2}">

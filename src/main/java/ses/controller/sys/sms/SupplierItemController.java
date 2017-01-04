@@ -157,6 +157,8 @@ public class SupplierItemController extends BaseController{
 		removeSame(list2);
 		//根据品目id查询所有的证书信息
 	   List<QualificationBean> list3 = supplierService.queryCategoyrId(list2, 2);
+	   
+	   
  
 		//查询所有的三级品目销售
 		List<Category> listSlae = getSale(supplier.getId(),supplierTypeIds);
@@ -252,6 +254,8 @@ public class SupplierItemController extends BaseController{
 		model.addAttribute("saleQua", saleQua);
 		model.addAttribute("projectQua", projectQua);
 		model.addAttribute("serviceQua", serviceQua);
+		
+		model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
 //		model.addAttribute("len", len);
 		
 		
@@ -401,7 +405,6 @@ public class SupplierItemController extends BaseController{
 	                   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 	    		       for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
-	    		    	 cate.setId(c.getCategoryId());
 	    		    	 categoryList.add(cate);
 	    	             }
 	                 }
@@ -427,7 +430,6 @@ public class SupplierItemController extends BaseController{
 	              }
 		      }
 		}
-		
 		return categoryList;
 	}
 	
@@ -446,7 +448,6 @@ public class SupplierItemController extends BaseController{
 	    		      for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
 	    		    	 categoryList.add(cate);
-	    		 
 	    	            }
 	             }
 		    }

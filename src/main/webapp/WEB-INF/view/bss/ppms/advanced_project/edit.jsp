@@ -166,7 +166,7 @@
       <ul class="ul_list">
       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
         <input type="hidden" id="id" name="id" value="${project.id}" /> 
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目名称</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目名称</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
         <input type="text" id="jname" name="name" class="input_group" value="${project.name}" /> 
         <span class="add-on">i</span>
@@ -174,7 +174,7 @@
         </div>
       </li>
       <li class="col-md-3 col-sm-6 col-xs-12">
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目编号</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目编号</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
         <input type="text" id="projectNumber" maxlength="20" name="projectNumber" onblur="verify();" class="input_group" value="${project.projectNumber}" /> 
         <span class="add-on">i</span>
@@ -268,10 +268,10 @@
       </div>
       </div>
     </div>
-    <div class="col-md-12 tc">
-    <button class="btn" type="button" onclick="subPackage()">分包</button>
-    <button class="btn btn-windows git" type="button" onclick="edit()">修改</button>
-    <button class="btn btn-windows back" type="button" onclick="goBack();">返回</button>
+    <div class="col-md-12 tc col-xs-12 col-sm-12 mt20">
+	    <button class="btn" type="button" onclick="subPackage()">分包</button>
+	    <button class="btn btn-windows save" type="button" onclick="edit()">保存</button>
+	    <button class="btn btn-windows back" type="button" onclick="goBack();">返回</button>
     </div>
     </sf:form>
   </div>

@@ -74,11 +74,7 @@
 				  <tr class="pointer">
 					<td class="tc w50">${obj.seq}</td>
 					 <td class="tl pl20">
-					 <c:forEach items="${list2}" var="list">
-					 <c:if test="${list.id == obj.department}"> 
-					     ${list.name}
-					 </c:if>
-					 </c:forEach>
+					     ${obj.department}
 					 </td>
 					 <td class=" tl pl20">${obj.goodsName}</td>
 					 <td class=" tl pl20">${obj.stand}</td>
@@ -104,7 +100,6 @@
 				  </c:if>
 				  <c:if test="${list != null}">
 				    <c:forEach items="${list}" var="obj" varStatus="vs">
-				    <c:if test="${list.organization eq user}">
           <tr style="cursor: pointer;">
           <td class="tc w50">${obj.serialNumber}</td>
            <td class="tc">
@@ -133,7 +128,6 @@
            <td class="tc">${obj.useUnit}</td>
            <td class="tc">${obj.memo}</td>
           </tr>
-          </c:if>
           </c:forEach> 
 				  </c:if>
                 </table>

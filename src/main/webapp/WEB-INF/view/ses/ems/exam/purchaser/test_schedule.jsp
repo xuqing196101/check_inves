@@ -31,6 +31,17 @@
 	</head>
 
 	<body>
+  <!--面包屑导航开始-->
+  <div class="margin-top-10 breadcrumbs ">
+    <div class="container">
+	  <ul class="breadcrumb margin-left-0">
+	    <li><a href="javascript:void(0)">首页</a></li>
+		<li><a href="javascript:void(0)">考试系统</a></li>
+		<li><a href="javascript:void(0)">考试安排</a></li>
+	  </ul>
+	  <div class="clear"></div>
+    </div>
+  </div>
 		<div class="container">
 			<div class="headline-v2">
 				<h2>考试安排</h2>
@@ -50,13 +61,13 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${testSchedule.list }" var="test" varStatus="vs">
-							<tr class="tc">
-								<td>${(vs.index+1)+(testSchedule.pageNum-1)*(testSchedule.pageSize)}</td>
-								<td>${test.name }</td>
-								<td>${test.code }</td>
-								<td>${test.startDate }</td>
-								<td>${test.offDate }</td>
-								<td>${test.testTime }分钟</td>
+							<tr>
+								<td class="tc">${(vs.index+1)+(testSchedule.pageNum-1)*(testSchedule.pageSize)}</td>
+								<td class="pl20">${test.name }</td>
+								<td class="pl20">${test.code }</td>
+								<td class="tc">${test.startDate }</td>
+								<td class="tc">${test.offDate }</td>
+								<td class="tc">${test.testTime }分钟</td>
 							</tr>
 						</c:forEach>
 					</tbody>

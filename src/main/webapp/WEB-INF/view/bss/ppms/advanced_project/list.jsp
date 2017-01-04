@@ -88,7 +88,7 @@
       } 
       if (status == "已立项，待分包") {
         $.ajax({
-          url : "${pageContext.request.contextPath}/advancedProject/viewPackage.html",
+          url : "${pageContext.request.contextPath}/advancedProject/viewPackages.html",
           data : "id=" + id,
           type : "post",
           dataType : "json",
@@ -105,7 +105,7 @@
                 content : '${pageContext.request.contextPath}/advancedProject/startProject.html?id=' + id,
               });
             }else if(result==1){
-              layer.alert("项目中有明细尚未分包", {
+              layer.alert("项目中有明细尚未分包,请进维护页面进行分包", {
                 offset: ['30%', '40%'],
               });
               $(".layui-layer-shade").remove();
@@ -205,9 +205,9 @@
 		      <input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }" /> 
 		    </span>
 		  </li>
-		  <button class="btn" type="submit">查询</button>
-	      <button type="reset" class="btn" onclick="clearSearch();">重置</button>
 		</ul>
+		  <button class="btn fl mt1" type="submit">查询</button>
+	      <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
 		<div class="clear"></div>
 	  </form>
     </h2>

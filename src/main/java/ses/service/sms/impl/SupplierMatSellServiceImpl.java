@@ -48,5 +48,15 @@ public class SupplierMatSellServiceImpl implements SupplierMatSellService {
 	    SupplierMatSell sale = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
 	    return sale;
 	}
+
+    @Override
+    public String getMatSellIdBySupplierId(String supplierId) {
+        SupplierMatSell sell = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
+        if (sell != null) {
+            return sell.getId();
+        } else {
+            return null;
+        }
+    }
 	
 }

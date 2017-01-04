@@ -103,13 +103,14 @@
   	}
     function save(){
     	var id=[]; 
+    	
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(packageIds.length==0){
 		     layer.alert("请选择包",{offset: ['222px', '390px'], shade:0.01});
 		     return;
-		}
+		}  
 		/* if(id.length==1){
 			 $.post("${pageContext.request.contextPath}/resultAnnouncement/view.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
 					  function(data){

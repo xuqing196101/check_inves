@@ -1379,22 +1379,29 @@ public class SupplierAuditController extends BaseSupplierController{
 
 		//查询所有的三级品目生产
 		List<Category> list2 = getSupplier(supplierId,supplierTypeIds);
+		removeSame(list2);
 		
 		//根据品目id查询所有的证书信息
 		List<QualificationBean> list3 = supplierService.queryCategoyrId(list2, 2);
 	 
 		//查询所有的三级品目销售
 		List<Category> listSlae = getSale(supplierId,supplierTypeIds);
+		removeSame(listSlae);
+		
 		//根据品目id查询所有的证书信息
 	    List<QualificationBean> saleQua= supplierService.queryCategoyrId(listSlae, 3);
-		   
+	    
 	    //查询所有的三级目录工程
 	    List<Category> listProject = getSale(supplierId,supplierTypeIds);
+	    removeSame(listProject);
+	    
 	    //根据品目id查询所有的工证书
 	    List<QualificationBean> projectQua= supplierService.queryCategoyrId(listProject, 1);
 	   
 	    //查询所有的三级品目服务
 	    List<Category> listService = getSale(supplierId,supplierTypeIds);
+	    removeSame(listService);
+	    
 		//根据品目id查询所有的服务证书信息
 	    List<QualificationBean> serviceQua= supplierService.queryCategoyrId(listService, 1);
 	   
@@ -1469,6 +1476,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	   model.addAttribute("saleQua", saleQua);
 	   model.addAttribute("projectQua", projectQua);
 	   model.addAttribute("supplierId", supplierId);
+	   model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
 	   return "ses/sms/supplier_audit/aptitude";
 	}
 	
@@ -1604,18 +1612,22 @@ public class SupplierAuditController extends BaseSupplierController{
 		  for(String type:strs){
 			  if(type.equals("PRODUCT")){
 				  List<Category> list = supplierItemService.getCategory(supplierId,"PRODUCT");
+				  removeSame(list);
 				  product.addAll(list);
 			  }
 			  if(type.equals("SALES")){
 				  List<Category> list = supplierItemService.getCategory(supplierId,"SALES");
+				  removeSame(list);
 				  sale.addAll(list);
 			  }
 			  if(type.equals("PROJECT")){
 				  List<Category> list = supplierItemService.getCategory(supplierId,"PROJECT");
+				  removeSame(list);
 				  project.addAll(list);
 			  }
 			  if(type.equals("SERVICE")){
 				  List<Category> list = supplierItemService.getCategory(supplierId,"SERVICE");
+				  removeSame(list);
 				  server.addAll(list);
 			  }
 		  }
@@ -1853,4 +1865,22 @@ public class SupplierAuditController extends BaseSupplierController{
 	    
 	    return JSON.toJSONString(treeList);
 	}
+	
+	/**
+	 * @Title: removeSame
+	 * @author XuQing 
+	 * @date 2017-1-4 下午7:23:33  
+	 * @Description:去重
+	 * @param @param list      
+	 * @return void
+	 */
+   public void removeSame(List<Category> list) {
+       for (int i = 0; i < list.size() - 1; i++) {
+           for (int j = list.size() - 1; j > i; j--) {
+               if (list.get(j).getId().equals(list.get(i).getId())) {
+                   list.remove(j);
+               }
+           }
+       }
+    }
 }

@@ -239,6 +239,7 @@
 				AND SS.SUPPLIER_NAME LIKE '%${supplier.supplierName}%'
 			</if>
 		</if>
+		  ORDER BY pe.CREATED_AT DESC
 	</select>
 	<!-- 删除重复数据 -->
 	<delete id="deleteData" parameterType="Map">
@@ -315,8 +316,8 @@
 		SUPPLIER_ID IN
 		(
 		SELECT SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_TYPE_RELATE WHERE
-		SUPPLIER_TYPE_ID = ${typeId}
-		) )
+		SUPPLIER_TYPE_ID = ${typeId}  
+		) AND OPERATING_TYPE = 0 )
 	</select>
 
 	<!-- 删除未抽取的的数据 -->

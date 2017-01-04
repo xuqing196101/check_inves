@@ -1281,7 +1281,7 @@ function deleteFinance() {
 		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">
 		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">*</i>营业范围（按照营业执照上填写）</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
-			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80" title="不超过80个字" name="businessScope">${currSupplier.bankName}</textarea>
+			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80" title="不超过80个字" name="businessScope">${currSupplier.businessScope}</textarea>
 	       	    </div>
 			</li>
 		  </ul> 

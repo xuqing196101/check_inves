@@ -345,4 +345,6 @@ public interface ArticleService {
     List<Article> selectByJurisDiction(Map<String,Object> map);
     
     List<Article> selectAllByTabss(Map<String, Object> map);
+    
+    BigDecimal selectAllByTimer(Map<String, Object> map);
 }

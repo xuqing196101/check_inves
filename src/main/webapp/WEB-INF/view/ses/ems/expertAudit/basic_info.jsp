@@ -288,7 +288,7 @@
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">社保证明：</span>
               	<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
               		<up:show showId="show1" groups="show1,show2,show3,show4,show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
-           				<a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
+           				<a style="visibility:hidden" id="coverNoteFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
             		</div>
             	<li>
 						</c:if>

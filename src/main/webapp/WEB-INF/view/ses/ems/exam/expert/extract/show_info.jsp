@@ -20,6 +20,31 @@
 </script>
 </head>
 <body>
+    <!--面包屑导航开始-->
+    <c:if test="${typeclassId!=null && typeclassId !=''  }">
+      <div class="margin-top-10 breadcrumbs ">
+        <div class="container">
+          <ul class="breadcrumb margin-left-0">
+            <li>
+              <a href="#"> 首页</a>
+            </li>
+            <li>
+              <a href="#">支撑环境系统</a>
+            </li>
+            <li>
+              <a href="#">专家管理</a>
+            </li>
+            <li>
+              <a href="#">专家抽取</a>
+            </li>
+            <li class="active">
+              <a href="#">专家抽取列表</a>
+            </li>
+          </ul>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </c:if>
 	<!-- 修改订列表开始-->
 	<div class="container">
 		<div>
@@ -114,6 +139,9 @@
 						<td colspan="9" align="center" class="bggrey">抽取人员</td>
 					</tr>
 					<tr>
+					<td colspan="9" >
+					 <table class="table table-bordered table-condensed">
+					<tr>
 						<td align="center">序号</td>
 						<td align="center">姓名</td>
 						  <td align="center">手机号</td>
@@ -131,29 +159,37 @@
 						<td align="center">军23衔</td>
 						<td colspan="2" align="center"></td>
 					</tr>
+					 </table>
+					</td>
+				</tr>
 					<tr>
 						<td colspan="9" align="center" class="bggrey">监督人员</td>
 					</tr>
 					<tr>
-						<td align="center">序号</td>
-						<td align="center">姓名</td>
-						<td align="center">单位</td>
-						<td align="center">手机号</td>
-						<td align="center">职务</td>
-						<td colspan="2" align="center">签字</td>
-					</tr>
-					<c:forEach items="${listUser}" var="tuser" varStatus="vs">
+					<td colspan="9">
+					 <table class="table table-bordered table-condensed">
 						<tr>
-							<td align="center">${vs.index+1 }</td>
-							<td align="center">${tuser.relName}</td>
-              <td align="center">${tuser.relName}</td>
-              <td align="center">${tuser.company}</td>
-              <td align="center">${tuser.phone}</td>
-              <td align="center">${tuser.duties}</td> 
-              <td colspan="2" align="center"></td>
+							<td align="center">序号</td>
+							<td align="center">姓名</td>
+							<td align="center">单位</td>
+							<td align="center">手机号</td>
+							<td align="center">职务</td>
+							<td colspan="2" align="center">签字</td>
 						</tr>
-					</c:forEach>
-				</table>
+						<c:forEach items="${listUser}" var="tuser" varStatus="vs">
+							<tr>
+								<td align="center">${vs.index+1 }</td>
+								<td align="center">${tuser.relName}</td>
+	              <td align="center">${tuser.company}</td>
+	              <td align="center">${tuser.phone}</td>
+	              <td align="center">${tuser.duties}</td> 
+	              <td colspan="2" align="center"></td>
+							</tr>
+						</c:forEach>
+						  </table>
+					</td>
+					</tr>
+			</table>
 			</div>
 		</div>
 		<div class="col-md-12">
