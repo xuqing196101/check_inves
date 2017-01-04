@@ -451,18 +451,23 @@
 											</td>
 											<td><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }" readonly="readonly" class="w100"></td>
 											<td>
+											<c:if test="${obj.purchaseCount!=null }"> 
 												<select name="list[${vs.index }].purchaseType" >
 													<c:forEach items="${mType }" var="mt">
 														<option value="${mt.id }" <c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 													</c:forEach>
 												</select>
+												
+											</c:if>	
 											</td>
 											<td class="tc">
+											<c:if test="${obj.purchaseCount!=null }"> 
 												<select class="org" name="list[${vs.index }].organization">
 													<c:forEach items="${org }" var="ss">
 														<option value="${ss.name }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 													</c:forEach>
 												</select>
+										    </c:if>
 											</td>
 											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
 											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>

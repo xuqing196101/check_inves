@@ -116,19 +116,25 @@ public class PlanLookController extends BaseController {
 	
 	
 	@RequestMapping("/view1")
-    public String view1(String id, Model model){
-        List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
+    public String view1(String id, Model model,HttpServletRequest request){
+//        List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
         List<String> list = conllectPurchaseService.getNo(id);
-        if(list != null && list.size() > 0){
-            for(String s:list){
-                Map<String,Object> map=new HashMap<String,Object>();
-                map.put("planNo", s);
-                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-                listp.addAll(list2);
-            }
-        }
-        model.addAttribute("list", listp);
+ 
         
+	List<PurchaseRequired> listp = collectPlanService.getAll(id,request);
+		
+		model.addAttribute("list", listp);
+		
+		
+		HashMap<String,Object> maps=new HashMap<String,Object>();
+		maps.put("typeName", 1);
+		List<Orgnization> orga = orgnizationServiceI.findOrgnizationList(maps);
+		
+		
+	      model.addAttribute("orga", orga);	
+	      
+	      
+		
         Set<String> set = new HashSet<String>();
         //List<PurchaseRequired> lista=new LinkedList<PurchaseRequired>();
         List<String> lists = conllectPurchaseService.getNo(id);
@@ -144,8 +150,8 @@ public class PlanLookController extends BaseController {
             }
         }
             model.addAttribute("set", set);
-       
         
+            request.getSession().removeAttribute("NoCount");
         return "bss/pms/collect/plan_views";
     }
 	
@@ -190,48 +196,27 @@ public class PlanLookController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/print")
-	public String print(String id,Model model){
-		List<String> no = collectPurchaseService.getNo(id);
-		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
-		if(no!=null&&no.size()>0){
-			for(String s:no){
-				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
-				list.addAll(pur);
-			}
-		}
-		model.addAttribute("list", list);
-		List<PurchaseAudit> audits=new LinkedList<PurchaseAudit>();
+	public String print(String id,Model model,HttpServletRequest request){
+//		List<String> no = collectPurchaseService.getNo(id);
+//		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
+//		if(no!=null&&no.size()>0){
+//			for(String s:no){
+//				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
+//				list.addAll(pur);
+//			}
+//		}
+//		model.addAttribute("list", list);
 		
-		for(PurchaseRequired pr:list){
-			List<PurchaseAudit> audit = purchaseAuditService.queryByPid(pr.getId());
-			audits.addAll(audit);
-			}
-		//查询出所有审核参数
-				DictionaryData	dictionaryData=new DictionaryData();
-		/*		DictionaryData dd=new DictionaryData();
-				dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
-				dictionaryData.setParent(dd);*/
-				List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
-				List<AuditParam> all=new LinkedList<AuditParam>();
-				AuditParam auditParam=new AuditParam();
-				
-				List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
-				if(dic!=null&&dic.size()>0){
-					for(DictionaryData d:dic){
-						AuditParamBean s=new AuditParamBean();
-						auditParam.setDictioanryId(d.getId());
-						List<AuditParam> a = auditParameService.query(auditParam, 1);
-						all.addAll(a);
-						s.setId(d.getId());
-						s.setSize(a.size());
-						s.setName(d.getName());
-						bean.add(s);
-					}
-				}
-				model.addAttribute("bean", bean);	
-				model.addAttribute("all", all);	
-				model.addAttribute("audits", audits);
-				model.addAttribute("kind", DictionaryDataUtil.find(5));	
+		List<PurchaseRequired> list = collectPlanService.getAll(id,request);
+		
+		model.addAttribute("list", list);
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("typeName", 1);
+		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+		
+		
+	      model.addAttribute("org", org);	
+      model.addAttribute("kind", DictionaryDataUtil.find(5));	
 		return "bss/pms/collect/print";
 	}
 	
@@ -412,7 +397,11 @@ public class PlanLookController extends BaseController {
 		String id = request.getParameter("id");
 		CollectPlan plan = collectPlanService.queryById(id);
 		Integer status = plan.getStatus();
-		if (status==1) {
+		Integer turn = plan.getAuditTurn();
+		if(status==1&&turn!=null){
+			str = "2";
+		}
+		else if (status==1) {
 			str = "1";
 		}else{		
 			if(status==4||status==6){

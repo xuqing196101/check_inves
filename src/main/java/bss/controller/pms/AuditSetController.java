@@ -128,7 +128,13 @@ public class AuditSetController {
 		CollectPlan plan = collectPlanService.queryById(id);
 		String type = "";
 		String auditRound="";
-		if(plan.getStatus()==1){
+		if(plan.getStatus()==1&&plan.getAuditTurn()!=null){
+			plan.setStatus(3);
+			collectPlanService.update(plan);
+			type = DictionaryDataUtil.getId("SH_1");
+			auditRound="第一轮审核设置";
+		}
+		else if(plan.getStatus()==1){
 			type = request.getParameter("type");
 			String auditTurn = "";
 			auditTurn=DictionaryDataUtil.findById(type).getCode();

@@ -509,7 +509,7 @@
 				});
 			}
 			
-			function gtype(obj){
+		/* 	function gtype(obj){
 				var vals=$(obj).val();
 				if(vals == 'FC9528B2E74F4CB2A9E74735A8D6E90A'){
 					  $("#dnone").show();  
@@ -519,7 +519,7 @@
 				}
 				
 				$("#detailType").val(vals);
-			}
+			} */
 			
 		 function fileup(){
 			 
@@ -602,17 +602,27 @@
 												               +"  <td class='tc p0'>"
 												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data[i].isFreeTax)+"'/>"
 												               +"  </td>"
-												               +"  <td class='tc p0'>"
+												               +"  <td name='userNone'  class='tc p0'>"
 												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsUse' value='"+isValueLegal(data[i].goodsUse)+"'/>"
 												               +"  </td>"
-												               +"  <td class='tc p0'>"
+												               +"  <td name='userNone' class='tc p0'>"
 												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data[i].useUnit)+"'/>"
 												               +"  </td>"
 												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
+												              +"    <input style='border: 0px;' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
 												               +"  </td> <td class='tc w100 p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
 												               +"</tr>");
 									           }
+									           var bool=$("input[name='import']").is(':checked');
+												if(bool==true){
+													$("td[name='userNone']").attr("style","display:none");
+													$("th[name='userNone']").attr("style","display:none");
+												}else{
+													$("td[name='userNone']").attr("style","");
+													$("th[name='userNone']").attr("style","");
+												}
+												
+												
 							           layer.close(index);
 	                        	// eachData(json);
 	                           }
@@ -652,6 +662,18 @@
 			} */
 			
 			
+			
+			function imports(obj){
+				var bool=$(obj).is(':checked');
+				if(bool==true){
+					$("td[name='userNone']").attr("style","display:none");
+					$("th[name='userNone']").attr("style","display:none");
+				}else{
+					$("td[name='userNone']").attr("style","");
+					$("th[name='userNone']").attr("style","");
+				}
+				
+			}
 		</script>
 	</head>
 
@@ -723,9 +745,9 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" style="display:none" id="dnone" >
+					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
             <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <input type="checkbox" name="" onchange="" value="进口" />进口
+                <input type="checkbox" name="import" onchange="imports(this)" value="进口" />进口
             </div>
           </li>
           
@@ -775,8 +797,8 @@
 										<th class="">采购方式建议</th>
 										<th class="">供应商名称</th>
 										<th class="">是否申请办理免税</th>
-										<th class="">物资用途（仅进口）</th>
-										<th class="">使用单位（仅进口）</th>
+										<th name="userNone" class="">物资用途（仅进口）</th>
+										<th name="userNone" class="">使用单位（仅进口）</th>
 										<th class="">备注</th>
 										<!-- <th  style="width:300px;">附件</th> -->
 									<!-- 	<th class="w100">状态</th> -->
@@ -825,11 +847,11 @@
 										</td>
 										<td class="tc  p0"><input type="text" name="list[0].supplier" class="m0"></td>
 										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].useUnit" class="m0"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0"></td>
 										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0"></td>
 										<!-- <td class="tc w100 p0"></td> -->
-									<!-- 	<td class="tc w100 p0"></td> -->
+								<!--  <td class="tc w100 p0"></td> -->  
 										<td class="tc p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
 								</c:if>

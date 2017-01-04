@@ -612,6 +612,7 @@ public class PurchaseRequiredController extends BaseController{
 	    	p.setUniqueId(planNo);
 	    	p.setStatus("2");
 	    	p.setDetailStatus(0);
+	    	p.setAuditDate(new Date());
 	    	purchaseRequiredService.updateStatus(p);
 //	    	purchaseRequiredService.update(planNo, "2");
 	    	return "redirect:list.html";

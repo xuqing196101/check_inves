@@ -133,7 +133,8 @@ public class CollectPlanController extends BaseController {
     model.addAttribute("info", info);
     model.addAttribute("inf", collectPlan);
     model.addAttribute("type", type);
-    model.addAttribute("mType", DictionaryDataUtil.find(6));
+    List<DictionaryData> list2 = DictionaryDataUtil.find(6);
+    model.addAttribute("mType", list2);
 
     return "bss/pms/collect/contentlist";
   }
@@ -235,7 +236,6 @@ public class CollectPlanController extends BaseController {
 				p.setUniqueId(no);
 				p.setIsMaster(1);
 				List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
-//				p.setIsCollect(2);//修改
 				p.setStatus("5");//修改
 				p.setIsMaster(null);
 				purchaseRequiredService.updateStatus(p);
@@ -243,7 +243,9 @@ public class CollectPlanController extends BaseController {
 			}
 			BigDecimal budget=BigDecimal.ZERO;
 			for(PurchaseRequired pr:list){
-				budget=budget.add(pr.getBudget());
+				if(pr.getSeq().equals("一")){
+					budget=budget.add(pr.getBudget());
+				}
 			}
 			
 			BigDecimal decimal = plan.getBudget();
@@ -252,11 +254,7 @@ public class CollectPlanController extends BaseController {
 			plan.setBudget(budget2);
 			collectPlanService.update(plan);
 			
-//			PurchaseRequired p=new PurchaseRequired();
-//			p.setPlanNo(planNo);
-//			p.setIsCollect(2);//修改
-//			p.setStatus("5");//修改
-//			purchaseRequiredService.updateStatus(p);
+ 
 			
 			
 			return "";
