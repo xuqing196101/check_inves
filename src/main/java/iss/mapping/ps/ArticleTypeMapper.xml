@@ -90,7 +90,7 @@
     <include refid="ArticleType_Column_List" />
     from T_ISS_PS_ARTICLE_TYPE
     where PARENT_ID = #{parentId}
-    order by id
+    order by decode("NAME",'公开招标',0,'邀请招标',1,'竞争性谈判',2,'询价',3)
   </select>
   
   <select id="selectShowNumByParId" parameterType="java.lang.String" resultMap="ArticleTypeMapper">

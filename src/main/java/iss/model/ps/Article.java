@@ -155,6 +155,8 @@ public class Article{
     
     private String uploadId;
     
+    private Date submitAt;
+    
     /**
      * group
      */
@@ -453,6 +455,13 @@ public class Article{
 	public void setGroupShowId(String groupShowId) {
 		this.groupShowId = groupShowId;
 	}
-	
+
+	public Date getSubmitAt() {
+		return submitAt;
+	}
+
+	public void setSubmitAt(Date submitAt) {
+		this.submitAt = submitAt;
+	}
 	
 }

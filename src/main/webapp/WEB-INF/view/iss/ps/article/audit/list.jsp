@@ -121,7 +121,7 @@
       function search() {
         var kname = $("#kname").val();
         var parkId = $("#parkId  option:selected").val();
-        location.href = "${ pageContext.request.contextPath }/article/serch.html?kname=" + kname + "&articlestatus=1";
+        location.href = "${ pageContext.request.contextPath }/article/serch.html?kname=" + kname;
 
       }
 
@@ -251,9 +251,21 @@
                </select>
            </span>
             </li>
+            <li>
+              <label class="fl w100">状态：</label>
+              <span>
+              <select id ="status" name="status" class="w100">
+                <option></option>
+                <option value="1">待发布</option>
+                <option value="2">已发布</option>
+               </select>
+           </span>
+            </li>
           </ul>
+            <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
             <button type="submit" class="btn">查询</button>
             <button type="button" class="btn" onclick="resetQuery()">重置</button>
+          </div>
           <div class="clear"></div>
         </form>
       </div>
@@ -275,6 +287,7 @@
               <th class="info">序号</th>
               <th class="info">信息标题</th>
               <th class="info">发布范围</th>
+              <th class="info">提交时间</th>
               <th class="info">发布时间</th>
               <th class="info">信息栏目</th>
               <th class="info">发布状态</th>
@@ -302,6 +315,9 @@
                 <c:if test="${article.range=='2' }">
                   内网&外网
                 </c:if>
+              </td>
+              <td class="tc" onclick="view('${article.id }')">
+                <fmt:formatDate value='${article.submitAt }' pattern="yyyy-MM-dd   HH:mm:ss" />
               </td>
               <td class="tc" onclick="view('${article.id }')">
                 <fmt:formatDate value='${article.publishedAt }' pattern="yyyy-MM-dd   HH:mm:ss" />

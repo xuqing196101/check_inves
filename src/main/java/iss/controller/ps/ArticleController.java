@@ -274,6 +274,9 @@ public class ArticleController extends BaseSupplierController{
       article.setIsDeleted(0);
       article.setShowCount(0);
       article.setDownloadCount(0);
+      if(article.getStatus()==1){
+    	  article.setSubmitAt(new Date());
+      }
       articleService.addArticle(article);
       if(article.getStatus()==1){
     	  url = "redirect:getAll.html?news=0";
@@ -575,10 +578,13 @@ public class ArticleController extends BaseSupplierController{
     }else{
   	  article.setLastArticleTypeId(article.getFourArticleTypeId());
     }
+    if(article.getStatus()==1){
+  	  article.setSubmitAt(new Date());
+    }
     article.setUpdatedAt(new Date());
     articleService.update(article);
     String url="";
-    if(article.getStatus()=='1'){
+    if(article.getStatus()==1){
     	url = "redirect:getAll.html?news=0";
     }else{
     	url = "redirect:getAll.html?news=1";
@@ -676,13 +682,16 @@ public class ArticleController extends BaseSupplierController{
 
     HashMap<String,Object> map = new HashMap<String,Object>();
 
-    map.put("status",status);
+   // map.put("status",status);
 
     if(name!=null && !name.equals("")){
       map.put("name","%"+name+"%");
     }
     if(range!=null && !range.equals("")){
       map.put("range",range);
+    }
+    if(status!=null && !status.equals("")){
+        map.put("status",status);
     }
 
     if(articleTypeId!=null && !articleTypeId.equals("")){
@@ -752,6 +761,7 @@ public class ArticleController extends BaseSupplierController{
   public String sumbit(HttpServletRequest request, String ids){
     Article article = new Article();
     article.setUpdatedAt(new Date());
+    article.setSubmitAt(new Date());
 
     String[] id=ids.split(",");
     for (String str : id) {
@@ -1006,7 +1016,7 @@ public class ArticleController extends BaseSupplierController{
 	    List<Article> list = articleService.selectAllArticle(null, page==null?1:page);
 	    model.addAttribute("list", new PageInfo<Article>(list));
 	
-	    model.addAttribute("status", "1");
+	   // model.addAttribute("status", "1");
 	    url = "redirect:auditlist.html";
     }
   }

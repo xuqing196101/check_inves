@@ -23,6 +23,8 @@
     <result column="SOURCE" property="source" />
     <result column="SOURCE_LINK" property="sourceLink" />
     
+    <result column="SUBMIT_AT" jdbcType="TIMESTAMP" property="submitAt" />
+    
     <result column="SECOND_ARTICLE_TYPE_ID" property="secondArticleTypeId" />
     <result column="THREE_ARTICLE_TYPE_ID" property="threeArticleTypeId" />
     <result column="FOUR_ARTICLE_TYPE_ID" property="fourArticleTypeId" />
@@ -77,7 +79,7 @@
   <sql id="Article_Column_List">
     ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, DOWNLOAD_COUNT,
     STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON,SOURCE,SOURCE_LINK,
-    SECOND_ARTICLE_TYPE_ID,THREE_ARTICLE_TYPE_ID,FOUR_ARTICLE_TYPE_ID,LAST_ARTICLE_TYPE_ID
+    SECOND_ARTICLE_TYPE_ID,THREE_ARTICLE_TYPE_ID,FOUR_ARTICLE_TYPE_ID,LAST_ARTICLE_TYPE_ID,SUBMIT_AT
   </sql>
   
   <sql id="Article_BlOB_Column_List">
@@ -124,6 +126,18 @@
     <if test="userId!=null and userId!=''">
     	and USER_ID = #{userId}
     </if>
+    <if test="name != null">
+        AND NAME LIKE #{name}
+      </if>
+      <if test="articleType != null">
+         AND ARTICLE_TYPE_ID = #{articleType.id}
+        </if>
+      <if test="range != null">
+        AND RANGE = #{range}
+      </if>
+      <if test="status != null">
+        AND STATUS = #{status}
+      </if>
     order by decode(STATUS,0,0,3,1,4,2,1,3,2,4), CREATED_AT DESC
   </select>
   
@@ -154,8 +168,11 @@
 	  	<if test="range != null">
 	  	  AND RANGE = #{range}
 	  	</if>
+	  	<if test="status != null">
+        AND STATUS = #{status}
+      </if>
     <!-- order by decode(STATUS,4,0,1,1,3,2,2,3), PUBLISHED_AT DESC -->
-    order by STATUS ASC, PUBLISHED_AT DESC 
+    order by STATUS ASC, SUBMIT_AT DESC , PUBLISHED_AT DESC
   </select>
   
   
@@ -304,6 +321,9 @@
       <if test="lastArticleTypeId != null">
         LAST_ARTICLE_TYPE_ID,
       </if>
+      <if test="submitAt != null">
+        SUBMIT_AT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -386,6 +406,9 @@
       </if>
       <if test="lastArticleTypeId != null">
         #{lastArticleTypeId},
+      </if>
+      <if test="submitAt != null">
+        #{submitAt},
       </if>
     </trim>
   </insert>
@@ -480,6 +503,9 @@
       </if>
       <if test="lastArticleTypeId != null">
        LAST_ARTICLE_TYPE_ID = #{lastArticleTypeId},
+      </if>
+      <if test="submitAt != null">
+       SUBMIT_AT = #{submitAt},
       </if>
     </set>
     where ID = #{id}
@@ -779,6 +805,9 @@ and status = 2
     <set>
       <if test="status != null">
         STATUS = #{status},
+      </if>
+      <if test="submitAt != null">
+        SUBMIT_AT = #{submitAt},
       </if>
     </set>
     where ID = #{id}
