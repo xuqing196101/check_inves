@@ -137,6 +137,8 @@ public class PurchaseRequiredController extends BaseController{
 		map.put("typeName", "1");
 		List<PurchaseDep> list2 = purchserOrgnaztionService.findPurchaseDepList(map);
 		model.addAttribute("requires", list2);
+		model.addAttribute("types", DictionaryDataUtil.find(6));
+		
 		
 		if(type.equals("1")){
 			return "bss/pms/purchaserequird/view";
@@ -199,17 +201,21 @@ public class PurchaseRequiredController extends BaseController{
 		model.addAttribute("user", user);
 		model.addAttribute("list", DictionaryDataUtil.find(6));
 		model.addAttribute("list2", DictionaryDataUtil.find(5));
-		Map<String,Object> map=new HashMap<String,Object>();
-		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
-		model.addAttribute("requires",requires);
-	    model.addAttribute("orgName", user.getOrg().getName());
+//		Map<String,Object> map=new HashMap<String,Object>();
+//		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+//		model.addAttribute("requires",requires);
+		if(user.getOrg()!=null){
+			   model.addAttribute("orgName", user.getOrg().getName());
+			   model.addAttribute("orgType", user.getOrg().getTypeName());
+		}
+	 
 	    String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
 	    
 	    String fileId = UUID.randomUUID().toString().replaceAll("-", "");
 	    model.addAttribute("fileId", fileId);
 	    model.addAttribute("typeId", typeId);
 	    model.addAttribute("planNo", randomPlano());
-	    model.addAttribute("orgType", user.getOrg().getTypeName());
+	   
 		return "bss/pms/purchaserequird/add";
 	}
 	
@@ -417,6 +423,7 @@ public class PurchaseRequiredController extends BaseController{
                     p.setProjectStatus(0);
                     p.setAdvancedStatus(0);
                     p.setIsDelete(0);
+                    p.setReferenceNo(referenceNo);
                     p.setStatus("1");
                     if(p.getPurchaseType()!=null){
                         DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());

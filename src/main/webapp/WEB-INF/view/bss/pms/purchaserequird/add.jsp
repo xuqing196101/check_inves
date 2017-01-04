@@ -587,7 +587,14 @@
 												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
 												               +"  </td>"
 												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].purchaseType' value='"+isValueLegal(data[i].purchaseType)+"'/>"
+												               +"<select name='list["+i+"].purchaseType' class='pt m0' onchange='changeType(this)' >" 
+												               +" <c:forEach items='${list2 }' var='obj'>"
+																
+												               +"	<option value='${obj.name }' >${obj.name}</option>"
+												               +"</c:forEach>"
+												               +"	</select>"
+															
+															
 												               +"  </td>"
 												               +"  <td class='tc p0'>"
 												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
@@ -617,72 +624,7 @@
 				
 			} 
 			
-			//循环生存html
-			function eachData(jsonData){
-				
-				   $("#detailZeroRow").empty();
-				   for(var i = 0 ;i<jsonData.length;i++ ){
-				     $("#detailZeroRow").append(pageHtml(i,jsonData[i]));
-				   }
-				  
-			}
-			
-			//组装html
-			function pageHtml(i,data){
-				var html ="<tr> "
-				 	     +"  <td class='tc'>"
-				 	     +"    <input style='border: 0px;' type='hidden' name='list[" + i + "].id' value='"+data.id+"' />"
-				 	     +"    <input ityle='border: 0px;' type='text' name='list[" + i + "].seq' value='"+data.seq+"'/>"
-				 	     +"    <input style='border: 0px;' value='" + data.parentId + "' type='hidden' name='list[" + i + "].parentId' />"
-				 	     +"  </td> "
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].department' value='"+isValueLegal(data.department)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data.goodsName)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data.stand)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data.qualitStand)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].item' value='"+isValueLegal(data.item)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data.purchaseCount)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].price' value='"+isValueLegal(data.price)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].budget' value='"+isValueLegal(data.budget)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data.deliverDate)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].purchaseType' value='"+isValueLegal(data.purchaseType)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data.supplier)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data.isFreeTax)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsUse' value='"+isValueLegal(data.goodsUse)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data.useUnit)+"'/>"
-				 	     +"  </td>"
-				 	     +"  <td class='tc p0'>"
-				 	     +"    <input style='border: 0px;' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data.memo)+"'/>"
-				 	     +"  </td> <td class='tc w100 p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
-				 	     +"</tr>";
-				 return html;
-			}
+ 
 			
 			//判断值是否合法
 			function isValueLegal(value){

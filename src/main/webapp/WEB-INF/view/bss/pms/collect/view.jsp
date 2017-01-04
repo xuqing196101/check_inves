@@ -167,9 +167,10 @@
 		<div class="headline-v2 fl">
 			<h2>计划明细</h2>
 		</div>
+	<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
 		<div class="container clear margin-top-30 over_scroll h365">
 
-			<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
+		
 				<table class="table table-bordered table-condensed mt5 space_nowrap">
 					<thead>
 						<tr>
@@ -247,7 +248,10 @@
 
 					</c:forEach>
 				</table>
-				<div class="col-md-12 col-xs-12 col-sm-12 p0" >
+				
+			
+		</div>
+		<div class="col-md-12 col-xs-12 col-sm-12 p0" >
 				  <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
 				  <div class="col-md-12 col-xs-12 col-sm-12 p0">
 				      <textarea id="reson" name="reason" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字"></textarea>
@@ -260,8 +264,8 @@
 				   <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			      </div>
 			     </div>
-			</form>
-		</div>
+			     
+		</form>
 	</div>
 
 </body>

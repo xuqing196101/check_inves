@@ -287,9 +287,9 @@ public class PlanLookController extends BaseController {
 		List<DictionaryData> mType = dictionaryDataServiceI.findByKind("5");
 		model.addAttribute("mType", mType);
 		
-		Map<String,Object> maps=new HashMap<String,Object>();
-		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(maps);
-		model.addAttribute("requires", requires);
+//		Map<String,Object> maps=new HashMap<String,Object>();
+//		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(maps);
+//		model.addAttribute("requires", requires);
 		
 		CollectPlan collectPlan = collectPlanService.queryById(id);
 		if(collectPlan.getAuditTurn()!=null){
@@ -505,9 +505,9 @@ public class PlanLookController extends BaseController {
 		List<DictionaryData> mType = dictionaryDataServiceI.findByKind("5");
 		model.addAttribute("mType", mType);
 		
-		Map<String,Object> maps=new HashMap<String,Object>();
-		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(maps);
-		model.addAttribute("requires", requires);
+//		Map<String,Object> maps=new HashMap<String,Object>();
+//		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(maps);
+//		model.addAttribute("requires", requires);
 		
 		return "bss/pms/collect/audit";
 	}

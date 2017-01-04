@@ -90,9 +90,9 @@ public class CollectPlanController extends BaseController {
     List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
     model.addAttribute("dic", dic);
 
-    Map<String,Object> map = new HashMap<String,Object>();
-    List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
-    model.addAttribute("requires", requires);
+//    Map<String,Object> map = new HashMap<String,Object>();
+//    List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+//    model.addAttribute("requires", requires);
     return "bss/pms/collect/collectlist";
   }
     
@@ -103,9 +103,10 @@ public class CollectPlanController extends BaseController {
         List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("list", list);
-        Map<String,Object> map=new HashMap<String,Object>();
-        List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
-        model.addAttribute("requires", requires);
+//        回头加上
+//        Map<String,Object> map=new HashMap<String,Object>();
+//        List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+//        model.addAttribute("requires", requires);
         
         return "bss/pms/collect/collect_view";
         
@@ -167,9 +168,12 @@ public class CollectPlanController extends BaseController {
 			}
 					BigDecimal budget=BigDecimal.ZERO;
 					for(PurchaseRequired pr:list){
-						if(pr.getPurchaseCount()!=null){
+						if(pr.getSeq().equals("一")){
 							budget=budget.add(pr.getBudget());
 						}
+//						if(pr.getPurchaseCount()!=null){
+//							budget=budget.add(pr.getBudget());
+//						}
 						
 					}
 					String id = UUID.randomUUID().toString().replaceAll("-", "");
