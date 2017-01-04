@@ -1170,7 +1170,6 @@ table .input_group .add-on{
 /*倒计时样式*/
 .kaibiao_time{
 	line-height: 35px;
-	display: block;
 	padding-top:70px;
 	font-size:19px;
 	overflow:hidden;
@@ -1199,8 +1198,22 @@ table .input_group .add-on{
 	font-size:22px;
 	margin-top:10%;
 }
+.kaibiao_btn .btn{
+	padding:10px 25px;
+	font-size:1.5em;
+	margin:3px 20px;
+}
 
-
+.announce .project_name.kaibiao_window{
+	font-size:2.5em;
+}
+.announce .kaibiao_all .kb_title .time{
+	font-size:2.5em;
+}
+.announce .kaibiao_all .kb_title{
+	font-size:2.5em;
+}
+.kb_title .time
 /*组织专家评审*/
 .tab-v2 .expert_tab li a{
 	padding:10px;

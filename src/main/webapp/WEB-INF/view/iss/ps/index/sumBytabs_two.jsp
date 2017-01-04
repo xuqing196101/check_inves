@@ -5,10 +5,8 @@
 <head>
 <jsp:include page="/index_head.jsp"></jsp:include>
 <script type="text/javascript">
-var id = "${id}";
-var id2 = "${id2}";
-var id3 = "${id3}";
-var id4 = "${id4}";
+var articleTypeId = "${articleTypeId}";
+var secondArticleTypeId = "${secondArticleTypeId}";
 var title = "${title}";
 $(function(){
 	laypage({
@@ -27,7 +25,7 @@ $(function(){
 	    jump: function(e, first){ //触发分页后的回调
 	        if(!first){ //一定要加此判断，否则初始时会无限刷新
 	      		window.location.href="${pageContext.request.contextPath}/index/selectAllByTabs.html?page="+e.curr
-	      				+"&id="+id+"&id2="+id2+"&id3="+id3+"&id4="+id4+"&title="+title;
+	      				+"&articleTypeId="+articleTypeId+"&secondArticleTypeId="+secondArticleTypeId+"&title="+title;
 	        }
 	    }
 	});
@@ -35,7 +33,7 @@ $(function(){
 
 function query(){
 	var title = $("#title").val();
-	window.location.href="${pageContext.request.contextPath}/index/selectAllByTabs.html?id="+id+"&id2="+id2+"&id3="+id3+"&id4="+id4+"&title="+title;
+	window.location.href="${pageContext.request.contextPath}/index/selectAllByTabs.html?articleTypeId="+articleTypeId+"&secondArticleTypeId="+secondArticleTypeId+"&title="+title;
 }
 </script>
 </head>
