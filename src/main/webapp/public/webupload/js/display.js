@@ -127,7 +127,7 @@ function removeFile(ids,key,id){
 var view;
 function openViewDIv(businessId,typeId,key,id,obj){
 	var html ="<ul id='"+id+"showPicId'></ul>";
-	var height = document.body.clientHeight;
+	var height = document.documentElement.clientHeight;
 	var index = layer.open({
 		  type: 1,
 		  title: '图片查看',
