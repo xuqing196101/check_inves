@@ -823,76 +823,51 @@ and status = 2
   </select>
   
   <select id="selectAllByTab" parameterType="Map" resultMap="ArticleMapper">
-  	select * from (
-	SELECT
+  	select * from (SELECT
 		*
 	FROM
 		T_ISS_PS_ARTICLE
 	WHERE
-		LAST_ARTICLE_TYPE_ID in 
-		(SELECT
-					ID
-				FROM
-					T_ISS_PS_ARTICLE_TYPE
-				WHERE
-					PARENT_ID in 
-			<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
-    			#{item}
-   			</foreach>
-		)
-		and IS_DELETED = 0
-	AND status = 2
-	ORDER BY
-		PUBLISHED_AT DESC
-) where 1=1
-and ROWNUM &lt;=10
+		IS_DELETED = 0
+		AND status = 2
+		AND ARTICLE_TYPE_ID = #{articleTypeId}
+		AND SECOND_ARTICLE_TYPE_ID = #{secondArticelTypeId}
+		ORDER BY
+		PUBLISHED_AT DESC)
+where ROWNUM &lt;=10
   </select>
   
   <select id="selectAllByDanTab" parameterType="Map" resultMap="ArticleMapper">
-  	select * from (
-	SELECT
+  	select * from (SELECT
 		*
 	FROM
 		T_ISS_PS_ARTICLE
 	WHERE
-		LAST_ARTICLE_TYPE_ID in 
-			<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
-    			#{item}
-   			</foreach>
-		and IS_DELETED = 0
-	AND status = 2
-	ORDER BY
-		PUBLISHED_AT DESC
-) where 1=1
-and ROWNUM &lt;=10
+		IS_DELETED = 0
+		AND status = 2
+		AND ARTICLE_TYPE_ID = #{articleTypeId}
+		AND SECOND_ARTICLE_TYPE_ID = #{secondArticelTypeId}
+		ORDER BY
+		PUBLISHED_AT DESC)
+where ROWNUM &lt;=10
   </select>
   
   <select id="selectAllByTabs" parameterType="Map" resultMap="ArticleMapper">
-  	select * from (
-	SELECT
+  	select * from (SELECT
 		*
 	FROM
 		T_ISS_PS_ARTICLE
 	WHERE
-		LAST_ARTICLE_TYPE_ID in 
-		(SELECT
-					ID
-				FROM
-					T_ISS_PS_ARTICLE_TYPE
-				WHERE
-					PARENT_ID in 
-			<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
-    			#{item}
-   			</foreach>
-		)
-	<if test="title!=null and title!=''">
+		IS_DELETED = 0
+		AND status = 2
+		AND ARTICLE_TYPE_ID = #{articleTypeId}
+		AND SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
+		<if test="title!=null and title!=''">
 		and name like '%'||#{title}||'%'
-	</if>
-	and IS_DELETED = 0
-	AND status = 2
-	ORDER BY
-		PUBLISHED_AT DESC
-) where 1=1
+		</if>
+		ORDER BY
+		PUBLISHED_AT DESC)
+where ROWNUM &lt;=10
   </select>
   
   <select id="selectAllByDanTabs" parameterType="Map" resultMap="ArticleMapper">
