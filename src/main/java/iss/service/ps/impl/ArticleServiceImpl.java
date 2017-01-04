@@ -501,6 +501,13 @@ public class ArticleServiceImpl implements ArticleService {
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return articleMapper.selectByJurisDiction(map);
 	}
+
+	@Override
+	public List<Article> selectAllByTabss(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return articleMapper.selectAllByTabss(map);
+	}
     
     
 	

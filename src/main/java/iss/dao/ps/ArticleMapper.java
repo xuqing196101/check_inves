@@ -354,4 +354,6 @@ public interface ArticleMapper {
     Integer getArticleCount(@Param("id")String id);
     
     List<Article> selectByJurisDiction(Map<String,Object> map);
+    
+    List<Article> selectAllByTabss(Map<String, Object> map);
 }
