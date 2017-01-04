@@ -187,18 +187,7 @@
 							<td class="tc w50" onclick="shenhe('${expert.id}');">${vs.count}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.relName}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.sex}</td>
-							<%-- <c:if test="${expert.expertsTypeId ==null}">
-								<td  class="tc"></td>
-							</c:if>
-							<c:if test="${expert.expertsTypeId =='1' || expert.expertsTypeId ==1}">
-								<td  class="tc">技术</td>
-							</c:if>
-							<c:if test="${expert.expertsTypeId =='2' || expert.expertsTypeId ==2}">
-								<td  class="tc">法律</td>
-							</c:if>
-							<c:if test="${expert.expertsTypeId =='3' || expert.expertsTypeId ==3}">
-								<td  class="tc">经济</td>
-							</c:if> --%>
+							<%--<td class="tl pl20">${expert.expertsTypeId}</td>--%>
 							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.graduateSchool }</td>
 							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.workUnit }</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">

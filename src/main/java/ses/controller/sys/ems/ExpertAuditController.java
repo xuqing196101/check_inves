@@ -145,6 +145,25 @@ public class ExpertAuditController {
 		}*/
 		
 		model.addAttribute("result", new PageInfo<Expert>(expertList));
+		
+		/*for (Expert exp : expertList) {
+                StringBuffer expertType = new StringBuffer();
+                if (exp.getExpertsTypeId() != null) {
+                    for (String typeId : exp.getExpertsTypeId().split(",")) {
+                        DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
+                        if (6 == data.getKind()) {
+                            expertType.append(data.getName() + "技术、");
+                        } else {
+                            expertType.append(data.getName() + "、");
+                        }
+                    }
+                    String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                    exp.setExpertsTypeId(expertsType);
+                } else {
+                    exp.setExpertsTypeId("");
+                }
+            }*/
+		
 		model.addAttribute("expertList", expertList);
 		
 		//初审复审标识（1初审，2复审）
