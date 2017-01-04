@@ -680,7 +680,7 @@
 				var budget=0;
 			    $("#table tr").each(function(){
 			    	     var  val= $(this).find("td:eq(7)").children(":first").next().val();//上级id
-			    	   alert(val ==undefined);
+			    	  /*  alert(val ==undefined); */
 			    		/* if(val!=""||value !="undefined" ){
 			    			var same=$(this).find("td:eq(8)").children(":first").next().val()-0;;
 			    			budget=budget+same;
