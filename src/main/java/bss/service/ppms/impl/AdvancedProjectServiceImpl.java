@@ -1,5 +1,6 @@
 package bss.service.ppms.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,9 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
     }
 
     @Override
-    public List<AdvancedProject> selectByList(AdvancedProject advancedProject) {
+    public List<AdvancedProject> selectByList(HashMap<String, Object> map) {
         
-        return advancedProjectMapper.selectByList(advancedProject);
+        return advancedProjectMapper.selectByList(map);
     }
 
     @Override
