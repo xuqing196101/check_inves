@@ -154,22 +154,26 @@ public class SupplierItemController extends BaseController{
 		}
 		//查询所有的三级品目生产
 		List<Category> list2 = getSupplier(supplier.getId(),supplierTypeIds);
+		removeSame(list2);
 		//根据品目id查询所有的证书信息
 	   List<QualificationBean> list3 = supplierService.queryCategoyrId(list2, 2);
  
 		//查询所有的三级品目销售
 		List<Category> listSlae = getSale(supplier.getId(),supplierTypeIds);
+        removeSame(listSlae);
 		//根据品目id查询所有的证书信息
 	   List<QualificationBean> saleQua = supplierService.queryCategoyrId(listSlae, 3);
 	   
 	   
 		//查询所有的三级目录工程
-		List<Category> listProject = getSale(supplier.getId(),supplierTypeIds);
+		List<Category> listProject = getProject(supplier.getId(),supplierTypeIds);
+        removeSame(listProject);
 		//根据品目id查询所有的工证书
 	   List<QualificationBean> projectQua= supplierService.queryCategoyrId(listProject, 1);
 	   
 		//查询所有的三级品目服务
-		List<Category> listService = getSale(supplier.getId(),supplierTypeIds);
+		List<Category> listService = getServer(supplier.getId(),supplierTypeIds);
+        removeSame(listService);
 		//根据品目id查询所有的服务证书信息
 	   List<QualificationBean> serviceQua= supplierService.queryCategoyrId(listService, 1);
 	   
@@ -238,8 +242,6 @@ public class SupplierItemController extends BaseController{
 			 
 		   } 
 	   }
-	   
-	   
 	   /*saleUp.append(sbUp);
 	   saleShow.append(sbShow);*/
 	   model.addAttribute("saleUp", sbUp.toString());
@@ -258,6 +260,22 @@ public class SupplierItemController extends BaseController{
 		
 		
 	}
+	
+	 /**
+	 *〈简述〉去重
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param list
+	 */
+	public void removeSame(List<Category> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+	 }
 	
 	@RequestMapping(value = "getCategory")
 	public String getCategory(String categoryId,Model model){
@@ -383,7 +401,7 @@ public class SupplierItemController extends BaseController{
 	                   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 	    		       for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
-	    		    	 cate.setId(c.getId());
+	    		    	 cate.setId(c.getCategoryId());
 	    		    	 categoryList.add(cate);
 	    	             }
 	                 }

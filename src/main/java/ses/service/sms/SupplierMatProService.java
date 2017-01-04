@@ -7,4 +7,6 @@ public interface SupplierMatProService {
 	public void saveOrUpdateSupplierMatPro(Supplier supplier);
 	
 	public SupplierMatPro init();
+	
+	public String getMatProIdBySupplierId(String supplierId);
 }
