@@ -421,7 +421,7 @@
       <if test="name != null">
         NAME = #{name},
       </if>
-      <if test="articleType.id != null">
+      <if test="articleType != null and articleType.id != null">
         ARTICLE_TYPE_ID = #{articleType.id},
       </if>
       <if test="publishedAt != null">
@@ -433,7 +433,7 @@
       <if test="position != null">
         POSITION = #{position,jdbcType=INTEGER},
       </if>
-      <if test="user.id != null">
+      <if test="user != null and user.id != null">
         USER_ID = #{user.id},
       </if>
       <if test="showCount != null">
@@ -499,14 +499,11 @@
       <if test="fourArticleTypeId != null">
        FOUR_ARTICLE_TYPE_ID = #{fourArticleTypeId},
       </if>
-      <if test="fourArticleTypeId == null">
-       FOUR_ARTICLE_TYPE_ID = null,
-      </if>
       <if test="lastArticleTypeId != null">
        LAST_ARTICLE_TYPE_ID = #{lastArticleTypeId},
       </if>
       <if test="submitAt != null">
-       SUBMIT_AT = #{submitAt},
+       SUBMIT_AT = #{submitAt}
       </if>
     </set>
     where ID = #{id}

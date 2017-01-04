@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 
@@ -28,13 +29,28 @@ public class FileUtils {
     private final static String BASE_PATH = PropUtil.getProperty("file.sync.base");
     
     /** 文件同步导出目录 **/
-    private final static String BACKUP_PATH = PropUtil.getProperty("file.sync.backup");
+    private final static String BACKUP_PATH = PropUtil.getProperty("file.sync.export");
     
     /** 文件同步导入目录 **/
     private final static String IMPORT_PATH = PropUtil.getProperty("file.sync.import");
     
     /** 文件同步完成目录 **/
     private final static String FINISH_PATH = PropUtil.getProperty("file.sync.finish");
+    
+    /** 供应商附件文件路径 **/
+    private final static String SUPPLIER_ATTFILE_PATH = PropUtil.getProperty("file.supplier.system.path");
+    
+    /** 招标附件文件路径 **/
+    private final static String TENDER_ATTFILE_PATH = PropUtil.getProperty("file.tender.system.path");
+    
+    /** 专家附件文件路径 **/
+    private final static String EXPERT_ATTFILE_PATH = PropUtil.getProperty("file.expert.system.path");
+    
+    /** 论坛附件文件路径 **/
+    private final static String FORUM_ATTFILE_PATH = PropUtil.getProperty("file.forum.system.path");
+    
+    /** 正式附件路径 **/
+    private final static String BASE_ATTCH_PATH = PropUtil.getProperty("file.base.path");
     
     /** 新注册供应商文件名称 **/
     public final static String C_SUPPLIER_FILENAME = "_c_supplier.dat"; 
@@ -93,6 +109,25 @@ public class FileUtils {
      */
     public static final  String getBackUpPath(){
        return createFilePath(BASE_PATH + BACKUP_PATH);
+    }
+    
+    /**
+     * 
+     *〈简述〉获取文件路径
+     *〈详细描述〉
+     * @author myc
+     * @param dir
+     * @return
+     */
+    public static final String createDir(String dir){
+        if (StringUtils.isNotBlank(dir)){
+            File file = new File(dir);
+            if (!file.exists()){
+                file.mkdirs();
+            }
+            return file.getPath();
+        }
+        return "";
     }
     
     /**
@@ -205,6 +240,21 @@ public class FileUtils {
     
     /**
      * 
+     *〈简述〉获取基础的文件路径
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    public static final String createBaseFilePath(){
+        final File file = new File(BASE_ATTCH_PATH);
+        if (!file.exists()){
+            file.mkdirs();
+        }
+        return file.getPath();
+    }
+    
+    /**
+     * 
      *〈简述〉读取文件
      *〈详细描述〉
      * @author myc
@@ -286,6 +336,42 @@ public class FileUtils {
         String path = getBackUpPath();
         final File file = new File(path,fileName);
         return file;
+    }
+    
+    /**
+     * 
+     *〈简述〉根据系统key获取对应的附件目录
+     *〈详细描述〉
+     * @author myc
+     * @param key 系统key
+     * @return
+     */
+    public static final String attachExportPath(Integer key){
+        String path = getSynchAttachFile(key);
+        if (StringUtils.isNotBlank(path)){
+            String finalPath = getBackUpPath() + path;
+            return createFilePath(finalPath);
+        }
+        return "";
+    }
+    
+    /**
+     * 
+     *〈简述〉根据系统key获取对应的附件目录
+     *〈详细描述〉
+     * @author myc
+     * @param key 系统key
+     * @return
+     */
+    public static final  String getSynchAttachFile(Integer key){
+        String filePath = "";
+        switch (key){
+          case 1 :  filePath = SUPPLIER_ATTFILE_PATH; break;
+          case 2 :  filePath = TENDER_ATTFILE_PATH; break;
+          case 3 :  filePath = EXPERT_ATTFILE_PATH; break;
+          case 4 :  filePath = FORUM_ATTFILE_PATH; break;
+        }
+        return filePath;
     }
     
 }

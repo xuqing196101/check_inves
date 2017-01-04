@@ -130,6 +130,6 @@ public interface SynchRecordService {
      * @param dataType 类型Id
      * @return
      */
-    public String getSynchTime(Integer operType, Integer dataType);
+    public String getSynchTime(Integer operType, String dataType);
     
 }

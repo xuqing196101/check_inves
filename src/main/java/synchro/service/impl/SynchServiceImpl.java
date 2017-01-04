@@ -39,7 +39,7 @@ public class SynchServiceImpl implements SynchService {
         if (page == null){
             page = 1;
         }
-        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("page.size.thirty")));
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("file.upload.maxFileSize")));
         return mapper.getSynchRecordByOperType(optype);
     }
 

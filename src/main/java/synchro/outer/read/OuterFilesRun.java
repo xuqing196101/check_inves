@@ -4,7 +4,9 @@ import java.io.File;
 
 import synchro.outer.read.att.OuterAttachService;
 import synchro.outer.read.infos.OuterInfoService;
+import synchro.util.Constant;
 import synchro.util.FileUtils;
+import synchro.util.OperAttachment;
 import synchro.util.SpringBeanUtil;
 
 /**
@@ -47,6 +49,11 @@ public class OuterFilesRun implements Runnable {
             }
             if (file.getName().contains(FileUtils.C_ATTACH_FILENAME)){
                 attachService.importAttach(file);
+            }
+            if (file.isDirectory()){
+                if (file.getName().equals(Constant.ATTACH_FILE_TENDER)){
+                    OperAttachment.moveFolder(file);
+                }
             }
         }
     }

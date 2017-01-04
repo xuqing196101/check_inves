@@ -1,8 +1,6 @@
 $(function(){
 	list(1);
 });
-
-
 /**
  * 初始化
  * @returns
@@ -10,7 +8,7 @@ $(function(){
 function list(curr){
 	var type = $("#operType").val();
 	$.ajax({
-		url: globalPath + "/synch/list.do",
+		url: globalPath + "/synchImport/list.do",
 		type:"post",
 		data:{'operType' : type,'page': curr},
 		dataType:"json",
@@ -74,64 +72,26 @@ function loadPage(pages,total,start,end, current){
 function loadData(data,index,pageNum,pageSize){
 	var html = "<tr> "
 		     + "  <td class='tc'>"+((index+1) +  (pageNum -1) * pageSize) +"</td>"
-		     + "  <td class='tc'>"+setStatus(data.dataType)+"</td>"
+		     + "  <td class='tc'>"+data.dataTypeName+"</td>"
 		     + "  <td class='tc'>"+data.synchTime+"</td>"
 		     + "  <td class='t1 pl20'>"+data.descriptions+"</td>"
 		     + "</tr>";
 	$("#dataTable tbody").append(html);
 }
 
-/**
- * 
- * @param status 状态
- * @returns
- */
-function setStatus(status){
-	if (status == 1){
-		return "供应商注册信息";
-	}
-	if (status == 2){
-		return "供应商修改信息";
-	}
-	if (status == 3){
-		return "专家注册信息";
-	}
-	if (status == 4){
-		return "专家修改信息";
-	}
-	if (status == 5){
-		return "门户公告信息";
-	}
-	if (status == 6){
-		return "附件信息";
-	}
-	return "";
-}
 
 /**
  * 同步
  * @returns
  */
-function synch(){
-	var startTime = $("#startTime").val();
-	var endTime = $("#endTime").val();
-	
-	if (startTime == ""){
-		layer.msg("开始时间不能为空");
-		return ;
-	}
-	
-	if (endTime == ""){
-		layer.msg("结束时间不能为空");
-		return ;
-	}
-	
+function synchImport(){
 	$.ajax({
-		url: globalPath + "/synch/synched.do",
+		url: globalPath + "/synchImport/dataImport.do",
 		type:"post",
-		data:{'startTime' : startTime,'endTime': endTime},
+		dataType:"json",
 		success:function(res){
 			if (res.success){
+				layer.msg("导入成功");
 				list(1);
 			}
 		}

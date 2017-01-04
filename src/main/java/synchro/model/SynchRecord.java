@@ -23,14 +23,17 @@ public class SynchRecord {
     /** 同步日期 **/
     private Date synchDate;
     
-    /** 数据类型:1.供应商注册,2.供应商修改 ,3.专家注册,4.专家修改**/
-    private int dataType;
+    /** 数据类型:看数据字典**/
+    private String dataType;
     
     /** 描述 **/
     private String descriptions;
     
     /** 同步时间  **/
     private String synchTime;
+    
+    /** 类型名称 **/
+    private String dataTypeName;
     
     
     public String getId() {
@@ -57,17 +60,23 @@ public class SynchRecord {
     public void setDescriptions(String descriptions) {
         this.descriptions = descriptions;
     }
-    public int getDataType() {
-        return dataType;
-    }
-    public void setDataType(int dataType) {
-        this.dataType = dataType;
-    }
     public String getSynchTime() {
         return synchTime;
     }
     public void setSynchTime(String synchTime) {
         this.synchTime = synchTime;
+    }
+    public String getDataType() {
+        return dataType;
+    }
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+    public String getDataTypeName() {
+        return dataTypeName;
+    }
+    public void setDataTypeName(String dataTypeName) {
+        this.dataTypeName = dataTypeName;
     }
     
 }

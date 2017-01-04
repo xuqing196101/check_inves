@@ -21,11 +21,10 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
         <task:scheduled ref="myTask" method="task11" cron="0 11 14 * * ?"/>   
 	</task:scheduled-tasks>  -->
 	
-	<!-- <task:scheduled-tasks>
-     <task:scheduled ref="InnerInfoTask" method="exportInfo" cron="0 0 */1 * * ?"/> 
-        <task:scheduled ref="innerAttachTask" method="exportAttach" cron="0 0 */1 * * ?"/> 
-        <task:scheduled ref="outerReadTask" method="outerReadTask" cron="0 0 */1 * * ?"/>   
-	</task:scheduled-tasks> -->
+	 <task:scheduled-tasks>
+        <!-- <task:scheduled ref="innerInfoTask" method="exportInfo" cron="0 0 0/6 * * ?"/>  -->
+        <task:scheduled ref="outerReadTask" method="outerReadTask" cron="0 0/1 * * * ?"/>  
+	</task:scheduled-tasks> 
 	
 	<!-- 线程池 -->
 	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">

@@ -6,7 +6,7 @@
   <resultMap id="resMap" type="synchro.model.SynchRecord">
     <id column="ID"  property="id" />
     <result column="OPER_TYPE"  jdbcType="NUMERIC" property="operType"  />
-    <result column="DATA_TYPE"  jdbcType="NUMERIC" property="dataType"/>
+    <result column="DATA_TYPE"  jdbcType="VARCHAR" property="dataType"/>
     <result column="SYNCH_DATE"  jdbcType="TIMESTAMP"  property="synchDate" />
     <result column="DESCRIPTIONS" jdbcType="VARCHAR"  property="descriptions" />
   </resultMap>
@@ -22,7 +22,7 @@
         select sys_guid() from dual
     </selectKey>
     INSERT INTO T_SYNCH_RECORD (ID, OPER_TYPE,DATA_TYPE, SYNCH_DATE, DESCRIPTIONS)
-    VALUES (#{id},#{operType,jdbcType=NUMERIC},#{dataType,jdbcType=NUMERIC},
+    VALUES (#{id},#{operType,jdbcType=NUMERIC},#{dataType,jdbcType=VARCHAR},
            #{synchDate,jdbcType=TIMESTAMP},#{descriptions})
   </insert>
   
@@ -34,6 +34,14 @@
     FROM T_SYNCH_RECORD
     WHERE OPER_TYPE = #{operType,jdbcType=NUMERIC}
     ORDER by SYNCH_DATE desc
+  </select>
+  
+  <!-- 获取最近同步的时间 -->
+  <select id="getSynchTime" resultType="java.lang.String">
+    SELECT to_char(MAX(SYNCH_DATE),'yyyy-MM-dd hh24:mi:ss') AS synchTime
+    FROM T_SYNCH_RECORD
+    WHERE  OPER_TYPE = #{operType,jdbcType=NUMERIC}
+    AND DATA_TYPE = #{dataType,jdbcType=VARCHAR}
   </select>
   
 </mapper>

@@ -34,10 +34,10 @@ public class Constant {
     public final static Integer DATA_TYPE_EXPERT_MODIFY = 4;
     
     /** 数据类型-信息 **/
-    public final static Integer DATA_TYPE_INFOS_CREATED = 5;
+    public final static String DATA_TYPE_INFOS_CODE = "SYNCH_NEWS";
     
     /** 数据类型-附件 **/
-    public final static Integer DATA_TYPE_ATTACH = 6;
+    public final static String DATA_TYPE_ATTACH_CODE = "SYNCH_ATTACH";
     
     /** 新提交专家描述 **/
     public final static String NEW_COMMIT_EXPERT = "新提交专家数量:";
@@ -50,4 +50,10 @@ public class Constant {
     
     /** 提交附件描述 **/
     public final static String CREATED_COMMIT_ATTACH = "同步附件数量:";
+    
+    /** 供应商附件文件名称 **/
+    public final static String ATTACH_FILE_SUPPLIER = "supplier";
+    
+    /** 招标附件文件名称 **/
+    public final static String ATTACH_FILE_TENDER = "tender";
 }

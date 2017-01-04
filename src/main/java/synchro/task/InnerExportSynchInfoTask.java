@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ses.model.bms.DictionaryData;
+import ses.util.DictionaryDataUtil;
 import synchro.inner.backup.service.infos.InnerInfoService;
 import synchro.service.SynchRecordService;
 import synchro.util.Constant;
@@ -21,7 +23,7 @@ import synchro.util.DateUtils;
  * @since
  * @see
  */
-@Component("InnerInfoTask")
+@Component("innerInfoTask")
 public class InnerExportSynchInfoTask {
 
     /** 同步信息service **/
@@ -39,13 +41,16 @@ public class InnerExportSynchInfoTask {
      * @author myc
      */
     public void exportInfo(){
-        String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, Constant.DATA_TYPE_INFOS_CREATED);
-        if (!StringUtils.isNotBlank(startTime)){
-            startTime = DateUtils.getCurrentDate() + " 00:00:00";
+        DictionaryData dd = DictionaryDataUtil.get(Constant.DATA_TYPE_INFOS_CODE);
+        if (dd != null && StringUtils.isNotBlank(dd.getId())){
+            String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, dd.getId());
+            if (!StringUtils.isNotBlank(startTime)){
+                startTime = DateUtils.getCurrentDate() + " 00:00:00";
+            }
+            startTime = DateUtils.getCalcelDate(startTime);
+            String endTime = DateUtils.getCurrentTime();
+            Date synchDate = DateUtils.stringToTime(endTime);
+            infoService.backUpInfos(startTime, endTime, synchDate);
         }
-        startTime = DateUtils.getCalcelDate(startTime);
-        String endTime = DateUtils.getCurrentTime();
-        Date synchDate = DateUtils.stringToTime(endTime);
-        infoService.backUpInfos(startTime, endTime, synchDate);
     }
 }

@@ -50,7 +50,7 @@ public class OuterAttachServiceImpl implements OuterAttachService {
                     uploadService.insertFile(uploadFile,Constant.TENDER_SYS_KEY);
                 }
             }
-            recordService.importInfos(new Integer(list.size()).toString());
+            recordService.importAttach(new Integer(list.size()).toString());
         }
     }
 

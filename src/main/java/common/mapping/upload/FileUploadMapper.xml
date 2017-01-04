@@ -144,28 +144,28 @@
   	update  ${tableName} 
   	<set>
   	  <if test="name != null and name !=''">
-  	    NAME = #{name}
+  	    NAME = #{name},
   	  </if>
   	  <if test="path != null and path !=''">
-  	    PATH = #{path}
+  	    PATH = #{path},
   	  </if>
   	   <if test="businessId != null and businessId !=''">
-  	    BUSINESS_ID = #{businessId}
+  	    BUSINESS_ID = #{businessId},
   	  </if>
   	   <if test="typeId != null and typeId !=''">
-  	    TYPE_ID = #{typeId}
+  	    TYPE_ID = #{typeId},
   	  </if>
   	  <if test="size != null">
-  	    FILE_SIZE = #{size,jdbcType=INTEGER}
+  	    FILE_SIZE = #{size,jdbcType=BIGINT},
   	  </if>
   	  <if test="createDate != null">
-  	    CREATED_AT = #{createDate,jdbcType=TIMESTAMP}
+  	    CREATED_AT = #{createDate,jdbcType=TIMESTAMP},
   	  </if>
   	  <if test="updateDate != null">
-  	    UPDATED_AT = #{updateDate,jdbcType=TIMESTAMP}
+  	    UPDATED_AT = #{updateDate,jdbcType=TIMESTAMP},
   	  </if>
   	  <if test="isDelete != null">
-  	    IS_DELETED = #{updateDate,jdbcType=INTEGER}
+  	    IS_DELETED = #{isDelete,jdbcType=INTEGER}
   	  </if>
   	</set>
   	WHERE ID = #{id,jdbcType=VARCHAR}

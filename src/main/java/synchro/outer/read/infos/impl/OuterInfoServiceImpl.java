@@ -3,6 +3,7 @@ package synchro.outer.read.infos.impl;
 import java.io.File;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,9 @@ public class OuterInfoServiceImpl implements OuterInfoService {
             for (Article article : list){
                 Integer count = articleService.getArticleCount(article.getId());
                 if (count > 0){
-                    articleService.update(article);
+                    if (article != null && StringUtils.isNotBlank(article.getId())){
+                        articleService.update(article);
+                    }
                 } else {
                     articleService.addArticle(article);
                 }

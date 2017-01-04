@@ -36,7 +36,7 @@ public interface SynchRecordMapper {
      * @param dataType 同步类型
      * @return
      */
-    public String getSynchTime(@Param("operType") Integer operType,@Param("dataType")Integer dataType);
+    public String getSynchTime(@Param("operType") Integer operType,@Param("dataType")String dataType);
 
     /**
      * 
