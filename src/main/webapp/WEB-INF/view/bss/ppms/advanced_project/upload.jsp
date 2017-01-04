@@ -10,17 +10,23 @@
 <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
 <script type="text/javascript">
   function start(){
-    layer.confirm('您确认要启动项目吗?',{
-      offset: ['50px','90px'],
-      shade:0.01,
-      btn:['是','否'],
-      },function(){
-        $("#att").submit();
-      },function(){
-        var index=parent.layer.getFrameIndex(window.name);
-        parent.layer.close(index);
-      }
-    ); 
+    var principal = $("input[name='principal']").val();
+    if(principal == ""){
+      layer.tips("项目承办人不能为空", "#user");
+    }else{
+      layer.confirm('您确认要启动项目吗?',{
+	      offset: ['50px','90px'],
+	      shade:0.01,
+	      btn:['是','否'],
+	      },function(){
+	        $("#att").submit();
+	      },function(){
+	        var index=parent.layer.getFrameIndex(window.name);
+	        parent.layer.close(index);
+	      }
+      );
+    }
+     
   }
   
   
@@ -61,14 +67,15 @@
       <div class="drop_window">
         <ul class="list-unstyled">
            <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-             <label class="col-md-12 pl20 col-xs-12">上传项目批文</label>
+             <label class="col-md-12 pl20 col-xs-12"><i class="star_red">*</i>上传项目批文</label>
             <span class="col-md-12 col-xs-12">
               <u:upload id="upload_ids" groups="show_ids,upload_ids" multiple="true" auto="true" businessId="${project.id}" typeId="${dataIds}" sysKey="2"/>
               <u:show showId="show_ids" groups="show_ids,upload_ids" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
+              <div class="cue">${mainId_msg}</div>
             </span>
           </li>
           <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-            <label class="col-md-12 pl20 col-xs-12"><div class="red star_red">*</div>项目承办人</label>
+            <label class="col-md-12 pl20 col-xs-12"><i class="red star_red">*</i>项目承办人</label>
             <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                 <select id="user" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select>
                 <div class="cue">${ERR_principal}</div>

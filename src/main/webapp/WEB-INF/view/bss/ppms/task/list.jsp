@@ -189,7 +189,7 @@
               dataType: "json",
               success: function(result) {
                 if(result == "1") {
-                  layer.confirm('您是否要引用预研任务?', {
+                  layer.confirm('您是否要引用预研生成正式项目?', {
                     shade: 0.01,
                     btn: ['是', '否'],
                   }, function() {
@@ -199,7 +199,6 @@
                     if(status == "未受领") {
                       layer.confirm('您确定要受领吗?', {
                           title: '提示',
-                          offset: ['30%', '40%'],
                           shade: 0.01
                         },
                         function(index) {
@@ -211,7 +210,6 @@
                             dateType: "json",
                             success: function() {
                               layer.msg("受领成功", {
-                                offset: ['30%', '40%'],
                               });
                               window.setTimeout(function() {
                                 location.reload();
@@ -219,19 +217,16 @@
                             },
                             error: function() {
                               layer.msg("受领失败", {
-                                offset: ['30%', '40%'],
                               });
                             }
                           });
                         });
                     } else if(status=="已受领"){
                       layer.alert("任务已经受领", {
-                        offset: ['30%', '40%'],
                         shade : 0.01
                       });
                     }else if(status=="已取消"){
                       layer.alert("已取消的任务不能受领，请重新选择", {
-                        offset: ['30%', '40%'],
                         shade : 0.01
                       });
                     }
@@ -241,7 +236,6 @@
                    if(status == "未受领") {
                       layer.confirm('您确定要受领吗?', {
                           title: '提示',
-                          offset: ['30%', '40%'],
                           shade: 0.01
                         },
                         function(index) {
@@ -253,7 +247,6 @@
                             dateType: "json",
                             success: function() {
                               layer.msg("受领成功", {
-                                offset: ['30%', '40%'],
                               });
                               window.setTimeout(function() {
                                 location.reload();
@@ -261,19 +254,16 @@
                             },
                             error: function() {
                               layer.msg("受领失败", {
-                                offset: ['30%', '40%'],
                               });
                             }
                           });
                         });
                     } else if(status=="已受领"){
                       layer.alert("任务已经受领", {
-                        offset: ['30%', '40%'],
                         shade : 0.01
                       });
                     }else if(status=="已取消"){
                       layer.alert("已取消的任务不能受领，请重新选择", {
-                        offset: ['30%', '40%'],
                         shade : 0.01
                       });
                     }
@@ -286,7 +276,6 @@
             if(status == "未受领") {
                       layer.confirm('您确定要受领吗?', {
                           title: '提示',
-                          offset: ['30%', '40%'],
                           shade: 0.01
                         },
                         function(index) {

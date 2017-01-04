@@ -53,6 +53,8 @@ import ses.util.WfUtil;
 import ses.util.WordUtil;
 
 import common.annotation.CurrentUser;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
@@ -119,6 +121,8 @@ public class AdvancedProjectController extends BaseController {
     @Autowired
     private ProjectService projectService;
     
+    @Autowired
+    private UploadService uploadService;
     
     /**
      * 
@@ -212,7 +216,7 @@ public class AdvancedProjectController extends BaseController {
     }
     
     @RequestMapping("/transmit")
-    public String transmit(Model model, String organization, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType, HttpServletRequest request){
+    public String transmit(@CurrentUser User user, Model model, String organization, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType, HttpServletRequest request){
         //立项 
         AdvancedProject project = new AdvancedProject();
         String planType = request.getParameter("planType");
@@ -222,6 +226,7 @@ public class AdvancedProjectController extends BaseController {
         project.setPurchaseType(purchaseType);
         project.setPlanType(planType);
         project.setPurchaseDep(new PurchaseDep(organization));
+        project.setCreateAt(new Date());
         project.setStatus("0");
         advancedProjectService.save(project);
         
@@ -238,6 +243,7 @@ public class AdvancedProjectController extends BaseController {
         task.setProcurementMethod(purchaseType);
         task.setTaskNature(1);
         task.setNotDetail(0);
+        task.setOrgId(user.getOrg().getId());
         taskService.add(task);
         
         //中间表
@@ -677,6 +683,55 @@ public class AdvancedProjectController extends BaseController {
         }
     }
     
+    
+    /**
+     * 
+     *〈查看明细是否分包〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param id
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/viewPackages")
+    @ResponseBody
+    public String viewPackages(String id, HttpServletResponse response) throws IOException{
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("advancedProject", id);
+        List<AdvancedDetail> details = detailService.selectByAll(map);
+        List<AdvancedDetail> bottomDetails = new ArrayList<>();
+        for(AdvancedDetail detail:details){
+            HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",detail.getRequiredId());
+            detailMap.put("projectId", id);
+            List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
+            if(dlist.size()==1){
+                bottomDetails.add(detail);
+            }
+        }
+        int bottomLength = 0;
+        int subLength = 0;
+        for(int i=0;i<bottomDetails.size();i++){
+            if(bottomDetails.get(i).getPackageId()==null){
+                bottomLength++;
+            }
+            if(bottomDetails.get(i).getPackageId()!=null){
+                subLength++;
+            }
+        }
+        String str = null;
+        if(bottomLength==bottomDetails.size()){
+            str = "1";//明细都未分包，默认一包
+        }else{
+            if(subLength == bottomDetails.size()){
+                str = "0";//明细都分完包了
+            }else{
+                str = "1";//有明细分包，还没分完全
+            }
+        }
+        return str;
+    }
+    
     /**
      * 
      *〈查看明细是否分包〉
@@ -753,6 +808,28 @@ public class AdvancedProjectController extends BaseController {
         return str;
     }
     
+    
+    /**
+     * 
+    * @Title: test
+    * @author ZhaoBo
+    * @date 2016-12-29 下午9:19:56  
+    * @Description: 序号相关 
+    * @param @param num
+    * @param @return      
+    * @return String
+     */
+    public String test(int num) {
+        String[] str = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
+        String s = String.valueOf(num);
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < s.length(); i++) {
+            String index = String.valueOf(s.charAt(i));
+            sb = sb.append(str[Integer.parseInt(index)]);
+        }
+        return sb.toString();
+    }
+    
     /**
      * 
      *〈分包〉
@@ -796,20 +873,36 @@ public class AdvancedProjectController extends BaseController {
                        showDetails.add(dlist.get(j));
                     }
                 }else{
-                    if(showDetails.size()!=0){
+                    /*if(showDetails.size()!=0){
                         for(int j=0;j<showDetails.size();j++){
                             if(showDetails.get(j).getParentId().equals(bottomDetails.get(i).getParentId())){
                                 showDetails.add(bottomDetails.get(i));
                                 break;
                             }
                         }
+                    }*/
+                    HashMap<String,Object> map2 = new HashMap<>();
+                    map2.put("projectId", id);
+                    map2.put("id", bottomDetails.get(i).getRequiredId());
+                    List<AdvancedDetail> list3 = detailService.selectByParent(map2);
+                    for(int j=0;j<showDetails.size();j++){
+                        for(int k=0;k<list3.size();k++){
+                            if(showDetails.get(j).getId().equals(list3.get(k).getId())){
+                                list3.remove(list3.get(k));
+                                break;
+                            }
+                        }
                     }
+                    showDetails.addAll(list3);
+                    
                 }
             }
             if(i==bottomDetails.size()-1){
                 if(str.equals("")){
                     model.addAttribute("list", null);
                 }else{
+                    ComparatorDetails comparator = new ComparatorDetails();
+                    Collections.sort(showDetails, comparator);
                     for(int j=0;j<showDetails.size();j++){
                         HashMap<String,Object> detailMap = new HashMap<>();
                         detailMap.put("id",showDetails.get(j).getRequiredId());
@@ -837,32 +930,71 @@ public class AdvancedProjectController extends BaseController {
         List<AdvancedPackages> packages = packageService.selectByAll(pack);
         if(packages.size()!=0){
             for(AdvancedPackages ps:packages){
-                int serialN = 0;
+                int serialoneOne = 1;
+                int serialtwoTwo = 1;
+                int serialthreeThree = 1;
+                int serialfourFour = 1;
+                int serialfiveFive = 0;
+                int serialOne = 1;
+                int serialTwo = 1;
+                int serialThree = 1;
+                int serialFour = 1;
+                int serialSix = 0;
+                int serialFive = 0;
                 HashMap<String,Object> packageId = new HashMap<>();
                 packageId.put("packageId", ps.getId());
                 List<AdvancedDetail> detailList = detailService.selectByAll(packageId);
                 List<String> parentId = new ArrayList<>();
                 List<AdvancedDetail> newDetails = new ArrayList<>();
                 for(int i=0;i<detailList.size();i++){
-                    if(!parentId.contains(detailList.get(i).getParentId())){
-                        parentId.add(detailList.get(i).getParentId());
+                    HashMap<String,Object> dMap = new HashMap<String,Object>();
+                    dMap.put("projectId", id);
+                    dMap.put("id", detailList.get(i).getRequiredId());
+                    List<AdvancedDetail> lists = detailService.selectByParent(dMap);
+                    String ids = "";
+                    for(int k=0;k<lists.size();k++){
+                        if(lists.get(k).getParentId().equals("1")){
+                            ids = lists.get(k).getId();
+                            break;
+                        }
+                    }
+                    if(!parentId.contains(ids)){
+                        parentId.add(ids);
                         HashMap<String,Object> parentMap = new HashMap<>();
                         parentMap.put("projectId", id);
                         parentMap.put("id", detailList.get(i).getRequiredId());
                         List<AdvancedDetail> pList = detailService.selectByParent(parentMap);
                         newDetails.addAll(pList);
                     }else{
-                        newDetails.add(detailList.get(i));
+                        HashMap<String,Object> map2 = new HashMap<>();
+                        map2.put("projectId", id);
+                        map2.put("id", detailList.get(i).getRequiredId());
+                        List<AdvancedDetail> list3 = detailService.selectByParent(map2);
+                        for(int j=0;j<newDetails.size();j++){
+                            for(int k=0;k<list3.size();k++){
+                                if(newDetails.get(j).getId().equals(list3.get(k).getId())){
+                                    list3.remove(list3.get(k));
+                                    break;
+                                }
+                            }
+                        }
+                        newDetails.addAll(list3);
                     }
                 }
                 ComparatorDetails comparator = new ComparatorDetails();
                 Collections.sort(newDetails, comparator);
                 List<String> newParentId = new ArrayList<>();
+                List<String> oneParentId = new ArrayList<>();
+                List<String> twoParentId = new ArrayList<>();
+                List<String> threeParentId = new ArrayList<>();
+                List<String> fourParentId = new ArrayList<>();
+                List<String> fiveParentId = new ArrayList<>();
                 for(int i=0;i<newDetails.size();i++){
                     HashMap<String,Object> detailMap = new HashMap<>();
                     detailMap.put("id",newDetails.get(i).getRequiredId());
                     detailMap.put("projectId", id);
                     List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
+                    List<AdvancedDetail> plist = detailService.selectByParent(detailMap);
                     if(dlist.size()>1){
                         HashMap<String,Object> dMap = new HashMap<>();
                         dMap.put("projectId", id);
@@ -876,14 +1008,77 @@ public class AdvancedProjectController extends BaseController {
                         double money = budget;
                         newDetails.get(i).setBudget(money);
                     }
+                    if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+                        if(!oneParentId.contains(newDetails.get(i).getParentId())){
+                            oneParentId.add(newDetails.get(i).getParentId());
+                            serialoneOne = 1;
+                        }
+                        newDetails.get(i).setSerialNumber(test(serialoneOne));
+                        serialoneOne ++;
+                    }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+                        if(!twoParentId.contains(newDetails.get(i).getParentId())){
+                            twoParentId.add(newDetails.get(i).getParentId());
+                            serialtwoTwo = 1;
+                        }
+                        newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
+                        serialtwoTwo ++;
+                    }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+                        if(!threeParentId.contains(newDetails.get(i).getParentId())){
+                            threeParentId.add(newDetails.get(i).getParentId());
+                            serialthreeThree = 1;
+                        }
+                        newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
+                        serialthreeThree ++;
+                    }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+                        if(!fourParentId.contains(newDetails.get(i).getParentId())){
+                            fourParentId.add(newDetails.get(i).getParentId());
+                            serialfourFour = 1;
+                        }
+                        newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
+                        serialfourFour ++;
+                    }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+                        if(!fiveParentId.contains(newDetails.get(i).getParentId())){
+                            fiveParentId.add(newDetails.get(i).getParentId());
+                            serialfiveFive = 0;
+                        }
+                        char serialNum = (char) (97 + serialfiveFive);
+                        newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                        serialfiveFive++;
+                    }
                     if(dlist.size()==1){
+                        map.put("projectId", id);
+                        map.put("id", newDetails.get(i).getRequiredId());
+                        List<AdvancedDetail> list = detailService.selectByParent(map);
                         if(!newParentId.contains(newDetails.get(i).getParentId())){
-                            serialN = 0;
+                            serialOne = 1;
+                            serialTwo = 1;
+                            serialThree = 1;
+                            serialFour = 1;
+                            serialFive = 0;
+                            serialSix = 0;
                             newParentId.add(newDetails.get(i).getParentId());
                         }
-                        char serialNum = (char) (97 + serialN);
-                        newDetails.get(i).setSerialNumber("（"+serialNum+"）");
-                        serialN ++;
+                        if(list.size()==1){
+                            newDetails.get(i).setSerialNumber(test(serialOne));
+                            serialOne ++;
+                        }else if(list.size()==2){
+                            newDetails.get(i).setSerialNumber("（"+test(serialTwo)+"）");
+                            serialTwo ++;
+                        }else if(list.size()==3){
+                            newDetails.get(i).setSerialNumber(String.valueOf(serialThree));
+                            serialThree ++;
+                        }else if(list.size()==4){
+                            newDetails.get(i).setSerialNumber("（"+String.valueOf(serialFour)+"）");
+                            serialFour ++;
+                        }else if(list.size()==5){
+                            char serialNum = (char) (97 + serialFive);
+                            newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                            serialFive ++;
+                        }else if(list.size()==6){
+                            char serialNum = (char) (97 + serialSix);
+                            newDetails.get(i).setSerialNumber("（"+serialNum+"）");
+                            serialSix ++;
+                        }
                     }
                 }
                 ps.setAdvancedDetails(newDetails);
@@ -979,9 +1174,20 @@ public class AdvancedProjectController extends BaseController {
     }
     
     @RequestMapping("/start")
-    public String start(String id, String principal, HttpServletRequest request) {
+    public String start(String id, String principal, HttpServletRequest request, Model model) {
         String status = DictionaryDataUtil.getId("YFB_DSS");
         AdvancedProject project = advancedProjectService.selectById(id);
+        List<UploadFile> list = uploadService.getFilesOther(project.getId(), null, "2");
+        if(list.size() < 1){
+            model.addAttribute("mainId_msg", "请上传附件");
+            if (project != null){
+               List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseUserList(project.getPurchaseDepId());
+               model.addAttribute("purchaseInfo", purchaseInfo);
+            }
+            model.addAttribute("project", project);
+            model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
+            return "bss/ppms/advanced_project/upload";
+        }
         User user = userService.getUserById(principal);
         project.setPrincipal(principal);
         project.setIpone(user.getMobile());

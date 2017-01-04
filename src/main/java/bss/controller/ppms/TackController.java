@@ -50,6 +50,7 @@ import bss.model.ppms.ScoreModel;
 import bss.model.ppms.Task;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
+import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.AdvancedDetailService;
@@ -131,6 +132,9 @@ public class TackController extends BaseController{
     
     @Autowired
     private PackageService packageService;
+    
+    @Autowired
+    private CollectPlanService collectPlanService;
 	/**
 	 * 
 	* @Title: listAll
@@ -228,7 +232,7 @@ public class TackController extends BaseController{
 	 */
 	@RequestMapping("/startTask")
 	@ResponseBody
-	public void startTask(String id){
+	public void startTask(String id, HttpServletRequest request){
 	    if(id != null){
 	        String[] ide = id.split(",");
 	        for (int i = 0; i < ide.length; i++) {
@@ -243,7 +247,14 @@ public class TackController extends BaseController{
                          project.setIsRehearse(0);
                          projectService.update(project);
                      }
-	                 List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+                     List<PurchaseRequired> list2 = collectPlanService.getAll(task.getCollectId(), request);
+                     for (PurchaseRequired purchaseRequired : list2) {
+                         purchaseRequired.setDetailStatus(1);
+                         purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired);
+                     }
+                     task.setAcceptTime(new Date());
+                     taskservice.update(task);
+	                /* List<String> list = conllectPurchaseService.getNo(task.getCollectId());
 	                 if(list != null && list.size()>0){
 	                     for (String s : list) {
 	                         Map<String,Object> map=new HashMap<String,Object>();
@@ -256,7 +267,7 @@ public class TackController extends BaseController{
 	                         task.setAcceptTime(new Date());
 	                         taskservice.update(task);
 	                     }
-	                 }
+	                 }*/
 	             }else{
 	                 HashMap<String, Object> map1 = new HashMap<>();
 	                 map1.put("taskId", task.getId());
@@ -369,19 +380,10 @@ public class TackController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/view")
-	public String view(@CurrentUser User user, String id, Model model){
+	public String view(@CurrentUser User user, String id, Model model, HttpServletRequest request){
 		Task task = taskservice.selectById(id);
 		if(task.getCollectId() != null){
-        List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
-            List<String> list = conllectPurchaseService.getNo(task.getCollectId());
-            if(list != null && list.size() > 0){
-                for(String s:list){
-                    Map<String,Object> map=new HashMap<String,Object>();
-                    map.put("planNo", s);
-                    List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-                    listp.addAll(list2);
-                }
-            }
+		    List<PurchaseRequired> listp = collectPlanService.getAll(task.getCollectId(), request);
             
             for(int i=0;i<listp.size();i++){
                 if(listp.get(i).getPrice()!=null){
@@ -578,21 +580,13 @@ public class TackController extends BaseController{
         String thIds = null;
         if(StringUtils.isNotBlank(id)){
             Task task = taskservice.selectById(id);
-            List<String> list = conllectPurchaseService.getNo(task.getCollectId());
-            if(list != null && list.size() > 0){
-                for (String uu : list) {
-                    Map<String,Object> map1=new HashMap<String,Object>();
-                    map1.put("planNo", uu);
-                    //map1.put("organization", user.getOrg().getId());
-                    List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map1);
-                    if (list2 != null && list2.size() > 0) {
-                        if(thIds == null){
-                            thIds = list2.get(0).getId();
-                        }else{
-                            thIds = thIds + "," + list2.get(0).getId();
-                        }
-                    }
-                }
+            List<PurchaseRequired> list2 = collectPlanService.getAll(task.getCollectId(), request);
+            if (list2 != null && list2.size() > 0) {
+              if(thIds == null){
+                 thIds = list2.get(0).getId();
+              }else{
+                 thIds = thIds + "," + list2.get(0).getId();
+              }
             }
         }
         

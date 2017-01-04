@@ -151,6 +151,7 @@
               <th class="info w150">预算金额（万元）</th>
               <th class="info w150">交货期限</th>
               <th class="info w150">采购方式建议</th>
+              <th class="info w150">采购部门</th>
               <th class="info w150">供应商名称</th>
               <th class="info w150">是否申请办理免税</th>
               <th class="info w150">物资用途（仅进口）</th>
@@ -196,6 +197,9 @@
               <td class="tl pl20">${obj.deliverDate }</td>
               <td class="tl pl20"> <c:forEach items="${kind}" var="kind" >
                   <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                </c:forEach></td>
+              <td class="tl pl20"> <c:forEach items="${org}" var="org" >
+                  <c:if test="${org.id == obj.orgnization}">${org.name}</c:if>
                 </c:forEach></td>
               <%-- <td class="tc">${obj.supplier }</td> --%>
               <td title="${obj.supplier}" class="tl pl20">
