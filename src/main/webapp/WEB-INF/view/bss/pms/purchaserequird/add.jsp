@@ -867,7 +867,7 @@
 											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0"/>
 										</td>
 										<td class="tc  p0"><input type="text" name="list[0].stand" class="m0 "></td>
-										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 "></td>
+										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 w100p"></td>
 										<td class="tc p0"><input type="text" name="list[0].item" class="m0 "></td>
 										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 "></td>
 										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 "></td>
