@@ -171,9 +171,13 @@
       $(function() {
     	  var range = "${article.range}";
     	  $("input[name='ranges']").each(function(){
-    		  if($(this).val()==range){
-    			  $(this).attr('checked','true');
-    		  }
+    		  if (range == '2') {
+			      $(this).attr('checked','true');
+		  	  } else {
+		  	  	  if($(this).val()==range){
+    			      $(this).attr('checked','true');
+    		  	  }
+		  	  }
     	  });
           var typeId;
            $("#secondType").empty();
@@ -433,15 +437,15 @@
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">附件上传：</span>
               <div>
-                <u:upload id="artice_file_up" buttonName="上传文档" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
-                <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+                <u:upload id="artice_file_up" buttonName="上传文档" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+                <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
               </div>
             </li>
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">单位及保密委员会审核表：</span>
               <div>
-                <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" auto="true" />
-                <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId}" sysKey="${sysKey}" typeId="${secretTypeId }" auto="true" />
+                <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${secretTypeId }" />
               </div>
               <div class="cue">${ERR_auditDoc}</div>
             </li>

@@ -213,6 +213,7 @@
 								onclick="selectAll()" alt=""></th> -->
 							<th>序号</th>
 							<th>包名</th>
+							<th>状态</th>
 							<th>评分办法</th>
 							<th>操作</th>
 							<!-- <th>评分办法名称</th>
@@ -232,6 +233,17 @@
                     
                   </c:forEach>
 								</td>
+								<td class="tc">
+                <c:if test="${p.isEditSecond == 0 and project.confirmFile != 1}">
+                                                               请选择评分办法
+                </c:if>
+                <c:if test="${p.isEditSecond == 1 and project.confirmFile != 1}">
+                                                                  维护评分细则
+                </c:if>
+                <c:if test="${p.isEditSecond == 2}">
+                                                                  已完成
+                </c:if>
+                </td>
 								 <td class="tc">
 								   <c:if test="${p.isHaveScoreMethod == 1}">
 								       <!-- <button class="btn" type="button" onclick="editScoreMethod()">修改评分方法</button> -->

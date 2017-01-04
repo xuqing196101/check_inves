@@ -16,12 +16,16 @@
       }
 
       $(function() {
-        var range = "${article.range}";
-        if(range == 2) {
-          $("input[name='ranges']").attr("checked", true);
-        } else {
-          $("input[name='ranges'][value=" + range + "]").attr("checked", true);
-        }
+          var range = "${article.range}";
+    	  $("input[name='ranges']").each(function(){
+    		  if (range == '2') {
+			      $(this).attr('checked','true');
+		  	  } else {
+		  	  	  if($(this).val()==range){
+    			      $(this).attr('checked','true');
+    		  	  }
+		  	  }
+    	  });
       });
 
       function addAttach() {
@@ -439,8 +443,8 @@
             <div class="input-append col-md-12 col-xs-12 col-sm-12 p0">
               <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
               <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
+              <div class="cue">${ERR_range}</div>
             </div>
-            <div class="cue">${ERR_range}</div>
           </li>
 
           <li class="col-md-12 col-xs-12 col-s  m-12">
@@ -454,16 +458,16 @@
           <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">附件上传：</span>
               <div>
-                <u:upload id="artice_file_up" buttonName="上传文档" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
-                <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+                <u:upload id="artice_file_up" buttonName="上传文档" groups="artice_up,artice_file_up,artice_secret_up" businessId="${article.id}" sysKey="${sysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+                <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
               </div>
             </li>
             
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">单位及保密委员会审核表：</span>
               <div>
-                <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" auto="true" />
-                <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${article.id}" sysKey="${sysKey}" typeId="${secretTypeId}" auto="true" />
+                <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${sysKey}" typeId="${secretTypeId}" />
               </div>
               <div class="cue">${ERR_auditDoc}</div>
             </li>
@@ -471,8 +475,8 @@
             <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">
               <span class="fl"><div id="tpsc" class="star_red">*</div>图片上传：</span>
               <div>
-                <u:upload id="artice_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
-                <u:show showId="artice_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" />
+                <u:upload id="artice_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${article.id}" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+                <u:show showId="artice_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${sysKey}" typeId="${attachTypeId }" />
               </div>
               <div class="cue">${ERR_auditPic}</div>
             </li>

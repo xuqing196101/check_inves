@@ -495,63 +495,167 @@ public class AdvancedProjectController extends BaseController {
     
     
     @RequestMapping("/view")
-    public String view(String id, String ids, Model model, Integer page, HttpServletRequest request) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("projectId", id);
-            List<AdvancedPackages> packages = packageService.selectByAll(map);
-            if(packages != null && packages.size()>0){
-                for(AdvancedPackages ps:packages){
-                    int serialN = 0;
-                    HashMap<String,Object> packageId = new HashMap<>();
-                    packageId.put("packageId", ps.getId());
-                    List<AdvancedDetail> detailList = detailService.selectByAll(packageId);
-                    List<String> parentId = new ArrayList<>();
-                    List<AdvancedDetail> newDetails = new ArrayList<>();
-                    for(int i=0;i<detailList.size();i++){
-                        if(!parentId.contains(detailList.get(i).getParentId())){
-                            parentId.add(detailList.get(i).getParentId());
-                            HashMap<String,Object> parentMap = new HashMap<>();
-                            parentMap.put("projectId", id);
-                            parentMap.put("id", detailList.get(i).getRequiredId());
-                            List<AdvancedDetail> pList = detailService.selectByParent(parentMap);
-                            newDetails.addAll(pList);
-                        }else{
-                            newDetails.add(detailList.get(i));
+    public String view(String id, Model model, Integer page, HttpServletRequest request) {
+        HashMap<String,Object> pack = new HashMap<>();
+        HashMap<String,Object> map = new HashMap<>();
+        pack.put("projectId", id);
+        List<AdvancedPackages> packages = packageService.selectByAll(pack);
+        if(packages.size()!=0){
+            for(AdvancedPackages ps:packages){
+                int serialoneOne = 1;
+                int serialtwoTwo = 1;
+                int serialthreeThree = 1;
+                int serialfourFour = 1;
+                int serialfiveFive = 0;
+                int serialOne = 1;
+                int serialTwo = 1;
+                int serialThree = 1;
+                int serialFour = 1;
+                int serialSix = 0;
+                int serialFive = 0;
+                HashMap<String,Object> packageId = new HashMap<>();
+                packageId.put("packageId", ps.getId());
+                List<AdvancedDetail> detailList = detailService.selectByAll(packageId);
+                List<String> parentId = new ArrayList<>();
+                List<AdvancedDetail> newDetails = new ArrayList<>();
+                for(int i=0;i<detailList.size();i++){
+                    HashMap<String,Object> dMap = new HashMap<String,Object>();
+                    dMap.put("projectId", id);
+                    dMap.put("id", detailList.get(i).getRequiredId());
+                    List<AdvancedDetail> lists = detailService.selectByParent(dMap);
+                    String ids = "";
+                    for(int k=0;k<lists.size();k++){
+                        if(lists.get(k).getParentId().equals("1")){
+                            ids = lists.get(k).getId();
+                            break;
                         }
                     }
-                    ComparatorDetails comparator = new ComparatorDetails();
-                    Collections.sort(newDetails, comparator);
-                    List<String> newParentId = new ArrayList<>();
-                    for(int i=0;i<newDetails.size();i++){
-                        HashMap<String,Object> detailMap = new HashMap<>();
-                        detailMap.put("id",newDetails.get(i).getRequiredId());
-                        detailMap.put("projectId", id);
-                        List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
-                        if(dlist.size()>1){
-                            HashMap<String,Object> dMap = new HashMap<>();
-                            dMap.put("projectId", id);
-                            dMap.put("id", newDetails.get(i).getRequiredId());
-                            dMap.put("packageId", ps.getId());
-                            List<AdvancedDetail> packDetails = detailService.findHavePackageIdDetail(dMap);
-                            int budget = 0;
-                            for (AdvancedDetail projectDetail : packDetails) {
-                                budget += projectDetail.getBudget().intValue();
+                    if(!parentId.contains(ids)){
+                        parentId.add(ids);
+                        HashMap<String,Object> parentMap = new HashMap<>();
+                        parentMap.put("projectId", id);
+                        parentMap.put("id", detailList.get(i).getRequiredId());
+                        List<AdvancedDetail> pList = detailService.selectByParent(parentMap);
+                        newDetails.addAll(pList);
+                    }else{
+                        HashMap<String,Object> map2 = new HashMap<>();
+                        map2.put("projectId", id);
+                        map2.put("id", detailList.get(i).getRequiredId());
+                        List<AdvancedDetail> list3 = detailService.selectByParent(map2);
+                        for(int j=0;j<newDetails.size();j++){
+                            for(int k=0;k<list3.size();k++){
+                                if(newDetails.get(j).getId().equals(list3.get(k).getId())){
+                                    list3.remove(list3.get(k));
+                                    break;
+                                }
                             }
-                            double money = budget;
-                            newDetails.get(i).setBudget(money);
                         }
-                        if(dlist.size()==1){
-                            if(!newParentId.contains(newDetails.get(i).getParentId())){
-                                serialN = 0;
-                                newParentId.add(newDetails.get(i).getParentId());
-                            }
-                            char serialNum = (char) (97 + serialN);
-                            newDetails.get(i).setSerialNumber("（"+serialNum+"）");
-                            serialN ++;
-                        }
+                        newDetails.addAll(list3);
                     }
-                    ps.setAdvancedDetails(newDetails);
                 }
+                ComparatorDetails comparator = new ComparatorDetails();
+                Collections.sort(newDetails, comparator);
+                List<String> newParentId = new ArrayList<>();
+                List<String> oneParentId = new ArrayList<>();
+                List<String> twoParentId = new ArrayList<>();
+                List<String> threeParentId = new ArrayList<>();
+                List<String> fourParentId = new ArrayList<>();
+                List<String> fiveParentId = new ArrayList<>();
+                for(int i=0;i<newDetails.size();i++){
+                    HashMap<String,Object> detailMap = new HashMap<>();
+                    detailMap.put("id",newDetails.get(i).getRequiredId());
+                    detailMap.put("projectId", id);
+                    List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
+                    List<AdvancedDetail> plist = detailService.selectByParent(detailMap);
+                    if(dlist.size()>1){
+                        HashMap<String,Object> dMap = new HashMap<>();
+                        dMap.put("projectId", id);
+                        dMap.put("id", newDetails.get(i).getRequiredId());
+                        dMap.put("packageId", ps.getId());
+                        List<AdvancedDetail> packDetails = detailService.findHavePackageIdDetail(dMap);
+                        int budget = 0;
+                        for (AdvancedDetail projectDetail : packDetails) {
+                            budget += projectDetail.getBudget().intValue();
+                        }
+                        double money = budget;
+                        newDetails.get(i).setBudget(money);
+                    }
+                    if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+                        if(!oneParentId.contains(newDetails.get(i).getParentId())){
+                            oneParentId.add(newDetails.get(i).getParentId());
+                            serialoneOne = 1;
+                        }
+                        newDetails.get(i).setSerialNumber(test(serialoneOne));
+                        serialoneOne ++;
+                    }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+                        if(!twoParentId.contains(newDetails.get(i).getParentId())){
+                            twoParentId.add(newDetails.get(i).getParentId());
+                            serialtwoTwo = 1;
+                        }
+                        newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
+                        serialtwoTwo ++;
+                    }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+                        if(!threeParentId.contains(newDetails.get(i).getParentId())){
+                            threeParentId.add(newDetails.get(i).getParentId());
+                            serialthreeThree = 1;
+                        }
+                        newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
+                        serialthreeThree ++;
+                    }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+                        if(!fourParentId.contains(newDetails.get(i).getParentId())){
+                            fourParentId.add(newDetails.get(i).getParentId());
+                            serialfourFour = 1;
+                        }
+                        newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
+                        serialfourFour ++;
+                    }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+                        if(!fiveParentId.contains(newDetails.get(i).getParentId())){
+                            fiveParentId.add(newDetails.get(i).getParentId());
+                            serialfiveFive = 0;
+                        }
+                        char serialNum = (char) (97 + serialfiveFive);
+                        newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                        serialfiveFive++;
+                    }
+                    if(dlist.size()==1){
+                        map.put("projectId", id);
+                        map.put("id", newDetails.get(i).getRequiredId());
+                        List<AdvancedDetail> list = detailService.selectByParent(map);
+                        if(!newParentId.contains(newDetails.get(i).getParentId())){
+                            serialOne = 1;
+                            serialTwo = 1;
+                            serialThree = 1;
+                            serialFour = 1;
+                            serialFive = 0;
+                            serialSix = 0;
+                            newParentId.add(newDetails.get(i).getParentId());
+                        }
+                        if(list.size()==1){
+                            newDetails.get(i).setSerialNumber(test(serialOne));
+                            serialOne ++;
+                        }else if(list.size()==2){
+                            newDetails.get(i).setSerialNumber("（"+test(serialTwo)+"）");
+                            serialTwo ++;
+                        }else if(list.size()==3){
+                            newDetails.get(i).setSerialNumber(String.valueOf(serialThree));
+                            serialThree ++;
+                        }else if(list.size()==4){
+                            newDetails.get(i).setSerialNumber("（"+String.valueOf(serialFour)+"）");
+                            serialFour ++;
+                        }else if(list.size()==5){
+                            char serialNum = (char) (97 + serialFive);
+                            newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                            serialFive ++;
+                        }else if(list.size()==6){
+                            char serialNum = (char) (97 + serialSix);
+                            newDetails.get(i).setSerialNumber("（"+serialNum+"）");
+                            serialSix ++;
+                        }
+                    }
+                    
+                }
+                ps.setAdvancedDetails(newDetails);
+            }
             }else{
                 map.put("advancedProject", id);
                 List<AdvancedDetail> detail = detailService.selectByAll(map);

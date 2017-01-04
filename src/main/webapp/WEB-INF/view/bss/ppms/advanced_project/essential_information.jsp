@@ -430,7 +430,6 @@
                       <th class="info">质量技术标准</th>
                       <th class="info">计量单位</th>
                       <th class="info">采购数量</th>
-                      <th class="info">单价（元）</th>
                       <th class="info">交货期限</th>
                       <th class="info">供应商名称</th>
                       <c:if test="${pack.isImport==1 }">
@@ -449,7 +448,6 @@
                       <td class="tc">${obj.qualitStand}</td>
                       <td class="tc">${obj.item}</td>
                       <td class="tc">${obj.purchaseCount}</td>
-                      <td class="tc">${obj.price}</td>
                       <td class="tc">${obj.deliverDate}</td>
                       <td class="tc">${obj.supplier}</td>
                       <c:if test="${pack.isImport==1 }">

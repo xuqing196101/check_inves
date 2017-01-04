@@ -7,7 +7,6 @@
   <head>
     <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <script type="text/javascript">
       $(function() {
     	var saveNews="${saveNews}";
@@ -40,11 +39,11 @@
           }(),
           jump: function(e, first) {
             if(!first) {
-              var articleTypeId = "${articlesArticleTypeId}";
-              var range = "${articlesRange}";
-              var status = "${articlesStatus}";
+              var articleTypeId = "${article.articleType.id}";
+              var range = $("#range").val();
+              var status = $("#status").val();
               var name = "${articleName}";
-              location.href = "${pageContext.request.contextPath }/article/serch.html?page=" + e.curr + "&articleTypeId=" + articleTypeId + "&range=" + range + "&range=" + status + "&name=" + name;
+              window.location.href = "${pageContext.request.contextPath }/article/serch.html?page=" + e.curr + "&articleTypeId=" + articleTypeId + "&range=" + range + "&status=" + status + "&name=" + name;
             }
           }
         });
@@ -85,7 +84,12 @@
       }
 
       function view(id) {
-        window.location.href = "${ pageContext.request.contextPath }/article/view.html?id=" + id;
+      	var status = $("#status").val();
+      	var curpage = "${list.pageNum}";
+      	var articleTypeId = $("#articleTypes").val();
+      	var range = $("#range").val();
+      	var title = $("#name").val();
+        window.location.href = "${ pageContext.request.contextPath }/article/view.html?id=" + id +"&status=" + status +"&curpage=" +curpage +"&range=" +range +"&articleTypeId=" +articleTypeId + "&title=" +title;
       }
 
       function add() {
@@ -214,6 +218,7 @@
       function resetQuery() {
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
         $("#articleTypes").select2("val", "");
+        $("#status").val("0");
       }
 
       $(function() {
@@ -239,8 +244,8 @@
 
       $(function() {
         $("#articleTypes").select2("val", "${article.articleType.id}");
-        $("#range").val("${articlesRange}");
-        $("#status").val("${articlesStatus}");
+        /* $("#range").val("${articlesRange}");
+        $("#status").val("${articlesStatus}"); */
       })
 
       //发布
@@ -391,7 +396,10 @@
             <a href="javascript:void(0)"> 首页</a>
           </li>
           <li>
-            <a href="javascript:void(0)">信息管理</a>
+            <a href="javascript:void(0)">信息服务</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">信息发布</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -400,7 +408,7 @@
 
     <div class="container">
       <div class="headline-v2">
-        <h2>信息列表</h2>
+        <h2>信息发布</h2>
       </div>
 
       <div class="search_detail">
@@ -416,7 +424,8 @@
               <label class="fl">信息栏目：</label>
               <span class="fl mt5">
         <div class="w200">
-          <select id="articleTypes" name="articleType.id" class="w200" >
+          <select id="articleTypes" name="articleTypeId" class="w200" >
+            	<option value="">全部</option>
             </select>
           </div>
             </span>
@@ -425,10 +434,10 @@
               <label class="fl">发布范围：</label>
               <span>
               <select id ="range" name="range" class="w100"  >
-                <option></option>
-                <option value="0">内网</option>
-                <option value="1">外网</option>
-                <option value="2">内网&外网</option>
+                <option value=""  <c:if test="${articlesRange == ''}">selected</c:if>>全部</option>
+                <option value="0" <c:if test="${articlesRange == '0'}">selected</c:if>>内网</option>
+                <option value="1" <c:if test="${articlesRange == '1'}">selected</c:if>>外网</option>
+                <option value="2" <c:if test="${articlesRange == '2'}">selected</c:if>>内网&外网</option>
                </select>
            </span>
             </li>
@@ -436,12 +445,12 @@
               <label class="fl w100">状态：</label>
               <span>
               <select id ="status" name="status" class="w100">
-                <option></option>
-                <option value="0">暂存</option>
-                <option value="1">已提交</option>
-                <option value="2">已发布</option>
-                <option value="3">已退回</option>
-                <option value="4">已取消发布</option>
+                <option value="" <c:if test="${articlesStatus == ''}">selected</c:if>>全部</option>
+                <option value="0" <c:if test="${articlesStatus == '0'}">selected</c:if>>暂存</option>
+                <option value="1" <c:if test="${articlesStatus == '1'}">selected</c:if>>已提交</option>
+                <option value="2" <c:if test="${articlesStatus == '2'}">selected</c:if>>已发布</option>
+                <option value="3" <c:if test="${articlesStatus == '3'}">selected</c:if>>已退回</option>
+                <option value="4" <c:if test="${articlesStatus == '4'}">selected</c:if>>已取消发布</option>
                </select>
            </span>
             </li>
