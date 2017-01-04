@@ -65,7 +65,7 @@ public class Article{
     private Integer downloadCount;
 
     /**
-     * @Fields status : 状态 0：暂存 1：已提交2：已审核 3：退回 4：撤回
+     * @Fields status : 状态 0：暂存 1：已提交2：已审核 3：退回 4：已取消发布
      */
     private Integer status;
 

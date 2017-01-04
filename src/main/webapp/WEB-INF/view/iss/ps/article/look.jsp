@@ -133,7 +133,7 @@
               </c:if>
               <c:if test="${article.status==3 }">
                 <h2 class="count_flow jbxx clear">退回理由</h2>
-                <div class="col-md-12 col-xs-12 col-sm-12 border1 h80">${article.content}</div>
+                <div class="col-md-12 col-xs-12 col-sm-12 border1 h80">${article.reason}</div>
               </c:if>
 
               <ul class="clear p0 col-md-12 col-xs-12 col-sm-12 ">

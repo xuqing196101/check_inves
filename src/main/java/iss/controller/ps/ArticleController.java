@@ -772,6 +772,15 @@ public class ArticleController extends BaseSupplierController {
     }
     return "redirect:getAll.html";
   }
+  
+  @RequestMapping("auditDelete")
+  public String auditDelete(HttpServletRequest request, String ids) {
+    String[] id = ids.split(",");
+    for (String str : id) {
+      articleService.delete(str);
+    }
+    return "redirect:auditlist.html?status=1";
+  }
 
   /**
    * @Title: view
@@ -843,13 +852,11 @@ public class ArticleController extends BaseSupplierController {
    * @return String
    */
   @RequestMapping("/auditlist")
-  public String auditlist(Model model, Integer status, Integer range, Integer page,
-      HttpServletRequest request) {
+  public String auditlist(Model model,String articleTypeId, Integer status, Integer range, Integer page, HttpServletRequest request) {
     Article article = new Article();
     ArticleType articleType = new ArticleType();
-
     String name = request.getParameter("name");
-    String articleTypeId = request.getParameter("articleType.id");
+    
 
     HashMap<String, Object> map = new HashMap<String, Object>();
 
@@ -860,9 +867,6 @@ public class ArticleController extends BaseSupplierController {
     }
     if (range != null && !range.equals("")) {
       map.put("range", range);
-    }
-    if (status != null && !status.equals("")) {
-      map.put("status", status);
     }
 
     if (articleTypeId != null && !articleTypeId.equals("")) {
@@ -876,14 +880,16 @@ public class ArticleController extends BaseSupplierController {
     map.put("page", page.toString());
     PropertiesUtil config = new PropertiesUtil("config.properties");
     PageHelper.startPage(page, Integer.parseInt(config.getString("pageSizeArticle")));
-
+    if (status != null && !status.equals("")) {
+      map.put("status", status);
+    } 
     List<Article> list = articleService.selectArticleByStatus(map);
 
     model.addAttribute("articleId", article.getId());
     DictionaryData sj = new DictionaryData();
     sj.setCode("SECURITY_COMMITTEE");
     List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
+    request.getSession().setAttribute("sysKey", Constant.TENDER_SYS_KEY);
     if (secrets.size() > 0) {
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
@@ -913,6 +919,8 @@ public class ArticleController extends BaseSupplierController {
     model.addAttribute("articleName", name);
     model.addAttribute("articlesRange", range);
     model.addAttribute("articlesStatus", status);
+    model.addAttribute("articlesArticleTypeId", articleTypeId);
+    model.addAttribute("curpage", page);
     model.addAttribute("article", article);
     return "iss/ps/article/audit/list";
 
@@ -967,7 +975,7 @@ public class ArticleController extends BaseSupplierController {
     DictionaryData dd = new DictionaryData();
     dd.setCode("POST_ATTACHMENT");
     List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-    request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+    model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
     if (lists.size() > 0) {
       model.addAttribute("attachTypeId", lists.get(0).getId());
     }
@@ -976,7 +984,6 @@ public class ArticleController extends BaseSupplierController {
     DictionaryData da = new DictionaryData();
     da.setCode("GGWJ");
     List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
-    request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
     if (dlists.size() > 0) {
       model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
     }
@@ -984,7 +991,6 @@ public class ArticleController extends BaseSupplierController {
     DictionaryData sj = new DictionaryData();
     sj.setCode("SECURITY_COMMITTEE");
     List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
     if (secrets.size() > 0) {
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
@@ -993,7 +999,7 @@ public class ArticleController extends BaseSupplierController {
   }
 
   @RequestMapping("/showaudit")
-  public String showaudit(Model model, String id, HttpServletRequest request) {
+  public String showaudit(Model model, String id, HttpServletRequest request, String status, String articleTypeId, Integer curpage, Integer range, String title) {
     Article article = articleService.selectArticleById(id);
     List<ArticleAttachments> articleAttaList = articleAttachmentsService
         .selectAllArticleAttachments(article.getId());
@@ -1005,7 +1011,7 @@ public class ArticleController extends BaseSupplierController {
     DictionaryData dd = new DictionaryData();
     dd.setCode("POST_ATTACHMENT");
     List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-    request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+    model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
     if (lists.size() > 0) {
       model.addAttribute("attachTypeId", lists.get(0).getId());
     }
@@ -1014,7 +1020,6 @@ public class ArticleController extends BaseSupplierController {
     DictionaryData da = new DictionaryData();
     da.setCode("GGWJ");
     List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
-    request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
     if (dlists.size() > 0) {
       model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
     }
@@ -1022,11 +1027,15 @@ public class ArticleController extends BaseSupplierController {
     DictionaryData sj = new DictionaryData();
     sj.setCode("SECURITY_COMMITTEE");
     List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-    request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
     if (secrets.size() > 0) {
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
-
+    
+    model.addAttribute("articleName", title);
+    model.addAttribute("articlesRange", range);
+    model.addAttribute("articlesStatus", status);
+    model.addAttribute("articlesArticleTypeId", articleTypeId);
+    model.addAttribute("curpage", curpage);
     return "iss/ps/article/audit/showaudit";
   }
 
@@ -1059,11 +1068,11 @@ public class ArticleController extends BaseSupplierController {
       if (ValidateUtils.isNull(article.getName())) {
         model.addAttribute("ERR_name", "标题名称不能为空");
         flag = false;
-      } else if (article.getName().length() > 150) {
-        model.addAttribute("ERR_name", "标题名称不能超过150字符");
+      } else if (article.getName().length() > 200) {
+        model.addAttribute("ERR_name", "标题名称不能超过200字符");
         flag = false;
       }
-      List<Article> art = articleService.selectAllArticle(null, 1);
+      /*List<Article> art = articleService.selectAllArticle(null, 1);
       if (art != null) {
         for (Article ar : art) {
           if (ar.getName().equals(article.getName())) {
@@ -1075,7 +1084,7 @@ public class ArticleController extends BaseSupplierController {
             }
           }
         }
-      }
+      }*/
       String contype = request.getParameter("articleType.id");
       if (ValidateUtils.isNull(contype)) {
         flag = false;
@@ -1132,7 +1141,7 @@ public class ArticleController extends BaseSupplierController {
       DictionaryData dd = new DictionaryData();
       dd.setCode("POST_ATTACHMENT");
       List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-      request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+      model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
       if (lists.size() > 0) {
         model.addAttribute("attachTypeId", lists.get(0).getId());
       }
@@ -1141,7 +1150,6 @@ public class ArticleController extends BaseSupplierController {
       DictionaryData da = new DictionaryData();
       da.setCode("GGWJ");
       List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
-      request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
       if (dlists.size() > 0) {
         model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
       }
@@ -1149,7 +1157,6 @@ public class ArticleController extends BaseSupplierController {
       DictionaryData sj = new DictionaryData();
       sj.setCode("SECURITY_COMMITTEE");
       List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
-      request.getSession().setAttribute("secretSysKey", Constant.EXPERT_SYS_KEY);
       if (secrets.size() > 0) {
         model.addAttribute("secretTypeId", secrets.get(0).getId());
       }
@@ -1182,16 +1189,17 @@ public class ArticleController extends BaseSupplierController {
           article.setLastArticleTypeId(article.getFourArticleTypeId());
         }
         articleService.update(article);
-        if (article.getStatus() == 3) {
-          articleService.updateStatus(article);
-        }
+        
 
         List<Article> list = articleService.selectAllArticle(null, page == null ? 1 : page);
         model.addAttribute("list", new PageInfo<Article>(list));
 
         // model.addAttribute("status", "1");
-        url = "redirect:auditlist.html";
+        url = "redirect:auditlist.html?status=1";
       }
+    } else if (article.getStatus() == 3) {
+        articleService.updateStatus(article);
+        url = "redirect:auditlist.html?status=1";
     }
     return url;
   }

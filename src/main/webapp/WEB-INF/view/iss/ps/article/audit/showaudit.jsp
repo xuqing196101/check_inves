@@ -314,6 +314,15 @@
               }
             });
       }
+      
+      function goBack(){
+	  	var curpage = $("#curpage").val();
+	  	var status = $("#status").val();
+	  	var range = $("#range").val();
+	  	var articleTypeId = "${articlesArticleTypeId}";
+	  	var name = "${articleName}";
+	  	 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name;
+	  }
     </script>
   </head>
 
@@ -339,7 +348,9 @@
         <div class="clear"></div>
       </div>
     </div>
-
+	<input type="hidden" id="curpage" value="${curpage}">
+	<input type="hidden" id="status" value="${articlesStatus}">
+    <input type="hidden" id="range" value="${articlesRange}">
     <div class="container container_box">
       <form action="${pageContext.request.contextPath }/article/audit.html?status=2" method="post" id="form">
         <div>
@@ -393,7 +404,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发布范围：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
-                <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
+                <label class="fl margin-bottom-0"><input type="checkbox" disabled="disabled" name="ranges" value="0">内网</label>
                 <label class="ml10 fl"><input type="checkbox" disabled="disabled" name="ranges" value="1">外网</label>
               </div>
             </li>
@@ -406,14 +417,14 @@
             <li class="col-md-6 col-xs-6 col-sm-12 mt10">
               <span class="fl">已上传的附件：</span>
               <div class="fl">
-                <u:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+                <u:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
               </div>
             </li>
 
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">单位及保密委员会审核表：</span>
               <div>
-                <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${secretTypeId }" />
               </div>
             </li>
 

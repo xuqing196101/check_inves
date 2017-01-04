@@ -36,14 +36,18 @@
       function back() {
         var id = $("#id").val();
         var reason = $("#reason").val();
-        layer.confirm('您确定需要退回吗?', {
-          title: '提示',
-          offset: ['222px', '360px'],
-          shade: 0.01
-        }, function(index) {
-          layer.close(index);
-          window.location.href = "${pageContext.request.contextPath }/article/audit.html?id=" + id + "&reason=" + reason + "&status=3";
-        });
+        if (reason == null || reason == '') {
+			layer.msg("请填写退回理由", {offset: '222px',shade: 0.01});
+		} else {
+	        layer.confirm('您确定需要退回吗?', {
+	          title: '提示',
+	          offset: ['222px', '360px'],
+	          shade: 0.01
+	        }, function(index) {
+	          layer.close(index);
+	          window.location.href = "${pageContext.request.contextPath }/article/audit.html?id=" + id + "&reason=" + reason + "&status=3";
+	        });
+		}
       }
 
       function goBack() {
@@ -409,15 +413,15 @@
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">附件上传：</span>
               <div>
-                <u:upload id="artice_file_up" buttonName="上传文档" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
-                <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+                <u:upload id="artice_file_up" buttonName="上传文档" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+                <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
               </div>
             </li>
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">单位及保密委员会审核表：</span>
               <div>
-                <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" auto="true" />
-                <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${secretTypeId }" auto="true" />
+                <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${secretTypeId }" />
               </div>
               <div class="cue">${ERR_auditDoc}</div>
             </li>

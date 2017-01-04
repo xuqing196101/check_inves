@@ -159,7 +159,7 @@
   	,
     <include refid="Article_BlOB_Column_List" />
     from T_ISS_PS_ARTICLE
-    where IS_DELETED = 0 AND STATUS in (1,2)
+    where IS_DELETED = 0 
 	  	<if test="name != null">
 	  	  AND NAME LIKE #{name}
 	  	</if>
@@ -172,8 +172,22 @@
 	  	<if test="status != null">
         AND STATUS = #{status}
       </if>
+      <if test="status == null">
+        AND STATUS in (1,2,4)
+      </if>
     <!-- order by decode(STATUS,4,0,1,1,3,2,2,3), PUBLISHED_AT DESC -->
-    order by STATUS ASC, PUBLISHED_AT DESC , SUBMIT_AT DESC
+      <if test="status == 1">
+        order by SUBMIT_AT DESC
+      </if>
+      <if test="status == 2">
+        order by PUBLISHED_AT DESC
+      </if>
+      <if test="status == 4">
+        order by PUBLISHED_AT DESC
+      </if>
+      <if test="status == null ">
+        order by decode(STATUS,4,0,1,1,3,2,2,3), SUBMIT_AT DESC, PUBLISHED_AT DESC
+      </if>
   </select>
   
   
@@ -499,11 +513,14 @@
       <if test="fourArticleTypeId != null">
        FOUR_ARTICLE_TYPE_ID = #{fourArticleTypeId},
       </if>
+      <if test="fourArticleTypeId == null">
+       FOUR_ARTICLE_TYPE_ID = null,
+      </if>
       <if test="lastArticleTypeId != null">
        LAST_ARTICLE_TYPE_ID = #{lastArticleTypeId},
       </if>
       <if test="submitAt != null">
-       SUBMIT_AT = #{submitAt}
+       SUBMIT_AT = #{submitAt},
       </if>
     </set>
     where ID = #{id}
@@ -823,6 +840,12 @@ and status = 2
       </if>
       <if test="submitAt != null">
         SUBMIT_AT = #{submitAt},
+      </if>
+      <if test="reason != null and reason !=''">
+        REASON = #{reason},
+      </if>
+      <if test="showCount != null">
+        SHOW_COUNT = #{showCount},
       </if>
     </set>
     where ID = #{id}
