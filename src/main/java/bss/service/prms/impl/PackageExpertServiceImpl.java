@@ -886,25 +886,4 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       return totalPriceSupplier;
     }
     
-    
-    
-    public static void main(String[] args) {
-      List<SaleTender> finalSupplier = new ArrayList<SaleTender>();
-      SaleTender saleTender0 = new SaleTender();
-      saleTender0.setEconomicScore(new BigDecimal(11));
-      saleTender0.setTechnologyScore(new BigDecimal(22));
-      finalSupplier.add(saleTender0);
-      SaleTender saleTender1 = new SaleTender();
-      saleTender1.setEconomicScore(new BigDecimal(99));
-      saleTender1.setTechnologyScore(new BigDecimal(88));
-      finalSupplier.add(saleTender1);
-      SaleTender saleTender2 = new SaleTender();
-      saleTender2.setEconomicScore(new BigDecimal(55));
-      saleTender2.setTechnologyScore(new BigDecimal(66));
-      finalSupplier.add(saleTender2);
-      SaleTender saleTender3 = new SaleTender();
-      saleTender3.setEconomicScore(new BigDecimal(33));
-      saleTender3.setTechnologyScore(new BigDecimal(22));
-      finalSupplier.add(saleTender3);
-    }
 }
