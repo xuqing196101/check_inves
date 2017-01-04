@@ -34,6 +34,15 @@
           window.location.href = "${ pageContext.request.contextPath }/article/sumbit.html?id=" + id + "&status=1";
         });
       }
+      
+      function goBack(){
+	  	var curpage = $("#curpage").val();
+	  	var status = $("#status").val();
+	  	var range = $("#range").val();
+	  	var articleTypeId = "${articleTypeId}";
+	  	var name = "${title}";
+	  	 window.location.href = "${ pageContext.request.contextPath }/article/serch.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name;
+	  }
     </script>
   </head>
 
@@ -67,6 +76,9 @@
               <a class="s_news f18">详细信息</a>
             </li>
           </ul>
+          <input type="hidden" id="curpage" value="${curpage}">
+          <input type="hidden" id="status" value="${status}">
+          <input type="hidden" id="range" value="${range}">
           <div class="tab-content padding-top-20 over_hideen">
             <div class="tab-pane fade active in">
               <h2 class="count_flow jbxx">基本信息</h2>
@@ -127,12 +139,12 @@
               <ul class="clear p0 col-md-12 col-xs-12 col-sm-12 ">
                 <li class="col-md-6 col-sm-12 col-xs-12 mt10">
                   <span class="fl">已上传的附件：</span>
-                  <u:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${articleSysKey}" typeId="${artiAttachTypeId}" />
+                  <u:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${sysKey}" typeId="${artiAttachTypeId}" />
                 </li>
                 
                 <li class="col-md-6 col-sm-12 col-xs-12 mt10">
                   <span class="fl">单位及保密委员会审核表：</span>
-                  <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${secretSysKey}" typeId="${secretTypeId }" />
+                  <u:show showId="artice_secret_show" delete="false" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${sysKey}" typeId="${secretTypeId }" />
                 </li>
                 
                <c:if test="${article.lastArticleType.id=='111' }">
@@ -148,7 +160,7 @@
             </div>
           </div>
           <div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
-            <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+            <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
           </div>
         </div>
 
