@@ -236,9 +236,26 @@ public class ExcelUtil {
 		        			}
 	        			 }
 	        			 if(cell.getColumnIndex()==6){
+	        				 if(rq.getItem()==null){
+	        					  if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+	 	        					 Double value = cell.getNumericCellValue();
+	 	        					 if(value==0){
+	 	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，F列错误,计量单位不能为空！";
+	 			        				 map.put("errMsg", errMsg);
+	 			        				 bool=false;
+	 			        				 break;
+	 	        					 }
+	 	        				 }
+	        				 }
 	        				if(rq.getItem()!=null){
 	        				  if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
 	        					 Double value = cell.getNumericCellValue();
+	        					 if(value==0){
+	        						 errMsg=String.valueOf(row.getRowNum()+1)+"行，G列错误,采购数量不能为0！";
+			        				 map.put("errMsg", errMsg);
+			        				 bool=false;
+			        				 break;
+	        					 }
 	 	        				 if(value!=null){ 
 	 		        				 rq.setPurchaseCount(new BigDecimal(cell.getNumericCellValue())); 
 	 		        				 continue;

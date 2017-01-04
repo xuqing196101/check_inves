@@ -106,7 +106,7 @@
 		 	       }
 	    	   });
 	    	   budget = budget.toFixed(2); 
-	    	   
+	    	   var bud;
 	     
 	    	    $("#table tr").each(function(){
 		    	  var  pid= $(this).find("td:eq(8)").children(":first").val();//上级id
@@ -114,10 +114,9 @@
 		    		if(id==pid){
 		    			$(this).find("td:eq(8)").children(":first").next().val(budget);
 		    			 var spid= $(this).find("td:eq(8)").children(":last").val();
-		    			 calc(spid);
+		    			bud= calc(spid);
 		    		}  
 	    		}); 
-	    	 
 	    /*     $("#table tr").each(function(){
 	 	    		var cid= $(this).find("td:eq(8)").children(":first").val(); //的值
 	 	    		   if(id==cid){ */
@@ -129,8 +128,7 @@
 	 	    		 //  $(this).find("td:eq(8)").children(":first").next().val(budget);
 	 	    		 /*  } 
 	 	    		}); */    
-	    	    
-	    	    
+	    	     
 	    	  var did=$("table tr:eq(1)").find("td:eq(8)").children(":first").val();
 	    	    var total=0;
 	    	    $("#table tr").each(function(){
@@ -143,20 +141,28 @@
 	    	    $("table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
 	       }   
 	       
- 	/*       function calc(id){
- 	    	  var budget=0;
+        function calc(id){
+        	var bud=0;
 	 	   	    $("#table tr").each(function(){
 	 	   	           var pid= $(this).find("td:eq(8)").children(":last").val() ;
 		 	   	       if(id==pid){
-		 	   	         	var sameBud=$(this).find("td:eq(8)").children(":first").next().val();
-		 	   	            budget=budget+sameBud;
-		 	   	          var spid= $(this).find("td:eq(8)").children(":last").val();
-		 	   	            calc(spid); 
+		 	   	         	var currBud=$(this).find("td:eq(8)").children(":first").next().val()-0;
+		 	   	            bud=bud+currBud;
+		 	   	            bud = bud.toFixed(2);
+		 	   	            
+		 	   	              var spid= $(this).find("td:eq(8)").children(":last").val();
+		 	   	              aa(spid);
+		 	   	             /*  var did= $(this).find("td:eq(8)").children(":first").val();
+			 	   	           if(did=='1'){
+			 	   	        	  return bud; 
+			 	   	            }  
+			 	   	 		    calc(spid); */ 
+		 	   	           
 		 	   	        // 	$(this).find("td:eq(8)").children(":first").next().val(budget);
 		 	   	      }
 	     		}); 
 	 	    	   
-	 	     }    */
+	 	     }     
 	  	  
 	  	 
 	      function sel(obj) {
@@ -221,7 +227,7 @@
                            <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
                            <td class="tl "><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
                            <c:forEach items="${requires }" var="re" >
-					         <c:if test="${obj.department==re.id }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
+					         <c:if test="${obj.department==re.name }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
 			               </c:forEach>
                   </td>
                   <td class="tl "><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName}"></td>
@@ -257,12 +263,14 @@
                   </td>
                   <td class="tc"><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate}" class="w100"></td>
                   <td class="tc">
+                   <c:if test="${obj.price!=null}">
                       <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
                         <option value="">请选择</option>
                         <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
                       </select> 
+                     </c:if>
                   </td>
                   <td class="tl "><input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}" disabled="disabled"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}"></td>

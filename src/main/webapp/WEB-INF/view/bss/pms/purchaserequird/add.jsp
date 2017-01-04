@@ -166,6 +166,7 @@
 			
 			//保存
 			function incr() {
+				checkBud();
 				var orgType="${orgType}";
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
@@ -574,15 +575,15 @@
 												               +"  <td class='tc p0'>"
 												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].item' value='"+isValueLegal(data[i].item)+"'/>"
 												               +"  </td>"
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
-												               +"  </td>"
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
-												               +"  </td>"
-												               +"  <td class='tc p0'>"
+												               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'> "
+												               +"    <input style='border: 0px;' onblur='sum2(this)' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
+												               +"  <input type='hidden'  value='"+data[i].parentId+"' >  </td>"
+												               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'>"
+												               +"    <input style='border: 0px;'  onblur='sum1(this)'  type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
+												               +"   <input type='hidden'  value='"+data[i].parentId+"' >   </td>"
+												               +"  <td class='tc p0'>  <input   type='hidden'   value='"+data[i].id+"'>"
 												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].budget' value='"+isValueLegal(data[i].budget)+"'/>"
-												               +"  </td>"
+												               +"   <input type='hidden'  value='"+data[i].parentId+"' > </td>"
 												               +"  <td class='tc p0'>"
 												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
 												               +"  </td>"
@@ -674,6 +675,92 @@
 				}
 				
 			}
+			
+			function checkBud(){
+				var budget=0;
+			    $("#table tr").each(function(){
+			    	     var  val= $(this).find("td:eq(7)").children(":first").next().val();//上级id
+			    	   alert(val ==undefined);
+			    		/* if(val!=""||value !="undefined" ){
+			    			var same=$(this).find("td:eq(8)").children(":first").next().val()-0;;
+			    			budget=budget+same;
+			    		    alert(budget);
+			    		}  */ 
+		    		}); 
+			
+			}
+			
+			
+		  	 function sum2(obj){  //数量
+			        var purchaseCount = $(obj).val()-0;//数量
+			        var price2 = $(obj).parent().next().children(":last").prev();//价钱
+			        var price = $(price2).val()-0;
+			        var sum = purchaseCount*price/10000;
+			        var budget = $(obj).parent().next().next().children(":last").prev();
+			        $(budget).val(sum);
+			      	var id=$(obj).next().val(); //parentId
+			      	aa(id);
+			    } 
+			    
+			       function sum1(obj){
+			        var purchaseCount = $(obj).val()-0; //价钱
+			         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
+			      	 var sum = purchaseCount*price2/10000;
+			         $(obj).parent().next().children(":last").prev().val(sum);
+				     	var id=$(obj).next().val(); //parentId
+				     	aa(id);
+			    }
+			
+			       function aa(id){// id是指当前的父级parentid
+			    	   var budget=0;
+			    	   $("#table tr").each(function(){
+			 	    		var cid= $(this).find("td:eq(8)").children(":last").val(); //parentId
+			 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0; //价格
+				 	       if(id==cid){
+				 	    	 
+				 	    	  budget=budget+same; //查出所有的子节点的值
+				 	       }
+			    	   });
+			    	   budget = budget.toFixed(2); 
+			     
+			    	    $("#table tr").each(function(){
+				    	  var  pid= $(this).find("td:eq(8)").children(":first").val();//上级id
+				    		
+				    		if(id==pid){
+				    			$(this).find("td:eq(8)").children(":first").next().val(budget);
+				    			 var spid= $(this).find("td:eq(8)").children(":last").val();
+				    		 calc(spid);
+				    		}  
+			    		}); 
+			    	  var did=$("table tr:eq(1)").find("td:eq(8)").children(":first").val();
+			    	    var total=0;
+			    	    $("#table tr").each(function(){
+			 	    		var cid= $(this).find("td:eq(8)").children(":last").val();
+			 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0;
+			 	    		 if(did==cid){
+			 	    			total=total+same;
+			 	    		 }
+			    	   }); 
+			    	    $("table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
+			       }   
+			       
+		        function calc(id){
+		        	var bud=0;
+			 	   	    $("#table tr").each(function(){
+			 	   	           var pid= $(this).find("td:eq(8)").children(":last").val() ;
+				 	   	       if(id==pid){
+				 	   	         	var currBud=$(this).find("td:eq(8)").children(":first").next().val()-0;
+				 	   	            bud=bud+currBud;
+				 	   	            bud = bud.toFixed(2);
+				 	   	            
+				 	   	              var spid= $(this).find("td:eq(8)").children(":last").val();
+				 	   	              aa(spid);
+				 	   	      }
+			     		}); 
+			 	    	   
+			 	     }   
+		        
+		        
 		</script>
 	</head>
 
@@ -781,7 +868,7 @@
 					<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll" id="add_div">
 
 						<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
-							<table class="table table-bordered table-condensed table_input">
+							<table id="table" class="table table-bordered table-condensed table_input">
 								<thead>
 									<tr class="info space_nowrap">
 										<th class="">序号</th>

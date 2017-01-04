@@ -267,10 +267,9 @@
 						 	<td   class="tl pl20">
 							 
 							 
-							 
-							 <c:forEach items="${list2}" var="og" >
-                  <c:if test="${og.id == obj.organization}">${og.name}</c:if>
-                </c:forEach>
+							 <c:forEach items="${requires}" var="ss" >
+				                  <c:if test="${ss.orgId==obj.organization}">${ss.name}</c:if>
+				                </c:forEach>
                 
                 
 							</td >
