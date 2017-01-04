@@ -193,7 +193,7 @@
                     shade: 0.01,
                     btn: ['是', '否'],
                   }, function() {
-                    window.location.href = "${pageContext.request.contextPath}/task/quote.html?taskId="+id;
+                    window.location.href = "${pageContext.request.contextPath}/task/quote.html";
 
                   }, function() {
                     if(status == "未受领") {
@@ -515,7 +515,7 @@
               <td>
                 <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
                   <c:forEach items="${list2}" var="list" varStatus="vs">
-                    <c:if test="${obj.orgId eq list.id}">${list.name}</c:if>
+                    <c:if test="${obj.purchaseId eq list.id}">${list.name}</c:if>
                   </c:forEach>
                 </a>
               </td>

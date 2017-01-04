@@ -31,7 +31,7 @@
       layer.open({
             type: 1,
             title: '添加评审项信息',
-            area: ['70%', '300px'],
+            area: ['500px', '300px'],
             closeBtn: 1,
             shade:0.01, //遮罩透明度
             moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -42,8 +42,7 @@
           });
     }
     
-    
-     function editItem(id){
+    function editItem(id){
       $.ajax({   
             type: "get",  
             url: "${pageContext.request.contextPath}/adIntelligentScore/editScore.do?id="+id,        
@@ -57,7 +56,7 @@
               layer.open({
                     type: 1,
                     title: '添加评审项信息',
-                    area: ['70%', '300px'],
+                    area: ['500px', '300px'],
                     closeBtn: 1,
                     shade:0.01, //遮罩透明度
                     moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -73,7 +72,6 @@
        });   
     }
     
-    
     function addModel(obj,kindId,status){
         var projectId = $("#projectId").val();
         var packageId = $("#packageId").val();
@@ -81,7 +79,6 @@
     name = encodeURI(name);
       window.location.href="${pageContext.request.contextPath}/adIntelligentScore/gettreebody.html?projectId="+projectId+"&packageId="+packageId+"&id="+kindId+"&name="+name+"&addStatus="+status;
     }
-    
     
     
     //删除评审项 
@@ -102,8 +99,7 @@
       
     }
     
-    
-        //保存评审项
+    //保存评审项
     function saveItem(){
       $.ajax({   
             type: "POST",  
@@ -127,8 +123,7 @@
        });    
     }
     
-    
-        //引入模板内容
+    //引入模板内容
     function loadTemplat(projectId, packageId){
       var fatId = $("#fatId").val();
       $.ajax({   
@@ -153,8 +148,7 @@
        }); 
     }
     
-    
-        //引入其他项目包的评审项
+    //引入其他项目包的评审项
     function loadOtherPackage(packageId,projectId){
       layer.open({
             type: 2,
@@ -215,18 +209,14 @@
                   <th class="w50">分值</th>
                </tr>
             </thead>
-            <tbody>
-               ${str}
-            </tbody>
+                 ${str }
         </table>
         <div class="tr col-md-12 col-sm-12 col-xs-12">
           <div ><b>总分:</b><span class="red f16" id="totalScore"></span></div>
         </div>
     </div>
-    <div class="mt40 tc mb50">
-      <c:if test="${project.confirmFile != 1 }">
-          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}'">返回</button>
-          </c:if>
+      <div class="mt40 tc mb50">
+          <button class="btn btn-windows back" onclick="history.go(-1)">返回</button>
       </div>
     <div id="openDiv" class="dnone layui-layer-wrap">
       <form id="form2" method="post" >

@@ -99,6 +99,9 @@ public class AdvancedProjectController extends BaseController {
     private PurchaseServiceI purchaseService;
     
     @Autowired
+    private FlowMangeService flowMangeService;
+    
+    @Autowired
     private OrgnizationServiceI orgnizationService;
     
     @Autowired
@@ -144,7 +147,7 @@ public class AdvancedProjectController extends BaseController {
             map.put("purchaseDepId", user.getOrg().getId());
             map.put("principal", user.getId());
             PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
-            List<AdvancedProject> list = advancedProjectService.selectByList(map);
+            List<AdvancedProject> list = advancedProjectService.selectByList(advancedProject);
             for(int i=0;i<list.size();i++){
                 try {
                     User contractor = userService.getUserById(list.get(i).getPrincipal());

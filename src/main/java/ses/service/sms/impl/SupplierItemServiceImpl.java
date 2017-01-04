@@ -149,29 +149,31 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	}
 	
 	public List<SupplierItem> getCategory(String supplierId,String categoryId,String type){
-		List<SupplierItem> list=new ArrayList<SupplierItem>();
-		//一级节点
-		List<SupplierItem> cateLIst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId, type);
-//		list.addAll(cateLIst);
-	
-		for(SupplierItem s:cateLIst){
-			
-			   //二级节点
-			   List<Category> categorylist = categoryService.findPublishTree(s.getCategoryId(),null);
-			   
-			   for( Category c:categorylist){
-				   //查询所有的三级节点
-				   List<Category> cateThree = categoryService.findPublishTree(c.getId(),null);
-				   //去中间表查是否存在
-				   for(Category cs:cateThree){
-					   List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
-					   list.addAll(cateLst);
-				   }
-			   }
-	 }
-		return list;		
+    	List<SupplierItem> list=new ArrayList<SupplierItem>();
+    	//一级节点
+    	List<SupplierItem> cateLIst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId, type);
+    //		list.addAll(cateLIst);
+    
+    	for(SupplierItem s:cateLIst){
+    	   //二级节点
+    	   List<Category> categorylist = categoryService.findPublishTree(s.getCategoryId(),null);
+    	   for( Category c:categorylist){
+    		   //查询所有的三级节点
+    		   List<Category> cateThree = categoryService.findPublishTree(c.getId(),null);
+    		   //去中间表查是否存在
+    		   for(Category cs:cateThree){
+    			   List<SupplierItem> cateLst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, cs.getId(),type);
+    			   //list.addAll(cateLst);
+    			   // 判断是否为空,不为空加入子节点
+    			   if (cateLst != null && cateLst.size() > 0) {
+    			       list.add(cateLst.get(0));
+    			   }
+    		   }
+    	   }
+    	}
+    	return list;		
 	}
-
+	
 	@Override
 	public List<Category> getCategory(String supplierId,String type) {
 		List<Category> cateList=new ArrayList<Category>();

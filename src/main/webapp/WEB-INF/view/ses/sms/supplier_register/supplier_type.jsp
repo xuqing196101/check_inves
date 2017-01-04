@@ -126,15 +126,8 @@
 			data : $("#save_pro_form_id").serializeArray(),
 			contextType: "application/x-www-form-urlencoded",
 			success:function(msg){
-				if (msg == 'ok'){
-				   layer.msg('暂存成功');  
-				}
-				if (msg == 'failed'){
-					layer.msg('暂存失败');
-				}
-			},
-			error: function(){
-				layer.msg('暂存失败!!!!!!!!!');
+			   	layer.msg('暂存成功');  
+				$("input[name='supplierMatPro.id']").val(msg);
 			}
 		});
  }
@@ -151,6 +144,9 @@
 		type : "post",
 		data : $("#save_pro_form_id").serializeArray(),
 		contextType: "application/x-www-form-urlencoded",
+		success:function(msg){
+			$("input[name='supplierMatPro.id']").val(msg);
+		}
 	});
  }
  
@@ -318,10 +314,7 @@ $(function(){
 	/** 打开物资生产证书 */
 	var proIndex;
 	function openCertPro() {
-	var matProId = $("input[name='supplierMatPro.id']").val();
-	var supplierId = $("input[name='id']").val();
-	  var matProId = $("input[name='supplierMatPro.id']").val();
-
+		var matProId = $("input[name='supplierMatPro.id']").val();
 		var supplierId = $("input[name='id']").val();
 		if (!matProId) {
 			layer.msg("请暂存物资生产专业信息 !", {
@@ -968,7 +961,7 @@ $(function(){
 															<input type="text" style="width: 100px"  readonly="readonly" onClick="WdatePicker()" name="listSupplierCertPros[${vs.index }].expStartDate" value="<fmt:formatDate value="${certPro.expEndDate}"/>"   />
 														  </td>
 															<td class="tc">
-																<input type="text" style="width: 100px"   readonly="listSupplierCertPros[${vs.index }].expEndDate" onClick="WdatePicker()" name="businessStartDate" value="<fmt:formatDate value="${certPro.expEndDate}"/>"  />
+																<input type="text" style="width: 100px"   name="listSupplierCertPros[${vs.index }].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}"/>"  />
 														 </td>
 															<td class="tc">
 															   <select name="listSupplierCertPros[${vs.index }].mot" class="w100p">

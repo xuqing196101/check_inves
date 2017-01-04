@@ -46,6 +46,12 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 	}
 
 	@Override
+    public String getMatProIdBySupplierId(String supplierId) {
+        // TODO Auto-generated method stub
+        return supplierMatProMapper.getMatProBySupplierId(supplierId).getId();
+    }
+
+    @Override
 	public SupplierMatPro init() {
 	     SupplierCertPro proCert=new SupplierCertPro();
 	

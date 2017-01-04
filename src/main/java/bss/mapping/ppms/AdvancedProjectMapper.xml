@@ -256,13 +256,13 @@
     where ID = #{id,jdbcType=VARCHAR} 
   </select>
   
-  <select id="selectByList" parameterType="java.util.Map"  resultMap="BaseResultMap">
+  <select id="selectByList" parameterType="bss.model.ppms.AdvancedProject" resultMap="BaseResultMap">
      SELECT
       <include refid="Base_Column_List" />
       FROM
-        T_BSS_PPMS_ADVANCED_PROJECTS
-      WHERE 1=1 
+      T_BSS_PPMS_ADVANCED_PROJECTS
       
+      WHERE 1=1
       <if test="purchaseDepId != null and purchaseDepId != ''">
         and  PURCHASE_DEP_ID = #{purchaseDepId}
       </if>

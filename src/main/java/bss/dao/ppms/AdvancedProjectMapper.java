@@ -1,6 +1,5 @@
 package bss.dao.ppms;
 
-import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.AdvancedProject;
@@ -55,7 +54,7 @@ public interface AdvancedProjectMapper {
      * @param advancedProject
      * @return
      */
-    List<AdvancedProject> selectByList(HashMap<String, Object> map);
+    List<AdvancedProject> selectByList(AdvancedProject advancedProject);
     
     List<AdvancedProject> verifyByProject(AdvancedProject advancedProject);
 }

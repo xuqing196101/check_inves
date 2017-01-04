@@ -171,7 +171,7 @@ public class TackController extends BaseController{
 			roleMap.put("code", "SUPERVISER_R");
 			BigDecimal i = roleService.checkRolesByUserId(roleMap);
             HashMap<String, Object> map = new HashMap<>();
-            map.put("typeName", "2");
+            map.put("typeName", "1");
             List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
             model.addAttribute("list2",orgnizations);
             model.addAttribute("info", new PageInfo<Task>(list));
@@ -235,14 +235,6 @@ public class TackController extends BaseController{
 	             taskservice.startTask(ide[i]);
 	             Task task = taskservice.selectById(ide[i]);
 	             if(task.getCollectId() != null){
-	                 HashMap<String, Object> map1 = new HashMap<>();
-                     map1.put("taskId", task.getId());
-                     List<ProjectTask> projectTask = projectTaskService.queryByNo(map1);
-                     if(projectTask != null && projectTask.size()>0){
-                         Project project = projectService.selectById(projectTask.get(0).getProjectId());
-                         project.setIsRehearse(0);
-                         projectService.update(project);
-                     }
 	                 List<String> list = conllectPurchaseService.getNo(task.getCollectId());
 	                 if(list != null && list.size()>0){
 	                     for (String s : list) {
@@ -391,19 +383,16 @@ public class TackController extends BaseController{
                 }
             }
             model.addAttribute("lists", listp);
-        }else{
-            HashMap<String, Object> map1 = new HashMap<>();
-            map1.put("taskId", task.getId());
-            List<ProjectTask> projectTask = projectTaskService.queryByNo(map1);
-            if(projectTask != null && projectTask.size()>0){
-                map1.put("advancedProject", projectTask.get(0).getProjectId());
-                List<AdvancedDetail> details = detailService.selectByAll(map1);
-                model.addAttribute("advancedAdvice", DictionaryDataUtil.getId("ADVANCED_ADVICE"));
-                model.addAttribute("projectId", projectTask.get(0).getProjectId());
-                model.addAttribute("list", details);
-            }
         }
-	    
+		 HashMap<String, Object> map1 = new HashMap<>();
+         map1.put("taskId", task.getId());
+         List<ProjectTask> projectTask = projectTaskService.queryByNo(map1);
+         if(projectTask != null && projectTask.size()>0){
+             map1.put("advancedProject", projectTask.get(0).getProjectId());
+             List<AdvancedDetail> details = detailService.selectByAll(map1);
+             model.addAttribute("list", details);
+         }
+            
         HashMap<String, Object> map = new HashMap<>();
         map.put("typeName", "0");
         List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
@@ -631,7 +620,7 @@ public class TackController extends BaseController{
 	
 	
 	@RequestMapping("/quote")
-	public String quote(HttpServletRequest request,String taskId) throws Exception{
+	public String quote(HttpServletRequest request) throws Exception{
 	    String ide = (String)request.getSession().getAttribute("thIdoo");
 	    request.removeAttribute("thIdoo");
 	    String idss = (String)request.getSession().getAttribute("thIdsee");
@@ -670,21 +659,15 @@ public class TackController extends BaseController{
                     project.setSupplierNumber(advancedProject.getSupplierNumber());
                     project.setDeadline(advancedProject.getDeadline());
                     project.setBidDate(advancedProject.getBidDate());
-                    project.setIsRehearse(1);
+                    project.setIsRehearse(0);
                     project.setIsProvisional(advancedProject.getIsProvisional());
                     project.setPlanType(advancedProject.getPlanType());
                     projectService.add(project);
                     
-                    advancedProject.setStatus(DictionaryDataUtil.getId("YYYBYY"));
+                    advancedProject.setStatus("0");
                     advancedProjectService.update(advancedProject);
                     
                     String id = project.getId();
-                    
-                    //添加中间表
-                    ProjectTask projectTask2 = new ProjectTask();
-                    projectTask2.setProjectId(id);
-                    projectTask2.setTaskId(taskId);
-                    projectTaskService.insertSelective(projectTask2);
                     
                     
                   //添加到正式分包
@@ -809,11 +792,8 @@ public class TackController extends BaseController{
                             bidMethod1.setRemark(bidMethod2.getRemark());
                             bidMethod1.setRemainScore(bidMethod2.getRemainScore());
                             bidMethod1.setPackageId(bidMethod2.getPackageId());
-                            bidMethodService.save(bidMethod1);
+                            bidMethodService.saveBidMethod(bidMethod1);
                             String bidMethodId = bidMethod1.getId();
-                            
-                            
-                            
                             
                             
                             MarkTerm condition = new MarkTerm();
@@ -821,115 +801,78 @@ public class TackController extends BaseController{
                             List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
                             if(mtList != null && mtList.size() > 0){
                                 for (MarkTerm markTerm : mtList) {
-                                    if(markTerm.getBidMethodId() != null && markTerm.getBidMethodId().equals(bidMethod2.getId())){
-                                        MarkTerm term = new MarkTerm();
-                                        term.setProjectId(id);
+                                    MarkTerm term = new MarkTerm();
+                                    term.setProjectId(id);
+                                    term.setPackageId(markTerm.getPackageId());
+                                    term.setPid(markTerm.getPid());
+                                    if(markTerm.getName() != null){
+                                        term.setName(markTerm.getName());
+                                    }
+                                    term.setIsDeleted(markTerm.getIsDeleted());
+                                    term.setCreatedAt(markTerm.getCreatedAt());
+                                    if(markTerm.getBidMethodId() != null){
+                                        term.setBidMethodId(bidMethodId);
+                                    }
+                                    if(markTerm.getMaxScore() != null){
+                                        term.setMaxScore(markTerm.getMaxScore());
+                                    }
+                                    if(markTerm.getPackageId() != null){
                                         term.setPackageId(markTerm.getPackageId());
-                                        term.setPid(markTerm.getPid());
-                                        if(markTerm.getName() != null){
-                                            term.setName(markTerm.getName());
+                                    }
+                                    if(markTerm.getRemainScore() != null){
+                                        term.setRemainScore(markTerm.getRemainScore());
+                                    }
+                                    if(markTerm.getTypeName() != null){
+                                        term.setTypeName(markTerm.getTypeName());
+                                    }
+                                    markTermService.saveMarkTerm(term);
+                                    String markTermId = term.getId();
+                                    
+                                    ScoreModel scoreModel = new ScoreModel();
+                                    scoreModel.setProjectId(advancedDetail.getAdvancedProject());
+                                    List<ScoreModel> findListByScoreModel = scoreModelService.findListByScoreModel(scoreModel);
+                                    for (ScoreModel scoreModel2 : findListByScoreModel) {
+                                        ScoreModel model1 = new ScoreModel();
+                                        model1.setProjectId(id);
+                                        model1.setPackageId(scoreModel2.getPackageId());
+                                        if(scoreModel.getMarkTermId() != null){
+                                            model1.setMarkTermId(markTermId);
                                         }
-                                        term.setIsDeleted(markTerm.getIsDeleted());
-                                        term.setCreatedAt(markTerm.getCreatedAt());
-                                        if(markTerm.getBidMethodId() != null){
-                                            term.setBidMethodId(bidMethodId);
-                                        }
-                                        if(markTerm.getMaxScore() != null){
-                                            term.setMaxScore(markTerm.getMaxScore());
-                                        }
-                                        if(markTerm.getPackageId() != null){
-                                            term.setPackageId(markTerm.getPackageId());
-                                        }
-                                        if(markTerm.getRemainScore() != null){
-                                            term.setRemainScore(markTerm.getRemainScore());
-                                        }
-                                        if(markTerm.getTypeName() != null){
-                                            term.setTypeName(markTerm.getTypeName());
-                                        }
-                                        markTermService.save(term);
-                                        String markTermId = term.getId();
-                                        
-                                        
-                                        for (MarkTerm markTerm2 : mtList) {
-                                            if (markTerm.getId().equals(markTerm2.getPid())) {
-                                                MarkTerm mtChildren = new MarkTerm();
-                                                mtChildren.setPid(markTermId);
-                                                mtChildren.setName(markTerm2.getName());
-                                                mtChildren.setIsDeleted(0);
-                                                mtChildren.setCreatedAt(new Date());
-                                                mtChildren.setMaxScore(markTerm2.getMaxScore());
-                                                mtChildren.setPackageId(markTerm2.getPackageId());
-                                                mtChildren.setProjectId(id);
-                                                mtChildren.setRemainScore(markTerm2.getRemainScore());
-                                                mtChildren.setTypeName(markTerm2.getTypeName());
-                                                markTermService.saveMarkTerm(mtChildren);
-                                                
-                                                
-                                                ScoreModel scoreModel = new ScoreModel();
-                                                scoreModel.setProjectId(advancedDetail.getAdvancedProject());
-                                                List<ScoreModel> findListByScoreModel = scoreModelService.findListByScoreModel(scoreModel);
-                                                for (ScoreModel scoreModel2 : findListByScoreModel) {
-                                                    if(scoreModel2.getMarkTermId().equals(markTerm2.getId())){
-                                                        ScoreModel model1 = new ScoreModel();
-                                                        model1.setProjectId(id);
-                                                        model1.setPackageId(scoreModel2.getPackageId());
-                                                        if(scoreModel2.getMarkTermId() != null){
-                                                            model1.setMarkTermId(mtChildren.getId());
-                                                        }
-                                                        model1.setName(scoreModel2.getName());
-                                                        model1.setTypeName(scoreModel2.getTypeName());
-                                                        model1.setReviewContent(scoreModel2.getReviewContent());
-                                                        model1.setEasyUnderstandContent(scoreModel2.getEasyUnderstandContent());
-                                                        model1.setStandExplain(scoreModel2.getStandExplain());
-                                                        model1.setStandardScore(scoreModel2.getStandardScore());
-                                                        model1.setJudgeContent(scoreModel2.getJudgeContent());
-                                                        model1.setReviewParam(scoreModel2.getReviewParam());
-                                                        model1.setAddSubtractTypeName(scoreModel2.getAddSubtractTypeName());
-                                                        model1.setUnitScore(scoreModel2.getUnitScore());
-                                                        model1.setUnit(scoreModel2.getUnit());
-                                                        model1.setReviewStandScore(scoreModel2.getReviewStandScore());
-                                                        model1.setMaxScore(scoreModel2.getMaxScore());
-                                                        model1.setMinScore(scoreModel2.getMinScore());
-                                                        model1.setScore(scoreModel2.getScore());
-                                                        model1.setDeadlineNumber(scoreModel2.getDeadlineNumber());
-                                                        model1.setIntervalNumber(scoreModel2.getIntervalNumber());
-                                                        model1.setIsDeleted(scoreModel2.getIsDeleted());
-                                                        model1.setCreatedAt(scoreModel2.getCreatedAt());
-                                                        scoreModelService.saveScoreModel(model1);
-                                                    }
-                                                    }
-                                                
-                                                
-                                            }
-                                        }
-                                        
-                                        
-                                        
-                                        
+                                        model1.setName(scoreModel2.getName());
+                                        model1.setTypeName(scoreModel2.getTypeName());
+                                        model1.setReviewContent(scoreModel2.getReviewContent());
+                                        model1.setEasyUnderstandContent(scoreModel2.getEasyUnderstandContent());
+                                        model1.setStandExplain(scoreModel2.getStandExplain());
+                                        model1.setStandardScore(scoreModel2.getStandardScore());
+                                        model1.setJudgeContent(scoreModel2.getJudgeContent());
+                                        model1.setReviewParam(scoreModel2.getReviewParam());
+                                        model1.setAddSubtractTypeName(scoreModel2.getAddSubtractTypeName());
+                                        model1.setUnitScore(scoreModel2.getUnitScore());
+                                        model1.setUnit(scoreModel2.getUnit());
+                                        model1.setReviewStandScore(scoreModel2.getReviewStandScore());
+                                        model1.setMaxScore(scoreModel2.getMaxScore());
+                                        model1.setMinScore(scoreModel2.getMinScore());
+                                        model1.setScore(scoreModel2.getScore());
+                                        model1.setDeadlineNumber(scoreModel2.getDeadlineNumber());
+                                        model1.setIntervalNumber(scoreModel2.getIntervalNumber());
+                                        model1.setIsDeleted(scoreModel2.getIsDeleted());
+                                        model1.setCreatedAt(scoreModel2.getCreatedAt());
+                                        scoreModelService.saveScoreModel(model1);
                                     }
                                     
-                                   
+                                    
                                 }
-                         }
-                    }
-                   
-                    
-                    
-                    
-                       
-                    
-
-                        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
-                        List<UploadFile> files = uploadService.getFilesOther(advancedDetail.getAdvancedProject(), typeId, Constant.TENDER_SYS_KEY+"");
-                        for (UploadFile uploadFile : files) {
-                            uploadFile.setBusinessId(id);
-                            uploadService.updateLoad(uploadFile);
+                            }
                         }
+                    }
                     
                     
-                }
-                    
-                    
+                    String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+                    List<UploadFile> files = uploadService.getFilesOther(advancedDetail.getAdvancedProject(), typeId, Constant.TENDER_SYS_KEY+"");
+                    for (UploadFile uploadFile : files) {
+                        uploadFile.setBusinessId(id);
+                        uploadService.updateLoad(uploadFile);
+                    }
                 
                 }else{
                     break outer;

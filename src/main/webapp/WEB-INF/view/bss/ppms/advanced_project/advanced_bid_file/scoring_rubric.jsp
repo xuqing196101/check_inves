@@ -125,7 +125,7 @@
 				href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}}">02、经济和技术评审细则</a>
 				<i></i>
 			</li>
-			<li><a  href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}" >
+			<li><a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}" >
 			     03、招标文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
 			     03、招标文件

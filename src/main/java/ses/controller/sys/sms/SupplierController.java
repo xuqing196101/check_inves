@@ -614,7 +614,7 @@ import ses.util.WfUtil;
        supplierTypeRelateService.saveSupplierTypeRelate(supplier);
      }
      //model.addAttribute("currSupplier", supplier);
-     return "ok";
+     return supplierMatProService.getMatProIdBySupplierId(supplier.getId());
    }
 
    /**
