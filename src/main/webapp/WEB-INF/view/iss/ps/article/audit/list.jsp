@@ -299,10 +299,10 @@
               <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
               <td class="tnone">${article.status }</td>
               <td class="tc" onclick="view('${article.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <c:if test="${fn:length(article.name)>30}">
-                <td class="tl pl20" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,30)}...</td>
+              <c:if test="${fn:length(article.name)>20}">
+                <td class="tl pl20" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,20)}...</td>
               </c:if>
-              <c:if test="${fn:length(article.name)<=30}">
+              <c:if test="${fn:length(article.name)<=20}">
                 <td class="tl pl20" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
               </c:if>
               <td class="tl pl20" onclick="view('${article.id }')">

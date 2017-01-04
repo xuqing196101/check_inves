@@ -183,8 +183,8 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("ERR_name", "标题名称不能为空");
       flag = false;
     }else 
-      if(article.getName().length()>50){
-      model.addAttribute("ERR_name", "标题名称不能超过50字符");
+      if(article.getName().length()>150){
+      model.addAttribute("ERR_name", "标题名称不能超过150字符");
       flag = false;
     }
     List<Article> art = articleService.selectAllArticle(null,1);
@@ -465,8 +465,8 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("list", list);
       return "iss/ps/article/edit";
     }
-    if(article.getName().length()>50){
-      model.addAttribute("ERR_name", "标题名称不得超过50字符");
+    if(article.getName().length()>150){
+      model.addAttribute("ERR_name", "标题名称不得超过150字符");
       model.addAttribute("article.id", article.getId());
       Article artc = articleService.selectArticleById(article.getId());
       List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
@@ -886,8 +886,8 @@ public class ArticleController extends BaseSupplierController{
         model.addAttribute("ERR_name", "标题名称不能为空");
         flag = false;
       }else 
-        if(article.getName().length()>50){
-        model.addAttribute("ERR_name", "标题名称不能超过50字符");
+        if(article.getName().length()>150){
+        model.addAttribute("ERR_name", "标题名称不能超过150字符");
         flag = false;
       }
       List<Article> art = articleService.selectAllArticle(null,1);
@@ -1147,8 +1147,8 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("list", list);
       return "iss/ps/article/audit/edit";
     }
-    if(article.getName().length()>50){
-      model.addAttribute("ERR_name", "标题名称不得超过50字符");
+    if(article.getName().length()>150){
+      model.addAttribute("ERR_name", "标题名称不得超过150字符");
       model.addAttribute("article.id", article.getId());
       Article artc = articleService.selectArticleById(article.getId());
       List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
@@ -1325,8 +1325,8 @@ public class ArticleController extends BaseSupplierController{
       model.addAttribute("list", list);
       return "iss/ps/article/editor";
     }
-    if(article.getName().length()>50){
-      model.addAttribute("ERR_name", "标题名称不得超过50字符");
+    if(article.getName().length()>150){
+      model.addAttribute("ERR_name", "标题名称不得超过150字符");
       model.addAttribute("article.id", article.getId());
       Article artc = articleService.selectArticleById(article.getId());
       List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());

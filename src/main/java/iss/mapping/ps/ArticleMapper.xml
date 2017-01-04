@@ -172,7 +172,7 @@
         AND STATUS = #{status}
       </if>
     <!-- order by decode(STATUS,4,0,1,1,3,2,2,3), PUBLISHED_AT DESC -->
-    order by STATUS ASC, SUBMIT_AT DESC , PUBLISHED_AT DESC
+    order by STATUS ASC, PUBLISHED_AT DESC , SUBMIT_AT DESC
   </select>
   
   
