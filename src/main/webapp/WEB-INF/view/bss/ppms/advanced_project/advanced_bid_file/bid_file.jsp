@@ -220,6 +220,7 @@
          <tr>
            <th class="w50 info">序号</th>
            <th class="info">包名</th>
+           <th class="info">状态</th>
            <th class="info">操作</th>
          </tr>
          </thead>
@@ -227,6 +228,17 @@
             <tr>
                 <td class="tc w30">${vs.count}</td>
                 <td class="tc">${p.name}</td>
+                <td class="tc">
+                  <c:if test="${project.confirmFile != 1 && p.isEditFirst == 0}">
+                                                                       未维护
+                  </c:if>
+                  <c:if test="${project.confirmFile != 1 && p.isEditFirst == 1}">
+                                                                      维护中
+                  </c:if>
+                  <c:if test="${project.confirmFile == 1}">
+                                                                           已维护
+                  </c:if>
+                </td>
                 <td class="tc">
                 	<c:if test="${project.confirmFile == 1}">
                 		<button class="btn" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
