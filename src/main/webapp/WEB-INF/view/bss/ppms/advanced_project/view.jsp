@@ -73,7 +73,7 @@
     <div class="col-md-12 pl20 mt10">
       <button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</button>
     </div>
-    <div class="content table_box over_scroll">
+    <div class="content table_box over_scroll h365">
       <c:if test="${lists != null }">
         <table class="table table-bordered table-condensed table-hover table-striped table_wrap">
           <thead>

@@ -181,10 +181,12 @@ public class PqInfoController extends BaseSupplierController{
 		}
 		if(flag == false){
 			String id = pqInfo.getContract().getSupplierDepName();
-			Supplier supplier = supplierService.selectOne(id);
-			PurchaseContract pc = pqInfo.getContract();
-			pc.setSupplierDepName(supplier.getSupplierName());
-			pqInfo.setContract(pc);
+			if(id!=null){
+				Supplier supplier = supplierService.selectOne(id);
+				PurchaseContract pc = pqInfo.getContract();
+				pc.setSupplierDepName(supplier.getSupplierName());
+				pqInfo.setContract(pc);
+			}
 			model.addAttribute("pqinfo", pqInfo);
 			url="bss/pqims/pqinfo/add";
 		}else{
