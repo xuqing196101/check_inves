@@ -95,7 +95,7 @@
 	   <ul class="flow_step">
 	   	 <c:if test="${ope == 'add' }">
 		     <li>
-			   <a  href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${projectId}" >01、资格性和符合性审查</a>
+			   <a  href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${project.id}" >01、资格性和符合性审查</a>
 			   <i></i>
 			 </li>
 			 
@@ -104,11 +104,11 @@
 			   <i></i>							  
 			 </li> --%>
 		     <li>
-			   <a  href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}">02、经济和技术评审细则</a>
+			   <a  href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${project.id}">02、经济和技术评审细则</a>
 			   <i></i>
 			 </li>
 			 <li class="active">
-			   <a  href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}" >
+			   <a  href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${project.id}" >
 			     03、招标文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
 			     03、招标文件

@@ -36,9 +36,7 @@ import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
-import bss.model.ppms.Packages;
 import bss.model.ppms.ParamInterval;
-import bss.model.ppms.Project;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
 import bss.model.prms.FirstAuditTemplat;
@@ -48,7 +46,6 @@ import bss.service.ppms.BidMethodService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.ParamIntervalService;
 import bss.service.ppms.ScoreModelService;
-import bss.service.prms.FirstAuditService;
 import bss.service.prms.FirstAuditTemplatService;
 
 import com.github.pagehelper.PageHelper;
@@ -318,7 +315,7 @@ public class AdIntelligentScoringController extends BaseController{
 	
 	@RequestMapping(value = "deleteScoreModel")
 	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
-	    //为2为顶级结点     1 为子节点
+	  //为2为顶级结点     1 为子节点
         HashMap<String, Object> map = new HashMap<String, Object>();
         if (deleteStatus == 1) {
             scoreModelService.deleteScoreModelByMtId(id);
@@ -407,29 +404,29 @@ public class AdIntelligentScoringController extends BaseController{
 	
 	@RequestMapping("/editPackageScore")
 	public String editPackageScore(String packageId, Model model, String projectId){    
-	    //显示经济技术 和子节点  子节点的子节点就是模型
-	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
-	    String str ="";
+	  //显示经济技术 和子节点  子节点的子节点就是模型
+        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+        String str ="";
         for (DictionaryData dictionaryData : ddList) {
             str += getTable(dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
         }
-	    //页面需要显示包
-	    HashMap<String, Object> condition = new HashMap<String, Object>();
-	    condition.put("id", packageId);
-	    List<AdvancedPackages> packages = packageService.selectByAll(condition);
-	    if (packages != null && packages.size() > 0) {
-	        model.addAttribute("packages", packages.get(0));
-	    }
-	    //获取经济技术审查模版
-	    HashMap<String, Object> map2 = new HashMap<String, Object>();
-	    map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
-	    //获取资格性和符合性审查模版
-	    List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
-	    model.addAttribute("firstAuditTemplats", firstAuditTemplats);
-	    model.addAttribute("packageId", packageId);
-	    model.addAttribute("projectId", projectId);
-	    model.addAttribute("ddList", ddList);
-	    model.addAttribute("str", str);
+        //页面需要显示包
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("id", packageId);
+        List<AdvancedPackages> packages = packageService.selectByAll(condition);
+        if (packages != null && packages.size() > 0) {
+            model.addAttribute("packages", packages.get(0));
+        }
+        //获取经济技术审查模版
+        HashMap<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
+        //获取资格性和符合性审查模版
+        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("ddList", ddList);
+        model.addAttribute("str", str);
 	    return "bss/ppms/advanced_project/advanced_bid_file/edit_package_qc1";
 	}
 	
@@ -681,16 +678,17 @@ public class AdIntelligentScoringController extends BaseController{
 	
 	@RequestMapping("operatorScoreModel")
 	public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request, String judgeModel){
-		String[] startParam = request.getParameterValues("pi.startParam");
-		String[] endParam = request.getParameterValues("pi.endParam");
-		String[] score = request.getParameterValues("pi.score");
-		String[] explain = request.getParameterValues("pi.explain");
-		 if (scoreModel.getReviewContent() != null && !"".equals(scoreModel.getReviewContent())) {
-	            scoreModel.setReviewContent(scoreModel.getReviewContent().replaceAll("\\s*", ""));
-	         }
-		if(scoreModel.getId()!=null && !scoreModel.getId().equals("")){
-		    //0加分 1减分
-		    if ("2".equals(judgeModel)) {
+	    String packageId = request.getParameter("id");
+        String[] startParam = request.getParameterValues("pi.startParam");
+        String[] endParam = request.getParameterValues("pi.endParam");
+        String[] score = request.getParameterValues("pi.score");
+        String[] explain = request.getParameterValues("pi.explain");
+         if (scoreModel.getReviewContent() != null && !"".equals(scoreModel.getReviewContent())) {
+                scoreModel.setReviewContent(scoreModel.getReviewContent().replaceAll("\\s*", ""));
+             }
+        if(scoreModel.getId()!=null && !scoreModel.getId().equals("")){
+            //0加分 1减分
+            if ("2".equals(judgeModel)) {
                 if("0".equals(scoreModel.getAddSubtractTypeName())) {
                     scoreModelService.updateScoreModel(scoreModel);
                 }else {
@@ -701,47 +699,47 @@ public class AdIntelligentScoringController extends BaseController{
             } else {
                 scoreModelService.updateScoreModel(scoreModel);
             }
-			MarkTerm condition = new MarkTerm();
-			condition.setId(scoreModel.getMarkTermId());
-			List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
-			if (mtList != null && mtList.size() > 0) {
-			    MarkTerm markTerm = mtList.get(0);
-			    markTerm.setName(scoreModel.getReviewContent());
-			    markTermService.updateMarkTerm(markTerm);
-			}
-			HashMap<String, Object> map  = new HashMap<String,Object>();
-			map.put("scoreModelId", scoreModel.getId());
-			paramIntervalService.delParamIntervalByMap(map);
-			int len = 0;
-			if(startParam!=null){
-				len = startParam.length;
-			}
-			if(startParam!=null && startParam.length>0 && endParam!=null && endParam.length>0 && score!=null && score.length>0){
-				for(int i=0;i<len;i++){
-					ParamInterval p = new ParamInterval();
-					p.setScoreModelId(scoreModel.getId());
-					p.setStartParam(startParam[i]);
-					p.setEndParam(endParam[i]);
-					p.setScore(score[i]);
-					p.setExplain(explain[i]);
-					paramIntervalService.saveParamInterval(p);
-				}
-			}
-			
-		}else {
-			
-			MarkTerm mt = new MarkTerm();
-			mt.setPid(scoreModel.getMarkTermId());
-			mt.setName(scoreModel.getReviewContent());
-			mt.setCreatedAt(new Date());
-			mt.setPackageId(scoreModel.getPackageId());
-			mt.setProjectId(scoreModel.getProjectId());
-			mt.setMaxScore("0");
-			//mt.setTypeName();
-			markTermService.saveMarkTerm(mt);
-			scoreModel.setMarkTermId(mt.getId());
-			//scoreModelService.saveScoreModel(scoreModel);
-			if ("2".equals(judgeModel)) {
+            MarkTerm condition = new MarkTerm();
+            condition.setId(scoreModel.getMarkTermId());
+            List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
+            if (mtList != null && mtList.size() > 0) {
+                MarkTerm markTerm = mtList.get(0);
+                markTerm.setName(scoreModel.getReviewContent());
+                markTermService.updateMarkTerm(markTerm);
+            }
+            HashMap<String, Object> map  = new HashMap<String,Object>();
+            map.put("scoreModelId", scoreModel.getId());
+            paramIntervalService.delParamIntervalByMap(map);
+            int len = 0;
+            if(startParam!=null){
+                len = startParam.length;
+            }
+            if(startParam!=null && startParam.length>0 && endParam!=null && endParam.length>0 && score!=null && score.length>0){
+                for(int i=0;i<len;i++){
+                    ParamInterval p = new ParamInterval();
+                    p.setScoreModelId(scoreModel.getId());
+                    p.setStartParam(startParam[i]);
+                    p.setEndParam(endParam[i]);
+                    p.setScore(score[i]);
+                    p.setExplain(explain[i]);
+                    paramIntervalService.saveParamInterval(p);
+                }
+            }
+            
+        }else {
+            
+            MarkTerm mt = new MarkTerm();
+            mt.setPid(scoreModel.getMarkTermId());
+            mt.setName(scoreModel.getReviewContent());
+            mt.setCreatedAt(new Date());
+            mt.setPackageId(scoreModel.getPackageId());
+            mt.setProjectId(scoreModel.getProjectId());
+            mt.setMaxScore("0");
+            //mt.setTypeName();
+            markTermService.saveMarkTerm(mt);
+            scoreModel.setMarkTermId(mt.getId());
+            //scoreModelService.saveScoreModel(scoreModel);
+            if ("2".equals(judgeModel)) {
                 if("0".equals(scoreModel.getAddSubtractTypeName())) {
                     scoreModelService.saveScoreModel(scoreModel);
                 }else {
@@ -752,22 +750,22 @@ public class AdIntelligentScoringController extends BaseController{
             } else {
                 scoreModelService.saveScoreModel(scoreModel);
             }
-			int len = 0;
-			if(startParam!=null){
-				len = startParam.length;
-			}
-			if(startParam!=null && startParam.length>0 && endParam!=null && endParam.length>0 && score!=null && score.length>0){
-				for(int i=0;i<len;i++){
-					ParamInterval p = new ParamInterval();
-					p.setScoreModelId(scoreModel.getId());
-					p.setStartParam(startParam[i]);
-					p.setEndParam(endParam[i]);
-					p.setScore(score[i]);
-					p.setExplain(explain[i]);
-					paramIntervalService.saveParamInterval(p);
-				}
-			}
-		}
+            int len = 0;
+            if(startParam!=null){
+                len = startParam.length;
+            }
+            if(startParam!=null && startParam.length>0 && endParam!=null && endParam.length>0 && score!=null && score.length>0){
+                for(int i=0;i<len;i++){
+                    ParamInterval p = new ParamInterval();
+                    p.setScoreModelId(scoreModel.getId());
+                    p.setStartParam(startParam[i]);
+                    p.setEndParam(endParam[i]);
+                    p.setScore(score[i]);
+                    p.setExplain(explain[i]);
+                    paramIntervalService.saveParamInterval(p);
+                }
+            }
+        }
 		return "redirect:editPackageScore.html?projectId="+scoreModel.getProjectId()+"&packageId="+scoreModel.getPackageId();
 	}
 	/**
@@ -986,19 +984,19 @@ public class AdIntelligentScoringController extends BaseController{
 	 */
 	@RequestMapping("gettreebody")
 	public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus) throws UnsupportedEncodingException {
-		String packageId = request.getParameter("packageId");
-		ScoreModel scoreModel = new ScoreModel();
-		scoreModel.setName(URLDecoder.decode(markTerm.getName(), "UTF-8"));
-		scoreModel.setMarkTermId(markTerm.getId()==null?"":markTerm.getId());
-		List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
-		if (scoreModelList != null && scoreModelList.size()==1) {
-		    ParamInterval pi = new ParamInterval();
-		    pi.setScoreModelId(scoreModelList.get(0).getId());
-		    List<ParamInterval> piList = paramIntervalService.findListByParamInterval(pi);
-		    StringBuilder sb = new StringBuilder("");
-		    Integer count = 0;
-		    for (ParamInterval paramInterval : piList) {
-		        count++;
+	    String packageId = request.getParameter("packageId");
+        ScoreModel scoreModel = new ScoreModel();
+        scoreModel.setName(URLDecoder.decode(markTerm.getName(), "UTF-8"));
+        scoreModel.setMarkTermId(markTerm.getId()==null?"":markTerm.getId());
+        List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+        if (scoreModelList != null && scoreModelList.size()==1) {
+            ParamInterval pi = new ParamInterval();
+            pi.setScoreModelId(scoreModelList.get(0).getId());
+            List<ParamInterval> piList = paramIntervalService.findListByParamInterval(pi);
+            StringBuilder sb = new StringBuilder("");
+            Integer count = 0;
+            for (ParamInterval paramInterval : piList) {
+                count++;
                 sb.append("<tr><td class=tc>" + count + "</td><td class=tc>" + paramInterval.getStartParam());
                 sb.append("</td><td class=tc>" + paramInterval.getEndParam() + "</td>");
                 sb.append("<td class=tc>" + paramInterval.getScore() + "</td>");
@@ -1006,23 +1004,23 @@ public class AdIntelligentScoringController extends BaseController{
                 sb.append("<td class=tc>" + explain + "</td>");
                 sb.append("<td class=tc><a href=javascript:void(0); onclick=delTr(this)>删除</a></td></tr>");
             }
-		    String scoreStr = sb.toString();
-		    model.addAttribute("scoreStr", scoreStr);
+            String scoreStr = sb.toString();
+            model.addAttribute("scoreStr", scoreStr);
         }
-		model.addAttribute("scoreModelList", scoreModelList);
-		model.addAttribute("packageId", packageId);
-		model.addAttribute("markTermId", markTerm.getId());
-		String markTermName ="";
-		/*if(markTerm.getName()!=null && !markTerm.getName().equals("")){
-			markTermName = URLDecoder.decode(markTerm.getName(), "UTF-8");
-		}*/
-		model.addAttribute("markTermName",markTermName );
-		if(scoreModelList!=null && scoreModelList.size()>0){
-			
-			model.addAttribute("scoreModel", scoreModelList.get(0));
-		}
-		model.addAttribute("projectId", markTerm.getProjectId());
-		model.addAttribute("addStatus", addStatus);
+        model.addAttribute("scoreModelList", scoreModelList);
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("markTermId", markTerm.getId());
+        String markTermName ="";
+        /*if(markTerm.getName()!=null && !markTerm.getName().equals("")){
+            markTermName = URLDecoder.decode(markTerm.getName(), "UTF-8");
+        }*/
+        model.addAttribute("markTermName",markTermName );
+        if(scoreModelList!=null && scoreModelList.size()>0){
+            
+            model.addAttribute("scoreModel", scoreModelList.get(0));
+        }
+        model.addAttribute("projectId", markTerm.getProjectId());
+        model.addAttribute("addStatus", addStatus);
 		return "bss/ppms/advanced_project/advanced_bid_file/treebody";
 	}
 	
@@ -1634,8 +1632,7 @@ public class AdIntelligentScoringController extends BaseController{
     }
 	
 	public String getShowTable(String id, String name ,String projectId, String packageId){
-
-        TreeMap<MarkTerm, List<MarkTerm>> map = new TreeMap<MarkTerm, List<MarkTerm>>();
+	    TreeMap<MarkTerm, List<MarkTerm>> map = new TreeMap<MarkTerm, List<MarkTerm>>();
         MarkTerm mt = new MarkTerm();
         mt.setTypeName(id);
         mt.setProjectId(projectId);
@@ -1738,7 +1735,6 @@ public class AdIntelligentScoringController extends BaseController{
         }
         String str = sb.toString();
         return str;
-    
 	}
 	
 	/**
