@@ -38,6 +38,10 @@
 			      <td>${task.name}</td>
 			      <td class="bggrey">计划编号：</td>
 			      <td>${task.documentNumber}</td>
+			      <c:if test="${projectId != null}">
+			        <td class="bggrey">预研通知书：</td>
+              <td><u:show showId="upload_id" businessId="${projectId}" sysKey="2" delete="false" typeId="${advancedAdvice}"/></td>
+			      </c:if>
 			    </tr> 
               </tbody>       
             </table>     

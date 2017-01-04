@@ -63,7 +63,7 @@ public interface AdvancedProjectService {
      * @param advancedProject
      * @return
      */
-    List<AdvancedProject> selectByList(AdvancedProject advancedProject);
+    List<AdvancedProject> selectByList(HashMap<String, Object> map);
     
     boolean SameNameCheck(AdvancedProject advancedProject);
 }
