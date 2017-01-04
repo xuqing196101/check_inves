@@ -445,19 +445,7 @@ public class FirstAuditTemplatController extends BaseController{
             scoreModel.setReviewContent(scoreModel.getReviewContent().replaceAll("\\s*", ""));
          }
         if(scoreModel.getId()!=null && !scoreModel.getId().equals("")){
-            //0加分 1减分
-            if ("2".equals(judgeModel)) {
-                if("0".equals(scoreModel.getAddSubtractTypeName())) {
-                    scoreModelService.updateScoreModel(scoreModel);
-                }else {
-                    scoreModel.setMaxScore(scoreModel.getReviewStandScore());
-                    scoreModel.setReviewStandScore(scoreModel.getReviewStandScore());
-                    scoreModelService.updateScoreModel(scoreModel);
-                }
-            } else {
-                scoreModelService.updateScoreModel(scoreModel);
-            }
-           
+            scoreModelService.updateScoreModel(scoreModel);
             MarkTerm condition = new MarkTerm();
             condition.setId(scoreModel.getMarkTermId());
             List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);

@@ -91,12 +91,10 @@ public class IntelligentScoringController extends BaseController{
 	
 	@RequestMapping(value = "checkScore")
 	@ResponseBody
-	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id, String moxing2){
+	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id ){
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
 	    Double score = 0.0;
 	    Integer result = 0;
-	    String typename = "";
-	    ScoreModel sm = new ScoreModel();
         for (DictionaryData dictionaryData : ddList) {
             MarkTerm mt = new MarkTerm();
             mt.setTypeName(dictionaryData.getId());
@@ -113,11 +111,6 @@ public class IntelligentScoringController extends BaseController{
                 List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
                 for (MarkTerm markTerm : mtValue) {
                     if (markTerm.getSmId().equals(id)){
-                        sm.setId(id);
-                        ScoreModel scoreModel = scoreModelService.findScoreModelByScoreModel(sm);
-                        if (scoreModel != null) {
-                            typename = scoreModel.getTypeName();
-                        }
                         continue;
                     }
                     Double scscore = markTerm.getScscore();
@@ -135,30 +128,11 @@ public class IntelligentScoringController extends BaseController{
 	        }
 	    } else {
 	        if (maxScore != null && !"".equals(maxScore)){
-	            if (moxing2 == null || "0".equals(moxing2)) {
-	                double resultScore = Double.parseDouble(maxScore) + score;
-	                if (resultScore <= 100){
-	                    result = 1;
-	                }
-	            } else {
-	                if ("6".equals(typename) || "7".equals(typename)) {
-	                    double resultScore = Double.parseDouble(maxScore) + score;
-	                    if (resultScore <= 100){
-	                        result = 1;
-	                    }
-	                } else {
-	                    double resultScore = Double.parseDouble(moxing2) + score;
-                        if (resultScore <= 100){
-                            result = 1;
-                        }
-	                }
-	            }
-	        } else {
-	            double resultScore = Double.parseDouble(moxing2) + score;
+                double resultScore = Double.parseDouble(maxScore) + score;
                 if (resultScore <= 100){
                     result = 1;
                 }
-	        }
+	        } 
 	    }
 	    return result;
 	}
@@ -733,7 +707,7 @@ public class IntelligentScoringController extends BaseController{
 	         }
 		if(scoreModel.getId()!=null && !scoreModel.getId().equals("")){
 		    //0加分 1减分
-		    if ("2".equals(judgeModel)) {
+		 /*   if ("2".equals(judgeModel)) {
                 if("0".equals(scoreModel.getAddSubtractTypeName())) {
                     scoreModelService.updateScoreModel(scoreModel);
                 }else {
@@ -741,9 +715,9 @@ public class IntelligentScoringController extends BaseController{
                     scoreModel.setReviewStandScore(scoreModel.getReviewStandScore());
                     scoreModelService.updateScoreModel(scoreModel);
                 }
-            } else {
+            } else {*/
                 scoreModelService.updateScoreModel(scoreModel);
-            }
+           // }
 			MarkTerm condition = new MarkTerm();
 			condition.setId(scoreModel.getMarkTermId());
 			List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
