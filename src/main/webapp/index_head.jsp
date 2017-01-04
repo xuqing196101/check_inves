@@ -370,7 +370,7 @@ function importAdd(){
 	   <div class="drop_main ">
 	    <div class="col-md-4 col-sm-6 col-xs-12 mt25" id="drop-1">
 		  <div class="ywbl_01">
-	       <a href="#" class="wssc">
+	       <a href="http://mall.plap.cn" class="wssc">
             <span>网上商城</span> 
 		   </a>
 	      </div>
