@@ -60,31 +60,38 @@
 					$("#projectNumber").attr("readonly", false);
 					$("#packageName").attr("readonly", false);
 				}
+				var index = 0 ;
+				 var divObj = $(".p0" + index);
+			        $(divObj).removeClass("hide");
+			        $("#package").removeClass("shrink");        
+			        $("#package").addClass("spread");
+			        
+				
 			});
 
-			   function ycDiv(obj, index){
-			        if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
-			          $(obj).removeClass("jbxx");
-			          $(obj).addClass("zhxx");
-			        } else {
-			          if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
-			            $(obj).removeClass("zhxx");
-			            $(obj).addClass("jbxx");
-			          }
-			        }
-			        
-			        var divObj = new Array();
-			        divObj = $(".p0" + index);
-			        for (var i =0; i < divObj.length; i++) {
-			            if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
-			              $(divObj[i]).removeClass("hide");
-			            } else {
-			              if ($(divObj[i]).hasClass("p0"+index)) {
-			                $(divObj[i]).addClass("hide");
-			              };
-			            };
-			        };
-			      }
+		      function ycDiv(obj, index) {
+		          if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+		                $(obj).removeClass("shrink");
+		                $(obj).addClass("spread");
+		              } else {
+		                if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+		                  $(obj).removeClass("spread");
+		                  $(obj).addClass("shrink");
+		                }
+		              }
+		              
+		              var divObj = new Array();
+		              divObj = $(".p0" + index);
+		              for (var i =0; i < divObj.length; i++) {
+		                  if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
+		                    $(divObj[i]).removeClass("hide");
+		                  } else {
+		                    if ($(divObj[i]).hasClass("p0"+index)) {
+		                      $(divObj[i]).addClass("hide");
+		                    };
+		                  };
+		              };
+		        }
 
 			function add(type) {
 				 var packageId=$("#packageId").val();
@@ -432,9 +439,9 @@
             <c:forEach items="${listResultExpert }" var="list" varStatus="vs">
               <c:set value="${vs.index}" var="index"></c:set>
               <div>
-                <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listResultExpert[index].name }</span></h2>
+                <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand" id="package">包名:<span class="f14 blue">${listResultExpert[index].name }</span></h2>
               </div>
-              <div class="p0${index} ">
+              <div class="p0${index} hide">
 							  <table id="table" class="table table-bordered table-condensed">
 							          <thead>
 							            <tr>

@@ -2,14 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../../common.jsp"%>
+
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
   <head>
     <base href="${pageContext.request.contextPath}/">
-
+    <%@ include file="../../../common.jsp"%>
     <title>确定中标供应商</title>
 
     <meta http-equiv="pragma" content="no-cache">
@@ -100,6 +100,56 @@
        
     }
     
+    /**移除供应商 */
+     function del(btn){
+             var ids =[]; 
+           $('input[name="chkItem"]:checked').each(function(){ 
+             ids.push($(this).val()); 
+           }); 
+           if(ids.length == 1){
+        	  
+        	   
+             layer.confirm('您确定要移除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+               layer.close(index);
+               
+               var type=0;
+               layer.open({
+                     type: 2,
+                     title: '上传',
+                     shadeClose: false,
+                     shade: 0.01,
+                     area: ['367px', '180px'], //宽高
+                     content: '${pageContext.request.contextPath}/winningSupplier/supplierUpload.html?packageId=${packageId}&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&checkPassId='+ids,
+                     success: function(layero, index){
+                         iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                       },
+                     btn: ['保存', '关闭'] 
+                         ,yes: function(){
+                            iframeWin.upload();
+                            type = 1;
+                         }
+                         ,btn2: function(){
+                           delFileAjax();
+                         },
+                      end:function(){
+                        if(type!=1){
+                          delFileAjax();
+                        }
+                      }
+                   }); 
+               
+          
+               
+               
+             });
+           }else if(ids.length>1){
+        	   layer.alert("只能选择一个供应商",{offset: ['222px', '390px'], shade:0.01});
+           }else{
+             layer.alert("请选择要移除的供应商",{offset: ['222px', '390px'], shade:0.01});
+           }
+     }
+    
+    /** 计算金额*/
     function ratio(index){
    var quote = "${quote}";
     	var checklist = document.getElementsByName ("chkItem");
@@ -138,20 +188,37 @@
                 ratio.push("10");
             }
             var i=0;
-            
-
-            
+            //第一名的报价金额
+            var onePrice = 0;
             //算出实际成交金额
             $('input[name="chkItem"]:checked').each(function() {
                 $("#"+$(this).val()).find("#priceRatio").text(ratio[i]);
 //                var totalprice = $("#"+id[0]).find("#totalPrice").text();
                var price = 0;
+               
+             
                var id = $(this).val();
                 $('input[name="associate'+id+'"]:checked').each(function() {
+                	//报价id
                 	var quote =  $("#"+id+$(this).val()).find("#Quotedamount").text();
-                 
                  var count =  $("#"+id+$(this).val()).find("#purchaseCount").text();
+               
+//                  alert(quote);
+//                  alert(onePrice);
+                 //第一名赋值报价
+                 if(onePrice == 0){
+                	
+                	 onePrice = quote; 	 
+                 
+                 }else{
+                	if(onePrice >= price ){ 
+                     quote = onePrice;  
+                	}
+
+                 }
                  price =parseFloat(price) + toDecimal((ratio[i]/100)*count*quote);
+                 
+                 
 //                  alert(quote);     
 //                  alert(count);
                  
@@ -421,6 +488,7 @@
       <c:if test="${view != 1 }">
         <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
           <button class="btn " onclick="save();" type="button">确定</button>
+          <button class="btn " onclick="del(this);" type="button">移除</button>
         </div>
       </c:if>
       <div class="content table_box pl0">
@@ -446,7 +514,13 @@
           <c:forEach items="${supplierCheckPass}" var="checkpass" varStatus="vs">
             <tr id="${checkpass.id}">
             <c:if test="${view != 1}">
-              <td class="tc opinter"><input onclick="check('${checkpass.id}');" id="rela${checkpass.id}" type="checkbox" name="chkItem" value="${checkpass.id}" /></td>
+              <td class="tc opinter">
+              <c:if test="${checkpass.isDeleted == 0}">
+              
+               <input   onclick="check('${checkpass.id}');" id="rela${checkpass.id}" type="checkbox" name="chkItem" value="${checkpass.id}" />
+              
+              </c:if>
+              </td>
            </c:if>
               <td class="opinter" title="${checkpass.supplier.supplierName }">
                <span onclick="ycDiv(this,'${checkpass.id}')" class="count_flow shrink hand"></span>

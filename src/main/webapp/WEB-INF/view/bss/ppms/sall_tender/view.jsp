@@ -103,7 +103,7 @@
              ids.push($(this).val()); 
            }); 
            if(ids.length>0){
-             layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+             layer.confirm('您确定要移除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
                layer.close(index);
                var supplierId = $("#"+ids).parent().parent().find("#supplierId").val();
                $.ajax({

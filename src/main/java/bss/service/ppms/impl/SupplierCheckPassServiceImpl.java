@@ -16,6 +16,10 @@ import bss.service.ppms.SupplierCheckPassService;
 
 @Service
 public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
+  /** SUCCESS */
+  private static final String SUCCESS = "SUCCESS";
+  /** ERROR */
+  private static final String ERROR = "ERROR";
 
   @Autowired
   SupplierCheckPassMapper checkPassMapper;
@@ -70,8 +74,9 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
    * @return 包集合
    */
   @Override
-  public void update(SupplierCheckPass checkPass) {
+  public String update(SupplierCheckPass checkPass) {
     checkPassMapper.updateByPrimaryKeySelective(checkPass);
+    return SUCCESS;
   }
 
   /**

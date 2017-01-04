@@ -242,7 +242,7 @@ public class SupplierExtractsController extends BaseController {
           }
         }
         if(!"".equals(userName)){
-          model.addAttribute("userName", userName);
+          model.addAttribute("userName", userName.substring(0, userName.length()-1));
         }
       }
 

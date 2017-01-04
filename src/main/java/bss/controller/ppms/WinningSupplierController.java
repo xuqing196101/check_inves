@@ -232,10 +232,13 @@ public class WinningSupplierController extends BaseController {
     int type = 0; 
     List<SupplierCheckPass> supplierCheckPass = JSON.parseArray(jsonCheckPass, SupplierCheckPass.class);
     for (int i = 0; i < checkPassId.length; i++ ) {
-      if (!checkPassId[i].equals(supplierCheckPass.get(i).getId()) ) {
-        type = 1;
-        break;
+      if (supplierCheckPass.get(i).getIsDeleted() == 0) {
+        if (!checkPassId[i].equals(supplierCheckPass.get(i).getId()) ) {
+          type = 1;
+          break;
+        }  
       }
+
     }
     //按照排名不需要上传变更依据
     if (type != 1){
@@ -273,7 +276,34 @@ public class WinningSupplierController extends BaseController {
     model.addAttribute("checkPassId", checkPassId);
     model.addAttribute("wonPrice", wonPrice);
     return "bss/ppms/winning_supplier/upload";
-  } 
+  }
+
+  /**
+   * 
+   *〈简述〉供应商上传凭证
+   *〈详细描述〉
+   * @author Wang Wenshuai
+   * @param model
+   * @param packageId
+   * @param flowDefineId
+   * @return
+   */
+  @RequestMapping("/supplierUpload")
+  public String supplierUpload(Model model,String projectId, String packageId, String flowDefineId, String checkPassId,String wonPrice){
+    //凭证上传
+    String id = DictionaryDataUtil.getId("CHECK_PASS_BGYJ");
+    model.addAttribute("checkPassBgyj", id);
+
+    //招标系统key
+    Integer tenderKey = Constant.TENDER_SYS_KEY;
+    model.addAttribute("packageId", packageId);
+    model.addAttribute("tenderKey", tenderKey);
+    model.addAttribute("projectId", projectId);
+    model.addAttribute("flowDefineId", flowDefineId);
+    model.addAttribute("checkPassId", checkPassId);
+    model.addAttribute("wonPrice", wonPrice);
+    return "bss/ppms/winning_supplier/supplierUpload";
+  }
 
   /**
    * 
@@ -510,5 +540,22 @@ public class WinningSupplierController extends BaseController {
   public String  amountRransaction(String[] priceRatio,String[] SupplierId,String[] detail,String packageId){
     return checkPassService.amountRransaction(priceRatio, SupplierId, detail, packageId);
 
+  }
+
+  /**
+   * 
+   *〈简述〉移除供应商
+   *〈详细描述〉
+   * @author Wang Wenshuai
+   * @param passId checkId
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping("/delSupplier")
+  public String delSupplier(String passId){
+    SupplierCheckPass checkPass = new SupplierCheckPass();
+    checkPass.setId(passId);
+    checkPass.setIsDeleted(1);
+    return  JSON.toJSONString(checkPassService.update(checkPass));
   }
 }
