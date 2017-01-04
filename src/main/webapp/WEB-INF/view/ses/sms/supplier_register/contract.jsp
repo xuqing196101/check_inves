@@ -100,18 +100,18 @@
 								<div class="col-md-12 col-xs-12 col-sm-12 p0 over_scroll">
 								<table class="table table-bordered space_nowrap">
 										  <tr>
-										    <td class="info"> 品目名称</td>
-										    <td colspan="3">合同上传</td>
-										    <td colspan="3">收款进账单</td>
+										    <td class="info tc"> 品目名称</td>
+										    <td colspan="3" class="info tc">合同上传</td>
+										    <td colspan="3" class="info tc">收款进账单</td>
 										  </tr>
 										  
 										   <tr>
-									        <td class="info"> 末级节点</td>
+									        <td class="info" class="tc"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info w220">${year}</td>
+											     <td class="info w220 tc">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info w220">${year}</td>
+											     <td class="info w220 tc">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
@@ -119,42 +119,42 @@
 										  <c:forEach items="${contract}" var="obj" varStatus="vs">
 									      <tr>
 									        <td class="info">${obj.name }</td>
-										    <td class="info w220">
+										    <td class="w220">
 										  
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
-										    <td class="info w220">
+										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
-										    <td class="info w220">
+										    <td class="w220">
 										     
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-3}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-3}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
-										    <td class="info w220"> 
+										    <td class="w220"> 
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
-										    <td class="info w220">
+										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index+1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
-										    <td class="info w220">
+										    <td class="w220">
 									   
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="pUp${(vs.index+1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
@@ -177,18 +177,18 @@
 								 <table class="table table-bordered space_nowrap">
 						  
 										  <tr>
-										    <td class="info"> 品目名称</td>
-										    <td colspan="3">合同上传</td>
-										    <td colspan="3">收款进账单</td>
+										    <td class="info tc"> 品目名称</td>
+										    <td colspan="3" class="info tc">合同上传</td>
+										    <td colspan="3" class="info tc">收款进账单</td>
 										  </tr>
 										  
 										   <tr>
-									        <td class="info"> 末级节点</td>
+									        <td class="info tc"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info">${year}</td>
+											     <td class="info tc">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info">${year}</td>
+											     <td class="info tc">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
@@ -196,42 +196,42 @@
 										  <c:forEach items="${saleBean}" var="obj" varStatus="vs">
 									      <tr>
 									        <td class="info">${obj.name }</td>
-										    <td class="info">
+										    <td class="w220">
 										  
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 										     
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-3}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-3}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
-										    <td class="info"> 
+										    <td class="w220"> 
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="saleShow${(vs.index+1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 									   
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
 												 <u:upload id="saleUp${(vs.index+1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
@@ -256,18 +256,18 @@
 								 <table class="table table-bordered">
 						  
 										  <tr>
-										    <td class="info"> 品目名称</td>
-										    <td colspan="3">合同上传</td>
-										    <td colspan="3">收款进账单</td>
+										    <td class="info tc"> 品目名称</td>
+										    <td colspan="3" class="info tc">合同上传</td>
+										    <td colspan="3" class="info tc">收款进账单</td>
 										  </tr>
 										  
 										   <tr>
 									        <td class="info"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info">${year}</td>
+											     <td class="info tc">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info">${year}</td>
+											     <td class="info tc">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
@@ -275,42 +275,42 @@
 										  <c:forEach items="${saleBean}" var="obj" varStatus="vs">
 									      <tr>
 									        <td class="info">${obj.name }</td>
-										    <td class="info">
+										    <td class="w220">
 										  
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="projectUp${(vs.index+1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="projectShow${(vs.index+1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="projectUp${(vs.index+1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="projectShow${(vs.index+1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 										     
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="projectUp${(vs.index+1)*6-3}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="projectShow${(vs.index+1)*6-3}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
-										    <td class="info"> 
+										    <td class="w220"> 
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="projectUp${(vs.index+1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="projectShow${(vs.index+1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="projectUp${(vs.index+1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="projectShow${(vs.index+1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 									   
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="projectUp${(vs.index+1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
@@ -334,18 +334,18 @@
 										 <table class="table table-bordered">
 						  
 										  <tr>
-										    <td class="info"> 品目名称</td>
-										    <td colspan="3">合同上传</td>
-										    <td colspan="3">收款进账单</td>
+										    <td class="info tc"> 品目名称</td>
+										    <td colspan="3" class="info tc">合同上传</td>
+										    <td colspan="3" class="info tc">收款进账单</td>
 										  </tr>
 										  
 										   <tr>
 									        <td class="info"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info">${year}</td>
+											     <td class="info tc">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info">${year}</td>
+											     <td class="info tc">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
@@ -353,42 +353,42 @@
 										  <c:forEach items="${saleBean}" var="obj" varStatus="vs">
 									      <tr>
 									        <td class="info">${obj.name }</td>
-										    <td class="info">
+										    <td class="w220">
 										  
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="serUp${(vs.index+1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="serpShow${(vs.index+1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="serUp${(vs.index+1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="serpShow${(vs.index+1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 										     
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="serUp${(vs.index+1)*6-3}" groups="${sbUp}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="serpShow${(vs.index+1)*6-3}" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
-										    <td class="info"> 
+										    <td class="w220"> 
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="serUp${(vs.index+1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="serpShow${(vs.index+1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="serUp${(vs.index+1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="serpShow${(vs.index+1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
-										    <td class="info">
+										    <td class="w220">
 									   
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
 												 <u:upload id="serUp${(vs.index+1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />

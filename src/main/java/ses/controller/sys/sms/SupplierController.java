@@ -1826,7 +1826,22 @@ import ses.util.WfUtil;
      }
      return list;
    }
-
+   
+   /**
+    *〈简述〉去重
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param list
+    */
+   public void removeSame(List<Category> list) {
+       for (int i = 0; i < list.size() - 1; i++) {
+           for (int j = list.size() - 1; j > i; j--) {
+               if (list.get(j).getId().equals(list.get(i).getId())) {
+                   list.remove(j);
+               }
+           }
+       }
+    }
 
    /**
     * 
@@ -1865,18 +1880,22 @@ import ses.util.WfUtil;
      for(String type:strs){
        if(type.equals("PRODUCT")){
          List<Category> list = supplierItemService.getCategory(supplierId,"PRODUCT");
+         removeSame(list);
          product.addAll(list);
        }
        if(type.equals("SALES")){
          List<Category> list = supplierItemService.getCategory(supplierId,"SALES");
+         removeSame(list);
          sale.addAll(list);
        }
        if(type.equals("PROJECT")){
          List<Category> list = supplierItemService.getCategory(supplierId,"PROJECT");
+         removeSame(list);
          project.addAll(list);
        }
        if(type.equals("SERVICE")){
          List<Category> list = supplierItemService.getCategory(supplierId,"SERVICE");
+         removeSame(list);
          server.addAll(list);
        }
      }
