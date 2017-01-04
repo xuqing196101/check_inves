@@ -268,7 +268,11 @@
       </div>
       </div>
     </div>
+<<<<<<< Updated upstream
     <div class="col-md-12 tc col-xs-12 col-sm-12 mt20">
+=======
+    <div class="col-md-12 tc mt10">
+>>>>>>> Stashed changes
     <button class="btn" type="button" onclick="subPackage()">分包</button>
     <button class="btn btn-windows save" type="button" onclick="edit()">保存</button>
     <button class="btn btn-windows back" type="button" onclick="goBack();">返回</button>
