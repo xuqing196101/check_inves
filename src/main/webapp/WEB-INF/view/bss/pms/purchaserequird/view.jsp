@@ -215,6 +215,7 @@
 							<th class="info w150">预算金额（万元）</th>
 							<th class="info w150">交货期限</th>
 							<th class="info w150">采购方式建议</th>
+							 <th class="info w150">采购机构建议</th>
 							<th class="info w150">供应商名称</th>
 							<th class="info w150">是否申请办理免税</th>
 							<th class="info w150">物资用途（仅进口）</th>
@@ -261,12 +262,27 @@
 							<td class="tl pl20"> <c:forEach items="${kind}" var="kind" >
                   <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                 </c:forEach></td>
-							<%-- <td class="tc">${obj.supplier }</td> --%>
+						 
+						 
+						 	<td   class="tl pl20">
+							 
+							 
+							 
+							 <c:forEach items="${list2}" var="og" >
+                  <c:if test="${og.id == obj.organization}">${og.name}</c:if>
+                </c:forEach>
+                
+                
+							</td >
+							
+							
+							
+						 
 							<td title="${obj.supplier}" class="tl pl20">
 							<c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
 							</td >
-							<%-- <td class="tc">${obj.isFreeTax }</td> --%>
+						 
 							<td title="${obj.isFreeTax}" class="tl pl20">
 							<c:if test="${fn:length (obj.isFreeTax) > 8}">${fn:substring(obj.isFreeTax,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
