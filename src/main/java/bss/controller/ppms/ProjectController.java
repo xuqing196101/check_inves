@@ -1098,35 +1098,35 @@ public class ProjectController extends BaseController {
         }
         String str = null;
         if(bottomLength==bottomDetails.size()){
-            Project project = projectService.selectById(id);
-            Packages pg = new Packages();
-            String pId = UUID.randomUUID().toString().replaceAll("-", "");
-            pg.setId(pId);
-            pg.setName("第1包");
-            pg.setProjectId(id);
-            pg.setIsDeleted(0);
-            if(project.getIsImport()==1){
-                pg.setIsImport(1);
-            }else{
-                pg.setIsImport(0);
-            }
-            if(bottomDetails.get(0).getStatus().equals("1")){
-            	pg.setStatus(1);
-            }else{
-            	pg.setStatus(0);
-            }
-            pg.setPurchaseType(project.getPurchaseType());
-            pg.setCreatedAt(new Date());
-            pg.setUpdatedAt(new Date());
-            packageService.insertSelective(pg);
-            for(int i=0;i<bottomDetails.size();i++){
-             	ProjectDetail projectDetail = new ProjectDetail();
-                projectDetail.setId(bottomDetails.get(i).getId());
-                projectDetail.setPackageId(pId);
-                projectDetail.setUpdateAt(new Date());
-                detailService.update(projectDetail);
-            }
-            str = "0";//明细都未分包，默认一包
+            //Project project = projectService.selectById(id);
+//            Packages pg = new Packages();
+//            String pId = UUID.randomUUID().toString().replaceAll("-", "");
+//            pg.setId(pId);
+//            pg.setName("第1包");
+//            pg.setProjectId(id);
+//            pg.setIsDeleted(0);
+//            if(project.getIsImport()==1){
+//                pg.setIsImport(1);
+//            }else{
+//                pg.setIsImport(0);
+//            }
+//            if(bottomDetails.get(0).getStatus().equals("1")){
+//            	pg.setStatus(1);
+//            }else{
+//            	pg.setStatus(0);
+//            }
+//            pg.setPurchaseType(project.getPurchaseType());
+//            pg.setCreatedAt(new Date());
+//            pg.setUpdatedAt(new Date());
+//            packageService.insertSelective(pg);
+//            for(int i=0;i<bottomDetails.size();i++){
+//             	ProjectDetail projectDetail = new ProjectDetail();
+//                projectDetail.setId(bottomDetails.get(i).getId());
+//                projectDetail.setPackageId(pId);
+//                projectDetail.setUpdateAt(new Date());
+//                detailService.update(projectDetail);
+//            }
+            str = "1";//明细都未分包
         }else{
         	if(subLength == bottomDetails.size()){
         		str = "0";//明细都分完包了

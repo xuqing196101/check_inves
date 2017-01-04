@@ -100,12 +100,12 @@
                 shift : 1, //0-6的动画形式，-1不开启
                 shadeClose : true,
                 content : '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
-              });
+              })
             }else if(result==1){
-              layer.alert("项目中有明细尚未分包", {
-                offset: ['30%', '40%']
-              });
-              $(".layui-layer-shade").remove();
+            	layer.alert("项目中有明细尚未分包,请进修改页面进行分包", {
+								offset: ['30%', '40%']
+							});
+							$(".layui-layer-shade").remove();
             }
           }
         });
