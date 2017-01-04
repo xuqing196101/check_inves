@@ -72,7 +72,7 @@
 			} 
 	}
 	
-	/* 
+ 
   	 function sum2(obj){  //数量
 	        var purchaseCount = $(obj).val()-0;//数量
 	        var price2 = $(obj).parent().next().children(":last").prev();//价钱
@@ -109,26 +109,26 @@
 	    	   
 	     
 	    	    $("#table tr").each(function(){
-	    	    	//  calc(id,budget); 
 		    	  var  pid= $(this).find("td:eq(8)").children(":first").val();//上级id
 		    		
 		    		if(id==pid){
 		    			$(this).find("td:eq(8)").children(":first").next().val(budget);
-		    			
+		    			 var spid= $(this).find("td:eq(8)").children(":last").val();
+		    			 calc(spid);
 		    		}  
 	    		}); 
 	    	 
-	    	    $("#table tr").each(function(){
+	    /*     $("#table tr").each(function(){
 	 	    		var cid= $(this).find("td:eq(8)").children(":first").val(); //的值
-	 	    		   if(id==cid){
+	 	    		   if(id==cid){ */
 	 	    			 //  var sameBud=$(this).find("td:eq(8)").children(":last").next().val();
 	 	    			   // alert(sameBud);
-	 	    			   var   pid= $(this).find("td:eq(8)").children(":first").val(); //获取当前节点的父级id
-	 	    		  	     calc(id);
+	 	    			 //   var   pid= $(this).find("td:eq(8)").children(":first").val();  
+	 	    		  	    /*  calc(id); */
 	 	    			   
 	 	    		 //  $(this).find("td:eq(8)").children(":first").next().val(budget);
-	 	    		  } 
-	 	    		});  
+	 	    		 /*  } 
+	 	    		}); */    
 	    	    
 	    	    
 	    	  var did=$("table tr:eq(1)").find("td:eq(8)").children(":first").val();
@@ -143,19 +143,20 @@
 	    	    $("table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
 	       }   
 	       
- 	  function calc(id){
-	  		  
+ 	/*       function calc(id){
+ 	    	  var budget=0;
 	 	   	    $("#table tr").each(function(){
 	 	   	           var pid= $(this).find("td:eq(8)").children(":last").val() ;
 		 	   	       if(id==pid){
-		 	   	         	var sameBud=$(this).find("td:eq(8)").children(":last").next().val();
-		 	   	    	    alert(sameBud);
+		 	   	         	var sameBud=$(this).find("td:eq(8)").children(":first").next().val();
+		 	   	            budget=budget+sameBud;
+		 	   	          var spid= $(this).find("td:eq(8)").children(":last").val();
+		 	   	            calc(spid); 
 		 	   	        // 	$(this).find("td:eq(8)").children(":first").next().val(budget);
 		 	   	      }
 	     		}); 
-	 	  	 	 
 	 	    	   
-	 	     }  */
+	 	     }    */
 	  	  
 	  	 
 	      function sel(obj) {
