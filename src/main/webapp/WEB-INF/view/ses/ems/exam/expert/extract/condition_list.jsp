@@ -105,14 +105,13 @@
 					data: $('#form').serialize(), // 你的formid
 					async: false,
 					success: function(data) {
-				
 						$("#projectNameError").text("");
 						$("#projectNumberError").text("");
 						$("#packageNameError").text("");
 						$("#dSupervise").text("");
 						$("#tenderTimeError").text("");
 						$("#responseTimeError").text("");
-
+						$("#extractionSitesError").text("");
 						var map = data;
 						$("#projectNameError").text(map.projectNameError);
 						$("#projectNumberError").text(map.projectNumberError);
@@ -120,7 +119,12 @@
 						$("#dSupervise").text(map.supervise);
 						$("#tenderTimeError").text(map.tenderTimeError);
 						$("#responseTimeError").text(map.responseTimeError);
+						$("#extractionSitesError").text(map.extractionSitesError);
 					    var projectId = map.projectId;
+					    if(map.error){
+					    	
+					    }
+					    
 						if(map.status != null && map.status != 0) {
 							layer.confirm('上次抽取未完成，是否继续上次抽取？', {
 								  btn: ['确定','取消'], shade:0.01 //按钮
@@ -130,7 +134,7 @@
 									layer.closeAll();
 								});
 						}
-			
+						if(map.error == null && map.error != 'error'){
 						if(map.sccuess == "SCCUESS") {
 								  window.location.href = '${pageContext.request.contextPath}/ExpExtract/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
 						}else if(map.packageError != null && map.packageError != ''){
@@ -139,7 +143,8 @@
 						                  });
 						}else if(typeclassId != null && typeclassId != ''){
 					             $("#projectId").val(projectId);
-					             $("#pId").val(projectId);
+					             $("#pid").val(projectId);
+// 					             alert($("#pid").val());
 					                if(map.type != null && map.type == '1'){
 					               var iframeWin;
 					                 layer.open({
@@ -166,6 +171,8 @@
 					            
 					              }
 					             }
+						}
+			
 					}
 				});
 			  
@@ -375,10 +382,10 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 ">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>开标时间:</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>开标日期:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                <input class="col-md-12 col-sm-12 col-xs-6 p0"  id="tenderTimeId" readonly="readonly"  name="tenderTime" value="<fmt:formatDate value='${bidDate}'
-                                pattern='yyyy-MM-dd' />" maxlength="30" type="text">
+                <input class="col-md-12 col-sm-12 col-xs-6 p0"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
+                                pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">
                 <div class="cue" id="tenderTimeError"></div>
               </div>
             </li>
@@ -400,12 +407,12 @@
 								<div class="cue" id="responseTimeError"></div>
 							</div>
 						</li>
-						  <li class="col-md-12 col-sm-6 col-xs-12 ">
+						  <li class="col-md-3 col-sm-6 col-xs-12 ">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span>抽取地区:</span>
                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                 <input class="span5" id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
                 <span class="add-on">i</span>
-                <div class="cue" id="projectNumberError"></div>
+                <div class="cue" id="extractionSitesError"></div>
               </div>
             </li>
 					</ul>
@@ -448,6 +455,7 @@
 							              <th class="info w50">序号</th>
 							              <th class="info">专家姓名</th>
 							              <th class="info">联系电话</th>
+							              <th class="info">专家类型</th>
 							              <th class="info">工作单位名称</th>
 							              <th class="info">专家技术职称</th>
 							            </tr>
@@ -455,19 +463,29 @@
 							          <tbody id="tbody">
 							          <c:choose>
 							           <c:when test="${typeId == 1}">
-							            <c:forEach items="${list.listExperts}" var="listyes"
+							            <c:forEach items="${list.listProjectExtract}" var="listyes"
                             varStatus="vs">
+                            <c:if test="${listyes.expert.isProvisional == 0 }">
                             <tr class='cursor '>
                               <td class='tc'>${vs.index+1}</td>
-                              <td class='tc'>${listyes.relName}</td>
-                              <td class='tc'>${listyes.mobile}</td>
-                              <td class='tc'>${listyes.workUnit}</td>
-                              <td class='tc'>${listyes.professTechTitles}</td>
+                              <td class='tc'>${listyes.expert.relName}</td>
+                              <td class='tc'>${listyes.expert.mobile}</td>
+                              <td class='tc'>
+                              <c:forEach var="expertType" items="${ddList}">
+                                <c:if test="${listyes.reviewType eq expertType.id}">
+                                  ${expertType.name}
+                                </c:if>
+                              </c:forEach>
+                              </td>
+                              <td class='tc'>${listyes.expert.workUnit}</td>
+                              <td class='tc'>${listyes.expert.professTechTitles}</td>
                             </tr>
+                            </c:if>
                           </c:forEach>
 							           </c:when>
 							           <c:otherwise>
-							             <c:forEach items="${list.listExperts}" var="listyes"    varStatus="vs">
+							             <c:forEach items="${list.listProjectExtract}" var="listyes"    varStatus="vs">
+							             <c:if test="${listyes.expert.isProvisional == 0 }">
 								           <tr class='cursor '>
 	                              <td class='tc'>${vs.index+1}</td>
 	                              <td class='tc'>******</td>
@@ -475,6 +493,7 @@
 	                              <td class='tc'>******</td>
 	                              <td class='tc'>******</td>
 	                            </tr>
+							             </c:if>
                           </c:forEach>
 							           </c:otherwise>
 							          </c:choose>

@@ -26,6 +26,8 @@ import javax.validation.Valid;
 
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -209,14 +211,15 @@ public class ExpExtractRecordController extends BaseController {
    * @param @return      
    * @return String
    */
-  @RequestMapping("/projectlist")
-  public String list(Integer page,Model model,Project project){
+  @RequestMapping("/projectList")
+  public String list(Integer page,Model model,Project project,String typeclassId){
     List<Project> list = projectService.provisionalList(page == null?1:page, project);
     List<DictionaryData> find = DictionaryDataUtil.find(5);
     PageInfo<Project> info = new PageInfo<>(list);
     model.addAttribute("info", info);
     model.addAttribute("projects", project);
     model.addAttribute("kind", find);
+    model.addAttribute("typeclassId", typeclassId);
     return "ses/ems/exam/expert/extract/project_list";
   }
   /**
@@ -249,9 +252,17 @@ public class ExpExtractRecordController extends BaseController {
     List<Area> listArea = areaService.findTreeByPid("0",null);
     model.addAttribute("listArea", listArea);
     model.addAttribute("typeclassId",typeclassId);
+
     if (projectId != null && !"".equals(projectId)){
+      //修改流程
+      Project projectNew = new Project();
+      projectNew.setId(projectId);
+      projectNew.setStatus(DictionaryDataUtil.getId("CQPSZJZ"));
+      projectService.update(projectNew);
+      //专家类型
+      model.addAttribute("ddList", expExtractRecordService.ddList());
       //根据包获取抽取出的专家
-      List<Packages> listResultExpert = packagesService.listResultExpert(projectId);
+      List<Packages> listResultExpert = packagesService.listProjectExtract(projectId);
       model.addAttribute("listResultExpert", listResultExpert);
       //专家抽取记录
       ExpExtractRecord record = new ExpExtractRecord();
@@ -459,6 +470,11 @@ public class ExpExtractRecordController extends BaseController {
       count = 1;
     }
 
+    if (extractionSites == null ||  "".equals(extractionSites)){
+      map.put("extractionSitesError", "不能为空");
+      count=1;
+    }
+
     //独立
     if(typeclassId != null && !"".equals(typeclassId)){
       if(superviseId == null || superviseId.length == 0){
@@ -503,9 +519,11 @@ public class ExpExtractRecordController extends BaseController {
     //        }
 
     if (count == 1){
+      map.put("error", "error");
       return JSON.toJSONString(map);
 
     } else{
+  
       //真实的项目id
       String projectId = project.getId();
       //            String packageId = "";
@@ -743,7 +761,7 @@ public class ExpExtractRecordController extends BaseController {
           ProjectExtract extract = new ProjectExtract();
           int i = 0;
           String[] split = list.get(0).getExpert().getExpertsTypeId().split(",");
-          if(split.length > 0 ){
+          if(split.length > 1 ){
             int max=split.length-1;
             int min=0;
             Random random = new Random();
@@ -981,10 +999,18 @@ public class ExpExtractRecordController extends BaseController {
    * @return String
    */
   @RequestMapping("/showRecord")
-  public String showRecord(Model model,String id){
+  public String showRecord(Model model,String id,String projectId){
     model.addAttribute("ddList", expExtractRecordService.ddList());
     //获取抽取记录
-    ExpExtractRecord showExpExtractRecord = expExtractRecordService.listExtractRecord(new ExpExtractRecord(id),0).get(0);
+    ExpExtractRecord showExpExtractRecord = null;
+    if (id != null && !"".equals(id)) {
+      showExpExtractRecord = expExtractRecordService.listExtractRecord(new ExpExtractRecord(id),0).get(0);
+    }else{
+      ExpExtractRecord record = new ExpExtractRecord();
+      record.setProjectId(projectId);
+      showExpExtractRecord =  expExtractRecordService.listExtractRecord(record,0).get(0);
+    }
+     
     model.addAttribute("ExpExtractRecord", showExpExtractRecord);
     if(showExpExtractRecord !=null){
       //抽取条件
