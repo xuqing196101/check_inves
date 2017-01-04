@@ -48,7 +48,7 @@ function importAdd(){
     <div class="row">
     <div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到军队采购网！
       <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a>
-      <%-- <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【旧系统登录】</a> --%>
+       <a href="http://21.100.16.14" class="red">【旧系统登录】</a> 
     </div> 
        <div class="col-md-3 col-xs-3 col-sm-3 head_right"> 
     <!-- 根据session判断 -->
@@ -370,7 +370,7 @@ function importAdd(){
 	   <div class="drop_main ">
 	    <div class="col-md-4 col-sm-6 col-xs-12 mt25" id="drop-1">
 		  <div class="ywbl_01">
-	       <a href="http://mall.plap.cn" class="wssc">
+	       <a href="http://21.100.16.6" class="wssc">
             <span>网上商城</span> 
 		   </a>
 	      </div>

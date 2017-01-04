@@ -22,8 +22,8 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 	</task:scheduled-tasks>  -->
 	
 	 <task:scheduled-tasks>
-        <!-- <task:scheduled ref="innerInfoTask" method="exportInfo" cron="0 0 0/6 * * ?"/>  -->
-        <task:scheduled ref="outerReadTask" method="outerReadTask" cron="0 0 0/6 * * ?"/>  
+        <task:scheduled ref="innerInfoTask" method="exportInfo" cron="0 0 0/6 * * ?"/> 
+        <!-- <task:scheduled ref="outerReadTask" method="outerReadTask" cron="0 0 0/6 * * ?"/> -->  
 	</task:scheduled-tasks> 
 	
 	<!-- 线程池 -->

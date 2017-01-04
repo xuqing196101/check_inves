@@ -1069,7 +1069,7 @@
 
           <div class="border1 flow_btn fl">
             <div class="ywbl_01">
-              <a href="http://mall.plap.cn" class="wssc">
+              <a href="http://21.100.16.6" class="wssc">
                 <span>网上商城</span>
               </a>
             </div>
