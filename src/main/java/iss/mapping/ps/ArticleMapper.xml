@@ -587,7 +587,7 @@ FROM
 					T_ISS_PS_ARTICLE_TYPE
 				WHERE
 					PARENT_ID = #{parId}
-			) or LAST_ARTICLE_TYPE_ID = #{parId}
+			)
 		ORDER BY
 			published_at DESC
 	)

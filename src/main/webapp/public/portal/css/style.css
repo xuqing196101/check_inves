@@ -2645,3 +2645,16 @@ h2.list_title{
 	height:30px;
 	width:95%;
 }
+
+.floor_kind .active.report_title a,.floor_kind li.report_title a{
+	border-top:0px!important;
+	background: #ffffff;
+    padding: 0 18px;
+    display: block;
+    float: left;
+    height: 37px;
+    line-height: 37px;
+    color: #2C9FA6;
+    font-size: 16px;
+
+}

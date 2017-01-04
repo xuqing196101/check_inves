@@ -25,9 +25,7 @@ $(document).ready(function(){
 		<div class="clear"></div>
 	  </div>
    </div>
-<div class="container content height-350 job-content ">
-
-   
+   <div class="container content height-350 job-content ">
    <div class="col-md-12 p30_40 border1 margin-top-20">
      <h3 class="tc f22">
 	   <div class="title bbgrey ">${articleDetail.name}</div>

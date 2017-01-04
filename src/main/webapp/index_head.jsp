@@ -135,63 +135,63 @@ function importAdd(){
 		 </ul>
 		</h2>
 		<div class="tab-content buyer_list">
-		    <div id="tab-21" class="categories tab-pane fade active in">
+		    <div id="tab-21" class="categories articleover tab-pane fade active in">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxicaiwuziList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=3&twoid=24">更多>></a>
         </div>
-		    <div id="tab-22" class="categories tab-pane fade">
+		    <div id="tab-22" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxicaigongchengList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=8&twoid=29">更多>></a>
         </div>
-		    <div id="tab-23" class="categories tab-pane fade">
+		    <div id="tab-23" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxicaifuwuList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=13&twoid=34">更多>></a>
         </div>
-		    <div id="tab-24" class="categories tab-pane fade">
+		    <div id="tab-24" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxicaijinkouList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=18&twoid=39">更多>></a>
         </div>
@@ -213,63 +213,63 @@ function importAdd(){
 		 </ul>
 		</h2>
 		<div class="tab-content  buyer_list">
-		    <div id="tab-25" class="categories tab-pane fade active in">
+		    <div id="tab-25" class="categories articleover tab-pane fade active in">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxizhongwuziList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=46&twoid=67">更多>></a>
         </div>
-		    <div id="tab-26" class="categories tab-pane fade">
+		    <div id="tab-26" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxizhonggongchengList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=51&twoid=72">更多>></a>
         </div>
-		    <div id="tab-27" class="categories tab-pane fade">
+		    <div id="tab-27" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxizhongfuwuList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=56&twoid=77">更多>></a>
         </div>
-		    <div id="tab-28" class="categories tab-pane fade">
+		    <div id="tab-28" class="categories articleover tab-pane fade">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxizhongjinkouList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBynews.html?id=61&twoid=82">更多>></a>
         </div>
@@ -290,63 +290,63 @@ function importAdd(){
 		 </ul>
 		</h2>
 		<div class="tab-content  buyer_list">
-		    <div id="tab-29" class="categories tab-pane fade active in">
+		    <div id="tab-29" class="categories articleover tab-pane fade active in">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxidanwuziList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">$${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=89&twoid=94">更多>></a>
         </div>
 		    <div id="tab-30" class="categories tab-pane fade">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxidangongchengList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="{sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">{sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=90&twoid=95">更多>></a>
         </div>
 		    <div id="tab-31" class="categories tab-pane fade">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxidanfuwuList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=91&twoid=96">更多>></a>
         </div>
 		    <div id="tab-32" class="categories tab-pane fade">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['xinxidanjinkouList']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>23}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
 					<c:if test="${length<=23}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectsumBydanNews.html?id=92&twoid=97">更多>></a>
         </div>
@@ -400,18 +400,18 @@ function importAdd(){
 		 </ul>
 		</h2>
 		<div class="tab-content  buyer_list">
-		    <div id="tab-33" class="categories tab-pane fade active in">
+		    <div id="tab-33" class="categories articleover tab-pane fade active in">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['select103List']}" var="sl">
-                	<c:set value="${sl.name}" var="name"></c:set>
+                	<%--<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>37}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,37)}...</a></li>
 					</c:if>
 					<c:if test="${length<=37}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
-					</c:if>
-	          </c:forEach>
+						--%><li><a title="${sl.name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${sl.name}</a></li>
+					<%--</c:if>
+	          --%></c:forEach>
           </ul>
           <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=103">更多>></a>
         </div>
