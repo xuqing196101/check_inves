@@ -1217,6 +1217,7 @@ function deleteFinance() {
 			   	<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
 		        <input type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}"  />
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">如果勾选长期,可不填写有效期</span>
 		        <div class="cue"> ${err_sDate } </div>
 	       	   </div>
 		    </li> 

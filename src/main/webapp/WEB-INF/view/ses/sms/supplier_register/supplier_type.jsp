@@ -132,9 +132,32 @@
 				if (msg == 'failed'){
 					layer.msg('暂存失败');
 				}
+			},
+			error: function(){
+				layer.msg('暂存失败!!!!!!!!!');
 			}
 		});
  }
+ 
+ //无提示实时暂存
+ function tempSave(){
+	 var id =[]; 
+	 $('input[name="chkItem"]:checked').each(function(){ 
+		id.push($(this).val()); 
+	 }); 
+	 $("input[name='supplierTypeIds']").val(id);
+	 $.ajax({
+		url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
+		type : "post",
+		data : $("#save_pro_form_id").serializeArray(),
+		contextType: "application/x-www-form-urlencoded",
+	});
+ }
+ 
+$(function(){
+	$("input").bind("blur", tempSave);
+	$("select").bind("change", tempSave);
+});
  
  
  function next(obj){
@@ -166,12 +189,27 @@
 	    		layer.msg("请选择供应商类型");
 	    	}
 		}
-	    $("#cert_pro_list_tbody_id").find("input[type='text']").each(function(index,element){
-	    	if (element.value == "") {
-	    		flag = false;
-	    		layer.msg("物资生产资质证书信息不能为空! ");
+	    // 判断有没有勾选物资生产
+	    var isCheck = false;
+	    $("input[name='chkItem']").each(function(index, element){
+	    	if (element.value == "PRODUCT" && element.checked == true) {
+	    		isCheck = true;
 	    	}
 	    });
+	    var count = 0;
+	    if (isCheck == true) {
+		    $("#cert_pro_list_tbody_id").find("tr").each(function(index,element){
+		    	if (element.value == "") {
+		    		flag = false;
+		    		layer.msg("物资生产资质证书信息不能为空! ");
+		    	}
+		    	count++;
+		    });
+		    if (count == 0) {
+		    	flag = false;
+	    		layer.msg("物资生产资质证书信息不能为空! ");
+		    }
+	    }
 	    if (flag == true) {
 		    $("#save_pro_form_id").submit();
 	    }
@@ -965,7 +1003,7 @@
 						  <div class="">
 			              	  <h2 class="list_title" >物资-销售专业信息</h2>
 			              	    <ul class="list-unstyled" style="font-size: 14px">
-										<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatPro.id}" />
+										<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatSell.id}" />
 										<input type="hidden" name="supplierMatSell.supplierId" value="${currSupplier.id}" />
 								        <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 	 			 						     <legend>供应商组织机构和人员 </legend>
@@ -1079,7 +1117,7 @@
 			              	  <h2 class="list_title">工程专业信息</h2>
 			              	    <ul class="list-unstyled" style="font-size: 14">
 									   <!--   <div class="col-md-5 title"><span class="star_red fl">*</span>工程专业信息：</div> -->
-										<input type="hidden" name="supplierMatEng.id" value="${currSupplier.supplierMatSell.id }" />
+										<input type="hidden" name="supplierMatEng.id" value="${currSupplier.supplierMatEng.id }" />
 										<input type="hidden" name="supplierMatEng.supplierId" value="${currSupplier.id}" />
 										 
 										 	<fieldset class="col-md-12 border_font mt20">

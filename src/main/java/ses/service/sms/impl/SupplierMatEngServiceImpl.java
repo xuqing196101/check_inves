@@ -24,12 +24,17 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 			supplier.getSupplierMatEng().setUpdatedAt(new Date());
 			supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
 		} else {
-			String sid = UUID.randomUUID().toString().replaceAll("-", "");
-			supplier.getSupplierMatEng().setId(sid);
-			supplier.getSupplierMatEng().setCreatedAt(new Date());
 			SupplierMatEng eng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
 			if(eng==null){
+			    String sid = UUID.randomUUID().toString().replaceAll("-", "");
+			    supplier.getSupplierMatEng().setId(sid);
+			    supplier.getSupplierMatEng().setCreatedAt(new Date());
 				supplierMatEngMapper.insertSelective(supplier.getSupplierMatEng());
+			} else {
+			    if (supplier.getSupplierMatEng().getId() == null) {
+                    supplier.getSupplierMatEng().setId(eng.getId());
+                }
+			    supplierMatEngMapper.updateByPrimaryKeySelective(supplier.getSupplierMatEng());
 			}
 			
 		}

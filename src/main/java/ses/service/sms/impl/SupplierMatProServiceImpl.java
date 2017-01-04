@@ -28,12 +28,17 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 			supplier.getSupplierMatPro().setUpdatedAt(new Date());
 			supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
 		} else {
-			String mid = UUID.randomUUID().toString().replaceAll("-", "");
-			supplier.getSupplierMatPro().setId(mid);
-			supplier.getSupplierMatPro().setCreatedAt(new Date());
 			SupplierMatPro pro = supplierMatProMapper.getMatProBySupplierId(supplier.getId());
 			if(pro==null){
+			    String mid = UUID.randomUUID().toString().replaceAll("-", "");
+			    supplier.getSupplierMatPro().setId(mid);
+			    supplier.getSupplierMatPro().setCreatedAt(new Date());
 				supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
+			} else {
+			    if (supplier.getSupplierMatPro().getId() == null) {
+			        supplier.getSupplierMatPro().setId(pro.getId());
+			    }
+			    supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
 			}
 			
 		}

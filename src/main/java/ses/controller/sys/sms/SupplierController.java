@@ -589,7 +589,7 @@ import ses.util.WfUtil;
     * @param supplier {@link Supplier}
     * @return
     */
-   //	@ResponseBody
+   @ResponseBody
    @RequestMapping(value="/saveSupplierType",produces="html/text;charset=UTF-8")
    public String saveSupplierType(Supplier supplier,Model model){
 
@@ -613,8 +613,8 @@ import ses.util.WfUtil;
        }
        supplierTypeRelateService.saveSupplierTypeRelate(supplier);
      }
-     model.addAttribute("currSupplier", supplier);
-     return "ses/sms/supplier_register/supplier_type";
+     //model.addAttribute("currSupplier", supplier);
+     return "ok";
    }
 
    /**

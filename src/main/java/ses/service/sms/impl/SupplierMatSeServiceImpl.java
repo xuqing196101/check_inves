@@ -24,13 +24,18 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 			supplier.getSupplierMatSe().setUpdatedAt(new Date());
 			supplierMatSeMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSe());
 		} else {
-			String sid = UUID.randomUUID().toString().replaceAll("-", "");
-			supplier.getSupplierMatSe().setId(sid);
-			supplier.getSupplierMatSe().setCreatedAt(new Date());
 			SupplierMatServe server = supplierMatSeMapper.getMatSeBySupplierId(supplier.getId());
 			if(server==null){
+			    String sid = UUID.randomUUID().toString().replaceAll("-", "");
+			    supplier.getSupplierMatSe().setId(sid);
+			    supplier.getSupplierMatSe().setCreatedAt(new Date());
 				supplierMatSeMapper.insertSelective(supplier.getSupplierMatSe());
-			}
+			} else {
+                if (supplier.getSupplierMatSe().getId() == null) {
+                    supplier.getSupplierMatSe().setId(server.getId());
+                }
+                supplierMatSeMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSe());
+            }
 			
 		}
 	}
