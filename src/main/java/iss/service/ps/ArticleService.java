@@ -343,4 +343,6 @@ public interface ArticleService {
     Integer getArticleCount(String id);
     
     List<Article> selectByJurisDiction(Map<String,Object> map);
+    
+    List<Article> selectAllByTabss(Map<String, Object> map);
 }

@@ -827,14 +827,14 @@ and status = 2
 		*
 	FROM
 		T_ISS_PS_ARTICLE
-	WHERE
+		ORDER BY
+		PUBLISHED_AT DESC)
+where 
 		IS_DELETED = 0
 		AND status = 2
 		AND ARTICLE_TYPE_ID = #{articleTypeId}
 		AND SECOND_ARTICLE_TYPE_ID = #{secondArticelTypeId}
-		ORDER BY
-		PUBLISHED_AT DESC)
-where ROWNUM &lt;=10
+		and ROWNUM &lt;=10
   </select>
   
   <select id="selectAllByDanTab" parameterType="Map" resultMap="ArticleMapper">
@@ -857,7 +857,9 @@ where ROWNUM &lt;=10
 		*
 	FROM
 		T_ISS_PS_ARTICLE
-	WHERE
+		ORDER BY
+		PUBLISHED_AT DESC)
+where 
 		IS_DELETED = 0
 		AND status = 2
 		AND ARTICLE_TYPE_ID = #{articleTypeId}
@@ -865,9 +867,23 @@ where ROWNUM &lt;=10
 		<if test="title!=null and title!=''">
 		and name like '%'||#{title}||'%'
 		</if>
+  </select>
+  
+   <select id="selectAllByTabss" parameterType="Map" resultMap="ArticleMapper">
+  	select * from (SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
 		ORDER BY
 		PUBLISHED_AT DESC)
-where ROWNUM &lt;=10
+where 
+		IS_DELETED = 0
+		AND status = 2
+		AND ARTICLE_TYPE_ID = #{articleTypeId}
+		AND SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
+		<if test="title!=null and title!=''">
+		and name like '%'||#{title}||'%'
+		</if>	
   </select>
   
   <select id="selectAllByDanTabs" parameterType="Map" resultMap="ArticleMapper">
