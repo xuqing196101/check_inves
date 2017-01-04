@@ -369,7 +369,7 @@
     </div>
 
     <div class="container container_box">
-     <form id="newsForm" action="${pageContext.request.contextPath }/article/updateApply.html" onsubmit="return clk()" enctype="multipart/form-data" method="post">
+     <form id="newsForm" action="${pageContext.request.contextPath }/article/updateApply.html" enctype="multipart/form-data" method="post">
         <input type="hidden" id="ids" name="ids" />
         <h2 class="list_title">编辑信息</h2>
 
@@ -396,7 +396,7 @@
           </li>
           
           <li class="col-md-3 col-sm-6 col-xs-12 hide" id="second">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div id="lmsx" class="star_red">*</div>栏目属性：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><%--<div id="lmsx" class="star_red">*</div>--%>栏目属性：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
                 <select id="secondType" name="secondArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="secondTypeInfo()">
                 </select>
@@ -405,7 +405,7 @@
             </li>
             
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="three">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>栏目类型：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><%--<div class="star_red">*</div>--%>栏目类型：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
                 <select id="threeType" name="threeArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="threeTypeInfo()">
                 </select>
@@ -414,7 +414,7 @@
             </li>
             
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="four">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购方式：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><%--<div class="star_red">*</div>--%>采购方式：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
                 <select id="fourType" name="fourArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="fourTypeInfo()">
                 </select>
