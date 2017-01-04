@@ -300,7 +300,7 @@ public class PlanLookController extends BaseController {
 	 */
 	@RequestMapping("/audit")
 	public String audit(PurchaseRequiredFormBean list,CollectPlan collectPlan){
-		Map<String,Object> map=new HashMap<String,Object>();
+//		Map<String,Object> map=new HashMap<String,Object>();
 //		if(list!=null){
 //			if(list.getList()!=null){
 //				for(PurchaseRequired p:list.getList()){
@@ -312,13 +312,13 @@ public class PlanLookController extends BaseController {
 //				}
 //			}
 //		}
-		if(list!=null){
-			if(list.getAudit()!=null&&list.getAudit().size()>0){
-				for(PurchaseAudit a:list.getAudit()){
-					purchaseAuditService.add(a);
-				}
-			}
-		}
+//		if(list!=null){
+//			if(list.getAudit()!=null&&list.getAudit().size()>0){
+//				for(PurchaseAudit a:list.getAudit()){
+//					purchaseAuditService.add(a);
+//				}
+//			}
+//		}
 		if(collectPlan.getStatus().equals(3)){
 			if(collectPlan.getAuditTurn()==1){
 				collectPlan.setStatus(12);

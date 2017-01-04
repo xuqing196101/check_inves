@@ -7,6 +7,16 @@
 		 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 		
 		<script type="text/javascript">
+		
+		
+		  $(function(){
+				$("td[name='userNone']").attr("style","display:none");
+				$("th[name='userNone']").attr("style","display:none");
+			  
+		  });
+		  
+		  
+		  
 			//跳转到增加页面
 			function add() {
 				window.location.href = "${pageContext.request.contextPath}/purchaser/add.html";
@@ -166,14 +176,14 @@
 			
 			//保存
 			function incr() {
-				checkBud();
+			
 				var orgType="${orgType}";
 				var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
 				var mobile = $("#mobile").val();
 				var type = $("#wtype").val();
 			 var refNo = $("#referenceNo").val();
-			 
+				var bool= details();
 			 if(orgType!='0'){
 				 layer.msg("请用需求部门编制采购计划！"); 
 			 }else if($.trim(name) == "") {
@@ -190,7 +200,7 @@
 				
 				
 				
-				else {
+				else if(bool==true){
 					$("#detailJhmc").val(name);
 					$("#detailJhbh").val(no);
 					$("#detailType").val(type);
@@ -553,8 +563,9 @@
 							            //  layer.msg("上传成功");
 							              $("#jhmc").val(data[0].planName);
 							              $("#detailZeroRow").empty();
+							              var count=1;
 									           for(var i = 0 ;i<data.length;i++ ){
-									             $("#detailZeroRow").append("<tr> "
+									             $("#detailZeroRow").append("<tr> <td>"+count+"</td> "
 												               +"  <td class='tc p0'>"
 												               +"    <input style='border: 0px;' type='hidden' name='list[" + i + "].id' value='"+data[i].id+"' />"
 												               +"    <input ityle='border: 0px;' type='text' name='list[" + i + "].seq' value='"+data[i].seq+"'/>"
@@ -613,7 +624,9 @@
 												              +"    <input style='border: 0px;' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
 												               +"  </td> <td class='tc w100 p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
 												               +"</tr>");
+									             count++;
 									           }
+									         
 									           var bool=$("input[name='import']").is(':checked');
 												if(bool==true){
 													$("td[name='userNone']").attr("style","display:none");
@@ -676,20 +689,46 @@
 				
 			}
 			
-			function checkBud(){
+/* 			function checkBud(){
 				var budget=0;
 			    $("#table tr").each(function(){
 			    	     var  val= $(this).find("td:eq(7)").children(":first").next().val();//上级id
-			    	  /*  alert(val ==undefined); */
-			    		/* if(val!=""||value !="undefined" ){
+			    	  if($.trim(val) != "") {
 			    			var same=$(this).find("td:eq(8)").children(":first").next().val()-0;;
 			    			budget=budget+same;
-			    		    alert(budget);
-			    		}  */ 
+			    	
+			    		}   
 		    		}); 
+			    budget = budget.toFixed(2); 
+			    var total= $("#table").find("tr:eq(1)").find("td:eq(8)").children(":first").next().val()-0;
+			    total=total.toFixed(2); 
+			   if(total==budget){
+				  return true;
+			  }else{
+				  return false;
+			  } 
+			} */
 			
+			function details(){
+				var bool=true;
+			    $("#table tr").each(function(i){
+		    	     var  val1= $(this).find("td:eq(8)").children(":first").next().val();//上级id
+		    	     var  val2= $(this).find("td:eq(7)").children(":first").next().val();
+		    	  if($.trim(val1) != ""&&$.trim(val2) ) {
+		    		  var budget=(val1-0)*(val2-0)/10000;
+		    		  var same=$(this).find("td:eq(9)").children(":first").next().val()-0;
+		    		   budget = budget.toFixed(2); 
+		    		   same = same.toFixed(2); 
+			    		if(budget!=same){
+			    			 layer.msg("第"+i+"行，金额计算错误，请重新计算！");
+			    			 bool=false;
+			    		} 
+		    	
+		    		}   
+	    		}); 
+			    return bool;
+			    
 			}
-			
 			
 		  	 function sum2(obj){  //数量
 			        var purchaseCount = $(obj).val()-0;//数量
@@ -714,8 +753,8 @@
 			       function aa(id){// id是指当前的父级parentid
 			    	   var budget=0;
 			    	   $("#table tr").each(function(){
-			 	    		var cid= $(this).find("td:eq(8)").children(":last").val(); //parentId
-			 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0; //价格
+			 	    		var cid= $(this).find("td:eq(9)").children(":last").val(); //parentId
+			 	    		var same= $(this).find("td:eq(9)").children(":last").prev().val()-0; //价格
 				 	       if(id==cid){
 				 	    	 
 				 	    	  budget=budget+same; //查出所有的子节点的值
@@ -724,36 +763,36 @@
 			    	   budget = budget.toFixed(2); 
 			     
 			    	    $("#table tr").each(function(){
-				    	  var  pid= $(this).find("td:eq(8)").children(":first").val();//上级id
+				    	  var  pid= $(this).find("td:eq(9)").children(":first").val();//上级id
 				    		
 				    		if(id==pid){
-				    			$(this).find("td:eq(8)").children(":first").next().val(budget);
-				    			 var spid= $(this).find("td:eq(8)").children(":last").val();
+				    			$(this).find("td:eq(9)").children(":first").next().val(budget);
+				    			 var spid= $(this).find("td:eq(9)").children(":last").val();
 				    		 calc(spid);
 				    		}  
 			    		}); 
-			    	  var did=$("table tr:eq(1)").find("td:eq(8)").children(":first").val();
+			    	  var did=$("table tr:eq(1)").find("td:eq(9)").children(":first").val();
 			    	    var total=0;
 			    	    $("#table tr").each(function(){
-			 	    		var cid= $(this).find("td:eq(8)").children(":last").val();
-			 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0;
+			 	    		var cid= $(this).find("td:eq(9)").children(":last").val();
+			 	    		var same= $(this).find("td:eq(9)").children(":last").prev().val()-0;
 			 	    		 if(did==cid){
 			 	    			total=total+same;
 			 	    		 }
 			    	   }); 
-			    	    $("table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
+			    	    $("table tr:eq(1)").find("td:eq(9)").children(":first").next().val(total);
 			       }   
 			       
 		        function calc(id){
 		        	var bud=0;
 			 	   	    $("#table tr").each(function(){
-			 	   	           var pid= $(this).find("td:eq(8)").children(":last").val() ;
+			 	   	           var pid= $(this).find("td:eq(9)").children(":last").val() ;
 				 	   	       if(id==pid){
-				 	   	         	var currBud=$(this).find("td:eq(8)").children(":first").next().val()-0;
+				 	   	         	var currBud=$(this).find("td:eq(9)").children(":first").next().val()-0;
 				 	   	            bud=bud+currBud;
 				 	   	            bud = bud.toFixed(2);
 				 	   	            
-				 	   	              var spid= $(this).find("td:eq(8)").children(":last").val();
+				 	   	              var spid= $(this).find("td:eq(9)").children(":last").val();
 				 	   	              aa(spid);
 				 	   	      }
 			     		}); 
@@ -871,6 +910,7 @@
 							<table id="table" class="table table-bordered table-condensed table_input">
 								<thead>
 									<tr class="info space_nowrap">
+									    <th class="">行号</th>
 										<th class="">序号</th>
 										<th class="">需求部门</th>
 										<th class="">物种名称</th>
@@ -895,6 +935,7 @@
 								<tbody id="detailZeroRow">
 								<c:if test="${plist==null }">
 									<tr name="detailRow">
+									<td>1</td>
 										<td class=" p0">
 											<input type="hidden" name="list[0].id" id="purid" value="" class="m0">
 											<input type="text" name="list[0].seq" value="" class="m0  ">

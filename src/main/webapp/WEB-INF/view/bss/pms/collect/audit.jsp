@@ -474,7 +474,7 @@
 											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
 											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
 											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].memo" value="${obj.memo }">
-												<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
+											<%-- 	<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 												<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
 												<input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
 												<input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
@@ -484,7 +484,7 @@
 												<input type="hidden" name="list[${vs.index }].auditDate" value="${obj.auditDate }">
 												<input type="hidden" name="list[${vs.index }].isMaster" value="${obj.isMaster }">
 												<input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
-												<input type="hidden" name="list[${vs.index }].status" value="${obj.status }">
+												<input type="hidden" name="list[${vs.index }].status" value="${obj.status }"> --%>
 											</td>
 						 				</tr>
 									</c:forEach>
