@@ -7,27 +7,32 @@
 <script type="text/javascript">
 	/** 保存基本信息 */
 	function saveTemplate(flag) {
-		$.ajax({
-			url: "${pageContext.request.contextPath}/supplier/isCommit.do",
-			data: {"id" : "${currSupplier.id}"},
-			async: false,
-			success: function(response){
-				if (response != 1) {
-					$("input[name='jsp']").val(flag);
-					if (flag == "commit") {
-						layer.confirm('您已成功提交,请等待审核结果!', {
-							btn : [ '确定' ],
-							shade: false //不显示遮罩
-						//按钮
-						}, function() {
-							$("#template_upload_form_id").submit();
-						});	
+		if (flag == "commit") {
+			$.ajax({
+				url: "${pageContext.request.contextPath}/supplier/isCommit.do",
+				data: {"id" : "${currSupplier.id}"},
+				async: false,
+				success: function(response){
+					if (response != 1) {
+						$("input[name='jsp']").val(flag);
+						if (flag == "commit") {
+							layer.confirm('您已成功提交,请等待审核结果!', {
+								btn : [ '确定' ],
+								shade: false //不显示遮罩
+							//按钮
+							}, function() {
+								$("#template_upload_form_id").submit();
+							});	
+						}
+					} else {
+						layer.msg("还有附件未上传!",{offset: ['300px', '750px']});
 					}
-				} else {
-					layer.msg("还有附件未上传!",{offset: ['300px', '750px']});
 				}
-			}
-		});
+			});
+		} else {
+			$("input[name='jsp']").val(flag);
+			$("#template_upload_form_id").submit();
+		}
 	}
 	
 	function uploadNew(id) {

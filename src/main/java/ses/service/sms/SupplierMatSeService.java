@@ -15,4 +15,6 @@ public interface SupplierMatSeService {
 	 * @return
 	 */
 	public SupplierMatServe getMatserver(String supplierId);
+
+    public String getMatSeIdBySupplierId(String supplierId);
 }

@@ -48,4 +48,10 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 	    return  supplierMatEngMapper.getMatEngBySupplierId(supplierId);
 	}
 
+    @Override
+    public String getMatEngIdBySupplierId(String supplierId) {
+        // TODO Auto-generated method stub
+        return supplierMatEngMapper.getMatEngBySupplierId(supplierId).getId();
+    }
+
 }

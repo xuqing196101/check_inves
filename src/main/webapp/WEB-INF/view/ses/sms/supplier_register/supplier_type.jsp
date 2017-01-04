@@ -127,7 +127,11 @@
 			contextType: "application/x-www-form-urlencoded",
 			success:function(msg){
 			   	layer.msg('暂存成功');  
-				$("input[name='supplierMatPro.id']").val(msg);
+			   	var data = msg.split(",");
+				$("input[name='supplierMatPro.id']").val(data[0]);
+				$("input[name='supplierMatSell.id']").val(data[1]);
+				$("input[name='supplierMatEng.id']").val(data[2]);
+				$("input[name='supplierMatSe.id']").val(data[3]);
 			}
 		});
  }
@@ -145,7 +149,11 @@
 		data : $("#save_pro_form_id").serializeArray(),
 		contextType: "application/x-www-form-urlencoded",
 		success:function(msg){
-			$("input[name='supplierMatPro.id']").val(msg);
+		   	var data = msg.split(",");
+			$("input[name='supplierMatPro.id']").val(data[0]);
+			$("input[name='supplierMatSell.id']").val(data[1]);
+			$("input[name='supplierMatEng.id']").val(data[2]);
+			$("input[name='supplierMatSe.id']").val(data[3]);
 		}
 	});
  }

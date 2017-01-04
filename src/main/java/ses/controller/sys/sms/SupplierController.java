@@ -614,7 +614,12 @@ import ses.util.WfUtil;
        supplierTypeRelateService.saveSupplierTypeRelate(supplier);
      }
      //model.addAttribute("currSupplier", supplier);
-     return supplierMatProService.getMatProIdBySupplierId(supplier.getId());
+     StringBuffer idSb = new StringBuffer();
+     idSb.append(supplierMatProService.getMatProIdBySupplierId(supplier.getId()) + ",");
+     idSb.append(supplierMatSellService.getMatSellIdBySupplierId(supplier.getId()) + ",");
+     idSb.append(supplierMatEngService.getMatEngIdBySupplierId(supplier.getId()) + ",");
+     idSb.append(supplierMatSeService.getMatSeIdBySupplierId(supplier.getId()) + ",");
+     return idSb.toString();
    }
 
    /**
