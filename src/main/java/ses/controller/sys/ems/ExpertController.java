@@ -21,6 +21,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -2149,6 +2153,25 @@ public class ExpertController extends BaseController {
         // 下载后的文件名
         String downFileName = new String("供应商承诺书.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
+        
+        
+        HSSFWorkbook wb = new HSSFWorkbook();  
+        HSSFSheet sheet = wb.createSheet("品目类别表");  
+        HSSFRow row = sheet.createRow((int) 0);  
+        HSSFCell  cell = row.createCell(0);
+          cell.setCellValue("采购产品目录编码"); 
+	      cell= row.createCell(1);  
+	      cell.setCellValue("类别名称");
+	 
+	      cell= row.createCell(2);  
+	      cell.setCellValue("专业资质要求");
+	      cell= row.createCell(3);  
+	      cell.setCellValue("说明");
+	      cell= row.createCell( 4);  
+	      DictionaryData goods = DictionaryDataUtil.get("GOODS");
+	      
+        
+        
         return service.downloadFile(fileName, filePath, downFileName);
     }
     
@@ -2581,5 +2604,17 @@ public class ExpertController extends BaseController {
             }
         }
         return JSON.toJSONString(treeList);
+    }
+    
+    
+    public List<Category> getAll(String pid){
+    	   List<Category> list=new ArrayList<Category>();
+		    	List<Category> tree = categoryService.findPublishTree(pid, null);
+		    	for(Category c:tree){
+		    		
+		    	}
+		    	
+    	        return list;
+    	
     }
 }

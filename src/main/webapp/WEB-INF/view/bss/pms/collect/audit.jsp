@@ -425,7 +425,7 @@
 											<td class="tl pl20">
 												<c:if test="${obj.purchaseCount!=null }">
 								  				<input type="hidden" name="ss" value="${obj.id }">
-								  				<input readonly="readonly" maxlength="11" id="purchaseCount" onblur="sum2(this)" 
+								  				<input  maxlength="11" id="purchaseCount" onblur="sum2(this)" 
 								    			onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="lists[${vs.index }].purchaseCount"
 													value="${obj.purchaseCount}" type="text" class="w80"/>
 								  				<input type="hidden" name="ss" value="${obj.parentId }">
@@ -437,7 +437,7 @@
 											<td class="tl pl20">
 												<c:if test="${obj.price!=null }">
 									  				<input type="hidden" name="ss" value="${obj.id }">
-								      				<input readonly="readonly" maxlength="11" id="price" name="lists[${vs.index }].price" onblur="sum1(this)" value="${obj.price}" type="text" class="w80"/>
+								      				<input  maxlength="11" id="price" name="lists[${vs.index }].price" onblur="sum1(this)" value="${obj.price}" type="text" class="w80"/>
 									  				<input type="hidden" name="ss" value="${obj.parentId }">
 												</c:if>
 							    				<c:if test="${obj.price==null}">
@@ -635,9 +635,9 @@
 							<div class="content table_box ">
 								<table class="table table-bordered table-condensed mt5">
 									<thead>
-										<tr>
+									<!-- 	<tr>
 											<th class="info" colspan="2">事业部门需求</th>
-										</tr>
+										</tr> -->
 										<tr class="info">
 										<th>需求部门</th>
 									</thead>

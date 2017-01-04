@@ -72,8 +72,8 @@
 			} 
 	}
 	
-	
-/*   	 function sum2(obj){  //数量
+	/* 
+  	 function sum2(obj){  //数量
 	        var purchaseCount = $(obj).val()-0;//数量
 	        var price2 = $(obj).parent().next().children(":last").prev();//价钱
 	        var price = $(price2).val()-0;
@@ -90,11 +90,10 @@
 	      	 var sum = purchaseCount*price2/10000;
 	         $(obj).parent().next().children(":last").prev().val(sum);
 		     	var id=$(obj).next().val(); //parentId
-		    	var sid=$(obj).prev().val();
-		     	aa(id,sid);
+		     	aa(id);
 	    }
 	
-	       function aa(id,sid){// id是指当前的父级parentid
+	       function aa(id){// id是指当前的父级parentid
 	    	  
 	    	   
 	    	   var budget=0;
@@ -108,23 +107,28 @@
 	    	   });
 	    	   budget = budget.toFixed(2); 
 	    	   
+	     
 	    	    $("#table tr").each(function(){
-	    	    	 calc(id,budget); 
-		    	/* 	var pid= $(this).find("td:eq(8)").children(":first").val();//上级id
+	    	    	//  calc(id,budget); 
+		    	  var  pid= $(this).find("td:eq(8)").children(":first").val();//上级id
 		    		
 		    		if(id==pid){
 		    			$(this).find("td:eq(8)").children(":first").next().val(budget);
-		    		} */
-	    		
-			    	   	/*  $("#table tr").each(function(){
-			 	    		var cid= $(this).find("td:eq(8)").children(":last").val();//父节点
-			 	    		   if(pid==cid){
-			 	    			  pid= $(this).find("td:eq(8)").children(":first").val();
-			 	    			 $(this).find("td:eq(8)").children(":first").next().val(budget);
-			 	    		  }  
-			 	    		});   */ 
-	    		});  
-	   
+		    			
+		    		}  
+	    		}); 
+	    	 
+	    	    $("#table tr").each(function(){
+	 	    		var cid= $(this).find("td:eq(8)").children(":first").val(); //的值
+	 	    		   if(id==cid){
+	 	    			 //  var sameBud=$(this).find("td:eq(8)").children(":last").next().val();
+	 	    			   // alert(sameBud);
+	 	    			   var   pid= $(this).find("td:eq(8)").children(":first").val(); //获取当前节点的父级id
+	 	    		  	     calc(id);
+	 	    			   
+	 	    		 //  $(this).find("td:eq(8)").children(":first").next().val(budget);
+	 	    		  } 
+	 	    		});  
 	    	    
 	    	    
 	    	  var did=$("table tr:eq(1)").find("td:eq(8)").children(":first").val();
@@ -137,24 +141,22 @@
 	 	    		 }
 	    	   }); 
 	    	    $("table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
-	       }  */ 
-	         
+	       }   
 	       
-/* 	  	 function calc(id,budget){
-	  		   var pid=null;
+ 	  function calc(id){
+	  		  
 	 	   	    $("#table tr").each(function(){
-	 	   	       pid= $(this).find("td:eq(8)").children(":last").val() ;
-		 	   	      if(id==pid){
-		 	   	    	$(this).find("td:eq(8)").children(":first").next().val(budget);
+	 	   	           var pid= $(this).find("td:eq(8)").children(":last").val() ;
+		 	   	       if(id==pid){
+		 	   	         	var sameBud=$(this).find("td:eq(8)").children(":last").next().val();
+		 	   	    	    alert(sameBud);
+		 	   	        // 	$(this).find("td:eq(8)").children(":first").next().val(budget);
 		 	   	      }
 	     		}); 
-	 	  	 	if(pid!=null){
-	    			$(this).find("td:eq(8)").children(":first").next().val(budget);
-	    			calc(pid,budget);
-	    		  }
+	 	  	 	 
 	 	    	   
-	 	     } */
-	  	 
+	 	     }  */
+	  	  
 	  	 
 	      function sel(obj) {
 		    var val = $(obj).val();

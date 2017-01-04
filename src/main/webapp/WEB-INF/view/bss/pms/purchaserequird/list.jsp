@@ -76,11 +76,17 @@
   	}
   	
     function edit(){
+    	var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
+    	
+    	
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){
+		if(status=="已提交"){
+			layer.alert("已提交，不允许修改",{offset: ['222px', '390px'], shade:0.01});
+		}
+		else if(id.length==1){
 			
 			window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+id+"&&type=2";;
 		}else if(id.length>1){

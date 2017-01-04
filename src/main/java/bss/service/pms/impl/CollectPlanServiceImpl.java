@@ -96,7 +96,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 					 List<PurchaseRequired> list3 = getChildren(list,list2,request);
 					 all.addAll(list3);
 				}else{
-					String string = NumberUtils.translate(i+1);
+					String string = NumberUtils.translate(i+2);
 					System.out.print(string);
 					list2.get(0).setSeq(string);
 					all.addAll(list2);
