@@ -99,9 +99,8 @@
 			    </td>
 			    <td class="tl pl20"  >${obj.fileName }</td>
 			      <td class="tl pl20"  >
-			      ${obj.goodsType }
 			      
-					    <c:forEach items="${dicType }" var="mt">
+					    <c:forEach items="${mType }" var="mt">
 								<c:if test="${mt.id==obj.goodsType }"> ${mt.name} </c:if> 
 					    </c:forEach>
 								

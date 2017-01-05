@@ -25,7 +25,7 @@
 		    jump: function(e, first){ //触发分页后的回调
 		            if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	$("#page").val(e.curr);
-		        	  $("#add_form").submit();
+		        	  $("#param_form").submit();
 		        	
 		       <%--  location.href = '${pageContext.request.contextPath}/purchaser/list.do?page='+e.curr; --%>
 		        }  

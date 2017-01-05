@@ -12,11 +12,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,20 +31,24 @@ import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.CollectPurchase;
+import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
+import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.impl.CollectPlanServiceImpl;
+
 import com.github.pagehelper.PageInfo;
 
 import bss.util.ExcelUtil;
-
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 import common.constant.Constant;
@@ -70,6 +77,14 @@ public class CollectPlanController extends BaseController {
   private DictionaryDataServiceI dictionaryDataServiceI;
   @Autowired
   private OrgnizationMapper oargnizationMapper;
+  
+  
+  @Autowired
+  private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+  
+  @Autowired
+  private PurchaseDetailService purchaseDetailService;
+  
     /**
 		* @Title: queryPlan
 		* @Description: 条件查询分页需求计划
@@ -103,6 +118,15 @@ public class CollectPlanController extends BaseController {
         List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("list", list);
+        
+    	HashMap<String,Object> maps=new HashMap<String,Object>();
+		maps.put("typeName", 1);
+	     List<PurchaseDep> orga = purchaseOrgnizationServiceI.findPurchaseDepList(maps);
+		
+		
+	      model.addAttribute("orga", orga);	
+	      
+	      
 //        回头加上
 //        Map<String,Object> map=new HashMap<String,Object>();
 //        List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
@@ -149,14 +173,16 @@ public class CollectPlanController extends BaseController {
 		 * @throws
 		  */
   @RequestMapping("/add")
-    public String queryCollect(@CurrentUser User user,CollectPlan collectPlan,String uniqueId,String goodsType) {
+    public String queryCollect(@CurrentUser User user,CollectPlan collectPlan,String uniqueId,String goodsType,HttpServletRequest request) {
     PurchaseRequired p = new PurchaseRequired();
     List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
+    List<String> ulist=new ArrayList<String>();
     if (uniqueId != null ) {
       String[] uid = uniqueId.split(",");
       for (String u:uid) {
         p.setUniqueId(u);
         p.setIsMaster(1);
+        ulist.add(u);
         //修改状态
         List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
 					p.setStatus("5");//修改
@@ -190,22 +216,32 @@ public class CollectPlanController extends BaseController {
 						collectPlan.setPosition(1);
 						
 					}
-					String[] uid = uniqueId.split(",");
-					CollectPurchase c=new CollectPurchase();
-					for(String u:uid){
-						c.setCollectPlanId(id);
-						c.setPlanNo(u);
-						collectPurchaseService.add(c);
-					}
+					
+//					String[] uid = uniqueId.split(",");
+//					CollectPurchase c=new CollectPurchase();
+//					for(String u:uid){
+//						c.setCollectPlanId(id);
+//						c.setPlanNo(u);
+//						collectPurchaseService.add(c);
+//					}
+					
+					
 					collectPlan.setUserId(user.getId());
 					collectPlan.setGoodsType(goodsType);
+					List<PurchaseRequired> list2 = collectPlanService.getAll(ulist, request);
+					if(list2!=null&&list2.size()>0){
+						Integer count=1;
+						for(PurchaseRequired pr:list2){
+							PurchaseDetail pd=new PurchaseDetail();
+							BeanUtils.copyProperties(pr, pd,new String[] {"serialVersionUID"});
+							pd.setUniqueId(collectPlan.getId());
+							pd.setIsMaster(count);
+							count++;
+							purchaseDetailService.add(pd);
+						}
+					}
+					
 					collectPlanService.add(collectPlan);
-//				}
-//			}
-			
-			
-			
-			
 			return "redirect:list.html";
 		}
 		/**

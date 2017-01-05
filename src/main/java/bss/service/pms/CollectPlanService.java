@@ -92,5 +92,20 @@ public interface CollectPlanService {
 	 */
 	List<PurchaseRequired> getAll(String id,HttpServletRequest request);
 	
+	/**
+	 * 
+	* @Title: getAll
+	* @Description: 汇总插入的时候做处理
+	* author: Li Xiaoxiao 
+	* @param @param uniqueId
+	* @param @param request
+	* @param @return     
+	* @return List<PurchaseRequired>     
+	* @throws
+	 */
+	List<PurchaseRequired> getAll(List<String> uniqueId,HttpServletRequest request);
+	
+	
+	
 	
 }

@@ -23,10 +23,12 @@ import bss.model.pms.CollectPlan;
 import bss.model.ppms.Task;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
+import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.TaskService;
 
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 
 /**
@@ -55,6 +57,9 @@ public class TaskAssignController extends BaseController{
 	
 	@Autowired
 	private CollectPurchaseService collectPurchaseService;
+	
+	@Autowired
+    private PurchaseDetailService purchaseDetailService;
 	
 	/**
 	 * 
@@ -112,8 +117,8 @@ public class TaskAssignController extends BaseController{
 		
 		}
 		
-		List<Map<String, Object>> org = purchaseRequiredService.queryOrg(list);
-		for(Map<String,Object> map:org){
+		List<String> org = purchaseDetailService.queryOrg(cid);
+		for(String str:org){
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				task.setId(id);
 			
@@ -126,7 +131,7 @@ public class TaskAssignController extends BaseController{
 				//采购管理部门
 				task.setOrgId(user.getOrg().getId());
 				//采购机构
-				String str =(String) map.get("ORGANIZATIONID");
+//				String str =(String) map.get("ORGANIZATIONID");
 				task.setPurchaseId(str);
 				task.setStatus(0);
 				task.setIsDeleted(0);

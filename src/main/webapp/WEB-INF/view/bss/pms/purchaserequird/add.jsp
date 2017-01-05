@@ -121,9 +121,10 @@
 						// var tr=$(obj).parent().parent();
 						$(tr).children(":first").children(":first").val(data);
 						var s = detailRow.length;
+						var count=2;
 						// var trs = $(obj).parent().parent();
 						if(detailRow.length==0){
-							$("#detailZeroRow").html("<tr name='detailRow' class='tc p0'><td><input type='hidden' name='list[" + 0 + "].id' />" +
+							$("#detailZeroRow").html("<tr name='detailRow' class='tc p0'>   <td> " +
 									"<input class='m0 ' type='text' name='list[" + 0 + "].seq' /></td>" +
 									"<td class=''  name='department'><input class='m0'  type='text' name='list[" + 0 + "].department'  value=''/></td>" +
 									"<td class='' ><input class='m0 ' type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
@@ -147,7 +148,7 @@
 									"<td class=''  ><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 									"<tr/>");
 						}else{
-						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'><td><input type='hidden' name='list[" + s + "].id' />" +
+						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'>  <td>"+count+"</td>  <td>  " +
 							"<input  class='m0'  type='text' name='list[" + s + "].seq' /></td>" +
 							"<td class=''  name='department'><input   class='m0'  type='text' name='list[" + s + "].department' readonly='readonly' value=''/></td>" +
 							"<td  class='' ><input class='m0 ' type='text' name='list[" + s + "].goodsName' onkeyup='listName(this)'/></td>" +
@@ -627,13 +628,25 @@
 									             count++;
 									           }
 									         
+									           
+									   	    $("#table tr").each(function(i){
+									    	     var  val1= $(this).find("td:eq(8)").children(":first").next().val();//上级id
+									    	     var  val2= $(this).find("td:eq(7)").children(":first").next().val();
+									    	    if($.trim(val1)== ""&&$.trim(val2) =="") {
+									    	    	$(this).find("td:eq(8)").children(":first").next().attr("disabled","true");
+									    	    	$(this).find("td:eq(7)").children(":first").next().attr("disabled","true");
+									    		}   
+								    		}); 
+									   	    
+									   	    
+									   	    
 									           var bool=$("input[name='import']").is(':checked');
 												if(bool==true){
-													$("td[name='userNone']").attr("style","display:none");
-													$("th[name='userNone']").attr("style","display:none");
-												}else{
 													$("td[name='userNone']").attr("style","");
 													$("th[name='userNone']").attr("style","");
+												}else{
+													$("td[name='userNone']").attr("style","display:none");
+													$("th[name='userNone']").attr("style","display:none");
 												}
 												
 												
@@ -658,6 +671,14 @@
 				return value;
 			}
 			
+		/* 	function budgets(bud){
+				if (value != null || value !="null" || value !="undefined" || value !=undefined){
+					  bud = bud.toFixed(4);
+					 
+					   return "";
+					}
+				return value;
+			} */
 /* 			function  jud() {
 		  var data="5行A列有错误信息";
 				var flag=true;
@@ -680,11 +701,12 @@
 			function imports(obj){
 				var bool=$(obj).is(':checked');
 				if(bool==true){
-					$("td[name='userNone']").attr("style","display:none");
-					$("th[name='userNone']").attr("style","display:none");
-				}else{
 					$("td[name='userNone']").attr("style","");
 					$("th[name='userNone']").attr("style","");
+			
+				}else{
+					$("td[name='userNone']").attr("style","display:none");
+					$("th[name='userNone']").attr("style","display:none");
 				}
 				
 			}
@@ -717,8 +739,8 @@
 		    	  if($.trim(val1) != ""&&$.trim(val2) ) {
 		    		  var budget=(val1-0)*(val2-0)/10000;
 		    		  var same=$(this).find("td:eq(9)").children(":first").next().val()-0;
-		    		   budget = budget.toFixed(2); 
-		    		   same = same.toFixed(2); 
+		    		   budget = budget.toFixed(4); 
+		    		   same = same.toFixed(4); 
 			    		if(budget!=same){
 			    			 layer.msg("第"+i+"行，金额计算错误，请重新计算！");
 			    			 bool=false;
@@ -760,7 +782,7 @@
 				 	    	  budget=budget+same; //查出所有的子节点的值
 				 	       }
 			    	   });
-			    	   budget = budget.toFixed(2); 
+			    	   budget = budget.toFixed(4); 
 			     
 			    	    $("#table tr").each(function(){
 				    	  var  pid= $(this).find("td:eq(9)").children(":first").val();//上级id
@@ -790,7 +812,7 @@
 				 	   	       if(id==pid){
 				 	   	         	var currBud=$(this).find("td:eq(9)").children(":first").next().val()-0;
 				 	   	            bud=bud+currBud;
-				 	   	            bud = bud.toFixed(2);
+				 	   	            bud = bud.toFixed(4);
 				 	   	            
 				 	   	              var spid= $(this).find("td:eq(9)").children(":last").val();
 				 	   	              aa(spid);

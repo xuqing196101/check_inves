@@ -206,7 +206,7 @@
 			                
 			                <td>
 			                <c:forEach items="${orga}" var="og" >
-			                  <c:if test="${og.id == obj.organization}">${og.name}</c:if>
+			                  <c:if test="${og.orgId == obj.organization}">${og.name}</c:if>
 			                </c:forEach>
 			                
 			                </td>

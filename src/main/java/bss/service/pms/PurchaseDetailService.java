@@ -215,7 +215,7 @@ public interface PurchaseDetailService {
 	* @return List<Map<String,Object>>     
 	* @throws
 	 */
-    List<Map<String,Object>> queryOrg(List<String>  list);
+    List<String> queryOrg(String  uniqueId);
     
     /**
      * 

@@ -42,7 +42,7 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
     @Override
     public void add(PurchaseDetail purchaseDetail) {
         // TODO Auto-generated method stub
-        purchaseDetailMapper.insertSelective(purchaseDetail);
+        purchaseDetailMapper.insert(purchaseDetail);
     }
 
     @Override
@@ -223,9 +223,9 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
     }
 
     @Override
-    public List<Map<String, Object>> queryOrg(List<String> list) {
+    public List<String> queryOrg(String uniqueId) {
         // TODO Auto-generated method stub
-        return purchaseDetailMapper.queryOrg(list);
+        return purchaseDetailMapper.queryOrg(uniqueId);
     }
 
     @Override

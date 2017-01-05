@@ -3,6 +3,7 @@ package bss.formbean;
 import java.util.List;
 
 import bss.model.pms.PurchaseAudit;
+import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.ProjectDetail;
@@ -25,6 +26,9 @@ public class PurchaseRequiredFormBean {
 	private List<AdvancedDetail> detail;
 	
 	private List<PackageExpert> packageExperts;
+	
+	private List<PurchaseDetail> listDetail;
+	
 	
 	public List<PurchaseRequired> getList() {
 		return list;
@@ -65,4 +69,14 @@ public class PurchaseRequiredFormBean {
     public void setPackageExperts(List<PackageExpert> packageExperts) {
       this.packageExperts = packageExperts;
     }
+
+	public List<PurchaseDetail> getListDetail() {
+		return listDetail;
+	}
+
+	public void setListDetail(List<PurchaseDetail> listDetail) {
+		this.listDetail = listDetail;
+	}
+    
+    
 }

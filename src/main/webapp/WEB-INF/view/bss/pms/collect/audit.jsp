@@ -407,7 +407,7 @@
 								<tbody id="table">
 									<c:forEach items="${list }" var="obj" varStatus="vs">
 										<tr>
-											<td class="tc w50"><input readonly="readonly" type="text" class="w50" name="list[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
+											<td class="tc w50"><input readonly="readonly" type="text" class="w50" name="listDetail[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }"></td>
 											<td class="tl pl20">
 											
 											${obj.department }
@@ -418,41 +418,41 @@
 													</c:if>
 												</c:forEach> --%>
 											</td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].item" value="${obj.item }" class="w50"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].stand" value="${obj.stand }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].item" value="${obj.item }" class="w50"></td>
 											<td class="tl pl20">
 												<c:if test="${obj.purchaseCount!=null }">
 								  				<input type="hidden" name="ss" value="${obj.id }">
 								  				<input  maxlength="11" id="purchaseCount" onblur="sum2(this)" 
-								    			onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="lists[${vs.index }].purchaseCount"
+								    			onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="listDetail[${vs.index }].purchaseCount"
 													value="${obj.purchaseCount}" type="text" class="w80"/>
 								  				<input type="hidden" name="ss" value="${obj.parentId }">
 												</c:if> 
 												<c:if test="${obj.purchaseCount==null }">
-								  				<input disabled="disabled" type="text" name="lists[${vs.index }].purchaseCount" value="${obj.purchaseCount }" class="w80">
+								  				<input disabled="disabled" type="text" name="listDetail[${vs.index }].purchaseCount" value="${obj.purchaseCount }" class="w80">
 												</c:if>
 											</td>
 											<td class="tl pl20">
 												<c:if test="${obj.price!=null }">
 									  				<input type="hidden" name="ss" value="${obj.id }">
-								      				<input  maxlength="11" id="price" name="lists[${vs.index }].price" onblur="sum1(this)" value="${obj.price}" type="text" class="w80"/>
+								      				<input  maxlength="11" id="price" name="listDetail[${vs.index }].price" onblur="sum1(this)" value="${obj.price}" type="text" class="w80"/>
 									  				<input type="hidden" name="ss" value="${obj.parentId }">
 												</c:if>
 							    				<c:if test="${obj.price==null}">
-								  					<input readonly="readonly"  type="text" name="lists[${vs.index }].price" value="${obj.price }" class="w80">
+								  					<input readonly="readonly"  type="text" name="listDetail[${vs.index }].price" value="${obj.price }" class="w80">
 												</c:if>
 											</td>
 											<td class="tr pr20">
 												<input type="hidden" name="ss" value="${obj.id }">
-												<input type="text" name="list[${vs.index }].budget" value="${obj.budget }" readonly="readonly" class="w80">
+												<input type="text" name="listDetail[${vs.index }].budget" value="${obj.budget }" readonly="readonly" class="w80">
 												<input type="hidden" name="ss" value="${obj.parentId }">
 											</td>
-											<td><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }" readonly="readonly" class="w100"></td>
+											<td><input type="text" name="listDetail[${vs.index }].deliverDate" value="${obj.deliverDate }" readonly="readonly" class="w100"></td>
 											<td>
 											<c:if test="${obj.purchaseCount!=null }"> 
-												<select name="list[${vs.index }].purchaseType" >
+												<select name="listDetail[${vs.index }].purchaseType" >
 													<c:forEach items="${mType }" var="mt">
 														<option value="${mt.id }" <c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 													</c:forEach>
@@ -462,18 +462,18 @@
 											</td>
 											<td class="tc">
 											<c:if test="${obj.purchaseCount!=null }"> 
-												<select class="org" name="list[${vs.index }].organization">
+												<select class="org" name="listDetail[${vs.index }].organization">
 													<c:forEach items="${org }" var="ss">
-														<option value="${ss.name }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
+														<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 													</c:forEach>
 												</select>
 										    </c:if>
 											</td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="list[${vs.index }].memo" value="${obj.memo }">
+											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }">
 											<%-- 	<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 												<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
 												<input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
@@ -546,7 +546,7 @@
 							<tr>
 								<c:if test="${status==3 || status==5 || status==7 }">
 								<td>
-									<select name="list[${vs.index }].onePurchaseType" >
+									<select name="listDetail[${vs.index }].onePurchaseType" >
 										<c:forEach items="${mType }" var="mt">
 											<option value="${mt.id }" <c:if test="${mt.id==obj.onePurchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 										</c:forEach>
@@ -554,43 +554,43 @@
 									
 								</td>		
 								<td class="tc">
-									<select name="list[${vs.index}].oneOrganiza">
+									<select name="listDetail[${vs.index}].oneOrganiza">
 										<c:forEach items="${org }" var="ss">
 											<option value="${ss.name }">${ss.name}</option>
 										</c:forEach>
 									</select>
 								</td>
 								<td class="tc">
-									<input type="text" name="list[${vs.index }].oneAdvice" value="${obj.oneAdvice }" >
+									<input type="text" name="listDetail[${vs.index }].oneAdvice" value="${obj.oneAdvice }" >
 								</td>
 								</c:if>
 								
 							<c:if test="${status==5 || status==7 }">
 								<td class="tl pl20">
-									<input type="text" name="list[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
+									<input type="text" name="listDetail[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
 								</td>
 								<td class="tc">
-									<input type="text" name="list[${vs.index }].twoAdvice" value="${obj.twoAdvice }" >
+									<input type="text" name="listDetail[${vs.index }].twoAdvice" value="${obj.twoAdvice }" >
 								</td>
 							</c:if>
 							<c:if test="${status==7 }">	
 								
 								<td class="tc">
-									<select name="list[${vs.index }].threePurchaseType">
+									<select name="listDetail[${vs.index }].threePurchaseType">
 										<c:forEach items="${mType }" var="mt">
 											<option value="${mt.id }" <c:if test="${mt.id==obj.threePurchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 										</c:forEach>
 									</select>
 								</td>
 								<td class="tl pl20">
-									<select name="list[${vs.index}].threeOrganiza">
+									<select name="listDetail[${vs.index}].threeOrganiza">
 										<c:forEach items="${org }" var="ss">
 											<option value="${ss.id }">${ss.name}</option>
 										</c:forEach>
 									</select>
 								</td>
 								<td class="tl pl20">
-									<input type="text" name="list[${vs.index }].threeAdvice" value="${obj.threeAdvice }">
+									<input type="text" name="listDetail[${vs.index }].threeAdvice" value="${obj.threeAdvice }">
 								</td>
 								</c:if>
 								
