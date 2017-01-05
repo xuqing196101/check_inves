@@ -1,10 +1,6 @@
 
 package iss.service.ps.impl;
 
-import iss.dao.ps.ArticleMapper;
-import iss.model.ps.Article;
-import iss.service.ps.ArticleService;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,21 +9,17 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageHelper;
 
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.Packages;
 import bss.model.ppms.ProjectDetail;
-import common.constant.StaticVariables;
-
-import com.github.pagehelper.PageHelper;
-
-import ses.model.bms.DictionaryData;
-import ses.util.DictionaryDataUtil;
+import iss.dao.ps.ArticleMapper;
+import iss.model.ps.Article;
+import iss.service.ps.ArticleService;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
@@ -69,13 +61,31 @@ public class ArticleServiceImpl implements ArticleService {
 	public void update(Article article) {
 		articleMapper.update(article);
 	}
-
+	
+	/**
+	 * 
+	 * @see iss.service.ps.ArticleService#insertArticle(iss.model.ps.Article)
+	 */
 	@Override
+    public void insertArticle(Article article) {
+	    articleMapper.insertArticle(article);
+    }
+
+    @Override
 	public void delArticleById(String id) {
 		articleMapper.deleteByPrimaryKey(id);
 	}
 	
 	/**
+	 * 
+	 * @see iss.service.ps.ArticleService#updateArticle(iss.model.ps.Article)
+	 */
+	@Override
+    public void updateArticle(Article article) {
+	    articleMapper.updateArticle(article);
+    }
+
+    /**
 	 * 根据id查询信息
 	 */
 	@Override

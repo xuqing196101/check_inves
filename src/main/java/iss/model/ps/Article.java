@@ -169,6 +169,13 @@ public class Article{
     private String groupsUpload;
     private String groupShow;
     
+    /** 第一级Id **/
+    private String articleTypeId;
+    
+    /** 用户Id **/
+    private String userId;
+    
+    
 	public String getUploadId() {
 		return uploadId;
 	}
@@ -464,5 +471,23 @@ public class Article{
 	public void setSubmitAt(Date submitAt) {
 		this.submitAt = submitAt;
 	}
+
+    public String getArticleTypeId() {
+        return articleTypeId;
+    }
+
+    public void setArticleTypeId(String articleTypeId) {
+        this.articleTypeId = articleTypeId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+    
+    
 	
 }

@@ -347,4 +347,22 @@ public interface ArticleService {
     List<Article> selectAllByTabss(Map<String, Object> map);
     
     BigDecimal selectAllByTimer(Map<String, Object> map);
+    
+    /**
+     * 
+     *〈简述〉更新article - 数据同步使用
+     *〈详细描述〉
+     * @author myc
+     * @param article
+     */
+    void updateArticle(Article article);
+    
+    /**
+     * 
+     *〈简述〉插入数据-数据同步使用
+     *〈详细描述〉
+     * @author myc
+     * @param article
+     */
+    void insertArticle(Article article);
 }

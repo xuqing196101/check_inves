@@ -47,10 +47,10 @@ public class OuterInfoServiceImpl implements OuterInfoService {
                 Integer count = articleService.getArticleCount(article.getId());
                 if (count > 0){
                     if (article != null && StringUtils.isNotBlank(article.getId())){
-                        articleService.update(article);
+                        articleService.updateArticle(article);
                     }
                 } else {
-                    articleService.addArticle(article);
+                    articleService.insertArticle(article);
                 }
             }
             recordService.importInfos(new Integer(list.size()).toString());

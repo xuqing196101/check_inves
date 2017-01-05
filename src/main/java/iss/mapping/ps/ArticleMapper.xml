@@ -57,11 +57,13 @@
     <result column="REASON" property="reason" />
     <result column="SOURCE" property="source" />
     <result column="SOURCE_LINK" property="sourceLink" />
-    
+    <result column="ARTICLE_TYPE_ID"  property="articleTypeId" />
     <result column="SECOND_ARTICLE_TYPE_ID" property="secondArticleTypeId" />
     <result column="THREE_ARTICLE_TYPE_ID" property="threeArticleTypeId" />
     <result column="FOUR_ARTICLE_TYPE_ID" property="fourArticleTypeId" />
     <result column="LAST_ARTICLE_TYPE_ID" property="lastArticleTypeId"/>
+    <result column="SUBMIT_AT" jdbcType="TIMESTAMP" property="submitAt" />
+    <result column="USER_ID" property="userId"/>
   </resultMap>
   
    <resultMap extends="ArticleBase" id="ArticleBaseBlob" type="iss.model.ps.Article">
@@ -123,7 +125,7 @@
     <include refid="Article_BlOB_Column_List" />
     from T_ISS_PS_ARTICLE
     where IS_DELETED = 0
-    <if test="userId!=null and userId!=''">
+    <if test="userId != null and userId !=''">
     	and USER_ID = #{userId}
     </if>
     <if test="name != null">
@@ -434,6 +436,183 @@
     </trim>
   </insert>
   
+  <!-- 新增信息数据同步使用 -->
+  <insert id="insertArticle" parameterType="iss.model.ps.Article">
+    insert into T_ISS_PS_ARTICLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="articleTypeId != null">
+        ARTICLE_TYPE_ID,
+      </if>
+      <if test="publishedAt != null">
+        PUBLISHED_AT,
+      </if>
+      <if test="isPicShow != null">
+        IS_PIC_SHOW,
+      </if>
+      <if test="position != null">
+        POSITION,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="showCount != null">
+        SHOW_COUNT,
+      </if>
+      <if test="downloadCount != null">
+        DOWNLOAD_COUNT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="pic != null">
+        PIC,
+      </if>
+      <if test="publishedName != null">
+        PUBLISHED_NAME,
+      </if>
+      <if test="isIndex != null">
+        IS_INDEX,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="range != null">
+        RANGE,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+      <if test="source != null">
+        SOURCE,
+      </if>
+      <if test="sourceLink != null">
+        SOURCE_LINK,
+      </if>
+      <if test="secondArticleTypeId != null">
+        SECOND_ARTICLE_TYPE_ID,
+      </if>
+      <if test="threeArticleTypeId != null">
+        THREE_ARTICLE_TYPE_ID,
+      </if>
+      <if test="fourArticleTypeId != null">
+        FOUR_ARTICLE_TYPE_ID,
+      </if>
+      <if test="lastArticleTypeId != null">
+        LAST_ARTICLE_TYPE_ID,
+      </if>
+      <if test="submitAt != null">
+        SUBMIT_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="articleTypeId != null">
+        #{articleTypeId},
+      </if>
+      <if test="publishedAt != null">
+        #{publishedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPicShow != null">
+        #{isPicShow},
+      </if>
+      <if test="position != null">
+        #{position},
+      </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
+      <if test="showCount != null">
+        #{showCount},
+      </if>
+      <if test="downloadCount != null">
+        #{downloadCount},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="pic != null">
+        #{pic},
+      </if>
+      <if test="publishedName != null">
+        #{publishedName},
+      </if>
+      <if test="isIndex != null">
+        #{isIndex},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content},
+      </if>
+      <if test="range != null">
+        #{range},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="reason != null">
+        #{reason},
+      </if>
+      <if test="source != null">
+        #{source},
+      </if>
+      <if test="sourceLink != null">
+        #{sourceLink},
+      </if>
+      <if test="secondArticleTypeId != null">
+        #{secondArticleTypeId},
+      </if>
+      <if test="threeArticleTypeId != null">
+        #{threeArticleTypeId},
+      </if>
+      <if test="fourArticleTypeId != null">
+        #{fourArticleTypeId},
+      </if>
+      <if test="lastArticleTypeId != null">
+        #{lastArticleTypeId},
+      </if>
+      <if test="submitAt != null">
+        #{submitAt},
+      </if>
+    </trim>
+  </insert>
+  
   <!-- 修改 -->
   <update id="update" parameterType="iss.model.ps.Article">
     update T_ISS_PS_ARTICLE
@@ -521,6 +700,101 @@
       </if>
       <if test="fourArticleTypeId == null">
        FOUR_ARTICLE_TYPE_ID = null,
+      </if>
+      <if test="lastArticleTypeId != null">
+       LAST_ARTICLE_TYPE_ID = #{lastArticleTypeId},
+      </if>
+      <if test="submitAt != null">
+       SUBMIT_AT = #{submitAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+   <!-- 数据同步更新使用 -->
+  <update id="updateArticle" parameterType="iss.model.ps.Article">
+    update T_ISS_PS_ARTICLE
+    <set>
+      <if test="name != null">
+        NAME = #{name},
+      </if>
+      <if test="articleTypeId != null">
+        ARTICLE_TYPE_ID = #{articleTypeId},
+      </if>
+      <if test="publishedAt != null">
+        PUBLISHED_AT = #{publishedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPicShow != null">
+        IS_PIC_SHOW = #{isPicShow,jdbcType=INTEGER},
+      </if>
+      <if test="position != null">
+        POSITION = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null and userId != ''">
+        USER_ID = #{userId},
+      </if>
+      <if test="showCount != null">
+        SHOW_COUNT = #{showCount,jdbcType=INTEGER},
+      </if>
+      <if test="downloadCount != null">
+        DOWNLOAD_COUNT = #{downloadCount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="pic != null">
+        PIC = #{pic},
+      </if>
+      <if test="publishedName != null">
+        PUBLISHED_NAME = #{publishedName},
+      </if>
+      <if test="isIndex != null">
+        IS_INDEX = #{isIndex,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        TYPE = #{type},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content},
+      </if>
+      <if test="range != null">
+        RANGE = #{range,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+     	 REASON = #{reason},
+      </if>
+      <if test="source != null">
+     	 SOURCE = #{source},
+      </if>
+      <if test="sourceLink != null">
+     	 SOURCE_LINK = #{sourceLink},
+      </if>
+      <if test="secondArticleTypeId != null">
+       SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId},
+      </if>
+      <if test="secondArticleTypeId == null">
+       SECOND_ARTICLE_TYPE_ID = null,
+      </if>
+      <if test="threeArticleTypeId != null">
+       THREE_ARTICLE_TYPE_ID = #{threeArticleTypeId},
+      </if>
+      <if test="threeArticleTypeId == null">
+       THREE_ARTICLE_TYPE_ID = null,
+      </if>
+      <if test="fourArticleTypeId != null">
+       FOUR_ARTICLE_TYPE_ID = #{fourArticleTypeId},
       </if>
       <if test="lastArticleTypeId != null">
        LAST_ARTICLE_TYPE_ID = #{lastArticleTypeId},
