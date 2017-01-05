@@ -55,6 +55,7 @@
         var purchaseType = $("#purchaseType").val();
         var planType = $("#planType").val();
         var organization = $("#orgIds").val();
+        
          var ids = [];
         $('input[name="chkItem"]:checked').each(function() {
           ids.push($(this).val());
@@ -63,7 +64,9 @@
           layer.tips("项目名称不允许为空", "#proName");
         }else if(projectNumber == "") {
           layer.tips("项目编号不允许为空", "#projectNumber");
-        } else {
+        } else if(ids.length < 1) {
+          layer.alert("请勾选明细",{ shade:0.01});
+        }else {
           layer.open({
             type : 2, //page层
             area : [ '800px', '500px' ],
@@ -162,7 +165,7 @@
                 <tbody id="task_id">
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
                     <tr class="tc">
-                      <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this)"></td>
+                      <td class="tc w30"><input type="checkbox" value="${obj.id }" id="clll" name="chkItem" onclick="check(this)"></td>
                       <td class="tc w50">${obj.seq} <input type="hidden" id="planNo" name="planNo" value="${obj.planNo}"/></td>
                       <td class="tc">
                           ${obj.department}
