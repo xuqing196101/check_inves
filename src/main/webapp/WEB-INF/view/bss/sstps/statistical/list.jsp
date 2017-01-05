@@ -83,8 +83,8 @@
             <li class="fl">
               <label class="fl">合同编号：</label><span><input type="text" value="${code }" name="code" class=""/></span>
             </li>
-            <button type="submit" class="btn">查询</button>
-            <button type="button" class="btn" onclick="resetQuery()">重置</button>
+            <button type="submit" class="btn fl">查询</button>
+            <button type="button" class="btn fl" onclick="resetQuery()">重置</button>
           </ul>
           <div class="clear"></div>
         </form>

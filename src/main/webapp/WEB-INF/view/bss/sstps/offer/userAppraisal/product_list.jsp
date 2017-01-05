@@ -114,8 +114,8 @@ function offer(){
 							<input type="text" name="name" id="name" class="mb0" />
 						</span>
 					</li>
-					<button class="btn" type="submit">查询</button>
-					<button type="reset" class="btn">重置</button>
+					<button class="btn fl" type="submit">查询</button>
+					<button type="reset" class="btn fl">重置</button>
 				</ul>
 
 				<div class="clear"></div>

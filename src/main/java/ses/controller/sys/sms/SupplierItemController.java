@@ -254,7 +254,8 @@ public class SupplierItemController extends BaseController{
 		model.addAttribute("saleQua", saleQua);
 		model.addAttribute("projectQua", projectQua);
 		model.addAttribute("serviceQua", serviceQua);
-		
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		model.addAttribute("businessId", supplier.getId());
 		model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
 //		model.addAttribute("len", len);
 		

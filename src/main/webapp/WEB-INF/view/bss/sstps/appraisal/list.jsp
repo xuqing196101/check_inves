@@ -146,10 +146,10 @@
           </li>
           <li>
             <label class="fl">供应商名称：</label><span><input type="text" name="supplierName" value="${supplierName }" class=""/></span>
-            </li>
+            </li> 
             <input type="hidden" name="like" value="0">
-            <button type="submit" class="btn">查询</button>
-            <button type="button" class="btn" onclick="resetQuery()">重置</button>
+            <button type="submit" class="btn fl">查询</button>
+            <button type="button" class="btn fl" onclick="resetQuery()">重置</button>
           </ul>
           <div class="clear"></div>
         </form>

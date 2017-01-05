@@ -122,43 +122,43 @@
 										    <td class="w220">
 										  
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										     
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeContract}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
 										    <td class="w220"> 
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 									   
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 											  </div>
 										    
 										     </td>
@@ -199,43 +199,43 @@
 										    <td class="w220">
 										  
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="saleUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
-												 <u:show showId="saleShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+												 <u:show showId="saleShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="saleUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
-												 <u:show showId="saleShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+												 <u:show showId="saleShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										     
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="saleUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
-												 <u:show showId="saleShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeContract}" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+												 <u:show showId="saleShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
 										    <td class="w220"> 
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="saleUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
-												 <u:show showId="saleShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+												 <u:show showId="saleShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="saleUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
-												 <u:show showId="saleShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+												 <u:show showId="saleShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 									   
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0 w220" id="breach_li_id">
-												 <u:upload id="saleUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
-												 <u:show showId="saleShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+												 <u:show showId="saleShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 											  </div>
 										    
 										     </td>
@@ -278,43 +278,43 @@
 										    <td class="w220">
 										  
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="projectUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
-												 <u:show showId="projectShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+												 <u:show showId="projectShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="projectUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
-												 <u:show showId="projectShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+												 <u:show showId="projectShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										     
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="projectUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
-												 <u:show showId="projectShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeContract}" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+												 <u:show showId="projectShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
 										    <td class="w220"> 
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="projectUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
-												 <u:show showId="projectShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+												 <u:show showId="projectShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="projectUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
-												 <u:show showId="projectShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+												 <u:show showId="projectShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 									   
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="projectUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
-												 <u:show showId="projectShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+												 <u:show showId="projectShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 											  </div>
 										    
 										     </td>
@@ -356,43 +356,43 @@
 										    <td class="w220">
 										  
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="serUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
-												 <u:show showId="serpShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+												 <u:upload id="serUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+												 <u:show showId="serpShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="serUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
-												 <u:show showId="serpShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+												 <u:upload id="serUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+												 <u:show showId="serpShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										     
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="serUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
-												 <u:show showId="serpShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeContract}" />
+												 <u:upload id="serUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+												 <u:show showId="serpShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
 										    <td class="w220"> 
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="serUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
-												 <u:show showId="serpShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+												 <u:upload id="serUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+												 <u:show showId="serpShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="serUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
-												 <u:show showId="serpShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+												 <u:upload id="serUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+												 <u:show showId="serpShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
 										    <td class="w220">
 									   
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="serUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
-												 <u:show showId="serpShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+												 <u:upload id="serUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+												 <u:show showId="serpShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 											  </div>
 										    
 										     </td>
@@ -445,43 +445,43 @@
 										    <td class="info">
 										  
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 											  </div>
 										    </td>
 										    <td class="info">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 											  </div>
 										    </td>
 										    <td class="info">
 										     
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeContract}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeContract}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 											  </div>
 										    </td>
 										    <td class="info"> 
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 											  </div>
 										    </td>
 										    <td class="info">
 										 
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 											  </div>
 										    </td>
 										    <td class="info">
 									   
 										     <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-												 <u:upload id="pUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" auto="true" />
-												 <u:show showId="pShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+												 <u:upload id="pUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+												 <u:show showId="pShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 											  </div>
 										    
 										     </td>
