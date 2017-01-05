@@ -29,12 +29,12 @@
         <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>开始时间</span>
 		  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			<input class="input_group Wdate mb0 w220" id="startTime" name="startTime" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"> 
+			<input class="input_group Wdate mb0 w220" id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"> 
 		  </div>
 		</li>
 		
 		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-		  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>开始时间</span>
+		  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>结束时间</span>
 		  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			<input class="input_group Wdate mb0 w220" id="endTime" name="endTime" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"> 
 		  </div>

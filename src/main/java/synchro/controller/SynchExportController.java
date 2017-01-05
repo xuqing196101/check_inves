@@ -20,6 +20,7 @@ import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
 import synchro.inner.backup.service.infos.InnerInfoService;
 import synchro.model.SynchRecord;
+import synchro.service.SynchRecordService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
 
@@ -44,6 +45,10 @@ public class SynchExportController {
     /** 同步信息数据service **/
     @Autowired
     private InnerInfoService infoService;
+    
+    /** 记录service  **/
+    @Autowired
+    private SynchRecordService  recordService;
     
     
     /** 设置数据类型 **/
@@ -72,6 +77,14 @@ public class SynchExportController {
        }
        
        model.addAttribute("dataTypeList", list);
+       
+       //获取最近一次同步时间,作为手动同步的开始时间的默认值
+       DictionaryData dd = DictionaryDataUtil.get(Constant.DATA_TYPE_INFOS_CODE);
+       if (dd != null && StringUtils.isNotBlank(dd.getId())){
+           String startTime = recordService.getSynchTime(Constant.OPER_TYPE_EXPORT, dd.getId());
+           model.addAttribute("startTime", startTime);
+       }
+       
        return "/synch/export";
     }
     
