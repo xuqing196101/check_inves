@@ -64,7 +64,7 @@
 	</update >
 	
 	<!-- 根据Id查询 -->
-	<select id="getQualification" parameterType="java.lang.String" resultMap="qualificationMap">
+	<select id="getQualification" parameterType="java.lang.String" resultMap="qualificationMap" flushCache="true">
 	  SELECT
 	  <include refid="BASE_COLUMN_SQL"/>
 	  FROM T_SES_BMS_QUALIFICATION

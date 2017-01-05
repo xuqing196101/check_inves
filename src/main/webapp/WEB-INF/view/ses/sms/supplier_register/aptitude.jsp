@@ -106,7 +106,7 @@
 										  <table class="table table-bordered">
 										   <c:forEach items="${cateList }" var="obj" >
 						  					 <tr>
-						  					  <td>${obj.categoryName } </td>
+						  					  <td class="w200">${obj.categoryName } </td>
 						  					    <td>
 						  					    
 						  					    <c:forEach items="${obj.list }" var="quaPro">
@@ -130,7 +130,7 @@
 										  <table class="table table-bordered">
 						  					 <c:forEach items="${saleQua }" var="sale" >
 						  					 <tr>
-						  					  <td style="width:150px;">${sale.categoryName } </td>
+						  					  <td class="w200">${sale.categoryName } </td>
 						  					    <td>
 						  					    
 						  					    <c:forEach items="${sale.list }" var="saua">
@@ -155,7 +155,7 @@
 										<c:set value="0" var="plength"> </c:set>	 
 									  <c:forEach items="${projectQua }" var="project">
 									      <tr>
-										    <td class="info">${project.categoryName } 
+										    <td class="w200">${project.categoryName } 
 										    </td>
 											
 										
@@ -184,7 +184,7 @@
 									 	 
 									  <c:forEach items="${serviceQua }" var="server">
 									      <tr>
-										    <td class="info">${server.categoryName } 
+										    <td class="w200">${server.categoryName } 
 										    </td>
 											 <td>
 						  					    <c:forEach items="${server.list }" var="ser">

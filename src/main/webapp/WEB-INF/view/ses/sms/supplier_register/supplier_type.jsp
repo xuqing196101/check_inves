@@ -980,7 +980,7 @@ $(function(){
 											  <span class="red">${cert_pro }</span>
 											</div>
 					                       <div class="col-md-12 col-xs-12 col-sm-12 over_scroll">
-					                       <table class="table table-bordered table-condensed mt5 table_input table_wrap left_table">
+					                       <table class="table table-bordered table-condensed mt5 table_wrap left_table">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_pro_list_tbody_id')"/></th>
