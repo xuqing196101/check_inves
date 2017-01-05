@@ -136,7 +136,7 @@ public class PlanLookController extends BaseController {
         List<String> list = conllectPurchaseService.getNo(id);
  
         
-	List<PurchaseRequired> listp = collectPlanService.getAll(id,request);
+    	List<PurchaseDetail> listp = purchaseDetailService.getUnique(id);
 		
 		model.addAttribute("list", listp);
 		
@@ -193,8 +193,7 @@ public class PlanLookController extends BaseController {
 		map.put("typeName", 1);
 	 List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
-		List<PurchaseRequired> listp = collectPlanService.getAll(id, request);
-		
+	 List<PurchaseDetail> listp = purchaseDetailService.getUnique(id);
 //        List<String> list = conllectPurchaseService.getNo(id);
 //        if(list != null && list.size() > 0){
 //            for(String s:list){
