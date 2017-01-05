@@ -14,6 +14,17 @@ ScoreModel scoreModel = (ScoreModel)request.getAttribute("scoreModel");
 System.out.print(scoreModel);
 %>
 <script type="text/javascript">
+	function addRows() {
+		 $("#guding").before("<tr><td><span class='star_red'>*</span>选择项名称</td><td><input onkeyup='gernerator();' ></td><td><span class='star_red'>*</span>对应分数</td><td><input onkeyup='gernerator();'></td><td class='tc'><button class='btn btn-windows delete' type=button onclick=deleteRow(this)>删除</button></td></tr>");
+	}
+	function deleteRow(obj) {
+		  if ($("#show_table").get(0).rows.length == 5) {
+		  	layer.msg("请填写数据");
+		  } else {
+		  	$(obj).parent().parent().remove(); 
+		  }
+	}
+
 function judge(index) {
 		if (index == 0) {
 			var trArr = new Array();
@@ -35,6 +46,60 @@ function judge(index) {
 			}
 		}
 	}
+	$(function(){
+		if ('${scoreModel.isHave}' == 1) {
+			var trArr = new Array();
+			trArr = $("tr");
+			var i;
+			for (i = 0; i < trArr.length; i++) {
+				if ($(trArr[i]).hasClass("show")) {
+					$(trArr[i]).addClass("hide");
+				}
+			}
+		}
+	});
+	function judgeRelationScore(index) {
+	    var relation = $("#relation").find("option:checked").val();
+		if (index == 1) {
+			if (relation == 1) {
+				//最低分
+				 	$("#relationScore").val(1);
+			} else {
+				//最高分	
+					$("#relationScore").val(0);
+			}
+		} else {
+			if (relation == 1) {
+				//最高分
+				 	$("#relationScore").val(0);
+			} else {
+				//最低分
+					$("#relationScore").val(1);
+			}
+		}
+	}
+	
+	function judgeRelationScore1(index) {
+		var relation = $("#addSubtractTypeName").find("option:checked").val();
+		if (index == 1) {
+			if (relation == 1) {
+				//最低分
+				$("#relationScore").val(1);
+			} else {
+				//最高分
+				$("#relationScore").val(0);
+			}
+		} else {
+			if (relation == 1) {
+				//最高分
+				$("#relationScore").val(0);
+			} else {
+				//最低分
+				$("#relationScore").val(1);
+			}
+		}
+	}
+	
 	function choseModel(){
 		var model = $("#model").val();
 		console.dir(model);
@@ -122,8 +187,10 @@ function judge(index) {
 			$("#show_table tbody tr").remove();
 			$("#model9 tbody tr").clone().appendTo("#show_table tbody");
 			$("#showbutton").show();
-		}else if (model == "9") {
-			
+		} else if (model == "9") {
+			$("#show_table tbody tr").remove();
+			$("#model4B tbody tr").clone().appendTo("#show_table tbody");
+			$("#showbutton").show();
 		}
 	}
 	function modelTwoAddSubstact21(){
@@ -300,7 +367,7 @@ function judge(index) {
 		}else{
 			type = " 减分类型" +" 基准分值为"+reviewStandScore+"分" +" 每单位减"+unitScore+"分"+" 最低分值为"+minScore+"分";
 			var str = reviewParam + type ; 
-			$("#easyUnderstandContent22").val(str);
+			$("#easyUnderstandContent21").val(str);
 		}
 		
 	}
@@ -361,7 +428,59 @@ function judge(index) {
 		var str =  reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,没减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
 		$("#easyUnderstandContent8").val(str);
 	}
+	
+	function gerneratorNine(){
+		var str = "";
+		for (var i = 1; i<$("#show_table").get(0).rows.length -3 ; i++) {
+			var name = $("#show_table").find("tr").eq(i).find("td").eq("1").find("input").val();
+			var score = $("#show_table").find("tr").eq(i).find("td").eq("3").find("input").val();
+			if (name == "" || score == "") {
+			} else {
+				if (name.trim() != "" && score.trim() != "") {
+					str = str + name + "等于" +score + "分  ";
+				}
+			}
+		}
+		$("#easyUnderstandContent9").val(str);
+	}
+	
+	function gerneratorTen(){
+		var reviewParam = $("#reviewParam").val();
+		var unit = $("#unit").val();
+		var score = $("#score").val();
+		var maxScore = $("#maxScore").val();
+		var minScore = $("#minScore").val();
+		var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，第一名得"+minScore+"分,依次递增"+score+"分,最高分为"+maxScore+"分";
+		$("#easyUnderstandContent4").val(str);
+	}
+	
+	
 	function associate(){
+		var text = $("#show_table").find("tr").eq("1").find("td:last").text();
+		if (text == '删除') {
+			var result = "";
+			var standardScore = 0;
+			for (var i = 1; i<$("#show_table").get(0).rows.length -3 ; i++) {
+				var name = $("#show_table").find("tr").eq(i).find("td").eq("1").find("input").val();
+				var score = $("#show_table").find("tr").eq(i).find("td").eq("3").find("input").val();
+				if (name == "" || score == "") {
+					layer.msg("请填写选择项名称");
+					return;
+				}
+				
+				if (name.trim() == "" || score.trim() == "") {
+					layer.msg("请填写选择项名称");
+					return;
+				}
+				
+				if (score > standardScore) {
+					standardScore = score;
+				}
+				result = result + name.replace(/\|/g, "").replace("-", "") + "-" +score.replace(/\|/g, "").replace("-", "") + "|";
+			}
+			$("#standardScore").val(standardScore);
+			$("#judgeContent").val(result);
+		}
 	    var standScore = $("#standardScore").val();
 	    var maxScore = $("#maxScore").val();
 	    var id = $("#id").val();
@@ -500,6 +619,18 @@ function judge(index) {
 				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
 				$("#model73").hide();
 			}
+		}else if (model == "8") {
+			$("#show_table tbody tr").remove();
+			if('${addStatus}' !=1){
+				$("#model9 tbody tr").clone().appendTo("#show_table tbody");
+			}
+			$("#showbutton").show();
+		} else if (model == "9") {
+			$("#show_table tbody tr").remove();
+			if('${addStatus}' !=1){
+				$("#model4B tbody tr").clone().appendTo("#show_table tbody");
+			}
+			$("#showbutton").show();
 		}
 	}
 </script>  
@@ -832,7 +963,7 @@ function judge(index) {
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>加减分类型</td>
 				<td>
-					<select name="addSubtractTypeName" id="addSubtractTypeName3">
+					<select name="addSubtractTypeName" id="addSubtractTypeName" onchange="judgeRelationScore(this.options[this.options.selectedIndex].value)">
 						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
 						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
 					</select>
@@ -857,7 +988,7 @@ function judge(index) {
 		    <tr class="show">
 		    	<td class="w180 tc"><span class="star_red">*</span>与基准数额关系</td>
 		    	<td>
-		    	    <select name="relation" id="relation">
+		    	    <select name="relation" id="relation" onchange="judgeRelationScore1(this.options[this.options.selectedIndex].value)">
 		    	           <option <c:if test="${scoreModel.relation == 0}"> selected="selected" </c:if> value="0">大于等于</option>
 		    	           <option <c:if test="${scoreModel.relation == 1}"> selected="selected" </c:if> value="1">小于等于</option>
 		    	     </select>
@@ -890,7 +1021,7 @@ function judge(index) {
 				<td><span class="blue">*依次排序递减/递增分值</span></td>
 			</tr>
 			<tr>
-				<td class="w180 tc"><span class="star_red">*</span>单位</td>
+				<td class="w180 tc">单位</td>
 				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
 				<td><span class="blue">*该项目内容为评审参数的单位</span></td>
 			</tr>
@@ -918,7 +1049,7 @@ function judge(index) {
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>加减分类型</td>
 				<td>
-					<select name="addSubtractTypeName" id="addSubtractTypeName4">
+					<select name="addSubtractTypeName" id="addSubtractTypeName" onchange="judgeRelationScore(this.options[this.options.selectedIndex].value)">
 						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
 						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
 					</select>
@@ -943,7 +1074,7 @@ function judge(index) {
 		    <tr class="show">
 		    	<td class="w180 tc"><span class="star_red">*</span>与基准数额关系</td>
 		    	<td>
-		    	    <select name="relation" id="relation">
+		    	    <select name="relation" id="relation" onchange="judgeRelationScore1(this.options[this.options.selectedIndex].value)">
 		    	           <option <c:if test="${scoreModel.relation == 0}"> selected="selected" </c:if> value="0">大于等于</option>
 		    	           <option <c:if test="${scoreModel.relation == 1}"> selected="selected" </c:if> value="1">小于等于</option>
 		    	     </select>
@@ -1008,7 +1139,7 @@ function judge(index) {
 				<td><span class="blue">*该项内容代表当前评审项的满分值是多少</span></td>
 			</tr>
 			<tr>
-				<td class="w180 tc"><span class="star_red">*</span>单位</td>
+				<td class="w180 tc">单位</td>
 				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
 				<td><span class="blue">*该项内容为评审参数的单位,如果没有单位请为空</span></td>
 			</tr>
@@ -1265,38 +1396,102 @@ function judge(index) {
 			</tr>
 		</tbody>
 	</table>
+	
 	<!-- 模型一B -->
-	<table id="model9" style="display: none;" class="w499">
+	<table id="model9" class="w499 hide">
 		<tbody>
 			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam}" title="该参数代表需要录入供应商的参数名称">
-					<br/>
-					<span class="blue">*该参数代表需要录入供应商的参数名称</span>
-				</td>
+				<td class="w300">评审参数<input type="hidden" name="judgeContent" id="judgeContent" /><input type="hidden" name="standardScore" id="standardScore" /></td>
+				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam}" ></td>
+				<td colspan="3"><span class="blue">*该参数代表需要供应商录入的参数</span>
 			</tr>
-			<tr>
-				<%-- <table>
+			<c:if test="${not empty scoreModel.model1BJudgeContent}">
+				<c:forEach items="${scoreModel.model1BJudgeContent}" var="se" varStatus="vs"> 
 					<tr>
-						<td>选择项目</td>
-						<td><input name="" id="" value="${scoreModel.}" ></td>
-						<td>对应分数</td>
-						<td><input name="" id="" value="${scoreModel.}" ></td>
-						<td><button class="btn btn-windows delete" type="button" onclick="">删除</button></td>
+					<td><span class="star_red">*</span>选择项名称</td>
+					<td><input value="${fn:substringBefore(se, '-')}" ></td>
+					<td><span class="star_red">*</span>对应分数</td>
+					<td><input value="${fn:substringAfter(se, '-')}" ></td>
+					<td class="tc"><button class="btn btn-windows delete" type="button" onclick="deleteRow(this)">删除</button></td>
 					</tr>
-				</table> --%>
-				
+				</c:forEach>
+			</c:if>
+			<c:if test="${empty scoreModel.model1BJudgeContent}">
+				<tr>
+					<td><span class="star_red">*</span>选择项名称</td>
+					<td><input onkeyup="gernerator();" ></td>
+					<td><span class="star_red">*</span>对应分数</td>
+					<td><input onkeyup="gernerator();"  ></td>
+					<td class="tc"><button class="btn btn-windows delete" type="button" onclick="deleteRow(this)">删除</button></td>
+				</tr>
+			</c:if>
+			<tr id="guding">
+				<td colspan="5" class="tc"><button class="btn btn-windows add" type="button" onclick="addRows()">添加一行</button></td>
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent8" >${scoreModel.easyUnderstandContent }</textarea></td>
+				<td colspan="4"><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent9" >${scoreModel.easyUnderstandContent}</textarea></td>
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="standExplain" id="standExplain" value="" readonly="readonly">按项匹配分值</textarea></td>
+				<td colspan="4"><span class="blue">按项匹配分值</span></td>
 			</tr>
 		</tbody>
 	</table>	
+	
+	<table id="model4B" class="w499 hide">
+		<tbody>
+			 <tr>
+				<td class=" w300 tc"><span class="star_red">*</span>评审参数</td>
+				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" ></td>
+				<td><span class="blue">
+					*该参数代表需要录入供应商的参数名称。<br/>
+					减分例子：碳纤维自行车重量参数由小至大排序评分,第一名得1分,其余依次递减0.15分,最低分为0分,其中</span><span class="red">碳纤维自行车重量</span><span class="blue">就为评审参数<br/>
+					加分例子：矿泉水容量大小排序评分,第一名得0分,其余依次递增0.15分,最高分为1分,其中</span><span class="red">矿泉水容量</span><span class="blue">就为评审参数</span>
+				</td>
+			</tr>
+			<tr>
+				<td class=" w300 tc"><span class="star_red">*</span>加减分类型</td>
+				<td>
+					<select name="addSubtractTypeName" id="addSubtractTypeName" onchange="judgeRelationScore(this.options[this.options.selectedIndex].value)">
+						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
+						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
+					</select>
+				</td>
+				<td><span class="blue">*以最高值为基准值排序递减,是加分还是减分</span></td>
+			</tr>
+			
+			<tr>
+				<td class=" w300 tc"><span class="star_red">*</span>最高分</td>
+				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }"></td>
+				<td><span class="blue">*最低分为多少分,通常为0分,[加分]类型是此分数为起始分,[减分]类型时此分数为最低得分</span></td>
+			</tr>
+			<tr>
+				<td class=" w300 tc"><span class="star_red">*</span>最低分</td>
+				<td><input name="minScore" id="minScore" onkeyup="gernerator();" value="${scoreModel.minScore }"></td>
+				<td><span class="blue">*最低分为多少分,通常为0分,[加分]类型是此分数为起始分,[减分]类型时此分数为最低得分</span></td>
+			</tr>
+			<tr>
+				<td class=" w300 tc"><span class="star_red">*</span>分差</td>
+				<td><input name="unitScore" id="score" onkeyup="gernerator();" value="${scoreModel.unitScore }"></td>
+				<td><span class="blue">*依次排序递减/递增分值</span></td>
+			</tr>
+			<tr>
+				<td class=" w300 tc">单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }"></td>
+				<td><span class="blue">*该项目内容为评审参数的单位</span></td>
+			</tr>
+			
+			<tr>
+				<td class=" w300 tc">翻译成白话文内容</td>
+				<td colspan="2"><textarea readonly="readonly" class="col-md-12 col-sm-12 col-xs-12 h80" name="easyUnderstandContent" id="easyUnderstandContent4" >${scoreModel.easyUnderstandContent }</textarea></td>
+			</tr>
+			<tr>
+				<td class=" w300 tc">当前模型标准解释</td>
+				<td colspan="2"><span class="blue">以评审数额最低值为基准排序递增。采购文件明确标准分值，排序分差和最高最低分值限制。评审系统按照绝对数值，自动识别由高到低进行排序，并按分差计分规则计算得分。(如：产品重量，包装品重量，某些工艺指标用品参数等)</span></td>
+			</tr>
+		</tbody>
+	</table>
 	
 	<!-- 八大模型 -->
 </body>

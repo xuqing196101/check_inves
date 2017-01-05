@@ -3,6 +3,7 @@ package bss.controller.prms;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -240,7 +241,6 @@ public class FirstAuditTemplatController extends BaseController{
 	
 	@RequestMapping("gettreebody")
     public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus) throws UnsupportedEncodingException {
-        String packageId = request.getParameter("packageId");
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setName(URLDecoder.decode(markTerm.getName(), "UTF-8"));
         scoreModel.setMarkTermId(markTerm.getId()==null?"":markTerm.getId());
@@ -271,7 +271,10 @@ public class FirstAuditTemplatController extends BaseController{
         }*/
         model.addAttribute("markTermName",markTermName );
         if(scoreModelList!=null && scoreModelList.size()>0){
-            
+            if (scoreModelList.get(0).getJudgeContent() != null && !"".equals(scoreModelList.get(0).getJudgeContent())) {
+                List<String> list = Arrays.asList(scoreModelList.get(0).getJudgeContent().split("\\|"));
+                scoreModelList.get(0).setModel1BJudgeContent(list);
+            }
             model.addAttribute("scoreModel", scoreModelList.get(0));
         }
         model.addAttribute("projectId", markTerm.getProjectId());
@@ -416,7 +419,7 @@ public class FirstAuditTemplatController extends BaseController{
                 typeName = "模型三";
             }
             if (typename == 3) {
-                typeName = "模型四";
+                typeName = "模型四A";
             }
             if (typename == 4) {
                 typeName = "模型五";
@@ -429,6 +432,12 @@ public class FirstAuditTemplatController extends BaseController{
             }
             if (typename == 7) {
                 typeName = "模型八";
+            }
+            if (typename == 8) {
+                typeName = "模型一B";
+            }
+            if (typename == 9) {
+                typeName = "模型四B";
             }
         }
         return typeName;

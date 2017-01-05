@@ -80,6 +80,16 @@ public class ScoreModel implements Serializable{
 	private Integer relation;
 	//关系分数 0最高分 1最低分
 	private Integer relationScore;
+	//展示模型一B
+	private List<String> model1BJudgeContent;
+
+    public List<String> getModel1BJudgeContent() {
+        return model1BJudgeContent;
+    }
+
+    public void setModel1BJudgeContent(List<String> model1bJudgeContent) {
+        model1BJudgeContent = model1bJudgeContent;
+    }
 
     public Integer getIsHave() {
         return isHave;

@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -132,7 +133,9 @@ public class IntelligentScoringController extends BaseController{
                 if (resultScore <= 100){
                     result = 1;
                 }
-	        } 
+	        }  else {
+	            result = 1; //新增的时候
+	        }
 	    }
 	    return result;
 	}
@@ -342,14 +345,14 @@ public class IntelligentScoringController extends BaseController{
 	          }
 	          count ++;
 	        }
-	        if (bm.getRemark()== null || "".equals(bm.getRemark())) {
+	        /*if (bm.getRemark()== null || "".equals(bm.getRemark())) {
 	          if (count > 0) {
 	            msg += "和评审内容";
 	          } else {
 	            msg += "请输入评审内容";
 	          }
 	          count ++;
-	        }
+	        }*/
 	        if (count > 0) {
 	          response.setContentType("text/html;charset=utf-8");
 	          response.getWriter()
@@ -583,7 +586,7 @@ public class IntelligentScoringController extends BaseController{
                 typeName = "模型三";
             }
             if (typename == 3) {
-                typeName = "模型四";
+                typeName = "模型四A";
             }
             if (typename == 4) {
                 typeName = "模型五";
@@ -596,6 +599,12 @@ public class IntelligentScoringController extends BaseController{
             }
             if (typename == 7) {
                 typeName = "模型八";
+            }
+            if (typename == 8) {
+                typeName = "模型一B";
+            }
+            if (typename == 9) {
+                typeName = "模型四B";
             }
         }
         return typeName;
@@ -1162,7 +1171,10 @@ public class IntelligentScoringController extends BaseController{
 		}*/
 		model.addAttribute("markTermName",markTermName );
 		if(scoreModelList!=null && scoreModelList.size()>0){
-			
+		    if (scoreModelList.get(0).getJudgeContent() != null && !"".equals(scoreModelList.get(0).getJudgeContent())) {
+                List<String> list = Arrays.asList(scoreModelList.get(0).getJudgeContent().split("\\|"));
+                scoreModelList.get(0).setModel1BJudgeContent(list);
+            }
 			model.addAttribute("scoreModel", scoreModelList.get(0));
 		}
 		model.addAttribute("projectId", markTerm.getProjectId());
