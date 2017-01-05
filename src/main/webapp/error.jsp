@@ -7,7 +7,7 @@
   <body>
  	<div id="mother">
 	  <div id="errorBox">
-	    <a href="${pageContext.request.contextPath}/index/selectIndexNews.html" title="返回系统首页">
+	    <a href="${pageContext.request.contextPath}/index/selectIndexNews.html" target="_parent" title="返回系统首页">
 		  <div class="link" id="home"></div>
 		</a>
 		<a href="javascript:history.go(-1);" title="返回继续操作">

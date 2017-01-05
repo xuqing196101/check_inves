@@ -111,8 +111,8 @@
 						  					    
 						  					    <c:forEach items="${obj.list }" var="quaPro">
 						  					    	<c:set value="${prolength+1}" var="prolength"></c:set>
-						  					    	<u:upload id="pUp${prolength}" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${quaPro.id}" sysKey="1" typeId="${typeId}" auto="true" />
-													<u:show showId="pShow${prolength}" groups="${saleShow}" businessId="${quaPro.id}" sysKey="1" typeId="${typeId}" />
+						  					    	<u:upload id="pUp${prolength}" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${businessId}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+													<u:show showId="pShow${prolength}" groups="${saleShow}" businessId="${businessId}" sysKey="${sysKey}" typeId="${typeId}" />
 						  					    </c:forEach>
 						  					     </td>
 						  					 </tr>
@@ -136,8 +136,8 @@
 						  					    <c:forEach items="${sale.list }" var="saua">
 						  					    <c:set value="${length+1}" var="length"></c:set>
 						  					      
-						  					    	<u:upload id="saleUp${length}" buttonName="${saua.name}"  groups="${saleUp}" businessId="${saua.id}" sysKey="1" typeId="${typeId}" auto="true" />
-													<u:show showId="saleShow${length}" groups="${saleShow}"  businessId="${saua.id}"  sysKey="1" typeId="${typeId}" />
+						  					    	<u:upload id="saleUp${length}" buttonName="${saua.name}"  groups="${saleUp}" businessId="${businessId}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+													<u:show showId="saleShow${length}" groups="${saleShow}"  businessId="${businessId}"  sysKey="${sysKey}" typeId="${typeId}" />
 						  					    </c:forEach>
 						  					     </td>
 						  					 </tr>
@@ -165,8 +165,8 @@
 						  					    <c:forEach items="${project.list }" var="project">
 						  					    <c:set value="${plength+1}" var="plength"></c:set>
 						  					      
-						  					    	<u:upload id="projectUp${plength}" buttonName="${project.name}"  groups="${saleUp}" businessId="${project.id}" sysKey="1" typeId="${typeId}" auto="true" />
-													<u:show showId="projectShow${plength}" groups="${saleShow}"  businessId="${project.id}"  sysKey="1" typeId="${typeId}" />
+						  					    	<u:upload id="projectUp${plength}" buttonName="${project.name}"  groups="${saleUp}" businessId="${businessId}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+													<u:show showId="projectShow${plength}" groups="${saleShow}"  businessId="${businessId}"  sysKey="${sysKey}" typeId="${typeId}" />
 						  					    </c:forEach>
 						  					     </td>
 						  					     
@@ -189,8 +189,8 @@
 											 <td>
 						  					    <c:forEach items="${server.list }" var="ser">
 						  					    <c:set value="${slength+1}" var="slength"></c:set>
-						  					    	<u:upload id="serverUp${plength}" buttonName="${ser.name}"  groups="${saleUp}" businessId="${ser.id}" sysKey="1" typeId="${typeId}" auto="true" />
-													<u:show showId="serverShow${plength}" groups="${saleShow}"  businessId="${ser.id}"  sysKey="1" typeId="${typeId}" />
+						  					    	<u:upload id="serverUp${plength}" buttonName="${ser.name}"  groups="${saleUp}" businessId="${businessId}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+													<u:show showId="serverShow${plength}" groups="${saleShow}"  businessId="${businessId}"  sysKey="${sysKey}" typeId="${typeId}" />
 						  					    </c:forEach>
 						  					     </td>
 						  					     
