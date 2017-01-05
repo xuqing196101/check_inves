@@ -873,7 +873,7 @@
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5"  id="dnone" >
             <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <input type="checkbox" name="import" onchange="imports(this)" value="进口" />进口
+                <input type="checkbox" name="import" onchange="imports(this)" value="进口" class="mr5"/>进口
             </div>
           </li>
           
