@@ -557,13 +557,12 @@ import ses.util.WfUtil;
          supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders()); 
        }
        if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
-         for(SupplierAddress b:supplier.getAddressList()){
-           if (StringUtils.isNotBlank(b.getProvinceId())){
-             List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
-             b.setAreaList(city);
+           for(SupplierAddress b:supplier.getAddressList()){
+               if (StringUtils.isNotBlank(b.getProvinceId())){
+                   List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
+                   b.setAreaList(city);
+               }
            }
-         }
-
        }
        if(supplier.getConcatProvince()!=null){
          List<Area> concity = areaService.findAreaByParentId(supplier.getConcatProvince());
