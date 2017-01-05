@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pms.PurchaseDetailMapper">
+	<resultMap id="PurchaseRequired_Map" type="bss.model.pms.PurchaseDetail">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="PLAN_NAME" jdbcType="VARCHAR" property="planName" />
+		<result column="PLAN_NO" jdbcType="VARCHAR" property="planNo" />
+		<result column="REFERENCE_NO" jdbcType="VARCHAR" property="referenceNo" />
+		<result column="PLAN_TYPE" jdbcType="VARCHAR" property="planType" />
+		<result column="DEPARTMENT" jdbcType="VARCHAR" property="department" />
+		<result column="MATERIAL_NAME" jdbcType="VARCHAR" property="goodsName" />
+		<result column="STAND" jdbcType="VARCHAR" property="stand" />
+		<result column="QUALIT_STAND" jdbcType="VARCHAR" property="qualitStand" />
+		<result column="ITEM" jdbcType="VARCHAR" property="item" />
+		<result column="PURCHASE_COUNT" jdbcType="DECIMAL" property="purchaseCount" />
+		<result column="PRICE" jdbcType="DECIMAL" property="price" />
+		<result column="BUDGET" jdbcType="DECIMAL" property="budget" />
+		<result column="DELIVER_DATE" jdbcType="VARCHAR" property="deliverDate" />
+		<result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
+		<result column="SUPPLIER" jdbcType="VARCHAR" property="supplier" />
+		<result column="IS_FREE_TAX" jdbcType="VARCHAR" property="isFreeTax" />
+		<result column="MATERIAL_USE" jdbcType="VARCHAR" property="goodsUse" />
+		<result column="USE_UNIT" jdbcType="VARCHAR" property="useUnit" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+		<result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+		<result column="REQ_LEVEL" jdbcType="VARCHAR" property="reqLevel" />
+		<result column="STATUS" jdbcType="VARCHAR" property="status" />
+		<result column="MEMO" jdbcType="VARCHAR" property="memo" />
+		<result column="SEQ" jdbcType="VARCHAR" property="seq" />
+		<result column="HISTORY_STATUS" jdbcType="VARCHAR" property="historyStatus" />
+		<result column="MATERIAL_TYPE" jdbcType="VARCHAR" property="goodsType" />
+		<result column="AUDIT_DATE" jdbcType="TIMESTAMP" property="auditDate" />
+		<result column="ORGANIZATION_ID" jdbcType="VARCHAR" property="organization" />
+		<result column="IS_MASTER" jdbcType="DECIMAL" property="isMaster" />
+		<result column="IS_DELETE" jdbcType="INTEGER"  property="isDelete" />
+		<result column="IS_COLLECT" jdbcType="INTEGER"  property="isCollect"/>
+		<result column="CODE" jdbcType="VARCHAR"  property="code"/>
+		<result column="ONE_PURCHASE_TYPE" jdbcType="VARCHAR"  property="onePurchaseType"/>
+		<result column="ONE_ORGANIZATION" jdbcType="VARCHAR"  property="oneOrganiza"/>
+		<result column="ONE_ADVICE" jdbcType="VARCHAR"  property="oneAdvice"/>
+		<result column="TWO_TECH_ADVICE" jdbcType="VARCHAR"  property="twoTechAdvice"/>
+		<result column="TWO_ADVICE" jdbcType="VARCHAR"  property="twoAdvice"/>
+		<result column="THREE_PURCHASE_TYPE" jdbcType="VARCHAR"  property="threePurchaseType"/>
+		<result column="THREE_ORGANIZATION" jdbcType="VARCHAR"  property="threeOrganiza"/>
+		<result column="THREE_ADVICE" jdbcType="VARCHAR"  property="threeAdvice"/>
+		<result column="BRAND" jdbcType="VARCHAR"  property="brand"/>
+		<result column="USER_UNIT" jdbcType="VARCHAR"  property="userUnit"/>
+		<result column="DETAIL_STATUS" jdbcType="VARCHAR"  property="detailStatus"/>
+		<result column="REASON" jdbcType="VARCHAR"  property="reason"/>
+		<result column="RECORDER_MOBILE" jdbcType="VARCHAR"  property="recorderMobile"/>
+		<result column="ADVANCED_STATUS" jdbcType="VARCHAR"  property="advancedStatus"/>
+		<result column="PROJECT_STATUS" jdbcType="VARCHAR"  property="projectStatus"/>
+		
+		<result column="UNIQUE_ID" jdbcType="VARCHAR"  property="uniqueId"/>
+		<result column="FILE_ID" jdbcType="VARCHAR"  property="fileId"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, PLAN_NAME, PLAN_NO, REFERENCE_NO, PLAN_TYPE, DEPARTMENT, MATERIAL_NAME, STAND,
+		QUALIT_STAND, ITEM,
+		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
+		MATERIAL_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
+		STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION_ID,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
+		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,ADVANCED_STATUS,
+		PROJECT_STATUS,UNIQUE_ID,FILE_ID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_DETAIL
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByParentId"  resultMap="PurchaseRequired_Map">
+        select * from T_BSS_PMS_PURCHASE_DETAIL 
+        start with ID = #{id} 
+        connect by prior ID = PARENT_ID ORDER BY CREATED_AT 
+    </select>
+    <select id="selectByParent"  resultMap="PurchaseRequired_Map">
+        select * from T_BSS_PMS_PURCHASE_DETAIL 
+        start with ID = #{id} 
+        connect by prior PARENT_ID = ID ORDER BY CREATED_AT 
+    </select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_BSS_PMS_PURCHASE_DETAIL
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="bss.model.pms.PurchaseDetail">
+		insert into T_BSS_PMS_PURCHASE_DETAIL (ID, PLAN_NAME, PLAN_NO,REFERENCE_NO,
+		PLAN_TYPE, DEPARTMENT, MATERIAL_NAME,
+		STAND, QUALIT_STAND, ITEM,
+		PURCHASE_COUNT, PRICE, BUDGET,
+		DELIVER_DATE, PURCHASE_TYPE, SUPPLIER,
+		IS_FREE_TAX, MATERIAL_USE, USE_UNIT,
+		CREATED_AT, USER_ID, PARENT_ID,
+		REQ_LEVEL, STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION_ID,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
+		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON,RECORDER_MOBILE,
+		ADVANCED_STATUS,PROJECT_STATUS,UNIQUE_ID,FILE_ID
+		)
+		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
+		#{planNo,jdbcType=VARCHAR},
+		#{referenceNo,jdbcType=VARCHAR},
+		#{planType,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR},
+		#{stand,jdbcType=VARCHAR}, #{qualitStand,jdbcType=VARCHAR},
+		#{item,jdbcType=VARCHAR},
+		#{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{budget,jdbcType=DECIMAL},
+		#{deliverDate,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR},
+		#{supplier,jdbcType=VARCHAR},
+		#{isFreeTax,jdbcType=VARCHAR}, #{goodsUse,jdbcType=VARCHAR}, #{useUnit,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR},
+		#{parentId,jdbcType=VARCHAR},
+		#{reqLevel,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+		#{memo,jdbcType=VARCHAR},#{seq,jdbcType=VARCHAR},#{historyStatus,jdbcType=VARCHAR},#{goodsType,jdbcType=VARCHAR},
+		#{auditDate,jdbcType=TIMESTAMP},#{organization,jdbcType=VARCHAR},#{isMaster,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER},
+		#{isCollect,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{onePurchaseType,jdbcType=VARCHAR}, #{oneOrganiza,jdbcType=VARCHAR}, #{oneAdvice,jdbcType=VARCHAR},
+		#{twoTechAdvice,jdbcType=VARCHAR}, #{twoAdvice,jdbcType=VARCHAR},  
+		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
+		#{userUnit,jdbcType=VARCHAR},#{detailStatus,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR},#{recorderMobile,jdbcType=VARCHAR},#{advancedStatus,jdbcType=VARCHAR},#{projectStatus,jdbcType=VARCHAR},
+  	#{uniqueId,jdbcType=VARCHAR},#{fileId,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseDetail">
+		insert into T_BSS_PMS_PURCHASE_DETAIL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="planName != null">
+				PLAN_NAME,
+			</if>
+			<if test="planNo != null">
+				PLAN_NO,
+			</if>
+			<if test="referenceNo != null">
+				REFERENCE_NO,
+			</if>
+			<if test="planType != null">
+				PLAN_TYPE,
+			</if>
+			<if test="department != null">
+				DEPARTMENT,
+			</if>
+			<if test="goodsName != null">
+				MATERIAL_NAME,
+			</if>
+			<if test="stand != null">
+				STAND,
+			</if>
+			<if test="qualitStand != null">
+				QUALIT_STAND,
+			</if>
+			<if test="item != null">
+				ITEM,
+			</if>
+			<if test="purchaseCount != null">
+				PURCHASE_COUNT,
+			</if>
+			<if test="price != null">
+				PRICE,
+			</if>
+			<if test="budget != null">
+				BUDGET,
+			</if>
+			<if test="deliverDate != null">
+				DELIVER_DATE,
+			</if>
+			<if test="purchaseType != null">
+				PURCHASE_TYPE,
+			</if>
+			<if test="supplier != null">
+				SUPPLIER,
+			</if>
+			<if test="isFreeTax != null">
+				IS_FREE_TAX,
+			</if>
+			<if test="goodsUse != null">
+				MATERIAL_USE,
+			</if>
+			<if test="useUnit != null">
+				USE_UNIT,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="userId != null">
+				USER_ID,
+			</if>
+			<if test="parentId != null">
+				PARENT_ID,
+			</if>
+			<if test="reqLevel != null">
+				REQ_LEVEL,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="memo != null">
+				MEMO,
+			</if>
+			<if test="seq != null">
+				SEQ,
+			</if>
+			<if test="historyStatus != null">
+				HISTORY_STATUS,
+			</if>
+			<if test="goodsType != null">
+				MATERIAL_TYPE,
+			</if>
+			<if test="auditDate != null">
+				AUDIT_DATE,
+			</if>
+			<if test="organization != null">
+				ORGANIZATION_ID,
+			</if>
+			<if test="isMaster != null">
+				IS_MASTER,
+			</if>
+			<if test="isDelete != null">
+				IS_DELETE,
+			</if>
+			<if test="isCollect != null">
+				IS_COLLECT,
+			</if>
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="onePurchaseType != null">
+				ONE_PURCHASE_TYPE,
+			</if>
+			<if test="oneOrganiza != null">
+				ONE_ORGANIZATION,
+			</if>
+			<if test="oneAdvice != null">
+				ONE_ADVICE,
+			</if>
+			<if test="twoTechAdvice != null">
+				TWO_TECH_ADVICE,
+			</if>
+			<if test="twoAdvice != null">
+				TWO_ADVICE,
+			</if>
+			<if test="threePurchaseType != null">
+				THREE_PURCHASE_TYPE,
+			</if>
+			<if test="threeOrganiza != null">
+				THREE_ORGANIZATION,
+			</if>
+			<if test="threeAdvice != null">
+				THREE_ADVICE,
+			</if>
+			<if test="brand != null">
+				BRAND,
+			</if>
+			<if test="userUnit != null">
+				USER_UNIT,
+			</if>
+			<if test="detailStatus != null">
+				DETAIL_STATUS,
+			</if>
+			<if test="reason != null">
+				REASON,
+			</if>
+			<if test="recorderMobile != null">
+				RECORDER_MOBILE,
+			</if>
+			<if test="advancedStatus != null">
+				ADVANCED_STATUS,
+			</if>
+			<if test="projectStatus != null">
+	          PROJECT_STATUS,
+		    </if>
+		    
+		     <if test="uniqueId != null">
+	          UNIQUE_ID,
+		    </if>
+		    <if test="fileId != null">
+	          FILE_ID,
+		    </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="planName != null">
+				#{planName,jdbcType=VARCHAR},
+			</if>
+			<if test="planNo != null">
+				#{planNo,jdbcType=VARCHAR},
+			</if>
+			<if test="referenceNo != null">
+				#{referenceNo,jdbcType=VARCHAR},
+			</if>
+			<if test="planType != null">
+				#{planType,jdbcType=VARCHAR},
+			</if>
+			<if test="department != null">
+				#{department,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null">
+				#{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="stand != null">
+				#{stand,jdbcType=VARCHAR},
+			</if>
+			<if test="qualitStand != null">
+				#{qualitStand,jdbcType=VARCHAR},
+			</if>
+			<if test="item != null">
+				#{item,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseCount != null">
+				#{purchaseCount,jdbcType=DECIMAL},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="budget != null">
+				#{budget,jdbcType=DECIMAL},
+			</if>
+			<if test="deliverDate != null">
+				#{deliverDate,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseType != null">
+				#{purchaseType,jdbcType=VARCHAR},
+			</if>
+			<if test="supplier != null">
+				#{supplier,jdbcType=VARCHAR},
+			</if>
+			<if test="isFreeTax != null">
+				#{isFreeTax,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsUse != null">
+				#{goodsUse,jdbcType=VARCHAR},
+			</if>
+			<if test="useUnit != null">
+				#{useUnit,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="reqLevel != null">
+				#{reqLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				#{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="seq != null">
+				#{seq,jdbcType=VARCHAR},
+			</if>
+			<if test="historyStatus != null">
+				#{historyStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsType != null">
+				#{goodsType,jdbcType=VARCHAR},
+			</if>
+			<if test="auditDate != null">
+				#{auditDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="organization != null">
+				#{organization,jdbcType=VARCHAR},
+			</if>
+			<if test="isMaster != null">
+				#{isMaster,jdbcType=DECIMAL},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="isCollect != null">
+				#{isCollect,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="onePurchaseType != null">
+				#{onePurchaseType,jdbcType=VARCHAR},
+			</if>
+			<if test="oneOrganiza != null">
+				#{oneOrganiza,jdbcType=VARCHAR},
+			</if>
+			<if test="oneAdvice != null">
+				#{oneAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="twoTechAdvice != null">
+				#{twoTechAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="twoAdvice != null">
+				#{twoAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="threePurchaseType != null">
+				#{threePurchaseType,jdbcType=VARCHAR},
+			</if>
+				<if test="threeOrganiza != null">
+				#{threeOrganiza,jdbcType=VARCHAR},
+			</if>
+			<if test="threeAdvice != null">
+				#{threeAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="brand != null">
+				#{brand,jdbcType=VARCHAR},
+			</if>
+			<if test="userUnit != null">
+				#{userUnit,jdbcType=VARCHAR},
+			</if>
+			<if test="detailStatus != null">
+				#{detailStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				#{REASON,jdbcType=VARCHAR},
+			</if>
+			<if test="recorderMobile != null">
+				#{RECORDER_MOBILE,jdbcType=VARCHAR},
+			</if>
+			<if test="advancedStatus != null">
+				#{ADVANCED_STATUS,jdbcType=VARCHAR},
+			</if>
+			<if test="uniqueId != null">
+	          #{UNIQUE_ID,jdbcType=VARCHAR},
+		   </if>
+		   	<if test="fileId != null">
+	          #{FILE_ID,jdbcType=VARCHAR},
+		   </if>
+		   
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.PurchaseDetail">
+		update T_BSS_PMS_PURCHASE_DETAIL
+		<set>
+			<if test="planName != null">
+				PLAN_NAME = #{planName,jdbcType=VARCHAR},
+			</if>
+			<if test="planNo != null">
+				PLAN_NO = #{planNo,jdbcType=VARCHAR},
+			</if>
+			<if test="referenceNo != null">
+				REFERENCE_NO = #{referenceNo,jdbcType=VARCHAR},
+			</if>
+			<if test="planType != null">
+				PLAN_TYPE = #{planType,jdbcType=VARCHAR},
+			</if>
+			<if test="department != null">
+				DEPARTMENT = #{department,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null">
+				MATERIAL_NAME = #{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="stand != null">
+				STAND = #{stand,jdbcType=VARCHAR},
+			</if>
+			<if test="qualitStand != null">
+				QUALIT_STAND = #{qualitStand,jdbcType=VARCHAR},
+			</if>
+			<if test="item != null">
+				ITEM = #{item,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseCount != null">
+				PURCHASE_COUNT = #{purchaseCount,jdbcType=DECIMAL},
+			</if>
+			<if test="price != null">
+				PRICE = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="budget != null">
+				BUDGET = #{budget,jdbcType=DECIMAL},
+			</if>
+			<if test="deliverDate != null">
+				DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseType != null">
+				PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
+			</if>
+			<if test="supplier != null">
+				SUPPLIER = #{supplier,jdbcType=VARCHAR},
+			</if>
+			<if test="isFreeTax != null">
+				IS_FREE_TAX = #{isFreeTax,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsUse != null">
+				MATERIAL_USE = #{goodsUse,jdbcType=VARCHAR},
+			</if>
+			<if test="useUnit != null">
+				USE_UNIT = #{useUnit,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userId != null">
+				USER_ID = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				PARENT_ID = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="reqLevel != null">
+				REQ_LEVEL = #{reqLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="memo != null">
+				MEMO = #{memo,jdbcType=VARCHAR},
+			</if>
+			<if test="seq != null">
+				SEQ = #{seq,jdbcType=VARCHAR},
+			</if>
+			<if test="historyStatus != null">
+				HISTORY_STATUS = #{historyStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsType != null">
+				MATERIAL_TYPE = #{goodsType,jdbcType=VARCHAR},
+			</if>
+			<if test="auditDate != null">
+				AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="organization != null">
+				ORGANIZATION_ID = #{organization,jdbcType=VARCHAR},
+			</if>
+			<if test="isMaster != null">
+				IS_MASTER = #{isMaster,jdbcType=DECIMAL},
+			</if>
+			<if test="isDelete != null">
+				IS_DELETE = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="isCollect != null">
+				IS_COLLECT = #{isCollect,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				code = #{isCollect,jdbcType=VARCHAR},
+			</if>
+			<if test="onePurchaseType != null">
+				ONE_PURCHASE_TYPE=#{onePurchaseType,jdbcType=VARCHAR},
+			</if>
+			<if test="oneOrganiza != null">
+				ONE_ORGANIZATION=#{oneOrganiza,jdbcType=VARCHAR},
+			</if>
+			<if test="oneAdvice != null">
+				ONE_ADVICE=#{oneAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="twoTechAdvice != null">
+				TWO_TECH_ADVICE=#{twoTechAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="twoAdvice != null">
+				TWO_ADVICE=#{twoAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="threePurchaseType != null">
+				THREE_PURCHASE_TYPE=#{threePurchaseType,jdbcType=VARCHAR},
+			</if>
+				<if test="threeOrganiza != null">
+				THREE_ORGANIZATION=#{threeOrganiza,jdbcType=VARCHAR},
+			</if>
+			<if test="threeAdvice != null">
+				THREE_ADVICE=#{threeAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="brand != null">
+				BRAND=#{brand,jdbcType=VARCHAR},
+			</if>
+			<if test="userUnit != null">
+				USER_UNIT=#{userUnit,jdbcType=VARCHAR},
+			</if>
+			<if test="detailStatus != null">
+				DETAIL_STATUS=#{detailStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				REASON=#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="recorderMobile != null">
+				RECORDER_MOBILE=#{recorderMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="advancedStatus != null">
+				ADVANCED_STATUS=#{advancedStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="projectStatus != null">
+		        PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR},
+		     </if>
+		     
+		     <if test="uniqueId != null">
+		        UNIQUE_ID=#{uniqueId,jdbcType=VARCHAR},
+		     </if>
+		     <if test="fileId != null">
+		        FILE_ID=#{fileId,jdbcType=VARCHAR},
+		     </if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="bss.model.pms.PurchaseDetail">
+		update T_BSS_PMS_PURCHASE_DETAIL
+		set PLAN_NAME = #{planName,jdbcType=VARCHAR},
+		PLAN_NO = #{planNo,jdbcType=VARCHAR},
+		REFERENCE_NO = #{referenceNo,jdbcType=VARCHAR},
+		PLAN_TYPE = #{planType,jdbcType=VARCHAR},
+		DEPARTMENT = #{department,jdbcType=VARCHAR},
+		MATERIAL_NAME = #{goodsName,jdbcType=VARCHAR},
+		STAND = #{stand,jdbcType=VARCHAR},
+		QUALIT_STAND = #{qualitStand,jdbcType=VARCHAR},
+		ITEM = #{item,jdbcType=VARCHAR},
+		PURCHASE_COUNT = #{purchaseCount,jdbcType=DECIMAL},
+		PRICE = #{price,jdbcType=DECIMAL},
+		BUDGET = #{budget,jdbcType=DECIMAL},
+		DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
+		PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
+		SUPPLIER = #{supplier,jdbcType=VARCHAR},
+		IS_FREE_TAX = #{isFreeTax,jdbcType=VARCHAR},
+		MATERIAL_USE = #{goodsUse,jdbcType=VARCHAR},
+		USE_UNIT = #{useUnit,jdbcType=VARCHAR},
+		CREATED_AT = #{createdAt,jdbcType=DATTIMESTAMPE},
+		USER_ID = #{userId,jdbcType=VARCHAR},
+		PARENT_ID = #{parentId,jdbcType=VARCHAR},
+		REQ_LEVEL = #{reqLevel,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=VARCHAR},
+		MEMO = #{memo,jdbcType=VARCHAR},
+		SEQ = #{seq,jdbcType=VARCHAR},
+		HISTORY_STATUS = #{historyStatus,jdbcType=VARCHAR},
+		MATERIAL_TYPE = #{goodsType,jdbcType=VARCHAR},
+		AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+		ORGANIZATION_ID = #{organization,jdbcType=VARCHAR},
+		IS_MASTER = #{isMaster,jdbcType=DECIMAL},
+		IS_DELETE = #{isDelete,jdbcType=INTEGER},
+		IS_COLLECT = #{isCollect,jdbcType=INTEGER},
+		code = #{code,jdbcType=INTEGER},
+		ONE_PURCHASE_TYPE=#{onePurchaseType,jdbcType=VARCHAR},
+		ONE_ORGANIZATION=#{oneOrganiza,jdbcType=VARCHAR},
+	    ONE_ADVICE=#{oneAdvice,jdbcType=VARCHAR},
+	    TWO_TECH_ADVICE=#{twoTechAdvice,jdbcType=VARCHAR},
+	    TWO_ADVICE=#{twoAdvice,jdbcType=VARCHAR},
+		THREE_PURCHASE_TYPE=#{threePurchaseType,jdbcType=VARCHAR},
+		THREE_ORGANIZATION=#{threeOrganiza,jdbcType=VARCHAR},
+		THREE_ADVICE=#{threeAdvice,jdbcType=VARCHAR},
+		BRAND=#{brand,jdbcType=VARCHAR},
+		USER_UNIT=#{userUnit,jdbcType=VARCHAR},
+		DETAIL_STATUS=#{detailStatus,jdbcType=VARCHAR},
+		REASON=#{reason,jdbcType=VARCHAR},
+		RECORDER_MOBILE=#{recorderMobile,jdbcType=VARCHAR},
+		ADVANCED_STATUS=#{advancedStatus,jdbcType=VARCHAR},
+		PROJECT_STATUS=#{projectStatus,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="query" parameterType="bss.model.pms.PurchaseDetail"
+		resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_DETAIL
+		<where>
+			HISTORY_STATUS='0'  and IS_DELETE='0' 
+			<if test="createdAt!=null">
+				and CREATED_AT like '%${createdAt}%'
+			</if>
+			<if test="planName!=null">
+				and PLAN_NAME like '%${planName}%'
+			</if>
+			<if test="planNo !=null">
+				and PLAN_NO like '%${planNo}%'
+			</if>
+			<if test="referenceNo !=null">
+				and REFERENCE_NO like '%${referenceNo}%'
+			</if>
+			<if test="isMaster != null">
+				and IS_MASTER = #{isMaster}
+			</if>
+	<!-- 		<if test="status==1">
+				and STATUS in('1','2')
+			</if> -->
+			<if test="status== 2 ">
+				and STATUS in('2','3','4','5')
+			</if>
+			<if test="status==3 ">
+				and STATUS in('3','5')
+			</if>
+			
+			<if test="isCollect != null">
+				and IS_COLLECT = #{isCollect}
+			</if>
+			<if test="goodsType != null">
+				and PURCHASE_COUNT is not null
+			</if>
+			<if test="purchaseType != null">
+				and PURCHASE_TYPE = #{purchaseType}
+			</if>
+			<if test="organization != null">
+				and	ORGANIZATION_ID = #{organization}
+			</if>
+			
+			<if test="department != null">
+			   and DEPARTMENT like '%${department}%'
+			</if>
+			<if test="budget != null">
+				and BUDGET = #{budget}
+			</if>
+			<if test="planType != null">
+				 and PLAN_TYPE = #{planType}
+			</if>
+			<if test="userId != null">
+				 and USER_ID = #{userId}
+			</if>
+		</where>
+		<if test="status== 1">
+			ORDER BY decode(STATUS,'1',1,'4',2,'2',3,'3',4,'5',5), CREATED_AT DESC
+		</if>
+		<if test="status== 2">
+			ORDER  BY  STATUS , CREATED_AT DESC
+		</if>
+		<if test="status ==3">
+			ORDER  BY  STATUS , CREATED_AT DESC
+		</if>
+	</select>
+
+	<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_DETAIL
+		<where>
+		HISTORY_STATUS='0'  and IS_DELETE='0'
+		
+			<if test="planNo !=null and planNo!='' ">
+			and PLAN_NO = #{planNo} ORDER BY IS_MASTER  
+			</if>
+		</where>
+	</select>
+	
+	<update id="delete" parameterType="String" >
+	
+		update T_BSS_PMS_PURCHASE_DETAIL
+			set IS_DELETE='1'
+			where HISTORY_STATUS='0'  and ID =#{planNo}
+		
+	</update>
+	
+	<update id="updateStatus" parameterType="bss.model.pms.PurchaseDetail" >
+	
+	update T_BSS_PMS_PURCHASE_DETAIL
+	<set>
+	<if test="status != null">
+		STATUS = #{status},
+	</if>
+	<if test="isCollect != null">
+		IS_COLLECT = #{isCollect}
+	</if>
+	<if test="auditDate != null">
+		AUDIT_DATE = #{auditDate}
+	 </if>
+	
+	</set>	
+		where HISTORY_STATUS='0' and UNIQUE_ID =#{uniqueId}
+		
+	</update>
+	
+	
+	<select id="getByMap" parameterType="Map" resultMap="PurchaseRequired_Map" >
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_DETAIL
+		<where>
+		HISTORY_STATUS='0' and IS_DELETE='0'
+			<if test="planNo !=null">
+				and UNIQUE_ID=#{planNo}
+			</if>
+			<if test="referenceNo !=null">
+				and REFERENCE_NO=#{referenceNo}
+			</if>
+			<if test="isMaster != null">
+				and IS_MASTER = #{isMaster}
+			</if>
+			<if test="status != null">
+				and STATUS = #{status}
+			</if>
+			
+			<if test="department != null">
+         and DEPARTMENT = #{department}
+      </if>
+			<if test="organization!=null">
+			   and  ORGANIZATION_ID=#{organization} 
+			</if>
+			<if test="parentId != null">
+                and PARENT_ID = #{parentId}
+       </if>
+      
+		</where>
+		ORDER BY IS_MASTER
+		
+	</select>
+	
+	
+	
+	<select id="statisticDepartment" parameterType="Map" resultType="Map" >
+		select
+		 sum(BUDGET) as amount,DEPARTMENT as department
+		 from T_BSS_PMS_PURCHASE_DETAIL
+	 	<include refid="param"/>
+		 group by DEPARTMENT
+	 
+	</select>
+	
+	<select id="statisticPurchaseMethod" parameterType="Map" resultType="Map" >
+		select
+		 sum(BUDGET) as amount,PURCHASE_TYPE as purchaseType
+		 from T_BSS_PMS_PURCHASE_DETAIL
+	 	<include refid="param"/>
+		 group by PURCHASE_TYPE
+	</select>
+	
+	<select id="statisticByMonth" parameterType="Map" resultType="Map" >
+		select
+		 sum(BUDGET) as amount,to_char(CREATED_AT,'yyyy-mm') as month
+		 from T_BSS_PMS_PURCHASE_DETAIL
+	 	<include refid="param"/>
+		 group by to_char(CREATED_AT,'yyyy-mm')
+	</select>
+	
+	<select id="statisticOrg" parameterType="Map" resultType="Map" >
+		select
+		 count(*) as count, ORGANIZATION_ID as organization
+		 from T_BSS_PMS_PURCHASE_DETAIL
+	 	<include refid="param"/>
+		 group by ORGANIZATION_ID
+	</select>
+	
+	
+	
+	<sql id="param">
+	 <where>
+	 IS_DELETE!='1' and PURCHASE_COUNT is not null
+	 and IS_MASTER!='1' and HISTORY_STATUS='0'
+	 	<if test="planType != null">
+				and PLAN_TYPE = #{planType}
+		</if>
+	 	<if test="year!=null">
+	 	and to_char(CREATED_AT,'yyyy')=#{year}
+	 	</if>
+	 	<if test="organization !=null">
+	 	and ORGANIZATION_ID=#{organization}
+	 	</if>
+	 	<if test="budget != null">
+			and BUDGET = #{budget}
+		</if>
+		<if test="purchaseType != null">
+			and PURCHASE_TYPE = #{purchaseType}
+		</if>	
+		<if test="department != null">
+			   and DEPARTMENT = #{department}
+		</if>
+			
+	 </where>	
+	
+	</sql>
+	
+	
+	<update id="history" parameterType="Map">
+		update T_BSS_PMS_PURCHASE_DETAIL
+			<set>
+				<if test="oid!=null">
+					id=#{oid},
+				</if>
+				<if test="status != null">
+					STATUS = #{status},
+				</if>
+				<if test="historyStatus !=null">
+					HISTORY_STATUS = #{historyStatus}
+				</if>
+			</set>
+		where id=#{id}
+	</update>
+	
+	
+	   <select id="getByProjectStatus"  parameterType="java.lang.Object" resultType="bss.model.pms.PurchaseDetail">
+        select * 
+        from T_BSS_PMS_PURCHASE_DETAIL
+          where ID = #{id} 
+           and PROJECT_STATUS=#{projectStatus}
+    </select>
+    
+    <update id="updateProjectStatus" parameterType="java.lang.String">
+         update T_BSS_PMS_PURCHASE_DETAIL
+         set PROJECT_STATUS=1
+         where PLAN_NO=#{planNo}
+    </update>
+    
+    <update id="updateIdById" parameterType="java.util.Map">
+         update T_BSS_PMS_PURCHASE_DETAIL
+         set HISTORY_STATUS=1,
+         ID=#{newId}
+         where ID=#{id}
+    </update>
+    
+    <select id="queryDepartMent" resultType="String">
+    select DEPARTMENT
+	      from T_BSS_PMS_PURCHASE_DETAIL where IS_MASTER=1 and UNIQUE_ID in  
+		 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+		  #{item}  
+		 </foreach>  
+	 group by DEPARTMENT
+ 
+    </select>
+    
+    
+        <select id="queryOrg" resultType="Map">
+			    select  ORGANIZATION_ID as organizationId
+				      from T_BSS_PMS_PURCHASE_DETAIL where PRICE is not null and ORGANIZATION_ID is not null　and  UNIQUE_ID  in  
+					 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+					  #{item}  
+					 </foreach>  
+				 group by ORGANIZATION_ID
+    </select>
+    
+    
+    
+   <select id="queryByUinuqe" parameterType="bss.model.pms.PurchaseDetail"
+		resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_DETAIL
+		<where>
+			HISTORY_STATUS='0'  and IS_DELETE='0' 
+			<if test="uniqueId !=null">
+				and UNIQUE_ID =#{uniqueId}
+			</if>
+			<!--  <if test="isMaster != null">
+				and IS_MASTER = #{isMaster}
+			</if> -->
+		</where>
+		<if test="isMaster==null">
+			ORDER BY IS_MASTER
+		</if>
+	</select>
+	
+	
+	
+	 <select id="getByUinuqeId" parameterType="String" resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_DETAIL
+		<where>
+			HISTORY_STATUS='0'  and IS_DELETE='0' 
+			<if test="uniqueId !=null">
+				and UNIQUE_ID =#{uniqueId}
+			</if>
+		</where>
+			ORDER BY IS_MASTER
+	</select>
+	
+	 <select id="queryChilden" parameterType="String" resultType="Integer">
+		select count(*) from T_BSS_PMS_PURCHASE_DETAIL
+	 	where PARENT_ID=#{id}
+	</select>
+	
+	
+	
+    
+    
+</mapper>
