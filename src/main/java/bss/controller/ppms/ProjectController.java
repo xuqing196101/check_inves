@@ -48,6 +48,7 @@ import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
+import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
@@ -58,6 +59,7 @@ import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
+import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
@@ -125,6 +127,9 @@ public class ProjectController extends BaseController {
     
     @Autowired
     private CollectPlanService collectPlanService;
+    
+    @Autowired
+    private PurchaseDetailService purchaseDetailService;
 
     /**
      * 〈简述〉 
@@ -230,7 +235,7 @@ public class ProjectController extends BaseController {
          PageHelper.startPage(page,Integer.parseInt("10"));
          List<Task> taskList = taskservice.listByProjectTask(map);
          HashMap<String, Object> map1 = new HashMap<>();
-         map1.put("typeName", "0");
+         map1.put("typeName", "2");
          List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map1);
          model.addAttribute("list2",orgnizations);
          model.addAttribute("list", new PageInfo<Task>(taskList));
@@ -275,8 +280,8 @@ public class ProjectController extends BaseController {
       public String addDetails(@CurrentUser User user, String projectId,String id,Model model,String name, String orgId,String projectNumber, HttpServletRequest request) {
           //根据采购明细ID，获取项目明细
           Task task = taskservice.selectById(projectId);
-          List<PurchaseRequired> lists = collectPlanService.getAll(task.getCollectId(), request);
-          for (PurchaseRequired required : lists) {
+          List<PurchaseDetail> lists = purchaseDetailService.getUnique(task.getCollectId());
+          for (PurchaseDetail required : lists) {
               Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getDepartment());
               model.addAttribute("orgnization", orgnization);
           }
@@ -338,7 +343,7 @@ public class ProjectController extends BaseController {
     @RequestMapping("/addDeatil")
     public String addDeatil(Model model, String id, String name,String projectNumber, String checkedIds, HttpServletRequest request) {
         Task task = taskservice.selectById(id);
-        List<PurchaseRequired> lists = collectPlanService.getAll(task.getCollectId(), request);
+        List<PurchaseDetail> lists = purchaseDetailService.getUnique(task.getCollectId());
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", lists);
         model.addAttribute("projectNumber", projectNumber);
@@ -428,14 +433,14 @@ public class ProjectController extends BaseController {
                      String ids = request.getParameter("projectId");
                      Task task = taskservice.selectById(ids);
                      if(task.getCollectId() != null){
-                         List<PurchaseRequired> list3 = collectPlanService.getAll(task.getCollectId(), request);
+                         List<PurchaseDetail> list3 = purchaseDetailService.getUnique(task.getCollectId());
                          if(list3 != null && list3.size() > 0){
                               
-                              List<PurchaseRequired> bottomDetails = new ArrayList<>();
+                              List<PurchaseDetail> bottomDetails = new ArrayList<>();
                               for(int i=0;i<list3.size();i++){
                                   Map<String,Object> bId = new HashMap<String,Object>();
                                   bId.put("id", list3.get(i).getId());
-                                  List<PurchaseRequired> pr = purchaseRequiredService.selectByParentId(bId);
+                                  List<PurchaseDetail> pr = purchaseDetailService.selectByParentId(bId);
                                   if(pr.size()==1){
                                       bottomDetails.add(list3.get(i));
                                   }
@@ -541,14 +546,14 @@ public class ProjectController extends BaseController {
                          String ids = request.getParameter("projectId");
                          Task task = taskservice.selectById(ids);
                          if(task.getCollectId() != null){
-                            List<PurchaseRequired> list3 = collectPlanService.getAll(task.getCollectId(), request);
+                             List<PurchaseDetail> list3 = purchaseDetailService.getUnique(task.getCollectId());
                             if(list3 != null && list3.size() > 0){
                                  
-                                 List<PurchaseRequired> bottomDetails = new ArrayList<>();
+                                 List<PurchaseDetail> bottomDetails = new ArrayList<>();
                                  for(int i=0;i<list3.size();i++){
                                      Map<String,Object> bId = new HashMap<String,Object>();
                                      bId.put("id", list3.get(i).getId());
-                                     List<PurchaseRequired> pr = purchaseRequiredService.selectByParentId(bId);
+                                     List<PurchaseDetail> pr = purchaseDetailService.selectByParentId(bId);
                                      if(pr.size()==1){
                                          bottomDetails.add(list3.get(i));
                                      }

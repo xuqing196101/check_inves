@@ -197,8 +197,8 @@
           <th class="info">质量技术标准</th>
             <th class="info">计量单位</th>
           <th class="info">采购数量</th>
-          <th class="info p0">单价（元）</th>
-          <th class="info">预算金额<br>（万元）</th>
+          <!-- <th class="info p0">单价（元）</th>
+          <th class="info">预算金额<br>（万元）</th> -->
           <th class="info">交货期限</th>
             <th class="info">采购方式</th>
           <th class="info">供应商名称</th>
@@ -231,7 +231,7 @@
             <input class="m0 w80" disabled="disabled" type="text" name="detail[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
           </c:if>
           </td>
-          <td class="tc p0">
+          <%-- <td class="tc p0">
           <c:if test="${obj.price!=null }">
             <input type="hidden" name="ss" value="${obj.id }">
               <input maxlength="11" id="price" name="detail[${vs.index }].price" type="text" class="m0 w80"  onblur="sum1(this);" value="${obj.price}" />
@@ -245,7 +245,7 @@
            <input type="hidden" name="ss" value="${obj.id }">
           <input maxlength="11" id="budget" name="detail[${vs.index }].budget" class=" m0 w80" readonly="readonly" value="${obj.budget}" type="text"/>
           <input type="hidden" name="ss" value="${obj.parentId }">
-          </td>
+          </td> --%>
           <td class="tc">${obj.deliverDate}</td>
           <td class="tc advice p0">
           <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">

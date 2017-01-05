@@ -238,7 +238,7 @@
                       <td class="pl20">${obj.name}</td>
                       <td class="pl20">
                       	<c:forEach items="${list2 }" var="list">
-                      		<c:if test="${obj.purchaseRequiredId eq list.id}">
+                      		<c:if test="${obj.orgId eq list.id}">
                         		${list.name }
                       		</c:if>
                       	</c:forEach>
