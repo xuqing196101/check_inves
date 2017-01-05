@@ -12,9 +12,10 @@
     <script type="text/javascript">
       $(function() {
         var range = "${article.range}";
-        if(range == 2) {
+        if(range == '2') {
           $("input[name='ranges']").attr("checked", true);
-        } else {
+        }
+        if(range == '1' || range == '0'){
           $("input[name='ranges'][value=" + range + "]").attr("checked", true);
         }
         $("#articleTypeId").val("${article.articleType.id }");
@@ -404,7 +405,7 @@
               </div>
             </li>
             <li class="col-md-12 col-sm-12 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息正文：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>信息正文：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
                 <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
               </div>

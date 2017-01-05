@@ -36,7 +36,7 @@
 							<a  data-toggle="dropdown" class="dropdown-toggle" aria-expanded="true" <c:if test='${resource.url == null}'>ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="javascript:void(0);"</c:if>
 							<c:if test='${resource.url != null && resource.name != "安全退出" && resource.name != "回到门户"}'>href="${pageContext.request.contextPath}/${resource.url}"  target="home"</c:if>
 							<c:if test='${resource.url != null && resource.name == "安全退出"}'>href="${pageContext.request.contextPath}/${resource.url}" </c:if> 
-							<c:if test='${resource.url != null && resource.name == "回到门户"}'>href="${pageContext.request.contextPath}/${resource.url}" </c:if> >
+							<c:if test='${resource.url != null && resource.name == "回到门户"}'>href="${pageContext.request.contextPath}/" </c:if> >
 							  <div class="top_icon ${resource.icon}_icon"><%-- <img src="${pageContext.request.contextPath}/public/ZHH/images/${resource.icon}"/> --%></div>
 							  <span>${resource.name }</span>
 							</a>
@@ -61,7 +61,7 @@
 					</c:if>
 				</c:forEach>
 				<li class="dropdown htsy">
-					<a href="${pageContext.request.contextPath}/index/selectIndexNews.html">
+					<a href="${pageContext.request.contextPath}/">
 					  <div class="top_icon htsy_icon"></div>
 					  <span>回到门户</span>
 					</a>

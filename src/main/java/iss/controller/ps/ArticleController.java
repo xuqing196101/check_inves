@@ -1138,7 +1138,7 @@ public class ArticleController extends BaseSupplierController {
 
       if (article.getSecondArticleTypeId() != null) {
         if (article.getSecondArticleTypeId().equals("111")) {
-          List<UploadFile> gzdt = uploadService.findBybusinessId(id, Constant.FORUM_SYS_KEY);
+          List<UploadFile> gzdt = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
           if (gzdt.size() < 1) {
             flag = false;
             model.addAttribute("ERR_auditPic", "请上传图片!");
