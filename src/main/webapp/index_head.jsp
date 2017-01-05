@@ -465,8 +465,8 @@ function importAdd(){
 	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
 	      <div class="drop_main">
 	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login">
-	          <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
-	       <!-- <a onclick="registerTip();" > -->
+	          <%--  <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
+	       <a onclick="registerTip();" >
 		     供应商注册
 		     <i></i>
 		    </a>	  
@@ -526,8 +526,8 @@ function importAdd(){
 	<div class="col-md-12 col-sm-12 col-xs-12 drop_hover"  id="drop-4">
 	 <div class="drop_main">
 	  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
-	      <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html"> 
-	  <!--  <a onclick="registerTip();"> -->
+	     <%-- <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html"> --%>
+	   <a onclick="registerTip();">
 		 专家注册
 		 <i></i>
 		</a>	  
