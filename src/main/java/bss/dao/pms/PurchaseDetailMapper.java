@@ -246,7 +246,7 @@ public interface PurchaseDetailMapper {
     * @return List<String>     
     * @throws
      */
-    List<Map<String,Object>> queryOrg(List<String>  list);
+    List<String> queryOrg(@Param("uniqueId")String uniqueId);
     
     
     

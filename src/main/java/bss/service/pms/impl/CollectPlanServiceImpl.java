@@ -97,7 +97,6 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 					 all.addAll(list3);
 				}else{
 					String string = NumberUtils.translate(i+2);
-					System.out.print(string);
 					list2.get(0).setSeq(string);
 					all.addAll(list2);
 				}
@@ -114,6 +113,46 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 		return all;
 	}
 
+	
+	
+	
+	@Override
+	public List<PurchaseRequired> getAll(List<String> uniqueId, HttpServletRequest request) {
+		List<PurchaseRequired>  all=new LinkedList<PurchaseRequired>();
+		if(uniqueId!=null&&uniqueId.size()>0){
+			for(int i=0;i<uniqueId.size();i++){
+				if(i==0){
+					  List<PurchaseRequired>  list= purchaseRequiredService.getUnique(uniqueId.get(i));
+					  all.addAll(list);
+				}
+				if(i<uniqueId.size()-1){
+					String no1 = uniqueId.get(i);
+					String no2 = uniqueId.get(i+1);
+					   List<PurchaseRequired>  list= purchaseRequiredService.getUnique(no1);
+					  List<PurchaseRequired>  list2 = purchaseRequiredService.getUnique(no2);
+					 if(list.get(0).getDepartment().equals(list2.get(0).getDepartment())){
+						 List<PurchaseRequired> list3 = getChildren(list,list2,request);
+						 all.addAll(list3);
+					}else{
+						String string = NumberUtils.translate(i+2);
+						list2.get(0).setSeq(string);
+						all.addAll(list2);
+					}
+				}
+			}
+		}
+		for(int i=0;i<all.size();i++){
+			if(i>0){
+				if(all.get(i).getSeq().equals("一")){
+					all.remove(all.get(i));
+				}
+			}
+		}
+		return all;
+	}
+	
+	
+	
 	
 	/**
 	 * 
@@ -177,7 +216,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 		
 		return list2;
 	}
-	
+
 	
 	
 //	public List<PurchaseRequired> remove(List<PurchaseRequired> list){

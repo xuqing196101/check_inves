@@ -138,14 +138,14 @@
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" readonly="readonly" name="name" id="jhmc" value="${list[0].planName}">
+							<input type="text" class="input_group" disabled="true" name="name" id="jhmc" value="${list[0].planName}">
 							<span class="add-on">i</span>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" name="no" value="${list[0].planNo}" readonly="readonly">
+							<input type="text" class="input_group" name="no" value="${list[0].planNo}" disabled="true" >
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -153,7 +153,7 @@
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划文号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" readonly="readonly"  value="${list[0].referenceNo}" >
+							<input type="text" class="input_group"  disabled="true"  value="${list[0].referenceNo}" >
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -163,7 +163,7 @@
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-							<select name="planType" id="wtype" onchange="gtype(this)" readonly="readonly">
+							<select name="planType" id="wtype" onchange="gtype(this)" disabled="true">
 								<c:forEach items="${types }" var="tp" >
 									<option value="${tp.id }">${tp.name }</option>
 								</c:forEach>
@@ -173,7 +173,7 @@
 					
 				  
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>录入人手机号</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" id="mobile" value="${user.mobile }"> 
 							<span class="add-on">i</span>
@@ -211,7 +211,7 @@
 							<th class="info w150">质量技术标准（技术参数）</th>
 							<th class="info w150">计量单位</th>
 							<th class="info w150">采购数量</th>
-							<th class="info w150">单位（元）</th>
+							<th class="info w150">单价（元）</th>
 							<th class="info w150">预算金额（万元）</th>
 							<th class="info w150">交货期限</th>
 							<th class="info w150">采购方式建议</th>

@@ -20,8 +20,10 @@ import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.dao.pms.CollectPlanMapper;
@@ -31,15 +33,18 @@ import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.AuditParam;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseAudit;
+import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.pqims.PqInfo;
 import bss.service.pms.AuditParameService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseAuditService;
+import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 /**
  * 
@@ -59,8 +64,8 @@ public class PlanLookController extends BaseController {
 	@Autowired
 	private PurchaseRequiredMapper purchaseRequiredMapper;
 	
-	@Autowired
-	private OrgnizationServiceI orgnizationServiceI;
+//	@Autowired
+//	private OrgnizationServiceI orgnizationServiceI;
 	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
@@ -78,8 +83,8 @@ public class PlanLookController extends BaseController {
 	@Autowired
 	private PurchaseAuditService purchaseAuditService;
 	
-	@Autowired
-	private OrgnizationMapper oargnizationMapper;
+//	@Autowired
+//	private OrgnizationMapper oargnizationMapper;
 	
 	@Autowired
 	private PurchaseRequiredMapper putchaseRequiredMapper;
@@ -89,6 +94,16 @@ public class PlanLookController extends BaseController {
 	
 	@Autowired
     private CollectPurchaseService conllectPurchaseService;
+	
+	
+	@Autowired
+	private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+	
+	
+	@Autowired
+    private PurchaseDetailService purchaseDetailService;
+	  
+	  
 	/**
 	 * 
 	 * 
@@ -128,7 +143,7 @@ public class PlanLookController extends BaseController {
 		
 		HashMap<String,Object> maps=new HashMap<String,Object>();
 		maps.put("typeName", 1);
-		List<Orgnization> orga = orgnizationServiceI.findOrgnizationList(maps);
+	     List<PurchaseDep> orga = purchaseOrgnizationServiceI.findPurchaseDepList(maps);
 		
 		
 	      model.addAttribute("orga", orga);	
@@ -152,6 +167,7 @@ public class PlanLookController extends BaseController {
             model.addAttribute("set", set);
         
             request.getSession().removeAttribute("NoCount");
+        	model.addAttribute("kind", DictionaryDataUtil.find(5));
         return "bss/pms/collect/plan_views";
     }
 	
@@ -167,18 +183,30 @@ public class PlanLookController extends BaseController {
         return "bss/pms/collect/plan_view";
     }
 	
+	
+	//下达查看页面
 	@RequestMapping("/view")
-    public String view(String id, Model model){
-	    List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
-        List<String> list = conllectPurchaseService.getNo(id);
-        if(list != null && list.size() > 0){
-            for(String s:list){
-                Map<String,Object> map=new HashMap<String,Object>();
-                map.put("planNo", s);
-                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-                listp.addAll(list2);
-            }
-        }
+    public String view(String id, Model model,HttpServletRequest request){
+//	    List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
+	   //采购 
+	    HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("typeName", 1);
+	 List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+		
+		List<PurchaseRequired> listp = collectPlanService.getAll(id, request);
+		
+//        List<String> list = conllectPurchaseService.getNo(id);
+//        if(list != null && list.size() > 0){
+//            for(String s:list){
+//                Map<String,Object> map=new HashMap<String,Object>();
+//                map.put("planNo", s);
+//                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+//                listp.addAll(list2);
+//            }
+//        }
+		model.addAttribute("kind", DictionaryDataUtil.find(5));
+		
+		model.addAttribute("org", org);
         model.addAttribute("list", listp);
         return "bss/pms/collect/plan_view";
     }
@@ -212,7 +240,7 @@ public class PlanLookController extends BaseController {
 		model.addAttribute("list", list);
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
-		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+	  List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
 		
 	      model.addAttribute("org", org);	
@@ -237,11 +265,11 @@ public class PlanLookController extends BaseController {
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
-		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+		  List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
-		List<String> no = collectPurchaseService.getNo(id);
+//		List<String> no = collectPurchaseService.getNo(id);
 		
-		List<String> depList = putchaseRequiredMapper.queryDepartMent(no);
+//		List<String> depList = collectPurchaseService.queryDepartMent(no);
 	
 //		List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
 //		PurchaseRequired p=new PurchaseRequired();
@@ -263,7 +291,7 @@ public class PlanLookController extends BaseController {
 			
 		}*/
 		
-		List<PurchaseRequired> list = collectPlanService.getAll(id,request);
+		List<PurchaseDetail> list = purchaseDetailService.getUnique(id);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("org",org);
@@ -283,7 +311,7 @@ public class PlanLookController extends BaseController {
 		
 		
 		model.addAttribute("status", collectPlan.getStatus());
-		model.addAttribute("depList", depList);
+//		model.addAttribute("depList", depList);
 		return "bss/pms/collect/audit";
 	}
 	
@@ -300,6 +328,15 @@ public class PlanLookController extends BaseController {
 	 */
 	@RequestMapping("/audit")
 	public String audit(PurchaseRequiredFormBean list,CollectPlan collectPlan){
+		if(list!=null){
+			if(list.getListDetail()!=null&&list.getListDetail().size()>0){
+				for(PurchaseDetail p:list.getListDetail()){
+					if(p.getId()!=null){
+						purchaseDetailService.updateByPrimaryKeySelective(p);
+					}
+				}
+			}
+		}
 //		Map<String,Object> map=new HashMap<String,Object>();
 //		if(list!=null){
 //			if(list.getList()!=null){
@@ -463,7 +500,7 @@ public class PlanLookController extends BaseController {
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
-		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+		 List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
 //		CollectPlan plan = collectPlanService.queryById(id);
 		List<String> no = collectPurchaseService.getNo(id);

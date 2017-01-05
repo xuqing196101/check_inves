@@ -414,19 +414,19 @@
 				#{detailStatus,jdbcType=VARCHAR},
 			</if>
 			<if test="reason != null">
-				#{REASON,jdbcType=VARCHAR},
+				#{reason,jdbcType=VARCHAR},
 			</if>
 			<if test="recorderMobile != null">
-				#{RECORDER_MOBILE,jdbcType=VARCHAR},
+				#{recorderMobile,jdbcType=VARCHAR},
 			</if>
 			<if test="advancedStatus != null">
-				#{ADVANCED_STATUS,jdbcType=VARCHAR},
+				#{advancedStatus,jdbcType=VARCHAR},
 			</if>
 			<if test="uniqueId != null">
-	          #{UNIQUE_ID,jdbcType=VARCHAR},
+	          #{uniqueId,jdbcType=VARCHAR},
 		   </if>
 		   	<if test="fileId != null">
-	          #{FILE_ID,jdbcType=VARCHAR},
+	          #{fileId,jdbcType=VARCHAR},
 		   </if>
 		   
 		</trim>
@@ -897,12 +897,12 @@
     </select>
     
     
-        <select id="queryOrg" resultType="Map">
+        <select id="queryOrg" resultType="String">
 			    select  ORGANIZATION_ID as organizationId
-				      from T_BSS_PMS_PURCHASE_DETAIL where PRICE is not null and ORGANIZATION_ID is not null　and  UNIQUE_ID  in  
-					 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+				      from T_BSS_PMS_PURCHASE_DETAIL where PRICE is not null and ORGANIZATION_ID is not null　and  UNIQUE_ID =#{uniqueId}  
+					<!--  <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
 					  #{item}  
-					 </foreach>  
+					 </foreach>  --> 
 				 group by ORGANIZATION_ID
     </select>
     
