@@ -2102,6 +2102,8 @@ import ses.util.WfUtil;
        return "ses/sms/supplier_register/items";
 
      }
+     model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+     model.addAttribute("businessId", supplierId);
      return "ses/sms/supplier_register/contract";
 
 

@@ -1011,8 +1011,6 @@ $(function(){
 														          <option value="1" <c:if test="${certPro.mot=='1'}"> selected="selected"</c:if> >是</option>
 														          <option value="0"  <c:if test="${certPro.mot=='0'}"> selected="selected"</c:if>>无</option>
 														        </select>
-															<%-- ${certPro.mot} --%>
-															
 															</td>
 															<td class="tc">
 															<div class="fl w220 ">
