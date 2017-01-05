@@ -1156,30 +1156,55 @@ public class IndexNewsController extends BaseSupplierController{
 	 */
 	@RequestMapping("/selectArticleNewsById")
 	public String selectArticleNewsById(Article article,Model model,HttpServletRequest request) throws Exception{
+		Article articleDetail = articleService.selectArticleById(article.getId());
+		Integer showCount = articleDetail.getShowCount();
+		articleDetail.setShowCount(showCount+1);
+		articleService.update(articleDetail);
 		String filePath = request.getSession().getServletContext().getRealPath("/")+"/zanpic";
 		String glisteningPath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
 		String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
 		File stagingFile = new File(filePath);
 		File glisFile = new File(glisteningPath);
-		if(stagingFile.exists()){
+//		if(stagingFile.exists()){
+//			stagingFile.delete();
+//		}
+//		if(glisFile.exists()){
+//			glisFile.delete();
+//		}
+		if(stagingFile.exists()&&stagingFile.isDirectory()){
+			File[] files = stagingFile.listFiles();
+			for(int i=0;i<files.length;i++){
+				if(files[i].isFile()){
+					File file = new File(files[i].getAbsolutePath());
+					if(file.exists()&&file.isFile()){
+						file.delete();
+					}
+				}
+			}
+		}
+		if(stagingFile.exists()&&stagingFile.isDirectory()){
 			stagingFile.delete();
 		}
-		if(glisFile.exists()){
+		if(glisFile.exists()&&glisFile.isDirectory()){
+			File[] files = glisFile.listFiles();
+			for(int i=0;i<files.length;i++){
+				if(files[i].isFile()){
+					File file = new File(files[i].getAbsolutePath());
+					if(file.exists()&&file.isFile()){
+						file.delete();
+					}
+				}
+			}
+		}
+		if(glisFile.exists()&&glisFile.isDirectory()){
 			glisFile.delete();
 		}
-		File file = new File(filePath);
-		if(!file.exists()){
-			file.mkdir();
+		if(!stagingFile.exists()){
+			stagingFile.mkdir();
 		}
-		File glisteningfile = new File(glisteningPath);
-		if(!glisteningfile.exists()){
-			glisteningfile.mkdir();
+		if(!glisFile.exists()){
+			glisFile.mkdir();
 		}
-		Article articleDetail = articleService.selectArticleById(article.getId());
-		Integer showCount = articleDetail.getShowCount();
-		articleDetail.setShowCount(showCount+1);
-		articleService.update(articleDetail);
-		
 		HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
 		StringBuffer divStyle = new StringBuffer();
 		divStyle.append("<div class='article_content' style='font-size: 14px; line-height: 35px; padding: 20px; width:900px'>");
