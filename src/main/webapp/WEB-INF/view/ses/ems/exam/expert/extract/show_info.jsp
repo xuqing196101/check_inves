@@ -17,6 +17,17 @@
 		$("#roleId").val(roleIds.substr(0, roleIds.length - 1));
 		$("#roleName").val(roleNames.substr(0, roleNames.length - 1));
 	}
+	/**返回*/
+	function back(){
+		var classid = "${typeclassId}";
+		if(classid != null && classid != ''){
+			  window.history.go(-1);
+		}else{
+			 alert(classid);
+			 window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+		}
+		  
+	}
 </script>
 </head>
 <body>
@@ -74,7 +85,12 @@
                     <p class="f16"><span class="b">包名：</span><span class="light_blue b">${con.name}</span></p>
                       <c:forEach items="${ con.listExpExtCondition}" var="conlist" varStatus="vs">
                         <p>第<span class="b orange">${(vs.index+1)}</span>次抽取，抽取条件如下：</p>
-                        <p>专家所在地区【${conlist.address }】 
+                        <p>专家所在地区【${conlist.address }】
+                             <c:if test="${conlist.addressId != null  } ">
+		                           <c:if test="${conlist.addressReason != null}">
+		                                                                                 专家所在地区限制条件【${conlist.addressReason }】
+		                           </c:if> 
+                             </c:if>                                               
                          <c:if test="${conlist.expertsFromSplit != null }">
 	                        <c:set value="" var="froms"></c:set>
 			                     <c:forEach var="ay" items="${conlist.expertsFromSplit}" >
@@ -216,8 +232,10 @@
 		</div>
 		<div class="col-md-12">
 			<div class="fl padding-10">
-				<button class="btn btn-windows git" onclick="history.go(-1)"
+				<button class="btn btn-windows git" onclick="back();"
 					type="button">返回</button>
+			
+			
 			</div>
 		</div>
 	</div>

@@ -21,6 +21,7 @@
 
     <script type="text/javascript">
     $(function (){
+    	 selectLikeExpert();
     var cate="${listCon.conTypes[0].categoryName}";
     if (cate != null && cate != ''){
     	 $("#dnone").removeClass("dnone");
@@ -53,7 +54,7 @@
 	  }
 	  }
    }
-   selectLikeExpert();
+  
     });
     
 
@@ -135,7 +136,7 @@
                          layer.close(index);
                      }
                     },function (value, ix, elem){
-                        $("#addressReson").val(value);
+                        $("#addressReason").val(value);
                         selectLikeExpert();
                          layer.close(ix);
                     });
@@ -369,10 +370,10 @@
     	  layer.confirm('是否需要打印', {
                btn: ['打印','取消'],offset: ['40%', '40%'], shade:0.01
              }, function(index){
-            	 window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+            
                 window.location.href="${pageContext.request.contextPath}/ExpExtract/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
              }, function(index){
-            	 window.location.href="${pageContext.request.contextPath}/ExpExtract/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+            	 window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
               
              }); 
        
@@ -894,7 +895,7 @@
 <!--         工程经济 -->
 <!--         <input type="hidden" name="goodsProjectCount" id="goodsProjectCount" > -->
 <!--              限制地区理由 -->
-        <input type="hidden" name="addressReson" id="addressReson" >
+        <input type="hidden" name="addressReason" id="addressReason" >
 <!--         省 -->
         <input type="hidden"  name="province" id="province" />
         <input type="hidden" name="" id="hiddentype">

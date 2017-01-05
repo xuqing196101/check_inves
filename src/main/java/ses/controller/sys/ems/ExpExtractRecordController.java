@@ -771,7 +771,7 @@ public class ExpExtractRecordController extends BaseController {
           }
           extract.setReviewType(split[i]);
           extract.setId(ids[0]);
-          extractService.update(extract); 
+          extractService.update(extract);
         }
       }
       
@@ -1005,10 +1005,13 @@ public class ExpExtractRecordController extends BaseController {
    * @return String
    */
   @RequestMapping("/showRecord")
-  public String showRecord(Model model,String id,String projectId,String packageId){
+  public String showRecord(Model model,String id,String projectId,String packageId,String typeclassId){
     //专家类型
     model.addAttribute("ddList", expExtractRecordService.ddList());
     model.addAttribute("find", DictionaryDataUtil.find(12));
+    model.addAttribute("typeclassId", typeclassId);
+    model.addAttribute("projectId", projectId);
+    model.addAttribute("packageId", packageId);
     //获取抽取记录
     ExpExtractRecord showExpExtractRecord = null;
     if (id != null && !"".equals(id)) {
