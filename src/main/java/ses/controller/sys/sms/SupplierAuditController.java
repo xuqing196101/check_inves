@@ -1492,6 +1492,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	                   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 	    		       for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+	    		    	 cate.setParentId(c.getId());
 	    		    	 categoryList.add(cate);
 	    	             }
 	                 }
@@ -1513,6 +1514,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		    		       List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 		    		       for(SupplierItem c:category){
 		    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+	                         cate.setParentId(c.getId());
 		    		    	 categoryList.add(cate);
 		    	            }
 		              }
@@ -1536,6 +1538,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		                   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 		    		      for(SupplierItem c:category){
 		    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+	                         cate.setParentId(c.getId());
 		    		    	 categoryList.add(cate);
 		    		 
 		    	            }
@@ -1559,6 +1562,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		    		   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 		    		     for(SupplierItem c:category){
 		    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+	                         cate.setParentId(c.getId());
 		    		    	 categoryList.add(cate);
 		    	            }
 		               }
