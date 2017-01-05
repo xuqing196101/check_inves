@@ -545,7 +545,7 @@ public class IndexNewsController extends BaseSupplierController{
 				DictionaryData dd=new DictionaryData();
 				dd.setCode("POST_ATTACHMENT");
 				List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-				String sysKey = Constant.FORUM_SYS_KEY.toString();
+				String sysKey = Constant.TENDER_SYS_KEY.toString();
 				String attachTypeId=null;
 				if(lists.size()>0){
 					attachTypeId = lists.get(0).getId();
@@ -789,7 +789,7 @@ public class IndexNewsController extends BaseSupplierController{
 ////				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
 ////			}
 //		}
-		request.getSession().setAttribute("key", Constant.FORUM_SYS_KEY);
+		request.getSession().setAttribute("key", Constant.TENDER_SYS_KEY);
 		model.addAttribute("indexMapper", indexMapper);
 //		model.addAttribute("isIndex", "true");
 		return "iss/ps/index/index";
