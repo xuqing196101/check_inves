@@ -34,7 +34,7 @@ $(document).ready(function(){
 	 <div class="clear margin-top-20 new_content"><%--
 	    ${articleDetail.content }
 	 --%>
-	 	<img src="${pageContext.request.contextPath}/index/downloadDetailsImage.html" width="100%" height="100%"/>
+	 	<img src="${pageContext.request.contextPath}/index/downloadDetailsImage.html?id=${articleDetail.id}" width="100%" height="100%"/>
 	 </div>
 	 <div class="extra_file">
 	      <span id="extra_file" class="fl mt12"> 附件：</span>
