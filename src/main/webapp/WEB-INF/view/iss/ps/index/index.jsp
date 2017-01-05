@@ -953,7 +953,7 @@
                     <%--</c:if>
                   --%></c:forEach>
                 </ul>
-                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?articleType=87&secondArticleTypeId=93">更多>></a>
+                <a class="tab_more" href="${pageContext.request.contextPath}/index/selectAllByTabs.html?articleTypeId=87&secondArticleTypeId=93">更多>></a>
               </div>
             
               <div id="tab-18" class="tab-pane fade">
