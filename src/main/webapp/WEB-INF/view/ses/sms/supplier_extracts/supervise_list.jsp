@@ -143,7 +143,7 @@
 					   <td class="tc"><input type="text" name="company" value="${list.company}" /></td>
 					   <td class="tc"><input type="text" name="duties" value="${list.duties}" /> </td>
 					   <td class="tc"><input type="text" name="phone" value="${list.phone}" /> </td>
-					   <td class="tl pl20">
+					   <td class="w100">
 					     <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十"/>
 	                     <input type="button" onclick="delBranch(this)" class="btn list_btn" value="一"/>
 					  </td>
@@ -155,7 +155,7 @@
             <td class="tc"><input type="text" name="company" /></td>
             <td class="tc"><input type="text" name="duties"  /> </td>
             <td class="tc"><input type="text" name="phone"  /> </td>
-            <td class="">
+            <td class="w100">
               <input type="button" onclick="addBranch(this)" class="btn list_btn" value="十"/>
               <input type="button" onclick="delBranch(this)" class="btn list_btn" value="一"/>
             </td>
