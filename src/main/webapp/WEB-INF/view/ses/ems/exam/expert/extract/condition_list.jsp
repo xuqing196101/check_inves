@@ -492,6 +492,7 @@
 	                              <td class='tc'>******</td>
 	                              <td class='tc'>******</td>
 	                              <td class='tc'>******</td>
+	                              <td class='tc'>******</td>
 	                            </tr>
 							             </c:if>
                           </c:forEach>

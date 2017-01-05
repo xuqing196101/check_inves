@@ -58,21 +58,15 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
     if (list != null && list.size() != 0){
       ExpExtCondition show = list.get(0);
       //循环出地址
-      if(show.getAddress() != null && !"".equals(show.getAddress())){
-        if(show.getAddress().contains(",")){
-          String[] split = show.getAddress().split(",");  
+      if(show.getAddressId() != null && !"".equals(show.getAddressId())){
+        if(show.getAddressId().contains(",")){
+          String[] split = show.getAddressId().split(",");  
           show.setAddressSplit(split);
-          show.setAddress(null);
+          show.setAddressId(null);
         }
 
       }
 
-
-
-      //给专家set查询条件
-      Expert expert = new Expert();
-      expert.setAddress(show.getAddress());
-      expert.setExpertsFrom(show.getExpertsFrom());
       //复制对象
       List<ExtConType> conTypeCopy = new ArrayList<ExtConType>();
       for (ExtConType ct : show.getConTypes()) {

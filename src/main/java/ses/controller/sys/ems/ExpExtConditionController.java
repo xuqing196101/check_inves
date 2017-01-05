@@ -6,7 +6,6 @@ package ses.controller.sys.ems;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bss.controller.base.BaseController;
-import bss.model.ppms.Project;
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
-import ses.controller.sys.sms.BaseSupplierController;
 import ses.dao.ems.ExpExtPackageMapper;
 import ses.dao.ems.ExpExtractRecordMapper;
 import ses.dao.ems.ProExtSuperviseMapper;
@@ -36,13 +33,9 @@ import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
-import ses.model.ems.ExpExtPackage;
 import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.ExtConType;
-import ses.model.ems.ExtConTypeArray;
-import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
-import ses.model.sms.SupplierCondition;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpExtConditionService;
@@ -50,7 +43,6 @@ import ses.service.ems.ExtConTypeService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.ems.ProjectSupervisorServicel;
 import ses.util.DictionaryDataUtil;
-import ses.util.ValidateUtils;
 
 /**
  * @Description:查询条件控制
@@ -121,7 +113,7 @@ public class ExpExtConditionController extends BaseController {
         for (String proid : split) {
           condition.setResponseTime(hour + "," + minute);
           condition.setProjectId(proid);
-          if(condition.getAddress() == null || "".equals(condition.getAddress())){
+          if(condition.getAddressId() == null || "".equals(condition.getAddressId())){
             if(province != null && !"".equals(province)){
 
               List<Area> findAreaByParentId = areaService.findAreaByParentId(province);
@@ -129,7 +121,7 @@ public class ExpExtConditionController extends BaseController {
               for (int i = 0; i < findAreaByParentId.size(); i++ ) {
                address += findAreaByParentId.get(i).getId() + ",";
               }
-              condition.setAddress(address);
+              condition.setAddressId(address);
 
 
             }

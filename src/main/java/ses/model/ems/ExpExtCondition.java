@@ -1,11 +1,9 @@
 package ses.model.ems;
 
-import java.awt.geom.Area;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * @Description:抽取条件
@@ -184,7 +182,20 @@ public class ExpExtCondition implements Cloneable {
     private String extractAddress;
     
     
+    /**
+     * 限制地区理由
+     */
     private String addressReason;
+    
+    /**
+     * n品目Name
+     */
+    private String categoryName;
+    
+    /**
+     * 执行资格
+     */
+    private String expertsQualification;
 
     /**
      * <pre>
@@ -695,6 +706,42 @@ public class ExpExtCondition implements Cloneable {
      */
     public void setAddressSplit(String[] addressSplit) {
         this.addressSplit = addressSplit;
+    }
+
+
+
+    /**
+     * @return Returns the categoryName.
+     */
+    public String getCategoryName() {
+      return categoryName;
+    }
+
+
+
+    /**
+     * @param categoryName The categoryName to set.
+     */
+    public void setCategoryName(String categoryName) {
+      this.categoryName = categoryName;
+    }
+
+
+
+    /**
+     * @return Returns the expertsQualification.
+     */
+    public String getExpertsQualification() {
+      return expertsQualification;
+    }
+
+
+
+    /**
+     * @param expertsQualification The expertsQualification to set.
+     */
+    public void setExpertsQualification(String expertsQualification) {
+      this.expertsQualification = expertsQualification;
     }
 
 

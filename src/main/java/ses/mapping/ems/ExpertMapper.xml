@@ -885,8 +885,8 @@
 				EE.EXPERTS_FROM = #{fromsplit}
 			</foreach>
 		</if>
-		<if test="address != null and address != '' ">
-			AND ee.ADDRESS = #{address}
+		<if test="addressId != null and addressId != '' ">
+			AND ee.ADDRESS = #{addressId}
 		</if>
 		<if
 			test="address == null and  address != '' and addressSplit != null and addressSplit != '' ">

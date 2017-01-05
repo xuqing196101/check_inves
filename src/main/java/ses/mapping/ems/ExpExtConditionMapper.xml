@@ -20,6 +20,8 @@
 		<result column="AGE_MIN" jdbcType="VARCHAR" property="ageMin" />
 		<result column="EXTRACT_ADDRESS" jdbcType="VARCHAR" property="extractAddress" />
 		<result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />
+		<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+		<result column="EXPERTS_QUALIFICATION" jdbcType="VARCHAR" property="expertsQualification" />
 	</resultMap>
 	<resultMap type="ses.model.ems.ExpExtCondition" id="BaseResultListMap"
 		extends="BaseResultMap">
@@ -48,7 +50,7 @@
 		SATISFY_CONDITION, CATEGORY_ID, EXPERT_COUNT,
 		EXPERT_ID, EXPERTS_FROM, ADDRESS_ID,
 		AGE_MIN,
-		EXTRACT_ADDRESS,ADDRESS_REASON
+		EXTRACT_ADDRESS,ADDRESS_REASON,CATEGORY_NAME,EXPERTS_QUALIFICATION
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -90,8 +92,8 @@
 		#{expertsFrom,jdbcType=VARCHAR},
 		#{addressId,jdbcType=VARCHAR},
 		#{ageMin,jdbcType=VARCHAR},
-		#{extractAddress,jdbcType=VARCHAR})
-		#{addressReason,jdbcType=VARCHAR})
+		#{extractAddress,jdbcType=VARCHAR}),
+		#{addressReason,jdbcType=VARCHAR}),
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.ems.ExpExtCondition">
 		<!-- @mbggenerated -->
@@ -148,6 +150,12 @@
 			<if test="addressReason != null">
 				ADDRESS_REASON,
 			</if>
+			 <if test="categoryName != null">
+        CATEGORY_NAME,
+      </if>
+         <if test="expertsQualification != null">
+        EXPERTS_QUALIFICATION,
+      </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -201,6 +209,12 @@
 			<if test="addressReason != null">
 				#{addressReason,jdbcType=VARCHAR},
 			</if>
+			  <if test="categoryName != null">
+        CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+      </if>
+         <if test="expertsQualification != null">
+        EXPERTS_QUALIFICATION = #{expertsQualification,jdbcType=VARCHAR},
+      </if>
 		</trim>
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
@@ -255,6 +269,12 @@
 			<if test="addressReason != null">
 				ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
 			</if>
+	    <if test="categoryName != null">
+        CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+      </if>
+         <if test="expertsQualification != null">
+        EXPERTS_QUALIFICATION = #{expertsQualification,jdbcType=VARCHAR},
+      </if>
 		</set>
 		where
 		1=1

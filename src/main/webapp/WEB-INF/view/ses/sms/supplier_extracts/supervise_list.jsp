@@ -133,7 +133,7 @@
 		  <th class="info">单位</th>
 		  <th class="info">职务</th>
 		  <th class="info">手机号</th>
-		  <th class="info ">操作</th>
+		  <th class="info w100">操作</th>
 		</tr>
 		</thead>
 		<tbody id="tbody">

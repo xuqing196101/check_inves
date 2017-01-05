@@ -74,7 +74,29 @@
                     <p class="f16"><span class="b">包名：</span><span class="light_blue b">${con.name}</span></p>
                       <c:forEach items="${ con.listExpExtCondition}" var="conlist" varStatus="vs">
                         <p>第<span class="b orange">${(vs.index+1)}</span>次抽取，抽取条件如下：</p>
-                        <p> 专家所在地区【全国】</p>
+                        <p>专家所在地区【${conlist.address }】 
+                         <c:if test="${conlist.expertsFromSplit != null }">
+	                        <c:set value="" var="froms"></c:set>
+			                     <c:forEach var="ay" items="${conlist.expertsFromSplit}" >
+				                      <c:forEach var="from" items="${find}">
+					                      <c:if test="${ay eq from.id}"> 
+					                      <c:set value="${froms},${from.name}" var="froms"></c:set>
+					                      </c:if> 
+				                      </c:forEach> 
+			                      </c:forEach>
+			                                                                         专家来源【${fn:substring(froms,1,froms.length())}】 
+                         </c:if>
+                           <c:if test="${conlist.ageMax != null || conlist.ageMin != null}">
+                                                                                                  年龄  【${conlist.ageMin }- ${conlist.ageMax}】 
+                           </c:if> 
+                           <c:if test="${conlist.categoryName != null}">
+                                                                                               品目     【${conlist.categoryName }】 
+                           </c:if>     
+                           
+                           <c:if test="${conlist.expertsQualification != null && conlist.expertsQualification != '' }">
+                                                                                        执业资格【conlist.expertsQualification】
+                           </c:if>                                                
+                        </p>
                                         <ol>
                                             <c:forEach items="${conlist.conTypes }" var="contypes">
 																	                      <li>{专家类型 

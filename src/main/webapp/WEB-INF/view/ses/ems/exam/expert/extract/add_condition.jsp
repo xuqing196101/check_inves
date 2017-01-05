@@ -27,11 +27,34 @@
     }else{
         $("#dnone").addClass("dnone");
     }
- 
-    
-   
+    var json = '${extConTypeJson}';
+    var extConType = $.parseJSON(json);
+   for(var i= 0 ; i < extConType.length;i++){
+	  if(extConType[i].expertsType != null){
+	   if(extConType[i].expertsType.code == 'GOODS_PROJECT'){
+		   $("#goodsProjectCount").removeClass("dnone");
+		   $("#goodsProject").val(extConType[i].expertsCount);
+	  }
+	  if(extConType[i].expertsType.code == 'GOODS_SERVER'){
+		  $("#goodsServerCount").removeClass("dnone");
+		  $("#goodsServer").val(extConType[i].expertsCount);
+	  }
+	  if(extConType[i].expertsType.code == 'GOODS'){
+		  $("#goodsCount").removeClass("dnone");
+		  $("#goods").val(extConType[i].expertsCount);
+	  }
+	  if(extConType[i].expertsType.code == 'SERVICE'){
+		   $("#serviceCount").removeClass("dnone");
+		   $("#service").val(extConType[i].expertsCount);
+	  }
+	  if(extConType[i].expertsType.code == 'PROJECT'){
+		   $("#projectCount").removeClass("dnone");
+		   $("#project").val(extConType[i].expertsCount);
+	  }
+	  }
+   }
+   selectLikeExpert();
     });
-  
     
 
       //专家类型级联
@@ -99,7 +122,25 @@
                if(areas == '全国'){
             	   html="<option value=''>所有省市</option>";
                }else{
+            	   layer.prompt({
+                       formType: 2,
+                       shade:0.01,
+                       title: '限制地区原因',
+                       btn: ['确定','取消'],
+                      cancel:function(index,layero){
+                    	  $("#area option:first").prop("selected", 'selected');
+                         $("#city").empty();
+                         $("#city").append("<option value=''>所有省市</option>");
+                         selectLikeExpert();
+                         layer.close(index);
+                     }
+                    },function (value, ix, elem){
+                        $("#addressReson").val(value);
+                        selectLikeExpert();
+                         layer.close(ix);
+                    });
             	   html="<option value=''>所有市</option>";
+            	  
                }
                for(var i=0;i<list.length;i++){
             	  
@@ -117,7 +158,7 @@
     	 var  eCount =$("#eCount").val();
     	 if(eCount != null && eCount != '' ){
     	
-    	  var iframeWin;
+    	/*   var iframeWin;
     	  
     	  var typeCode = $("#expertsTypeCode").val();
     	     var addressReson = $("#addressReson").val();
@@ -153,7 +194,17 @@
     
 
        
-    	     }
+    	     } */
+    	     
+    		    var count=   $("#sunCount").val();
+    		    if(parseInt(count) > parseInt(eCount)){
+    		      layer.msg("数量不能大于总数量");
+    		    }else if(parseInt(count) < parseInt(eCount)){
+    		      layer.msg("数量不能小于总数量");
+    		    }else{
+    	 	 fax();
+    		    	
+    		    }
     	     
          }else{
         	 $("#expertsCountError").text("不能为空");
@@ -193,6 +244,7 @@
           $("#address").val(v);
           var area = document.getElementById("area").value; 
           $("#province").val(area);
+         $("#addressStr").val($("#area").find("option:selected").text()+$("#city").find("option:selected").text());
             $.ajax({
               cache: true,
               type: "POST",
@@ -317,9 +369,11 @@
     	  layer.confirm('是否需要打印', {
                btn: ['打印','取消'],offset: ['40%', '40%'], shade:0.01
              }, function(index){
+            	 window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
                 window.location.href="${pageContext.request.contextPath}/ExpExtract/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
              }, function(index){
-               layer.close(index);
+            	 window.location.href="${pageContext.request.contextPath}/ExpExtract/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
+              
              }); 
        
     	  
@@ -607,13 +661,41 @@
           nodes = zTree.getCheckedNodes(true),
           v = "";
         var rid = "";
-         var code = "";
+          //设置隐藏展示
+          $("#goodsServerCount").addClass("dnone");
+          $("#goodsProjectCount").addClass("dnone"); 
+          $("#goodsCount").addClass("dnone"); 
+          $("#projectCount").addClass("dnone");
+          $("#serviceCount").addClass("dnone");
+          $("#goodsServer").val("");
+          $("#goodsProject").val(""); 
+          $("#goods").val(""); 
+          $("#project").val("");
+          $("#service").val("");
+
        var codes = "";
+       var code = "";
         for(var i = 0, l = nodes.length; i < l; i++) {
           v += nodes[i].name + ",";
           rid += nodes[i].id + ",";
-          code += nodes[i].code;
           codes += nodes[i].code + ",";
+          code += nodes[i].code;
+          if('GOODS_SERVER' == nodes[i].code  ){
+              $("#dnone").addClass("dnone"); 
+              $("#goodsServerCount").removeClass("dnone");
+          }else if('GOODS_PROJECT' == nodes[i].code){
+               $("#dnone").addClass("dnone");
+              $("#goodsProjectCount").removeClass("dnone"); 
+          }else if('GOODS' == nodes[i].code){
+              $("#dnone").removeClass("dnone");
+              $("#goodsCount").removeClass("dnone"); 
+          }else if('PROJECT' == nodes[i].code){
+              $("#dnone").removeClass("dnone"); 
+              $("#projectCount").removeClass("dnone");
+          }else if('SERVICE' == nodes[i].code){
+              $("#dnone").removeClass("dnone"); 
+              $("#serviceCount").removeClass("dnone");
+          }
         }
         if(v.length > 0) v = v.substring(0, v.length - 1);
         if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
@@ -621,15 +703,15 @@
         $("#expertsTypeName").attr("title", v);
         $("#expertsTypeId").val(rid);
         $("#expertsTypeCode").val(codes);
-        if (v != null && v != ''){
-        	$("#dnone").removeClass("dnone");
-         if('GOODS_SERVER' == code || 'GOODS_PROJECT' == code || 'GOODS_SERVERGOODS_PROJECT' == code){
-        	   $("#dnone").addClass("dnone");	
-         }
-        } else{
-        	 $("#dnone").addClass("dnone");
-        }
         
+        if (v != null && v != ''){
+            $("#dnone").removeClass("dnone");
+           if('GOODS_SERVER' == code || 'GOODS_PROJECT' == code || 'GOODS_SERVERGOODS_PROJECT' == code){
+               $("#dnone").addClass("dnone"); 
+           }
+          } else{
+             $("#dnone").addClass("dnone");
+          }
         $("#categoryName").val("");
         $("#categoryId").val("");
         selectLikeExpert();
@@ -715,6 +797,34 @@
         $("#expertsFrom").val(rid);
         selectLikeExpert();
       }
+      
+      
+      /**点击触发事件*/
+      function chane(){
+        var sun="0";
+         var goodsCount = $("#goods").val();
+         if(goodsCount != null && goodsCount != ''){
+           sun =parseInt(sun)+parseInt(goodsCount);
+         }
+           var projectCount = $("#project").val();
+           if(projectCount != null && projectCount != ''){
+               sun= parseInt(sun)+parseInt(projectCount);
+             }
+           var serviceCount = $("#service").val();
+           if(serviceCount != null && serviceCount != ''){
+               sun =parseInt(sun) + parseInt(serviceCount);
+             }
+           var goodsServerCount = $("#goodsServer").val();
+           if(goodsServerCount != null && goodsServerCount != ''){
+               sun = parseInt(sun) + parseInt(goodsServerCount);
+             }
+           var goodsProjectCount = $("#goodsProject").val();
+           if(goodsProjectCount != null && goodsProjectCount != ''){
+               sun = parseInt(sun)+parseInt(goodsProjectCount);
+             }
+           $("#sunCount").val(sun);
+      }
+      
     </script>
 
   <body>
@@ -760,9 +870,11 @@
         <ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
       </div>
       <form id="form1" method="post">
+      <input id="sunCount" type="hidden">
         <div class="container container_box">
-          <!--         专家所在地区 -->
-          <input type="hidden" name="address" id="address" value="">
+          <!--         专家所在地区 Id-->
+          <input type="hidden" name="addressId" id="address" value="">
+            <input type="hidden" name="address" id="addressStr" value="">
           <!--         专家id-->
           <input type="hidden" name="expertId" id="expertId" value="">
           <!--         项目id -->
@@ -772,16 +884,16 @@
              <!--  满足多个条件 -->
         <input type="hidden" name="isMulticondition" id="isSatisfy" >
           <!-- 物资技术专家 -->
-        <input type="hidden" name="goodsCount" id="goodsCount" >
+<!--         <input type="hidden" name="goodsCount" id="goodsCount" > -->
           <!--  工程技术专家 -->
-        <input type="hidden" name="projectCount" id="projectCount" >
+<!--         <input type="hidden" name="projectCount" id="projectCount" > -->
 <!--         服务技术专家 -->
-        <input type="hidden" name="serviceCount" id="serviceCount" >
+<!--         <input type="hidden" name="serviceCount" id="serviceCount" > -->
 <!--         物资服务经济 -->
-        <input type="hidden" name="goodsServerCount" id="goodsServerCount" >
+<!--         <input type="hidden" name="goodsServerCount" id="goodsServerCount" > -->
 <!--         工程经济 -->
-        <input type="hidden" name="goodsProjectCount" id="goodsProjectCount" >
-        <!--      限制地区理由-->
+<!--         <input type="hidden" name="goodsProjectCount" id="goodsProjectCount" > -->
+<!--              限制地区理由 -->
         <input type="hidden" name="addressReson" id="addressReson" >
 <!--         省 -->
         <input type="hidden"  name="province" id="province" />
@@ -793,6 +905,7 @@
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">专家地区：</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                      <select class="col-md-6 col-sm-6 col-xs-6 p0" id="area" onchange="areas();" >
+                       
                      <option value="">全国</option>
                       <c:forEach  items="${privnce }" var="prin">
                    <c:if test="${prin.id==area.parentId }">
@@ -804,6 +917,7 @@
                    </c:forEach>
                   </select>
                   <select name="extractionSites" class="col-md-6 col-sm-6 col-xs-6 p0" id="city" onchange="selectLikeExpert();">
+               
                      <option value="">所有省市</option>
                   <c:forEach  items="${city }" var="city">
                    <c:if test="${city.id==listCon.address}">
@@ -837,7 +951,7 @@
                     </c:if> 
                       </c:forEach> 
                     </c:forEach>
-                    <input   id="expertsFromName"  type="text" readonly name="expertsFromName" value="" onclick="showExpertsFromType();" />
+                    <input   id="expertsFromName"  type="text" readonly name="expertsFromName" value="${fn:substring(froms,1,froms.length())}" onclick="showExpertsFromType();" />
                     <input type="hidden" name="expertsFrom" id="expertsFrom" value="" />
                     <span class="add-on">i</span>
                  </div>
@@ -850,14 +964,14 @@
                  </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
-                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取总数量：</span>
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取总人数：</span>
                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
                   <input class="input_group " maxlength="6" name="expertsCount" value="${sumCount}"  id="eCount" type="text">
                   <span class="add-on">i</span>
                   <div class="cue" id="expertsCountError"></div>
                 </div>
               </li>
-              <li class="col-md-3 col-sm-6 col-xs-12">
+              <li class="col-md-3 col-sm-6 col-xs-12 ">
                 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家类别：</span>
                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
                   <c:set value="" var="typeName"></c:set>
@@ -880,16 +994,57 @@
                   <span class="add-on">i</span>
                 </div>
               </li>
-              <li class="col-md-3 col-sm-6 col-xs-12 dnone" id="dnone">
-                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">品目：</span>
-                <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                  <input class="input_group " readonly id="categoryName" name="categoryName" value="${listCon.conTypes[0].categoryName}"  onclick="opens(this);" type="text">
+            
+               <li class="col-md-3 col-sm-3 col-xs-3  dnone clear" id="goodsCount" >
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资技术人数：</span>
+                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                    <input     type="text" name="goodsCount" id="goods"  value="${con.expertsCount}" onchange="chane();" />
+                    <span class="add-on">i</span>
+                 </div>
+              </li>
+           
+              <li class="col-md-3 col-sm-3 col-xs-3 dnone " id="projectCount">
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程技术人数：</span>
+                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                    <input     type="text" name="projectCount" id="project"  value="${con.expertsCount }"  onchange="chane();" />
+                    <span class="add-on">i</span>
+                 </div>
+              </li>
+            
+              <li class="col-md-3 col-sm-3 col-xs-3 dnone "  id="serviceCount">
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">服务技术人数：</span>
+                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                    <input    type="text" name="serviceCount" id="service" value="${con.expertsCount }"  onchange="chane();" />
+                    <span class="add-on">i</span>
+                 </div>
+              </li>
+          
+              <li class="col-md-3 col-sm-3 col-xs-3  dnone"  id="goodsServerCount" >
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">服务经济人数：</span>
+                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                    <input   type="text" name="goodsServerCount" id="goodsServer" value="${con.expertsCount }" onchange="chane();" />
+                    <span class="add-on">i</span>
+                 </div>
+              </li>
+          
+              <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="goodsProjectCount" >
+                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程经济人数：</span>
+                 <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                    <input    type="text" name="goodsProjectCount" id="goodsProject" value="${con.expertsCount }"  onchange="chane();" />
+                    <span class="add-on">i</span>
+                 </div>
+              </li>
+       
+                 <li class="col-md-12 col-sm-12 col-xs-12 dnone" id="dnone">
+                <span class="col-md-12 padding-left-5 col-sm-6 col-xs-6">品目：</span>
+                <div class="input-append input_group col-sm-6 col-xs-6 p0">
+                  <input class="input_group " readonly id="categoryName" name="categoryName"  value="${listCon.conTypes[0].categoryName}"  onclick="opens(this);" type="text">
                     <input  readonly id="categoryId" type="hidden" name="categoryId">
                   <span class="add-on">i</span>
                 </div>
               </li>
-              <li class="col-md-3 col-sm-6 col-xs-12">
-            <div class=" w400 pl20 mt24">
+              <li class="col-md-12 col-sm-12 col-xs-12 tc">
+            <div class="">
             <button class="btn btn-windows add" id="save" onclick="cityt();" type="button">抽取</button>
                 <button class="btn btn-windows add" id="save" onclick="finish();" type="button">完成抽取</button>
                     <button class="btn btn-windows add" id="save" onclick="temporary();" type="button">暂存</button>
@@ -900,7 +1055,7 @@
                <!--=== Content Part ===-->
                <div class="" style="width: 100%">
             <h2 class="count_flow"><i>2</i>抽取结果</h2>
-             <div align="center" id="countdnone" class="f26    ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
+             <div align="center" id="countdnone" class="f26 ">满足条件共有<span class="f26 red" id="count">0</span>人</div>
              </div>
     <ul class="ul_list">
       <!-- Begin Content -->
