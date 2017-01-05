@@ -90,7 +90,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 						si.setCreatedAt(new Date());
 						si.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
 						map.put("supplierId", supplierItem.getSupplierId());
-						map.put("categoryId", supplierItem.getCategoryId());
+						map.put("categoryId", i);
 						map.put("type", supplierItem.getSupplierTypeRelateId());
 						List<SupplierItem> list = supplierItemMapper.findByMap(map);
 						if(list.size()<1){

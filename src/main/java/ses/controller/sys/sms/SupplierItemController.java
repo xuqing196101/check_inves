@@ -153,10 +153,10 @@ public class SupplierItemController extends BaseController{
 			return "ses/sms/supplier_register/procurement_dep";	
 		}
 		//查询所有的三级品目生产
-		List<Category> list2 = getSupplier(supplier.getId(),supplierTypeIds);
-		removeSame(list2);
+		List<Category> listPro = getSupplier(supplier.getId(),supplierTypeIds);
+		removeSame(listPro);
 		//根据品目id查询所有的证书信息
-	   List<QualificationBean> list3 = supplierService.queryCategoyrId(list2, 2);
+	   List<QualificationBean> list3 = supplierService.queryCategoyrId(listPro, 2);
 	   
 	   
  
@@ -406,6 +406,7 @@ public class SupplierItemController extends BaseController{
 	                   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 	    		       for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+                         cate.setParentId(c.getId());
 	    		    	 categoryList.add(cate);
 	    	             }
 	                 }
@@ -426,6 +427,7 @@ public class SupplierItemController extends BaseController{
 	    		       List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 	    		       for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+	    		    	 cate.setParentId(c.getId());
 	    		    	 categoryList.add(cate);
 	    	            }
 	              }
@@ -448,6 +450,7 @@ public class SupplierItemController extends BaseController{
 	                   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 	    		      for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+                         cate.setParentId(c.getId());
 	    		    	 categoryList.add(cate);
 	    	            }
 	             }
@@ -470,6 +473,7 @@ public class SupplierItemController extends BaseController{
 	    		   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 	    		     for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
+                         cate.setParentId(c.getId());
 	    		    	 categoryList.add(cate);
 	    	            }
 	               }

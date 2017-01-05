@@ -52,7 +52,7 @@ public class CategoryQua {
     public void setQuaType(int quaType) {
         this.quaType = quaType;
     }
-    
+
     
     
 }

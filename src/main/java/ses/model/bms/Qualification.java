@@ -26,7 +26,9 @@ public class Qualification {
     private Date createdAt;
     /** 修改日期**/
     private Date updatedAt;
-
+    /** 唯一标示flag(供应商资质文件维护) **/
+    private String flag;
+    
     public String getId() {
         return id;
     }
@@ -73,6 +75,14 @@ public class Qualification {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
     
     
