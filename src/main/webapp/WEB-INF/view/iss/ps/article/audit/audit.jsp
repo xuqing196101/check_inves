@@ -355,7 +355,7 @@
             <li class="col-md-12 col-sm-6 col-xs-12 pl15">
               <span class="ol-md-12 col-sm-12 col-xs-12 padding-left-5">信息标题：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input class="span2" type="text" name="name" value="${article.name }">
+                <input type="text" name="name" value="${article.name }">
                 <div class="cue">${ERR_name}</div>
               </div>
             </li>

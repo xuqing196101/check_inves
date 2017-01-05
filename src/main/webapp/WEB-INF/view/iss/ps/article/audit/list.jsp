@@ -29,7 +29,9 @@
 	             var range = $("#range").val();
 	             var status = $("#status").val();
 	             var name = "${articleName}";
-                 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page=" + e.curr + "&articleTypeId=" + articleTypeId + "&range=" + range + "&status=" + status + "&name=" + name;
+	             var startDate = $("#startDate").val();
+	             var endDate = $("#endDate").val();
+                 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page=" + e.curr + "&articleTypeId=" + articleTypeId + "&range=" + range + "&status=" + status + "&name=" + name +"&publishStartDate="+startDate+"&publishEndDate="+endDate;
             }
           }
         });
@@ -312,6 +314,13 @@
                </select>
            </span>
             </li>
+            <li>
+            	<label class="fl">审核时间：</label>
+				<input id="startDate" name="publishStartDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>'
+                onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})" />
+                <span class="f13">至</span>
+                <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w100" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+          	</li>
           </ul>
             <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
             <button type="submit" class="btn">查询</button>
@@ -339,7 +348,7 @@
               <th class="info">信息标题</th>
               <th class="info">发布范围</th>
               <th class="info">提交时间</th>
-              <th class="info">发布时间</th>
+              <th class="info">审核时间</th>
               <th class="info">信息栏目</th>
               <th class="info">发布状态</th>
               <th class="info">发布依据</th>

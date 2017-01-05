@@ -8,6 +8,7 @@ import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
 import iss.service.ps.SolrNewsService;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Date;
@@ -99,11 +100,11 @@ public class ArticleController extends BaseSupplierController {
     Map<String, Object> map = new HashMap<String, Object>();
     map.put("userId", user.getId());
     map.put("page", page);
-    map.put("status", 0);
+    map.put("status", null);
     List<Article> list = articleService.selectByJurisDiction(map);
     model.addAttribute("list", new PageInfo<Article>(list));
     logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
-    model.addAttribute("articlesStatus", "0");
+    model.addAttribute("articlesStatus", "");
     return "iss/ps/article/list";
   }
 
@@ -852,7 +853,7 @@ public class ArticleController extends BaseSupplierController {
    * @return String
    */
   @RequestMapping("/auditlist")
-  public String auditlist(Model model,String articleTypeId, Integer status, Integer range, Integer page, HttpServletRequest request) {
+  public String auditlist(Model model,String articleTypeId, Integer status, Integer range, Integer page, Date publishStartDate, Date publishEndDate, HttpServletRequest request) {
     Article article = new Article();
     ArticleType articleType = new ArticleType();
     String name = request.getParameter("name");
@@ -874,6 +875,17 @@ public class ArticleController extends BaseSupplierController {
       article.setArticleType(articleType);
       map.put("articleType", article.getArticleType());
     }
+    
+    if (publishStartDate != null) {
+      String startDate = new SimpleDateFormat("yyyy-MM-dd").format(publishStartDate);
+      map.put("publishStartDate", startDate);
+    }
+    
+    if (publishEndDate != null) {
+      String endDate = new SimpleDateFormat("yyyy-MM-dd").format(publishEndDate);
+      map.put("publishEndDate", endDate);
+    }
+    
     if (page == null) {
       page = 1;
     }
@@ -922,6 +934,8 @@ public class ArticleController extends BaseSupplierController {
     model.addAttribute("articlesArticleTypeId", articleTypeId);
     model.addAttribute("curpage", page);
     model.addAttribute("article", article);
+    model.addAttribute("publishStartDate", publishStartDate);
+    model.addAttribute("publishEndDate", publishEndDate);
     return "iss/ps/article/audit/list";
 
   }
