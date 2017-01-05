@@ -348,11 +348,12 @@ public class Article{
     }
 
     public String getContent() {
-    	if(content!=null){
+    	/*if(content!=null){
     		return content.replaceAll("\\s*", "");
     	}else{
     		return content;
-    	}
+    	}*/
+      return content;
     }
 
     public void setContent(String content) {

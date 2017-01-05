@@ -314,7 +314,7 @@
                </select>
            </span>
             </li>
-            <li>
+            <li class="clear">
             	<label class="fl">审核时间：</label>
 				<input id="startDate" name="publishStartDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>'
                 onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})" />
