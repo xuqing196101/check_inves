@@ -188,7 +188,7 @@
         });
         if(ids.length > 0) {
        	  for(var i=0;i<status.length;i++){
-       		  if(status[i]=='1'){
+       		  if(status[i]=='1' || status[i]=='2' || status[i]=='4'){
        			  flag=false;
        		  }
        	  }
@@ -202,7 +202,7 @@
             window.location.href = "${ pageContext.request.contextPath }/article/sumbit.html?ids=" + ids;
           });
        	  }else{
-       		layer.alert("已提交的不可提交", {
+       		layer.alert("请选择暂存或者退回的信息提交", {
                 offset: ['222px', '390px'],
                 shade: 0.01
               }); 
@@ -491,15 +491,15 @@
           </thead>
           <c:forEach items="${list.list}" var="article" varStatus="vs">
             <tr class="pointer">
-              <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
+              <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
               <td class="tnone">${article.status}</td>
-              <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+              <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 
               <c:if test="${fn:length(article.name)>30}">
-                <td class="tl pl20" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,30)}...</td>
+                <td class="tl pl20 w500" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,30)}...</td>
               </c:if>
               <c:if test="${fn:length(article.name)<=30}">
-                <td class="tl pl20" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
+                <td class="tl pl20 w500" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
               </c:if>
 
               <td class="tl pl20" onclick="view('${article.id }')">

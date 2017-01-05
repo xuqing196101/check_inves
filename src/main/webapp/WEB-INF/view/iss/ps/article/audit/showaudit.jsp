@@ -408,6 +408,12 @@
                 <label class="ml10 fl"><input type="checkbox" disabled="disabled" name="ranges" value="1">外网</label>
               </div>
             </li>
+            <li class="col-md-3 col-sm-6 col-xs-12">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">提交时间：</span>
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                <label class="fl margin-bottom-0"><fmt:formatDate value='${article.submitAt }' pattern="yyyy-MM-dd   HH:mm:ss" /></label>
+              </div>
+            </li>
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息正文：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0 ">

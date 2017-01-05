@@ -521,6 +521,11 @@ public class ArticleController extends BaseSupplierController {
       model.addAttribute("ERR_content", "信息正文不能为空");
     }
 
+    if (article.getContent().length()>10000) {
+      flag = false;
+      model.addAttribute("ERR_content", "信息正文不能超过10000字");
+    }
+    
     if (article.getSecondArticleTypeId() != null) {
       if (article.getSecondArticleTypeId().equals("111")) {
         List<UploadFile> gzdt = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
@@ -1083,7 +1088,7 @@ public class ArticleController extends BaseSupplierController {
         model.addAttribute("ERR_name", "标题名称不能为空");
         flag = false;
       } else if (article.getName().length() > 200) {
-        model.addAttribute("ERR_name", "标题名称不能超过200字符");
+        model.addAttribute("ERR_name", "标题名称不能超过200汉字");
         flag = false;
       }
       /*List<Article> art = articleService.selectAllArticle(null, 1);
@@ -1212,8 +1217,26 @@ public class ArticleController extends BaseSupplierController {
         url = "redirect:auditlist.html?status=1";
       }
     } else if (article.getStatus() == 3) {
-        articleService.updateStatus(article);
+      if (ranges != null && !ranges.equals("")) {
+        if (ranges.length > 1) {
+          article.setRange(2);
+        } else {
+          for (int i = 0; i < ranges.length; i++) {
+            article.setRange(Integer.valueOf(ranges[i]));
+          }
+        }
+      }
+      if (article.getReason().length() > 300) {
+        model.addAttribute("ERR_reason", "退回理由不能超过300个汉字");
+        model.addAttribute("article", article);
+        model.addAttribute("articleId", id);
+        List<ArticleType> articleList = articleTypeService.selectAllArticleTypeForSolr();
+        model.addAttribute("list", articleList);
+        url = "iss/ps/article/audit/audit";
+      }else {
+        articleService.update(article);
         url = "redirect:auditlist.html?status=1";
+      }
     }
     return url;
   }

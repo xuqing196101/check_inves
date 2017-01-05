@@ -314,7 +314,7 @@
                </select>
            </span>
             </li>
-            <li class="clear">
+            <li class="clear mt5">
             	<label class="fl">审核时间：</label>
 				<input id="startDate" name="publishStartDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>'
                 onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})" />
@@ -347,7 +347,7 @@
               <th class="info">序号</th>
               <th class="info">信息标题</th>
               <th class="info">发布范围</th>
-              <th class="info">提交时间</th>
+              <!-- <th class="info">提交时间</th> -->
               <th class="info">审核时间</th>
               <th class="info">信息栏目</th>
               <th class="info">发布状态</th>
@@ -356,14 +356,14 @@
           </thead>
           <c:forEach items="${list.list}" var="article" varStatus="vs">
             <tr class="pointer">
-              <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
+              <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
               <td class="tnone">${article.status }</td>
-              <td class="tc" onclick="view('${article.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <c:if test="${fn:length(article.name)>20}">
-                <td class="tl pl20" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,20)}...</td>
+              <td class="tc w50" onclick="view('${article.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+              <c:if test="${fn:length(article.name)>30}">
+                <td class="tl pl20 w500" onclick="view('${article.id }')" <%-- onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()" --%> title="${article.name}">${fn:substring(article.name,0,30)}...</td>
               </c:if>
-              <c:if test="${fn:length(article.name)<=20}">
-                <td class="tl pl20" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
+              <c:if test="${fn:length(article.name)<=30}">
+                <td class="tl pl20 w500" onclick="view('${article.id }')" title="${article.name}">${article.name }</td>
               </c:if>
               <td class="tl pl20" onclick="view('${article.id }')">
                 <c:if test="${article.range=='0' }">
@@ -376,11 +376,11 @@
                   内网&外网
                 </c:if>
               </td>
-              <td class="tc" onclick="view('${article.id }')">
+              <%-- <td class="tc" onclick="view('${article.id }')">
                 <fmt:formatDate value='${article.submitAt }' pattern="yyyy-MM-dd   HH:mm:ss" />
-              </td>
+              </td> --%>
               <td class="tc" onclick="view('${article.id }')">
-                <fmt:formatDate value='${article.publishedAt }' pattern="yyyy-MM-dd   HH:mm:ss" />
+                <fmt:formatDate value='${article.publishedAt }' pattern="yyyy-MM-dd" />
               </td>
               <td class="tl pl20" onclick="view('${article.id }')">${article.articleType.name }</td>
               <td class="tl pl20">

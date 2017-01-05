@@ -42,13 +42,20 @@
 		} else {
 	        layer.confirm('您确定需要退回吗?', {
 	          title: '提示',
-	          offset: ['222px', '360px'],
+	          offset: '222px',
 	          shade: 0.01
 	        }, function(index) {
 	          layer.close(index);
-	          window.location.href = "${pageContext.request.contextPath }/article/audit.html?id=" + id + "&reason=" + reason + "&status=3";
+	          $("#status").val(3);
+	          $("#form").submit();
+	          //window.location.href = "${pageContext.request.contextPath }/article/audit.html?id=" + id + "&reason=" + reason + "&status=3";
 	        });
 		}
+      }
+      
+      function publish(){
+      	$("#status").val(2);
+      	$("#form").submit();
       }
 
       function goBack() {
@@ -319,6 +326,33 @@
               }
             });
       }
+      
+      function clk(){
+    	 var second = $("#secondType").select2("val");
+    	 var three = $("#threeType").select2("val");
+       var four =  $("#fourType").select2("val");
+       var articleTypes = $("#articleTypes").select2("data").text;
+        if(articleTypes == "工作动态"){
+        	return true;
+        }else if($("#second").is(":visible")){
+    		  if(second==null||second==""){
+    			  $("#ERR_secondType").html("栏目属性不能为空");
+    			  return false;
+    		  }else if($("#three").is(":visible")){
+    	             if(three==null||three==""){
+    	               $("#ERR_threeType").html("采购类型不能为空");
+    	                 return false;
+    	               }else if($("#four").is(":visible")){
+    	                   if(four==null||four==""){
+    	                       $("#ERR_fourType").html("采购方式不能为空");
+    	                        return false;
+    	                      }
+    	               }
+    	        }
+         }else{
+           return true;
+       }
+      }
     </script>
   </head>
 
@@ -346,8 +380,9 @@
     </div>
 
     <div class="container container_box">
-      <form action="${pageContext.request.contextPath }/article/audit.html?status=2" onsubmit="return clk()" method="post" id="form">
+      <form action="${pageContext.request.contextPath }/article/audit.html" onsubmit="return clk()" method="post" id="form">
         <div>
+          <input type="hidden" id="status" name="status">
           <h2 class="count_flow"><i>1</i>审核信息</h2>
           <input type="hidden" name="id" id="id" value="${article.id }">
           <input type="hidden" name="user.id" id="user.id" value="${article.user.id }">
@@ -404,6 +439,13 @@
                 <div class="cue">${ERR_range}</div>
               </div>
             </li>
+            <li class="col-md-3 col-sm-6 col-xs-12">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">提交时间：</span>
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                <label class="fl margin-bottom-0"><fmt:formatDate value='${article.submitAt }' pattern="yyyy-MM-dd   HH:mm:ss" /></label>
+              	<input  name=submitAt value='<fmt:formatDate value="${article.submitAt }" pattern="YYYY-MM-dd"/>' class="Wdate w100" type="hidden" />
+              </div>
+            </li>
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>信息正文：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -442,12 +484,13 @@
             <li class=" col-md-12 col-sm-12 col-xs-12">
               <span class=" col-md-12 col-sm-12 col-xs-12 padding-left-5">退回理由：</span>
               <div class=" col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="h130 col-md-12 col-sm-12 col-xs-12" id="reason" name="reason" title="不超过250个字" placeholder="不超过250个字"></textarea>
+                <textarea class="h130 col-md-12 col-sm-12 col-xs-12" id="reason" name="reason" title="不超过300个字" placeholder="不超过300个字">${article.reason}</textarea>
               </div>
+              <div class="red f14 clear col-ms-12 col-xs-12 col-sm-12 p0">${ERR_reason}</div>
             </li>
           </ul>
           <div class="col-md-12 tc">
-            <button class="btn btn-windows check" type="submit">发布</button>
+            <button class="btn btn-windows check" type="button" onclick="publish()">发布</button>
             <button class="btn btn-windows withdraw" type="button" onclick="back()">退回</button>
             <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
           </div>
