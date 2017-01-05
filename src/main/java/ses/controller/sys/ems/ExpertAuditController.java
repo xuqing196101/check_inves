@@ -931,11 +931,7 @@ public class ExpertAuditController {
 	        List<ExpertAudit> reasonsList = expertAuditService.getListByExpertId(expert.getId());
 	        dataMap.put("reasonsList", reasonsList);
 	        
-	        boolean idCard = true;
-	        boolean armyIdCard = true;
-	        boolean qualification = true;
-	        boolean academicDegree = true;
-	        boolean coverNote = true;
+	        boolean idCard = true, armyIdCard = true, qualification = true, academicDegree = true, coverNote = true;
 	        if(!reasonsList.isEmpty()){
 	        	for(ExpertAudit e : reasonsList){
 		        	if(e.getAuditField().equals("居民身份证")){

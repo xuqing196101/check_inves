@@ -67,7 +67,7 @@
 			}
 			 */
 			
-			function reason(auditField, auditFieldName, auditContent, str) {
+			function reason(auditField, auditFieldName, auditContent) {
 				var supplierId = $("#supplierId").val();
 				var index = layer.prompt({
 					title: '请填写不通过的理由：',
@@ -89,7 +89,7 @@
 							}
 						}
 					});
-					$("#" + auditField +"_"+str+"").show(); //显示叉
+					$("#"+ auditField +"").show(); //显示叉
 					layer.close(index);
 				});
 			}
@@ -279,9 +279,9 @@
 												<c:forEach items="${obj.list }" var="quaPro">
 													<td>
 														<c:set value="${prolength+1}" var="prolength"></c:set>
-														<span class="hand" onclick="reason('${quaPro.id}','${obj.categoryName }','生产-${quaPro.name}','生产');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${quaPro.name}：</span>
-														<u:show showId="pShow${prolength}" groups="${saleShow}" delete="false" businessId="${quaPro.id}" sysKey="1" typeId="${typeId}" />
-														<p id="${quaPro.id}_生产" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+														<span class="hand" onclick="reason('${quaPro.flag}','${obj.categoryName }','生产-${quaPro.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${quaPro.name}：</span>
+														<u:show showId="pShow${prolength}" groups="${saleShow}" delete="false" businessId="${quaPro.flag}" sysKey="${sysKey }" typeId="${typeId}" />
+														<p id="${quaPro.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</c:forEach>
 												<%-- <td class="tc w100">
@@ -314,9 +314,9 @@
 												<c:forEach items="${sale.list }" var="saua" varStatus="vs">
 													<td>
 														<c:set value="${length+1}" var="length"></c:set>
-														<span class="hand" onclick="reason('${saua.id}','${sale.categoryName }','销售-${saua.name}','销售');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${saua.name}：</span>
-														<u:show showId="saleShow${length}" groups="${saleShow}" delete="false" businessId="${saua.id}" sysKey="1" typeId="${typeId}" />
-														<p id="${saua.id}_销售" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+														<span class="hand" onclick="reason('${saua.flag}','${sale.categoryName }','销售-${saua.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${saua.name}：</span>
+														<u:show showId="saleShow${length}" groups="${saleShow}" delete="false" businessId="${saua.flag}" sysKey="${sysKey }" typeId="${typeId}" />							
+														<p id="${saua.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</c:forEach>
 												<%-- <td class="tc w100">
@@ -350,9 +350,9 @@
 													<c:forEach items="${project.list }" var="pr" varStatus="vs">
 														<td class="tc">
 															<c:set value="${plength+1}" var="plength"></c:set>
-															<span class="hand" onclick="reason('${pr.id}','${project.categoryName }','工程-${pr.name}','工程');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${pr.name}：</span>
-															<u:show showId="projectShow${plength}" delete="false" groups="${saleShow}" businessId="${pr.id}" sysKey="1" typeId="${typeId}" />
-															<p id="${pr.id}_工程" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+															<span class="hand" onclick="reason('${pr.flag}','${project.categoryName }','工程-${pr.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${pr.name}：</span>
+															<u:show showId="projectShow${plength}" delete="false" groups="${saleShow}" businessId="${pr.flag}" sysKey="${sysKey }" typeId="${typeId}" />
+															<p id="${pr.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 														</td>
 													</c:forEach>
 												<%-- <td class="tc w100">
@@ -386,9 +386,9 @@
 													<c:forEach items="${server.list }" var="ser" varStatus="vs">
 														<td class="tc">
 															<c:set value="${slength+1}" var="slength"></c:set>
-															<span class="hand" onclick="reason('${ser.id}','${server.categoryName }','服务-${ser.name}','服务');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${ser.name}：</span>
-															<u:show showId="serverShow${plength}" delete="false" groups="${saleShow}" businessId="${ser.id}" sysKey="1" typeId="${typeId}" />
-															<p id="${ser.id}_服务"><img src='/zhbj/public/backend/images/sc.png'></p>
+															<span class="hand" onclick="reason('${ser.flag}','${server.categoryName }','服务-${ser.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${ser.name}：</span>
+															<u:show showId="serverShow${plength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey }" typeId="${typeId}" />
+															<p id="${ser.flag}"><img src='/zhbj/public/backend/images/sc.png'></p>
 														</td>
 													</c:forEach>
 												

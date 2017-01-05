@@ -61,7 +61,7 @@
 				
 			});
 
-			function reason(auditField, auditFieldName) {
+			function reason(auditField, auditFieldName, str) {
 				var supplierId = $("#supplierId").val();
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
@@ -75,7 +75,7 @@
 							data: {
 								"auditType": "contract_page",
 								"auditFieldName": auditFieldName,
-								"auditContent": "附件信息",
+								"auditContent": str + "-附件信息",
 								"suggest": text,
 								"supplierId": supplierId,
 								"auditField": auditField
@@ -242,29 +242,29 @@
 													<td class="tc info">${year}</td>
 												</c:forEach>
 											</tr>
-											<c:forEach items="${contract}" var="obj">
+											<c:forEach items="${contract}" var="obj" varStatus="vs">
 												<tr>
-													<td class="tc">${obj.name }</td>
+													<td class="">${obj.name }</td>
 													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+														<u:show showId="pShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneContract}" />
 													</td>
 													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+														<u:show showId="pShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoContract}" />
 													</td>
 													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
+														<u:show showId="pShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeContract}" />
 													</td>
 													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+														<u:show showId="pShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneBil}" />
 													</td>
 													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+														<u:show showId="pShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoBil}" />
 													</td>
 													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+														<u:show showId="pShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
 													</td>
 													<td class="tc w50">
-														<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="btn">审核</a>
+														<a onclick="reason('${obj.id}','${obj.name }','生产');" id="${obj.id}_hidden" class="btn">审核</a>
 														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</tr>
@@ -290,29 +290,29 @@
 													<td class="tc info">${year}</td>
 												</c:forEach>
 											</tr>
-											<c:forEach items="${saleBean}" var="obj">
+											<c:forEach items="${saleBean}" var="obj" varStatus="vs">
 												<tr>
 													<td class="tc">${obj.name }</td>
 													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+														<u:show showId="saleShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneContract}" />
 													</td>
 													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+														<u:show showId="saleShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoContract}" />
 													</td>
 													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
+														<u:show showId="saleShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeContract}" />
 													</td>
 													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+														<u:show showId="saleShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneBil}" />
 													</td>
 													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+														<u:show showId="saleShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoBil}" />
 													</td>
 													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+														<u:show showId="saleShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
 													</td>
 													<td class="tc w50">
-														<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="btn">审核</a>
+														<a onclick="reason('${obj.id}','${obj.name }','销售');" id="${obj.id}_hidden" class="btn">审核</a>
 														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</tr>
@@ -338,29 +338,29 @@
 													<td class="tc info">${year}</td>
 												</c:forEach>
 											</tr>
-											<c:forEach items="${saleBean}" var="obj">
+											<c:forEach items="${saleBean}" var="obj" varStatus="vs">
 												<tr>
 													<td class="tc">${obj.name }</td>
 													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+														<u:show showId="projectShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneContract}" />
 													</td>
 													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+														<u:show showId="projectShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoContract}" />
 													</td>
 													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
+														<u:show showId="projectShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeContract}" />
 													</td>
 													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+														<u:show showId="projectShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneBil}" />
 													</td>
 													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+														<u:show showId="projectShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoBil}" />
 													</td>
 													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+														<u:show showId="projectShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
 													</td>
 													<td class="tc w50">
-														<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="btn">审核</a>
+														<a onclick="reason('${obj.id}','${obj.name }','工程');" id="${obj.id}_hidden" class="btn">审核</a>
 														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</tr>
@@ -386,29 +386,29 @@
 													<td class="tc info">${year}</td>
 												</c:forEach>
 											</tr>
-											<c:forEach items="${saleBean}" var="obj">
+											<c:forEach items="${saleBean}" var="obj" varStatus="vs">
 												<tr>
 													<td class="tc">${obj.name }</td>
 													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneContract}" />
+														<u:show showId="serpShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneContract}" />
 													</td>
 													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoContract}" />
+														<u:show showId="serpShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoContract}" />
 													</td>
 													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${qua.id}" sysKey="1" typeId="${obj.threeContract}" />
+														<u:show showId="serpShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeContract}" />
 													</td>
 													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.oneBil}" />
+														<u:show showId="serpShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneBil}" />
 													</td>
 													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.twoBil}" />
+														<u:show showId="serpShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoBil}" />
 													</td>
 													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="1" typeId="${obj.threeBil}" />
+														<u:show showId="serpShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
 													</td>
 													<td class="tc w50">
-														<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="btn">审核</a>
+														<a onclick="reason('${obj.id}','${obj.name }','服务');" id="${obj.id}_hidden" class="btn">审核</a>
 														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</tr>

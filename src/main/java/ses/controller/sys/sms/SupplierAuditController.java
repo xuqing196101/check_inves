@@ -258,8 +258,8 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.getSession().setAttribute("signs", sign);
 	
 		//文件
-		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		supplier = supplierAuditService.supplierById(supplierId);
 		
@@ -428,7 +428,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierMatPros", supplierMatPro);
 
 		//文件
-		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		//查出全部修改的
 		SupplierHistory supplierHistory = new SupplierHistory();
@@ -479,7 +479,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierId", supplierId);
 		
 		//文件
-		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		//查出全部修改的
 		SupplierHistory supplierHistory = new SupplierHistory();
@@ -562,7 +562,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("field", field);
 		
 		//文件
-		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		//下一步的跳转页面
 		String url = null;
@@ -611,7 +611,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);		
 		//文件
-		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		//查出全部修改的
 		SupplierHistory supplierHistory = new SupplierHistory();
@@ -803,8 +803,8 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("status", status);
 		
 		//文件
-		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		request.setAttribute("suppliers", supplier);	
 		
 		request.setAttribute("supplierId", supplierId);	
@@ -1477,6 +1477,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	   model.addAttribute("projectQua", projectQua);
 	   model.addAttribute("supplierId", supplierId);
 	   model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
+	   model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 	   return "ses/sms/supplier_audit/aptitude";
 	}
 	
@@ -1585,7 +1586,7 @@ public class SupplierAuditController extends BaseSupplierController{
 
 		String supplierTypeIds = "";
 		for(SupplierTypeRelate s : typeIds){
-			supplierTypeIds = s.getSupplierTypeId()+ ",";
+			supplierTypeIds += s.getSupplierTypeId()+ ",";
 		}
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
@@ -1600,10 +1601,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		 //合同
 		 String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
 		 String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-		 String id3 = DictionaryDataUtil.getId("CATEGORY_THRE_YEAR");
+		 String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
 		 //账单
-		 String id4 = DictionaryDataUtil.getId("CATEGORY_ONE_BIL");
-		 String id5 = DictionaryDataUtil.getId("CATEGORY_TWO_BIL");
+		 String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		 String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");		 
 		 String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
 		 int count=0;
 		 StringBuffer sbUp=new StringBuffer("");
@@ -1826,7 +1827,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		 model.addAttribute("years", years);
 		 model.addAttribute("supplierTypeIds", supplierTypeIds);
 		 model.addAttribute("supplierId", supplierId);
-		  
+		 model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		return "ses/sms/supplier_audit/contract";
 	}
 	

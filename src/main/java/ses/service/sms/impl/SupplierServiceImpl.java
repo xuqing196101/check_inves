@@ -677,7 +677,7 @@ public class SupplierServiceImpl implements SupplierService {
 			QualificationBean quaBean=new QualificationBean();
 			//根据品目id查询所要上传的资质文件
 			List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(category.getId(), quaType);
-			List<Qualification> qua = get(categoryQua, category.getParentId(), quaList);
+			List<Qualification> qua = get(categoryQua, category.getParentId());
 			quaBean.setCategoryName(category.getName());
 			quaBean.setList(qua);
 			quaList.add(quaBean);
@@ -705,11 +705,11 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     //根据品目id查询多个品目资质文件
-    public List<Qualification> get(List<CategoryQua> list, String flag, List<QualificationBean> cs){
+    public List<Qualification> get(List<CategoryQua> list, String flag){
     	List<Qualification>  quaList=new ArrayList<Qualification>();
     	for(CategoryQua c:list){
 			Qualification qua= qualificationMapper.getQualification(c.getQuaId());
-			qua.setFlag(flag + "," + c.getId());
+			qua.setFlag(flag + c.getId());
 			quaList.add(qua);
 		}
 		return quaList;
