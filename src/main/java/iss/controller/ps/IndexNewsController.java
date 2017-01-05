@@ -1113,8 +1113,9 @@ public class IndexNewsController extends BaseSupplierController{
 	
 	@RequestMapping("/downloadDetailsImage")
 	public void downloadDetailsImage(HttpServletRequest request,HttpServletResponse response){
+		String id = request.getParameter("id");
 		String filePath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
-		String targerPath2 = filePath+"/glisteningPath.jpg";
+		String targerPath2 = filePath+"/"+id+".jpg";
 		InputStream fis = null;
 		try {
 			File file = new File(targerPath2);
@@ -1187,13 +1188,13 @@ public class IndexNewsController extends BaseSupplierController{
 		String htmlstr = divStyle.toString();
 		imageGenerator.loadHtml(htmlstr);
 		imageGenerator.getBufferedImage();
-		imageGenerator.saveAsImage(filePath+"/zancun.png");
-		String zancunPicPath = filePath+"/zancun.png";
+		imageGenerator.saveAsImage(filePath+"/"+articleDetail.getId()+".png");
+		String zancunPicPath = filePath+"/"+articleDetail.getId()+".png";
 		
 		String srcImgPath = zancunPicPath; 
 //		String logoText = "军队采购网";  
 		String iconPath = proWaterPath;
-		String targerPath2 = glisteningPath+"/glisteningPath.jpg";
+		String targerPath2 = glisteningPath+"/"+articleDetail.getId()+".jpg";
 		
 		// 给图片添加水印
 //		markByText(logoText, srcImgPath, targerPath);
