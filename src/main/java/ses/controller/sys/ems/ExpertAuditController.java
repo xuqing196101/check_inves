@@ -783,6 +783,7 @@ public class ExpertAuditController {
             expert.setIsSubmit("0");
         }
         //提交审核，更新状态
+        expert.setUpdatedAt(new Date());
         expertService.updateByPrimaryKeySelective(expert);
         
         String status = expert.getStatus();
