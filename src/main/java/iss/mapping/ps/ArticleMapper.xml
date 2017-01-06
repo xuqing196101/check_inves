@@ -170,6 +170,9 @@
 	  	<if test="articleType != null">
        	 AND ARTICLE_TYPE_ID = #{articleType.id}
         </if>
+        <if test="secondArticleTypeId != null">
+       	 AND SECOND_ARTICLE_TYPE_ID = #{secondArticleTypeId}
+        </if>
 	  	<if test="range != null">
 	  	  AND RANGE = #{range}
 	  	</if>

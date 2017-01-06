@@ -377,7 +377,7 @@
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>信息标题：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input name="id" type="hidden" value="${articleId }">
-                <input id="name" name="name" value="${article.name }" type="text">
+                <input id="name" name="name" value="${article.name }" maxlength="200" type="text">
                 <span class="add-on">i</span>
                 <div class="cue">${ERR_name}</div>
               </div>

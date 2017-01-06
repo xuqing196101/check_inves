@@ -321,7 +321,10 @@
 	  	var range = $("#range").val();
 	  	var articleTypeId = "${articlesArticleTypeId}";
 	  	var name = "${articleName}";
-	  	 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name;
+	  	var startDate = "${publishStartDate}";
+	  	var endDate = "${publishEndDate}";
+	  	var secondArticleTypeId = "${secondArticleTypeId}";
+	  	 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name+"&publishStartDate="+startDate+"&publishEndDate="+endDate+"&secondArticleTypeId="+secondArticleTypeId;
 	  }
     </script>
   </head>
