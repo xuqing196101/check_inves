@@ -185,6 +185,7 @@ public class IntelligentScoringController extends BaseController{
 	        bidMethodService.delBidMethodByMap(condition);
 	        markTermService.delMarkTermByMap(condition);
 	        scoreModelService.delScoreModelByMap(condition);
+	        paramIntervalService.delParamIntervalByMap(condition);
 	        //然后再来修改模板数据的projectid和packageid
 	        BidMethod bmCondition = new BidMethod();
 	        bmCondition.setProjectId(id);
@@ -197,6 +198,10 @@ public class IntelligentScoringController extends BaseController{
             ScoreModel smCondition = new ScoreModel();
             smCondition.setProjectId(id);
             List<ScoreModel> smList = scoreModelService.findListByScoreModel(smCondition);
+            //模型七八的差额区间数据
+            List<ParamInterval> piList = new ArrayList<ParamInterval>();
+            //模型七八对应的差额区间查询条件
+            ParamInterval paramInterval = new ParamInterval();
 	        for (BidMethod bidMethod : bmList) {
 	            //修改之前新增一条
 	            BidMethod bm = new BidMethod();
@@ -268,6 +273,30 @@ public class IntelligentScoringController extends BaseController{
                                         sm.setRelation(scoreModel.getRelation());
                                         sm.setRelationScore(scoreModel.getRelationScore());
                                         scoreModelService.saveScoreModel(sm);
+                                        paramInterval.setScoreModelId(scoreModel.getId());
+                                        piList = paramIntervalService.findListByParamInterval(paramInterval);
+                                        if (piList != null && piList.size() > 0) {
+                                            for(int i = 0; i < piList.size(); i++){
+                                                ParamInterval p = new ParamInterval();
+                                                p.setScoreModelId(sm.getId());
+                                                p.setStartParam(piList.get(i).getStartParam());
+                                                p.setStartRelation(piList.get(i).getStartRelation());
+                                                p.setEndParam(piList.get(i).getEndParam());
+                                                p.setEndRelation(piList.get(i).getEndRelation());
+                                                p.setScore(piList.get(i).getScore());
+                                                p.setExplain(piList.get(i).getExplain());
+                                                p.setProjectId(scoreModel.getProjectId());
+                                                //模版里面不需要包id
+                                                paramIntervalService.saveParamInterval(p);
+                                            }
+                                            if (piList != null) {
+                                                for (ParamInterval pi : piList) {
+                                                    pi.setProjectId(projectId);
+                                                    pi.setPackageId(packageId);
+                                                    paramIntervalService.updateParamInterval(pi);
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -290,6 +319,7 @@ public class IntelligentScoringController extends BaseController{
 	            scoreModel.setPackageId(packageId);
 	            scoreModelService.updateScoreModel(scoreModel);
 	        }
+	        
 	      String msg = "引入成功";
 	      response.setContentType("text/html;charset=utf-8");
 	      response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
@@ -305,10 +335,14 @@ public class IntelligentScoringController extends BaseController{
 	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
 	    //为2为顶级结点     1 为子节点
 	    HashMap<String, Object> map = new HashMap<String, Object>();
+	    HashMap<String, Object> conditionMap = new HashMap<String, Object>();
+	    conditionMap.put("projectId", projectId);
+        conditionMap.put("packageId", packageId);
 	    if (deleteStatus == 1) {
             scoreModelService.deleteScoreModelByMtId(id);
             map.put("id", id);
             markTermService.delMarkTermByid(map);
+            paramIntervalService.delParamIntervalByMap(conditionMap);
 	    } else {
 	        MarkTerm condition = new MarkTerm();
 	        condition.setPid(id);
@@ -318,6 +352,7 @@ public class IntelligentScoringController extends BaseController{
 	            scoreModelService.deleteScoreModelByMtId(markTerm.getId());
 	            map.put("id", markTerm.getId());
 	            markTermService.delMarkTermByid(map);
+	            paramIntervalService.delParamIntervalByMap(conditionMap);
 	        }
 	        MarkTerm mt = markTermService.findMarkTermById(id);
 	        map.put("id", mt.getBidMethodId());
@@ -330,6 +365,7 @@ public class IntelligentScoringController extends BaseController{
 	
 	@RequestMapping(value = "saveScore")
 	public void saveScore(HttpServletResponse response, BidMethod bm) throws IOException {
+	    String reg="^\\d+$";
 	    try {
 	        int count = 0;
 	        String msg = "";
@@ -338,12 +374,17 @@ public class IntelligentScoringController extends BaseController{
 	          count ++;
 	        }
 	        if (bm.getRemainScore()== null) {
-	          if (count > 0) {
+	          if (count > 0 ) {
 	            msg += "、序号";
 	          } else {
 	            msg += "请输入排序号";
 	          }
 	          count ++;
+	        } else {
+	            if (!bm.getRemainScore().matches(reg)) {
+	                msg += "排序号为数字";
+	                count++;
+	            }
 	        }
 	        /*if (bm.getRemark()== null || "".equals(bm.getRemark())) {
 	          if (count > 0) {
@@ -459,7 +500,6 @@ public class IntelligentScoringController extends BaseController{
         mt.setPid("0");
         List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
         Integer count3 = 0;
-        int judge = 0;
         for (MarkTerm mtKey : mtList) {
             MarkTerm mt1 = new MarkTerm();
             mt1.setPid(mtKey.getId());
@@ -469,9 +509,10 @@ public class IntelligentScoringController extends BaseController{
             if (mtValue != null && mtValue.size() == 0){
                 count3 += 1;
             } else {
+                Collections.reverse(mtValue);
                 count3 += mtValue.size();
             }
-            mtKey.setJudge(judge++);
+            mtKey.setJudge(mtKey.getPosition());
             map.put(mtKey, mtValue);
         }
         StringBuilder sb = new StringBuilder("");
@@ -489,7 +530,7 @@ public class IntelligentScoringController extends BaseController{
                                 sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
                                 sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<td class='tc'>" + markValue.getSmname() + "</td>");
+                                sb.append("<td class='tc w80'>" + markValue.getSmname() + "</td>");
                                 sb.append("<td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore() ;
                                 if (sscore == null){
@@ -500,7 +541,7 @@ public class IntelligentScoringController extends BaseController{
                                 sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
                             } else {
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<tr><td class='tc'>" + markValue.getSmname() + "</td><td class='tc'><span>" + typeName + "</span></td>");
+                                sb.append("<tr><td class='tc w80'>" + markValue.getSmname() + "</td><td class='tc'><span>" + typeName + "</span></td>");
                                 Double sscore = markValue.getScscore();
                                 if (sscore == null){
                                     sscore = 0.0;
@@ -531,7 +572,7 @@ public class IntelligentScoringController extends BaseController{
                                 
                                 //sb.append("<td>" + markValue.getName() + "</td><td></td><td></td></tr>");
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<td class='tc'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
+                                sb.append("<td class='tc w80'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore();
                                 if (sscore == null){
                                     sscore = 0.0;
@@ -577,7 +618,7 @@ public class IntelligentScoringController extends BaseController{
 	    String typeName = "";
         if (typename != null) {
             if (typename == 0) {
-                typeName = "模型一";
+                typeName = "模型一A";
             }
             if (typename == 1) {
                 typeName = "模型二";
@@ -706,27 +747,17 @@ public class IntelligentScoringController extends BaseController{
 	
 	@RequestMapping("operatorScoreModel")
 	public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request, String judgeModel){
-		String packageId = request.getParameter("id");
 		String[] startParam = request.getParameterValues("pi.startParam");
 		String[] endParam = request.getParameterValues("pi.endParam");
 		String[] score = request.getParameterValues("pi.score");
 		String[] explain = request.getParameterValues("pi.explain");
+		String[] startRelation = request.getParameterValues("pi.startRelation");
+        String[] endRelation = request.getParameterValues("pi.endRelation");
 		 if (scoreModel.getReviewContent() != null && !"".equals(scoreModel.getReviewContent())) {
 	            scoreModel.setReviewContent(scoreModel.getReviewContent().replaceAll("\\s*", ""));
 	         }
 		if(scoreModel.getId()!=null && !scoreModel.getId().equals("")){
-		    //0加分 1减分
-		 /*   if ("2".equals(judgeModel)) {
-                if("0".equals(scoreModel.getAddSubtractTypeName())) {
-                    scoreModelService.updateScoreModel(scoreModel);
-                }else {
-                    scoreModel.setMaxScore(scoreModel.getReviewStandScore());
-                    scoreModel.setReviewStandScore(scoreModel.getReviewStandScore());
-                    scoreModelService.updateScoreModel(scoreModel);
-                }
-            } else {*/
-                scoreModelService.updateScoreModel(scoreModel);
-           // }
+            scoreModelService.updateScoreModel(scoreModel);
 			MarkTerm condition = new MarkTerm();
 			condition.setId(scoreModel.getMarkTermId());
 			List<MarkTerm> mtList = markTermService.findListByMarkTerm(condition);
@@ -737,6 +768,8 @@ public class IntelligentScoringController extends BaseController{
 			}
 			HashMap<String, Object> map  = new HashMap<String,Object>();
 			map.put("scoreModelId", scoreModel.getId());
+			map.put("projectId", scoreModel.getProjectId());
+            map.put("packageId", scoreModel.getPackageId());
 			paramIntervalService.delParamIntervalByMap(map);
 			int len = 0;
 			if(startParam!=null){
@@ -747,9 +780,13 @@ public class IntelligentScoringController extends BaseController{
 					ParamInterval p = new ParamInterval();
 					p.setScoreModelId(scoreModel.getId());
 					p.setStartParam(startParam[i]);
+					p.setStartRelation(startRelation[i]);
 					p.setEndParam(endParam[i]);
+					p.setEndRelation(endRelation[i]);
 					p.setScore(score[i]);
 					p.setExplain(explain[i]);
+					p.setProjectId(scoreModel.getProjectId());
+					p.setPackageId(scoreModel.getPackageId());
 					paramIntervalService.saveParamInterval(p);
 				}
 			}
@@ -766,18 +803,7 @@ public class IntelligentScoringController extends BaseController{
 			//mt.setTypeName();
 			markTermService.saveMarkTerm(mt);
 			scoreModel.setMarkTermId(mt.getId());
-			//scoreModelService.saveScoreModel(scoreModel);
-			if ("2".equals(judgeModel)) {
-                if("0".equals(scoreModel.getAddSubtractTypeName())) {
-                    scoreModelService.saveScoreModel(scoreModel);
-                }else {
-                    scoreModel.setMaxScore(scoreModel.getReviewStandScore());
-                    scoreModel.setReviewStandScore(scoreModel.getReviewStandScore());
-                    scoreModelService.saveScoreModel(scoreModel);
-                }
-            } else {
-                scoreModelService.saveScoreModel(scoreModel);
-            }
+			scoreModelService.saveScoreModel(scoreModel);
 			int len = 0;
 			if(startParam!=null){
 				len = startParam.length;
@@ -787,9 +813,13 @@ public class IntelligentScoringController extends BaseController{
 					ParamInterval p = new ParamInterval();
 					p.setScoreModelId(scoreModel.getId());
 					p.setStartParam(startParam[i]);
+					p.setStartRelation(startRelation[i]);
 					p.setEndParam(endParam[i]);
 					p.setScore(score[i]);
+					p.setEndRelation(endRelation[i]);
 					p.setExplain(explain[i]);
+					p.setProjectId(scoreModel.getProjectId());
+                    p.setPackageId(scoreModel.getPackageId());
 					paramIntervalService.saveParamInterval(p);
 				}
 			}
@@ -1147,16 +1177,31 @@ public class IntelligentScoringController extends BaseController{
 		if (scoreModelList != null && scoreModelList.size()==1) {
 		    ParamInterval pi = new ParamInterval();
 		    pi.setScoreModelId(scoreModelList.get(0).getId());
+            pi.setProjectId(scoreModelList.get(0).getProjectId());
+            pi.setPackageId(scoreModelList.get(0).getPackageId());
 		    List<ParamInterval> piList = paramIntervalService.findListByParamInterval(pi);
 		    StringBuilder sb = new StringBuilder("");
 		    Integer count = 0;
 		    for (ParamInterval paramInterval : piList) {
 		        count++;
-                sb.append("<tr><td class=tc>" + count + "</td><td class=tc>" + paramInterval.getStartParam());
-                sb.append("</td><td class=tc>" + paramInterval.getEndParam() + "</td>");
-                sb.append("<td class=tc>" + paramInterval.getScore() + "</td>");
+		        String startParam = paramInterval.getStartParam() == null ? "" : paramInterval.getStartParam();
+                sb.append("<tr><td class=tc>" + count + "</td><td class=tc><input class='w40' type='text' value='" + startParam + "'name='pi.startParam'>");
+                if ("0".equals(paramInterval.getStartRelation())) {
+                    sb.append("</td><td class=tc><select name='pi.startRelation'><option value='0' selected='selected'><</option><option value='1'><=</option></select></td>");
+                } else {
+                    sb.append("</td><td class=tc><select name='pi.startRelation'><option value='0'><</option><option value='1' selected='selected'><=</option></select></td>");
+                }
+                String endParam = paramInterval.getEndParam() == null ? "" : paramInterval.getEndParam();
+                sb.append("<td class=tc><input class='w40' type='text' value='" + endParam + "'name='pi.endParam'></td>");
+                if ("0".equals(paramInterval.getEndRelation())) {
+                    sb.append("<td class=tc><select name='pi.endRelation'><option value='0'  selected='selected' >></option><option value='1'>>=</option></select></td>");
+                } else {
+                    sb.append("<td class=tc><select name='pi.endRelation'><option value='0' >></option><option value='1'  selected='selected'>>=</option></select></td>");
+                }
+                String score = paramInterval.getScore() == null ? "" : paramInterval.getScore();
+                sb.append("<td class=tc><input class='w40' type='text' value='" + score + "'name='pi.score'></td>");
                 String explain = paramInterval.getExplain() == null ? "" :paramInterval.getExplain();
-                sb.append("<td class=tc>" + explain + "</td>");
+                sb.append("<td class=tc><textarea  name='pi.explain'>" + explain + "</textarea></td>");
                 sb.append("<td class=tc><a href=javascript:void(0); onclick=delTr(this)>删除</a></td></tr>");
             }
 		    String scoreStr = sb.toString();

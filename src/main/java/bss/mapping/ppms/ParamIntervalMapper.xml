@@ -4,6 +4,8 @@
 	<resultMap id="BaseResultMap" type="bss.model.ppms.ParamInterval">
 		<id column="ID" property="id" />
 		<result column="SCORE_MODEL_ID" property="scoreModelId" />
+		<result column="PROJECT_ID" property="projectId" />
+		<result column="PACKAGE_ID" property="packageId" />
 		<result column="START_PARAM" property="startParam" />
 		<result column="END_PARAM" property="endParam" />
 		<result column="start_relation" property="startRelation" />
@@ -31,6 +33,12 @@
       	<if test="score != null">
         	and SM.score = #{score}
       	</if>	
+      	<if test="projectId != null">
+         	and PROJECT_ID = #{projectId}
+      	</if>
+      	<if test="packageId != null">
+         	and PACKAGE_ID = #{packageId}
+      	</if>
       	ORDER BY SM.CREATED_AT DESC	
    </select> 
   <insert id="saveParamInterval" parameterType="bss.model.ppms.ParamInterval">
@@ -64,6 +72,12 @@
       <if test="explain != null">
         explain ,
       </if>
+      <if test="projectId != null">
+        PROJECT_ID ,
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID ,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       sysdate,
@@ -90,6 +104,12 @@
       </if>
       <if test="explain != null">
         #{explain},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+       <if test="packageId != null">
+        #{packageId},
       </if>
     </trim>
   </insert>
@@ -118,6 +138,12 @@
       <if test="explain != null">
         ,explain = #{explain}
       </if>
+      <if test="projectId != null">
+        ,PROJECT_ID = #{projectId}
+      </if>
+       <if test="packageId != null">
+        ,PACKAGE_ID = #{packageId}
+      </if>
     where ID = #{id}
   </update>
   <!-- 删除需求部门-->
@@ -131,6 +157,12 @@
 		delete from T_BSS_PPMS_PARAM_INTERVAL s where 1=1
 		<if test="scoreModelId != null">
          	and SCORE_MODEL_ID = #{scoreModelId}
+      	</if>
+      	<if test="projectId != null">
+         	and PROJECT_ID = #{projectId}
+      	</if>
+      	<if test="packageId != null">
+         	and PACKAGE_ID = #{packageId}
       	</if>
       	<if test="id != null">
          	and id= #{id}

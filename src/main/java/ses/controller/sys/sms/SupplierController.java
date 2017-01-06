@@ -2315,4 +2315,17 @@ import ses.util.WfUtil;
        return flag ? "0" : "1";
    }
 
- }
+   /**
+    *〈简述〉异步删除供应商地址信息
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param id
+    * @return
+    */
+   @ResponseBody
+   @RequestMapping("/delAddress")
+   public String delAddress(String id) {
+       supplierAddressService.delAddressByPrimaryId(id);
+       return "ok";
+   }
+}
