@@ -169,12 +169,13 @@ public class DataDownloadController {
 				model.addAttribute("ERR_name", "资料名称不能超过100个字符");
 			}
 		}
+		String ipAddress = null;
 		String[] ipAddressType = request.getParameterValues("ipAddressType");
 		if(ipAddressType==null){
 			flag = false;
 			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
 		}else{
-			model.addAttribute("ipAddressType", ipAddressType[0]);
+			ipAddress = ipAddressType[0];
 		}
 		String id = request.getParameter("id");
 		List<UploadFile> zlfj = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
@@ -192,6 +193,7 @@ public class DataDownloadController {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
 		    model.addAttribute("data", dataDownload);
+		    model.addAttribute("ipAddressType", ipAddress);
 			return "iss/ps/dataDownload/add";
 		}
 		dataDownload.setCreatedAt(new Date());
@@ -378,12 +380,13 @@ public class DataDownloadController {
 				model.addAttribute("ERR_name", "资料名称不能超过100个字符");
 			}
 		}
+		String ipAddress = null;
 		String[] ipAddressType = request.getParameterValues("ipAddressType");
 		if(ipAddressType==null){
 			flag = false;
 			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
 		}else{
-			model.addAttribute("ipAddressType", ipAddressType[0]);
+			ipAddress = ipAddressType[0];
 		}
 		String id = request.getParameter("id");
 		List<UploadFile> zlfj = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
@@ -401,6 +404,7 @@ public class DataDownloadController {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
 		    model.addAttribute("data", dataDownload);
+		    model.addAttribute("ipAddressType", ipAddress);
 			return "iss/ps/dataDownload/add";
 		}
 		dataDownload.setCreatedAt(new Date());
@@ -512,12 +516,13 @@ public class DataDownloadController {
 				model.addAttribute("ERR_name", "资料名称不能超过100个字符");
 			}
 		}
+		String ipAddress = null;
 		String[] ipAddressType = request.getParameterValues("ipAddressType");
 		if(ipAddressType==null){
 			flag = false;
 			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
 		}else{
-			model.addAttribute("ipAddressType", ipAddressType[0]);
+			ipAddress = ipAddressType[0];
 		}
 		String id = request.getParameter("id");
 		List<UploadFile> zlfj = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
@@ -535,6 +540,7 @@ public class DataDownloadController {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
 		    model.addAttribute("data", dataDownload);
+		    model.addAttribute("ipAddressType", ipAddress);
 			return "iss/ps/dataDownload/edit";
 		}
 		dataDownload.setUpdatedAt(new Date());
@@ -563,12 +569,13 @@ public class DataDownloadController {
 				model.addAttribute("ERR_name", "资料名称不能超过100个字符");
 			}
 		}
+		String ipAddress = null;
 		String[] ipAddressType = request.getParameterValues("ipAddressType");
 		if(ipAddressType==null){
 			flag = false;
 			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
 		}else{
-			model.addAttribute("ipAddressType", ipAddressType[0]);
+			ipAddress = ipAddressType[0];
 		}
 		String id = request.getParameter("id");
 		List<UploadFile> zlfj = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
@@ -585,6 +592,7 @@ public class DataDownloadController {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
 		    model.addAttribute("data", dataDownload);
+		    model.addAttribute("ipAddressType", ipAddress);
 			return "iss/ps/dataDownload/edit";
 		}
 		dataDownload.setPublishAt(new Date());
