@@ -1,7 +1,13 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*,bss.util.PropUtil" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
 <!DOCTYPE html>
+<%
+  //生产环境
+  String environment = PropUtil.getProperty("environment");
+  //内外网
+  String ipAddressType = PropUtil.getProperty("ipAddressType");
+%>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -1049,14 +1055,22 @@
         <div class="col-md-12">
           <div class="border1 flow_btn fl mr14">
             <div class="ywbl_01">
-              <%--  <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc"> 
-             --%><a onclick="registerTip();" class="qyzc">
+            <% if (environment != null && environment.equals("0")){ %>
+	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc"> 
+	        <% } %>
+	        <% if (environment != null && environment.equals("1")){ %>
+	             <a onclick="registerTip();" class="qyzc">
+	        <% } %>
                 <span>企业注册</span>
               </a>
             </div>
             <div class="ywbl_01">
-              <%-- <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc"> 
-              --%><a onclick="registerTip();" class="zjzc">
+            <% if (environment != null && environment.equals("0")){ %>
+	             <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc"> 
+	        <% } %>
+	        <% if (environment != null && environment.equals("1")){ %>
+	             <a onclick="registerTip();" class="zjzc">
+	        <% } %>
                 <span>专家注册</span>
               </a>
             </div>
@@ -1069,7 +1083,17 @@
 
           <div class="border1 flow_btn fl">
             <div class="ywbl_01">
-              <a href="http://21.100.16.6" class="wssc">
+           <% if (environment != null && environment.equals("1")){ %>
+             <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
+               <a href="http://21.100.16.6" class="wssc">
+             <%} %>
+             <% if(ipAddressType != null && ipAddressType.equals("1")) { %>
+               <a href="http://mall.plap.cn" class="wssc">
+             <%} %>
+	       <% } %>
+	       <% if (environment != null && environment.equals("0")){ %>
+               <a href="javascript:void(0);" class="wssc">
+           <%} %>
                 <span>网上商城</span>
               </a>
             </div>
