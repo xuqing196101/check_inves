@@ -720,7 +720,7 @@ public class AdOpenBiddingController {
                 List<AdvancedDetail> detailList = detailService.selectByCondition(map1);
                 BigDecimal projectBudget = BigDecimal.ZERO;
                 for (AdvancedDetail projectDetail : detailList) {
-                    projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+                    projectBudget = projectBudget.add(projectDetail.getBudget());
                 }
                 //再次点击 查看
                 for (SaleTender saleTender : stList) {

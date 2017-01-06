@@ -513,13 +513,13 @@
               </td>
               <td class="tc">
                 <c:if test="${'0'==obj.status}">
-                  <span class="label rounded-2x label-u">未受领</span>
+                                                                未受领
                 </c:if>
                 <c:if test="${'1'==obj.status}">
-                  <span class="label rounded-2x label-u">已受领</span>
+                                                                 已受领
                 </c:if>
                 <c:if test="${'2'==obj.status}">
-                  <span class="label rounded-2x label-dark">已取消</span>
+                                                               已取消
                 </c:if>
               </td>
               <td class="tc">

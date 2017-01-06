@@ -32,7 +32,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
@@ -49,7 +48,6 @@ import ses.util.WordUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseDetail;
-import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
@@ -155,7 +153,7 @@ public class ProjectController extends BaseController {
             if(page==null){
                 page = 1;
             }
-            List<DictionaryData> ddList = DictionaryDataUtil.find(2);
+            /*List<DictionaryData> ddList = DictionaryDataUtil.find(2);
             List<DictionaryData> condition = new ArrayList<DictionaryData>();
             List<DictionaryData> conditions = new ArrayList<DictionaryData>();
             for (DictionaryData dictionaryData : ddList) {
@@ -169,7 +167,7 @@ public class ProjectController extends BaseController {
             map.put("page", page.toString());
             //等于1就是这个条件
             map.put("ddList", condition);
-            map.put("ddLists", conditions);
+            map.put("ddLists", conditions);*/
             PropertiesUtil config = new PropertiesUtil("config.properties");
             PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
             List<Project> list = projectService.selectProjectsByConition(map);
@@ -385,14 +383,14 @@ public class ProjectController extends BaseController {
              project.setIsImport(0);
              project.setPurchaseType(purchaseType);
              project.setPurchaseDep(new PurchaseDep(orgId));
-             project.setPlanType(list.getList().get(0).getPlanType());
+             project.setPlanType(list.getListDetail().get(0).getPlanType());
              projectService.insert(project); 
          }
              ProjectTask projectTask = new ProjectTask();
              projectTask.setTaskId(projectId);
              projectTask.setProjectId(project.getId());
              projectTaskService.insertSelective(projectTask);
-             List<PurchaseRequired> sss=new ArrayList<PurchaseRequired>();
+             List<PurchaseDetail> sss=new ArrayList<PurchaseDetail>();
              if(checkIds.trim().length()!=0){
                  String[] detailIds = checkIds.split(",");
                  List<ProjectDetail> advance = detailService.getByPidAndRid(id, detailIds[0]);
@@ -403,11 +401,11 @@ public class ProjectController extends BaseController {
                          HashMap<String, Object> map = new HashMap<String, Object>();
                          
                          map.put("id", detailIds[i]);
-                         List<PurchaseRequired> lists = purchaseRequiredService.selectByParentId(map);
+                         List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
                          
                          if(lists.size() == 1){//查询最底层明细的节点
                              parId=lists.get(0).getParentId(); 
-                             PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(parId);
+                             PurchaseDetail purchaseRequired = purchaseDetailService.queryById(parId);
                              sss.add(purchaseRequired);
                          }
                      }
@@ -422,11 +420,11 @@ public class ProjectController extends BaseController {
                      }
                      String planNo = null;
                      for(String pid:detailIds){
-                         PurchaseRequired required = purchaseRequiredService.queryById(pid);
+                         PurchaseDetail required = purchaseDetailService.queryById(pid);
                          planNo = required.getPlanNo();
                          if(required.getParentId().equals(parId)){
                              required.setProjectStatus(1);
-                             purchaseRequiredService.updateByPrimaryKeySelective(required);
+                             purchaseDetailService.updateByPrimaryKeySelective(required);
                              insertDeatil(required,k,id);
                          } 
                      }
@@ -469,31 +467,31 @@ public class ProjectController extends BaseController {
                  }else{
                      
                     //第一次添加
-                     List<PurchaseRequired> lists  = new ArrayList<>();
+                     List<PurchaseDetail> lists  = new ArrayList<>();
                      HashMap<String, Object> maps = new HashMap<String, Object>();
                      if(checkIds != null){
                          String[] checkId = checkIds.split(",");
                          int bud = 0;
                          for (int i = 0; i < checkId.length; i++ ) {
-                             PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(checkId[i]);
+                             PurchaseDetail purchaseRequired = purchaseDetailService.queryById(checkId[i]);
                              maps.put("id", purchaseRequired.getId());
-                             List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(maps);
+                             List<PurchaseDetail> lis = purchaseDetailService.selectByParentId(maps);
                              if(lis.size() == 1){
-                                 for (PurchaseRequired purchaseRequired2 : lis) {
+                                 for (PurchaseDetail purchaseRequired2 : lis) {
                                      bud+=purchaseRequired2.getBudget().intValue();
                                  }
                              }
                              lists.add(purchaseRequired);
                          }
                          
-                         for (PurchaseRequired purchaseRequired:lists) {
-                            PurchaseRequired required = purchaseRequiredService.queryById(purchaseRequired.getId());
+                         for (PurchaseDetail purchaseRequired:lists) {
+                             PurchaseDetail required = purchaseDetailService.queryById(purchaseRequired.getId());
                             Map<String,Object> map=new HashMap<String,Object>();
                             map.put("id", required.getId());
-                            List<PurchaseRequired> list2 = purchaseRequiredService.selectByParentId(map);
+                            List<PurchaseDetail> list2 = purchaseDetailService.selectByParentId(map);
                             if(list2.size()==1){
                                 required.setProjectStatus(1);
-                                 purchaseRequiredService.updateByPrimaryKeySelective(required);
+                                purchaseDetailService.updateByPrimaryKeySelective(required);
                             }
                              ProjectDetail projectDetail = new ProjectDetail();
                              projectDetail.setRequiredId(purchaseRequired.getId());
@@ -654,10 +652,10 @@ public class ProjectController extends BaseController {
     public void checkDeail(HttpServletResponse response, String id, Model model)
         throws IOException {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(id);
+        PurchaseDetail purchaseRequired = purchaseDetailService.queryById(id);
         if ("1".equals(purchaseRequired.getParentId())) {
             map.put("id", purchaseRequired.getId());
-            List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
+            List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
             String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().write(json);
@@ -665,7 +663,7 @@ public class ProjectController extends BaseController {
             response.getWriter().close();
         }else{
             map.put("id", purchaseRequired.getId());
-            List<PurchaseRequired> list = purchaseRequiredService.selectByParent(map);
+            List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
             String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().write(json);
@@ -679,10 +677,10 @@ public class ProjectController extends BaseController {
     public void checkDeailTop(HttpServletResponse response, String id, Model model)
         throws IOException {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(id);
+        PurchaseDetail purchaseRequired = purchaseDetailService.queryById(id);
         if ("1".equals(purchaseRequired.getParentId())) {
             map.put("id", purchaseRequired.getId());
-            List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
+            List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
             String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().write(json);
@@ -2078,9 +2076,9 @@ public class ProjectController extends BaseController {
          String[] id = ids.split(",");
          for(int i=0;i<id.length;i++){
              ProjectDetail pro =  detailService.selectByPrimaryKey(id[i]);
-             PurchaseRequired required = purchaseRequiredService.queryById(pro.getRequiredId());
+             PurchaseDetail required = purchaseDetailService.queryById(pro.getRequiredId());
              required.setProjectStatus(0);
-             purchaseRequiredService.updateByPrimaryKeySelective(required);
+             purchaseDetailService.updateByPrimaryKeySelective(required);
              detailService.deleteByPrimaryKey(id[i]);
          }
          HashMap<String, Object> map = new HashMap<String, Object>();
@@ -2122,7 +2120,7 @@ public class ProjectController extends BaseController {
      }
      
      
-     public void insertDeatil(PurchaseRequired purchaseRequired,Integer positon,String projectId){
+     public void insertDeatil(PurchaseDetail purchaseRequired,Integer positon,String projectId){
           ProjectDetail projectDetail = new ProjectDetail();
           projectDetail.setRequiredId(purchaseRequired.getId());
           projectDetail.setSerialNumber(purchaseRequired.getSeq());
@@ -2180,9 +2178,9 @@ public class ProjectController extends BaseController {
          List<ProjectDetail> pd = detailService.selectByRequiredId(detailMap);
          
          for(int i=0;i<pd.size();i++){
-             PurchaseRequired required = purchaseRequiredService.queryById(pd.get(i).getRequiredId());
+             PurchaseDetail required = purchaseDetailService.queryById(pd.get(i).getRequiredId());
              required.setProjectStatus(0);
-             purchaseRequiredService.updateByPrimaryKeySelective(required);
+             purchaseDetailService.updateByPrimaryKeySelective(required);
          }
          
          detailService.deleteByProject(id);
@@ -2411,9 +2409,9 @@ public class ProjectController extends BaseController {
         Set<String> set = new HashSet<String>();
         for (int i = 0; i < ids.length; i++ ) {
             HashMap<String, Object> map = new HashMap<>();
-            PurchaseRequired detail = purchaseRequiredService.queryById(ids[i]);
+            PurchaseDetail detail = purchaseDetailService.queryById(ids[i]);
             map.put("id", detail.getId());
-            List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
+            List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
             if(list.size() == 1){
                  String aa = detail.getPurchaseType();
                  set.add(aa);

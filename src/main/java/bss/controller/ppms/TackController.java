@@ -538,6 +538,123 @@ public class TackController extends BaseController{
 	}
 	
 	
+	public Boolean reflect(PurchaseDetail detail, AdvancedDetail advancedDetail){
+	    
+	    if(!advancedDetail.getGoodsName().equals(detail.getGoodsName())){
+	        return false;
+	    }
+	    if(advancedDetail.getStand() != null && detail.getStand() != null){
+	        if(!advancedDetail.getStand().equals(detail.getStand())){
+	            return false;
+	        }
+	    }
+	    if(advancedDetail.getStand() == null && detail.getStand() != null){
+	        return false;
+	    }
+	    if(advancedDetail.getStand() != null && detail.getStand() == null){
+            return false;
+        }
+	    
+	    if(advancedDetail.getQualitStand() != null && detail.getQualitStand() != null){
+	        if(!advancedDetail.getQualitStand().equals(detail.getQualitStand())){
+	            return false;
+	        }
+	    }
+	    if(advancedDetail.getQualitStand() == null && detail.getQualitStand() != null){
+	        return false;
+	    }
+	    if(advancedDetail.getQualitStand() != null && detail.getQualitStand() == null){
+            return false;
+        }
+	    if(advancedDetail.getItem() != null && detail.getItem() != null){
+	        if(!advancedDetail.getItem().equals(detail.getItem())){
+	            return false;
+	        }
+	    }
+	    if(advancedDetail.getItem() == null && detail.getItem() != null){
+	        return false;
+	    }
+	    if(advancedDetail.getItem() != null && detail.getItem() == null){
+            return false;
+        }
+	    
+	    if(!advancedDetail.getPurchaseCount().equals(detail.getPurchaseCount())){
+	        return false;
+	    }
+	    if(!advancedDetail.getPrice().equals(detail.getPrice())){
+	        return false;
+	    }
+	    if(!advancedDetail.getBudget().equals(detail.getBudget())){
+	        return false;
+	    }
+	    if(advancedDetail.getDeliverDate() != null && detail.getDeliverDate() != null){
+	        if(!advancedDetail.getDeliverDate().equals(detail.getDeliverDate())){
+	            return false;
+	        }
+	    }
+	    if(advancedDetail.getDeliverDate() == null && detail.getDeliverDate() != null){
+	        return false;
+	    }
+	    if(advancedDetail.getDeliverDate() != null && detail.getDeliverDate() == null){
+            return false;
+        }
+	    
+	    if(!advancedDetail.getPurchaseType().equals(detail.getPurchaseType())){
+	        return false;
+	    }
+	    if(!advancedDetail.getOrganization().equals(detail.getOrganization())){
+	        return false;
+	    }
+	    if(advancedDetail.getSupplier() != null && detail.getSupplier() != null){
+	        if(!advancedDetail.getSupplier().equals(detail.getSupplier())){
+	            return false;
+	        }
+	    }
+	    if(advancedDetail.getSupplier() != null && detail.getSupplier() == null){
+	        return false;
+	    }
+	    if(detail.getSupplier() != null && advancedDetail.getSupplier() == null){
+	        return false;
+	    }
+	    if(advancedDetail.getIsFreeTax() != null && detail.getIsFreeTax() != null){
+	        if(!advancedDetail.getIsFreeTax().equals(detail.getIsFreeTax())){
+	            return false;
+	        }
+	    }
+	    if(advancedDetail.getIsFreeTax() == null && detail.getIsFreeTax() != null){
+	        return false;
+	    }
+	    if(advancedDetail.getIsFreeTax() != null && detail.getIsFreeTax() == null){
+            return false;
+        }
+	    
+	    if(advancedDetail.getGoodsUse() != null && detail.getGoodsUse() != null){
+	        if(!advancedDetail.getGoodsUse().equals(detail.getGoodsUse())){
+	            return false;
+	        }
+	    }
+	    if(advancedDetail.getGoodsUse() == null && detail.getGoodsUse() != null){
+	        return false;
+	    }
+	    if(advancedDetail.getGoodsUse() != null && detail.getGoodsUse() == null){
+            return false;
+        }
+	    if(advancedDetail.getUseUnit() != null && detail.getUserUnit() != null){
+	        if(!advancedDetail.getUseUnit().equals(detail.getUserUnit())){
+	            return false;
+	        }
+	    }
+	    if(advancedDetail.getUseUnit() == null && detail.getUserUnit() != null){
+	        return false;
+	    }
+	    if(advancedDetail.getUseUnit() != null && detail.getUserUnit() == null){
+            return false;
+        }
+	    
+	    return true;
+	}
+	
+	
 	
 	@ResponseBody
 	@RequestMapping("/comparison")
@@ -574,15 +691,16 @@ public class TackController extends BaseController{
                             if(purchaseRequired.getPrice()!=null){
                                 detailss.add(purchaseRequired);
                             }
-                    }
+                        }
                      
-                        if(detailss.size()==detail.size()){
                             for(AdvancedDetail ad:detailss){
                                 for(PurchaseDetail p:detail){
                                     if(ad.getRequiredId().equals(p.getId())){
+                                        Boolean flag = reflect(p, ad);
+                                        if(flag == true){
+                                            count++;
+                                        }
                                         
-                                        count++;
-                                        //return num;
                                     }
                                 }
                                 
@@ -595,117 +713,12 @@ public class TackController extends BaseController{
                             }
                             
                             
-                        }else{
-                            
-                        }
                     }
                 }
             }
            
 	    }
-	    
-	    
-	    
 	    return number;
-	   /* 
-	    List<PurchaseDetail> detail =new ArrayList<PurchaseDetail>();
-	     //String thIds = null;
-	        if(StringUtils.isNotBlank(id)){
-	            Task task = taskservice.selectById(id);
-	            List<PurchaseDetail> list2 = purchaseDetailService.getUnique(id);
-	            if(list2 != null && list2.size() > 0){
-	                for (PurchaseDetail purchaseRequired : list2) {
-	                        if(purchaseRequired.getPrice()!=null){
-	                            detail.add(purchaseRequired);
-	                        }
-	                }
-	            } 
-	            
-	            
-	            //==================================
-	    String num = "1";
-	    String number = "2";
-	    //String thId = null;
-	    HashMap<String,Object> map = new HashMap<String,Object>();
-        map.put("taskNature", "1");
-        //查询所有的预研任务
-        List<Task> lists = taskservice.likeByName(map);
-        List<AdvancedDetail> aa = new ArrayList<AdvancedDetail>();
-        if(lists != null && lists.size() > 0){
-            for (Task task2 : lists) {
-                map.put("taskId", task2.getId());
-                List<ProjectTask> projectTask = projectTaskService.queryByNo(map);
-                if(projectTask != null && projectTask.size()>0){
-                    map.put("advancedProject", projectTask.get(0).getProjectId());
-                    List<AdvancedDetail> details = detailService.selectByAll(map);
-                    if(details.size()==detail.size()){
-                        for(AdvancedDetail ad:details){
-                            for(PurchaseDetail p:detail){
-                                if(ad.getRequiredId().equals(p.getId())&&ad.getOrganization().equals(p.getOrganization())){
-                                    return num;
-                                }
-                            }
-                            
-                        } 
-                    }else{
-                        break outer;
-                    }
-                 
-                    if (details != null && details.size() > 0) {
-                        if(thId == null){
-                            thId = details.get(0).getRequiredId();
-                        }else{
-                            thId = thId + "," + details.get(0).getRequiredId();
-                        } 
-                    }
-                }
-            }
-        }
-   
-            
-            if (list2 != null && list2.size() > 0) {
-              if(thIds == null){
-                 thIds = list2.get(0).getId();
-              }else{
-                 thIds = thIds + "," + list2.get(0).getId();
-              }
-            }
-        }
-        
-        
-        
-        if(thId != null){
-            String[] detailIds = null;
-            if (thIds != null) {
-                detailIds = thIds.split(",");
-            }
-            
-            String[] detailId = thId.split(",");
-            outer:
-            for (int j = 0; j < detailId.length; j++ ) {
-                if (detailIds != null) {
-                    for (int k = 0; k < detailIds.length; k++ ) {
-                        if(detailId[j].equals(detailIds[k])){
-                            map.put("id", detailId[j]);
-                            List<AdvancedDetail> detail = detailService.selectByParentId(map);
-                            AdvancedDetail advancedDetail = detailService.selectByRequiredId(detailId[j]);
-                            PurchaseRequired requireds = purchaseRequiredService.queryById(detailIds[k]);
-                            if(advancedDetail.getOrganization().equals(requireds.getOrganization())){
-                                request.getSession().setAttribute("thIdoo", thId);
-                                request.getSession().setAttribute("thIdsee", thIds);
-                                return num;
-                            }else{
-                                break outer;
-                            }
-                            
-                        }
-                    }
-                }
-            } 
-            
-        }*/
-       
-	    
 	}
 	
 	
@@ -717,24 +730,17 @@ public class TackController extends BaseController{
 	    List<AdvancedDetail> details = (List<AdvancedDetail>)request.getSession().getAttribute("details");
 	    request.removeAttribute("details");
 	    int count = 0;
-	  /*  String[] detailId = ide.split(",");
-        String[] detailIds = idss.split(",");*/
-            /*if(details.size()==detail.size()){
-                for(AdvancedDetail ad:details){
-                    for(PurchaseDetail p:detail){
-                        if(ad.getRequiredId().equals(p.getId())&&ad.getOrganization().equals(p.getOrganization())){*/
-                /*AdvancedDetail advancedDetail = detailService.selectByRequiredId(detailId[j]);
-                PurchaseRequired requireds = purchaseRequiredService.queryById(detailIds[k]);*/
-	    if(details.size()==detail.size()){
             for(AdvancedDetail advancedDetail:details){
                 for(PurchaseDetail p:detail){
                     if(advancedDetail.getRequiredId().equals(p.getId())){
-                        count++;
+                        Boolean flag = reflect(p, advancedDetail);
+                        if(flag == true){
+                            count++;
+                        }
                     }
             
               }
             }
-            
             
             if(count==details.size()){
 
@@ -744,10 +750,11 @@ public class TackController extends BaseController{
             map2.put("projectId", details.get(0).getAdvancedProject());
             List<ProjectTask> projectTask = projectTaskService.queryByNo(map2);
             Task task2 = taskservice.selectById(projectTask.get(0).getTaskId());
-            taskservice.softDelete(task2.getId());
             Task task = taskservice.selectById(taskId);
             task.setStatus(task2.getStatus());
             taskservice.update(task);
+            taskservice.softDelete(task2.getId());
+            
             
             //添加到正式项目
             Project project = new Project();
@@ -803,12 +810,10 @@ public class TackController extends BaseController{
             
             
             
-            
             HashMap<String, Object> map = new HashMap<>();
-            map.put("projectId", details.get(0).getAdvancedProject());
-            map.put("id", details.get(0).getRequiredId());
+            map.put("advancedProject", details.get(0).getAdvancedProject());
             //添加到正式明细
-            List<AdvancedDetail> advancedDetails = detailService.selectByParentId(map);
+            List<AdvancedDetail> advancedDetails = detailService.selectByAll(map);
             if(advancedDetails != null && advancedDetails.size() > 0){
                 for (AdvancedDetail adDetail : advancedDetails) {
                     ProjectDetail projectDetail = new ProjectDetail();
@@ -861,6 +866,18 @@ public class TackController extends BaseController{
                     projectDetailService.insert(projectDetail);
                 }
             }
+            
+            
+            
+            /*HashMap<String, Object> map5 = new HashMap<>();
+            map5.put("id", advancedDetails.get(0).getRequiredId());
+            List<PurchaseDetail> purchaseDetails = purchaseDetailService.selectByParentId(map5);
+            if(purchaseDetails != null && purchaseDetails.size() > 0){
+                for (PurchaseDetail purchaseDetail : purchaseDetails) {
+                    purchaseDetail.setProjectStatus(1);
+                    purchaseDetailService.updateByPrimaryKeySelective(purchaseDetail);
+                }
+            }*/
             
             List<FirstAudit> firstAudit = service.getListByProjectId(details.get(0).getAdvancedProject());
             String auditId = WfUtil.createUUID();
@@ -1030,7 +1047,6 @@ public class TackController extends BaseController{
         
             }
             
-          }
         
 	    return "redirect:list.html";
 	}
