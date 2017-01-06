@@ -1,5 +1,6 @@
 package ses.service.ems;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +78,7 @@ public interface ExpertService {
 	     * @return
 	     * @throws Exception 
 	     */
-	    public int daysBetween(Date date) throws Exception;
+	    public int daysBetween(Date date) throws ParseException;
 	    /**
 	     * 
 	      * @Title: selectLoginNameList
