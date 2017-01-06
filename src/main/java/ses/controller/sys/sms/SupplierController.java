@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -353,9 +355,35 @@ import ses.util.WfUtil;
      List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(sup.getId());
      if(finace!=null&&finace.size()>0){
        List<SupplierFinance> finaceList = supplierFinanceService.getList(finace);
+       Collections.sort(finaceList, new Comparator<SupplierFinance>(){  
+           public int compare(SupplierFinance finance1, SupplierFinance finance2) {  
+               // 按照SupplierFinance的年份进行升序排列  
+               if(Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())){  
+                   return -1;  
+               }  
+               if(finance1.getYear().equals(finance2.getYear())){  
+                   return 0;  
+               } else {  
+                   return 1;
+               }
+           }  
+       });  
        sup.setListSupplierFinances(finaceList);
      } else {
        List<SupplierFinance> list = supplierFinanceService.getYear();
+       Collections.sort(list, new Comparator<SupplierFinance>(){  
+           public int compare(SupplierFinance finance1, SupplierFinance finance2) {  
+               // 按照SupplierFinance的年份进行升序排列  
+               if(Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())){  
+                   return -1;  
+               }  
+               if(finance1.getYear().equals(finance2.getYear())){  
+                   return 0;  
+               } else {  
+                   return 1;
+               }
+           }  
+       });
        sup.setListSupplierFinances(list);
      }
    }
