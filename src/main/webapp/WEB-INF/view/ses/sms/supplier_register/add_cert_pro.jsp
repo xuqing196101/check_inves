@@ -9,7 +9,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<%@ include file="/WEB-INF/view/front.jsp" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
 <script>var globalPath = "${contextPath}";</script>
 <script type="text/javascript">

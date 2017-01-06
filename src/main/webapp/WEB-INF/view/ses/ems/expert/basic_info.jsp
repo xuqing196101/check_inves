@@ -4,7 +4,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@ include file="/WEB-INF/view/front.jsp"%>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
 <%

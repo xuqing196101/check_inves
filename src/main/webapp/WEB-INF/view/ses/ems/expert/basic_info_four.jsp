@@ -3,7 +3,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
 <%

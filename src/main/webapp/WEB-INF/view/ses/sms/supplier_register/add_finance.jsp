@@ -10,7 +10,6 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
  
- <%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
 	
 	function saveOrBack() {

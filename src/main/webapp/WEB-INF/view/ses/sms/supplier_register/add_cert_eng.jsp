@@ -3,7 +3,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@ include file="/WEB-INF/view/front.jsp" %>
 
 <title>添加供应商工程证书信息</title>
 

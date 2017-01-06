@@ -3,7 +3,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@ include file="/WEB-INF/view/front.jsp"%>
 
 <title>评审专家注册须知</title>
 <script type="text/javascript">

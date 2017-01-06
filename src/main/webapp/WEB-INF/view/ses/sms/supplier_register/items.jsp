@@ -4,7 +4,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
 	var zTreeObj;
 	var zNodes;

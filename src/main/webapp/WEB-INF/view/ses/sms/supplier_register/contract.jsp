@@ -4,7 +4,6 @@
 <!DOCTYPE HTML >
 <html>
 <head>
-<%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
 
 	//暂存
@@ -108,10 +107,10 @@
 										   <tr>
 									        <td class="info tc"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info w220 tc">${year}</td>
+											     <td class="info tc w300">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info w220 tc">${year}</td>
+											     <td class="info  w300 tc">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
@@ -166,10 +165,10 @@
 										   <tr>
 									        <td class="info tc"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info tc w220">${year}</td>
+											     <td class="info tc  w300">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info tc w220">${year}</td>
+											     <td class="info tc  w300">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
@@ -226,10 +225,10 @@
 										   <tr>
 									        <td class="info tc"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info tc w220">${year}</td>
+											     <td class="info tc  w300">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info tc w220">${year}</td>
+											     <td class="info tc  w300">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
@@ -278,17 +277,17 @@
 						  
 										  <tr>
 										    <td class="info tc"> 品目名称</td>
-										    <td colspan="3" class="info tc w220">合同上传</td>
-										    <td colspan="3" class="info tc w220">收款进账单</td>
+										    <td colspan="3" class="info tc">合同上传</td>
+										    <td colspan="3" class="info tc">收款进账单</td>
 										  </tr>
 										  
 										   <tr>
 									        <td class="info tc"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info tc w220">${year}</td>
+											     <td class="info tc  w300">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info tc w220">${year}</td>
+											     <td class="info tc  w300">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  

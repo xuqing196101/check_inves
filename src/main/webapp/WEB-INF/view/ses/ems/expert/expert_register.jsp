@@ -7,7 +7,6 @@ session.setAttribute("tokenSession", tokenValue);
 %>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<%@include file="/WEB-INF/view/front.jsp"%>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
  <script type="text/javascript">
    $(function(){

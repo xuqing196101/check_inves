@@ -3,7 +3,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
 $(function() {
 	$("#page_ul_id").find("li").click(function() {

@@ -4,7 +4,6 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
 
-<%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
 	$(function() {
 		// 注册须知

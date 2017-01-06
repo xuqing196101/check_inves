@@ -3,7 +3,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
- <%@ include file="/WEB-INF/view/front.jsp" %>
 
 <title>产品品目</title>
 
