@@ -1,8 +1,14 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*,bss.util.PropUtil" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
+<%
+  //生产环境
+  String environment = PropUtil.getProperty("environment");
+  //内外网
+  String ipAddressType = PropUtil.getProperty("ipAddressType");
+%>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -48,7 +54,11 @@ function importAdd(){
     <div class="row">
     <div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到军队采购网！
       <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a>
-       <a href="http://21.100.16.14" class="red">【旧系统登录】</a> 
+       <% if (environment != null && environment.equals("1")){ %>
+         <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
+           <a href="http://21.100.16.14" class="red">【旧系统登录】</a> 
+         <%} %>
+	   <% } %>
     </div> 
        <div class="col-md-3 col-xs-3 col-sm-3 head_right"> 
     <!-- 根据session判断 -->
@@ -370,7 +380,17 @@ function importAdd(){
 	   <div class="drop_main ">
 	    <div class="col-md-4 col-sm-6 col-xs-12 mt25" id="drop-1">
 		  <div class="ywbl_01">
-	       <a href="http://21.100.16.6" class="wssc">
+		   <% if (environment != null && environment.equals("1")){ %>
+             <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
+               <a href="http://21.100.16.6" class="wssc">
+             <%} %>
+             <% if(ipAddressType != null && ipAddressType.equals("1")) { %>
+               <a href="http://mall.plap.cn" class="wssc">
+             <%} %>
+	       <% } %>
+	       <% if (environment != null && environment.equals("0")){ %>
+               <a href="javascript:void(0);" class="wssc">
+           <%} %>
             <span>网上商城</span> 
 		   </a>
 	      </div>
@@ -466,8 +486,13 @@ function importAdd(){
 	      <div class="drop_main">
 	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login">
 	          <%--  <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
-	       <a onclick="registerTip();" >
-		     供应商注册
+	        <% if (environment != null && environment.equals("0")){ %>
+	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
+	        <% } %>
+	        <% if (environment != null && environment.equals("1")){ %>
+	              <a onclick="registerTip();" >
+	        <% } %>
+		     	供应商注册
 		     <i></i>
 		    </a>	  
 	       </div>
@@ -527,8 +552,13 @@ function importAdd(){
 	 <div class="drop_main">
 	  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
 	     <%-- <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html"> --%>
-	   <a onclick="registerTip();">
-		 专家注册
+	     <% if (environment != null && environment.equals("0")){ %>
+	        <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">
+	     <% } %>
+	     <% if (environment != null && environment.equals("1")){ %>
+	        <a onclick="registerTip();">
+	     <% } %>
+		   专家注册
 		 <i></i>
 		</a>	  
 	  </div>
