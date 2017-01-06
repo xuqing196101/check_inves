@@ -258,22 +258,33 @@ $(function(){
 	function openRegPerson() {
 		var matEngId = $("input[name='supplierMatEng.id']").val();
 		var supplierId = $("input[name='id']").val();
-		if (!matEngId) {
-			layer.msg("请暂存工程专业信息 !", {
-				offset : '300px',
-			});
-		} else {
-			layer.open({
-				type : 2,
-				title : '添加注册类型和人数',
-				// skin : 'layui-layer-rim', //加上边框
-				area : [ '600px', '280px' ], //宽高
-				offset : '100px',
-				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_reg_person/add_reg_person.html?matEngId=' + matEngId + '&supplierId=' + supplierId, //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-		}
+		var id;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
+			async:false,
+			success: function(data){
+				id = data;
+			}
+		});
+		var certPersonNumber = $("#certPersonNumber").val();
+		$("#reg_person_list_tbody_id").append("<tr>"+
+			"<td class='tc'><input type='checkbox' value=" + id + " /></td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierRegPersons[" + certProNumber + "].regType'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierRegPersons[" + certProNumber + "].regNumber'/> </td>"+
+			"</tr>");
+		certPersonNumber++;
+		$("#certPersonNumber").val(certPersonNumber);		
+		
+		/*layer.open({
+			type : 2,
+			title : '添加注册类型和人数',
+			// skin : 'layui-layer-rim', //加上边框
+			area : [ '600px', '280px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : '${pageContext.request.contextPath}/supplier_reg_person/add_reg_person.html?matEngId=' + matEngId + '&supplierId=' + supplierId, //url
+			closeBtn : 1, //不显示关闭按钮
+		});*/
 	}
 	
 	function deleteRegPerson() {
@@ -308,22 +319,54 @@ $(function(){
 	function openAptitute() {
 		var matEngId = $("input[name='supplierMatEng.id']").val();
 		var supplierId = $("input[name='id']").val();
-		if (!matEngId) {
-			layer.msg("请暂存工程专业信息 !", {
-				offset : '300px',
-			});
-		} else {
-			layer.open({
-				type : 2,
-				title : '添加资质资格信息',
-				// skin : 'layui-layer-rim', //加上边框
-				area : [ '600px', '500px' ], //宽高
-				offset : '100px',
-				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_aptitute/add_aptitute.html?matEngId=' + matEngId + '&supplierId=' + supplierId, //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-		}
+		var id;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
+			async:false,
+			success: function(data){
+				id = data;
+			}
+		});
+		var certAptNumber = $("#certAptNumber").val();
+		$("#aptitute_list_tbody_id").append("<tr>"+
+			"<td class='tc'><input type='checkbox' value=" + id + " /></td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].certType'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].certCode'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteSequence'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].professType'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteLevel'/> </td>"+
+			"<td class='tc'>"+
+			   "<select name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].isMajorFund'>"+
+	             "<option value='1'>是</option>"+
+	             "<option value='0'>否</option>"+
+	           "</select>"+
+			"</td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteContent'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteCode'/> </td>"+
+			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteDate'/></td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteWay'/> </td>"+
+			"<td class='tc'>"+
+			   "<select name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteStatus'>"+
+	             "<option value='1'>有效</option>"+
+	             "<option value='0'>无效</option>"+
+	           "</select>"+
+			"</td>"+
+			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteChangeAt'/></td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteChangeReason'/> </td>"+
+			"</tr>");
+		certAptNumber++;
+		$("#certAptNumber").val(certAptNumber);
+		
+		/*layer.open({
+			type : 2,
+			title : '添加资质资格信息',
+			// skin : 'layui-layer-rim', //加上边框
+			area : [ '600px', '500px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : '${pageContext.request.contextPath}/supplier_aptitute/add_aptitute.html?matEngId=' + matEngId + '&supplierId=' + supplierId, //url
+			closeBtn : 1, //不显示关闭按钮
+		});*/
 	}
 	
 	function deleteAptitute() {
@@ -359,22 +402,41 @@ $(function(){
 	function openCertPro() {
 		var matProId = $("input[name='supplierMatPro.id']").val();
 		var supplierId = $("input[name='id']").val();
-		if (!matProId) {
-			layer.msg("请暂存物资生产专业信息 !", {
-				offset : '300px',
-			});
-		} else {  
-			proIndex=layer.open({
-				type : 2,
-				title : '添加物资生产证书信息',
-				// skin : 'layui-layer-rim', //加上边框
-				area : [ '50%', '500px' ], //宽高
-				offset : [ '100px', '500px' ],
-				scrollbar : false,  
-				content : '${pageContext.request.contextPath}/supplier_cert_pro/add_cert_pro.html?matProId=' + matProId + '&supplierId=' + supplierId+'&sign='+1, //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-		 }  
+		var id;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
+			async:false,
+			success: function(data){
+				id = data;
+			}
+		});
+		var certProNumber = $("#certProNumber").val();
+		$("#cert_pro_list_tbody_id").append("<tr>"+
+			"<td class='tc'><input type='checkbox' value=" + id + " /></td>"+
+			"<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].name'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].levelCert'/> </td>"+
+		    "<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].licenceAuthorith'/></td>"+
+			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].expStartDate'/></td>"+
+			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].expEndDate'/></td>"+
+			"<td class='tc'>"+
+			   "<select name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].mot'>"+
+	             "<option value='1'>是</option>"+
+	             "<option value='0'>无</option>"+
+	           "</select>"+
+			"</td>"+
+			"</tr>");
+		certProNumber++;
+		$("#certProNumber").val(certProNumber);
+		/*proIndex=layer.open({
+			type : 2,
+			title : '添加物资生产证书信息',
+			// skin : 'layui-layer-rim', //加上边框
+			area : [ '50%', '500px' ], //宽高
+			offset : [ '100px', '500px' ],
+			scrollbar : false,  
+			content : '${pageContext.request.contextPath}/supplier_cert_pro/add_cert_pro.html?matProId=' + matProId + '&supplierId=' + supplierId+'&sign='+1, //url
+			closeBtn : 1, //不显示关闭按钮
+		});*/
 	}
 	
 	/** 供应商保存专业生产信息 */	
@@ -422,22 +484,42 @@ $(function(){
 	function openCertSell() {
 		var matSellId = $("input[name='supplierMatSell.id']").val();
 		var supplierId = $("input[name='id']").val();
-		if (!matSellId) {
-			layer.msg("请暂存物资销售专业信息 !", {
-				offset : '300px',
-			});
-		} else {
-			layer.open({
-				type : 2,
-				title : '添加物资生产证书信息',
-				// skin : 'layui-layer-rim', //加上边框
-				area : [ '600px', '500px' ], //宽高
-				offset : '100px',
-				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_cert_sell/add_cert_sell.html?matSellId=' + matSellId + '&supplierId=' + supplierId, //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-		}
+		var id;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
+			async:false,
+			success: function(data){
+				id = data;
+			}
+		});
+		var certSaleNumber = $("#certSaleNumber").val();
+		$("#cert_sell_list_tbody_id").append("<tr>"+
+			"<td class='tc'><input type='checkbox' value=" + id + " /></td>"+
+			"<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].name'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].levelCert'/> </td>"+
+		    "<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].licenceAuthorith'/></td>"+
+			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].expStartDate'/></td>"+
+			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].expEndDate'/></td>"+
+			"<td class='tc'>"+
+			   "<select name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].mot'>"+
+	             "<option value='1'>是</option>"+
+	             "<option value='0'>无</option>"+
+	           "</select>"+
+			"</td>"+
+			"</tr>");
+		certSaleNumber++;
+		$("#certSaleNumber").val(certSaleNumber);
+		
+		/*layer.open({
+			type : 2,
+			title : '添加物资生产证书信息',
+			// skin : 'layui-layer-rim', //加上边框
+			area : [ '600px', '500px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : '${pageContext.request.contextPath}/supplier_cert_sell/add_cert_sell.html?matSellId=' + matSellId + '&supplierId=' + supplierId, //url
+			closeBtn : 1, //不显示关闭按钮
+		});*/
 	}
 	
 	function deleteCertSell() {
@@ -471,22 +553,16 @@ $(function(){
 	function openCertSe() {
 		var matSeId = $("input[name='supplierMatSe.id']").val();
 		var supplierId = $("input[name='id']").val();
-		if (!matSeId) {
-			layer.msg("请暂存服务专业信息 !", {
-				offset : '300px',
-			});
-		} else {
-			layer.open({
-				type : 2,
-				title : '添加物资服务证书信息',
-				// skin : 'layui-layer-rim', //加上边框
-				area : [ '600px', '500px' ], //宽高
-				offset : '100px',
-				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_cert_se/add_cert_se.html?matSeId=' + matSeId + '&supplierId=' + supplierId, //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-		}
+		layer.open({
+			type : 2,
+			title : '添加物资服务证书信息',
+			// skin : 'layui-layer-rim', //加上边框
+			area : [ '600px', '500px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : '${pageContext.request.contextPath}/supplier_cert_se/add_cert_se.html?matSeId=' + matSeId + '&supplierId=' + supplierId, //url
+			closeBtn : 1, //不显示关闭按钮
+		});
 	}
 	
 	function deleteCertSe() {
@@ -595,22 +671,49 @@ $(function(){
 	function openCertEng() {
 		var matEngId = $("input[name='supplierMatEng.id']").val();
 		var supplierId = $("input[name='id']").val();
-		if (!matEngId) {
-			layer.msg("请暂存工程专业信息 !", {
-				offset : '300px',
-			});
-		} else {
-			layer.open({
-				type : 2,
-				title : '添加工程证书信息',
-				// skin : 'layui-layer-rim', //加上边框
-				area : [ '600px', '500px' ], //宽高
-				offset : '100px',
-				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_cert_eng/add_cert_eng.html?matEngId=' + matEngId + '&supplierId=' + supplierId, //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-		}
+		var id;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
+			async:false,
+			success: function(data){
+				id = data;
+			}
+		});
+		var certEngNumber = $("#certEngNumber").val();
+		$("#cert_eng_list_tbody_id").append("<tr>"+
+			"<td class='tc'><input type='checkbox' value=" + id + " /></td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certType'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certCode'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certMaxLevel'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].techName'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].techPt'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].techJop'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].depName'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].depPt'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].depJop'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].licenceAuthorith'/> </td>"+
+			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].expStartDate'/></td>"+
+			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].expEndDate'/></td>"+
+			"<td class='tc'>"+
+			   "<select name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certStatus'>"+
+	             "<option value='1'>有效</option>"+
+	             "<option value='0'>无效</option>"+
+	           "</select>"+
+			"</td>"+
+			"</tr>");
+		certEngNumber++;
+		$("#certSaleNumber").val(certEngNumber);
+		
+		/*layer.open({
+			type : 2,
+			title : '添加工程证书信息',
+			// skin : 'layui-layer-rim', //加上边框
+			area : [ '600px', '500px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : '${pageContext.request.contextPath}/supplier_cert_eng/add_cert_eng.html?matEngId=' + matEngId + '&supplierId=' + supplierId, //url
+			closeBtn : 1, //不显示关闭按钮
+		});*/
 	}
 	
 	function deleteCertEng() {
@@ -990,39 +1093,39 @@ $(function(){
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<!-- <th class="info">附件</th> -->
+														<!-- <th class="info w220">附件</th> -->
 													</tr>
 												</thead>
 												<tbody id="cert_pro_list_tbody_id">
+													<c:set var="certProNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
 														<tr>
 															<td class="tc"><input type="checkbox" value="${certPro.id}" /></td>
-															<td class="tc"><input style="width: 120px"   type="text" nam="listSupplierCertPros[${vs.index }].name" value="${certPro.name}"/> </td>
-															<td class="tc"><input style="width: 70px" type="text" nam="listSupplierCertPros[${vs.index }].levelCert" value="${certPro.levelCert}" /> </td>
-															<td class="tc"><input  style="width: 100px"  type="text" nam="listSupplierCertPros[${vs.index }].licenceAuthorith" value="${certPro.levelCert}"  value="${certPro.licenceAuthorith}"/></td>
+															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" value="${certPro.name}"/> </td>
+															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" /> </td>
+															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" value="${certPro.licenceAuthorith}"/></td>
 															<td class="tc">
-															<input type="text" style="width: 100px"  readonly="readonly" onClick="WdatePicker()" name="listSupplierCertPros[${vs.index }].expStartDate" value="<fmt:formatDate value="${certPro.expEndDate}"/>"   />
-														  </td>
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" value="<fmt:formatDate value="${certPro.expStartDate}"/>"   />
+														    </td>
 															<td class="tc">
-																<input type="text" style="width: 100px"   name="listSupplierCertPros[${vs.index }].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}"/>"  />
-														 </td>
+																<input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}"/>"  />
+														    </td>
 															<td class="tc">
-															   <select name="listSupplierCertPros[${vs.index }].mot" class="w100p">
+															   <select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot">
 														          <option value="1" <c:if test="${certPro.mot=='1'}"> selected="selected"</c:if> >是</option>
 														          <option value="0"  <c:if test="${certPro.mot=='0'}"> selected="selected"</c:if>>无</option>
 														        </select>
 															</td>
-															<!-- 
-															<td class="tc">
+															<!-- <td class="tc">
 															 <u:upload id="pro_up" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
 															 <u:show showId="pro_show" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
-															</td>
-															 -->
+															</td> -->
 														</tr>
+														<c:set var="certProNumber" value="${certProNumber + 1}"/>
 													</c:forEach>
 												</tbody>
 											</table>
-										    
+										    <input type="hidden" id="certProNumber" value=${certProNumber}>
 										</div>
 									  </div>
 									</fieldset>
@@ -1109,21 +1212,24 @@ $(function(){
 													</tr>
 												</thead>
 												<tbody id="cert_sell_list_tbody_id">
+													<c:set var="certSaleNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatSell.listSupplierCertSells}" var="certSell" varStatus="vs">
 														<tr>
 															<td class="tc"><input type="checkbox" value="${certSell.id}" /></td>
-															<td class="tc">${certSell.name}</td>
-															<td class="tc">${certSell.levelCert}</td>
-															<td class="tc">${certSell.licenceAuthorith}</td>
-															<td class="tc"><fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd" /></td>
-															<td class="tc"><fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name" value="${certSell.name}"/></td>
+															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" value="${certSell.levelCert}"/></td>
+															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" value="${certSell.licenceAuthorith}"/></td>
 															<td class="tc">
-															<c:if test="${certSell.mot==1}">
-															是
-															</c:if>
-															<c:if test="${certSell.mot==0}">
-															否 
-															</c:if>
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" value="<fmt:formatDate value="${certSell.expStartDate}"/>"   />
+														    </td>
+															<td class="tc">
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" value="<fmt:formatDate value="${certSell.expEndDate}"/>"   />
+														    </td>
+														    <td class="tc">
+															   <select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot">
+														          <option value="1" <c:if test="${certSell.mot=='1'}"> selected="selected"</c:if> >是</option>
+														          <option value="0"  <c:if test="${certSell.mot=='0'}"> selected="selected"</c:if>>无</option>
+														        </select>
 															</td>
 															<%--<td class="tc">
 																<c:if test="${certSell.attach != null}">
@@ -1134,9 +1240,11 @@ $(function(){
 																</c:if>
 															</td>--%>
 														</tr>
+														<c:set var="certSaleNumber" value="${certSaleNumber + 1}"/>
 													</c:forEach>
 												</tbody>
 											</table>
+										    <input type="hidden" id="certSaleNumber" value=${certSaleNumber}>
 										</div>
 									 </div>
 									 </fieldset>
@@ -1223,15 +1331,18 @@ $(function(){
 													</tr>
 												</thead>
 												<tbody id="reg_person_list_tbody_id">
+													<c:set var="certPersonNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierRegPersons}" var="regPerson" varStatus="vs">
 														<tr>
 															<td class="tc"><input type="checkbox" value="${regPerson.id}" /></td>
-															<td class="tc">${regPerson.regType}</td>
-															<td class="tc">${regPerson.regNumber}</td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regType" value="${regPerson.regType}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regNumber" value="${regPerson.regNumber}"/></td>
 														</tr>
+														<c:set var="certPersonNumber" value="${certPersonNumber + 1}"/>
 													</c:forEach>
 												</tbody>
 											</table>
+											<input type="hidden" id="certPersonNumber" value="${certPersonNumber}">
 										</div>
 									 </div>
 								</fieldset>
@@ -1270,29 +1381,27 @@ $(function(){
 													</tr>
 												</thead>
 												<tbody id="cert_eng_list_tbody_id">
+													<c:set var="certEngNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierCertEngs}" var="certEng" varStatus="vs">
 														<tr>
 															<td class="tc"><input type="checkbox" value="${certEng.id}" /></td>
-															<td class="tc">${certEng.certType}</td>
-															<td class="tc">${certEng.certCode}</td>
-															<td class="tc">${certEng.certMaxLevel}</td>
-															<td class="tc">${certEng.techName}</td>
-															<td class="tc">${certEng.techPt}</td>
-															<td class="tc">${certEng.techJop}</td>
-															<td class="tc">${certEng.depName}</td>
-															<td class="tc">${certEng.depPt}</td>
-															<td class="tc">${certEng.depJop}</td>
-															<td class="tc">${certEng.licenceAuthorith}</td>
-															<td class="tc"><fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd" /></td>
-															<td class="tc"><fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType" value="${certEng.certType}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel" value="${certEng.certMaxLevel}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName" value="${certEng.techName}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt" value="${certEng.techPt}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techJop" value="${certEng.techJop}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depName" value="${certEng.depName}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt" value="${certEng.depPt}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop" value="${certEng.depJop}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith" value="${certEng.licenceAuthorith}"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}"/>"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>"/></td>
 															<td class="tc">
-															<c:if test="${certEng.certStatus==1}">
-															  有效
-															</c:if>
-															<c:if test="${certEng.certStatus==0}">
-															  无效
-															</c:if>
-															
+															   <select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus">
+														          <option value="1" <c:if test="${certEng.certStatus==1}"> selected="selected"</c:if> >有效</option>
+														          <option value="0"  <c:if test="${certEng.certStatus==0}"> selected="selected"</c:if>>无效</option>
+														        </select>
 															</td>
 															<%--<td class="tc">
 																<c:if test="${certEng.attachCert != null}">
@@ -1303,9 +1412,11 @@ $(function(){
 																</c:if>
 															</td>--%>
 														</tr>
+														<c:set var="certEngNumber" value="${certEngNumber + 1}"/>
 													</c:forEach>
 												</tbody>
 											</table>
+											<input type="hidden" id="certEngNumber" value="${certEngNumber}">
 										</div>
 										</div>
 								</fieldset>
@@ -1341,50 +1452,47 @@ $(function(){
 													</tr>
 												</thead>
 												<tbody id="aptitute_list_tbody_id">
+													<c:set var="certAptNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierAptitutes}" var="aptitute" varStatus="vs">
 														<tr>
 															<td class="tc"><input type="checkbox" value="${aptitute.id}" /></td>
-															<td class="tc">${aptitute.certType}</td>
-															<td class="tc">${aptitute.certCode}</td>
-															<td class="tc">${aptitute.aptituteSequence}</td>
-															<td class="tc">${aptitute.professType}</td>
-															<td class="tc">${aptitute.aptituteLevel}</td>
-															<td class="tc"> 
-														   <c:if test="${aptitute.isMajorFund==1}">
-															    是
-															</c:if>
-															<c:if test="${aptitute.isMajorFund==0}">
-														         否
-															</c:if>
-															
-															</td>
-															<td class="tc">${aptitute.aptituteContent}</td>
-															<td class="tc">${aptitute.aptituteCode}</td>
-															<td class="tc"><fmt:formatDate value="${aptitute.aptituteDate}" pattern="yyyy-MM-dd" /></td>
-															<td class="tc">${aptitute.aptituteWay}</td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" value="${aptitute.certType}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode" value="${aptitute.certCode}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence" value="${aptitute.aptituteSequence}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType" value="${aptitute.professType}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" value="${aptitute.aptituteLevel}"/></td>
 															<td class="tc">
-															<c:if test="${aptitute.aptituteStatus==1}">
-															   有效
-															</c:if>
-															<c:if test="${aptitute.aptituteStatus==0}">
-														             无效
-															</c:if>
-															
+															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund">
+														          <option value="1" <c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if> >是</option>
+														          <option value="0"  <c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>否</option>
+														        </select>
 															</td>
-															<td class="tc"><fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd" /></td>
-															<td class="tc">${aptitute.aptituteChangeReason}</td>
-															<%--<td class="tc">
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteCode" value="${aptitute.aptituteCode}"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay" value="${aptitute.aptituteWay}"/></td>
+															<td class="tc">
+															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus">
+														          <option value="1" <c:if test="${aptitute.aptituteStatus==1}"> selected="selected"</c:if> >有效</option>
+														          <option value="0"  <c:if test="${aptitute.aptituteStatus==0}"> selected="selected"</c:if>>无效</option>
+														        </select>
+															</td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}"/>"/></td>
+															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
+															<!-- <td class="tc">
 																<c:if test="${aptitute.attachCert != null}">
 																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${aptitute.attachCert}')">下载附件</a>
 																</c:if>
 																<c:if test="${aptitute.attachCert == null}">
 																	<span class="fz11">无附件下载</span>
 																</c:if>
-															</td>--%>
+															</td> -->
 														</tr>
+														<c:set var="certAptNumber" value="${certAptNumber + 1}"/>
 													</c:forEach>
 												</tbody>
 											</table>
+											<input type="hidden" id="certAptNumber" value="${certAptNumber}">
 									 </div>
 									 </div>
 								<!-- 	 </div> -->
@@ -1472,6 +1580,7 @@ $(function(){
 													</tr>
 												</thead>
 												<tbody id="cert_se_list_tbody_id">
+													<c:set var="certSeNumber" value="0"></c:set>
 													<c:forEach items="${currSupplier.supplierMatSe.listSupplierCertSes}" var="certSe" varStatus="vs">
 														<tr>
 															<td class="tc"><input type="checkbox" value="${certSe.id}" /></td>
@@ -1490,9 +1599,11 @@ $(function(){
 																</c:if>
 															</td>--%>
 														</tr>
+														<c:set var="certSeNumber" value="${certSeNumber}"></c:set>
 													</c:forEach>
 												</tbody>
 											</table>
+											<input type="hidden" id="certSeNumber" value="${certSeNumber}">
 									 	</div>
 									 </div>
 								</fieldset>
