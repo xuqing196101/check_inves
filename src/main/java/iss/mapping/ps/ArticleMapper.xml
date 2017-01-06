@@ -625,7 +625,7 @@
         #{submitAt},
       </if>
       <if test="cancelPublishAt != null">
-        #{CANCAL_PUBLISH_AT},
+        #{cancelPublishAt},
       </if>
     </trim>
   </insert>
