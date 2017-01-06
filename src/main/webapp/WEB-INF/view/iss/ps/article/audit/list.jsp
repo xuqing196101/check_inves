@@ -26,12 +26,13 @@
           jump: function(e, first) { 
             if(!first) {
             	 var articleTypeId = "${articlesArticleTypeId}";
+            	 var secondArticleTypeId = "${secondArticleTypeId}";
 	             var range = $("#range").val();
 	             var status = $("#status").val();
 	             var name = "${articleName}";
 	             var startDate = $("#startDate").val();
 	             var endDate = $("#endDate").val();
-                 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page=" + e.curr + "&articleTypeId=" + articleTypeId + "&range=" + range + "&status=" + status + "&name=" + name +"&publishStartDate="+startDate+"&publishEndDate="+endDate;
+                 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page=" + e.curr + "&articleTypeId=" + articleTypeId + "&range=" + range + "&status=" + status + "&name=" + name +"&publishStartDate="+startDate+"&publishEndDate="+endDate+"&secondArticleTypeId="+secondArticleTypeId;
             }
           }
         });
@@ -76,8 +77,11 @@
       	var curpage = "${list.pageNum}";
       	var articleTypeId = $("#articleTypes").val();
       	var range = $("#range").val();
-      	var title = $("#name").val();
-        window.location.href = "${pageContext.request.contextPath }/article/showaudit.html?id="+id+"&status="+status+"&curpage="+curpage+"&articleTypeId="+articleTypeId+"&range="+range+"&title="+title;
+      	var title = $("#name").val();  
+      	var endDate = $("#endDate").val();
+      	var startDate = $("#startDate").val();
+      	var secondArticleTypeId = $("#secondType").val();
+        window.location.href = "${pageContext.request.contextPath }/article/showaudit.html?id="+id+"&status="+status+"&curpage="+curpage+"&articleTypeId="+articleTypeId+"&range="+range+"&title="+title+"&startDate="+startDate+"&endDate="+endDate+"&secondArticleTypeId="+secondArticleTypeId;
       }
 
       function audit() {
@@ -127,10 +131,43 @@
             }
             $("#articleTypes").select2();
             $("#articleTypes").select2("val", "${article.articleType.id }");
+            var typeId = $("#articleTypes").select2("data").text;
+            if(typeId == "工作动态") {
+            	$("#second").show();
+            	$("#publish_status").attr("class","clear mt5");
+	  			$("#audit_date").attr("class","mt5");
+            } else if(typeId == "采购公告") {
+              	$("#second").show();
+              	$("#publish_status").attr("class","clear mt5");
+	  			$("#audit_date").attr("class","mt5");
+            } else if(typeId == "中标公示") {
+              	$("#second").show();
+              	$("#publish_status").attr("class","clear mt5");
+	  			$("#audit_date").attr("class","mt5");
+            } else if(typeId == "单一来源公示") {
+              	$("#second").show();
+              	$("#publish_status").attr("class","clear mt5");
+	  			$("#audit_date").attr("class","mt5");
+            } else if(typeId == "商城竞价公告") {
+              	$("#second").show();
+              	$("#publish_status").attr("class","clear mt5");
+	  			$("#audit_date").attr("class","mt5");
+            } else if(typeId == "网上竞价公告") {
+              	$("#second").show();
+              	$("#publish_status").attr("class","clear mt5");
+	  			$("#audit_date").attr("class","mt5");
+            } else if(typeId == "采购法规") {
+              	$("#second").show();
+              	$("#publish_status").attr("class","clear mt5");
+	  			$("#audit_date").attr("class","mt5");
+            } else {
+				$("#publish_status").attr("class","mt5");
+	  			$("#audit_date").attr("class","clear mt5");
+			}
           }
         });
         
-        var parentId = $("#articleTypes").val();
+        var parentId = "${articlesArticleTypeId}";
         $.ajax({
           contentType: "application/json;charset=UTF-8",
           url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=" + parentId,
@@ -146,16 +183,14 @@
               });
             }
             $("#secondType").select2();
-            $("#secondType").select2("val", "${article.secondArticleTypeId }");
-            var TtypeId = $("#secondType").select2("data").text;
-            if(TtypeId == "图片新闻"){
-                $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
-            }
+            $("#secondType").select2("val", "${secondArticleTypeId}");
           }
         });
       })
 
 	  function typeInfo() {
+	  	$("#publish_status").attr("class","clear mt5");
+	  	$("#audit_date").attr("class","mt5");
         var typeId = $("#articleTypes").select2("data").text;
         var parentId = $("#articleTypes").select2("val");
         $("#secondType").empty();
@@ -182,6 +217,8 @@
               $("#second").show();
               getSencond(parentId);
          }else {
+         	  $("#publish_status").attr("class","");
+	  		  $("#audit_date").attr("class","clear mt5");
 	          $("#second").hide();
 	          $("#secondType").empty();
         }
@@ -389,7 +426,7 @@
                </select>
            	   </span>
             </li>
-            <li class="mt5">
+            <li class="" id="publish_status">
               <label class="fl">状态：</label>
               <span>
               <select id ="status" name="status" class="">
@@ -400,7 +437,7 @@
                </select>
            </span>
             </li>
-            <li class="mt5">
+            <li class="clear mt5" id="audit_date">
             	<label class="fl">审核时间：</label>
 				<input id="startDate" name="publishStartDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>'
                 onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})" />
