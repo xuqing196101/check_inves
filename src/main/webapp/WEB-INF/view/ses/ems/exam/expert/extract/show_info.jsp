@@ -86,7 +86,7 @@
                       <c:forEach items="${ con.listExpExtCondition}" var="conlist" varStatus="vs">
                         <p>第<span class="b orange">${(vs.index+1)}</span>次抽取，抽取条件如下：</p>
                         <p>专家所在地区【${conlist.address }】
-                             <c:if test="${conlist.addressId != null  } ">
+                             <c:if test="${conlist.addressId != null }">
 		                           <c:if test="${conlist.addressReason != null}">
 		                                                                                 专家所在地区限制条件【${conlist.addressReason }】
 		                           </c:if> 
