@@ -321,7 +321,20 @@ import ses.util.WfUtil;
          branchList.add(branch);
          sup.setBranchList(branchList);
        }
-
+       List<SupplierAddress> addressList = supplierAddressService.getBySupplierId(sup.getId());
+       if(addressList.size()>0){
+       	for(SupplierAddress b:addressList){
+       	    if (StringUtils.isNotBlank(b.getProvinceId())){
+       	        List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
+                   b.setAreaList(city);
+       	    }
+       	}
+           sup.setAddressList(addressList);
+       }else{
+           SupplierAddress address=new SupplierAddress();
+           addressList.add(address);
+           sup.setAddressList(addressList);
+       }
        initCompanyType(model, sup);
        return "ses/sms/supplier_register/basic_info";
      }
