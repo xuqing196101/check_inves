@@ -140,10 +140,6 @@
   	<servlet-class>common.servlet.CommonServlet</servlet-class> 
   	<load-on-startup>1</load-on-startup>
   </servlet>
-  <listener>
-    <description>定时任务:删除无效的专家</description>
-    <listener-class>ses.listener.DelExpertListener</listener-class>
-  </listener>
   <error-page>
     <error-code>500</error-code>
     <location>/error.jsp</location>
