@@ -23,7 +23,7 @@ public class DataDownload {
 	private String name;
 	
 	/**
-	 * 内外网状态(1内网 2 内外网)
+	 * 内外网状态(0内网 1 内外网)
 	 */
 	private Integer ipAddressType;
 	
