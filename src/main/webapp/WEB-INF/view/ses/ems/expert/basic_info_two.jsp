@@ -171,7 +171,7 @@ session.setAttribute("tokenSession", tokenValue);
 			    <h2 class="count_flow"><i>1</i><font color=red>*</font> 主要工作经历</h2>
 			    <ul class="ul_list">
 				<li>  
-				  <textarea <c:if test="${fn:contains(errorField,'主要工作经历')}">onmouseover="errorMsg('主要工作经历')"</c:if> rows="10" name="jobExperiences" id="jobExperiences" style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'主要工作经历')}">border: 2px solid #ef0000;</c:if>' placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
+				  <textarea <c:if test="${fn:contains(errorField,'主要工作经历')}">onmouseover="errorMsg('主要工作经历')"</c:if> rows="10" name="jobExperiences" id="jobExperiences" style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'主要工作经历')}">border: 1px solid #ef0000;</c:if>' placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
 				</li>
 			    </ul>
 			   </div>
@@ -180,7 +180,7 @@ session.setAttribute("tokenSession", tokenValue);
 			    <h2 class="count_flow"><i>2</i><font color=red>*</font> 专业学术成果</h2>
 			    <ul class="ul_list">
 				<li>  
-				  <textarea <c:if test="${fn:contains(errorField,'专业学术成果')}">onmouseover="errorMsg('专业学术成果')"</c:if> rows="10" name="academicAchievement" id="academicAchievement" style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'专业学术成果')}">border: 2px solid #ef0000;</c:if>' placeholder="上传获奖证书">${expert.academicAchievement}</textarea>
+				  <textarea <c:if test="${fn:contains(errorField,'专业学术成果')}">onmouseover="errorMsg('专业学术成果')"</c:if> rows="10" name="academicAchievement" id="academicAchievement" style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'专业学术成果')}">border: 1px solid #ef0000;</c:if>' placeholder="上传获奖证书">${expert.academicAchievement}</textarea>
 				</li>
 			    </ul>
 			   </div>
@@ -189,7 +189,7 @@ session.setAttribute("tokenSession", tokenValue);
 			    <h2 class="count_flow"><i>3</i><font color=red>*</font> 参加军队地方采购评审情况</h2>
 			    <ul class="ul_list">
 				<li>  
-				  <textarea <c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">onmouseover="errorMsg('参加军队地方采购评审情况')"</c:if> rows="10" name="reviewSituation" id="reviewSituation" style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">border: 2px solid #ef0000;</c:if>' placeholder="">${expert.reviewSituation}</textarea>
+				  <textarea <c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">onmouseover="errorMsg('参加军队地方采购评审情况')"</c:if> rows="10" name="reviewSituation" id="reviewSituation" style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">border: 1px solid #ef0000;</c:if>' placeholder="">${expert.reviewSituation}</textarea>
 				</li>
 			    </ul>
 			   </div>
@@ -198,7 +198,7 @@ session.setAttribute("tokenSession", tokenValue);
 			    <h2 class="count_flow"><i>4</i><font color=red>*</font> 需要申请回避的情况</h2>
 			    <ul class="ul_list">
 				<li>  
-				  <textarea <c:if test="${fn:contains(errorField,'需要申请回避的情况')}">onmouseover="errorMsg('需要申请回避的情况')"</c:if> rows="10" name="avoidanceSituation" id="avoidanceSituation" style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'需要申请回避的情况')}">border: 2px solid #ef0000;</c:if>' placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。">${expert.avoidanceSituation}</textarea>
+				  <textarea <c:if test="${fn:contains(errorField,'需要申请回避的情况')}">onmouseover="errorMsg('需要申请回避的情况')"</c:if> rows="10" name="avoidanceSituation" id="avoidanceSituation" style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'需要申请回避的情况')}">border: 1px solid #ef0000;</c:if>' placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。">${expert.avoidanceSituation}</textarea>
 				</li>
 			    </ul>
 			   </div>

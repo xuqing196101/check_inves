@@ -545,7 +545,32 @@ import ses.util.WfUtil;
        model.addAttribute("company", company);
        List<Area> privnce = areaService.findRootArea();
        model.addAttribute("privnce", privnce);
-
+       
+       /**
+        * 查询不通过的理由
+        */
+       SupplierAudit  supplierAudit = new SupplierAudit();
+       supplierAudit.setSupplierId(supplier.getId());;
+       //生产
+       StringBuffer proPageField = new StringBuffer();
+       supplierAudit.setAuditType("mat_pro_page");
+       List<SupplierAudit> proAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+       for (SupplierAudit audit : proAuditList) {
+    	   proPageField.append(audit.getAuditField() + ",");  
+       }
+       model.addAttribute("proPageField", proPageField);
+       //销售
+       StringBuffer sellPageField = new StringBuffer();
+       supplierAudit.setAuditType("mat_sell_page");
+       List<SupplierAudit> sellAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+       for (SupplierAudit audit : sellAuditList) {
+    	   sellPageField.append(audit.getAuditField() + ",");  
+       }
+       model.addAttribute("sellPageField", sellPageField);
+       //工程
+       //服务
+       
+       
        return "ses/sms/supplier_register/supplier_type";
 
      } else{
@@ -1816,7 +1841,6 @@ import ses.util.WfUtil;
    @ResponseBody
    public String auditMsg(SupplierAudit supplierAudit){
      List<SupplierAudit> list = supplierAuditService.selectByPrimaryKey(supplierAudit);
-
      return JSON.toJSONString(list.get(0));
    }
 
@@ -2221,4 +2245,5 @@ import ses.util.WfUtil;
        }
        return flag ? "0" : "1";
    }
+
  }

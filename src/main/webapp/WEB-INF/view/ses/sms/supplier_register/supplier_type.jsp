@@ -866,6 +866,32 @@ $(function(){
  
 	});  
     
+    
+    	// 高亮不通过的字段
+			function displayReason(auditField, auditType) {
+			var supplierId = "${currSupplier.id}";
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplierAudit/displayReason.do",
+					data: {"supplierId": supplierId,"auditField": auditField,"auditType": auditType},
+					dataType: json,
+					success: function(data){
+					layer.msg(data.suggest , {offset: '200px'});
+					}
+				});
+			}
+			
+			//显示不同过的理由
+			function errorMsg(auditField, auditType){
+				var supplierId = "${currSupplier.id}";
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier/audit.html",
+					data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
+					dataType: "json",
+					success: function(data){
+					layer.msg(data.suggest , {offset: '200px'});
+					}
+				});
+			}
 </script>
 	
 </head>
@@ -943,7 +969,7 @@ $(function(){
 										<legend>供应商组织机构和人员</legend>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input id="supplierName_input_id" type="text" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" />
+														<input id="supplierName_input_id" type="text" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" <c:if test="${fn:contains(proPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${org } </div>
 													</div>
@@ -951,7 +977,7 @@ $(function(){
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 人员总数：</span>
 													<div class="input-append co-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalPerson" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalPerson}" />
+														<input type="text" name="supplierMatPro.totalPerson" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalPerson}" <c:if test="${fn:contains(proPageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <div class="cue"> ${person } </div>
 													</div>
@@ -959,7 +985,7 @@ $(function(){
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 管理人员数量：</span>
 													<div class="input-append co-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalMange}" />
+														<input type="text" name="supplierMatPro.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalMange}" <c:if test="${fn:contains(proPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_pro_page')"</c:if>/>
 												     	<span class="add-on cur_point">i</span>
 												     	<div class="cue"> ${mange } </div>
 													</div>
@@ -967,14 +993,14 @@ $(function(){
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalTech}" />
+														<input type="text" name="supplierMatPro.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalTech}" <c:if test="${fn:contains(proPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_pro_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${tech } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 工人数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalWorker}" />
+														<input type="text" name="supplierMatPro.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalWorker}" <c:if test="${fn:contains(proPageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <div class="cue"> ${work } </div>
 													</div>
@@ -988,14 +1014,14 @@ $(function(){
 										<!-- 	<ul class="list-unstyled list-flow"> -->
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术人员数量比例(%)：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.scaleTech" value="${currSupplier.supplierMatPro.scaleTech}" />
+														<input type="text" name="supplierMatPro.scaleTech" value="${currSupplier.supplierMatPro.scaleTech}" <c:if test="${fn:contains(proPageField,'scaleTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('scaleTech','mat_pro_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${stech } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 高级技术人员数量比例(%)：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.scaleHeightTech" value="${currSupplier.supplierMatPro.scaleHeightTech}" />
+														<input type="text" name="supplierMatPro.scaleHeightTech" value="${currSupplier.supplierMatPro.scaleHeightTech}" <c:if test="${fn:contains(proPageField,'scaleHeightTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('scaleHeightTech','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${height } </div>
 													</div>
@@ -1003,35 +1029,35 @@ $(function(){
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 研发部门名称：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.researchName" value="${currSupplier.supplierMatPro.researchName}" />
+														<input type="text" name="supplierMatPro.researchName" value="${currSupplier.supplierMatPro.researchName}" <c:if test="${fn:contains(proPageField,'researchName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('researchName','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <div class="cue"> ${reName } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 研发部门人数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalResearch" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalResearch}" />
+														<input type="text" name="supplierMatPro.totalResearch" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalResearch}" <c:if test="${fn:contains(proPageField,'totalResearch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalResearch','mat_pro_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${tRe } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 研发部门负责人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.researchLead" value="${currSupplier.supplierMatPro.researchLead}" />
+														<input type="text" name="supplierMatPro.researchLead" value="${currSupplier.supplierMatPro.researchLead}" <c:if test="${fn:contains(proPageField,'researchLead')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('researchLead','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <div class="cue"> ${leader } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家军队科研项目：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.countryPro" value="${currSupplier.supplierMatPro.countryPro}" />
+														<input type="text" name="supplierMatPro.countryPro" value="${currSupplier.supplierMatPro.countryPro}" <c:if test="${fn:contains(proPageField,'countryPro')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('countryPro','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <div class="cue"> ${contry } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家军队科技奖项：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.countryReward" value="${currSupplier.supplierMatPro.countryReward}" />
+														<input type="text" name="supplierMatPro.countryReward" value="${currSupplier.supplierMatPro.countryReward}" <c:if test="${fn:contains(proPageField,'countryReward')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('countryReward','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${reward } </div>
 													</div>
@@ -1046,14 +1072,14 @@ $(function(){
 											 
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产线数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalBeltline" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalBeltline}" />
+														<input type="text" name="supplierMatPro.totalBeltline" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalBeltline}" <c:if test="${fn:contains(proPageField,'totalBeltline')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalBeltline','mat_pro_page')"</c:if>/>
 														   <span class="add-on cur_point">i</span>
 														   <div class="cue"> ${line } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产设备数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalDevice" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalDevice}" />
+														<input type="text" name="supplierMatPro.totalDevice" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalDevice}" <c:if test="${fn:contains(proPageField,'totalDevice')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalDevice','mat_pro_page')"</c:if>/>
 													  	   <span class="add-on cur_point">i</span>
 													  	   <div class="cue"> ${device } </div>
 													</div>
@@ -1067,21 +1093,21 @@ $(function(){
 										 
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 质量检测部门：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.qcName" value="${currSupplier.supplierMatPro.qcName}" />
+														<input type="text" name="supplierMatPro.qcName" value="${currSupplier.supplierMatPro.qcName}" <c:if test="${fn:contains(proPageField,'qcName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcName','mat_pro_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													     <div class="cue"> ${qcName } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 质量部门人数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-													 	<input type="text" name="supplierMatPro.totalQc" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalQc}" />
+													 	<input type="text" name="supplierMatPro.totalQc" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalQc}" <c:if test="${fn:contains(proPageField,'totalQc')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalQc','mat_pro_page')"</c:if>/>
 													  <span class="add-on cur_point">i</span>
 													  <div class="cue"> ${tQc } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 质监部门负责人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.qcLead" value="${currSupplier.supplierMatPro.qcLead}" />
+														<input type="text" name="supplierMatPro.qcLead" value="${currSupplier.supplierMatPro.qcLead}" <c:if test="${fn:contains(proPageField,'qcLead')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcLead','mat_pro_page')"</c:if>/>
 														 <span class="add-on cur_point">i</span>
 														 	 <div class="cue"> ${tqcLead } </div>
 													</div>
@@ -1089,7 +1115,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 质量检测设备名称：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.qcDevice" value="${currSupplier.supplierMatPro.qcDevice}" />
+														<input type="text" name="supplierMatPro.qcDevice" value="${currSupplier.supplierMatPro.qcDevice}"<c:if test="${fn:contains(proPageField,'qcDevice')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcDevice','mat_pro_page')"</c:if> />
 												     <span class="add-on cur_point">i</span>
 												     	 <div class="cue"> ${tqcDevice } </div>
 													</div>
@@ -1306,7 +1332,7 @@ $(function(){
 													</div>
 													
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术负责人：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术负责人数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTech}" />
 													    <span class="add-on cur_point">i</span>
