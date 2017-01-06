@@ -27,12 +27,14 @@ import com.alibaba.fastjson.JSON;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
+import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierDictionaryData;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierCertSeService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
@@ -104,13 +106,23 @@ public class SupplierCertSeController extends BaseSupplierController {
 	}
 	
 	@RequestMapping(value = "delete_cert_se")
-	public String deleteCertSell(HttpServletRequest request, String certSeIds, String supplierId) {
+	public String deleteCertSell(Model model, String certSeIds, String supplierId) {
 		supplierCertSeService.deleteCertSe(certSeIds);
 		Supplier supplier = supplierService.get(supplierId);
 //		request.getSession().setAttribute("defaultPage", "tab-4");
-		request.getSession().setAttribute("currSupplier", supplier);
+		model.addAttribute("currSupplier", supplier);
 //		request.getSession().setAttribute("jump.page", "professional_info");
 //		return "redirect:../supplier/page_jump.html";
+        List<DictionaryData> list = DictionaryDataUtil.find(6);
+        for(int i=0;i<list.size();i++){
+            String code = list.get(i).getCode();
+            if(code.equals("GOODS")){
+                list.remove(list.get(i));
+            }
+        }
+        model.addAttribute("supplieType", list);
+        List<DictionaryData> wlist = DictionaryDataUtil.find(8);
+        model.addAttribute("wlist", wlist);
 		return "ses/sms/supplier_register/supplier_type";	
 	}
 	
