@@ -1115,7 +1115,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 质量检测设备名称：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.qcDevice" value="${currSupplier.supplierMatPro.qcDevice}"<c:if test="${fn:contains(proPageField,'qcDevice')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcDevice','mat_pro_page')"</c:if> />
+														<input type="text" name="supplierMatPro.qcDevice" value="${currSupplier.supplierMatPro.qcDevice}" <c:if test="${fn:contains(proPageField,'qcDevice')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcDevice','mat_pro_page')"</c:if> />
 												     <span class="add-on cur_point">i</span>
 												     	 <div class="cue"> ${tqcDevice } </div>
 													</div>
@@ -1201,7 +1201,7 @@ $(function(){
 	 			 						     <legend>供应商组织机构和人员 </legend>
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSell.orgName" value="${currSupplier.supplierMatSell.orgName}" />
+														<input type="text" name="supplierMatSell.orgName" value="${currSupplier.supplierMatSell.orgName}" <c:if test="${fn:contains(sellPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_sell_page')"</c:if>/>
 														 <span class="add-on cur_point">i</span>
 														 <div class="cue"> ${sale_org } </div>
 													</div>
@@ -1209,7 +1209,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 人员总数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSell.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalPerson}" />
+														<input type="text" name="supplierMatSell.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalPerson}" <c:if test="${fn:contains(sellPageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_sell_page')"</c:if>/>
 														 <span class="add-on cur_point">i</span>
 														 	<div class="cue"> ${sale_person } </div>
 													</div>
@@ -1217,7 +1217,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 管理人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSell.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalMange}" />
+														<input type="text" name="supplierMatSell.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalMange}" <c:if test="${fn:contains(sellPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_sell_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${sale_mange } </div>
 													</div>
@@ -1225,7 +1225,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSell.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatSell.totalTech}" />
+														<input type="text" name="supplierMatSell.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatSell.totalTech}" <c:if test="${fn:contains(sellPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_sell_page')"</c:if>/>
 														   <span class="add-on cur_point">i</span>
 														   	<div class="cue"> ${sale_tech } </div>
 													</div>
@@ -1233,7 +1233,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 工人（职员）数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSell.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalWorker}" />
+														<input type="text" name="supplierMatSell.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalWorker}" <c:if test="${fn:contains(sellPageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_sell_page')"</c:if>/>
 														   <span class="add-on cur_point">i</span>
 														   <div class="cue"> ${sale_work } </div>
 													</div>
@@ -1326,7 +1326,7 @@ $(function(){
 										
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatEng.orgName" value="${currSupplier.supplierMatEng.orgName}" />
+														<input type="text" name="supplierMatEng.orgName" value="${currSupplier.supplierMatEng.orgName}" <c:if test="${fn:contains(engPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_org } </div>
 													</div>
@@ -1334,7 +1334,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术负责人数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatEng.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTech}" />
+														<input type="text" name="supplierMatEng.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTech}" <c:if test="${fn:contains(engPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_tech } </div>
 													</div>
@@ -1342,14 +1342,14 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 中级以上职称人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatEng.totalGlNormal" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalGlNormal}" />
+														<input type="text" name="supplierMatEng.totalGlNormal" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalGlNormal}" <c:if test="${fn:contains(engPageField,'totalGlNormal')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalGlNormal','mat_eng_page')"</c:if>/>
 												        <span class="add-on cur_point">i</span>
 												        <div class="cue"> ${eng_normal } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 现场管理人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatEng.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatEng.totalMange}" />
+														<input type="text" name="supplierMatEng.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatEng.totalMange}" <c:if test="${fn:contains(engPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_manage } </div>
 													</div>
@@ -1357,7 +1357,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术和工人数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatEng.totalTechWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTechWorker}" />
+														<input type="text" name="supplierMatEng.totalTechWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTechWorker}" <c:if test="${fn:contains(engPageField,'totalTechWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTechWorker','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_worker } </div>
 													</div>
@@ -1581,7 +1581,7 @@ $(function(){
 											 	  <legend>法人代表信息</legend>
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSe.orgName" value="${currSupplier.supplierMatSe.orgName}" />
+														<input type="text" name="supplierMatSe.orgName" value="${currSupplier.supplierMatSe.orgName}" <c:if test="${fn:contains(servePageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_serve_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													     <div class="cue"> ${fw_org } </div>
 													</div>
@@ -1589,7 +1589,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 人员总数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSe.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalPerson}" />
+														<input type="text" name="supplierMatSe.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalPerson}" <c:if test="${fn:contains(servePageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_serve_page')"</c:if>/>
 													     <span class="add-on cur_point">i</span>
 													     <div class="cue"> ${fw_person } </div>
 													</div>
@@ -1597,7 +1597,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 管理人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSe.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalMange}" />
+														<input type="text" name="supplierMatSe.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalMange}" <c:if test="${fn:contains(servePageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_serve_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${fw_mange } </div>
 													</div>
@@ -1605,7 +1605,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSe.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalTech}" />
+														<input type="text" name="supplierMatSe.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalTech}" <c:if test="${fn:contains(servePageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_serve_page')"</c:if>/>
 													     <span class="add-on cur_point">i</span>
 													     	<div class="cue"> ${fw_tech } </div>
 													</div>
@@ -1613,7 +1613,7 @@ $(function(){
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 工人（职员）数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSe.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalWorker}" />
+														<input type="text" name="supplierMatSe.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalWorker}" <c:if test="${fn:contains(servePageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_serve_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    	<div class="cue"> ${fw_work } </div>
 													</div>

@@ -568,7 +568,21 @@ import ses.util.WfUtil;
        }
        model.addAttribute("sellPageField", sellPageField);
        //工程
+       StringBuffer engPageField = new StringBuffer();
+       supplierAudit.setAuditType("mat_eng_page");
+       List<SupplierAudit> engAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+       for (SupplierAudit audit : engAuditList) {
+    	   engPageField.append(audit.getAuditField() + ",");  
+       }
+       model.addAttribute("engPageField", engPageField);
        //服务
+       StringBuffer servePageField = new StringBuffer();
+       supplierAudit.setAuditType("mat_serve_page");
+       List<SupplierAudit> serveAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+       for (SupplierAudit audit : serveAuditList) {
+    	   servePageField.append(audit.getAuditField() + ",");  
+       }
+       model.addAttribute("servePageField", servePageField);
        
        
        return "ses/sms/supplier_register/supplier_type";
