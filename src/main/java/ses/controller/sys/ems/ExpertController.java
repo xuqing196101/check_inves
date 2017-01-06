@@ -36,6 +36,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import com.graphbuilder.struc.LinkedList;
 
 import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
@@ -489,6 +490,25 @@ public class ExpertController extends BaseController {
     }
     
     /**
+     *〈简述〉递归获取所有的子节点
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param categoryId
+     * @return
+     */
+    public List<Category> getChildrenNodes(String categoryId) {
+        List<Category> allChildrenNodes = new ArrayList<Category>();
+        List<Category> childrenList = categoryService.findPublishTree(categoryId, null);
+        allChildrenNodes.addAll(childrenList);
+        if (childrenList != null && childrenList.size() > 0) {
+            for (Category cate : childrenList) {
+                allChildrenNodes.addAll(getChildrenNodes(cate.getId()));
+            }
+        }
+        return allChildrenNodes;
+    }
+    
+    /**
      *〈简述〉
      * 保存品目信息
      *〈详细描述〉
@@ -502,24 +522,16 @@ public class ExpertController extends BaseController {
     @RequestMapping("/saveCategory")
     public void saveCategory(String expertId, String categoryId, String type, String typeId, boolean isParent){
         if ("1".equals(type)) {
-            // 1代表增加
-            // 判断是否是子节点,如果是父节点被选中则添加该节点的所有子节点
-            //List<Category> list = categoryService.findPublishTree(categoryId, null);
             Expert expert = new Expert();
             expert.setId(expertId);
-            //if (list == null || list.size() == 0) {
-            ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, categoryId);
-            if (expertCategory == null) {
-                expertCategoryService.save(expert, categoryId, typeId);
-            }
-            /*} else {
-                for (Category cate : list) {
-                    List<Category> list1 = categoryService.findPublishTree(cate.getId(),null);
-                    if (list1 == null || list1.size() == 0) {
-                        expertCategoryService.save(expert, cate.getId(), typeId);
-                    }
+            List<Category> list = getChildrenNodes(categoryId);
+            removeSame(list);
+            for (Category cate : list) {
+                ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, cate.getId());
+                if (expertCategory == null) {
+                    expertCategoryService.save(expert, categoryId, typeId);
                 }
-            }*/
+            }
         } else if ("0".equals(type)) {
             // 0代表删除
             // 判断是否是子节点,如果是父节点被取消则删除该节点的所有子节点
