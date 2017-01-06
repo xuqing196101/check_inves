@@ -491,11 +491,13 @@ public class Article{
     }
 
     public Date getCancelPublishAt() {
-      return cancelPublishAt;
+        return cancelPublishAt;
     }
 
     public void setCancelPublishAt(Date cancelPublishAt) {
-      this.cancelPublishAt = cancelPublishAt;
+        this.cancelPublishAt = cancelPublishAt;
     }
+
+   
     
 }
