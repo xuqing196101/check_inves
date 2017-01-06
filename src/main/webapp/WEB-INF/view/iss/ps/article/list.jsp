@@ -147,7 +147,7 @@
         });
         if(ids.length > 0) {
         for(var i=0;i<status.length;i++){
-        	if(status[i]=='1'||status=='2'){
+        	if(status[i]=='1'||status=='2' ||status=='4'){
         		flag=false;
         	}
         }
@@ -161,7 +161,7 @@
             window.location.href = "${ pageContext.request.contextPath }/article/delete.html?ids=" + ids;
           });
         }else{
-        	layer.alert("不可删除已发布或已提交的信息", {
+        	layer.alert("只可删除暂存或者退回的信息", {
                 offset: ['180px', '200px'],
                 shade: 0.01,
               });
@@ -361,8 +361,8 @@
           status=$(this).parent().next().text();
         });
         if(id.length == 1) {
-          if(status=='2' || status=='1') {
-            layer.alert("不可修改已发布或已提交的信息", {
+          if(status=='2' || status=='1'||status=='4') {
+            layer.alert("只可修改暂存或者退回的信息", {
               offset: ['180px', '200px'],
               shade: 0.01,
             });
