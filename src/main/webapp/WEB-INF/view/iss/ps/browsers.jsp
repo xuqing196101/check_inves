@@ -93,16 +93,17 @@
 		为了正常访问，建议您升级或者下载以下浏览器。
 	  </h2>
 	  <div class="brower_box">
+	  		<div class="bro_squre">
+			  <p><img src="${pageContext.request.contextPath}/public/portal/images/firefox.png"/></p>
+			  </p><a class="btn tc firefox" href="javascript:downloadBrowser('firefox');">使用Firefox浏览器</a></p>
+			</div>
+	  
 			<div class="bro_squre">
 			  <p><img src="${pageContext.request.contextPath}/public/portal/images/chrome.png"/></p>
 			  <p><a class="btn tc chrome" href="javascript:downloadBrowser('chrome_64');">使用Chrome浏览器(64位)</a></p>
 			  <p><a class="btn tc chrome" href="javascript:downloadBrowser('chrome_32');">使用Chrome浏览器(32位)</a></p>
 			</div>
 
-			<div class="bro_squre">
-			  <p><img src="${pageContext.request.contextPath}/public/portal/images/firefox.png"/></p>
-			  </p><a class="btn tc firefox" href="javascript:downloadBrowser('firefox');">使用Firefox浏览器</a></p>
-			</div>
 			<div class="bro_squre">
 			  <p><img src="${pageContext.request.contextPath}/public/portal/images/ie11.png"/></p>
 			  <p><a class="btn tc internet" href="javascript:downloadBrowser('ie10_64');">升级到IE10(64位)</a></p>

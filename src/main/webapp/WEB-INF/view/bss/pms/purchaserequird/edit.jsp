@@ -178,14 +178,6 @@
 	
 </script>
              
-<script> 
-function aa(){ 
-	var a=document.getElementById("t_r_content").scrollTop; 
-	var b=document.getElementById("t_r_content").scrollLeft; 
-	document.getElementById("cl_freeze").scrollTop=a; 
-	document.getElementById("t_r_t").scrollLeft=b; 
-} 
-</script>
 </head>
 
 <body>
@@ -205,138 +197,8 @@ function aa(){
 		<div class="headline-v2">
 			<h2>计划明细</h2>
 		</div>
-		<div class="content table_box" id="table">
+		<div class="content table_box">
 		<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
-		<!-- 锁定表头开始 -->
-		  <div class="w100p"> 
-		   <div class="t_left left_width"> 
-			<div class="w100p"> 
-				<table class="table_head"> 
-					<tr> 
-						<th width="100%">序号</th>
-					</tr> 
-				</table> 
-			</div> 
-			<div class="cl_freeze" id="cl_freeze"> 
-				<table> 
-					<tr> 
-						<td class="tc" width="20%"  class="bordertop">${obj.seq}<input class="border0" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-					</tr> 
-				</table> 
-			</div> 
-		   </div> 
-		   <div class="t_r right_width"> 
-             <div class="t_one">
-                <div class="t_r_t" id="t_r_t"> 
-                  <div class="t_r_title"> 
-                    <table class="table_head">
-						<tr> 
-							<th width="10%">需求部门</th>
-							<th width="10%">物资类别及物种名称</th>
-							<th width="5%">规格型号</th>
-							<th width="5%">质量技术标准（技术参数）</th>
-							<th width="5%">计量单位</th>
-							<th width="5%">采购数量</th>
-							<th width="5%">单位（元）</th>
-							<th width="5%">预算金额（万元）</th>
-							<th width="5%">交货期限</th>
-							<th width="5%">采购方式建议</th>
-							<th width="10%">供应商名称</th>
-							<th width="5%">是否申请办理免税</th>
-							<th width="5%">物资用途（仅进口）</th>
-							<th width="5%">使用单位（仅进口）</th>
-							<th width="10%">备注</th>
-							<th width="5%">状态</th>
-						</tr> 
-					</table> 
-				   </div> 
-				</div> 
-				<div class="t_r_content" id="t_r_content" onscroll="aa()"> 
-					<table class="table_input left_table table_head"> 
-						<tr> 
-                          <td width="10%"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
-                           <c:forEach items="${requires }" var="re" >
-					         <c:if test="${obj.department==re.name }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
-			               </c:forEach>
-                          </td>
-                  		  <td width="10%">
-                  		  		<input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName}">
-                  		  </td>
-                		  <td width="5%">
-                		  		<input type="text" name="list[${vs.index }].stand" value="${obj.stand}">
-                		  </td>
-                		  <td width="5%">
-                		  		<input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}">
-                		  </td>
-                          <td width="5%">
-                          		<input type="text" name="list[${vs.index }].item" value="${obj.item}" class="w80">
-                          </td>
-                 		  <td width="5%">
-                   			 <c:if test="${obj.purchaseCount!=null}">
-                               <input   type="hidden" name="ss"   value="${obj.id }" >
-                   			   <input maxlength="11" id="purchaseCount" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
-                               <input type="hidden" name="ss" value="${obj.parentId }">
-                             </c:if>
-                             <c:if test="${obj.purchaseCount==null }">
-                               <input class="border0" type="text" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount }">
-                             </c:if>
-                 		  </td>
-                 		  <td width="5%">
-                    		<c:if test="${obj.price!=null}">
-                   			   <input   type="hidden" name="ss"   value="${obj.id }">
-                   			   <input maxlength="11" id="price"  name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
-                   			   <input type="hidden" name="ss"   value="${obj.parentId }">
-                   			</c:if>
-                   			<c:if test="${obj.price==null}">
-                    		   <input readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
-                   			</c:if>
-                 		 </td>
-               		     <td width="5%">
-                   			 <input   type="hidden" name="ss"   value="${obj.id }">
-                   			 <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="w80"/>
-                   			 <input type="hidden" name="ss"   value="${obj.parentId }">
-                 		 </td>
-                 		 <td width="5%">
-                 		 	 <input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate}" class="w100">
-                 		 </td>
-             		     <td width="5%">
-                   			<c:if test="${obj.price!=null}">
-                     		  <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
-                       			 <option value="">请选择</option>
-                       			 <c:forEach items="${kind}" var="kind" >
-                          			 <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
-                       			 </c:forEach>
-                      		  </select> 
-                            </c:if>
-               			</td>
-                        <td width="10%">
-                        	<input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}" disabled="disabled">
-                        </td>
-                        <td width="5%">
-                        	<input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}">
-                        </td>
-                        <td width="5%">
-                        	<input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}">
-                        </td>
-                		<td width="5%">
-                			<input type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit}">
-                		</td>
-                        <td width="10%">${obj.memo }</td>
-                        <td width="5%">
-                        	<input type="text" value="暂存" readonly="readonly">
-                        </td>
-					</tr> 
-				</table> 
-		      </div>
-			</div> 
-         </div>
-       </div>
-       </form>
-       </div>
-       <!-- 锁定表头结束 -->
-
-
-
              <div class="content table_box over_scroll h365 mt20">
                  <table id="table" class="table table-bordered table-condensed table_input space_nowrap left_table">
 					<thead>

@@ -418,7 +418,7 @@
     t.GIVE_TIME as giveTime,
     t.MATERIALS_TYPE as materialsType,
     o.NAME as orgName 
-    from T_BSS_PPMS_TASK t left join T_SES_OMS_ORG o on t.PURCHASE_REQUIRED_ID = o.ID 
+    from T_BSS_PPMS_TASK t left join T_SES_OMS_ORG o on t.orgId = o.ID 
     where 1=1
     and t.IS_DELETED = 0
     and t.STATUS = '1' and t.NOT_DETAIL = 0

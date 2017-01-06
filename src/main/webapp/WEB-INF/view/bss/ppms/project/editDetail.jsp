@@ -210,8 +210,8 @@
                     <th>质量技术标准</th>
                     <th>计量单位</th>
                     <th>采购数量</th>
-                    <th>单价（元）</th>
-                    <th>预算金额（万元）</th>
+                   <!--  <th>单价（元）</th>
+                    <th>预算金额（万元）</th> -->
                     <th>交货期限</th>
                     <th>采购方式建议</th>
                     <th>供应商名称</th>
@@ -251,7 +251,7 @@
                           <input style="border: 0px;" disabled="disabled" type="text" name="lists[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
                         </c:if>
                       </td>
-                      <td class="tc p0">
+                     <%--  <td class="tc p0">
                         <c:if test="${obj.price!=null }">
                           <input type="hidden" name="ss" value="${obj.id }">
                           <input maxlength="11" id="price" name="lists[${vs.index }].price" type="text" onblur="sum1(this);" value="${obj.price}" />
@@ -265,7 +265,7 @@
                         <input type="hidden" name="ss" value="${obj.id }">
                         <input maxlength="11" id="budget" name="lists[${vs.index }].budget" class="border0 tr pr20" type="text" readonly="readonly" value="${obj.budget}" />
                         <input type="hidden" name="ss" value="${obj.parentId }">
-                      </td>
+                      </td> --%>
                       <td class="tc">${obj.deliverDate}</td>
                       <td class="tc advice">
                         <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">

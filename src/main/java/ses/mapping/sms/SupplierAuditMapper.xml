@@ -28,6 +28,9 @@
     <if test="auditField!=null">
 		and  AUDIT_FIELD=#{auditField}
     </if>
+    <if test="auditType!=null">
+		and  AUDIT_TYPE=#{auditType}
+    </if>
     and IS_DELETED = 0
     ORDER BY CREATED_AT DESC
   </select>

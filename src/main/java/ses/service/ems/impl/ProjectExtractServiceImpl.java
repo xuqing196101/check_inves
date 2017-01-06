@@ -151,40 +151,40 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
   @Override
   public void update(ProjectExtract projectExtract) {
 
-//    if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
-//      if(projectExtract.getOperatingType() == 1){
-//        for (String packageId : projectExtract.getPackageId()) {
-//          if (!"".equals(packageId)){
-//            ProjectExtract pe = extractMapper.selectByPrimaryKey(projectExtract.getId());
-//            if(pe != null){
-//              if(packageId != pe.getProjectId()){
-//                ProjectExtract extract = new ProjectExtract();
-//                extract.setProjectId(packageId);
-//                extract.setExpertId(pe.getExpert().getId());
-//                List<ProjectExtract> list = extractMapper.list(extract);
-//                if(list != null && list.size() != 0){
-//                  list.get(0).setOperatingType((short)1);
-//                  list.get(0).setReviewType(pe.getReviewType());
-//                  extractMapper.updateByPrimaryKeySelective(list.get(0));
-//                }else{
-//                  ProjectExtract pext = new ProjectExtract();
-//                  pext.setExpertId(pe.getExpert().getId());
-//                  pext.setProjectId(packageId);
-//                  pext.setOperatingType((short)1);
-//                  pext.setCreatedAt(new Date());
-//                  pext.setReviewType(pe.getReviewType());
-//                  extractMapper.insertSelective(pext);
-//                }
-//
-//
-//              }
-//
-//            }
-//          }
-//        }
-//
-//      }
-//    }
+    if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
+      if(projectExtract.getOperatingType() == 1){
+        for (String packageId : projectExtract.getPackageId()) {
+          if (!"".equals(packageId)){
+            ProjectExtract pe = extractMapper.selectByPrimaryKey(projectExtract.getId());
+            if(pe != null){
+              if(packageId != pe.getProjectId()){
+                ProjectExtract extract = new ProjectExtract();
+                extract.setProjectId(packageId);
+                extract.setExpertId(pe.getExpert().getId());
+                List<ProjectExtract> list = extractMapper.list(extract);
+                if(list != null && list.size() != 0){
+                  list.get(0).setOperatingType((short)1);
+                  list.get(0).setReviewType(pe.getReviewType());
+                  extractMapper.updateByPrimaryKeySelective(list.get(0));
+                }else{
+                  ProjectExtract pext = new ProjectExtract();
+                  pext.setExpertId(pe.getExpert().getId());
+                  pext.setProjectId(packageId);
+                  pext.setOperatingType((short)1);
+                  pext.setCreatedAt(new Date());
+                  pext.setReviewType(pe.getReviewType());
+                  extractMapper.insertSelective(pext);
+                }
+
+
+              }
+
+            }
+          }
+        }
+
+      }
+    }
     extractMapper.updateByPrimaryKeySelective(projectExtract);
 
   }

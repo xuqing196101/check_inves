@@ -557,13 +557,12 @@ import ses.util.WfUtil;
          supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders()); 
        }
        if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
-         for(SupplierAddress b:supplier.getAddressList()){
-           if (StringUtils.isNotBlank(b.getProvinceId())){
-             List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
-             b.setAreaList(city);
+           for(SupplierAddress b:supplier.getAddressList()){
+               if (StringUtils.isNotBlank(b.getProvinceId())){
+                   List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
+                   b.setAreaList(city);
+               }
            }
-         }
-
        }
        if(supplier.getConcatProvince()!=null){
          List<Area> concity = areaService.findAreaByParentId(supplier.getConcatProvince());
@@ -1669,10 +1668,13 @@ import ses.util.WfUtil;
      model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
      model.addAttribute("supplierId", supplier.getId());
      model.addAttribute("privnce", privnce);
+     
+     // 所有的不通过字段的名字
      SupplierAudit s=new SupplierAudit();
      s.setSupplierId(supplier.getId());;
+     s.setAuditType("basic_page");
      List<SupplierAudit> auditLists = supplierAuditService.selectByPrimaryKey(s);
-     // 所有的不通过字段的名字
+     
      StringBuffer errorField = new StringBuffer();
      for (SupplierAudit audit : auditLists) {
        errorField.append(audit.getAuditField() + ",");
@@ -1812,10 +1814,7 @@ import ses.util.WfUtil;
 
    @RequestMapping(value="/audit",produces = "text/html;charset=UTF-8")
    @ResponseBody
-   public String auditMsg(String id,String fieldName){
-     SupplierAudit supplierAudit=new SupplierAudit();
-     supplierAudit.setSupplierId(id);
-     supplierAudit.setAuditField(fieldName);
+   public String auditMsg(SupplierAudit supplierAudit){
      List<SupplierAudit> list = supplierAuditService.selectByPrimaryKey(supplierAudit);
 
      return JSON.toJSONString(list.get(0));

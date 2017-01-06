@@ -990,7 +990,7 @@ $(function(){
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info">附件</th>
+														<!-- <th class="info">附件</th> -->
 													</tr>
 												</thead>
 												<tbody id="cert_pro_list_tbody_id">
@@ -1012,12 +1012,12 @@ $(function(){
 														          <option value="0"  <c:if test="${certPro.mot=='0'}"> selected="selected"</c:if>>无</option>
 														        </select>
 															</td>
+															<!-- 
 															<td class="tc">
-															<div class="fl w220 ">
 															 <u:upload id="pro_up" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
 															 <u:show showId="pro_show" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
-															</div>
 															</td>
+															 -->
 														</tr>
 													</c:forEach>
 												</tbody>

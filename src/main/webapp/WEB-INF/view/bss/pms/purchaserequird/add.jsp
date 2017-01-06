@@ -121,11 +121,12 @@
 						// var tr=$(obj).parent().parent();
 						$(tr).children(":first").children(":first").val(data);
 						var s = detailRow.length;
-						var count=2;
+						var count=1;
 						// var trs = $(obj).parent().parent();
 						if(detailRow.length==0){
+							count=count+s;
 							$("#detailZeroRow").html("<tr name='detailRow' class='tc p0'>   <td> " +
-									"<input class='m0 ' type='text' name='list[" + 0 + "].seq' /></td>" +
+									"<input class='m0 ' required='required' type='text' name='list[" + 0 + "].seq' /></td>" +
 									"<td class=''  name='department'><input class='m0'  type='text' name='list[" + 0 + "].department'  value=''/></td>" +
 									"<td class='' ><input class='m0 ' type='text' name='list[" + 0 + "].goodsName' onkeyup='listName(this)'/></td>" +
 									"<td class=''  ><input class='m0' type='text' name='list[" + 0 + "].stand' /></td>" +
@@ -149,7 +150,7 @@
 									"<tr/>");
 						}else{
 						$(detailRow[detailRow.length-1]).after("<tr name='detailRow' class='tc'>  <td>"+count+"</td>  <td>  " +
-							"<input  class='m0'  type='text' name='list[" + s + "].seq' /></td>" +
+							"<input  class='m0'  required='required' type='text' name='list[" + s + "].seq' /></td>" +
 							"<td class=''  name='department'><input   class='m0'  type='text' name='list[" + s + "].department' readonly='readonly' value=''/></td>" +
 							"<td  class='' ><input class='m0 ' type='text' name='list[" + s + "].goodsName' onkeyup='listName(this)'/></td>" +
 							"<td  class='' ><input class='m0 ' type='text' name='list[" + s + "].stand' /></td>" +
@@ -162,9 +163,9 @@
 							"<td  class='' ><select class='pt m0' name='list[" + s + "].purchaseType' class='pt' id='pType["+s+"]'> <option value='' >请选择</option>" +
 							" <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>" +
 							"<td class='' ><input class='pt ' type='text' name='list[" + s + "].supplier' /></td>" +
-							"<td class=''><input class='pt' type='text' name='list[" + s + "].isFreeTax' /></td>" +
-							"<td class='' ><input class='pt'  type='text' name='list[" + s + "].goodsUse' /></td>" +
-							"<td class='' ><input class='pt'   type='text' name='list[" + s + "].useUnit' /></td>" +
+							"<td  class=''><input class='pt' type='text' name='list[" + s + "].isFreeTax' /></td>" +
+							"<td name='userNone' class='' ><input class='pt'  type='text' name='list[" + s + "].goodsUse' /></td>" +
+							"<td name='userNone' class='' ><input class='pt'   type='text' name='list[" + s + "].useUnit' /></td>" +
 							"<td class='' ><input class='pt '  type='text' name='list[" + s + "].memo' /></td>" +
 							/* "<td><input type='text' name='list[" + s + "].status' value='暂存' readonly='readonly' /></td>" + */
 							"<td class='' ><button  type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
@@ -594,7 +595,7 @@
 												               +"    <input style='border: 0px;'  onblur='sum1(this)'  type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
 												               +"   <input type='hidden'  value='"+data[i].parentId+"' >   </td>"
 												               +"  <td class='tc p0'>  <input   type='hidden'   value='"+data[i].id+"'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].budget' value='"+isValueLegal(data[i].budget)+"'/>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].budget' value='"+budgets(data[i].budget)+"'/>"
 												               +"   <input type='hidden'  value='"+data[i].parentId+"' > </td>"
 												               +"  <td class='tc p0'>"
 												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
@@ -671,14 +672,12 @@
 				return value;
 			}
 			
-		/* 	function budgets(bud){
-				if (value != null || value !="null" || value !="undefined" || value !=undefined){
+	 	function budgets(bud){
+				if (bud != null ){
 					  bud = bud.toFixed(4);
-					 
-					   return "";
 					}
-				return value;
-			} */
+				return bud;
+			}   
 /* 			function  jud() {
 		  var data="5行A列有错误信息";
 				var flag=true;
@@ -960,7 +959,7 @@
 									<td>1</td>
 										<td class=" p0">
 											<input type="hidden" name="list[0].id" id="purid" value="" class="m0">
-											<input type="text" name="list[0].seq" value="" class="m0  ">
+											<input type="text" name="list[0].seq" required="required" value="一" class="m0  ">
 										</td>
 										<td class=" p0" name="department">
 										
