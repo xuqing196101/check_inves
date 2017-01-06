@@ -1059,9 +1059,10 @@ public class ArticleController extends BaseSupplierController {
     model.addAttribute("articlesRange", range);
     model.addAttribute("articlesStatus", status);
     model.addAttribute("articlesArticleTypeId", articleTypeId);
+    String secondArticleTypeId = request.getParameter("secondArticleTypeId");
     model.addAttribute("publishStartDate", request.getParameter("startDate"));
     model.addAttribute("publishEndDate", request.getParameter("endDate"));
-    model.addAttribute("secondArticleTypeId", request.getParameter("secondArticleTypeId"));
+    model.addAttribute("secondArticleTypeId", secondArticleTypeId);
     model.addAttribute("curpage", curpage);
     return "iss/ps/article/audit/showaudit";
   }
@@ -1343,6 +1344,8 @@ public class ArticleController extends BaseSupplierController {
     article.setShowCount(0);
     for (String str : id) {
       article.setId(str);
+      article.setUpdatedAt(new Date());
+      article.setCancelPublishAt(new Date());
       articleService.updateStatus(article);
       // solrNewsService.deleteIndex(str);
     }

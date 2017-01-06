@@ -1144,6 +1144,12 @@ and status = 2
       <if test="submitAt != null">
         SUBMIT_AT = #{submitAt},
       </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="cancelPublishAt != null">
+        CANCAL_PUBLISH_AT = #{cancelPublishAt},
+      </if>
       <if test="reason != null and reason !=''">
         REASON = #{reason},
       </if>
