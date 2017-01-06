@@ -1,24 +1,24 @@
-package synchro.outer.read.infos;
+package synchro.inner.read.att;
 
 import java.io.File;
 
 /**
  * 
  * 版权：(C) 版权所有 
- * <简述> 导入同步的信息
+ * <简述> 内网附件
  * <详细描述>
  * @author   myc
  * @version  
  * @since
  * @see
  */
-public interface OuterInfoService {
+public interface InnerAttachService {
 
     /**
      * 
-     *〈简述〉导入信息
+     *〈简述〉导入附件
      *〈详细描述〉
      * @author myc
      */
-    public void importInfos(final File file);
+    public void importAttach(final File file);
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
-import synchro.outer.read.infos.OuterInfoService;
+import synchro.outer.read.infos.OuterInfoImportService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 
@@ -24,7 +24,7 @@ import synchro.util.FileUtils;
  * @see
  */
 @Service
-public class OuterInfoServiceImpl implements OuterInfoService {
+public class OuterInfoImportServiceImpl implements OuterInfoImportService {
 
     
     /** 信息发布service **/
@@ -37,7 +37,7 @@ public class OuterInfoServiceImpl implements OuterInfoService {
     
     /**
      * 
-     * @see synchro.outer.read.infos.OuterInfoService#importInfos(java.io.File)
+     * @see synchro.outer.read.infos.OuterInfoImportService#importInfos(java.io.File)
      */
     @Override
     public void importInfos(final File file) {

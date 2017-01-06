@@ -376,4 +376,15 @@ public interface ArticleMapper {
      * @param article {@link Article}
      */
     void insertArticle(Article article);
+    
+    /**
+     * 
+     *〈简述〉获取取消的信息 - 数据同步使用
+     *〈详细描述〉
+     * @author myc
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @return
+     */
+    List<Article> getCancelArticle(@Param("startTime")String startTime, @Param("endTime")String endTime);
 }

@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import synchro.inner.read.FilesRepeater;
+import synchro.inner.read.InnerFilesRepeater;
 
 /**
  * 
@@ -25,7 +25,7 @@ import synchro.inner.read.FilesRepeater;
 public class TestExpertReadTask {
 
     @Resource
-    private FilesRepeater fileRepeater;
+    private InnerFilesRepeater fileRepeater;
     
     @Test
     public void test(){

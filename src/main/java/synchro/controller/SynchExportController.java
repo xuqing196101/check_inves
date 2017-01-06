@@ -18,7 +18,7 @@ import com.github.pagehelper.PageInfo;
 import common.bean.ResponseBean;
 import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
-import synchro.inner.backup.service.infos.InnerInfoService;
+import synchro.inner.backup.service.infos.InnerInfoExportService;
 import synchro.model.SynchRecord;
 import synchro.service.SynchRecordService;
 import synchro.service.SynchService;
@@ -44,7 +44,7 @@ public class SynchExportController {
     
     /** 同步信息数据service **/
     @Autowired
-    private InnerInfoService infoService;
+    private InnerInfoExportService infoService;
     
     /** 记录service  **/
     @Autowired

@@ -15,7 +15,7 @@ import common.model.UploadFile;
 import common.service.UploadService;
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
-import synchro.inner.backup.service.infos.InnerInfoService;
+import synchro.inner.backup.service.infos.InnerInfoExportService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
@@ -31,7 +31,7 @@ import synchro.util.OperAttachment;
  * @see
  */
 @Service
-public class InnerInfoServiceImpl implements InnerInfoService {
+public class InnerInfoExportServiceImpl implements InnerInfoExportService {
     
     /** 信息发布service **/
     @Autowired
@@ -48,12 +48,14 @@ public class InnerInfoServiceImpl implements InnerInfoService {
     
     /**
      * 
-     * @see synchro.inner.backup.service.infos.InnerInfoService#backUpInfos(java.lang.String, java.lang.String)
+     * @see synchro.inner.backup.service.infos.InnerInfoExportService#backUpInfos(java.lang.String, java.lang.String)
      */
     @Override
     public void backUpInfos(String startTime, String endTime, Date synchDate) {
         List<Article>  list = articleService.getListBypublishedTime(startTime, endTime);
+        List<Article> cancelList = getCancelNews(startTime, endTime);
         if (list != null && list.size() > 0){
+            list.addAll(cancelList);
             List<UploadFile> attachList = new ArrayList<>();
             for (Article article : list){
                 List<UploadFile> fileList = uploadService.findBybusinessId(article.getId(), Constant.TENDER_SYS_KEY);
@@ -70,6 +72,22 @@ public class InnerInfoServiceImpl implements InnerInfoService {
             }
         }
         recordService.backupInfos(synchDate, new Integer(list.size()).toString());
+    }
+    
+    /**
+     * 
+     *〈简述〉获取取消的信息
+     *〈详细描述〉
+     * @author myc
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     */
+    public List<Article> getCancelNews(String startTime, String endTime){
+        List<Article> cancelList = articleService.getCancelNews(startTime, endTime);
+        if (cancelList != null && cancelList.size() > 0){
+            return cancelList;
+        }
+        return new ArrayList<>();
     }
 
 }

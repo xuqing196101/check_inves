@@ -63,7 +63,7 @@ session.setAttribute("tokenSession", tokenValue);
 			},
 			callback: {
 				onCheck: saveCategory,
-				beforeCheck: zTreeBeforeCheck
+				// beforeCheck: zTreeBeforeCheck
 			},
 			view: {
 				fontCss: setFontCss,
@@ -250,7 +250,7 @@ function searchCate(cateId, treeId) {
 			},
 			callback: {
 				onCheck: saveCategory,
-				beforeCheck: zTreeBeforeCheck
+				// beforeCheck: zTreeBeforeCheck
 			},
 			view: {
 				fontCss: setFontCss,

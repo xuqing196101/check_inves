@@ -19,7 +19,7 @@ import synchro.util.FileUtils;
  * @see
  */
 @Component
-public class FilesRepeater {
+public class InnerFilesRepeater {
     
     /**
      * 线程池
@@ -38,7 +38,7 @@ public class FilesRepeater {
         if (file != null && file.exists()){
             File [] files = file.listFiles();
             for (File f : files){
-                taskExecutor.execute(new FileRun(f));
+                taskExecutor.execute(new InnerFileRun(f));
             }
         }
     }

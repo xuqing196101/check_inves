@@ -858,7 +858,7 @@ public class ArticleController extends BaseSupplierController {
    * @return String
    */
   @RequestMapping("/auditlist")
-  public String auditlist(Model model,String articleTypeId, Integer status, Integer range, Integer page, Date publishStartDate, Date publishEndDate, HttpServletRequest request) {
+  public String auditlist(Model model, String articleTypeId, String secondArticleTypeId, Integer status, Integer range, Integer page, Date publishStartDate, Date publishEndDate, HttpServletRequest request) {
     Article article = new Article();
     ArticleType articleType = new ArticleType();
     String name = request.getParameter("name");
@@ -879,6 +879,10 @@ public class ArticleController extends BaseSupplierController {
       articleType.setId(articleTypeId);
       article.setArticleType(articleType);
       map.put("articleType", article.getArticleType());
+    }
+    
+    if (secondArticleTypeId != null && !secondArticleTypeId.equals("")) {
+      map.put("secondArticleTypeId", secondArticleTypeId);
     }
     
     if (publishStartDate != null) {
@@ -941,6 +945,7 @@ public class ArticleController extends BaseSupplierController {
     model.addAttribute("article", article);
     model.addAttribute("publishStartDate", publishStartDate);
     model.addAttribute("publishEndDate", publishEndDate);
+    model.addAttribute("secondArticleTypeId", secondArticleTypeId);
     return "iss/ps/article/audit/list";
 
   }
@@ -1054,6 +1059,10 @@ public class ArticleController extends BaseSupplierController {
     model.addAttribute("articlesRange", range);
     model.addAttribute("articlesStatus", status);
     model.addAttribute("articlesArticleTypeId", articleTypeId);
+    String secondArticleTypeId = request.getParameter("secondArticleTypeId");
+    model.addAttribute("publishStartDate", request.getParameter("startDate"));
+    model.addAttribute("publishEndDate", request.getParameter("endDate"));
+    model.addAttribute("secondArticleTypeId", secondArticleTypeId);
     model.addAttribute("curpage", curpage);
     return "iss/ps/article/audit/showaudit";
   }
@@ -1335,6 +1344,8 @@ public class ArticleController extends BaseSupplierController {
     article.setShowCount(0);
     for (String str : id) {
       article.setId(str);
+      article.setUpdatedAt(new Date());
+      article.setCancelPublishAt(new Date());
       articleService.updateStatus(article);
       // solrNewsService.deleteIndex(str);
     }

@@ -365,4 +365,15 @@ public interface ArticleService {
      * @param article
      */
     void insertArticle(Article article);
+    
+    /**
+     * 
+     *〈简述〉获取取消的信息 - 数据同步使用
+     *〈详细描述〉
+     * @author myc
+     * @param startTime 
+     * @param endTime
+     * @return
+     */
+    List<Article> getCancelNews(String startTime, String endTime);
 }

@@ -1,5 +1,11 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*,bss.util.PropUtil" pageEncoding="UTF-8"%>
 
+<%
+  //生产环境
+  String environment = PropUtil.getProperty("environment");
+  //内外网
+  String ipAddressType = PropUtil.getProperty("ipAddressType");
+%>
 <link href="${pageContext.request.contextPath}/public/portal/images/favicon.ico"  rel="shortcut icon" type="image/x-icon" />
 <link href="${pageContext.request.contextPath}/public/portal/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/portal/css/style.css" media="screen" rel="stylesheet" type="text/css">

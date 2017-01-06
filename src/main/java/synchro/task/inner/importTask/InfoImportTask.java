@@ -1,9 +1,9 @@
-package synchro.task;
+package synchro.task.inner.importTask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import synchro.outer.read.OuterFilesRepeater;
+import synchro.inner.read.InnerFilesRepeater;
 
 /**
  * 
@@ -15,14 +15,15 @@ import synchro.outer.read.OuterFilesRepeater;
  * @since
  * @see
  */
-@Component("outerReadTask")
-public class OuterImportInfosTask {
+@Component("innerInfoImportTask")
+public class InfoImportTask {
+
     
     /**
      * 外网文件导入
      */
     @Autowired
-    private OuterFilesRepeater fileRepeater;
+    private InnerFilesRepeater fileRepeater;
     
     /**
      * 
@@ -30,7 +31,7 @@ public class OuterImportInfosTask {
      *〈详细描述〉
      * @author myc
      */
-    public void outerReadTask(){
+    public void innerInfoImportTask(){
         fileRepeater.initFiles();
     }
     

@@ -1,9 +1,9 @@
-package synchro.outer.read;
+package synchro.inner.read;
 
 import java.io.File;
 
-import synchro.outer.read.att.OuterAttachService;
-import synchro.outer.read.infos.OuterInfoImportService;
+import synchro.inner.read.att.InnerAttachService;
+import synchro.inner.read.infos.InnerInfoImportService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
@@ -19,23 +19,23 @@ import synchro.util.SpringBeanUtil;
  * @since
  * @see
  */
-public class OuterFilesRun implements Runnable {
+public class InnerFileRun implements Runnable {
     
     /** 属性 **/
     private  File file = null;
     
     /** 信息文件导入service **/
-    private OuterInfoImportService infoService;
+    private InnerInfoImportService infoService;
     
     /** 附件导入 **/
-    private OuterAttachService attachService;
+    private InnerAttachService attachService;
     
 
     /** 构造方法 **/
-    public OuterFilesRun(final File file){
+    public InnerFileRun(final File file){
         this.file = file;
-        this.infoService = SpringBeanUtil.getBean(OuterInfoImportService.class);
-        this.attachService = SpringBeanUtil.getBean(OuterAttachService.class);
+        this.infoService = SpringBeanUtil.getBean(InnerInfoImportService.class);
+        this.attachService = SpringBeanUtil.getBean(InnerAttachService.class);
     }
     
     /**

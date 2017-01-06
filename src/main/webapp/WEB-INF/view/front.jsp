@@ -1,6 +1,11 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*,bss.util.PropUtil" pageEncoding="UTF-8"%>
 
-
+<%
+  //生产环境
+  String environment = PropUtil.getProperty("environment");
+  //内外网
+  String ipAddressType = PropUtil.getProperty("ipAddressType");
+%>
 
 <!-- 前端css样式 -->
 <link href="${pageContext.request.contextPath}/public/front/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />

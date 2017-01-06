@@ -22,11 +22,16 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 	</task:scheduled-tasks>  -->
 	
 	<task:scheduled-tasks>
-        <task:scheduled ref="innerInfoTask" method="exportInfo" cron="0 0 0/6 * * ?"/>
-        <!-- <task:scheduled ref="outerReadTask" method="outerReadTask" cron="0 0 0/6 * * ?"/> -->  
-        
         <!-- 定时删除无效专家(每天凌晨十二点执行一次) -->
         <task:scheduled ref="delExpertTask" method="delExpert" cron="0 0 0 * * ?"/>
+        <!-- 内网任务 -->
+       <!--  <task:scheduled ref="innerInfoExportTask" method="innerInfoExportTask" cron="0 0/1 * * * ?"/>  -->
+        <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0/1 * * * ?"/> 
+	
+		<!-- 外网任务 -->        
+          <!-- <task:scheduled ref="outerInfoExportTask" method="outerInfoExportTask" cron="0 0/1 * * * ?"/> --> 
+        
+         <!-- <task:scheduled ref="outerInfoImportTask" method="outerInfoImportTask" cron="0 0/1 * * * ?"/>  -->
 	</task:scheduled-tasks> 
 	
 	<!-- 线程池 -->

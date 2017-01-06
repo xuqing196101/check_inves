@@ -245,7 +245,21 @@ import ses.util.WfUtil;
     */
    @RequestMapping(value = "register")
    public String register(HttpServletRequest request, Model model, Supplier supplier) {
-
+		// 所有的不通过字段的名字
+		 SupplierAudit s=new SupplierAudit();
+		 s.setSupplierId(supplier.getId());;
+		 s.setAuditType("basic_page");
+		 List<SupplierAudit> auditLists = supplierAuditService.selectByPrimaryKey(s);
+		 
+		 StringBuffer errorField = new StringBuffer();
+		 for (SupplierAudit audit : auditLists) {
+		   errorField.append(audit.getAuditField() + ",");
+		 }
+		
+		 model.addAttribute("audit",errorField);
+	   
+	   
+	   
      //页面过期处理
      if (StringUtils.isEmpty(supplier.getId())){
        String id = WfUtil.createUUID();
@@ -609,7 +623,21 @@ import ses.util.WfUtil;
        }
        model.addAttribute("sellPageField", sellPageField);
        //工程
+       StringBuffer engPageField = new StringBuffer();
+       supplierAudit.setAuditType("mat_eng_page");
+       List<SupplierAudit> engAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+       for (SupplierAudit audit : engAuditList) {
+    	   engPageField.append(audit.getAuditField() + ",");  
+       }
+       model.addAttribute("engPageField", engPageField);
        //服务
+       StringBuffer servePageField = new StringBuffer();
+       supplierAudit.setAuditType("mat_serve_page");
+       List<SupplierAudit> serveAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+       for (SupplierAudit audit : serveAuditList) {
+    	   servePageField.append(audit.getAuditField() + ",");  
+       }
+       model.addAttribute("servePageField", servePageField);
        
        
        return "ses/sms/supplier_register/supplier_type";

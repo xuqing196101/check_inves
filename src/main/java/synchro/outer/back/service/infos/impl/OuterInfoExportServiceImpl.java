@@ -1,0 +1,91 @@
+package synchro.outer.back.service.infos.impl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSON;
+
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
+import iss.model.ps.Article;
+import iss.service.ps.ArticleService;
+import synchro.outer.back.service.infos.OuterInfoExportService;
+import synchro.service.SynchRecordService;
+import synchro.util.FileUtils;
+import synchro.util.OperAttachment;
+
+/**
+ * 
+ * 版权：(C) 版权所有 
+ * <简述> 外网信息导出
+ * <详细描述>
+ * @author   myc
+ * @version  
+ * @since
+ * @see
+ */
+@Service
+public class OuterInfoExportServiceImpl implements OuterInfoExportService {
+    
+    /** 信息发布service **/
+    @Autowired
+    private ArticleService articleService;
+    
+    /** 记录service  **/
+    @Autowired
+    private SynchRecordService  recordService;
+    
+    /** 附件service **/
+    @Autowired
+    private UploadService uploadService;
+    
+    /**
+     * 
+     * @see synchro.outer.back.service.infos.OuterInfoExportService#backUpInfos(java.lang.String, java.lang.String, java.util.Date)
+     */
+    @Override
+    public void backUpInfos(String startTime, String endTime, Date synchDate) {
+        List<Article>  list = articleService.getListBypublishedTime(startTime, endTime);
+        List<Article>  cancelList = getCancelNews(startTime, endTime);
+        if (list != null && list.size() > 0){
+            list.addAll(cancelList);
+            List<UploadFile> attachList = new ArrayList<>();
+            for (Article article : list){
+                List<UploadFile> fileList = uploadService.findBybusinessId(article.getId(), Constant.TENDER_SYS_KEY);
+                attachList.addAll(fileList);
+            }
+            FileUtils.writeFile(FileUtils.getInfoBackUpFile(),JSON.toJSONString(list));
+            if (attachList.size() > 0){
+                FileUtils.writeFile(FileUtils.getInfoAttachmentFile(),JSON.toJSONString(attachList));
+                String basePath = FileUtils.attachExportPath(Constant.TENDER_SYS_KEY);
+                if (StringUtils.isNotBlank(basePath)){
+                    OperAttachment.writeFile(basePath, attachList);
+                    recordService.backupAttach(new Integer(attachList.size()).toString());
+                }
+            }
+        }
+        recordService.backupInfos(synchDate, new Integer(list.size()).toString());
+    }
+
+    /**
+     * 
+     *〈简述〉获取取消的信息
+     *〈详细描述〉
+     * @author myc
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     */
+    public List<Article> getCancelNews(String startTime, String endTime){
+        List<Article> cancelList = articleService.getCancelNews(startTime, endTime);
+        if (cancelList != null && cancelList.size() > 0){
+            return cancelList;
+        }
+        return new ArrayList<>();
+    }
+}

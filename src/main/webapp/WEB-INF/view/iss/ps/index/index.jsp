@@ -1,13 +1,13 @@
 <%@ page language="java" import="java.util.*,bss.util.PropUtil" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
-<!DOCTYPE html>
 <%
   //生产环境
   String environment = PropUtil.getProperty("environment");
   //内外网
   String ipAddressType = PropUtil.getProperty("ipAddressType");
 %>
+<!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->

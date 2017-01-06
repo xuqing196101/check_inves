@@ -20,7 +20,7 @@ import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
 import synchro.model.SynchRecord;
 import synchro.outer.read.att.OuterAttachService;
-import synchro.outer.read.infos.OuterInfoService;
+import synchro.outer.read.infos.OuterInfoImportService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
 import synchro.util.FileUtils;
@@ -46,7 +46,7 @@ public class SynchImportController {
     
     /** 同步信息数据service **/
     @Autowired
-    private OuterInfoService infoService;
+    private OuterInfoImportService infoService;
     
     @Autowired
     /** 附件导入 **/

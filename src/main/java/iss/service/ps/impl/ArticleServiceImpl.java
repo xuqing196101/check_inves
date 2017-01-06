@@ -523,5 +523,15 @@ public class ArticleServiceImpl implements ArticleService {
 	public BigDecimal selectAllByTimer(Map<String, Object> map) {
 		return articleMapper.selectAllByTimer(map);
 	}
+	
+	/**
+	 * 
+	 * @see iss.service.ps.ArticleService#getCancelNews(java.lang.String, java.lang.String)
+	 */
+    @Override
+    public List<Article> getCancelNews(String startTime, String endTime) {
+        return articleMapper.getCancelArticle(startTime, endTime);
+    }
     
+	
 }
