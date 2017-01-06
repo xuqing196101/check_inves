@@ -538,7 +538,6 @@ public class DataDownloadController {
 			return "iss/ps/dataDownload/edit";
 		}
 		dataDownload.setUpdatedAt(new Date());
-		dataDownload.setUserId(user.getId());
 		dataDownloadService.updateByPrimaryKeySelective(dataDownload);
 		return "redirect:getList.html";
 	}
@@ -591,7 +590,6 @@ public class DataDownloadController {
 		dataDownload.setPublishAt(new Date());
 		dataDownload.setStatus(2);
 		dataDownload.setUpdatedAt(new Date());
-		dataDownload.setUserId(user.getId());
 		dataDownloadService.updateByPrimaryKeySelective(dataDownload);
 		return "redirect:getList.html";
 	}
