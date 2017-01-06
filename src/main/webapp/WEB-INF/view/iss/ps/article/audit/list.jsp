@@ -161,7 +161,7 @@
               	$("#publish_status").attr("class","clear mt5");
 	  			$("#audit_date").attr("class","mt5");
             } else {
-				$("#publish_status").attr("class","mt5");
+				$("#publish_status").attr("class","");
 	  			$("#audit_date").attr("class","clear mt5");
 			}
           }
