@@ -114,11 +114,8 @@
                       <c:if test="${article.range=='0' }">
                         内网
                       </c:if>
-                      <c:if test="${article.range=='1' }">
-                        外网
-                      </c:if>
                       <c:if test="${article.range=='2' }">
-                        内网&外网
+                        内外网
                       </c:if>
                     </td>
                   </tr>
