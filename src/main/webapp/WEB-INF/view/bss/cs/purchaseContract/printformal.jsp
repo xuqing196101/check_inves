@@ -81,7 +81,7 @@
           </ul>
           <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/addPurchaseContract.html?ids=${id}" method="post">
           <div class="tab-content padding-top-20">
-            <div class="tab-pane fade active in" id="tab-3">
+            <div class="tab-pane fade active in h800" id="tab-3">
              <div class="mt10 mb10">
 	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
