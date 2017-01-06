@@ -875,13 +875,13 @@ public class ArticleController extends BaseSupplierController {
       map.put("range", range);
     }
 
-    if (articleTypeId != null && !articleTypeId.equals("")) {
+    if (articleTypeId != null && !"".equals(articleTypeId)) {
       articleType.setId(articleTypeId);
       article.setArticleType(articleType);
       map.put("articleType", article.getArticleType());
     }
     
-    if (secondArticleTypeId != null && !secondArticleTypeId.equals("")) {
+    if (secondArticleTypeId != null && !"null".equals(secondArticleTypeId) && !"".equals(secondArticleTypeId)) {
       map.put("secondArticleTypeId", secondArticleTypeId);
     }
     
@@ -1023,7 +1023,7 @@ public class ArticleController extends BaseSupplierController {
   }
 
   @RequestMapping("/showaudit")
-  public String showaudit(Model model, String id, HttpServletRequest request, String status, String articleTypeId, Integer curpage, Integer range, String title) {
+  public String showaudit(Model model, String id, HttpServletRequest request, String status, String articleTypeId, Integer curpage, Integer range, String title, String secondArticleTypeId, Date startDate, Date endDate) {
     Article article = articleService.selectArticleById(id);
     List<ArticleAttachments> articleAttaList = articleAttachmentsService
         .selectAllArticleAttachments(article.getId());
@@ -1059,9 +1059,8 @@ public class ArticleController extends BaseSupplierController {
     model.addAttribute("articlesRange", range);
     model.addAttribute("articlesStatus", status);
     model.addAttribute("articlesArticleTypeId", articleTypeId);
-    String secondArticleTypeId = request.getParameter("secondArticleTypeId");
-    model.addAttribute("publishStartDate", request.getParameter("startDate"));
-    model.addAttribute("publishEndDate", request.getParameter("endDate"));
+    model.addAttribute("publishStartDate", endDate);
+    model.addAttribute("publishEndDate", startDate);
     model.addAttribute("secondArticleTypeId", secondArticleTypeId);
     model.addAttribute("curpage", curpage);
     return "iss/ps/article/audit/showaudit";
@@ -1083,6 +1082,8 @@ public class ArticleController extends BaseSupplierController {
   public String audit(String[] ranges, String id, Article article, HttpServletRequest request,
       Model model, Integer page) throws Exception {
     // Article findOneArticle = articleService.selectArticleById(article.getId());
+    Article temp = articleService.selectArticleById(article.getId());
+    article.setSubmitAt(temp.getSubmitAt());
     article.setUpdatedAt(new Date());
     String url = "";
     if (article.getStatus() == 2) {
@@ -1216,6 +1217,7 @@ public class ArticleController extends BaseSupplierController {
         } else {
           article.setLastArticleTypeId(article.getFourArticleTypeId());
         }
+       
         articleService.update(article);
         
 
