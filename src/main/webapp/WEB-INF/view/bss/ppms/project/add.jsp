@@ -143,7 +143,7 @@
     	  var planName = $("#planName").val();
     	  var orgName = $("#orgName").val();
     	  var documentNumber = $("#documentNumber").val();
-    	  window.location.href = "${pageContext.request.contextPath }/project/projectList.do?planName="+planName+"&orgName="+orgName+"&documentNumber="+documentNumber;
+    	  window.location.href = "${pageContext.request.contextPath }/project/add.do?planName="+planName+"&orgName="+orgName+"&documentNumber="+documentNumber;
       }
     </script>
   </head>

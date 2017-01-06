@@ -213,8 +213,8 @@
 								onclick="selectAll()" alt=""></th> -->
 							<th>序号</th>
 							<th>包名</th>
-							<th>状态</th>
 							<th>评分办法</th>
+							<th>状态</th>
 							<th>操作</th>
 							<!-- <th>评分办法名称</th>
 							<th>评标方法</th> -->

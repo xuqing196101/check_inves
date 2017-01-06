@@ -1,6 +1,7 @@
 package bss.controller.ppms;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -254,13 +255,13 @@ public class AdvancedProjectController extends BaseController {
             detail.setItem(purchaseRequired.getItem());
             detail.setCreatedAt(new Date());
             if (purchaseRequired.getPurchaseCount() != null) {
-                detail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
+                detail.setPurchaseCount(purchaseRequired.getPurchaseCount());
             }
             if (id != null) {
                 detail.setAdvancedProject(id);
             }
             if (purchaseRequired.getPrice() != null) {
-                detail.setPrice(purchaseRequired.getPrice().doubleValue());
+                detail.setPrice(purchaseRequired.getPrice());
             }
             if (purchaseRequired.getOrganization() != null) {
                 detail.setOrganization(purchaseRequired.getOrganization());
@@ -269,7 +270,7 @@ public class AdvancedProjectController extends BaseController {
                 detail.setPlanNo(purchaseRequired.getPlanNo());
             }
             if (purchaseRequired.getBudget() != null) {
-                detail.setBudget(purchaseRequired.getBudget().doubleValue());
+                detail.setBudget(purchaseRequired.getBudget());
             }
             if (purchaseRequired.getDeliverDate() != null) {
                 detail.setDeliverDate(purchaseRequired.getDeliverDate());
@@ -567,7 +568,7 @@ public class AdvancedProjectController extends BaseController {
                         for (AdvancedDetail projectDetail : packDetails) {
                             budget += projectDetail.getBudget().intValue();
                         }
-                        double money = budget;
+                        BigDecimal money = new BigDecimal(budget);
                         newDetails.get(i).setBudget(money);
                     }
                     if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
@@ -1036,7 +1037,7 @@ public class AdvancedProjectController extends BaseController {
                             for (AdvancedDetail projectDetail : packDetails) {
                                 budget += projectDetail.getBudget().intValue();
                             }
-                            double money = budget;
+                            BigDecimal money = new BigDecimal(budget);
                             showDetails.get(j).setBudget(money);
                         }
 //                        if(showDetails.get(j).getDepartment()!=null){
@@ -1130,7 +1131,7 @@ public class AdvancedProjectController extends BaseController {
                         for (AdvancedDetail projectDetail : packDetails) {
                             budget += projectDetail.getBudget().intValue();
                         }
-                        double money = budget;
+                        BigDecimal money = new BigDecimal(budget);
                         newDetails.get(i).setBudget(money);
                     }
                     if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
@@ -1306,20 +1307,9 @@ public class AdvancedProjectController extends BaseController {
     }
     
     @RequestMapping("/start")
-    public String start(String id, String principal, HttpServletRequest request, Model model) {
+    public String start(String id, String principal, Model model) {
         String status = DictionaryDataUtil.getId("SSZ_WWSXX");
         AdvancedProject project = advancedProjectService.selectById(id);
-        /*List<UploadFile> list = uploadService.getFilesOther(project.getId(), null, "2");
-        if(list.size() < 1){
-            model.addAttribute("mainId_msg", "请上传附件");
-            if (project != null){
-               List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseUserList(project.getPurchaseDepId());
-               model.addAttribute("purchaseInfo", purchaseInfo);
-            }
-            model.addAttribute("project", project);
-            model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
-            return "bss/ppms/advanced_project/upload";
-        }*/
         User user = userService.getUserById(principal);
         project.setPrincipal(principal);
         project.setIpone(user.getMobile());

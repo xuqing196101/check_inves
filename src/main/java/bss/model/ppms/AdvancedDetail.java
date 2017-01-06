@@ -6,6 +6,15 @@ import java.util.Date;
 
 import ses.model.oms.PurchaseDep;
 
+/**
+ * 版权：(C) 版权所有 
+ * <简述>
+ * <详细描述>
+ * @author   Administrator
+ * @version  
+ * @since
+ * @see
+ */
 public class AdvancedDetail {
 	private String id;
 
@@ -21,11 +30,11 @@ public class AdvancedDetail {
 
 	private String item;
 
-	private Double purchaseCount;
+	private BigDecimal purchaseCount;
 
-	private Double price;
+	private BigDecimal price;
 
-	private Double budget;
+	private BigDecimal budget;
 
 	private String deliverDate;
 
@@ -201,31 +210,31 @@ public class AdvancedDetail {
 		this.item = item;
 	}
 
-	public Double getPurchaseCount() {
+	public BigDecimal getPurchaseCount() {
         return purchaseCount;
     }
 
-    public void setPurchaseCount(Double purchaseCount) {
+    public void setPurchaseCount(BigDecimal purchaseCount) {
         this.purchaseCount = purchaseCount;
     }
 
-    public Double getPrice() {
-		return price;
-	}
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
-	public Double getBudget() {
-		return budget;
-	}
+    public BigDecimal getBudget() {
+        return budget;
+    }
 
-	public void setBudget(Double budget) {
-		this.budget = budget;
-	}
+    public void setBudget(BigDecimal budget) {
+        this.budget = budget;
+    }
 
-	public String getDeliverDate() {
+    public String getDeliverDate() {
 		return deliverDate;
 	}
 

@@ -154,55 +154,55 @@
                     <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this)" alt="">
                   </td>
                   <td class="tc w50"> ${obj.seq}
-                    <input type="hidden" id="seq" name="list[${vs.index }].seq" value="${obj.seq }">
-                    <input type="hidden" name="list[${vs.index }].id" value="${obj.id }">
+                    <input type="hidden" id="seq" name="listDetail[${vs.index }].seq" value="${obj.seq }">
+                    <input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
                   </td>
                   <td class="tc">
                       ${obj.department}
-                    <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
+                    <input type="hidden" name="listDetail[${vs.index }].department" value="${obj.department }">
                   </td>
                   <td class="tc">${obj.goodsName}
-                    <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
+                    <input type="hidden" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }">
                   </td>
                   <td class="tc">${obj.stand}
-                    <input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
+                    <input type="hidden" name="listDetail[${vs.index }].stand" value="${obj.stand }">
                   </td>
                   <td class="tc">${obj.qualitStand}
-                    <input type="hidden" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }">
+                    <input type="hidden" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }">
                   </td>
                   <td class="tc">${obj.item}
-                    <input type="hidden" name="list[${vs.index }].item" value="${obj.item }">
+                    <input type="hidden" name="listDetail[${vs.index }].item" value="${obj.item }">
                   </td>
                   <td class="tc">${obj.purchaseCount}
-                    <input type="hidden" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
+                    <input type="hidden" name="listDetail[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
                   </td>
                   <td class="tc">${obj.deliverDate}
-                    <input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }">
+                    <input type="hidden" name="listDetail[${vs.index }].deliverDate" value="${obj.deliverDate }">
                   </td>
                   <td class="tc">
                     <input type="hidden" id="purchaseTypes" value="${obj.purchaseType }">
                     <c:forEach items="${kind}" var="kind">
                       <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                     </c:forEach>
-                    <input type="hidden" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }">
+                    <input type="hidden" name="listDetail[${vs.index }].purchaseType" value="${obj.purchaseType }">
                   </td>
                   <td class="tc">${obj.supplier}
-                    <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }">
+                    <input type="hidden" name="listDetail[${vs.index }].supplier" value="${obj.supplier }">
                   </td>
                   <td class="tc">${obj.isFreeTax}
-                    <input type="hidden" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
+                    <input type="hidden" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
                   </td>
                   <td class="tc">${obj.goodsUse}
-                    <input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
+                    <input type="hidden" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }">
                   </td>
                   <td class="tc">${obj.useUnit}
-                    <input type="hidden" name="list[${vs.index }].useUnit" value="${obj.useUnit }">
+                    <input type="hidden" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }">
                   </td>
                   <td class="tc">${obj.memo}
-                    <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
-                    <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
-                    <input type="hidden" name="list[${vs.index }].detailStatus" value="${obj.detailStatus}">
-                    <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType}">
+                    <input type="hidden" name="listDetail[${vs.index }].memo" value="${obj.memo }">
+                    <input type="hidden" name="listDetail[${vs.index }].parentId" value="${obj.parentId }">
+                    <input type="hidden" name="listDetail[${vs.index }].detailStatus" value="${obj.detailStatus}">
+                    <input type="hidden" name="listDetail[${vs.index }].planType" value="${obj.planType}">
                   </td>
                 </tr>
               </c:if>
@@ -215,10 +215,10 @@
     <form id="save_form_id" action="${pageContext.request.contextPath}/project/save.html" method="post">
 
       <c:forEach items="${lists}" var="obj" varStatus="vs">
-        <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
-        <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
-        <input type="hidden" name="list[${vs.index }].detailStatus" value="${obj.detailStatus}">
-        <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType}">
+        <input type="hidden" name="listDetail[${vs.index }].memo" value="${obj.memo }">
+        <input type="hidden" name="listDetail[${vs.index }].parentId" value="${obj.parentId }">
+        <input type="hidden" name="listDetail[${vs.index }].detailStatus" value="${obj.detailStatus}">
+        <input type="hidden" name="listDetail[${vs.index }].planType" value="${obj.planType}">
       </c:forEach>
       <input id="detail_id" name="checkIds" type="hidden" />
       <input name="name" type="hidden" value="${name}" />
