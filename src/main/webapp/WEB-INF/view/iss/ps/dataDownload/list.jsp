@@ -339,7 +339,12 @@
 							<tr class="pointer">
 								<td class="tc"><input type="checkbox" name="info" value="${data.id }" onclick="check()" /></td>
 								<td class="tc" onclick="view('${data.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-								<td class="tl pl20" onclick="view('${data.id }')">${data.name }</td>
+								<c:if test="${fn:length(data.name)>22}">
+									<td class="tl pl20" onclick="view('${data.id }')" title="${data.name }">${fn:substring(data.name,0,22)}...</td>
+								</c:if>
+								<c:if test="${fn:length(data.name)<=22}">
+									<td class="tl pl20" onclick="view('${data.id }')">${data.name }</td>
+								</c:if>
 								<td class="tl pl20" onclick="view('${data.id }')">
 									<fmt:formatDate value="${data.publishAt}" pattern="yyyy-MM-dd HH:mm:ss" /> </td>
 								</td>
