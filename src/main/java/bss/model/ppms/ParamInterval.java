@@ -18,6 +18,8 @@ public class ParamInterval implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String id;//
 	private String scoreModelId;//模型id
+	private String projectId;//项目id
+	private String packageId;//包id
 	private String startParam;//起始参数值
 	private String endParam;//结束参数值
 	private String startRelation;// 与起始参数值之间的关系    0代表<,1代表>,2代表=
@@ -39,7 +41,21 @@ public class ParamInterval implements Serializable {
 	public void setScoreModelId(String scoreModelId) {
 		this.scoreModelId = scoreModelId;
 	}
-	public String getStartParam() {
+	
+	public String getProjectId() {
+        return projectId;
+    }
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+    
+    public String getPackageId() {
+        return packageId;
+    }
+    public void setPackageId(String packageId) {
+        this.packageId = packageId;
+    }
+    public String getStartParam() {
 		return startParam;
 	}
 	public void setStartParam(String startParam) {

@@ -24,6 +24,7 @@
    			b.MAX_SCORE as bidMethodMaxScore,
    			b.FLOATING_RATIO as bidMethodFloatingRatio,
    			b.REMARK as bidMethodRemark,
+   			b.REMAIN_SCORE as position,
    			sm.name as smname,
    			sm.EASY_UNDERSTAND_CONTENT as smeu,
    			nvl(sm.standard_score ,sm.max_score) as scscore,

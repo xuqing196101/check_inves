@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,11 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.github.pagehelper.PageInfo;
-
+import ses.model.bms.DictionaryData;
+import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.model.ppms.MarkTerm;
-import bss.model.ppms.Packages;
 import bss.model.ppms.ParamInterval;
 import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAuditTemitem;
@@ -38,8 +38,8 @@ import bss.service.ppms.ParamIntervalService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditTemitemService;
 import bss.service.prms.FirstAuditTemplatService;
-import ses.model.bms.DictionaryData;
-import ses.util.DictionaryDataUtil;
+
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/auditTemplat")
@@ -67,10 +67,13 @@ public class FirstAuditTemplatController extends BaseController{
     public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
         //为2为顶级结点     1 为子节点
         HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> conditionMap = new HashMap<String, Object>();
         if (deleteStatus == 1) {
             scoreModelService.deleteScoreModelByMtId(id);
             map.put("id", id);
             markTermService.delMarkTermByid(map);
+            conditionMap.put("projectId", projectId);
+            paramIntervalService.delParamIntervalByMap(conditionMap);
         } else {
             MarkTerm condition = new MarkTerm();
             condition.setPid(id);
@@ -80,6 +83,8 @@ public class FirstAuditTemplatController extends BaseController{
                 scoreModelService.deleteScoreModelByMtId(markTerm.getId());
                 map.put("id", markTerm.getId());
                 markTermService.delMarkTermByid(map);
+                conditionMap.put("projectId", projectId);
+                paramIntervalService.delParamIntervalByMap(conditionMap);
             }
             MarkTerm mt = markTermService.findMarkTermById(id);
             map.put("id", mt.getBidMethodId());
@@ -253,11 +258,24 @@ public class FirstAuditTemplatController extends BaseController{
             Integer count = 0;
             for (ParamInterval paramInterval : piList) {
                 count++;
-                sb.append("<tr><td class=tc>" + count + "</td><td class=tc>" + paramInterval.getStartParam());
-                sb.append("</td><td class=tc>" + paramInterval.getEndParam() + "</td>");
-                sb.append("<td class=tc>" + paramInterval.getScore() + "</td>");
+                String startParam = paramInterval.getStartParam() == null ? "" : paramInterval.getStartParam();
+                sb.append("<tr><td class=tc>" + count + "</td><td class=tc><input class='w40' type='text' value='" + startParam + "'name='pi.startParam'>");
+                if ("0".equals(paramInterval.getStartRelation())) {
+                    sb.append("</td><td class=tc><select name='pi.startRelation'><option value='0' selected='selected'><</option><option value='1'><=</option></select></td>");
+                } else {
+                    sb.append("</td><td class=tc><select name='pi.startRelation'><option value='0'><</option><option value='1' selected='selected'><=</option></select></td>");
+                }
+                String endParam = paramInterval.getEndParam() == null ? "" : paramInterval.getEndParam();
+                sb.append("<td class=tc><input class='w40' type='text' value='" + endParam + "'name='pi.endParam'></td>");
+                if ("0".equals(paramInterval.getEndRelation())) {
+                    sb.append("<td class=tc><select name='pi.endRelation'><option value='0'  selected='selected' >></option><option value='1'>>=</option></select></td>");
+                } else {
+                    sb.append("<td class=tc><select name='pi.endRelation'><option value='0' >></option><option value='1'  selected='selected'>>=</option></select></td>");
+                }
+                String score = paramInterval.getScore() == null ? "" : paramInterval.getScore();
+                sb.append("<td class=tc><input class='w40' type='text' value='" + score + "'name='pi.score'></td>");
                 String explain = paramInterval.getExplain() == null ? "" :paramInterval.getExplain();
-                sb.append("<td class=tc>" + explain + "</td>");
+                sb.append("<td class=tc><textarea  name='pi.explain'>" + explain + "</textarea></td>");
                 sb.append("<td class=tc><a href=javascript:void(0); onclick=delTr(this)>删除</a></td></tr>");
             }
             String scoreStr = sb.toString();
@@ -292,7 +310,6 @@ public class FirstAuditTemplatController extends BaseController{
         mt.setPid("0");
         List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
         Integer count3 = 0;
-        int judge = 50;
         for (MarkTerm mtKey : mtList) {
             //强转为int也是越来越大 所以不会有bug 做法不太好
             MarkTerm mt1 = new MarkTerm();
@@ -303,9 +320,10 @@ public class FirstAuditTemplatController extends BaseController{
             if (mtValue != null && mtValue.size() == 0){
                 count3 += 1;
             } else {
+                Collections.reverse(mtValue);
                 count3 += mtValue.size();
             }
-            mtKey.setJudge(judge --);
+            mtKey.setJudge(mtKey.getPosition());
             map.put(mtKey, mtValue);
         }
         StringBuilder sb = new StringBuilder("");
@@ -410,7 +428,7 @@ public class FirstAuditTemplatController extends BaseController{
         String typeName = "";
         if (typename != null) {
             if (typename == 0) {
-                typeName = "模型一";
+                typeName = "模型一A";
             }
             if (typename == 1) {
                 typeName = "模型二";
@@ -445,11 +463,12 @@ public class FirstAuditTemplatController extends BaseController{
 	
 	@RequestMapping("operatorScoreModel")
     public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request, String judgeModel){
-        String packageId = request.getParameter("id");
         String[] startParam = request.getParameterValues("pi.startParam");
         String[] endParam = request.getParameterValues("pi.endParam");
         String[] score = request.getParameterValues("pi.score");
         String[] explain = request.getParameterValues("pi.explain");
+        String[] startRelation = request.getParameterValues("pi.startRelation");
+        String[] endRelation = request.getParameterValues("pi.endRelation");
         if (scoreModel.getReviewContent() != null && !"".equals(scoreModel.getReviewContent())) {
             scoreModel.setReviewContent(scoreModel.getReviewContent().replaceAll("\\s*", ""));
          }
@@ -465,6 +484,8 @@ public class FirstAuditTemplatController extends BaseController{
             }
             HashMap<String, Object> map  = new HashMap<String,Object>();
             map.put("scoreModelId", scoreModel.getId());
+            map.put("projectId", scoreModel.getProjectId());
+            map.put("packageId", scoreModel.getPackageId());
             paramIntervalService.delParamIntervalByMap(map);
             int len = 0;
             if(startParam!=null){
@@ -475,9 +496,12 @@ public class FirstAuditTemplatController extends BaseController{
                     ParamInterval p = new ParamInterval();
                     p.setScoreModelId(scoreModel.getId());
                     p.setStartParam(startParam[i]);
+                    p.setStartRelation(startRelation[i]);
                     p.setEndParam(endParam[i]);
+                    p.setEndRelation(endRelation[i]);
                     p.setScore(score[i]);
                     p.setExplain(explain[i]);
+                    p.setProjectId(scoreModel.getProjectId());
                     paramIntervalService.saveParamInterval(p);
                 }
             }
@@ -493,18 +517,7 @@ public class FirstAuditTemplatController extends BaseController{
             mt.setMaxScore("0");
             markTermService.saveMarkTerm(mt);
             scoreModel.setMarkTermId(mt.getId());
-            //scoreModelService.saveScoreModel(scoreModel);
-            if ("2".equals(judgeModel)) {
-                if("0".equals(scoreModel.getAddSubtractTypeName())) {
-                    scoreModelService.saveScoreModel(scoreModel);
-                }else {
-                    scoreModel.setMaxScore(scoreModel.getReviewStandScore());
-                    scoreModel.setReviewStandScore(scoreModel.getReviewStandScore());
-                    scoreModelService.saveScoreModel(scoreModel);
-                }
-            } else {
-                scoreModelService.saveScoreModel(scoreModel);
-            }
+            scoreModelService.saveScoreModel(scoreModel);
             int len = 0;
             if(startParam!=null){
                 len = startParam.length;
@@ -513,10 +526,13 @@ public class FirstAuditTemplatController extends BaseController{
                 for(int i=0;i<len;i++){
                     ParamInterval p = new ParamInterval();
                     p.setScoreModelId(scoreModel.getId());
+                    p.setStartRelation(startRelation[i]);
                     p.setStartParam(startParam[i]);
                     p.setEndParam(endParam[i]);
                     p.setScore(score[i]);
+                    p.setEndRelation(endRelation[i]);
                     p.setExplain(explain[i]);
+                    p.setProjectId(scoreModel.getProjectId());
                     paramIntervalService.saveParamInterval(p);
                 }
             }

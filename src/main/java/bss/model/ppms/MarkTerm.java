@@ -48,8 +48,15 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
 	private String smId;
 	
 	private Integer count;
+	private Integer position;
 	
-	public String getSmId() {
+	public Integer getPosition() {
+        return position;
+    }
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+    public String getSmId() {
         return smId;
     }
     public void setSmId(String smId) {
