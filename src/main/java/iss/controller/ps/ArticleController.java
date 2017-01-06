@@ -521,11 +521,6 @@ public class ArticleController extends BaseSupplierController {
       model.addAttribute("ERR_content", "信息正文不能为空");
     }
 
-    if (article.getContent().length()>10000) {
-      flag = false;
-      model.addAttribute("ERR_content", "信息正文不能超过10000字");
-    }
-    
     if (article.getSecondArticleTypeId() != null) {
       if (article.getSecondArticleTypeId().equals("111")) {
         List<UploadFile> gzdt = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);

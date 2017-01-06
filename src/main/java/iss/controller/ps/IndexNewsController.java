@@ -1156,78 +1156,86 @@ public class IndexNewsController extends BaseSupplierController{
 	 */
 	@RequestMapping("/selectArticleNewsById")
 	public String selectArticleNewsById(Article article,Model model,HttpServletRequest request) throws Exception{
-		Article articleDetail = articleService.selectArticleById(article.getId());
+	  String ipAddressType = PropUtil.getProperty("ipAddressType");
+	  Article articleDetail = articleService.selectArticleById(article.getId());
 		Integer showCount = articleDetail.getShowCount();
 		articleDetail.setShowCount(showCount+1);
 		articleService.update(articleDetail);
-		String filePath = request.getSession().getServletContext().getRealPath("/")+"/zanpic";
-		String glisteningPath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
-//		String filePathFile = filePath+"/"+article.getId()+".png";
-//		String glisteningFile = glisteningPath+"/"+article.getId()+".jpg";
-		String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
-		File stagingFile = new File(filePath);
-		File glisFile = new File(glisteningPath);
-//		if(stagingFile.exists()){
-//			stagingFile.delete();
-//		}
-//		if(glisFile.exists()){
-//			glisFile.delete();
-//		}
-//		if(stagingFile.exists()&&stagingFile.isDirectory()){
-//			File[] files = stagingFile.listFiles();
-//			for(int i=0;i<files.length;i++){
-//				if(files[i].isFile()){
-//					File file = new File(files[i].getAbsolutePath());
-//					if(file.exists()&&file.isFile()){
-//						file.delete();
-//					}
-//				}
-//			}
-//		}
-//		if(stagingFile.exists()&&stagingFile.isDirectory()){
-//			stagingFile.delete();
-//		}
-//		if(glisFile.exists()&&glisFile.isDirectory()){
-//			File[] files = glisFile.listFiles();
-//			for(int i=0;i<files.length;i++){
-//				if(files[i].isFile()){
-//					File file = new File(files[i].getAbsolutePath());
-//					if(file.exists()&&file.isFile()){
-//						file.delete();
-//					}
-//				}
-//			}
-//		}
-//		if(glisFile.exists()&&glisFile.isDirectory()){
-//			glisFile.delete();
-//		}
-		if(!stagingFile.exists()){
-			stagingFile.mkdir();
-		}
-		if(!glisFile.exists()){
-			glisFile.mkdir();
-		}
-		HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
-		StringBuffer divStyle = new StringBuffer();
-		divStyle.append("<div class='article_content' style='font-size: 14px; line-height: 35px; padding: 20px; width:900px'>");
-		divStyle.append(articleDetail.getContent());
-		divStyle.append("</div>");
-		String htmlstr = divStyle.toString();
-		imageGenerator.loadHtml(htmlstr);
-		imageGenerator.getBufferedImage();
-		imageGenerator.saveAsImage(filePath+"/"+articleDetail.getId()+".png");
-		String zancunPicPath = filePath+"/"+articleDetail.getId()+".png";
+		if ("0".equals(ipAddressType)) {
+      //内网
+		  System.out.println("内网环境");
+    }
 		
-		String srcImgPath = zancunPicPath; 
+		if ("1".equals(ipAddressType)) {
+      //外网
+		  String filePath = request.getSession().getServletContext().getRealPath("/")+"/zanpic";
+		  String glisteningPath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
+  		/*String filePathFile = filePath+"/"+article.getId()+".png";
+  		String glisteningFile = glisteningPath+"/"+article.getId()+".jpg";*/
+		  String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
+		  File stagingFile = new File(filePath);
+		  File glisFile = new File(glisteningPath);
+/*  		if(stagingFile.exists()){
+  			stagingFile.delete();
+  		}
+  		if(glisFile.exists()){
+  			glisFile.delete();
+  		}
+  		if(stagingFile.exists()&&stagingFile.isDirectory()){
+  			File[] files = stagingFile.listFiles();
+  			for(int i=0;i<files.length;i++){
+  				if(files[i].isFile()){
+  					File file = new File(files[i].getAbsolutePath());
+  					if(file.exists()&&file.isFile()){
+  						file.delete();
+  					}
+  				}
+  			}
+  		}
+  		if(stagingFile.exists()&&stagingFile.isDirectory()){
+  			stagingFile.delete();
+  		}
+  		if(glisFile.exists()&&glisFile.isDirectory()){
+  			File[] files = glisFile.listFiles();
+  			for(int i=0;i<files.length;i++){
+  				if(files[i].isFile()){
+  					File file = new File(files[i].getAbsolutePath());
+  					if(file.exists()&&file.isFile()){
+  						file.delete();
+  					}
+  				}
+  			}
+  		}
+  		if(glisFile.exists()&&glisFile.isDirectory()){
+  			glisFile.delete();
+  		}*/
+		  if(!stagingFile.exists()){
+		    stagingFile.mkdir();
+		  }
+		  if(!glisFile.exists()){
+		    glisFile.mkdir();
+		  }
+		  HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
+		  StringBuffer divStyle = new StringBuffer();
+		  divStyle.append("<div class='article_content' style='font-size: 14px; line-height: 35px; padding: 20px; width:900px'>");
+		  divStyle.append(articleDetail.getContent());
+		  divStyle.append("</div>");
+		  String htmlstr = divStyle.toString();
+		  imageGenerator.loadHtml(htmlstr);
+		  imageGenerator.getBufferedImage();
+		  imageGenerator.saveAsImage(filePath+"/"+articleDetail.getId()+".png");
+		  String zancunPicPath = filePath+"/"+articleDetail.getId()+".png";
+		  
+		  String srcImgPath = zancunPicPath; 
 //		String logoText = "军队采购网";  
-		String iconPath = proWaterPath;
-		String targerPath2 = glisteningPath+"/"+articleDetail.getId()+".jpg";
-		
-		// 给图片添加水印
+		  String iconPath = proWaterPath;
+		  String targerPath2 = glisteningPath+"/"+articleDetail.getId()+".jpg";
+		  
+		  // 给图片添加水印
 //		markByText(logoText, srcImgPath, targerPath);
-		
-		//给图片添加水印，水印旋转-45
-		markByText(iconPath, srcImgPath,targerPath2,0);
+		  
+		  //给图片添加水印，水印旋转-45
+		  markByText(iconPath, srcImgPath,targerPath2,0);
 //		Map<String,Object> indexMapper = new HashMap<String, Object>();
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 //		for(int i=0;i<26;i++){
@@ -1242,8 +1250,12 @@ public class IndexNewsController extends BaseSupplierController{
 //				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
 //			}
 //		}
-		Map<String, Object> indexMapper = new HashMap<String, Object>();
-		topNews(indexMapper);
+		  System.out.println("外网环境");
+		}
+	  Map<String, Object> indexMapper = new HashMap<String, Object>();
+	  topNews(indexMapper);
+	  model.addAttribute("indexMapper", indexMapper);
+    
 		model.addAttribute("articleId", article.getId());
 		DictionaryData da=new DictionaryData();
 		da.setCode("GGWJ");
@@ -1258,7 +1270,7 @@ public class IndexNewsController extends BaseSupplierController{
 //		articleDetail.setArticleAttachments(articleAttaList);
 		model.addAttribute("fileSize", uploadList.size());
 		model.addAttribute("articleDetail", articleDetail);
-		model.addAttribute("indexMapper", indexMapper);
+		model.addAttribute("ipAddressType", ipAddressType);
 		return "iss/ps/index/index_details";
 	}
 	

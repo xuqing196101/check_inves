@@ -34,7 +34,12 @@ $(document).ready(function(){
 	 <div class="clear margin-top-20 new_content"><%--
 	    ${articleDetail.content }
 	 --%>
-	 	<img src="${pageContext.request.contextPath}/index/downloadDetailsImage.html?id=${articleDetail.id}" width="100%" height="100%"/>
+	 	<c:if test="${ipAddressType == '0' }">
+	 		${articleDetail.content}
+	 	</c:if>
+	 	<c:if test="${ipAddressType == '1' }">
+		 	<img src="${pageContext.request.contextPath}/index/downloadDetailsImage.html?id=${articleDetail.id}" width="100%" height="100%"/>
+	 	</c:if>
 	 </div>
 	 <div class="extra_file">
 	      <span id="extra_file" class="fl mt12"> 附件：</span>
