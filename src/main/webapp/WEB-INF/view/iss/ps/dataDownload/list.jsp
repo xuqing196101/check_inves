@@ -345,7 +345,7 @@
 								<c:if test="${fn:length(data.name)<=22}">
 									<td class="tl pl20" onclick="view('${data.id }')">${data.name }</td>
 								</c:if>
-								<td class="tl pl20" onclick="view('${data.id }')">
+								<td class="tc" onclick="view('${data.id }')">
 									<fmt:formatDate value="${data.publishAt}" pattern="yyyy-MM-dd HH:mm:ss" /> </td>
 								</td>
 								<td class="tc" onclick="view('${data.id }')">

@@ -117,7 +117,8 @@
           dataType: "json",
           success: function(articleTypes) {
             if(articleTypes) {
-              $("#articleTypes").append("<option></option>");
+              /* $("#articleTypes").append("<option></option>"); */
+              $("#articleTypes").append("<option value=''>全部</option>");
               $.each(articleTypes, function(i, articleType) {
                 if(articleType.name != null && articleType.name != '') {
                   $("#articleTypes").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
@@ -128,7 +129,84 @@
             $("#articleTypes").select2("val", "${article.articleType.id }");
           }
         });
+        
+        var parentId = $("#articleTypes").val();
+        $.ajax({
+          contentType: "application/json;charset=UTF-8",
+          url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=" + parentId,
+          type: "POST",
+          dataType: "json",
+          success: function(articleTypes) {
+            if(articleTypes) {
+              $("#secondType").append("<option value=''>全部</option>");
+              $.each(articleTypes, function(i, articleType) {
+                if(articleType.name != null && articleType.name != '') {
+                  $("#secondType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                }
+              });
+            }
+            $("#secondType").select2();
+            $("#secondType").select2("val", "${article.secondArticleTypeId }");
+            var TtypeId = $("#secondType").select2("data").text;
+            if(TtypeId == "图片新闻"){
+                $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
+            }
+          }
+        });
       })
+
+	  function typeInfo() {
+        var typeId = $("#articleTypes").select2("data").text;
+        var parentId = $("#articleTypes").select2("val");
+        $("#secondType").empty();
+        if(typeId == "工作动态") {
+          $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+          $("#second").show();
+          getSencond(parentId);
+        }else if(typeId == "采购公告"){
+            $("#second").show();
+            getSencond(parentId);
+         }else if(typeId == "中标公示"){
+             $("#second").show();
+             getSencond(parentId);
+         }else if(typeId == "单一来源公示"){
+             $("#second").show();
+             getSencond(parentId);
+         }else if(typeId == "商城竞价公告"){
+        	  $("#second").show();
+        	  getSencond(parentId);
+         }else if(typeId == "网上竞价公告"){
+              $("#second").show();
+              getSencond(parentId);
+         }else if(typeId == "采购法规"){
+              $("#second").show();
+              getSencond(parentId);
+         }else {
+	          $("#second").hide();
+	          $("#secondType").empty();
+        }
+      }
+
+	  function getSencond(parentId){
+    	  $("#secondType").empty();
+    	  $.ajax({
+              contentType: "application/json;charset=UTF-8",
+              url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+parentId,
+              type: "POST",
+              dataType: "json",
+              success: function(articleTypes) {
+                if(articleTypes) {
+                  $("#secondType").append("<option value=''>全部</option>");
+                  $.each(articleTypes, function(i, articleType) {
+                    if(articleType.name != null && articleType.name != '') {
+                      $("#secondType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                    }
+                  });
+                }
+                $("#secondType").select2();
+              }
+            });
+      }
 
       function search() {
         var kname = $("#kname").val();
@@ -277,36 +355,44 @@
         <form id="form1" action="${pageContext.request.contextPath }/article/auditlist.html" method="post" class="mb0">
           <ul class="demand_list">
             <li>
-              <label class="fl">信息标题：</label>
-              <span>
-          <input type="text" id="name" name="name" value="${articleName}"/>
-        </span>
+              	<label class="fl">信息标题：</label>
+              	<span>
+		          <input type="text" id="name" name="name" maxlength="200" value="${articleName}"/>
+		        </span>
             </li>
             <li>
-              <label class="fl">信息栏目：</label>
-              <span class="fl mt5">
-        <div class="w200">
-          <select id="articleTypes" name="articleTypeId" class="w200" >
-          		<option value="">全部</option>
-            </select>
-          </div>
-            </span>
+              	<label class="fl">信息栏目：</label>
+              	<span class="fl">
+        	  	<div class="w200">
+          			<select id="articleTypes" name="articleTypeId" class="w200" onchange="typeInfo()">
+            		</select>
+          	  	</div>
+              	</span>
             </li>
-            <li>
+            <li class="hide" id="second">
+              	<label class="fl">栏目属性：</label>
+              	<span class="fl">
+        	  	<div class="w200">
+          			<select id="secondType" name="secondArticleTypeId" class="w200" >
+            		</select>
+          	  	</div>
+              	</span>
+            </li>
+            <li class="">
               <label class="fl">发布范围：</label>
               <span>
-              <select id ="range" name="range" class="w100"  >
+              <select id ="range" name="range" class=""  >
                 <option value=""  <c:if test="${articlesRange == ''}">selected</c:if>>全部</option>
                 <option value="0" <c:if test="${articlesRange == '0'}">selected</c:if>>内网</option>
-                <option value="1" <c:if test="${articlesRange == '1'}">selected</c:if>>外网</option>
-                <option value="2" <c:if test="${articlesRange == '2'}">selected</c:if>>内网&外网</option>
+                <%-- <option value="1" <c:if test="${articlesRange == '1'}">selected</c:if>>外网</option> --%>
+                <option value="2" <c:if test="${articlesRange == '2'}">selected</c:if>>内外网</option>
                </select>
            	   </span>
             </li>
-            <li>
-              <label class="fl w100">状态：</label>
+            <li class="mt5">
+              <label class="fl">状态：</label>
               <span>
-              <select id ="status" name="status" class="w100">
+              <select id ="status" name="status" class="">
                 <option value=""  <c:if test="${articlesStatus == ''}">selected</c:if>>全部</option>
                 <option value="1" <c:if test="${articlesStatus == '1'}">selected</c:if>>待发布</option>
                 <option value="2" <c:if test="${articlesStatus == '2'}">selected</c:if>>已发布</option>
@@ -314,12 +400,12 @@
                </select>
            </span>
             </li>
-            <li class="clear mt5">
+            <li class="mt5">
             	<label class="fl">审核时间：</label>
 				<input id="startDate" name="publishStartDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${publishStartDate}" pattern="YYYY-MM-dd"/>'
                 onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})" />
                 <span class="f13">至</span>
-                <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w100" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+                <input id="endDate" name="publishEndDate" value='<fmt:formatDate value="${publishEndDate}" pattern="YYYY-MM-dd"/>' class="Wdate w110" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
           	</li>
           </ul>
             <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
@@ -369,11 +455,8 @@
                 <c:if test="${article.range=='0' }">
                   内网
                 </c:if>
-                <c:if test="${article.range=='1' }">
-                  外网
-                </c:if>
                 <c:if test="${article.range=='2' }">
-                  内网&外网
+                  内外网
                 </c:if>
               </td>
               <%-- <td class="tc" onclick="view('${article.id }')">

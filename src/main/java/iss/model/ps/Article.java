@@ -110,7 +110,7 @@ public class Article{
     private String content;
     
     /**
-     * @Fields range : 发布范围 0：内网 1：外网 
+     * @Fields range : 发布范围 0：内网  1：外网  2：内外网
      */
     private Integer range;
     
@@ -156,6 +156,8 @@ public class Article{
     private String uploadId;
     
     private Date submitAt;
+    
+    private Date cancelPublishAt;
     
     /**
      * group
@@ -487,7 +489,13 @@ public class Article{
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public Date getCancelPublishAt() {
+      return cancelPublishAt;
+    }
+
+    public void setCancelPublishAt(Date cancelPublishAt) {
+      this.cancelPublishAt = cancelPublishAt;
+    }
     
-    
-	
 }

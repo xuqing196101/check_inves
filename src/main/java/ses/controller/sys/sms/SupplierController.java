@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -321,7 +323,20 @@ import ses.util.WfUtil;
          branchList.add(branch);
          sup.setBranchList(branchList);
        }
-
+       List<SupplierAddress> addressList = supplierAddressService.getBySupplierId(sup.getId());
+       if(addressList.size()>0){
+       	for(SupplierAddress b:addressList){
+       	    if (StringUtils.isNotBlank(b.getProvinceId())){
+       	        List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
+                   b.setAreaList(city);
+       	    }
+       	}
+           sup.setAddressList(addressList);
+       }else{
+           SupplierAddress address=new SupplierAddress();
+           addressList.add(address);
+           sup.setAddressList(addressList);
+       }
        initCompanyType(model, sup);
        return "ses/sms/supplier_register/basic_info";
      }
@@ -340,9 +355,35 @@ import ses.util.WfUtil;
      List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(sup.getId());
      if(finace!=null&&finace.size()>0){
        List<SupplierFinance> finaceList = supplierFinanceService.getList(finace);
+       Collections.sort(finaceList, new Comparator<SupplierFinance>(){  
+           public int compare(SupplierFinance finance1, SupplierFinance finance2) {  
+               // 按照SupplierFinance的年份进行升序排列  
+               if(Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())){  
+                   return -1;  
+               }  
+               if(finance1.getYear().equals(finance2.getYear())){  
+                   return 0;  
+               } else {  
+                   return 1;
+               }
+           }  
+       });  
        sup.setListSupplierFinances(finaceList);
      } else {
        List<SupplierFinance> list = supplierFinanceService.getYear();
+       Collections.sort(list, new Comparator<SupplierFinance>(){  
+           public int compare(SupplierFinance finance1, SupplierFinance finance2) {  
+               // 按照SupplierFinance的年份进行升序排列  
+               if(Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())){  
+                   return -1;  
+               }  
+               if(finance1.getYear().equals(finance2.getYear())){  
+                   return 0;  
+               } else {  
+                   return 1;
+               }
+           }  
+       });
        sup.setListSupplierFinances(list);
      }
    }

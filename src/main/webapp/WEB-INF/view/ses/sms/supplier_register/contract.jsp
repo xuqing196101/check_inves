@@ -120,27 +120,27 @@
 									      <tr>
 									        <td>${obj.name }</td>
 										    <td>
-												 <u:upload id="pUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+												 <u:upload id="pUp${(vs.index + 1)*6-1}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 										    </td>
 										    <td>
-												 <u:upload id="pUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+												 <u:upload id="pUp${(vs.index + 1)*6-2}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 										    </td>
 										    <td>
-												 <u:upload id="pUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+												 <u:upload id="pUp${(vs.index + 1)*6-3}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="pShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 										    </td>
 										    <td> 
-												 <u:upload id="pUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+												 <u:upload id="pUp${(vs.index + 1)*6-4}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 										    </td>
 										    <td>
-												 <u:upload id="pUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+												 <u:upload id="pUp${(vs.index + 1)*6-5}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 										    </td>
 										    <td>
-												 <u:upload id="pUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+												 <u:upload id="pUp${(vs.index + 1)*6-6}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
 												 <u:show showId="pShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 										     </td>
 										   
@@ -178,27 +178,27 @@
 									      <tr>
 									        <td>${obj.name }</td>
 										    <td>
-												 <u:upload id="saleUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-1}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="saleShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 										    </td>
 										    <td>
-												 <u:upload id="saleUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-2}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="saleShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 										    </td>
 										    <td>
-												 <u:upload id="saleUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-3}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="saleShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 										    </td>
 										    <td> 
-												 <u:upload id="saleUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-4}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="saleShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 										    </td>
 										    <td>
-												 <u:upload id="saleUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-5}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="saleShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 										    </td>
 										    <td>
-												 <u:upload id="saleUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+												 <u:upload id="saleUp${(vs.index + 1)*6-6}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
 												 <u:show showId="saleShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 										     </td>
 										   
@@ -238,27 +238,27 @@
 									      <tr>
 									        <td>${obj.name }</td>
 										    <td>
-												 <u:upload id="projectUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-1}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="projectShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 										    </td>
 										    <td>
-												 <u:upload id="projectUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-2}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="projectShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 										    </td>
 										    <td>
-												 <u:upload id="projectUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-3}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="projectShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 										    </td>
 										    <td> 
-												 <u:upload id="projectUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-4}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="projectShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 										    </td>
 										    <td>
-												 <u:upload id="projectUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-5}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="projectShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 										    </td>
 										    <td>
-												 <u:upload id="projectUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+												 <u:upload id="projectUp${(vs.index + 1)*6-6}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
 												 <u:show showId="projectShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 										     </td>
 										   
@@ -297,27 +297,27 @@
 									      <tr>
 									        <td>${obj.name }</td>
 										    <td>
-												 <u:upload id="serUp${(vs.index + 1)*6-1}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+												 <u:upload id="serUp${(vs.index + 1)*6-1}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
 												 <u:show showId="serpShow${(vs.index + 1)*6-1}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 										    </td>
 										    <td>
-												 <u:upload id="serUp${(vs.index + 1)*6-2}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+												 <u:upload id="serUp${(vs.index + 1)*6-2}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
 												 <u:show showId="serpShow${(vs.index + 1)*6-2}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 										    </td>
 										    <td>
-												 <u:upload id="serUp${(vs.index + 1)*6-3}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+												 <u:upload id="serUp${(vs.index + 1)*6-3}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
 												 <u:show showId="serpShow${(vs.index + 1)*6-3}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 										    </td>
 										    <td> 
-												 <u:upload id="serUp${(vs.index + 1)*6-4}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+												 <u:upload id="serUp${(vs.index + 1)*6-4}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
 												 <u:show showId="serpShow${(vs.index + 1)*6-4}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 										    </td>
 										    <td>
-												 <u:upload id="serUp${(vs.index + 1)*6-5}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+												 <u:upload id="serUp${(vs.index + 1)*6-5}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
 												 <u:show showId="serpShow${(vs.index + 1)*6-5}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 										    </td>
 										    <td>
-												 <u:upload id="serUp${(vs.index + 1)*6-6}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+												 <u:upload id="serUp${(vs.index + 1)*6-6}" multiple="true" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
 												 <u:show showId="serpShow${(vs.index + 1)*6-6}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 										     </td>
 										   

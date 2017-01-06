@@ -11,16 +11,14 @@
       $(function() {
     	var saveNews="${saveNews}";
     	if(saveNews=='1'){
-    		layer.alert("保存成功", {
-                offset: ['222px', '390px'],
-                width: '200px',
+    		layer.msg("保存成功", {
+                offset: '222px',
                 shade: 0.01
               });
     	}
     	if(saveNews=='0'){
-    		layer.alert("提交成功", {
+    		layer.msg("提交成功", {
                 offset: ['222px', '390px'],
-                width: '200px',
                 shade: 0.01
               });
     	}
@@ -436,8 +434,8 @@
               <select id ="range" name="range" class="w100"  >
                 <option value=""  <c:if test="${articlesRange == ''}">selected</c:if>>全部</option>
                 <option value="0" <c:if test="${articlesRange == '0'}">selected</c:if>>内网</option>
-                <option value="1" <c:if test="${articlesRange == '1'}">selected</c:if>>外网</option>
-                <option value="2" <c:if test="${articlesRange == '2'}">selected</c:if>>内网&外网</option>
+                <%-- <option value="1" <c:if test="${articlesRange == '1'}">selected</c:if>>外网</option> --%>
+                <option value="2" <c:if test="${articlesRange == '2'}">selected</c:if>>内外网</option>
                </select>
            </span>
             </li>
@@ -506,11 +504,8 @@
                 <c:if test="${article.range=='0' }">
                   内网
                 </c:if>
-                <c:if test="${article.range=='1' }">
-                  外网
-                </c:if>
                 <c:if test="${article.range=='2' }">
-                  内网&外网
+                  内外网
                 </c:if>
               </td>
               <td class="tc" onclick="view('${article.id }')">
