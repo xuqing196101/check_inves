@@ -85,7 +85,9 @@
 							    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 								<select class="w180" name="typeName" id="typeName"  onchange="show(this.value);">
 										<c:forEach items="${ddList}" var="list" varStatus="vs">
+											<c:if test="${vs.index != 1 }">
 											<option value="${vs.index}">${list.name}</option>
+											</c:if>
 										</c:forEach>
 								</select>
 								</div>
