@@ -580,7 +580,7 @@ function deleteFinance() {
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 成立日期</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				    <fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate" />
-			        <input type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" <c:if test="${fn:contains(audit,'foundDate')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('foundDate')"</c:if>  />
+			        <input type="text" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{%y-3}-%M-%d'})" name="foundDate" value="${foundDate}" <c:if test="${fn:contains(audit,'foundDate')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('foundDate')"</c:if>  />
 			        <span class="add-on cur_point">i</span>
 			       	<span class="input-tip">成立时间须大于三年</span>
 			         <div class="cue"> ${err_msg_foundDate } </div>
