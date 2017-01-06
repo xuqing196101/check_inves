@@ -109,6 +109,13 @@ function checkAll(ele, id) {
 		var supplierId = $("input[name='id']").val();
 		var msg = "";
 		var flag = true;
+		
+		$("#address_list_body").find("input[type='text']").each(function(index,element){
+			if (element.value == "") {
+				msg = "地址信息不能为空!";
+				flag = false;
+			}
+		});
 		// 非空校验
 		$("#financeInfo").find("input[type='text']").each(function(index,element){
 			if (element.value == "") {
@@ -126,8 +133,6 @@ function checkAll(ele, id) {
 				if (data == "1") {
 					flag = false;
 					msg = "营业执照中统一社会信用代码已被占用! ";
-				} else {
-					flag = true;
 				}
 			}
 		});
@@ -399,6 +404,14 @@ function deleteFinance() {
 	function increaseAddress(obj){
 		var ind=$("#index").val();
 		var li=$(obj).parent().parent();
+		var id;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
+			async:false,
+			success: function(data){
+				id = data;
+			}
+		});
 		$(li).after("<li class='col-md-3 col-sm-6 col-xs-12 pl10'>"+
 				"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产公司邮编</span>"+
 				   "<div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
@@ -439,7 +452,8 @@ function deleteFinance() {
 			 "	<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>"+
 				"<div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>"+
 				"	<input type='button' onclick='increaseAddress(this)' class='btn list_btn' value='十'/>"+
-				"	<input type='button' onclick='delAddress(this)'class='btn list_btn' value='一'/>"+
+				"	<input type='button' onclick='delAddress(this)' class='btn list_btn' value='一'/>"+
+		        "	<input type='hidden' name='addressList["+ind+"].id' value='" + id + "' />"+
 				"</div></li>"
 				);
 		ind++;
@@ -447,12 +461,23 @@ function deleteFinance() {
 	}
 	
 	function delAddress(obj){
+		var id = $(obj).next().val();
 	 	var tag=$(obj).parent().parent();
  	    var li_1=$(obj).parent().parent().prev();  
 		$(li_1).prev().prev().remove(); //邮编
 		$(li_1).prev().remove();//省市
 		$(li_1).remove();//详细地址
 		$(tag).remove(); //按钮  
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/delAddress.do",
+			data: {"id" : id },
+			success: function(){
+				layer.msg("删除成功!");
+			},
+			error: function(){
+				layer.msg("删除失败!");
+			}
+		});
 	}
 	
 	function addBranch(obj){
@@ -766,11 +791,11 @@ function deleteFinance() {
 					</div>
 				 </li>
 				 
+				 <div id="address_list_body">
 				 <c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
 				 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产经营地址邮编</span>
 					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-					   <input type="hidden" name="addressList[${vs.index }].id" value="${addr.id}" />
 					<%--     <c:if test="${addr.code!=null}"> --%>
 					     <input type="text" name="addressList[${vs.index }].code" value="${addr.code}"/>
 					 <%--   </c:if>
@@ -830,10 +855,12 @@ function deleteFinance() {
 				 	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
 						<input type="button" onclick="increaseAddress(this)" class="btn list_btn" value="十"/>
-						<input type="button" onclick="delAddress(this)"class="btn list_btn" value="一"/>
+						<c:if test="${vs.index != 0}"><input type="button" onclick="delAddress(this, '${addr.id}')"class="btn list_btn" value="一"/></c:if>
+					   <input type="hidden" name="addressList[${vs.index }].id" value="${addr.id}" />
 					</div>
 				 </li>
 				</c:forEach> 
+				</div>
 				 
 				<%--  <li class="col-md-12 col-xs-12 col-sm-12 mb25">
 			    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>详细地址</span>

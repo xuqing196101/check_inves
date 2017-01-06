@@ -37,4 +37,12 @@ public interface SupplierAddressService {
 	 * @return List<SupplierAddress>
 	 */
 	public List<SupplierAddress> queryBySupplierId (String supplierId);
+	
+	/**
+	 *〈简述〉根据主键删除Address
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param id
+	 */
+	public int delAddressByPrimaryId(String id);
 }

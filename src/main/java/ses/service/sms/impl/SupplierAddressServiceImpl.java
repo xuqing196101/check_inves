@@ -48,5 +48,12 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
 		
 		return supplierAddressMapper.queryBySupplierId(supplierId);
 	}
-
+	
+	/**
+	 * @see ses.service.sms.SupplierAddressService#delAddressByPrimaryId(java.lang.String)
+	 */
+	@Override
+    public int delAddressByPrimaryId(String id) {
+	    return supplierAddressMapper.deleteByPrimaryKey(id);
+	}
 }
