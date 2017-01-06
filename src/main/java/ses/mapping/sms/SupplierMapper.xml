@@ -1103,7 +1103,8 @@
 		<if test="businessType != null and businessType !=''">
 			AND BUSINESS_TYPE = #{businessType}
 		</if>
-		ORDER BY SUPPLIER_STATUS ASC, UPDATED_AT DESC
+		<!-- ORDER BY SUPPLIER_STATUS ASC, UPDATED_AT DESC -->
+		ORDER BY UPDATED_AT DESC
 	</select>
 
 

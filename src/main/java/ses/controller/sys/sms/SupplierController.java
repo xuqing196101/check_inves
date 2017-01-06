@@ -245,7 +245,21 @@ import ses.util.WfUtil;
     */
    @RequestMapping(value = "register")
    public String register(HttpServletRequest request, Model model, Supplier supplier) {
-
+		// 所有的不通过字段的名字
+		 SupplierAudit s=new SupplierAudit();
+		 s.setSupplierId(supplier.getId());;
+		 s.setAuditType("basic_page");
+		 List<SupplierAudit> auditLists = supplierAuditService.selectByPrimaryKey(s);
+		 
+		 StringBuffer errorField = new StringBuffer();
+		 for (SupplierAudit audit : auditLists) {
+		   errorField.append(audit.getAuditField() + ",");
+		 }
+		
+		 model.addAttribute("audit",errorField);
+	   
+	   
+	   
      //页面过期处理
      if (StringUtils.isEmpty(supplier.getId())){
        String id = WfUtil.createUUID();
