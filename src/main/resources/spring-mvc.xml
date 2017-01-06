@@ -66,6 +66,7 @@ http://www.springframework.org/schema/task/spring-task-3.2.xsd
 <!-- 			首页登录 -->
 			<mvc:exclude-mapping path="/index/sign.*" />			
 			<mvc:exclude-mapping path="/login/login.*" />
+			<mvc:exclude-mapping path="/dataDownload/getIndexList.*" />
 			
 <!-- 			专家注册 -->
  			<mvc:exclude-mapping path="/expert/toExpert.*" />

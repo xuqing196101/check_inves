@@ -268,7 +268,7 @@ $(function(){
 		});
 		var certPersonNumber = $("#certPersonNumber").val();
 		$("#reg_person_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value=" + id + " /></td>"+
+			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatEng.listSupplierRegPersons[" + certProNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierRegPersons[" + certProNumber + "].regType'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierRegPersons[" + certProNumber + "].regNumber'/> </td>"+
 			"</tr>");
@@ -329,7 +329,7 @@ $(function(){
 		});
 		var certAptNumber = $("#certAptNumber").val();
 		$("#aptitute_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value=" + id + " /></td>"+
+			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].certType'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].certCode'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteSequence'/> </td>"+
@@ -338,7 +338,7 @@ $(function(){
 			"<td class='tc'>"+
 			   "<select name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].isMajorFund'>"+
 	             "<option value='1'>是</option>"+
-	             "<option value='0'>否</option>"+
+	             "<option value='0'>无</option>"+
 	           "</select>"+
 			"</td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteContent'/> </td>"+
@@ -412,7 +412,7 @@ $(function(){
 		});
 		var certProNumber = $("#certProNumber").val();
 		$("#cert_pro_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value=" + id + " /></td>"+
+			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].name'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].levelCert'/> </td>"+
 		    "<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].licenceAuthorith'/></td>"+
@@ -494,7 +494,7 @@ $(function(){
 		});
 		var certSaleNumber = $("#certSaleNumber").val();
 		$("#cert_sell_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value=" + id + " /></td>"+
+			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].name'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].levelCert'/> </td>"+
 		    "<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].licenceAuthorith'/></td>"+
@@ -553,7 +553,33 @@ $(function(){
 	function openCertSe() {
 		var matSeId = $("input[name='supplierMatSe.id']").val();
 		var supplierId = $("input[name='id']").val();
-		layer.open({
+		var id;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
+			async:false,
+			success: function(data){
+				id = data;
+			}
+		});
+		var certSeNumber = $("#certSeNumber").val();
+		$("#cert_se_list_tbody_id").append("<tr>"+
+			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].id' value='" + id + "'></td>"+
+			"<td class='tc'><input type='text' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].name'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].levelCert'/> </td>"+
+		    "<td class='tc'><input type='text' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].licenceAuthorith'/></td>"+
+			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].expStartDate'/></td>"+
+			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].expEndDate'/></td>"+
+			"<td class='tc'>"+
+			   "<select name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].mot'>"+
+	             "<option value='1'>是</option>"+
+	             "<option value='0'>无</option>"+
+	           "</select>"+
+			"</td>"+
+			"</tr>");
+		certSeNumber++;
+		$("#certSeNumber").val(certSeNumber);
+		
+		/*layer.open({
 			type : 2,
 			title : '添加物资服务证书信息',
 			// skin : 'layui-layer-rim', //加上边框
@@ -562,7 +588,7 @@ $(function(){
 			scrollbar : false,
 			content : '${pageContext.request.contextPath}/supplier_cert_se/add_cert_se.html?matSeId=' + matSeId + '&supplierId=' + supplierId, //url
 			closeBtn : 1, //不显示关闭按钮
-		});
+		});*/
 	}
 	
 	function deleteCertSe() {
@@ -681,7 +707,7 @@ $(function(){
 		});
 		var certEngNumber = $("#certEngNumber").val();
 		$("#cert_eng_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value=" + id + " /></td>"+
+			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certType'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certCode'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certMaxLevel'/> </td>"+
@@ -1100,7 +1126,10 @@ $(function(){
 													<c:set var="certProNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
 														<tr>
-															<td class="tc"><input type="checkbox" value="${certPro.id}" /></td>
+															<td class="tc">
+															<input type="checkbox" value="${certPro.id}" />
+															<input type="hidden" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${certPro.id}">
+															</td>
 															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" value="${certPro.name}"/> </td>
 															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" /> </td>
 															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" value="${certPro.licenceAuthorith}"/></td>
@@ -1215,7 +1244,10 @@ $(function(){
 													<c:set var="certSaleNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatSell.listSupplierCertSells}" var="certSell" varStatus="vs">
 														<tr>
-															<td class="tc"><input type="checkbox" value="${certSell.id}" /></td>
+															<td class="tc">
+															<input type="checkbox" value="${certSell.id}" />
+															<input type="hidden" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id" value="${certSell.id}">
+															</td>
 															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name" value="${certSell.name}"/></td>
 															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" value="${certSell.levelCert}"/></td>
 															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" value="${certSell.licenceAuthorith}"/></td>
@@ -1227,8 +1259,8 @@ $(function(){
 														    </td>
 														    <td class="tc">
 															   <select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot">
-														          <option value="1" <c:if test="${certSell.mot=='1'}"> selected="selected"</c:if> >是</option>
-														          <option value="0"  <c:if test="${certSell.mot=='0'}"> selected="selected"</c:if>>无</option>
+														          <option value="1" <c:if test="${certSell.mot=='1'}"> selected="selected"</c:if>>是</option>
+														          <option value="0" <c:if test="${certSell.mot=='0'}"> selected="selected"</c:if>>无</option>
 														        </select>
 															</td>
 															<%--<td class="tc">
@@ -1334,7 +1366,10 @@ $(function(){
 													<c:set var="certPersonNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierRegPersons}" var="regPerson" varStatus="vs">
 														<tr>
-															<td class="tc"><input type="checkbox" value="${regPerson.id}" /></td>
+															<td class="tc">
+															<input type="checkbox" value="${regPerson.id}" />
+															<input type="hidden" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].id" value="${regPerson.id}">
+															</td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regType" value="${regPerson.regType}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regNumber" value="${regPerson.regNumber}"/></td>
 														</tr>
@@ -1384,7 +1419,10 @@ $(function(){
 													<c:set var="certEngNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierCertEngs}" var="certEng" varStatus="vs">
 														<tr>
-															<td class="tc"><input type="checkbox" value="${certEng.id}" /></td>
+															<td class="tc">
+															<input type="checkbox" value="${certEng.id}" />
+															<input type="hidden" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].id" value="${certEng.id}">
+															</td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType" value="${certEng.certType}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel" value="${certEng.certMaxLevel}"/></td>
@@ -1455,7 +1493,10 @@ $(function(){
 													<c:set var="certAptNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierAptitutes}" var="aptitute" varStatus="vs">
 														<tr>
-															<td class="tc"><input type="checkbox" value="${aptitute.id}" /></td>
+															<td class="tc">
+															<input type="checkbox" value="${aptitute.id}" />
+															<input type="hidden" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].id" value="${aptitute.id}">
+															</td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" value="${aptitute.certType}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode" value="${aptitute.certCode}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence" value="${aptitute.aptituteSequence}"/></td>
@@ -1463,8 +1504,8 @@ $(function(){
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" value="${aptitute.aptituteLevel}"/></td>
 															<td class="tc">
 															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund">
-														          <option value="1" <c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if> >是</option>
-														          <option value="0"  <c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>否</option>
+														          <option value="1" <c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if>>是</option>
+														          <option value="0" <c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>无</option>
 														        </select>
 															</td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}"/></td>
@@ -1561,8 +1602,8 @@ $(function(){
 	 	              					<legend> 供应商资服务质证书 </legend>
 										<div class="col-md-12 col-xs-12 col-sm-12 p0">
 													<div class="col-md-12 col-xs-12 col-sm-12">
-														<button type="button" class="btn padding-left-20 padding-right-20 btn_back " onclick="deleteCertSe()">删除</button>
 														<button type="button" class="btn padding-left-20 padding-right-20 btn_back " onclick="openCertSe()">新增</button>
+														<button type="button" class="btn padding-left-20 padding-right-20 btn_back " onclick="deleteCertSe()">删除</button>
 														<span class="red">${fw_cert }</span>
 													</div>
 										<div class="col-md-12 col-sm-12 col-xs-12">
@@ -1583,13 +1624,21 @@ $(function(){
 													<c:set var="certSeNumber" value="0"></c:set>
 													<c:forEach items="${currSupplier.supplierMatSe.listSupplierCertSes}" var="certSe" varStatus="vs">
 														<tr>
-															<td class="tc"><input type="checkbox" value="${certSe.id}" /></td>
-															<td class="tc">${certSe.name}</td>
-															<td class="tc">${certSe.levelCert}</td>
-															<td class="tc">${certSe.licenceAuthorith}</td>
-															<td class="tc"><fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd" /></td>
-															<td class="tc"><fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd" /></td>
-															<td class="tc">${certSe.mot}</td>
+															<td class="tc">
+															<input type="checkbox" value="${certSe.id}" />
+															<input type="hidden" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].id" value="${certSe.id}">
+															</td>
+															<td class="tc"><input type="text" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name" value="${certSe.name}"/></td>
+															<td class="tc"><input type="text" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert" value="${certSe.levelCert}"/></td>
+															<td class="tc"><input type="text" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith" value="${certSe.licenceAuthorith}"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}"/>"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}"/>"/></td>
+															<td class="tc">
+																<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot">
+																	<option value="1" <c:if test="${certSe.mot==1}"> selected="selected"</c:if>>是</option>
+																	<option value="0" <c:if test="${certSe.mot==0}"> selected="selected"</c:if>>无</option>
+																</select>
+															</td>
 															<%--<td class="tc">
 																<c:if test="${certSe.attach != null}">
 																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certSe.attach}')">下载附件</a>

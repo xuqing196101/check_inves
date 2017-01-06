@@ -1106,7 +1106,7 @@
               </a>
             </div>
             <div class="ywbl_02">
-              <a href="javascript:void(0)" class="zlxz">
+              <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html" class="zlxz">
                 <span>资料下载</span>
               </a>
             </div>

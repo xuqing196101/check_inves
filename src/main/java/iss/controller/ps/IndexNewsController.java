@@ -1162,43 +1162,53 @@ public class IndexNewsController extends BaseSupplierController{
 		articleService.update(articleDetail);
 		String filePath = request.getSession().getServletContext().getRealPath("/")+"/zanpic";
 		String glisteningPath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
+		String filePathFile = filePath+"/"+article.getId()+".png";
+		String glisteningFile = glisteningPath+"/"+article.getId()+".jpg";
 		String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
 		File stagingFile = new File(filePath);
 		File glisFile = new File(glisteningPath);
+		File filePathFiles = new File(filePathFile);
+		File glisteningFiles = new File(glisteningFile);
+		if(filePathFiles.exists()&&filePathFiles.isFile()){
+			filePathFiles.delete();
+		}
+		if(glisteningFiles.exists()&&glisteningFiles.isFile()){
+			glisteningFiles.delete();
+		}
 //		if(stagingFile.exists()){
 //			stagingFile.delete();
 //		}
 //		if(glisFile.exists()){
 //			glisFile.delete();
 //		}
-		if(stagingFile.exists()&&stagingFile.isDirectory()){
-			File[] files = stagingFile.listFiles();
-			for(int i=0;i<files.length;i++){
-				if(files[i].isFile()){
-					File file = new File(files[i].getAbsolutePath());
-					if(file.exists()&&file.isFile()){
-						file.delete();
-					}
-				}
-			}
-		}
-		if(stagingFile.exists()&&stagingFile.isDirectory()){
-			stagingFile.delete();
-		}
-		if(glisFile.exists()&&glisFile.isDirectory()){
-			File[] files = glisFile.listFiles();
-			for(int i=0;i<files.length;i++){
-				if(files[i].isFile()){
-					File file = new File(files[i].getAbsolutePath());
-					if(file.exists()&&file.isFile()){
-						file.delete();
-					}
-				}
-			}
-		}
-		if(glisFile.exists()&&glisFile.isDirectory()){
-			glisFile.delete();
-		}
+//		if(stagingFile.exists()&&stagingFile.isDirectory()){
+//			File[] files = stagingFile.listFiles();
+//			for(int i=0;i<files.length;i++){
+//				if(files[i].isFile()){
+//					File file = new File(files[i].getAbsolutePath());
+//					if(file.exists()&&file.isFile()){
+//						file.delete();
+//					}
+//				}
+//			}
+//		}
+//		if(stagingFile.exists()&&stagingFile.isDirectory()){
+//			stagingFile.delete();
+//		}
+//		if(glisFile.exists()&&glisFile.isDirectory()){
+//			File[] files = glisFile.listFiles();
+//			for(int i=0;i<files.length;i++){
+//				if(files[i].isFile()){
+//					File file = new File(files[i].getAbsolutePath());
+//					if(file.exists()&&file.isFile()){
+//						file.delete();
+//					}
+//				}
+//			}
+//		}
+//		if(glisFile.exists()&&glisFile.isDirectory()){
+//			glisFile.delete();
+//		}
 		if(!stagingFile.exists()){
 			stagingFile.mkdir();
 		}

@@ -1,13 +1,17 @@
 package ses.service.sms.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.sms.SupplierCertSellMapper;
 import ses.dao.sms.SupplierMatSellMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierMatSell;
 import ses.service.sms.SupplierMatSellService;
 
@@ -16,6 +20,10 @@ public class SupplierMatSellServiceImpl implements SupplierMatSellService {
 
 	@Autowired
 	private SupplierMatSellMapper supplierMatSellMapper;
+	
+	/** 供应商物资销售资质证书Mapper **/
+	@Autowired
+	private SupplierCertSellMapper supplierCertSellMapper;
 
 	@Override
 	public void saveOrUpdateSupplierMatSell(Supplier supplier) {
@@ -38,6 +46,19 @@ public class SupplierMatSellServiceImpl implements SupplierMatSellService {
 			}
 			
 		}
+        // 供应商物资销售资质证书
+        List<SupplierCertSell> listCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
+        for (SupplierCertSell certSell : listCertSells) {
+            SupplierCertSell certSellBean = supplierCertSellMapper.selectByPrimaryKey(certSell.getId());
+            // 判断是否已经存在,来选择insert还是update
+            if (certSellBean != null) {
+                // 修改
+                supplierCertSellMapper.updateByPrimaryKeySelective(certSell);
+            } else {
+                // 新增
+                supplierCertSellMapper.insertSelective(certSell);
+            }
+        }
 	}
 	
 	/**
