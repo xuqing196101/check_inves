@@ -12,6 +12,7 @@ import ses.dao.sms.SupplierMatSellMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.service.sms.SupplierMatSellService;
 
@@ -47,15 +48,18 @@ public class SupplierMatSellServiceImpl implements SupplierMatSellService {
 			
 		}
         // 供应商物资销售资质证书
+        SupplierMatSell supplierMatSell = supplierMatSellMapper.getMatSellBySupplierId(supplier.getId());
         List<SupplierCertSell> listCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
         for (SupplierCertSell certSell : listCertSells) {
             SupplierCertSell certSellBean = supplierCertSellMapper.selectByPrimaryKey(certSell.getId());
             // 判断是否已经存在,来选择insert还是update
             if (certSellBean != null) {
                 // 修改
+                certSell.setMatSellId(supplierMatSell.getId());
                 supplierCertSellMapper.updateByPrimaryKeySelective(certSell);
             } else {
                 // 新增
+                certSell.setMatSellId(supplierMatSell.getId());
                 supplierCertSellMapper.insertSelective(certSell);
             }
         }
