@@ -1,14 +1,22 @@
 package ses.service.sms.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.sms.SupplierAptituteMapper;
+import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierMatEngMapper;
+import ses.dao.sms.SupplierRegPersonMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierRegPerson;
 import ses.service.sms.SupplierMatEngService;
 
 @Service(value = "supplierMatEngService")
@@ -16,6 +24,18 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 
 	@Autowired
 	private SupplierMatEngMapper supplierMatEngMapper;
+	
+	/** 供应商注册人员登记Mapper **/
+	@Autowired
+	private SupplierRegPersonMapper supplierRegPersonMapper;
+	
+	/** 供应商工程证书信息Mapper **/
+	@Autowired
+	private SupplierCertEngMapper supplierCertEngMapper;
+	
+	/** 供应商资质资格信息Mapper **/
+	@Autowired
+	private SupplierAptituteMapper supplierAptituteMapper;
 
 	@Override
 	public void saveOrUpdateSupplierMatPro(Supplier supplier) {
@@ -38,6 +58,45 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 			}
 			
 		}
+        // 供应商注册人员登记
+        List<SupplierRegPerson> listRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();
+        for (SupplierRegPerson regPerson : listRegPersons) {
+            SupplierRegPerson regPersonBean = supplierRegPersonMapper.selectByPrimaryKey(regPerson.getId());
+            // 判断是否已经存在,来选择insert还是update
+            if (regPersonBean != null) {
+                // 修改
+                supplierRegPersonMapper.updateByPrimaryKeySelective(regPerson);
+            } else {
+                // 新增
+                supplierRegPersonMapper.insertSelective(regPerson);
+            }
+        }
+        // 供应商工程证书信息
+        List<SupplierCertEng> listCertEngs = supplier.getSupplierMatEng().getListSupplierCertEngs();
+        for (SupplierCertEng certEng : listCertEngs) {
+            SupplierCertEng certEngBean = supplierCertEngMapper.selectByPrimaryKey(certEng.getId());
+            // 判断是否已经存在,来选择insert还是update
+            if (certEngBean != null) {
+                // 修改
+                supplierCertEngMapper.updateByPrimaryKeySelective(certEng);
+            } else {
+                // 新增
+                supplierCertEngMapper.insertSelective(certEng);
+            }
+        }
+        // 供应商资质资格信息
+        List<SupplierAptitute> listAptitutes = supplier.getSupplierMatEng().getListSupplierAptitutes();
+        for (SupplierAptitute aptitute : listAptitutes) {
+            SupplierAptitute aptituteBean = supplierAptituteMapper.selectByPrimaryKey(aptitute.getId());
+            // 判断是否已经存在,来选择insert还是update
+            if (aptituteBean != null) {
+                // 修改
+                supplierAptituteMapper.updateByPrimaryKeySelective(aptitute);
+            } else {
+                // 新增
+                supplierAptituteMapper.insertSelective(aptitute);
+            }
+        }
 	}
 	
 	/**

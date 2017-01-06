@@ -1,13 +1,17 @@
 package ses.service.sms.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierMatServeMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierMatServe;
 import ses.service.sms.SupplierMatSeService;
 
@@ -16,6 +20,10 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 
 	@Autowired
 	private SupplierMatServeMapper supplierMatSeMapper;
+	
+	/** 供应商资服务质证书Mapper **/
+	@Autowired
+	private SupplierCertServeMapper supplierCertServeMapper;
 
 	@Override
 	public void saveOrUpdateSupplierMatSe(Supplier supplier) {
@@ -38,6 +46,19 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
             }
 			
 		}
+        // 供应商资服务质证书
+        List<SupplierCertServe> listCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
+        for (SupplierCertServe certSe : listCertSes) {
+            SupplierCertServe certSeBean = supplierCertServeMapper.selectByPrimaryKey(certSe.getId());
+            // 判断是否已经存在,来选择insert还是update
+            if (certSeBean != null) {
+                // 修改
+                supplierCertServeMapper.updateByPrimaryKeySelective(certSe);
+            } else {
+                // 新增
+                supplierCertServeMapper.insertSelective(certSe);
+            }
+        }
 	}
 	
 	/**
