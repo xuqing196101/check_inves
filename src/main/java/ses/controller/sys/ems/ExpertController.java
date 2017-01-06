@@ -524,12 +524,17 @@ public class ExpertController extends BaseController {
         if ("1".equals(type)) {
             Expert expert = new Expert();
             expert.setId(expertId);
+            // 递归获取当前节点的所有子节点
             List<Category> list = getChildrenNodes(categoryId);
+            list.add(categoryService.selectByPrimaryKey(categoryId));
+            // 去重
             removeSame(list);
+            // 去除父节点,只保存子节点
+            removeParentNodes(list);
             for (Category cate : list) {
                 ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, cate.getId());
                 if (expertCategory == null) {
-                    expertCategoryService.save(expert, categoryId, typeId);
+                    expertCategoryService.save(expert, cate.getId(), typeId);
                 }
             }
         } else if ("0".equals(type)) {
@@ -2522,6 +2527,25 @@ public class ExpertController extends BaseController {
                 if (list.get(j).getId().equals(list.get(i).getId())) {
                     list.remove(j);
                 }
+            }
+        }
+    }
+    
+    /**
+     *〈简述〉去重父级节点,只保留子节点
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param list Category类型的List
+     * @return
+     */
+    public void removeParentNodes(List<Category> list) {
+        Category cate = null;
+        List<Category> childrenList = new ArrayList<Category>();
+        for (int i = 0; i < list.size(); i++ ) {
+            cate = list.get(i);
+            childrenList = categoryService.findPublishTree(cate.getId(), null);
+            if (childrenList.size() > 0) {
+                list.remove(i);
             }
         }
     }
