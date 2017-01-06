@@ -58,6 +58,7 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 			}
 			
 		}
+		SupplierMatEng supplierMatEng = supplierMatEngMapper.getMatEngBySupplierId(supplier.getId());
         // 供应商注册人员登记
         List<SupplierRegPerson> listRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();
         for (SupplierRegPerson regPerson : listRegPersons) {
@@ -65,9 +66,11 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
             // 判断是否已经存在,来选择insert还是update
             if (regPersonBean != null) {
                 // 修改
+                regPerson.setMatEngId(supplierMatEng.getId());
                 supplierRegPersonMapper.updateByPrimaryKeySelective(regPerson);
             } else {
                 // 新增
+                regPerson.setMatEngId(supplierMatEng.getId());
                 supplierRegPersonMapper.insertSelective(regPerson);
             }
         }
@@ -78,9 +81,11 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
             // 判断是否已经存在,来选择insert还是update
             if (certEngBean != null) {
                 // 修改
+                certEng.setMatEngId(supplierMatEng.getId());
                 supplierCertEngMapper.updateByPrimaryKeySelective(certEng);
             } else {
                 // 新增
+                certEng.setMatEngId(supplierMatEng.getId());
                 supplierCertEngMapper.insertSelective(certEng);
             }
         }
@@ -91,9 +96,11 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
             // 判断是否已经存在,来选择insert还是update
             if (aptituteBean != null) {
                 // 修改
+                aptitute.setMatEngId(supplierMatEng.getId());
                 supplierAptituteMapper.updateByPrimaryKeySelective(aptitute);
             } else {
                 // 新增
+                aptitute.setMatEngId(supplierMatEng.getId());
                 supplierAptituteMapper.insertSelective(aptitute);
             }
         }

@@ -47,15 +47,18 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 		    
 		}
 		// 供应商物资生产资质证书
+		SupplierMatPro supplierMatPro = supplierMatProMapper.getMatProBySupplierId(supplier.getId());
 		List<SupplierCertPro> listCertPros = supplier.getSupplierMatPro().getListSupplierCertPros();
 		for (SupplierCertPro certPro : listCertPros) {
             SupplierCertPro certProBean = supplierCertProMapper.selectByPrimaryKey(certPro.getId());
             // 判断是否已经存在,来选择insert还是update
             if (certProBean != null) {
                 // 修改
+                certPro.setMatProId(supplierMatPro.getId());
                 supplierCertProMapper.updateByPrimaryKeySelective(certPro);
             } else {
                 // 新增
+                certPro.setMatProId(supplierMatPro.getId());
                 supplierCertProMapper.insertSelective(certPro);
             }
         }
