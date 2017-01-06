@@ -1265,7 +1265,7 @@ where
   	FROM T_ISS_PS_ARTICLE 
   	WHERE IS_DELETED =0 
   	AND STATUS &gt; 1 
-  	AND RANGE =2
+  	AND RANGE = 2
   	AND to_char(PUBLISHED_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{startTime} 
   	AND to_char(PUBLISHED_AT,'yyyy-MM-dd hh24:mi:ss')  &lt;= #{endTime}
   </select>
