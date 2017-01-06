@@ -294,7 +294,9 @@ public class ArticleServiceImpl implements ArticleService {
                             purchaseCount = pd.getPurchaseCount() + "";
                         }
                         if (pd.getItem() == null) pd.setItem("");
-                        if (pd.getPurchaseCount() == null) pd.setPurchaseCount(0.00);
+                        if (pd.getPurchaseCount() == null) {
+                            pd.setPurchaseCount(new BigDecimal(0));
+                        }
                         sb.append("<tr><td>"+pack.getName()+"</td>");   
                         sb.append("<td>"+pd.getGoodsName()+" </td>");
                         sb.append("<td>"+pd.getStand()+"</td>");
