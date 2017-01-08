@@ -166,17 +166,17 @@ public class DataDownloadController {
 				model.addAttribute("ERR_name", "资料名称不能为空");
 			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>100){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能超过100个字符");
+				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
 			}
 		}
-		String ipAddress = null;
-		String[] ipAddressType = request.getParameterValues("ipAddressType");
-		if(ipAddressType==null){
-			flag = false;
-			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
-		}else{
-			ipAddress = ipAddressType[0];
-		}
+//		String ipAddress = null;
+		//String[] ipAddressType = request.getParameterValues("ipAddressType");
+//		if(ipAddressType==null){
+//			flag = false;
+//			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
+//		}else{
+//			ipAddress = ipAddressType[0];
+//		}
 		String id = request.getParameter("id");
 		List<UploadFile> zlfj = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
 		if(zlfj.size()<1){
@@ -193,9 +193,10 @@ public class DataDownloadController {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
 		    model.addAttribute("data", dataDownload);
-		    model.addAttribute("ipAddressType", ipAddress);
+		    //model.addAttribute("ipAddressType", ipAddress);
 			return "iss/ps/dataDownload/add";
 		}
+		//dataDownload.setIpAddressType(Integer.parseInt(ipAddressType[0]));
 		dataDownload.setCreatedAt(new Date());
 		dataDownload.setIsDeleted(0);
 		dataDownload.setStatus(1);
@@ -377,17 +378,17 @@ public class DataDownloadController {
 				model.addAttribute("ERR_name", "资料名称不能为空");
 			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>100){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能超过100个字符");
+				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
 			}
 		}
-		String ipAddress = null;
-		String[] ipAddressType = request.getParameterValues("ipAddressType");
-		if(ipAddressType==null){
-			flag = false;
-			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
-		}else{
-			ipAddress = ipAddressType[0];
-		}
+//		String ipAddress = null;
+		//String[] ipAddressType = request.getParameterValues("ipAddressType");
+//		if(ipAddressType==null){
+//			flag = false;
+//			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
+//		}else{
+//			ipAddress = ipAddressType[0];
+//		}
 		String id = request.getParameter("id");
 		List<UploadFile> zlfj = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
 		if(zlfj.size()<1){
@@ -404,7 +405,7 @@ public class DataDownloadController {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
 		    model.addAttribute("data", dataDownload);
-		    model.addAttribute("ipAddressType", ipAddress);
+		    //model.addAttribute("ipAddressType", ipAddress);
 			return "iss/ps/dataDownload/add";
 		}
 		dataDownload.setCreatedAt(new Date());
@@ -462,6 +463,7 @@ public class DataDownloadController {
 		for(int i=0;i<list.size();i++){
 			if(list.get(i).getStatus()==1||list.get(i).getStatus()==3){
 				str = "0";
+				break;
 			}else if(i==list.size()-1){
 				str = "1";
 			}
@@ -513,17 +515,17 @@ public class DataDownloadController {
 				model.addAttribute("ERR_name", "资料名称不能为空");
 			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>100){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能超过100个字符");
+				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
 			}
 		}
-		String ipAddress = null;
-		String[] ipAddressType = request.getParameterValues("ipAddressType");
-		if(ipAddressType==null){
-			flag = false;
-			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
-		}else{
-			ipAddress = ipAddressType[0];
-		}
+		//String ipAddress = null;
+		//String[] ipAddressType = request.getParameterValues("ipAddressType");
+//		if(ipAddressType==null){
+//			flag = false;
+//			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
+//		}else{
+//			ipAddress = ipAddressType[0];
+//		}
 		String id = request.getParameter("id");
 		List<UploadFile> zlfj = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
 		if(zlfj.size()<1){
@@ -540,7 +542,7 @@ public class DataDownloadController {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
 		    model.addAttribute("data", dataDownload);
-		    model.addAttribute("ipAddressType", ipAddress);
+		    //model.addAttribute("ipAddressType", ipAddress);
 			return "iss/ps/dataDownload/edit";
 		}
 		dataDownload.setUpdatedAt(new Date());
@@ -566,17 +568,17 @@ public class DataDownloadController {
 				model.addAttribute("ERR_name", "资料名称不能为空");
 			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>100){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能超过100个字符");
+				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
 			}
 		}
-		String ipAddress = null;
-		String[] ipAddressType = request.getParameterValues("ipAddressType");
-		if(ipAddressType==null){
-			flag = false;
-			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
-		}else{
-			ipAddress = ipAddressType[0];
-		}
+//		String ipAddress = null;
+//		String[] ipAddressType = request.getParameterValues("ipAddressType");
+//		if(ipAddressType==null){
+//			flag = false;
+//			model.addAttribute("ERR_ipAddressType", "发布范围不能为空");
+//		}else{
+//			ipAddress = ipAddressType[0];
+//		}
 		String id = request.getParameter("id");
 		List<UploadFile> zlfj = uploadService.findBybusinessId(id, Constant.TENDER_SYS_KEY);
 		if(zlfj.size()<1){
@@ -592,7 +594,7 @@ public class DataDownloadController {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
 		    model.addAttribute("data", dataDownload);
-		    model.addAttribute("ipAddressType", ipAddress);
+		    //model.addAttribute("ipAddressType", ipAddress);
 			return "iss/ps/dataDownload/edit";
 		}
 		dataDownload.setPublishAt(new Date());
@@ -601,4 +603,35 @@ public class DataDownloadController {
 		dataDownloadService.updateByPrimaryKeySelective(dataDownload);
 		return "redirect:getList.html";
 	}
+	
+	/**
+	 * 
+	* @Title: judgeDelete
+	* @author ZhaoBo
+	* @date 2017-1-8 下午8:24:55  
+	* @Description: 判断能不能删除 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/judgeDelete")
+	@ResponseBody
+	public String judgeDelete(HttpServletRequest request){
+		String str = null;
+		String[] id = request.getParameter("id").split(",");
+		List<DataDownload> list = new ArrayList<>();
+		for(int i=0;i<id.length;i++){
+			DataDownload dataDownload = dataDownloadService.selectByPrimaryKey(id[i]);
+			list.add(dataDownload);
+		}
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).getStatus()==2){
+				str = "0";
+				break;
+			}else if(i==list.size()-1){
+				str = "1";
+			}
+		}
+		return str;
+	}
+	
 }

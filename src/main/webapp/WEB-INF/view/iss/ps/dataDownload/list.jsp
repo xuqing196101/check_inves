@@ -55,7 +55,7 @@
 						}
 					}
 					if(count == 0) {
-						layer.alert("请选择删除内容", {
+						layer.alert("请选择需要删除的资料", {
 							offset: ['30%', '40%']
 						});
 						$(".layui-layer-shade").remove();
@@ -66,24 +66,38 @@
 							ids += info[i].value + ',';
 						}
 					}
-					layer.confirm('您确定要删除吗?', {
-						title: '提示',
-						offset: ['30%', '40%'],
-						shade: 0.01
-					}, function(index) {
-						layer.close(index);
-						$.ajax({
-							type: "POST",
-							url: "${pageContext.request.contextPath }/dataDownload/deleteById.html?id=" + ids,
-							success: function(data) {
-								layer.msg('删除成功', {
-									offset: ['40%', '45%']
+					$.ajax({
+						type: "POST",
+						dataType: "json",
+						url: "${pageContext.request.contextPath }/dataDownload/judgeDelete.html?id=" + ids,
+						success: function(data) {
+							if(data==0){
+								layer.alert("已发布的资料不能删除", {
+									offset: ['30%', '40%']
 								});
-								window.setTimeout(function() {
-									window.location.href = "${pageContext.request.contextPath }/dataDownload/getList.html";
-								}, 1000);
+								$(".layui-layer-shade").remove();
+							}else if(data==1){
+								layer.confirm('您确定要删除吗?', {
+									title: '提示',
+									offset: ['30%', '40%'],
+									shade: 0.01
+								}, function(index) {
+									layer.close(index);
+									$.ajax({
+										type: "POST",
+										url: "${pageContext.request.contextPath }/dataDownload/deleteById.html?id=" + ids,
+										success: function(data) {
+											layer.msg('删除成功', {
+												offset: ['40%', '45%']
+											});
+											window.setTimeout(function() {
+												window.location.href = "${pageContext.request.contextPath }/dataDownload/getList.html";
+											}, 1000);
+										}
+									});
+								});
 							}
-						});
+						}
 					});
 				}
 				
@@ -152,23 +166,23 @@
 							ids += info[i].value + ',';
 						}
 					}
-					layer.confirm('您确定要取消发布吗?', {
-						title: '提示',
-						offset: ['30%', '40%'],
-						shade: 0.01
-					}, function(index) {
-						layer.close(index);
-						$.ajax({
-							type: "POST",
-							dataType:"json",
-							url: "${pageContext.request.contextPath }/dataDownload/publishCancel.html?id=" + ids,
-							success: function(data) {
-								if(data==0){
-									layer.alert("请选择已发布的资料操作", {
-										offset: ['30%', '40%']
-									});
-									$(".layui-layer-shade").remove();
-								}else if(data==1){
+					$.ajax({
+						type: "POST",
+						dataType: "json",
+						url: "${pageContext.request.contextPath }/dataDownload/publishCancel.html?id=" + ids,
+						success: function(data) {
+							if(data==0){
+								layer.alert("请选择已发布的资料操作", {
+									offset: ['30%', '40%']
+								});
+								$(".layui-layer-shade").remove();
+							}else if(data==1){
+								layer.confirm('您确定要取消发布吗?', {
+									title: '提示',
+									offset: ['30%', '40%'],
+									shade: 0.01
+								}, function(index) {
+									layer.close(index);
 									$.ajax({
 										type: "POST",
 										url: "${pageContext.request.contextPath }/dataDownload/cancelPublish.html?id=" + ids,
@@ -181,9 +195,9 @@
 											}, 1000);
 										}
 									});
-								}
+								});
 							}
-						});
+						}
 					});
 				}
 				

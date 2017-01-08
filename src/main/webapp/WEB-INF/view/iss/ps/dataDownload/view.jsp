@@ -42,8 +42,8 @@
 									<tbody>
 										<tr>
 											<td class="bggrey " width="10%">资料名称：</td>
-											<td width="40%">${data.name }</td>
-											<td class="bggrey " width="10%">发布范围：</td>
+											<td colspan="3">${data.name }</td>
+											<%--<td class="bggrey " width="10%">发布范围：</td>
 											<td width="40%">
 												<c:if test="${data.ipAddressType==0 }">
 													内网
@@ -52,7 +52,7 @@
 													内外网
 												</c:if>
 											</td>
-										</tr>
+										--%></tr>
 										<tr>
 											<td class="bggrey " width="10%">附件：</td>
 											<td width="40%"><u:show showId="data_file_show"  delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }" /></td>
