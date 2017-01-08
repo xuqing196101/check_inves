@@ -7,6 +7,11 @@
 	var $wrap = $('#uploaderId');
 	$(function(){
 		webuploadEnv_check();
+		$(".web_uploader_class").each(function(){
+			var id = $(this).prev()[0].value;
+			init_uploader(eval("var  uploader_" + id),id);
+		});
+		/*
 		var groups = $("#groupId").val();
 		if (!webIsNull(groups)){
 			if (groups.indexOf(",")!=-1){
@@ -17,6 +22,7 @@
 			var id = $("#id").val();
 			init_uploader(eval("var  uploader_" + id),id);
 		}
+		*/
 		
 		
 	 });

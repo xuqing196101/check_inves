@@ -1171,8 +1171,8 @@ $(function(){
 														        </select>
 															</td>
 															<td class="tc">
-															 <u:upload id="pro_up_${certProNumber}" multiple="true" groups="pro_up_${certProNumber}"  businessId="${certPro.id}" typeId="1" sysKey="1"  auto="true" />
-															 <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" groups="pro_show_${certProNumber}" typeId="1" sysKey="1" />
+															 <u:upload id="pro_up_${certProNumber}" multiple="true" businessId="${certPro.id}" typeId="1" sysKey="1"  auto="true" />
+															 <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" typeId="1" sysKey="1" />
 															</td>
 														</tr>
 														<c:set var="certProNumber" value="${certProNumber + 1}"/>

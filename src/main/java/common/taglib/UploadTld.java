@@ -148,6 +148,7 @@ public class UploadTld extends TagSupport {
         JspWriter out = pageContext.getOut();
        try {
             out.println("<input id='id' type=\"hidden\"  value=" + id + " />");
+            out.println("<input type=\"hidden\"  class=\"web_uploader_class\" />");
             out.println("<input id='groupId' type=\"hidden\"  value=" + groups + " />");
             out.println("<input id='"+id+"_businessId' type=\"hidden\"  value=" + businessId + " />");
             out.println("<input id='"+id+"_typeId'  type=\"hidden\"  value=" + typeId + " />");
@@ -324,7 +325,7 @@ public class UploadTld extends TagSupport {
     public void setButtonName(String buttonName) {
         this.buttonName = buttonName;
     }
-    
+
     
     
     
