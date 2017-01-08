@@ -75,7 +75,15 @@ public class TaskAssignController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String list(@CurrentUser User user,CollectPlan collectPlan,Integer page,Model model){
-		collectPlan.setStatus(2);
+		
+		if(collectPlan.getStatus()==null){
+			collectPlan.setStatus(12);
+		}
+		if(collectPlan.getStatus()==1){
+			collectPlan.setSign("1");
+			collectPlan.setStatus(null);
+		}
+		
 		collectPlan.setUserId(user.getId());
 		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 		PageInfo<CollectPlan> info = new PageInfo<>(list);

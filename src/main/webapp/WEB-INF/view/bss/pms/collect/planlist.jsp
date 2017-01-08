@@ -355,16 +355,27 @@
 				  	  	<input type="text" name="fileName" value="${inf.fileName }"/> 
 				    		</span>
 				      </li>
-				   		<li>
-				    		<label class="fl">采购方式：</label><span>
-				  	   	<input type="text" name="" value=""/>
-				    	</span>
-				      </li>
+				   		 
 				      <li>
 				    		<label class="fl">采购金额：</label><span>
 				  	    <input type="text" name="budget" value="${inf.budget }"/> 
 				    	</span>
 				      </li>
+				      
+				      <label class="fl">    计划类型：</label><span>
+				    	<select name="status">
+				  	      <option value="0" >全部</option>
+						  	<option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> >审核轮次设置</option>
+							<option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 第一轮审核</option>
+							<option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 第二轮审核人员设置</option>
+							<option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> > 第二轮审核</option>
+							<option value="6" <c:if test="${inf.status=='6'}"> selected</c:if> > 第三轮审核人员设置</option>
+							<option value="7" <c:if test="${inf.status=='7'}"> selected</c:if> > 第三轮审核</option>
+							<option value="8" <c:if test="${inf.status=='8'}"> selected</c:if> > 审核结束</option>
+							<option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> > 直接下达</option>
+					   </select>
+					   
+					   
 			    </ul>
 	   	 		<input class="btn fl" type="submit" value="查询" /> 
 				<input class="btn fl" type="button" value="重置" onclick="resetQuery()"  />	

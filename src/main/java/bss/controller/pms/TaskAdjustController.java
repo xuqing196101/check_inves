@@ -22,8 +22,11 @@ import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import bss.controller.base.BaseController;
@@ -33,16 +36,20 @@ import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.AuditParam;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseAudit;
+import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.pms.UpdateFiled;
 import bss.model.ppms.ProjectAttachments;
+import bss.model.ppms.Task;
 import bss.service.pms.AuditParameService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseAuditService;
+import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.UpdateFiledService;
 import bss.service.ppms.ProjectAttachmentsService;
+import bss.service.ppms.TaskService;
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 
@@ -77,7 +84,7 @@ public class TaskAdjustController extends BaseController{
 	private UpdateFiledService updateFiledService;
 	
 	@Autowired
-	private OrgnizationServiceI orgnizationServiceI;
+	private OrgnizationServiceI orgnizationService;
 	
 	@Autowired
 	private ProjectAttachmentsService projectAttachmentsService;
@@ -93,6 +100,18 @@ public class TaskAdjustController extends BaseController{
 	
 	@Autowired
 	private OrgnizationMapper oargnizationMapper;
+	
+	
+	@Autowired
+	private TaskService taskService;
+	
+	@Autowired
+	private PurchaseDetailService purchaseDetailService;
+	
+	@Autowired
+	private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+	
+	
 	/**
 	 * 
 	 * 
@@ -107,12 +126,16 @@ public class TaskAdjustController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/list")
-	public String list(@CurrentUser User user,Model model,CollectPlan collectPlan,Integer page){
-		collectPlan.setUserId(user.getId());
-		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page== null ? 1: page);
-		PageInfo<CollectPlan> info = new PageInfo<>(list);
+	public String list(@CurrentUser User user,Model model,Task task,Integer page){
+		task.setPurchaseId(user.getOrg().getId());
+		task.setTaskNature(0);
+		List<Task> list = taskService.listAll(page== null ? 1: page,task);
+		PageInfo<Task> info = new PageInfo<Task>(list);
 		model.addAttribute("info", info);
-		model.addAttribute("inf", collectPlan);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("typeName", "2");
+        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
+        model.addAttribute("list2",orgnizations);
 		return "bss/pms/taskadjust/planlist";
 		
 	}
@@ -128,31 +151,48 @@ public class TaskAdjustController extends BaseController{
 	 */
 	@RequestMapping("/all")
 	public String requiredList(String id,Model model){
-		CollectPlan cPlan=collectPlanService.queryById(id);
-		int backInfo=0;
-		if (cPlan.getStatus()!=null && cPlan.getStatus()==4) {
-			backInfo=2;
-			List<CollectPlan> list = collectPlanService.queryCollect(new CollectPlan(), 1);
-			PageInfo<CollectPlan> info = new PageInfo<>(list);
-			model.addAttribute("info", info);
-			model.addAttribute("inf", new CollectPlan());
-			model.addAttribute("backInfo", backInfo);
-			return "bss/pms/taskadjust/planlist";
-		}else{
-			List<PurchaseRequired> purList=new LinkedList<PurchaseRequired>();
-			List<String> list = collectPurchaseService.getNo(id);
-			model.addAttribute("backInfo", backInfo);
-			Map<String,Object> map=new HashMap<String,Object>();
-			for(String str:list){
-				map.put("isMaster", "1");
-				map.put("planNo", str);
-				List<PurchaseRequired> pur = purchaseRequiredService.getByMap(map);
-				 purList.addAll(pur);
-			}
-			model.addAttribute("list", purList);
-			model.addAttribute("id", id);
-			return "bss/pms/taskadjust/purchaselist";
-		}
+		Task task = taskService.selectById(id);
+		
+		
+		//所有明细
+		List<PurchaseDetail> list = purchaseDetailService.getUnique(task.getCollectId());
+		model.addAttribute("list", list);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("typeName", "1");
+		map.put("typeName", 1);
+	    List<PurchaseDep> orgs = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+	    model.addAttribute("orgs", orgs);	
+	    
+	    List<DictionaryData> types = DictionaryDataUtil.find(5);
+//	          采购方式 
+	    model.addAttribute("types", types);	  
+//		CollectPlan cPlan=collectPlanService.queryById(id);
+//		int backInfo=0;
+//		if (cPlan.getStatus()!=null && cPlan.getStatus()==4) {
+//			backInfo=2;
+//			List<CollectPlan> list = collectPlanService.queryCollect(new CollectPlan(), 1);
+//			PageInfo<CollectPlan> info = new PageInfo<>(list);
+//			model.addAttribute("info", info);
+//			model.addAttribute("inf", new CollectPlan());
+//			model.addAttribute("backInfo", backInfo);
+//			return "bss/pms/taskadjust/planlist";
+//		}else{
+//			List<PurchaseRequired> purList=new LinkedList<PurchaseRequired>();
+//			List<String> list = collectPurchaseService.getNo(id);
+//			model.addAttribute("backInfo", backInfo);
+//			Map<String,Object> map=new HashMap<String,Object>();
+//			for(String str:list){
+//				map.put("isMaster", "1");
+//				map.put("planNo", str);
+//				List<PurchaseRequired> pur = purchaseRequiredService.getByMap(map);
+//				 purList.addAll(pur);
+//			}
+//			model.addAttribute("list", purList);
+//			model.addAttribute("id", id);
+//			return "bss/pms/taskadjust/edit";
+//		}
+		return "bss/pms/taskadjust/edit";
 	}
 	
 	/**
@@ -171,7 +211,7 @@ public class TaskAdjustController extends BaseController{
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
-		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+		List<Orgnization> org = orgnizationService.findOrgnizationList(map);
 		
 		List<PurchaseRequired> list = purchaseRequiredMapper.queryByNo(planNo);
 		
@@ -253,6 +293,8 @@ public class TaskAdjustController extends BaseController{
   public String planEditList(Model model,CollectPlan collectPlan,Integer page){
     List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
     PageInfo<CollectPlan> info = new PageInfo<>(list);
+    List<DictionaryData> types = DictionaryDataUtil.find(5);
+    model.addAttribute("types", types);
     model.addAttribute("info", info);
     model.addAttribute("inf", collectPlan);
     return "bss/pms/taskadjust/planeditlist";
@@ -272,77 +314,20 @@ public class TaskAdjustController extends BaseController{
    */
   @RequestMapping("/pledit")
   public String planEdit(String planNo,Model model,String id) {
-    HashMap<String,Object> map = new HashMap<String,Object>();
-    map.put("typeName", 1);
-    
-    List<String> no = collectPurchaseService.getNo(id);
-    List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
-    
-    List<PurchaseAudit> audits=new LinkedList<PurchaseAudit>();
-    List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
-    for(PurchaseRequired pr:list){
-      List<PurchaseAudit> audit = purchaseAuditService.queryByPid(pr.getId());
-      audits.addAll(audit);
-      }
-    //查询出所有审核参数
-//        DictionaryData  dictionaryData=new DictionaryData();
-//        DictionaryData dd=new DictionaryData();
-//        dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
-
-        List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
-        List<AuditParam> all=new LinkedList<AuditParam>();
-        AuditParam auditParam=new AuditParam();
-        
-        List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
-        if(dic!=null&&dic.size()>0){
-          for(DictionaryData d:dic){
-            AuditParamBean s=new AuditParamBean();
-            auditParam.setDictioanryId(d.getId());
-            List<AuditParam> a = auditParameService.query(auditParam, 1);
-            all.addAll(a);
-            s.setId(d.getId());
-            s.setSize(a.size());
-            s.setName(d.getName());
-            bean.add(s);
-          }
-        }
-        
-        List<String> departMent = new ArrayList<>();
-        if(no!=null&&no.size()>0){
-          for(String s:no){
-            List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
-            list.addAll(pur);
-            Map<String,Object> departMap = new HashMap<String,Object>();
-            departMap.put("planNo", s);
-            departMent.add(purchaseRequiredService.getByMap(departMap).get(0).getDepartment());
-          }
-        }   
-   
-             
-    model.addAttribute("departMent", departMent);
-    model.addAttribute("bean", bean); 
-    model.addAttribute("all", all); 
-    model.addAttribute("audits", audits);
-        
-        
-       
-    model.addAttribute("list", list);
-    model.addAttribute("planNo", planNo);
-    
-    model.addAttribute("org",org);
-    if (list != null && list.size() > 0) {
-      model.addAttribute("id", list.get(0).getId());
-    }
-    DictionaryData dd = new DictionaryData();
-    dd.setCode("CGJH_AUDIT");
-    String did = dictionaryDataServiceI.find(dd).get(0).getId();
-    model.addAttribute("aid", did);
-    
-    List<DictionaryData> dicType = dictionaryDataServiceI.findByKind("5");
-    model.addAttribute("dicType", dicType);
+		List<PurchaseDetail> list = purchaseDetailService.getUnique(id);
+		model.addAttribute("list", list);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("typeName", 1);
+	    List<PurchaseDep> orgs = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+	    model.addAttribute("orgs", orgs);	
+	    
+	    List<DictionaryData> types = DictionaryDataUtil.find(5);
+//	          采购方式 
+	    model.addAttribute("types", types);	 
     
     
-    return "bss/pms/taskadjust/planedit";
+    return "bss/pms/taskadjust/updateplan";
   }
   
 /**
@@ -371,6 +356,20 @@ public class TaskAdjustController extends BaseController{
   }*/
   
 	
+  @RequestMapping("/updatePlan")
+  public String updatePlan(PurchaseRequiredFormBean list){
+		if(list!=null){
+			if(list.getListDetail()!=null&&list.getListDetail().size()>0){
+				for( PurchaseDetail pd:list.getListDetail()){
+					if( pd.getId()!=null){
+						purchaseDetailService.updateByPrimaryKeySelective(pd);
+					}
+				}
+			}
+		}
+	  return "redirect:edit.html";
+  }
+  
 	/**
 	 * 
 	* @Title: updateById
@@ -381,26 +380,27 @@ public class TaskAdjustController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String updateById(PurchaseRequiredFormBean list,MultipartFile file,HttpServletRequest request){
+	public String updateById(PurchaseRequiredFormBean list){
 		Map<String,Object> map=new HashMap<String,Object>();
 		if(list!=null){
-			if(list.getList()!=null&&list.getList().size()>0){
-				for( PurchaseRequired p:list.getList()){
-					if( p.getId()!=null){
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						map.put("oid", id);
+			if(list.getListDetail()!=null&&list.getListDetail().size()>0){
+				for( PurchaseDetail pd:list.getListDetail()){
+					if( pd.getId()!=null){
+						purchaseDetailService.updateByPrimaryKeySelective(pd);
+//						String id = UUID.randomUUID().toString().replaceAll("-", "");
+//						map.put("oid", id);
 //						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
-						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
-						map.put("historyStatus", s);
-						map.put("id", p.getId());
-						purchaseRequiredService.update(map);
-						if(p.getParentId()!=null){
-							p.setParentId(p.getParentId());
-						}
+//						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
+//						map.put("historyStatus", s);
+//						map.put("id", p.getId());
+//						purchaseRequiredService.update(map);
+//						if(p.getParentId()!=null){
+//							p.setParentId(p.getParentId());
+//						}
 //						queryById.setId(p.getId());
-						p.setHistoryStatus("0");
-						purchaseRequiredService.add(p);	
-					}else{
+//						p.setHistoryStatus("0");
+//						purchaseRequiredService.add(p);	
+//					}else{
 //						String id = UUID.randomUUID().toString().replaceAll("-", "");
 //						p.setId(id);
 //						purchaseRequiredService.add(p);	
@@ -409,28 +409,28 @@ public class TaskAdjustController extends BaseController{
 				
 			}
 			
-			if(list.getAudit()!=null&&list.getAudit().size()>0){
-				for(PurchaseAudit pa:list.getAudit()){
-					if(pa.getParamValue()!=null){
-						purchaseAuditService.update(pa);
-					}
-				
-				}
-			}
+//			if(list.getAudit()!=null&&list.getAudit().size()>0){
+//				for(PurchaseAudit pa:list.getAudit()){
+//					if(pa.getParamValue()!=null){
+//						purchaseAuditService.update(pa);
+//					}
+//				
+//				}
+//			}
 		}
 		
-		ProjectAttachments project=new ProjectAttachments();
+//		ProjectAttachments project=new ProjectAttachments();
 //		String id = UUID.randomUUID().toString().replaceAll("-", "");
 //		project.setId(id);
-		project.setContentType(file.getContentType());
-		project.setCreatedAt(new Date());
-		project.setFileName(file.getOriginalFilename());
-		project.setIsDeleted(0);
+//		project.setContentType(file.getContentType());
+//		project.setCreatedAt(new Date());
+//		project.setFileName(file.getOriginalFilename());
+//		project.setIsDeleted(0);
 //		project.setProject(project);
 //		projectAttachmentsService.save(project); //报错
-		FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));
-		 FtpUtil.upload2("plan", file);
-		FtpUtil.closeFtp();
+//		FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));
+//		 FtpUtil.upload2("plan", file);
+//		FtpUtil.closeFtp();
 		return "redirect:list.html";
 	}
 	/**
@@ -476,17 +476,11 @@ public class TaskAdjustController extends BaseController{
 	        if (ids.contains(StaticVariables.COMMA_SPLLIT)){
 	            String [] strArray = ids.split(StaticVariables.COMMA_SPLLIT);
 	            for (String id: strArray){
-	                boolean flag  = checkStatus(id);
-	                if (!flag){
-	                   return StaticVariables.FAILED;
-	                }
+	            	Task task = taskService.selectById(id);
+	            	task.setStatus(2);
+	            	taskService.update(task);
 	            }
-	        } else {
-	            boolean flag  = checkStatus(ids);
-                if (!flag){
-                   return StaticVariables.FAILED;
-                }
-	        }
+	        }  
 	    }
 	    return StaticVariables.SUCCESS;
 	}

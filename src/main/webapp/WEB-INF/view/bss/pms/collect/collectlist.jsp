@@ -353,11 +353,8 @@
 				    	<label class="fl">状态：</label>
 				    		<span>
 				    	 		<select name="status" id="status">
-										<option value=""> 请选择</option>
-								   	<option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> >已编制为采购计划</option>
-								   	<option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> >已提交</option>
-								   	<option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> >受理退回</option>
-								   	<option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> >已受理</option>
+										<option value="total"> 全部</option>
+								   	<option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> >待汇总</option>
 								   	<option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> >已汇总</option>
 						 
 			 	   	   		</select>
@@ -468,7 +465,7 @@
                    </div>
                  </li>
                  <li class="mt10 col-md-12 col-sm-12 col-xs-12">
-                  <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">计划编号</span>
+                  <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">计划文号</span>
                   <div class="col-md-12 col-xs-12 col-sm-12 input-append input_group p0">
                         <input class="col-xs-12 h80 mt6" name="planNo" id="cno"  maxlength="300" type="text">
                     </div>

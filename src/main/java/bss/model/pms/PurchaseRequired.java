@@ -114,9 +114,19 @@ public class PurchaseRequired {
   
   private String fileId;
 
-  public Integer getProjectStatus() {
-    return projectStatus;
-  }
+  private String sign;
+  
+  public String getSign() {
+	return sign;
+	}
+	
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+	
+	public Integer getProjectStatus() {
+	    return projectStatus;
+	  }
 
 	public void setProjectStatus(Integer projectStatus) {
 		this.projectStatus = projectStatus;

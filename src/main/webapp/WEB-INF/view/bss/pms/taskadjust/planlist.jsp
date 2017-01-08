@@ -25,7 +25,10 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		         if(!first){ //一定要加此判断，否则初始时会无限刷新
-		         window.location.href = "${pageContext.request.contextPath}/adjust/list.html?page="+e.curr;
+		        	 $("#page").val(e.curr);
+		        	 $("#form1").submit();
+		        	  
+		        // window.location.href = "${pageContext.request.contextPath}/adjust/list.html?page="+e.curr;
 		        }  
 		    }
 		});
@@ -129,11 +132,12 @@
             success:function(msg){
    		     if (msg == 'ok'){
    		    	 layer.msg("取消成功");
-   		    	 updateStatus();
+   		    	 window.location.href='${pageContext.request.contextPath}/adjust/list.do';
+   		    	/*  updateStatus(); */
    		     }
-   		     if (msg == 'failed'){
+   		   /*   if (msg == 'failed'){
    		    	 layer.msg("记录中存在已取消状态的任务");
-   		     }
+   		     } */
             }
 		 });
 	}
@@ -145,6 +149,13 @@
 			$(this).parents("tr").find("td").eq(5).text("已取消");
 		});
 	}
+	
+	/** 查看任务 */
+    function viewd(id) {
+      window.location.href = "${pageContext.request.contextPath}/task/view.html?id=" + id;
+    }
+	
+	
   </script>
   </head>
   
@@ -163,61 +174,98 @@
    <div class="headline-v2 fl">
       <h2>采购任务列表</h2>
    </div> 
+   
+   
+         <h2 class="search_detail">
+    <form id="form1" action="${pageContext.request.contextPath}/adjust/list.html" method="post" class="mb0">
+    <input type="hidden" name="page" id="page">
+    <ul class="demand_list">
+      <%--<li>
+        <label class="fl">需求部门：</label>
+        <span><input type="text" name="name" id="purchaseRequiredId" value="${task.name}" /></span>
+      </li>
+          --%>
+          <li>
+            <label class="fl">采购任务名称：</label>
+            <span><input type="text" name="name" id="name" value="${task.name}" /></span>
+          </li>
+          <li>
+            <label class="fl">采购任务文号：</label>
+            <span><input type="text" name="documentNumber" id="documentNumber" value="${task.documentNumber }" class=""/></span>
+          </li>
+          <li>
+            <label class="fl">状态：</label>
+            <span class="">
+              <select  name="status" id="status">
+                <option selected="selected" value="">请选择</option>
+                <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>未受领</option>
+                <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>已受领</option>
+                <option value="2" <c:if test="${'2'==task.status}">selected="selected"</c:if>>已取消</option>
+              </select>
+            </span>
+          </li>
+    </ul>
+    <div class="col-md-12 clear tc mt10">
+      <button class="btn" type="submit">查询</button>
+      <button class="btn" type="reset" onclick="clearSearch()">重置</button>
+      </div>
+    <div class="clear"></div>
+    </form>
+  </h2>
+  
    <div class="col-md-12 pl20 mt10">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="looks()">调整采购任务</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel()">取消采购任务</button>
- 		<!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
- 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print()">打印</button> -->
+ 
    </div>
    <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover table-striped">
-		<thead>
-		<tr>
-		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
-		  <th class="info w50">序号</th>
-		  <th class="info">采购任务名称</th>
-		  <th class="info">预算总金额（万元）</th>
-		  <th class="info">汇总时间</th>
-		  <th class="info">状态</th>
-		</tr>
-		</thead>
-		<c:forEach items="${info.list}" var="obj" varStatus="vs">
-			<tr class="pointer">
-			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-			  <td class="tc w50" onclick="show('${obj.id }')">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td class="tl pl20" onclick="show('${obj.id }')">${obj.fileName }</td>
-			  <td class="tr pr20" onclick="show('${obj.id }')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
-			  <td class="tc" onclick="show('${obj.id }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tl pl20" onclick="show('${obj.id }')">
-			  <c:if test="${obj.status=='1' }">
-			   	待审核设置
-			  </c:if>
-			  <c:if test="${obj.status=='2' }">
-			   	已下达
-			  </c:if>
-			  <c:if test="${obj.status=='3' }">
-			   	待第一轮审核
-			  </c:if>
-			  <c:if test="${obj.status=='4' }">
-			   	待第二轮审核设置
-			  </c:if>
-			  <c:if test="${obj.status=='5' }">
-			   	待第二轮审核
-			  </c:if>
-			  <c:if test="${obj.status=='6' }">
-			   	待第三轮审核设置
-			  </c:if>
-			  <c:if test="${obj.status=='7' }">
-			   	待第三轮审核
-			  </c:if>
-			  <c:if test="${obj.status=='8' }">
-			   	已取消
-			  </c:if>
-			  </td>
-			</tr>
-		 </c:forEach>
-      </table>
+         <table class="table table-bordered table-condensed table-hover table-striped">
+          <thead>
+            <tr class="info">
+              <th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()"></th>
+              <th class="w50">序号</th>
+              <th>采购任务名称</th>
+              <th>采购管理部门</th>
+              <th>采购任务文号</th>
+              <th>状态</th>
+              <th>下达时间</th>
+            </tr>
+          </thead>
+          <c:forEach items="${info.list}" var="obj" varStatus="vs">
+            <c:if test="${orgId eq obj.purchaseId}"></c:if>
+            <tr class="pointer">
+              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"></td>
+              <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+              <td>
+                <a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a>
+              </td>
+              <td>
+                <a href="javascript:void(0)" onclick="viewd('${obj.id}');">
+                  <c:forEach items="${list2}" var="list" varStatus="vs">
+                    <c:if test="${obj.orgId eq list.id}">${list.name}</c:if>
+                  </c:forEach>
+                </a>
+              </td>
+              <td>
+                <a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.documentNumber}</a>
+              </td>
+              <td class="tc">
+                <c:if test="${'0'==obj.status}">
+                 		未受领
+                </c:if>
+                <c:if test="${'1'==obj.status}">
+                  			已受领
+                </c:if>
+                <c:if test="${'2'==obj.status}">
+                 		 已取消 
+                </c:if>
+              </td>
+              <td class="tc">
+                <fmt:formatDate value="${obj.giveTime }" />
+              </td>
+            </tr>
+          </c:forEach>
+        </table>
       <div id="pagediv" align="right"></div>
    </div>
  </div>

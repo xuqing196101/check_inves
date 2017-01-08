@@ -247,7 +247,19 @@
 				  	  	<input style="width: 120px;" class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> 
 				    		</span>
 				      </li>
-				    	  
+				    	
+				    	
+					 <label class="fl">状态：</label>
+			              <select  name="status" id="status">
+			                <option selected="selected" value="total">全部</option>
+			                <option value="1" <c:if test="${'1'==inf.status}">selected="selected"</c:if>>未提交</option>
+			                <option value="4" <c:if test="${'4'==inf.status}">selected="selected"</c:if>>受理退回</option>
+			                <option value="5" <c:if test="${'5'==inf.status}">selected="selected"</c:if>>已提交 </option>
+			              </select>
+			          </li>
+          
+          
+            
 			    	</ul>
 			    	<div class="fl">
 			    	  <input class="btn fl" type="submit" value="查询" /> 
@@ -271,7 +283,7 @@
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">计划名称</th>
-		  <th class="info">计划文号</th>
+		  <th class="info">计划编号</th>
 		  <th class="info">金额（万元）</th>
 		  <th class="info">编制时间</th>
 	<!-- 	  <th class="info">完成时间</th> -->
@@ -290,7 +302,7 @@
 			  	${obj.planName }
 				</td>
 		      <td class="tl pl20" onclick="view('${obj.uniqueId }')">
-		      ${obj.referenceNo }
+		      ${obj.planNo }
 			  <%-- <td class="pl20">
 			     <div onclick="view('${obj.planNo }')">${obj.planName }</div>
 			  </td> --%>

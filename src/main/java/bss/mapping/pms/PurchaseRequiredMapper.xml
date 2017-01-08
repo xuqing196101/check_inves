@@ -665,11 +665,17 @@
 	<!-- 		<if test="status==1">
 				and STATUS in('1','2')
 			</if> -->
-			<if test="status== 2 ">
+			<if test="sign==2 ">
 				and STATUS in('2','3','4','5')
 			</if>
-			<if test="status==3 ">
+			<if test="sign==3 ">
 				and STATUS in('3','5')
+			</if>
+			<if test="sign==5 ">
+				and STATUS in('2','3','5')
+			</if>
+			<if test="status!=null ">
+				and STATUS =#{status}
 			</if>
 			
 			<if test="isCollect != null">
@@ -698,7 +704,7 @@
 				 and USER_ID = #{userId}
 			</if>
 		</where>
-		<if test="status== 1">
+	<!-- 	<if test="status== 1">
 			ORDER BY decode(STATUS,'1',1,'4',2,'2',3,'3',4,'5',5), CREATED_AT DESC
 		</if>
 		<if test="status== 2">
@@ -706,7 +712,8 @@
 		</if>
 		<if test="status ==3">
 			ORDER  BY  STATUS , CREATED_AT DESC
-		</if>
+		</if> -->
+		ORDER  BY   CREATED_AT DESC
 	</select>
 
 	<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">

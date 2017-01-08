@@ -246,6 +246,18 @@
 				    	 		<input type="hidden" name="page" id="page">
 				    		</span>
 				    </li>
+				    
+				        	
+					 <label class="fl">状态：</label>
+			              <select  name="status" id="status">
+			                <option selected="selected" value="total">全部</option>
+			                <option value="2" <c:if test="${'2'==inf.status}">selected="selected"</c:if>>待受理</option>
+			                <option value="3" <c:if test="${'3'==inf.status}">selected="selected"</c:if>>已受理 </option>
+			                <option value="4" <c:if test="${'4'==inf.status}">selected="selected"</c:if>>受理退回</option>
+			              </select>
+			          </li>
+			          
+			          
 		  		</ul>
  					<input class="btn fl mt1" type="submit" value="查询" /> 
  					<input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>	

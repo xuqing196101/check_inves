@@ -97,7 +97,14 @@ public class CollectPlanController extends BaseController {
     @RequestMapping("/list")
     public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
     purchaseRequired.setIsMaster(1);
-    purchaseRequired.setStatus("3");
+    if(purchaseRequired.getStatus()==null){
+    	purchaseRequired.setStatus("3");
+    }else if(purchaseRequired.getStatus().equals("total")){
+    	purchaseRequired.setSign("3");
+    	purchaseRequired.setStatus(null);
+    }
+    
+    
     List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
     PageInfo<PurchaseRequired> info = new PageInfo<>(list);
     model.addAttribute("info", info);
@@ -240,7 +247,7 @@ public class CollectPlanController extends BaseController {
 							purchaseDetailService.add(pd);
 						}
 					}
-					
+					collectPlan.setDepartment("");
 					collectPlanService.add(collectPlan);
 			return "redirect:list.html";
 		}

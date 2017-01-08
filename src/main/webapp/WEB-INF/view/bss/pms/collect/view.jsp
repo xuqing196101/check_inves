@@ -199,7 +199,7 @@
 						<tr>
 							<td class="tc w50">${obj.seq } <input type="hidden" value="${obj.id }" name="list[${vs.index }].id">
 							</td>
-							<td class="tl pl20"> <%-- ${obj.department }	<input type="hidden" name="list[${vs.index }].userId" value="${obj.userId }"> --%>
+							<td class="tl pl20"> ${obj.department }	<input type="hidden" name="list[${vs.index }].userId" value="${obj.userId }">
 							
 							<c:forEach items="${requires }" var="re">
 								<c:if test="${re.id==obj.department }">${re.name } </c:if>
@@ -215,24 +215,24 @@
 							<td>${obj.deliverDate } </td>
 							
 							<td class="p0">
-							<c:if test="${obj.purchaseCount!=null }"> 
+							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
 							<select onchange="sel(this)" required="required" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
 									 <c:forEach items="${kind}" var="kind" >
 			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
 			                        </c:forEach>
 			                </select>
 			                
-			                </c:if>
+			              <%--   </c:if> --%>
 							</td>
 							<td class="tc">
-							<c:if test="${obj.purchaseCount!=null }"> 
+							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
 							<select class="org"  required="required"  name="list[${vs.index }].organization">
 							<option value="">请选择</option>
 								<c:forEach items="${org }" var="ss">
 									<option value="${ss.id }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 								</c:forEach>
 							</select>
-							</c:if>
+						<%-- 	</c:if> --%>
 							</td>
 							
 							<td class="tl pl20">${obj.supplier }</td>

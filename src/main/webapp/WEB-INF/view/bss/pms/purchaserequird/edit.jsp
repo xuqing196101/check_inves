@@ -404,14 +404,14 @@ function aa(){
                   </td>
                   <td class="tc"><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate}" class="w100"></td>
                   <td class="tc">
-                   <c:if test="${obj.price!=null}">
+             <%--       <c:if test="${obj.price!=null}"> --%>
                       <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
                         <option value="">请选择</option>
                         <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
                       </select> 
-                     </c:if>
+                  <%--    </c:if> --%>
                   </td>
                   <td class="tl "><input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}" disabled="disabled"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}"></td>
