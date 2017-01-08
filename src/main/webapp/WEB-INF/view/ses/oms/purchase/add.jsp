@@ -360,7 +360,22 @@ function onCheck(e, treeId, treeNode) {
 			    <input class="input_group" readonly="readonly" onClick="WdatePicker()" name="birthAt" value="<fmt:formatDate value="${purchaseInfo.birthAt}" pattern="yyyy-MM-dd" />" type="text">
 			  </div>
 			</li>
-			
+			<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+			    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>发布类型</span>
+		        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+		        <select id="publishType" name="publishType">
+		        	<option value="0" <c:if test="${'0' eq purchaseInfo.publishType}">selected</c:if>>集中采购</option>
+		        	<option value="1" <c:if test="${'1' eq purchaseInfo.publishType}">selected</c:if>>部队采购</option>
+		        </select>
+		        </div>
+		 	 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+			    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">军官证号</span>
+			    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+		        	<input  name="officerCertNo" value="${purchaseInfo.officerCertNo}"  maxlength="20" type="text">
+		        	<span class="add-on">i</span>
+		        </div>
+			 </li>
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>身份证号</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">

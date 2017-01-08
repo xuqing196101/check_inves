@@ -86,6 +86,10 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Override
 	public void update(User u) {
+	  List<User> olds = userMapper.selectByPrimaryKey(u.getId());
+	  if (olds != null && olds.size() > 0) {
+      u.setOrg(olds.get(0).getOrg());
+    }
 		userMapper.updateByPrimaryKeySelective(u);
 	}
 

@@ -568,8 +568,8 @@ public class UserManageController extends BaseController{
 			userPreMenu.setUser(user);
 			userService.deleteUserMenu(userPreMenu);
 			//修改用户为删除状态
-			userService.deleteByLogic(str);
 			User u = userService.getUserById(str);
+			userService.deleteByLogic(str);
 			if ("1".equals(u.getTypeName())) {
         //同时将采购人表该用户设为删除状态
 			  purchaseServiceI.busDelPurchase(u.getTypeId());
