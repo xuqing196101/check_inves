@@ -966,6 +966,7 @@ public class ArticleController extends BaseSupplierController {
     for (String str : id) {
       article.setId(str);
       article.setStatus(1);
+      article.setUpdatedAt(new Date());
       articleService.updateStatus(article);
     }
 

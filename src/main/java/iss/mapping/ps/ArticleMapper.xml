@@ -249,7 +249,8 @@
   <!-- 假删除 -->
   <update id="Isdelete"  parameterType="Object">
   	update T_ISS_PS_ARTICLE
-  	set IS_DELETED = 1
+  	set IS_DELETED = 1,
+  	UPDATED_AT=sysdate
   	where ID = #{id}
   </update>
   
