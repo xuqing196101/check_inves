@@ -574,6 +574,7 @@ function deleteFinance() {
 									
    					    </c:if> --%>
    					    <span class="add-on">i</span>
+   					    <span class="input-tip">不能为空</span>
 				        <div class="cue"> ${err_msg_supplierName } </div>
 				     </div>
 				</li>
@@ -667,6 +668,7 @@ function deleteFinance() {
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="bankName" value="${currSupplier.bankName}" <c:if test="${fn:contains(audit,'bankName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('bankName')"</c:if>/>
 			        <span class="add-on cur_point">i</span>
+			        <span class="input-tip">不能为空</span>
 			        <div class="cue"> ${err_msg_bankName } </div>
 			       </div>
 				 </li> 
@@ -676,6 +678,7 @@ function deleteFinance() {
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="bankAccount" value="${currSupplier.bankAccount}" <c:if test="${fn:contains(audit,'bankAccount')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('bankAccount')"</c:if>/>
 			        <span class="add-on cur_point">i</span>
+			        <span class="input-tip">不能为空</span>
 			        <div class="cue"> <%-- ${err_msg_postCode }  --%></div>
 			       </div>
 				 </li> 
@@ -732,6 +735,7 @@ function deleteFinance() {
 					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				        <input type="text" name="postCode" value="${currSupplier.postCode}" <c:if test="${fn:contains(audit,'postCode')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('postCode')"</c:if>/>
 				        <span class="add-on cur_point">i</span>
+				        <span class="input-tip">不能为空，长度为6位</span>
 				         <div class="cue"> ${err_msg_postCode } </div>
 				       </div>
 					</li> 
@@ -772,6 +776,7 @@ function deleteFinance() {
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="detailAddress"  value="${currSupplier.detailAddress}" <c:if test="${fn:contains(audit,'detailAddress')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress')"</c:if>>
 			        <span class="add-on cur_point">i</span>
+			        <span class="input-tip">不能为空</span>
 			         <div class="cue">${err_detailAddress }  </div>
 			       </div>
 				 </li>
@@ -795,6 +800,7 @@ function deleteFinance() {
 				        <input type="text" name="addressList[0].code" value="${addr.code}" />
 				        </c:if> --%>
 				        <span class="add-on cur_point">i</span>
+				        <span class="input-tip">不能为空，长度为6位</span>
 				         <div class="cue">   </div>
 				       </div>
 					</li> 
@@ -840,6 +846,7 @@ function deleteFinance() {
 			           <input type="text" name="addressList[0].detailAddress"  value="${addr.detailAddress }">
 			         </c:if> --%>
 			        <span class="add-on cur_point">i</span>
+			        <span class="input-tip">不能为空</span>
 			         <div class="cue">  </div>
 			       </div>
 				 </li>
@@ -921,6 +928,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalName" value="${currSupplier.legalName}" <c:if test="${fn:contains(audit,'legalName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalName')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空</span>
 		        <div class="cue"> ${err_legalName } </div>
 	       	   </div>
 		   	 </li> 
@@ -930,6 +938,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalIdCard" value="${currSupplier.legalIdCard}" <c:if test="${fn:contains(audit,'legalIdCard')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalIdCard')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，长度为15位或者18位</span>
 		        <div class="cue"> ${err_legalCard } </div>
 	       	   </div>
 		   	 </li> 
@@ -983,6 +992,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalMobile" value="${currSupplier.legalMobile}" <c:if test="${fn:contains(audit,'legalMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalMobile')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，如: XXX - XXXXXXX</span>
 		        <div class="cue"> ${err_legalMobile } </div>
 	       	   </div>
 		    </li> 
@@ -992,6 +1002,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalTelephone" value="${currSupplier.legalTelephone}"  <c:if test="${fn:contains(audit,'legalTelephone')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalTelephone')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，如:1XXXXXXXXXX</span>
 		        <div class="cue"> ${err_legalPhone } </div>
 	       	   </div>
 		    </li>
@@ -1024,6 +1035,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactName" value="${currSupplier.contactName}" <c:if test="${fn:contains(audit,'contactName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactName')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空</span>
 		        <div class="cue"> ${err_conName } </div>
 	       	   </div>
 		    </li> 
@@ -1033,6 +1045,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactFax" value="${currSupplier.contactFax}" <c:if test="${fn:contains(audit,'contactFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactFax')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，如: XXX - XXXXXXX</span>
 		        <div class="cue"> ${err_fax } </div>
 	       	   </div>
 		    </li> 
@@ -1042,6 +1055,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactMobile" value="${currSupplier.contactMobile}" <c:if test="${fn:contains(audit,'contactMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactMobile')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，如: XXX - XXXXXXX</span>
 		        <div class="cue"> ${err_catMobile } </div>
 	       	   </div>
 		    </li> 
@@ -1052,6 +1066,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="mobile" value="${currSupplier.mobile}" <c:if test="${fn:contains(audit,'mobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('mobile')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空,如:1XXXXXXXXXX</span>
 			    <div class="cue"> ${err_catTelphone } </div>		        
 	       	   </div>
 		    </li> 
@@ -1061,6 +1076,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactEmail" value="${currSupplier.contactEmail}" <c:if test="${fn:contains(audit,'contactEmail')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactEmail')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，如：XXXX@XX.com</span>
 		        <div class="cue"> ${err_catEmail } </div>
 	       	   </div>
 		    </li> 
@@ -1102,6 +1118,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactAddress" value="${currSupplier.contactAddress}" <c:if test="${fn:contains(audit,'contactAddress')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactAddress')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空</span>
 		         <div class="cue"> ${err_conAddress } </div>
 	       	   </div>
 		    </li>
@@ -1117,6 +1134,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="armyBusinessName" value="${currSupplier.armyBusinessName}" <c:if test="${fn:contains(audit,'armyBusinessName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBusinessName')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空</span>
 		        <div class="cue"> ${err_armName} </div>
 	       	   </div>
 		   	 </li> 
@@ -1126,6 +1144,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="armyBusinessFax" value="${currSupplier.armyBusinessFax}" <c:if test="${fn:contains(audit,'armyBusinessFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBusinessFax')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，如: XXX - XXXXXXX</span>
 		        <div class="cue"> ${err_armFax } </div>
 	       	   </div>
 		     </li> 
@@ -1135,6 +1154,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="armyBuinessMobile" value="${currSupplier.armyBuinessMobile}" <c:if test="${fn:contains(audit,'armyBuinessMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessMobile')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，如: XXX - XXXXXXX</span>
 		        <div class="cue"> ${err_armMobile } </div>
 	       	   </div>
 		    </li> 
@@ -1144,6 +1164,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="armyBuinessTelephone" value="${currSupplier.armyBuinessTelephone}" <c:if test="${fn:contains(audit,'armyBuinessTelephone')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessTelephone')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，如: 1XXXXXXXXXX</span>
 			    <div class="cue"> ${err_armTelephone } </div>		        
 	       	   </div>
 		    </li> 
@@ -1153,6 +1174,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="armyBuinessEmail" value="${currSupplier.armyBuinessEmail}" <c:if test="${fn:contains(audit,'armyBuinessEmail')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessEmail')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，如：XXXX@XX.com</span>
 		        <div class="cue"> ${err_armEmail } </div>
 	       	   </div>
 		    </li> 
@@ -1194,6 +1216,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="armyBuinessAddress" value="${currSupplier.armyBuinessAddress}" <c:if test="${fn:contains(audit,'armyBuinessAddress')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessAddress')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空</span>
 		         <div class="cue"> ${err_armAddress } </div>
 	       	   </div>
 		    </li> 
@@ -1208,6 +1231,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="creditCode" id="creditCode" value="${currSupplier.creditCode}" <c:if test="${fn:contains(audit,'creditCode')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('creditCode')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，长度为18位</span>
 		        <div class="cue"> ${err_creditCide} </div>
 	       	   </div>
 		    </li> 
@@ -1217,6 +1241,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="registAuthority" value="${currSupplier.registAuthority}" <c:if test="${fn:contains(audit,'registAuthority')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('registAuthority')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，长度不可大于20位</span>
 		        <div class="cue"> ${err_reAuthoy } </div>
 	       	   </div>
 		    </li> 
@@ -1226,6 +1251,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="registFund" onkeyup="checknums(this)" value="${currSupplier.registFund}" <c:if test="${fn:contains(audit,'registFund')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('registFund')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
+		        <span class="input-tip">不能为空，值不可小于零</span>
 		        <div class="cue" id="err_fund"> ${err_fund } </div>
 	       	   </div>
 		    </li> 
@@ -1265,6 +1291,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			      <input type="text" name="businessPostCode" onkeyup="checknums(this)" value="${currSupplier.businessPostCode}" <c:if test="${fn:contains(audit,'businessPostCode')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessPostCode')"</c:if>/>
 			      <span class="add-on cur_point">i</span>
+			      <span class="input-tip">不能为空，长度必须为6位</span>
 			       <div class="cue"> ${err_bCode } </div>
 	       	   </div>
 	       	 
