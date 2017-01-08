@@ -1354,11 +1354,11 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping(value = "/showModify",produces="text/html;charset=UTF-8")
+	@ResponseBody
 	public String showModify(SupplierHistory supplierHistory, HttpServletRequest request) {
-		supplierHistory.setSupplierId(supplierHistory.getSupplierId());
 		supplierHistory = supplierHistoryService.findBySupplierId(supplierHistory);
-		String showModify = supplierHistory.getAfterContent();
-		return showModify;
+		String showModify = supplierHistory.getBeforeContent();
+		return JSON.toJSONString(showModify);
 	}
 	
 	/**

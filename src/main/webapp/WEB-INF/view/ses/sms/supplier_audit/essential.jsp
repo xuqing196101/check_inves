@@ -185,7 +185,7 @@
 				var supplierId = $("#id").val();
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplierAudit/showModify.do",
-					data: {"supplierId":supplierId, "beforeField":field, "modifyType":"basic"},
+					data: {"supplierId":supplierId, "beforeField":field, "modifyType":"basic_page"},
 					async: false,
 					success: function(result) {
 						layer.tips("修改前:" + result, "#" + field, {
