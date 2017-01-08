@@ -796,7 +796,7 @@ public class ExpertAuditController {
 		/**
 		 * 更新待办（已完成）
 		 */
-		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("4") || status.equals("5")){
+		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("5") || status.equals("6")){
 			todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
 			
 		}

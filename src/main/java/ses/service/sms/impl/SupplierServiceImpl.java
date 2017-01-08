@@ -447,7 +447,7 @@ public class SupplierServiceImpl implements SupplierService {
         if(findByTypeId != null ){
             todos.setSenderId(findByTypeId.getId());// 推送者 ID
         }
-        todos.setName(supplier.getSupplierName()+"供应商初审 !");// 待办名称
+        todos.setName("【"+supplier.getSupplierName()+"】"+"供应商初审 !");// 待办名称
         todos.setOrgId(supplier.getProcurementDepId());// 机构ID
         //发送人id
         User user = userService.findByTypeId(supplier.getId());

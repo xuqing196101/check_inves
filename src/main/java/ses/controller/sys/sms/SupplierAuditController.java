@@ -326,17 +326,18 @@ public class SupplierAuditController extends BaseSupplierController{
 		}
 		request.setAttribute("supplierAddress", supplierAddress);
 
-		//查出全部修改的
-		SupplierHistory supplierHistory = new SupplierHistory();
-		supplierHistory.setSupplierId(supplierId);
-		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
-		 StringBuffer field = new StringBuffer();
-		for(int i=0; i<editList.size(); i++){
-			String beforeField = editList.get(i).getBeforeField();
-			field.append( beforeField + ",");	
+		//查出全部退回修改的信息
+		if(supplier.getStatus() != null && supplier.getStatus() == 0){
+			SupplierHistory supplierHistory = new SupplierHistory();
+			supplierHistory.setSupplierId(supplierId);
+			List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+			 StringBuffer field = new StringBuffer();
+			for(int i=0; i<editList.size(); i++){
+				String beforeField = editList.get(i).getBeforeField();
+				field.append( beforeField + ",");	
+			}
+			request.setAttribute("field", field);
 		}
-		request.setAttribute("field", field);
-		
 		return "ses/sms/supplier_audit/essential";
 	}
 	
@@ -648,16 +649,22 @@ public class SupplierAuditController extends BaseSupplierController{
 		/*//文件
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);*/
 		
-		//查出全部修改的
-		SupplierHistory supplierHistory = new SupplierHistory();
-		supplierHistory.setSupplierId(supplierId);
-		List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
-		 StringBuffer field = new StringBuffer();
-		for(int i=0; i<editList.size(); i++){
-			String beforeField = editList.get(i).getBeforeField();
-			field.append( beforeField + ",");	
+		//查出全部退回修改的信息
+		Supplier supplier = supplierAuditService.supplierById(supplierId);
+		
+		if(supplier.getStatus() != null && supplier.getStatus() == 0){
+			SupplierHistory supplierHistory = new SupplierHistory();
+			supplierHistory.setSupplierId(supplierId);
+			List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
+			 StringBuffer field = new StringBuffer();
+			for(int i=0; i<editList.size(); i++){
+				String beforeField = editList.get(i).getBeforeField();
+				field.append( beforeField + ",");	
+			}
+			request.setAttribute("field", field);
 		}
-		request.setAttribute("field", field);
+
+		
 				
 		/**
 		 * 生产
@@ -839,6 +846,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		//更新状态
 		supplier.setId(supplierId);
 		supplier.setAuditDate(new Date());
+		supplier.setUpdatedAt(new Date());
 		supplierAuditService.updateStatus(supplier);
 		//更新待办
 		supplier = supplierAuditService.supplierById(supplierId);
@@ -847,8 +855,28 @@ public class SupplierAuditController extends BaseSupplierController{
 		/**
 		 * 更新待办(已完成)
 		 */
-		if(supplier.getStatus().equals("1") || supplier.getStatus().equals("2") || supplier.getStatus().equals("3") || supplier.getStatus().equals("5") || supplier.getStatus().equals("6")){
+		if(supplier.getStatus() != null && supplier.getStatus() == 1  || supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 5  || supplier.getStatus() == 6 || supplier.getStatus() == 7 || supplier.getStatus() == 8){
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId=" + supplierId);
+		}
+		
+		/**
+		 * 推送代办
+		 */
+		if(supplier.getStatus() == 5 ){
+			//推送者id
+			todos.setSenderId(user.getId());
+			//待办名称
+			todos.setName("【"+supplierName+"】"+"供应商考察！");
+			//机构id
+			todos.setOrgId(supplier.getProcurementDepId());
+			//权限id
+			todos.setPowerId(PropUtil.getProperty("gyscs"));
+			//url
+			todos.setUrl("supplierAudit/essential.html?supplierId=" + supplierId);
+			//类型
+			todos.setUndoType((short) 1);
+			
+			todosService.insert(todos);
 		}
 		
 		

@@ -1232,7 +1232,10 @@
 				SUPPLIER_STATUS = #{status},
 			</if>
 			<if test="auditDate != null">
-				AUDIT_DATE=#{auditDate,jdbcType=TIMESTAMP},
+				AUDIT_DATE=#{auditDate},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT=#{updatedAt},
 			</if>
 		</set>
 		where ID = #{id}
