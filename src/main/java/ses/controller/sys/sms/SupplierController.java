@@ -1246,6 +1246,13 @@ import ses.util.WfUtil;
   		}*/
 
      List<Supplier> tempList = supplierService.validateCreditCode(supplier.getCreditCode());
+     if(supplier.getCreditCode()==null||supplier.getCreditCode().length()>36){
+       model.addAttribute("err_creditCide", "不能为空或是字符过长!");
+       count++;
+     }
+     if(supplier.getCreditCode() != null && supplier.getCreditCode().length() != 18){
+         model.addAttribute("err_creditCide", "格式错误!");
+     }
      if (tempList !=null && tempList.size() > 0) {
          for (Supplier supp : tempList) {
              if (!supplier.getId().equals(supp.getId())) {
@@ -1254,11 +1261,6 @@ import ses.util.WfUtil;
                  break;
              }
          }
-     }
-
-     if(supplier.getCreditCode()==null||supplier.getCreditCode().length()>36){
-       model.addAttribute("err_creditCide", "不能为空或是字符过长!");
-       count++;
      }
 
      if(supplier.getRegistAuthority()==null||supplier.getRegistAuthority().length()>20){
@@ -1357,6 +1359,15 @@ import ses.util.WfUtil;
      if(supplier.getListSupplierStockholders()==null||supplier.getListSupplierStockholders().size()<1){
        count++;
        model.addAttribute("stock", "请添加股东信息!");
+     }
+     if(supplier.getListSupplierStockholders() != null && supplier.getListSupplierStockholders().size() > 0){
+         List<SupplierStockholder> stockList = supplier.getListSupplierStockholders();
+         for (SupplierStockholder stocksHolder : stockList) {
+            if (stocksHolder.getIdentity() != null && stocksHolder.getIdentity().length() != 18) {
+                count++;
+                model.addAttribute("stock", "统一社会信用代码或身份证号码格式不正确!");
+            }
+        }
      }
 
      if (count > 0) {

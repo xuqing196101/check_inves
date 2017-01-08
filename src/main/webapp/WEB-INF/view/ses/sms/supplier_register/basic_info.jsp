@@ -123,6 +123,14 @@ function checkAll(ele, id) {
 				flag = false;
 			}
 		});
+		// 事务所联系方式格式校验
+		var regTelephone = /^(\d{3,4}-{0,1})?\d{7,8}$/
+		$("#financeInfo").find("input[name$='telephone']").each(function(index,element){
+			if (!regTelephone.test(element.value)) {
+				msg = "事务所联系方式格式有误!";
+				flag = false;
+			}
+		});
 		if (flag) {
 			$("input[name='flag']").val(obj);
 			$("#basic_info_form_id").submit();
