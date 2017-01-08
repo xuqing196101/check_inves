@@ -156,7 +156,7 @@ public class SupplierItemController extends BaseController{
 		List<Category> listPro = getSupplier(supplier.getId(),supplierTypeIds);
 		removeSame(listPro);
 		//根据品目id查询所有的证书信息
-	   List<QualificationBean> list3 = supplierService.queryCategoyrId(listPro, 2);
+	    List<QualificationBean> list3 = supplierService.queryCategoyrId(listPro, 2);
 	   
 	   
  

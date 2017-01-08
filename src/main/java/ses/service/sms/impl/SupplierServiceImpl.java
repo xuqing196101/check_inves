@@ -673,14 +673,19 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<QualificationBean> queryCategoyrId(List<Category> list, Integer quaType) {
 		List<QualificationBean> quaList=new ArrayList<QualificationBean>();
 		
-		for(Category category:list){
+		for(int i = 0; i < list.size(); i++){
+		    Category category = list.get(i);
 			QualificationBean quaBean=new QualificationBean();
 			//根据品目id查询所要上传的资质文件
 			List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(category.getId(), quaType);
 			List<Qualification> qua = get(categoryQua, category.getParentId());
-			quaBean.setCategoryName(category.getName());
-			quaBean.setList(qua);
-			quaList.add(quaBean);
+			if (qua.size() == 0) {
+			    list.remove(i);
+			} else {
+			    quaBean.setCategoryName(category.getName());
+			    quaBean.setList(qua);
+			    quaList.add(quaBean);
+			}
 		}
 		return quaList;
 	}

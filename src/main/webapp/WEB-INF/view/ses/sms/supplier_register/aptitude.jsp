@@ -81,16 +81,16 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10" >
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}">
 								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
 							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}">
 								<li id="li_id_2"   ><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
 							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT') and fn:length(projectQua) > 0}">
 								<li id="li_id_3"   ><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
 							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
 								<li id="li_id_4"  ><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
 							</c:if>
 						</ul>
