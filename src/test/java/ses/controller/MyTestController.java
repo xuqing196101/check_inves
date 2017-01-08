@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierExtUser;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierService;
-
 import common.constant.Constant;
 
 /**
@@ -32,11 +33,25 @@ public class MyTestController extends BaseSupplierController {
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
+	@Autowired
+  private SupplierExtUserServicel supplierExtUserServicel;
+	
 	@RequestMapping(value = "auto_write")
 	public void autoWrite(HttpServletRequest request, HttpServletResponse response) {
 		String code = (String) request.getSession().getAttribute("img-identity-code");
 		super.writeJson(response, code);
 	}
+	
+  @RequestMapping(value="downLoad",produces = "text/html;charset=UTF-8")
+  public void downLoad(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	  supplierExtUserServicel.downLoadBiddingDoc(request, "420A828A27704F31AC15280BB09D91E0");
+	  
+  }
+	
+  @RequestMapping(value="freemarkerTest",produces = "text/html;charset=UTF-8")
+  public String downLoad() throws Exception {
+	  return "Invitebidding.ftl";
+  }
 
 /*	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {

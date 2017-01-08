@@ -2,6 +2,7 @@ package bss.model.ppms;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -46,6 +47,10 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
 	private int judge;
 	//scoremodel的id
 	private String smId;
+ 
+	private List<MarkTerm> listMarkTerm;//获取模型子集
+  
+	private ScoreModel scoreModels;//获取模型
 	
 	private Integer count;
 	private Integer position;
@@ -255,6 +260,31 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
     }
     public void setCount(Integer count) {
         this.count = count;
+    }
+    /**
+     * @return Returns the listMarkTerm.
+     */
+    public List<MarkTerm> getListMarkTerm() {
+      return listMarkTerm;
+    }
+    /**
+     * @param listMarkTerm The listMarkTerm to set.
+     */
+    public void setListMarkTerm(List<MarkTerm> listMarkTerm) {
+      this.listMarkTerm = listMarkTerm;
+    }
+    /**
+     * @return Returns the scoreModels.
+     */
+    public ScoreModel getScoreModels() {
+      return scoreModels;
+    }
+    /**
+     * @param scoreModels The scoreModels to set.
+     */
+    public void setScoreModels(ScoreModel scoreModels) {
+      this.scoreModels = scoreModels;
     }    
+    
 	
 }

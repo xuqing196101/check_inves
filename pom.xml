@@ -86,7 +86,7 @@
 			<version>${springsecurity.version}</version>
 
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
@@ -140,20 +140,20 @@
 			<version>1.2.2</version>
 		</dependency>
 		<dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-             <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.2</version>
-               <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
@@ -164,15 +164,15 @@
 			<version>1.2.17</version>
 		</dependency>
 		<dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.7</version>
-        </dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.7</version>
+		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
@@ -202,7 +202,7 @@
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>2.3.20</version>
+			<version>2.3.23</version>
 		</dependency>
 
 		<dependency>
@@ -223,7 +223,7 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.3.0.Final</version>
 		</dependency>
-		<!-- jsr303 validation dependencies-->
+		<!-- jsr303 validation dependencies -->
 		<dependency>
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>
@@ -236,21 +236,21 @@
 			<classifier>jdk15</classifier>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi</artifactId>
-		    <version>3.14</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.14</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml</artifactId>
-		    <version>3.14</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.14</version>
 		</dependency>
 		<dependency>
-		    <groupId>commons-io</groupId>
-		    <artifactId>commons-io</artifactId>
-		    <version>2.4</version>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
@@ -262,56 +262,61 @@
 			<version>4.1.6</version>
 		</dependency>
 		<dependency>
-		  <groupId>com.fasterxml.jackson.core</groupId>
-		  <artifactId>jackson-core</artifactId>
-		  <version>2.2.3</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.2.3</version>
 		</dependency>
 		<dependency>
-	        <groupId>com.fasterxml.jackson.core</groupId>
-	        <artifactId>jackson-annotations</artifactId>
-	        <version>2.2.3</version>
-	    </dependency>
-	    <dependency>
-	        <groupId>com.fasterxml.jackson.core</groupId>
-	        <artifactId>jackson-databind</artifactId>
-	        <version>2.2.3</version>
-	    </dependency>
-		<dependency>
-		    <groupId>commons-net</groupId>
-		    <artifactId>commons-net</artifactId>
-		    <version>3.5</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.2.3</version>
 		</dependency>
 		<dependency>
-    <groupId>org.jsoup</groupId>
-	    <artifactId>jsoup</artifactId>
-	    <version>1.8.1</version>
-	</dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.8.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>4.3.4.RELEASE</version>
+		</dependency>
 
-	
-	
+
+
 	</dependencies>
 	<build>
 		<resources>
-			<resource>  
-	            <directory>src/main/resources</directory>  
-	            <includes>  
-	                <include>**/*.properties</include>  
-	                <include>**/*.xml</include>  
-	                <include>**/*.tld</include>  
-	            </includes>  
-	            <filtering>false</filtering>  
-	        </resource> 
-			
-			<resource>  
-	            <directory>src/main/java</directory>  
-	            <includes>  
-	                <include>**/*.xml</include>  
-	                <include>**/*.ftl</include>
-	            </includes>  
-	            <filtering>false</filtering>  
-	        </resource> 
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.tld</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.ftl</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
 		</resources>
-		
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -321,10 +326,10 @@
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
-					<skip>true</skip> 
+					<skip>true</skip>
 					<compilerArguments>
-                        <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
-                    </compilerArguments>
+						<extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
+					</compilerArguments>
 				</configuration>
 			</plugin>
 		</plugins>

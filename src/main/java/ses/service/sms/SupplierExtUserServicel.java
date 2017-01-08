@@ -5,8 +5,8 @@ package ses.service.sms;
 
 import java.util.List;
 
-import ses.model.bms.User;
-import ses.model.ems.ProExtSupervise;
+import javax.servlet.http.HttpServletRequest;
+
 import ses.model.sms.SupplierExtUser;
 
 
@@ -63,5 +63,7 @@ public interface SupplierExtUserServicel {
      * @param extUser
      */
     void update(SupplierExtUser extUser);
+    
+    void downLoadBiddingDoc(HttpServletRequest request,String projectId) throws Exception;
     
 }

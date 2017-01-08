@@ -112,6 +112,7 @@
     <result column="CONFIRM_FILE" property="confirmFile"/>
     <result column="PURCHASE_DEP_ID" property="purchaseDepId"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
+     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
   
   <sql id="Base_Column_List">
