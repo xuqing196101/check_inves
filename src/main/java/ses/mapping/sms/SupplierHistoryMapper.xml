@@ -17,7 +17,7 @@
   
   <select id="selectBySupplierId"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
     select 
-    	BEFORE_CONTENT
+    	<include refid="Base_Column_List"></include>
     from 
     	T_SES_SMS_SUPPLIER_HISTORY
     where 

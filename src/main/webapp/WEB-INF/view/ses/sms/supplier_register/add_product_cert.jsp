@@ -2,8 +2,8 @@
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <tr>
 <td class="tc">
-<input type="checkbox"/>
-<input type="hidden" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id">
+<input type="checkbox" value="${id}"/>
+<input type="hidden" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${id}">
 </td>
 <td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name"/> </td>
 <td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert"/> </td>
@@ -21,7 +21,7 @@
        </select>
 </td>
 <td class="tc">
- <u:upload id="pro_up2" multiple="true"   businessId="123" typeId="1" sysKey="1"  auto="true" />
- <u:show showId="pro_show2" businessId="123"  typeId="1" sysKey="1" />
+ <u:upload id="pro_up_${certProNumber}" multiple="true"   businessId="${id}" typeId="${attId}" sysKey="1"  auto="true" />
+ <u:show showId="pro_show_${certProNumber}" businessId="${id}"  typeId="${attId}" sysKey="1" />
 </td>
 </tr>

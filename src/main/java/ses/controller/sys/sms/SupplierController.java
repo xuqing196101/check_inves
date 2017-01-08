@@ -532,6 +532,10 @@ import ses.util.WfUtil;
      }else{
        //保存基本信息
        try {
+         Supplier before = supplierService.get(supplier.getId());
+         if(before.getStatus().equals(2)){
+             record("", before, supplier, supplier.getId());//记录供应商退回修改的内容
+         }
          supplierService.perfectBasic(supplier);
        } catch (Exception e) {
          res = StaticVariables.FAILED;
@@ -2235,7 +2239,7 @@ import ses.util.WfUtil;
 
     public  void record(String operationInfo, Object obj1,Object obj2,String supplierId) throws Exception {
         if(obj1!=null&&obj2!=null){	
-            Class clazz1 = obj1.getClass();
+            Class<? extends Object> clazz1 = obj1.getClass();
             Field[] fields = clazz1.getDeclaredFields();
             StringBuffer sb=new StringBuffer();
             sb.append("");
@@ -2361,9 +2365,10 @@ import ses.util.WfUtil;
    
    @ResponseBody
    @RequestMapping(value = "/addProductCert")
-   public ModelAndView toAddFile (String number, Model model, String id) {
+   public ModelAndView toAddFile (String number, Model model) {
        model.addAttribute("certProNumber", number);
-       model.addAttribute("id", id);
+       model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
+       model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
        return new ModelAndView("ses/sms/supplier_register/add_product_cert");
    }
 }

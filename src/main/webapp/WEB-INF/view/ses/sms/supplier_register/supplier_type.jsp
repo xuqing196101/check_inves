@@ -402,14 +402,6 @@ $(function(){
 	function openCertPro() {
 		var matProId = $("input[name='supplierMatPro.id']").val();
 		var supplierId = $("input[name='id']").val();
-		var id;
-		$.ajax({
-			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
-			async:false, 
-			success: function(data){
-				id = data;
-			}
-		});
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier/addProductCert.do",
 			async: false,
@@ -1178,8 +1170,8 @@ $(function(){
 														        </select>
 															</td>
 															<td class="tc">
-															 <u:upload id="pro_up1" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
-															 <u:show showId="pro_show1" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
+															 <u:upload id="pro_up_${certProNumber}" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
+															 <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
 															</td>
 														</tr>
 														<c:set var="certProNumber" value="${certProNumber + 1}"/>
