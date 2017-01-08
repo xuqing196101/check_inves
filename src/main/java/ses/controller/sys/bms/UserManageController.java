@@ -126,21 +126,29 @@ public class UserManageController extends BaseController{
 	@RequestMapping("/findByLoginName")
 	public void findByLoginName(String loginName, HttpServletResponse response) throws IOException {
 		try {
-			List<User> users = userService.findByLoginName(loginName);
-			String msg = "";
-			if (users != null && users.size() > 0) {
-				msg = "该用户名已存在";
-				response.setContentType("text/html;charset=utf-8");
-				response.getWriter().print(
-						"{\"success\": " + false + ", \"msg\": \"" + msg
-								+ "\"}");
-			} else {
-				msg = "该用户名可用";
-				response.setContentType("text/html;charset=utf-8");
-				response.getWriter()
-						.print("{\"success\": " + true + ", \"msg\": \"" + msg
-								+ "\"}");
-			}
+		  String msg = "";
+		  if (loginName == null || "".equals(loginName)) {
+		    msg = "用户名不能为空";
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter().print(
+            "{\"success\": " + false + ", \"msg\": \"" + msg
+            + "\"}");
+      } else {
+        List<User> users = userService.findByLoginName(loginName);
+        if (users != null && users.size() > 0) {
+          msg = "该用户名已存在";
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter().print(
+              "{\"success\": " + false + ", \"msg\": \"" + msg
+              + "\"}");
+        } else {
+          msg = "该用户名可用";
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter()
+          .print("{\"success\": " + true + ", \"msg\": \"" + msg
+              + "\"}");
+        }
+      }
 			response.getWriter().flush();
 		} catch (Exception e) {
 			e.printStackTrace();

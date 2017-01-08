@@ -60,6 +60,24 @@
 		 		</tr>
 		 		<tr>
 		 			<td class="bggrey">座机：</td><td>${user.telephone}</td>
+		 			<td class="bggrey">发布类型：</td>
+		 			<td >
+		 				<c:if test="${user.publishType == '1' }">部队采购</c:if>
+		 				<c:if test="${user.publishType == '0' }">集中采购</c:if>
+		 			</td>
+		 		</tr>
+		 		<tr>
+		 			<td class="bggrey">身份证号：</td><td>${user.idNumber}</td>
+		 			<td class="bggrey">军官证号：</td><td>${user.officerCertNo}</td>
+		 		</tr>
+		 		<tr>
+		 			<td class="bggrey">机构类型：</td>
+		 			<td>
+		 				<c:if test="${user.typeName == '0' }">需求部门</c:if>
+		 				<c:if test="${user.typeName == '1' }">采购机构</c:if>
+		 				<c:if test="${user.typeName == '2' }">采购管理部门</c:if>
+		 				<c:if test="${user.typeName == '3' }">其他</c:if>
+		 			</td>
 		 			<td class="bggrey">机构：</td>
 		 			<td colspan="3">
 		 				<c:if test="${user.typeName == '3' }">${user.orgName}</c:if>

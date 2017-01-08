@@ -26,12 +26,16 @@
 	    <result column="ugender"  property="gender" />
 	    <result column="utelephone"  property="telephone" />
 	    <result column="uduties"  property="duties" />
-	    <!-- <result column="utypeName"  property="typeName" /> -->
+	    <result column="utypeName"  property="typeName" />
 	    <result column="utypeId"  property="typeId" />
 	    <result column="uaddress"  property="address" />
 	    <result column="uemail"  property="email" />
 	    <result column="urandomCode"  property="randomCode" />
 	    <result column="uorgName"  property="orgName" />
+	    <result column="upublishType"  property="publishType" />
+	    <result column="uidNumber"  property="idNumber" />
+	    <result column="uofficerCertNo"  property="officerCertNo" />
+	    
 	  	<!-- 查询机构 -->  
     	<association column="org"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
 	    <!-- 查询创建人 -->
@@ -266,6 +270,9 @@
 			U .USER_ID AS creater,
 			U .RANDOM_CODE AS urandomCode,
 			U .ORG_NAME AS uorgName,
+			U .PUBLISH_TYPE AS upublishType,
+			U .ID_NUMBER AS uidNumber,
+			U .OFFICER_CERT_NO AS uofficerCertNo,
 			pm. ID AS mid,
 			pm. NAME AS mname,
 			pm.MENU_TYPE AS mtype,

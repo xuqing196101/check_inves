@@ -89,6 +89,7 @@
             var typeId = $("#articleTypes").select2("data").text;
             if(typeId == "工作动态") {
             	$("#second").show();
+            	$("#lmsx").addClass("tphide");
             } else if(typeId == "采购公告") {
               $("#second").show();
               $("#three").show();

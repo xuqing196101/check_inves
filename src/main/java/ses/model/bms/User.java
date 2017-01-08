@@ -95,7 +95,7 @@ public class User implements Serializable{
      * 0:需求部门
      * 1:采购机构
      * 2:采购管理部门
-     * 3:其他人
+     * 3:其他
      */
     @NotNull(message = "机构类型不能为空")  
     private String typeName;
@@ -121,6 +121,22 @@ public class User implements Serializable{
      * 作为参数list 条件查询，不做数据储存
      */
     private List<String> roleIdList;
+    
+    /**
+     * 信息发布类型 0:集中采购 1：部队采购
+     */
+    @NotNull(message = "信息发布类型不能为空")  
+    private Integer publishType;
+    
+    /**
+     * 身份证号
+     */
+    private String idNumber;
+    
+    /**
+     * 军官证号
+     */
+    private String officerCertNo;
     
     public List<String> getRoleIdList() {
         return roleIdList;
@@ -342,6 +358,30 @@ public class User implements Serializable{
 
   public void setOrgName(String orgName) {
     this.orgName = orgName;
+  }
+
+  public Integer getPublishType() {
+    return publishType;
+  }
+
+  public void setPublishType(Integer publishType) {
+    this.publishType = publishType;
+  }
+
+  public String getIdNumber() {
+    return idNumber;
+  }
+
+  public void setIdNumber(String idNumber) {
+    this.idNumber = idNumber;
+  }
+
+  public String getOfficerCertNo() {
+    return officerCertNo;
+  }
+
+  public void setOfficerCertNo(String officerCertNo) {
+    this.officerCertNo = officerCertNo;
   }
 
 }

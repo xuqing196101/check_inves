@@ -86,7 +86,7 @@
                 <tbody>
                   <tr>
                     <td class="bggrey" width="10%">信息标题：</td>
-                    <td colspan="3">${article.name }</td>
+                    <td colspan="3">${article.name}</td>
                   </tr>
                   <tr>
                     <td class="bggrey" width="10%">信息栏目：</td>
@@ -98,27 +98,59 @@
                       ${second}
                     </td>
                   </tr>
+                  <c:if test="${three != '' && three != null}">
                   <tr>
                     <td class="bggrey" width="10%">采购类型：</td>
                     <td width="40%">
-                      ${three }
+                      ${three}
                     </td>
-                    <td class="bggrey" width="10%">采购方式：</td>
-                    <td width="40%">
-                      ${four }
-                    </td>
+                    <c:if test="${four != '' && four != null}">
+	                    <td class="bggrey" width="10%">采购方式：</td>
+	                    <td width="40%">
+	                      ${four}
+	                    </td>
+                    </c:if>
+                    <c:if test="${four == '' || four == null}">
+                    	 <td class="bggrey" width="10%">发布范围：</td>
+	                     <td width="40%">
+	                      <c:if test="${article.range=='0' }">
+	                       	 内网
+	                      </c:if>
+	                      <c:if test="${article.range=='2' }">
+	                       	 内外网
+	                      </c:if>
+	                    </td>
+                    </c:if>
                   </tr>
-                  <tr>
-                    <td class="bggrey" width="10%">发布范围：</td>
-                    <td width="40%">
-                      <c:if test="${article.range=='0' }">
-                        内网
-                      </c:if>
-                      <c:if test="${article.range=='2' }">
-                        内外网
-                      </c:if>
-                    </td>
-                  </tr>
+                  </c:if>
+                  <c:if test="${three == '' || three == null}">
+                  	<tr>
+	                    <td class="bggrey" width="10%">发布范围：</td>
+	                    <td width="40%">
+	                      <c:if test="${article.range=='0' }">
+	                        	内网
+	                      </c:if>
+	                      <c:if test="${article.range=='2' }">
+	                        	内外网
+	                      </c:if>
+	                    </td>
+	                  </tr>
+                  </c:if>
+                  <c:if test="${three != '' || three != null}">
+	                  <c:if test="${four != '' && four != null}">
+		                  <tr>
+		                    <td class="bggrey" width="10%">发布范围：</td>
+		                    <td width="40%">
+		                      <c:if test="${article.range=='0' }">
+		                        内网
+		                      </c:if>
+		                      <c:if test="${article.range=='2' }">
+		                        内外网
+		                      </c:if>
+		                    </td>
+		                  </tr>
+	                  </c:if>
+                  </c:if>
                 </tbody>
               </table>
              <h2 class="count_flow jbxx">信息正文</h2>

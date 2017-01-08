@@ -19,6 +19,9 @@
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
     <result column="RANDOM_CODE" jdbcType="VARCHAR" property="randomCode" />
     <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+    <result column="PUBLISH_TYPE" property="publishType"/>
+    <result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber" />
+    <result column="OFFICER_CERT_NO" jdbcType="VARCHAR" property="officerCertNo" />
     <!-- 查询机构 -->  
     <association column="ORG_ID"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
     <!-- 查询创建人 -->  
@@ -59,13 +62,14 @@
   
   <!-- 表名 -->
   <sql id="Tabel_Name">
-    T_SES_BMS_USERINFO
+    T_SES_BMS_USER
   </sql>
-  
+ 
   <!-- 表中所有列 -->
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, PASSWORD, CREATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID, 
-    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS, RANDOM_CODE, ORG_NAME 
+    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS, RANDOM_CODE, ORG_NAME,
+    PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO
   </sql>
   
   <!-- 查询条件 -->
@@ -151,14 +155,15 @@
       UPDATED_AT, USER_ID, MOBILE, 
       GENDER, TELEPHONE, EMAIL, 
       ORG_ID, DUTIES, TYPE_NAME,
-      TYPE_ID, ADDRESS, RANDOM_CODE, ORG_NAME)
+      TYPE_ID, ADDRESS, RANDOM_CODE,
+      ORG_NAME, PUBLISH_TYPE, ID_NUMBER, OFFICER_CERT_NO)
     values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{gender}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, #{typeName}, 
       #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR},
-      #{orgName,jdbcType=VARCHAR})
+      #{orgName,jdbcType=VARCHAR},#{publishType}, #{idNumber,jdbcType=VARCHAR}, #{officerCertNo,jdbcType=VARCHAR})
   </insert>
   
   <!-- 保存用户 -->
@@ -222,6 +227,15 @@
       <if test="orgName != null and orgName != ''">
         ORG_NAME,
       </if>
+      <if test="publishType != null">
+        PUBLISH_TYPE,
+      </if>
+      <if test="idNumber != null and idNumber != ''">
+        ID_NUMBER,
+      </if>
+      <if test="officerCertNo != null and officerCertNo != ''">
+        OFFICER_CERT_NO,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -280,6 +294,15 @@
       </if>
       <if test="orgName != null and orgName != ''">
         #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishType != null">
+        #{publishType},
+      </if>
+      <if test="idNumber != null and idNumber != ''">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="officerCertNo != null and officerCertNo != ''">
+        #{officerCertNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -346,7 +369,16 @@
         RANDOM_CODE,
       </if>
       <if test="orgName != null and orgName != ''">
-        ORG_NAME
+        ORG_NAME,
+      </if>
+      <if test="publishType != null">
+        PUBLISH_TYPE,
+      </if>
+      <if test="idNumber != null and idNumber != ''">
+        ID_NUMBER,
+      </if>
+      <if test="officerCertNo != null and officerCertNo != ''">
+        OFFICER_CERT_NO
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -406,6 +438,15 @@
       </if>
       <if test="orgName != null and orgName != ''">
         #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishType != null">
+        #{publishType},
+      </if>
+      <if test="idNumber != null and idNumber != ''">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="officerCertNo != null and officerCertNo != ''">
+        #{officerCertNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -469,7 +510,16 @@
         RANDOM_CODE = #{randomCode,jdbcType=VARCHAR},
       </if>
       <if test="orgName != null and orgName != ''">
-       ORG_NAME = #{orgName,jdbcType=VARCHAR}
+       ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishType != null">
+        PUBLISH_TYPE = #{publishType},
+      </if>
+      <if test="idNumber != null and idNumber != ''">
+        ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="officerCertNo != null and officerCertNo != ''">
+       OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR}
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -495,14 +545,17 @@
       TYPE_ID = #{typeId,jdbcType=VARCHAR},
       ADDRESS = #{address,jdbcType=VARCHAR},
       RANDOM_CODE = #{randomCode,jdbcType=VARCHAR},
-      ORG_NAME = #{orgName,jdbcType=VARCHAR}
+      ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      PUBLISH_TYPE = #{publishType},
+      ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
   <!-- 7.列表总数 -->
   <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
     select count(1) 
-    from T_SES_BMS_USERINFO
+    from T_SES_BMS_USER
     where IS_DELETED = 0
   </select>
   
@@ -712,7 +765,10 @@
 		    u.TYPE_ID AS TYPE_ID,
 		    u.ADDRESS AS ADDRESS,
 		    u.RANDOM_CODE AS RANDOM_CODE,
-		    u.ORG_NAME AS ORG_NAME
+		    u.ORG_NAME AS ORG_NAME,
+		    u.PUBLISH_TYPE AS PUBLISH_TYPE,
+		    u.ID_NUMBER AS ID_NUMBER,
+		    u.OFFICER_CERT_NO AS OFFICER_CERT_NO
         FROM
             T_SES_BMS_USER u
 		LEFT JOIN T_SES_BMS_USER_ROLE ur ON u. ID = ur.USER_ID

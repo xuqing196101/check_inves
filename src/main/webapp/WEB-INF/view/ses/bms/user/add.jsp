@@ -183,6 +183,26 @@
 				$("#oId").attr("type","hidden");
 			}
 		}
+		
+		function isExist(){
+			var loginName = $("#loginName").val();
+			 $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/findByLoginName.do?loginName="+loginName,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+						$("#is_exist").html(data.msg);
+						return false;
+					 } else {
+					 	$("#is_exist").html("");
+					 	return true;
+					 }
+               }
+         	});
+		}
+		
 	</script>
 </head>
 <body>
@@ -205,7 +225,7 @@
 	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
 	   </div>
-   	   <sf:form action="${pageContext.request.contextPath}/user/save.html" method="post" modelAttribute="user">
+   	   <sf:form id="form1" action="${pageContext.request.contextPath}/user/save.html" method="post" onsubmit="return isExist()" modelAttribute="user">
 		  <input type="hidden"  name="origin" value="${origin}" />
 		  <%-- <input type="hidden" name="personTypeId" value="${personTypeId}" />
 		  <input type="hidden" name="personTypeName" value="${personTypeName}" /> --%>
@@ -217,10 +237,10 @@
 			     <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 				   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>用户名</span>
 				   <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        <input  name="loginName" value="${user.loginName}" maxlength="30" type="text">
+			        <input id="loginName"  name="loginName" value="${user.loginName}" maxlength="30" type="text" onblur="isExist();">
 			        <span class="add-on">i</span>
 			       	<div class="cue"><sf:errors path="loginName"/></div>
-			       	<div class="cue">${exist }</div>
+			       	<div id="is_exist" class="cue">${exist}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
@@ -283,6 +303,36 @@
 			        	<span class="add-on">i</span>
 			        </div>
 				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>发布类型</span>
+			        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        <select id="publishType" name="publishType">
+			        	<option value="0" <c:if test="${'0' eq user.publishType}">selected</c:if>>集中采购</option>
+			        	<option value="1" <c:if test="${'1' eq user.publishType}">selected</c:if>>部队采购</option>
+			        </select>
+			        </div>
+			 	 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">身份证号</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        	<input  name="idNumber" value="${user.idNumber}"  maxlength="20" type="text">
+			        	<span class="add-on">i</span>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">军官证号</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        	<input  name="officerCertNo" value="${user.officerCertNo}"  maxlength="20" type="text">
+			        	<span class="add-on">i</span>
+			        </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">座机电话</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        	<input  name="telephone" value="${user.telephone}" maxlength="40" type="text">
+			        	<span class="add-on">i</span>
+			        </div>
+			    </li> 
 				<%-- <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>类型</span>
 				    <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
@@ -352,13 +402,6 @@
 				        <div class="cue"><sf:errors path="orgId"/></div>
 			        </div>
 			 	</li>
-		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">座机电话</span>
-				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input  name="telephone" value="${user.telephone}" maxlength="40" type="text">
-			        	<span class="add-on">i</span>
-			        </div>
-			    </li> 
 				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>角色</span>
 				    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">

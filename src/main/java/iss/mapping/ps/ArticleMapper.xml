@@ -189,18 +189,7 @@
         AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &lt;= #{publishEndDate}	
       </if>
     <!-- order by decode(STATUS,4,0,1,1,3,2,2,3), PUBLISHED_AT DESC -->
-      <if test="status == 1">
-        order by SUBMIT_AT DESC
-      </if>
-      <if test="status == 2">
-        order by PUBLISHED_AT DESC
-      </if>
-      <if test="status == 4">
-        order by PUBLISHED_AT DESC
-      </if>
-      <if test="status == null ">
-        order by decode(STATUS,4,0,1,1,3,2,2,3), SUBMIT_AT DESC, PUBLISHED_AT DESC
-      </if>
+      order by SUBMIT_AT DESC
   </select>
   
   

@@ -156,17 +156,53 @@
               dataType: "json",
               success: function(articleTypes) {
                 if(articleTypes) {
-                  $("#secondType").append("<option></option>");
-                  $.each(articleTypes, function(i, articleType) {
-                    if(articleType.name != null && articleType.name != '') {
-                      $("#secondType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
-                    }
-                  });
+                  if (articleTypes[0].name == '集中采购' || articleTypes[0].name == '部队采购') {
+					  $("#secondType").append("<option></option>");
+					  $("#secondType").append("<option value=" + articleTypes[0].id + ">" + articleTypes[0].name + "</option>");
+				  	 /*  $("#secondType").select2();
+				  	  $("#secondType").select2("val", articleTypes[0].id);
+				  	  $("#secondType").attr("disabled",true);
+				  	  loadThrees(articleTypes[0].id,articleTypes[0].name); */
+				  } else {
+				  	  $("#secondType").attr("disabled",false);
+	                  $("#secondType").append("<option></option>");
+	                  $.each(articleTypes, function(i, articleType) {
+	                    if(articleType.name != null && articleType.name != '') {
+	                      $("#secondType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+	                    }
+	                  });
+				  }
                 }
                 $("#secondType").select2();
               }
             });
       }
+
+	  function loadThrees(parentId,TtypeId){
+	  	$("#threeType").empty();
+    	  $("#fourType").empty();
+    	  $("#fourType").select2("val", "");
+        if(TtypeId == "图片新闻"){
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
+        }
+    	  $.ajax({
+              contentType: "application/json;charset=UTF-8",
+              url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+parentId,
+              type: "POST",
+              dataType: "json",
+              success: function(articleTypes) {
+                if(articleTypes) {
+                  $("#threeType").append("<option></option>");
+                  $.each(articleTypes, function(i, articleType) {
+                    if(articleType.name != null && articleType.name != '') {
+                      $("#threeType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
+                    }
+                  });
+                }
+                $("#threeType").select2();
+              }
+            });
+	  }
 
       $(function() {
     	  var range = "${article.range}";
@@ -209,6 +245,7 @@
                var typeId = $("#articleTypes").select2("data").text;
                if(typeId == "工作动态") {
                  $("#second").show();
+                 $("#lmsx").addClass("tphide");
                }else if(typeId == "采购公告"){
                    $("#second").show();
                    $("#three").show();
@@ -368,7 +405,8 @@
 
     <div class="container container_box">
       <form id="myform" action="${pageContext.request.contextPath }/article/save.html" onsubmit="return clk()" method="post">
-      <input type="hidden" name="status" id="articleStatus" value="0"/>
+      	<input type="hidden" name="status" id="articleStatus" value="0"/>
+      	<input type="hidden" id="publishType" value="${curUser.publishType}">
         <div class="">
           <h2 class="list_title">新增信息</h2>
 
@@ -401,7 +439,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 hide" id="three">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>栏目类型：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
-                <select id="threeType" name="threeArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="threeTypeInfo()">
+                <select id="threeType" name="threeArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0"  onchange="threeTypeInfo()">
                 </select>
                 <div class="cue" id="ERR_threeType"></div>
               </div>

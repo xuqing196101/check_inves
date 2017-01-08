@@ -287,8 +287,8 @@
 	<!--   联表查询所有待办事项 -->
   <select id="selectAgents"  resultMap="BaseResultMaps" parameterType="ses.model.sms.SupplierAgents" >
  		 SELECT sa.*,bu.REL_NAME as USER_NAME,BU1.REL_NAME AS OPERATOR_NAME FROM T_SES_SMS_SUPPLIER_AGENTS  sa  
-         INNER JOIN T_SES_BMS_USERINFO bu1 ON sa.USERS_ID=BU1."ID"
-         INNER JOIN T_SES_BMS_USERINFO bu ON sa.OPERATOR_ID = bu."ID"   
+         INNER JOIN T_SES_BMS_USER bu1 ON sa.USERS_ID=BU1."ID"
+         INNER JOIN T_SES_BMS_USER bu ON sa.OPERATOR_ID = bu."ID"   
            WHERE SA.IS_DELETED =0 AND SA.IS_REMINDERS =#{isReminders,jdbcType=DECIMAL}
   </select>  
   

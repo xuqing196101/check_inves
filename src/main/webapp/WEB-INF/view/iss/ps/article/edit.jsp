@@ -72,7 +72,8 @@
               $("#articleTypes").select2("val", "${article.articleType.id }");
               var typeId = $("#articleTypes").select2("data").text;
               if(typeId == "工作动态") {
-                $("#second").show();
+                 $("#second").show();
+                 $("#lmsx").addClass("tphide");
               }else if(typeId == "采购公告"){
                   $("#second").show();
                   $("#three").show();
@@ -408,7 +409,7 @@
           </li>
           
           <li class="col-md-3 col-sm-6 col-xs-12 hide" id="second">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>栏目属性：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div id="lmsx" class="star_red">*</div>栏目属性：</span>
               <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
                 <select id="secondType" name="secondArticleTypeId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="secondTypeInfo()">
                 </select>

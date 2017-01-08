@@ -9,6 +9,7 @@ import iss.service.ps.ArticleTypeService;
 import iss.service.ps.SolrNewsService;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Date;
@@ -117,7 +118,7 @@ public class ArticleController extends BaseSupplierController {
    * @return String
    */
   @RequestMapping("/add")
-  public String add(Model model, HttpServletRequest request) {
+  public String add(@CurrentUser User user, Model model, HttpServletRequest request) {
     String articleuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
     model.addAttribute("articleId", articleuuid);
     DictionaryData dd = new DictionaryData();
@@ -140,7 +141,7 @@ public class ArticleController extends BaseSupplierController {
     if (secrets.size() > 0) {
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
-
+    model.addAttribute("curUser", user);
     return "iss/ps/article/add";
   }
 
@@ -1663,10 +1664,46 @@ public class ArticleController extends BaseSupplierController {
    * @return void
    */
   @RequestMapping(value = "/aritcleTypeParentId", produces = "application/json;charest=utf-8")
-  public void aritcleTypeParentId(HttpServletResponse response, String parentId,
+  public void aritcleTypeParentId(@CurrentUser User user, HttpServletResponse response, String parentId,
       HttpServletRequest request) throws Exception {
+    List<ArticleType> list = new ArrayList<ArticleType>();
     if (parentId != null) {
-      List<ArticleType> list = articleTypeService.selectByParentId(parentId);
+      ArticleType articleType = articleTypeService.selectTypeByPrimaryKey(parentId);
+      if (articleType != null) {
+        //如果栏目是采购公告、中标公告、单一来源公告
+        if ("purchase_notice".equals(articleType.getCode())) {
+          if (user.getPublishType() == 0) {
+            ArticleType type1 = articleTypeService.selectArticleTypeByCode("purchase_notice_centrlized");
+            list.add(type1);
+          }
+          if (user.getPublishType() == 1) {
+            ArticleType type2 = articleTypeService.selectArticleTypeByCode("purchase_notice_military");
+            list.add(type2);
+          }
+        } else if ("success_notice".equals(articleType.getCode())) {
+          if (user.getPublishType() == 0) {
+            ArticleType type1 = articleTypeService.selectArticleTypeByCode("success_notice_centralized");
+            list.add(type1);
+          }
+          if (user.getPublishType() == 1) {
+            ArticleType type2 = articleTypeService.selectArticleTypeByCode("success_notice_military");
+            list.add(type2);
+          }
+        } else if ("single_source_notice".equals(articleType.getCode())) {
+          if (user.getPublishType() == 0) {
+            ArticleType type1 = articleTypeService.selectArticleTypeByCode("single_source_notice_centralized");
+            list.add(type1);
+          }
+          if (user.getPublishType() == 1) {
+            ArticleType type2 = articleTypeService.selectArticleTypeByCode("single_source_notice_military");
+            list.add(type2);
+          }
+        } else {
+          list = articleTypeService.selectByParentId(parentId);
+        }
+      } else {
+        list = articleTypeService.selectByParentId(parentId);
+      }
       super.writeJson(response, list);
     }
   }
