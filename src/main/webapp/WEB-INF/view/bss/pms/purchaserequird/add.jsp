@@ -184,8 +184,9 @@
 				var no = $("#jhbh").val();
 				var mobile = $("#mobile").val();
 				var type = $("#wtype").val();
-			 var refNo = $("#referenceNo").val();
+			 	var refNo = $("#referenceNo").val();
 				var bool= details();
+				/* var seq=seqs(); */
 			 if(orgType!='0'){
 				 layer.msg("请用需求部门编制采购计划！"); 
 			 }else if($.trim(name) == "") {
@@ -199,8 +200,6 @@
 				/* else if($.trim(refNo) == ""){
 					 layer.msg("请 填写计划文号"); 
 				} */
-				
-				
 				
 				else if(bool==true){
 					$("#detailJhmc").val(name);
@@ -821,6 +820,17 @@
 			 	     }   
 		        
 		        
+		      /*   function seqs(){
+		        	var bool=true;
+				    $("#table tr").each(function(i){
+				    	var  val1= $(this).find("td:eq(1)").children(":first").val();//上级id
+				    	  if($.trim(val1) == "") {
+				    		  layer.msg("第"+i+"行，序号没有填写！");
+				    		  bool=false;
+				    	  }
+				    });
+				    return bool;
+		        } */
 		</script>
 	</head>
 
@@ -865,7 +875,7 @@
 					</li>
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">
-						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>计划文号</span>
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划文号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" name="no" value="" id="referenceNo">
 							<span class="add-on">i</span>
@@ -1083,7 +1093,7 @@
 
 			<div id="content" class="dnone">
 				<p align="center">编制说明
-					<p style="margin-left: 20px;">1、请严格按照序号顺序为：一、(一)、1、(1)、a、(a)的顺序填写序号，括号为中文括号</p>
+					<p style="margin-left: 20px;">1、请严格按照序号顺序为：一、（一）、1（1）、a、（a）的顺序填写序号，括号为中文括号</p>
 
 					<p style="margin-left: 20px;">2、任务明细最多为六级,请勿多于六级</p>
 
