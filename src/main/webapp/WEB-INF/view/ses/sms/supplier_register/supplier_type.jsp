@@ -402,16 +402,17 @@ $(function(){
 	function openCertPro() {
 		var matProId = $("input[name='supplierMatPro.id']").val();
 		var supplierId = $("input[name='id']").val();
+		var certProNumber = $("#certProNumber").val();
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier/addProductCert.do",
 			async: false,
 			dataType :"html",
+			data: {"number" : certProNumber},
 			success: function (data) {
 				$("#cert_pro_list_tbody_id").append(data);
 			}
 		});
-		/*var certProNumber = $("#certProNumber").val();
-		$("#cert_pro_list_tbody_id").append("<tr>"+
+		/*$("#cert_pro_list_tbody_id").append("<tr>"+
 			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].name'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].levelCert'/> </td>"+
@@ -1170,8 +1171,8 @@ $(function(){
 														        </select>
 															</td>
 															<td class="tc">
-															 <u:upload id="pro_up_${certProNumber}" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
-															 <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
+															 <u:upload id="pro_up_${certProNumber}" multiple="true" groups="pro_up_${certProNumber}"  businessId="${certPro.id}" typeId="1" sysKey="1"  auto="true" />
+															 <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" groups="pro_show_${certProNumber}" typeId="1" sysKey="1" />
 															</td>
 														</tr>
 														<c:set var="certProNumber" value="${certProNumber + 1}"/>

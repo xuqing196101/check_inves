@@ -918,9 +918,11 @@ import ses.util.WfUtil;
        if(depList != null && depList.size() != 0){
          for (PurchaseDep purchaseDep : list) {
            for (Orgnization org : depList) {
-             if(purchaseDep.getOrgnization().getId().equals(org.getId())){
-               list.remove(org);
-             }
+               if (purchaseDep.getOrgnization() != null) {
+                   if(purchaseDep.getOrgnization().getId().equals(org.getId())){
+                       list.remove(org);
+                   }
+               }
            }
          }
        }
@@ -2366,6 +2368,13 @@ import ses.util.WfUtil;
    @ResponseBody
    @RequestMapping(value = "/addProductCert")
    public ModelAndView toAddFile (String number, Model model) {
+       /*StringBuffer groups = new StringBuffer();
+       int i = Integer.parseInt(number);
+       while (i >= 0) {
+           groups.append("pro_up_" + i + ",");
+           i--;
+       }
+       String upGroups = groups.toString().substring(0, groups.toString().length() - 1);*/
        model.addAttribute("certProNumber", number);
        model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
        model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));

@@ -145,7 +145,7 @@
 					}
 					if(purDepId==result.id){
 						$("#"+flag).append(
-								"<tr align='center' ><td><input checked='checked' type='radio' name='procurementDepId'  value='"+result.id+"' /></td>"+
+								"<tr align='center' ><td><input checked='checked' onclick='checkDep(this)' type='radio' name='procurementDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
 								"<td>"+princinpal+"</td>"+
@@ -154,7 +154,7 @@
 							);
 					}else{
 						$("#"+flag).append(
-								"<tr align='center' ><td><input type='radio' name='procurementDepId'  value='"+result.id+"' /></td>"+
+								"<tr align='center' ><td><input type='radio' onclick='checkDep(this)' name='procurementDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
 								"<td>"+princinpal+"</td>"+
@@ -177,8 +177,10 @@
 		///暂存
 		function temporarySave(){
 			
-			var procurementDepId = $("input[name='radio']:checked").val();
-			$("input[name='procurementDepId']").val(procurementDepId);
+			var procurementDepId = $("input[type='radio']:checked").val();
+			alert(procurementDepId);
+			$("#procurementDepId").val(procurementDepId);
+			alert($("#procurementDepId").val());
 			
 			
 			$("input[name='flag']").val("1");
@@ -199,7 +201,9 @@
 			});
 		}
 		
-		
+		function checkDep(obj){
+			$("#procurementDepId").val(obj.value);
+		}
 </script>
 
 </head>
@@ -234,7 +238,7 @@
 					<div class="padding-top-10">
 						<form id="procurement_dep_form_id" action="${pageContext.request.contextPath}/supplier/perfect_dep.html" method="post">
 							<input name="id" value="${currSupplier.id}" type="hidden" />
-							<input name="procurementDepId" type="hidden" />
+							<input name="procurementDepId" type="hidden" id="procurementDepId"/>
 							<input  name="org" id="orgId" value="${orgnization.id  }" type="hidden" />
 							<input name="supplierTypeIds"  value="${supplierTypeIds}"    type="hidden" /> 
 							<input name="jsp" type="hidden" />
@@ -326,7 +330,7 @@
 										<tbody id="purchase_orgs2">
 											<c:forEach items="${allPurList}" var="org1" varStatus="vs">
 												<tr>
-													<td class="tc"><input type="radio" value="${org1.id}" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
+													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs.index + 1}</td>
 													<td class="tc">${org1.name}</td>
 													<td class="tc">${org1.princinpal}</td>
