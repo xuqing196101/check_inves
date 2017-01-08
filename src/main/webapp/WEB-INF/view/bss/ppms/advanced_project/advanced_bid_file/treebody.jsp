@@ -248,16 +248,14 @@ function judge(index) {
     }
     var tr ="";
     tr += "<tr>";
-    //tr += "<td class='w30'><input type='checkbox'></td>";
-    tr += "<td class='w30'>"+num2+"</td>";
-    tr += "<td ><input class='w40' type='text' id=startParam"+num2+" name='pi.startParam'></td>";
-    //tr += "<td><select name='startRelation'><option value='0'>>=</option></select></td>";
-    //tr += "<td>参数值</td>";
-    //tr += "<td><select name='endRelation'><option value='0'><=</option></select></td>";
-    tr += "<td ><input class='w40' type='text' id=endParam"+num2+" name='pi.endParam'></td>";
-    tr += "<td ><input class='w40' type='text' id=score"+num2+" name='pi.score'></td>";
-    tr += "<td ><textarea class='' id="+num2+" name='pi.explain'></textarea></td>";
-    tr += "<td ><a href='javascript:void(0);' onclick='delTr(this)'>删除</a></td>";
+    tr += "<td class='w50 tc'>"+num2+"</td>";
+    tr += "<td><input class='w40' type='text' id=startParam"+num2+" name='pi.startParam'></td>";
+    tr += "<td class='tc'><select name='pi.startRelation'><option value='0' ><</option><option value='1'><=</option></select></td>";
+    tr += "<td><input class='w40' type='text' id=endParam"+num2+" name='pi.endParam'></td>";
+    tr += "<td class='tc'><select name='pi.endRelation'><option value='0' >></option><option value='1'>>=</option></select></td>";
+    tr += "<td><input class='w40' type='text' id=score"+num2+" name='pi.score'></td>";
+    tr += "<td><textarea class='' id="+num2+" name='pi.explain'></textarea></td>";
+    tr += "<td><a href='javascript:void(0);' onclick='delTr(this)'>删除</a></td>";
     tr += "</tr>";
     $("#model73 tbody").append(tr);
     num2++;
@@ -362,11 +360,36 @@ function judge(index) {
     $("#easyUnderstandContent8").val(str);
   }
   function associate(){
+      var text = $("#show_table").find("tr").eq("1").find("td:last").text();
+    if (text == '删除') {
+      var result = "";
+      var standardScore = 0;
+      for (var i = 1; i<$("#show_table").get(0).rows.length -3 ; i++) {
+        var name = $("#show_table").find("tr").eq(i).find("td").eq("1").find("input").val();
+        var score = $("#show_table").find("tr").eq(i).find("td").eq("3").find("input").val();
+        if (name == "" || score == "") {
+          layer.msg("请填写选择项名称");
+          return;
+        }
+        
+        if (name.trim() == "" || score.trim() == "") {
+          layer.msg("请填写选择项名称");
+          return;
+        }
+        
+        if (score > standardScore) {
+          standardScore = score;
+        }
+        result = result + name.replace(/\|/g, "").replace(/-/g, "") + "-" +score.replace(/\|/g, "").replace(/-/g, "") + "|";
+      }
+      $("#standardScore").val(standardScore);
+      $("#judgeContent").val(result);
+    }
       var standScore = $("#standardScore").val();
       var maxScore = $("#maxScore").val();
       var id = $("#id").val();
     var s = validteModel().form();
-    console.dir(s);
+    console.dir(s);;
     if(s){
       $.ajax({   
               type: "get",  
@@ -450,7 +473,7 @@ function judge(index) {
           $("#model72 tbody tr").clone().appendTo("#show_table tbody");
         }
         $("#model73").show();
-        $("#model73").append('${scoreStr}');
+        $("#model73").append("${scoreStr}");
       }else if(intervalTypeName71=="0"){
         $("#showbutton").show();
         $("#showParamButton").hide();
@@ -481,7 +504,7 @@ function judge(index) {
         if('${addStatus}' !=1){
           $("#model82 tbody tr").clone().appendTo("#show_table tbody");
         }
-        $("#model73").append('${scoreStr}');
+        $("#model73").append("${scoreStr}");
         $("#model73").show();
       }else if(intervalTypeName71=="0"){
         $("#showbutton").show();
@@ -500,6 +523,18 @@ function judge(index) {
         $("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
         $("#model73").hide();
       }
+    }else if (model == "8") {
+      $("#show_table tbody tr").remove();
+      if('${addStatus}' !=1){
+        $("#model9 tbody tr").clone().appendTo("#show_table tbody");
+      }
+      $("#showbutton").show();
+    } else if (model == "9") {
+      $("#show_table tbody tr").remove();
+      if('${addStatus}' !=1){
+        $("#model4B tbody tr").clone().appendTo("#show_table tbody");
+      }
+      $("#showbutton").show();
     }
   }
 </script>  
@@ -699,12 +734,11 @@ function judge(index) {
           <tr id="paramIntervalTr">
             <!-- <th class="w30"><input type="checkbox">
             </th> -->
-            <th class="">序号</th>
+            <th class="w50">序号</th>
             <th class="">起始值</th>
-            <!-- <th class="w500">与起始参数值关系</th>
-            <th class="w500">评审参数对应数值</th>
-            <th class="w500">与结束参数值关系</th> -->
+            <th class="">参数和起始值关系</th>
             <th class="">结束值</th>
+            <th class="">参数和结束值关系</th>
             <th class="">得分</th>
             <th class="">解释</th>
             <th class="">操作</th>
@@ -714,12 +748,6 @@ function judge(index) {
         <tbody>
           <c:forEach items="${scoreModel.paramIntervalList }" var="pi" varStatus="vs">
               <tr>
-                <td align="center">${vs.index+1 }</td>
-                <td align="center"><input class='w40' type='text' value="${pi.startParam }" id="startParam${vs.index+1 }" name='pi.startParam'></td>
-                <td align="center"><input class='w40' type='text' value="${pi.endParam }" id="endParam${vs.index+1 }" name='pi.endParam'></td>
-                <td align="center"><input class='w40' type='text' value="${pi.score }" id="score${vs.index+1 }" name='pi.score'></td>
-                <td align="center"><textarea class='w40' id="explain${vs.index+1 }" name='pi.explain'>${pi.explain }</textarea></td>
-                <td ><a href='javascript:void(0);' onclick='delTr(this)'>删除</a></td>
               </tr>
           </c:forEach>
         </tbody>

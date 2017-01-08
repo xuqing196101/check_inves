@@ -6,9 +6,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -729,12 +731,17 @@ public class TackController extends BaseController{
 	    request.removeAttribute("detail");
 	    List<AdvancedDetail> details = (List<AdvancedDetail>)request.getSession().getAttribute("details");
 	    request.removeAttribute("details");
+	    List<PurchaseDetail> list = new ArrayList<>();
 	    int count = 0;
             for(AdvancedDetail advancedDetail:details){
                 for(PurchaseDetail p:detail){
                     if(advancedDetail.getRequiredId().equals(p.getId())){
                         Boolean flag = reflect(p, advancedDetail);
                         if(flag == true){
+                            PurchaseDetail aa = new PurchaseDetail();
+                            aa.setId(p.getId());
+                            aa.setParentId(p.getParentId());
+                            list.add(aa);
                             count++;
                         }
                     }
@@ -743,7 +750,34 @@ public class TackController extends BaseController{
             }
             
             if(count==details.size()){
-
+                List<PurchaseDetail> bottomDetails = new ArrayList<>();
+                Set<String> set = new HashSet<>();
+                for (PurchaseDetail detail2 : list) {
+                    detail2.setProjectStatus(1);
+                    purchaseDetailService.updateByPrimaryKeySelective(detail2);
+                    set.add(detail2.getParentId());
+                }
+                for (String string : set) {
+                    PurchaseDetail detail3 = purchaseDetailService.queryById(string);
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("id", detail3.getId());
+                    List<PurchaseDetail> list2 = purchaseDetailService.selectByParentId(map);
+                    for (PurchaseDetail purchaseDetail : list2) {
+                        if(!purchaseDetail.getId().equals(string)){
+                            bottomDetails.add(purchaseDetail);
+                        }
+                    }
+                    for (int i = 0; i < bottomDetails.size(); i++ ) {
+                        if(bottomDetails.get(i).getProjectStatus() == 0){
+                            break;
+                        }else if(i == bottomDetails.size()-1){
+                            detail3.setProjectStatus(1);
+                            purchaseDetailService.updateByPrimaryKeySelective(detail3);
+                        }
+                    }
+                }
+                
+               
                 
             //合并任务
             HashMap<String, Object> map2 = new HashMap<>();
@@ -812,6 +846,7 @@ public class TackController extends BaseController{
             
             HashMap<String, Object> map = new HashMap<>();
             map.put("advancedProject", details.get(0).getAdvancedProject());
+           
             //添加到正式明细
             List<AdvancedDetail> advancedDetails = detailService.selectByAll(map);
             if(advancedDetails != null && advancedDetails.size() > 0){
@@ -869,7 +904,7 @@ public class TackController extends BaseController{
             
             
             
-            /*HashMap<String, Object> map5 = new HashMap<>();
+          /*  HashMap<String, Object> map5 = new HashMap<>();
             map5.put("id", advancedDetails.get(0).getRequiredId());
             List<PurchaseDetail> purchaseDetails = purchaseDetailService.selectByParentId(map5);
             if(purchaseDetails != null && purchaseDetails.size() > 0){

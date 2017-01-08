@@ -524,7 +524,7 @@
               </td>
               <td class="tc">
                 <c:if test="${'1'==obj.taskNature}">
-                  <span class="label rounded-2x label-u">预研任务</span>
+                  <span class="label rounded-2x label-orange">预研任务</span>
                 </c:if>
                 <c:if test="${'0'==obj.taskNature}">
                   <span class="label rounded-2x label-u">正常任务</span>
