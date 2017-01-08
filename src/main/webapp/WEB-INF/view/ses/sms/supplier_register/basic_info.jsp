@@ -123,19 +123,6 @@ function checkAll(ele, id) {
 				flag = false;
 			}
 		});
-		// 社会统一信用代码唯一校验
-		var creditCode = $("#creditCode").val();
-		$.ajax({
-			url: "${pageContext.request.contextPath}/supplier/validateCreditCode.do",
-			async: false,
-			data: {"creditCode" : creditCode, "supplierId" : supplierId},
-			success: function(data){
-				if (data == "1") {
-					flag = false;
-					msg = "营业执照中统一社会信用代码已被占用! ";
-				}
-			}
-		});
 		if (flag) {
 			$("input[name='flag']").val(obj);
 			$("#basic_info_form_id").submit();

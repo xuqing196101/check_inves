@@ -28,6 +28,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -1244,12 +1245,16 @@ import ses.util.WfUtil;
   			count++;
   		}*/
 
-     //		supplier1.setCreditCode(supplier.getCreditCode());
-     //		map.put("creditCode", supplier.getCreditCode());
-     //		List<Supplier> list2 = supplierService.query(map);
-     //		if(list2!=null&&list2.size()>1){
-     //			model.addAttribute("err_creditCide", "信用代码已存在!");
-     //		}
+     List<Supplier> tempList = supplierService.validateCreditCode(supplier.getCreditCode());
+     if (tempList !=null && tempList.size() > 0) {
+         for (Supplier supp : tempList) {
+             if (!supplier.getId().equals(supp.getId())) {
+                 model.addAttribute("err_creditCide", "社会统一信用代码已被占用!");
+                 count++;
+                 break;
+             }
+         }
+     }
 
      if(supplier.getCreditCode()==null||supplier.getCreditCode().length()>36){
        model.addAttribute("err_creditCide", "不能为空或是字符过长!");
@@ -2341,5 +2346,13 @@ import ses.util.WfUtil;
    public String delAddress(String id) {
        supplierAddressService.delAddressByPrimaryId(id);
        return "ok";
+   }
+   
+   @ResponseBody
+   @RequestMapping(value = "/addProductCert")
+   public ModelAndView toAddFile (String number, Model model, String id) {
+       model.addAttribute("certProNumber", number);
+       model.addAttribute("id", id);
+       return new ModelAndView("ses/sms/supplier_register/add_product_cert");
    }
 }

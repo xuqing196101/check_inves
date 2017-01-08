@@ -405,12 +405,20 @@ $(function(){
 		var id;
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
-			async:false,
+			async:false, 
 			success: function(data){
 				id = data;
 			}
 		});
-		var certProNumber = $("#certProNumber").val();
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/addProductCert.do",
+			async: false,
+			dataType :"html",
+			success: function (data) {
+				$("#cert_pro_list_tbody_id").append(data);
+			}
+		});
+		/*var certProNumber = $("#certProNumber").val();
 		$("#cert_pro_list_tbody_id").append("<tr>"+
 			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].name'/> </td>"+
@@ -424,7 +432,8 @@ $(function(){
 	             "<option value='0'>无</option>"+
 	           "</select>"+
 			"</td>"+
-			"</tr>");
+			
+			"</tr>");*/
 		certProNumber++;
 		$("#certProNumber").val(certProNumber);
 		/*proIndex=layer.open({
@@ -1142,7 +1151,7 @@ $(function(){
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<!-- <th class="info w220">附件</th> -->
+														<th class="info w220">附件</th>
 													</tr>
 												</thead>
 												<tbody id="cert_pro_list_tbody_id">
@@ -1168,10 +1177,10 @@ $(function(){
 														          <option value="0"  <c:if test="${certPro.mot=='0'}"> selected="selected"</c:if>>无</option>
 														        </select>
 															</td>
-															<!-- <td class="tc">
-															 <u:upload id="pro_up" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
-															 <u:show showId="pro_show" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
-															</td> -->
+															<td class="tc">
+															 <u:upload id="pro_up1" multiple="true"   businessId="${certPro.id}" typeId="${attid}" sysKey="1"  auto="true" />
+															 <u:show showId="pro_show1" businessId="${certPro.id}"  typeId="${attid}" sysKey="1" />
+															</td>
 														</tr>
 														<c:set var="certProNumber" value="${certProNumber + 1}"/>
 													</c:forEach>
