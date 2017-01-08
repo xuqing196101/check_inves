@@ -2136,6 +2136,25 @@ a.news_more{
     z-index:10000;
     background:url(../images/report_round.png) no-repeat center; 
 }
+
+#redground{
+	width:21px;
+	height:21px;
+	border-radius:100%!important;
+	display:block;
+	color:#ffffff;
+	position: absolute;
+	left:85px;
+	top:-10px;
+	font-size:12px;
+    line-height: 21px;
+    text-align: center;
+    font-weight: normal;
+    display: block;
+    z-index:10000;
+    background:url(../images/report_round.png) no-repeat center; 
+}
+
 .floor_kind .tab-content .categories{
   padding:0 10px;
   overflow: hidden;

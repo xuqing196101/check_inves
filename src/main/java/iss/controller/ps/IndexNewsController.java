@@ -772,6 +772,12 @@ public class IndexNewsController extends BaseSupplierController{
 		timerMap.put("id", "97");
 		BigDecimal articlebdj = articleService.selectDanByTimer(timerMap);
 		model.addAttribute("articlebdj",articlebdj);
+		timerMap.clear();
+		timerMap.put("nowTime", time);
+		timerMap.put("qianDate", qiantime);
+		timerMap.put("id", "110");
+		BigDecimal articlebjob = articleService.selectDanByTimer(timerMap);
+		model.addAttribute("articlebjob",articlebjob);
 //		for(int i=0;i<articleTypeList.size();i++){
 //			List<Article> indexNewsList = null;
 //			if(articleTypeList.get(i).getName().equals("工作动态")){

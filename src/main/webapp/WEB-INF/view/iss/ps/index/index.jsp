@@ -146,7 +146,14 @@
         <div class="col-md-4 ">
           <div class="tab-v1">
             <h2 class="nav nav-tabs bb1 mt0">
-            <span class="bg12_white"><a href="javascript:void(0)">工作动态</a></span>
+            <c:choose>
+		  	  	<c:when test="${articlebjob=='0'}">
+		          <span class="bg12_white"><a href="javascript:void(0)">工作动态</a></span>
+		        </c:when>
+			    <c:otherwise>
+			      <span class="bg12_white"><a href="javascript:void(0)"><b id="redground">${articlebjob}</b>工作动态</a></span>
+			    </c:otherwise>
+		      </c:choose>
             <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=110">更多>></a>
 		  </h2>
           </div>
@@ -1274,7 +1281,6 @@
     <jsp:include page="/index_bottom.jsp"></jsp:include>
     </div>
     </div>
-
   </body>
 
 </html>
