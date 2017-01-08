@@ -557,7 +557,7 @@ import ses.util.WfUtil;
 
      if (info){
        Supplier before = supplierService.get(supplier.getId());
-       if(before.getStatus().equals(7)){
+       if(before.getStatus().equals(2)){
          record("", before, supplier, supplier.getId());//记录供应商退回修改的内容
        }
        supplierService.perfectBasic(supplier);
@@ -2203,56 +2203,56 @@ import ses.util.WfUtil;
 
 
 
-
-   public  void record(String operationInfo, Object obj1,Object obj2,String supplierId) throws Exception {
-     if(obj1!=null&&obj2!=null){	
-       Class clazz1 = obj1.getClass();
-       Field[] fields = clazz1.getDeclaredFields();
-       StringBuffer sb=new StringBuffer();
-       sb.append("");
-       Method m=null;
-       Method	m2=null;
-       String upperCase=null;
-       for(Field f : fields) {
-         String str="";
-         if(!f.getName().contains("serialVersionUID")){
-           upperCase = "get" +f.getName().substring(0,1).toUpperCase()+ f.getName().substring(1);
-           m=(Method) obj1.getClass().getMethod(upperCase); 
-           m2 =(Method) obj2.getClass().getMethod(upperCase);
-           if(m.equals(m2)){
-             Object obj3 = m.invoke(obj1);
-             Object obj4 = m2.invoke(obj2);
-             if(obj3!=null&&obj4!=null){
-               if(!obj3.toString().equals(obj4.toString())){
-                 str=f.getName()+","+obj3+","+obj4+";";
-               } 
-             }
-
-             sb.append(str);
-           }
-
-         }
-       }
-       String[] spl= sb.toString().split(";");
-       if(spl[0].trim().length()!=0){
-         for(String sss:spl){
-           SupplierHistory sh=new SupplierHistory();
-           String[] ss = sss.split(",");
-           String id = UUID.randomUUID().toString().replaceAll("-", "");
-           sh.setId(id);
-           sh.setSupplierId(supplierId);
-           sh.setBeforeField(ss[0]);
-           sh.setBeforeContent(ss[1]);
-           sh.setAfterContent(ss[2]);
-           supplierHistoryService.add(sh);
-         }
-
-       }
-
-
-     }
-
-   }
+    public  void record(String operationInfo, Object obj1,Object obj2,String supplierId) throws Exception {
+        if(obj1!=null&&obj2!=null){	
+            Class clazz1 = obj1.getClass();
+            Field[] fields = clazz1.getDeclaredFields();
+            StringBuffer sb=new StringBuffer();
+            sb.append("");
+            Method m=null;
+            Method	m2=null;
+            String upperCase=null;
+            for(Field f : fields) {
+                String str="";
+                if (!f.getName().contains("serialVersionUID") && !f.getName().contains("list") && !f.getName().contains("List") && !f.getName().contains("Mat") && !f.getName().contains("supplierTypeIds") && !f.getName().contains("item") && !f.getName().contains("itemType") && !f.getName().contains("categoryParam") && !f.getName().contains("ParamVleu") && !f.getName().contains("armyCity") && !f.getName().contains("user")) {
+                    upperCase = "get" +f.getName().substring(0,1).toUpperCase()+ f.getName().substring(1);
+                    m=(Method) obj1.getClass().getMethod(upperCase); 
+                    m2 =(Method) obj2.getClass().getMethod(upperCase);
+                    if(m.equals(m2)){
+                        Object obj3 = m.invoke(obj1);
+                        Object obj4 = m2.invoke(obj2);
+                        if(obj3!=null&&obj4!=null){
+                            if(!obj3.toString().equals(obj4.toString())){
+                                str=f.getName()+","+obj3+","+obj4+";";
+                            } 
+                        }
+                        sb.append(str);
+                    }
+                }
+            }
+            String[] spl= sb.toString().split(";");
+            if(spl[0].trim().length()!=0){
+                for(String sss:spl){
+                    SupplierHistory sh=new SupplierHistory();
+                    String[] ss = sss.split(",");
+                    String id = UUID.randomUUID().toString().replaceAll("-", "");
+                    sh.setId(id);
+                    sh.setSupplierId(supplierId);
+                    sh.setBeforeField(ss[0]);
+                    sh.setBeforeContent(ss[1]);
+                    // sh.setAfterContent(ss[1]);
+                    sh.setCreatedAt(new Date());
+                    sh.setmodifyType("basic_page");
+                    // 删除之前的记录
+                    SupplierHistory history = supplierHistoryService.findBySupplierId(sh);
+                    if (history != null) {
+                        supplierHistoryService.delete(history);
+                    }
+                    supplierHistoryService.add(sh);
+                }
+            }
+        }
+    }
 
    /**
     *〈简述〉

@@ -3,12 +3,6 @@
 <!DOCTYPE HTML>
 <html>
 
-	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<title>供应商列表</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<head>
 			<%@ include file="/WEB-INF/view/common.jsp" %>

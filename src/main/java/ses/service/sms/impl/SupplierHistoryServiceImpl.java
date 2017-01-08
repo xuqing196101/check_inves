@@ -28,4 +28,12 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
 		
 		return supplierHistoryMapper.selectAllBySupplierId(supplierHistory);
 	}
+
+    /**
+     * @see ses.service.sms.SupplierHistoryService#delete(ses.model.sms.SupplierHistory)
+     */
+    @Override
+    public void delete(SupplierHistory supplierHistory) {
+        supplierHistoryMapper.delete(supplierHistory);
+    }
 }

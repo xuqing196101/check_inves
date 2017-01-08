@@ -1358,7 +1358,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		supplierHistory.setSupplierId(supplierHistory.getSupplierId());
 		supplierHistory = supplierHistoryService.findBySupplierId(supplierHistory);
 		String showModify = supplierHistory.getAfterContent();
-		  return showModify;
+		return showModify;
 	}
 	
 	/**

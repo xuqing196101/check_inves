@@ -1331,7 +1331,7 @@ $(function(){
 													</div>
 													
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术负责人数：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术负责人数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTech}" <c:if test="${fn:contains(engPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>

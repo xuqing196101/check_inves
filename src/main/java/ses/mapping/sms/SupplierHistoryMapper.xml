@@ -6,26 +6,28 @@
     <result column="SUPPLIER_ID" property="supplierId" />
     <result column="BEFORE_FIELD" property="beforeField" />
     <result column="MODIFY_TYPE" property="modifyType" />
+    <!-- <result column="BEFORE_CONTENT" property="beforeContent" /> -->
     <result column="BEFORE_CONTENT" property="beforeContent" />
-    <result column="AFTER_CONTENT" property="afterContent" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
     <result column="RELATION_ID" property="relationId" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, AFTER_CONTENT, CREATED_AT, RELATION_ID
+    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, <!-- BEFORE_CONTENT, --> BEFORE_CONTENT, CREATED_AT, RELATION_ID
   </sql>
   
   <select id="selectBySupplierId"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
     select 
-    	AFTER_CONTENT
+    	BEFORE_CONTENT
     from 
     	T_SES_SMS_SUPPLIER_HISTORY
     where 
     	SUPPLIER_ID = #{supplierId} 
-    and
-      MODIFY_TYPE = #{modifyType}
-    and
-    	BEFORE_FIELD = #{beforeField}
+    <if test="modifyType != null">
+      and MODIFY_TYPE = #{modifyType}
+    </if>
+    <if test="beforeField != null">
+      and BEFORE_FIELD = #{beforeField}
+    </if>
   </select>
   
   <select id="selectAllBySupplierId"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
@@ -36,8 +38,8 @@
   </select>
 
   <insert id="insert" parameterType="ses.model.sms.SupplierHistory">
-    insert into T_SES_SMS_SUPPLIER_HISTORY (ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, AFTER_CONTENT, CREATED_AT, RELATION_ID)
-    values (#{id}, #{supplierId}, #{beforeField}, #{modifyType}, #{beforeContent}, #{afterContent}, #{createdAt,jdbcType=TIMESTAMP}, #{relationId}
+    insert into T_SES_SMS_SUPPLIER_HISTORY (ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, <!-- BEFORE_CONTENT, --> BEFORE_CONTENT, CREATED_AT, RELATION_ID)
+    values (#{id}, #{supplierId}, #{beforeField}, #{modifyType}, <!-- #{beforeContent}, --> #{beforeContent}, #{createdAt,jdbcType=TIMESTAMP}, #{relationId}
   </insert>
   
   <!-- 插入审核记录 -->
@@ -56,11 +58,13 @@
       <if test="modifyType != null">
         MODIFY_TYPE,
       </if>
+      <!-- 
       <if test="beforeContent != null">
         BEFORE_CONTENT,
       </if>
-      <if test="afterContent != null">
-        AFTER_CONTENT,
+       -->
+      <if test="beforeContent != null">
+        BEFORE_CONTENT,
       </if>
       <if test="createdAt != null">
         CREATED_AT,
@@ -82,11 +86,13 @@
       <if test="modifyType != null">
         #{modifyType},
       </if>
+      <!-- 
       <if test="beforeContent != null">
         #{beforeContent},
       </if>
-      <if test="afterContent != null">
-        #{afterContent},
+       -->
+      <if test="beforeContent != null">
+        #{beforeContent},
       </if>
       <if test="createdAt != null">
         #{createdAt,jdbcType=TIMESTAMP},
@@ -96,4 +102,13 @@
       </if>
     </trim>
   </insert>
+  
+  <!-- 删除历史记录 -->
+  <delete id="delete" parameterType="ses.model.sms.SupplierHistory">
+  	 delete from T_SES_SMS_SUPPLIER_HISTORY
+  	 where SUPPLIER_ID = #{supplierId}
+  	 <if test="beforeField != null">
+  	 	and BEFORE_FIELD = #{beforeField}
+  	 </if>
+  </delete>
 </mapper>
