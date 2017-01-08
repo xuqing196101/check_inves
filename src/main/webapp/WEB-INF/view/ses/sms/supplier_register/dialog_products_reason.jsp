@@ -3,6 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<%@ include file="/reg_head.jsp"%>
 
 <title>审核记录反馈</title>
 

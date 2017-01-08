@@ -4,6 +4,7 @@
 <html>
 <head>
 
+<%@ include file="/reg_head.jsp"%>
 <title>添加财务信息</title>
 
 <meta http-equiv="pragma" content="no-cache">

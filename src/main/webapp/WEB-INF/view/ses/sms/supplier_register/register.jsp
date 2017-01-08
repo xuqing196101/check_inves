@@ -3,6 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<%@ include file="/reg_head.jsp"%>
 
 
 <script type="text/javascript">
@@ -44,7 +45,6 @@
 </head>
 
 <body>
-<jsp:include page="/reg_head.jsp"></jsp:include>
 	<div class="wrapper">
 		<div class="container clear margin-top-30">
 			<div class="col-md-12 col-sm-12 col-xs-12 margin-top-40">

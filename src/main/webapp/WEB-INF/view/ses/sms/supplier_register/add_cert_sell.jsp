@@ -4,6 +4,7 @@
 <html>
 <head>
 
+<%@ include file="/reg_head.jsp"%>
 <title>添加物资销售证书信息</title>
 
 <meta http-equiv="pragma" content="no-cache">

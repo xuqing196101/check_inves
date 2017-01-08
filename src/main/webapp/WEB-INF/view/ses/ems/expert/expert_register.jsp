@@ -7,6 +7,8 @@ session.setAttribute("tokenSession", tokenValue);
 %>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
+
+<%@ include file="/reg_head.jsp"%>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
  <script type="text/javascript">
    $(function(){
@@ -117,7 +119,6 @@ session.setAttribute("tokenSession", tokenValue);
 
 </head>
 <body>
- <jsp:include page="/reg_head.jsp"></jsp:include>
    <!-- 修改订列表开始-->
   <div class="container clear margin-top-30">
     <div class="col-md-12 col-sm-12 col-xs-12 margin-top-40">

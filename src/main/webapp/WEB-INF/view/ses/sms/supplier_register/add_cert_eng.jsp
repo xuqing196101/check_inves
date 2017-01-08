@@ -3,6 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<%@ include file="/reg_head.jsp"%>
 
 <title>添加供应商工程证书信息</title>
 

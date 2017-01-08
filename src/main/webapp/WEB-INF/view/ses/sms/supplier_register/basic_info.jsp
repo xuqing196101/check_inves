@@ -3,6 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<%@ include file="/reg_head.jsp"%>
 <script type="text/javascript">
 $(function() {
 	$("#page_ul_id").find("li").click(function() {
@@ -554,9 +555,6 @@ function deleteFinance() {
 </head>
 
 <body>
-	<c:if test="${currSupplier.status != 7}">
-		<%@ include file="/reg_head.jsp"%>
-    </c:if>
    <div class="wrapper">
 	<%@include file="supplierNav.jsp" %>
 	<!--基本信息-->

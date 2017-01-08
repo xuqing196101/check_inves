@@ -4,6 +4,7 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
 
+<%@ include file="/reg_head.jsp"%>
 <script type="text/javascript">
 	$(function() {
 		// 注册须知
@@ -27,7 +28,6 @@
 </head>
 
 <body>
-   <jsp:include page="/reg_head.jsp" />
 	<div class="wrapper">
 		<div class="container content height-350 job-content ">
 

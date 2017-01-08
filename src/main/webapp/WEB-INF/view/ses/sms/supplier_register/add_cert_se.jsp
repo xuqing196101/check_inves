@@ -3,6 +3,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<%@ include file="/reg_head.jsp"%>
 
 <title>添加服务证书信息</title>
 

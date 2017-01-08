@@ -4,6 +4,7 @@
 <html>
 <head>
 
+<%@ include file="/reg_head.jsp"%>
 <title>产品品目</title>
 
 <meta http-equiv="pragma" content="no-cache">

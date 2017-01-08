@@ -4,6 +4,7 @@
 <html>
 <head>
 
+<%@ include file="/reg_head.jsp"%>
 <title>审核记录反馈</title>
 
 <meta http-equiv="pragma" content="no-cache">

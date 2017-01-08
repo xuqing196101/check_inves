@@ -12,6 +12,7 @@
 </head>
 
 
+<%@ include file="/reg_head.jsp"%>
 <script type="text/javascript">
 		function saveOrBack(sign) {
 		 var tr=parent.tr;	

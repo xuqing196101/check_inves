@@ -3,6 +3,7 @@
 <!DOCTYPE HTML>
 <html>
   <head>
+<%@ include file="/reg_head.jsp"%>
     <style type="text/css">
       form div.invalid {
         width: 200px;

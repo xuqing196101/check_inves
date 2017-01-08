@@ -4,6 +4,7 @@
 <!DOCTYPE HTML >
 <html>
 <head>
+<%@ include file="/reg_head.jsp"%>
 <script type="text/javascript">
 
 	//暂存
@@ -46,9 +47,6 @@
 </head>
 
 <body>
-	<c:if test="${currSupplier.status != 7}">
-	<%@ include file="/reg_head.jsp"%>
-	</c:if>
 	<div class="wrapper">
 
 		<!-- 项目戳开始 -->

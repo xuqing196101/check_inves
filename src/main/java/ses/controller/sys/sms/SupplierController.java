@@ -274,6 +274,20 @@ import ses.util.WfUtil;
        if (flag){
          supplier = supplierService.register(supplier);
          List<SupplierFinance> list = supplierFinanceService.getYear();
+         // 对年份进行排序
+         Collections.sort(list, new Comparator<SupplierFinance>(){  
+             public int compare(SupplierFinance finance1, SupplierFinance finance2) {  
+                 // 按照SupplierFinance的年份进行升序排列  
+                 if(Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())){  
+                     return -1;  
+                 }  
+                 if(finance1.getYear().equals(finance2.getYear())){  
+                     return 0;  
+                 } else {  
+                     return 1;
+                 }
+             }  
+         }); 
          supplier.setListSupplierFinances(list);
          initCompanyType(model, supplier);
          return "ses/sms/supplier_register/basic_info";
