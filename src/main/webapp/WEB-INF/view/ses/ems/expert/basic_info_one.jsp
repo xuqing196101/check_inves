@@ -694,6 +694,7 @@ session.setAttribute("tokenSession", tokenValue);
 						    
 					    </c:if> --%>
 					    <span class="add-on">i</span>
+					    <span class="input-tip">不能为空</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12">
@@ -717,6 +718,7 @@ session.setAttribute("tokenSession", tokenValue);
 						    
 					    </c:if> --%>
 					    <span class="add-on">i</span>
+					    <span class="input-tip">不能为空，年龄不得大于70周岁</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 民族</span>
@@ -730,6 +732,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="input-tip">请填写名族,如:汉族</span>
 						</c:if> --%>
 						<span class="add-on">i</span>
+						<span class="input-tip">不能为空，如： 汉族</span>
                     </div>
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 省</span>
@@ -776,6 +779,7 @@ session.setAttribute("tokenSession", tokenValue);
 							
 						</c:if> --%>
 						<span class="add-on">i</span>
+						<span class="input-tip">不能为空，长度为15位或者18位</span>
   					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 居民身份证</span>
@@ -803,6 +807,7 @@ session.setAttribute("tokenSession", tokenValue);
 						</c:if>
 						<c:if test="${!fn:contains(errorField,'军队人员身份证件号码')}">
 							<span class="add-on">i</span>
+							<span class="input-tip">不能为空，且不得重复使用</span>
 						</c:if>
   					</div>
 				</li>
@@ -823,6 +828,8 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 						</c:if> --%>
 						<span class="add-on">i</span>
+						<span class="input-tip">不能为空，如：良好</span>
+						
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 手机</span>
@@ -863,6 +870,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 						</c:if> --%>
 						<span class="add-on">i</span>
+						<span class="input-tip">不能为空，如：XXXX@XX.com</span>
 					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 政治面貌</span>
@@ -903,6 +911,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  </c:if> --%>
 					  <span class="add-on">i</span>
+					  <span class="input-tip">不能为空，如：XXX大学XXX专业</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 毕业证书</span>
@@ -951,6 +960,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
+					  	<span class="input-tip">不能为空</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 单位地址</span>
@@ -963,6 +973,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
+					  	<span class="input-tip">不能为空</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 单位邮编</span>
@@ -975,6 +986,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
+					  	<span class="input-tip">长度为6位</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务</span>
@@ -987,6 +999,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
+					  	<span class="input-tip">如：项目经理</span>
 					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 从事专业</span>
@@ -999,6 +1012,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
+					  	<span class="input-tip">不能为空</span>
                     </div>
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度</span>
@@ -1011,6 +1025,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
+					  	<span class="input-tip">如：2010.05</span>
 					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专家技术职称/执业资格</span>
@@ -1023,6 +1038,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
+					  	<span class="input-tip">不能为空</span>
 					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
@@ -1042,6 +1058,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
+					  	<span class="input-tip">如：2010.05</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
@@ -1054,6 +1071,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
+					  	<span class="input-tip">如：2010.05</span>
 					</div>
 				</li>
 			</ul>
