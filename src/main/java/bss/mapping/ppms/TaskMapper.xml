@@ -163,7 +163,10 @@
       <if test="materialsType != null">
         and MATERIALS_TYPE = #{materialsType}
       </if>
-     ORDER BY GIVE_TIME DESC
+       <if test="taskNature != null">
+        and TASK_NATURE = #{taskNature}
+      </if>
+     ORDER BY STATUS,GIVE_TIME DESC
   </select>
   <select id="verifyByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
     select 

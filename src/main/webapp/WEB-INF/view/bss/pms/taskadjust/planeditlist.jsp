@@ -25,10 +25,10 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		            if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        //	$("#page").val(e.curr);
-		        	// $("#form1").submit();
+		            	$("#page").val(e.curr);
+		        	  $("#add_form").submit();
 		        	
-		         location.href = '${pageContent.request.contextPath}/statistic/list.do?page='+e.curr;
+		       /*   location.href = '${pageContent.request.contextPath}/adjust/edit.do?page='+e.curr; */
 		        }  
 		    }
 		});
@@ -115,25 +115,16 @@
 		}
     }
 		
-		/* function edit(){
-    	var cid=$("#collectId").val();
-    	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-			window.location.href="${pageContext.request.contextPath}/adjust/detail.html?planNo="+id+"&&id="+cid;
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要修改的版块",{offset: ['222px', '390px'], shade:0.01});
-		}
-    } */
+ 
     
     function view(id) {
         window.location.href = "${pageContext.request.contextPath }/look/view.html?id="+id;
   }
  
+    function resetQuery() {
+		$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+	}
+    
   </script>
   </head>
   
@@ -150,14 +141,32 @@
 <!-- 录入采购计划开始-->
  <div class="container">
    <div class="headline-v2 fl">
-      <h2>采购计划列表
-	  </h2>
+      <h2>采购计划列表 </h2>
    </div> 
+   
+    <h2 class="search_detail">
+    	<form id="add_form" action="${pageContext.request.contextPath }/adjust/edit.html" class="mb0" method="post" >
+			<input type="hidden" name="page" id="page">
+	   			<ul class="demand_list">
+			    	  <li>
+				    		<label class="fl">采购计划名称：</label><span>
+				  	  	<input type="text" name="fileName" value="${inf.fileName }"/> 
+				    		</span>
+				      </li>
+				   		<li>
+				    	<label class="fl">预算金额：</label><span>
+				  	   	   <input type="text" name="" value=""/>
+				    	</span>
+				      </li>
+			    </ul>
+	   	 		<input class="btn fl" type="submit" value="查询" /> 
+				<input class="btn fl" type="button" value="重置" onclick="resetQuery()"  />	
+   		</form>
+ 		</h2>
+ 		
     <div class="col-md-12 pl20 mt10">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit()">修改</button>
- 		<!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print()">打印</button> -->
+ 
 	  </div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">

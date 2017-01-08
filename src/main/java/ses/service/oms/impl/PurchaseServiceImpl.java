@@ -67,6 +67,9 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		user.setDuties(purchaseInfo.getDuites());
 		user.setTypeName("1");
 		user.setCreatedAt(new Date());
+		user.setIdNumber(purchaseInfo.getIdCard());
+		user.setPublishType(purchaseInfo.getPublishType());
+		user.setOfficerCertNo(purchaseInfo.getOfficerCertNo());
 		
 		Orgnization org = new Orgnization();
 		if(purchaseInfo.getOrgId()!=null && !purchaseInfo.getOrgId().equals("")){
@@ -107,7 +110,9 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 			user.setDuties(purchaseInfo.getDuites());
 	    user.setTypeName("1");
 	    user.setCreatedAt(new Date());
-			
+	    user.setIdNumber(purchaseInfo.getIdCard());
+	    user.setPublishType(purchaseInfo.getPublishType());
+	    user.setOfficerCertNo(purchaseInfo.getOfficerCertNo());
 			Orgnization org = new Orgnization();
 			if(purchaseInfo.getOrgId()!=null && !purchaseInfo.getOrgId().equals("")){
 				org.setId(purchaseInfo.getOrgId());

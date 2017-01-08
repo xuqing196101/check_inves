@@ -63,7 +63,17 @@ public class PurchaseAcceptController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String queryPlan(PurchaseRequired purchaseRequired, Integer page, Model model) {
-		purchaseRequired.setStatus("2");
+		if(purchaseRequired.getStatus()==null){
+			purchaseRequired.setStatus("2");
+		} else if(purchaseRequired.getStatus().equals("3")){
+			purchaseRequired.setSign("3");
+			purchaseRequired.setStatus(null);
+		}
+		else if(purchaseRequired.getStatus().equals("total")){
+			purchaseRequired.setSign("2");
+			purchaseRequired.setStatus(null);
+		}
+		
 		purchaseRequired.setIsMaster(1);
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page == null ? 1 : page);
 		for (PurchaseRequired pur : list) {
@@ -143,16 +153,17 @@ public class PurchaseAcceptController extends BaseController{
     			
     		}
     	}
-//    	if(reason!=null){
-//    		User  maker = userServiceI.getUserById(id);
-//    		StationMessage sm =new StationMessage();
-//			String sid = UUID.randomUUID().toString().replaceAll("-", "");
-//			sm.setId(sid);
-//    		sm.setReceiverId(id);
-//    		sm.setName(maker.getRelName());
-//    		sm.setSenderId(user.getId());
-//    		stationMessageService.insertStationMessage(sm);
-//    	}
+    	//推送消息
+    	if(reason!=null){
+    		User  maker = userServiceI.getUserById(id);
+    		StationMessage sm =new StationMessage();
+			String sid = UUID.randomUUID().toString().replaceAll("-", "");
+			sm.setId(sid);
+    		sm.setReceiverId(id);
+    		sm.setName(maker.getRelName());
+    		sm.setSenderId(user.getId());
+    		stationMessageService.insertStationMessage(sm);
+    	}
 //    	purchaseRequiredService.updateStatus(p);
     	return "redirect:list.html";
     }

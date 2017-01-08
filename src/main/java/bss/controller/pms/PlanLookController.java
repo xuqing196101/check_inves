@@ -43,6 +43,7 @@ import bss.service.pms.PurchaseAuditService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -118,7 +119,20 @@ public class PlanLookController extends BaseController {
 	 */
 	@RequestMapping("/list")
 	public String list(@CurrentUser User user,CollectPlan collectPlan,Integer page,Model model){
-		collectPlan.setStatus(1);
+	
+		if(collectPlan.getStatus()==null){
+			collectPlan.setStatus(1);
+		}	else if(collectPlan.getStatus()==0){
+			collectPlan.setSign("0");
+			collectPlan.setStatus(null);
+		}else if(collectPlan.getStatus()==8){
+			collectPlan.setSign("8");
+			collectPlan.setStatus(null);
+		} else if(collectPlan.getStatus()==12){
+			collectPlan.setSign("12");
+			collectPlan.setStatus(null);
+		}   
+		
 		collectPlan.setUserId(user.getId());
 		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 		PageInfo<CollectPlan> info = new PageInfo<>(list);
@@ -572,6 +586,17 @@ public class PlanLookController extends BaseController {
 //		}
 //		
 		return flag;
+	}
+	
+	@RequestMapping(value="/purchaseType",produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getPurchaseTyoe(String oldId,String id){
+		Map<String,Object> map=new HashMap<String,Object>();
+		DictionaryData data1= DictionaryDataUtil.findById(oldId);
+		DictionaryData data2= DictionaryDataUtil.findById(id);
+		map.put("old", data1.getName());
+		map.put("newVal", data2.getName());
+		return JSON.toJSONString(map);
 	}
 	
 	

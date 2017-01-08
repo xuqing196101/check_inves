@@ -176,7 +176,8 @@
 			
 				//单价
 			 function sum1(obj) {
-			    var id = $(obj).prev().val();
+				 change(obj);
+/* 			    var id = $(obj).prev().val();
 			    var pId = $(obj).next().val();
 					$.ajax({
 				  	url : "${pageContext.request.contextPath}/purchaser/viewIds.html",
@@ -206,12 +207,13 @@
 			 		  		});
 							}
 				  	},
-				});
+				}); */
 			}
 			
 				//数量
 			 	function sum2(obj) { 
-				    var id = $(obj).prev().val();
+			 		 change(obj);
+		/* 		    var id = $(obj).prev().val();
 				    var pId = $(obj).next().val();
 						$.ajax({
 					  	url : "${pageContext.request.contextPath}/purchaser/viewIds.html",
@@ -243,7 +245,7 @@
 						  		});
 								}
 					 	},
-					});
+					}); */
 				}
 				
 			 	//单价
@@ -285,38 +287,68 @@
 				 	function sumCount(obj,num) { 
 					    var id = $(obj).prev().val();
 					    var pId = $(obj).next().val();
-							$.ajax({
-						  	url : "${pageContext.request.contextPath}/purchaser/viewIds.html",
-						  	type : "post",
-						  	data : "id=" + id,
-						  	dataType : "json",
-						  	success : function(data) {
-									var purchaseCount = $(obj).val() - 0;//数量
-									var price2 = $(obj).parent().next().children(":last").prev();//价钱
-									var price = $(price2).val() - 0;
-									var sum = purchaseCount * price;
-									var budgets = $(obj).parent().next().next().children(":last").prev();
-									$(budgets).val(sum);
-									var budget = 0;
-									$("#table tr").each(function() {
-							  		var cid = $(this).find("td:eq(8)").children(":last").val();
-							  		var same = $(this).find("td:eq(8)").children(":last").prev().val() - 0;
-							  		if (pId == cid) {
-							    		budget = budget + same; //查出所有的子节点的值
-							  		}
-									});
-									for ( var i = 0; i < data.length; i++) {
-							  		var v1 = data[i].id;
-							  		$("#table tr").each(function() {
-											var pid = $(this).find("td:eq(8)").children(":first").val();//上级id
-											if (data[i].id == pid) {
-								 	 			$(this).find("td:eq(8)").children(":first").next().val(budget);
-											}
-							  		});
-									}
-						 	},
-						});
+						
 					}
+					
+					
+				// var defVal = obj.defaultValue;获得默认值
+				
+				function change(obj){
+					var status=$("input[name='status']").val();
+				
+					var tr=obj.parentNode.parentNode;
+					var val = $(obj).val();
+					var defVal = obj.defaultValue;
+					var index=tr.rowIndex; //获取第几行，然后给赋值
+					var td=obj.parentNode;
+					var tdIndex=td.cellIndex;
+					var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
+			  	   if(val!=defVal){
+			  		   if(status=='3'){
+			  			 $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(tdVal1+"由"+defVal+"变成"+val); 
+			  		   }
+			  		 if(status=='5'){
+				  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
+				  	   }
+				  	 if(status=='7'){
+				  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
+				  	   }  
+					} 
+				  	  
+				}
+				
+				function typeChange(obj){
+					var status=$("input[name='status']").val();		
+					var val = $(obj).find("option:selected").text();
+					var defVal;
+					var opts=obj.getElementsByTagName('option'); 
+						for (var i in opts) {
+							if (opts[i].defaultSelected) {
+								defVal = opts[i].text;
+								break;
+							}
+						}
+						var tr=obj.parentNode.parentNode;	
+						var index=tr.rowIndex; //获取第几行，然后给赋值
+						var td=obj.parentNode;
+						var tdIndex=td.cellIndex;
+						var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
+						 if(val!=defVal){
+							  if(status=='5'){
+							       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
+							  }
+							  if(status=='5'){
+							  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
+							  	   }
+							 if(status=='7'){
+							  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
+							  	 }
+							 
+						} 
+						 
+						  	 
+						  	 
+				}
 		</script>
 	</head>
 
@@ -365,7 +397,7 @@
 				<div class="tab-content over_hideen">
 					<div class="tab-pane fade active in" id="tab-1">
 						<div class="col-md-8 col-sm-8 col-xs-12 over_scroll">
-							<table class="table table-bordered table-condensed mt5 table_input table_wrap">
+							<table id="dep_table" class="table table-bordered table-condensed mt5 table_input table_wrap">
 								<thead>
 									<tr>
 										<th class="info" colspan="17">事业部门需求</th>
@@ -392,7 +424,7 @@
 									<th>质量技术标准（技术参数）</th>
 									<th>计量单位</th>
 									<th>采购数量</th>
-									<th>单位（元）</th>
+									<th>单价（元）</th>
 									<th>预算金额（万元）</th>
 									<th>交货期限</th>
 									<th>采购方式</th>
@@ -404,7 +436,7 @@
 									<th>备注</th>
 									</tr>
 								</thead>
-								<tbody id="table">
+								<tbody >
 									<c:forEach items="${list }" var="obj" varStatus="vs">
 										<tr>
 											<td class="tc w50"><input readonly="readonly" type="text" class="w50" name="listDetail[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }"></td>
@@ -418,10 +450,10 @@
 													</c:if>
 												</c:forEach> --%>
 											</td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].stand" value="${obj.stand }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].item" value="${obj.item }" class="w50"></td>
+											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }"></td>
+											<td class="tl pl20"><input onblur="change(this)"   type="text" name="listDetail[${vs.index }].stand" value="${obj.stand }"></td>
+											<td class="tl pl20"><input onblur="change(this)"   type="text" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
+											<td class="tl pl20"><input onblur="change(this)"   type="text" name="listDetail[${vs.index }].item" value="${obj.item }" class="w50"></td>
 											<td class="tl pl20">
 												<c:if test="${obj.purchaseCount!=null }">
 								  				<input type="hidden" name="ss" value="${obj.id }">
@@ -449,31 +481,31 @@
 												<input type="text" name="listDetail[${vs.index }].budget" value="${obj.budget }" readonly="readonly" class="w80">
 												<input type="hidden" name="ss" value="${obj.parentId }">
 											</td>
-											<td><input type="text" name="listDetail[${vs.index }].deliverDate" value="${obj.deliverDate }" readonly="readonly" class="w100"></td>
+											<td><input type="text" onblur="change(this)"   name="listDetail[${vs.index }].deliverDate" value="${obj.deliverDate }"  class="w100"></td>
 											<td>
-											<c:if test="${obj.purchaseCount!=null }"> 
-												<select name="listDetail[${vs.index }].purchaseType" >
+											<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
+												<select name="listDetail[${vs.index }].purchaseType" onchange="typeChange(this)">
 													<c:forEach items="${mType }" var="mt">
 														<option value="${mt.id }" <c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 													</c:forEach>
 												</select>
 												
-											</c:if>	
+											<%-- </c:if>	 --%>
 											</td>
 											<td class="tc">
-											<c:if test="${obj.purchaseCount!=null }"> 
-												<select class="org" name="listDetail[${vs.index }].organization">
+											<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
+												<select class="org" name="listDetail[${vs.index }].organization" onchange="typeChange(this)">
 													<c:forEach items="${org }" var="ss">
 														<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 													</c:forEach>
 												</select>
-										    </c:if>
+										<%--     </c:if> --%>
 											</td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td>
-											<td class="tl pl20"><input readonly="readonly" type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }">
+											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }"></td>
+											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
+											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }">
 											<%-- 	<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 												<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
 												<input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
@@ -494,7 +526,7 @@
 			
 					<c:if test="${audit!=null ||audit!=0 }">
 						<div class="col-md-4 col-sm-4 col-xs-12 over_scroll">
-							<table id="table" class="table table-bordered table-condensed mt5 table_input table_wrap">
+							<table id="audit_table" class="table table-bordered table-condensed mt5 table_input table_wrap">
 								<thead>
 									<tr>
 										<c:if test="${status==3 || status==5 || status==7 }">
@@ -509,44 +541,25 @@
 									</tr>
 									<tr class="h91">
 										<c:if test="${status==3 || status==5 || status==7 }">
-											<th>采购方式</th>
-											<th>采购机构</th>
-											<th>其他建议</th>
+											<th colspan="3" >审核意见</th>
+										 
 										</c:if>
 										<c:if test="${status==5 || status==7 }">
-											 <th>审核技术参数</th>
-											 <th>其他建议</th>
+											 <th colspan="2" >审核意见</th>
 										</c:if>
 										<c:if test="${status==7 }">
-											<th>采购方式</th>
-											<th>采购机构</th>
-											<th>其他建议</th>
+										  <th colspan="3" >审核意见</th>
 										</c:if>
 									
 									
-								<%-- <c:forEach items="${all }" var="p">
-									<th class="info">
-										<c:if test="${p.param=='1'}">
-											采购方式
-										</c:if>
-										<c:if test="${p.param=='2'}">
-											采购机构
-										</c:if>
-										<c:if test="${p.param=='3'}">
-											其他建议
-										</c:if>
-										<c:if test="${p.param=='4'}">
-											技术参数意见
-										</c:if>
-									</th>
-								</c:forEach> --%>
+						 
 							</tr>
 						</thead>
 						<c:forEach items="${list }" var="objs" varStatus="vs">
 							<tr>
 								<c:if test="${status==3 || status==5 || status==7 }">
-								<td>
-									<select name="listDetail[${vs.index }].onePurchaseType" >
+								<td colspan="3">
+							<%-- 		<select name="listDetail[${vs.index }].onePurchaseType" >
 										<c:forEach items="${mType }" var="mt">
 											<option value="${mt.id }" <c:if test="${mt.id==obj.onePurchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 										</c:forEach>
@@ -560,23 +573,23 @@
 										</c:forEach>
 									</select>
 								</td>
-								<td class="tc">
-									<input type="text" name="listDetail[${vs.index }].oneAdvice" value="${obj.oneAdvice }" >
+								<td class="tc"> --%>
+									<input type="text" name="listDetail[${vs.index }].oneAdvice" <c:if test="${status==5 || status==7 }"> disabled="disabled" </c:if> value="${objs.oneAdvice }" >
 								</td>
 								</c:if>
 								
 							<c:if test="${status==5 || status==7 }">
-								<td class="tl pl20">
-									<input type="text" name="listDetail[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
+								<td colspan="2">
+							<%-- 		<input type="text" name="listDetail[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
 								</td>
-								<td class="tc">
-									<input type="text" name="listDetail[${vs.index }].twoAdvice" value="${obj.twoAdvice }" >
-								</td>
+								<td class="tc" --%>
+									<input type="text" name="listDetail[${vs.index }].twoAdvice" <c:if test="${status==7 }"> disabled="disabled" </c:if>  value="${objs.twoAdvice }" >
+								<!-- </td> -->
 							</c:if>
 							<c:if test="${status==7 }">	
 								
-								<td class="tc">
-									<select name="listDetail[${vs.index }].threePurchaseType">
+								<td colspan="3">
+						<%-- 			<select name="listDetail[${vs.index }].threePurchaseType">
 										<c:forEach items="${mType }" var="mt">
 											<option value="${mt.id }" <c:if test="${mt.id==obj.threePurchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 										</c:forEach>
@@ -589,9 +602,9 @@
 										</c:forEach>
 									</select>
 								</td>
-								<td class="tl pl20">
-									<input type="text" name="listDetail[${vs.index }].threeAdvice" value="${obj.threeAdvice }">
-								</td>
+								<td class="tl pl20"> --%>
+									<input type="text" name="listDetail[${vs.index }].threeAdvice" value="${objs.threeAdvice }">
+								<!-- </td> -->
 								</c:if>
 								
 							<%--<c:forEach items="${all }" var="al" varStatus="avs">

@@ -196,9 +196,9 @@
 				} else if($.trim(type) == ""){
 					 layer.msg("请选择物资类别"); 
 				} 
-				else if($.trim(refNo) == ""){
+				/* else if($.trim(refNo) == ""){
 					 layer.msg("请 填写计划文号"); 
-				}
+				} */
 				
 				
 				

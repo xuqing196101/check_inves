@@ -52,7 +52,17 @@ public class CollectPlan {
     
     private String userId;
     
-    public String getId() {
+    private String sign;
+    
+    public String getSign() {
+		return sign;
+	}
+
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+
+	public String getId() {
         return id;
     }
 

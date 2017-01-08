@@ -103,7 +103,17 @@ public class PurchaseRequiredController extends BaseController{
 	@RequestMapping("/list")
 	public String queryPlan(@CurrentUser User user,PurchaseRequired purchaseRequired,Integer page,Model model){
 		purchaseRequired.setIsMaster(1);
-		purchaseRequired.setStatus("1");
+		
+		if(purchaseRequired.getStatus()==null){
+			purchaseRequired.setStatus("1");
+		}
+		
+		else if(purchaseRequired.getStatus().equals("5")){
+			purchaseRequired.setSign("5");
+		}
+		if(purchaseRequired.getStatus().equals("total")){
+			purchaseRequired.setStatus(null);
+		}
 		if (page == null ){
 		    page = StaticVariables.DEFAULT_PAGE;
 		}
@@ -424,6 +434,7 @@ public class PurchaseRequiredController extends BaseController{
                     p.setAdvancedStatus(0);
                     p.setIsDelete(0);
                     p.setReferenceNo(referenceNo);
+                    p.setDetailStatus(0);
                     p.setStatus("1");
                     if(p.getPurchaseType()!=null){
                         DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());

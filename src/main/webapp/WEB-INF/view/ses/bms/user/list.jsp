@@ -99,14 +99,27 @@
     
     function del(){
     	var ids =[]; 
+    	var flag = 0;
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
+			var trObj = $(this).parent().parent();
+			var tdArr = trObj.children("td");
+		    var roleCode = tdArr.eq(6).find("input").val();
+		    //判断：如果该用户拥有供应商、专家（临时专家）、进口供应商、进口代理商中的任何一个角色都不能进行修改操作
+		    if(roleCode.indexOf("SUPPLIER_R") > -1 || roleCode.indexOf("EXPERT_R") > -1 || roleCode.indexOf("EXPERT_TEMP_R") > -1 || roleCode.indexOf("IMP_SUPPLIER_R") > -1 || roleCode.indexOf("IMPORT_AGENT_R") > -1){
+				flag = 1;
+			}
 		}); 
 		if(ids.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
-				layer.close(index);
-				window.location.href="${pageContext.request.contextPath}/user/delete_soft.html?ids="+ids;
-			});
+			if (flag == 1) {
+				layer.msg("不能在此删除供应商、专家或进口代理商",{offset: '222px'});
+			} 
+			if (flag == 0) {
+				layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
+					layer.close(index);
+					window.location.href="${pageContext.request.contextPath}/user/delete_soft.html?ids="+ids;
+				});
+			}
 		}else{
 			layer.alert("请选择要删除的用户",{offset: '222px', shade:0.01});
 		}
@@ -237,7 +250,7 @@
 				    	<label class="fl">角色：</label>
 				    	   <span>
 					        <select id="" name="roleId">
-					        	<option value="">请选择</option>
+					        	<option value="">全部</option>
 					        	<c:forEach items="${roles}" var="r" varStatus="vs">
 					        		<option value="${r.id}" <c:if test="${r.id eq user.roleId}">selected</c:if> >${r.name}</option>
 					        	</c:forEach>

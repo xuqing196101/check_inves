@@ -39,7 +39,9 @@
 		       u.REL_NAME as relName,
 		       d.AGE      as age,
 		       u.DUTIES         as duties,
-		       u.TELEPHONE           as telephone
+		       u.TELEPHONE           as telephone,
+		       u.PUBLISH_TYPE as publishType,
+		       u.OFFICER_CERT_NO as officerCertNo
 		  from T_SES_OMS_PURCHASER     d
 		  LEFT JOIN	T_SES_BMS_USER u on d.id = u.type_id
 		  LEFT JOIN T_SES_OMS_ORG o on o.id = d.purchase_dep_id
@@ -66,7 +68,8 @@
 		<!-- 根据用户ID查询 -->
 		<if test="userId != null and '' != userId">
 			and u.ID= #{userId}
-		</if>    
+		</if> 
+		ORDER BY d.CREATED_AT DESC  
 	</select>
 	
 	<!-- 查询采购人 -->

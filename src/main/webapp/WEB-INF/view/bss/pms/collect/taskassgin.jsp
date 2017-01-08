@@ -177,11 +177,10 @@
 				      </li>
 				      <li>
 				    	<label class="fl">    计划类型：</label><span>
-				    	<select name="goodsType">
-				  	      <option value="" >请选择</option>
-						  	<option value="1" <c:if test="${inf.goodsType=='1'}"> selected</c:if> >货物</option>
-							<option value="2" <c:if test="${inf.goodsType=='2'}"> selected</c:if> >工程</option>
-							<option value="3" <c:if test="${inf.goodsType=='3'}"> selected</c:if> >服务</option>
+				    	<select name="status">
+				  	      <option value="1" >全部</option>
+						  	<option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> >未下达</option>
+							<option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> >已下达</option>
 					   </select>
 				    	
 				    	</span>

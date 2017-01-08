@@ -532,7 +532,7 @@ public class PurchaseController extends BaseController{
 				
 				p.setId(idStrings[i]);
 				p.setIsDeleted(1);
-				purchaseServiceI.updatePurchase(p);
+				purchaseServiceI.update(p);
 				
 			}
 			
