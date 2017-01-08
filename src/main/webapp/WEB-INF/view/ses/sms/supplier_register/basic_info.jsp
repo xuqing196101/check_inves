@@ -117,6 +117,34 @@ function checkAll(ele, id) {
 			}
 		});
 		// 非空校验
+		$("#organization_name").find("input[type='text']").each(function(index,element){
+			if (element.value == "") {
+				msg = "境外机构名称不能为空！";
+				flag = false;
+			}
+		});
+		// 非空校验
+		$("#nationality").find("input[type='text']").each(function(index,element){
+			if (element.value == "") {
+				msg = "所在国家（地区）不能为空！";
+				flag = false;
+			}
+		});
+		// 非空校验
+		$("#detailed_address").find("input[type='text']").each(function(index,element){
+			if (element.value == "") {
+				msg = "境外详细地址不能为空！";
+				flag = false;
+			}
+		});
+		/* // 非空校验
+		$("#business_scope").find("textarea").each(function(index,element){
+			if (element.innerHTML == "") {
+				msg = "境外生产经营范围不能为空！";
+				flag = false;
+			}
+		}); */
+		// 非空校验
 		$("#financeInfo").find("input[type='text']").each(function(index,element){
 			if (element.value == "") {
 				msg = "近三年财务信息不能为空!";
@@ -1366,9 +1394,9 @@ function deleteFinance() {
 					</div>
 			</li>
 			
-			<c:forEach items="${currSupplier.branchList }" var="bran"  varStatus="vs">
+			<c:forEach items="${currSupplier.branchList }" var="bran"  varStatus="vs" >
 			
-			 <li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12">
+			 <li name="branch" style="display: none;" id="organization_name" class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>机构名称</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		    	 	<input type="text" name="branchList[${vs.index }].organizationName" id="sup_branchName"  value="${bran.organizationName}" />
@@ -1378,7 +1406,7 @@ function deleteFinance() {
 			 </li>
 			 
 			 
-		  	 <li name="branch" style="display: none;"  class="col-md-3 col-sm-6 col-xs-12">
+		  	 <li name="branch" style="display: none;" id="nationality"  class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 "><i class="red">* </i>所在国家（地区）</span>
 		    	 <div class="select_common col-md-12 col-sm-12 col-xs-12  p0">
 		    	 <%-- 	<input name="branchList[${vs.index }].country" id="sup_country" type="text" value="${bran.country}" />
@@ -1392,7 +1420,7 @@ function deleteFinance() {
 	       	    </div>
 			 </li>
 			
-			 <li name="branch"  style="display: none;" class="col-md-3 col-sm-6 col-xs-12">
+			 <li name="branch"  style="display: none;" id="detailed_address" class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>详细地址</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		    	 	<input type="text" name="branchList[${vs.index }].detailAddress"  id="sup_branchAddress" value="${bran.detailAddress}" />
@@ -1411,7 +1439,7 @@ function deleteFinance() {
 					</div>
 			</li>
 			
-			  <li name="branch" style="display: none;" class="col-md-12 col-xs-12 col-sm-12 mb25">
+			  <li name="branch" style="display: none;" id="business_scope" class="col-md-12 col-xs-12 col-sm-12 mb25">
 		    	<span class="col-md-12 c ol-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>生产经营范围</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
 			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80"  id="branchbusinessSope" title="不超过80个字" name="branchList[${vs.index }].businessSope">${bran.businessSope}</textarea>
