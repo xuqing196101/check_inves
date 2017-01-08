@@ -2365,19 +2365,88 @@ import ses.util.WfUtil;
        return "ok";
    }
    
+   /**
+    *〈简述〉新增物资生产信息
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param number
+    * @param model
+    * @return
+    */
    @ResponseBody
    @RequestMapping(value = "/addProductCert")
-   public ModelAndView toAddFile (String number, Model model) {
-       /*StringBuffer groups = new StringBuffer();
-       int i = Integer.parseInt(number);
-       while (i >= 0) {
-           groups.append("pro_up_" + i + ",");
-           i--;
-       }
-       String upGroups = groups.toString().substring(0, groups.toString().length() - 1);*/
+   public ModelAndView addProductCert (String number, Model model) {
        model.addAttribute("certProNumber", number);
        model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
        model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
        return new ModelAndView("ses/sms/supplier_register/add_product_cert");
+   }
+   
+   /**
+    *〈简述〉新增物资销售信息
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param number
+    * @param model
+    * @return
+    */
+   @ResponseBody
+   @RequestMapping(value = "/addSaleCert")
+   public ModelAndView addSaleCert (String number, Model model) {
+       model.addAttribute("certSaleNumber", number);
+       model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
+       model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
+       return new ModelAndView("ses/sms/supplier_register/add_sale_cert");
+   }
+   
+   /**
+    *〈简述〉添加供应商工程证书信息
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param number
+    * @param model
+    * @return
+    */
+   @ResponseBody
+   @RequestMapping(value = "/addEngCert")
+   public ModelAndView addEngCert (String number, Model model) {
+       model.addAttribute("certEngNumber", number);
+       model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
+       model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
+       return new ModelAndView("ses/sms/supplier_register/add_eng_cert");
+   }
+   
+   /**
+    *〈简述〉添加供应商资质资格信息
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param number
+    * @param model
+    * @return
+    */
+   @ResponseBody
+   @RequestMapping(value = "/addAptCert")
+   public ModelAndView addAptCert (String number, Model model) {
+       model.addAttribute("certAptNumber", number);
+       model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
+       model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
+       return new ModelAndView("ses/sms/supplier_register/add_apt_cert");
+   }
+   
+   /**
+    *〈简述〉添加供应商资服务质证书
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param number
+    * @param model
+    * @return
+    */
+   @ResponseBody
+   @RequestMapping(value = "/addSeCert")
+   public ModelAndView addSeCert (String number, Model model) {
+       model.addAttribute("certSeNumber", number);
+       model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
+       model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
+       return new ModelAndView("ses/sms/supplier_register/add_se_cert");
    }
 }

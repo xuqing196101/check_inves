@@ -319,16 +319,19 @@ $(function(){
 	function openAptitute() {
 		var matEngId = $("input[name='supplierMatEng.id']").val();
 		var supplierId = $("input[name='id']").val();
-		var id;
+		var certAptNumber = $("#certAptNumber").val();
 		$.ajax({
-			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
-			async:false,
-			success: function(data){
-				id = data;
+			url: "${pageContext.request.contextPath}/supplier/addAptCert.do",
+			async: false,
+			dataType :"html",
+			data: {"number" : certAptNumber},
+			success: function (data) {
+				$("#aptitute_list_tbody_id").append(data);
 			}
 		});
-		var certAptNumber = $("#certAptNumber").val();
-		$("#aptitute_list_tbody_id").append("<tr>"+
+		certAptNumber++;
+		$("#certAptNumber").val(certAptNumber);
+		/*$("#aptitute_list_tbody_id").append("<tr>"+
 			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].certType'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].certCode'/> </td>"+
@@ -353,9 +356,7 @@ $(function(){
 			"</td>"+
 			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteChangeAt'/></td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteChangeReason'/> </td>"+
-			"</tr>");
-		certAptNumber++;
-		$("#certAptNumber").val(certAptNumber);
+			"</tr>");*/
 		
 		/*layer.open({
 			type : 2,
@@ -486,16 +487,19 @@ $(function(){
 	function openCertSell() {
 		var matSellId = $("input[name='supplierMatSell.id']").val();
 		var supplierId = $("input[name='id']").val();
-		var id;
+		var certSaleNumber = $("#certSaleNumber").val();
 		$.ajax({
-			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
-			async:false,
-			success: function(data){
-				id = data;
+			url: "${pageContext.request.contextPath}/supplier/addSaleCert.do",
+			async: false,
+			dataType :"html",
+			data: {"number" : certSaleNumber},
+			success: function (data) {
+				$("#cert_sell_list_tbody_id").append(data);
 			}
 		});
-		var certSaleNumber = $("#certSaleNumber").val();
-		$("#cert_sell_list_tbody_id").append("<tr>"+
+		certSaleNumber++;
+		$("#certSaleNumber").val(certSaleNumber);
+		/*$("#cert_sell_list_tbody_id").append("<tr>"+
 			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].name'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].levelCert'/> </td>"+
@@ -508,9 +512,7 @@ $(function(){
 	             "<option value='0'>无</option>"+
 	           "</select>"+
 			"</td>"+
-			"</tr>");
-		certSaleNumber++;
-		$("#certSaleNumber").val(certSaleNumber);
+			"</tr>");*/
 		
 		/*layer.open({
 			type : 2,
@@ -555,16 +557,19 @@ $(function(){
 	function openCertSe() {
 		var matSeId = $("input[name='supplierMatSe.id']").val();
 		var supplierId = $("input[name='id']").val();
-		var id;
+		var certSeNumber = $("#certSeNumber").val();
 		$.ajax({
-			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
-			async:false,
-			success: function(data){
-				id = data;
+			url: "${pageContext.request.contextPath}/supplier/addSeCert.do",
+			async: false,
+			dataType :"html",
+			data: {"number" : certSeNumber},
+			success: function (data) {
+				$("#cert_se_list_tbody_id").append(data);
 			}
 		});
-		var certSeNumber = $("#certSeNumber").val();
-		$("#cert_se_list_tbody_id").append("<tr>"+
+		certSeNumber++;
+		$("#certSeNumber").val(certSeNumber);
+		/*$("#cert_se_list_tbody_id").append("<tr>"+
 			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].name'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].levelCert'/> </td>"+
@@ -577,9 +582,7 @@ $(function(){
 	             "<option value='0'>无</option>"+
 	           "</select>"+
 			"</td>"+
-			"</tr>");
-		certSeNumber++;
-		$("#certSeNumber").val(certSeNumber);
+			"</tr>");*/
 		
 		/*layer.open({
 			type : 2,
@@ -699,16 +702,20 @@ $(function(){
 	function openCertEng() {
 		var matEngId = $("input[name='supplierMatEng.id']").val();
 		var supplierId = $("input[name='id']").val();
-		var id;
+		var certEngNumber = $("#certEngNumber").val();
 		$.ajax({
-			url: "${pageContext.request.contextPath}/supplier/getUUID.do",
-			async:false,
-			success: function(data){
-				id = data;
+			url: "${pageContext.request.contextPath}/supplier/addEngCert.do",
+			async: false,
+			dataType :"html",
+			data: {"number" : certEngNumber},
+			success: function (data) {
+				$("#cert_eng_list_tbody_id").append(data);
 			}
 		});
-		var certEngNumber = $("#certEngNumber").val();
-		$("#cert_eng_list_tbody_id").append("<tr>"+
+		certEngNumber++;
+		$("#certSaleNumber").val(certEngNumber);
+		
+		/*$("#cert_eng_list_tbody_id").append("<tr>"+
 			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].id' value='" + id + "'></td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certType'/> </td>"+
 			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certCode'/> </td>"+
@@ -728,9 +735,7 @@ $(function(){
 	             "<option value='0'>无效</option>"+
 	           "</select>"+
 			"</td>"+
-			"</tr>");
-		certEngNumber++;
-		$("#certSaleNumber").val(certEngNumber);
+			"</tr>");*/
 		
 		/*layer.open({
 			type : 2,
@@ -1262,7 +1267,7 @@ $(function(){
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<%--<th class="info">附件</th>--%>
+														<th class="info">附件</th>
 													</tr>
 												</thead>
 												<tbody id="cert_sell_list_tbody_id">
@@ -1288,14 +1293,10 @@ $(function(){
 														          <option value="0" <c:if test="${certSell.mot=='0'}"> selected="selected"</c:if>>无</option>
 														        </select>
 															</td>
-															<%--<td class="tc">
-																<c:if test="${certSell.attach != null}">
-																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certSell.attach}')">下载附件</a>
-																</c:if>
-																<c:if test="${certSell.attach == null}">
-																	<span class="fz11">无附件下载</span>
-																</c:if>
-															</td>--%>
+															<td class="tc">
+															 <u:upload id="sale_up_${certSaleNumber}" multiple="true" businessId="${certSell.id}" typeId="1" sysKey="1"  auto="true" />
+															 <u:show showId="sale_show_${certSaleNumber}" businessId="${certSell.id}" typeId="1" sysKey="1" />
+															</td>
 														</tr>
 														<c:set var="certSaleNumber" value="${certSaleNumber + 1}"/>
 													</c:forEach>
@@ -1437,7 +1438,7 @@ $(function(){
 														<th class="info minw100">发证日期</th>
 														<th class="info minw100">证书有效期截止日期</th>
 														<th class="info">证书状态</th>
-													<!-- 	<th class="info">附件</th> -->
+														<th class="info">附件</th>
 													</tr>
 												</thead>
 												<tbody id="cert_eng_list_tbody_id">
@@ -1466,14 +1467,10 @@ $(function(){
 														          <option value="0"  <c:if test="${certEng.certStatus==0}"> selected="selected"</c:if>>无效</option>
 														        </select>
 															</td>
-															<%--<td class="tc">
-																<c:if test="${certEng.attachCert != null}">
-																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certEng.attachCert}')">下载附件</a>
-																</c:if>
-																<c:if test="${certEng.attachCert == null}">
-																	<span class="fz11">无附件下载</span>
-																</c:if>
-															</td>--%>
+															<td class="tc">
+															 <u:upload id="eng_up_${certEngNumber}" multiple="true" businessId="${certEng.id}" typeId="1" sysKey="1"  auto="true" />
+															 <u:show showId="eng_show_${certEngNumber}" businessId="${certEng.id}" typeId="1" sysKey="1" />
+															</td>
 														</tr>
 														<c:set var="certEngNumber" value="${certEngNumber + 1}"/>
 													</c:forEach>
@@ -1511,7 +1508,7 @@ $(function(){
 														<th class="info">资质资格状态</th>
 														<th class="info">资质资格状态变更时间</th>
 														<th class="info">资质资格状态变更原因</th>
-														<%--<th class="info">附件</th>--%>
+														<th class="info">附件</th>
 													</tr>
 												</thead>
 												<tbody id="aptitute_list_tbody_id">
@@ -1545,14 +1542,10 @@ $(function(){
 															</td>
 															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}"/>"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
-															<!-- <td class="tc">
-																<c:if test="${aptitute.attachCert != null}">
-																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${aptitute.attachCert}')">下载附件</a>
-																</c:if>
-																<c:if test="${aptitute.attachCert == null}">
-																	<span class="fz11">无附件下载</span>
-																</c:if>
-															</td> -->
+															<td class="tc">
+															 <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="1" sysKey="1"  auto="true" />
+															 <u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="1" sysKey="1" />
+															</td>
 														</tr>
 														<c:set var="certAptNumber" value="${certAptNumber + 1}"/>
 													</c:forEach>
@@ -1642,7 +1635,7 @@ $(function(){
 														<th class="info">有效期（起始时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<%--<th class="info">附件</th>--%>
+														<th class="info">附件</th>
 													</tr>
 												</thead>
 												<tbody id="cert_se_list_tbody_id">
@@ -1664,14 +1657,10 @@ $(function(){
 																	<option value="0" <c:if test="${certSe.mot==0}"> selected="selected"</c:if>>无</option>
 																</select>
 															</td>
-															<%--<td class="tc">
-																<c:if test="${certSe.attach != null}">
-																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certSe.attach}')">下载附件</a>
-																</c:if>
-																<c:if test="${certSe.attach == null}">
-																	<span class="fz11">无附件下载</span>
-																</c:if>
-															</td>--%>
+															<td class="tc">
+															 <u:upload id="se_up_${certSeNumber}" multiple="true" businessId="${certSe.id}" typeId="1" sysKey="1"  auto="true" />
+															 <u:show showId="se_show_${certSeNumber}" businessId="${certSe.id}" typeId="1" sysKey="1" />
+															</td>
 														</tr>
 														<c:set var="certSeNumber" value="${certSeNumber}"></c:set>
 													</c:forEach>
