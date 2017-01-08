@@ -20,6 +20,10 @@
 	<link href="${pageContext.request.contextPath}/public/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
 	<!-- 前端论坛Css颜色样式 -->
 	<link href="${pageContext.request.contextPath}/public/front/css/forum.css" rel="stylesheet" type="text/css">
+		
+	<link href="${pageContext.request.contextPath}/public/webupload/css/webuploader.css" rel="stylesheet" type="text/css">
+	<link href="${pageContext.request.contextPath}/public/webupload/css/uploadView.css" rel="stylesheet" type="text/css">
+	
 	<script>
 		var globalPath = "${pageContext.request.contextPath}";
 	</script>
@@ -33,6 +37,9 @@
 	<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 	<script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 	<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
+	
+	<script src="${pageContext.request.contextPath}/public/webupload/js/webuploader.js"></script>
+	<script src="${pageContext.request.contextPath}/public/webupload/js/upload.js"></script>
 	<!-- 文本编辑器 -->  
 	<script src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
 	<script src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.js"> </script>
