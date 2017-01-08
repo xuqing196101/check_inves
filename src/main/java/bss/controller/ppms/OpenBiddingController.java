@@ -773,7 +773,7 @@ public class OpenBiddingController {
                 List<Quote> listQuotebyPackage1 = new ArrayList<Quote>();
                 if (listDate1 != null && listDate1.size() > 1) {
                     //给第二次报价的数据查到
-                    if ("JZXTP".equals(dictionaryData.getCode())) {
+                    if ("JZXTP".equals(dictionaryData.getCode()) || "DYLY".equals(dictionaryData.getCode())) {
                         quote2.setProjectId(projectId);
                         quote2.setPackageId(packageId);
                         quote2.setCreatedAt(new Timestamp(listDate1.get(listDate1.size()-1).getTime()));
@@ -1113,7 +1113,7 @@ public class OpenBiddingController {
                 List<Date> listDate =  supplierQuoteService.selectQuoteCount(quotes);
                 List<Quote> listQuotebyPackage = new ArrayList<Quote>();
                 if (listDate != null && listDate.size() > 1) {
-                    if ("JZXTP".equals(dd.getCode())) {
+                    if ("JZXTP".equals(dd.getCode()) || "DYLY".equals(dd.getCode())) {
                          quote1.setProjectId(projectId);
                          quote1.setPackageId(pk.getId());
                          quote1.setCreatedAt(new Timestamp(listDate.get(listDate.size()-1).getTime()));
@@ -1367,7 +1367,7 @@ public class OpenBiddingController {
         List<Date> listDate =  supplierQuoteService.selectQuoteCount(quotes);
         List<Quote> listQuotebyPackage = new ArrayList<Quote>();
         if (listDate != null && listDate.size() >0) {
-            if ("JZXTP".equals(dd.getCode())) {
+            if ("JZXTP".equals(dd.getCode()) || "DYLY".equals(dd.getCode())) {
                 quote1.setProjectId(projectId);
                 quote1.setPackageId(packId);
                 quote1.setCreatedAt(new Timestamp(listDate.get(listDate.size()-1).getTime()));

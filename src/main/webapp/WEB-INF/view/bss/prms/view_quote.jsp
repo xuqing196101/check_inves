@@ -25,7 +25,7 @@
 	  </div>
     </div> --%>
     <!-- 项目戳开始 -->
-       <c:if test="${purchaserType eq 'JZXTP' }">
+       <c:if test="${purchaserType eq 'JZXTP' || dd.code eq 'DYLY' }">
             <div class="col-md-12 tc">
 			  	<span >报价历史查看：</span>
 					  	<select onchange="showQuoteHistory(this)">

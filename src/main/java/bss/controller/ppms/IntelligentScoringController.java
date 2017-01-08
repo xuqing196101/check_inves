@@ -381,10 +381,25 @@ public class IntelligentScoringController extends BaseController{
 	          }
 	          count ++;
 	        } else {
-	            if (!bm.getRemainScore().matches(reg)) {
-	                msg += "排序号为数字";
-	                count++;
+	            boolean isFlag = true;
+	            BidMethod condition = new BidMethod();
+	            condition.setProjectId(bm.getProjectId());
+	            condition.setType(bm.getTypeName());
+	            List<BidMethod> bdList = bidMethodService.findListByBidMethod(condition);
+	            for (BidMethod bidMethod : bdList) {
+	                if (bm.getRemainScore().equals(bidMethod.getRemainScore())) {
+	                    isFlag = false;
+	                    break;
+	                }
 	            }
+	            if (!isFlag) {
+                    msg += "排序号重复";
+                    count++;
+                }
+	            if (!bm.getRemainScore().matches(reg)) {
+                    msg += "排序号为数字";
+                    count++;
+                }
 	        }
 	        /*if (bm.getRemark()== null || "".equals(bm.getRemark())) {
 	          if (count > 0) {

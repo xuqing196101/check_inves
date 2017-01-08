@@ -17,10 +17,11 @@
    			mt.REMARK as remark,
    			mt.REMAIN_SCORE as remainScore,
    			mt.business,
-   			mt.valid
+   			mt.valid,
+   			t.TYPE_NAME as type
    		FROM
    			T_BSS_PPMS_BID_METHOD mt
-   		
+   		left join T_BSS_PPMS_MARK_TERM t on mt.id = t.bid_method_id
    		WHERE nvl(mt.is_deleted,0)=0
    		<if test="id != null">
         	and mt.id = #{id}
@@ -37,6 +38,9 @@
       	<!-- 只查根节点 -->	
       	<if test="name != null">
         	and mt.NAME = #{name}
+      	</if>
+      	<if test="type != null">
+        	and t.type_name = #{type}
       	</if>
       	ORDER BY mt.CREATED_AT DESC	
    </select> 

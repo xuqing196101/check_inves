@@ -335,7 +335,7 @@ public class PackageExpertController {
                     List<Quote> listQuotebyPackage1 = new ArrayList<Quote>();
                     if (listDate1 != null && listDate1.size() > 1) {
                       //给第二次报价的数据查到
-                        if ("JZXTP".equals(dd.getCode())) {
+                        if ("JZXTP".equals(dd.getCode()) || "DYLY".equals(dd.getCode())) {
                             quote2.setProjectId(projectId);
                             quote2.setPackageId(packageId);
                             quote2.setCreatedAt(new Timestamp(listDate1.get(listDate1.size()-1).getTime()));
@@ -361,7 +361,7 @@ public class PackageExpertController {
                             for (Quote conditionQuote : allQuote) {
                                 if (conditionQuote.getSupplier()!=null&&conditionQuote.getSupplier().getId().equals(saleTender.getSuppliers().getId()) &&
                                     conditionQuote.getProjectId().equals(saleTender.getProject().getId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
-                                    if ("JZXTP".equals(dd.getCode())) {
+                                    if ("JZXTP".equals(dd.getCode()) || "DYLY".equals(dd.getCode())) {
                                       //给每条数据加入历史报价时间
                                         quotes.setProjectId(projectId);
                                         quotes.setPackageId(packageId);
@@ -430,7 +430,7 @@ public class PackageExpertController {
             Quote quote1 = new Quote();
             for (Packages pk:listPackage) {
                 
-                if ("JZXTP".equals(dd.getCode())) {
+                if ("JZXTP".equals(dd.getCode()) || "DYLY".equals(dd.getCode())) {
                     //给每条数据加入历史报价时间
                       quotes.setProjectId(projectId);
                       quotes.setPackageId(pk.getId());
@@ -448,7 +448,7 @@ public class PackageExpertController {
                 List<Date> listDate =  supplierQuoteService.selectQuoteCount(quotes);
                 List<Quote> listQuotebyPackage = new ArrayList<Quote>();
                 if (listDate !=null && listDate.size() > 0) {
-                    if ("JZXTP".equals(dd.getCode())) {
+                    if ("JZXTP".equals(dd.getCode()) || "DYLY".equals(dd.getCode())) {
                         quote1.setProjectId(projectId);
                         quote1.setPackageId(pk.getId());
                         quote1.setCreatedAt(new Timestamp(listDate.get(listDate.size()-1).getTime()));

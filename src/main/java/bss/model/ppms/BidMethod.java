@@ -18,8 +18,15 @@ public class BidMethod {
 	private BigDecimal business;
 	private String packageId ;//
 	private String markTermId;//瞬态属性  评分项id
+	private String type;
 	
-	public BigDecimal getValid() {
+	public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
+    public BigDecimal getValid() {
         return valid;
     }
     public void setValid(BigDecimal valid) {

@@ -145,7 +145,7 @@ function quoteAgain(projectId, packId, status){
 			    </tr>
 			    
 		</c:forEach>
-		<c:if test="${dd.code eq 'JZXTP'}">
+		<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 			<tr>
 			        <c:if test="${isEndPrice ==0 }">
 		        		<td class="tc" colspan="2"><button class="btn" onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button></td>
@@ -194,7 +194,7 @@ function quoteAgain(projectId, packId, status){
 		<c:set value="${vs.index}" var="index"></c:set>
 			   <div>
 				 <h2 onclick="ycDivmingxi(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listPackage[index].name }</span></h2>
-		 			<c:if test="${dd.code eq 'JZXTP'}">
+		 			<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 					        	
 					        	 <c:if test="${listPackage[index].isEndPrice ==0 }">
 					        		<button class="btn" onclick = "quoteAgain('${project.id}','${listPackage[index].id}')">再次报价</button>
