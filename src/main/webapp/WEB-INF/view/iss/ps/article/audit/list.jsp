@@ -170,7 +170,7 @@
         var parentId = "${articlesArticleTypeId}";
         $.ajax({
           contentType: "application/json;charset=UTF-8",
-          url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=" + parentId,
+          url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId=" + parentId + "&type=1",
           type: "POST",
           dataType: "json",
           success: function(articleTypes) {
@@ -228,7 +228,7 @@
     	  $("#secondType").empty();
     	  $.ajax({
               contentType: "application/json;charset=UTF-8",
-              url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+parentId,
+              url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+parentId+"&type=1",
               type: "POST",
               dataType: "json",
               success: function(articleTypes) {

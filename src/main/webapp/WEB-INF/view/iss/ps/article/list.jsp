@@ -18,7 +18,7 @@
     	}
     	if(saveNews=='0'){
     		layer.msg("提交成功", {
-                offset: ['222px', '390px'],
+                offset: '222px',
                 shade: 0.01
               });
     	}
@@ -227,7 +227,7 @@
           dataType: "json",
           success: function(articleTypes) {
             if(articleTypes) {
-              $("#articleTypes").append("<option></option>");
+              //$("#articleTypes").append("<option></option>");
               $.each(articleTypes, function(i, articleType) {
                 if(articleType.name != null && articleType.name != '') {
                   $("#articleTypes").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");

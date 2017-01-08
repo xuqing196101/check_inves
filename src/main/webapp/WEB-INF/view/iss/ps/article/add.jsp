@@ -156,14 +156,14 @@
               dataType: "json",
               success: function(articleTypes) {
                 if(articleTypes) {
-                  if (articleTypes[0].name == '集中采购' || articleTypes[0].name == '部队采购') {
+                  /* if (articleTypes[0].name == '集中采购' || articleTypes[0].name == '部队采购') {
 					  $("#secondType").append("<option></option>");
 					  $("#secondType").append("<option value=" + articleTypes[0].id + ">" + articleTypes[0].name + "</option>");
-				  	 /*  $("#secondType").select2();
+				  	  $("#secondType").select2();
 				  	  $("#secondType").select2("val", articleTypes[0].id);
 				  	  $("#secondType").attr("disabled",true);
-				  	  loadThrees(articleTypes[0].id,articleTypes[0].name); */
-				  } else {
+				  	  loadThrees(articleTypes[0].id,articleTypes[0].name);
+				  } else { */
 				  	  $("#secondType").attr("disabled",false);
 	                  $("#secondType").append("<option></option>");
 	                  $.each(articleTypes, function(i, articleType) {
@@ -171,7 +171,7 @@
 	                      $("#secondType").append("<option value=" + articleType.id + ">" + articleType.name + "</option>");
 	                    }
 	                  });
-				  }
+				 /*  } */
                 }
                 $("#secondType").select2();
               }

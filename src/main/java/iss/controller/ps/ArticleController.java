@@ -1666,38 +1666,41 @@ public class ArticleController extends BaseSupplierController {
    */
   @RequestMapping(value = "/aritcleTypeParentId", produces = "application/json;charest=utf-8")
   public void aritcleTypeParentId(@CurrentUser User user, HttpServletResponse response, String parentId,
-      HttpServletRequest request) throws Exception {
+      HttpServletRequest request, String type) throws Exception {
     List<ArticleType> list = new ArrayList<ArticleType>();
     if (parentId != null) {
       ArticleType articleType = articleTypeService.selectTypeByPrimaryKey(parentId);
-      if (articleType != null) {
+      if (!"1".equals(type) && articleType != null) {
         //如果栏目是采购公告、中标公告、单一来源公告
         if ("purchase_notice".equals(articleType.getCode())) {
-          if (user.getPublishType() == 0) {
+          if (user.getPublishType() != null && user.getPublishType() == 0) {
             ArticleType type1 = articleTypeService.selectArticleTypeByCode("purchase_notice_centrlized");
             list.add(type1);
-          }
-          if (user.getPublishType() == 1) {
+          } else if (user.getPublishType() != null && user.getPublishType() == 1) {
             ArticleType type2 = articleTypeService.selectArticleTypeByCode("purchase_notice_military");
             list.add(type2);
+          } else {
+            list = articleTypeService.selectByParentId(parentId);
           }
         } else if ("success_notice".equals(articleType.getCode())) {
-          if (user.getPublishType() == 0) {
+          if (user.getPublishType() != null && user.getPublishType() == 0) {
             ArticleType type1 = articleTypeService.selectArticleTypeByCode("success_notice_centralized");
             list.add(type1);
-          }
-          if (user.getPublishType() == 1) {
+          } else if (user.getPublishType() != null && user.getPublishType() == 1) {
             ArticleType type2 = articleTypeService.selectArticleTypeByCode("success_notice_military");
             list.add(type2);
+          } else {
+            list = articleTypeService.selectByParentId(parentId);
           }
         } else if ("single_source_notice".equals(articleType.getCode())) {
-          if (user.getPublishType() == 0) {
+          if (user.getPublishType() != null && user.getPublishType() == 0) {
             ArticleType type1 = articleTypeService.selectArticleTypeByCode("single_source_notice_centralized");
             list.add(type1);
-          }
-          if (user.getPublishType() == 1) {
+          } else if (user.getPublishType() != null && user.getPublishType() == 1) {
             ArticleType type2 = articleTypeService.selectArticleTypeByCode("single_source_notice_military");
             list.add(type2);
+          } else {
+            list = articleTypeService.selectByParentId(parentId);
           }
         } else {
           list = articleTypeService.selectByParentId(parentId);
