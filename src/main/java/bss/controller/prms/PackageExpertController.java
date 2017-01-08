@@ -3207,10 +3207,12 @@ public class PackageExpertController {
      */
     @ResponseBody
     @RequestMapping("/endPrice")
-    public void endPrice(String packageId) {
+    public String endPrice(String packageId) {
+        String result = "1";
         Packages packages = new Packages();
         packages.setId(packageId);
         packages.setIsEndPrice(1);
         packageService.updateByPrimaryKeySelective(packages);
+        return result;
     } 
 }

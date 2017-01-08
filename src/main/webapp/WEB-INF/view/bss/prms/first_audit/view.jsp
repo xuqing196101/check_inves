@@ -199,16 +199,16 @@
 	}
 	
 	function endPrice(projectId, packId, flowDefineId) {
+	    if ('${pack.isEndPrice == 1}') {
+	    	layer.msg("报价已结束",{offset: ['100px']});
+	    	return;
+	    }
 		$.ajax({
 			url: "${pageContext.request.contextPath}/packageExpert/endPrice.do",
 			data: {"packageId": packId},
 			dataType:'json',
 			success:function(result){
-			    	if(!result.success){
-                    	layer.msg("报价已结束",{offset: ['100px']});
-			    	}else{
-			    		layer.close(index);
-			    	}
+                    	layer.msg("已结束报价",{offset: ['100px']});
                 },
             error: function(result){
                 layer.msg("结束报价失败",{offset: ['100px']});

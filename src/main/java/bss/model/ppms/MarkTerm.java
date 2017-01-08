@@ -239,7 +239,7 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
 	 @Override
      public int compareTo(Object o){      // 实现 Comparable 接口的抽象方法，定义排序规则
             MarkTerm mt = (MarkTerm)o;
-            return this.getJudge() - mt.getJudge();                      // 升序排列，反之降序
+            return this.getJudge() - mt.getJudge();      
      }
      @Override
      public boolean equals(Object o){     //equals
