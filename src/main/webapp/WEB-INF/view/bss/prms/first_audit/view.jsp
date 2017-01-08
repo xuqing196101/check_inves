@@ -198,6 +198,23 @@
 		}
 	}
 	
+	function endPrice(projectId, packId, flowDefineId) {
+		$.ajax({
+			url: "${pageContext.request.contextPath}/packageExpert/endPrice.do",
+			data: {"packageId": packId},
+			dataType:'json',
+			success:function(result){
+			    	if(!result.success){
+                    	layer.msg("报价已结束",{offset: ['100px']});
+			    	}else{
+			    		layer.close(index);
+			    	}
+                },
+            error: function(result){
+                layer.msg("结束报价失败",{offset: ['100px']});
+            }
+		});
+	}
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}符合性审查查看</h2>

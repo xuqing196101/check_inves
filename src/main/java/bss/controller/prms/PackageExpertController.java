@@ -3197,4 +3197,20 @@ public class PackageExpertController {
         // 跳转
         return "bss/prms/rank/print_info";
     }
+    
+    /**
+     *〈简述〉结束报价
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param packageId 包ID
+     * @return 0未结束报价 1 结束报价
+     */
+    @ResponseBody
+    @RequestMapping("/endPrice")
+    public void endPrice(String packageId) {
+        Packages packages = new Packages();
+        packages.setId(packageId);
+        packages.setIsEndPrice(1);
+        packageService.updateByPrimaryKeySelective(packages);
+    } 
 }

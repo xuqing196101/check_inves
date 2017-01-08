@@ -56,12 +56,16 @@
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板类型</span>
                         <div class="col-md-12 col-sm-12 col-xs-12 p0 select_common">
 							<select id="temType" name=temType>
-								<option value="-请选择-">-请选择-</option>
-								<option value="采购公告">采购公告</option>
-								<option value="中标公告">中标公告</option>
-								<option value="合同公告">合同公告</option>
-								<option value="招标公告">招标公告</option>
-								<option value="合同模板">合同模板</option>
+								<option value="">-请选择-</option>
+								<option value="0">采购公告-公开招标</option>
+								<option value="1">采购公告-邀请招标</option>
+								<option value="2">采购公告-询价采购</option>
+								<option value="3">采购公告-竞争性谈判</option>
+								<option value="4">单一来源公示</option>
+								<option value="5">中标公示-公开招标</option>
+								<option value="6">中标公示-邀请招标</option>
+								<option value="7">中标公示-询价采购</option>
+								<option value="8">中标公示-竞争性谈判</option>
 							</select>
 							<div id="contractCodeErr" class="cue">${ERR_temType}</div>
 						</div>

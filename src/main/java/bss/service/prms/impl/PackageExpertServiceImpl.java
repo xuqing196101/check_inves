@@ -1,9 +1,11 @@
 package bss.service.prms.impl;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -871,18 +873,39 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       quote.setProjectId(projectId);
       quote.setPackageId(packageId);
       quote.setSupplierId(saleTender.getSuppliers().getId());
-      List<Quote> allQuote = quoteMapper.selectByPrimaryKey(quote);
-      if (allQuote != null && allQuote.size()>0) {
-          if (allQuote.get(0).getQuotePrice() == null) {
-            totalPriceSupplier = totalPriceSupplier.add(allQuote.get(0).getTotal());
-          } else {
-              BigDecimal totalPrice2 = BigDecimal.ZERO;
-              for (Quote q : allQuote) {
-                  totalPrice2 = q.getQuotePrice().add(totalPrice2);
+      List<Date> listDate = quoteMapper.selectQuoteCount(quote);
+      //如果时间只有一次则不是多次报价
+      if (listDate != null && listDate.size() == 1) {
+          List<Quote> allQuote = quoteMapper.selectByPrimaryKey(quote);
+          if (allQuote != null && allQuote.size()>0) {
+              if (allQuote.get(0).getQuotePrice() == null) {
+                totalPriceSupplier = totalPriceSupplier.add(allQuote.get(0).getTotal());
+              } else {
+                  BigDecimal totalPrice2 = BigDecimal.ZERO;
+                  for (Quote q : allQuote) {
+                      totalPrice2 = q.getQuotePrice().add(totalPrice2);
+                  }
+                  totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
               }
-              totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
           }
       }
+      
+      if (listDate != null && listDate.size() > 1) {
+          quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1 ).getTime()));
+          List<Quote> allQuote = quoteMapper.selectByPrimaryKey(quote);
+          if (allQuote != null && allQuote.size()>0) {
+              if (allQuote.get(0).getQuotePrice() == null) {
+                totalPriceSupplier = totalPriceSupplier.add(allQuote.get(0).getTotal());
+              } else {
+                  BigDecimal totalPrice2 = BigDecimal.ZERO;
+                  for (Quote q : allQuote) {
+                      totalPrice2 = q.getQuotePrice().add(totalPrice2);
+                  }
+                  totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
+              }
+          }
+      }
+      
       return totalPriceSupplier;
     }
     

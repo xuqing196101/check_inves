@@ -150,7 +150,35 @@
 
 							<td class="tc opinter" onclick="view('${templet.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 
-							<td class="tc opinter" onclick="view('${templet.id}')">${templet.temType}</td>
+							<td class="tc opinter" onclick="view('${templet.id}')">
+								<c:if test="${templet.temType ==0}">
+	                  					采购公告-公开招标
+	                  				</c:if>
+	                  				<c:if test="${templet.temType ==1}">
+	                  					采购公告-邀请招标
+	                  				</c:if>
+	                  				<c:if test="${templet.temType ==2}">
+	                  					采购公告-询价采购
+	                  				</c:if>
+	                  				<c:if test="${templet.temType ==3}">
+	                  					采购公告-竞争性谈判
+	                  				</c:if>
+	                  				<c:if test="${templet.temType ==4}">
+	                  					单一来源公示
+	                  				</c:if>
+	                  				<c:if test="${templet.temType ==5}">
+	                  					中标公示-公开招标
+	                  				</c:if>
+	                  				<c:if test="${templet.temType ==6}">
+	                  					中标公示-邀请招标
+	                  				</c:if>
+	                  				<c:if test="${templet.temType ==7}">
+	                  					中标公示-询价采购
+	                  				</c:if>
+	                  				<c:if test="${templet.temType ==8}">
+	                  					中标公示-竞争性谈判
+	                  				</c:if>
+							</td>
 
 							<td class="tc opinter" onclick="view('${templet.id}')">${templet.name}</td>
 
