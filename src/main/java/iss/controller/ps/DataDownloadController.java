@@ -164,7 +164,7 @@ public class DataDownloadController {
 			if(dataDownload.getName()==null||dataDownload.getName().equals("")){
 				flag = false;
 				model.addAttribute("ERR_name", "资料名称不能为空");
-			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>100){
+			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>200){
 				flag = false;
 				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
 			}
@@ -376,7 +376,7 @@ public class DataDownloadController {
 			if(dataDownload.getName()==null||dataDownload.getName().equals("")){
 				flag = false;
 				model.addAttribute("ERR_name", "资料名称不能为空");
-			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>100){
+			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>200){
 				flag = false;
 				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
 			}
@@ -513,7 +513,7 @@ public class DataDownloadController {
 			if(dataDownload.getName()==null||dataDownload.getName().equals("")){
 				flag = false;
 				model.addAttribute("ERR_name", "资料名称不能为空");
-			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>100){
+			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>200){
 				flag = false;
 				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
 			}
@@ -566,7 +566,7 @@ public class DataDownloadController {
 			if(dataDownload.getName()==null||dataDownload.getName().equals("")){
 				flag = false;
 				model.addAttribute("ERR_name", "资料名称不能为空");
-			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>100){
+			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>200){
 				flag = false;
 				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
 			}
