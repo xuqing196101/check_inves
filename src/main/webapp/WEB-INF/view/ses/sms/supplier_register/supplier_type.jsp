@@ -249,6 +249,13 @@ $(function(){
 	    		layer.msg("物资生产资质证书信息不能为空! ");
 		    }
 	    }
+	    $("input[name$='expEndDate']").each(function(){
+	    	var startDate = $(this).parent().prev().children("input[name$='expStartDate']").val();
+	    	if ($(this).val() <= startDate) {
+	    		flag = false;
+	    		layer.msg("结束时间应大于开始时间!");
+	    	}
+	    });
 	    if (flag == true) {
 		    $("#save_pro_form_id").submit();
 	    }
