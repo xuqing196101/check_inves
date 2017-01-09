@@ -251,7 +251,7 @@ $(function(){
 	    }
 	    $("input[name$='expEndDate']").each(function(){
 	    	var startDate = $(this).parent().prev().children("input[name$='expStartDate']").val();
-	    	if ($(this).val() <= startDate) {
+	    	if ($(this).val() != "" && startDate != "" && $(this).val() <= startDate) {
 	    		flag = false;
 	    		layer.msg("结束时间应大于开始时间!");
 	    	}

@@ -966,7 +966,7 @@
 								<tbody id="detailZeroRow">
 								<c:if test="${plist==null }">
 									<tr name="detailRow">
-									<td>1</td>
+									<td class="tc">1</td>
 										<td class=" p0">
 											<input type="hidden" name="list[0].id" id="purid" value="" class="m0">
 											<input type="text" name="list[0].seq" required="required" value="一" class="m0  ">

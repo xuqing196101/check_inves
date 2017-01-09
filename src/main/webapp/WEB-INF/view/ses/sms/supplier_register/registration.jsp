@@ -20,7 +20,7 @@
 	function downSupplierNotice(){
 		window.location.href="${pageContext.request.contextPath}/expert/downSupplierNotice.html";
 	}
-	function downCategory()(){
+	function downCategory(){
 		window.location.href="${pageContext.request.contextPath}/expert/downCategory.html";
 	}
 </script>
