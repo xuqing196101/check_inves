@@ -97,9 +97,9 @@
 				#{attach},
 			</if>
 		</trim>
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+		<!-- <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
-		</selectKey>
+		</selectKey> -->
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierCertSell">
 		update T_SES_SMS_SUPPLIER_CERT_SELL
