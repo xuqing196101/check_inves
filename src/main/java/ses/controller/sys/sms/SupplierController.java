@@ -561,7 +561,15 @@ import ses.util.WfUtil;
     */
    @RequestMapping(value = "perfect_basic")
    public String perfectBasic(HttpServletRequest request,Model model, Supplier supplier) throws Exception {
-
+     // 非空处理
+     List<SupplierStockholder> stockHolders = supplier.getListSupplierStockholders();  
+     for (int i = 0; i < stockHolders.size(); i++) {
+         SupplierStockholder stocker = stockHolders.get(i);
+         if (stocker != null && stocker.getSupplierId() == null) {
+             stockHolders.remove(i);
+         }
+     }
+     supplier.setListSupplierStockholders(stockHolders);
      boolean info = validateBasicInfo(request,model,supplier);
 
      List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplier.getId());

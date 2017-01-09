@@ -257,21 +257,8 @@ function checkAll(ele, id) {
 				}
 				stockholderIds += $(this).val();   
 			});
-     	var size = checkboxs.length;
+     		var size = checkboxs.length;
 			if (size > 0) {
-			/* 	layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
-					offset : '200px',
-					scrollbar : false,
-				}, function(index) {
-					//window.location.href = globalPath + "/supplier_stockholder/delete_stockholder.html?stockholderIds=" + stockholderIds + "&supplierId=" + supplierId;
-					
-				
-					
-					
-					
-					layer.close(index);
-		
-				}); */
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier_stockholder/delete_stockholder.do",
 					async: false,
@@ -280,8 +267,6 @@ function checkAll(ele, id) {
 						"supplierId":supplierId
 					},
 				});
-				
-				
 			} else {
 				layer.alert("请至少勾选一条记录 !", {
 					offset : '200px',

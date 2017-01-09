@@ -821,7 +821,7 @@ $(function(){
 									<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatEng.id}" />
 									<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />
 								 <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
-										<legend>供应商组织机构和人员</legend>
+										<legend> 组织机构和人员信息 </legend>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input id="supplierName_input_id" type="text" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" <c:if test="${fn:contains(proPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_pro_page')"</c:if>/>
@@ -923,7 +923,7 @@ $(function(){
 	
 	
 										<fieldset class="col-md-12 border_font mt20">
-	 											<legend>供应商生产能力  </legend>
+	 											<legend> 生产能力  </legend>
 											 
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产线数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -943,7 +943,7 @@ $(function(){
 											</fieldset>
 											
 											<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-	 											<legend>物资生产型供应商质量检测能力登记  </legend>
+	 											<legend> 质量检测能力  </legend>
 	 											
 										 
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 质量检测部门：</span>
@@ -982,7 +982,7 @@ $(function(){
 									</ul>					 
 											 
 							 	<fieldset class="col-md-12 border_font mt20">
-						 	      <legend>供应商物资生产资质证书</legend>
+						 	      <legend> 资质证书信息 </legend>
 						 	         	  <div class="col-md-12 col-sm-12 col-xs-12 p0">
 											<div class="col-md-12 col-sm-12 col-xs-12 mb10 p0">
 											  <button type="button" class="btn btn-windows add" onclick="openCertPro()">新增</button>
@@ -1053,7 +1053,7 @@ $(function(){
 										<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatSell.id}" />
 										<input type="hidden" name="supplierMatSell.supplierId" value="${currSupplier.id}" />
 								        <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
-	 			 						     <legend>供应商组织机构和人员 </legend>
+	 			 						     <legend> 组织机构和人员信息  </legend>
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSell.orgName" value="${currSupplier.supplierMatSell.orgName}" <c:if test="${fn:contains(sellPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_sell_page')"</c:if>/>
@@ -1098,7 +1098,7 @@ $(function(){
 										</ul>
 		 
 					<fieldset class="col-md-12 border_font mt20">
-	 	               <legend>供应商物资销售资质证书</legend>
+	 	               <legend> 资质证书信息 </legend>
 						 <!--    <h2 class="count_flow">供应商物资销售资质证书 </h2> -->
 						<!-- 	<div  class="col-md-12 p0 ul_list mb50"> -->
 							   <div class="col-md-12 p0">
@@ -1172,7 +1172,7 @@ $(function(){
 										<input type="hidden" name="supplierMatEng.supplierId" value="${currSupplier.id}" />
 										 
 										 	<fieldset class="col-md-12 border_font mt20">
-											 	  <legend>法人代表信息</legend>
+											 	  <legend> 法人代表信息 </legend>
 	 	  
 										
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
@@ -1220,7 +1220,7 @@ $(function(){
 									
 									 
 										<fieldset class="col-md-12 border_font mt20">
-	 	              						 <legend>供应商注册人员登记 </legend>
+	 	              						 <legend> 注册人员信息 </legend>
 	 	               
 										  
 											
@@ -1263,7 +1263,7 @@ $(function(){
 									 
 										   <!--  <h2 class="count_flow">供应商工程资质资格证书信息  </h2> -->
 								<fieldset class="col-md-12 border_font mt20">
-	 	              				<legend>添加供应商工程证书信息</legend>
+	 	              				<legend> 证书信息 </legend>
 											
 										 <div class="col-md-12 p0">
 											<div class="fl">
@@ -1334,7 +1334,7 @@ $(function(){
 										 
 									<!-- 	    <h2 class="count_flow">供应商资质资格信息   </h2> -->
 								<fieldset class="col-md-12 border_font mt20">
-	 	              				 <legend>供应商资质资格信息  </legend>
+	 	              				 <legend> 资质资格信息  </legend>
 									 <div class="col-md-12 p0">
 											  <div class="fl">
 												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteAptitute()">删除</button>
@@ -1421,7 +1421,7 @@ $(function(){
 										<input type="hidden" name="supplierMatSe.id" value="${currSupplier.supplierMatSe.id}" />
 										<input type="hidden" name="supplierMatSe.supplierId" value="${currSupplier.id}" />
 												<fieldset class="col-md-12 border_font mt20">
-											 	  <legend>法人代表信息</legend>
+											 	  <legend> 法人代表信息 </legend>
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSe.orgName" value="${currSupplier.supplierMatSe.orgName}" <c:if test="${fn:contains(servePageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_serve_page')"</c:if>/>
@@ -1468,7 +1468,7 @@ $(function(){
 										 
 										 
 									<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-	 	              					<legend> 供应商服务资质证书  </legend>
+	 	              					<legend> 资质证书信息  </legend>
 										<div class="col-md-12 col-xs-12 col-sm-12 p0">
 													<div class="col-md-12 col-xs-12 col-sm-12">
 														<button type="button" class="btn padding-left-20 padding-right-20 btn_back " onclick="openCertSe()">新增</button>
