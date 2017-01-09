@@ -338,7 +338,7 @@
 													<td class="tc info">${year}</td>
 												</c:forEach>
 											</tr>
-											<c:forEach items="${saleBean}" var="obj" varStatus="vs">
+											<c:forEach items="${projectBean}" var="obj" varStatus="vs">
 												<tr>
 													<td class="tc">${obj.name }</td>
 													<td class="">
@@ -386,7 +386,7 @@
 													<td class="tc info">${year}</td>
 												</c:forEach>
 											</tr>
-											<c:forEach items="${saleBean}" var="obj" varStatus="vs">
+											<c:forEach items="${serverBean}" var="obj" varStatus="vs">
 												<tr>
 													<td class="tc">${obj.name }</td>
 													<td class="">

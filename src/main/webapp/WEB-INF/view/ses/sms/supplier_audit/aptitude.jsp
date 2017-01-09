@@ -280,7 +280,7 @@
 													<td>
 														<c:set value="${prolength+1}" var="prolength"></c:set>
 														<span class="hand" onclick="reason('${quaPro.flag}','${obj.categoryName }','生产-${quaPro.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${quaPro.name}：</span>
-														<u:show showId="pShow${prolength}" groups="${saleShow}" delete="false" businessId="${quaPro.flag}" sysKey="${sysKey }" typeId="${typeId}" />
+													  <u:show showId="pShow${prolength}" groups="${saleShow}" delete="false" businessId="${quaPro.flag}" sysKey="${sysKey }" typeId="${typeId}" />
 														<p id="${quaPro.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</c:forEach>

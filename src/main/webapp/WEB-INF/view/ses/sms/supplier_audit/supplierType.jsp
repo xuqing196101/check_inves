@@ -594,7 +594,7 @@
 														<c:if test="${m.mot==1 }">是</c:if>
 													</td>
 													<td class="tc w50">
-														<p onclick="reasonProduction('${m.id}','${m.name}');" id="${m.id}_hidden" class="btn">审核</p>
+														<p onclick="reasonProduction('${m.id}','${m.name}');" id="${m.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
 														<a id="${m.id }_show"><img src='/zhbj/public/backend/images/sc.png'></a>
 													</td>
 												</tr>
@@ -760,7 +760,7 @@
 														<c:if test="${s.mot==1 }">是</c:if>
 													</td>
 													<td class="tc w50">
-														<p onclick="reasonSale('${s.id}','${s.name }');" id="${s.id}_hidden" class="btn">审核</p>
+														<p onclick="reasonSale('${s.id}','${s.name }');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
 														<a id="${s.id }_show"><img src='/zhbj/public/backend/images/sc.png'></a>
 													</td>
 												</tr>
@@ -852,7 +852,7 @@
 														<c:if test="${s.certStatus==1 }">有效</c:if>
 													</td>
 													<td class="tc w50">
-														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="btn">审核</p>
+														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
 														<a id="${s.id }_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
 													</td>
 												</tr>
@@ -907,7 +907,7 @@
 														</td>
 														<td class="tc">${s.aptituteChangeReason }</td>
 														<td class="tc w50">
-															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="btn">审核</p>
+															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
 															<a id="${s.id }_show1" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
 														</td>
 												</tr>
@@ -1007,7 +1007,7 @@
 														<c:if test="${s.mot==1 }">是</c:if>
 													</td>
 													<td class="tc w50">
-														<p onclick="reasonService('${s.id}','服务-资质证书','${s.name}');" id="${s.id}_hidden" class="btn">审核</p>
+														<p onclick="reasonService('${s.id}','服务-资质证书','${s.name}');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
 														<a id="${s.id}_show"><img src='/zhbj/public/backend/images/sc.png'></a>
 													</td>
 												</tr>

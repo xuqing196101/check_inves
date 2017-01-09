@@ -274,24 +274,27 @@ public class ExpertAuditController {
 		model.addAttribute("expertId", expertId);
 	    //  判断当前状态如果为退回修改则比较两次的信息
 	    // 判断有没有进行修改
-	    ExpertHistory oldExpert = service.selectOldExpertById(expertId);
-	    if (oldExpert != null) {
-	        Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
-	        // 如果isEdit==1代表没有进行任何修改就进行了二次提交
-	        if (compareMap.isEmpty()) {
-	            // 没有修改
-	            model.addAttribute("isEdit", "0");
-	        } else {
-	            // 有修改
-	            model.addAttribute("isEdit", "1");
-	        }
-	        Set<String> keySet = compareMap.keySet();
-	        List<String> editFields = new ArrayList<String>();
-	        for (String method : keySet) {
-	            editFields.add(method);
-	        }
-	        model.addAttribute("editFields", editFields);
-	    }
+		if(expert.getStatus() !=null && expert.getStatus().equals(0)){
+			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
+		    if (oldExpert != null) {
+		        Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
+		        // 如果isEdit==1代表没有进行任何修改就进行了二次提交
+		        if (compareMap.isEmpty()) {
+		            // 没有修改
+		            model.addAttribute("isEdit", "0");
+		        } else {
+		            // 有修改
+		            model.addAttribute("isEdit", "1");
+		        }
+		        Set<String> keySet = compareMap.keySet();
+		        List<String> editFields = new ArrayList<String>();
+		        for (String method : keySet) {
+		            editFields.add(method);
+		        }
+		        model.addAttribute("editFields", editFields);
+		    }
+		}
+	    
         return "ses/ems/expertAudit/basic_info";
     }
 	
@@ -437,23 +440,27 @@ public class ExpertAuditController {
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		model.addAttribute("expertId", expertId);
+		
 		// 判断有没有进行修改
-        ExpertHistory oldExpert = service.selectOldExpertById(expertId);
-        Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
-        // 如果isEdit==1代表没有进行任何修改就进行了二次提交
-        if (compareMap.isEmpty()) {
-            // 没有修改
-            model.addAttribute("isEdit", "0");
-        } else {
-            // 有修改
-            model.addAttribute("isEdit", "1");
-        }
-        Set<String> keySet = compareMap.keySet();
-        List<String> editFields = new ArrayList<String>();
-        for (String method : keySet) {
-            editFields.add(method);
-        }
-        model.addAttribute("editFields", editFields);
+		if(expert.getStatus() !=null && expert.getStatus().equals(0)){
+	        ExpertHistory oldExpert = service.selectOldExpertById(expertId);
+	        Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
+	        // 如果isEdit==1代表没有进行任何修改就进行了二次提交
+	        if (compareMap.isEmpty()) {
+	            // 没有修改
+	            model.addAttribute("isEdit", "0");
+	        } else {
+	            // 有修改
+	            model.addAttribute("isEdit", "1");
+	        }
+	        Set<String> keySet = compareMap.keySet();
+	        List<String> editFields = new ArrayList<String>();
+	        for (String method : keySet) {
+	            editFields.add(method);
+	        }
+	        model.addAttribute("editFields", editFields);
+		}
+        
 		return "ses/ems/expertAudit/experience";
 	}
 	
@@ -712,26 +719,28 @@ public class ExpertAuditController {
 		model.addAttribute("expert", expert);
 		
 		// 判断有没有进行修改
+		if(expert.getStatus() !=null && expert.getStatus().equals(0)){
         ExpertHistory oldExpert = service.selectOldExpertById(expertId);
-        if (oldExpert != null) {
-            Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
-            // 如果isEdit==1代表没有进行任何修改就进行了二次提交
-            if (compareMap.isEmpty()) {
-                // 没有修改
-                model.addAttribute("isEdit", "0");
-            } else {
-                // 有修改
-                model.addAttribute("isEdit", "1");
-            }
-            Set<String> keySet = compareMap.keySet();
-            List<String> editFields = new ArrayList<String>();
-            for (String method : keySet) {
-                if ("getExpertsTypeId".equals(method)) {
-                    editFields.add(compareMap.get("getExpertsTypeId").toString());
-                }
-            }
-            model.addAttribute("editFields", editFields);
-        }
+	        if (oldExpert != null) {
+	            Map<String, Object> compareMap = compareExpert(oldExpert, (ExpertHistory)expert);
+	            // 如果isEdit==1代表没有进行任何修改就进行了二次提交
+	            if (compareMap.isEmpty()) {
+	                // 没有修改
+	                model.addAttribute("isEdit", "0");
+	            } else {
+	                // 有修改
+	                model.addAttribute("isEdit", "1");
+	            }
+	            Set<String> keySet = compareMap.keySet();
+	            List<String> editFields = new ArrayList<String>();
+	            for (String method : keySet) {
+	                if ("getExpertsTypeId".equals(method)) {
+	                    editFields.add(compareMap.get("getExpertsTypeId").toString());
+	                }
+	            }
+	            model.addAttribute("editFields", editFields);
+	        }
+		}
 		return "ses/ems/expertAudit/expertType";
 	}
     

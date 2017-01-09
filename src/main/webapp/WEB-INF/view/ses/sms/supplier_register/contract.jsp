@@ -7,6 +7,31 @@
 <%@ include file="/reg_head.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script type="text/javascript">
+	$(function() {
+				var PRODUCT = $("#li_id_1").text();
+				var SALES = $("#li_id_2").text();
+				var PROJECT = $("#li_id_3").text();
+				var SERVICE = $("#li_id_4").text();
+				//加载默认的页签
+				if(PRODUCT = "物资-生产型品目信息") {
+					loadPageOne('tab-1','supplier/ajaxContract.html','PRODUCT');
+					return;
+				}
+		  	if(SALES = "物资-销售型品目信息") {
+					loadPageTwo('tab-2','supplier/ajaxContract.html','SALES');
+					return;
+				}
+				if(PROJECT = "工程品目信息") {
+					loadPageThree('tab-3','supplier/ajaxContract.html','PROJECT');
+					return;
+				}
+				if(SERVICE = "服务品目信息") {
+					loadPageFour('tab-4','supplier/ajaxContract.html','SERVICE');
+					return;
+				}
+			});
+
+
 
 	//暂存
 	function saveItems(){
@@ -60,6 +85,9 @@
 	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
 	  	 $("#"+id).load(path);
 	}
+	
+	
+		
 </script>
 </head>
 
@@ -91,43 +119,46 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10" >
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-							<c:set var="icount" value="0"></c:set>
+						  <c:set value="0" var="liCount"/>
 							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
-								<c:set var="icount" value="${icount + 1}"></c:set>
-								<li id="li_id_1" onclick="loadPageOne('tab-1','supplier/ajaxContract.html','PRODUCT')" <c:if test="${icount == 0}">class="active"</c:if>><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
+								<c:set value="${liCount+1}" var="liCount"/>
+								<li id="li_id_1" onclick="loadPageOne('tab-1','supplier/ajaxContract.html','PRODUCT')"  class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'SALES')}">
 								<c:set var="icount" value="${icount + 1}"></c:set>
-								<li id="li_id_2" onclick="loadPageTwo('tab-2','supplier/ajaxContract.html','SALES')" <c:if test="${icount == 0}">class="active"</c:if>><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
+								<li id="li_id_2" onclick="loadPageTwo('tab-2','supplier/ajaxContract.html','SALES')" class='<c:if test="${liCount == 0}">active</c:if>'><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
+								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
 								<c:set var="icount" value="${icount + 1}"></c:set>
-								<li id="li_id_3" onclick="loadPageThree('tab-3','supplier/ajaxContract.html','PROJECT')" <c:if test="${icount == 0}">class="active"</c:if>><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
+								<li id="li_id_3" onclick="loadPageThree('tab-3','supplier/ajaxContract.html','PROJECT')" class='<c:if test="${liCount == 0}">active</c:if>'><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
+								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
 								<c:set var="icount" value="${icount + 1}"></c:set>
-								<li id="li_id_4" onclick="loadPageFour('tab-4','supplier/ajaxContract.html','SERVICE')" <c:if test="${icount == 0}">class="active"</c:if>><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
+								<li id="li_id_4" onclick="loadPageFour('tab-4','supplier/ajaxContract.html','SERVICE')" class='<c:if test="${liCount == 0}">active</c:if>'><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
+								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
 						</ul>
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
 							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
 								<!-- 物资生产型 -->
-								<div class="tab-pane fade active in height-300" id="tab-1">
+								<div class="tab-pane active in fade active in height-300" id="tab-1">
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'SALES')}">
 								<!-- 物资销售型 -->
-								<div class="tab-pane fade <c:if test="${icount == 0}">class="active"</c:if> height-300 " id="tab-2">
+								<div  class="tab-pane active in fade height-300 " id="tab-2">
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
 							<!-- 工程 -->
-								<div class="tab-pane fade height-300 " id="tab-3">
+								<div class="tab-pane active in fade height-200 " id="tab-3">
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
 								<!-- 服务 -->
-								<div class="tab-pane fade height-300 " id="tab-4">
+								<div class="tab-pane active in fade height-200 " id="tab-4">
 								</div>
 							</c:if>
 						</div>

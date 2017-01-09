@@ -260,7 +260,7 @@
 		              <td class="tc" >${s.proportion}</td>
 		              <td class="tc w50" >
 		                <a id="${s.id}_show"><img src='/zhbj/public/backend/images/sc.png'></a>
-		                <p onclick="reason('${s.id}');" id="${s.id}_hidden" class="btn">审核</p>
+		                <p onclick="reason('${s.id}');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 		              </td>
 	              </tr>
 	            </c:forEach>

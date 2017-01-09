@@ -337,7 +337,7 @@
 									<td class="tc">${f.totalNetAssets}</td>
 									<td class="tc">${f.taking}</td>
 									<td class="tc w50">
-										<a onclick="reason('${f.id}','财务信息');" id="${f.id}_hidden1" class="btn">审核</a>
+										<a onclick="reason('${f.id}','财务信息');" id="${f.id}_hidden1" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 										<p id="${f.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 									</td>
 								</tr>
@@ -374,7 +374,7 @@
 										<u:show showId="fina_${vs.index}_change" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" />
 								  </td>
 								  <td class="tc w50">
-											<a onclick="reason('${f.id}','财务附件');" id="${f.id}_hidden2" class="btn">审核</a>
+											<a onclick="reason('${f.id}','财务附件');" id="${f.id}_hidden2" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 											<p id="${f.id}_fileShow"><img src='/zhbj/public/backend/images/sc.png'></p>
 								  </td>
 								</tr>
