@@ -61,6 +61,7 @@ public class DisPlayTld extends TagSupport {
         
         try {
              out.println("<input id='showId' type=\"hidden\"  value=" + showId + " />");
+             out.println("<input class='uploaded_file_show' type=\"hidden\" />");
              out.println("<input id='show_groupId' type=\"hidden\"  value=" + groups + " />");
              out.println("<input id='"+showId+"_showdel' type=\"hidden\"  value=" + delete + " />");
              out.println("<input id='"+showId+"_downBsId' type=\"hidden\"  value=" + businessId + " />");

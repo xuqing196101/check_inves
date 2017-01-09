@@ -1,10 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<!-- 文件显示 -->
-<link href="${pageContext.request.contextPath}/public/webupload/css/viewer.css" media="screen" rel="stylesheet" type="text/css">
-<!-- 文件显示 -->
-<script src="${pageContext.request.contextPath}/public/webupload/js/viewer.js"></script>
-<script src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
+
 <tr>
 <td class="tc">
 <input type="checkbox" value="${id}"/>

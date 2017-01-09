@@ -9,6 +9,12 @@ $(function(){
  * 初始化
  */
 function showInit(){
+	$(".uploaded_file_show").each(function(){
+		var id = $(this).prev()[0].value;
+		packParam(id);
+	});
+	
+	/*
 	var singleId = $("#showId").val();
 	var groups = $("#show_groupId").val();
 	if (!webIsNull(groups)){
@@ -19,6 +25,14 @@ function showInit(){
 	} else {
 		packParam(singleId);
 	}
+	*/
+}
+
+/**
+ * 文件上传成功后的回调展示上传的图片文件等
+ */
+function showInitAfterUpload(singleId){
+	packParam(singleId);
 }
 
 

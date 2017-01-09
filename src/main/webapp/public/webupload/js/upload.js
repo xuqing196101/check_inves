@@ -213,7 +213,9 @@
 			   			},
 			   			function(msg){
 			   				if (msg == 'ok') {
-			   					showInit();
+			   					var sid = $("#" + $base + "_btnNameId").nextAll('#showId').val();
+			   					showInitAfterUpload(sid)
+			   					// showInit();
 			   				}
 			   				
 			   				
