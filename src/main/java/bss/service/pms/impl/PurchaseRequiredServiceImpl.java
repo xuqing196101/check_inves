@@ -265,6 +265,18 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		// TODO Auto-generated method stub
 		return purchaseRequiredMapper.queryChilden(children);
 	}
+
+	@Override
+	public List<PurchaseRequired> queryByAuthority(Map<String, Object> map,Integer page) {
+	 PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("page.size.thirty")));
+	 List<PurchaseRequired> list = purchaseRequiredMapper.getByDep(map);
+		return list;
+	}
+
+	@Override
+	public Orgnization queryByDepId(String id) {
+		return orgnizationMapper.queryById(id);
+	}
 	
 
 }

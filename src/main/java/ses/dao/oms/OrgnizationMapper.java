@@ -138,5 +138,16 @@ public interface OrgnizationMapper {
      */
     Orgnization queryByName(@Param("name")String name);
     
+    /**
+     * 
+    * @Title: queryById
+    * @Description: 根据id查询
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return Orgnization     
+    * @throws
+     */
+    Orgnization queryById(@Param("id")String id);
     
 }

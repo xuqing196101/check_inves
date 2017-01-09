@@ -251,9 +251,9 @@
 					 <label class="fl">状态：</label>
 			              <select  name="status" id="status">
 			                <option selected="selected" value="total">全部</option>
-			                <option value="2" <c:if test="${'2'==inf.status}">selected="selected"</c:if>>待受理</option>
-			                <option value="3" <c:if test="${'3'==inf.status}">selected="selected"</c:if>>已受理 </option>
-			                <option value="4" <c:if test="${'4'==inf.status}">selected="selected"</c:if>>受理退回</option>
+			                <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>待受理</option>
+			                <option value="3" <c:if test="${'3'==status}">selected="selected"</c:if>>已受理 </option>
+			                <option value="4" <c:if test="${'4'==status}">selected="selected"</c:if>>受理退回</option>
 			              </select>
 			          </li>
 			          

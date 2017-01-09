@@ -1,5 +1,6 @@
 package bss.controller.pms;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseOrg;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
@@ -25,6 +28,8 @@ import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
 
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 
 /**
  * 
@@ -52,6 +57,9 @@ public class PurchaseAcceptController extends BaseController{
 	
 	@Autowired
 	private OrgnizationServiceI orgnizationService;
+	
+	@Autowired
+	private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
 	/**
 	 * 
 	 * @Title: queryPlan
@@ -62,29 +70,53 @@ public class PurchaseAcceptController extends BaseController{
 	 * @throws
 	 */
 	@RequestMapping("/list")
-	public String queryPlan(PurchaseRequired purchaseRequired, Integer page, Model model) {
+	public String queryPlan(@CurrentUser User user,PurchaseRequired purchaseRequired, Integer page, Model model,String status) {
+		Map<String,Object> map=new HashMap<String,Object>();
 		if(purchaseRequired.getStatus()==null){
-			purchaseRequired.setStatus("2");
+			map.put("status", "2");
+			
 		} else if(purchaseRequired.getStatus().equals("3")){
-			purchaseRequired.setSign("3");
+//			purchaseRequired.setSign("3");
+			map.put("sign", "3");
 			purchaseRequired.setStatus(null);
 		}
 		else if(purchaseRequired.getStatus().equals("total")){
-			purchaseRequired.setSign("2");
+//			purchaseRequired.setSign("2");
+			map.put("sign", "2");
 			purchaseRequired.setStatus(null);
+		}else if(purchaseRequired.getStatus().equals("4")){
+			map.put("status", status);
 		}
 		
-		purchaseRequired.setIsMaster(1);
-		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page == null ? 1 : page);
+		map.put("isMaster", "1");
+		map.put("planName", purchaseRequired.getPlanName());
+//		purchaseRequired.setIsMaster(1);
+		//所有的需求部门
+		List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
+		List<String> listDep=new ArrayList<String>();
+		for(PurchaseOrg p:list2){
+			Orgnization dep= purchaseRequiredService.queryByDepId(p.getOrgId());
+			listDep.add(dep.getName());
+		}
+		map.put("list", listDep);
+		List<PurchaseRequired> list = purchaseRequiredService.queryByAuthority(map, page == null ? 1 : page);
 		for (PurchaseRequired pur : list) {
 		    pur.setUserId(userServiceI.getUserById(pur.getUserId()).getRelName());
 		}
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
+		if(status==null){
+//			purchaseRequired.setStatus("2");
+			status="2";
+		}
+//		if(purchaseRequired.ge){
+//			
+//		}
+		model.addAttribute("status", status);
 		model.addAttribute("inf", purchaseRequired);
-		Map<String,Object> map=new HashMap<String,Object>();
-		List<Orgnization> requires = orgnizationService.findOrgPartByParam(map);
-		model.addAttribute("requires", requires);
+//		Map<String,Object> maps=new HashMap<String,Object>();
+//		List<Orgnization> requires = orgnizationService.findOrgPartByParam(maps);
+//		model.addAttribute("requires", requires);
 	
 		return "bss/pms/collect/list";
 	}

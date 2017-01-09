@@ -955,6 +955,85 @@
 	</select>
 	
 	
+	<select id="getByDep" parameterType="Map" resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_REQUIRED
+		<where>
+			HISTORY_STATUS='0'  and IS_DELETE='0' 
+			<if test="createdAt!=null">
+				and CREATED_AT like '%${createdAt}%'
+			</if>
+			<if test="planName!=null">
+				and PLAN_NAME like '%${planName}%'
+			</if>
+			<if test="planNo !=null">
+				and PLAN_NO like '%${planNo}%'
+			</if>
+			<if test="referenceNo !=null">
+				and REFERENCE_NO like '%${referenceNo}%'
+			</if>
+			<if test="isMaster != null">
+				and IS_MASTER = #{isMaster}
+			</if>
+	<!-- 		<if test="status==1">
+				and STATUS in('1','2')
+			</if> -->
+			<if test="sign==2 ">
+				and STATUS in('2','3','4','5')
+			</if>
+			<if test="sign==3 ">
+				and STATUS in('3','5')
+			</if>
+			<if test="sign==5 ">
+				and STATUS in('2','3','5')
+			</if>
+			<if test="status!=null ">
+				and STATUS =#{status}
+			</if>
+			
+			<!-- 	<if test="isCollect != null">
+				and IS_COLLECT = #{isCollect}
+			</if>
+		<if test="goodsType != null">
+				and PURCHASE_COUNT is not null
+			</if>
+			<if test="purchaseType != null">
+				and PURCHASE_TYPE = #{purchaseType}
+			</if> -->
+			<if test="organization != null">
+				and	ORGANIZATION_ID = #{organization}
+			</if>
+			
+			<if test="list != null">
+			   and DEPARTMENT in
+			     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+					  #{item}  
+				 </foreach>  
+			</if>
+			<if test="budget != null">
+				and BUDGET = #{budget}
+			</if>
+			<if test="planType != null">
+				 and PLAN_TYPE = #{planType}
+			</if>
+			<if test="userId != null">
+				 and USER_ID = #{userId}
+			</if>
+		</where>
+	<!-- 	<if test="status== 1">
+			ORDER BY decode(STATUS,'1',1,'4',2,'2',3,'3',4,'5',5), CREATED_AT DESC
+		</if>
+		<if test="status== 2">
+			ORDER  BY  STATUS , CREATED_AT DESC
+		</if>
+		<if test="status ==3">
+			ORDER  BY  STATUS , CREATED_AT DESC
+		</if> -->
+		ORDER  BY   CREATED_AT DESC
+	</select>
+	
+	
 	
     
     

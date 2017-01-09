@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
 /**
  * 
  * @Title: PurchaseOrgnizationServiceI
@@ -68,4 +69,16 @@ public interface PurchaseOrgnizationServiceI {
 	 * @param purchaseDep PurchaseDep对象
 	 */
 	PurchaseDep selectPurchaseById(String id);
+	
+	/**
+	 * 
+	* @Title: get
+	* @Description: 根据管理部门得到所有的需求部门
+	* author: Li Xiaoxiao 
+	* @param @param id
+	* @param @return     
+	* @return List<PurchaseOrg>     
+	* @throws
+	 */
+	public List<PurchaseOrg> get(String id);
 }

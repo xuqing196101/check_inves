@@ -751,4 +751,16 @@
     	</if>
 	</select>
 	
+	
+	<select id="queryById"  parameterType="String" resultMap="baseOrgnization"  >
+	  	SELECT ID ,NAME ,PRINCINPAL ,MOBILE 
+    	FROM T_SES_OMS_ORG
+    	WHERE IS_DELETED = '0'
+    	AND TYPE_NAME ='0'
+    	<if test="id != null and id != ''">
+    	  AND ID =#{id}
+    	</if>
+	</select>
+	
+	
 </mapper>

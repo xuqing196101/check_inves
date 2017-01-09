@@ -287,4 +287,16 @@ public interface PurchaseRequiredMapper {
     
     Integer queryChilden(@Param("id")String id);
     
+    /**
+     * 
+    * @Title: getByDep
+    * @Description:根据需求部门查询
+    * author: Li Xiaoxiao 
+    * @param @param map
+    * @param @return     
+    * @return List<PurchaseRequired>     
+    * @throws
+     */
+    List<PurchaseRequired> getByDep(Map<String,Object> map);
+    
 }

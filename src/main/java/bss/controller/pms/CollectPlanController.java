@@ -95,23 +95,31 @@ public class CollectPlanController extends BaseController {
 		* @throws
 		 */
     @RequestMapping("/list")
-    public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
-    purchaseRequired.setIsMaster(1);
+    public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model,String status){
+    Map<String,Object> map=new HashMap<String,Object>();
+//    purchaseRequired.setIsMaster(1);
     if(purchaseRequired.getStatus()==null){
-    	purchaseRequired.setStatus("3");
+//    	purchaseRequired.setStatus("3");
+    	map.put("status", "3");
     }else if(purchaseRequired.getStatus().equals("total")){
-    	purchaseRequired.setSign("3");
-    	purchaseRequired.setStatus(null);
+    	map.put("sign", "3");
+//    	purchaseRequired.setSign("3");
+//    	purchaseRequired.setStatus(null);
+    }else if(purchaseRequired.getStatus().equals("5")){
+    	map.put("status", "5");
     }
+    map.put("status", 1);
     
-    
-    List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
+    List<PurchaseRequired> list = purchaseRequiredService.queryByAuthority(map,page==null?1:page);
     PageInfo<PurchaseRequired> info = new PageInfo<>(list);
     model.addAttribute("info", info);
     model.addAttribute("inf", purchaseRequired);
     List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
+    if(purchaseRequired.getStatus()==null){
+    	status="3";
+    }
     model.addAttribute("dic", dic);
-
+    model.addAttribute("status", status);
 //    Map<String,Object> map = new HashMap<String,Object>();
 //    List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
 //    model.addAttribute("requires", requires);

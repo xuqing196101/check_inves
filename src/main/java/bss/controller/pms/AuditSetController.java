@@ -3,13 +3,10 @@ package bss.controller.pms;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -43,21 +40,20 @@ import ses.util.DictionaryDataUtil;
 import bss.dao.pms.AuditPersonMapper;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.AuditParamBean;
-import bss.formbean.FiledNameEnum;
-import bss.model.dms.ProbationaryArchive;
-import bss.model.dms.PurchaseArchive;
 import bss.model.pms.AuditParam;
 import bss.model.pms.AuditPerson;
 import bss.model.pms.AuditPersonList;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseAudit;
+import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
-import bss.model.pms.UpdateFiled;
 import bss.service.pms.AuditParameService;
 import bss.service.pms.AuditPersonService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseAuditService;
+import bss.service.pms.PurchaseDetailService;
+import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.UpdateFiledService;
 
 import com.alibaba.fastjson.JSON;
@@ -112,6 +108,14 @@ public class AuditSetController {
 	
 	@Autowired
 	private AuditPersonMapper auditPersonMapper;
+	
+	@Autowired
+	private PurchaseDetailService purchaseDetailService;
+	
+	
+	@Autowired
+	private PurchaseRequiredService purchaseRequiredService;
+	
 	/**
 	 * 
 	* @Title: set
@@ -366,44 +370,44 @@ public class AuditSetController {
 	@RequestMapping("/excel")
 	@ResponseBody
 	public String excel(HttpServletRequest request,HttpServletResponse response,CollectPlan collectPlan) throws UnsupportedEncodingException{
-//		CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
+		CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
 //		collectPlan.setPlanNo("001");
 		
-		List<String> no = collectPurchaseService.getNo(collectPlan.getId());
-		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
-		if(no!=null&&no.size()>0){
+//		List<String> no = collectPurchaseService.getNo(collectPlan.getId());
+//		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
+//		if(no!=null&&no.size()>0){
 //			String[] str = plan.getPlanNo().split(",");
-			for(String s:no){
-				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
-				list.addAll(pur);
-			}
-			
-		}
+//			for(String s:no){
+//				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
+//				list.addAll(pur);
+//			}
+//			
+//		}
 		
 		
 		//查询出所有审核参数
-		DictionaryData	dictionaryData=new DictionaryData();
+//		DictionaryData	dictionaryData=new DictionaryData();
 //		DictionaryData dd=new DictionaryData();
 //		dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
 //		dictionaryData.setParent(dd);
-		List<DictionaryData> dic =dictionaryDataServiceI.findByKind("4");
-		List<AuditParam> all=new LinkedList<AuditParam>();
-		AuditParam auditParam=new AuditParam();
-		
-		List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
-		if(dic!=null&&dic.size()>0){
-			for(DictionaryData d:dic){
-				AuditParamBean s=new AuditParamBean();
-				auditParam.setDictioanryId(d.getId());
-				List<AuditParam> a = auditParameService.query(auditParam, 1);
-				all.addAll(a);
-				s.setId(d.getId());
-				s.setSize(a.size());
-				s.setName(d.getName());
-				bean.add(s);
-			}
-		}
-		
+//		List<DictionaryData> dic =dictionaryDataServiceI.findByKind("4");
+//		List<AuditParam> all=new LinkedList<AuditParam>();
+//		AuditParam auditParam=new AuditParam();
+//		
+//		List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
+//		if(dic!=null&&dic.size()>0){
+//			for(DictionaryData d:dic){
+//				AuditParamBean s=new AuditParamBean();
+//				auditParam.setDictioanryId(d.getId());
+//				List<AuditParam> a = auditParameService.query(auditParam, 1);
+//				all.addAll(a);
+//				s.setId(d.getId());
+//				s.setSize(a.size());
+//				s.setName(d.getName());
+//				bean.add(s);
+//			}
+//		}
+		List<PurchaseDetail> list = purchaseDetailService.getUnique(plan.getId());
 		
 		String filedisplay = "明细.xls";
 		response.addHeader("Content-Disposition", "attachment;filename="  + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
@@ -416,20 +420,20 @@ public class AuditSetController {
 	     HSSFRow row = sheet.createRow((int) 0);  
 			//
 	     HSSFCell  cell = row.createCell(0);
-	     cell.setCellValue("测试采购计划-20160926-物资计划草案");
+	     cell.setCellValue(plan.getFileName());
 	     cell.setCellStyle(style);
 	     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,0,(short)12));
 	     int n=12;
 	     int hb=0;
-	     for(AuditParamBean ap:bean){
-	    	 hb=n+1;
-	    	 cell = row.createCell(hb);
-		     
-		     cell.setCellValue(ap.getName());
-		     n=ap.getSize()+n;
-		     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,hb,(short)n)); 
-		    
-	     }
+//	     for(AuditParamBean ap:bean){
+//	    	 hb=n+1;
+//	    	 cell = row.createCell(hb);
+//		     
+//		     cell.setCellValue(ap.getName());
+//		     n=ap.getSize()+n;
+//		     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,hb,(short)n)); 
+//		    
+//	     }
 	    
 	     /*	  cell = row.createCell(16);  
      		cell.setCellValue("第二轮审核");
@@ -460,19 +464,34 @@ public class AuditSetController {
 	        cell.setCellValue("交货期限");  
 	        
 	        cell = row.createCell(10);  
-	        cell.setCellValue("采购方式建议");  
-	        
+	        cell.setCellValue("采购方式");  
 	        
 	        cell = row.createCell(11);  
+	        cell.setCellValue("采购机构"); 
+	        
+	        cell = row.createCell(12);  
 	        cell.setCellValue("供应商");  
 	        
 	        
-	        cell = row.createCell(12);  
+	        cell = row.createCell(13);  
 	        cell.setCellValue("备注");  
-	        
-	        
-//	        cell = row.createCell(13);  
-//	        cell.setCellValue("采购方式");  
+	        if(plan.getAuditTurn()!=null){
+//	        	 if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==12||plan.getStatus()==2){
+		        	 cell = row.createCell(14);  
+		 	        cell.setCellValue("一轮审核建议");  
+//		        }
+	        }
+	       
+	        if(plan.getAuditTurn()==2){
+//	        	 if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==12||plan.getStatus()==2){
+		        	 cell = row.createCell(15);  
+		 	        cell.setCellValue("二轮轮审核建议");  
+//		        }
+	        }
+	        if(plan.getAuditTurn()==3){
+	        	cell = row.createCell(16);  
+	 	        cell.setCellValue("三轮审核建议");  
+	        }
 //	        cell = row.createCell(14);  
 //	        cell.setCellValue("采购机构"); 
 //	        cell = row.createCell(15);  
@@ -483,8 +502,8 @@ public class AuditSetController {
 //	        cell.setCellValue("其他建议"); 
 	        
 	        int count=2;
-	        PurchaseAudit purchaseAudit=new PurchaseAudit();
-			for(PurchaseRequired p:list){
+//	        PurchaseAudit purchaseAudit=new PurchaseAudit();
+			for(PurchaseDetail p:list){
 	        	row = sheet.createRow(count);
 	   	        cell = row.createCell(0);
 	   			cell.setCellValue(p.getSeq()); 
@@ -534,13 +553,32 @@ public class AuditSetController {
 	   	        DictionaryData dicType = DictionaryDataUtil.findById(p.getPurchaseType());
 	   	        cell.setCellValue(dicType.getName());  
 	   	        
-	   	        
 	   	        cell = row.createCell(11);  
-	   	        cell.setCellValue(p.getSupplier());  
+	   	        Orgnization orgnization = purchaseRequiredService.queryByDepId(p.getOrganization());
+	   	        if(orgnization!=null){
+	   	         cell.setCellValue(p.getSupplier());
+	   	        }
+	   	         
 	   	        
 	   	        
 	   	        cell = row.createCell(12);  
+	   	        cell.setCellValue(p.getSupplier());  
+	   	        
+	   	        
+	   	        cell = row.createCell(13);  
 	   	        cell.setCellValue(p.getMemo());  
+	   	        if(plan.getAuditTurn()!=null){
+	   	         cell = row.createCell(14);  
+		   	        cell.setCellValue(p.getOneAdvice()); 
+	   	        }
+	   	       if(plan.getAuditTurn()==2){
+	   	         cell = row.createCell(15);  
+		   	        cell.setCellValue(p.getTwoAdvice()); 
+	   	        }
+	   	      if(plan.getAuditTurn()!=3){
+	   	         cell = row.createCell(16);  
+		   	        cell.setCellValue(p.getThreeAdvice()); 
+	   	        }
 //	   	        int an=13;
 //	   	        for(AuditParam ap:all){
 //	   	        	 

@@ -14,6 +14,7 @@ import common.constant.StaticVariables;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.oms.PurchaseDepMapper;
 import ses.dao.oms.PurchaseInfoMapper;
+import ses.dao.oms.PurchaseOrgMapper;
 import ses.dao.oms.PurchaseStatusMapper;
 import ses.model.oms.OrgInfo;
 import ses.model.oms.OrgLocale;
@@ -52,6 +53,10 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	@Autowired
 	private PurchaseInfoMapper purchaseInfoMapper;
 
+	@Autowired
+	private PurchaseOrgMapper purchaseOrgMapper;
+	
+	
 	@Override
 	public List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map) {
 		return purchaseDepMapper.findPurchaseDepList(map);
@@ -339,5 +344,23 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	@Override
 	public PurchaseDep selectPurchaseById(String id) {
 		return purchaseDepMapper.selectPurchaseById(id);
+	}
+	/**
+	 * 
+	* @Title: get
+	* @Description: 根据管理部门得到所有的需求部门
+	* author: Li Xiaoxiao 
+	* @param @param id
+	* @param @return     
+	* @return List<PurchaseOrg>     
+	* @throws
+	 */
+	public List<PurchaseOrg> get(String id){
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("purchaseDepId", id);
+		List<PurchaseOrg> list = purchaseOrgMapper.selectById(map);
+		return list;
+		
+		
 	}
 }

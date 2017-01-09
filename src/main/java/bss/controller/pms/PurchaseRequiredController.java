@@ -540,7 +540,10 @@ public class PurchaseRequiredController extends BaseController{
 		PurchaseRequired p=new PurchaseRequired();
 		p.setUniqueId(planNo.trim());
 		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
-		
+		for(PurchaseRequired pr:list){
+			DictionaryData data = DictionaryDataUtil.findById(pr.getPurchaseType());
+			pr.setPurchaseType(data.getName());
+		}
 		
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		Excel<PurchaseRequired> sheet = new Excel<PurchaseRequired>();

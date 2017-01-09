@@ -354,8 +354,8 @@
 				    		<span>
 				    	 		<select name="status" id="status">
 										<option value="total"> 全部</option>
-								   	<option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> >待汇总</option>
-								   	<option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> >已汇总</option>
+								   	<option value="3" <c:if test="${status=='3'}"> selected</c:if> >待汇总</option>
+								   	<option value="5" <c:if test="${status=='5'}"> selected</c:if> >已汇总</option>
 						 
 			 	   	   		</select>
 				    		</span>

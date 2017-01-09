@@ -259,5 +259,30 @@ public interface PurchaseRequiredService {
     Integer getChilden(String children);
     
     
+    /**
+     * 
+    * @Title: queryByAuthority
+    * @Description: 根据需求部门查询
+    * author: Li Xiaoxiao 
+    * @param @param map
+    * @param @param page
+    * @param @return     
+    * @return List<PurchaseRequired>     
+    * @throws
+     */
+    List<PurchaseRequired> queryByAuthority(Map<String,Object> map,Integer page);
+    
+    
+    /**
+     * 
+    * @Title: queryById
+    * @Description: 根据需求计划id查询部门名称
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return Orgnization     
+    * @throws
+     */
+    Orgnization queryByDepId(String id);
     
 }
