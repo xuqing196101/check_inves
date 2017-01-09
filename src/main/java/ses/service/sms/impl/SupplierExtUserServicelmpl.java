@@ -40,20 +40,24 @@ import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
+import ses.dao.oms.PurchaseDepMapper;
 import ses.dao.oms.PurchaseInfoMapper;
 import ses.dao.sms.SupplierExtUserMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
 import ses.model.sms.SupplierExtUser;
 import ses.service.bms.UserServiceI;
+import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.sms.SupplierExtUserServicel;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
 /**
  * @Description:监督人员
- *	 
+ *   
  * @author Wang Wenshuai
  * @version 2016年10月17日下午3:52:16
  * @since  JDK 1.7
@@ -89,6 +93,12 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
   @Autowired
   PurchaseInfoMapper infoMapper;
+
+  @Autowired
+  PurChaseDepOrgService orgnizationServiceI;
+
+  @Autowired
+  PurchaseDepMapper  purchaseDepMapper;
 
   /**
    * @Description:集合
@@ -150,6 +160,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
    */
   @Override
   public String downLoadBiddingDoc(HttpServletRequest request,String projectId) throws Exception {
+    Map<String, Object> datamap = new HashMap<>();
     //经济评审
     List<MarkTerm> listScoreEconomy = new ArrayList<MarkTerm>();
 
@@ -172,6 +183,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     List<Packages> find = packageService.find(packages);
     //资格性和符合性审查表
     for (Packages pack : find) {
+      //资格符合性
       FirstAudit audit = new FirstAudit();
       audit.setPackageId(pack.getId());
       List<FirstAudit> listByProjectId = firstAuditService.findBykind(audit);
@@ -193,8 +205,20 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
       //清空集合
       listScoreEconomy = new ArrayList<MarkTerm>();
       listScoreTechnology = new ArrayList<MarkTerm>();
+      //查询出项目明细
+      HashMap<String, Object> strMap = new HashMap<String, Object>();
+      strMap.put("packageId", pack.getId());
+      List<ProjectDetail> listProjectDetail = detailService.selectById(strMap);
+      pack.setProjectDetails(listProjectDetail);
+
+
 
     }
+
+    //采购机构信息
+    PurchaseDep findByOrgId = purchaseDepMapper.findByOrgId(project.getPurchaseDepId());
+    datamap.put("org",findByOrgId);
+
 
     //获取项目承办人id
     User user = new User();
@@ -206,7 +230,9 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
 
 
-    Map<String, Object> datamap = new HashMap<>();
+
+
+
     datamap.put("project", project);
     selectById.remove(0);
     selectById.remove(0);
@@ -216,12 +242,12 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     //资格性符合性
     datamap.put("packagesList",find);
 
-    String zero = new String("〇".getBytes(), "GBK") ;
-    datamap.put("Zero", zero);
     //负责人
     if (findPurchaseList != null && findPurchaseList.size() != 0) {
       datamap.put("user",findPurchaseList.get(0));
     }
+
+
     // 图片前缀路径
     String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
       + "/" + request.getContextPath() + File.separator.replace("\\", "/");
