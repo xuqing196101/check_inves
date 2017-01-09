@@ -77,21 +77,21 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10" >
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT') and fn:length(contract) > 0}">
 								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeIds, 'SALES')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'SALES') and fn:length(saleBean) > 0}">
 								<li id="li_id_2"   ><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT') and fn:length(projectBean) > 0}">
 								<li id="li_id_3"   ><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE') and fn:length(serverBean) > 0}">
 								<li id="li_id_4"  ><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
 							</c:if>
 						</ul>
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
-							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT') and fn:length(contract) > 0}">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 								<div class="col-md-12 col-xs-12 col-sm-12 p0 over_scroll">
@@ -148,7 +148,7 @@
 									</div>
 								</div>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeIds, 'SALES')}">
+							<c:if test="${fn:contains(supplierTypeIds, 'SALES') and fn:length(saleBean) > 0}">
 								<!-- 物资销售型 -->
 								<div class="tab-pane fade height-300 " id="tab-2">
 								<div class="col-xs-12 col-sm-12 col-md-12 p0 over_scroll">
@@ -163,10 +163,10 @@
 										   <tr>
 									        <td class="info tc"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info tc  w300">${year}</td>
+											     <td class="info tc w300">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info tc  w300">${year}</td>
+											     <td class="info  w300 tc">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
@@ -209,10 +209,12 @@
 									 
 								</div>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
-							<!-- 服务 -->
-								<div class="tab-pane fade height-200" id="tab-3">
-								 <table class="table table-bordered">
+							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT') and fn:length(projectBean) > 0}">
+							<!-- 工程 -->
+								<div class="tab-pane fade height-300 " id="tab-3">
+								<div class="col-xs-12 col-sm-12 col-md-12 p0 over_scroll">
+								 <table class="table table-bordered space_nowrap">
+
 						  
 										  <tr>
 										    <td class="info tc"> 品目名称</td>
@@ -223,15 +225,15 @@
 										   <tr>
 									        <td class="info tc"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info tc  w300">${year}</td>
+											     <td class="info tc w300">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info tc  w300">${year}</td>
+											     <td class="info  w300 tc">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
 										  
-										  <c:forEach items="${saleBean}" var="obj" varStatus="vs">
+										  <c:forEach items="${projectBean}" var="obj" varStatus="vs">
 									      <tr>
 									        <td>${obj.name }</td>
 										    <td>
@@ -264,14 +266,16 @@
 										
 									</table> 
 									
-									
+									</div>
 									
 								</div>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
-								<!-- 生产 -->
-								<div class="tab-pane fade height-200" id="tab-4">
-										 <table class="table table-bordered">
+							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE') and fn:length(serverBean) > 0}">
+								<!-- 服务 -->
+								<div class="tab-pane fade height-300 " id="tab-4">
+								<div class="col-xs-12 col-sm-12 col-md-12 p0 over_scroll">
+								 <table class="table table-bordered space_nowrap">
+
 						  
 										  <tr>
 										    <td class="info tc"> 品目名称</td>
@@ -282,15 +286,15 @@
 										   <tr>
 									        <td class="info tc"> 末级节点</td>
 										       <c:forEach items="${years}" var="year">
-											     <td class="info tc  w300">${year}</td>
+											     <td class="info tc w300">${year}</td>
 											   </c:forEach>
 											   <c:forEach items="${years}" var="year">
-											     <td class="info tc  w300">${year}</td>
+											     <td class="info  w300 tc">${year}</td>
 											   </c:forEach>
 										  </tr>
 										  
 										  
-										  <c:forEach items="${saleBean}" var="obj" varStatus="vs">
+										  <c:forEach items="${serverBean}" var="obj" varStatus="vs">
 									      <tr>
 									        <td>${obj.name }</td>
 										    <td>
@@ -322,7 +326,7 @@
 										</c:forEach>
 									</table> 
 									
-									
+									</div>
 									
 								</div>
 							</c:if>
