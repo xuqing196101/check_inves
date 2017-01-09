@@ -34,6 +34,9 @@ $(function() {
 	// loadRootArea();
 	autoSelected("business_select_id", "${currSupplier.businessType}");
 	autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
+	if ($("#overseas_branch_select_id").val() == "1") {
+		$("li[name='branch']").show();
+	}
 
 	if ("${currSupplier.status}" == 7) {
 		showReason();
@@ -116,27 +119,29 @@ function checkAll(ele, id) {
 				flag = false;
 			}
 		});
-		// 非空校验
-		$("#branch_list").find("input[type='text']").each(function(index,element){
-			if (element.value == "") {
-				msg = "境外信息不能为空！";
-				flag = false;
-			}
-		});
-		// 非空校验
-		$("#list-unstyled").find("select").each(function(index,element){
-			if (element.value == "") {
-				msg = "境外信息不能为空！";
-				flag = false;
-			}
-		});
-		// 非空校验
-		$("#list-unstyled").find("textarea").each(function(index,element){
-			if (element.value == "") {
-				msg = "境外信息不能为空！";
-				flag = false;
-			}
-		});
+		if ($("#overseas_branch_select_id").val() == "1") {
+			// 非空校验
+			$("#branch_list").find("input[type='text']").each(function(index,element){
+				if (element.value == "") {
+					msg = "境外信息不能为空！";
+					flag = false;
+				}
+			});
+			// 非空校验
+			$("#list-unstyled").find("select").each(function(index,element){
+				if (element.value == "") {
+					msg = "境外信息不能为空！";
+					flag = false;
+				}
+			});
+			// 非空校验
+			$("#list-unstyled").find("textarea").each(function(index,element){
+				if (element.value == "") {
+					msg = "境外信息不能为空！";
+					flag = false;
+				}
+			});
+		}
 		// 非空校验
 		$("#financeInfo").find("input[type='text']").each(function(index,element){
 			if (element.value == "") {
