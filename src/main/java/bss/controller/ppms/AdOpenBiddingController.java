@@ -42,6 +42,7 @@ import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TempletService;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.CnUpperCaser;
@@ -67,7 +68,6 @@ import bss.service.ppms.ScoreModelService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
-
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
@@ -122,6 +122,9 @@ public class AdOpenBiddingController {
     
     @Autowired
     private PackageFirstAuditService packageFirstAuditService;
+    
+    @Autowired
+    private SupplierExtUserServicel extUserServicel;
     
     /**
      * @Fields auditService : 引用初审项业务接口
@@ -204,10 +207,10 @@ public class AdOpenBiddingController {
      * @param model
      * @param response
      * @return
-     * @throws IOException 
+     * @throws Exception 
      */
     @RequestMapping("/bidFile")
-    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response) throws IOException{
+    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response) throws Exception{
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", id);
         List<AdvancedPackages> packages = packageService.selectByAll(map);
@@ -238,7 +241,7 @@ public class AdOpenBiddingController {
           model.addAttribute("fileId", files.get(0).getId());
         } else {
           if (project != null){
-            String filePath = packageFirstAuditService.downLoadBiddingDocs(id, project.getName(), project.getProjectNumber(), request);
+            String filePath = extUserServicel.downLoadBiddingDoc(request, id);
             if (StringUtils.isNotBlank(filePath)){
               model.addAttribute("filePath", filePath);
             }

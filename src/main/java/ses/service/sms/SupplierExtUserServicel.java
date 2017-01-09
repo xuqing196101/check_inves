@@ -64,6 +64,16 @@ public interface SupplierExtUserServicel {
      */
     void update(SupplierExtUser extUser);
     
-    void downLoadBiddingDoc(HttpServletRequest request,String projectId) throws Exception;
+    /**
+     * 
+     *〈简述〉生成模板
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param request
+     * @param projectId
+     * @return
+     * @throws Exception
+     */
+    String downLoadBiddingDoc(HttpServletRequest request,String projectId) throws Exception;
     
 }

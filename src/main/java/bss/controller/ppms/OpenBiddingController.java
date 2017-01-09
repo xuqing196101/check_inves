@@ -42,6 +42,7 @@ import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TempletService;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -63,7 +64,6 @@ import bss.service.ppms.ScoreModelService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
-
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
@@ -118,6 +118,9 @@ public class OpenBiddingController {
     
     @Autowired
     private PackageFirstAuditService packageFirstAuditService;
+    
+    @Autowired
+    private SupplierExtUserServicel extUserServicel; //模板引入
     
     /**
      * @Fields auditService : 引用初审项业务接口
@@ -200,10 +203,10 @@ public class OpenBiddingController {
      * @param model
      * @param response
      * @return
-     * @throws IOException 
+     * @throws Exception 
      */
     @RequestMapping("/bidFile")
-    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId) throws IOException{
+    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId) throws Exception{
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", id);
         List<Packages> packages = packageService.findPackageById(map);
@@ -234,7 +237,7 @@ public class OpenBiddingController {
           model.addAttribute("fileId", files.get(0).getId());
         } else {
           if (project != null){
-            String filePath = packageFirstAuditService.downLoadBiddingDoc(id, project.getName(), project.getProjectNumber(), request);
+            String filePath = extUserServicel.downLoadBiddingDoc(request,id);
             if (StringUtils.isNotBlank(filePath)){
               model.addAttribute("filePath", filePath);
             }

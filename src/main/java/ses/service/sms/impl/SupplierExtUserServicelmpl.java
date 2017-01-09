@@ -83,10 +83,10 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
   @Autowired
   PackageService packageService;
-  
+
   @Autowired
   UserServiceI userServiceI;
-  
+
   @Autowired
   PurchaseInfoMapper infoMapper;
 
@@ -144,12 +144,12 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
 
   /**
-   * 
+   * 生成模板
    * @throws Exception 
    * @see ses.service.sms.SupplierExtUserServicel#downLoadBiddingDoc()
    */
   @Override
-  public void downLoadBiddingDoc(HttpServletRequest request,String projectId) throws Exception {
+  public String downLoadBiddingDoc(HttpServletRequest request,String projectId) throws Exception {
     //经济评审
     List<MarkTerm> listScoreEconomy = new ArrayList<MarkTerm>();
 
@@ -158,15 +158,15 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
     //获取项目信息
     Project project = projectService.selectById(projectId);
+    
     //获取项目下的明细
     HashMap<String, Object> map = new HashMap<String, Object>();
     map.put("id", projectId);
-
     List<ProjectDetail> selectById = detailService.selectById(map);
+    
     //模型数据获取
     //显示经济技术 和子节点  子节点的子节点就是模型
     List<DictionaryData> ddList = DictionaryDataUtil.find(23);
-
     Packages packages = new Packages();
     packages.setProjectId(projectId);
     List<Packages> find = packageService.find(packages);
@@ -195,7 +195,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
       listScoreTechnology = new ArrayList<MarkTerm>();
 
     }
-    
+
     //获取项目承办人id
     User user = new User();
     user.setId(project.getPrincipal());
@@ -207,9 +207,6 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
 
     Map<String, Object> datamap = new HashMap<>();
-    //    Enumeration<String> paramNames = request.getParameterNames();
-    //    // 存入参数
-    //    while(paramNames.hasMoreElements()) {
     datamap.put("project", project);
     selectById.remove(0);
     selectById.remove(0);
@@ -222,15 +219,12 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     if (findPurchaseList != null && findPurchaseList.size() != 0) {
       datamap.put("user",findPurchaseList.get(0));
     }
-
-    //    }
-
     // 图片前缀路径
     datamap.put("host", request.getRequestURL().toString().replace(request.getRequestURI(),"") 
       + File.separator + request.getContextPath() + File.separator);
 
 
-    productionDoc(request, datamap);
+    return productionDoc(request, datamap,ftlName(project.getDictionary().getCode()));
 
   }
 
@@ -248,7 +242,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     List<MarkTerm> mtList = null;
     MarkTerm mt = new MarkTerm();
     mt.setTypeName(TypeName);
-    mt.setProjectId(projectId);
+    mt.setProjectId(projectId); 
     mt.setPackageId(packageId);
     //默认顶级节点为0
     mt.setPid("0");
@@ -276,6 +270,37 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     return mtList;
   }
 
+  /**
+   * 获取对应ftl模板
+   *〈简述〉
+   *〈详细描述〉
+   * @author Wang Wenshuai
+   * @return ftl path
+   */
+  private String ftlName(String ftl){
+    String str = "";
+    switch (ftl) {
+      case "GKZB":
+        str = "biddingdocument.ftl";
+        break;
+      case "XJCG":
+        str = "InquiryDocument.ftl";
+        break;
+      case "JZXTP":
+        str = "";
+        break;
+      case "DYLY":
+        str = "";
+        break;
+      case "YQZB":
+        str = "Invitebidding.ftl";
+        break;
+
+      default:
+        break;
+    }
+    return str;
+  }
 
   /**
    * 
@@ -285,13 +310,13 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
    * @param request {@link HttpServletRequest}
    * @return 文件名称
    */
-  private String productionDoc(HttpServletRequest request, Map<String,Object> dataMap){
+  private String productionDoc(HttpServletRequest request, Map<String,Object> dataMap,String ftlString){
     Configuration configuration = new Configuration();
     configuration.setDefaultEncoding("gb2312");
     configuration.setServletContextForTemplateLoading(request.getSession().getServletContext(), "/template");
     String filePath = "";
     try {
-      Template t = configuration.getTemplate("InquiryDocument.ftl");
+      Template t = configuration.getTemplate(ftlString);
       String basePath = PropUtil.getProperty("file.base.path");
       String temp = PropUtil.getProperty("file.temp.path");
       String path = basePath + File.separator + temp;
