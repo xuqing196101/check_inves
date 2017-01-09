@@ -1221,75 +1221,7 @@ table .input_group .add-on{
 }
 
 
-/*suobiaotou*/
-.t_left table{
-	border-collapse:collapse;
-	border-spacing:0px; 
-	width:100%; 
-	border:#ddd solid 0px;
-} 
-.t_left table td{
-	border:1px solid #ddd;
-	height:31px; 
-	text-align:center; 
-	border-left:0px;
-}
-.table_head td{
-	border:1px solid #ddd;
-	height:30px;
-	border-left:0px;
-}
-table.table_head th{ 
-	background:#f7f7f7; 
-	color:#a10333; 
-	border:#ddd solid 1px; 
-	text-align:center; 
-	white-space:nowrap; 
-	height:30px; 
-	border-top:0px;
-	border-left:0px;
-} 
-.t_left{
-	width:35%; 
-	height:auto; 
-	float:left;
-	border-top:1px solid #ddd;
-	border-left:1px solid #ddd;
-} 
-.t_r_content{
-	width:100%; 
-	height:auto; 
-	background:#fff; 
-	overflow:auto;
-} 
-.cl_freeze{
-	height:auto;
-	overflow:hidden; 
-	width:100%;
-}  
-.t_r{
-	width:64.5%; 
-	height:auto; 
-	float:left;
-	border-top:1px solid #ddd; 
-	border-right:#ddd solid 1px;
-} 
-.t_r_t{
-	width:100%; 
-	overflow:hidden;
-} 
-.bordertop{ 
-	border-top:0px;
-} 
-.t_r_title{
-	width:1720px;
-}
-.t_left.left_width{
-	width:5%;
-}
-.t_r.right_width{
-	width:94.5%;
-}
-.t_r table.table_head{
-	width:3600px;
+.scroll_top{
+	position:fixed;
+	top:0px;
 }

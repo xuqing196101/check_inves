@@ -177,16 +177,87 @@
 	       
 	
 </script>
-        
+<script type="text/javascript"
+ src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 <script type="text/javascript">
-function aa(){ 
-	var a=document.getElementById("t_r_content").scrollTop; 
-	var b=document.getElementById("t_r_content").scrollLeft; 
-	document.getElementById("cl_freeze").scrollTop=a; 
-	document.getElementById("t_r_t").scrollLeft=b; 
-} 
-</script>
+    function FixTable(TableID, FixColumnNumber, width, height) {
+    if ($("#" + TableID + "_tableLayout").length != 0) {
+        $("#" + TableID + "_tableLayout").before($("#" + TableID));
+        $("#" + TableID + "_tableLayout").empty();
+    }
+    else {
+        $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
+    }
+    $('<div id="' + TableID + '_tableFix"></div>'
+    + '<div id="' + TableID + '_tableHead"></div>'
+    + '<div id="' + TableID + '_tableColumn"></div>'
+    + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
+    var oldtable = $("#" + TableID);
+    var tableFixClone = oldtable.clone(true);
+    tableFixClone.attr("id", TableID + "_tableFixClone");
+    $("#" + TableID + "_tableFix").append(tableFixClone);
+    var tableHeadClone = oldtable.clone(true);
+    tableHeadClone.attr("id", TableID + "_tableHeadClone");
+    $("#" + TableID + "_tableHead").append(tableHeadClone);
+    var tableColumnClone = oldtable.clone(true);
+    tableColumnClone.attr("id", TableID + "_tableColumnClone");
+    $("#" + TableID + "_tableColumn").append(tableColumnClone);
+    $("#" + TableID + "_tableData").append(oldtable);
+    $("#" + TableID + "_tableLayout table").each(function () {
+        $(this).css("margin", "0");
+    });
+    var HeadHeight = $("#" + TableID + "_tableHead thead").height();
+    HeadHeight += 2;
+    $("#" + TableID + "_tableHead").css("height", HeadHeight);
+    $("#" + TableID + "_tableFix").css("height", HeadHeight);
+    var ColumnsWidth = 0;
+    var ColumnsNumber = 0;
+    $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
+        ColumnsWidth += $(this).outerWidth(true);
+        ColumnsNumber++;
+    });
+    ColumnsWidth += 2;
+    if ($.browser.msie) {
+        switch ($.browser.version) {
+            case "7.0":
+                if (ColumnsNumber >= 3) ColumnsWidth--;
+                break;
+            case "8.0":
+                if (ColumnsNumber >= 2) ColumnsWidth--;
+                break;
+        }
+    }
+    $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableData").scroll(function () {
+        $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
+        $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
+    });
+    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "Silver" });
+    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "Silver" });
+    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "Silver" });
+    $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
+    if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
+        $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
+        $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
+    }
+    if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
+        $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
+        $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
+    }
+    $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
+}
+$(document).ready(function () {
+		var boxwidth = $("#container").width();
+		var table_box = $("#table").width(boxwidth);
+            FixTable("table", 1, boxwidth, 460);
+        });
+        
 
+</script>
      
 </head>
 
@@ -203,161 +274,32 @@ function aa(){
 			<div class="clear"></div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="container" id="container">
 		<div class="headline-v2">
 			<h2>计划明细</h2>
 		</div>
 		<div class="content table_box">
-		
-		
-		   <div class="t_left left_width"> 
-		   <div class="w100p"> 
-				<table class="table_head"> 
-				
-					<tr> 
-						<th>序号</th>
-					</tr> 
-				</table> 
-			</div> 
-			<div class="cl_freeze" id="cl_freeze"> 
-				<table> 
-				<c:forEach items="${list }" var="obj" varStatus="vs">
-					<tr> 
-						<td class="tc"   class="bordertop">${obj.seq}<input class="border0" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-					</tr>
-					</c:forEach> 
-				</table> 
-			</div> 
-		  </div> 
-		 <div class="t_r right_width"> 
-             <div class="t_one">
-                <div class="t_r_t" id="t_r_t"> 
-                  <div class="t_r_title"> 
-                    <table class="table_head">
-						<tr> 
-							<th width="10%">需求部门</th>
-							<th width="10%">物资类别及物种名称</th>
-							<th width="5%">规格型号</th>
-							<th width="5%">质量技术标准（技术参数）</th>
-							<th width="5%">计量单位</th>
-							<th width="5%">采购数量</th>
-							<th width="5%">单位（元）</th>
-							<th width="5%">预算金额（万元）</th>
-							<th width="5%">交货期限</th>
-							<th width="5%">采购方式建议</th>
-							<th width="10%">供应商名称</th>
-							<th width="5%">是否申请办理免税</th>
-							<th width="5%">物资用途（仅进口）</th>
-							<th width="5%">使用单位（仅进口）</th>
-							<th width="10%">备注</th>
-							<th width="5%">状态</th>
-						</tr> 
-					</table> 
-				   </div> 
-				</div> 
-				<div class="t_r_content" id="t_r_content" onscroll="aa()"> 
-					<table class="table_input left_table table_head"> 
-					<c:forEach items="${list }" var="obj" varStatus="vs">
-						<tr> 
-                          <td width="10%"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
-                           <c:forEach items="${requires }" var="re" >
-					         <c:if test="${obj.department==re.name }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
-			               </c:forEach>
-                          </td>
-                  		  <td width="10%">
-                  		  		<input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName}">
-                  		  </td>
-                		  <td width="5%">
-                		  		<input type="text" name="list[${vs.index }].stand" value="${obj.stand}">
-                		  </td>
-                		  <td width="5%">
-                		  		<input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}">
-                		  </td>
-                          <td width="5%">
-                          		<input type="text" name="list[${vs.index }].item" value="${obj.item}" class="w80">
-                          </td>
-                          <td width="5%">
-                   			 <c:if test="${obj.purchaseCount!=null}">
-                               <input   type="hidden" name="ss"   value="${obj.id }" >
-                   			   <input maxlength="11" id="purchaseCount" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
-                               <input type="hidden" name="ss" value="${obj.parentId }">
-                             </c:if>
-                             <c:if test="${obj.purchaseCount==null }">
-                               <input class="border0" type="text" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount }">
-                             </c:if>
-                 		  </td>
-                 		  <td width="5%">
-                    		<c:if test="${obj.price!=null}">
-                   			   <input   type="hidden" name="ss"   value="${obj.id }">
-                   			   <input maxlength="11" id="price"  name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
-                   			   <input type="hidden" name="ss"   value="${obj.parentId }">
-                   			</c:if>
-                   			<c:if test="${obj.price==null}">
-                    		   <input readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
-                   			</c:if>
-                 		 </td>
-                          <td width="5%">
-                   			 <input   type="hidden" name="ss"   value="${obj.id }">
-                   			 <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="w80"/>
-                   			 <input type="hidden" name="ss"   value="${obj.parentId }">
-                 		 </td>
-                 		 <td width="5%">
-                 		 	 <input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate}" class="w100">
-                 		 </td>
-             		     <td width="5%">
-                   			<c:if test="${obj.price!=null}">
-                     		  <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
-                       			 <option value="">请选择</option>
-                       			 <c:forEach items="${kind}" var="kind" >
-                          			 <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
-                       			 </c:forEach>
-                      		  </select> 
-                            </c:if>
-               			</td>
-                        <td width="10%"> 
-				   <input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}" disabled="disabled">
-                        </td>
-                        <td width="5%">
-                        	<input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}">
-                        </td>
-                        <td width="5%">
-                        	<input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}">
-                        </td>
-                		<td width="5%">
-                			<input type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit}">
-                		</td>
-                        <td width="10%">${obj.memo }</td>
-                        <td width="5%">
-                        	<input type="text" value="暂存" readonly="readonly">
-                        </td>
-					</tr> 
-					</c:forEach>
-				</table> 
-		      </div>
-			</div> 
-         </div>
-       
-	   
 		<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
-             <div class="content table_box over_scroll h365 mt20">
-                 <table id="table" class="table table-bordered table-condensed table_input space_nowrap left_table">
+             <div class="content">
+                 <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; font-size: medium; border-left-color: #dddddd; max-width:10000px"
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table">
 					<thead>
-						<tr>
-							<th class="info w50">序号</th>
-							<th class="info">需求部门</th>
-							<th class="info">物资类别及物种名称</th>
+						<tr class="space_nowrap" id="scroll_top">
+							<th class="info">序号</th>
+							<th class="info w70">需求部门</th>
+							<th class="info">物资类别及</br>物种名称</th>
 							<th class="info">规格型号</th>
-							<th class="info">质量技术标准（技术参数）</th>
+							<th class="info">质量技术标准</br>（技术参数）</th>
 							<th class="info">计量单位</th>
 							<th class="info w100">采购数量</th>
-							<th class="info">单位（元）</th>
-							<th class="info">预算金额（万元）</th>
+							<th class="info">单位</br>（元）</th>
+							<th class="info">预算金额</br>（万元）</th>
 							<th class="info">交货期限</th>
-							<th class="info">采购方式建议</th>
+							<th class="info">采购方式</br>建议</th>
 							<th class="info">供应商名称</th>
-							<th class="info">是否申请办理免税</th>
-							<th class="info">物资用途（仅进口）</th>
-							<th class="info">使用单位（仅进口）</th>
+							<th class="info">是否申请</br>办理免税</th>
+							<th class="info">物资用途</br>（仅进口）</th>
+							<th class="info">使用单位</br>（仅进口）</th>
 							<th class="info">备注</th>
 							<th class="w100">状态</th>
 						</tr>
@@ -365,7 +307,7 @@ function aa(){
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
-                           <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
+                           <td class="tc">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
                            <td class="tl "><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
                            <c:forEach items="${requires }" var="re" >
 					         <c:if test="${obj.department==re.name }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
