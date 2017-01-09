@@ -291,7 +291,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
         str = "InquiryDocument.ftl";
         break;
       case "JZXTP":
-        str = "";
+        str = "jzxtp.ftl";
         break;
       case "DYLY":
         str = "";

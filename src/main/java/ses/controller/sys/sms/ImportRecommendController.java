@@ -191,16 +191,16 @@ public class ImportRecommendController extends BaseSupplierController {
             userrole.setUserId(user);
             /**给该用户初始化进口代理商角色*/
             userService.saveRelativity(userrole);
-            String[] roleIds = listRole.get(0).getId().split(",");
-            List<String> listMenu = menuService.findByRids(roleIds);
+           //String[] roleIds = listRole.get(0).getId().split(",");
+           //List<String> listMenu = menuService.findByRids(roleIds);
             /**给用户初始化进口代理商菜单权限*/
-            for (String menuId : listMenu) {
+            /*for (String menuId : listMenu) {
                 UserPreMenu upm = new UserPreMenu();
                 PreMenu preMenu = menuService.get(menuId);
                 upm.setPreMenu(preMenu);
                 upm.setUser(user);
                 userService.saveUserMenu(upm);
-            }
+            }*/
         }
         return "redirect:list.html";
     }

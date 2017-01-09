@@ -15,8 +15,42 @@
         	oRect = obj.getBoundingClientRect();  
         	y=oRect.top-150;  
         	x=oRect.left;
+        	var reg = /^\d+\.?\d*$/;
+        	var typename= $("#typeName").val();
+        	var business = $("input[name='business']").val();
+        	var valid = $("input[name='valid']").val();
+        	var fr = $("input[name='floatingRatio']").val();
+        	if (typename == 0) {
+        		if (valid == "" || fr =="") {
+        			layer.msg("表单需要填写完整",{offset: ['30%', '40%']});
+        			return;
+        		}
+        		if(!reg.exec(valid)) {
+					layer.msg("请填写数字",{offset: ['30%', '40%']});
+					return;
+				}
+				if(!reg.exec(fr)) {
+					layer.msg("请填写数字",{offset: ['30%', '40%']});
+					return;
+				}
+        	}
+        	if (typename == 2) {
+        		if (valid == "" || business =="") {
+        			layer.msg("表单需要填写完整",{offset: ['30%', '40%']});
+        			return;
+        		}
+        		if(!reg.exec(valid)) {
+					layer.msg("请填写数字",{offset: ['30%', '40%']});
+					return;
+				}
+				if(!reg.exec(business)) {
+					layer.msg("请填写数字",{offset: ['30%', '40%']});
+					return;
+				}
+        	}
 			form1.submit();
 		}
+		
 		
 		function show(id){
 		    //综合评分法
@@ -96,18 +130,20 @@
 							  <div id="floatingRatio" class="col-md-12 col-xs- 12 col-sm-12 p0">
 								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">浮动比例(%):</span> 
 								<div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
-								    <input name="floatingRatio" type="text" value="${bidMethod.floatingRatio }">
+								    <input name="floatingRatio"  type="text" value="${bidMethod.floatingRatio }">
 								    <span class="add-on">i</span>
 								</div>
+								<div class="cue">${fr }</div>
 							  </div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12 clear" >
 							   <div id="valid" class="col-md-12 col-xs- 12 col-sm-12 p0">
 								 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">供应商报价不得高于有效供应商报价平均值的百分比(%)：</span> 
 								 <div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
-								    <input name="valid"  type="text" value="${bidMethod.valid }">
+								    <input name="valid"   type="text" value="${bidMethod.valid }">
 								    <span class="add-on">i</span>
 								 </div>
+								 <div class="cue">${valid }</div>
 							   </div>
 									<!-- <span>供应商报价不得超过有效供应商报价平均值百分比</span> -->
 							</li>
@@ -119,6 +155,7 @@
 								    <input name="business"  type="text" value="${bidMethod.business }">
 								     <span class="add-on">i</span>
 								</div>
+								<div class="cue">${busi }</div>
 								</div>
 							</li>
 					  </ul>

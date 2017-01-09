@@ -178,7 +178,7 @@
                     </tr>
                     <c:forEach items="${items1}" var="i" varStatus="iv">
                     <tr>
-                        <td class="w260">
+                        <td class="w400">
                             <c:if test="${i.kind == d.id}">
                                  <span class="fl">${i.name}</span>
 	                             <a href="javascript:void(0);" title="编辑" onclick="editItem('${i.id}');" class="item_size editItem"></a>
@@ -204,7 +204,7 @@
                     </tr>
                     <c:forEach items="${items2}" var="i" varStatus="iv">
                     <tr>
-                        <td class="w260">
+                        <td class="w400">
                             <c:if test="${i.kind == d.id}">
                                  <span class="fl">${i.name}</span>
                                  <a href="javascript:void(0);" title="编辑" onclick="editItem('${i.id}');" class="item_size editItem"></a>

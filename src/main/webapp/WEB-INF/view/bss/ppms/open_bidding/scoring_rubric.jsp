@@ -236,10 +236,10 @@
 										请选择评分办法
 								</c:if>
 								<c:if test="${p.isEditSecond == 1 and project.confirmFile != 1}">
-										维护评分细则
+										已维护
 								</c:if>
 								<c:if test="${p.isEditSecond == 2}">
-										已完成
+										已维护
 								</c:if>
 								</td>
 								<td class="tc">
