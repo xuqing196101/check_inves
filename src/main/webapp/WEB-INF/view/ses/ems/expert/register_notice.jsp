@@ -5,6 +5,7 @@
 <head>
 
 <%@ include file="/reg_head.jsp"%>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <title>评审专家注册须知</title>
 <script type="text/javascript">
 	$(function() {

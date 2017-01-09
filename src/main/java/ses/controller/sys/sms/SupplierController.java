@@ -1093,8 +1093,8 @@ import ses.util.WfUtil;
        count++;
      }*/
      if (StringUtils.isNotBlank(supplier.getMobile())){
-       Integer mobileCount = supplierService.getCountMobile(supplier.getMobile());
-       if(mobileCount > 0){
+       Boolean ajaxMoblie = userService.ajaxMoblie(supplier.getMobile(), null);
+       if(!ajaxMoblie){
          count++;
          model.addAttribute("err_msg_mobile", "手机号已存在 !");
        }

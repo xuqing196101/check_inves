@@ -5,6 +5,7 @@
 <head>
 
 <%@ include file="/reg_head.jsp"%>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script type="text/javascript">
 	$(function() {
 		// 注册须知

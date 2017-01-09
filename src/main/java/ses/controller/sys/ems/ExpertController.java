@@ -2368,8 +2368,8 @@ public class ExpertController extends BaseController {
       @ResponseBody
       @RequestMapping("/validatePhone")
       public String findAllPhone(String phone) {
-          List<Expert> list = service.validatePhone(phone);
-          if (list.isEmpty()) {
+          Boolean ajaxMoblie = userService.ajaxMoblie(phone, null);
+          if (ajaxMoblie) {
               return "0";
           } else {
               return "1";
@@ -2398,15 +2398,11 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @RequestMapping("/validateIdCardNumber")
     public String validateIdCardNumber(String idCardNumber, String expertId) {
-        List<Expert> list = service.validateIdCardNumber(idCardNumber, expertId);
-        if (list.isEmpty()) {
+        Boolean ajaxIdNumber = userService.ajaxIdNumber(idCardNumber, userService.findByTypeId(expertId).getId());
+        if (ajaxIdNumber) {
             return "0";
         } else {
-            if (list.size() == 1 && expertId.equals(list.get(0).getId())) {
-                return "0";
-            } else {
-                return "1";
-            }
+            return "1";
         }
     }
     

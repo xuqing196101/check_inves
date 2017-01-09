@@ -6,7 +6,7 @@
 <link href="${pageContext.request.contextPath}/public/webupload/css/viewer.css" media="screen" rel="stylesheet" type="text/css">
 
 <!-- 文件上传 -->
-<script src="${pageContext.request.contextPath}/public/webupload/js/webuploader"></script>
+<script src="${pageContext.request.contextPath}/public/webupload/js/webuploader.js"></script>
 <script src="${pageContext.request.contextPath}/public/webupload/js/upload.js"></script>
 <!-- 文件显示 -->
 <script src="${pageContext.request.contextPath}/public/webupload/js/viewer.js"></script>

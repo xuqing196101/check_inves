@@ -5,6 +5,7 @@
 <head>
 
 <%@ include file="/reg_head.jsp"%>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <title>添加物资销售证书信息</title>
 
 <meta http-equiv="pragma" content="no-cache">
