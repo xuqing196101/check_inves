@@ -480,18 +480,27 @@ public class AuditSetController {
 		        	 cell = row.createCell(14);  
 		 	        cell.setCellValue("一轮审核建议");  
 //		        }
+		 	        
+		 	       if(plan.getAuditTurn()==3||plan.getAuditTurn()==2){
+				        	 cell = row.createCell(15);  
+				 	        cell.setCellValue("二轮轮审核建议");  
+			        }
+		 	       if(plan.getAuditTurn()==3){
+			        	cell = row.createCell(16);  
+			 	        cell.setCellValue("三轮审核建议");  
+			        }
 	        }
 	       
-	        if(plan.getAuditTurn()==2){
+//	        if(plan.getAuditTurn()==2){
 //	        	 if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==12||plan.getStatus()==2){
-		        	 cell = row.createCell(15);  
-		 	        cell.setCellValue("二轮轮审核建议");  
+//		        	 cell = row.createCell(15);  
+//		 	        cell.setCellValue("二轮轮审核建议");  
 //		        }
-	        }
-	        if(plan.getAuditTurn()==3){
-	        	cell = row.createCell(16);  
-	 	        cell.setCellValue("三轮审核建议");  
-	        }
+//	        }
+//	        if(plan.getAuditTurn()==3){
+//	        	cell = row.createCell(16);  
+//	 	        cell.setCellValue("三轮审核建议");  
+//	        }
 //	        cell = row.createCell(14);  
 //	        cell.setCellValue("采购机构"); 
 //	        cell = row.createCell(15);  
@@ -571,14 +580,18 @@ public class AuditSetController {
 	   	         cell = row.createCell(14);  
 		   	        cell.setCellValue(p.getOneAdvice()); 
 	   	        }
-	   	       if(plan.getAuditTurn()==2){
+	   	     if(plan.getAuditTurn()!=null){
+	   	       if(plan.getAuditTurn()==2||plan.getAuditTurn()==3){
 	   	         cell = row.createCell(15);  
 		   	        cell.setCellValue(p.getTwoAdvice()); 
 	   	        }
+	   	     }
+	   	  if(plan.getAuditTurn()!=null){
 	   	      if(plan.getAuditTurn()!=3){
 	   	         cell = row.createCell(16);  
 		   	        cell.setCellValue(p.getThreeAdvice()); 
 	   	        }
+	   	  }
 //	   	        int an=13;
 //	   	        for(AuditParam ap:all){
 //	   	        	 

@@ -185,7 +185,18 @@ public class PlanLookController extends BaseController {
         return "bss/pms/collect/plan_views";
     }
 	
-	
+	/**
+	 * 
+	* @Title: views
+	* @Description: 按照需求部门查看
+	* author: Li Xiaoxiao 
+	* @param @param org
+	* @param @param planNo
+	* @param @param model
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
 	@RequestMapping("/views")
     public String views(String org, String planNo, Model model){
        HashMap<String, Object> map = new HashMap<>();
@@ -238,6 +249,7 @@ public class PlanLookController extends BaseController {
 	 */
 	@RequestMapping("/print")
 	public String print(String id,Model model,HttpServletRequest request){
+		CollectPlan plan = collectPlanService.queryById(id);
 //		List<String> no = collectPurchaseService.getNo(id);
 //		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
 //		if(no!=null&&no.size()>0){
@@ -248,16 +260,19 @@ public class PlanLookController extends BaseController {
 //		}
 //		model.addAttribute("list", list);
 		
-		List<PurchaseRequired> list = collectPlanService.getAll(id,request);
+		
+		
+		List<PurchaseDetail> list =purchaseDetailService.getUnique(id);
 		
 		model.addAttribute("list", list);
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
-	  List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+	   List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
 		
 	      model.addAttribute("org", org);	
-      model.addAttribute("kind", DictionaryDataUtil.find(5));	
+         model.addAttribute("kind", DictionaryDataUtil.find(5));	
+         model.addAttribute("auditTurn", plan.getAuditTurn());	
 		return "bss/pms/collect/print";
 	}
 	

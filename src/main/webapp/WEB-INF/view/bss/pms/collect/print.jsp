@@ -89,11 +89,16 @@
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 					<tr>
-							<th class="info" colspan="13">事业部门需求</th>
-						 
-							<c:forEach items="${bean }" var="obj">
-								<th class="info" colspan="${obj.size}q">${obj.name }</th>
-							</c:forEach>
+							<th class="info" colspan="14">事业部门需求</th>
+						 	<c:if test="${auditTurn!=null }">
+						 		<th class="info" >一轮审核</th>
+						 	</c:if>
+							 <c:if test="${auditTurn==2||auditTurn==3}">
+						 		<th class="info" >二轮审核</th>
+						 	</c:if>
+						 	<c:if test="${auditTurn==3}">
+						 		<th class="info" >三轮审核</th>
+						 	</c:if>
 						</tr>
 					
 						<tr>
@@ -107,28 +112,20 @@
 							<th class="info">单位（元）</th>
 							<th class="info">预算金额（万元）</th>
 							<th class="info">交货期限</th>
-							<th class="info">采购方式建议</th>
+							<th class="info">采购方式</th>
+							<th class="info">采购机构</th>
 							<th class="info">供应商名称</th>
 					 		<th class="info">备注</th>
-							<c:forEach items="${all }" var="p">
-											<th class="info">
-											  <c:if test="${p.param=='1'}">
-												  	采购方式
-												  </c:if>
-												   <c:if test="${p.param=='2'}">
-												  	采购机构
-												  </c:if>
-												
-												   <c:if test="${p.param=='3'}">
-												     	其他建议
-														
-												  </c:if>
-												    <c:if test="${p.param=='4'}">
-													 技术参数意见
-										  </c:if>
-											</th>
-							</c:forEach>
-							
+				 	 		
+							<c:if test="${auditTurn!=null }">
+						 		<th class="info" >一轮审核意见</th>
+						 	</c:if>
+							 <c:if test="${auditTurn==2||auditTurn==3}">
+						 		<th class="info" >二轮审核意见</th>
+						 	</c:if>
+						 	<c:if test="${auditTurn==3}">
+						 		<th class="info" >三轮审核意见</th>
+						 	</c:if>
 						</tr>
 					</thead>
 
@@ -150,9 +147,27 @@
 									<c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
 								</c:forEach>
 							</td>
-							<td class="tl pl20">${obj.supplier }</td>
-							<td class="tl pl20">${obj.memo }
+							<td>
+								<c:forEach items="${org}" var="org">
+									<c:if test="${org.orgId == obj.organization}">${org.name}</c:if>
+								</c:forEach>
+							</td>
 							
+							
+							
+							<td class="tl pl20">${obj.supplier }</td>
+							<td class="tl pl20">${obj.memo }</td>
+							<c:if test="${auditTurn!=null }">
+						 		<td class="info" >${obj.oneAdvice }</td>
+						 	</c:if>
+							 <c:if test="${auditTurn==2||auditTurn==3}">
+						 		<td class="info" >${obj.twoAdvice }</td>
+						 	</c:if>
+						 	<c:if test="${auditTurn==3}">
+						 		<td class="info" >${obj.threeAdvice }</td>
+						 	</c:if>
+						 	
+						<%-- 	
 							<c:forEach items="${all }" var="al">
 							
 								
@@ -161,14 +176,10 @@
 									<c:if test="${as.purchaseId==obj.id and as.auditParamId==al.id }">
 										${as.paramValue }
 									</c:if>
-								 </c:forEach>
-								<%-- <td class="tc">${obj.oneOrganiza }
-								<td class="tc">${obj.oneAdvice }
-								<td class="tc">${obj.twoTechAdvice }
-								<td class="tc">${obj.twoAdvice } --%>
+					 
 								</td>
 							
-							</c:forEach>
+							</c:forEach> --%>
 						</tr>
 
 					</c:forEach>
