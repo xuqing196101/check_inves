@@ -267,6 +267,32 @@ public class UserServiceImpl implements UserServiceI {
 		List<User> users = userMapper.listWithoutSupplier();
 		return users;
 	}
+
+  @Override
+  public Boolean ajaxIdNumber(String idNumber, String id) {
+    User user = new User();
+    user.setId(id);
+    user.setIdNumber(idNumber);
+    List<User> users = userMapper.ajaxIdNumber(user);
+    if (users != null && users.size() > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @Override
+  public Boolean ajaxMoblie(String mobile, String id) {
+    User user = new User();
+    user.setId(id);
+    user.setMobile(mobile);
+    List<User> users = userMapper.ajaxMoblie(user);
+    if (users != null && users.size() > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   
   
     

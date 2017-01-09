@@ -463,7 +463,7 @@
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">单位及保密委员会审核表：</span>
               <div>
-                <u:upload id="artice_secret_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${article.id}" sysKey="${sysKey}" typeId="${secretTypeId}" auto="true" />
+                <u:upload id="artice_secret_up" multiple="true" groups="artice_up,artice_file_up,artice_secret_up" businessId="${article.id}" sysKey="${sysKey}" typeId="${secretTypeId}" auto="true" />
                 <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${sysKey}" typeId="${secretTypeId}" />
               </div>
               <div class="cue">${ERR_auditDoc}</div>

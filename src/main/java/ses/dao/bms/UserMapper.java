@@ -229,4 +229,20 @@ public interface UserMapper {
      * @param user
      */
     void saveUser(User user);
+
+    /**
+     *〈简述〉校验身份证号重复
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param idNumber
+     */
+    List<User> ajaxIdNumber(User user);
+
+    /**
+     *〈简述〉校验手机号重复
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param mobile
+     */
+    List<User> ajaxMoblie(User user);
 }

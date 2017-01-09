@@ -198,6 +198,65 @@
 				$("#oId").val("${user.orgName}");
 			}
 		});
+		
+		function ajaxMoblie(){
+			 var is_error = 0;
+			 var mobile = $("#mobile").val();
+			 var id = $("#uId").val();
+			 $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile+"&id="+id,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+						$("#ajax_mobile").html(data.msg);
+						is_error = 1;
+					 } else {
+					 	$("#ajax_mobile").html("");
+					 }
+               }
+         	});
+         	return is_error;
+		}
+		
+		function ajaxIdNumber(){
+			 var is_error = 0;
+			 var idNumber = $("#idNumber").val();
+			 var id = $("#uId").val();
+			 $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/ajaxIdNumber.do?idNumber="+idNumber+"&id="+id,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+						$("#ajax_idNumber").html(data.msg);
+						is_error = 1;
+					 } else {
+					 	$("#ajax_idNumber").html("");
+					 }
+               }
+         	});
+         	return is_error;
+		}
+		
+		$(document).ready(function(){  
+    		$("#form1").bind("submit", function(){  
+    			var error = 0;
+    			if (ajaxIdNumber() == 1) {
+					error += 1;
+				} 
+				if (ajaxMoblie() == 1){
+					error += 1;
+				} 
+				if (error > 0) {
+					return false;
+				} else {
+					return true;
+				}
+    		})
+    	})
 	</script>
 </head>
 <body>
@@ -222,7 +281,7 @@
 	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeRole" class="ztree mt0"></ul>
 	   </div>
-	   <sf:form action="${pageContext.request.contextPath}/user/update.html" method="post" modelAttribute="user">
+	   <sf:form id="form1" action="${pageContext.request.contextPath}/user/update.html" method="post" modelAttribute="user">
 	   	  	<input type="hidden" name="origin"  value="${origin}"/>
 	   	  	<input type="hidden" name="deptTypeName" value="${typeName}"/>
 	   	   <div>
@@ -238,10 +297,10 @@
 	   				<li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 					   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>用户名</span>
 					   <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input name="loginName" readonly="readonly" value="${user.loginName }" maxlength="30" type="text">
+				        <input id="loginName" name="loginName" readonly="readonly" value="${user.loginName }" maxlength="30" type="text">
 				        <span class="add-on">i</span>
 				       	<div class="cue"><sf:errors path="loginName"/></div>
-				       	<div class="cue">${exist }</div>
+				       	<div id="is_exist" class="cue">${exist }</div>
 				       </div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
@@ -267,9 +326,10 @@
 			     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>手机</span>
 					    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0" >
-					        <input class="span5" name="mobile" value="${user.mobile }" maxlength="40" type="text">
+					        <input class="span5" id="mobile" name="mobile" value="${user.mobile }" maxlength="40" onblur="ajaxMoblie()" type="text">
 					        <span class="add-on">i</span>
 					        <div class="cue"><sf:errors path="mobile"/></div>
+					        <div id="ajax_mobile" class="cue"></div>
 				        </div>
 				 	</li>
 			        <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
@@ -330,8 +390,9 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">身份证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input  name="idNumber" value="${user.idNumber}"  maxlength="20" type="text">
+			        	<input id="idNumber" name="idNumber" value="${user.idNumber}" onblur="ajaxIdNumber()" maxlength="20" type="text">
 			        	<span class="add-on">i</span>
+			        	<div id="ajax_idNumber" class="cue"></div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">

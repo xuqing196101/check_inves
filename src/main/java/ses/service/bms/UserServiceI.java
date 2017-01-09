@@ -1,5 +1,6 @@
 package ses.service.bms;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -246,4 +247,20 @@ public interface UserServiceI {
    * @param user 
    */
   void saveUser(User user);
+
+  /**
+   *〈简述〉校验身份证号重复
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param idNumber
+   */
+  Boolean ajaxIdNumber(String idNumber, String id);
+
+  /**
+   *〈简述〉校验手机号重复
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param mobile
+   */
+  Boolean ajaxMoblie(String mobile, String id);
 }

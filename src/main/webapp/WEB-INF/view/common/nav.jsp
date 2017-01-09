@@ -46,13 +46,21 @@
 							 		<c:if test="${resource.id == res.parentId.id}">
 				                   		<li class="line-block drop_two">
 				                   			<a href="<c:if test='${res.url == null}'>javascript:void(0);</c:if><c:if test='${res.url != null}'>${pageContext.request.contextPath}/${res.url}</c:if>" target="home" class="son-menu"><span class="mr5">◇</span>${res.name }</a>
-			                   				<ul class="dropdown-menuson dropdown-menu">
-				                   				<c:forEach items="${sessionScope.resource}" var="r" varStatus="vs">
-				                   					<c:if test="${res.id == r.parentId.id}">
-							                   			<li><a href="${pageContext.request.contextPath}/${r.url}" target="home" class="son-menu son-three"><span class="mr5">◇</span>${r.name }</a></li>
-				                   					</c:if>
-				                   				</c:forEach>
-			                   				</ul>
+			                   				<c:set var="count" value="0" />
+			                   				<c:forEach items="${sessionScope.resource}" var="r" varStatus="vs">
+			                   					<c:if test="${res.id == r.parentId.id}">
+			                   						<c:set var="count" value="${count+1}" />
+			                   					</c:if>
+			                   				</c:forEach>
+			                   				<c:if test="${count > 0}">
+				                   				<ul class="dropdown-menuson dropdown-menu">
+					                   				<c:forEach items="${sessionScope.resource}" var="r" varStatus="vs">
+					                   					<c:if test="${res.id == r.parentId.id}">
+								                   			<li><a href="${pageContext.request.contextPath}/${r.url}" target="home" class="son-menu son-three"><span class="mr5">◇</span>${r.name }</a></li>
+					                   					</c:if>
+					                   				</c:forEach>
+				                   				</ul>
+			                   				</c:if>
 				                   		</li>
 				                 	</c:if>
 					 			</c:forEach>

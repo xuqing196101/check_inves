@@ -796,4 +796,82 @@ public class UserManageController extends BaseController{
             response.getWriter().close();
         }
 	}
+	
+	/**
+   *〈简述〉校验手机号重复
+   *〈详细描述〉
+   * @author Ye MaoLin
+	 * @param mobile
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping("/ajaxMoblie")
+  public void ajaxMoblie(String mobile, String id, HttpServletResponse response) throws IOException {
+      try {
+        String msg = "";
+        if (mobile == null || "".equals(mobile)) {
+          msg = "手机号不能为空";
+          response.setContentType("text/html;charset=utf-8");
+          response.getWriter().print(
+              "{\"success\": " + false + ", \"msg\": \"" + msg
+              + "\"}");
+        } else {
+          Boolean result = userService.ajaxMoblie(mobile, id);
+          if (!result) {
+            msg = "该手机号已注册";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().print(
+                "{\"success\": " + false + ", \"msg\": \"" + msg
+                + "\"}");
+          } else {
+            msg = "该手机号可用";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter()
+            .print("{\"success\": " + true + ", \"msg\": \"" + msg
+                + "\"}");
+          }
+        }
+        response.getWriter().flush();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally{
+        response.getWriter().close();
+      }
+  }
+	
+	/**
+   *〈简述〉校验身份证号重复
+   *〈详细描述〉
+   * @author Ye MaoLin
+	 * @param idNumber
+	 * @param response
+	 * @throws IOException
+	 */
+	@RequestMapping("/ajaxIdNumber")
+  public void ajaxIdNumber(String idNumber, String id, HttpServletResponse response) throws IOException {
+      try {
+        String msg = "";
+        if (idNumber != null && !"".equals(idNumber)) {
+          Boolean result = userService.ajaxIdNumber(idNumber, id);
+          if (!result) {
+            msg = "该身份证号已注册";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().print(
+                "{\"success\": " + false + ", \"msg\": \"" + msg
+                + "\"}");
+          } else {
+            msg = "该身份证号可用";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter()
+            .print("{\"success\": " + true + ", \"msg\": \"" + msg
+                + "\"}");
+          }
+        }
+        response.getWriter().flush();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally{
+        response.getWriter().close();
+      }
+  }
 }
