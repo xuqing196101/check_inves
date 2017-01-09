@@ -32,6 +32,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
@@ -95,7 +96,7 @@ public class CollectPlanController extends BaseController {
 		* @throws
 		 */
     @RequestMapping("/list")
-    public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model,String status){
+    public String queryPlan(@CurrentUser User user,PurchaseRequired purchaseRequired,Integer page,Model model,String status){
     Map<String,Object> map=new HashMap<String,Object>();
 //    purchaseRequired.setIsMaster(1);
     if(purchaseRequired.getStatus()==null){
@@ -108,8 +109,15 @@ public class CollectPlanController extends BaseController {
     }else if(purchaseRequired.getStatus().equals("5")){
     	map.put("status", "5");
     }
-    map.put("status", 1);
-    
+//    map.put("status", 1);
+    map.put("isMaster", "1");
+	List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
+	List<String> listDep=new ArrayList<String>();
+	for(PurchaseOrg p:list2){
+		Orgnization dep= purchaseRequiredService.queryByDepId(p.getOrgId());
+		listDep.add(dep.getName());
+	}
+	map.put("list", listDep);
     List<PurchaseRequired> list = purchaseRequiredService.queryByAuthority(map,page==null?1:page);
     PageInfo<PurchaseRequired> info = new PageInfo<>(list);
     model.addAttribute("info", info);

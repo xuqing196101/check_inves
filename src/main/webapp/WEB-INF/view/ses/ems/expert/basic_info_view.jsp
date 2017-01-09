@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <%--<jsp:include page="/WEB-INF/view/ses/ems/expert/common/common.jsp"></jsp:include>--%>
 <!DOCTYPE HTML>
 <html>

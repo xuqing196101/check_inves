@@ -4,7 +4,6 @@
 <html>
 <head>
 <%@ include file="/reg_head.jsp"%>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script type="text/javascript">
 
  //显示生产的信息
@@ -1625,7 +1624,7 @@ $(function(){
 										 
 										 
 									<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-	 	              					<legend> 供应商资服务质证书 </legend>
+	 	              					<legend> 供应商服务资质证书  </legend>
 										<div class="col-md-12 col-xs-12 col-sm-12 p0">
 													<div class="col-md-12 col-xs-12 col-sm-12">
 														<button type="button" class="btn padding-left-20 padding-right-20 btn_back " onclick="openCertSe()">新增</button>

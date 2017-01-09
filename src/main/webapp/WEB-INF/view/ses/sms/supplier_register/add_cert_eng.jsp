@@ -4,7 +4,6 @@
 <html>
 <head>
 <%@ include file="/reg_head.jsp"%>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 
 <title>添加供应商工程证书信息</title>
 

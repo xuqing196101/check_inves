@@ -5,7 +5,6 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/view/common.jsp" %>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script type="text/javascript">
 
 </script>
