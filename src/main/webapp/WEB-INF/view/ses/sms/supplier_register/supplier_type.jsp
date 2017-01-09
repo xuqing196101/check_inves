@@ -1171,10 +1171,10 @@ $(function(){
 															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" /> </td>
 															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" value="${certPro.licenceAuthorith}"/></td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" value="<fmt:formatDate value="${certPro.expStartDate}"/>"   />
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" value="<fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd"/>"   />
 														    </td>
 															<td class="tc">
-																<input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}"/>"  />
+																<input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd"/>"  />
 														    </td>
 															<td class="tc">
 															   <select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot">
@@ -1289,10 +1289,10 @@ $(function(){
 															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" value="${certSell.levelCert}"/></td>
 															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" value="${certSell.licenceAuthorith}"/></td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" value="<fmt:formatDate value="${certSell.expStartDate}"/>"   />
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" value="<fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd"/>"   />
 														    </td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" value="<fmt:formatDate value="${certSell.expEndDate}"/>"   />
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd"/>"   />
 														    </td>
 														    <td class="tc">
 															   <select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot">
@@ -1466,8 +1466,8 @@ $(function(){
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt" value="${certEng.depPt}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop" value="${certEng.depJop}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith" value="${certEng.licenceAuthorith}"/></td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}"/>"/></td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>" pattern="yyyy-MM-dd"/></td>
 															<td class="tc">
 															   <select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus">
 														          <option value="1" <c:if test="${certEng.certStatus==1}"> selected="selected"</c:if> >有效</option>
@@ -1539,7 +1539,7 @@ $(function(){
 															</td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteCode" value="${aptitute.aptituteCode}"/></td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>" pattern="yyyy-MM-dd"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay" value="${aptitute.aptituteWay}"/></td>
 															<td class="tc">
 															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus">
@@ -1547,7 +1547,7 @@ $(function(){
 														          <option value="0"  <c:if test="${aptitute.aptituteStatus==0}"> selected="selected"</c:if>>无效</option>
 														        </select>
 															</td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}"/>"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
 															<td class="tc">
 															 <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="1" sysKey="1"  auto="true" />
@@ -1656,8 +1656,8 @@ $(function(){
 															<td class="tc"><input type="text" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name" value="${certSe.name}"/></td>
 															<td class="tc"><input type="text" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert" value="${certSe.levelCert}"/></td>
 															<td class="tc"><input type="text" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith" value="${certSe.licenceAuthorith}"/></td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}"/>"/></td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}"/>"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc">
 																<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot">
 																	<option value="1" <c:if test="${certSe.mot==1}"> selected="selected"</c:if>>是</option>
