@@ -21,7 +21,7 @@ public class DisPlayTld extends TagSupport {
     /**
      * @Fields serialVersionUID : TODO(目的和意义)
      */
-    private static final long serialVersionUID = -3670107175836946079L;
+    private static final long serialVersionUID = 3670107175836946079L;
     
     /** 一组显示 **/
     private String groups;
@@ -42,6 +42,16 @@ public class DisPlayTld extends TagSupport {
     
     @Override
     public int doStartTag() throws JspException {
+        JspWriter out = pageContext.getOut();
+        String path = pageContext.getServletConfig().getServletContext().getContextPath();
+        try {
+            out.println("<link href='"+ path +"/public/webupload/css/uploadView.css?v='"+System.currentTimeMillis()+"  rel='stylesheet' type='text/css' />");
+            out.println("<link href='"+ path +"/public/webupload/css/viewer.css?v='"+System.currentTimeMillis()+"  rel='stylesheet' type='text/css' />");
+            out.println("<script src='" + path + "/public/webupload/js/viewer.js?v='"+System.currentTimeMillis()+"'></script>");
+            out.println("<script src='" + path + "/public/webupload/js/display.js?v='"+System.currentTimeMillis()+"'></script>");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return EVAL_BODY_INCLUDE;
     }
 

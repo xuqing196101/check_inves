@@ -55,13 +55,13 @@ public class UploadTld extends TagSupport {
     /** 上传按钮名称 */
     private String uloadButton = "开始上传";
     /** 选择按钮名称 */
-    private String uClass = "wu-example";
+    private String uClass = "wuexample";
     /** 总样式 */
-    private String uListClass = "uploader-list";
+    private String uListClass = "uploaderlist";
     /** 按钮样式 */
     private String btnClass = "btns";
     /** 上传按钮样式 */
-    private String upBtnClass = "btn webuploader-button";
+    private String upBtnClass = "btn webuploaderbutton";
     /** 业务ID */
     private String businessId;
     /** 业务类型Id */
@@ -99,6 +99,20 @@ public class UploadTld extends TagSupport {
     
     @Override
     public int doStartTag() throws JspException  {
+        
+        JspWriter out = pageContext.getOut();
+                String path = pageContext.getServletConfig().getServletContext().getContextPath();
+               
+                try {
+                    out.println("<link href='"+ path +"/public/webupload/css/webuploader.css?v='"+System.currentTimeMillis()+" rel='stylesheet' type='text/css' />");
+                    out.println("<link href='"+ path +"/public/webupload/css/uploadView.css?v='"+System.currentTimeMillis()+"  rel='stylesheet' type='text/css' />");
+                    
+                    out.println("<script src='" + path + "/public/webupload/js/webuploader.js?v='"+System.currentTimeMillis()+"></script>");
+                    out.println("<script src='" + path + "/public/webupload/js/upload.js?v='"+System.currentTimeMillis()+"></script>");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                 
         
         //系统key值判断
         if (StringUtils.isNotBlank(sysKey)){
@@ -154,7 +168,7 @@ public class UploadTld extends TagSupport {
             out.println("<div class=\"" + btnClass + "\">");
             out.println("<div id=\""+id+"_picker\"></div>");
             if (!auto){
-                out.println("<button id=\""+id+"_ctlBtn\" type=\"button\" style='margin-left:10px' class=\"" + upBtnClass + " \">" + uloadButton + "</button>");
+                out.println("<button id=\""+id+"_ctlBtn\" type=\"button\" style='marginleft:10px' class=\"" + upBtnClass + " \">" + uloadButton + "</button>");
             }
             out.println("</div>");
             out.println("<ul id=\""+id+"_thelist\" class=\"" + uListClass + "\"></ul>");
