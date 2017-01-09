@@ -4,7 +4,6 @@
 <html>
 	<head>
 <%@ include file="/WEB-INF/view/common.jsp" %>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";

@@ -4,7 +4,6 @@
 <html>
 <head>
 <%@ include file="/reg_head.jsp"%>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 
 <title>添加工程资质资格信息</title>
 

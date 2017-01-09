@@ -5,7 +5,6 @@
 <head>
 
 <%@ include file="/reg_head.jsp"%>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <title>注册人员信息</title>
 
 <meta http-equiv="pragma" content="no-cache">

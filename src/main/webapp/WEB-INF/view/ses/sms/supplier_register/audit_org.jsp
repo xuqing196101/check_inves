@@ -4,7 +4,6 @@
 <html>
   <head>
 <%@ include file="/reg_head.jsp"%>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <style type="text/css">
       form div.invalid {
         width: 200px;

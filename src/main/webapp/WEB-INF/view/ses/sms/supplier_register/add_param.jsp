@@ -5,7 +5,6 @@
 <head>
 
 <%@ include file="/reg_head.jsp"%>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <title>添加产品信息</title>
 
 <meta http-equiv="pragma" content="no-cache">
