@@ -1369,9 +1369,21 @@ import ses.util.WfUtil;
      if(supplier.getListSupplierStockholders() != null && supplier.getListSupplierStockholders().size() > 0){
          List<SupplierStockholder> stockList = supplier.getListSupplierStockholders();
          for (SupplierStockholder stocksHolder : stockList) {
-            if (stocksHolder.getIdentity() != null && stocksHolder.getIdentity().length() != 18) {
+        	if (stocksHolder.getName() == null || stocksHolder.getName() == "" ) {
                 count++;
-                model.addAttribute("stock", "统一社会信用代码或身份证号码格式不正确!");
+                model.addAttribute("stock", "出资人名称或姓名不能为空！");
+            }
+            if (stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" ||stocksHolder.getIdentity().length() != 18) {
+                count++;
+                model.addAttribute("stock", "统一社会信用代码或身份证号码为空或者格式不正确!");
+            }
+            if (stocksHolder.getShares() == null || stocksHolder.getShares() == "" ) {
+                count++;
+                model.addAttribute("stock", "出资金额或股份不能为空！");
+            }
+            if (stocksHolder.getProportion() == null || stocksHolder.getProportion() == "" ) {
+                count++;
+                model.addAttribute("stock", "比例不能为空！");
             }
         }
      }
