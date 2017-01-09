@@ -281,17 +281,6 @@ $(function(){
 			"</tr>");
 		certPersonNumber++;
 		$("#certPersonNumber").val(certPersonNumber);		
-		
-		/*layer.open({
-			type : 2,
-			title : '添加注册类型和人数',
-			// skin : 'layui-layer-rim', //加上边框
-			area : [ '600px', '280px' ], //宽高
-			offset : '100px',
-			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_reg_person/add_reg_person.html?matEngId=' + matEngId + '&supplierId=' + supplierId, //url
-			closeBtn : 1, //不显示关闭按钮
-		});*/
 	}
 	
 	function deleteRegPerson() {
@@ -338,43 +327,6 @@ $(function(){
 		});
 		certAptNumber++;
 		$("#certAptNumber").val(certAptNumber);
-		/*$("#aptitute_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].id' value='" + id + "'></td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].certType'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].certCode'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteSequence'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].professType'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteLevel'/> </td>"+
-			"<td class='tc'>"+
-			   "<select name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].isMajorFund'>"+
-	             "<option value='1'>是</option>"+
-	             "<option value='0'>无</option>"+
-	           "</select>"+
-			"</td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteContent'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteCode'/> </td>"+
-			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteDate'/></td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteWay'/> </td>"+
-			"<td class='tc'>"+
-			   "<select name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteStatus'>"+
-	             "<option value='1'>有效</option>"+
-	             "<option value='0'>无效</option>"+
-	           "</select>"+
-			"</td>"+
-			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteChangeAt'/></td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierAptitutes[" + certAptNumber + "].aptituteChangeReason'/> </td>"+
-			"</tr>");*/
-		
-		/*layer.open({
-			type : 2,
-			title : '添加资质资格信息',
-			// skin : 'layui-layer-rim', //加上边框
-			area : [ '600px', '500px' ], //宽高
-			offset : '100px',
-			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_aptitute/add_aptitute.html?matEngId=' + matEngId + '&supplierId=' + supplierId, //url
-			closeBtn : 1, //不显示关闭按钮
-		});*/
 	}
 	
 	function deleteAptitute() {
@@ -420,33 +372,8 @@ $(function(){
 				$("#cert_pro_list_tbody_id").append(data);
 			}
 		});
-		/*$("#cert_pro_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].id' value='" + id + "'></td>"+
-			"<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].name'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].levelCert'/> </td>"+
-		    "<td class='tc'><input type='text' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].licenceAuthorith'/></td>"+
-			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].expStartDate'/></td>"+
-			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].expEndDate'/></td>"+
-			"<td class='tc'>"+
-			   "<select name='supplierMatPro.listSupplierCertPros[" + certProNumber + "].mot'>"+
-	             "<option value='1'>是</option>"+
-	             "<option value='0'>无</option>"+
-	           "</select>"+
-			"</td>"+
-			
-			"</tr>");*/
 		certProNumber++;
 		$("#certProNumber").val(certProNumber);
-		/*proIndex=layer.open({
-			type : 2,
-			title : '添加物资生产证书信息',
-			// skin : 'layui-layer-rim', //加上边框
-			area : [ '50%', '500px' ], //宽高
-			offset : [ '100px', '500px' ],
-			scrollbar : false,  
-			content : '${pageContext.request.contextPath}/supplier_cert_pro/add_cert_pro.html?matProId=' + matProId + '&supplierId=' + supplierId+'&sign='+1, //url
-			closeBtn : 1, //不显示关闭按钮
-		});*/
 	}
 	
 	/** 供应商保存专业生产信息 */	
@@ -506,31 +433,6 @@ $(function(){
 		});
 		certSaleNumber++;
 		$("#certSaleNumber").val(certSaleNumber);
-		/*$("#cert_sell_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].id' value='" + id + "'></td>"+
-			"<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].name'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].levelCert'/> </td>"+
-		    "<td class='tc'><input type='text' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].licenceAuthorith'/></td>"+
-			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].expStartDate'/></td>"+
-			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].expEndDate'/></td>"+
-			"<td class='tc'>"+
-			   "<select name='supplierMatSell.listSupplierCertSells[" + certSaleNumber + "].mot'>"+
-	             "<option value='1'>是</option>"+
-	             "<option value='0'>无</option>"+
-	           "</select>"+
-			"</td>"+
-			"</tr>");*/
-		
-		/*layer.open({
-			type : 2,
-			title : '添加物资生产证书信息',
-			// skin : 'layui-layer-rim', //加上边框
-			area : [ '600px', '500px' ], //宽高
-			offset : '100px',
-			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_cert_sell/add_cert_sell.html?matSellId=' + matSellId + '&supplierId=' + supplierId, //url
-			closeBtn : 1, //不显示关闭按钮
-		});*/
 	}
 	
 	function deleteCertSell() {
@@ -576,31 +478,6 @@ $(function(){
 		});
 		certSeNumber++;
 		$("#certSeNumber").val(certSeNumber);
-		/*$("#cert_se_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].id' value='" + id + "'></td>"+
-			"<td class='tc'><input type='text' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].name'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].levelCert'/> </td>"+
-		    "<td class='tc'><input type='text' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].licenceAuthorith'/></td>"+
-			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].expStartDate'/></td>"+
-			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].expEndDate'/></td>"+
-			"<td class='tc'>"+
-			   "<select name='supplierMatSe.listSupplierCertSes[" + certSeNumber + "].mot'>"+
-	             "<option value='1'>是</option>"+
-	             "<option value='0'>无</option>"+
-	           "</select>"+
-			"</td>"+
-			"</tr>");*/
-		
-		/*layer.open({
-			type : 2,
-			title : '添加物资服务证书信息',
-			// skin : 'layui-layer-rim', //加上边框
-			area : [ '600px', '500px' ], //宽高
-			offset : '100px',
-			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_cert_se/add_cert_se.html?matSeId=' + matSeId + '&supplierId=' + supplierId, //url
-			closeBtn : 1, //不显示关闭按钮
-		});*/
 	}
 	
 	function deleteCertSe() {
@@ -721,39 +598,6 @@ $(function(){
 		});
 		certEngNumber++;
 		$("#certSaleNumber").val(certEngNumber);
-		
-		/*$("#cert_eng_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].id' value='" + id + "'></td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certType'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certCode'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certMaxLevel'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].techName'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].techPt'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].techJop'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].depName'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].depPt'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].depJop'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].licenceAuthorith'/> </td>"+
-			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].expStartDate'/></td>"+
-			"<td class='tc'><input type='text' readonly='readonly' onClick='WdatePicker()' name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].expEndDate'/></td>"+
-			"<td class='tc'>"+
-			   "<select name='supplierMatEng.listSupplierCertEngs[" + certEngNumber + "].certStatus'>"+
-	             "<option value='1'>有效</option>"+
-	             "<option value='0'>无效</option>"+
-	           "</select>"+
-			"</td>"+
-			"</tr>");*/
-		
-		/*layer.open({
-			type : 2,
-			title : '添加工程证书信息',
-			// skin : 'layui-layer-rim', //加上边框
-			area : [ '600px', '500px' ], //宽高
-			offset : '100px',
-			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_cert_eng/add_cert_eng.html?matEngId=' + matEngId + '&supplierId=' + supplierId, //url
-			closeBtn : 1, //不显示关闭按钮
-		});*/
 	}
 	
 	function deleteCertEng() {

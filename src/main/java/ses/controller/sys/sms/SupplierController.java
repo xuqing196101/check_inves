@@ -2198,7 +2198,7 @@ import ses.util.WfUtil;
    @RequestMapping(value = "/addProductCert")
    public ModelAndView addProductCert (String number, Model model) {
        model.addAttribute("certProNumber", number);
-       model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
+       model.addAttribute("id", WfUtil.createUUID());
        model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
        return new ModelAndView("ses/sms/supplier_register/add_product_cert");
    }
