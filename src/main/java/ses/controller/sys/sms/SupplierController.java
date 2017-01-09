@@ -30,13 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.constant.Constant;
-import common.constant.StaticVariables;
-import common.model.UploadFile;
-import common.service.UploadService;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
@@ -45,14 +38,12 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
-import ses.model.ems.Expert;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
@@ -89,6 +80,13 @@ import ses.util.IdentityCode;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
+import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 /**
  * @Title: supplierController
@@ -1072,7 +1070,7 @@ import ses.util.WfUtil;
 
    //注册登记校验
    public boolean validateRegister(HttpServletRequest request, Model model, Supplier supplier) {
-     String identifyCode = (String) request.getSession().getAttribute("img-identity-code");// 验证码
+     //String identifyCode = (String) request.getSession().getAttribute("img-identity-code");// 验证码
      int count = 0;
      if (supplier.getLoginName() == null || !supplier.getLoginName().matches("^\\w{6,20}$")) {
        model.addAttribute("err_msg_loginName", "登录名由6-20位字母数字和下划线组成 !");
@@ -1369,7 +1367,6 @@ import ses.util.WfUtil;
      //			    count++;
      //				model.addAttribute("finace", "请添加财务信息!");
      //		}
-     List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
      if(supplier.getListSupplierStockholders()==null||supplier.getListSupplierStockholders().size()<1){
        count++;
        model.addAttribute("stock", "请添加股东信息!");
@@ -1377,21 +1374,15 @@ import ses.util.WfUtil;
      if(supplier.getListSupplierStockholders() != null && supplier.getListSupplierStockholders().size() > 0){
          List<SupplierStockholder> stockList = supplier.getListSupplierStockholders();
          for (SupplierStockholder stocksHolder : stockList) {
-        	if (stocksHolder.getName() == null || stocksHolder.getName() == "" ) {
+             if (stocksHolder.getIdentity().length() != 18) {
+                 count++;
+                 model.addAttribute("stock", "统一社会信用代码或身份证号码格式不正确!");
+                 break;
+             }
+        	if (stocksHolder.getName() == null || stocksHolder.getName() == "" || stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getShares() == null || stocksHolder.getShares() == "" || stocksHolder.getProportion() == null || stocksHolder.getProportion() == "") {
                 count++;
-                model.addAttribute("stock", "出资人名称或姓名不能为空！");
-            }
-            if (stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" ||stocksHolder.getIdentity().length() != 18) {
-                count++;
-                model.addAttribute("stock", "统一社会信用代码或身份证号码为空或者格式不正确!");
-            }
-            if (stocksHolder.getShares() == null || stocksHolder.getShares() == "" ) {
-                count++;
-                model.addAttribute("stock", "出资金额或股份不能为空！");
-            }
-            if (stocksHolder.getProportion() == null || stocksHolder.getProportion() == "" ) {
-                count++;
-                model.addAttribute("stock", "比例不能为空！");
+                model.addAttribute("stock", "股东信息不能为空！");
+                break;
             }
         }
      }
@@ -1735,7 +1726,7 @@ import ses.util.WfUtil;
      List<SupplierItem> itemList = supplierItemService.getSupplierId(sid);
 
      List<Category> chose=new LinkedList<Category>();
-     List<String> choseId=new LinkedList<String>();
+     //List<String> choseId=new LinkedList<String>();
      StringBuffer sb=new StringBuffer();
      String pid = DictionaryDataUtil.getId(id);
      if(itemList!=null&&itemList.size()>0){
