@@ -1976,266 +1976,75 @@ import ses.util.WfUtil;
        }
     }
 
-   /**
-    * 
-    * @Title: contractUp
-    * @Description: 品目合同上传
-    * author: Li Xiaoxiao 
-    * @param @return     
-    * @return String     
-    * @throws
-    */
-   @RequestMapping(value="/contract")
-   public String contractUp(String supplierId,Model model,String supplierTypeIds,String flag){
-     List<ContractBean> contract=new LinkedList<ContractBean>();
-
-     List<ContractBean> saleBean=new LinkedList<ContractBean>();
-
-     List<ContractBean> projectBean=new LinkedList<ContractBean>();
-     List<ContractBean> serverBean=new LinkedList<ContractBean>();
-
-     //合同
-     String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
-     String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
-     String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
-     //账单
-     String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
-     String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
-     String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
-     int count=0;
-     StringBuffer sbUp=new StringBuffer("");
-     StringBuffer sbShow=new StringBuffer("");
-     String[] strs = supplierTypeIds.split(",");
-     List<Category> product=new ArrayList<Category>();
-     List<Category> sale=new ArrayList<Category>();
-     List<Category> project=new ArrayList<Category>();
-     List<Category> server=new ArrayList<Category>();
-     for(String type:strs){
-       if(type.equals("PRODUCT")){
-         List<Category> list = supplierItemService.getCategory(supplierId,"PRODUCT");
-         removeSame(list);
-         product.addAll(list);
-       }
-       if(type.equals("SALES")){
-         List<Category> list = supplierItemService.getCategory(supplierId,"SALES");
-         removeSame(list);
-         sale.addAll(list);
-       }
-       if(type.equals("PROJECT")){
-         List<Category> list = supplierItemService.getCategory(supplierId,"PROJECT");
-         removeSame(list);
-         project.addAll(list);
-       }
-       if(type.equals("SERVICE")){
-         List<Category> list = supplierItemService.getCategory(supplierId,"SERVICE");
-         removeSame(list);
-         server.addAll(list);
-       }
-     }
-
-     for(Category ca:product){
-       ContractBean con=new ContractBean();
-       con.setId(ca.getId());
-       con.setName(ca.getName());
-
-
-       sbUp.append("pUp"+count+",");
-       sbShow.append("pShow"+count+",");
-       con.setOneContract(id1);
-       count++;
-
-
-       sbUp.append("pUp"+count+",");
-       sbShow.append("pShow"+count+",");
-       con.setTwoContract(id2);
-       count++;
-
-
-       sbUp.append("pUp"+count+",");
-       sbShow.append("pShow"+count+",");
-       con.setThreeContract(id3);
-       count++;
-
-
-       sbUp.append("pUp"+count+",");
-       sbShow.append("pShow"+count+",");
-       con.setOneBil(id4);
-       count++;
-
-
-       sbUp.append("pUp"+count+",");
-       sbShow.append("pShow"+count+",");
-       con.setTwoBil(id5);
-       count++;
-
-
-       sbUp.append("pUp"+count+",");
-       sbShow.append("pShow"+count+",");
-       con.setTwoBil(id6);
-       count++;
-
-       contract.add(con);
-     }
-
-     int sales=0;
-     for(Category ca:sale){
-       ContractBean con=new ContractBean();
-       con.setId(ca.getId());
-       con.setName(ca.getName());
-
-
-       sbUp.append("saleUp"+sales+",");
-       sbShow.append("saleShow"+sales+",");
-       con.setOneContract(id1);
-       sales++;
-
-
-       sbUp.append("saleUp"+sales+",");
-       sbShow.append("saleShow"+sales+",");
-       con.setTwoContract(id2);
-       sales++;
-
-
-       sbUp.append("saleUp"+sales+",");
-       sbShow.append("saleShow"+sales+",");
-       con.setThreeContract(id3);
-       sales++;
-
-
-       sbUp.append("saleUp"+sales+",");
-       sbShow.append("saleShow"+sales+",");
-       con.setOneBil(id4);
-       sales++;
-
-
-       sbUp.append("saleUp"+sales+",");
-       sbShow.append("saleShow"+sales+",");
-       con.setTwoBil(id5);
-       sales++;
-
-
-       sbUp.append("saleUp"+sales+",");
-       sbShow.append("saleShow"+sales+",");
-       con.setTwoBil(id6);
-       sales++;
-
-       saleBean.add(con);
-     }
-
-     int projects=0;
-     for(Category ca:project){
-       ContractBean con=new ContractBean();
-       con.setId(ca.getId());
-       con.setName(ca.getName());
-
-
-       sbUp.append("projectUp"+projects+",");
-       sbShow.append("projectShow"+projects+",");
-       con.setOneContract(id1);
-       projects++;
-
-
-       sbUp.append("projectUp"+projects+",");
-       sbShow.append("projectShow"+projects+",");
-       con.setTwoContract(id2);
-       projects++;
-
-
-       sbUp.append("projectUp"+projects+",");
-       sbShow.append("projectShow"+projects+",");
-       con.setThreeContract(id3);
-       projects++;
-
-
-       sbUp.append("projectUp"+projects+",");
-       sbShow.append("projectShow"+projects+",");
-       con.setOneBil(id4);
-       projects++;
-
-
-       sbUp.append("projectUp"+projects+",");
-       sbShow.append("projectShow"+projects+",");
-       con.setTwoBil(id5);
-       projects++;
-
-
-       sbUp.append("projectUp"+projects+",");
-       sbShow.append("projectShow"+projects+",");
-       con.setTwoBil(id6);
-       projects++;
-
-       projectBean.add(con);
-     }
-
-     int servers=0;
-     for(Category ca:server){
-       ContractBean con=new ContractBean();
-       con.setId(ca.getId());
-       con.setName(ca.getName());
-
-
-       sbUp.append("serUp"+servers+",");
-       sbShow.append("serpShow"+servers+",");
-       con.setOneContract(id1);
-       servers++;
-
-
-       sbUp.append("serUp"+servers+",");
-       sbShow.append("serpShow"+servers+",");
-       con.setTwoContract(id2);
-       servers++;
-
-
-       sbUp.append("serUp"+servers+",");
-       sbShow.append("serpShow"+servers+",");
-       con.setThreeContract(id3);
-       servers++;
-
-
-       sbUp.append("serUp"+servers+",");
-       sbShow.append("serpShow"+servers+",");
-       con.setOneBil(id4);
-       servers++;
-
-
-       sbUp.append("serUp"+servers+",");
-       sbShow.append("serpShow"+servers+",");
-       con.setTwoBil(id5);
-       servers++;
-
-
-       sbUp.append("serUp"+servers+",");
-       sbShow.append("serpShow"+servers+",");
-       con.setTwoBil(id6);
-       servers++;
-
-       serverBean.add(con);
-     }
-
-
-     model.addAttribute("serverBean", serverBean);
-     model.addAttribute("projectBean", projectBean);
-     model.addAttribute("saleBean", saleBean); 
-     model.addAttribute("contract", contract);	
-     model.addAttribute("sbUp", sbUp);
-     model.addAttribute("sbShow", sbShow);
-     List<Integer> years = supplierService.getThressYear();
-     model.addAttribute("years", years);
-     model.addAttribute("supplierTypeIds", supplierTypeIds);
-     model.addAttribute("supplierId", supplierId);
-
-     if(flag.equals("1")){
-       Supplier supplier = supplierService.get(supplierId);
-       model.addAttribute("currSupplier", supplier);
-       return "ses/sms/supplier_register/items";
-
-     }
-     model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-     model.addAttribute("businessId", supplierId);
-     return "ses/sms/supplier_register/contract";
-
-
-   }
+    /**
+     *〈简述〉异步加载品目合同上传
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param supplierId 供应商Id
+     * @param model Model对象
+     * @param supplierTypeid 供应商类型Id
+     * @param flag
+     * @return
+     */
+    @RequestMapping("/ajaxContract")
+    public String ajaxContract(String supplierId, Model model, String supplierTypeId) {
+        List<ContractBean> contract=new LinkedList<ContractBean>();
+        //合同
+        String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+        String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+        String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+        //账单
+        String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+        String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+        String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+        
+        List<Category> category = new ArrayList<Category>();
+        List<Category> list = supplierItemService.getCategory(supplierId, supplierTypeId);
+        removeSame(list);
+        category.addAll(list);
+        
+        for(Category ca : category){
+            ContractBean con=new ContractBean();
+            con.setId(ca.getId());
+            con.setName(ca.getName());
+            con.setOneContract(id1);
+            con.setTwoContract(id2);
+            con.setThreeContract(id3);
+            con.setOneBil(id4);
+            con.setTwoBil(id5);
+            con.setTwoBil(id6);
+            contract.add(con);
+        }  
+        model.addAttribute("contract", contract);  
+        List<Integer> years = supplierService.getThressYear();
+        model.addAttribute("years", years);
+        model.addAttribute("supplierTypeId", supplierTypeId);
+        model.addAttribute("supplierId", supplierId);
+
+        model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+        return "ses/sms/supplier_register/ajax_contract";
+    }
+   
+    /**
+     * 
+     * @Title: contractUp
+     * @Description: 品目合同上传
+     * author: Li Xiaoxiao 
+     * @param @return     
+     * @return String     
+     * @throws
+     */
+    @RequestMapping(value="/contract")
+    public String contractUp(String supplierId,Model model,String supplierTypeIds,String flag){
+        if(flag.equals("1")){
+            Supplier supplier = supplierService.get(supplierId);
+            model.addAttribute("currSupplier", supplier);
+            return "ses/sms/supplier_register/items";
+        }
+        model.addAttribute("supplierTypeIds", supplierTypeIds);
+        model.addAttribute("supplierId", supplierId);
+        return "ses/sms/supplier_register/contract";
+    }
 
 
 
