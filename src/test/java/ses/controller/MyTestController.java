@@ -45,7 +45,6 @@ public class MyTestController extends BaseSupplierController {
   @RequestMapping(value="downLoad",produces = "text/html;charset=UTF-8")
   public void downLoad(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	  supplierExtUserServicel.downLoadBiddingDoc(request, "420A828A27704F31AC15280BB09D91E0");
-	  
   }
 	
   @RequestMapping(value="freemarkerTest",produces = "text/html;charset=UTF-8")

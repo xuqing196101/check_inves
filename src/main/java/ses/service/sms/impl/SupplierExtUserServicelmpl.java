@@ -40,10 +40,13 @@ import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
+import ses.dao.oms.PurchaseInfoMapper;
 import ses.dao.sms.SupplierExtUserMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.oms.PurchaseInfo;
 import ses.model.sms.SupplierExtUser;
+import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierExtUserServicel;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -80,6 +83,12 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
   @Autowired
   PackageService packageService;
+  
+  @Autowired
+  UserServiceI userServiceI;
+  
+  @Autowired
+  PurchaseInfoMapper infoMapper;
 
   /**
    * @Description:集合
@@ -186,6 +195,14 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
       listScoreTechnology = new ArrayList<MarkTerm>();
 
     }
+    
+    //获取项目承办人id
+    User user = new User();
+    user.setId(project.getPrincipal());
+    List<User> find2 = userServiceI.find(user);
+    HashMap<String,Object> findMap = new HashMap<String, Object>();
+    findMap.put("userId", find2.get(0).getId());
+    List<PurchaseInfo> findPurchaseList = infoMapper.findPurchaseList(findMap);
 
 
 
@@ -201,6 +218,10 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     datamap.put("projectDetail", selectById);
     //资格性符合性
     datamap.put("packagesList",find);
+    //负责人
+    if (findPurchaseList != null && findPurchaseList.size() != 0) {
+      datamap.put("user",findPurchaseList.get(0));
+    }
 
     //    }
 
@@ -270,7 +291,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     configuration.setServletContextForTemplateLoading(request.getSession().getServletContext(), "/template");
     String filePath = "";
     try {
-      Template t = configuration.getTemplate("biddingdocument.ftl");
+      Template t = configuration.getTemplate("InquiryDocument.ftl");
       String basePath = PropUtil.getProperty("file.base.path");
       String temp = PropUtil.getProperty("file.temp.path");
       String path = basePath + File.separator + temp;
