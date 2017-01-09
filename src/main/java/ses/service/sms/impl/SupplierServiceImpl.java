@@ -380,12 +380,14 @@ public class SupplierServiceImpl implements SupplierService {
 		}
 		 if(supplier.getListSupplierStockholders()!=null&&supplier.getListSupplierStockholders().size()>0){
 			 for(SupplierStockholder s:supplier.getListSupplierStockholders()){
-			     SupplierStockholder stockHolder = supplierStockholderMapper.selectByPrimaryKey(s.getId());
-				 if(stockHolder==null){
-						supplierStockholderMapper.insertSelective(s); 
-				 }else{
-					 supplierStockholderMapper.updateByPrimaryKeySelective(s);
-				 }
+			     if (s != null && s.getId() != null) {
+			         SupplierStockholder stockHolder = supplierStockholderMapper.selectByPrimaryKey(s.getId());
+			         if(stockHolder==null){
+			             supplierStockholderMapper.insertSelective(s); 
+			         }else{
+			             supplierStockholderMapper.updateByPrimaryKeySelective(s);
+			         }
+			     }
 					
 			 }
 		 }
