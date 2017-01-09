@@ -1026,7 +1026,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
-					  	<span class="input-tip">如：2010.05</span>
+					  	<span class="input-tip">如：XXXX-XX</span>
 					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专家技术职称/执业资格</span>
@@ -1059,7 +1059,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
-					  	<span class="input-tip">如：2010.05</span>
+					  	<span class="input-tip">如：XXXX-XX</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
@@ -1072,7 +1072,7 @@ session.setAttribute("tokenSession", tokenValue);
 							<span class="add-on">i</span>
 					  	</c:if> --%>
 					  	<span class="add-on">i</span>
-					  	<span class="input-tip">如：2010.05</span>
+					  	<span class="input-tip">如：XXXX-XX</span>
 					</div>
 				</li>
 			</ul>
