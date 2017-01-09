@@ -678,6 +678,31 @@
     u.LOGIN_NAME = #{loginName}
   </select>
   
+  <!-- 根据手机号查询 -->
+  <select id="ajaxMoblie" resultMap="UserBaseMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_USER u
+    where u.IS_DELETED=0 
+    and u.MOBILE = #{mobile}
+    <if test="id != null and id != ''">
+    and u.ID != #{id}
+    </if>
+  </select>
+   
+  <!-- 根据身份证号查询 -->
+  <select id="ajaxIdNumber" resultMap="UserBaseMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_USER u
+    where u.IS_DELETED=0 
+    and u.ID_NUMBER = #{idNumber}
+    <if test="id != null and id != ''">
+    and u.ID != #{id}
+    </if>
+  </select>
+  
+  
   <!-- 根据typeId查询用户 -->
   <select id="findUserByTypeId" resultMap="UserBaseMap" >
       SELECT 
