@@ -1385,7 +1385,18 @@ public class SupplierAuditController extends BaseSupplierController{
 	@ResponseBody
 	public String showModify(SupplierHistory supplierHistory, HttpServletRequest request) {
 		supplierHistory = supplierHistoryService.findBySupplierId(supplierHistory);
-		String showModify = supplierHistory.getBeforeContent();
+		
+		String showModify = null;
+		if(supplierHistory.getBeforeField().equals("businessType") && supplierHistory.getBeforeField() != null){
+			//在数据字典里查询营业执照类型
+			String typeid = supplierHistory.getBeforeContent();
+			List<DictionaryData> list=DictionaryDataUtil.find(17);
+			for(int i=0; i<list.size(); i++){
+				if(typeid.equals(list.get(i).getId())){
+					showModify = list.get(i).getName();
+				}
+			}
+		}
 		return JSON.toJSONString(showModify);
 	}
 	

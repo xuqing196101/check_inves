@@ -264,7 +264,7 @@
 														<u:show showId="pShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
 													</td>
 													<td class="tc w50">
-														<a onclick="reason('${obj.id}','${obj.name }','生产');" id="${obj.id}_hidden" class="btn">审核</a>
+														<a onclick="reason('${obj.id}','${obj.name }','生产');" id="${obj.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</tr>
@@ -312,7 +312,7 @@
 														<u:show showId="saleShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
 													</td>
 													<td class="tc w50">
-														<a onclick="reason('${obj.id}','${obj.name }','销售');" id="${obj.id}_hidden" class="btn">审核</a>
+														<a onclick="reason('${obj.id}','${obj.name }','销售');" id="${obj.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</tr>
@@ -360,7 +360,7 @@
 														<u:show showId="projectShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
 													</td>
 													<td class="tc w50">
-														<a onclick="reason('${obj.id}','${obj.name }','工程');" id="${obj.id}_hidden" class="btn">审核</a>
+														<a onclick="reason('${obj.id}','${obj.name }','工程');" id="${obj.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</tr>
@@ -408,7 +408,7 @@
 														<u:show showId="serpShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
 													</td>
 													<td class="tc w50">
-														<a onclick="reason('${obj.id}','${obj.name }','服务');" id="${obj.id}_hidden" class="btn">审核</a>
+														<a onclick="reason('${obj.id}','${obj.name }','服务');" id="${obj.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 														<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 													</td>
 												</tr>
