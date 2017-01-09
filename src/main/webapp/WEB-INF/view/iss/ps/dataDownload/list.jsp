@@ -272,6 +272,7 @@
 						}
 						$.ajax({
 							type: "POST",
+							dataType: "json",
 							url: "${pageContext.request.contextPath }/dataDownload/judgeEdit.html?id=" + str,
 							success: function(data) {
 								if(data==0){
