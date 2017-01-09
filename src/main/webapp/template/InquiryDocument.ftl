@@ -1,7 +1,7 @@
 <html xmlns:v='urn:schemas-microsoft-com:vml'xmlns:o='urn:schemas-microsoft-com:office:office'xmlns:w='urn:schemas-microsoft-com:office:word'xmlns:m='http://schemas.microsoft.com/office/2004/12/omml'xmlns='http://www.w3.org/TR/REC-html40'  xmlns='http://www.w3.org/1999/xhtml' >
 
 	<head>
-		<meta http-equiv=Content-Type content="text/html; charset=gb2312">
+		<meta http-equiv=Content-Type content="text/html; charset=GBK">
 		<meta name=ProgId content=Word.Document>
 		<meta name=Generator content="Microsoft Word 14">
 		<meta name=Originator content="Microsoft Word 14">

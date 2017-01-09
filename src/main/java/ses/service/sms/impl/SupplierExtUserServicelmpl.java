@@ -158,12 +158,12 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
     //获取项目信息
     Project project = projectService.selectById(projectId);
-    
+
     //获取项目下的明细
     HashMap<String, Object> map = new HashMap<String, Object>();
     map.put("id", projectId);
     List<ProjectDetail> selectById = detailService.selectById(map);
-    
+
     //模型数据获取
     //显示经济技术 和子节点  子节点的子节点就是模型
     List<DictionaryData> ddList = DictionaryDataUtil.find(23);
@@ -215,13 +215,17 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     datamap.put("projectDetail", selectById);
     //资格性符合性
     datamap.put("packagesList",find);
+
+    String zero = new String("〇".getBytes(), "GBK") ;
+    datamap.put("Zero", zero);
     //负责人
     if (findPurchaseList != null && findPurchaseList.size() != 0) {
       datamap.put("user",findPurchaseList.get(0));
     }
     // 图片前缀路径
-    datamap.put("host", request.getRequestURL().toString().replace(request.getRequestURI(),"") 
-      + File.separator + request.getContextPath() + File.separator);
+    String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
+      + "/" + request.getContextPath() + File.separator.replace("\\", "/");
+    datamap.put("host",host);
 
 
     return productionDoc(request, datamap,ftlName(project.getDictionary().getCode()));
@@ -312,7 +316,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
    */
   private String productionDoc(HttpServletRequest request, Map<String,Object> dataMap,String ftlString){
     Configuration configuration = new Configuration();
-    configuration.setDefaultEncoding("gb2312");
+    configuration.setDefaultEncoding("GBK");
     configuration.setServletContextForTemplateLoading(request.getSession().getServletContext(), "/template");
     String filePath = "";
     try {
@@ -329,7 +333,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
       if(!rootFile.exists()){
         rootFile.createNewFile();
       }
-      Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(rootFile),"gb2312"));
+      Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(rootFile),"GBK"));
       t.process(dataMap, out);
       out.flush();
       out.close();
