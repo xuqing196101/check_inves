@@ -44,7 +44,7 @@ public class ScoreModelUtil {
         scoreModelUtil.paramIntervalService = this.paramIntervalService;  
     }  
     
-    public static double getQuantizateScore(ScoreModel scoreModel,Integer number,Integer flag){
+    public static double getQuantizateScore(ScoreModel scoreModel,Double number,Double flag){
         double score = 0 ;
         if(scoreModel.getTypeName()!=null && !scoreModel.getTypeName().equals("") && scoreModel.getTypeName().equals("0")){
             score = getScoreByModelOne(scoreModel,flag);
@@ -54,6 +54,8 @@ public class ScoreModelUtil {
             score  = getScoreByModelSeven(scoreModel, number);
         }else if (scoreModel.getTypeName().equals("7")){
             score  = getScoreByModelEight(scoreModel, number);
+        }else if (scoreModel.getTypeName().equals("8")){
+          score  = number;
         }
         return score;
     }
@@ -69,9 +71,9 @@ public class ScoreModelUtil {
      * @param: @return
      * @return: int
      */
-    public static double getScoreByModelOne(ScoreModel scoreModel,Integer flag){
+    public static double getScoreByModelOne(ScoreModel scoreModel,Double flag){
         double sc = 0 ;
-        if(flag!=null && flag.equals(1) && scoreModel.getStandardScore()!=null && !scoreModel.getStandardScore().equals("")){
+        if(flag!=null && flag == 1.0 && scoreModel.getStandardScore()!=null && !scoreModel.getStandardScore().equals("")){
             sc = FloatUtil.round(Double.parseDouble(scoreModel.getStandardScore()), 4);
         }
         return sc;
@@ -90,7 +92,7 @@ public class ScoreModelUtil {
      * @param: @return
      * @return: double
      */
-    public static double getScoreByModelTwo(ScoreModel scoreModel,Integer number){
+    public static double getScoreByModelTwo(ScoreModel scoreModel,Double number){
         double sc = 0 ;
         double reviewStandScore = (scoreModel.getReviewStandScore()!=null && !scoreModel.getReviewStandScore().equals("") )? Double.parseDouble(scoreModel.getReviewStandScore()):0;
         double unitScore = (scoreModel.getUnitScore()!=null && !scoreModel.getUnitScore().equals("") )? Double.parseDouble(scoreModel.getUnitScore()):0;
@@ -99,7 +101,8 @@ public class ScoreModelUtil {
             return sc;
         }
         if(scoreModel.getAddSubtractTypeName()!=null && scoreModel.getAddSubtractTypeName().equals("0")){
-            if(number!=null && isNumber(number+"")){
+            /*if(number!=null && isNumber(number+"")){*/
+          if(number!=null){
                 double score = FloatUtil.add(reviewStandScore, FloatUtil.mul(Double.parseDouble(number+""), unitScore)) ;
                 sc = score;
                 if(scoreModel.getMaxScore()!=null && !scoreModel.getMaxScore().equals("")){

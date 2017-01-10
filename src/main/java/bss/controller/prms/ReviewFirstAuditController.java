@@ -3,6 +3,7 @@ package bss.controller.prms;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -260,6 +261,10 @@ public class ReviewFirstAuditController {
             if (score.getStandardScore() == null || "".equals(score.getStandardScore())) {
                 score.setStandardScore(score.getMaxScore());
             }
+            if (score.getTypeName() != null && "8".equals(score.getTypeName()) && score.getJudgeContent() != null && !"".equals(score.getJudgeContent())) {
+              List<String> list = Arrays.asList(score.getJudgeContent().split("\\|"));
+              score.setModel1BJudgeContent(list);
+            }
         }
         model.addAttribute("scoreModelList", scoreModelList);
 		// 查出该包内所有的markTerm
@@ -492,6 +497,9 @@ public class ReviewFirstAuditController {
 		if(typeName=="2" || typeName.equals("2")) {
 			list = ScoreModelUtil.getScoreByModelThree(scoreModel2, smList);
 		}
+		if(typeName=="9" || typeName.equals("9")) {
+      list = ScoreModelUtil.getScoreByModelFourB(scoreModel2, smList);
+    }
 		if(typeName=="3" || typeName.equals("3")) {
 			 list = ScoreModelUtil.getScoreByModelFour(scoreModel2, smList);
 		}
@@ -544,7 +552,7 @@ public class ReviewFirstAuditController {
 	 */
 	@RequestMapping("caseGradeTwo")
 	@ResponseBody
-	public String caseGradeTwo(HttpSession session,String supplierIds,Integer expertValues,String scoreModelId,String typeName,String quotaId,String projectId,String packageId){
+	public String caseGradeTwo(HttpSession session,String supplierIds,Double expertValues,String scoreModelId,String typeName,String quotaId,String projectId,String packageId){
 		//当前登录用户
 		User user = (User)session.getAttribute("loginUser");
 		String expertId = user.getTypeId();

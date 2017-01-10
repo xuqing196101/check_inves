@@ -38,7 +38,7 @@ $(document).ready(function() {
    });  
    
 	function audit(obj,id,supplierId,typeName,markTermId,quotaId){
-		if(typeName=='2' || typeName=='3' ||typeName=='4' ||typeName=='5' ){
+		if(typeName=='2' || typeName=='3' ||typeName=='4' ||typeName=='5' ||typeName=='9'){
 			var flag = 0;
 			//填写的所有分数
 			var expertValues=[];
@@ -260,11 +260,11 @@ $(document).ready(function () {
 	   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
              <div class="content" id="content">
 	        <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table left_table lockout">
+  border="1" cellspacing="0" cellpadding="0" class="table left_table lockout table_input">
 			 <thead>
 			  <tr>
 			      <th class="tc" rowspan="2">评审项目</th>
-		   	      <th class="tc" rowspan="2">评审指标</th>
+		   	      <th class="tc w180" rowspan="2">评审指标</th>
 		   	      <th class="tc" rowspan="2">指标模型</th>
 		   	      <th class="tc" rowspan="2">标准分值</th>
 			      <c:forEach items="${supplierList}" var="supplier">
@@ -301,7 +301,7 @@ $(document).ready(function () {
 				 	      <c:forEach items="${supplierList}" var="supplier">
 					 	    <c:choose>
 					 	      <c:when test="${score.typeName == '0'}">
-					 	        <td class="tc p0">
+					 	        <td class="p0">
 					 	          <select name="expertValue" title="单位:${score.unit}" class="m0"
 					 	           onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	          >
@@ -316,6 +316,25 @@ $(document).ready(function () {
 					 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id and sco.expertValue eq '0'}">selected=selected</c:if>
 					 	              </c:forEach>
 					 	            >否</option>
+					 	          </select>
+					 	        </td>
+					 	      </c:when>
+					 	      <c:when test="${score.typeName == '8'}">
+					 	        <td class="p0">
+					 	          <select name="expertValue" title="单位:${score.unit}" class="m0"
+					 	           onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	          >
+					 	            <option value=""></option>
+					 	            <c:forEach items="${score.model1BJudgeContent}" var="se" varStatus="vs"> 
+					 	            	<c:set value="${fn:substringAfter(se, '-')}" var="oneBv"/>
+										<fmt:formatNumber value='${oneBv}' pattern='0.00' var="finalV"/>
+										<option value="${finalV}" 
+						 	              <c:forEach items="${scores}" var="sco">
+						 	              	<fmt:formatNumber value='${sco.expertValue}' pattern='0.00' var="eV"/>
+						 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id and eV == finalV}">selected=selected</c:if>
+						 	              </c:forEach>
+						 	            >${fn:substringBefore(se, '-')}</option>
+									</c:forEach>
 					 	          </select>
 					 	        </td>
 					 	      </c:when>
