@@ -304,14 +304,24 @@
 					var tdIndex=td.cellIndex;
 					var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
 			  	   if(val!=defVal){
+			  		
 			  		   if(status=='3'){
-			  			 $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(tdVal1+"由"+defVal+"变成"+val); 
+			  			   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
+				  			var curval=tdVal1+"由"+defVal+"变成"+val;
+				  			var newVal=inpval+curval;
+			  			 $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal); 
 			  		   }
 			  		 if(status=='5'){
-				  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
+			  		   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
+			  			var curval=tdVal1+"由"+defVal+"变成"+val;
+			  			var newVal=inpval+curval;
+				  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 				  	   }
 				  	 if(status=='7'){
-				  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
+				  	   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
+			  			var curval=tdVal1+"由"+defVal+"变成"+val;
+			  			var newVal=inpval+curval;
+				  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 				  	   }  
 					} 
 				  	  
@@ -335,13 +345,22 @@
 						var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
 						 if(val!=defVal){
 							  if(status=='3'){
-							       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
+								  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
+						  			var curval=tdVal1+"由"+defVal+"变成"+val;
+						  			var newVal=inpval+curval;
+							       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
 							  }
 							  if(status=='5'){
-							  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
+								  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
+						  			var curval=tdVal1+"由"+defVal+"变成"+val;
+						  			var newVal=inpval+curval;
+							  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 							  	   }
 							 if(status=='7'){
-							  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
+								   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
+						  			var curval=tdVal1+"由"+defVal+"变成"+val;
+						  			var newVal=inpval+curval;
+							  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 							  	 }
 							 
 						} 
@@ -574,7 +593,7 @@
 									</select>
 								</td>
 								<td class="tc"> --%>
-									<input type="text" name="listDetail[${vs.index }].oneAdvice"  value="${objs.oneAdvice }" >
+									<input type="text"  <c:if test="${status==5 || status==7 }"> readonly="readonly" </c:if>    name="listDetail[${vs.index }].oneAdvice"  value="${objs.oneAdvice }" >
 								</td>
 								</c:if>
 								
@@ -583,7 +602,7 @@
 							<%-- 		<input type="text" name="listDetail[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
 								</td>
 								<td class="tc" --%>
-									<input type="text" name="listDetail[${vs.index }].twoAdvice"   value="${objs.twoAdvice }" >
+									<input type="text"  <c:if test="${status==7 }"> readonly="readonly" </c:if>  name="listDetail[${vs.index }].twoAdvice"   value="${objs.twoAdvice }" >
 								<!-- </td> -->
 							</c:if>
 							<c:if test="${status==7 }">	
