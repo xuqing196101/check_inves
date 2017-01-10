@@ -248,7 +248,7 @@
 				    		</span>
 				      </li>
 				    	
-				    	
+				    <li>
 					 <label class="fl">状态：</label>
 			              <select  name="status" id="status">
 			                <option selected="selected" value="total">全部</option>

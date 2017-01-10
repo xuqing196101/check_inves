@@ -59,6 +59,20 @@
 	}
  
  
+	function printdiv(printpage)
+	{
+	var headstr = "<html><head><title></title></head><body>";
+	var footstr = "</body>";
+	var newstr = document.all.item(printpage).innerHTML;
+	var oldstr = document.body.innerHTML;
+	document.body.innerHTML = headstr+newstr+footstr;
+	window.print(); 
+	document.body.innerHTML = oldstr;
+	return false;
+	}
+	</script>
+	
+	
   
     
  
@@ -171,11 +185,13 @@
 
 					</c:forEach>
 				</table>
-			 <div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
-				<input class="btn btn-windows print" type="button" onclick="window.print()" value="打印"> 
-				<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-			 </div>
+			
 			</form>
+		</div>
+		
+		 <div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
+				<input class="btn btn-windows print" type="button" onclick="printdiv('acc_form')" value="打印"> 
+				<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 		</div>
 	</div>
 
