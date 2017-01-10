@@ -1242,6 +1242,9 @@ public class IntelligentScoringController extends BaseController{
                 List<String> list = Arrays.asList(scoreModelList.get(0).getJudgeContent().split("\\|"));
                 scoreModelList.get(0).setModel1BJudgeContent(list);
             }
+		    if (scoreModelList.get(0).getUnitScore().indexOf(".") != -1 && scoreModelList.get(0).getUnitScore().length() == 2) {
+                scoreModelList.get(0).setUnitScore(scoreModelList.get(0).getUnitScore().replace(".", "0."));
+            }
 			model.addAttribute("scoreModel", scoreModelList.get(0));
 		}
 		model.addAttribute("projectId", markTerm.getProjectId());
