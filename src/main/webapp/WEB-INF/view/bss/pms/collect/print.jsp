@@ -20,8 +20,8 @@
 
 	<style>
 		@page {
-   			size: auto;
-   			/* margin: 27mm 30mm 27mm 30mm; */
+   			size: 9.25in 6.8in;
+   			margin: 27mm 30mm 27mm 30mm;
 		}
 		
 		div.chapter, div.appendix {
@@ -32,10 +32,6 @@
 	<style media='print' type='text/css'>
 		.noprint {
 			display:none;
-		}
-		
-		.w200 {
-			width: 200px;
 		}
 		
 		body {
@@ -134,7 +130,7 @@
 							
 							
 							<td class="tl">${obj.supplier }</td>
-							<td class="tl w200">${obj.memo }</td>
+							<td class="tl">${obj.memo }</td>
 							<c:if test="${auditTurn!=null }">
 
 						 		<td>${obj.oneAdvice }</td>
