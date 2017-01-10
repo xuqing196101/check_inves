@@ -164,7 +164,11 @@
                   <td class="tc">${obj.goodsName}
                     <input type="hidden" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }">
                   </td>
-                  <td class="tc">${obj.stand}
+                  <td class="tc">
+                  <c:if test="${obj.stand!='合计'}">
+                   ${obj.stand}
+                  </c:if>
+                 
                     <input type="hidden" name="listDetail[${vs.index }].stand" value="${obj.stand }">
                   </td>
                   <td class="tc">${obj.qualitStand}
@@ -181,9 +185,17 @@
                   </td>
                   <td class="tc">
                     <input type="hidden" id="purchaseTypes" value="${obj.purchaseType }">
-                    <c:forEach items="${kind}" var="kind">
-                      <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                    </c:forEach>
+                    <c:choose>
+                            <c:when test="${obj.detailStatus==0 }">
+
+                            </c:when>
+                            <c:otherwise>
+                              <c:forEach items="${kind}" var="kind">
+					                      <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+					                    </c:forEach>
+                        </c:otherwise>
+                        </c:choose>
+                    
                     <input type="hidden" name="listDetail[${vs.index }].purchaseType" value="${obj.purchaseType }">
                   </td>
                   <td class="tc">${obj.supplier}
