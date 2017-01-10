@@ -500,7 +500,7 @@
                 <fmt:formatDate value='${article.submitAt }' pattern="yyyy-MM-dd   HH:mm:ss" />
               </td> --%>
               <td class="tc" onclick="view('${article.id }')">
-                <fmt:formatDate value='${article.publishedAt }' pattern="yyyy-MM-dd" />
+                <fmt:formatDate value='${article.publishedAt }' pattern="yyyy-MM-dd HH:mm:ss" />
               </td>
               <td class="tl pl20" onclick="view('${article.id }')">${article.articleType.name }</td>
               <td class="tl pl20">
