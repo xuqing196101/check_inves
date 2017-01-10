@@ -143,20 +143,31 @@ public class ScoreModelUtil {
             maxScore = FloatUtil.round(maxScore, 4);
             for(int i=0 ;i<supplyMarkList.size();i++){
                if ("1".equals(type)) {
-                   if (isHave == 0 && relation == 0 ) {
-                       if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
-                           supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
-                       }else {
-                               //看看比标准分低几个档次，
-                               double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
-                               double s = new Double(scoreModel.getMaxScore()) - position*(new Double(scoreModel.getUnitScore()));
-                               if (s <= 0) {
-                                   supplyMarkList.get(i).setScore(0.0);
-                               }else {
-                                   supplyMarkList.get(i).setScore(s);
-                               }
-                      }
+                   if (isHave == 0 && relation == 0) {
+                       if (standScore != null) {
+                           if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
+                               supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                           }else {
+                                   //看看比标准分低几个档次，
+                                   double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
+                                   double s = new Double(scoreModel.getMaxScore()) - position*(new Double(scoreModel.getUnitScore()));
+                                   if (s <= 0) {
+                                       supplyMarkList.get(i).setScore(0.0);
+                                   }else {
+                                       supplyMarkList.get(i).setScore(s);
+                                   }
+                          }
+                       } else {
+                           double s = new Double(scoreModel.getMaxScore()) - i*(new Double(scoreModel.getUnitScore()));
+                           if (s <= 0) {
+                               supplyMarkList.get(i).setScore(0.0);
+                           }else {
+                               supplyMarkList.get(i).setScore(s);
+                           }
+                       }
+                           
                    } else{
+                        if (standScore != null) {
                           if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
                               supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
                           }else {
@@ -168,33 +179,59 @@ public class ScoreModelUtil {
                                   supplyMarkList.get(i).setScore(s);
                               }
                          }
+                        } else {
+                            double s = i*(new Double(scoreModel.getUnitScore()));
+                            if (s >= new Double(scoreModel.getMaxScore())) {
+                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                            } else {
+                                supplyMarkList.get(i).setScore(s);
+                            }
+                        }
                    } 
                } else {
                    if (isHave == 0 && relation == 1 ) {
-                       if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(scoreModel.getStandardScore()))){
-                       supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
+                       if (standScore != null) {
+                           if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
+                               supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
+                           }else {
+                               double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
+                               double s = position*(new Double(scoreModel.getUnitScore()));
+                               if (s >= new Double(scoreModel.getMaxScore())) {
+                                   supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                               } else {
+                                   supplyMarkList.get(i).setScore(s);
+                               }
+                          }
                          } else {
-                             double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
-                             double s = position*(new Double(scoreModel.getUnitScore()));
+                             double s = i*(new Double(scoreModel.getUnitScore()));
                              if (s >= new Double(scoreModel.getMaxScore())) {
                                  supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
                              } else {
                                  supplyMarkList.get(i).setScore(s);
                              }
-                        }
+                         }
                    } else {
-                       if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(scoreModel.getStandardScore()))){
-                           supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
-                             } else {
-                                 //看看比标准分低几个档次，
-                                 double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
-                                 double s = new Double(scoreModel.getMaxScore()) - position*(new Double(scoreModel.getUnitScore()));
-                                 if (s <= 0) {
-                                     supplyMarkList.get(i).setScore(0.0);
-                                 }else {
-                                     supplyMarkList.get(i).setScore(s);
-                                 }
-                            }
+                       if (standScore != null) {
+                           if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
+                               supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                           }else {
+                                   //看看比标准分低几个档次，
+                                   double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
+                                   double s = new Double(scoreModel.getMaxScore()) - position*(new Double(scoreModel.getUnitScore()));
+                                   if (s <= 0) {
+                                       supplyMarkList.get(i).setScore(0.0);
+                                   }else {
+                                       supplyMarkList.get(i).setScore(s);
+                                   }
+                          }
+                       } else {
+                           double s = new Double(scoreModel.getMaxScore()) - i*(new Double(scoreModel.getUnitScore()));
+                           if (s <= 0) {
+                               supplyMarkList.get(i).setScore(0.0);
+                           }else {
+                               supplyMarkList.get(i).setScore(s);
+                           }
+                       }
                    }
                }
                        
@@ -230,23 +267,33 @@ public class ScoreModelUtil {
             String standScore = scoreModel.getStandScores();
             for(int i=0 ;i<supplyMarkList.size();i++){
                 if ("1".equals(type)) {
-                    if (isHave == 0 && relation == 0 ) {
-                        if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
-                            supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
-                        }else {
-                                //看看比标准分低几个档次，
-                                double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
-                                double s = new Double(scoreModel.getMaxScore()) - position*(new Double(scoreModel.getUnitScore()));
-                                if (s <= 0) {
-                                    supplyMarkList.get(i).setScore(0.0);
-                                }else {
-                                    supplyMarkList.get(i).setScore(s);
-                                }
-                                
-                       }
+                    if (isHave == 0 && relation == 0) {
+                        if (standScore != null) {
+                            if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
+                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                            }else {
+                                    //看看比标准分低几个档次，
+                                    double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
+                                    double s = new Double(scoreModel.getMaxScore()) - position*(new Double(scoreModel.getUnitScore()));
+                                    if (s <= 0) {
+                                        supplyMarkList.get(i).setScore(0.0);
+                                    }else {
+                                        supplyMarkList.get(i).setScore(s);
+                                    }
+                           }
+                        } else {
+                            double s = new Double(scoreModel.getMaxScore()) - i*(new Double(scoreModel.getUnitScore()));
+                            if (s <= 0) {
+                                supplyMarkList.get(i).setScore(0.0);
+                            }else {
+                                supplyMarkList.get(i).setScore(s);
+                            }
+                        }
+                            
                     } else{
+                         if (standScore != null) {
                            if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
-                               supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                               supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
                            }else {
                                double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
                                double s = position*(new Double(scoreModel.getUnitScore()));
@@ -256,33 +303,59 @@ public class ScoreModelUtil {
                                    supplyMarkList.get(i).setScore(s);
                                }
                           }
+                         } else {
+                             double s = i*(new Double(scoreModel.getUnitScore()));
+                             if (s >= new Double(scoreModel.getMaxScore())) {
+                                 supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                             } else {
+                                 supplyMarkList.get(i).setScore(s);
+                             }
+                         }
                     } 
                 } else {
                     if (isHave == 0 && relation == 1 ) {
-                        if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(scoreModel.getStandardScore()))){
-                        supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                        if (standScore != null) {
+                            if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
+                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
+                            }else {
+                                double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
+                                double s = position*(new Double(scoreModel.getUnitScore()));
+                                if (s >= new Double(scoreModel.getMaxScore())) {
+                                    supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                                } else {
+                                    supplyMarkList.get(i).setScore(s);
+                                }
+                           }
                           } else {
-                              double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
-                              double s = position*(new Double(scoreModel.getUnitScore()));
+                              double s = i*(new Double(scoreModel.getUnitScore()));
                               if (s >= new Double(scoreModel.getMaxScore())) {
                                   supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
                               } else {
                                   supplyMarkList.get(i).setScore(s);
                               }
-                         }
+                          }
                     } else {
-                        if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(scoreModel.getStandardScore()))){
-                            supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
-                              } else {
-                                  //看看比标准分低几个档次，
-                                  double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
-                                  double s = new Double(scoreModel.getMaxScore()) - position*(new Double(scoreModel.getUnitScore()));
-                                  if (s <= 0) {
-                                      supplyMarkList.get(i).setScore(0.0);
-                                  }else {
-                                      supplyMarkList.get(i).setScore(s);
-                                  }
-                             }
+                        if (standScore != null) {
+                            if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
+                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                            }else {
+                                    //看看比标准分低几个档次，
+                                    double position = new Double(standScore) - supplyMarkList.get(i).getPrarm();
+                                    double s = new Double(scoreModel.getMaxScore()) - position*(new Double(scoreModel.getUnitScore()));
+                                    if (s <= 0) {
+                                        supplyMarkList.get(i).setScore(0.0);
+                                    }else {
+                                        supplyMarkList.get(i).setScore(s);
+                                    }
+                           }
+                        } else {
+                            double s = new Double(scoreModel.getMaxScore()) - i*(new Double(scoreModel.getUnitScore()));
+                            if (s <= 0) {
+                                supplyMarkList.get(i).setScore(0.0);
+                            }else {
+                                supplyMarkList.get(i).setScore(s);
+                            }
+                        }
                     }
                 }
             }
