@@ -33,7 +33,6 @@ import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
-import synchro.util.DateUtils;
 import synchro.util.FileUtils;
 
 /**
@@ -107,10 +106,13 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     @Autowired
     private SupplierItemService supplierItemService;
     
-    
+    /**
+     * 
+     * @see synchro.outer.back.service.supplier.OuterSupplierService#exportCommitSupplier(java.lang.String, java.lang.String, java.util.Date)
+     */
     @Override
     public void exportCommitSupplier(String startTime, String endTime, Date synchDate) {
-        
+        getExportData(startTime, endTime, synchDate);
     }
 
     /**
@@ -119,7 +121,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      * @author myc
      */
     public void getExportData(String startTime, String endTime, Date synchDate){
-        List<Supplier> supplierList = supplierService.getCommintSupplierByDate(DateUtils.getYesterDay());
+        List<Supplier> supplierList = supplierService.getCommintSupplierByDate(startTime, endTime);
         List<Supplier> list = getSupplierList(supplierList);
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getNewSupperBackUpFile(),JSON.toJSONString(list));

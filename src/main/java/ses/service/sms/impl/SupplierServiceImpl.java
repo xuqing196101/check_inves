@@ -703,9 +703,9 @@ public class SupplierServiceImpl implements SupplierService {
      * @see ses.service.sms.SupplierService#getCommintSupplierByDate(java.lang.String)
      */
     @Override
-    public List<Supplier> getCommintSupplierByDate(String creteDate) {
+    public List<Supplier> getCommintSupplierByDate(String startTime, String endTime) {
        
-        return supplierMapper.getCommintSupplierList(creteDate);
+        return supplierMapper.getCommintSupplierList(startTime,endTime);
     }
     
     /**
