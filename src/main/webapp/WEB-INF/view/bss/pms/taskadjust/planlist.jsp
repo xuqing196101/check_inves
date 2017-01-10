@@ -261,7 +261,7 @@
                 </c:if>
               </td>
               <td class="tc">
-                <fmt:formatDate value="${obj.giveTime }" />
+                <fmt:formatDate value="${obj.giveTime }" pattern="yyyy-MM-dd"/>
               </td>
             </tr>
           </c:forEach>
