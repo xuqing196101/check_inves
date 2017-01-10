@@ -26,8 +26,10 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
@@ -46,7 +48,9 @@ import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierEditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierLevelService;
@@ -122,7 +126,19 @@ public class SupplierQueryController extends BaseSupplierController {
     
     @Autowired
     private SupplierTypeRelateService supplierTypeRelateService;
-
+    
+    /**
+	 * 境外分支
+	 */
+	@Autowired
+	private SupplierBranchService supplierBranchService;
+    
+	/**
+	 * 生产经营地址
+	 */
+	@Autowired
+	private SupplierAddressService supplierAddressService;
+	
     /**
      *〈简述〉供应商查询
      *〈详细描述〉按照各种条件来查询供应商信息
@@ -335,6 +351,23 @@ public class SupplierQueryController extends BaseSupplierController {
         request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
         request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
         model.addAttribute("suppliers", supplier);
+        
+        //境外分支
+        List<SupplierBranch> supplierBranchList= supplierBranchService.findSupplierBranch(supplierId);
+		request.setAttribute("supplierBranchList", supplierBranchList);
+		
+		//生产经营地址
+		List<Area> privnce = areaService.findRootArea();
+		List<SupplierAddress> supplierAddress= supplierAddressService.queryBySupplierId(supplierId);
+		for(Area a : privnce){
+			for(SupplierAddress s : supplierAddress){
+				if(a.getId().equals(s.getParentId())){
+					s.setParentName(a.getName());
+				}
+			}	
+		}
+		request.setAttribute("supplierAddress", supplierAddress);
+        
         //将状态是否入库isRuku存入session里面
         Integer irk = (Integer) request.getSession().getAttribute("irk");
         //第一次进来的时候有值,session为null。

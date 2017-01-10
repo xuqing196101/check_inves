@@ -110,9 +110,9 @@
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">品目信息</a>
 						</li>
-						<li class="">
+						<!-- <li class="">
 							<a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('product');">产品信息</a>
-						</li>
+						</li> -->
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a>
 						</li>
@@ -125,11 +125,11 @@
 							<form id="form_id" action="" method="post">
 								<input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
 							</form>
-							<h2 class="count_flow jbxx">企业基本信息</h2>
+							<h2 class="count_flow"><i>1</i>企业信息</h2>
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="bggrey" width="20%">供应商名称：</td>
+										<td class="bggrey" width="20%">公司名称：</td>
 										<td width="30%">${suppliers.supplierName}</td>
 										<td class="bggrey" width="20%">公司网址：</td>
 										<td>${suppliers.website}</td>
@@ -143,43 +143,75 @@
 										<td onmouseover="out('${suppliers.businessType }')">${suppliers.businessType}</td>
 									</tr>
 									<tr>
-										<td class="bggrey" width="20%">地址：</td>
-										<td>${suppliers.address}</td>
-										<td class="bggrey" width="20%" width="20%">开户行名称：</td>
+										<td class="bggrey" width="20%">开户行账户：</td>
+										<td width="30%">${suppliers.bankAccount}</td>
+										<td class="bggrey" width="20%" width="20%">基本账户开户行：</td>
 										<td>${suppliers.bankName}</td>
 									</tr>
 									<tr>
-										<td class="bggrey" width="20%">开户行账户：</td>
-										<td width="30%">${suppliers.bankAccount}</td>
-										<td class="bggrey" width="20%">邮编：</td>
-										<td width="30%">${suppliers.postCode }</td>
+										<td class="bggrey" width="20%">基本账户开户许可证：</td>
+										<td width="30%">
+											<u:show showId="bank_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
+										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
-
+						
+						<h2 class="count_flow"><i>2</i>地址信息</h2>
+						<table class="table table-bordered">
+							<tbody>
+								<tr>
+									<td class="bggrey" width="20%">注册地址邮编：</td>
+									<td width="30%">${suppliers.postCode}</td>
+									<td class="bggrey" width="20%">地址：</td>
+									<td>${suppliers.address}</td>
+								</tr>
+								<tr>
+									<td class="bggrey" width="20%">注册公司详细地址：</td>
+									<td width="30%">${suppliers.detailAddress}</td>
+							</tbody>
+						</table>
+						
+						<c:forEach items="${supplierAddress }" var="supplierAddress" varStatus="vs">
+							<table class="table table-bordered">
+							<tbody>
+								<tr>
+									<td class="bggrey" width="20%">生产经营地址邮编：</td>
+									<td width="30%">${supplierAddress.code}</td>
+									<td class="bggrey" width="20%">生产经营地址：</td>
+									<td>${supplierAddress.parentName }${supplierAddress.subAddressName }</td>
+								</tr>
+								<tr>
+									<td class="bggrey" width="20%">生产经营详细地址：</td>
+									<td width="30%">${supplierAddress.detailAddress}</td>
+							</tbody>
+						</table>
+						
+						</c:forEach>
+						
 						<div class="tab-pane fade active in">
-							<h2 class="count_flow jbxx">资质资信</h2>
+							<h2 class="count_flow"><i>3</i>资质资信</h2>
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
 										<td class="bggrey" width="20%">近三个月完税凭证：</td>
 										<td width="30%">
-											<up:show showId="taxcert_show" delete="flase" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
+											<u:show showId="taxcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
 										</td>
 										<td class="bggrey" width="20%">近三年银行账单：</td>
 										<td width="30%">
-											<up:show showId="billcert_show" delete="flase" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
+											<u:show showId="billcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
 										</td>
 									</tr>
 									<tr>
 										<td class="bggrey" width="20%">近三个月保险凭证：</td>
 										<td width="30%">
-											<up:show showId="curitycert_show" delete="flase" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
+											<u:show showId="curitycert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
 										</td>
 										<td class="bggrey" width="20%">近三年违法记录：</td>
 										<td width="30%">
-											<up:show showId="bearchcert_show" delete="flase" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+											<u:show showId="bearchcert_show" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 										</td>
 									</tr>
 								</tbody>
@@ -187,11 +219,11 @@
 						</div>
 
 						<div class="tab-pane fade active in">
-							<h2 class="count_flow jbxx">法定代表人信息</h2>
+							<h2 class="count_flow"><i>4</i>法定代表信息</h2>
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="bggrey" width="20%">法定代表人姓名：</td>
+										<td class="bggrey" width="20%">姓名：</td>
 										<td width="30%">${suppliers.legalName}</td>
 										<td class="bggrey" width="20%">身份证号：</td>
 										<td width="30%">${suppliers.legalIdCard}</td>
@@ -202,11 +234,17 @@
 										<td class="bggrey" width="20%">手机：</td>
 										<td width="30%">${suppliers.legalMobile }</td>
 									</tr>
+									<tr>
+										<td class="bggrey" width="20%">身份证复印件（正反面）:</td>
+										<td width="30%">
+											<u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+										</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
 						<div class="tab-pane fade active in">
-							<h2 class="count_flow jbxx">联系人信息</h2>
+							<h2 class="count_flow"><i>5</i>注册联系人</h2>
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
@@ -216,22 +254,23 @@
 										<td width="30%">${suppliers.contactFax }</td>
 									</tr>
 									<tr>
-										<td class="bggrey" width="20%">地址：</td>
-										<td width="30%">${suppliers.contactAddress}</td>
+										<td class="bggrey" width="20%">手机：</td>
+										<td width="30%">${suppliers.mobile } </td>
 										<td class="bggrey" width="20%">固定电话：</td>
-										<td width="30%">${suppliers.contactTelephone }</td>
+										<td width="30%">${suppliers.contactMobile }</td>
 									</tr>
 									<tr>
-										<td class="bggrey" width="20%">手机：</td>
-										<td width="30%">${suppliers.contactMobile } </td>
 										<td class="bggrey" width="20%">邮箱：</td>
 										<td width="30%">${suppliers.contactEmail }</td>
+										<td class="bggrey" width="20%">地址：</td>
+										<td width="30%">${suppliers.contactAddress}</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
+						
 						<div class="tab-pane fade active in">
-							<h2 class="count_flow jbxx">营业执照</h2>
+							<h2 class="count_flow"><i>6</i>营业执照</h2>
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
@@ -254,43 +293,77 @@
 										<td width="30%"> ${suppliers.businessPostCode } </td>
 										<td class="bggrey" width="20%">营业执照：</td>
 										<td class="hand" width="30%">
-											<up:show showId="business_show" delete="flase" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
+											<u:show showId="business_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
 										</td>
 									</tr>
 									<tr>
-										<td class="bggrey" width="20%">生产或经营地址：</td>
-										<td width="30%">${suppliers.businessAddress}</td>
 										<td class="bggrey" width="20%">营业范围：</td>
 										<td width="30%">${suppliers.businessScope}</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
+						
+						
 						<div class="tab-pane fade active in">
-							<h2 class="count_flow jbxx">境外分支</h2>
+							<h2 class="count_flow"><i>7</i>军队业务联系人</h2>
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="bggrey" width="20%">境外分支机构：</td>
-										<td width="30%">
-											<c:if test="${suppliers.overseasBranch==0}">无</c:if>
-											<c:if test="${suppliers.overseasBranch==1}">有</c:if>
-										</td>
-										<td class="bggrey" width="20%">国家：</td>
-										<td width="30%">${suppliers.branchCountry}</td>
+										<td class="bggrey" width="20%">姓名：</td>
+										<td width="30%">${suppliers.armyBusinessName } </td>
+										<td class="bggrey" width="20%">传真：</td>
+										<td width="30%">${suppliers.armyBusinessFax}</td>
+									</tr>
+
+									<tr>
+										<td class="bggrey" width="20%">固定电话：</td>
+										<td width="30%">${suppliers.armyBuinessMobile }</td>
+										<td class="bggrey" width="20%">手机：</td>
+									  <td width="30%">${suppliers.armyBuinessTelephone }</td>
 									</tr>
 									<tr>
-										<td class="bggrey" width="20%">分支地址：</td>
-										<td width="30%">${suppliers.branchAddress}</td>
-										<td class="bggrey" width="20%">机构名称：</td>
-										<td width="30%">${suppliers.branchName}</td>
-									</tr>
-									<tr>
-										<td class="bggrey" width="20%">分支生产经营范围：</td>
-										<td colspan="3">${suppliers.branchBusinessScope } </td>
+										<td class="bggrey" width="20%">邮编：</td>
+										<td width="30%"> ${suppliers.armyBuinessEmail } </td>
+										<td class="bggrey" width="20%">详细地址：</td>
+										<td width="30%">${suppliers.armyBuinessAddress}</td>
 									</tr>
 								</tbody>
 							</table>
+						</div>
+						<div class="tab-pane fade active in">
+							<h2 class="count_flow"><i>8</i>境外分支</h2>
+							<table class="table table-bordered">
+								<tbody>
+									<tr>
+										<td class="bggrey" width="50px">境外分支机构：</td>
+										<td width="50px">
+											<c:if test="${suppliers.overseasBranch==0}">无</c:if>
+											<c:if test="${suppliers.overseasBranch==1}">有</c:if>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+								<c:if test="${suppliers.overseasBranch==1}">
+									<c:forEach items="${supplierBranchList }" var="supplierBranch" varStatus="vs">
+										<table class="table table-bordered">
+											<tbody>
+												<tr>
+													<td class="bggrey" width="20%">所在国家(地区)：</td>
+													<td width="30%">${supplierBranch.countryName}</td>
+													<td class="bggrey" width="20%">机构名称：</td>
+													<td width="30%">${supplierBranch.organizationName}</td>
+												</tr>
+												<tr>
+													<td class="bggrey" width="20%">详细地址：</td>
+													<td width="30%">${supplierBranch.detailAddress}</td>
+													<td class="bggrey" width="20%">分支生产经营范围：</td>
+													<td width="30%">${supplierBranch.businessSope } </td>
+												</tr>
+											</tbody>
+										</table>
+									</c:forEach>
+								</c:if>
 						</div>
 					</div>
 				</div>
