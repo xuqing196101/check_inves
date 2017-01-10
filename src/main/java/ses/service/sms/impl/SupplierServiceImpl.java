@@ -302,6 +302,7 @@ public class SupplierServiceImpl implements SupplierService {
         user.setIsDeleted(0);
         user.setCreatedAt(new Date());
         user.setTypeId(supplier.getId());
+        user.setMobile(supplier.getMobile());
         userMapper.insertSelective(user);
 
 
@@ -755,11 +756,6 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public List<ContractBean> getContract(List<Category> categoryList, Integer pageNum) {
-        PropertiesUtil config = new PropertiesUtil("config.properties");
-        if (pageNum != null) {
-            PageHelper.startPage(pageNum, Integer.parseInt(config.getString("pageSize")));
-        }
-        
         List<ContractBean> contract=new ArrayList<ContractBean>();
         for(Category category : categoryList){
             ContractBean con=new ContractBean();
