@@ -585,11 +585,14 @@ public class OpenBiddingController {
                 if (flag == 0) {
                   //暂存
                   article.setStatus(0);
+                  article.setUpdatedAt(new Date());
                   jsonData.setMessage("暂存成功");
                 }
                 if (flag == 1) {
                   //提交
                   article.setStatus(1);
+                  article.setUpdatedAt(new Date());
+                  article.setSubmitAt(new Date());
                   jsonData.setMessage("提交成功");
                 }
                 if (ranges != null && ranges.length > 0){
