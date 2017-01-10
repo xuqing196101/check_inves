@@ -146,29 +146,6 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     
     /**
      * 
-     *〈简述〉获取满足条件的供应商
-     *〈详细描述〉
-     * @author myc
-     * @return
-     */
-    private List<Supplier> getModifySupplierList(){
-        List<Supplier> supplierList = supplierService.getModifySupplierByDate(DateUtils.getYesterDay());
-        List<Supplier> list = new ArrayList<>();
-        for (Supplier supplier : supplierList){
-            if (supplier.getCreatedAt() != null && supplier.getUpdatedAt() != null){
-                if (DateUtils.dateToString(supplier.getCreatedAt())
-                        .equals(DateUtils.dateToString(supplier.getUpdatedAt()))){
-                    continue;
-                }
-            }
-            packageSupplier(supplier);
-            list.add(supplier);
-        }
-        return list;
-    }
-    
-    /**
-     * 
      *〈简述〉封装关联对象
      *〈详细描述〉
      * @author myc
