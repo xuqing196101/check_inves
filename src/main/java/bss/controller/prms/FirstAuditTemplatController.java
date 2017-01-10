@@ -320,7 +320,7 @@ public class FirstAuditTemplatController extends BaseController{
             if (mtValue != null && mtValue.size() == 0){
                 count3 += 1;
             } else {
-                Collections.reverse(mtValue);
+                //Collections.reverse(mtValue);
                 count3 += mtValue.size();
             }
             mtKey.setJudge(mtKey.getPosition());

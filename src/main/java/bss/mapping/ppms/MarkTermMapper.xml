@@ -63,7 +63,7 @@
       	<if test="bidMethodId != null">
         	and mt.BID_METHOD_ID =#{bidMethodId}
       	</if>
-      	ORDER BY mt.CREATED_AT DESC	
+      	ORDER BY mt.CREATED_AT ASC	
    </select> 
    <select id="findMarkTermById" parameterType="java.lang.String" resultType="bss.model.ppms.MarkTerm">
    		SELECT
@@ -102,7 +102,9 @@
     </selectKey>
     insert into T_BSS_PPMS_MARK_TERM
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createdAt != null">
       created_at,
+      </if>
       <if test="id != null">
         ID,
       </if>
@@ -135,7 +137,10 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      sysdate,
+      <!-- sysdate, -->
+      <if test="createdAt != null">
+      	#{createdAt},
+      </if>
       <if test="id != null">
         #{id},
       </if>

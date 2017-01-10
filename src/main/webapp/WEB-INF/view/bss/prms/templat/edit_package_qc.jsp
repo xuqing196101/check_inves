@@ -204,7 +204,7 @@
                <tr>
                   <th class="info">评审类别</th>
                   <th class="info">评审项目</th>
-                  <th class="w80">评审指标</th>
+                  <th class="w100">评审指标</th>
                   <th class="w80">所属模型</th>
                   <th class="info">评审内容</th>
                   <th class="w50">分值</th>

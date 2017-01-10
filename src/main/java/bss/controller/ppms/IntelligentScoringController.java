@@ -202,6 +202,8 @@ public class IntelligentScoringController extends BaseController{
             List<ParamInterval> piList = new ArrayList<ParamInterval>();
             //模型七八对应的差额区间查询条件
             ParamInterval paramInterval = new ParamInterval();
+            long nowDate = new Date().getTime();
+            long addTime = 1000l;//一秒
 	        for (BidMethod bidMethod : bmList) {
 	            //修改之前新增一条
 	            BidMethod bm = new BidMethod();
@@ -232,12 +234,16 @@ public class IntelligentScoringController extends BaseController{
 	                    
 	                    for (MarkTerm markTerm2 : mtList) {
                             if (markTerm.getId().equals(markTerm2.getPid())) {
+                                
                                 MarkTerm mtChildren = new MarkTerm();
                                 mtChildren.setId(null);
                                 mtChildren.setPid(mt.getId());
                                 mtChildren.setName(markTerm2.getName());
                                 mtChildren.setIsDeleted(0);
-                                mtChildren.setCreatedAt(new Date());
+                                //每条增加的时间都不一样
+                                addTime = addTime + 1000l;
+                                nowDate = nowDate + addTime;
+                                mtChildren.setCreatedAt(new Date(nowDate));
                                 mtChildren.setMaxScore(markTerm2.getMaxScore());
                                 mtChildren.setProjectId(id);
                                 mtChildren.setRemainScore(markTerm2.getRemainScore());
@@ -384,6 +390,7 @@ public class IntelligentScoringController extends BaseController{
 	            boolean isFlag = true;
 	            BidMethod condition = new BidMethod();
 	            condition.setProjectId(bm.getProjectId());
+	            condition.setPackageId(bm.getPackageId());
 	            condition.setType(bm.getTypeName());
 	            List<BidMethod> bdList = bidMethodService.findListByBidMethod(condition);
 	            for (BidMethod bidMethod : bdList) {
@@ -524,7 +531,7 @@ public class IntelligentScoringController extends BaseController{
             if (mtValue != null && mtValue.size() == 0){
                 count3 += 1;
             } else {
-                Collections.reverse(mtValue);
+               //Collections.reverse(mtValue);
                 count3 += mtValue.size();
             }
             mtKey.setJudge(mtKey.getPosition());

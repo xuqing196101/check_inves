@@ -6221,17 +6221,23 @@
 			<p class=MsoNormal style="text-indent:25.7500pt;mso-char-indent-count:1.7000;mso-layout-grid-align:none;text-autospace:none;line-height:28.0000pt;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><font face="宋体" >我部就以下项目进行竞争性谈判，欢迎贵单位参加谈判报价。</font></span><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal style="margin-left:46.5000pt;text-indent:-21.0000pt;mso-layout-grid-align:none;text-autospace:none;line-height:28.0000pt;mso-list:l26 level1 lfo3;">
 				<![if !supportLists]><span style="font-family:黑体;mso-hansi-font-family:宋体;mso-bidi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><span style='mso-list:Ignore;' >一、</span></span>
-				<![endif]><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;mso-bidi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><font face="黑体" >项目名称</font></span><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><font face="宋体" >：</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;mso-bidi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p>
+				<![endif]><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;mso-bidi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><font face="黑体" >项目名称</font></span><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><font face="宋体" >：${project.name}</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;mso-bidi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal style="margin-left:46.5000pt;text-indent:-21.0000pt;mso-layout-grid-align:none;text-autospace:none;line-height:28.0000pt;mso-list:l26 level1 lfo3;">
 				<![if !supportLists]><span style="font-family:黑体;mso-hansi-font-family:宋体;mso-bidi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><span style='mso-list:Ignore;' >二、</span></span>
-				<![endif]><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;mso-bidi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><font face="黑体" >项目编号</font></span><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><font face="宋体" >：</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;mso-bidi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p>
+				<![endif]><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;mso-bidi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><font face="黑体" >项目编号</font></span><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><font face="宋体" >：${project.projectNumber}</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;mso-bidi-font-family:宋体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p>
 			<p class=50 align=justify style="margin-left:46.5000pt;text-indent:-21.0000pt;text-align:justify;text-justify:inter-ideograph;line-height:28.0000pt;mso-list:l26 level1 lfo3;">
 				<![if !supportLists]><span style="font-family:黑体;mso-hansi-font-family:宋体;text-underline:rgb(0,0,0);font-size:14.0000pt;"><span style='mso-list:Ignore;' >三、</span></span>
 				<![endif]><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;text-underline:rgb(0,0,0);font-size:14.0000pt;"><font face="黑体" >货物名称、数量</font></span><span style="mso-spacerun:'yes';font-family:宋体;text-underline:rgb(0,0,0);font-size:14.0000pt;"><font face="宋体" >：</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;text-underline:rgb(0,0,0);font-size:14.0000pt;"><o:p></o:p></span></p>
+			<#list packagesList as pl>
 			<table class=MsoNormalTable align=center style="border-collapse:collapse;width:462.7000pt;mso-table-layout-alt:fixed;mso-padding-alt:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;">
+				<tr style="height:31.3500pt;page-break-inside:avoid;">
+					<td width=610 valign=center colspan=9 style="width:457.7000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+						<p class=MsoNormal style="text-align:left;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;">${pl.name}</span><span style="font-family:宋体;font-size:14.0000pt;"><o:p></o:p></span></p>
+					</td>
+				</tr>
 				<tr style="height:36.0500pt;page-break-inside:avoid;">
 					<td width=54 valign=center style="width:40.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
-						<p class=MsoNormal align=center style="text-align:center;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;mso-font-kerning:1.0000pt;">包号</span><span style="font-family:Calibri;font-size:14.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
+						<p class=MsoNormal align=center style="text-align:center;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;mso-font-kerning:1.0000pt;">序号</span><span style="font-family:Calibri;font-size:14.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 					<td width=95 valign=center style="width:71.4000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:none;;mso-border-left-alt:none;;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
 						<p class=MsoNormal align=center style="text-align:center;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;mso-font-kerning:1.0000pt;">货物名称</span><span style="font-family:Calibri;font-size:14.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -6260,12 +6266,12 @@
 						<p class=MsoNormal align=center style="text-align:center;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:14.0000pt;mso-font-kerning:1.0000pt;">备注</span><span style="font-family:Calibri;font-size:14.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
-				<#list projectDetail as pd>
+				<#list pl.projectDetails as pd>
 				<#if pd.goodsName?exists && pd.packages?exists >
 				<tr style="height:31.2000pt;page-break-inside:avoid;">
 					<td width=54 valign=center style="width:40.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
 						<#if pd.packages?exists  >
-						<p class=MsoNormal align=center style="text-align:center;line-height:28.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${pd.packages.name!}</span><span style="font-family:Calibri;font-size:12.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
+						<p class=MsoNormal align=center style="text-align:center;line-height:28.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${pd_index + 1}</span><span style="font-family:Calibri;font-size:12.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					  </#if>
 					</td>
 					<td width=95 valign=center style="width:71.4000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:none;;mso-border-left-alt:none;;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
@@ -6365,6 +6371,7 @@
 					</td>
 				</tr>
 			</table>
+			</#list>
 			<p class=50 align=justify style="margin-left:46.5000pt;text-indent:-21.0000pt;text-align:justify;text-justify:inter-ideograph;line-height:28.0000pt;mso-list:l26 level1 lfo3;">
 				<![if !supportLists]><span style="font-family:黑体;mso-hansi-font-family:宋体;text-underline:rgb(0,0,0);font-size:14.0000pt;"><span style='mso-list:Ignore;' >四、</span></span>
 				<![endif]><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;text-underline:rgb(0,0,0);font-size:14.0000pt;"><font face="黑体" >供应商资格条件：</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-hansi-font-family:宋体;text-underline:rgb(0,0,0);font-size:14.0000pt;"><o:p></o:p></span></p>
@@ -6429,10 +6436,16 @@
 			<p class=49 align=justify style="margin-left:0.6500pt;text-indent:27.7500pt;mso-layout-grid-align:none;text-autospace:none;mso-pagination:none;text-align:justify;text-justify:inter-ideograph;line-height:25.0000pt;mso-line-height-rule:exactly;mso-list:l16 level1 lfo4;">
 				<![if !supportLists]><span style="font-family:黑体;mso-ascii-font-family:'Times New Roman';mso-hansi-font-family:'Times New Roman';font-size:14.0000pt;mso-font-kerning:0.0000pt;"><span style='mso-list:Ignore;' >一、</span></span>
 				<![endif]><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:'Times New Roman';mso-hansi-font-family:'Times New Roman';font-size:14.0000pt;mso-font-kerning:0.0000pt;"><font face="黑体" >货物一览表</font><a name="_Toc285612596" ><font face="黑体" >及技术要求</font></a></span><span style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:黑体;font-size:14.0000pt;mso-font-kerning:0.0000pt;"><o:p></o:p></span></p>
+			<#list packagesList as pl>
 			<table class=MsoNormalTable style="border-collapse:collapse;width:468.0500pt;margin-left:5.4000pt;mso-table-layout-alt:fixed;mso-padding-alt:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;">
 				<tr style="height:27.0000pt;">
+						<td width=624 valign=center colspan=7 style="width:468.0500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
+							<p class=MsoNormal style="mso-pagination:widow-orphan;text-align:left;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:12.0000pt;">${pl.name}</span><span style="font-family:宋体;font-size:12.0000pt;"><o:p></o:p></span></p>
+						</td>
+				</tr>
+				<tr style="height:27.0000pt;">
 					<td width=54 valign=center style="width:40.6500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
-						<p class=MsoNormal align=center style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:10.5000pt;mso-font-kerning:1.0000pt;">包号</span><span style="font-family:Calibri;font-size:12.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
+						<p class=MsoNormal align=center style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:10.5000pt;mso-font-kerning:1.0000pt;">序号</span><span style="font-family:Calibri;font-size:12.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 					<td width=97 valign=center style="width:72.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
 						<p class=MsoNormal align=center style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:10.5000pt;mso-font-kerning:1.0000pt;">物资名称</span><span style="font-family:Calibri;font-size:12.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -6454,12 +6467,12 @@
 						<p class=MsoNormal align=center style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:10.5000pt;mso-font-kerning:1.0000pt;">备注</span><span style="font-family:Calibri;font-size:12.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
-				<#list projectDetail as pd>
+				<#list pl.projectDetails as pd>
 				<#if pd.goodsName?exists && pd.packages?exists >
 				<tr style="height:33.9000pt;">
 					<td width=54 valign=center nowrap style="width:40.6500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
 						<#if pd.packages?exists >	
-						<p class=MsoNormal align=center style="mso-pagination:widow-orphan;text-align:center;line-height:28.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${pd.packages.name}</span><span style="font-family:Calibri;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
+						<p class=MsoNormal align=center style="mso-pagination:widow-orphan;text-align:center;line-height:28.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">${pd_index + 1}</span><span style="font-family:Calibri;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 						</#if>
 					</td>
 					<td width=97 valign=center style="width:72.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
@@ -6486,6 +6499,7 @@
 				</#if>
 				</#list>
 			</table>
+			</#list>
 			<p class=MsoNormal style="text-indent:28.0000pt;mso-char-indent-count:2.0000;line-height:28.0000pt;mso-line-height-rule:exactly;"><b><span style="mso-spacerun:'yes';font-family:宋体;color:rgb(0,0,255);font-weight:bold;font-size:14.0000pt;mso-font-kerning:1.0000pt;" >&#8251;</span></b><span style="mso-spacerun:'yes';font-family:宋体;color:rgb(0,0,255);font-size:14.0000pt;mso-font-kerning:1.0000pt;"><font face="宋体" >关键重要技术指标参数以</font></span><span style="mso-spacerun:'yes';font-family:宋体;color:rgb(0,0,255);font-size:14.0000pt;mso-font-kerning:1.0000pt;">&#9733;</span><span style="mso-spacerun:'yes';font-family:宋体;color:rgb(0,0,255);font-size:14.0000pt;mso-font-kerning:1.0000pt;"><font face="宋体" >标记（有</font></span><span style="mso-spacerun:'yes';font-family:宋体;color:rgb(0,0,255);font-size:14.0000pt;mso-font-kerning:1.0000pt;">1</span><span style="mso-spacerun:'yes';font-family:宋体;color:rgb(0,0,255);font-size:14.0000pt;mso-font-kerning:1.0000pt;"><font face="宋体" >项不满足即按无效报价处理），一般技术指标参数不作标记。报价方须提供技术支持资料</font></span><span style="mso-spacerun:'yes';font-family:宋体;color:rgb(0,0,255);font-size:14.0000pt;mso-font-kerning:1.0000pt;"><font face="宋体" >。技术支持资料包括制造商公开发布的资料（含制造商出具的产品规格表或检测机构出具的检测报告）。</font></span><b><span style="mso-spacerun:'yes';font-family:宋体;color:rgb(0,0,255);font-weight:bold;font-size:14.0000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></b></p>
 			<p class=49 align=justify style="margin-left:0.6500pt;text-indent:27.7500pt;mso-layout-grid-align:none;text-autospace:none;mso-pagination:none;text-align:justify;text-justify:inter-ideograph;line-height:25.0000pt;mso-line-height-rule:exactly;mso-list:l16 level1 lfo4;">
 				<![if !supportLists]><span style="font-family:黑体;mso-ascii-font-family:'Times New Roman';mso-hansi-font-family:'Times New Roman';font-size:14.0000pt;mso-font-kerning:0.0000pt;"><span style='mso-list:Ignore;' >二、</span></span>
@@ -7051,7 +7065,7 @@
 						<p class=MsoNormal align=center style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">合&nbsp;&nbsp;&nbsp;&nbsp;计</span><span style="font-family:宋体;mso-fareast-font-family:楷体_GB2312;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 					<td width=110 valign=center style="width:82.8000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:none;;mso-border-left-alt:none;;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
-						<p class=MsoNormal align=center style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;"><span style="font-family:宋体;mso-fareast-font-family:楷体_GB2312;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
+						<p class=MsoNormal align=center style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;"><span style="font-family:宋体;mso-fareast-font-family:楷体_GB2312;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p>100</o:p></span></p>
 					</td>
 				</tr>
 				<tr style="height:62.4000pt;">
@@ -7106,7 +7120,7 @@
 						<p class=MsoNormal align=center style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;"><span style="mso-spacerun:'yes';font-family:宋体;font-size:10.0000pt;mso-font-kerning:1.0000pt;">合&nbsp;&nbsp;&nbsp;&nbsp;计</span><span style="font-family:宋体;mso-fareast-font-family:楷体_GB2312;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 					<td width=126 valign=center style="width:95.1000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:31.8750pt none rgb(255,255,255);mso-border-left-alt:31.8750pt none rgb(255,255,255);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
-						<p class=MsoNormal align=center style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;"><span style="font-family:宋体;mso-fareast-font-family:楷体_GB2312;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
+						<p class=MsoNormal align=center style="layout-grid-mode:char;mso-pagination:widow-orphan;text-align:center;"><span style="font-family:宋体;mso-fareast-font-family:楷体_GB2312;font-size:10.0000pt;mso-font-kerning:1.0000pt;"><o:p>100</o:p></span></p>
 					</td>
 				</tr>
 				<tr style="height:66.4500pt;">
