@@ -245,13 +245,6 @@ import common.service.UploadService;
    @RequestMapping(value = "register")
    public String register(HttpServletRequest request, Model model, Supplier supplier) {
 		
-
-     //页面过期处理
-     if (StringUtils.isEmpty(supplier.getId())){
-       String id = WfUtil.createUUID();
-       request.setAttribute("id",id);
-       return "ses/sms/supplier_register/register";
-     }
      Supplier sup = supplierService.selectById(supplier.getId());
 
      //未注册供应商
@@ -365,6 +358,8 @@ import common.service.UploadService;
        initCompanyType(model, sup);
        return "ses/sms/supplier_register/basic_info";
      }
+     String id = WfUtil.createUUID();
+     request.setAttribute("id",id);
      return "ses/sms/supplier_register/register";
    }
 
