@@ -70,7 +70,18 @@
 	document.body.innerHTML = oldstr;
 	return false;
 	}
-	</script>
+	
+	function custom_close(){
+		if 
+		(confirm("您确定要关闭本页吗？")){
+		window.opener=null;
+		window.open('','_self');
+		window.close();
+		}
+		else{}
+		}
+	
+	
 
 </script>
 </head>
@@ -79,7 +90,7 @@
 	<!--面包屑导航开始-->
  
 	<div class="container">
-		<div class="container clear margin-top-30 over_scroll h365" >
+		<div class="container clear margin-top-30  h365" >
 
 			<form id="acc_form" action="${pageContext.request.contextPath }/accept/update.html" method="post">
 				<table class="table table-bordered table-condensed mt5">
@@ -183,14 +194,16 @@
 				</table>
 			
 			</form>
+				<input class="btn btn-windows print" type="button" onclick="printdiv('acc_form')" value="打印"> 
+				<input class="btn btn-windows back" value="关闭" type="button" onclick="custom_close()">
 		</div>
 		
-		 <div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
-				<input class="btn btn-windows print" type="button" onclick="printdiv('acc_form')" value="打印"> 
-				<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-		</div>
-
 	</div>
 
+	 
+			
+	 
+		
+		
 </body>
 </html>

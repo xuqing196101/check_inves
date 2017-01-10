@@ -469,7 +469,7 @@
 			function delRowIndex(obj){
 				
 				var tr=$(obj).parent().parent();
-				 var val=$(tr).find("td:eq(8)").children(":first").val();
+				 var val=$(tr).find("td:eq(8)").children(":first").next().val();
 				 if($.trim(val)==""){
 					  layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
 				 }else{

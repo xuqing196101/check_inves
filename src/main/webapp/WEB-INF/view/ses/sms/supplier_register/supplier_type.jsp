@@ -275,9 +275,9 @@ $(function(){
 		});
 		var certPersonNumber = $("#certPersonNumber").val();
 		$("#reg_person_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatEng.listSupplierRegPersons[" + certProNumber + "].id' value='" + id + "'></td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierRegPersons[" + certProNumber + "].regType'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierRegPersons[" + certProNumber + "].regNumber'/> </td>"+
+			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].id' value='" + id + "'></td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].regType'/> </td>"+
+			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].regNumber'/> </td>"+
 			"</tr>");
 		certPersonNumber++;
 		$("#certPersonNumber").val(certPersonNumber);		

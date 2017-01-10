@@ -268,19 +268,16 @@ public class PurchaseRequiredController extends BaseController{
 //		ExcelUtil util=new ExcelUtil();
 		    Map<String,Object>  maps= (Map<String, Object>) ExcelUtil.readExcel(file);
 		     list = (List<PurchaseRequired>) maps.get("list");
-		     if(!user.getOrg().getName().equals(list.get(0).getDepartment())){
-		    	 return "2"; 
-		     }
-		     
 		     
 		     String errMsg=(String) maps.get("errMsg");
 		
 		     if(errMsg!=null){
 		          String jsonString = JSON.toJSONString(errMsg);
 					return jsonString;
-				
-					
 			}
+		     if(!user.getOrg().getName().equals(list.get(0).getDepartment())){
+		    	 return "2"; 
+		     }
 		     
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		String pid = UUID.randomUUID().toString().replaceAll("-", "");
