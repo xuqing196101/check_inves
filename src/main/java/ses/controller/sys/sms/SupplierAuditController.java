@@ -57,6 +57,7 @@ import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAuditNotService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierExtRelateService;
@@ -150,6 +151,10 @@ public class SupplierAuditController extends BaseSupplierController{
 	/** 采购机构 **/
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+	
+	/** 审核不通过 **/
+	@Autowired
+	private SupplierAuditNotService supplierAuditNotService;
 	
 	/**
 	 * @Title: daiBan
@@ -846,7 +851,6 @@ public class SupplierAuditController extends BaseSupplierController{
 		//更新状态
 		supplier.setId(supplierId);
 		supplier.setAuditDate(new Date());
-		supplier.setUpdatedAt(new Date());
 		supplierAuditService.updateStatus(supplier);
 		//更新待办
 		supplier = supplierAuditService.supplierById(supplierId);

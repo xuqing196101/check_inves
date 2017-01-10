@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierAuditNotMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAuditNot">
+    <id column="ID" property="id" />
+    <result column="SUPPLIER_ID" property="supplierId" />
+    <result column="CREDIT_CODE" property="creditCode" />
+    <result column="REASON" property="reason" />
+    <result column="CREATED_AT" property="createdAt"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SUPPLIER_ID, CREDIT_CODE, REASON, CREATED_AT
+  </sql>
+  
+  <select id="selectByPrimaryKey"   parameterType="ses.model.sms.SupplierAuditNot" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_AUDIT_Not
+    where SUPPLIER_ID = #{supplierId} 
+  </select>
+  
+  <!-- 插入审核记录 -->
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierAuditNot">
+    insert into T_SES_SMS_SUPPLIER_AUDIT_NOT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="creditCode != null">
+        CREDIT_CODE,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="creditCode != null">
+        #{creditCode},
+      </if>
+      <if test="reason != null">
+        #{reason},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+    </trim>
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select sys_guid() from dual
+  </selectKey>
+  </insert>
+</mapper>
