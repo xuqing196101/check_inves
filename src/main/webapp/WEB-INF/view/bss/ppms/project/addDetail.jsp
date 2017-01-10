@@ -6,6 +6,8 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
     <script type="text/javascript">
       //勾选明细
       function check(ele) {
@@ -125,7 +127,7 @@
         <button class="btn btn-windows save" type="button" onclick="save()">确定</button>
         <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
       </div>
-      <div class="content table_box over_scroll">
+      <div class="content table_box ">
         <table id="table" class="table table-bordered table-condensed table-hover table_wrap left_table">
           <thead>
             <tr class="info">
@@ -227,10 +229,12 @@
     <form id="save_form_id" action="${pageContext.request.contextPath}/project/save.html" method="post">
 
       <c:forEach items="${lists}" var="obj" varStatus="vs">
+        <input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
         <input type="hidden" name="listDetail[${vs.index }].memo" value="${obj.memo }">
         <input type="hidden" name="listDetail[${vs.index }].parentId" value="${obj.parentId }">
         <input type="hidden" name="listDetail[${vs.index }].detailStatus" value="${obj.detailStatus}">
         <input type="hidden" name="listDetail[${vs.index }].planType" value="${obj.planType}">
+        <input type="hidden" name="listDetail[${vs.index }].purchaseType" value="${obj.purchaseType}">
       </c:forEach>
       <input id="detail_id" name="checkIds" type="hidden" />
       <input name="name" type="hidden" value="${name}" />

@@ -5,6 +5,11 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
+    
+    
 <script type="text/javascript"></script>
 </head>
   
@@ -46,8 +51,8 @@
               </tbody>       
             </table>     
             <h2 class="count_flow jbxx">需求明细查看</h2>
-            <div class="content over_scroll h365">
-              <table class="table table-bordered table-condensed table-hover table-striped table_wrap">  
+            <div class="content ">
+              <table id="table" class="table table-bordered table-condensed table-hover table-striped table_wrap">  
                 <thead>
 				  <tr>
 					<th class="info w50">序号</th>
@@ -114,10 +119,16 @@
            <td class="tc">${obj.budget}</td>
            <td class="tc">${obj.deliverDate}</td>
            <td class="tc">
-               <c:forEach items="${kind}" var="kind" >
-                         <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                       </c:forEach>
-               </td>
+               <c:choose>
+                            <c:when test="${obj.detailStatus==0 }">
+
+                            </c:when>
+                            <c:otherwise>
+                              <c:forEach items="${kind}" var="kind">
+                                <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                              </c:forEach>
+                        </c:otherwise>
+                        </c:choose>
            <td class="tc">${obj.supplier}</td>
            <td class="tc">${obj.isFreeTax}</td>
            <td class="tc">${obj.goodsUse}</td>

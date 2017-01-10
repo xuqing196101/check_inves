@@ -48,6 +48,11 @@ public class NegotiationReport {
      * 谈判情况
      */
     private String talks;
+    
+    /**
+     * 包ID
+     */
+    private String packageId;
 
     public String getId() {
         return id;
@@ -105,5 +110,12 @@ public class NegotiationReport {
         this.talks = talks;
     }
 
-    
+    public String getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(String packageId) {
+        this.packageId = packageId;
+    }
+
 }

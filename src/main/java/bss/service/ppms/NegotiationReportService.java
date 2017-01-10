@@ -14,6 +14,8 @@ void deleteByPrimaryKey(String id);
     NegotiationReport selectById(String id);
     
     NegotiationReport selectByProjectId(String id);
+    
+    NegotiationReport selectByPackageId(String id);
      
     void update(NegotiationReport record);
 

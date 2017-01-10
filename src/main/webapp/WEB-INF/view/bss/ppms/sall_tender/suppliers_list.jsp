@@ -64,10 +64,23 @@
       $('input[name="chkItem"]:checked').each(function() {
         id.push($(this).val());
       });
-
+      var kind = $("#kind").val();
       var packages = "${packId }";
       var projectId = "${projectId }";
-      window.location.href = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + id.toString() + "&packages=" + packages + "&projectId=" + projectId;
+      if(kind == 'DYLY'){
+        if(id.length == 1){
+          window.location.href = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + id.toString() + "&packages=" + packages + "&projectId=" + projectId;
+        }else{
+          layer.alert("只能选择一个供应商", {
+            offset: ['30%', '40%'],
+            shade : 0.01,
+          });
+        }
+      }else{
+        window.location.href = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + id.toString() + "&packages=" + packages + "&projectId=" + projectId;
+      }
+      
+      
 
     }
     
@@ -116,6 +129,7 @@
 
     <input type="hidden" name="packages" value="${packId }" />
     <input type="hidden" name="projectId" value="${projectId }" />
+    <input type="hidden" id="kind" value="${kind }" />
 
     <table class="table table-bordered table-condensed mt5">
       <thead>

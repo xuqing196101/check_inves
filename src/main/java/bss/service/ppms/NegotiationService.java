@@ -1,5 +1,7 @@
 package bss.service.ppms;
 
+import iss.model.ps.Article;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,4 +21,6 @@ void deleteByPrimaryKey(String id);
     void update(Negotiation record);
 
     List<Negotiation> listByNegotiation(HashMap<String,Object> map);
+    
+    Article getDefaultTemplates(String projectId, Article article);
 }

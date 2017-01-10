@@ -9,11 +9,12 @@
     <result column="REVIEW_SITE"  property="reviewSite" />
     <result column="FINAL_OFFER" property="finalOffer" />
     <result column="TALKS" property="talks" />
+    <result column="PACKAGE_ID" property="packageId" />
   </resultMap>
   
   
   <sql id="Base_Column_List">
-    ID, PROJECT_ID, SUPPLIER_ID, REVIEW_TIME, REVIEW_SITE,FINAL_OFFER,TALKS
+    ID, PROJECT_ID, SUPPLIER_ID, REVIEW_TIME, REVIEW_SITE,FINAL_OFFER,TALKS,PACKAGE_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -27,6 +28,13 @@
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_NEGOTIATION_REPORT
     where PROJECT_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPackageId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_NEGOTIATION_REPORT
+    where PACKAGE_ID = #{id,jdbcType=VARCHAR}
   </select>
   
   <select id="listByNegotiation"  parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -77,6 +85,9 @@
       <if test="talks != null">
         TALKS,
       </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -100,6 +111,9 @@
       <if test="talks != null">
         #{talks},
       </if>
+      <if test="packageId != null">
+        #{packageId},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.NegotiationReport">
@@ -122,6 +136,9 @@
       </if>
       <if test="talks != null">
         TALKS = #{talks},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId},
       </if>
     </set>
     where ID = #{id}

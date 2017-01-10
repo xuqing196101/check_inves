@@ -5,6 +5,8 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
 		<script type="text/javascript">
 		      var clickState = 0;
       $(function() {
@@ -446,7 +448,7 @@
 
 			<c:if test="${!empty list}">
 				<div class="content table_box" id="package">
-					<table class="table table-bordered table-condensed table-hover table-striped">
+					<table id="table" class="table table-bordered table-condensed table-hover table-striped">
 						<thead>
 							<tr class="info">
 								<th class="w30"><input type="checkbox" id="selectAll" onclick="selectAll()"></th>
@@ -509,7 +511,7 @@
 						<input type="hidden" value="${pack.id }" />
 					</div>
 
-					<table class="table table-bordered table-condensed table-hover">
+					<table id="table" class="table table-bordered table-condensed table-hover">
 						<thead>
 							<tr class="info">
 								<th class="w30"><input type="checkbox" id="selectAll${p.index }" onclick="selectAllDetail(${p.index})" /></th>
@@ -575,7 +577,7 @@
 		
 		<c:if test="${!empty list}">
       <div class="content table_box dnone" id="oddDetail">
-        <table class="table table-bordered table-condensed table-hover table-striped">
+        <table id="table" class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr class="info">
               <th class="w30"><input type="checkbox" id="selectAddAll" onclick="selectAddAll()"></th>

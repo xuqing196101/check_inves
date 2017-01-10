@@ -914,4 +914,10 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       return totalPriceSupplier;
     }
     
+    @Override
+    public BigDecimal ranks(SaleTender saleTender, String projectId, String packageId) {
+        BigDecimal aa = getTocalPriceSupplier(saleTender, projectId, packageId);
+        return aa;
+        
+    }
 }

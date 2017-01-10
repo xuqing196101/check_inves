@@ -92,6 +92,8 @@ public class Packages {
   private String contractId;
 
   private Negotiation negotiation;
+  
+  private NegotiationReport negotiationReport;
 
   private BigDecimal wonPrice;
 
@@ -513,7 +515,16 @@ public class Packages {
     this.negotiation = negotiation;
   }
 
-  /**
+  
+  public NegotiationReport getNegotiationReport() {
+    return negotiationReport;
+}
+
+public void setNegotiationReport(NegotiationReport negotiationReport) {
+    this.negotiationReport = negotiationReport;
+}
+
+/**
    * @return Returns the listExtRelate.
    */
   public List<SupplierExtRelate> getListExtRelate() {

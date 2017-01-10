@@ -5,6 +5,8 @@
 <html>
   <head>
   <%@ include file="/WEB-INF/view/common.jsp"%>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
   <script type="text/javascript">
   /** 全选全不选 */
   function selectAll(){
@@ -75,7 +77,7 @@
     </div>
     <div class="content table_box over_scroll">
       <c:if test="${lists != null }">
-        <table class="table table-bordered table-condensed table-hover table-striped table_wrap">
+        <table id="table" class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr>
               <th class="info w50">序号</th>
@@ -138,7 +140,7 @@
             <span class="f14 blue">${pack.name }</span>
           </div>
           <input type="hidden" value="${pack.id }"/>
-          <table class="table table-bordered table-condensed table-hover table-striped">
+          <table id="table" class="table table-bordered table-condensed table-hover table-striped">
             <thead>
               <tr>
                 <th class="info w50">序号</th>

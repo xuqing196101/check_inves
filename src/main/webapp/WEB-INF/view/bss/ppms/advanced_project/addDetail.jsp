@@ -5,6 +5,8 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
 <script type="text/javascript">
   //勾选明细
   function check(ele){
@@ -91,7 +93,7 @@
       <button class="btn btn-windows save" type="button" onclick="save();">确定</button>
       <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
     </div>
-    <div class="content table_box over_scroll">
+    <div class="content table_box">
       <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
         <thead>
           <tr>

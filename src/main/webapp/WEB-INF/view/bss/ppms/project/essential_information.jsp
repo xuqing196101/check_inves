@@ -9,6 +9,8 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
 <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>	
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
     <script type="text/javascript">
       //表单验证
       var controldate;
@@ -425,7 +427,7 @@
                   <span class="f14 blue">${pack.name }</span>
                 </div>
                 <input type="hidden" value="${pack.id }" />
-                <table class="table table-bordered table-condensed table-hover table-striped left_table">
+                <table id="table" class="table table-bordered table-condensed table-hover table-striped">
                   <thead>
                     <tr>
                       <th class="info w50">序号</th>

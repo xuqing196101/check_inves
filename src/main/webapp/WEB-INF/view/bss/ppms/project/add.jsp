@@ -6,6 +6,8 @@
 
   <head>
   	<%@ include file="/WEB-INF/view/common.jsp"%>
+  	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
     <script type="text/javascript">
       /*分页  */
       $(function() {
@@ -34,9 +36,9 @@
           }
         });
         
-         var row = $("#table2 tr").length;
+         var row = $("#table tr").length;
         if(row == 1) {
-          $("table#table2").find("tr:eq('0')").remove();
+          $("table#table").find("tr:eq('0')").remove();
           $("#remove").addClass("hide");
         }
         
@@ -266,8 +268,8 @@
               <div id="remove" class="col-md-12 pl20 mt10">
                 <button class="btn" type="button" onclick="remove()">移除</button>
               </div>
-              <div class="content table_box  over_scroll">
-                <table id="table2" class="table table-bordered table-condensed table-hover table_wrap">
+              <div class="content table_box ">
+                <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
                   <thead>
                     <tr class="info">
                       <th>操作</th>

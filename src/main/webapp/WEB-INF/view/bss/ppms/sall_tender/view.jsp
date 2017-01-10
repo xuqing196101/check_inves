@@ -24,10 +24,35 @@
 
       function add(packId) {
         var kindName = $("#kindName").val();
+        var projectId = $("#projectId").val();
         if(kindName == "GKZB" || kindName == "DYLY") {
-          var projectId = $("#projectId").val();
-         var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId;
+          if(kindName == "DYLY"){
+            $.ajax({
+                            url: "${pageContext.request.contextPath}/saleTender/startTask.html",
+                            data: "id=" + packId,
+                            type: "post",
+                            dateType: "json",
+                            success: function(relut) {
+                              if(relut == "1"){
+                                layer.alert("只能选一个");
+                              
+                              }else{
+                                var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId;
+                                 $("#tab-1").load(path);
+                              }
+                              
+                            },
+                            error: function() {
+                              layer.msg("受领失败", {
+                              });
+                            }
+                          });
+          }else{
+            var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId;
          $("#tab-1").load(path);
+          }
+          
+         
         } else {
           var id = [];
           $('input[name="chkItem"]:checked').each(function() {
@@ -197,7 +222,9 @@
           </h2>
           <div class="fl mt20 ml10">
              <button class="btn btn-windows add" onclick="add('${pack.id }')" type="button">登记</button>
+             <c:if test="${status != 'DYLY'}">
              <button class="btn btn-windows add" onclick="provisional('${pack.id}');" type="button">添加临时供应商</button>
+             </c:if>
              <button class="btn btn-windows delete" onclick="del('${pack.id}');" type="button">移除供应商</button>
            </div>
              

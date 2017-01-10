@@ -51,4 +51,10 @@ public class NegotiationReportServiceImpl implements NegotiationReportService {
         return negotiationReportMapper.listByNegotiation(map);
     }
 
+    @Override
+    public NegotiationReport selectByPackageId(String id) {
+        
+        return negotiationReportMapper.selectByPackageId(id);
+    }
+
 }

@@ -14,6 +14,8 @@ public interface NegotiationReportMapper {
     NegotiationReport selectByPrimaryKey(String id);
     
     NegotiationReport selectByProjectId(String id);
+    
+    NegotiationReport selectByPackageId(String id);
      
     void updateByPrimaryKeySelective(NegotiationReport record);
 

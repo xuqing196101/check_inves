@@ -313,7 +313,7 @@
                     }
           }
 
-        }else if(ids.length>1){
+        }else if(id.length>1){
           layer.alert("只能选择一项任务", {
             offset: ['30%', '40%'],
             shade : 0.01

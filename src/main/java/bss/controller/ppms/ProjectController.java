@@ -620,11 +620,20 @@ public class ProjectController extends BaseController {
              }
              
          }else{
+             String purchaseTypes = null;
+             for (int i = 0; i < list.getListDetail().size(); i++ ) {
+                 HashMap<String, Object> map = new HashMap<String, Object>();
+                 map.put("id", list.getListDetail().get(i).getId());
+                 List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
+                 if(lists.size() == 1){
+                     purchaseTypes = lists.get(0).getPurchaseType();
+                 }
+             }
              project.setCreateAt(new Date());
              project.setStatus("4");
              project.setIsProvisional(1);
              project.setIsImport(0);
-             project.setPurchaseType(purchaseType);
+             project.setPurchaseType(purchaseTypes);
              project.setPurchaseDep(new PurchaseDep(orgId));
              project.setPlanType(list.getListDetail().get(0).getPlanType());
              projectService.insert(project); 
@@ -1351,24 +1360,24 @@ public class ProjectController extends BaseController {
             model.addAttribute("lists", detail);
             return "bss/ppms/project/editDetail";
         }
-        for (int i = 0; i < lists.getLists().size(); i++ ) {
+        /*for (int i = 0; i < lists.getLists().size(); i++ ) {
             HashMap<String, Object> map1 = new HashMap<>();
             map1.put("id", lists.getLists().get(i).getRequiredId());
             map1.put("projectId", lists.getLists().get(i).getProject().getId());
             List<ProjectDetail> aa = detailService.selectByParentId(map1);
             if(aa.size() == 1){
-                for (ProjectDetail projectDetail : aa) {
-                    project.setPurchaseType(projectDetail.getPurchaseType());
-                    projectService.update(project);
-                }
+               project.setPurchaseType(aa.get(0).getPurchaseType());
+               projectService.update(project);
             }
             
-        }   
+        }*/   
         //修改项目明细
         if(lists!=null){
             if(lists.getLists()!=null&&lists.getLists().size()>0){
                 for( ProjectDetail details:lists.getLists()){
                     if( details.getId()!=null){
+                        project.setPurchaseType(details.getPurchaseType());
+                        projectService.update(project);
                         detailService.update(details);
                     }
                 }

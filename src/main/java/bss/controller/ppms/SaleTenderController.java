@@ -179,6 +179,8 @@ public class SaleTenderController {
             }
 
         }
+        DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+        model.addAttribute("status", findById.getCode());
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("packageList", lists);
         model.addAttribute("project", project);
@@ -274,6 +276,9 @@ public class SaleTenderController {
             }
             supplier.setStsupplierIds(stsupplierIds);
         }
+        Project projects = projectService.selectById(projectId);
+        DictionaryData findById = DictionaryDataUtil.findById(projects.getPurchaseType());
+        model.addAttribute("kind", findById.getCode());
         List<Supplier> allSupplier = auditService.selectAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
         model.addAttribute("list",new PageInfo<>(allSupplier));
         model.addAttribute("packId", packId);
@@ -281,7 +286,21 @@ public class SaleTenderController {
         model.addAttribute("supplierName", supplier.getSupplierName());
         return "bss/ppms/sall_tender/suppliers_list";
     }
-
+    
+    
+    @RequestMapping("/startTask")
+    @ResponseBody
+    public String startTask(String id){
+        SaleTender saleTender=new SaleTender();
+        saleTender.setPackages(id);
+        List<SaleTender> list = saleTenderService.getPackegeSuppliers(saleTender);
+        if(list != null && list.size() >0){
+            return "1";
+        }else{
+            return "0";
+        }
+        
+    }
 
     /**
      * 
@@ -541,6 +560,9 @@ public class SaleTenderController {
 
     @RequestMapping("/manage")
     public String manage(Model model, String projectId, String flowDefineId){
+        Project project = projectService.selectById(projectId);
+        DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+        model.addAttribute("kind", findById.getCode());
         model.addAttribute("projectId", projectId);
         model.addAttribute("flowDefineId", flowDefineId);
         return "bss/ppms/sall_tender/manage";

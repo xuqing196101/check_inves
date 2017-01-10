@@ -116,4 +116,6 @@ public interface PackageExpertService {
        
         void rank(String packageId, String projectId, List<SaleTender> finalSupplier);
         
+        BigDecimal ranks(SaleTender saleTender, String projectId, String packageId);
+        
 }

@@ -400,6 +400,107 @@ public class TackController extends BaseController{
             }
             removeSame(list5);
             sort(list5);
+            HashMap<String,Object> map = new HashMap<>();
+            removeSame(list5);
+            sort(list5);
+            int serialoneOne = 1;
+            int serialtwoTwo = 1;
+            int serialthreeThree = 1;
+            int serialfourFour = 1;
+            int serialfiveFive = 0;
+            int serialOne = 1;
+            int serialTwo = 1;
+            int serialThree = 1;
+            int serialFour = 1;
+            int serialSix = 0;
+            int serialFive = 0;
+            List<String> newParentId = new ArrayList<>();
+            List<String> oneParentId = new ArrayList<>();
+            List<String> twoParentId = new ArrayList<>();
+            List<String> threeParentId = new ArrayList<>();
+            List<String> fourParentId = new ArrayList<>();
+            List<String> fiveParentId = new ArrayList<>();
+            for(int i=0;i<list5.size();i++){
+                HashMap<String,Object> detailMap = new HashMap<>();
+                detailMap.put("id",list5.get(i).getId());
+                List<PurchaseDetail> dlist = purchaseDetailService.selectByParentId(detailMap);
+                List<PurchaseDetail> plist = purchaseDetailService.selectByParent(detailMap);
+                if(dlist.size()>1){
+                    list5.get(i).setDetailStatus(0);
+                }
+                if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+                    if(!oneParentId.contains(list5.get(i).getParentId())){
+                        oneParentId.add(list5.get(i).getParentId());
+                        serialoneOne = 1;
+                    }
+                    list5.get(i).setSeq(test(serialoneOne));
+                    serialoneOne ++;
+                }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+                    if(!twoParentId.contains(list5.get(i).getParentId())){
+                        twoParentId.add(list5.get(i).getParentId());
+                        serialtwoTwo = 1;
+                    }
+                    list5.get(i).setSeq("（"+test(serialtwoTwo)+"）");
+                    serialtwoTwo ++;
+                }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+                    if(!threeParentId.contains(list5.get(i).getParentId())){
+                        threeParentId.add(list5.get(i).getParentId());
+                        serialthreeThree = 1;
+                    }
+                    list5.get(i).setSeq(String.valueOf(serialthreeThree));
+                    serialthreeThree ++;
+                }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+                    if(!fourParentId.contains(list5.get(i).getParentId())){
+                        fourParentId.add(list5.get(i).getParentId());
+                        serialfourFour = 1;
+                    }
+                    list5.get(i).setSeq("（"+String.valueOf(serialfourFour)+"）");
+                    serialfourFour ++;
+                }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+                    if(!fiveParentId.contains(list5.get(i).getParentId())){
+                        fiveParentId.add(list5.get(i).getParentId());
+                        serialfiveFive = 0;
+                    }
+                    char serialNum = (char) (97 + serialfiveFive);
+                    list5.get(i).setSeq(String.valueOf(serialNum));
+                    serialfiveFive++;
+                }
+                if(dlist.size()==1){
+                    map.put("id", list5.get(i).getId());
+                    List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
+                    if(!newParentId.contains(list5.get(i).getParentId())){
+                        serialOne = 1;
+                        serialTwo = 1;
+                        serialThree = 1;
+                        serialFour = 1;
+                        serialFive = 0;
+                        serialSix = 0;
+                        newParentId.add(list5.get(i).getParentId());
+                    }
+                    if(list.size()==1){
+                        list5.get(i).setSeq(test(serialOne));
+                        serialOne ++;
+                    }else if(list.size()==2){
+                        list5.get(i).setSeq("（"+test(serialTwo)+"）");
+                        serialTwo ++;
+                    }else if(list.size()==3){
+                        list5.get(i).setSeq(String.valueOf(serialThree));
+                        serialThree ++;
+                    }else if(list.size()==4){
+                        list5.get(i).setSeq("（"+String.valueOf(serialFour)+"）");
+                        serialFour ++;
+                    }else if(list.size()==5){
+                        char serialNum = (char) (97 + serialFive);
+                        list5.get(i).setSeq(String.valueOf(serialNum));
+                        serialFive ++;
+                    }else if(list.size()==6){
+                        char serialNum = (char) (97 + serialSix);
+                        list5.get(i).setSeq("（"+serialNum+"）");
+                        serialSix ++;
+                    }
+                }
+            
+            }
             model.addAttribute("lists", list5);
         }else{
             HashMap<String, Object> map1 = new HashMap<>();
@@ -423,6 +524,29 @@ public class TackController extends BaseController{
         model.addAttribute("task", task);
 		return "bss/ppms/task/view";
 	}
+	
+	private static String[] hanArr = { "零", "一", "二", "三", "四", "五", "六", "七","八", "九" };
+    private static String[] unitArr = { "十", "百", "千", "万", "十", "白", "千", "亿","十", "百", "千" };
+	
+	public String test(int number) {
+        String numStr = number + "";
+        String result = "";
+        int numLen = numStr.length();
+        for (int i = 0; i < numLen; i++) {
+            int num = numStr.charAt(i) - 48;
+            if (i != numLen - 1 && num != 0) {
+                result += hanArr[num] + unitArr[numLen - 2 - i];
+                if (number >= 10 && number < 20) {
+                    result = result.substring(1);
+                }
+            } else {
+                if (!(number >= 10 && number % 10 == 0)) {
+                    result += hanArr[num];
+                }
+            }
+        }
+        return result;
+    }
 	
 	public void removeSame(List<PurchaseDetail> list) {
         for (int i = 0; i < list.size() - 1; i++) {

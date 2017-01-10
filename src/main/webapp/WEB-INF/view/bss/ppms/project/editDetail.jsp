@@ -6,6 +6,8 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
     <script type="text/javascript">
       function sum2(obj) { //数量
         var id = $(obj).next().val();
@@ -199,7 +201,7 @@
         <div>
           <h2 class="count_flow"><i>2</i>修改项目明细</h2>
           <div class="ul_list">
-            <div class="content table_box over_scroll">
+            <div class="content table_box ">
               <table id="table" class="table table-bordered table_wrap left_table table_input">
                 <thead>
                   <tr class="info">

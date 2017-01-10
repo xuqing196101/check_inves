@@ -8,6 +8,8 @@
 <html>
 
   <head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
   	<%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
       /*分页  */
@@ -232,7 +234,7 @@
 						    <button class="btn btn-windows delete" onclick="deleted();" type="button">删除</button>
 						  </div>
               <div class="content table_box">
-                <table class="table table-bordered table-condensed table-hover">
+                <table id="table" class="table table-bordered table-condensed table-hover">
                   <thead>
                     <tr>
                       <th class="info w50"><input type="checkbox" id="checkAll" onclick="selectAll()" alt="" /></th>

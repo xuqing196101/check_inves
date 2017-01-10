@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.StationMessage;
 import ses.model.sms.Quote;
 import ses.service.bms.StationMessageService;
@@ -117,11 +118,14 @@ public class WinningSupplierController extends BaseController {
     model.addAttribute("packList", packList);
     model.addAttribute("projectId", projectId);
     model.addAttribute("flowDefineId", flowDefineId);
+    Project project = projectService.selectById(projectId);
+    DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
     //获取已有中标供应商的包组
     String[] packcount = checkPassService.selectWonBid(projectId);
     if (packList.size() != packcount.length){
       model.addAttribute("error", ERROR);
     }
+    model.addAttribute("kind", findById.getCode());
     return "bss/ppms/winning_supplier/list";
   }
 
