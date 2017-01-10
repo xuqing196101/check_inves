@@ -20,7 +20,33 @@
     type="text/css">
 
 <script type="text/javascript">
-
+			$(function (){
+				selectLikeSupplier();
+			    var json = '${extConTypeJson}';
+			    var extConType = $.parseJSON(json);
+		
+			   for(var i= 0 ; i < extConType.length;i++){
+			    if(extConType[i].supplierType != null){
+			    if(extConType[i].supplierType.code == 'PROJECT'){
+			      $("#projectCount").removeClass("dnone");
+			      $("#project").val(extConType[i].supplierCount);
+			    }
+			    if(extConType[i].supplierType.code == 'SERVICE'){
+			      $("#serviceCount").removeClass("dnone");
+			      $("#service").val(extConType[i].supplierCount);
+			    }
+			    if(extConType[i].supplierType.code == 'PRODUCT'){
+			       $("#productCount").removeClass("dnone");
+			       $("#product").val(extConType[i].supplierCount);
+			    }
+			    if(extConType[i].supplierType.code == 'SALES'){
+			       $("#salesCount").removeClass("dnone");
+			       $("#sales").val(extConType[i].supplierCount);
+			    }
+			    }
+			   }
+				
+			});
 
     
     //供应商地区
@@ -40,7 +66,25 @@
                if(areas == '全国'){
             	   html="<option value='' selected='selected' >所有地区</option>";
                }else{
-            	   html="<option value='' selected='selected' >所有市</option>";
+            	   layer.prompt({
+                       formType: 2,
+                       shade:0.01,
+                       title: '限制地区原因',
+                       btn: ['确定','取消'],
+                      cancel:function(index,layero){
+                        $("#area option:first").prop("selected", 'selected');
+                         $("#city").empty();
+                         $("#city").append("<option value=''>所有省市</option>");
+                         selectLikeSupplier();
+                         layer.close(index);
+                     }
+                    },function (value, ix, elem){
+                        $("#addressReason").val(value);
+                        selectLikeSupplier();
+                         layer.close(ix);
+                    });
+                 html="<option value=''>所有市</option>";
+                
                }
                for(var i=0;i<list.length;i++){
             	   html +="<option value="+list[i].id+">"+list[i].name+"</option>";
@@ -51,6 +95,30 @@
       });
    
     }
+    
+    /**点击触发事件*/
+    function chane(){
+      var sun="0";
+         var projectCount = $("#project").val();
+         if(projectCount != null && projectCount != ''){
+             sun= parseInt(sun)+parseInt(projectCount);
+           }
+         var serviceCount = $("#service").val();
+         if(serviceCount != null && serviceCount != ''){
+             sun =parseInt(sun) + parseInt(serviceCount);
+           }
+         var productCount = $("#product").val();
+         if(productCount != null && productCount != ''){
+             sun = parseInt(sun) + parseInt(productCount);
+           }
+         var salesCount = $("#sales").val();
+         if(salesCount != null && salesCount != ''){
+             sun = parseInt(sun)+parseInt(salesCount);
+           }
+         $("#sunCount").val(sun);
+    
+    }
+
     
     function resetQuery(){
         $("#form1").find(":input[type='text']").attr("value","");
@@ -85,14 +153,8 @@ return false;
         var  eCount =$("#supplierCount").val();
         if(eCount != null && eCount != '' ){
        
-         var iframeWin;
-         
-         var typeCode = $("#supplierTypeId").val();
-            var addressReson = $("#addressReson").val();
-            if(typeCode == '' && addressReson == '' ){
-              fax();
-            }else{
-             layer.open({
+        	   /* var iframeWin;
+            layer.open({
                    type: 2,
                    title: "选择",
                    shadeClose: true,
@@ -119,12 +181,18 @@ return false;
                    btn2: function() {
                        layer.closeAll();
                      } //iframe的url
-                 });
-     
-
-        
+                 });  */
+                 
+            var count=   $("#sunCount").val();
+            if(parseInt(count) > parseInt(eCount)){
+              layer.msg("数量不能大于总数量");
+            }else if(parseInt(count) < parseInt(eCount)){
+              layer.msg("数量不能小于总数量");
+            }else{
+            	      fax();
+              
             }
-            
+     
           }else{
             $("#countSupplier").text("不能为空");
           }
@@ -469,10 +537,29 @@ return false;
           v = "";
         var rid = "";
         var codes = "";
+        //设置隐藏展示
+        $("#projectCount").addClass("dnone");
+        $("#serviceCount").addClass("dnone"); 
+        $("#productCount").addClass("dnone"); 
+        $("#salesCount").addClass("dnone");
+        $("#project").val("");
+        $("#service").val(""); 
+        $("#product").val(""); 
+        $("#sales").val("");
+        
         for(var i = 0, l = nodes.length; i < l; i++) {
           v += nodes[i].name + ",";
           rid += nodes[i].id + ",";
           codes += nodes[i].code + ",";
+          if('PROJECT' == nodes[i].code  ){
+              $("#projectCount").removeClass("dnone");
+          }else if('SERVICE' == nodes[i].code){
+              $("#serviceCount").removeClass("dnone"); 
+          }else if('PRODUCT' == nodes[i].code){
+              $("#productCount").removeClass("dnone"); 
+          }else if('SALES' == nodes[i].code){
+              $("#salesCount").removeClass("dnone");
+          }
         }
         if(v.length > 0) v = v.substring(0, v.length - 1);
         if(rid.length > 0) rid = rid.substring(0, rid.length - 1);
@@ -603,8 +690,12 @@ return false;
            window.location.href="${pageContext.request.contextPath}/SupplierExtracts/conditions.do?id="+id;
       }
       function operation(select){
+    	   var x,y;
+         var oRect =select.getBoundingClientRect();
+          x=oRect.left -450;
+          y=oRect.top -150;
         layer.confirm('确定本次操作吗？', {
-          btn: ['确定','取消'],offset: ['100px', '200px'], shade:0.01
+          btn: ['确定','取消'],offset: [y, x], shade:0.01
         }, function(index){
           var strs= new Array();
           var v=select.value;
@@ -614,10 +705,12 @@ return false;
             layer.prompt({
                 formType: 2,
                 shade:0.01,
+                offset: [y, x],
                 title: '不参加理由'
               }, function(value, index, elem){
                    ajaxs(select.value,value);
                    layer.close(index);
+                   select.options[0].selected = true;
               });
           }else{
           select.disabled=true;
@@ -625,6 +718,7 @@ return false;
           }
         }, function(index){
           layer.close(index);
+          select.options[0].selected = true;
         });
       }
       
@@ -733,6 +827,7 @@ return false;
   </c:if>
   <div class="container container_box">
     <form id="form1" method="post">
+       <input id="sunCount" type="hidden">
       <!--        项目id -->
       <input type="hidden" name="projectId" id="pid" value="${packageId}">
       <!-- 地区 -->
@@ -749,17 +844,17 @@ return false;
       <!--     品目id -->
       <input  type='hidden' name='categoryId' id='extCategoryId' >
              <!-- 货物 -->
-        <input type="hidden" name="goodsCount" id="goodsCount" >
+<!--         <input type="hidden" name="goodsCount" id="goodsCount" > -->
           <!--  物资 -->
-        <input type="hidden" name="projectCount" id="projectCount" >
+<!--         <input type="hidden" name="projectCount" id="projectCount" > -->
 <!--         服务 -->
-        <input type="hidden" name="serviceCount" id="serviceCount" >
+<!--         <input type="hidden" name="serviceCount" id="serviceCount" > -->
 <!--         物资生产 -->
-        <input type="hidden" name="productCount" id="productCount" >
+<!--         <input type="hidden" name="productCount" id="productCount" > -->
 <!--         物资销售 -->
-        <input type="hidden" name="salesCount" id="salesCount" >
+<!--         <input type="hidden" name="salesCount" id="salesCount" > -->
         <!--      限制地区理由-->
-        <input type="hidden" name="addressReson" id="addressReson" >
+        <input type="hidden" name="addressReason" id="addressReason" >
 <!--         省 -->
         <input type="hidden"  name="province" id="province" />
            <input type="hidden" name="" id="hiddentype">
@@ -826,14 +921,46 @@ return false;
               <div class="cue" id="countSupplier"></div>
             </div>
           </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-            <div class=" w300 pl20 mt24">
+		         
+		      <li class="col-md-3 col-sm-3 col-xs-3 dnone clear" id="projectCount"  >
+		        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工程供应商：</span>
+		         <div class="input-append input_group col-sm-12 col-xs-12 p0">
+		          <input class="title col-md-12" id='project'  name="projectCount" onchange="chane();"  maxlength="11" type="text">
+		          <span class="add-on">i</span>
+		          <div class="cue" >${loginPwdError}</div>
+		        </div>
+		     </li> 
+		      <li class="col-md-3 col-sm-3 col-xs-3 dnone"  id="serviceCount" >
+		        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">服务供应商：</span>
+		         <div class="input-append input_group col-sm-12 col-xs-12 p0">
+		          <input class="title col-md-12" id="service" name="serviceCount" onchange="chane();"  maxlength="11" type="text">
+		          <span class="add-on">i</span>
+		          <div class="cue" >${loginPwdError}</div>
+		        </div>
+		     </li> 
+		      <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="productCount" >
+		        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资生产:</span>
+		         <div class="input-append input_group col-sm-12 col-xs-12 p0">
+		          <input class="title col-md-12" id="product" name="productCount" onchange="chane();"  maxlength="11" type="text">
+		          <span class="add-on">i</span>
+		          <div class="cue" >${loginPwdError}</div>
+		        </div>
+		     </li> 
+         <li class="col-md-3 col-sm-3 col-xs-3 dnone" id="salesCount">
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">物资销售:</span>
+         <div class="input-append input_group col-sm-12 col-xs-12 p0">
+          <input class="title col-md-12" id="sales" name="salesCount" onchange="chane();" maxlength="11" type="text">
+          <span class="add-on">i</span>
+          <div class="cue" >${loginPwdError}</div>
+        </div>
+        </li> 
+            <li class="col-md-12 col-sm-12 col-xs-12 tc">
+            <div >
             <button class="btn " id="save" onclick="cityt();" type="button">抽取</button>
               <button class="btn  " id="save" onclick="finish();" type="button">完成抽取</button>
             <button class="btn " id="save" onclick="temporary();" type="button">暂存</button>
           </div>
           </li>
-          
         </ul>
           <!--=== Content Part ===-->
             <h2 class="count_flow"><i>2</i>抽取结果</h2>
@@ -860,7 +987,7 @@ return false;
               <tr>
                 <th class="info w50">序号</th>
                 <th class="info">供应商名称</th>
-                <th class="info">类型，级别</th>
+                <th class="info">类型</th>
                 <th class="info">联系人名称</th>
                 <th class="info">联系人电话</th>
                 <th class="info">联系人手机</th>

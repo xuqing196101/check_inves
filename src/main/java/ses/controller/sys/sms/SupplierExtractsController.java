@@ -344,6 +344,7 @@ public class SupplierExtractsController extends BaseController {
             extConType1.setAlreadyCount(list2 == null ? 0 : list2.size());
           }
           model.addAttribute("extConType", conTypes);
+          model.addAttribute("extConTypeJson", JSON.toJSONString(conTypes));
         }
 
         if (projectExtractListNo.size() != 0){
@@ -689,7 +690,7 @@ public class SupplierExtractsController extends BaseController {
         extConType1.setAlreadyCount(list == null ? 0 : list.size());
         //删除满足数量的
         if(list.size() >= extConType1.getSupplierCount()){
-          expertTypeIds += extConType1.getSupplierType() + ",";
+          expertTypeIds += extConType1.getSupplierType().getId() + ",";
         }
       }
       if (expertTypeIds != null && !"".equals(expertTypeIds)){
