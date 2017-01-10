@@ -2415,7 +2415,9 @@ public class PackageExpertController {
     
     @RequestMapping("/auditManage")
     public String auditManage(Model model, String projectId, String flowDefineId){
-      
+      Project project = projectService.selectById(projectId);
+      DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+      model.addAttribute("kind", findById.getCode());
       model.addAttribute("projectId", projectId);
       model.addAttribute("flowDefineId", flowDefineId);
       return "bss/prms/audit_manage/manage";

@@ -314,7 +314,7 @@
                           <input name="sectorOfDemand" class="m0" id="sectorOfDemand" value="${orgnization.name}" type="text"/>
                         </c:if>
                       </td>
-                      <td class="bggrey">最少供应商人数:</td>
+                      <td class="bggrey"><i class="red star_red">*</i>最少供应商人数:</td>
                       <td class="p0"><input name="supplierNumber" class="m0" id="supplierNumber" value="${project.supplierNumber}" type="text"/></td>
                     </tr>
                     <tr>
@@ -358,13 +358,13 @@
                     <tr>
                       <td class="bggrey">需求计划提报时间:</td>
                       <td>${project.demandFromTime}</td>
-                      <td class="bggrey">${task.name}采购任务下达时间:</td>
+                      <td class="bggrey">采购任务下达时间:</td>
                       <td>
                         <fmt:formatDate value='${task.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                       </td>
                     </tr>
                     <tr>
-                      <td class="bggrey">${task.name}采购任务受理时间:</td>
+                      <td class="bggrey">采购任务受理时间:</td>
                       <td>
                         <fmt:formatDate value='${task.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                       </td>

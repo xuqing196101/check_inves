@@ -48,14 +48,17 @@ import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.service.bms.TempletService;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.SupplierCheckPassService;
 
 /**
@@ -80,6 +83,8 @@ public class ResultAnnouncementController extends BaseSupplierController{
 	private TempletService templetService;
 	@Autowired
 	private ArticleAttachmentsService attachmentsService;
+	
+	
     /**
      * @Fields detailService : 引用项目详细业务接口
      */
@@ -95,6 +100,11 @@ public class ResultAnnouncementController extends BaseSupplierController{
      */
     @Autowired
     private ProjectService projectService;
+    
+    @Autowired
+    private SaleTenderService saleTenderService;
+    @Autowired
+    private SupplierService supplierService;
     
     /**
      * 成交供应商服务接口
@@ -275,6 +285,21 @@ public class ResultAnnouncementController extends BaseSupplierController{
 			}
 			templet.setContent(templet.getContent().replace(c, sb.toString()));
 		}else{
+		    StringBuilder builder = new StringBuilder();
+            if (projectId != null) {
+                Project p = projectService.selectById(projectId);
+                List<SaleTender> selectListByProjectId = saleTenderService.selectListByProjectId(p.getId());
+                for (SaleTender saleTender : selectListByProjectId) {
+                    Packages packages = packageService.selectByPrimaryKeyId(saleTender.getPackages());
+                    builder.append("<p>"+packages.getName()+"供应商名称:</p>");
+                    Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
+                    if(supplier != null){
+                        builder.append("<p>&nbsp;&nbsp;"+supplier.getSupplierName()+"</p>");
+                    }
+                    
+                }
+                
+            }
 			templet.setContent(templet.getContent()
 					.replace("${projectCode}", "g20-501")
 					.replace("${projectName}", "大型服务器")
@@ -282,7 +307,7 @@ public class ResultAnnouncementController extends BaseSupplierController{
 					.replace("${goodName}", "服务器")
 					.replace("${count}", "12")
 					.replace("${bidPrice}","2000")
-					.replace("${bidAmount}", "3000"));
+					.replace("${bidAmount}", "3000").replace("supplier", builder));
 		}
 		if (projectId != null ){
 		    String content = getDefaultTemplate(projectId, templet);

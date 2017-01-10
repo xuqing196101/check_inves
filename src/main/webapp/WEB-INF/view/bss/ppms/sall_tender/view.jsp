@@ -24,7 +24,7 @@
 
       function add(packId) {
         var kindName = $("#kindName").val();
-        if(kindName == "公开招标") {
+        if(kindName == "GKZB" || kindName == "DYLY") {
           var projectId = $("#projectId").val();
          var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId;
          $("#tab-1").load(path);
@@ -184,7 +184,7 @@
     <input type="hidden" id="projectId" value="${project.id }" />
 
     <c:forEach items="${kind}" var="kind">
-      <c:if test="${kind.id == project.purchaseType}"><input type="hidden" id="kindName" value="${kind.name}" /></c:if>
+      <c:if test="${kind.id == project.purchaseType}"><input type="hidden" id="kindName" value="${kind.code}" /></c:if>
     </c:forEach>
 
     <div class="clear">

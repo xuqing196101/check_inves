@@ -87,6 +87,8 @@ public class Packages {
   private String isCreateContract;
 
   private String contractId;
+  
+  private Negotiation negotiation;
 
   private BigDecimal wonPrice;
 
@@ -499,6 +501,14 @@ public class Packages {
   public void setListScoreTechnology(List<MarkTerm> listScoreTechnology) {
     this.listScoreTechnology = listScoreTechnology;
   }
+
+    public Negotiation getNegotiation() {
+        return negotiation;
+    }
+    
+    public void setNegotiation(Negotiation negotiation) {
+        this.negotiation = negotiation;
+    }
 
 
 }

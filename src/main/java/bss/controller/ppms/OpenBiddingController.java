@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +49,8 @@ import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
+import ses.util.WordUtil;
+import bss.model.ppms.Negotiation;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -54,8 +58,11 @@ import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.prms.FirstAudit;
+import bss.model.prms.PackageExpert;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.NegotiationReportService;
+import bss.service.ppms.NegotiationService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
@@ -63,7 +70,10 @@ import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.prms.FirstAuditService;
+import bss.service.prms.PackageExpertService;
 import bss.service.prms.PackageFirstAuditService;
+
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
@@ -86,6 +96,11 @@ public class OpenBiddingController {
     
     private final static Short NUMBER_TWO = 2;
     
+    /** ONE */
+    private static final String ONE = "1";
+    /** TWO */
+    private static final String TWO = "2";
+    
     /**
      * @Fields projectService : 引用项目业务实现接口
      */
@@ -104,6 +119,9 @@ public class OpenBiddingController {
     @Autowired
     private ArticleTypeService articelTypeService;
     
+    @Autowired
+    private SupplierExtUserServicel extUserServicel; //模板引入
+    
     /**
      * @Fields detailService : 引用项目详细业务接口
      */
@@ -118,9 +136,6 @@ public class OpenBiddingController {
     
     @Autowired
     private PackageFirstAuditService packageFirstAuditService;
-    
-    @Autowired
-    private SupplierExtUserServicel extUserServicel; //模板引入
     
     /**
      * @Fields auditService : 引用初审项业务接口
@@ -147,6 +162,19 @@ public class OpenBiddingController {
     
     @Autowired
     private TempletService templetService;
+    
+    @Autowired
+    private PackageExpertService packageExpertService;
+    
+    /** 包  **/
+    @Autowired
+    private PackageService packagesService; 
+    
+    @Autowired
+    private NegotiationService negotiationService;
+    
+    @Autowired
+    private NegotiationReportService reportService;
     
     /**
      * 符合性审查服务接口
@@ -305,8 +333,172 @@ public class OpenBiddingController {
      * @return
      */
     @RequestMapping("/bidNotice")
-    public String bidNotice(String projectId, Model model, String flowDefineId){
-          return makeNotice(projectId, PURCHASE_NOTICE, model, flowDefineId);
+    public String bidNotice(@CurrentUser User user, String projectId, Model model, String flowDefineId){
+        Project project = projectService.selectById(projectId);
+        String id = DictionaryDataUtil.getId("DYLY");
+        if(project.getPurchaseType().equals(id)){
+            return makeNotices(user, projectId, PURCHASE_NOTICE, model, flowDefineId);
+        }else{
+            return makeNotice(projectId, PURCHASE_NOTICE, model, flowDefineId);
+        }
+         
+    }
+    
+    
+    public String makeNotices(@CurrentUser User user, String projectId, String noticeType, Model model, String flowDefineId){
+        Project project = projectService.selectById(projectId);
+        Article article = new Article();
+        //单一来源公告
+        if (PURCHASE_NOTICE.equals(noticeType)) {
+            article.setArticleType(articelTypeService.selectArticleTypeByCode("single_source_notice"));
+            if("0".equals(user.getPublishType())){
+              //集中采购
+                ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("single_source_notice_centralized");
+                if (articleType2 != null) {
+                    article.setSecondArticleTypeId(articleType2.getId());
+                }
+                //货物/物资
+                if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
+                    ArticleType articleType3 = articelTypeService.selectArticleTypeByCode(" single_source_notice_centralized_quotas");
+                    if (articleType3 != null) {
+                      article.setThreeArticleTypeId(articleType3.getId());
+                    }
+                    getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
+                } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())){
+                    //工程  
+                    ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("single_source_notice_centralized_plumbing");
+                    if (articleType3 != null) {
+                      article.setThreeArticleTypeId(articleType3.getId());
+                    }
+                    getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
+                } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())){
+                    //服务 
+                    ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("single_source_notice_centralized_service");
+                    if (articleType3 != null) {
+                      article.setThreeArticleTypeId(articleType3.getId());
+                    }
+                    getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
+                }
+            }
+            if("1".equals(user.getPublishType())){
+                //部队采购
+                ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("single_source_notice_military");
+                if (articleType2 != null) {
+                    article.setSecondArticleTypeId(articleType2.getId());
+                }
+                //货物/物资
+                if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
+                    ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("single_source_notice_military_quotas");
+                    if (articleType3 != null) {
+                      article.setThreeArticleTypeId(articleType3.getId());
+                    }
+                    getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
+                } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())){
+                    //工程  
+                    ArticleType articleType3 = articelTypeService.selectArticleTypeByCode(" single_source_notice_military_plumbing");
+                    if (articleType3 != null) {
+                      article.setThreeArticleTypeId(articleType3.getId());
+                    }
+                    getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
+                } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())){
+                    //服务 
+                    ArticleType articleType3 = articelTypeService.selectArticleTypeByCode(" single_source_notice_military_service");
+                    if (articleType3 != null) {
+                      article.setThreeArticleTypeId(articleType3.getId());
+                    }
+                    getDefaultTemplate(projectId, model, PURCHASE_NOTICE);
+                }
+            }
+            
+        }
+       /* //如果是拟制中标公告
+        if (WIN_NOTICE.equals(noticeType)) {
+            //中标公告
+            article.setArticleType(articelTypeService.selectArticleTypeByCode("success_notice"));
+            //集中采购
+            ArticleType articleType2 = articelTypeService.selectArticleTypeByCode("success_notice_centralized");
+            if (articleType2 != null) {
+                article.setSecondArticleTypeId(articleType2.getId());
+            }
+            //货物/物资
+            if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
+                ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_matarials");
+                if (articleType3 != null) {
+                  article.setThreeArticleTypeId(articleType3.getId());
+                }
+                getDefaultTemplate(projectId, model, WIN_NOTICE);
+            } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())){
+                //工程  
+                ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_engineering");
+                if (articleType3 != null) {
+                  article.setThreeArticleTypeId(articleType3.getId());
+                }
+                getDefaultTemplate(projectId, model, WIN_NOTICE);
+            } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())){
+                //服务 
+                ArticleType articleType3 = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_service");
+                if (articleType3 != null) {
+                  article.setThreeArticleTypeId(articleType3.getId());
+                }
+                getDefaultTemplate(projectId, model, WIN_NOTICE);
+            }
+        }*/
+        article.setProjectId(projectId);
+        //查询公告列表中是否有该项目的招标公告
+        List<Article> articles = articelService.selectArticleByProjectId(article);
+        //判断该项目是否已经存在该类型公告
+        if (articles != null && articles.size() > 0) {
+            //判断该项目的公告是否提交
+            if (articles.get(0).getStatus() == 1 || articles.get(0).getStatus() == 2){
+                //已提交或发布公告
+                model.addAttribute("article", articles.get(0));
+                model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+                model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+                model.addAttribute("security", DictionaryDataUtil.getId("SECURITY_COMMITTEE"));
+                if (WIN_NOTICE.equals(noticeType)) {
+                    model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
+                }
+                if (PURCHASE_NOTICE.equals(noticeType)) {
+                    model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
+                }
+                
+                return "bss/ppms/open_bidding/bid_notice/view";
+            } else {
+                //暂存或退回状态
+                model.addAttribute("project", project);
+                model.addAttribute("article", articles.get(0));
+                model.addAttribute("articleId", articles.get(0).getId());
+                model.addAttribute("projectId", projectId);
+                model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+                model.addAttribute("noticeType", noticeType);
+                model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+                model.addAttribute("flowDefineId", flowDefineId);
+                model.addAttribute("security", DictionaryDataUtil.getId("SECURITY_COMMITTEE"));
+                return "bss/ppms/open_bidding/bid_notice/add";
+            }
+        } else {
+            model.addAttribute("article", article);
+            model.addAttribute("project", project);
+            String articleId = WfUtil.createUUID();
+            model.addAttribute("articleId",articleId);
+            model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("noticeType", noticeType);
+            model.addAttribute("flowDefineId", flowDefineId);
+            model.addAttribute("security", DictionaryDataUtil.getId("SECURITY_COMMITTEE"));
+            if (WIN_NOTICE.equals(noticeType)) {
+                model.addAttribute("typeId_examine", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
+            }
+            if (PURCHASE_NOTICE.equals(noticeType)) {
+                model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
+            }
+            model.addAttribute("flowDefineId", flowDefineId);
+            model.addAttribute("articleId", articleId);
+            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+            
+            return "bss/ppms/open_bidding/bid_notice/add";
+        }
     }
     
     /**
@@ -325,16 +517,16 @@ public class OpenBiddingController {
     @RequestMapping("/showTime")
     @ResponseBody
     public long showTime(String projectId){
-    	Project project=projectService.selectById(projectId);
-    	//开标时间
-    	long bidDate=0;
-    	if(project.getBidDate()==null){
-    	}else{
-    		bidDate=project.getBidDate().getTime();
-    	}
-    	long nowDate=new Date().getTime();
-    	long date=bidDate-nowDate;
-    	return date;
+        Project project=projectService.selectById(projectId);
+        //开标时间
+        long bidDate=0;
+        if(project.getBidDate()==null){
+        }else{
+            bidDate=project.getBidDate().getTime();
+        }
+        long nowDate=new Date().getTime();
+        long date=bidDate-nowDate;
+        return date;
     }
     
     /**
@@ -1062,26 +1254,26 @@ public class OpenBiddingController {
             for(String str:listsupplierId){
                 Quote quotes = new Quote();
                 quotes.setProjectId(projectId);
-	            quotes.setSupplierId(str);
-	            List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
-	            if (listDate.size() == 0 || project.getBidDate().getTime() < new Date().getTime()) {
-	                flag = true;
-	                break;
-	            }
-	            Quote quote=new Quote();
-	            quote.setSupplierId(str);
-	            quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1).getTime()));
-	            List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
-	            BigDecimal totalMoney=new BigDecimal(0);
-	            for(Quote q: listQuote){
-	            	totalMoney=totalMoney.add(q.getTotal());
-	            }
-	            if(listQuote != null && listQuote.size() > 0){
-	                listQuote.get(0).setTotalMoney(totalMoney);
+                quotes.setSupplierId(str);
+                List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
+                if (listDate.size() == 0 || project.getBidDate().getTime() < new Date().getTime()) {
+                    flag = true;
+                    break;
+                }
+                Quote quote=new Quote();
+                quote.setSupplierId(str);
+                quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1).getTime()));
+                List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
+                BigDecimal totalMoney=new BigDecimal(0);
+                for(Quote q: listQuote){
+                    totalMoney=totalMoney.add(q.getTotal());
+                }
+                if(listQuote != null && listQuote.size() > 0){
+                    listQuote.get(0).setTotalMoney(totalMoney);
                     listQuote.get(0).setTotalMoneyNames(CnUpperCaser.getCnString(totalMoney.doubleValue()));
-	            }
-	            listQuoteList.add(listQuote);
-	        }
+                }
+                listQuoteList.add(listQuote);
+            }
             model.addAttribute("listQuoteList", listQuoteList);
         }*/
          //已开标 就是线下报价  -第一次进来的时候
@@ -1691,19 +1883,188 @@ public class OpenBiddingController {
         model.addAttribute("packageList", list);
         model.addAttribute("listSupplier", listSupplier);
         model.addAttribute("project", project);
-    	//开标时间
-    	long bidDate=0;
-    	if(project.getBidDate()==null){
-    	}else{
-    		bidDate=project.getBidDate().getTime();
-    	}
-    	long nowDate=new Date().getTime();
-    	long date=bidDate-nowDate;
-    	if(date<0){
-    		//存一条数据到后台
-    	}
-    	model.addAttribute("date", date);
+        //开标时间
+        long bidDate=0;
+        if(project.getBidDate()==null){
+        }else{
+            bidDate=project.getBidDate().getTime();
+        }
+        long nowDate=new Date().getTime();
+        long date=bidDate-nowDate;
+        if(date<0){
+            //存一条数据到后台
+        }
+        model.addAttribute("date", date);
         return "bss/ppms/open_bidding/bid_file/open_bid";
+    }
+    
+    
+    /**
+     * 
+     *〈谈判记录〉
+     *〈详细描述〉
+     * @author Fengtian
+     * @param projectId
+     * @param model
+     * @param flowDefineId
+     * @return
+     */
+    @RequestMapping("/negotiation")
+    public String negotiation(String projectId, Model model, String flowDefineId){
+        Project project = projectService.selectById(projectId);
+        if (StringUtils.isNotBlank(project.getId())){
+            Project projectNew = new Project();
+            projectNew.setId(projectId);
+            projectNew.setStatus(DictionaryDataUtil.getId("CQPSZJZ"));
+            projectService.update(projectNew);
+            
+           //根据包获取抽取出的专家
+            List<Packages> listResultExpert = packagesService.listProjectExtract(projectId);
+            
+            List<Negotiation> lists = new ArrayList<Negotiation>();
+            //HashMap<String, Object> map = new HashMap<>();
+            for (int i = 0; i < listResultExpert.size(); i++ ) {
+                /*map.put("packageId", listResultExpert.get(i).getId());
+                List<Negotiation> list = negotiationService.listByNegotiation(map);*/
+                Negotiation negotiation  =  negotiationService.selectByPackageId(listResultExpert.get(i).getId());
+                if (negotiation != null) {
+                    listResultExpert.get(i).setNegotiation(negotiation);
+                }else{
+                    listResultExpert.get(i).setNegotiation(new Negotiation());
+                }
+               
+            }
+            model.addAttribute("project", project);
+            model.addAttribute("lists", lists);
+            model.addAttribute("listResultExpert", listResultExpert);
+        }
+        
+       /* Negotiation negotiation = negotiationService.selectByProjectId(project.getId());
+        model.addAttribute("project", project);
+        if(negotiation != null){
+            model.addAttribute("negotiation", negotiation);
+        }else{
+            model.addAttribute("uuId", WfUtil.createUUID());
+        }
+        model.addAttribute("dataId", DictionaryDataUtil.getId("NEGOTIATION_RECORD"));*/
+        model.addAttribute("flowDefineId", flowDefineId);
+        return "bss/ppms/open_bidding/bid_file/negotiation";
+    }
+    
+    /**
+     * 
+     *〈去重〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param list
+     */
+    public void removeSame(List<PackageExpert> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getExpertId().equals(list.get(i).getExpertId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+    
+    /**
+     * 
+     *〈保存谈判记录〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @param createdAt
+     * @param nuter
+     * @param net
+     */
+    @RequestMapping("/saveNet")
+    @ResponseBody
+    public String saveNet(String negId, String uuId, String projectId, String createdAt, String nuter, String net, String packageId){
+        Date date = new Date(); 
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+        Negotiation negotiation = new Negotiation();
+        negotiation.setProjectId(projectId);
+        negotiation.setNegotiationRecord(net);
+        negotiation.setNuter(nuter);
+        negotiation.setPackageId(packageId);
+        try {   
+            date = sdf.parse(createdAt); 
+            negotiation.setCreatedAt(date);
+        } catch (Exception e) {   
+            e.printStackTrace();   
+        }
+        Negotiation negotiation2 = negotiationService.selectById(negId);
+        if(negotiation2 == null){
+            negotiation.setId(uuId);
+            negotiationService.save(negotiation);
+            return ONE;
+        }else{
+            negotiation.setId(negotiation2.getId());
+            negotiationService.update(negotiation);
+            return TWO;
+        }
+        
+    }
+    
+    @RequestMapping("/negotiationReport")
+    public String NegotiationReport(String projectId, Model model, String flowDefineId){
+        Project project = projectService.selectById(projectId);
+        
+        model.addAttribute("project", project);
+        return null;
+    }
+    
+    @RequestMapping("/educe")
+    public ResponseEntity<byte[]> educe(String projectId, String createdAt, String nuter, String net,  HttpServletRequest request) throws Exception{
+        Project project = projectService.selectById(projectId);
+        List<Packages> listResultExpert = packagesService.listProjectExtract(projectId);
+        String downFileName = null;
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+        String fileName = createWordMethod(project, createdAt, nuter, net, listResultExpert,request);
+        downFileName = new String("谈判记录表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        return projectService.downloadFile(fileName, filePath, downFileName);
+    }
+    
+    /**
+     * 
+     *〈freeMarker〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param project
+     * @param createdAt
+     * @param nuter
+     * @param net
+     * @param selectList
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    private String createWordMethod(Project project, String createdAt, String nuter, String net, List<Packages> selectList, HttpServletRequest request) throws Exception {
+        Date date = new Date(); 
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {   
+            date = sdf.parse(createdAt); 
+        } catch (Exception e) {   
+            e.printStackTrace();   
+        }
+        /** 用于组装word页面需要的数据 */
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("projectName", project.getName() == null ? "" : project.getName());
+        dataMap.put("projectNumber", project.getProjectNumber() == null ? "" : project.getProjectNumber());
+        dataMap.put("address", project.getBidAddress() == null ? "" : project.getBidAddress());
+        dataMap.put("date", date == null ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+        dataMap.put("nuter", nuter == null ? "" : nuter);
+        dataMap.put("net", net == null ? "" : net);
+        dataMap.put("selectList", selectList == null ? "" : selectList);
+        String newFileName = null;
+        // 文件名称
+        String fileName = new String(("谈判记录表.doc").getBytes("UTF-8"), "UTF-8");
+        /** 生成word 返回文件名 */
+        newFileName = WordUtil.createWord(dataMap, "negotiation.ftl", fileName, request);
+        return newFileName;
+    
     }
     
     /**
@@ -2094,6 +2455,20 @@ public class OpenBiddingController {
                   purchaserName = org.getName();
                 }
             }
+            StringBuilder builder = new StringBuilder();
+            if (p != null) {
+                List<SaleTender> selectListByProjectId = saleTenderService.selectListByProjectId(p.getId());
+                for (SaleTender saleTender : selectListByProjectId) {
+                    Packages packages = packageService.selectByPrimaryKeyId(saleTender.getPackages());
+                    builder.append("<p>"+packages.getName()+"供应商名称:</p>");
+                    Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
+                    if(supplier != null){
+                        builder.append("<p>&nbsp;&nbsp;"+supplier.getSupplierName()+"</p>");
+                    }
+                    
+                }
+                
+            }
             String contact = "";
             String contactTelephone = "";
             String contactAddress = "";
@@ -2115,6 +2490,7 @@ public class OpenBiddingController {
             content = content.replace("bidDate", bidDate).replace("contact", contact);
             content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
             content = content.replace("address", contactAddress).replace("fax", fax).replace("bank", bank).replace("auditResult", auditResult.toString());
+            content = content.replace("supplier", builder.toString());
             article1.setContent(content);
             model.addAttribute("article1", article1);
         }
