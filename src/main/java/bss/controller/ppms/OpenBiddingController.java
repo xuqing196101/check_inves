@@ -2082,9 +2082,6 @@ public class OpenBiddingController {
         Article article = new Article();
         //采购方式数据字典
         DictionaryData dd = DictionaryDataUtil.findById(project.getPurchaseType());
-        //如果是单一来源
-        
-        //如果不是单一来源
         //如果是拟制招标公告
         if (PURCHASE_NOTICE.equals(noticeType)) {
             //采购公告
@@ -2405,15 +2402,40 @@ public class OpenBiddingController {
     }
     
     public void getDefaultTemplate(String projectId, Model model, String type) {
+        Project project = projectService.selectById(projectId);
+        //采购方式数据字典
+        DictionaryData dd = DictionaryDataUtil.findById(project.getPurchaseType());
         List<Templet> templets = null;
         if (type.equals(PURCHASE_NOTICE)) {
           Templet templet = new Templet();
-          templet.setTemType("招标公告");
+          if ("GKZB".equals(dd.getCode())) {
+            templet.setTemType("0");
+          }
+          if ("XJCG".equals(dd.getCode())){
+            templet.setTemType("2");
+          }
+          if ("JZXTP".equals(dd.getCode())){
+            templet.setTemType("3");
+          }
+          if ("YQZB".equals(dd.getCode())){
+            templet.setTemType("1");
+          }
           templets = templetService.search(1, templet);
         }
         if (type.equals(WIN_NOTICE)) {
           Templet templet = new Templet();
-          templet.setTemType("中标公告");
+          if ("GKZB".equals(dd.getCode())) {
+            templet.setTemType("5");
+          }
+          if ("XJCG".equals(dd.getCode())){
+            templet.setTemType("7");
+          }
+          if ("JZXTP".equals(dd.getCode())){
+            templet.setTemType("8");
+          }
+          if ("YQZB".equals(dd.getCode())){
+            templet.setTemType("6");
+          }
           templets = templetService.search(1, templet);
         }
         if (templets != null && templets.size() > 0) {
