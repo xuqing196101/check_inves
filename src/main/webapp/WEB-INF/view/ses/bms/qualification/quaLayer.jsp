@@ -23,8 +23,8 @@
 			    	  <input type="text" id="name"  name="name" />
 			    	</span>
 			      </li>
-			    	<button type="button" onclick="search();" class="btn">查询</button>
-			    	<button type="button" onclick="resetQuery()" class="btn">重置</button>  	
+			    	<button type="button" onclick="search();" class="btn f1 mt1">查询</button>
+			    	<button type="button" onclick="resetQuery()" class="btn f1 mt1">重置</button>  	
 				  </ul>
 				  <div class="clear"></div>
 			  </h2>
@@ -42,7 +42,7 @@
 				     <tr>
 					   <td class="tc"><input type="checkbox" name="chkItem" value="${qualification.id}" /></td>
 					   <td class="tc">${vs.index+1}</td>
-					   <td class="textl">${qualification.name}</td>
+					   <td class="tl pl20">${qualification.name}</td>
 					  </tr>
 				    </c:forEach>
 				  </tbody>

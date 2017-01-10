@@ -1137,7 +1137,12 @@
               </a>
             </div>
             <div class="ywbl_02">
-              <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html" class="zlxz">
+            <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+	             <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html" class="zlxz">
+	        <% } %>
+	        <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
+	             <a onclick="javascript:void(0);" class="zjzc">
+	        <% } %>
                 <span>资料下载</span>
               </a>
             </div>
