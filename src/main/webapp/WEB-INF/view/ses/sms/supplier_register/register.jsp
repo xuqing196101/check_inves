@@ -24,7 +24,7 @@
 					success : function(result) {
 						result = eval("(" + result + ")");
 						if (result.msg == "fail") {
-							$("#login_input_id").next().text("用户名重复 !");
+							$("#login_input_id").next().text("用户名已被使用，请更换重试！");
 							$("#submit_button_id").prop("disabled", true);
 						} else {
 							$("#login_input_id").next().text("");

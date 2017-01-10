@@ -300,7 +300,7 @@
   															</div>
   															<div class="col-md-6 col-sm-6 col-xs-6 p0">
   																<img id="identity_code_img_id_0" style="border: 1px solid #2c9fa6; cursor: pointer;" height="34px" class="hand w100p"
-  																	src="${pageContext.request.contextPath}/supplier/get_identity.html"
+  																	src="${pageContext.request.contextPath}/supplier/get_identity.html"  title="看不清？点击刷新" 
   																	onclick="getIdentityCode(0)">
   															</div>
   														</label>
@@ -355,6 +355,7 @@
   																	style="border: 1px solid #2c9fa6; cursor: pointer;"
   																	height="34px" class="hand w100p"
   																	src="${pageContext.request.contextPath}/supplier/get_identity.html"
+  																	title="看不清？点击刷新"
   																	onclick="getIdentityCode(1)">
   															</div>
   														</label>
