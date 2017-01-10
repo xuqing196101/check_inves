@@ -1277,7 +1277,7 @@ $(function(){
 														<th class="info">单位负责人职称</th>
 														<th class="info">单位负责人职务</th>
 														<th class="info">发证机关</th>
-														<th class="info minw100">发证日期</th>
+														<th class="info"><div class="w120"> 发证日期</div> </th>
 														<th class="info minw100">证书有效期截止日期</th>
 														<th class="info">证书状态</th>
 														<th class="info w200">附件</th>
