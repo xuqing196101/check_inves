@@ -7,28 +7,6 @@
 	<head>
 		<%@ include file="../../../../common.jsp"%>
 		<script type="text/javascript">
-			function reason(id) {
-				var supplierId = $("#id").val();
-				var id1 = id + "1";
-				var id2 = id + "2";
-				var id3 = id + "3";
-				var auditField = $("#" + id2 + "").text().replaceAll("＊", "").replaceAll("：", ""); //审批的字段名字
-				var auditContent = document.getElementById("" + id3 + "").value; //审批的字段内容
-				var auditType = $("#essential").text(); //审核类型
-				layer.prompt({
-					title: '请填写不通过理由',
-					formType: 2
-				}, function(text) {
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-						type: "post",
-						data: "auditType=" + auditType + "&auditField=" + auditField + "&auditContent=" + auditContent + "&suggest=" + text + "&supplierId=" + supplierId,
-					});
-					$("#" + id1 + "").hide();
-					layer.msg("审核不通过的理由是：" + text);
-				});
-			}
-
 			function tijiao(str) {
 				var action;
 				if(str == "essential") {
@@ -39,18 +17,6 @@
 				}
 				if(str == "shareholder") {
 					action = "${pageContext.request.contextPath}/supplierQuery/shareholder.html";
-				}
-				if(str == "materialProduction") {
-					action = "${pageContext.request.contextPath}/supplierQuery/materialProduction.html";
-				}
-				if(str == "materialSales") {
-					action = "${pageContext.request.contextPath}/supplierQuery/materialSales.html";
-				}
-				if(str == "engineering") {
-					action = "${pageContext.request.contextPath}/supplierQuery/engineering.html";
-				}
-				if(str == "service") {
-					action = "${pageContext.request.contextPath}/supplierQuery/serviceInformation.html";
 				}
 				if(str == "chengxin") {
 					action = "${pageContext.request.contextPath}/supplierQuery/list.html";
@@ -63,6 +29,15 @@
 				}
 				if(str == "updateHistory") {
 					action = "${pageContext.request.contextPath}/supplierQuery/showUpdateHistory.html";
+				}
+				if (str == "zizhi") {
+					action = "${pageContext.request.contextPath}/supplierQuery/aptitude.html";
+				}
+				if (str == "contract") {
+					action = "${pageContext.request.contextPath}/supplierQuery/contract.html";
+				}
+				if(str == "supplierType") {
+					action = "${pageContext.request.contextPath}/supplierQuery/supplierType.html";
 				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
@@ -77,33 +52,156 @@
 			function fanhui() {
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&status=${status}";
 			}
+			var zTreeObj;
+			var zNodes;
 			$(function() {
-				var zTreeObj;
-				var zNodes;
-				loadZtree();
-
-				function loadZtree() {
-					var setting = {
-						async: {
-							enable: true,
-							url: "${pageContext.request.contextPath}/category/find_category_and_disabled.do",
-							otherParam: {
-								supplierId: "${id}",
-							},
-							dataType: "json",
-							type: "post",
-						},
-						data: {
-							simpleData: {
-								enable: true,
-								idKey: "id",
-								pIdKey: "parentId"
-							}
-						},
-					};
-					zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+				$("#page_ul_id").find("li").click(function() {
+					var id = $(this).attr("id");
+					var page = "tab-" + id.charAt(id.length - 1);
+					$("input[name='defaultPage']").val(page);
+				});
+				var defaultPage = "${defaultPage}";
+				if(defaultPage) {
+					var num = defaultPage.charAt(defaultPage.length - 1);
+					$("#page_ul_id").find("li").each(function(index) {
+						var liId = $(this).attr("id");
+						var liNum = liId.charAt(liId.length - 1);
+						if(liNum == num) {
+							$(this).attr("class", "active");
+						} else {
+							$(this).removeAttr("class");
+						}
+					});
+					$("#tab_content_div_id").find(".tab-pane").each(function() {
+						var id = $(this).attr("id");
+						if(id == defaultPage) {
+							$(this).attr("class", "tab-pane fade height-300 active in");
+						} else {
+							$(this).attr("class", "tab-pane fade height-300");
+						}
+					});
+				} else {
+					$("#page_ul_id").find("li").each(function(index) {
+						if(index == 0) {
+							var id = $(this).attr("id");
+							defaultLoadTab(id);
+							$(this).attr("class", "active");
+						} else {
+							$(this).removeAttr("class");
+						}
+					});
+					$("#tab_content_div_id").find(".tab-pane").each(function(index) {
+						if(index == 0) {
+							$(this).attr("class", "tab-pane fade height-300 active in");
+						} else {
+							$(this).attr("class", "tab-pane fade height-300");
+						}
+					});
 				}
+
 			});
+
+			//加载默认的页签
+			function defaultLoadTab(id) {
+				if(id = "tree_ul_id_1") {
+					loadTab('PRODUCT', 'tree_ul_id_1', 1);
+				}
+				if(id = "tree_ul_id_2") {
+					loadTab('SALES', 'tree_ul_id_2', 2);
+				}
+				if(id = "tree_ul_id_3") {
+					loadTab('PROJECT', 'tree_ul_id_3', null);
+				}
+				if(id = "tree_ul_id_4") {
+					loadTab('SERVICE', 'tree_ul_id_4', null);
+				}
+			}
+
+			//加载对应的节点数据
+			function loadZtree(code, kind, status) {
+				var supplierId = $("#supplierId").val();
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplierAudit/getTree.do",
+					data: {"supplierId": supplierId,"code": code},
+					async: false,
+					dataType: "json",
+					success: function(response){
+						zNodes = response;
+					}
+				});
+				var setting = {
+					data: {
+						simpleData: {
+							enable: true,
+							idKey: "id",
+							pIdKey: "parentId",
+						}
+					},
+					callback: {
+						onClick: zTreeOnClick
+						},
+					view: {
+						showLine: true
+					}
+
+				};
+				var ztreeObj = $.fn.zTree.init($("#" + kind), setting, zNodes);
+				ztreeObj.expandAll(true); //全部展开
+			}
+
+			//加载tab页签
+			function loadTab(code, kind, status) {
+				loadZtree(code, kind, status);
+			}
+
+			function getCategoryId() {
+				var ids = [];
+				for(var i = 1; i < 5; i++) {
+					var id = "tree_ul_id_" + i;
+					var tree = $.fn.zTree.getZTreeObj(id);
+					if(tree != null) {
+						nodes = tree.getCheckedNodes(true);
+						for(var j = 0; j < nodes.length; j++) {
+							alert(nodes[j].name);
+							alert(nodes[j].id);
+							ids.push(nodes[j].id);
+
+						}
+					}
+				}
+				alert(ids);
+				$("#categoryId").val(ids);
+				return ids;
+			}
+
+			function supCategory() {
+				var flag = true;
+				var supplierId = "${currSupplier.id}";
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier_item/getSupplierCate.do",
+					type: "post",
+					data: {
+						supplierId: supplierId,
+
+					},
+					dataType: "json",
+					success: function(result) {
+						if(result == "0") {
+							flag = false;
+
+						}
+					}
+				});
+				return flag;
+			}
+			
+			function zTreeOnClick(event, treeId, treeNode) {
+				if (!treeNode.isParent){
+									reason(treeNode.name,treeNode.id,treeId);
+						} else {
+							layer.msg("请选择末级节点进行审核");
+						}
+					}
 		</script>
 
 		<style type="text/css">
@@ -132,11 +230,6 @@
 		</div>
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
-			<!-- <div class="container">
-   <div class="col-md-12">
-    <button class="btn btn-windows back" onclick="fanhui()">返回</button> 
-    </div>
-    </div> -->
 			<!--详情开始-->
 			<div class="container content pt0">
 				<div class="tab-v2">
@@ -150,31 +243,17 @@
 						<li class="">
 							<a aria-expanded="fale" class="f18" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a>
 						</li>
-						<c:if test="${fn:contains(suppliers.supplierType, '生产')}">
-							<li class="">
-								<a aria-expanded="fale" href="#tab-2" class="f18" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a>
-							</li>
-						</c:if>
-						<c:if test="${fn:contains(suppliers.supplierType, '销售')}">
-							<li class="">
-								<a aria-expanded="fale" href="#tab-3" class="f18" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a>
-							</li>
-						</c:if>
-						<c:if test="${fn:contains(suppliers.supplierType, '工程')}">
-							<li class="">
-								<a aria-expanded="false" href="#tab-3" class="f18" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a>
-							</li>
-						</c:if>
-						<c:if test="${fn:contains(suppliers.supplierType, '服务')}">
-							<li class="">
-								<a aria-expanded="false" href="#tab-3" class="f18" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a>
-							</li>
-						</c:if>
+						<li class="">
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('supplierType');">供应商类型</a>
+						</li>
 						<li class="active">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">品目信息</a>
 						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-3" class="f18" data-toggle="tab" onclick="tijiao('product');">产品信息</a>
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('zizhi');">资质文件</a>
+						</li>
+						<li class="">
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">品目合同</a>
 						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" class="f18" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a>
@@ -183,19 +262,77 @@
 							<a aria-expanded="false" href="#tab-2" class="f18" data-toggle="tab" onclick="tijiao('updateHistory');">历史修改记录</a>
 						</li>
 					</ul>
-					<div class="tab-content padding-top-20">
-						<div class="tab-pane fade active in height-450" id="tab-1">
-							<form id="form_id" action="" method="post">
-								<input name="supplierId" id="id" value="${id }" type="hidden">
-							</form>
-							<div class="col-md-3">
-								<div id="ztree" class="ztree"></div>
-							</div>
+					<div class="container container_box">
+			<div class="content ">
+				<div class="col-md-12 tab-v2 job-content">
+					<ul class="count_flow ul_list">
+						<div class="tab-v2">
+							<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
+									<li id="li_id_1" class="active" onclick="loadTab('PRODUCT','tree_ul_id_1',1);">
+										<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a>
+										<input type="hidden" id="tree_ul_id_1_name" value="mat_serve_page">
+									</li>
+								</c:if>
+								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
+									<li id="li_id_2" class="" onclick="loadTab('SALES','tree_ul_id_2',2);">
+										<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型品目信息</a>
+										<input type="hidden" id="tree_ul_id_2_name" value="item_sell_page">
+									</li>
+								</c:if>
+								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
+									<li id="li_id_3" class="" onclick="loadTab('PROJECT','tree_ul_id_3',null);">
+										<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a>
+										<input type="hidden" id="tree_ul_id_3_name" value="item_eng_page">
+									</li>
+								</c:if>
+								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
+									<li id="li_id_4" class="" onclick="loadTab('SERVICE','tree_ul_id_4',null);">
+										<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务品目信息</a>
+										<input type="hidden" id="tree_ul_id_4_name" value="item_serve_page">
+									</li>
+								</c:if>
+							</ul>
 						</div>
-					</div>
+						<form id="form_id" action="" method="post">
+							<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+						</form>
+						<div class="tab-content padding-top-20" id="tab_content_div_id">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
+								<div class="tab-pane fade active in height-300" id="tab-1">
+									<div class="lr0_tbauto">
+										<ul id="tree_ul_id_1" class="ztree_supplier mt30"></ul>
+									</div>
+								</div>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
+								<div class="tab-pane fade height-300" id="tab-2">
+									<div class="lr0_tbauto ">
+										<ul id="tree_ul_id_2" class="ztree_supplier mt30"></ul>
+									</div>
+								</div>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
+								<div class="tab-pane fade height-200" id="tab-3">
+									<div class="lr0_tbauto ">
+										<ul id="tree_ul_id_3" class="ztree_supplier mt30"></ul>
+									</div>
+								</div>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
+								<div class="tab-pane fade height-200" id="tab-4">
+									<div class="lr0_tbauto ">
+										<ul id="tree_ul_id_4" class="ztree_supplier mt30"></ul>
+									</div>
+								</div>
+							</c:if>
+						</div>
+					</ul>
 				</div>
 			</div>
 		</div>
+				</div>
+			</div>
 		</div>
 	</body>
 

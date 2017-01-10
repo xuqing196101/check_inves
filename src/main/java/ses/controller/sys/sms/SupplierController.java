@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -18,10 +19,15 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -77,12 +83,14 @@ import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.IdentityCode;
+import ses.util.PathUtil;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -2271,4 +2279,28 @@ import common.service.UploadService;
        model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
        return new ModelAndView("ses/sms/supplier_register/add_se_cert");
    }
+   
+   
+   /**
+    * 品目树下载
+    * @param request
+    * @param filename
+    * @return
+    * @throws IOException
+    */
+	  @RequestMapping("/download_category")    
+	    public ResponseEntity<byte[]> download(HttpServletRequest request,String filename) throws IOException {
+//	    	filename = new String(filename.getBytes("iso8859-1"),"UTF-8");
+	    	String path = PathUtil.getWebRoot() + "excel/产品目录.xls";;  
+	        File file=new File(path);
+	        
+	        HttpHeaders headers = new HttpHeaders();    
+	        String fileName=new String("产品目录.xls".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+	        headers.setContentDispositionFormData("attachment", fileName);   
+	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+	        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
+	                                          headers, HttpStatus.CREATED);    
+	    }
+	    
+	    
 }

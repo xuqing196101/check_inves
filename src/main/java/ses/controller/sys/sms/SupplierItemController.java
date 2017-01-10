@@ -470,6 +470,7 @@ public class SupplierItemController extends BaseController{
 			String   categoryId="";
 			   if (s != null ) {
 	               if(s.equals("SERVICE")){
+	            	   categoryId = DictionaryDataUtil.getId("SERVICE");
 	    		   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 	    		     for(SupplierItem c:category){
 	    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());

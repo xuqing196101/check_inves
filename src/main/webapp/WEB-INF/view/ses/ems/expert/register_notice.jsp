@@ -44,7 +44,7 @@
 					</div>
 					<div class="mt40">
 						<div class="fl">
-							产品目录<a href="javascript:downCategory()" class="download"></a>
+							产品目录<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="download"></a>
 						</div>
 						<div class="clear"></div>
 					</div>

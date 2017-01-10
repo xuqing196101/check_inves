@@ -42,6 +42,12 @@
 				if(str == "updateHistory") {
 					action = "${pageContext.request.contextPath}/supplierQuery/showUpdateHistory.html";
 				}
+				if (str == "zizhi") {
+					action = "${pageContext.request.contextPath}/supplierQuery/aptitude.html";
+				}
+				if (str == "contract") {
+					action = "${pageContext.request.contextPath}/supplierQuery/contract.html";
+				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
@@ -112,7 +118,10 @@
 							<a aria-expanded="false" href="#tab-2" class="f18" data-toggle="tab" onclick="tijiao('item');">品目信息</a>
 						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-3" class="f18" data-toggle="tab" onclick="tijiao('product');">产品信息</a>
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('zizhi');">资质文件</a>
+						</li>
+						<li class="">
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">品目合同</a>
 						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" class="f18" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a>
@@ -158,7 +167,7 @@
 						</div>
 
 						<div class="tab-pane fade active in">
-							<h2 class="count_flow jbxx">供应商组织结构和人员</h2>
+							<h2 class="count_flow jbxx">法人代表信息</h2>
 							<table class="table table-bordered table-condensed table-hover">
 								<tbody>
 									<tr>

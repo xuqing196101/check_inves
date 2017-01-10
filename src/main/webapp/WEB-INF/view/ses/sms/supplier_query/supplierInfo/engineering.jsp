@@ -42,6 +42,12 @@
 				if(str == "updateHistory") {
 					action = "${pageContext.request.contextPath}/supplierQuery/showUpdateHistory.html";
 				}
+				if (str == "zizhi") {
+					action = "${pageContext.request.contextPath}/supplierQuery/aptitude.html";
+				}
+				if (str == "contract") {
+					action = "${pageContext.request.contextPath}/supplierQuery/contract.html";
+				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
@@ -112,7 +118,10 @@
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">品目信息</a>
 						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('product');">产品信息</a>
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">品目合同</a>
+						</li>
+						<li class="">
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a>
 						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a>
@@ -257,15 +266,38 @@
 								</c:forEach>
 							</table>
 						</div>
-
 						<div class="tab-pane fade active in">
-							<h2 class="count_flow jbxx">供应商组织机构</h2>
+							<h2 class="count_flow jbxx">供应商注册人员登记</h2>
+							<table class="table table-bordered table-condensed table-hover">
+						          <thead>
+					              <tr>
+					                <th class="info w50">序号</th>
+					                <th class="info">注册名称</th>
+					                <th class="info">注册人数</th>
+					                <th class="info w50">操作</th>
+					              </tr>
+						          </thead>
+				              <c:forEach items="${listRegPerson}" var="regPrson" varStatus="vs">
+				                <tr>
+				                  <td class="tc">${vs.index + 1}</td>
+				                  <td class="tc">${regPrson.regType}</td>
+				                  <td class="tc">${regPrson.regNumber}</td>
+				                  <td class="tc w50">
+				                    <p onclick="reason('${regPrson.id}','工程-注册人员登记信息');" id="${regPrson.id}_hidden2" class="btn">审核</p>
+				                    <a id="${regPrson.id }_show2"><img src='/zhbj/public/backend/images/sc.png'></a>
+				                  </td>
+				                </tr>
+				              </c:forEach>
+				            </table>
+						</div>
+						<div class="tab-pane fade active in">
+							<h2 class="count_flow jbxx">法人代表信息</h2>
 							<table class="table table-bordered table-condensed table-hover">
 								<tbody>
 									<tr>
 										<td class="bggrey">组织机构：</td>
 										<td onmouseover="out('${supplierMatEngs.orgName}')">${supplierMatEngs.orgName}</td>
-										<td class="bggrey">技术负责人：</td>
+										<td class="bggrey">技术负责人数：</td>
 										<td>${supplierMatEngs.totalTech }</td>
 									</tr>
 									<tr>
