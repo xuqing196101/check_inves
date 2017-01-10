@@ -65,10 +65,9 @@
 				}
 			}
 
-		/* 	function view(no) {
-				alert("测试");
+		 	function view(no) {
 				window.location.href = "${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo=" + no + "&&type=1";
-			} */
+			} 
 
 			function edit() {
 				var id = [];
@@ -212,7 +211,15 @@
 				$("#goodsType").val(type);
 				$("#uniqueId").val(id);
 				$("#dep").val(de);
-				$("#collect_form").submit();
+				var val=$('input[name="fileName"]').val();
+				if($.trim(val) == ""){
+					  layer.alert("计划名称不允许为空",{offset: ['222px', '390px'], shade:0.01});
+				}else{
+					$("#collect_form").submit();
+				}
+				
+				
+				
 
 				layer.close(index);
 			}
@@ -299,9 +306,9 @@
 				$("#up_form").submit();
 			} 
 			
-			function view(no) {
+	/* 		function view(no) {
         window.location.href = "${pageContext.request.contextPath }/collect/view.html?planNo="+no;
-      }
+      } */
  
 		</script>
 	</head>

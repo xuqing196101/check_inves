@@ -148,8 +148,10 @@ public class PurchaseRequiredController extends BaseController{
 		List<PurchaseDep> list2 = purchserOrgnaztionService.findPurchaseDepList(map);
 		model.addAttribute("requires", list2);
 		model.addAttribute("types", DictionaryDataUtil.find(6));
-		
-		
+		String fileId = list.get(0).getFileId();
+		String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
+		model.addAttribute("typeId", typeId);
+		model.addAttribute("fileId", fileId);
 		if(type.equals("1")){
 			return "bss/pms/purchaserequird/view";
 		}else{
@@ -168,12 +170,17 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String updateById(PurchaseRequiredFormBean list){
+	public String updateById(PurchaseRequiredFormBean list,String planName,String planNo,String referenceNo,String planType,String mobile){
 //		Map<String,Object> map=new HashMap<String,Object>();
 		if(list!=null){
 			if(list.getList()!=null&&list.getList().size()>0){
 				for( PurchaseRequired p:list.getList()){
 					if( p.getId()!=null){
+						p.setPlanType(planType);
+						p.setPlanNo(planNo);
+						p.setPlanName(planName);
+						p.setReferenceNo(referenceNo);
+						p.setRecorderMobile(mobile);
 						//历史数据
 //						String id = UUID.randomUUID().toString().replaceAll("-", "");
 //						map.put("oid", id);
@@ -401,7 +408,7 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/adddetail")
-	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request,String referenceNo) throws IOException{
+	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request,String referenceNo,String fileId) throws IOException{
 		User user = (User) request.getSession().getAttribute("loginUser");
 		List<PurchaseRequired> plist = list.getList();
 		// List<String> parentId = new ArrayList<>();

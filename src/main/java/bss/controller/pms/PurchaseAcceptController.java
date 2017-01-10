@@ -147,6 +147,12 @@ public class PurchaseAcceptController extends BaseController{
 		Map<String,Object> maps=new HashMap<String,Object>();
 		List<Orgnization> requires = orgnizationService.findOrgPartByParam(maps);
 		model.addAttribute("requires", requires);
+		model.addAttribute("types", DictionaryDataUtil.find(6));
+		
+		String fileId = list.get(0).getFileId();
+		String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
+		model.addAttribute("typeId", typeId);
+		model.addAttribute("fileId", fileId);
 		
 		
     	return "bss/pms/collect/view";

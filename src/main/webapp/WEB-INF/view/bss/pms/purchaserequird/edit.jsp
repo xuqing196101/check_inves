@@ -275,11 +275,76 @@ $(document).ready(function () {
 		</div>
 	</div>
 	<div class="container" id="container">
+		
+		 <div>
+				<h2 class="count_flow">计划主信息</h2>
+				<ul class="ul_list">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group"   name="planName" id="jhmc" value="${list[0].planName}">
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group" name="planNo" value="${list[0].planNo}" >
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划文号</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group"  name="referenceNo"   value="${list[0].referenceNo}" >
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					
+					
+					
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
+						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+							<select name="planType" id="wtype" onchange="gtype(this)"  >
+								<c:forEach items="${types }" var="tp" >
+									<option value="${tp.id }">${tp.name }</option>
+								</c:forEach>
+							</select>
+						</div>
+					</li>
+					
+				  
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group"   name="mobile" value="${list[0].recorderMobile }"> 
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" style="display:none" id="dnone" >
+			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			                <input type="checkbox" name="" onchange="" value="进口" />进口
+			            </div>
+			         </li>
+          
+             <li class="col-md-3 col-sm-6 col-xs-12">
+                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
+                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
+                        <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
+             </li>
+          
+          
+	   </ul>
+	 </div>
+	 
+	 
 		<div class="headline-v2">
 			<h2>计划明细</h2>
 		</div>
 		<div class="content table_box">
-		<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
+	<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
              <div class="content">
                  <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; font-size: medium; border-left-color: #dddddd; max-width:10000px"
   border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table">
@@ -322,7 +387,7 @@ $(document).ready(function () {
                     <c:if test="${obj.purchaseCount!=null}">
                      
                       <input   type="hidden" name="ss"   value="${obj.id }" >
-                      <input maxlength="11" class="w80" id="purchaseCount" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
+                      <input maxlength="11" class="w80" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.purchaseCount==null }">
@@ -332,7 +397,7 @@ $(document).ready(function () {
                   <td class="tl ">
                     <c:if test="${obj.price!=null}">
                       <input   type="hidden" name="ss"   value="${obj.id }">
-                      <input maxlength="11" class="w80" id="price"  name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
+                      <input maxlength="11" class="w80"   name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
                       <input type="hidden" name="ss"   value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.price==null}">
@@ -355,7 +420,7 @@ $(document).ready(function () {
                       </select> 
                   <%--    </c:if> --%>
                   </td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}" disabled="disabled"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit}"></td>
@@ -395,13 +460,14 @@ $(document).ready(function () {
 				
 				</table>
 				</div>
-				
 				<div class="col-md-12  mt10 col-sm-12 col-xs-12 tc">
 			    <input class="btn btn-windows git" type="submit" value="提交">
                 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
              </div>
 			</form>
 		</div>
+		
+</div>
 
 </body>
 </html>

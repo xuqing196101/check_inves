@@ -591,7 +591,7 @@
       </table>
 	</form>
    </div>
-    <div id="pagediv" align="right"></div>
+   <!--  <div id="pagediv" align="right"></div> -->
  </div>
  </div>
 <div class="mt20 tc col-md-12 col-xs-12 col-sm-12">

@@ -171,9 +171,10 @@ public class CollectPlanController extends BaseController {
 		* @throws
 		 */
 		@RequestMapping("/collectlist")
-    public String queryCollect(CollectPlan collectPlan,Integer page,Model model,String type) {
+    public String queryCollect(@CurrentUser User user,CollectPlan collectPlan,Integer page,Model model,String type) {
     //下达状态
-    collectPlan.setStatus(1);
+    collectPlan.setStatus(12);
+	collectPlan.setUserId(user.getId());
     List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page == null ? 1 : page);
     PageInfo<CollectPlan> info = new PageInfo<>(list);
  
@@ -279,26 +280,27 @@ public class CollectPlanController extends BaseController {
 		 */
 		@RequestMapping("/update")
 		@ResponseBody
-		public String update(CollectPlan collectPlan){
+		public String update(CollectPlan collectPlan,String uniqueId){
 			CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
-			String [] planNo = collectPlan.getPlanNo().split(",");
+			String [] uniqueIds = uniqueId.split(",");
 			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
-			CollectPurchase c=new CollectPurchase();
 			PurchaseRequired p=new PurchaseRequired();
-			for(String no:planNo){
-				c.setCollectPlanId(collectPlan.getId());
-				c.setPlanNo(no);
-				
-				//保存至中间表
-				collectPurchaseService.add(c);
+			for(String no:uniqueIds){
+//				c.setCollectPlanId(collectPlan.getId());
+//				c.setPlanNo(no);
+//				
+//				保存至中间表
+//				collectPurchaseService.add(c);
 				
 				p.setUniqueId(no);
-				p.setIsMaster(1);
 				List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
+				list.addAll(one);
+				
+				
 				p.setStatus("5");//修改
 				p.setIsMaster(null);
 				purchaseRequiredService.updateStatus(p);
-				list.addAll(one);
+			
 			}
 			BigDecimal budget=BigDecimal.ZERO;
 			for(PurchaseRequired pr:list){
@@ -306,6 +308,20 @@ public class CollectPlanController extends BaseController {
 					budget=budget.add(pr.getBudget());
 				}
 			}
+			List<PurchaseDetail> list2 = purchaseDetailService.getUnique(plan.getId());
+			
+			if(list!=null&&list.size()>0){
+				Integer count=1;
+				for(PurchaseRequired pr:list){
+					PurchaseDetail pd=new PurchaseDetail();
+					BeanUtils.copyProperties(pr, pd,new String[] {"serialVersionUID"});
+					pd.setUniqueId(collectPlan.getId());
+					pd.setIsMaster(count);
+					count++;
+					purchaseDetailService.add(pd);
+				}
+			}
+			
 			
 			BigDecimal decimal = plan.getBudget();
 			BigDecimal budget2=	decimal.add(budget);
