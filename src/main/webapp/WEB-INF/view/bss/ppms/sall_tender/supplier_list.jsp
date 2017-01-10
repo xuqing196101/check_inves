@@ -63,6 +63,7 @@
 		 	}
 		}
 	function showSupplier(){
+		alert();
 		var id=[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val());

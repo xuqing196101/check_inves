@@ -184,4 +184,14 @@ public interface PackageMapper {
     List<Packages> listExpExtCondition(String projectId);
     
     Packages selectByPrimaryKeyId(String id);
+    
+    /**
+     * 
+     *〈简述〉供应商抽取信息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param projectId
+     * @return
+     */
+    List<Packages> listSupplierExtract(String projectId);
 }

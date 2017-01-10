@@ -208,6 +208,18 @@
 		#{reviewType,jdbcType=VARCHAR},
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
+
+	<!-- 关联抽取表 -->
+	<select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE PROJECT_ID =#{id} AND
+		OPERATING_TYPE =1
+
+	</select>
+
 	<select id="list" parameterType="ses.model.sms.SupplierExtRelate"
 		resultMap="BaseResultMap">
 		SELECT
@@ -307,18 +319,23 @@
 		OPERATING_TYPE =2 OR OPERATING_TYPE =3)
 	</select>
 
-	<!-- 删除为抽取的的数据 -->
+	<!-- 删除未抽取的的数据 -->
 	<select id="del" parameterType="Map">
 		DELETE FROM ( SELECT
 		*
 		FROM
 		T_SES_SMS_SUPPLIER_EXT_RELATE
-		WHERE PROJECT_ID IN (SELECT "ID" FROM
-		T_BSS_PPMS_PACKAGE WHERE PROJECT_ID = #{projectId}) AND
+		WHERE PROJECT_ID
+		IN (SELECT "ID" FROM
+		T_BSS_PPMS_PACKAGE WHERE PROJECT_ID =
+		#{projectId}) AND
 		SUPPLIER_ID IN
 		(
-		SELECT SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_TYPE_RELATE WHERE
-		SUPPLIER_TYPE_ID = #{typeId}
+		SELECT SUPPLIER_ID FROM
+		T_SES_SMS_SUPPLIER_TYPE_RELATE WHERE 1=1
+		<foreach collection="array" item="tid">
+			AND SUPPLIER_TYPE_ID = #{tid}
+		</foreach>
 		) AND OPERATING_TYPE = 0 )
 	</select>
 

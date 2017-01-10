@@ -105,7 +105,7 @@ public interface SupplierExtRelateMapper {
      * @author Wang Wenshuai
      * @param projectId
      */
-    void del(Map<String, String> map);
+    void del(Map<String, Object> map);
     
     /**
      * 

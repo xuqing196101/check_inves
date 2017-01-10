@@ -63,6 +63,11 @@
           $("#projectNumber").attr("readonly", false);
           $("#packageName").attr("readonly", false);
         }
+        var index = 0 ;
+        var divObj = $(".p0" + index);
+             $(divObj).removeClass("hide");
+             $("#package").removeClass("shrink");        
+             $("#package").addClass("spread");
 
       });
       
@@ -390,7 +395,7 @@
                 <button class="btn mb10" 
                  onclick="add(1);" type="button">添加包</button>
                 </c:if>
-             <input class="input_group " readonly id="packageName" value="" onclick="showPackageType();"   type="text">
+             <input class="input_group " readonly id="packageName" placeholder="请选择包" value="" onclick="showPackageType();"   type="text">
               <input  readonly id="packageId" name="packageId"     type="hidden">
 <!--           <select class="w200" id="packageId" > -->
 <%--             <c:forEach items="${listResultSupplier}" var="list"> --%>
@@ -409,29 +414,35 @@
             <c:forEach items="${listResultSupplier }" var="list" varStatus="vs">
               <c:set value="${vs.index}" var="index"></c:set>
               <div>
-                <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${listResultSupplier[index].name }</span></h2>
+                <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand" id="package">包名:<span class="f14 blue">${listResultSupplier[index].name }</span></h2>
               </div>
-              <div class="p0${index}">
+              <div class="p0${index} hide">
 	              <table  class="table table-bordered table-condensed mt5">
 	                <thead>
 	                  <tr>
 	                    <th class="info w50">序号</th>
 	                    <th class="info">供应商名称</th>
-	                    <th class="info">类型，级别</th>
+	                    <th class="info">类型</th>
 	                    <th class="info">联系人名称</th>
 	                    <th class="info">联系人电话</th>
 	                    <th class="info">联系人手机</th>
 	                  </tr>
 	                </thead>
 	                <tbody id="tbody">
-	                  <c:forEach items="${list.listSupplier}" var="listyes" varStatus="vs">
+	                  <c:forEach items="${list.listExtRelate}" var="listyes" varStatus="vs">
 	                    <tr class='cursor '>
 	                      <td class='tc' >${vs.index+1}</td>
-	                      <td class='tc' >${listyes.supplierName}</td>
-	                      <td class='tc' >${listyes.supplierName}</td>
-	                      <td class='tc' >${listyes.contactName}</td>
-	                      <td class='tc' >${listyes.contactTelephone}</td>
-	                      <td class='tc' >${listyes.contactMobile}</td>
+	                      <td class='tc' >${listyes.supplier.supplierName}</td>
+	                      <td class='tc'>
+	                      <c:forEach var="type" items="${supplierType}">
+		                      <c:if test="${type.code eq listyes.reviewType }">
+		                            ${type.name}
+		                      </c:if>
+	                      </c:forEach>
+	                      </td>
+	                      <td class='tc' >${listyes.supplier.contactName}</td>
+	                      <td class='tc' >${listyes.supplier.contactTelephone}</td>
+	                      <td class='tc' >${listyes.supplier.contactMobile}</td>
 	                    </tr>
 	                  </c:forEach>
 	                </tbody>

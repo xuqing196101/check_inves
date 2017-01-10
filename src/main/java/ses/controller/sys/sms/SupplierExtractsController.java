@@ -221,10 +221,10 @@ public class SupplierExtractsController extends BaseController {
     model.addAttribute("typeclassId",typeclassId);
     if (projectId != null && !"".equals(projectId)){
       //根据包获取抽取出的供应商
-      List<Packages> listResultSupplier = packageService.listResultSupplier(projectId);
+      List<Packages> listResultSupplier = packageService.listExtRelate(projectId);
       model.addAttribute("listResultSupplier", listResultSupplier);
-
-
+      //供应商类型
+      model.addAttribute("supplierType", conditionService.supplierTypeList());
       //供应商抽取地址
       SupplierExtracts record = new SupplierExtracts();
       record.setProjectId(projectId);
@@ -777,14 +777,14 @@ public class SupplierExtractsController extends BaseController {
       extConType1.setAlreadyCount(list == null ? 0 : list.size());
       //删除满足数量的
       if(list.size() >= extConType1.getSupplierCount()){
-        expertTypeIds += extConType1.getSupplierType().getId() + ",";
+        expertTypeIds += extConType1.getSupplierType().getCode() + ",";
       }
     }
     if (expertTypeIds != null && !"".equals(expertTypeIds)){
       Packages packages = new Packages();
       packages.setId(listCondition.get(0).getProjectId());
       List<Packages> find = packagesService.find(packages);
-      Map<String, String> map = new HashMap<String, String>();
+      Map<String, Object> map = new HashMap<String, Object>();
       map.put("projectId", find.get(0).getProjectId());
       map.put("typeId", expertTypeIds.substring(0, expertTypeIds.length()-1));
       extRelateService.del(map);

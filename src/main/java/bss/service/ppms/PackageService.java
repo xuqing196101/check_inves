@@ -178,4 +178,13 @@ public interface PackageService {
     
     Packages selectByPrimaryKeyId(String id);
     
+    /**
+     * 
+     *〈简述〉根据包返回供应商抽取信息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    List<Packages> listExtRelate(String projectId);
+    
 }

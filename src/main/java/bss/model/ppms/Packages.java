@@ -14,6 +14,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
+import ses.model.sms.SupplierExtRelate;
 
 
 
@@ -34,12 +35,14 @@ public class Packages {
 
   private List<ProjectExtract> listProjectExtract;
 
+  private List<SupplierExtRelate> listExtRelate;
+
   private List<ExpExtCondition> listExpExtCondition;
 
   private List<SupplierCondition> listSupplierCondition;
 
   private List<FirstAudit> listFirstAudit;
-  
+
   //经济评审
   List<MarkTerm> listScoreEconomy;
 
@@ -87,7 +90,7 @@ public class Packages {
   private String isCreateContract;
 
   private String contractId;
-  
+
   private Negotiation negotiation;
 
   private BigDecimal wonPrice;
@@ -502,13 +505,27 @@ public class Packages {
     this.listScoreTechnology = listScoreTechnology;
   }
 
-    public Negotiation getNegotiation() {
-        return negotiation;
-    }
-    
-    public void setNegotiation(Negotiation negotiation) {
-        this.negotiation = negotiation;
-    }
+  public Negotiation getNegotiation() {
+    return negotiation;
+  }
+
+  public void setNegotiation(Negotiation negotiation) {
+    this.negotiation = negotiation;
+  }
+
+  /**
+   * @return Returns the listExtRelate.
+   */
+  public List<SupplierExtRelate> getListExtRelate() {
+    return listExtRelate;
+  }
+
+  /**
+   * @param listExtRelate The listExtRelate to set.
+   */
+  public void setListExtRelate(List<SupplierExtRelate> listExtRelate) {
+    this.listExtRelate = listExtRelate;
+  }
 
 
 }

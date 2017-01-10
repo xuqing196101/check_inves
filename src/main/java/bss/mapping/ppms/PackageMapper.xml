@@ -49,6 +49,13 @@
 		<collection property="listProjectExtract" column="ID"
 			select="ses.dao.ems.ProjectExtractMapper.getById" ofType="ses.model.ems.ProjectExtract" />
 	</resultMap>
+	
+	 <!-- 返回供应商抽取信息 -->
+  <resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
+    id="ResultSupplierExtract">
+    <collection property="listExtRelate" column="ID"
+      select="ses.dao.sms.SupplierExtRelateMapper.getById" ofType="ses.model.sms.SupplierExtRelate" />
+  </resultMap>
 
 	<!-- 返回抽取条件 -->
 	 <resultMap type="bss.model.ppms.Packages" extends="BaseResultMap" 
@@ -410,6 +417,18 @@
 		ORDER BY
 		CREATED_AT ASC
 	</select>
+	
+	 <!-- 返回所有专家 -->
+  <select id="listSupplierExtract" parameterType="java.lang.String"
+    resultMap="ResultSupplierExtract">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM T_BSS_PPMS_PACKAGE
+    WHERE
+    IS_DELETED=0 AND PROJECT_ID = #{projectId}
+    ORDER BY
+    CREATED_AT ASC
+  </select>
 
 	<!-- -->
 	<select id="listExpExtCondition" parameterType="java.lang.String"

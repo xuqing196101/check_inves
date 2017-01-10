@@ -231,14 +231,13 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
    * @see ses.service.sms.SupplierExtRelateService#del(java.lang.String)
    */
   @Override
-  public void del(Map<String, String> map) {
-    String id = map.get("typeId");
+  public void del(Map<String, Object> map) {
+    String id = (String) map.get("typeId");
     String[] ids = id.split(",");
-    for (String typeId : ids) {
-      map.put("typeId", typeId);
+    if(ids != null && ids.length !=0){
+      map.put("array", ids);
       supplierExtRelateMapper.del(map);
     }
-
   }
 
   /**
