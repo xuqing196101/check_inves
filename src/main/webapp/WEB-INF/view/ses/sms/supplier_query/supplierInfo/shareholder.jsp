@@ -18,18 +18,6 @@
 				if(str == "shareholder") {
 					action = "${pageContext.request.contextPath}/supplierQuery/shareholder.html";
 				}
-				if(str == "materialProduction") {
-					action = "${pageContext.request.contextPath}/supplierQuery/materialProduction.html";
-				}
-				if(str == "materialSales") {
-					action = "${pageContext.request.contextPath}/supplierQuery/materialSales.html";
-				}
-				if(str == "engineering") {
-					action = "${pageContext.request.contextPath}/supplierQuery/engineering.html";
-				}
-				if(str == "service") {
-					action = "${pageContext.request.contextPath}/supplierQuery/serviceInformation.html";
-				}
 				if(str == "chengxin") {
 					action = "${pageContext.request.contextPath}/supplierQuery/list.html";
 				}
@@ -41,6 +29,15 @@
 				}
 				if(str == "updateHistory") {
 					action = "${pageContext.request.contextPath}/supplierQuery/showUpdateHistory.html";
+				}
+				if (str == "zizhi") {
+					action = "${pageContext.request.contextPath}/supplierQuery/aptitude.html";
+				}
+				if (str == "contract") {
+					action = "${pageContext.request.contextPath}/supplierQuery/contract.html";
+				}
+				if(str == "supplierType") {
+					action = "${pageContext.request.contextPath}/supplierQuery/supplierType.html";
 				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
@@ -85,31 +82,17 @@
 						<li class="active">
 							<a aria-expanded="true" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('shareholder');">股东信息</a>
 						</li>
-						<c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
-							<li class="">
-								<a aria-expanded="fale" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('materialProduction');">物资-生产型专业信息</a>
-							</li>
-						</c:if>
-						<c:if test="${fn:contains(suppliers.supplierType, '销售型')}">
-							<li class="">
-								<a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('materialSales');">物资-销售型专业信息</a>
-							</li>
-						</c:if>
-						<c:if test="${fn:contains(suppliers.supplierType, '工程')}">
-							<li class="">
-								<a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('engineering');">工程-专业信息</a>
-							</li>
-						</c:if>
-						<c:if test="${fn:contains(suppliers.supplierType, '服务')}">
-							<li class="">
-								<a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('service');">服务-专业信息</a>
-							</li>
-						</c:if>
+						<li class="">
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('supplierType');">供应商类型</a>
+						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">品目信息</a>
 						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('product');">产品信息</a>
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('zizhi');">资质文件</a>
+						</li>
+						<li class="">
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">品目合同</a>
 						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a>
@@ -125,15 +108,17 @@
 						<table class="table table-bordered table-condensed table-hover">
 							<thead>
 								<tr>
-									<th class="info">出资人</th>
+									<th>序号</th>
+									<th class="info">出资人名称或姓名</th>
 									<th class="info">出资人性质</th>
 									<th class="info">统一社会信用代码或身份证</th>
 									<th class="info">出资金额或股份(万元/份)</th>
 									<th class="info">比例</th>
 								</tr>
 							</thead>
-							<c:forEach items="${shareholder}" var="s">
+							<c:forEach items="${shareholder}" var="s" varStatus="vs">
 								<tr>
+									<td class="tc">${vs.index + 1}</td>
 									<td class="tc" id="${s.id }">${s.name}</td>
 									<td class="tc">${s.nature}</td>
 									<td class="tc">${s.identity}</td>
