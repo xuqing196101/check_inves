@@ -17,12 +17,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.github.pagehelper.PageHelper;
 
+import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.TodosService;
@@ -30,7 +31,6 @@ import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierService;
-import ses.util.PropUtil;
 import common.constant.Constant;
 import common.utils.AuthUtil;
 
@@ -69,6 +69,8 @@ public class LoginController {
 
     @Autowired
     private SupplierService supplierService;
+    
+    @Autowired PreMenuServiceI preMenuService;
 
     private static Logger logger = Logger.getLogger(LoginController.class); 
 
@@ -152,7 +154,9 @@ public class LoginController {
                             }
                         } else {
                             req.getSession().setAttribute("loginUser", u);
-                            req.getSession().setAttribute("resource", u.getMenus());
+                            List<PreMenu> resource = preMenuService.getMenu(u);
+                            req.getSession().setAttribute("resource", resource);
+                            //req.getSession().setAttribute("resource", u.getMenus());
                             out.print("scuesslogin");
                         }
                     } catch (Exception e) {
@@ -168,7 +172,9 @@ public class LoginController {
                     if ("success".equals(msg)) {
                         req.getSession().setAttribute("loginSupplier", map.get("supplier"));
                         req.getSession().setAttribute("loginUser", u);
-                        req.getSession().setAttribute("resource", u.getMenus());
+                        List<PreMenu> resource = preMenuService.getMenu(u);
+                        req.getSession().setAttribute("resource", resource);
+                        //req.getSession().setAttribute("resource", u.getMenus());
                         out.print("scuesslogin");
                     } else  if("unperfect".equals(msg)){
                         out.print("unperfect," + u.getLoginName());
@@ -193,12 +199,16 @@ public class LoginController {
                         out.print("outer_net_limit");
                       } else if ("0".equals(ipAddressType)) {
                         req.getSession().setAttribute("loginUser", u);
-                        req.getSession().setAttribute("resource", u.getMenus());
+                        List<PreMenu> resource = preMenuService.getMenu(u);
+                        req.getSession().setAttribute("resource", resource);
+                        //req.getSession().setAttribute("resource", u.getMenus());
                         out.print("scuesslogin");
                       }
                     } else {*/
                       req.getSession().setAttribute("loginUser", u);
-                      req.getSession().setAttribute("resource", u.getMenus());
+                      List<PreMenu> resource = preMenuService.getMenu(u);
+                      req.getSession().setAttribute("resource", resource);
+                      //req.getSession().setAttribute("resource", u.getMenus());
                       out.print("scuesslogin");
                     /*}*/
                 }

@@ -89,7 +89,6 @@ public class PreMenuController {
 		menu.setStatus(0);
 		//如果是给角色配置权限
 		if(userId != null && !"".equals(userId)){
-		    ses.model.bms.User user = userService.getUserById(userId);
 		    //查询该用户的供应商角色
         HashMap<String, Object> supplierMap = new HashMap<String, Object>();
         supplierMap.put("userId", userId);
@@ -120,8 +119,9 @@ public class PreMenuController {
         }
   			list = preMenuService.find(menu);
   			//给用户配置权限
-  			String[] userIds = userId.split(",");
-  			menuIds = preMenuService.findByUids(userIds);
+  			//String[] userIds = userId.split(",");
+  			//获取用户权限
+  			menuIds = preMenuService.findByUids(userId);
 		} else if (r.getId() != null && !"".equals(r.getId())){
 		    String rCode = dictionaryDataService.getDictionaryData(r.getKind()).getCode();
 		    //采购后台

@@ -156,7 +156,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
         }
         
         //删除用户之前的与角色下权限菜单的关联关系
-        String[] oldrIds = new String[oldRole.size()];
+        /*String[] oldrIds = new String[oldRole.size()];
         for (int i = 0; i < oldRole.size(); i++) {
           oldrIds[i] = oldRole.get(i).getId();
         }
@@ -169,7 +169,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
           userPreMenu.setUser(olduser);
           ups.add(userPreMenu);
         }
-        userServiceI.deleteUserMenuBatch(ups);
+        userServiceI.deleteUserMenuBatch(ups);*/
       }
     }
   }
@@ -255,7 +255,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 				userServiceI.saveRelativity(userrole);
 			}
 			//保存用户与角色多对应权限的关联id
-			List<String> mids = preMenuService.findByRids(roleIds);
+			/*List<String> mids = preMenuService.findByRids(roleIds);
 			List<UserPreMenu> userPreMenus = new ArrayList<UserPreMenu>();
 			for (String mid : mids) {
 				UserPreMenu userPreMenu = new UserPreMenu();
@@ -264,7 +264,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 				userPreMenu.setUser(user);
 				userPreMenus.add(userPreMenu);
 			}
-			userServiceI.saveUserMenuBatch(userPreMenus);
+			userServiceI.saveUserMenuBatch(userPreMenus);*/
 		}
 	}
 	

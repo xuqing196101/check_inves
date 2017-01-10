@@ -3,6 +3,7 @@ package ses.dao.bms;
 import java.util.List;
 
 import ses.model.bms.PreMenu;
+import ses.model.bms.UserPreMenu;
 
 public interface PreMenuMapper {
 	
@@ -113,5 +114,25 @@ public interface PreMenuMapper {
 	 * @return
 	 */
 	String getPermisssinCode(String parentId);
+
+  /**
+   * 
+   *〈简述〉获取用户权限增减量
+   *〈详细描述〉
+   * @author Ye Maolin
+   * @param userPreMenu1
+   * @return
+   */
+  List<String> findUserPre(UserPreMenu userPreMenu1);
+
+  /**
+   * 
+   *〈简述〉根据权限id集合获取权限对象
+   *〈详细描述〉
+   * @author Ye Maolin
+   * @param userPreMenu1
+   * @return
+   */
+  List<PreMenu> findByMids(List<String> mIds);
 
 }

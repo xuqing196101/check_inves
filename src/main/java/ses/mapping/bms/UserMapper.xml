@@ -649,6 +649,9 @@
 	      <if test="preMenu != null">
 	        PERMENU_ID,
 	      </if>
+	      <if test="kind != null">
+	      	KIND,
+	      </if>
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides=",">
           <if test="user != null">
@@ -656,6 +659,9 @@
           </if>
           <if test="preMenu != null">
         	#{preMenu.id,jdbcType=VARCHAR},
+          </if>
+          <if test="kind != null">
+        	#{kind},
           </if>
       </trim>
   </insert>

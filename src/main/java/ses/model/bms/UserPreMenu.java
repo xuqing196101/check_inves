@@ -14,6 +14,11 @@ public class UserPreMenu {
 	
 	/** 菜单 */
 	private PreMenu preMenu;
+	
+	/**
+	 * 用户个性化权限类型0：增加 1：减去
+	 */
+	private Integer kind;
 
 	public User getUser() {
 		return user;
@@ -30,5 +35,13 @@ public class UserPreMenu {
 	public void setPreMenu(PreMenu preMenu) {
 		this.preMenu = preMenu;
 	}
+
+  public Integer getKind() {
+    return kind;
+  }
+
+  public void setKind(Integer kind) {
+    this.kind = kind;
+  }
 	
 }

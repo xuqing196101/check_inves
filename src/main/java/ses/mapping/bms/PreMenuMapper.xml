@@ -303,4 +303,28 @@
 		IS_DELETED = 0	
   </select>
   
+  <!-- 获取用户权限增减量 -->
+  <select id="findUserPre" parameterType="Object" resultType="String">
+    SELECT
+		distinct PERMENU_ID
+	FROM
+		T_SES_BMS_USER_PERMISSION
+	WHERE
+		USER_ID = #{user.id,jdbcType=VARCHAR}
+		<if test="kind != null">
+		AND KIND = #{kind}
+		</if>
+  </select>
+  
+  <select id="findByMids" parameterType="Object" resultMap="MenuBaseMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_PERMISSION 
+    where ID in
+    <foreach collection="list" item="item" index="index"
+        open="(" close=")" separator=",">
+        #{item}
+    </foreach>
+    ORDER BY MENU_LEVEL,POSITION ASC
+  </select>
 </mapper>

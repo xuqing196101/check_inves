@@ -3,6 +3,7 @@ package ses.service.bms;
 import java.util.List;
 
 import ses.model.bms.PreMenu;
+import ses.model.bms.User;
 
 
 
@@ -70,7 +71,7 @@ public interface PreMenuServiceI {
 	 * @return List<String>
 	 * @exception IOException
 	 */
-	List<String> findByUids(String[] userIds);
+	List<String> findByUids(String userIds);
 
 	/**
 	 * Description: 删除
@@ -81,5 +82,15 @@ public interface PreMenuServiceI {
 	 * @exception IOException
 	 */
 	void delete(String id);
+
+	/**
+   * Description: 获取用户的权限
+   * 
+   * @author Ye MaoLin
+   * @version 2016-9-25
+   * @param id
+   * @exception IOException
+   */
+  List<PreMenu> getMenu(User u);
 
 }

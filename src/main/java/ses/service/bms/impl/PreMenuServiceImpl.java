@@ -1,5 +1,6 @@
 package ses.service.bms.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -8,8 +9,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.controller.sys.bms.UserManageController;
 import ses.dao.bms.PreMenuMapper;
+import ses.dao.bms.RoleMapper;
+import ses.dao.bms.UserMapper;
 import ses.model.bms.PreMenu;
+import ses.model.bms.Role;
+import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
 import ses.service.bms.PreMenuServiceI;
 
 /**
@@ -24,6 +31,11 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 
 	@Autowired
 	private PreMenuMapper preMenuMapper;
+	@Autowired
+	private RoleMapper roleMapper;
+	@Autowired
+	private UserMapper userMapper;
+	
 	/** 导航权限编码初始值  */
 	private final static String NAV_CODE = "1001";
 	/** 折叠导航权限编码初始值  */
@@ -77,9 +89,49 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 	}
 
 	@Override
-	public List<String> findByUids(String[] userIds) {
-		return preMenuMapper.findByUids(userIds);
+	public List<String> findByUids(String userId) {
+	  //定义用户权限id集合
+	  List<String> mIds = new ArrayList<String>();
+	  //获取用户角色
+	  List<Role> roles = roleMapper.selectByUserId(userId);
+	  if (roles != null && roles.size() > 0) {
+	    String[] roleArry = new String[roles.size()];
+	    for (int i = 0; i < roles.size(); i++) {
+	      roleArry[i] = roles.get(i).getId();
+	    }
+	    //获取用户所属角色权限
+	    List<String> rPreMenuIds = preMenuMapper.findByRids(roleArry);
+	    mIds.addAll(rPreMenuIds);
+	    List<User> users = userMapper.selectByPrimaryKey(userId);
+	    if (users != null && users.size() > 0) {
+	      //获取用户权限增量
+	      UserPreMenu userPreMenu1 = new UserPreMenu();
+	      userPreMenu1.setUser(users.get(0));
+	      userPreMenu1.setKind(0);
+	      List<String> upPreMenuIds = preMenuMapper.findUserPre(userPreMenu1);
+	      mIds.addAll(upPreMenuIds);
+	      //获取用户权限减量
+	      UserPreMenu userPreMenu2 = new UserPreMenu();
+	      userPreMenu2.setUser(users.get(0));
+	      userPreMenu2.setKind(1);
+	      List<String> downPreMenuIds = preMenuMapper.findUserPre(userPreMenu2);
+	      mIds.removeAll(downPreMenuIds);
+	    }
+    } 
+    return mIds;
+		//return preMenuMapper.findByUids(userIds);
 	}
+	
+	@Override
+  public List<PreMenu> getMenu(User u) {
+	  List<String> mIds = findByUids(u.getId());
+	  if (mIds != null && mIds.size() > 0) {
+	    List<PreMenu> menus = preMenuMapper.findByMids(mIds);
+	    return menus;
+    } else {
+      return null;
+    }
+  }
 
 	@Override
 	public void delete(String id) {

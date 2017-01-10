@@ -278,7 +278,7 @@ public class UserManageController extends BaseController{
 				userService.saveRelativity(userrole);
 			}
 			//保存用户与角色多对应权限的关联id
-			List<String> mids = preMenuService.findByRids(roleIds);
+			/*List<String> mids = preMenuService.findByRids(roleIds);
 			List<UserPreMenu> userPreMenus = new ArrayList<UserPreMenu>();
 			for (String mid : mids) {
 				UserPreMenu userPreMenu = new UserPreMenu();
@@ -287,7 +287,7 @@ public class UserManageController extends BaseController{
 				userPreMenu.setUser(user);
 				userPreMenus.add(userPreMenu);
 			}
-			userService.saveUserMenuBatch(userPreMenus);
+			userService.saveUserMenuBatch(userPreMenus);*/
 		}
 		
 		//不为空转到组织机构添加人员页面
@@ -455,7 +455,7 @@ public class UserManageController extends BaseController{
 					roleService.deleteRoelUser(userrole);
 				}
 				
-				//删除用户之前的与角色下权限菜单的关联关系
+				/*//删除用户之前的与角色下权限菜单的关联关系
 				String[] oldrIds = new String[oldRole.size()];
 				for (int i = 0; i < oldRole.size(); i++) {
 					oldrIds[i] = oldRole.get(i).getId();
@@ -469,7 +469,7 @@ public class UserManageController extends BaseController{
 					userPreMenu.setUser(olduser);
 					ups.add(userPreMenu);
 				}
-				userService.deleteUserMenuBatch(ups);
+				userService.deleteUserMenuBatch(ups);*/
 			}
 			
 			//机构
@@ -520,7 +520,7 @@ public class UserManageController extends BaseController{
 					userrole.setUserId(u);
 					userService.saveRelativity(userrole);
 				}
-				//保存用户与角色多对应权限的关联id
+				/*//保存用户与角色多对应权限的关联id
 				List<String> mids = preMenuService.findByRids(roleIds);
 				List<UserPreMenu> userPreMenus = new ArrayList<UserPreMenu>();
 				for (String mid : mids) {
@@ -530,7 +530,7 @@ public class UserManageController extends BaseController{
 					userPreMenu.setUser(u);
 					userPreMenus.add(userPreMenu);
 				}
-				userService.saveUserMenuBatch(userPreMenus);
+				userService.saveUserMenuBatch(userPreMenus);*/
 			}
 		}
 		
@@ -643,12 +643,75 @@ public class UserManageController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/saveUserMenu")
-	public void saveUserMenu(HttpServletRequest request,
-			HttpServletResponse response, String userId, String ids)
-			throws IOException {
+	public void saveUserMenu(HttpServletRequest request, HttpServletResponse response, String userId, String ids) throws IOException {
 		try {
-			User user = userService.getUserById(userId);
-			UserPreMenu um = new UserPreMenu();
+		  User user = userService.getUserById(userId);
+		  //先删除用户权限的增减量
+		  UserPreMenu oldM = new UserPreMenu();
+		  oldM.setUser(user);
+		  userService.deleteUserMenu(oldM);
+		  List<Role> roles = roleService.selectByUserId(userId);
+		  List<UserPreMenu> userPreMenus = new ArrayList<UserPreMenu>();
+		  if (roles != null && roles.size() > 0) {
+		    String[] roleArry = new String[roles.size()];
+		    for (int i = 0; i < roles.size(); i++) {
+		      roleArry[i] = roles.get(i).getId();
+		    }
+		    //用户所属角色下的权限集合
+		    List<String> rPreMenuIds = preMenuService.findByRids(roleArry);
+		    if (ids != null && !"".equals(ids)) {
+		      //用户勾选的权限数组
+		      String[] mIds = ids.split(",");
+		      //增加的权限
+		      for (String str : mIds) {
+		        if (!rPreMenuIds.contains(str)) {
+		          //如果角色集合不包含勾选的权限,增加
+		          UserPreMenu userPreMenu = new UserPreMenu();
+		          PreMenu preMenu = preMenuService.get(str);
+		          userPreMenu.setPreMenu(preMenu);
+		          userPreMenu.setUser(user);
+		          userPreMenu.setKind(0);
+		          userPreMenus.add(userPreMenu);
+		        }
+		      }
+		      //减少的权限
+		      for (String rpId : rPreMenuIds) {
+		        if (!ids.contains(rpId)) {
+		          //如果角色权限有在勾选的权限中不存在的,减少
+		          UserPreMenu userPreMenu = new UserPreMenu();
+		          PreMenu preMenu = preMenuService.get(rpId);
+		          userPreMenu.setPreMenu(preMenu);
+		          userPreMenu.setUser(user);
+		          userPreMenu.setKind(1);
+		          userPreMenus.add(userPreMenu);
+		        }
+		      }
+		    } else {
+		      //如果全部不勾选,角色下权限全部是减量
+		      for (String rpId : rPreMenuIds) {
+		        UserPreMenu userPreMenu = new UserPreMenu();
+		        PreMenu preMenu = preMenuService.get(rpId);
+		        userPreMenu.setPreMenu(preMenu);
+		        userPreMenu.setUser(user);
+		        userPreMenu.setKind(1);
+		        userPreMenus.add(userPreMenu);
+		      }
+		    }
+      } else {
+        String[] mIds = ids.split(",");
+        for (String str : mIds) {
+            //增加
+            UserPreMenu userPreMenu = new UserPreMenu();
+            PreMenu preMenu = preMenuService.get(str);
+            userPreMenu.setPreMenu(preMenu);
+            userPreMenu.setUser(user);
+            userPreMenu.setKind(0);
+            userPreMenus.add(userPreMenu);
+        }
+      }
+		  //保存用户权限的个性化增减量
+		  userService.saveUserMenuBatch(userPreMenus);
+			/*UserPreMenu um = new UserPreMenu();
 			um.setUser(user);
 			userService.deleteUserMenu(um);
 			if (ids != null && !"".equals(ids)) {
@@ -662,7 +725,7 @@ public class UserManageController extends BaseController{
     			    userPreMenus.add(up);
     			}
 			    userService.saveUserMenuBatch(userPreMenus);
-			}
+			}*/
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print("权限配置完成");
 			response.getWriter().flush();
