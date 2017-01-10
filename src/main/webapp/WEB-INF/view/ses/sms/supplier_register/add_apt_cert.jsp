@@ -11,7 +11,7 @@
 <td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType"/></td>
 <td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel"/></td>
 <td class="tc">
-   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund">
+   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund" class="w100p">
          <option value="1">是</option>
          <option value="0">否</option>
        </select>
@@ -21,14 +21,14 @@
 <td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate"/></td>
 <td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay"/></td>
 <td class="tc">
-   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus">
+   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus" class="w100p">
          <option value="1">有效</option>
          <option value="0">无效</option>
        </select>
 </td>
 <td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt"/></td>
 <td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason"/></td>
-<td class="tc">
+<td class="tc w200">
  <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${id}" typeId="1" sysKey="1"  auto="true" />
  <u:show showId="apt_show_${certAptNumber}" businessId="${id}" typeId="1" sysKey="1" />
 </td>

@@ -11,12 +11,12 @@
 <td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate"/></td>
 <td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate"/></td>
 <td class="tc">
-	<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot">
+	<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot" class="w100p">
 		<option value="1">是</option>
 		<option value="0">否</option>
 	</select>
 </td>
-<td class="tc">
+<td class="tc w200">
  <u:upload id="se_up_${certSeNumber}" multiple="true" businessId="${id}" typeId="1" sysKey="1"  auto="true" />
  <u:show showId="se_show_${certSeNumber}" businessId="${id}" typeId="1" sysKey="1" />
 </td>

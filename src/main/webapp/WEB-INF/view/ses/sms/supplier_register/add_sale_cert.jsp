@@ -15,12 +15,12 @@
 	<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate"/>
 </td>
 <td class="tc">
-   	<select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot">
+   	<select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="w100p">
          <option value="1">是</option>
          <option value="0">否</option>
   	</select>
 </td>
-<td class="tc">
+<td class="tc w200">
  	<u:upload id="sale_up_${certSaleNumber}" multiple="true" businessId="${id}" typeId="1" sysKey="1"  auto="true" />
  	<u:show showId="sale_show_${certSaleNumber}" businessId="${id}" typeId="1" sysKey="1" />
 </td>

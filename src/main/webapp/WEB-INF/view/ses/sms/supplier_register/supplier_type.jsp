@@ -817,7 +817,7 @@ $(function(){
 			              <div class=""    id="production_div">
 			              <div class=" ">
 			              	  <h2 class="list_title">物资-生产型专业信息</h2>
-			              	    <ul class="list-unstyled f14">
+			              	    <ul class="list-unstyled f14 overflow_h">
 									<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatEng.id}" />
 									<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />
 								 <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
@@ -981,16 +981,15 @@ $(function(){
 											 </fieldset>
 									</ul>					 
 											 
-							 	<fieldset class="col-md-12 border_font mt20">
-						 	      <legend> 资质证书信息 </legend>
-						 	         	  <div class="col-md-12 col-sm-12 col-xs-12 p0">
+							 	<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+						 	         <span class="font_line"> 资质证书信息 </span>
 											<div class="col-md-12 col-sm-12 col-xs-12 mb10 p0">
 											  <button type="button" class="btn btn-windows add" onclick="openCertPro()">新增</button>
 											  <button type="button" class="btn btn-windows delete" onclick="deleteCertPro()">删除</button>
 											  <span class="red">${cert_pro }</span>
 											</div>
-					                       <div class="col-md-12 col-xs-12 col-sm-12 over_scroll">
-					                       <table class="table table-bordered table-condensed mt5 table_wrap left_table">
+					                       <div class="col-md-12 col-xs-12 col-sm-12 over_scroll p0">
+					                       <table class="table table-bordered table-condensed mt5 table_wrap left_table table_input">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_pro_list_tbody_id')"/></th>
@@ -1000,7 +999,7 @@ $(function(){
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info w220">附件</th>
+														<th class="info w200">附件</th>
 													</tr>
 												</thead>
 												<tbody id="cert_pro_list_tbody_id">
@@ -1009,7 +1008,7 @@ $(function(){
 														<tr>
 															<td class="tc">
 															<input type="checkbox" value="${certPro.id}" />
-															<input type="hidden" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${certPro.id}">
+															<input type="hidden" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${certPro.id}" class="mt5">
 															</td>
 															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" value="${certPro.name}"/> </td>
 															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" /> </td>
@@ -1021,9 +1020,9 @@ $(function(){
 																<input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd"/>"  />
 														    </td>
 															<td class="tc">
-															   <select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot">
+															   <select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="w100p">
 														          <option value="1" <c:if test="${certPro.mot=='1'}"> selected="selected"</c:if> >是</option>
-														          <option value="0"  <c:if test="${certPro.mot=='0'}"> selected="selected"</c:if>>无</option>
+														          <option value="0"  <c:if test="${certPro.mot=='0'}"> selected="selected"</c:if>>否</option>
 														        </select>
 															</td>
 															<td class="tc">
@@ -1037,8 +1036,7 @@ $(function(){
 											</table>
 										    <input type="hidden" id="certProNumber" value=${certProNumber}>
 										</div>
-									  </div>
-									</fieldset>
+									</div>
 								</div>
 							</div>
 				<%-- 			</c:if>
@@ -1097,18 +1095,18 @@ $(function(){
 										 </fieldset>
 										</ul>
 		 
-					<fieldset class="col-md-12 border_font mt20">
-	 	               <legend> 资质证书信息 </legend>
+	 	               <div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+						  <span class="font_line"> 资质证书信息 </span>
+	 	               
 						 <!--    <h2 class="count_flow">供应商物资销售资质证书 </h2> -->
-						<!-- 	<div  class="col-md-12 p0 ul_list mb50"> -->
-							   <div class="col-md-12 p0">
-									<div class="fl">
-											<button type="button" class="btn btn-windows add" onclick="openCertSell()">新增</button>
-											<button type="button" class="btn btn-windows delete" onclick="deleteCertSell()">删除</button>
+						<!-- 	<div  class="ol-md-12 col-sm-12 col-xs-12 p0 ul_list mb50"> -->
+									<div class="col-md-12 col-sm-12 col-xs-12 p0">
+											<button type="button" class="btn" onclick="openCertSell()">新增</button>
+											<button type="button" class="btn" onclick="deleteCertSell()">删除</button>
 											<span class="red">${sale_cert }</span>
 									</div>		
-									<div class="mt40">
-							      <table id="share_table_id" class="table table-bordered table-condensed mt5">
+									<div class="col-md-12 col-sm-12 col-xs-12 over_scroll p0">
+							           <table id="share_table_id" class="table table-bordered table-condensed mt5 table_input left_table table_wrap">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_sell_list_tbody_id')" /></th>
@@ -1118,7 +1116,7 @@ $(function(){
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info">附件</th>
+														<th class="info w200">附件</th>
 													</tr>
 												</thead>
 												<tbody id="cert_sell_list_tbody_id">
@@ -1141,7 +1139,7 @@ $(function(){
 														    <td class="tc">
 															   <select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot">
 														          <option value="1" <c:if test="${certSell.mot=='1'}"> selected="selected"</c:if>>是</option>
-														          <option value="0" <c:if test="${certSell.mot=='0'}"> selected="selected"</c:if>>无</option>
+														          <option value="0" <c:if test="${certSell.mot=='0'}"> selected="selected"</c:if>>否</option>
 														        </select>
 															</td>
 															<td class="tc">
@@ -1156,7 +1154,6 @@ $(function(){
 										    <input type="hidden" id="certSaleNumber" value=${certSaleNumber}>
 										</div>
 									 </div>
-									 </fieldset>
 								</div> 
 							 </div>
 		 		<%-- 	</c:if>
@@ -1218,20 +1215,16 @@ $(function(){
 										</fieldset>
 								  </ul>
 									
-									 
-										<fieldset class="col-md-12 border_font mt20">
-	 	              						 <legend> 注册人员信息 </legend>
-	 	               
-										  
+	 	               					<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+						 	              <span class="font_line">注册人员信息 </span>
 											
-											 <div class="col-md-12 p0">
-											<div class="fl">
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteRegPerson()">删除</button>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openRegPerson()">新增</button>
+											<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
+											<button type="button" class="btn" onclick="openRegPerson()">新增</button>
+											<button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
 											<span class="red">${eng_persons }</span>
 											</div>
-											<div class="mt40">
-						  						<table  class="table table-bordered table-condensed mt5">
+											<div class="col-md-12 col-xs-12 col-sm-12 p0 over_scroll clear">
+						  						<table  class="table table-bordered table-condensed mt5 table_input left_table table_wrap">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox"  onchange="checkAll(this, 'reg_person_list_tbody_id')"/></th>
@@ -1257,22 +1250,20 @@ $(function(){
 											<input type="hidden" id="certPersonNumber" value="${certPersonNumber}">
 										</div>
 									 </div>
-								</fieldset>
 										
 											
 									 
 										   <!--  <h2 class="count_flow">供应商工程资质资格证书信息  </h2> -->
-								<fieldset class="col-md-12 border_font mt20">
-	 	              				<legend> 证书信息 </legend>
+								<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+						 	        <span class="font_line">证书信息  </span>
 											
-										 <div class="col-md-12 p0">
-											<div class="fl">
-												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertEng()">删除</button>
-												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertEng()">新增</button>
+											<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
+												<button type="button" class="btn" onclick="openCertEng()">新增</button>
+												<button type="button" class="btn" onclick="deleteCertEng()">删除</button>
 											    <span class="red">${eng_cert}</span>
-										  </div>
-										   	<div class="mt40">
-						  						<table  class="table table-bordered table-condensed mt5">
+										     </div>
+										   	<div class="clear over_scroll col-md-12 col-xs-12 col-sm-12 p0">
+						  						<table  class="table table-bordered table-condensed mt5 table_input table_wrap left_table">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_eng_list_tbody_id')"/></th>
@@ -1289,7 +1280,7 @@ $(function(){
 														<th class="info minw100">发证日期</th>
 														<th class="info minw100">证书有效期截止日期</th>
 														<th class="info">证书状态</th>
-														<th class="info">附件</th>
+														<th class="info w200">附件</th>
 													</tr>
 												</thead>
 												<tbody id="cert_eng_list_tbody_id">
@@ -1301,7 +1292,7 @@ $(function(){
 															<input type="hidden" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].id" value="${certEng.id}">
 															</td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType" value="${certEng.certType}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}"/></td>
+															<td class="tc"><input class="w120" type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel" value="${certEng.certMaxLevel}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName" value="${certEng.techName}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt" value="${certEng.techPt}"/></td>
@@ -1313,7 +1304,7 @@ $(function(){
 															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>" pattern="yyyy-MM-dd"/></td>
 															<td class="tc">
-															   <select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus">
+															   <select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" class="w100p">
 														          <option value="1" <c:if test="${certEng.certStatus==1}"> selected="selected"</c:if> >有效</option>
 														          <option value="0"  <c:if test="${certEng.certStatus==0}"> selected="selected"</c:if>>无效</option>
 														        </select>
@@ -1330,19 +1321,18 @@ $(function(){
 											<input type="hidden" id="certEngNumber" value="${certEngNumber}">
 										</div>
 										</div>
-								</fieldset>
+						
 										 
 									<!-- 	    <h2 class="count_flow">供应商资质资格信息   </h2> -->
-								<fieldset class="col-md-12 border_font mt20">
-	 	              				 <legend> 资质资格信息  </legend>
-									 <div class="col-md-12 p0">
-											  <div class="fl">
-												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteAptitute()">删除</button>
-												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openAptitute()">新增</button>
+									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+						 	         <span class="font_line"> 资质证书信息 </span>
+											  <div class="col-md-12 col-md-12 col-xs-12 col-sm-12 p0">
+												<button type="button" class="btn" onclick="openAptitute()">新增</button>
+												<button type="button" class="btn" onclick="deleteAptitute()">删除</button>
 												<span class="red">${eng_aptitutes }</span>
 											  </div>
-										   	<div class="mt40">
-						  						<table  class="table table-bordered table-condensed mt5">
+										   	<div class="over_scroll clear col-md-12 col-xs-12 col-sm-12 p0">
+						  						<table  class="table table-bordered table-condensed mt5 table_input left_table table_wrap">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'aptitute_list_tbody_id')"/></th>
@@ -1359,7 +1349,7 @@ $(function(){
 														<th class="info">资质资格状态</th>
 														<th class="info">资质资格状态变更时间</th>
 														<th class="info">资质资格状态变更原因</th>
-														<th class="info">附件</th>
+														<th class="info w200">附件</th>
 													</tr>
 												</thead>
 												<tbody id="aptitute_list_tbody_id">
@@ -1376,9 +1366,9 @@ $(function(){
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType" value="${aptitute.professType}"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" value="${aptitute.aptituteLevel}"/></td>
 															<td class="tc">
-															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund">
+															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund" class="w100p">
 														          <option value="1" <c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if>>是</option>
-														          <option value="0" <c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>无</option>
+														          <option value="0" <c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>否</option>
 														        </select>
 															</td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}"/></td>
@@ -1386,14 +1376,14 @@ $(function(){
 															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>" pattern="yyyy-MM-dd"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay" value="${aptitute.aptituteWay}"/></td>
 															<td class="tc">
-															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus">
+															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus" class="w100p">
 														          <option value="1" <c:if test="${aptitute.aptituteStatus==1}"> selected="selected"</c:if> >有效</option>
 														          <option value="0"  <c:if test="${aptitute.aptituteStatus==0}"> selected="selected"</c:if>>无效</option>
 														        </select>
 															</td>
 															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
-															<td class="tc">
+															<td class="tc w200">
 															 <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="1" sysKey="1"  auto="true" />
 															 <u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="1" sysKey="1" />
 															</td>
@@ -1404,9 +1394,7 @@ $(function(){
 											</table>
 											<input type="hidden" id="certAptNumber" value="${certAptNumber}">
 									 </div>
-									 </div>
-								<!-- 	 </div> -->
-									 </fieldset>
+								    </div>
 								</div>	 
 							 </div>
 						
@@ -1467,16 +1455,15 @@ $(function(){
 										 
 										 
 										 
-									<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-	 	              					<legend> 资质证书信息  </legend>
-										<div class="col-md-12 col-xs-12 col-sm-12 p0">
-													<div class="col-md-12 col-xs-12 col-sm-12">
-														<button type="button" class="btn padding-left-20 padding-right-20 btn_back " onclick="openCertSe()">新增</button>
-														<button type="button" class="btn padding-left-20 padding-right-20 btn_back " onclick="deleteCertSe()">删除</button>
+									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+						 	         <span class="font_line"> 资质证书信息 </span>
+													<div class="col-md-12 col-xs-12 col-sm-12 p0">
+														<button type="button" class="btn" onclick="openCertSe()">新增</button>
+														<button type="button" class="btn" onclick="deleteCertSe()">删除</button>
 														<span class="red">${fw_cert }</span>
 													</div>
-										<div class="col-md-12 col-sm-12 col-xs-12">
-										 <table id="share_table_id" class="table table-bordered table-condensed mt5">
+										<div class="col-md-12 col-xs-12 col-sm-12 over_scroll p0">
+										 <table id="share_table_id" class="table table-bordered table-condensed mt5 table_input table_wrap">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_se_list_tbody_id')" /></th>
@@ -1486,7 +1473,7 @@ $(function(){
 														<th class="info">有效期（起始时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info">附件</th>
+														<th class="info w200">附件</th>
 													</tr>
 												</thead>
 												<tbody id="cert_se_list_tbody_id">
@@ -1503,9 +1490,9 @@ $(function(){
 															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc">
-																<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot">
+																<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot" class="w100p">
 																	<option value="1" <c:if test="${certSe.mot==1}"> selected="selected"</c:if>>是</option>
-																	<option value="0" <c:if test="${certSe.mot==0}"> selected="selected"</c:if>>无</option>
+																	<option value="0" <c:if test="${certSe.mot==0}"> selected="selected"</c:if>>否</option>
 																</select>
 															</td>
 															<td class="tc">
@@ -1519,10 +1506,8 @@ $(function(){
 											</table>
 											<input type="hidden" id="certSeNumber" value="${certSeNumber}">
 									 	</div>
-									 </div>
-								</fieldset>
-							 </div>
-							</div>
+							      </div>
+							   </div>
 					<%-- </c:if> --%>
 							
 						</div>
