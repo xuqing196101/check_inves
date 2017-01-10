@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.NegotiationMapper">
+  <resultMap id="BaseResultMap" type="bss.model.ppms.Negotiation">
+    <id column="ID" property="id" />
+    <result column="PROJECT_ID" property="projectId" />
+    <result column="EXPERT_ID" property="expertId" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="NUTER"  property="nuter" />
+    <result column="PACKAGE_ID"  property="packageId" />
+    <result column="NEGOTIATION_RECORD" property="negotiationRecord" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List">
+    ID, PROJECT_ID, EXPERT_ID, CREATED_AT, NUTER,PACKAGE_ID,NEGOTIATION_RECORD
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_NEGOTIATION
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPackageId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_NEGOTIATION
+    where PACKAGE_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_NEGOTIATION
+    where PROJECT_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="listByNegotiation"  parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_NEGOTIATION
+    where  1=1
+    <if test="id != null">
+       and  ID = #{id}
+     </if>
+     <if test="projectId != null and projectId != ''">
+       and  PROJECT_ID = #{projectId}
+     </if>
+      <if test="expertId != null">
+       and  EXPERT_ID = #{expertId}
+     </if>
+      <if test="packageId != null">
+        and PACKAGE_ID = #{packageId} 
+      </if>
+     ORDER BY CREATED_AT DESC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_NEGOTIATION
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="bss.model.ppms.Negotiation">
+    insert into T_BSS_PPMS_NEGOTIATION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="nuter != null">
+        NUTER,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="negotiationRecord != null">
+        NEGOTIATION_RECORD,
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+      <if test="expertId != null">
+        #{expertId},
+      </if>
+      <if test="nuter != null">
+        #{nuter},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="negotiationRecord != null">
+        #{negotiationRecord},
+      </if>
+      <if test="packageId != null">
+        #{packageId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Negotiation">
+    update T_BSS_PPMS_NEGOTIATION
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId},
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID = #{expertId},
+      </if>
+      <if test="nuter != null">
+        NUTER = #{nuter},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="negotiationRecord != null">
+        NEGOTIATION_RECORD = #{negotiationRecord},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+</mapper>

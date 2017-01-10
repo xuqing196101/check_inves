@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.NegotiationReportMapper">
+  <resultMap id="BaseResultMap" type="bss.model.ppms.NegotiationReport">
+    <id column="ID" property="id" />
+    <result column="PROJECT_ID" property="projectId" />
+    <result column="SUPPLIER_ID" property="supplierId" />
+    <result column="REVIEW_TIME" property="reviewTime" jdbcType="TIMESTAMP"/>
+    <result column="REVIEW_SITE"  property="reviewSite" />
+    <result column="FINAL_OFFER" property="finalOffer" />
+    <result column="TALKS" property="talks" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List">
+    ID, PROJECT_ID, SUPPLIER_ID, REVIEW_TIME, REVIEW_SITE,FINAL_OFFER,TALKS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_NEGOTIATION_REPORT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_NEGOTIATION_REPORT
+    where PROJECT_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="listByNegotiation"  parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_NEGOTIATION_REPORT
+    where  1=1
+    <if test="id != null">
+       and  ID = #{id}
+     </if>
+     <if test="projectId != null and projectId != ''">
+       and  PROJECT_ID = #{projectId}
+     </if>
+      <if test="supplierId != null">
+       and  SUPPLIER_ID = #{supplierId}
+     </if>
+      <if test="reviewSite != null">
+        and REVIEW_SITE = #{reviewSite} 
+      </if>
+     ORDER BY CREATED_AT DESC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_NEGOTIATION_REPORT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="bss.model.ppms.NegotiationReport">
+    insert into T_BSS_PPMS_NEGOTIATION_REPORT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="reviewSite != null">
+        REVIEW_SITE,
+      </if>
+      <if test="reviewTime != null">
+        REVIEW_TIME,
+      </if>
+      <if test="finalOffer != null">
+        FINAL_OFFER,
+      </if>
+      <if test="talks != null">
+        TALKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="reviewSite != null">
+        #{reviewSite},
+      </if>
+      <if test="reviewTime != null">
+        #{reviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalOffer != null">
+        #{finalOffer},
+      </if>
+      <if test="talks != null">
+        #{talks},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.NegotiationReport">
+    update T_BSS_PPMS_NEGOTIATION_REPORT
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId},
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId},
+      </if>
+      <if test="reviewSite != null">
+        REVIEW_SITE = #{reviewSite},
+      </if>
+      <if test="reviewTime != null">
+        REVIEW_TIME = #{reviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finalOffer != null">
+        FINAL_OFFER = #{finalOffer},
+      </if>
+      <if test="talks != null">
+        TALKS = #{talks},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+</mapper>
