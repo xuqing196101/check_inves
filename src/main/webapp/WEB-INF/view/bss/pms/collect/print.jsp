@@ -71,12 +71,7 @@
 	return false;
 	}
 	</script>
-	
-	
-  
-    
- 
- 
+
 </script>
 </head>
 
@@ -89,7 +84,7 @@
 			<form id="acc_form" action="${pageContext.request.contextPath }/accept/update.html" method="post">
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
-					<tr>
+					<tr class="space_nowrap">
 							<th class="info" colspan="14">事业部门需求</th>
 						 	<c:if test="${auditTurn!=null }">
 						 		<th class="info" >一轮审核</th>
@@ -102,16 +97,16 @@
 						 	</c:if>
 						</tr>
 					
-						<tr>
+						<tr class="space_nowrap">
 							<th class="info w50">序号</th>
 							<th class="info">需求部门</th>
-							<th class="info">物资类别及物种名称</th>
+							<th class="info">物资类别及<br>物种名称</th>
 							<th class="info">规格型号</th>
-							<th class="info">质量技术标准（技术参数）</th>
-							<th class="info">计量单位</th>
-							<th class="info">采购数量</th>
-							<th class="info">单位（元）</th>
-							<th class="info">预算金额（万元）</th>
+							<th class="info">质量技术标准<br>（技术参数）</th>
+							<th class="info">计量<br>单位</th>
+							<th class="info">采购<br>数量</th>
+							<th class="info">单位<br>（元）</th>
+							<th class="info">预算金额<br>（万元）</th>
 							<th class="info">交货期限</th>
 							<th class="info">采购方式</th>
 							<th class="info">采购机构</th>
@@ -134,14 +129,14 @@
 						<tr>
 							<td class="tc w50">${obj.seq } 
 							</td>
-							<td class="tl pl20"> ${obj.department }  </td>
-							<td class="tl pl20">${obj.goodsName }</td>
-							<td class="tl pl20"> ${obj.stand }</td>
-							<td class="tl pl20"> ${obj.qualitStand }</td>
-							<td class="tl pl20"> ${obj.item }</td>
-							<td class="tl pl20">${obj.purchaseCount }</td>
-							<td class="tl pl20">${obj.price }</td>
-							<td class="tr pr20">${obj.budget }</td>
+							<td class="tl"> ${obj.department }  </td>
+							<td class="tl">${obj.goodsName }</td>
+							<td class="tl"> ${obj.stand }</td>
+							<td class="tl"> ${obj.qualitStand }</td>
+							<td class="tl"> ${obj.item }</td>
+							<td class="tl">${obj.purchaseCount }</td>
+							<td class="tl">${obj.price }</td>
+							<td class="tr">${obj.budget }</td>
 							<td>${obj.deliverDate }</td>
 							<td>
 								<c:forEach items="${kind}" var="kind">
@@ -156,16 +151,17 @@
 							
 							
 							
-							<td class="tl pl20">${obj.supplier }</td>
-							<td class="tl pl20">${obj.memo }</td>
+							<td class="tl">${obj.supplier }</td>
+							<td class="tl">${obj.memo }</td>
 							<c:if test="${auditTurn!=null }">
-						 		<td >${obj.oneAdvice }</td>
+
+						 		<td>${obj.oneAdvice }</td>
 						 	</c:if>
 							 <c:if test="${auditTurn==2||auditTurn==3}">
-						 		<td >${obj.twoAdvice }</td>
+						 		<td>${obj.twoAdvice }</td>
 						 	</c:if>
 						 	<c:if test="${auditTurn==3}">
-						 		<td >${obj.threeAdvice }</td>
+						 		<td>${obj.threeAdvice }</td>
 						 	</c:if>
 						 	
 						<%-- 	
@@ -193,6 +189,7 @@
 				<input class="btn btn-windows print" type="button" onclick="printdiv('acc_form')" value="打印"> 
 				<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 		</div>
+
 	</div>
 
 </body>
