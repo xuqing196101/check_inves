@@ -58,6 +58,7 @@
 		<result column="SUPPLIER_EXIT_LIST" property="supplierExitList" />
 		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
 		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="SUBMIT_AT" property="submitAt" jdbcType="TIMESTAMP" />
 		<result column="SCORE" property="score" />
 		<result column="NAME" property="name" />
 		<result column="DETAIL_ADDRESS" property="detailAddress" />
@@ -102,7 +103,7 @@
 		SUPPLIER_PLEDGE,
 		SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
 		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST,
-		CREATED_AT, UPDATED_AT,
+		CREATED_AT, UPDATED_AT,SUBMIT_AT,
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL
@@ -395,6 +396,9 @@
 			<if test="createdAt != null">
 				CREATED_AT,
 			</if>
+			<if test="submitAt != null">
+				SUBMIT_AT,
+			</if>
 			<if test="updatedAt != null">
 				UPDATED_AT,
 			</if>
@@ -599,6 +603,9 @@
 			<if test="createdAt != null">
 				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
+			<if test="submitAt != null">
+				#{submitAt,jdbcType=TIMESTAMP},
+			</if>
 			<if test="updatedAt != null">
 				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
@@ -802,6 +809,9 @@
 			</if>
 			<if test="createdAt != null">
 				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="submitAt != null">
+				SUBMIT_AT = #{submitAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
@@ -1104,7 +1114,7 @@
 			AND BUSINESS_TYPE = #{businessType}
 		</if>
 		<!-- ORDER BY SUPPLIER_STATUS ASC, UPDATED_AT DESC -->
-		ORDER BY UPDATED_AT DESC
+		ORDER BY AUDIT_AT DESC
 	</select>
 
 
@@ -1453,12 +1463,13 @@
 		WHERE SUPPLIER_STATUS = 0
 		AND TO_CHAR(UPDATED_AT, 'yyyy-MM-dd') = #{modifyDate}
 	</select>
-	
+
 	<!-- 社会统一信用代码唯一校验 -->
 	<select id="validateCreditCode" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
 		WHERE CREDIT_CODE = #{_parameter}
+		and SUPPLIER_STATUS != 6
 	</select>
 </mapper>

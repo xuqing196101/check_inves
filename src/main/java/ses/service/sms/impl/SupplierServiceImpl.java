@@ -443,8 +443,8 @@ public class SupplierServiceImpl implements SupplierService {
             todosMapper.updateIsFinish(new Todos("supplier/return_edit.html?id="+ supplier.getId()));
         }
         supplier.setStatus(0);
-        supplier.setCreatedAt(new Date());
-        supplier.setAuditDate(new Date());
+        // supplier.setCreatedAt(new Date());
+        supplier.setSubmitAt(new Date());
         supplierMapper.updateByPrimaryKeySelective(supplier);
         supplier = supplierMapper.getSupplier(supplier.getId());
         // 推送代办

@@ -466,6 +466,14 @@ public class Supplier implements Serializable {
 	 * </pre>
 	 */
 	private Date updatedAt;
+	
+	/**
+	 * <pre>
+	 * 提交时间 格式年月日时分秒
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUBMIT_AT
+	 * </pre>
+	 */
+	private Date submitAt;
 
 	private List<SupplierFinance> listSupplierFinances = new ArrayList<SupplierFinance>();
 
@@ -1578,6 +1586,14 @@ public class Supplier implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getSubmitAt() {
+        return submitAt;
+    }
+
+    public void setSubmitAt(Date submitAt) {
+        this.submitAt = submitAt;
     }
 	
 	
