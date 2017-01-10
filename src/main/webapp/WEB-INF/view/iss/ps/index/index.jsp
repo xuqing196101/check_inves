@@ -1082,7 +1082,7 @@
               </a>
             </div>
             <div class="ywbl_01">
-              <a onclick="importAdd()" class="jksdj">
+              <a href="${pageContext.request.contextPath}/index/sign.html" onclick="importAdd()" class="jksdj">
                 <span>进口商登记</span>
               </a>
             </div>
