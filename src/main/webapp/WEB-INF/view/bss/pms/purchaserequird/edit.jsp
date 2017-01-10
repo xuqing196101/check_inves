@@ -129,7 +129,7 @@
 	 	    		 /*  } 
 	 	    		}); */    
 	    	     
-	    	  var did=$("table tr:eq(1)").find("td:eq(8)").children(":first").val();
+	    	  var did=$("#table tr:eq(1)").find("td:eq(8)").children(":first").val();
 	    	    var total=0;
 	    	    $("#table tr").each(function(){
 	 	    		var cid= $(this).find("td:eq(8)").children(":last").val();
@@ -138,7 +138,7 @@
 	 	    			total=total+same;
 	 	    		 }
 	    	   }); 
-	    	    $("table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
+	    	    $("#table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
 	       }   
 	       
         function calc(id){
@@ -177,7 +177,21 @@
 	       
 	
 	      function submit(){
-	    	  $("#edit_form").submit();
+	    	  
+	    	  var mc=$("#jhmc").val();
+	    	  var bh=$("#jhbh").val();
+	    	  var no=$("#referenceNo").val();
+	    	  var type=$("#wtype").val();
+	    	  var mobile=$("#rec_mobile").val();
+	    	  
+	    	  $("input[name='planName']").val(mc);
+	    	  $("input[name='planNo']").val(bh);
+	    	  $("input[name='referenceNo']").val(no);
+	    	  $("input[name='planType']").val(type);
+	    	  $("input[name='mobile']").val(mobile);
+	    	  
+	    	  $("#table").find("#edit_form").submit();
+	    	 // $("#edit_form").submit();
 	      }
 </script>
 <script type="text/javascript"
@@ -285,14 +299,14 @@ $(document).ready(function () {
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group"   name="planName" id="jhmc" value="${list[0].planName}">
+							<input type="text" class="input_group"  id="jhmc" value="${list[0].planName}">
 							<span class="add-on">i</span>
 						</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" name="planNo" value="${list[0].planNo}" >
+							<input type="text" class="input_group" id="jhbh" value="${list[0].planNo}" >
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -300,7 +314,7 @@ $(document).ready(function () {
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划文号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group"  name="referenceNo"   value="${list[0].referenceNo}" >
+							<input type="text" class="input_group"  id="referenceNo" name="referenceNo"   value="${list[0].referenceNo}" >
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -322,7 +336,7 @@ $(document).ready(function () {
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group"   name="mobile" value="${list[0].recorderMobile }"> 
+							<input type="text" class="input_group" id="rec_mobile"  name="mobile" value="${list[0].recorderMobile }"> 
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -461,6 +475,14 @@ $(document).ready(function () {
                  </tr>
 
 				 </c:forEach>
+				 
+				 		    <input type="hidden" name="planName">
+							<input type="hidden" name="planNo"  >
+							<input type="hidden" name="planType"  >
+							<input type="hidden" name="mobile"  >
+						    <input type="hidden" name="referenceNo"  />
+						    
+						    
 			   </form>
 				</table>
 				</div>
