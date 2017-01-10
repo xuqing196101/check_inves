@@ -164,9 +164,77 @@
 		</div>
 	</div>
 	<div class="container">
+				<div>
+				<h2 class="count_flow">计划主信息</h2>
+				<ul class="ul_list">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group" disabled="true" name="name" id="jhmc" value="${list[0].planName}">
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group" name="no" value="${list[0].planNo}" disabled="true" >
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划文号</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group"  disabled="true"  value="${list[0].referenceNo}" >
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					
+					
+					
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
+						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+							<select name="planType" id="wtype" onchange="gtype(this)" disabled="true">
+								<c:forEach items="${types }" var="tp" >
+									<option value="${tp.id }">${tp.name }</option>
+								</c:forEach>
+							</select>
+						</div>
+					</li>
+					
+				  
+					<li class="col-md-3 col-sm-6 col-xs-12">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input type="text" class="input_group" disabled="true" id="mobile" value="${list[0].recorderMobile }"> 
+							<span class="add-on">i</span>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12 mt25 ml5" style="display:none" id="dnone" >
+			            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			                <input type="checkbox" name="" onchange="" value="进口" />进口
+			            </div>
+			         </li>
+          
+             <li class="col-md-3 col-sm-6 col-xs-12">
+                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
+                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
+                        <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
+             </li>
+          
+          
+	   </ul>
+	 </div>
+	
+	
+	
 		<div class="headline-v2 fl">
 			<h2>计划明细</h2>
 		</div>
+		
+		
+		
 	<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
 		<div class="container clear margin-top-30 over_scroll h365">
 

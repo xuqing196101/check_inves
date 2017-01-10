@@ -175,7 +175,7 @@
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">录入人手机号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" id="mobile" value="${user.mobile }"> 
+							<input type="text" class="input_group" disabled="true" id="mobile" value="${user.mobile }"> 
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -184,6 +184,13 @@
 			                <input type="checkbox" name="" onchange="" value="进口" />进口
 			            </div>
 			         </li>
+          
+             <li class="col-md-3 col-sm-6 col-xs-12">
+                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
+                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
+                        <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
+             </li>
+          
           
            <%--  <li class="col-md-3 col-sm-6 col-xs-12">
             <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>

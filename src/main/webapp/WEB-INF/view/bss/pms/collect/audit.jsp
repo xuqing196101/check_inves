@@ -334,7 +334,7 @@
 						var tdIndex=td.cellIndex;
 						var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
 						 if(val!=defVal){
-							  if(status=='5'){
+							  if(status=='3'){
 							       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(tdVal1+"由"+defVal+"变成"+val);
 							  }
 							  if(status=='5'){
@@ -574,7 +574,7 @@
 									</select>
 								</td>
 								<td class="tc"> --%>
-									<input type="text" name="listDetail[${vs.index }].oneAdvice" <c:if test="${status==5 || status==7 }"> disabled="disabled" </c:if> value="${objs.oneAdvice }" >
+									<input type="text" name="listDetail[${vs.index }].oneAdvice"  value="${objs.oneAdvice }" >
 								</td>
 								</c:if>
 								
@@ -583,7 +583,7 @@
 							<%-- 		<input type="text" name="listDetail[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }" >
 								</td>
 								<td class="tc" --%>
-									<input type="text" name="listDetail[${vs.index }].twoAdvice" <c:if test="${status==7 }"> disabled="disabled" </c:if>  value="${objs.twoAdvice }" >
+									<input type="text" name="listDetail[${vs.index }].twoAdvice"   value="${objs.twoAdvice }" >
 								<!-- </td> -->
 							</c:if>
 							<c:if test="${status==7 }">	

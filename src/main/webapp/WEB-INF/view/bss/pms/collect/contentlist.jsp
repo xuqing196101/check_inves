@@ -121,7 +121,7 @@
  		</div>
  <form id="collected_form" action="${pageContext.request.contextPath }collect/add.html" method="post" >
 	 <input type="hidden" value="" name="id" id="id">
-	 <input type="hidden" value=""  name="planNo" id="planNo">
+	 <input type="hidden" value=""  name="uniqueId" id="planNo">
 	 <input type="hidden" name="tt" id="cltype" vlaue="${type }">
  </form>
 	 </div>

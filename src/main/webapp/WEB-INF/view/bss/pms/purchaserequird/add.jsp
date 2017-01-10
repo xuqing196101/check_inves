@@ -1084,7 +1084,7 @@
 							<input type="hidden" name="recorderMobile" id="detailMobile">
 							<input type="hidden" name="planDepName" id="detailXqbm"/>
 						    <input type="hidden" name="referenceNo" id="detailRefNo"/>
-						 
+						    <input type="hidden" name="fileId" value="${fileId }" id="detailRefNo"/>
 						</form>
 					</div>
 				</div>

@@ -361,8 +361,8 @@
 				  	    <input type="text" name="budget" value="${inf.budget }"/> 
 				    	</span>
 				      </li>
-				      
-				      <label class="fl">    计划类型：</label><span>
+				       <li>
+				      <label class="fl"> 状态：</label><span>
 				    	<select name="status">
 				  	      <option value="0" >全部</option>
 						  	<option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> >审核轮次设置</option>
@@ -374,8 +374,8 @@
 							<option value="8" <c:if test="${inf.status=='8'}"> selected</c:if> > 审核结束</option>
 							<option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> > 直接下达</option>
 					   </select>
-					   
-					   
+					   </span>
+					    </li> 
 			    </ul>
 	   	 		<input class="btn fl" type="submit" value="查询" /> 
 				<input class="btn fl" type="button" value="重置" onclick="resetQuery()"  />	
