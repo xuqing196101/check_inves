@@ -58,13 +58,39 @@
     <div class="padding-top-10 clear" id="relaDeptId">
       <h2 class="count_flow"><i>2</i>导出日志</h2>
       <ul class="ul_list">
+      
+        <div class="search_detail">
+          <ul class="demand_list">
+            <li>
+              <label class="fl">类型：</label>
+              <select name="searchType" id="searchType">
+                <option value="">请选择</option>
+                <c:forEach items="${dataTypeList}" var="dataType">
+                  <option value="${dataType.id}">${dataType.name}</option>
+                </c:forEach>
+              </select>
+            </li>
+            
+            <li>
+              <label>导出时间：</label>
+              <input type="text" class="Wdate" id="searchStartTime" name="searchStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+              <span>至</span>
+              <input type="text" class="Wdate" id="searchEndTime" name="searchEndTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+            </li>
+            
+            <button type="button" onclick="query();" class="btn fl mt1">查询</button>
+	    	<button type="reset" class="btn fl mt1" onclick="reset();" >重置</button>  	
+          </ul>
+          <div class="clear"></div>
+        </div>
+        
 		<div class="content table_box">
 		  <table class="table table-bordered table-condensed table-hover table-striped" id="dataTable" >
 		    <thead>
 			  <tr>
 			    <th class="info w50">序号</th>
-				<th class="info w120">同步类型</th>
-			    <th class="info w200">同步时间</th>
+				<th class="info w120">类型</th>
+			    <th class="info w200">导出时间</th>
 				<th class="info">描述</th>
 			  </tr>
 			</thead>

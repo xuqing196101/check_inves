@@ -28,6 +28,32 @@
     </div>
     
     <div class="padding-top-10 clear" id="relaDeptId">
+    
+      <div class="search_detail">
+          <ul class="demand_list">
+            <li>
+              <label class="fl">类型：</label>
+              <select name="searchType" id="searchType">
+                <option value="">请选择</option>
+                <c:forEach items="${dataTypeList}" var="dataType">
+                  <option value="${dataType.id}">${dataType.name}</option>
+                </c:forEach>
+              </select>
+            </li>
+            
+            <li>
+              <label>导出时间：</label>
+              <input type="text" class="Wdate" id="searchStartTime" name="searchStartTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+              <span>至</span>
+              <input type="text" class="Wdate" id="searchEndTime" name="searchEndTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+            </li>
+            
+            <button type="button" onclick="query();" class="btn fl mt1">查询</button>
+	    	<button type="reset" class="btn fl mt1" onclick="reset();" >重置</button>  	
+          </ul>
+          <div class="clear"></div>
+        </div>
+    
 	  <div class="content table_box">
 		<table class="table table-bordered table-condensed table-hover table-striped" id="dataTable" >
 		  <thead>

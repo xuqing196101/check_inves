@@ -31,10 +31,19 @@ public class DisPlayTld extends TagSupport {
     
     /** 业务Id */
     private String businessId;
+    
     /** 业务类型Id */
     private String typeId;
+    
     /** 系统key */
     private Integer sysKey;
+    
+    /** 打包下载文件名称 **/
+    private String zipFileName;
+    
+    /** 重新命名单文件名称 **/
+    private String fileName;
+    
     /** 是否删除 */
     private boolean delete = true;
 
@@ -67,6 +76,8 @@ public class DisPlayTld extends TagSupport {
              out.println("<input id='"+showId+"_downBsId' type=\"hidden\"  value=" + businessId + " />");
              out.println("<input id='"+showId+"_downBstypeId'  type=\"hidden\"  value=" + typeId + " />");
              out.println("<input id='"+showId+"_downBsKeyId' type=\"hidden\"  value=" + sysKey + " />");
+             out.println("<input id='"+showId+"_zipFileName' type=\"hidden\"  value=" + zipFileName + " />");
+             out.println("<input id='"+showId+"_fileName' type=\"hidden\"  value=" + fileName + " />");
              out.println("<div><ul id='"+showId+"_disFileId' class='uploadFiles'></ul></div>");
              out.println("<div id='showPic' type=\"hidden\"   ></div>");
         } catch (IOException e) {
@@ -81,6 +92,7 @@ public class DisPlayTld extends TagSupport {
         businessId = null;
         typeId = null;
         sysKey = null;
+        zipFileName = null;
         super.release();
     }
 
@@ -136,8 +148,21 @@ public class DisPlayTld extends TagSupport {
     public void setDelete(boolean delete) {
         this.delete = delete;
     }
-    
-    
-    
+
+    public String getZipFileName() {
+        return zipFileName;
+    }
+
+    public void setZipFileName(String zipFileName) {
+        this.zipFileName = zipFileName;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
 }

@@ -32,15 +32,15 @@ public class SynchServiceImpl implements SynchService {
     
     /**
      * 
-     * @see synchro.service.SynchService#getList(java.lang.Integer)
+     * @see synchro.service.SynchService#getList(java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String)
      */
     @Override
-    public List<SynchRecord> getList(Integer optype, Integer page) {
+    public List<SynchRecord> getList(Integer optype, Integer page, String searchType, String startTime, String endTime) {
         if (page == null){
             page = 1;
         }
         PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("file.upload.maxFileSize")));
-        return mapper.getSynchRecordByOperType(optype);
+        return mapper.getSynchRecordByOperType(optype, searchType, startTime, endTime);
     }
 
 }

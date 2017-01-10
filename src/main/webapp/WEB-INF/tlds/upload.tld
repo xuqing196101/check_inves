@@ -142,5 +142,17 @@
 	        <type>java.lang.Boolean</type>
 	        <rtexprvalue>true</rtexprvalue>
        </attribute>
+       <attribute>
+	        <name>zipFileName</name>
+	        <required>false</required>
+	        <type>java.lang.String</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
+       <attribute>
+	        <name>fileName</name>
+	        <required>false</required>
+	        <type>java.lang.String</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
  </tag>
 </taglib>

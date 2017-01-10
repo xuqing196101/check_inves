@@ -52,6 +52,9 @@ public class SynchImportController {
     /** 附件导入 **/
     private OuterAttachService attachService;
     
+    /** 设置数据类型 **/
+    private static final Integer DATA_TYPE_KIND = 29;
+    
     
     /**
      * 
@@ -65,6 +68,8 @@ public class SynchImportController {
     @RequestMapping("/initImport")
     public String initImport(Model model, HttpServletRequest request){
        model.addAttribute("operType", Constant.OPER_TYPE_IMPORT);
+       List<DictionaryData> list = DictionaryDataUtil.find(DATA_TYPE_KIND);
+       model.addAttribute("dataTypeList", list);
        return "/synch/import";
     }
     
@@ -78,12 +83,12 @@ public class SynchImportController {
      */
     @ResponseBody
     @RequestMapping(value="/list", produces="application/json;charset=UTF-8")
-    public ResponseBean list(Integer operType,Integer page){
+    public ResponseBean list(Integer operType,Integer page , String searchType , String startTime, String endTime){
         
         ResponseBean bean = new ResponseBean();
         if (operType != null){
             bean.setSuccess(true);
-            List<SynchRecord> list = synchService.getList(operType,page);
+            List<SynchRecord> list = synchService.getList(operType,page,searchType, startTime, endTime);
             PageInfo<SynchRecord> pageInfo = new PageInfo<SynchRecord> (list);
             if (pageInfo.getList() != null && pageInfo.getList().size() > 0){
                 pageInfo.setList(packageSynchRecord(pageInfo.getList()));

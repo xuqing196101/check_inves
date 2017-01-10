@@ -40,12 +40,14 @@ function showInitAfterUpload(singleId){
  * 包装参数
  */
 function packParam(id){
-	var businessId = $('#'+id+'_downBsId').val();
-	var typeId = $("#"+id+"_downBstypeId").val();
-	var key = $("#"+id+"_downBsKeyId").val();
+	var businessId = $('#' + id +'_downBsId').val();
+	var typeId = $("#" + id + "_downBstypeId").val();
+	var key = $("#" + id + "_downBsKeyId").val();
+	var zipFileName = $("#" + id + "_zipFileName").val();
+	var fileName = $("#" + id + "_fileName").val();
 	var del = $("#"+id+"_showdel").val();
 	var param_del = transBoolean(del);
-	var params = {businessId: businessId,typeId: typeId,key: key};
+	var params = {businessId: businessId,typeId: typeId,key: key,zipFileName: zipFileName, fileName: fileName};
 	fileExist(params,id,param_del);
 }
 
@@ -92,6 +94,8 @@ function fileExist(params,id,del){
  */
 function displayName(params,data,id,del){
 	var key = params.key;
+	var zipFileName = params.zipFileName;
+	var fileName = params.fileName;
 	var $ul = $("#"+id+"_disFileId");
 	$ul.empty();
 	if (data != null){
@@ -100,7 +104,7 @@ function displayName(params,data,id,del){
 			$ul.append(li);
 		}
 		if (data.success){
-			var li = '<li class="file_load"><a href=\javascript:download("'+data.fileIds+'",'+key+');></a></li>';
+			var li = '<li class="file_load"><a href=\javascript:download("'+data.fileIds+'",'+key+',"'+zipFileName+'","'+fileName+'");></a></li>';
 			$ul.append(li);
 		}
 		if (del && data.success){
@@ -309,11 +313,11 @@ function preview(){
  * @param id 主键
  * @param key 对应系统的key
  */
-function download(id,key){
+function download(id,key,zipFileName,fileName){
 	var form = $("<form>");   
 	    form.attr('style', 'display:none');   
 	    form.attr('method', 'post');
-	    form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key);
+	    form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key + '&zipFileName=' + encodeURI(encodeURI(zipFileName)) + '&fileName=' + encodeURI(encodeURI(fileName)));
 	    $('body').append(form); 
 	    form.submit();
 }
