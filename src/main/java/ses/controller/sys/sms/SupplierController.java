@@ -1065,12 +1065,12 @@ import common.service.UploadService;
    public boolean validateRegister(HttpServletRequest request, Model model, Supplier supplier) {
      //String identifyCode = (String) request.getSession().getAttribute("img-identity-code");// 验证码
      int count = 0;
-     if (supplier.getLoginName() == null || !supplier.getLoginName().matches("^\\w{6,20}$")) {
+     if (supplier.getLoginName() == null || supplier.getLoginName().matches("^\\w{6,20}$")) {
        model.addAttribute("err_msg_loginName", "登录名由6-20位字母数字和下划线组成 !");
        count++;
      }
-     if (supplier.getPassword() == null || !supplier.getPassword().matches("^\\w{6,20}$")) {
-       model.addAttribute("err_msg_password", "密码由6-20位字母数字和下划线组成 !");
+     if (supplier.getPassword() == null || supplier.getPassword().length() < 6 || supplier.getPassword().length() > 20) {
+       model.addAttribute("err_msg_password", "密码长度为6-20位!");
        count++;
      }
      if (supplier.getConfirmPassword()==null||!supplier.getPassword().equals(supplier.getConfirmPassword())) {

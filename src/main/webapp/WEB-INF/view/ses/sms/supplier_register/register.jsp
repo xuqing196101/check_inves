@@ -62,7 +62,7 @@
 								<label class="col-md-3 col-sm-12 col-xs-12  p0"><i class="red mr5">*</i>登录密码：</label> 
 								<div class="col-md-7 col-xs-12 col-sm-12 p0">
 								  <input type="password" name="password" value="${supplier.password}" class="col-md-12 col-sm-12 col-xs-12">
-								  <span class="red clear col-md-12 col-xs-12 col-sm-12 p0" >${err_msg_loginName }</span> 
+								  <span class="red clear col-md-12 col-xs-12 col-sm-12 p0" >${err_msg_password }</span> 
 								</div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12 ">
