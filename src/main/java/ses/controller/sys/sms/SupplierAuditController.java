@@ -1386,9 +1386,9 @@ public class SupplierAuditController extends BaseSupplierController{
 	public String showModify(SupplierHistory supplierHistory, HttpServletRequest request) {
 		supplierHistory = supplierHistoryService.findBySupplierId(supplierHistory);
 		
-		String showModify = null;
+		//在数据字典里查询营业执照类型
 		if(supplierHistory.getBeforeField().equals("businessType") && supplierHistory.getBeforeField() != null){
-			//在数据字典里查询营业执照类型
+			String showModify = "";
 			String typeid = supplierHistory.getBeforeContent();
 			List<DictionaryData> list=DictionaryDataUtil.find(17);
 			for(int i=0; i<list.size(); i++){
@@ -1396,8 +1396,28 @@ public class SupplierAuditController extends BaseSupplierController{
 					showModify = list.get(i).getName();
 				}
 			}
+			return JSON.toJSONString(showModify);
 		}
-		return JSON.toJSONString(showModify);
+		
+		/**
+		 * 查询地址
+		 */
+		List<Area> privnce = areaService.findRootArea();
+		Area area = new Area();
+		String sonAddress = "";
+		String parentAddress = "";
+		if(supplierHistory.getBeforeField() != null && (supplierHistory.getBeforeField().equals("address") || supplierHistory.getBeforeField().equals("concatCity") || supplierHistory.getBeforeField().equals("armyBuinessCity"))){
+			area = areaService.listById(supplierHistory.getBeforeContent());
+			sonAddress = area.getName();
+			for(int i=0; i<privnce.size(); i++){
+				if(area.getParentId().equals(privnce.get(i).getId())){
+					parentAddress = privnce.get(i).getName();
+				}
+			}
+			return JSON.toJSONString(parentAddress+sonAddress);
+		}
+		
+		return JSON.toJSONString(supplierHistory.getBeforeContent());
 	}
 	
 	/**
