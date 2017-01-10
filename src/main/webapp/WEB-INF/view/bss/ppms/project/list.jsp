@@ -205,8 +205,9 @@
 
   //重置
   function clearSearch() {
-	$("#proName").attr("value", "");
-	$("#projectNumber").attr("value", "");
+		$("#proName").attr("value", "");
+		$("#projectNumber").attr("value", "");
+		$("#status option:selected").removeAttr("selected");
   }
 </script>
 </head>
@@ -250,8 +251,9 @@
         <label class="fl">状态：</label>
             <span class="">
               <select name="status" id="status">
+                <option selected="selected" value="">请选择</option>
                 <c:forEach items="${status}" var="status" >
-                  <option  value="${status.id}">${status.name}</option>
+                  <option  value="${status.id}" <c:if test="${status.id eq projects.status}">selected="selected"</c:if>>${status.name}</option>
                 </c:forEach>
               </select>
             </span>
