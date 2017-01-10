@@ -211,7 +211,7 @@
 	      	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
 	      	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
 	     	<!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
-	        <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存"></input>
+	        <!-- <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存"></input> -->
 	   		<input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交"></input>
 	    </div>
 	 </c:if>
@@ -219,7 +219,7 @@
 		<c:if test="${project.confirmFile != 1}">
 			<div class="clear" id="audit_file_add">
 				<span ><span class="star_red">*</span>上传审批文件</span>
-		        <u:upload id="a" buttonName="上传审批文件"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+		        <u:upload id="a" buttonName="上传彩色扫描件" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 		        <u:show  showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
 			</div>
 			<div class="clear dnone" id="audit_file_view">
