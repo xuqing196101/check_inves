@@ -1452,7 +1452,8 @@
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
 		WHERE SUPPLIER_STATUS = 0
-		AND TO_CHAR(CREATED_AT, 'yyyy-MM-dd') = #{createDate}
+		AND SUBMIT_AT &gt;= to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+		AND SUBMIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 	</select>
 
 	<!-- 根据修改日期查询已提交的供应商 -->
