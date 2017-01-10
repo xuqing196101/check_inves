@@ -427,7 +427,7 @@ $(document).ready(function () {
   border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
 					<thead>
 						<tr class="space_nowrap" id="scroll_top">
-							<th class="info">序号</th>
+							<th class="info w50">序号</th>
 							<th class="info">需求部门</th>
 							<th class="info">物资类别及</br>物种名称</th>
 							<th class="info">规格型号</th>
@@ -449,7 +449,7 @@ $(document).ready(function () {
 					<form   id="edit_form"  action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
-                           <td class="tc">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
+                           <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
                            <td class="tl"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
                           <div class="p0_5">${obj.department}</div>
                           <%--  <c:forEach items="${requires }" var="re" >

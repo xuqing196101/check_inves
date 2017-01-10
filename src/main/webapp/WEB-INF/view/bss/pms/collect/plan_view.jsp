@@ -115,12 +115,156 @@
     layer.close(index);
   }
 </script>
+<!-- 锁表头js -->
+<script type="text/javascript">
+    function FixTable(TableID, FixColumnNumber, width, height) {
+    if ($("#" + TableID + "_tableLayout").length != 0) {
+        $("#" + TableID + "_tableLayout").before($("#" + TableID));
+        $("#" + TableID + "_tableLayout").empty();
+    }
+    else {
+        $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
+    }
+    $('<div id="' + TableID + '_tableFix"></div>'
+    + '<div id="' + TableID + '_tableHead"></div>'
+    + '<div id="' + TableID + '_tableColumn"></div>'
+    + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
+    var oldtable = $("#" + TableID);
+    var tableFixClone = oldtable.clone(true);
+    tableFixClone.attr("id", TableID + "_tableFixClone");
+    $("#" + TableID + "_tableFix").append(tableFixClone);
+    var tableHeadClone = oldtable.clone(true);
+    tableHeadClone.attr("id", TableID + "_tableHeadClone");
+    $("#" + TableID + "_tableHead").append(tableHeadClone);
+    var tableColumnClone = oldtable.clone(true);
+    tableColumnClone.attr("id", TableID + "_tableColumnClone");
+    $("#" + TableID + "_tableColumn").append(tableColumnClone);
+    $("#" + TableID + "_tableData").append(oldtable);
+    $("#" + TableID + "_tableLayout table").each(function () {
+        $(this).css("margin", "0");
+    });
+    var HeadHeight = $("#" + TableID + "_tableHead thead").height();
+    HeadHeight += 2;
+    $("#" + TableID + "_tableHead").css("height", HeadHeight);
+    $("#" + TableID + "_tableFix").css("height", HeadHeight);
+    var ColumnsWidth = 0;
+    var ColumnsNumber = 0;
+    $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
+        ColumnsWidth += $(this).outerWidth(true);
+        ColumnsNumber++;
+    });
+    ColumnsWidth += 2;
+    if ($.browser.msie) {
+        switch ($.browser.version) {
+            case "7.0":
+                if (ColumnsNumber >= 3) ColumnsWidth--;
+                break;
+            case "8.0":
+                if (ColumnsNumber >= 2) ColumnsWidth--;
+                break;
+        }
+    }
+    $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableData").scroll(function () {
+        $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
+        $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
+    });
+    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
+    if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
+        $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
+        $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
+    }
+    if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
+        $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
+        $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
+    }
+    $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
+}
+$(document).ready(function () {
+		var boxwidth = $("#content").width();
+            FixTable("table", 1, boxwidth, 460);
+        });
+        
+</script>
+
+<!-- textarea 自适应高度js1 -->
+   <script type="text/javascript">
+			var autoTextarea = function(elem, extra, maxHeight) {
+				extra = extra || 0;
+				var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
+					isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+					addEvent = function(type, callback) {
+						elem.addEventListener ?
+							elem.addEventListener(type, callback, false) :
+							elem.attachEvent('on' + type, callback);
+					},
+					getStyle = elem.currentStyle ? function(name) {
+						var val = elem.currentStyle[name];
+
+						if(name === 'height' && val.search(/px/i) !== 1) {
+							var rect = elem.getBoundingClientRect();
+							return rect.bottom - rect.top -
+								parseFloat(getStyle('paddingTop')) -
+								parseFloat(getStyle('paddingBottom')) + 'px';
+						};
+
+						return val;
+					} : function(name) {
+						return getComputedStyle(elem, null)[name];
+					},
+					minHeight = parseFloat(getStyle('height'));
+
+				elem.style.resize = 'none';
+
+				var change = function() {
+					var scrollTop, height,
+						padding = 0,
+						style = elem.style;
+
+					if(elem._length === elem.value.length) return;
+					elem._length = elem.value.length;
+
+					if(!isFirefox && !isOpera) {
+						padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+					};
+					scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+					elem.style.height = minHeight + 'px';
+					if(elem.scrollHeight > minHeight) {
+						if(maxHeight && elem.scrollHeight > maxHeight) {
+							height = maxHeight - padding;
+							style.overflowY = 'auto';
+						} else {
+							height = elem.scrollHeight - padding;
+							style.overflowY = 'hidden';
+						};
+						style.height = height + extra + 'px';
+						scrollTop += parseInt(style.height) - elem.currHeight;
+						document.body.scrollTop = scrollTop;
+						document.documentElement.scrollTop = scrollTop;
+						elem.currHeight = parseInt(style.height);
+					};
+				};
+
+				addEvent('propertychange', change);
+				addEvent('input', change);
+				addEvent('focus', change);
+				change();
+			};
+	</script>
 </head>
 
 <body>
   <!--面包屑导航开始-->
   <div class="margin-top-10 breadcrumbs ">
-    <div class="container">
+    <div class="container" id="container">
       <ul class="breadcrumb margin-left-0">
         <li><a href="#"> 首页</a></li>
         <li><a href="#">保障作业系统</a></li>
@@ -134,28 +278,28 @@
     <div class="headline-v2 fl">
       <h2>计划明细</h2>
     </div>
-    <div class="container clear margin-top-30" >
+    <div class="container clear margin-top-30"  id="content" >
       <form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
-      <div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll p0 h365">
-        <table class="table table-bordered table-condensed mt5 table_wrap">
+       <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed">
           <thead>
-            <tr>
+            <tr class="space_nowrap">
               <th class="info w50">序号</th>
               <th class="info w150">需求部门</th>
-              <th class="info w150">物资类别及物种名称</th>
+              <th class="info w150">物资类别及<br>物种名称</th>
               <th class="info w150">规格型号</th>
-              <th class="info w150">质量技术标准（技术参数）</th>
+              <th class="info w150">质量技术标准<br>（技术参数）</th>
               <th class="info w150">计量单位</th>
               <th class="info w150">采购数量</th>
-              <th class="info w150">单位（元）</th>
-              <th class="info w150">预算金额（万元）</th>
+              <th class="info w150">单位<br>（元）</th>
+              <th class="info w150">预算金额<br>（万元）</th>
               <th class="info w150">交货期限</th>
               <th class="info w150">采购方式建议</th>
               <th class="info w150">采购机构</th>
               <th class="info w150">供应商名称</th>
               <th class="info w150">是否申请办理免税</th>
-              <th class="info w150">物资用途（仅进口）</th>
-              <th class="info w150">使用单位（仅进口）</th>
+              <th class="info w150">物资用途<br>（仅进口）</th>
+              <th class="info w150">使用单位<br>（仅进口）</th>
               <th class="info w150">备注</th>
             </tr>
           </thead>
@@ -229,13 +373,19 @@
           </c:forEach>
         </table>
         
-        </div>
         <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
          <input class="btn btn-windows back" value="返回" type="button"
                     onclick="location.href='javascript:history.go(-1);'">
       </form>
     </div>
   </div>
-
+	<!-- textarea 自适应高度js2 --> 
+		<script>
+			var text = document.getElementsByClassName("target");
+			for(var i=0;i<text.length;i++){
+				autoTextarea(text[i]);
+			}
+			
+		</script>
 </body>
 </html>

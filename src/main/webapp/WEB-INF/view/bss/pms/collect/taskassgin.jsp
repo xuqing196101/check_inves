@@ -226,9 +226,9 @@
 			  <td class="tl pl20"  onclick="view('${obj.id}')">${obj.fileName }</td>
 			
 			
-			  <td class="tr pr20"  onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
-			    <td class="tc"  onclick="view('${obj.id}')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc"  onclick="view('${obj.id}')">
+			  <td class="tr pr20 w140"  onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			    <td class="tc w120"  onclick="view('${obj.id}')"><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc w120"  onclick="view('${obj.id}')">
 			  <c:if test="${obj.status=='12' || obj.status=='13' }">
 					 未下达
 			  </c:if>
