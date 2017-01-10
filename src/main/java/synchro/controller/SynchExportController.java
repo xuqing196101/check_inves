@@ -98,12 +98,12 @@ public class SynchExportController {
      */
     @ResponseBody
     @RequestMapping(value="/list", produces="application/json;charset=UTF-8")
-    public ResponseBean list(Integer operType,Integer page){
+    public ResponseBean list(Integer operType,Integer page, String searchType , String startTime, String endTime){
         
         ResponseBean bean = new ResponseBean();
         if (operType != null){
             bean.setSuccess(true);
-            List<SynchRecord> list = synchService.getList(operType,page);
+            List<SynchRecord> list = synchService.getList(operType, page , searchType, startTime, endTime);
             PageInfo<SynchRecord> pageInfo = new PageInfo<SynchRecord> (list);
             if (pageInfo.getList() != null && pageInfo.getList().size() > 0){
                 pageInfo.setList(packageSynchRecord(pageInfo.getList()));

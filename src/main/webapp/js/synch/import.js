@@ -7,10 +7,13 @@ $(function(){
  */
 function list(curr){
 	var type = $("#operType").val();
+	var searchType = $("#searchType").val();
+	var startTime = $("#searchStartTime").val();
+	var endTime = $("#searchEndTime").val();
 	$.ajax({
 		url: globalPath + "/synchImport/list.do",
 		type:"post",
-		data:{'operType' : type,'page': curr},
+		data:{'operType' : type,'page': curr, 'searchType':searchType,'startTime' : startTime, 'endTime' :endTime},
 		dataType:"json",
 		success:function(res){
 			if (res.success){
@@ -98,4 +101,22 @@ function synchImport(){
 	});
 }
 
+/**
+ * 查询
+ * @returns
+ */
+function query(){
+	list(1);
+}
+
+/**
+ * 重置
+ * @returns
+ */
+function reset(){
+	$("#searchType").val("");
+	$("#searchStartTime").val("");
+	$("#searchEndTime").val("");
+	list(1);
+}
 

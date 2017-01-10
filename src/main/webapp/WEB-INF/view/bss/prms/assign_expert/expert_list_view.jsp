@@ -146,19 +146,19 @@
             				${packageExpert.expert.relName}
             			</td>
             			<td>
-            			<c:forEach var="expertType" items="${ddList}">
-		                   <c:if test="${packageExpert.expert.expertsTypeId eq expertType.id}">
-		                    ${expertType.name}
+            			<c:forEach var="type" items="${reviewTypes}">
+		                   <c:if test="${packageExpert.reviewTypeId eq type.id}">
+		                    ${type.name}
 		                   </c:if>
 		                </c:forEach>
 		                </td>
 		                <td class="tc">
-	                         <c:if test="${packageExpert.isGroupLeader == 1}">
+	                     <c:if test="${packageExpert.isGroupLeader == 1}">
 	                          	 是
-	                         </c:if>
-	                      	<c:if test="${packageExpert.isGroupLeader == 0}">
+	                     </c:if>
+	                     <c:if test="${packageExpert.isGroupLeader == 0}">
 	                           	否
-	                      	</c:if>
+	                     </c:if>
 		                </td>
 		                <td>
 		                	已到场

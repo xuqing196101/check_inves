@@ -182,4 +182,6 @@ public interface PackageMapper {
      * @return
      */
     List<Packages> listExpExtCondition(String projectId);
+    
+    Packages selectByPrimaryKeyId(String id);
 }

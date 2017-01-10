@@ -44,7 +44,11 @@ public interface SynchRecordMapper {
      *〈详细描述〉
      * @author myc
      * @param operType 操作类型
+     * @param searchType 检索类型
+     * @param startTime 开始时间
+     * @param endTime 结束时间
      * @return
      */
-    public List<SynchRecord> getSynchRecordByOperType(@Param("operType")Integer operType);
+    public List<SynchRecord> getSynchRecordByOperType(@Param("operType")Integer operType,@Param("searchType") String searchType ,
+                                    @Param("startTime")String startTime, @Param("endTime")String endTime);
 }

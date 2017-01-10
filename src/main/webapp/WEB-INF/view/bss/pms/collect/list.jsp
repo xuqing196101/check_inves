@@ -247,7 +247,7 @@
 				    		</span>
 				    </li>
 				    
-				        	
+				     <li>  	
 					 <label class="fl">状态：</label>
 			              <select  name="status" id="status">
 			                <option selected="selected" value="total">全部</option>
@@ -303,7 +303,7 @@
 							<td onclick="view('${obj.uniqueId}')" class="tl pl20">${obj.userId }</td>
 							<td  class="tc">
 							<%-- <div class="left20" ><fmt:formatDate value="${obj.createdAt }"/></div> --%>
-								 <fmt:formatDate value="${obj.createdAt }" /> 
+								 <fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd" /> 
 							</td>
 							<td class="tr pr20">
 							<%-- <div class="left20" fmt:formatDate >${obj.budget }</fmt:formatNumber></div> --%>

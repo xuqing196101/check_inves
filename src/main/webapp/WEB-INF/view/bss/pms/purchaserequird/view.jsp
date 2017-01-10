@@ -208,8 +208,7 @@
 		</div>
 		<div class="content table_box" >
 			<div class="content">
-				<table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table">
+				<table id="table"  class="table table-bordered table-condensed mt5 space_nowrap">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>

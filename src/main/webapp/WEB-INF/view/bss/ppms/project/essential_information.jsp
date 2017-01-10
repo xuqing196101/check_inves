@@ -318,7 +318,7 @@
                           <input name="sectorOfDemand" class="m0" id="sectorOfDemand" value="${orgnization.name}" type="text"/>
                         </c:if>
                       </td>
-                      <td class="bggrey">最少供应商人数:</td>
+                      <td class="bggrey"><span class="red star_red">*</span>最少供应商人数:</td>
                       <td class="p0"><input name="supplierNumber" class="m0" id="supplierNumber" value="${project.supplierNumber}" type="text"/></td>
                     </tr>
                     <tr>
@@ -333,13 +333,13 @@
                       </td>
                     </tr>
                     <tr>
-                      <td class="bggrey">投标截止时间:</td>
+                      <td class="bggrey"><span class="red star_red">*</span>投标截止时间:</td>
                       <td class="p0"><input value="<fmt:formatDate type='date' value='${project.deadline }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="deadline" id="deadline" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" onfocus="getValue()" class="Wdate" /></td>
-                      <td class="bggrey">开标时间:</td>
+                      <td class="bggrey"><span class="red star_red">*</span>开标时间:</td>
                       <td class="p0"><input value="<fmt:formatDate type='date' value='${project.bidDate }'  pattern=" yyyy-MM-dd HH:mm:ss "/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                     </tr>
                     <tr>
-                      <td class="bggrey">开标地点:</td>
+                      <td class="bggrey"><span class="red star_red">*</span>开标地点:</td>
                       <td colspan="3" class="p0"><input name="bidAddress" id="bidAddress" value="${project.bidAddress}" type="text" class="m0"/></td>
                     </tr>
                   </tbody>
@@ -362,13 +362,13 @@
                     <tr>
                       <td class="bggrey">需求计划提报时间:</td>
                       <td>${project.demandFromTime}</td>
-                      <td class="bggrey">${task.name}采购任务下达时间:</td>
+                      <td class="bggrey">采购任务下达时间:</td>
                       <td>
                         <fmt:formatDate value='${task.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                       </td>
                     </tr>
                     <tr>
-                      <td class="bggrey">${task.name}采购任务受理时间:</td>
+                      <td class="bggrey">采购任务受理时间:</td>
                       <td>
                         <fmt:formatDate value='${task.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                       </td>
@@ -484,10 +484,6 @@
             <div class="mt10"></div>
             <button class="btn btn-windows input" type="button" onclick="bidReportss('${project.id}')">评标报告（最低）</button>
             <button class="btn btn-windows input" type="button" onclick="issueRegistration('${project.id}')">劳务发放登记表</button>
-           <%--  <h2 class="count_flow"><i>8</i>拟制中标公告 </h2>
-            <button class="btn btn-windows output" type="button" onclick="winningSupplier('${project.id}')">中标供应商审批书</button>
-            <h2 class="count_flow"><i>9</i>确认中标供应商 </h2>
-            <button class="btn btn-windows output" type="button" onclick="procurement('${project.id}')">采购合同审批表</button> --%>
           </div>
           <div class="tab-pane fade " id="tab-4">
             <div class="margin-bottom-0  categories">

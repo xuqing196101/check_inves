@@ -194,7 +194,7 @@ public class WinningSupplierController extends BaseController {
     quote.setPackageId(packageId);
     List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
     if (quoteList.size()>0) {
-      if (quoteList.get(0).getQuotePrice() == null&&quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+      if (quoteList.get(0).getQuotePrice() == null || quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
         model.addAttribute("quote", 0);//提示唱总价
       }else if(quoteList.get(0).getQuotePrice() != null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
         model.addAttribute("quote", 1);//提示唱明细

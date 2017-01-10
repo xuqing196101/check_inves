@@ -113,9 +113,11 @@
 				<li class="" onclick="loadPageThree('tab-3','packageExpert/toSupplierQuote.html');"><a aria-expanded="false" href="#tab-3" data-toggle="tab">供应商报价表</a></li>
 				<!-- <li class="" onclick="loadPageFour('tab-4','packageExpert/toAuditProgress.html');"><a aria-expanded="false" href="#tab-4" data-toggle="tab">评审进度</a></li> -->
 	            <li class="" onclick="loadPageFive('tab-5','packageExpert/toFirstAudit.html');"><a aria-expanded="false" href="#tab-5" data-toggle="tab">符合性审查</a></li>
+	      <c:if test="${kind != 'DYLY'}">
 				<li class="" onclick="loadPageEight('tab-8','packageExpert/confirmSupplier.html');"><a aria-expanded="false" href="#tab-8" data-toggle="tab">确定供应商</a></li>
 				<li class="" onclick="loadPageSix('tab-6','packageExpert/toScoreAudit.html');"><a aria-expanded="false" href="#tab-6" data-toggle="tab">经济技术评审(审查)</a></li>
 				<li class="" onclick="loadPageSeven('tab-7','packageExpert/supplierRank.html');"><a aria-expanded="false" href="#tab-7" data-toggle="tab">供应商排名</a></li>
+				</c:if>
 	          </ul>
 	          <div class="tab-content padding-top-20">
 	            <div class="tab-pane fade active in" id="tab-1">

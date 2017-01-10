@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -57,6 +58,8 @@ public class DownloadServiceImpl implements DownloadService {
         String id = request.getParameter("id");
         Integer systemKey = Integer.parseInt(request.getParameter("key"));
         String tableName = Constant.fileSystem.get(systemKey);
+        String zipFileName = request.getParameter("zipFileName");
+        String targetFileName = request.getParameter("fileName");
         if (StringUtils.isNotBlank(id)){
             if (id.contains(SPLIT_MARK)){
                String [] array = id.split(SPLIT_MARK);
@@ -64,7 +67,14 @@ public class DownloadServiceImpl implements DownloadService {
                if (files != null && files.size() > 0){
                    String path = PropUtil.getProperty("file.base.path") + File.separator + PropUtil.getProperty("file.temp.path");
                    UploadUtil.createDir(path);
-                   String fileName = PropUtil.getProperty("file.batch.download.name");
+                   String fileName =  PropUtil.getProperty("file.batch.download.name");
+                   if (StringUtils.isNotBlank(zipFileName) && !zipFileName.equals("null")){
+                       try {
+                        fileName = URLDecoder.decode(zipFileName,"UTF-8") + ".zip";
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                   }
                    File zipFile = new File(path, fileName);
                    zipFile(zipFile, files);
                    downloadFile(request, response, zipFile.getPath(), fileName);
@@ -77,10 +87,21 @@ public class DownloadServiceImpl implements DownloadService {
                         file=fileByBusinessId.get(0);
                     }
                 }
-                downloadFile(request, response, file.getPath(), file.getName());
+                if (file != null){
+                    
+                    String fileName = file.getName();
+                    if (StringUtils.isNotBlank(targetFileName) && !targetFileName.equals("null")){
+                        try {
+                            fileName = URLDecoder.decode(targetFileName,"UTF-8") +  fileName.substring(fileName.lastIndexOf(".")) ;
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    downloadFile(request, response, file.getPath(), fileName);
+                }
             }
-        }
          }
+       }
     
     /**
      * 

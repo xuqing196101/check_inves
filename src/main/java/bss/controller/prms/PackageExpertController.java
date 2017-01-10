@@ -181,6 +181,8 @@ public class PackageExpertController {
         //专家类型
         model.addAttribute("ddList", expExtractRecordService.ddList());
         model.addAttribute("ddJson", JSON.toJSONString(expExtractRecordService.ddList()));
+        //评审类型
+        model.addAttribute("reviewTypes" , DictionaryDataUtil.find(23));
         //查询该项目下专家是否签到
         Map<String, Object> map2 = new HashMap<String, Object>();
         map2.put("projectId", projectId);
@@ -2413,7 +2415,9 @@ public class PackageExpertController {
     
     @RequestMapping("/auditManage")
     public String auditManage(Model model, String projectId, String flowDefineId){
-      
+      Project project = projectService.selectById(projectId);
+      DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+      model.addAttribute("kind", findById.getCode());
       model.addAttribute("projectId", projectId);
       model.addAttribute("flowDefineId", flowDefineId);
       return "bss/prms/audit_manage/manage";

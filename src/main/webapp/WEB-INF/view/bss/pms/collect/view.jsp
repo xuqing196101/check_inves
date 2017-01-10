@@ -6,8 +6,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-
-
+		<script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
 
 <title>采购需求管理</title>
 <meta http-equiv="pragma" content="no-cache">
@@ -239,7 +238,7 @@
 		<div class="container clear margin-top-30 over_scroll h365">
 
 		
-				<table class="table table-bordered table-condensed mt5 space_nowrap">
+				<table id="table" class="table table-bordered table-condensed mt5 space_nowrap">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>

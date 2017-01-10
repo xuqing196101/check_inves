@@ -176,4 +176,6 @@ public interface PackageService {
      */
     List<Packages> listExpExtCondition(String projectId);
     
+    Packages selectByPrimaryKeyId(String id);
+    
 }

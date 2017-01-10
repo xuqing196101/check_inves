@@ -148,26 +148,14 @@ public class ProjectController extends BaseController {
             if(project.getProjectNumber() != null && !project.getProjectNumber().equals("")){
                 map.put("projectNumber", project.getProjectNumber());
             }
+            if(project.getStatus() != null && !project.getStatus().equals("")){
+                map.put("status", project.getStatus());
+            }
             map.put("purchaseDepId", user.getOrg().getId());
             map.put("principal", user.getId());
             if(page==null){
                 page = 1;
             }
-            /*List<DictionaryData> ddList = DictionaryDataUtil.find(2);
-            List<DictionaryData> condition = new ArrayList<DictionaryData>();
-            List<DictionaryData> conditions = new ArrayList<DictionaryData>();
-            for (DictionaryData dictionaryData : ddList) {
-                if("YLX_DFB".equals(dictionaryData.getCode()) || "YFB_DSS".equals(dictionaryData.getCode())) {
-                    conditions.add(dictionaryData);
-                } 
-                else {
-                    condition.add(dictionaryData);
-                }
-            }
-            map.put("page", page.toString());
-            //等于1就是这个条件
-            map.put("ddList", condition);
-            map.put("ddLists", conditions);*/
             PropertiesUtil config = new PropertiesUtil("config.properties");
             PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
             List<Project> list = projectService.selectProjectsByConition(map);
@@ -278,11 +266,31 @@ public class ProjectController extends BaseController {
       public String addDetails(@CurrentUser User user, String projectId,String id,Model model,String name, String orgId,String projectNumber, HttpServletRequest request) {
           //根据采购明细ID，获取项目明细
           Task task = taskservice.selectById(projectId);
-          List<PurchaseDetail> lists = purchaseDetailService.getUnique(task.getCollectId());
-          for (PurchaseDetail required : lists) {
+          List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId());
+          for (PurchaseDetail required : listp) {
               Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getDepartment());
               model.addAttribute("orgnization", orgnization);
           }
+          List<PurchaseDetail> list1=new ArrayList<PurchaseDetail>();
+          for(int i=0;i<listp.size();i++){
+              if(listp.get(i).getPrice() != null){
+                  if(!listp.get(i).getOrganization().equals(user.getOrg().getId())){
+                      list1.add(listp.get(i)); 
+                  }
+              }
+          }
+          listp.removeAll(list1);
+          List<PurchaseDetail> lists=new ArrayList<PurchaseDetail>();
+          for (PurchaseDetail purchaseDetail : listp) {
+              if(purchaseDetail.getPrice() != null){
+                  HashMap<String, Object> map = new HashMap<>();
+                  map.put("id", purchaseDetail.getId());
+                  List<PurchaseDetail> selectByParent = purchaseDetailService.selectByParent(map);
+                  lists.addAll(selectByParent);
+              }
+          }
+          removeSame(lists);
+          sort(lists);
           model.addAttribute("kind", DictionaryDataUtil.find(5));
           model.addAttribute("orgId", orgId);
           model.addAttribute("user", user.getOrg().getId());
