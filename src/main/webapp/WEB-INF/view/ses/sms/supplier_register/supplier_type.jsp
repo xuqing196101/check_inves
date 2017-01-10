@@ -1137,7 +1137,7 @@ $(function(){
 															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd"/>"   />
 														    </td>
 														    <td class="tc">
-															   <select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot">
+															   <select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="w100p">
 														          <option value="1" <c:if test="${certSell.mot=='1'}"> selected="selected"</c:if>>是</option>
 														          <option value="0" <c:if test="${certSell.mot=='0'}"> selected="selected"</c:if>>否</option>
 														        </select>
@@ -1310,8 +1310,10 @@ $(function(){
 														        </select>
 															</td>
 															<td class="tc">
+															<div class="w200">
 															 <u:upload id="eng_up_${certEngNumber}" multiple="true" businessId="${certEng.id}" typeId="1" sysKey="1"  auto="true" />
 															 <u:show showId="eng_show_${certEngNumber}" businessId="${certEng.id}" typeId="1" sysKey="1" />
+															</div>
 															</td>
 														</tr>
 														<c:set var="certEngNumber" value="${certEngNumber + 1}"/>
@@ -1384,8 +1386,10 @@ $(function(){
 															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
 															<td class="tc w200">
+															<div class="w200">
 															 <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="1" sysKey="1"  auto="true" />
 															 <u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="1" sysKey="1" />
+															</div>
 															</td>
 														</tr>
 														<c:set var="certAptNumber" value="${certAptNumber + 1}"/>

@@ -17,7 +17,9 @@
 	</select>
 </td>
 <td class="tc w200">
+ <div class="w200">
  <u:upload id="se_up_${certSeNumber}" multiple="true" businessId="${id}" typeId="1" sysKey="1"  auto="true" />
  <u:show showId="se_show_${certSeNumber}" businessId="${id}" typeId="1" sysKey="1" />
+ </div>
 </td>
 </tr>
