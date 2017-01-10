@@ -339,9 +339,29 @@ public class ProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/addDeatil")
-    public String addDeatil(Model model, String id, String name,String projectNumber, String checkedIds, HttpServletRequest request) {
+    public String addDeatil(@CurrentUser User user, Model model, String id, String name,String projectNumber, String checkedIds, HttpServletRequest request) {
         Task task = taskservice.selectById(id);
-        List<PurchaseDetail> lists = purchaseDetailService.getUnique(task.getCollectId());
+        List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId());
+        List<PurchaseDetail> list1=new ArrayList<PurchaseDetail>();
+        for(int i=0;i<listp.size();i++){
+            if(listp.get(i).getPrice() != null){
+                if(!listp.get(i).getOrganization().equals(user.getOrg().getId())){
+                    list1.add(listp.get(i)); 
+                }
+            }
+        }
+        listp.removeAll(list1);
+        List<PurchaseDetail> lists=new ArrayList<PurchaseDetail>();
+        for (PurchaseDetail purchaseDetail : listp) {
+            if(purchaseDetail.getPrice() != null){
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("id", purchaseDetail.getId());
+                List<PurchaseDetail> selectByParent = purchaseDetailService.selectByParent(map);
+                lists.addAll(selectByParent);
+            }
+        }
+        removeSame(lists);
+        sort(lists);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", lists);
         model.addAttribute("projectNumber", projectNumber);
@@ -350,8 +370,25 @@ public class ProjectController extends BaseController {
         return "bss/ppms/project/saveDetail";
     }
     
+    public void sort(List<PurchaseDetail> list){
+        Collections.sort(list, new Comparator<PurchaseDetail>(){
+           @Override
+           public int compare(PurchaseDetail o1, PurchaseDetail o2) {
+              Integer i = o1.getIsMaster() - o2.getIsMaster();
+              return i;
+           }
+        });
+    }
     
-    
+    public void removeSame(List<PurchaseDetail> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
     
     
     
@@ -985,7 +1022,7 @@ public class ProjectController extends BaseController {
      * @return 跳转流程页面
      */
     @RequestMapping("/start")
-    public String start(String id, String principal,HttpServletRequest request) {
+    public String start(@CurrentUser User users, String id, String principal,HttpServletRequest request) {
         String status = DictionaryDataUtil.getId("SSZ_WWSXX");
         Project project = projectService.selectById(id);
         User user = userService.getUserById(principal);
@@ -994,6 +1031,9 @@ public class ProjectController extends BaseController {
         project.setStatus(status);
         project.setStartTime(new Date());
         projectService.update(project);
+        if(users.getId().equals(principal)){
+            return "redirect:excute.html?id="+project.getId();
+        }
         return "redirect:list.html";
     }
     

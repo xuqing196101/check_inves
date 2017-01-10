@@ -4,6 +4,8 @@ package bss.controller.ppms;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -53,6 +55,7 @@ import bss.model.ppms.ProjectTask;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.Task;
 import bss.model.prms.FirstAudit;
+import bss.model.prms.PackageExpert;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
@@ -377,15 +380,27 @@ public class TackController extends BaseController{
 		Task task = taskservice.selectById(id);
 		if(task.getCollectId() != null){
 		    List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId());
-            
+		    List<PurchaseDetail> list1=new ArrayList<PurchaseDetail>();
             for(int i=0;i<listp.size();i++){
-                if(listp.get(i).getPrice()!=null){
+                if(listp.get(i).getPrice() != null){
                     if(!listp.get(i).getOrganization().equals(user.getOrg().getId())){
-                        listp.remove(listp.get(i)); 
+                        list1.add(listp.get(i)); 
                     }
                 }
             }
-            model.addAttribute("lists", listp);
+            listp.removeAll(list1);
+            List<PurchaseDetail> list5=new ArrayList<PurchaseDetail>();
+            for (PurchaseDetail purchaseDetail : listp) {
+                if(purchaseDetail.getPrice() != null){
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("id", purchaseDetail.getId());
+                    List<PurchaseDetail> selectByParent = purchaseDetailService.selectByParent(map);
+                    list5.addAll(selectByParent);
+                }
+            }
+            removeSame(list5);
+            sort(list5);
+            model.addAttribute("lists", list5);
         }else{
             HashMap<String, Object> map1 = new HashMap<>();
             map1.put("taskId", task.getId());
@@ -409,6 +424,25 @@ public class TackController extends BaseController{
 		return "bss/ppms/task/view";
 	}
 	
+	public void removeSame(List<PurchaseDetail> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+	
+	public void sort(List<PurchaseDetail> list){
+	    Collections.sort(list, new Comparator<PurchaseDetail>(){
+           @Override
+           public int compare(PurchaseDetail o1, PurchaseDetail o2) {
+              Integer i = o1.getIsMaster() - o2.getIsMaster();
+              return i;
+           }
+        });
+	}
 	/**
 	 * 
 	 *〈修改〉
