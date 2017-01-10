@@ -162,11 +162,9 @@
 	                </c:forEach>
 	              </select>
 	           </li>
-	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定</button>
-	           <div class="pull-right">
-	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
-	           </div>
 	        </ul>
+	          <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn fl">确定</button>
+	          <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn fl">引入模板</button>
 	        <div class="clear"></div>
 	     </div>
     </c:if>

@@ -152,7 +152,7 @@ $(document).ready(function() {
 		});
 	}
   </script>
-  <!-- 锁表头js -->
+<!-- 锁表头js -->
 <script type="text/javascript">
     function FixTable(TableID, FixColumnNumber, width, height) {
     if ($("#" + TableID + "_tableLayout").length != 0) {
@@ -226,10 +226,11 @@ $(document).ready(function() {
 }
 $(document).ready(function () {
 		var boxwidth = $("#content").width();
-            FixTable("table", 1, boxwidth, 460);
+            FixTable("table", 4, boxwidth, 360);
         });
         
 </script>
+
   </head>
   
 <body>
@@ -246,39 +247,38 @@ $(document).ready(function () {
   	</form>
   </div>
   <div class="tab-content clear">
-    <div class=class="col-md-12 tab-pane active"  id="tab-1">
+    <div class="col-md-12 tab-pane active"  id="tab-1">
  	  <div class="container clear margin-top-30" id="package">
  	    <div class="col-md-12 col-sm-12 col-xs-12 f18">
 		  <div class="col-md-6 col-xs-12 col-sm-6 p0">项目名称：${project.name }（${pack.name }）</div>
 		  <div  class="col-md-6 col-xs-12 col-sm-6 p0 tr">编号：${project.projectNumber }</div>
         </div>
- 	    </table>
 		<form action="${pageContext.request.contextPath}/expert/saveGrade.html" id="form1" method="post" >
 		  <!--项目id  -->
 	   	  <input type="hidden" name="projectId" id="projectId" value="${projectId }">
 		  <!--包id  -->
 	   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
-	        <div class="content mt0">
-	
              <div class="content" id="content">
 	        <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
+  border="1" cellspacing="0" cellpadding="0" class="table left_table lockout">
+			 <thead>
 			  <tr>
-			      <th colspan="4"></th>
+			      <th class="tc" rowspan="2">评审项目</th>
+		   	      <th class="tc" rowspan="2">评审指标</th>
+		   	      <th class="tc" rowspan="2">指标模型</th>
+		   	      <th class="tc" rowspan="2">标准分值</th>
 			      <c:forEach items="${supplierList}" var="supplier">
 				      <th colspan="2" class="tc">${supplier.suppliers.supplierName}</th>
 				    </c:forEach>
 			  </tr>
 			  <tr>
-		   	  	  <th class="tc">评审项目</th>
-		   	      <th class="tc">评审指标</th>
-		   	      <th class="tc">指标模型</th>
-		   	      <th class="tc">标准分值</th>
 		   	      <c:forEach items="${supplierList}" var="supplier">
-			        	<th class="tc w100">评委填写</th>
-		   		        <th class="tc w100">评审得分</th>
+			        	<th class="tc">评委填写</th>
+		   		        <th class="tc">评审得分</th>
 	   		  	  	</c:forEach>
 			  </tr>
+			  </thead>
+			  <tbody>
 			    <c:forEach items="${markTermList}" var="markTerm">
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
@@ -339,15 +339,17 @@ $(document).ready(function () {
 					 	      />
 					 	      <span><c:forEach items="${scores}" var="sco">
 					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}"><font color="red" class="f18">${sco.score}</font></c:if>
-					 	        </c:forEach></span>
+					 	        </c:forEach>
+					 	      </span>
 					 	    </td>
 				 	      </c:forEach>
 				 	    </tr>
 				 	  </c:if>
 				 	</c:forEach>
 				 </c:forEach>
+				 </tbody>
 				 </table>
-				 </div></div>
+				 </div>
 			<div class="tc col-md-12 col-sm-12 col-xs-12 mt20">
 			  <input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
 			  <input type="button" onclick="zancun();"  value="暂存" class="btn btn-windows save">

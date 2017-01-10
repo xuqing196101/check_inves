@@ -237,8 +237,10 @@
                          <c:if test="${i.kind == d.id}">
                              <span class="fl">${i.name}</span>
                            <c:if test="${flag != '1' }">
+                              <div class="fr">
 	                           <a href="javascript:void(0);" title="编辑" onclick="editItem(this,'${i.id}');" class="item_size editItem"></a>
 	                           <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')" class="item_size deleteItem" ></a>
+                              </div>
                            </c:if>
                          </c:if>
                      </td>
@@ -267,8 +269,10 @@
                          <c:if test="${i.kind == d.id}">
                              <span class="fl">${i.name}</span>
                              <c:if test="${flag != '1' }">
+                             <div class="fr">
                               <a href="javascript:void(0);" title="编辑" onclick="editItem(this,'${i.id}');" class="item_size editItem"></a>
                               <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')" class="item_size deleteItem" ></a>
+                              </div>
                              </c:if>
                          </c:if>
                      </td>
