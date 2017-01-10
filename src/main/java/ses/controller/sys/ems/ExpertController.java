@@ -290,23 +290,23 @@ public class ExpertController extends BaseController {
                 Userrole userrole = new Userrole();
                 userrole.setRoleId(listRole.get(0));
                 userrole.setUserId(user);
-                /** 删除用户之前的菜单权限*/
-                UserPreMenu userPreMenu = new UserPreMenu();
-                userPreMenu.setUser(user);
-                userService.deleteUserMenu(userPreMenu);
-                /** 删除用户之前的角色信息*/
                 /** 给该用户初始化专家角色 */
                 userService.saveRelativity(userrole);
-                String[] roleIds = listRole.get(0).getId().split(",");
-                List<String> listMenu = menuService.findByRids(roleIds);
+                /** 删除用户之前的菜单权限*/
+                /*UserPreMenu userPreMenu = new UserPreMenu();
+                userPreMenu.setUser(user);
+                userService.deleteUserMenu(userPreMenu);*/
                 /** 给用户初始化专家菜单权限 */
+                /*String[] roleIds = listRole.get(0).getId().split(",");
+                List<String> listMenu = menuService.findByRids(roleIds);
+                
                 for (String menuId : listMenu) {
                     UserPreMenu upm = new UserPreMenu();
                     PreMenu preMenu = menuService.get(menuId);
                     upm.setPreMenu(preMenu);
                     upm.setUser(user);
                     userService.saveUserMenu(upm);
-                }
+                }*/
             }
             attr.addAttribute("userId", user.getId());
             return "redirect:toAddBasicInfo.html";

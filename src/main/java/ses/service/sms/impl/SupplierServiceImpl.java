@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import common.model.UploadFile;
 import common.service.UploadService;
 import ses.dao.bms.CategoryMapper;
@@ -29,6 +31,7 @@ import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -65,6 +68,7 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
+import ses.util.PropertiesUtil;
 
 
 /**
@@ -311,16 +315,16 @@ public class SupplierServiceImpl implements SupplierService {
             userrole.setUserId(user);
             /**初始化供应商角色*/
             userService.saveRelativity(userrole);
-            String[] roleIds = listRole.get(0).getId().split(",");
-            List<String> listMenu = preMenuService.findByRids(roleIds);
             /**供应商初始化菜单权限*/
+            /*String[] roleIds = listRole.get(0).getId().split(",");
+            List<String> listMenu = preMenuService.findByRids(roleIds);
             for (String menuId : listMenu) {
                 UserPreMenu upm = new UserPreMenu();
                 PreMenu preMenu = preMenuService.get(menuId);
                 upm.setPreMenu(preMenu);
                 upm.setUser(user);
                 userService.saveUserMenu(upm);
-            }
+            }*/
         }
         List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
         SupplierAddress address=new SupplierAddress();
@@ -745,6 +749,25 @@ public class SupplierServiceImpl implements SupplierService {
     public List<Supplier> validateCreditCode(String creditCode) {
         return supplierMapper.validateCreditCode(creditCode);
     }
+
+    /**
+     * @see ses.service.sms.SupplierService#getContract(java.util.List)
+     */
+    @Override
+    public List<ContractBean> getContract(List<Category> categoryList, Integer pageNum) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        if (pageNum != null) {
+            PageHelper.startPage(pageNum, Integer.parseInt(config.getString("pageSize")));
+        }
+        
+        List<ContractBean> contract=new ArrayList<ContractBean>();
+        for(Category category : categoryList){
+            ContractBean con=new ContractBean();
+            con.setId(category.getId());
+            con.setName(category.getName());
+            contract.add(con);
+        }  
+        return contract;
+    }
     
-	
 }

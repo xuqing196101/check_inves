@@ -4,10 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Category;
-import ses.model.bms.CategoryQua;
-import ses.model.bms.Qualification;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 /**
@@ -228,4 +227,13 @@ public interface SupplierService {
     * @return
     */
    List<Supplier> validateCreditCode(String creditCode);
+   
+   /**
+    *〈简述〉获取品目合同信息(分页)
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param categoryList 所有品目末级节点
+    * @return
+    */
+   List<ContractBean> getContract(List<Category> categoryList, Integer pageNum);
 }
