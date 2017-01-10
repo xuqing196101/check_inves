@@ -110,19 +110,28 @@
 			function sure(obj) {
 				var projectId = $("#projectId").val();
 				var name = $(obj).parent().prev().find($("span[name='packageName']")).find($("input[name='pack']")).val();
-				var packageId = $(obj).next().next().next().val();
-				$.ajax({
-					url: "${pageContext.request.contextPath }/project/editPackName.do?name=" + name + "&id=" + packageId,
-					type: "post",
-					success: function(data) {
-						layer.msg('修改成功', {
-							offset: ['45%', '50%']
-						});
-						$(obj).parent().prev().find($("span[name='packageName']")).html(name);
-						$(obj).hide();
-						$(obj).prev().show();
-					}
-				});
+				if($.trim(name)==""||name==null){
+					layer.alert("包名不能为空", {
+						offset: ['30%', '40%']
+					});
+					$(".layui-layer-shade").remove();
+					return;
+				}else{
+					var packageId = $(obj).next().next().next().val();
+					$.ajax({
+						url: "${pageContext.request.contextPath }/project/editPackName.do?name=" + name + "&id=" + packageId,
+						type: "post",
+						success: function(data) {
+							layer.msg('修改成功', {
+								offset: ['45%', '50%']
+							});
+							$(obj).parent().prev().find($("span[name='packageName']")).html(name);
+							$(obj).hide();
+							$(obj).prev().show();
+						}
+					});
+				}
+				
 			}
 
 			//删除明细
@@ -225,6 +234,13 @@
 
 			//包下勾选明细
 			function selectedPackage(ele, number) {
+				/*var ids = "";
+				var pInfo = document.getElementsByName("info" + number);
+				for(var i = 0; i < pInfo.length; i++) {
+					if(pInfo[i].checked) {
+						ids += pInfo[i].value + ',';
+					}
+				}**/
 				var projectId = $("#projectId").val();
 				var flag = $(ele).prop("checked");
 				var id = $(ele).val();
