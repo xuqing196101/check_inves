@@ -95,7 +95,8 @@
 					id.push($(this).val());
 				});
 				if(id.length == 1) {
-					window.location.href = "${pageContext.request.contextPath }/look/print.html?id=" + id;
+					window.open("${pageContext.request.contextPath }/look/print.html?id=" + id);
+					//window.location.href = "${pageContext.request.contextPath }/look/print.html?id=" + id;
 				} else if(id.length > 1) {
 					layer.alert("只能选择一个", {
 						offset: ['222px', '390px'],

@@ -176,6 +176,9 @@
 		  }
 	       
 	
+	      function submit(){
+	    	  $("#edit_form").submit();
+	      }
 </script>
 <script type="text/javascript"
  src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
@@ -344,7 +347,7 @@ $(document).ready(function () {
 			<h2>计划明细</h2>
 		</div>
 		<div class="content table_box">
-	<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
+	
              <div class="content">
                  <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; font-size: medium; border-left-color: #dddddd; max-width:10000px"
   border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table">
@@ -366,17 +369,18 @@ $(document).ready(function () {
 							<th class="info">物资用途</br>（仅进口）</th>
 							<th class="info">使用单位</br>（仅进口）</th>
 							<th class="info">备注</th>
-							<th class="w100">状态</th>
+					<!-- 		<th class="w100">状态</th> -->
 						</tr>
 					</thead>
-
+		<form   id="edit_form"  action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
                            <td class="tc">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
                            <td class="tl "><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
-                           <c:forEach items="${requires }" var="re" >
+                          ${obj.department}
+                          <%--  <c:forEach items="${requires }" var="re" >
 					         <c:if test="${obj.department==re.name }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
-			               </c:forEach>
+			               </c:forEach> --%>
                   </td>
                   <td class="tl "><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].stand" value="${obj.stand}"></td>
@@ -423,7 +427,7 @@ $(document).ready(function () {
                   <td class="tl "><input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit}"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].userUnit" value="${obj.userUnit}"></td>
                   <td class="tl ">${obj.memo }<%--
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                      <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
@@ -453,18 +457,18 @@ $(document).ready(function () {
                      <input type="hidden" name="list[${vs.index }].createdAt" value="${obj.createdAt}">
                      <input type="hidden" name="list[${vs.index }].department" value="${obj.department}">  --%>
                    </td>
-                   <td class="tc w100"><input type="text" value="暂存" readonly="readonly"></td>
+             <!--       <td class="tc w100"><input type="text" value="暂存" readonly="readonly"></td> -->
                  </tr>
 
-					</c:forEach>
-				
+				 </c:forEach>
+			   </form>
 				</table>
 				</div>
 				<div class="col-md-12  mt10 col-sm-12 col-xs-12 tc">
-			    <input class="btn btn-windows git" type="submit" value="提交">
+			    <input class="btn btn-windows git" type="button" onclick="submit()" value="保存">
                 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
              </div>
-			</form>
+		
 		</div>
 		
 </div>

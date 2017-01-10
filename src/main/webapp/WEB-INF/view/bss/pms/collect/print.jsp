@@ -68,21 +68,8 @@
 
 <body>
 	<!--面包屑导航开始-->
-	<div class="margin-top-10 breadcrumbs ">
-		<div class="container">
-			<ul class="breadcrumb margin-left-0">
-				<li><a href="#"> 首页</a></li>
-				<li><a href="#">保障作业系统</a></li>
-				<li><a href="#">采购计划管理</a></li>
-				<li class="active"><a href="#">采购需求管理</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-	</div>
+ 
 	<div class="container">
-		<div class="headline-v2 fl">
-			<h2>计划明细</h2>
-		</div>
 		<div class="container clear margin-top-30 over_scroll h365" >
 
 			<form id="acc_form" action="${pageContext.request.contextPath }/accept/update.html" method="post">
@@ -158,13 +145,13 @@
 							<td class="tl pl20">${obj.supplier }</td>
 							<td class="tl pl20">${obj.memo }</td>
 							<c:if test="${auditTurn!=null }">
-						 		<td class="info" >${obj.oneAdvice }</td>
+						 		<td >${obj.oneAdvice }</td>
 						 	</c:if>
 							 <c:if test="${auditTurn==2||auditTurn==3}">
-						 		<td class="info" >${obj.twoAdvice }</td>
+						 		<td >${obj.twoAdvice }</td>
 						 	</c:if>
 						 	<c:if test="${auditTurn==3}">
-						 		<td class="info" >${obj.threeAdvice }</td>
+						 		<td >${obj.threeAdvice }</td>
 						 	</c:if>
 						 	
 						<%-- 	

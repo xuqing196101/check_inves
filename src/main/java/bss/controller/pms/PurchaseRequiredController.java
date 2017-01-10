@@ -170,17 +170,17 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String updateById(PurchaseRequiredFormBean list,String planName,String planNo,String referenceNo,String planType,String mobile){
+	public String updateById(PurchaseRequiredFormBean list){
 //		Map<String,Object> map=new HashMap<String,Object>();
 		if(list!=null){
 			if(list.getList()!=null&&list.getList().size()>0){
 				for( PurchaseRequired p:list.getList()){
 					if( p.getId()!=null){
-						p.setPlanType(planType);
-						p.setPlanNo(planNo);
-						p.setPlanName(planName);
-						p.setReferenceNo(referenceNo);
-						p.setRecorderMobile(mobile);
+//						p.setPlanType(planType);
+//						p.setPlanNo(planNo);
+//						p.setPlanName(planName);
+//						p.setReferenceNo(referenceNo);
+//						p.setRecorderMobile(mobile);
 						//历史数据
 //						String id = UUID.randomUUID().toString().replaceAll("-", "");
 //						map.put("oid", id);
