@@ -159,6 +159,8 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private String  sex;
     
+    /** 专家提交审核时间 **/
+    private Date submitAt;
     
     public String getStepNumber() {
         return stepNumber;
@@ -582,6 +584,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
     public void setHistory(ExpertHistory history) {
         this.history = history;
+    }
+
+    public Date getSubmitAt() {
+        return submitAt;
+    }
+
+    public void setSubmitAt(Date submitAt) {
+        this.submitAt = submitAt;
     }
 
     

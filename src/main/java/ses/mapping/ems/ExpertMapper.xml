@@ -7,6 +7,7 @@
 		<result column="IS_DO" jdbcType="VARCHAR" property="isDo" />
 		<result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
 		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="SUBMIT_AT" jdbcType="TIMESTAMP" property="submitAt" />
 		<result column="GENDER" jdbcType="CHAR" property="gender" />
 		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
 		<result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
@@ -56,7 +57,7 @@
 		<result column="STEP_NUMBER" jdbcType="VARCHAR" property="stepNumber" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT, GENDER,
+		ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT, GENDER,
 		UPDATED_AT, MOBILE,
 		BIRTHDAY,
 		ID_NUMBER, ID_TYPE, EXPERTS_FROM,
@@ -246,6 +247,9 @@
 			<if test="jobExperiences != null">
 				JOB_EXPERIENCES,
 			</if>
+			<if test="submitAt != null">
+				SUBMIT_AT,
+			</if>
 			<if test="productCategories != null">
 				PRODUCT_CATEGORIES,
 			</if>
@@ -395,6 +399,9 @@
 			<if test="jobExperiences != null">
 				#{jobExperiences,jdbcType=VARCHAR},
 			</if>
+			<if test="submitAt != null">
+				#{submitAt,jdbcType=TIMESTAMP},
+			</if>
 			<if test="productCategories != null">
 				#{productCategories,jdbcType=VARCHAR},
 			</if>
@@ -540,6 +547,9 @@
 			</if>
 			<if test="jobExperiences != null">
 				JOB_EXPERIENCES = #{jobExperiences,jdbcType=VARCHAR},
+			</if>
+			<if test="submitAt != null">
+				SUBMIT_AT = #{submitAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="productCategories != null">
 				PRODUCT_CATEGORIES =
@@ -689,6 +699,9 @@
 			</if>
 			<if test="jobExperiences != null and jobExperiences != ''">
 				JOB_EXPERIENCES = #{jobExperiences,jdbcType=VARCHAR},
+			</if>
+			<if test="submitAt != null and submitAt != ''">
+				SUBMIT_AT = #{submitAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="productCategories != null and productCategories != ''">
 				PRODUCT_CATEGORIES =
@@ -1181,7 +1194,7 @@
 		SELECT 
 		<include refid="Base_Column_List"/>
 		FROM T_SES_EMS_EXPERT
-		WHERE TO_CHAR(CREATED_AT,'yyyy-mm-dd') = #{_parameter}
+		WHERE TO_CHAR(SUBMIT_AT,'yyyy-mm-dd') = #{_parameter}
 		AND IS_SUBMIT = '1'
 		AND STATUS = '0'
 	</select>
@@ -1193,7 +1206,7 @@
 		FROM T_SES_EMS_EXPERT e
 		INNER JOIN T_SES_EMS_EXPERT_HISTORY eh
 		ON e.ID = eh.ID
-		WHERE e.UPDATED_AT = TO_DATE('${_parameter}','yyyy-mm-dd')
+		WHERE TO_CHAR(e.SUBMIT_AT,'yyyy-mm-dd') = #{_parameter}
 		AND e.IS_SUBMIT = '1'
 		AND e.STATUS = '0'
 	</select>

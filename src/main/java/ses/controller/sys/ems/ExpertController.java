@@ -1429,12 +1429,9 @@ public class ExpertController extends BaseController {
             //未审核
             expert.setStatus("0");
             /*expert.setIsDelete((short) 1);*/
-        } else {
-            // 如果不是退回修改状态
-            expert.setCreatedAt(new Date());
         }
         //修改时间
-        expert.setUpdatedAt(new Date());
+        expert.setSubmitAt(new Date());
         service.updateByPrimaryKeySelective(expert);
     } catch (Exception e) {
       e.printStackTrace();

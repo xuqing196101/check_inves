@@ -379,7 +379,7 @@ public class ExpertServiceImpl implements ExpertService {
 			//未审核
 			expert.setStatus("0");
 			//修改时间
-			//expert.setUpdatedAt(new Date());
+			expert.setUpdatedAt(new Date());
 			mapper.insertSelective(expert);
 			//附件上传
 			//uploadFile(files, realPath, expertId);
