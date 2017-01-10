@@ -75,7 +75,7 @@
 		$('input[name="chkItem"]:checked').each(function() {
 	  	id.push($(this).val());
 		});
-		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
 		status = $.trim(status);
 		var currPage = ${info.pageNum};
 		if (id.length == 1) {
@@ -246,6 +246,16 @@
 		      <input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }" /> 
 		    </span>
 		  </li>
+		  <li>
+        <label class="fl">状态：</label>
+            <span class="">
+              <select name="status" id="status">
+                <c:forEach items="${status}" var="status" >
+                  <option  value="${status.id}">${status.name}</option>
+                </c:forEach>
+              </select>
+            </span>
+      </li>
 		  <button class="btn fl mt1" type="submit">查询</button>
 	      <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
 		</ul>
@@ -271,6 +281,7 @@
 				<th>项目名称</th>
 				<th>项目编号</th>
 				<th>采购方式</th>
+				<th>创建时间</th>
 				<th>项目状态</th>
 				<th>项目承办人</th>
 		  </tr>
@@ -289,6 +300,7 @@
 	               <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
 	            </c:forEach>
 			  	</td>
+			  	<td class="tl pl20" onclick="view('${obj.id}')"><fmt:formatDate type='date' value='${obj.createAt}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td>
 			  	<td class="tc">
 			  	  <c:forEach items="${status}" var="status" >
                  <c:if test="${status.id == obj.status}">${status.name}</c:if>

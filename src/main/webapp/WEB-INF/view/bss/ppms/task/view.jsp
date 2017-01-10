@@ -56,9 +56,7 @@
 					<th class="info">规格型号</th>
 					<th class="info">质量技术标准</th>
 					<th class="info">计量单位</th>
-				    <th class="info">采购数量</th>
-					<th class="info">单价（元）</th>
-					<th class="info">预算金额（万元）</th>
+				  <th class="info">采购数量</th>
 					<th class="info">交货期限</th>
 					<th class="info">采购方式</th>
 					<th class="info">供应商名称</th>
@@ -81,8 +79,6 @@
 					 <td class="tl pl20">${obj.qualitStand}</td>
 					 <td class="tc">${obj.item}</td>
 					 <td class="tc">${obj.purchaseCount}</td>
-					 <td class="tr pr20">${obj.price}</td>
-					 <td class="tr pr20">${obj.budget}</td>
 					 <td class="rl pl20">${obj.deliverDate}</td>
 					 <td class="tc">
 				       <c:forEach items="${kind}" var="kind" >
