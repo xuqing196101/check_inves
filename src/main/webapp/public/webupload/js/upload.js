@@ -36,11 +36,11 @@
 	 }
 	
 	  //多个上传按钮
-	  groupsArray = function(bntArry){
+	 /* groupsArray = function(bntArry){
 		  $.each(bntArry,function(){
 				init_uploader(eval("var  uploader_" + this),this);
 			});
-	  }
+	  }*/
 	  
 	  //webupload环境检查
 	  webuploadEnv_check = function(){
@@ -133,6 +133,7 @@
 	  init_uploader = function(uploader,$base){
 		   var $list = $('#'+$base+'_thelist'),
 	         $btn = $('#'+$base+'_ctlBtn'),
+	         $base = $base;
 	         state = $base+'_pending',
 	         fileCount = 0,
 	         fileSize = 0,
@@ -173,9 +174,17 @@
 			
 			//上传前准备
 			uploader.on( 'beforeFileQueued', function(file) {
-				if (!checkFileType(file.name)){
+				if (!checkFileType(file.name,$base)){
 					uploader.removeFile(file);
-					layer.msg("不支持上传文件类型!");
+					var fileType =$("#"+$base+"_extId").val();
+					layer.msg("文件格式错误，只允许" + fileType + "文件格式");
+					return;
+				}
+				var fileSize = file.size / 1024;
+				var  singleFileSize = $("#" + $base + "_singFileSize").val();
+				if (fileSize > singleFileSize){
+					uploader.removeFile(file);
+					layer.msg("文件大小错误，只允许上传" + singleFileSize + "KB文件");
 					return;
 				}
 				
@@ -186,7 +195,7 @@
 			
 			//待上传的文件
 			uploader.on( 'fileQueued', function(file) {
-				if (!checkFileType(file.name)){
+				if (!checkFileType(file.name,$base)){
 					$("#"+file.id).remove();
 					return;
 				}
@@ -223,8 +232,8 @@
 			});
 			
 			//判断文件类型
-			checkFileType = function (fileName){
-				var fileType =$("#"+$base+"_extId").val();
+			checkFileType = function (fileName,id){
+				var fileType =$("#"+id+"_extId").val();
 				var allType = $("#extensionId").val();
 				var fileExt = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase();
 				if (fileType == null || fileType == "" || fileType == "null" ){
@@ -290,6 +299,7 @@
 			/**
 			 * 打开上传进度
 			 */
+			var percentLayer = null;
 			openUploadDiv = function(){
 				
 				var html= "<div id='statuId' class='statusBar'>" +
@@ -299,7 +309,7 @@
 						    "</div>" +
 						    "<div class='info'></div>" +
 						  "</div>";
-				  layer.open({
+				percentLayer = layer.open({
 					  type: 1,
 					  title:false,
 					  closeBtn: 0,
@@ -319,7 +329,9 @@
 			 * 完成所有的上传
 			 */
 			uploader.on('uploadFinished',function(){
-				layer.closeAll();
+				if (percentLayer != null){
+					layer.close(percentLayer);
+				}
 				uploader.reset();
 			});
 			

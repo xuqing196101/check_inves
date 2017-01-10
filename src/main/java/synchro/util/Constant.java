@@ -39,6 +39,9 @@ public class Constant {
     /** 数据类型-附件 **/
     public final static String DATA_TYPE_ATTACH_CODE = "SYNCH_ATTACH";
     
+    /** 数据类型-供应商  **/
+    public final static String DATA_TYPE_SUPPLIER_CODE = "SYNCH_SUPPLIER";
+    
     /** 新提交专家描述 **/
     public final static String NEW_COMMIT_EXPERT = "新提交专家数量:";
     

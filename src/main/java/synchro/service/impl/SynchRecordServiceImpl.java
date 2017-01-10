@@ -37,9 +37,9 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      * @see synchro.record.service.SynchRecordService#newSupplierRecord(java.lang.String)
      */
     @Override
-    public void backNewSupplierRecord(String content) {
-        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_SUPPLIER_REG +"", Constant.OPER_TYPE_EXPORT, 
-                        Constant.NEW_COMMIT_SUPPLIER + content);
+    public void commitSupplierRecord(String content, Date synchDate) {
+        SynchRecord sr  = packSynchRecord(Constant.DATA_TYPE_SUPPLIER_REG +"", Constant.OPER_TYPE_EXPORT, 
+                        Constant.NEW_COMMIT_SUPPLIER + content, synchDate);
         mapper.save(sr);
     }
     
@@ -51,17 +51,6 @@ public class SynchRecordServiceImpl implements SynchRecordService {
     public void backNewExpertRecord(String content) {
         SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_EXPERT_REG +"", Constant.OPER_TYPE_EXPORT, 
                         Constant.NEW_COMMIT_EXPERT + content);
-        mapper.save(sr);
-    }
-    
-    /**
-     * 
-     * @see synchro.service.SynchRecordService#modifySupplierRecord(java.lang.String)
-     */
-    @Override
-    public void backModifySupplierRecord(String content) {
-        SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_SUPPLIER_AUDIT +"", Constant.OPER_TYPE_EXPORT,
-                Constant.NEW_COMMIT_SUPPLIER + content);
         mapper.save(sr);
     }
     
