@@ -35,6 +35,21 @@
             }
           }
         });
+        
+        var typeclassId = "${typeclassId}";
+        
+        if(typeclassId != null && typeclassId != "") {
+          $("#red").each(function(){
+            for(var i = 0; i < 3; i++){
+                    $("#red"+i).removeClass("dnone");
+         }
+            });
+        } else {
+          $("#tenderTimeId").removeAttr("onclick");
+          for(var i = 0; i < 4; i++){
+            $("#red"+i).addClass("dnone");
+          }
+        }
 
 
         //获取包id
@@ -322,23 +337,23 @@
           <div class="ul_list">
             <ul class="ul_list border0">
              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>项目名称:</span>
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red0">*</span>项目名称:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input id="projectName" name="name" value="${projectName}" type="text">
+                  <input id="projectName" name="name"  value="${projectName}" type="text">
                   <span class="add-on">i</span>
                   <div class="cue" id="projectNameError"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>项目编号:</span>
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red1">*</span>项目编号:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                  <input id="projectNumber" name="projectNumber" value="${projectNumber}" type="text">
+                  <input id="projectNumber" name="projectNumber" value="${projectNumber}" type="text" >
                   <span class="add-on">i</span>
                   <div class="cue" id="projectNumberError"></div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购方式:</span>
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red2">*</span>采购方式:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <select name="purchaseType" class="col-md-12 col-sm-12 col-xs-6 p0">
                     <c:forEach items="${findByMap}" var="map">
@@ -348,15 +363,15 @@
                 </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12 ">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>监督人员:</span>
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>监督人员:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input readonly id="supervises" title="${userName}" value="${userName}" onclick="supervise();" type="text">
                   <span class="add-on">i</span>
                   <div class="cue" id="dSupervise"></div>
                 </div>
               </li>
-               <li class="col-md-12 col-sm-12 col-xs-12 ">
-                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="star_red">*</div>抽取地区:</span>
+               <li class="col-md-3 col-sm-6 col-xs-12 ">
+                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="star_red">*</span>抽取地区:</span>
                 <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                   <input id="extractionSites" name="extractionSites" value="${extractionSites}" type="text">
                   <span class="add-on">i</span>

@@ -31,10 +31,18 @@
 
 				});
 				var typeclassId = "${typeclassId}";
+			
 				if(typeclassId != null && typeclassId != "") {
-					$("#tenderTimeId").removeAttr("readonly");
+					$("#red").each(function(){
+						for(var i = 0; i < 4; i++){
+				            $("#red"+i).removeClass("dnone");
+				 }
+			      });
 				} else {
-					$("#tenderTimeId").attr("rereadonly", "readonly");
+					$("#tenderTimeId").removeAttr("onclick");
+					for(var i = 0; i < 4; i++){
+						$("#red"+i).addClass("dnone");
+					}
 				}
 
 				$('#minute').bind('input propertychange', function() {
@@ -55,10 +63,12 @@
 					$("#projectName").attr("readonly", true);
 					$("#projectNumber").attr("readonly", true);
 					$("#packageName").attr("readonly", true);
+					$("#tenderTimeId").attr("readonly", true);
 				} else {
-					$("#projectName").attr("readonly", false);
-					$("#projectNumber").attr("readonly", false);
+					$("#projectName").attr("disabled", false);
+					$("#projectNumber").attr("disabled", false);
 					$("#packageName").attr("readonly", false);
+					$("#tenderTimeId").attr("readonly", false);
 				}
 				var index = 0 ;
 				 var divObj = $(".p0" + index);
@@ -356,15 +366,15 @@
 					<h2 class="count_flow"><i>1</i>必填项</h2>
 					<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red">*</span>项目名称:</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><span class="red" id="red0">*</span>项目名称:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                <input class="span5" id="projectName" name="name" value="${projectName}" type="text">
+                <input class="span5" id="projectName" name="name"  value="${projectName}" type="text">
                 <span class="add-on">i</span>
                 <div class="cue" id="projectNameError"></div>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>项目编号:</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red1">*</span>项目编号:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                 <input class="span5" id="projectNumber" name="projectNumber" value="${projectNumber}" type="text">
                 <span class="add-on">i</span>
@@ -372,7 +382,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 ">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>采购方式:</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red2">*</span>采购方式:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                 <select class="col-md-12 col-sm-12 col-xs-6 p0" name="purchaseType">
                   <c:forEach items="${findByMap}" var="map">
@@ -382,7 +392,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12 ">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>开标日期:</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red" id="red3">*</span>开标日期:</span>
               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                 <input class="col-md-12 col-sm-12 col-xs-6 p0"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"  id="tenderTimeId" readonly="readonly"  name="bidDate" value="<fmt:formatDate value='${bidDate}'
                                 pattern='yyyy-MM-dd HH:mm:ss' />" maxlength="30" type="text">

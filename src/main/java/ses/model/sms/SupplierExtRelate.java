@@ -10,17 +10,19 @@ public class SupplierExtRelate {
         super();
     }
 
-    public SupplierExtRelate(String id, Short operatingType, String reason) {
+    public SupplierExtRelate(String id, Short operatingType, String reason,String[] packageId) {
         super();
         this.id = id;
         this.operatingType = operatingType;
         this.reason = reason;
+        this.packageId = packageId;
     }
 
-    public SupplierExtRelate(String id, Short operatingType) {
+    public SupplierExtRelate(String id, Short operatingType,String[] packageId) {
         super();
         this.id = id;
         this.operatingType = operatingType;
+        this.packageId = packageId;
     }
 
     public SupplierExtRelate(String supplierConditionId) {
@@ -31,6 +33,8 @@ public class SupplierExtRelate {
     private Supplier supplier;
     
     private List<SupplierConType> conType;
+    
+    private  String[] packageId;
 
     /**
      * <pre>
@@ -435,6 +439,20 @@ public class SupplierExtRelate {
      */
     public void setReviewType(String reviewType) {
         this.reviewType = reviewType;
+    }
+
+    /**
+     * @return Returns the packageId.
+     */
+    public String[] getPackageId() {
+      return packageId;
+    }
+
+    /**
+     * @param packageId The packageId to set.
+     */
+    public void setPackageId(String[] packageId) {
+      this.packageId = packageId;
     }
 
    

@@ -329,6 +329,7 @@ return false;
            }, function(index){
         	   window.location.href="${pageContext.request.contextPath}/SupplierExtracts/showRecord.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
            }, function(index){
+        	   window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
              layer.close(index);
            });
     	 /* $.ajax({
@@ -726,7 +727,7 @@ return false;
        $.ajax({
              type: "POST",
              url: "${pageContext.request.contextPath}/SupplierExtracts/resultextract.do",
-             data: {id:id,reason:v},
+             data: {id:id,reason:v,packageId:"${packageId}"},
              dataType: "json",
              success: function(data){
                          list=data;
@@ -916,7 +917,7 @@ return false;
            <li class="col-md-3 col-sm-6 col-xs-12">
             <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">抽取总数量：</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
-              <input class="input_group"  name="supplierCount" id="supplierCount" value="${listCon.conTypes[0].supplierCount }" type="text">
+              <input class="input_group"  name="supplierCount" id="supplierCount" value="${sumCount}" type="text">
               <span class="add-on">i</span>
               <div class="cue" id="countSupplier"></div>
             </div>

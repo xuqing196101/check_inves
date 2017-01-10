@@ -5,6 +5,7 @@ package ses.service.sms.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,8 +80,8 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
         show.getConTypes().clear();
         show.getConTypes().add(contype);
         //查询供应商集合
-        if(contype.getSupplierTypeId() != null &&  !"".equals(contype.getSupplierTypeId())){
-          contype.setArraySupplierTypeId(contype.getSupplierTypeId().split("\\,"));
+        if(show.getExpertsTypeId() != null &&  !"".equals(show.getExpertsTypeId())){
+          contype.setArraySupplierTypeId(show.getExpertsTypeId().split("\\,"));
         }
         List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(show);//getAllSupplier(null);
         //循环吧查询出的专家集合insert到专家记录表和专家关联的表中
@@ -143,7 +144,40 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
    */
   @Override
   public void update(SupplierExtRelate projectExtract) {
+    if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
+      if(projectExtract.getOperatingType() == 1){
+        for (String packageId : projectExtract.getPackageId()) {
+          if (!"".equals(packageId)){
+            SupplierExtRelate pe = supplierExtRelateMapper.selectByPrimaryKey(projectExtract.getId());
+            if(pe != null){
+              if(packageId != pe.getProjectId()){
+                SupplierExtRelate extract = new SupplierExtRelate();
+                extract.setProjectId(packageId);
+                extract.setSupplierId(pe.getSupplier().getId());
+                List<SupplierExtRelate> list = supplierExtRelateMapper.list(extract);
+                if(list != null && list.size() != 0){
+                  list.get(0).setOperatingType((short)1);
+                  list.get(0).setReviewType(pe.getReviewType());
+                  supplierExtRelateMapper.updateByPrimaryKeySelective(list.get(0));
+                }else{
+                  SupplierExtRelate pext = new SupplierExtRelate();
+                  pext.setSupplierId(pe.getSupplier().getId());
+                  pext.setProjectId(packageId);
+                  pext.setOperatingType((short)1);
+                  pext.setCreatedAt(new Date());
+                  pext.setReviewType(pe.getReviewType());
+                  supplierExtRelateMapper.insertSelective(pext);
+                }
 
+
+              }
+
+            }
+          }
+        }
+
+      }
+    }
     supplierExtRelateMapper.updateByPrimaryKeySelective(projectExtract);
 
   }

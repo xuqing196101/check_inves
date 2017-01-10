@@ -3,6 +3,8 @@
  */
 package ses.controller.sys.ems;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -19,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+
 
 
 
@@ -52,6 +56,7 @@ import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExtConType;
 import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtPackage;
 import ses.model.sms.SupplierExtRelate;
@@ -421,7 +426,7 @@ public class ExpExtractRecordController extends BaseController {
       }
       model.addAttribute("extConType", conTypes);
       model.addAttribute("extConTypeJson",JSON.toJSONString(conTypes));
-      
+
 
       if (projectExtractListNo.size() != 0){
         projectExtractListYes.add(projectExtractListNo.get(0));
@@ -525,7 +530,7 @@ public class ExpExtractRecordController extends BaseController {
       return JSON.toJSONString(map);
 
     } else{
-  
+
       //真实的项目id
       String projectId = project.getId();
       //            String packageId = "";
@@ -774,8 +779,8 @@ public class ExpExtractRecordController extends BaseController {
           extractService.update(extract);
         }
       }
-      
-    
+
+
     }
 
 
@@ -870,7 +875,7 @@ public class ExpExtractRecordController extends BaseController {
       map.put("typeId", expertTypeIds.substring(0, expertTypeIds.length()-1));
       extractService.del(map);
     }
-    
+
     //拿出数量和session中存放的数字进行对比
     ProjectExtract pe = new ProjectExtract();
     pe.setId(ids[0]);
@@ -1021,7 +1026,7 @@ public class ExpExtractRecordController extends BaseController {
       record.setProjectId(projectId);
       showExpExtractRecord =  expExtractRecordService.listExtractRecord(record,0).get(0);
     }
-    
+
     if (packageId != null && !"".equals(packageId)){
       //已抽取
       String[] packageIds =  packageId.split(",");
@@ -1037,7 +1042,7 @@ public class ExpExtractRecordController extends BaseController {
         }
       }
     }
-     
+
     model.addAttribute("ExpExtractRecord", showExpExtractRecord);
     if(showExpExtractRecord !=null){
       //抽取条件
@@ -1160,9 +1165,34 @@ public class ExpExtractRecordController extends BaseController {
    * @version 2016年10月14日 下午7:29:36  
    * @param model  实体
    * @param  id 专家id
+   * @throws UnsupportedEncodingException 
    */
   @RequestMapping(value="/AddtemporaryExpert",produces = "text/html;charset=UTF-8")
-  public  Object addTemporaryExpert(@Valid Expert expert, BindingResult result, Model model, String projectId,String packageId,String packageName, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq){
+  public  Object addTemporaryExpert(@Valid Expert expert, BindingResult result, Model model, String projectId,String packageId,String packageName, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq) throws UnsupportedEncodingException{
+    //转码
+    if (expert != null) {
+      if(expert.getRelName() != null && !"".equals(expert.getRelName())){
+        expert.setRelName(URLDecoder.decode(expert.getRelName(),"UTF-8"));
+      }
+      if(expert.getIdNumber() != null && !"".equals(expert.getIdNumber())){
+        expert.setIdNumber(URLDecoder.decode(expert.getIdNumber(),"UTF-8"));
+      }
+      if(expert.getAtDuty() != null && !"".equals(expert.getAtDuty() )){
+        expert.setAtDuty(URLDecoder.decode(expert.getAtDuty(),"UTF-8"));
+      }
+      if(expert.getMobile() != null && !"".equals(expert.getMobile())){
+        expert.setMobile(URLDecoder.decode(expert.getMobile(),"UTF-8"));
+      }
+    }
+    if (loginName != null && !"".equals(loginName)) {
+      loginName = URLDecoder.decode(loginName,"UTF-8");
+    }
+    if (loginPwd != null && !"".equals(loginPwd)) {
+      loginPwd = URLDecoder.decode(loginPwd,"UTF-8");
+    }
+    if (packageName != null && !"".equals(packageName)) {
+      packageName = URLDecoder.decode(packageName,"UTF-8");
+    }
     Integer type = 0;
     //校验字段
     if (result.hasErrors()){
@@ -1170,6 +1200,9 @@ public class ExpExtractRecordController extends BaseController {
     }
     if (loginName == null || "".equals(loginName)){
       model.addAttribute("loginNameError", "不能为空");
+      if (loginName == null || !loginName.matches("^\\w{6,20}$")) {
+        model.addAttribute("loginNameError", "登录名由6-20位字母数字和下划线组成 !");
+      }
       type = 1;
     }else{
       //校验用户名是否存在
@@ -1180,8 +1213,11 @@ public class ExpExtractRecordController extends BaseController {
       }
     }
 
-    if (loginPwd == null || "".equals(loginPwd)){
+    if (loginPwd == null || "".equals(loginPwd)) {
       model.addAttribute("loginPwdError", "不能为空");
+      if (loginPwd == null || !loginPwd.matches("^\\w{6,20}$")) {
+        model.addAttribute("loginPwdError", "密码由6-20位字母数字和下划线组成 !");
+      }
       type = 1;
     }
 
@@ -1189,6 +1225,15 @@ public class ExpExtractRecordController extends BaseController {
 
       model.addAttribute("packageIdError", "不能为空");
       type = 1;
+    }
+
+    if(expert.getIdNumber() != null && !"".equals(expert.getIdNumber())){
+      List<Expert> validateIdNumber = expertServices.validateIdNumber(expert.getIdNumber(), null);
+      if(validateIdNumber != null && validateIdNumber.size() != 0){
+        model.addAttribute("IdNumberError", "已被占用");
+        type = 1;
+      }
+
     }
 
 
@@ -1324,6 +1369,10 @@ public class ExpExtractRecordController extends BaseController {
     if(relName.length == 0 || phone.length ==0 || company.length == 0){
       return ERROR;
     }
+    if(projectId != null && !"".equals(projectId)){
+      projectSupervisorServicel.deleteProjectId(projectId);
+      extUserServicel.deleteProjectId(projectId);
+    }
     for (int i = 0; i < relName.length; i++ ) {
       ps = new ProExtSupervise();
       eu = new SupplierExtUser();
@@ -1346,7 +1395,7 @@ public class ExpExtractRecordController extends BaseController {
         eu.setPhone(phone[i]);
         eu.setRelName(relName[i]);
         if(projectId != null && !"".equals(projectId)){
-          extUserServicel.deleteProjectId(projectId);
+
           eu.setProjectId(projectId);
         }
         eu.setDuties(duties[i]);
@@ -1359,7 +1408,7 @@ public class ExpExtractRecordController extends BaseController {
         ps.setPhone(phone[i]);
         ps.setRelName(relName[i]);
         if(projectId != null && !"".equals(projectId)){
-          projectSupervisorServicel.deleteProjectId(projectId);
+
           eu.setProjectId(projectId);
         }
         ps.setProjectId(projectId);

@@ -160,9 +160,10 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
   @Override
   public Integer selectLikeSupplier(SupplierCondition condition, SupplierConType conType,String province) {
     Integer count=0;
+    String[] packId = condition.getProjectId().split(",");
     List<SupplierConType> conTypes = new ArrayList<SupplierConType>();
-    if(conType.getSupplierTypeId() != null &&  !"".equals(conType.getSupplierTypeId())){
-      conType.setArraySupplierTypeId(conType.getSupplierTypeId().split("\\,"));
+    if(condition.getExpertsTypeId() != null &&  !"".equals(condition.getExpertsTypeId())){
+      conType.setArraySupplierTypeId(condition.getExpertsTypeId().split("\\,"));
     }
     conTypes.add(conType);
     condition.setConTypes(conTypes);
@@ -175,6 +176,7 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
           address[i] = findAreaByParentId.get(i).getId();
         }
         condition.setAddressSplit(address);
+        condition.setAddress(null);
       }
     }
     //查询供应商集合
@@ -184,7 +186,7 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
     for (Supplier supplier2 : selectAllExpert) {
       Map<String, String> map=new HashMap<String, String>();
       map.put("supplierId", supplier2.getId());
-      map.put("projectId",condition.getProjectId());
+      map.put("projectId",packId[0]);
       if(supplierExtRelateMapper.getSupplierId(map)==0){
         count++;
       }

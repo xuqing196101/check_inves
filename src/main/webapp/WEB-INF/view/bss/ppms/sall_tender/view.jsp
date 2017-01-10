@@ -17,7 +17,7 @@
     function submit(){        
       var supplierName = $('#supplierName').val();
       var armyBuinessTelephone = $('#armyBuinessTelephone').val();
-      var path = "${pageContext.request.contextPath}/saleTender/view.html?projectId=${project.id}&&supplierName="+supplierName+"&&armyBuinessTelephone="+armyBuinessTelephone;
+      var path = "${pageContext.request.contextPath}/saleTender/view.html?projectId=${project.id}&supplierName="+encodeURI(encodeURI(supplierName))+"&armyBuinessTelephone="+encodeURI(encodeURI(armyBuinessTelephone));
       $("#tab-1").load(path);
       
     }

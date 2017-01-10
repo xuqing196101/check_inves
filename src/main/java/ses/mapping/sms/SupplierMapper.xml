@@ -80,9 +80,10 @@
 
 	</resultMap>
 
-	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap" extends="BaseResultMap">
+	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap"
+		extends="BaseResultMap">
 		<collection property="listSupplierTypeRelates"
-	     select="ses.dao.sms.SupplierTypeRelateMapper.findSupplierTypeBySupplierId"
+			select="ses.dao.sms.SupplierTypeRelateMapper.findSupplierTypeBySupplierId"
 			column="ID" />
 	</resultMap>
 	<sql id="Base_Column_List">
@@ -147,14 +148,14 @@
 		from T_SES_SMS_SUPPLIER
 		where ID = #{id}
 	</select>
-	
+
 	<select id="selectByPrimaryKeyItem" parameterType="java.lang.String"
-    resultMap="supplierTypeMap">
-    select
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER
-    where ID = #{id}
-  </select>
+		resultMap="supplierTypeMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER
+		where ID = #{id}
+	</select>
 
 	<select id="selectByProjectId" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -171,7 +172,8 @@
 		WHERE PROJECT_ID = #{projectId} GROUP BY
 		SUPPLIER_ID
 		) t1
-		LEFT JOIN T_SES_SMS_SUPPLIER T3 ON T3.ID=T1.SUPPLIER_ID where id is not
+		LEFT JOIN T_SES_SMS_SUPPLIER T3 ON T3.ID=T1.SUPPLIER_ID
+		where id is not
 		null
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -1091,7 +1093,8 @@
 		FROM t_ses_sms_supplier
 		WHERE
 		1=1
-		and PROCUREMENT_DEP_ID = #{procurementDepId}
+		and PROCUREMENT_DEP_ID =
+		#{procurementDepId}
 		<if test="sign == 1">
 			and (SUPPLIER_STATUS = 0 or SUPPLIER_STATUS = 1 or
 			SUPPLIER_STATUS = 2 or SUPPLIER_STATUS = 3)
@@ -1105,7 +1108,8 @@
 			SUPPLIER_STATUS = 8)
 		</if>
 		<if test="supplierName != null and supplierName !=''">
-			AND SUPPLIER_NAME like CONCAT(CONCAT('%', #{supplierName}), '%')
+			AND SUPPLIER_NAME like CONCAT(CONCAT('%',
+			#{supplierName}), '%')
 		</if>
 		<if test="status != null">
 			AND SUPPLIER_STATUS = #{status}
@@ -1295,7 +1299,6 @@
 		set SCORE = #{score} where ID = #{id}
 	</update>
 	<!-- 供应商抽取集合 -->
-<!-- -->
 	<select id="listExtractionExpert" parameterType="ses.model.sms.SupplierCondition"
 		resultMap="findSupplierMap">
 		select * from(
@@ -1317,8 +1320,9 @@
 		) GROUP BY id )t1
 		left JOIN T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
 		) where 1=1
-	 AND IS_PROVISIONAL = 0 and ( SUPPLIER_STATUS = 1   or  SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 7  )
-	
+		AND IS_PROVISIONAL = 0 and ( SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5
+		or SUPPLIER_STATUS = 7 )
+
 		<if test="address != null and address != '' ">
 			AND ADDRESS = #{address}
 		</if>
@@ -1330,19 +1334,20 @@
 				ADDRESS = #{split}
 			</foreach>
 		</if>
+
 		<foreach item="item" collection="conTypes">
+			<if
+				test="item.arraySupplierTypeId !=null and item.arraySupplierTypeId != '' ">
+				AND
+				<foreach item="type" collection="item.arraySupplierTypeId"
+					open="(" close=")" separator="OR">
+					"INSTR"(typeId,
+					#{type})>0
+				</foreach>
+			</if>
 			<if
 				test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
 				<if test="item.isMulticondition==2">
-					<if
-						test="item.arraySupplierTypeId !=null and item.arraySupplierTypeId != '' ">
-						AND
-						<foreach item="type" collection="item.arraySupplierTypeId"
-							open="(" close=")" separator="OR">
-							"INSTR"(typeId,
-							#{type})>0
-						</foreach>
-					</if>
 					<if test="item.categorySplit != null and item.categorySplit != ''">
 						AND (
 						<foreach item="category" index="index" collection="item.categorySplit"
@@ -1353,14 +1358,6 @@
 					</if>
 				</if>
 				<if test="item.isMulticondition==1">
-					<if
-						test="item.arraySupplierTypeId !=null and item.arraySupplierTypeId != '' ">
-						AND
-						<foreach item="type" collection="item.arraySupplierTypeId"
-							open="(" close=")" separator="OR">
-							"INSTR"(typeId,#{type})>0
-						</foreach>
-					</if>
 					<if test="item.categorySplit != null and item.categorySplit != ''">
 						AND (
 						<foreach item="category" index="index" collection="item.categorySplit"
@@ -1442,7 +1439,8 @@
 	<!-- 获取手机的数量 -->
 	<select id="getCountMobile" resultType="java.lang.Integer">
 		SELECT count(1)
-		FROM T_SES_SMS_SUPPLIER
+		FROM
+		T_SES_SMS_SUPPLIER
 		WHERE MOBILE= #{mobile}
 	</select>
 
@@ -1452,8 +1450,11 @@
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
 		WHERE SUPPLIER_STATUS = 0
-		AND SUBMIT_AT &gt;= to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
-		AND SUBMIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+		AND SUBMIT_AT &gt;=
+		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+		AND
+		SUBMIT_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
+		hh24:mi:ss')
 	</select>
 
 	<!-- 根据修改日期查询已提交的供应商 -->
@@ -1462,7 +1463,8 @@
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
 		WHERE SUPPLIER_STATUS = 0
-		AND TO_CHAR(UPDATED_AT, 'yyyy-MM-dd') = #{modifyDate}
+		AND
+		TO_CHAR(UPDATED_AT, 'yyyy-MM-dd') = #{modifyDate}
 	</select>
 
 	<!-- 社会统一信用代码唯一校验 -->
@@ -1471,6 +1473,7 @@
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
 		WHERE CREDIT_CODE = #{_parameter}
-		and SUPPLIER_STATUS != 6
+		and
+		SUPPLIER_STATUS != 6
 	</select>
 </mapper>

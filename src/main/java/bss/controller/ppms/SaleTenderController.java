@@ -4,6 +4,8 @@
 package bss.controller.ppms;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -123,10 +125,18 @@ public class SaleTenderController {
      * @param @param model
      * @param @return      
      * @return String
+     * @throws UnsupportedEncodingException 
      */
     @RequestMapping("/view")
-    public String view(String projectId, Model model,String supplierName,String armyBuinessTelephone,Integer statusBid, String flowDefineId){
-        //项目信息
+    public String view(String projectId, Model model,String supplierName,String armyBuinessTelephone,Integer statusBid, String flowDefineId) throws UnsupportedEncodingException{
+      if(supplierName != null && !"".equals(supplierName)){
+        supplierName = URLDecoder.decode(supplierName,"UTF-8"); 
+      }
+      if(armyBuinessTelephone != null && !"".equals(armyBuinessTelephone)){
+        armyBuinessTelephone = URLDecoder.decode(armyBuinessTelephone,"UTF-8");  
+      }
+      
+      //项目信息
         Project project=projectService.selectById(projectId);
 
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -158,7 +168,7 @@ public class SaleTenderController {
                 if(statusBid!=null){
                     saleTender.setStatusBid(statusBid.shortValue());
                 }
-                saleTender.setProjectId(projectId);
+                saleTender.setProject(new Project(projectId));
                 saleTender.setPackages(packages.getId());
                 saleTender.setSuppliers(supplier);
                 List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);

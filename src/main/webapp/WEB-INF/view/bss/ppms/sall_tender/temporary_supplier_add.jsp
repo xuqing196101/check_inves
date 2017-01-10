@@ -14,7 +14,7 @@
 
 <script type="text/javascript">
 
-function sumbits(){
+/* function sumbits(){
 	$.ajax({
         cache: true,
         type: "POST",
@@ -33,7 +33,15 @@ function sumbits(){
             }
         }
     });
-	}
+	} */
+	
+function sumbits(){
+		var formData = $("#form").serialize();
+	    formData = decodeURIComponent(formData, true);
+	  $("#tab-1").load("${pageContext.request.contextPath}/SupplierExtracts/AddtemporarySupplier.do",encodeURI(encodeURI(formData)));
+
+	  }
+	  
 	/**返回*/
 	function onback(){
 		  var path = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId }';
@@ -133,7 +141,7 @@ function sumbits(){
   </div>
 <!-- 修改订列表开始-->
    <div class="container container_box">
-   <form id="form" action="${pageContext.request.contextPath}/SupplierExtracts/AddtemporarySupplier.do" method="post" >
+   <form id="form"  method="post" >
      <input type="hidden" value="${projectId}" name="projectId"/>
      <input type="hidden" value="${packageId}" name="packageId"/>
      <input type="hidden" value="${flowDefineId}" name="flowDefineId"/>
@@ -141,7 +149,7 @@ function sumbits(){
     <h2 class="count_flow">添加临时供应商</h2>
    <ul class="ul_list">
       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">供应商名称：</span>
+         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>供应商名称：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
          <input class="title col-md-12" maxlength="10" id="appendedInput" name="supplierName" value="${supplier.supplierName}" type="text"/>
          <span class="add-on">i</span>
@@ -149,7 +157,7 @@ function sumbits(){
         </div>
 	   </li>
 	    <li class="col-md-3 col-sm-6 col-xs-12 ">
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">统一社会信用代码：</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>统一社会信用代码：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
          <input class="title col-md-12" id="appendedInput" name="creditCode" value="${supplier.creditCode}" maxlength="18" type="text">
          <span class="add-on">i</span>
@@ -157,7 +165,7 @@ function sumbits(){
         </div>
     </li>
      <li class="col-md-3 col-sm-6 col-xs-12 ">
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">军队业务联系人姓名：</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>军队业务联系人姓名：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input class="title col-md-12" id="appendedInput" name="armyBusinessName" value="${supplier.armyBusinessName}" maxlength="10" type="text">
          <span class="add-on">i</span>
@@ -165,7 +173,7 @@ function sumbits(){
         </div>
 	 </li> 
      <li class="col-md-3 col-sm-6 col-xs-12 ">
-       <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">军队业务联系人电话：</span>
+       <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>军队业务联系人电话：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
              <input class="title col-md-12" id="appendedInput" name="armyBuinessTelephone" value="${supplier.armyBuinessTelephone}"  maxlength="11" type="text">
          <span class="add-on">i</span>
@@ -174,7 +182,7 @@ function sumbits(){
 	 </li> 
 	     
 	  <li class="col-md-3 col-sm-6 col-xs-12 ">
-	    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">登录名：</span>
+	    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>登录名：</span>
 	      <div class="input-append input_group col-sm-12 col-xs-12 p0">
               <input class="title col-md-12" id="appendedInput" name="loginName" value="${loginName}"  maxlength="11" type="text">
          <span class="add-on">i</span>
@@ -182,7 +190,7 @@ function sumbits(){
         </div>
      </li> 
       <li class="col-md-3 col-sm-6 col-xs-12 ">
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">密码：</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>密码：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input class="title col-md-12" id="appendedInput" name="loginPwd" value="${loginPwd}" maxlength="11" type="password">
           <span class="add-on">i</span>
@@ -199,7 +207,7 @@ function sumbits(){
    </div>
   <div  class="col-md-12">
    <div class="col-md-6" align="center">
-      <button class="btn btn-windows save"  type="submit">保存</button>
+      <button class="btn btn-windows save"  type="button" onclick="sumbits();">保存</button>
       <button class="btn btn-windows back" type="button" onclick="onback();">返回</button>
 	</div>
   </div>

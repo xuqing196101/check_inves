@@ -229,6 +229,9 @@
 		<if test="reviewType != null and reviewType != ''">
 			AND pe.REVIEW_TYPE = #{reviewType}
 		</if>
+		<if test="supplierId != null and supplierId != '' ">
+			AND pe.SUPPLIER_ID = #{supplierId}
+		</if>
 		<if test="projectId != null and projectId != ''">
 			AND pe.PROJECT_ID =#{projectId}
 			ORDER BY
@@ -239,7 +242,6 @@
 				AND SS.SUPPLIER_NAME LIKE '%${supplier.supplierName}%'
 			</if>
 		</if>
-		  ORDER BY pe.CREATED_AT DESC
 	</select>
 	<!-- 删除重复数据 -->
 	<delete id="deleteData" parameterType="Map">
@@ -316,7 +318,7 @@
 		SUPPLIER_ID IN
 		(
 		SELECT SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_TYPE_RELATE WHERE
-		SUPPLIER_TYPE_ID = #{typeId}  
+		SUPPLIER_TYPE_ID = #{typeId}
 		) AND OPERATING_TYPE = 0 )
 	</select>
 

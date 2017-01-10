@@ -128,13 +128,16 @@ public class TodosServiceImpl implements TodosService {
       User user = new User();
       user.setId(userId);
       List<PreMenu> menu = preMenuServiceI.getMenu(user);
-      for (String str : db) {
-        for (PreMenu preMenu : menu) {
-          if(str.equals(preMenu.getId())){
-            listUserPermission.add(str);
+      if (menu != null && menu.size() != 0) {
+        for (String str : db) {
+          for (PreMenu preMenu : menu) {
+            if(str.equals(preMenu.getId())){
+              listUserPermission.add(str);
+            }
           }
         }
       }
+      
     }
 
     if (listUserPermission != null && listUserPermission.size() != 0){

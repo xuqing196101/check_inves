@@ -23,7 +23,9 @@ $(function idType(){
 });
  
 function sumbits(){
-	$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do",$("#form").serialize());
+	   var formData = $("#form").serialize();
+	      formData = decodeURIComponent(formData, true);
+	$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do",encodeURI(encodeURI(formData)));
 	}
 </script>
 
@@ -213,7 +215,7 @@ function sumbits(){
     <h2 class="count_flow">添加临时专家</h2>
    <ul class="ul_list">
       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家姓名：</span>
+         <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>专家姓名：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
          <input class="title col-md-12" maxlength="10" id="appendedInput" name="relName" value="${expert.relName}" type="text"/>
          <span class="add-on">i</span>
@@ -221,7 +223,7 @@ function sumbits(){
         </div>
 	   </li>
 	    <li class="col-md-3 col-sm-6 col-xs-12 ">
-	      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">证件类型：</span>
+	      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>证件类型：</span>
 	        <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 		        <select class="" name="idType"  id="idType">
 		           <option value="">-请选择-</option>
@@ -233,15 +235,15 @@ function sumbits(){
 	       </div>
      </li>
      <li class="col-md-3 col-sm-6 col-xs-12 ">
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">证件号码：</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>证件号码：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
          <input class="title col-md-12" id="appendedInput" name="idNumber" value="${expert.idNumber}" maxlength="18" type="text">
          <span class="add-on">i</span>
-             <div class="cue" ><sf:errors path="idNumber"/></div>
+             <div class="cue" ><sf:errors path="idNumber"/>${IdNumberError}</div>
         </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12 ">
-	    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">专家类别：</span>
+	    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>专家类别：</span>
 	     <div class="input-append input_group col-sm-12 col-xs-12 p0">
 	         <c:set value="${fn:split(expert.expertsTypeId,',')}" var="expertType"></c:set>
 	        <c:set value="" var="typeId"></c:set>
@@ -260,7 +262,7 @@ function sumbits(){
          
      </li>
      <li class="col-md-3 col-sm-6 col-xs-12 ">
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">现任职务：</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>现任职务：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input class="title col-md-12" id="appendedInput" name="atDuty" value="${expert.atDuty}" maxlength="10" type="text">
          <span class="add-on">i</span>
@@ -277,7 +279,7 @@ function sumbits(){
 	   
 <!-- 	 </li>  -->
      <li class="col-md-3 col-sm-6 col-xs-12 ">
-       <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">联系电话：</span>
+       <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>联系电话：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
              <input class="title col-md-12" id="appendedInput" name="mobile" value="${expert.mobile}"  maxlength="11" type="text">
          <span class="add-on">i</span>
@@ -285,7 +287,7 @@ function sumbits(){
         </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12 ">
-	    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">分配账户：</span>
+	    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>分配账户：</span>
 	      <div class="input-append input_group col-sm-12 col-xs-12 p0">
               <input class="title col-md-12" id="appendedInput" name="loginName" value="${loginName}"  maxlength="11" type="text">
          <span class="add-on">i</span>
@@ -293,7 +295,7 @@ function sumbits(){
         </div>
      </li> 
       <li class="col-md-3 col-sm-6 col-xs-12 ">
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">分配密码：</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>分配密码：</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
           <input class="title col-md-12" id="appendedInput" name="loginPwd" value="${loginPwd}" maxlength="11" type="password">
           <span class="add-on">i</span>
@@ -301,10 +303,10 @@ function sumbits(){
         </div>
      </li>  
       <li class="col-md-3 col-sm-6 col-xs-12 ">
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">添加包</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>添加包</span>
          <div class="input-append input_group col-sm-12 col-xs-12 p0">
             <input  class="title col-md-12" name="packageName" placeholder="请选择包"  readonly id="packageName" value="${packageName}" onclick="showPackageType();"   type="text">
-              <input  readonly id="packageId" name="packageId"     type="hidden">
+              <input  readonly id="packageId" name="packageId" value="${packageId}"     type="hidden">
           <span class="add-on">i</span>
           <div class="cue" >${packageIdError}</div>
         </div>

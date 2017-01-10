@@ -333,8 +333,7 @@
 		</if>
 		<if
 			test="suppliers != null and suppliers.armyBuinessTelephone != null and suppliers.armyBuinessTelephone != ''">
-			AND ss.ARMY_BUSINESS_TELEPHONE =
-			#{suppliers.armyBuinessTelephone,jdbcType=VARCHAR}
+			AND ss.ARMY_BUSINESS_TELEPHONE LIKE #{suppliers.armyBuinessTelephone,jdbcType=VARCHAR}
 		</if>
 		<if test="statusBid != null  and statusBid != '' ">
 			AND st.STATUS_BID=#{statusBid,jdbcType=DECIMAL}

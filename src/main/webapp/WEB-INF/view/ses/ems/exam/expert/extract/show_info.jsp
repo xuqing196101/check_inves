@@ -5,25 +5,12 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
-	function cheClick() {
-		var roleIds = "";
-		var roleNames = "";
-		$('input[name="chkItem"]:checked').each(function() {
-			var idName = $(this).val();
-			var arr = idName.split(";");
-			roleIds += arr[0] + ",";
-			roleNames += arr[1] + ",";
-		});
-		$("#roleId").val(roleIds.substr(0, roleIds.length - 1));
-		$("#roleName").val(roleNames.substr(0, roleNames.length - 1));
-	}
 	/**返回*/
 	function back(){
 		var classid = "${typeclassId}";
 		if(classid != null && classid != ''){
 			  window.history.go(-1);
 		}else{
-			 alert(classid);
 			 window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&&typeclassId=${typeclassId}&&packageId=${packageId}";
 		}
 		  
@@ -65,15 +52,15 @@
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed">
 					<tr>
-						<td  class="bggrey" width="100px">项目名称:</td>
+						<td  class="bggrey" width="100px">项目名称</td>
 						<td colspan="8" width="150px" id="tName">${ExpExtractRecord.projectName}</td>
 					</tr>
 					<tr>
-						<td  class="bggrey">抽取时间:</td>
+						<td  class="bggrey">抽取时间</td>
 						<td colspan="4"><fmt:formatDate
 								value="${ExpExtractRecord.extractionTime}"
 								pattern="yyyy年MM月dd日   " /></td>
-						<td class="bggrey" >抽取地点:</td>
+						<td class="bggrey" >抽取地点</td>
 						<td colspan="3" >${fn:replace(ExpExtractRecord.extractionSites,',','')}</td>
 					</tr>
 					<tr>
@@ -85,12 +72,14 @@
                     <p class="f16"><span class="b">包名：</span><span class="light_blue b">${con.name}</span></p>
                       <c:forEach items="${ con.listExpExtCondition}" var="conlist" varStatus="vs">
                         <p>第<span class="b orange">${(vs.index+1)}</span>次抽取，抽取条件如下：</p>
-                        <p>专家所在地区【${conlist.address }】
+                        <p class="ml10">专家所在地区：${conlist.address }
                              <c:if test="${conlist.addressId != null }">
 		                           <c:if test="${conlist.addressReason != null}">
-		                                                                                 专家所在地区限制条件【${conlist.addressReason }】
+		                                                                                   限制条件：${conlist.addressReason }
 		                           </c:if> 
-                             </c:if>                                               
+                             </c:if>  
+                               </p>
+                               <p class="ml10">                                                
                          <c:if test="${conlist.expertsFromSplit != null }">
 	                        <c:set value="" var="froms"></c:set>
 			                     <c:forEach var="ay" items="${conlist.expertsFromSplit}" >
@@ -100,33 +89,37 @@
 					                      </c:if> 
 				                      </c:forEach> 
 			                      </c:forEach>
-			                                                                         专家来源【${fn:substring(froms,1,froms.length())}】 
+			                                                                         专家来源：${fn:substring(froms,1,froms.length())}
                          </c:if>
+                         </p>
+                           <p class="ml10">   
                            <c:if test="${conlist.ageMax != null || conlist.ageMin != null}">
-                                                                                                  年龄  【${conlist.ageMin }- ${conlist.ageMax}】 
+                                                                                                  年龄：${conlist.ageMin }- ${conlist.ageMax}
                            </c:if> 
+                             </p>  
+                               <p class="ml10">   
                            <c:if test="${conlist.categoryName != null}">
-                                                                                               品目     【${conlist.categoryName }】 
-                           </c:if>     
-                           
+                                                                                               品目：${conlist.categoryName }
+                           </c:if>  
+                                </p> 
+                            <p class="ml10">  
                            <c:if test="${conlist.expertsQualification != null && conlist.expertsQualification != '' }">
-                                                                                        执业资格【conlist.expertsQualification】
+                                                                                        执业资格：conlist.expertsQualification
                            </c:if>                                                
                         </p>
                                         <ol>
                                             <c:forEach items="${conlist.conTypes }" var="contypes">
-																	                      <li>{专家类型 
-																	                    
+																	                      <li>专家类型 
 																	                      <c:forEach items="${ddList}" var="type">
 																	                       <c:if test="${type.id == contypes.expertsTypeId}">
 																	                           ${type.name}
 																	                       </c:if>
 																	                      </c:forEach>
 																	                 <c:if test="${contypes.categoryName != null && contypes.categoryName != '' }">
-																	                  ，       采购类别【 ${fn:replace(contypes.categoryName,'^',',')}】
+																	                  ，       采购类别： ${fn:replace(contypes.categoryName,'^',',')}
 																	                 </c:if>
 																	                         
-																	                        】，专家数量【${contypes.expertsCount}】 }
+																	                        ，专家数量：${contypes.expertsCount}
                                       </li>
                                 </c:forEach>
                                       </ol>
