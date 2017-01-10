@@ -311,7 +311,7 @@
 			  	</c:forEach> --%>
 			  </td>  
 			  <td class="pr20 tr"><div onclick="view('${obj.uniqueId }')">${obj.budget }</div></td>
-			  <td class="tc" onclick="view('${obj.uniqueId }')"><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc" onclick="view('${obj.uniqueId }')"><fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd"/></td>
 			 <%--  <td class="tc" onclick="view('${obj.uniqueId }')">${obj.deliverDate } </td> --%>
 			  <td class="tc" onclick="view('${obj.uniqueId }')">
 				 <c:if test="${obj.status=='1' }">

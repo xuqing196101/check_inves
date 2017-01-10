@@ -418,7 +418,7 @@
                         		<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 							</td>
 							<td class="tc " onclick="view('${obj.id}')">
-								<fmt:formatDate value="${obj.createdAt }" />
+								<fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd" />
 							</td>
 							<td class="tl pl20" onclick="view('${obj.id}')">
 								<c:if test="${obj.status=='1' }">
