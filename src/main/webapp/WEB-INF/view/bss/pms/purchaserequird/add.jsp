@@ -954,17 +954,17 @@
 									    <th class="">行号</th>
 										<th class="">序号</th>
 										<th class="">需求部门</th>
-										<th class="">物种名称</th>
+										<th class="">物资类别及</br>物资名称</th>
 										<th class="">规格型号</th>
-										<th class="">质量技术标准（技术参数）</th>
+										<th class="">质量技术标准</br>（技术参数）</th>
 										<th class="">计量单位</th>
 										<th class="">采购数量</th>
 										<th class="">单价（元）</th>
-										<th class="">预算金额（万元）</th>
+										<th class="">预算金额</br>（万元）</th>
 										<th class="">交货期限</th>
 										<th class="">采购方式建议</th>
 										<th class="">供应商名称</th>
-										<th class="">是否申请办理免税</th>
+										<th class="">是否申请</br>办理免税</th>
 										<th name="userNone" class="">物资用途（仅进口）</th>
 										<th name="userNone" class="">使用单位（仅进口）</th>
 										<th class="">备注</th>

@@ -106,8 +106,15 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
+		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+		status = $.trim(status);
 		if(id.length==1){
-			window.location.href="${pageContext.request.contextPath}/adjust/pledit.html?id="+id;
+			if(status != "已下达"){
+				window.location.href="${pageContext.request.contextPath}/adjust/pledit.html?id="+id;
+			}else{
+			     layer.alert("已下达",{offset: ['322px', '790px'], shade:0.01});
+			}
+			
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -191,15 +198,30 @@
 			  <td class="tr pr20 w140" onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			    <td class="tc w120"  onclick="view('${obj.id}')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc w120"  onclick="view('${obj.id}')">
+			  
 			  <c:if test="${obj.status=='1' }">
-			   未下达
+					   待审核设置
 			  </c:if>
-			     <c:if test="${obj.status=='2' }">
-			   已审核
+			  <c:if test="${obj.status=='2' }">
+					   已下达
 			  </c:if>
-			     <c:if test="${obj.status=='3' }">
-			   已下达
+			  <c:if test="${obj.status=='3' }">
+					   第一轮审核
 			  </c:if>
+			  <c:if test="${obj.status=='4' }">
+					    第二轮审核人员设置
+			  </c:if>
+			  <c:if test="${obj.status=='5' }">
+					 第二轮审核
+			  </c:if>
+			  <c:if test="${obj.status=='6' }">
+					   第三轮审核人员设置
+			  </c:if>
+			  <c:if test="${obj.status=='7' }">
+					   第三轮审核
+			  </c:if>
+			  
+			  
 			  </td>
 			</tr>
 	 

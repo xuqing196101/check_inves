@@ -429,7 +429,7 @@ $(document).ready(function () {
 						<tr class="space_nowrap" id="scroll_top">
 							<th class="info w50">序号</th>
 							<th class="info">需求部门</th>
-							<th class="info">物资类别及</br>物种名称</th>
+							<th class="info">物资类别<br>及名称</th>
 							<th class="info">规格型号</th>
 							<th class="info">质量技术标准</br>（技术参数）</th>
 							<th class="info">计量单位</th>
@@ -440,8 +440,8 @@ $(document).ready(function () {
 							<th class="info">采购方式</br>建议</th>
 							<th class="info">供应商名称</th>
 							<th class="info">是否申请</br>办理免税</th>
-							<th class="info">物资用途</br>（仅进口）</th>
-							<th class="info">使用单位</br>（仅进口）</th>
+					<!-- 		<th class="info">物资用途</br>（仅进口）</th>
+							<th class="info">使用单位</br>（仅进口）</th> -->
 							<th class="info">备注</th>
 					<!-- 		<th class="w100">状态</th> -->
 						</tr>
@@ -501,8 +501,8 @@ $(document).ready(function () {
                   </td>
                   <td class="tl "><textarea name="list[${vs.index }].supplier" class="target">${obj.supplier}</textarea></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}"></td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].userUnit" value="${obj.userUnit}"></td>
+                 <%--  <td class="tl "><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].userUnit" value="${obj.userUnit}"></td> --%>
                   <td class="tl "><div class="p0_5">${obj.memo}</div>
                   <%--
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">

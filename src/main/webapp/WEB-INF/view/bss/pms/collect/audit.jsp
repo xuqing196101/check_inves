@@ -175,120 +175,99 @@
 			}
 			
 				//单价
-			 function sum1(obj) {
-				 change(obj);
-/* 			    var id = $(obj).prev().val();
-			    var pId = $(obj).next().val();
-					$.ajax({
-				  	url : "${pageContext.request.contextPath}/purchaser/viewIds.html",
-				  	type : "post",
-				  	data : "id=" + id,
-				  	dataType : "json",
-				  	success : function(data) {
-							var purchaseCount = $(obj).val() - 0; //价钱
-							var price2 = $(obj).parent().prev().children(":last").prev().val() - 0;//数量
-							var sum = purchaseCount * price2;
-							$(obj).parent().next().children(":last").prev().val(sum);
-							var budget = 0;
-							$("#table tr").each(function() {
-						 		var cid = $(this).find("td:eq(8)").children(":last").val();
-						  	var same = $(this).find("td:eq(8)").children(":last").prev().val() - 0;
-						  	if (pId == cid) {
-						    	budget = budget + same; //查出所有的子节点的值
-						  	}
-							});
-							for ( var i = 0; i < data.length; i++) {
-					  		var v1 = data[i].id;
-					  		$("#table tr").each(function() {
-									var pid = $(this).find("td:eq(8)").children(":first").val();//上级id
-									if (data[i].id == pid) {
-						 	 		$(this).find("td:eq(8)").children(":first").next().val(budget);
-									}
-			 		  		});
-							}
-				  	},
-				}); */
-			}
-			
-				//数量
-			 	function sum2(obj) { 
-			 		 change(obj);
-		/* 		    var id = $(obj).prev().val();
-				    var pId = $(obj).next().val();
-						$.ajax({
-					  	url : "${pageContext.request.contextPath}/purchaser/viewIds.html",
-					  	type : "post",
-					  	data : "id=" + id,
-					  	dataType : "json",
-					  	success : function(data) {
-								var purchaseCount = $(obj).val() - 0;//数量
-								var price2 = $(obj).parent().next().children(":last").prev();//价钱
-								var price = $(price2).val() - 0;
-								var sum = purchaseCount * price;
-								var budgets = $(obj).parent().next().next().children(":last").prev();
-								$(budgets).val(sum);
-								var budget = 0;
-								$("#table tr").each(function() {
-						  		var cid = $(this).find("td:eq(8)").children(":last").val();
-						  		var same = $(this).find("td:eq(8)").children(":last").prev().val() - 0;
-						  		if (pId == cid) {
-						    		budget = budget + same; //查出所有的子节点的值
-						  		}
-								});
-								for ( var i = 0; i < data.length; i++) {
-						  		var v1 = data[i].id;
-						  		$("#table tr").each(function() {
-										var pid = $(this).find("td:eq(8)").children(":first").val();//上级id
-										if (data[i].id == pid) {
-							 	 			$(this).find("td:eq(8)").children(":first").next().val(budget);
-										}
-						  		});
-								}
-					 	},
-					}); */
-				}
-				
-			 	//单价
-				 function sumPrice(obj,num) {
-				    var id = $(obj).prev().val();
-				    var pId = $(obj).next().val();
-						$.ajax({
-					  	url : "${pageContext.request.contextPath}/purchaser/viewIds.html",
-					  	type : "post",
-					  	data : "id=" + id,
-					  	dataType : "json",
-					  	success : function(data) {
-								var purchaseCount = $(obj).val() - 0; //价钱
-								var price2 = $(obj).parent().prev().children(":last").prev().val() - 0;//数量
-								var sum = purchaseCount * price2;
-								$(obj).parent().next().children(":last").prev().val(sum);
-								var budget = 0;
-								$("#table"+num+" tr").each(function() {
-							 		var cid = $(this).find("td:eq(8)").children(":last").val();
-							  	var same = $(this).find("td:eq(8)").children(":last").prev().val() - 0;
-							  	if (pId == cid) {
-							    	budget = budget + same; //查出所有的子节点的值
-							  	}
-								});
-								for ( var i = 0; i < data.length; i++) {
-						  		var v1 = data[i].id;
-						  		$("#table"+num+" tr").each(function() {
-										var pid = $(this).find("td:eq(8)").children(":first").val();//上级id
-										if (data[i].id == pid) {
-							 	 		$(this).find("td:eq(8)").children(":first").next().val(budget);
-										}
-				 		  		});
-								}
-					  	},
-					});
-				}
-				
-					//数量
-				 	function sumCount(obj,num) { 
-					    var id = $(obj).prev().val();
-					    var pId = $(obj).next().val();
-						
-					}
+	 
+				  	 function sum2(obj){  //数量
+	        var purchaseCount = $(obj).val()-0;//数量
+	        var price2 = $(obj).parent().next().children(":last").prev();//价钱
+	        var price = $(price2).val()-0;
+	        var sum = purchaseCount*price/10000;
+	        var budget = $(obj).parent().next().next().children(":last").prev();
+	        $(budget).val(sum);
+	      	var id=$(obj).next().val(); //parentId
+	      	aa(id);
+	    } 
+	    
+	       function sum1(obj){
+	        var purchaseCount = $(obj).val()-0; //价钱
+	         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
+	      	 var sum = purchaseCount*price2/10000;
+	         $(obj).parent().next().children(":last").prev().val(sum);
+		     	var id=$(obj).next().val(); //parentId
+		     	aa(id);
+	    }
+	
+	       function aa(id){// id是指当前的父级parentid
+	    	  
+	    	   
+	    	   var budget=0;
+	    	   $("#table tr").each(function(){
+	 	    		var cid= $(this).find("td:eq(8)").children(":last").val(); //parentId
+	 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0; //价格
+		 	       if(id==cid){
+		 	    	 
+		 	    	  budget=budget+same; //查出所有的子节点的值
+		 	       }
+	    	   });
+	    	   budget = budget.toFixed(2); 
+	    	   var bud;
+	     
+	    	    $("#table tr").each(function(){
+		    	  var  pid= $(this).find("td:eq(8)").children(":first").val();//上级id
+		    		
+		    		if(id==pid){
+		    			$(this).find("td:eq(8)").children(":first").next().val(budget);
+		    			 var spid= $(this).find("td:eq(8)").children(":last").val();
+		    			bud= calc(spid);
+		    		}  
+	    		}); 
+	    /*     $("#table tr").each(function(){
+	 	    		var cid= $(this).find("td:eq(8)").children(":first").val(); //的值
+	 	    		   if(id==cid){ */
+	 	    			 //  var sameBud=$(this).find("td:eq(8)").children(":last").next().val();
+	 	    			   // alert(sameBud);
+	 	    			 //   var   pid= $(this).find("td:eq(8)").children(":first").val();  
+	 	    		  	    /*  calc(id); */
+	 	    			   
+	 	    		 //  $(this).find("td:eq(8)").children(":first").next().val(budget);
+	 	    		 /*  } 
+	 	    		}); */    
+	    	     
+	    	  var did=$("#table tr:eq(1)").find("td:eq(8)").children(":first").val();
+	    	    var total=0;
+	    	    $("#table tr").each(function(){
+	 	    		var cid= $(this).find("td:eq(8)").children(":last").val();
+	 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0;
+	 	    		 if(did==cid){
+	 	    			total=total+same;
+	 	    		 }
+	    	   }); 
+	    	    $("#table tr:eq(1)").find("td:eq(8)").children(":first").next().val(total);
+	       }   
+	       
+        function calc(id){
+        	var bud=0;
+	 	   	    $("#table tr").each(function(){
+	 	   	           var pid= $(this).find("td:eq(8)").children(":last").val() ;
+		 	   	       if(id==pid){
+		 	   	         	var currBud=$(this).find("td:eq(8)").children(":first").next().val()-0;
+		 	   	            bud=bud+currBud;
+		 	   	            bud = bud.toFixed(2);
+		 	   	            
+		 	   	              var spid= $(this).find("td:eq(8)").children(":last").val();
+		 	   	              aa(spid);
+		 	   	             /*  var did= $(this).find("td:eq(8)").children(":first").val();
+			 	   	           if(did=='1'){
+			 	   	        	  return bud; 
+			 	   	            }  
+			 	   	 		    calc(spid); */ 
+		 	   	           
+		 	   	        // 	$(this).find("td:eq(8)").children(":first").next().val(budget);
+		 	   	      }
+	     		}); 
+	 	    	   
+	 	     }  
+        
+        
 					
 					
 				// var defVal = obj.defaultValue;获得默认值
@@ -416,7 +395,7 @@
 				<div class="tab-content over_hideen">
 					<div class="tab-pane fade active in" id="tab-1">
 						<div class="col-md-8 col-sm-8 col-xs-12 over_scroll">
-							<table id="dep_table" class="table table-bordered table-condensed mt5 table_input table_wrap">
+							<table id="table" class="table table-bordered table-condensed mt5 table_input table_wrap">
 								<thead>
 									<tr>
 										<th class="info" colspan="17">事业部门需求</th>
@@ -438,7 +417,7 @@
 									<tr class="info h91">
 									<th class="info w50">序号</th>
 									<th>需求部门</th>
-									<th>物资类别及<br>物种名称</th>
+									<th>物资类别<br>及名称</th>
 									<th>规格型号</th>
 									<th>质量技术标准<br>（技术参数）</th>
 									<th>计量单位</th>
@@ -450,8 +429,8 @@
 									<th>采购机构</th>
 									<th>供应商名称</th>
 									<th>是否申请<br>办理免税</th>
-									<th>物资用途<br>（仅进口）</th>
-									<th>使用单位<br>（仅进口）</th>
+								<!-- 	<th>物资用途<br>（仅进口）</th>
+									<th>使用单位<br>（仅进口）</th> -->
 									<th>备注</th>
 									</tr>
 								</thead>
@@ -522,8 +501,8 @@
 											</td>
 											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }"></td>
 											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
-											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
-											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+	<%-- 										<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td> --%>
 											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }">
 											<%-- 	<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 												<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">

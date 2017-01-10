@@ -209,25 +209,26 @@
 		</div>
 		<div class="content table_box" >
 			<div class="content"  id="content">
-				<table id="table"  class="table table-bordered table-condensed mt5 space_nowrap">
+				<table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
 							<th class="info w150">需求部门</th>
-							<th class="info w150">物资类别及物种名称</th>
+							<th class="info w150">物资类别<br>及名称</th>
 							<th class="info w150">规格型号</th>
-							<th class="info w150">质量技术标准（技术参数）</th>
+							<th class="info w150">质量技术标准</th>
 							<th class="info w150">计量单位</th>
 							<th class="info w150">采购数量</th>
 							<th class="info w150">单价（元）</th>
-							<th class="info w150">预算金额（万元）</th>
+							<th class="info w150">预算金额<br>（万元）</th>
 							<th class="info w150">交货期限</th>
 							<th class="info w150">采购方式建议</th>
 							 <th class="info w150">采购机构建议</th>
 							<th class="info w150">供应商名称</th>
-							<th class="info w150">是否申请办理免税</th>
-							<th class="info w150">物资用途（仅进口）</th>
-							<th class="info w150">使用单位（仅进口）</th>
+							<th class="info w150">是否申请<br>办理免税</th>
+							<!-- <th class="info w150">物资用途（仅进口）</th>
+							<th class="info w150">使用单位（仅进口）</th> -->
 							<th class="info w150">备注</th>
 						</tr>
 					</thead>
@@ -295,11 +296,11 @@
 							<c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
 							</td >
 							<%-- <td class="tc">${obj.goodsUse }</td> --%>
-							<td title="${obj.goodsUse}" class="tl pl20">
+						<%-- 	<td title="${obj.goodsUse}" class="tl pl20">
 							<c:if test="${fn:length (obj.goodsUse) > 8}">${fn:substring(obj.goodsUse,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.goodsUse) <= 8}">${obj.goodsUse}</c:if>
 							</td > 
-							<td class="tl pl20">${obj.useUnit }</td>
+							<td class="tl pl20">${obj.useUnit }</td> --%>
 							 <td title="${obj.memo}" class="tl pl20">
 							<c:if test="${fn:length (obj.memo) > 8}">${fn:substring(obj.memo,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>

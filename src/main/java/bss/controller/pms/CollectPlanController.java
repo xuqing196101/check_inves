@@ -351,6 +351,7 @@ public class CollectPlanController extends BaseController {
 		
 		
 		public  void append(List<PurchaseRequired> one,List<PurchaseDetail> list,String uniqueId){
+			List<PurchaseDetail> updateList=new ArrayList<PurchaseDetail>();
 			String pid=one.get(0).getId();
 			String dep=one.get(0).getDepartment();
 			Integer count=0;

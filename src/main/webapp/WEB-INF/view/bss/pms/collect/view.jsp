@@ -181,7 +181,7 @@
 			<div class="clear"></div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="container" id="container">
 				<div>
 				<h2 class="count_flow">计划主信息</h2>
 				<ul class="ul_list">
@@ -262,20 +262,20 @@
 						<tr>
 							<th class="info w50">序号</th>
 							<th class="info">需求部门</th>
-							<th class="info">物资类别及物种名称</th>
+							<th class="info">物资类别<br>及名称</th>
 							<th class="info">规格型号</th>
-							<th class="info">质量技术标准（技术参数）</th>
+							<th class="info">质量技术标准</br>（技术参数）</th>
 							<th class="info">计量单位</th>
 							<th class="info">采购数量</th>
 							<th class="info">单位（元）</th>
-							<th class="info">预算金额（万元）</th>
+							<th class="info">预算金额</br>（万元）</th>
 							<th class="info">交货期限</th>
 							<th class="info">采购方式建议</th>
 							<th class="info">采购机构</th>
 							<th class="info">供应商名称</th>
-							<th class="info">是否申请办理免税</th>
-							<th class="info">物资用途（仅进口）</th>
-							<th class="info">使用单位（仅进口）</th>
+							<th class="info">是否申请</br>办理免税</th>
+						<!-- 	<th class="info">物资用途（仅进口）</th>
+							<th class="info">使用单位（仅进口）</th> -->
 							<th class="info">备注</th>
 							<!-- <th class="info">操作</th> -->
 						</tr>
@@ -323,8 +323,8 @@
 							
 							<td class="tl pl20">${obj.supplier }</td>
 							<td class="tl pl20">${obj.isFreeTax }</td>
-							<td class="tl pl20">${obj.goodsUse }</td>
-							<td class="tl pl20">${obj.useUnit }</td>
+						<%-- 	<td class="tl pl20">${obj.goodsUse }</td>
+							<td class="tl pl20">${obj.useUnit }</td> --%>
 							<td class="tl pl20">${obj.memo }</td>
 							<%-- <td class="tc w50">
 										<a onclick="reason('${f.id}','');" id="${f.id}_hidden1" class="btn">退回</a>

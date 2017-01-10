@@ -393,9 +393,9 @@
 							<tr class="info">
 								<th class="w50">序号</th>
 								<th>需求部门</th>
-								<th>物资类别及物种名称</th>
+								<th>物资类别<br>及名称</th>
 								<th>规格型号</th>
-								<th>质量技术标准（技术参数）</th>
+								<th>质量技术标准</th>
 								<th>计量单位</th>
 								<th>采购数量</th>
 								<th>单位（元）</th>
@@ -408,7 +408,7 @@
 								<th>物资用途（仅进口）</th>
 								<th>使用单位（仅进口）</th>
 								<th>备注</th>
-								<c:forEach items="${all }" var="p">
+							<%-- 	<c:forEach items="${all }" var="p">
 									<th>
 										<c:if test="${p.param=='1'}">
 											采购方式
@@ -423,7 +423,7 @@
 											技术参数意见
 										</c:if>
 									</th>
-								</c:forEach>
+								</c:forEach> --%>
 							</tr>
 						</thead>
 						<tbody id="table">
@@ -505,7 +505,7 @@
 									<input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
 									<input type="hidden" name="list[${vs.index }].status" value="${obj.status }">
 								</td>
-								<td class="tc">
+								<%-- <td class="tc">
 									<select name="list[${vs.index }].onePurchaseType" >
 										<c:forEach items="${mType }" var="mt">
 											<option value="${mt.id }" <c:if test="${mt.id==obj.onePurchaseType }"> selected="selected"</c:if> >${mt.name}</option>
@@ -544,7 +544,7 @@
 											<option value="${ss.name }">${ss.name}</option>
 										</c:forEach>
 									</select>
-								</td>
+								</td> --%>
 								<%--
 								<c:forEach items="${all }" var="al" varStatus="avs">
 									<td class="tc">
@@ -593,9 +593,9 @@
 							<tr class="info">
 								<th class="w50">序号</th>
 								<th>需求部门</th>
-								<th>物资类别及物种名称</th>
+								<th>物资类别<br>及名称</th>
 								<th>规格型号</th>
-								<th>质量技术标准（技术参数）</th>
+								<th>质量技术标准</th>
 								<th>计量单位</th>
 								<th>采购数量</th>
 								<th>单位（元）</th>
@@ -605,8 +605,8 @@
 								<th>采购机构</th>
 								<th>供应商名称</th>
 								<th>是否申请办理免税</th>
-								<th>物资用途（仅进口）</th>
-								<th>使用单位（仅进口）</th>
+								<!-- <th>物资用途（仅进口）</th>
+								<th>使用单位（仅进口）</th> -->
 								<th>备注</th>
 								<c:forEach items="${all }" var="p">
 									<th>

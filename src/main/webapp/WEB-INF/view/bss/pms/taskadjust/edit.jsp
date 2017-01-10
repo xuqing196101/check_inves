@@ -5,103 +5,12 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
-	/** 全选全不选 */
-	function selectAll(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		 if(checkAll.checked){
-			   for(var i=0;i<checklist.length;i++)
-			   {
-			      checklist[i].checked = true;
-			   } 
-			 }else{
-			  for(var j=0;j<checklist.length;j++)
-			  {
-			     checklist[j].checked = false;
-			  }
-		 	}
-		}
-	
-	/** 单选 */
-	function check(){
-		 var count=0;
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		 for(var i=0;i<checklist.length;i++){
-			   if(checklist[i].checked == false){
-				   checkAll.checked = false;
-				   break;
-			   }
-			   for(var j=0;j<checklist.length;j++){
-					 if(checklist[j].checked == true){
-						   checkAll.checked = true;
-						   count++;
-					   }
-				 }
-		   }
-	}
-	
-  	function view(no){
-  		
-  		
-  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no;
-  	}
-  	
-  	 function aadd(){
-		  var  s=$("#count").val();
-	      	s++;
-	      	$("#count").val(s);
-	        var tr = $("input[name=dyadds]").parent().parent();
-	        $(tr).before("<tr><td class='tc'><input type='text' name='list["+s+"].seq' /></td>"+
-		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].department' /> </td>"+
-		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsName' /> </td>"+ 
-		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].stand' /> </td>"+ 
-		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].qualitStand' /> </td>"+ 
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].item' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseCount' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseType' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;'type='text' name='list["+s+"].isFreeTax' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+  
-	        +"<tr/>");
-	  }
-  	 
-  	var flag=true;
-	function checks(obj){
-		  var name=$(obj).attr("name");
-		  var planNo=$("#pNo").val();
-		  var val=$(obj).val();
-		  var defVal=obj.defaultValue;
-			if(val!=defVal){
-				$.ajax({
-					url:"${pageContext.request.contextPath}/adjust/filed.html",
-					type:"post",
-					data:{
-						planNo:planNo,
-						name:name
-					},
-					success: function(data){
-						 if(data=='exit'){
-							 flag=false;
-							 layer.tips("该字段不允许修改",obj);
-						 }
-					 },
-					error:function(data){
-						 
-					 }
-					 
-				});
-			} 
-	}
+ 
+ 
 	
 	function sub(){
 	 
-			$("#adjust").submit();
+		 $("#table").find("#adjust").submit();
 		 
 	}
 	
@@ -207,6 +116,84 @@
 	       }  
 	       
 	       
+	       
+	       function FixTable(TableID, FixColumnNumber, width, height) {
+	    	    if ($("#" + TableID + "_tableLayout").length != 0) {
+	    	        $("#" + TableID + "_tableLayout").before($("#" + TableID));
+	    	        $("#" + TableID + "_tableLayout").empty();
+	    	    }
+	    	    else {
+	    	        $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
+	    	    }
+	    	    $('<div id="' + TableID + '_tableFix"></div>'
+	    	    + '<div id="' + TableID + '_tableHead"></div>'
+	    	    + '<div id="' + TableID + '_tableColumn"></div>'
+	    	    + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
+	    	    var oldtable = $("#" + TableID);
+	    	    var tableFixClone = oldtable.clone(true);
+	    	    tableFixClone.attr("id", TableID + "_tableFixClone");
+	    	    $("#" + TableID + "_tableFix").append(tableFixClone);
+	    	    var tableHeadClone = oldtable.clone(true);
+	    	    tableHeadClone.attr("id", TableID + "_tableHeadClone");
+	    	    $("#" + TableID + "_tableHead").append(tableHeadClone);
+	    	    var tableColumnClone = oldtable.clone(true);
+	    	    tableColumnClone.attr("id", TableID + "_tableColumnClone");
+	    	    $("#" + TableID + "_tableColumn").append(tableColumnClone);
+	    	    $("#" + TableID + "_tableData").append(oldtable);
+	    	    $("#" + TableID + "_tableLayout table").each(function () {
+	    	        $(this).css("margin", "0");
+	    	    });
+	    	    var HeadHeight = $("#" + TableID + "_tableHead thead").height();
+	    	    HeadHeight += 2;
+	    	    $("#" + TableID + "_tableHead").css("height", HeadHeight);
+	    	    $("#" + TableID + "_tableFix").css("height", HeadHeight);
+	    	    var ColumnsWidth = 0;
+	    	    var ColumnsNumber = 0;
+	    	    $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
+	    	        ColumnsWidth += $(this).outerWidth(true);
+	    	        ColumnsNumber++;
+	    	    });
+	    	    ColumnsWidth += 2;
+	    	    if ($.browser.msie) {
+	    	        switch ($.browser.version) {
+	    	            case "7.0":
+	    	                if (ColumnsNumber >= 3) ColumnsWidth--;
+	    	                break;
+	    	            case "8.0":
+	    	                if (ColumnsNumber >= 2) ColumnsWidth--;
+	    	                break;
+	    	        }
+	    	    }
+	    	    $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
+	    	    $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
+	    	    $("#" + TableID + "_tableData").scroll(function () {
+	    	        $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
+	    	        $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
+	    	    });
+	    	    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#f7f7f7" });
+	    	    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#f7f7f7" });
+	    	    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#f7f7f7" });
+	    	    $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
+	    	    if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
+	    	        $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
+	    	        $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
+	    	    }
+	    	    if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
+	    	        $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
+	    	        $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
+	    	    }
+	    	    $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
+	    	    $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
+	    	    $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
+	    	    $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
+	    	}
+	    	$(document).ready(function () {
+	    			var boxwidth = $("#container").width();
+	    			var table_box = $("#table").width(boxwidth);
+	    	            FixTable("table", 1, boxwidth, 460);
+	    	        });
+	    	
+	    	
 </script>
 </head>
 
@@ -223,26 +210,24 @@
 			<div class="clear"></div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="container" id="container">
 		<div class="headline-v2 fl">
 			<h2>采购任务明细</h2>
 		</div>
 	
 		  <div class="content table_box">
-			<form id="adjust" action="${pageContext.request.contextPath}/adjust/update.html" method="post"  >
+			
 				<!-- 前半部分 -->
-				<div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll h365">
+				<div class="content" id="content">
 					<table id="table" class="table table-bordered table-condensed mt5 table_input">
 						<thead>
-							<tr>
-								<th class="info" colspan="17">事业部门需求</th>
-							</tr>
+					 
 							<tr>
 								<th class="info w50">序号</th>
 								<th class="info">需求部门</th>
-								<th class="info">物资类别及物种名称</th>
+								<th class="info">物资类别<br>及名称</th>
 								<th class="info">规格型号</th>
-								<th class="info">质量技术标准（技术参数）</th>
+								<th class="info">质量技术标准</th>
 								<th class="info">计量单位</th>
 								<th class="info">采购数量</th>
 								<th class="info">单位（元）</th>
@@ -251,12 +236,12 @@
 								<th class="info">采购方式建议</th>
 								<th class="info">采购机构</th>
 								<th class="info">供应商名称</th>
-								<th class="info">是否申请办理免税</th>
-								<th class="info">物资用途（仅进口）</th>
-								<th class="info">使用单位（仅进口）</th>
+								<th class="info">是否申请<br>办理免税</th>
+						 
 								<th class="info">备注</th>
 							</tr>
 						</thead>
+						<form id="adjust" action="${pageContext.request.contextPath}/adjust/update.html" method="post"  >
 						<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
 							<td class="tc w50"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].seq" value="${obj.seq }" class="w50 tc">
@@ -264,15 +249,6 @@
 							</td>
 							<td>
 							<input type="text" readonly="readonly" value="${obj.department}" >
-							
-						<%-- 	    <c:forEach items="${requires }" var="re" >
-										  <c:if test="${obj.department==re.id }">  --%>
-<%-- 										    <input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].department" onblur="checks(this)" value="${re.name }">
- --%>					<%-- 					  </c:if>
-								  	</c:forEach> --%>
-			  	
-			  	
-							
 							</td>
 							<td class="tl pl20"><input type="text" name="listDetail[${vs.index }].goodsName"  value="${obj.goodsName }"></td>
 							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].stand" value="${obj.stand }"></td>
@@ -329,8 +305,8 @@
 							</td>
 							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }"></td>
 							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
-							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
-							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+	<%-- 						<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td> --%>
 							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }">
 					<%-- 			<input type="hidden" name="listDetail[${vs.index }].planName" value="${obj.planName }">
 								<input type="hidden" name="listDetail[${vs.index }].planNo" value="${obj.planNo }">
@@ -350,20 +326,18 @@
 							</td>
 						</tr>
 						</c:forEach>
+						</form>
 					</table>	
 				</div>
 
-			</form>
+		
 		</div>
 			<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
-                <!-- <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
+           <!--      <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
                 <input class="btn btn-windows edit"  type="button" value="修改" onclick="sub()">
                 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 		  </div>
 		  
-		<!-- <input class="btn btn-windows save"  type="button" value="提交" onclick="sub()">
-			 <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"> -->
 	</div>
-<%-- 	<input type="hidden" id="pNo" name="" value="${planNo }">
- --%></body>
+</body>
 </html>
