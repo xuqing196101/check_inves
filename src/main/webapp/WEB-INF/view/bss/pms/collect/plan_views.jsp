@@ -4,6 +4,8 @@
 <html>
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
+    		<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
+			<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 <script type="text/javascript">
   /** 全选全不选 */
   function selectAll(){
@@ -44,7 +46,7 @@
     function view(obj){
       
       var planNo = $("#planNo").val();
-      window.location.href="${pageContext.request.contextPath}/look/views.html?org="+obj+"&planNo="+planNo;
+      window.location.href="${pageContext.request.contextPath}/look/views.html?id="+obj+"&planNo="+planNo;
     }
     
     function edit(){
@@ -115,86 +117,6 @@
     layer.close(index);
   }
 </script>
-
-
-<!-- 锁表头js -->
-<script type="text/javascript">
-    function FixTable(TableID, FixColumnNumber, width, height) {
-    if ($("#" + TableID + "_tableLayout").length != 0) {
-        $("#" + TableID + "_tableLayout").before($("#" + TableID));
-        $("#" + TableID + "_tableLayout").empty();
-    }
-    else {
-        $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
-    }
-    $('<div id="' + TableID + '_tableFix"></div>'
-    + '<div id="' + TableID + '_tableHead"></div>'
-    + '<div id="' + TableID + '_tableColumn"></div>'
-    + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
-    var oldtable = $("#" + TableID);
-    var tableFixClone = oldtable.clone(true);
-    tableFixClone.attr("id", TableID + "_tableFixClone");
-    $("#" + TableID + "_tableFix").append(tableFixClone);
-    var tableHeadClone = oldtable.clone(true);
-    tableHeadClone.attr("id", TableID + "_tableHeadClone");
-    $("#" + TableID + "_tableHead").append(tableHeadClone);
-    var tableColumnClone = oldtable.clone(true);
-    tableColumnClone.attr("id", TableID + "_tableColumnClone");
-    $("#" + TableID + "_tableColumn").append(tableColumnClone);
-    $("#" + TableID + "_tableData").append(oldtable);
-    $("#" + TableID + "_tableLayout table").each(function () {
-        $(this).css("margin", "0");
-    });
-    var HeadHeight = $("#" + TableID + "_tableHead thead").height();
-    HeadHeight += 2;
-    $("#" + TableID + "_tableHead").css("height", HeadHeight);
-    $("#" + TableID + "_tableFix").css("height", HeadHeight);
-    var ColumnsWidth = 0;
-    var ColumnsNumber = 0;
-    $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
-        ColumnsWidth += $(this).outerWidth(true);
-        ColumnsNumber++;
-    });
-    ColumnsWidth += 2;
-    if ($.browser.msie) {
-        switch ($.browser.version) {
-            case "7.0":
-                if (ColumnsNumber >= 3) ColumnsWidth--;
-                break;
-            case "8.0":
-                if (ColumnsNumber >= 2) ColumnsWidth--;
-                break;
-        }
-    }
-    $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
-    $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
-    $("#" + TableID + "_tableData").scroll(function () {
-        $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
-        $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
-    });
-    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#F7F7F7" });
-    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#F7F7F7" });
-    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#F7F7F7" });
-    $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
-    if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
-        $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
-        $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
-    }
-    if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
-        $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
-        $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
-    }
-    $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
-    $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
-    $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
-    $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
-}
-$(document).ready(function () {
-		var boxwidth = $("#content").width();
-            FixTable("table", 1, boxwidth, 360);
-        });
-        
-</script>
 </head>
 
 <body>
@@ -215,8 +137,8 @@ $(document).ready(function () {
     <div class="headline-v2 fl">
       <h2>计划明细</h2>
     </div>
-    <div class="magazine-page mt10">
-    <div class="col-md-12 col-sm-12 col-xs-12 pl20 tab-v2">
+    <div class="row magazine-page">
+    <div class="col-md-12 pt10 tab-v2">
       <ul class="nav nav-tabs bgwhite">
         <li class="active">
           <a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">所有明细</a>
@@ -228,9 +150,8 @@ $(document).ready(function () {
       
      <div class="tab-content over_hideen">
       <div class="tab-pane fade active in" id="tab-1">
-			      <div class="col-md-12 col-xs-12 col-sm-12 mt5 p0 mt10">
-			        <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed">
+			      <div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll p0 h365">
+			        <table id="table" class="table table-bordered table-condensed mt5 table_wrap">
 			          <thead>
 			            <tr>
 			              <th class="info w50">序号</th>
@@ -319,7 +240,7 @@ $(document).ready(function () {
      		 </div>
         
 		        <div class="tab-pane fade in" id="tab-2">
-		                <table class="table table-bordered table-condensed mt5">
+		                <table id="dep_table" class="table table-bordered table-condensed mt5">
 		                  <thead>
 					            <tr>
 					              <th class="info w50">序号</th>
@@ -327,11 +248,11 @@ $(document).ready(function () {
 					            </tr>
 					          </thead>
 					          <tbody>
-					            <c:if test="${set != null}">
-					            <c:forEach items="${set}" var="obj" varStatus="vs">
+					            <c:if test="${detail != null}">
+					            <c:forEach items="${detail}" var="objs" varStatus="vs">
 					              <tr style="cursor: pointer;">
 					                <td class="tc w50">${(vs.index+1)}</td>  
-					                <td class="tl pl20"  onclick="view('${obj}')">${obj }</td>
+					                <td class="tl pl20"  onclick="view('${objs.id}')">${objs.department }</td>
 					              </tr>                            
 					           </c:forEach>
 					           </c:if>

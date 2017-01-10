@@ -948,7 +948,14 @@
 	</select>
 	
 	
-	
+	 <select id="groupDetail" parameterType="String" resultMap="PurchaseRequired_Map">
+			    select  ID,DEPARTMENT 
+				      from T_BSS_PMS_PURCHASE_DETAIL where PARENT_ID='1' and  UNIQUE_ID =#{uniqueId}  
+				 
+				 group by ID, DEPARTMENT
+    </select>
+    
+    
     
     
 </mapper>

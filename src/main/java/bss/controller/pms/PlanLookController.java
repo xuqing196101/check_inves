@@ -164,22 +164,25 @@ public class PlanLookController extends BaseController {
 	      
 	      
 		
-        Set<String> set = new HashSet<String>();
-        //List<PurchaseRequired> lista=new LinkedList<PurchaseRequired>();
-        List<String> lists = conllectPurchaseService.getNo(id);
-        if(lists != null && lists.size() > 0){
-            for(String s:list){
-                Map<String,Object> map=new HashMap<String,Object>();
-                map.put("planNo", s);
-                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-                for (PurchaseRequired purchaseRequired : list2) {
-                    String org = purchaseRequired.getDepartment();
-                    set.add(org);
-                }
-            }
-        }
-            model.addAttribute("set", set);
+//        Set<String> set = new HashSet<String>();
+//        //List<PurchaseRequired> lista=new LinkedList<PurchaseRequired>();
+//        List<String> lists = conllectPurchaseService.getNo(id);
+//        if(lists != null && lists.size() > 0){
+//            for(String s:list){
+//                Map<String,Object> map=new HashMap<String,Object>();
+//                map.put("planNo", s);
+//                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+//                for (PurchaseRequired purchaseRequired : list2) {
+//                    String org = purchaseRequired.getDepartment();
+//                    set.add(org);
+//                }
+//            }
+//        }
+//            model.addAttribute("set", set);
         
+			List<PurchaseDetail> detail = purchaseDetailService.groupDetail(id);
+			
+			   model.addAttribute("detail", detail);
             request.getSession().removeAttribute("NoCount");
         	model.addAttribute("kind", DictionaryDataUtil.find(5));
         return "bss/pms/collect/plan_views";
@@ -198,13 +201,14 @@ public class PlanLookController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/views")
-    public String views(String org, String planNo, Model model){
+    public String views(String id, String planNo, Model model){
        HashMap<String, Object> map = new HashMap<>();
-       map.put("department", org);
-       map.put("planNo", planNo);
-       List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-       model.addAttribute("list", list);
-        
+       map.put("id", id);
+//       map.put("planNo", planNo);
+//       List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+//       model.addAttribute("list", list);
+		List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
+		model.addAttribute("list", list);
         return "bss/pms/collect/plan_view";
     }
 	

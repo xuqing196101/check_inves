@@ -246,4 +246,10 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         return purchaseDetailMapper.queryChilden(children);
     }
 
+	@Override
+	public List<PurchaseDetail> groupDetail(String uniqueId) {
+		// TODO Auto-generated method stub
+		return purchaseDetailMapper.groupDetail(uniqueId);
+	}
+
 }

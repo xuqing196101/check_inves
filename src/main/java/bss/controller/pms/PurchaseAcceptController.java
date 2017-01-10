@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
@@ -140,7 +141,7 @@ public class PurchaseAcceptController extends BaseController{
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
-		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+	    List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		model.addAttribute("org", org);
 		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		

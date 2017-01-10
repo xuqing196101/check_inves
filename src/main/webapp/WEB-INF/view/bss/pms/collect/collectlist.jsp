@@ -466,7 +466,7 @@
 	<ul class="list-unstyled">
 	   
                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
-                   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">计划名称</span>
+                   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><span class="star_red">*</span>采购计划名称</span>
                    <div class="col-md-12 col-xs-12 col-sm-12 input-append input_group p0">
                         <input class="title col-md-12" name="fileName"   type="text">
                    </div>

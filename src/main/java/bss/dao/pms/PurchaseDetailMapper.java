@@ -289,4 +289,16 @@ public interface PurchaseDetailMapper {
     
     Integer queryChilden(@Param("id")String id);
     
+    /**
+     * 
+    * @Title: groupDetail
+    * @Description: 根据需求计划查询需求部门
+    * author: Li Xiaoxiao 
+    * @param @param uniqueId
+    * @param @return     
+    * @return List<PurchaseDetail>     
+    * @throws
+     */
+    List<PurchaseDetail> groupDetail(@Param("uniqueId")String uniqueId);
+    
 }

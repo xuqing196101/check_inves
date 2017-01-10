@@ -50,6 +50,7 @@ import bss.service.pms.impl.CollectPlanServiceImpl;
 import com.github.pagehelper.PageInfo;
 
 import bss.util.ExcelUtil;
+import bss.util.NumberUtils;
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
 import common.constant.Constant;
@@ -241,6 +242,7 @@ public class CollectPlanController extends BaseController {
 						
 					}
 					
+					//保存至中间表开始
 //					String[] uid = uniqueId.split(",");
 //					CollectPurchase c=new CollectPurchase();
 //					for(String u:uid){
@@ -248,7 +250,7 @@ public class CollectPlanController extends BaseController {
 //						c.setPlanNo(u);
 //						collectPurchaseService.add(c);
 //					}
-					
+					//保存至中间表结束
 					
 					collectPlan.setUserId(user.getId());
 					collectPlan.setGoodsType(goodsType);
@@ -280,11 +282,14 @@ public class CollectPlanController extends BaseController {
 		 */
 		@RequestMapping("/update")
 		@ResponseBody
-		public String update(CollectPlan collectPlan,String uniqueId){
+		public String update(CollectPlan collectPlan,String uniqueId,HttpServletRequest request){
+			List<PurchaseDetail> detail = purchaseDetailService.groupDetail(collectPlan.getId());
 			CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
-			String [] uniqueIds = uniqueId.split(",");
+			String [] uniqueIds = uniqueId.split(",");//获取要汇入采购计划 的id
 			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
 			PurchaseRequired p=new PurchaseRequired();
+//			String pid="";
+//			Integer seq=1;
 			for(String no:uniqueIds){
 //				c.setCollectPlanId(collectPlan.getId());
 //				c.setPlanNo(no);
@@ -294,6 +299,14 @@ public class CollectPlanController extends BaseController {
 				
 				p.setUniqueId(no);
 				List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
+				append(one,detail,collectPlan.getId());
+//				for(PurchaseRequired pr:one){
+//					pid=one.get(0).getId();
+//					if(pid.equals(pr.getParentId())){
+//						
+//					}
+//				}
+				
 				list.addAll(one);
 				
 				
@@ -302,13 +315,13 @@ public class CollectPlanController extends BaseController {
 				purchaseRequiredService.updateStatus(p);
 			
 			}
-			BigDecimal budget=BigDecimal.ZERO;
+			BigDecimal budget=BigDecimal.ZERO;//计算金额
 			for(PurchaseRequired pr:list){
 				if(pr.getSeq().equals("一")){
 					budget=budget.add(pr.getBudget());
 				}
 			}
-			List<PurchaseDetail> list2 = purchaseDetailService.getUnique(plan.getId());
+//			List<PurchaseDetail> list2 = purchaseDetailService.getUnique(plan.getId());
 			
 			if(list!=null&&list.size()>0){
 				Integer count=1;
@@ -335,6 +348,31 @@ public class CollectPlanController extends BaseController {
 			return "";
 		}
 		
+		
+		
+		public  void append(List<PurchaseRequired> one,List<PurchaseDetail> list,String uniqueId){
+			String pid=one.get(0).getId();
+			String dep=one.get(0).getDepartment();
+			Integer count=0;
+			Integer oldSize=list.size();
+			for(PurchaseDetail pd:list){
+				if(dep.equals(pd.getDepartment())){
+					count=purchaseDetailService.getChilden(pd.getId());
+					for(PurchaseRequired pr:one){
+						if(pid.equals(pr.getParentId())){
+							count++;
+							one.get(0).setSeq(NumberUtils.translate(count));
+							pr.setParentId(pd.getId());
+						}
+					
+					}
+				}else{
+					oldSize++;
+					one.get(0).setSeq(NumberUtils.translate(oldSize));
+				}
+			}
+			
+		}
 		
 		/**
      * 

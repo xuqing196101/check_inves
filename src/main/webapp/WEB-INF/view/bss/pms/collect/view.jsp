@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-		<script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
+		<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 <title>采购需求管理</title>
 <meta http-equiv="pragma" content="no-cache">
@@ -146,7 +146,23 @@
     }
  
  function acc(){
-	 $("#table").find("#acc_form").submit();
+ 
+     	var bool=true;
+		    $("#table tr:gt(0)").each(function(i){
+		    	var  val1= $(this).find("td:eq(11)").children(":first").val();//上级id
+		    	  if($.trim(val1) == "") {
+		    		  bool=false;
+		    		  i=i+1;
+		    		  layer.msg("第"+i+"行，请选择采购机构！");
+		    	  }
+		    });
+		    
+		  if(bool==true){
+			  $("#table").find("#acc_form").submit();
+		  }  
+		    
+	 
+	 
  }
  
 </script>
@@ -297,9 +313,9 @@
 							<td class="tc">
 							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
 							<select class="org"  required="required"  name="list[${vs.index }].organization">
-							<option value="">请选择</option>
+						<!-- 	<option value="">请选择</option> -->
 								<c:forEach items="${org }" var="ss">
-									<option value="${ss.id }" <c:if test="${ss.id==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
+									<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 								</c:forEach>
 							</select>
 						<%-- 	</c:if> --%>

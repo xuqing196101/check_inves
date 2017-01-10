@@ -5,7 +5,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-		<script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
+		<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
 <script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){
@@ -208,7 +208,7 @@
 			<h2>计划明细</h2>
 		</div>
 		<div class="content table_box" >
-			<div class="content">
+			<div class="content"  id="content">
 				<table id="table"  class="table table-bordered table-condensed mt5 space_nowrap">
 					<thead>
 						<tr>

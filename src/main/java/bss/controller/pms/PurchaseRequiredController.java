@@ -448,6 +448,10 @@ public class PurchaseRequiredController extends BaseController{
                     p.setReferenceNo(referenceNo);
                     p.setDetailStatus(0);
                     p.setStatus("1");
+                    p.setFileId(fileId);
+                    if(p.getSeq()!=null){
+                    	
+                    
                     if(p.getPurchaseType()!=null){
                         DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
                         p.setPurchaseType(data.getId());
@@ -515,7 +519,7 @@ public class PurchaseRequiredController extends BaseController{
                        p.setUniqueId(unqueId);
                        count++;
                    }
-					
+                 }
 				}
 			}
 	}

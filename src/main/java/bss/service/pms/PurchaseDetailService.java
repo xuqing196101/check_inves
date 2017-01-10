@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import bss.model.pms.PurchaseDetail;
 
 
@@ -253,6 +255,19 @@ public interface PurchaseDetailService {
     * @throws
      */
     Integer getChilden(String children);
+    
+    
+    /**
+     * 
+    * @Title: groupDetail
+    * @Description: 按需求部门查询明细
+    * author: Li Xiaoxiao 
+    * @param @param uniqueId
+    * @param @return     
+    * @return List<PurchaseDetail>     
+    * @throws
+     */
+    List<PurchaseDetail> groupDetail(String uniqueId);
     
     
     

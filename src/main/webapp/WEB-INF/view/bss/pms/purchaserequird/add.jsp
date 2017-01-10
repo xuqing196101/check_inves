@@ -467,8 +467,16 @@
 			
 			//删除一行
 			function delRowIndex(obj){
-				$(obj).parent().parent().remove();
-				var detailRow = document.getElementsByName("detailRow");
+				
+				var tr=$(obj).parent().parent();
+				 var val=$(tr).find("td:eq(8)").children(":first").val();
+				 if($.trim(val)==""){
+					  layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
+				 }else{
+					 $(obj).parent().parent().remove();
+				 }
+				 
+				/* 	var detailRow = document.getElementsByName("detailRow");
 				if(detailRow.length!=0){
 					for(var i=0;i<detailRow.length;i++){
 						$(detailRow[i]).find("td:eq(0)").find("input:eq(0)").attr("name","list["+i+"].id");
@@ -504,7 +512,7 @@
 							$(quantity[i]).next().next().find("input").val(totalPrice);
 						}
 					}
-				}
+				} */
 			}
 			var index;
 			function uploadExcel() {
