@@ -1,8 +1,6 @@
 .webuploader-container {
 	position: relative;
 	display: inline-block;
-	float: left;
-	height:30px;
 }
 .webuploader-element-invisible {
 	position: absolute !important;
@@ -11,7 +9,6 @@
 }
 .webuploader-pick {
 	position: relative;
-	display: inline-block;
 	cursor: pointer;
 	background: #2c9fa6;
 	padding: 3px 12px;
@@ -19,6 +16,7 @@
 	text-align: center;
 	border-radius: 3px;
 	overflow: hidden;
+	display: block;
 }
 .webuploader-pick-hover {
 	background-color: #48bbef;
@@ -33,7 +31,10 @@
 	background-color: #48bbef;
     color: white;
 }
-.wu-example .btns{
-	height:30px;
+.btns{
 	float:left;
+	height:30px;
+}
+.wuexample{
+	float: left;
 }

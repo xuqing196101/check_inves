@@ -1619,7 +1619,7 @@ function deleteFinance() {
 							<span class="red">${stock }</span>
 						</div>
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll">
-							<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap">
+							<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
 								<thead>
 									<tr>
 										<th class="info"><input type="checkbox" onchange="checkAll(this, 'stockholder_list_tbody_id')" />
@@ -1640,7 +1640,7 @@ function deleteFinance() {
 											<td class="tc"><input type="checkbox" value="${stockholder.id}" />
 											</td>
 											<td class="tc">
-											 <select  name="listSupplierStockholders[${stockvs.index }].nature" >
+											 <select  name="listSupplierStockholders[${stockvs.index }].nature" class="w100p">
  														 <option value="1" <c:if test="${stockholder.nature==1}"> selected="selected"</c:if> >法人</option>
  														 <option value="2" <c:if test="${stockholder.nature==2}"> selected="selected" </c:if> >自然人</option>
  											</select>

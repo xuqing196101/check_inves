@@ -248,12 +248,22 @@
    </div>
  </div>
 
- <div id="content" class="dnone col-md-12 col-xs-12 col-sm-12 tc mt10">
+ <div id="content" class="dnone col-md-12 col-xs-12 col-sm-12 mt10">
 	 
 	<form id="collect_form" action="${pageContext.request.contextPath }/taskassgin/add.html" method="post" style="margin-top: 20px;">
 	
-	  	   <div style="text-align: center;"><span>采购任务名称:</span><input  type="text" id="aduit_Name"  name="name" value=""></div>
-	       <div  style="text-align: center;margin-top: 20px;"><span>采购任务编号:</span><input id="aduit_No"  type="text" name="documentNumber" value=""></div>
+	  	   <div class="col-md-6 col-sm-6 col-xs-6">
+	  	   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购任务名称:</span>
+	  	   		<div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+	  	   			<input  type="text" id="aduit_Name"  name="name" value="">
+	  	   		</div>
+	  	   </div>
+	       <div class="col-md-6 col-sm-6 col-xs-6">
+	       		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购任务编号:</span>
+	       		<div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+	       			<input id="aduit_No"  type="text" name="documentNumber" value="">
+	       		</div>
+	       </div>
 	       
 	       
 		<!--  文件名称：<input type="text" name="fileName" value=""><br>
@@ -261,9 +271,9 @@
 		 
 		 
 		 <input type="hidden" name="cid" id="cid" value="">
-		<div class="col-md-12 col-xs-12 col-sm-12 tc">
-	     	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" onclick="closeLayer()" >确认</button>
-	   	    <button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 30px" onclick="cancels()" >取消</button>
+		<div class="col-md-12 col-xs-12 col-sm-12 tc mt10">
+	     	<button class="btn" onclick="closeLayer()" >确认</button>
+	   	    <button class="btn" onclick="cancels()" >取消</button>
 	    </div>
 	 </form>   
  </div>

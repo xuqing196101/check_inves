@@ -2689,3 +2689,17 @@ h2.list_title{
 .w100{
 	width:100px;
 }
+
+.font_line{
+	position: absolute;
+	top:-12px;
+	left:10px;
+	display: block;
+    padding: 0 10px 0 10px;
+    font-size: 15px;
+    line-height: inherit;
+    border: 0;
+    font-weight: bold;
+    color: #ff6600;
+}
+}

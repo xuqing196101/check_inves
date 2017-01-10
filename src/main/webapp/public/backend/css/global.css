@@ -1213,15 +1213,12 @@ table .input_group .add-on{
 .announce .kaibiao_all .kb_title{
 	font-size:2.5em;
 }
-.kb_title .time
 /*组织专家评审*/
 .tab-v2 .expert_tab li a{
 	padding:10px;
 	font-size:16px;
 }
 
-
-.scroll_top{
-	position:fixed;
-	top:0px;
+.target{
+	height:auto!important;
 }

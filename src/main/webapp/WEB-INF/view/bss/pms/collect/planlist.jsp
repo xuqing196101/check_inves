@@ -352,34 +352,38 @@
 					<input type="hidden" name="page" id="page">
 	   			<ul class="demand_list">
 			    	  <li>
-				    		<label class="fl">采购计划名称：</label><span>
-				  	  	<input type="text" name="fileName" value="${inf.fileName }"/> 
+				    		<label class="fl">采购计划名称：</label>
+				    		<span>
+				  	  	     <input type="text" name="fileName" value="${inf.fileName }"/> 
 				    		</span>
 				      </li>
 				   		 
 				      <li>
-				    		<label class="fl">采购金额：</label><span>
-				  	    <input type="text" name="budget" value="${inf.budget }"/> 
-				    	</span>
+				    		<label class="fl">采购金额：</label>
+				    		<span>
+				  	          <input type="text" name="budget" value="${inf.budget }"/> 
+				    	    </span>
 				      </li>
-				       <li>
-				      <label class="fl"> 状态：</label><span>
-				    	<select name="status">
-				  	      <option value="0" >全部</option>
-						  	<option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> >审核轮次设置</option>
-							<option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 第一轮审核</option>
-							<option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 第二轮审核人员设置</option>
-							<option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> > 第二轮审核</option>
-							<option value="6" <c:if test="${inf.status=='6'}"> selected</c:if> > 第三轮审核人员设置</option>
-							<option value="7" <c:if test="${inf.status=='7'}"> selected</c:if> > 第三轮审核</option>
-							<option value="8" <c:if test="${inf.status=='8'}"> selected</c:if> > 审核结束</option>
-							<option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> > 直接下达</option>
-					   </select>
-					   </span>
-					    </li> 
+				      <li>
+				            <label class="fl">计划类型：</label>
+				            <span>
+				    	      <select name="status">
+				  	            <option value="0" >全部</option>
+						        <option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> >审核轮次设置</option>
+								<option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 第一轮审核</option>
+								<option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 第二轮审核人员设置</option>
+								<option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> > 第二轮审核</option>
+								<option value="6" <c:if test="${inf.status=='6'}"> selected</c:if> > 第三轮审核人员设置</option>
+								<option value="7" <c:if test="${inf.status=='7'}"> selected</c:if> > 第三轮审核</option>
+								<option value="8" <c:if test="${inf.status=='8'}"> selected</c:if> > 审核结束</option>
+								<option value="12" <c:if test="${inf.status=='12'}"> selected</c:if> > 直接下达</option>
+					    	  </select>
+					  		 </span>
+					  </li>			  
+
 			    </ul>
-	   	 		<input class="btn fl" type="submit" value="查询" /> 
-				<input class="btn fl" type="button" value="重置" onclick="resetQuery()"  />	
+	   	 		<input class="btn fl mt1" type="submit" value="查询" /> 
+				<input class="btn fl mt1" type="button" value="重置" onclick="resetQuery()"  />	
    		</form>
  		</h2>
 
@@ -388,7 +392,7 @@
 			  <button class="btn btn-windows check" onclick="auditPersonSets()">审核人员设置</button>
 				<button class="btn btn-windows check" onclick="audit()">审核</button>
 				<button class="btn btn-windows input" onclick="down()">下载</button>
-				<button class="btn btn-windows output" onclick="print()">打印</button>
+				<button class="btn btn-windows print" onclick="print()">打印</button>
 			</div>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover table-striped">
@@ -409,8 +413,8 @@
 								<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">  
 							</td>
 							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td class="tl pl20" onclick="view('${obj.id}')">${obj.fileName }</td>
-							<td class="tr pr20" onclick="view('${obj.id}')">
+							<td class="tl pl20" width="35%" onclick="view('${obj.id}')">${obj.fileName }</td>
+							<td class="tr pr20 w140" onclick="view('${obj.id}')">
                         		<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 							</td>
 							<td class="tc " onclick="view('${obj.id}')">
