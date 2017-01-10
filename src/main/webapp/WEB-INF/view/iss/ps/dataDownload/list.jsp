@@ -376,7 +376,7 @@
 									<td class="tl pl20" onclick="view('${data.id }')">已取消发布</td>
 								</c:if>
 								<td class="release">
-									<u:show showId="${data.groupShow }" groups="${data.groupsUploadId }" delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }"/>
+									<u:show showId="${data.groupShow }" groups="${data.groupsUploadId }" delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }" zipFileName="${data.name}" fileName="${data.name}" />
 								</td>	
 							</tr>
 						</c:forEach>

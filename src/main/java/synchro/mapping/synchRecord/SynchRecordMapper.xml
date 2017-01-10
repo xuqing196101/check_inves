@@ -27,12 +27,21 @@
   </insert>
   
   <!-- 获取同步时间 -->
-  <select id="getSynchRecordByOperType" parameterType="java.lang.Integer"  resultMap="resMap">
+  <select id="getSynchRecordByOperType"   resultMap="resMap">
     SELECT  
     <include refid="baseSql" />,
     to_char(SYNCH_DATE,'yyyy-MM-dd hh24:mi:ss') AS synchTime
     FROM T_SYNCH_RECORD
     WHERE OPER_TYPE = #{operType,jdbcType=NUMERIC}
+    <if test="searchType != null and searchType != '' ">
+      AND DATA_TYPE = #{searchType,jdbcType=VARCHAR}
+    </if>
+    <if test="startTime != null and startTime != '' ">
+      AND SYNCH_DATE &gt;= to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+    </if>
+    <if test="endTime != null and endTime != '' ">
+      AND SYNCH_DATE &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
+    </if>
     ORDER by SYNCH_DATE desc
   </select>
   

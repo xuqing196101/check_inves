@@ -25,5 +25,5 @@ public interface SynchService {
      * @param page 页码
      * @return
      */
-    public List<SynchRecord> getList(Integer optype, Integer page);
+    public List<SynchRecord> getList(Integer optype, Integer page, String searchType, String startTime, String endTime);
 }
