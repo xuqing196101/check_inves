@@ -158,6 +158,12 @@ public class PackageServiceImpl implements PackageService{
     public List<Packages> listExpExtCondition(String projectId){
         return packageMapper.listExpExtCondition(projectId);
     }
+
+    @Override
+    public Packages selectByPrimaryKeyId(String id) {
+        // TODO Auto-generated method stub
+        return packageMapper.selectByPrimaryKeyId(id);
+    }
     
     
 }

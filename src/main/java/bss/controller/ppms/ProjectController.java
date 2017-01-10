@@ -156,21 +156,6 @@ public class ProjectController extends BaseController {
             if(page==null){
                 page = 1;
             }
-            /*List<DictionaryData> ddList = DictionaryDataUtil.find(2);
-            List<DictionaryData> condition = new ArrayList<DictionaryData>();
-            List<DictionaryData> conditions = new ArrayList<DictionaryData>();
-            for (DictionaryData dictionaryData : ddList) {
-                if("YLX_DFB".equals(dictionaryData.getCode()) || "YFB_DSS".equals(dictionaryData.getCode())) {
-                    conditions.add(dictionaryData);
-                } 
-                else {
-                    condition.add(dictionaryData);
-                }
-            }
-            map.put("page", page.toString());
-            //等于1就是这个条件
-            map.put("ddList", condition);
-            map.put("ddLists", conditions);*/
             PropertiesUtil config = new PropertiesUtil("config.properties");
             PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
             List<Project> list = projectService.selectProjectsByConition(map);
