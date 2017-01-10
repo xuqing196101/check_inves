@@ -467,23 +467,31 @@ function deleteFinance() {
 	}
 	
 	function delAddress(obj){
-		var id = $(obj).next().val();
-	 	var tag=$(obj).parent().parent();
- 	    var li_1=$(obj).parent().parent().prev();  
-		$(li_1).prev().prev().remove(); //邮编
-		$(li_1).prev().remove();//省市
-		$(li_1).remove();//详细地址
-		$(tag).remove(); //按钮  
-		$.ajax({
-			url: "${pageContext.request.contextPath}/supplier/delAddress.do",
-			data: {"id" : id },
-			success: function(){
-				layer.msg("删除成功!");
-			},
-			error: function(){
-				layer.msg("删除失败!");
-			}
+		var btmCount = 0;
+		$("#address_list_body").find("input[type='button']").each(function(){
+			btmCount++;
 		});
+		if (btmCount == 2) {
+			layer.msg("生产经营地址必须至少保留一个!");
+		} else {
+			var id = $(obj).next().val();
+		 	var tag=$(obj).parent().parent();
+	 	    var li_1=$(obj).parent().parent().prev();  
+			$(li_1).prev().prev().remove(); //邮编
+			$(li_1).prev().remove();//省市
+			$(li_1).remove();//详细地址
+			$(tag).remove(); //按钮  
+			$.ajax({
+				url: "${pageContext.request.contextPath}/supplier/delAddress.do",
+				data: {"id" : id },
+				success: function(){
+					layer.msg("删除成功!");
+				},
+				error: function(){
+					layer.msg("删除失败!");
+				}
+			});
+		}
 	}
 	
 	function addBranch(obj){
@@ -865,7 +873,7 @@ function deleteFinance() {
 				 	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
 						<input type="button" onclick="increaseAddress(this)" class="btn list_btn" value="十"/>
-						<c:if test="${vs.index != 0}"><input type="button" onclick="delAddress(this, '${addr.id}')"class="btn list_btn" value="一"/></c:if>
+						<input type="button" onclick="delAddress(this, '${addr.id}')"class="btn list_btn" value="一"/>
 					   <input type="hidden" name="addressList[${vs.index }].id" value="${addr.id}" />
 					</div>
 				 </li>
