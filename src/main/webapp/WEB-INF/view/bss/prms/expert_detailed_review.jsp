@@ -33,8 +33,8 @@
 							 async:false,
 							 success:function(){
 								 layer.alert("已结束",{offset: [y, x], shade:0.01});
-								 $("#backId").attr("class","dnone");
-								 $("#endId").attr("class","dnone");
+								 $("#backId").attr("disabled",true);
+								 $("#endId").attr("disabled",true);
 							 },
 							 error: function(){
 								 layer.alert("结束失败,请稍后重试!",{offset: [y, x], shade:0.01});
@@ -136,6 +136,10 @@
 	      <c:if test="${isEnd != 1}">
 			  <button class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>
 			  <button class="btn" id="backId" onclick="backScore()" type="button">复核评分</button>
+		  </c:if>
+		  <c:if test="${isEnd == 1}">
+			  <button disabled="disabled" class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>
+			  <button disabled="disabled" class="btn" id="backId" onclick="backScore()" type="button">复核评分</button>
 		  </c:if>
 		  <button class="btn btn-windows input" onclick="printRank()" type="button">打印汇总表</button>
 		</div>

@@ -1,6 +1,7 @@
 package bss.service.prms.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -491,13 +491,13 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           //供应商总分数
           totalScore = getTotalScore(supplierList, map);
           //供应商平均得分
-          totalScoreAver = totalScore.divide(supplierNum, 4);
+          totalScoreAver = totalScore.divide(supplierNum, 4, RoundingMode.HALF_UP);
           //平均得分偏离值
           totalScoreStandard = totalScoreAver.multiply(totalScorePercent);
           //计算总报价
           totalPrice = getTotalPrice(packageId, projectId, supplierList);
           //所有供应商平均报价
-          totalPriceAver = totalPrice.divide(supplierNum, 4);
+          totalPriceAver = totalPrice.divide(supplierNum, 4, RoundingMode.HALF_UP);
           //平均报价偏离值
           totalPriceStandard = totalPriceAver.multiply(totalPricePercent);
           
@@ -518,11 +518,12 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             msg += "";
           }
           //该供应商平均报价偏离计算
-          Quote quote = new Quote();
+          /*Quote quote = new Quote();
           quote.setProjectId(projectId);
           quote.setPackageId(packageId);
           quote.setSupplierId(saleTender.getSuppliers().getId());
           List<Quote> allQuote = quoteMapper.selectByPrimaryKey(quote);
+          
           if (allQuote != null && allQuote.size()>0) {
               if (allQuote.get(0).getQuotePrice() == null) {
                 totalPriceSupplier = totalPriceSupplier.add(allQuote.get(0).getTotal());
@@ -533,7 +534,8 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                   }
                   totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
               }
-          }
+          }*/
+          totalPriceSupplier =  getTocalPriceSupplier(saleTender, projectId, packageId);
           if (totalPriceSupplier.compareTo(totalPriceAver) == 1) {
               //供应商与平均报价金额的偏离值
               BigDecimal v = totalPriceSupplier.subtract(totalPriceAver);
@@ -560,11 +562,12 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           //计算总报价
           totalPrice = getTotalPrice(packageId, projectId, supplierList);
           //所有供应商平均报价
-          totalPriceAver = totalPrice.divide(supplierNum, 4);
+          totalPriceAver = totalPrice.divide(supplierNum, 4, RoundingMode.HALF_UP);
           //平均报价偏离值
           totalPriceStandard = totalPriceAver.multiply(totalPricePercent);
           //该供应商平均报价偏离计算
-          Quote quote = new Quote();
+          totalPriceSupplier =  getTocalPriceSupplier(saleTender, projectId, packageId);
+          /*Quote quote = new Quote();
           quote.setProjectId(projectId);
           quote.setPackageId(packageId);
           quote.setSupplierId(saleTender.getSuppliers().getId());
@@ -579,7 +582,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                   }
                   totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
               }
-          }
+          }*/
           //如果供应商报价高于所有供应商的平均报价
           if (totalPriceSupplier.compareTo(totalPriceAver) == 1) {
               //小于平均分的分数
@@ -664,11 +667,13 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       for (SaleTender sale : supplierList) {
         BigDecimal totalPriceSupplier = new BigDecimal(0);
         Supplier supplier = sale.getSuppliers();
-        Quote quote = new Quote();
+        totalPriceSupplier =  getTocalPriceSupplier(sale, projectId, packageId);
+        /*Quote quote = new Quote();
         quote.setProjectId(projectId);
         quote.setPackageId(packageId);
         quote.setSupplierId(supplier.getId());
         List<Quote> allQuote = quoteMapper.selectByPrimaryKey(quote);
+        
         if (allQuote != null && allQuote.size()>0) {
             if (allQuote.get(0).getQuotePrice() == null) {
               totalPriceSupplier = totalPriceSupplier.add(allQuote.get(0).getTotal());
@@ -679,7 +684,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                 }
                 totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
             }
-        }
+        }*/
         totalPrice = totalPrice.add(totalPriceSupplier);
       }
       return totalPrice;
@@ -764,7 +769,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         int passNum = finalSupplier.size();
         BigDecimal passSupplierNum = new BigDecimal(passNum);
         //基准价
-        BigDecimal benchmarkPrice = passSupplierPrice.divide(passSupplierNum, 4);;
+        BigDecimal benchmarkPrice = passSupplierPrice.divide(passSupplierNum, 4, RoundingMode.HALF_UP);
         //浮动比例
         BigDecimal slidingCales = new BigDecimal(bmList.get(0).getFloatingRatio());
         slidingCales = slidingCales.divide(new BigDecimal(100));
@@ -813,14 +818,14 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             BigDecimal totalPrice1 = getTocalPriceSupplier(o1, projectId, packageId);
             totalScore1 = totalScore1.add(o1.getEconomicScore());
             totalScore1 = totalScore1.add(o1.getTechnologyScore());
-            scorePrice1 = totalScore1.divide(totalPrice1, 4);
+            scorePrice1 = totalScore1.divide(totalPrice1, 4, RoundingMode.HALF_UP);
                 
             BigDecimal scorePrice2 = new BigDecimal(0);
             BigDecimal totalScore2 = new BigDecimal(0);
             BigDecimal totalPrice2 = getTocalPriceSupplier(o2, projectId, packageId);
             totalScore2 = totalScore2.add(o2.getEconomicScore());
             totalScore2 = totalScore2.add(o2.getTechnologyScore());
-            scorePrice2 = totalScore2.divide(totalPrice2, 4);
+            scorePrice2 = totalScore2.divide(totalPrice2, 4, RoundingMode.HALF_UP);
             if(scorePrice1.compareTo(scorePrice2) == 1){  
                 return -1;
             }  
