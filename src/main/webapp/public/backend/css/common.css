@@ -422,7 +422,10 @@
 }
 .p10_25 {
   padding: 10px 25px!important; }
-
+  
+.p0_5 {
+  padding: 0 5px!important; }
+  
 .p0_10 {
   padding: 0 10px!important; 
  }

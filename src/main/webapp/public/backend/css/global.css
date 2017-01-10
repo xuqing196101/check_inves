@@ -1218,7 +1218,15 @@ table .input_group .add-on{
 	padding:10px;
 	font-size:16px;
 }
-
+.lockout td{
+	border:2px solid #dddddd!important;
+}
 .target{
-	height:auto!important;
+	width:100%!important;
+	border:0px;
+}
+
+.lockout input[type="text"],.lockout select{
+	height:100%;
+	border:0px;
 }

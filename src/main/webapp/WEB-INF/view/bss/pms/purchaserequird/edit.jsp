@@ -194,8 +194,7 @@
 	    	 // $("#edit_form").submit();
 	      }
 </script>
-<script type="text/javascript"
- src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<!-- 锁表头js -->
 <script type="text/javascript">
     function FixTable(TableID, FixColumnNumber, width, height) {
     if ($("#" + TableID + "_tableLayout").length != 0) {
@@ -250,9 +249,9 @@
         $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
         $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
     });
-    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "Silver" });
-    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "Silver" });
-    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "Silver" });
+    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#F7F7F7" });
     $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
     if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
         $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
@@ -268,14 +267,79 @@
     $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
 }
 $(document).ready(function () {
-		var boxwidth = $("#container").width();
-		var table_box = $("#table").width(boxwidth);
+		var boxwidth = $("#content").width();
             FixTable("table", 1, boxwidth, 460);
         });
         
-
 </script>
-     
+
+<!-- textarea 自适应高度js1 -->
+   <script type="text/javascript">
+			var autoTextarea = function(elem, extra, maxHeight) {
+				extra = extra || 0;
+				var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
+					isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+					addEvent = function(type, callback) {
+						elem.addEventListener ?
+							elem.addEventListener(type, callback, false) :
+							elem.attachEvent('on' + type, callback);
+					},
+					getStyle = elem.currentStyle ? function(name) {
+						var val = elem.currentStyle[name];
+
+						if(name === 'height' && val.search(/px/i) !== 1) {
+							var rect = elem.getBoundingClientRect();
+							return rect.bottom - rect.top -
+								parseFloat(getStyle('paddingTop')) -
+								parseFloat(getStyle('paddingBottom')) + 'px';
+						};
+
+						return val;
+					} : function(name) {
+						return getComputedStyle(elem, null)[name];
+					},
+					minHeight = parseFloat(getStyle('height'));
+
+				elem.style.resize = 'none';
+
+				var change = function() {
+					var scrollTop, height,
+						padding = 0,
+						style = elem.style;
+
+					if(elem._length === elem.value.length) return;
+					elem._length = elem.value.length;
+
+					if(!isFirefox && !isOpera) {
+						padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+					};
+					scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+					elem.style.height = minHeight + 'px';
+					if(elem.scrollHeight > minHeight) {
+						if(maxHeight && elem.scrollHeight > maxHeight) {
+							height = maxHeight - padding;
+							style.overflowY = 'auto';
+						} else {
+							height = elem.scrollHeight - padding;
+							style.overflowY = 'hidden';
+						};
+						style.height = height + extra + 'px';
+						scrollTop += parseInt(style.height) - elem.currHeight;
+						document.body.scrollTop = scrollTop;
+						document.documentElement.scrollTop = scrollTop;
+						elem.currHeight = parseInt(style.height);
+					};
+				};
+
+				addEvent('propertychange', change);
+				addEvent('input', change);
+				addEvent('focus', change);
+				change();
+			};
+	</script>
+  
+  
 </head>
 
 <body>
@@ -291,10 +355,10 @@ $(document).ready(function () {
 			<div class="clear"></div>
 		</div>
 	</div>
-	<div class="container" id="container">
+	<div class="container container_box" id="container">
 		
 		 <div>
-				<h2 class="count_flow">计划主信息</h2>
+				<h2 class="count_flow"><i>1</i>计划主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
@@ -352,23 +416,19 @@ $(document).ready(function () {
                         <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
              </li>
           
-          
 	   </ul>
 	 </div>
-	 
-	 
-		<div class="headline-v2">
-			<h2>计划明细</h2>
-		</div>
-		<div class="content table_box">
+
+		<h2 class="count_flow"><i>2</i>计划明细</h2>
+		<div class="content mt0 ul_list">
 	
-             <div class="content">
-                 <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table">
+             <div class="content" id="content">
+                 <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
 					<thead>
 						<tr class="space_nowrap" id="scroll_top">
 							<th class="info">序号</th>
-							<th class="info w70">需求部门</th>
+							<th class="info">需求部门</th>
 							<th class="info">物资类别及</br>物种名称</th>
 							<th class="info">规格型号</th>
 							<th class="info">质量技术标准</br>（技术参数）</th>
@@ -386,48 +446,49 @@ $(document).ready(function () {
 					<!-- 		<th class="w100">状态</th> -->
 						</tr>
 					</thead>
-		<form   id="edit_form"  action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
+					<form   id="edit_form"  action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
                            <td class="tc">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-                           <td class="tl "><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
-                          ${obj.department}
+                           <td class="tl"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
+                          <div class="p0_5">${obj.department}</div>
                           <%--  <c:forEach items="${requires }" var="re" >
 					         <c:if test="${obj.department==re.name }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
 			               </c:forEach> --%>
                   </td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName}"></td>
+                  <td class="tl ">
+                  		<textarea name="list[${vs.index }].goodsName" class="target">${obj.goodsName}</textarea>
+                  </td>
                   <td class="tl "><input type="text" name="list[${vs.index }].stand" value="${obj.stand}"></td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}"></td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="w80"></td>
+                  <td class="tc "><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}"></td>
+                  <td class="tl "><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="tc"></td>
                   
                   <td class="tl ">
                     <c:if test="${obj.purchaseCount!=null}">
-                     
                       <input   type="hidden" name="ss"   value="${obj.id }" >
-                      <input maxlength="11" class="w80" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
+                      <input maxlength="11" class="tc" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.purchaseCount==null }">
-                      <input class="w80 border0" type="text" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount }">
+                      <input class="tc" type="text" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount }">
                     </c:if>
                   </td>
                   <td class="tl ">
                     <c:if test="${obj.price!=null}">
                       <input   type="hidden" name="ss"   value="${obj.id }">
-                      <input maxlength="11" class="w80"   name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
+                      <input maxlength="11" class="tr"   name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
                       <input type="hidden" name="ss"   value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.price==null}">
-                      <input class="w80" readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
+                      <input class="tr" readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
                     </c:if>
                   </td>
-                  <td class="tr pr20">
+                  <td>
                     <input   type="hidden" name="ss"   value="${obj.id }">
-                    <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="w80"/>
+                    <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="tr"/>
                     <input type="hidden" name="ss"   value="${obj.parentId }">
                   </td>
-                  <td class="tc"><input type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate}" class="w100"></td>
+                  <td class="tc"><textarea name="list[${vs.index }].deliverDate" class="target">${obj.deliverDate}</textarea></td>
                   <td class="tc">
              <%--       <c:if test="${obj.price!=null}"> --%>
                       <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
@@ -438,11 +499,12 @@ $(document).ready(function () {
                       </select> 
                   <%--    </c:if> --%>
                   </td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].supplier" value="${obj.supplier}"></td>
+                  <td class="tl "><textarea name="list[${vs.index }].supplier" class="target">${obj.supplier}</textarea></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].userUnit" value="${obj.userUnit}"></td>
-                  <td class="tl ">${obj.memo }<%--
+                  <td class="tl "><div class="p0_5">${obj.memo}</div>
+                  <%--
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                      <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
                      <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
@@ -492,8 +554,14 @@ $(document).ready(function () {
              </div>
 		
 		</div>
-		
-</div>
-
+    </div>
+	<!-- textarea 自适应高度js2 --> 
+		<script>
+			var text = document.getElementsByClassName("target");
+			for(var i=0;i<text.length;i++){
+				autoTextarea(text[i]);
+			}
+			
+		</script>
 </body>
 </html>
