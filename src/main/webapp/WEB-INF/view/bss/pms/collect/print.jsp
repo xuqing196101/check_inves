@@ -4,96 +4,67 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
 
+	<title>采购需求管理</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
 
+	<link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">  
 
+	<link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="print" rel="stylesheet" type="text/css">
+	<link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="print" rel="stylesheet" type="text/css">  
 
-<title>采购需求管理</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-
-
-
-
-  <jsp:include page="/WEB-INF/view/common.jsp"/> 
-
-<script type="text/javascript">
-	/** 全选全不选 */
-	function selectAll(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		 if(checkAll.checked){
-			   for(var i=0;i<checklist.length;i++)
-			   {
-			      checklist[i].checked = true;
-			   } 
-			 }else{
-			  for(var j=0;j<checklist.length;j++)
-			  {
-			     checklist[j].checked = false;
-			  }
-		 	}
+	<style>
+		@page {
+   			size: auto;
+   			/* margin: 27mm 30mm 27mm 30mm; */
+		}
+		
+		div.chapter, div.appendix {
+    		page-break-after: always;
+		}
+	</style>
+	
+	<style media='print' type='text/css'>
+		.noprint {
+			display:none;
+		}
+		
+		.w200 {
+			width: 200px;
+		}
+		
+		body {
+			margin: 50px;
+		}
+	</style>
+	
+	<script type="text/javascript">
+		
+		function custom_close(){
+			if 
+			(confirm("您确定要关闭本页吗？")){
+				window.opener=null;
+				window.open('','_self');
+				window.close();
+			}
+			else{}
 		}
 	
-	/** 单选 */
-	function check(){
-		 var count=0;
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		 for(var i=0;i<checklist.length;i++){
-			   if(checklist[i].checked == false){
-				   checkAll.checked = false;
-				   break;
-			   }
-			   for(var j=0;j<checklist.length;j++){
-					 if(checklist[j].checked == true){
-						   checkAll.checked = true;
-						   count++;
-					   }
-				 }
-		   }
-	}
- 
- 
-	function printdiv(printpage)
-	{
-	var headstr = "<html><head><title></title></head><body>";
-	var footstr = "</body>";
-	var newstr = document.all.item(printpage).innerHTML;
-	var oldstr = document.body.innerHTML;
-	document.body.innerHTML = headstr+newstr+footstr;
-	window.print(); 
-	document.body.innerHTML = oldstr;
-	return false;
-	}
-	
-	function custom_close(){
-		if 
-		(confirm("您确定要关闭本页吗？")){
-		window.opener=null;
-		window.open('','_self');
-		window.close();
-		}
-		else{}
-		}
-	
-	
-
-</script>
+	</script>
 </head>
 
 <body>
-	<!--面包屑导航开始-->
  
 	<div class="container">
-		<div class="container clear margin-top-30  h365" >
+		<div class="print_container clear margin-top-30  h365" >
 
 			<form id="acc_form" action="${pageContext.request.contextPath }/accept/update.html" method="post">
-				<table class="table table-bordered table-condensed mt5">
+				<table id='print_table' class="table table-bordered table-condensed mt5">
 					<thead>
 					<tr class="space_nowrap">
 							<th class="info" colspan="14">事业部门需求</th>
@@ -122,7 +93,7 @@
 							<th class="info">采购方式</th>
 							<th class="info">采购机构</th>
 							<th class="info">供应商名称</th>
-					 		<th class="info">备注</th>
+					 		<th class="info w200">备注</th>
 				 	 		
 							<c:if test="${auditTurn!=null }">
 						 		<th class="info" >一轮审核意见</th>
@@ -138,7 +109,7 @@
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-							<td class="tc w50">${obj.seq } 
+							<td class="tc w50" style="vertical-align:middle" >${obj.seq } 
 							</td>
 							<td class="tl"> ${obj.department }  </td>
 							<td class="tl">${obj.goodsName }</td>
@@ -163,7 +134,7 @@
 							
 							
 							<td class="tl">${obj.supplier }</td>
-							<td class="tl">${obj.memo }</td>
+							<td class="tl w200">${obj.memo }</td>
 							<c:if test="${auditTurn!=null }">
 
 						 		<td>${obj.oneAdvice }</td>
@@ -194,16 +165,12 @@
 				</table>
 			
 			</form>
-				<input class="btn btn-windows print" type="button" onclick="printdiv('acc_form')" value="打印"> 
-				<input class="btn btn-windows back" value="关闭" type="button" onclick="custom_close()">
+				<input class="btn btn-windows print noprint" type="button" onclick="window.print();" value="打印"> 
+				<input class="btn btn-windows back noprint" value="关闭" type="button" onclick="custom_close()">
 		</div>
 		
 	</div>
 
-	 
-			
-	 
-		
-		
+
 </body>
 </html>
