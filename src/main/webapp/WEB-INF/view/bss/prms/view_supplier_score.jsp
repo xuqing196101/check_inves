@@ -5,22 +5,6 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title>供应商评分详情</title>
-<style> 
-table{border-collapse:collapse;border-spacing:0px; width:100%; border:#ddd solid 0px;} 
-table td{border:1px solid #ddd;height:30px; text-align:center; border-left:0px;} 
-table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:nowrap; height:30px; border-top:0px;border-left:0px;} 
-.t_left{width:35%; height:auto; float:left;border-top:1px solid #ddd;border-left:1px solid #ddd;} 
-.t_r_content{width:100%; height:auto; background:#fff; overflow:auto;} 
-.cl_freeze{height:auto;overflow:hidden; width:100%;}  
-.t_r1{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
-.t_r2{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
-.t_r_t{width:100%; overflow:hidden;} 
-.bordertop{ border-top:0px;} 
-.t_r1 table{width:1700px;} 
-.t_r2 table{width:735px;} 
-.t_r_title1{width:1700px;}
-.t_r_title2{width:735px;}
-</style>
 	<!-- Meta -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,13 +16,84 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
 	function backUp(){
 		$("#tab-6").load("${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId=${packageId}&projectId=${projectId}");
 	}
-	// 控制滚动
-	function controlScroll(){ 
-		var a = document.getElementById("t_r_content").scrollTop; 
-		var b = document.getElementById("t_r_content").scrollLeft; 
-		document.getElementById("cl_freeze").scrollTop=a; 
-		document.getElementById("t_r_t").scrollLeft=b; 
-	} 
+</script>
+  <!-- 锁表头js -->
+<script type="text/javascript">
+    function FixTable(TableID, FixColumnNumber, width, height) {
+    if ($("#" + TableID + "_tableLayout").length != 0) {
+        $("#" + TableID + "_tableLayout").before($("#" + TableID));
+        $("#" + TableID + "_tableLayout").empty();
+    }
+    else {
+        $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
+    }
+    $('<div id="' + TableID + '_tableFix"></div>'
+    + '<div id="' + TableID + '_tableHead"></div>'
+    + '<div id="' + TableID + '_tableColumn"></div>'
+    + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
+    var oldtable = $("#" + TableID);
+    var tableFixClone = oldtable.clone(true);
+    tableFixClone.attr("id", TableID + "_tableFixClone");
+    $("#" + TableID + "_tableFix").append(tableFixClone);
+    var tableHeadClone = oldtable.clone(true);
+    tableHeadClone.attr("id", TableID + "_tableHeadClone");
+    $("#" + TableID + "_tableHead").append(tableHeadClone);
+    var tableColumnClone = oldtable.clone(true);
+    tableColumnClone.attr("id", TableID + "_tableColumnClone");
+    $("#" + TableID + "_tableColumn").append(tableColumnClone);
+    $("#" + TableID + "_tableData").append(oldtable);
+    $("#" + TableID + "_tableLayout table").each(function () {
+        $(this).css("margin", "0");
+    });
+    var HeadHeight = $("#" + TableID + "_tableHead thead").height();
+    HeadHeight += 2;
+    $("#" + TableID + "_tableHead").css("height", HeadHeight);
+    $("#" + TableID + "_tableFix").css("height", HeadHeight);
+    var ColumnsWidth = 0;
+    var ColumnsNumber = 0;
+    $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
+        ColumnsWidth += $(this).outerWidth(true);
+        ColumnsNumber++;
+    });
+    ColumnsWidth += 2;
+    if ($.browser.msie) {
+        switch ($.browser.version) {
+            case "7.0":
+                if (ColumnsNumber >= 3) ColumnsWidth--;
+                break;
+            case "8.0":
+                if (ColumnsNumber >= 2) ColumnsWidth--;
+                break;
+        }
+    }
+    $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableData").scroll(function () {
+        $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
+        $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
+    });
+    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
+    if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
+        $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
+        $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
+    }
+    if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
+        $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
+        $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
+    }
+    $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
+}
+$(document).ready(function () {
+		var boxwidth = $("#content").width();
+            FixTable("table", 1, boxwidth, 460);
+        });
+        
 </script>
 </head>
 <body>
@@ -52,29 +107,33 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
   </div>
   <!-- 表格开始-->
   <div>
-	        <div class="t_left mt20"> 
-			<div style="width:100%;"> 
-	        <table class="m0" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
+  <div class="content mt0">
+	
+             <div class="content" id="content">
+	        <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
 			  <tr>
 			      <th colspan="4"></th>
+			      <c:forEach items="${expertList}" var="expert">
+				      <th colspan="2" class="tc">${expert.relName}</th>
+				    </c:forEach>
 			  </tr>
 			  <tr>
-		   	  	  <th width="25%" class="tc">评审项目</th>
-		   	      <th width="25%" class="tc">评审指标</th>
-		   	      <th width="25%" class="tc">指标模型</th>
-		   	      <th width="25%" class="tc">标准分值</th>
+		   	  	  <th class="tc">评审项目</th>
+		   	      <th class="tc">评审指标</th>
+		   	      <th class="tc">指标模型</th>
+		   	      <th class="tc">标准分值</th>
+		   	      <c:forEach items="${expertList}" var="expert">
+		   		        <th class="tc w100">评审得分</th>
+	   		  	  	</c:forEach>
 			  </tr>
-			</table>
-			</div> 
-			<div class="cl_freeze" id="cl_freeze"> 
-			<table>
 			    <c:forEach items="${markTermList}" var="markTerm">
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			    	      <td width="25%" class="tc" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
-			    	      <td width="25%" class="tc" ><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
-			 	  		  <td width="25%" class="tc" >
+			    	      <td class="tc" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
+			    	      <td class="tc"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
+			 	  		  <td class="tc">
 			 	    	    <c:if test="${score.typeName == 0}">模型一A</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型二</c:if>
 				 	        <c:if test="${score.typeName == 2}">模型三</c:if>
@@ -86,59 +145,27 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
 				 	        <c:if test="${score.typeName == 8}">模型一B</c:if>
 				 	        <c:if test="${score.typeName == 9}">模型四B</c:if>
 				 	      </td>
-				 	      <td width="25%" class="tc" >${score.standardScore}</td>
+				 	      <td class="tc">${score.standardScore}</td>
+				 	      <c:forEach items="${expertList}" var="expert">
+					 	    <td class="tc">
+					 	      <input type="hidden" name="expertId"  value="${expert.id}"/>
+					 	      <input type="hidden" name="expertScore" readonly="readonly"
+					 	      	<c:forEach items="${scores}" var="sco">
+					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expert.id and sco.supplierId eq supplierId and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
+					 	        </c:forEach>
+					 	      />
+					 	      <span><c:forEach items="${scores}" var="sco">
+					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplierId and sco.scoreModelId eq score.id}"><font color="red" class="f18">${sco.score}</font></c:if>
+					 	        </c:forEach></span>
+					 	    </td>
+				 	      </c:forEach>
 				 	    </tr>
 				 	  </c:if>
 				 	</c:forEach>
 				 </c:forEach>
-			</table>	    
-		  </div>
-		  </div>
-		  <div class="<c:if test="${size > 4}">t_r1</c:if> <c:if test="${size <= 4}">t_r2</c:if> mt20"> 
-			<div class="t_one">
-			<div class="t_r_t" id="t_r_t"> 
-			<div class="<c:if test="${size > 4}">t_r_title1</c:if> <c:if test="${size <= 4}">t_r_title2</c:if>"> 
-			<table>
-				<tr>
-			      <c:forEach items="${expertList}" var="expert">
-				      <th class="tc"  width="${length1}">${expert.relName}</th>
-				    </c:forEach>
-			  	</tr>
-			  	<tr>
-			  		<c:forEach items="${expertList}" var="expert">
-		   		        <th class="tc"  width="${length1}">评审得分</th>
-	   		  	  	</c:forEach>
-			  	</tr>
-		  	</table> 
-			</div> 
-			</div> 
-		  <div class="t_r_content" id="t_r_content" onscroll="controlScroll()"> 
-			<table> 
-			<c:forEach items="${markTermList}" var="markTerm">
-			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
-			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
-			    	    <tr>
-				 	      <c:forEach items="${expertList}" var="expert">
-					 	    <c:set var="expertScore" value=""/>
-					 	    <c:forEach items="${scores}" var="sco">
-					 	      <c:if test="${sco.packageId eq packageId and sco.expertId eq expert.id and sco.supplierId eq supplierId and sco.scoreModelId eq score.id}"><c:set var="expertScore" value="${sco.score}"/></c:if>
-					 	    </c:forEach>
-					 	    <td class="tc" width="${length1}">
-					 	      <span>${expertScore}<c:if test="${expertScore eq '' and expertScore ne '0'}">未评分</c:if></span>
-					 	    </td>
-				 	      </c:forEach>
-					    </tr> 
-					  </c:if>
-			        </c:forEach>
-			    </c:forEach>
-			</table> 
-			</div>
-			</div> 
-		</div>
-			<div class="tc">
-			  <%--<input class="btn btn-windows back" value="返回" type="button" onclick="backUp()">--%>
-		    </div>
-		  </div>
-   </div>
+				 </table>
+				 </div></div>
+  </div>
+  </div>
 </body>
 </html>

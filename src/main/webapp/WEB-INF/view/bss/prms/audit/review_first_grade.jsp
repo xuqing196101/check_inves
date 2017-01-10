@@ -5,22 +5,7 @@
   <head>
   	<%@ include file="/WEB-INF/view/common.jsp" %>
     <title>项目评分</title>
-<style> 
-table{border-collapse:collapse;border-spacing:0px; width:100%; border:#ddd solid 0px;} 
-table td{border:1px solid #ddd;height:30px; text-align:center; border-left:0px;} 
-table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:nowrap; height:30px; border-top:0px;border-left:0px;} 
-.t_left{width:35%; height:auto; float:left;border-top:1px solid #ddd;border-left:1px solid #ddd;} 
-.t_r_content{width:100%; height:auto; background:#fff; overflow:auto;} 
-.cl_freeze{height:auto;overflow:hidden; width:100%;}  
-.t_r1{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
-.t_r2{width:64.5%; height:auto; float:left;border-top:1px solid #ddd; border-right:#ddd solid 1px;} 
-.t_r_t{width:100%; overflow:hidden;} 
-.bordertop{ border-top:0px;} 
-.t_r1 table{width:1700px;} 
-.t_r2 table{width:735px;} 
-.t_r_title1{width:1700px;}
-.t_r_title2{width:735px;}
-</style> 
+
 <script type="text/javascript">
 $(document).ready(function() { 
 	 $("input[name='expertValue']").bind("keypress", function(event) {  
@@ -247,7 +232,7 @@ $(document).ready(function () {
 </script>
   </head>
   
-<body style="font-size: 5px !important;">
+<body>
   <div class="dnone">
   	<form  id="score_form">
   	  <input type="hidden" name="supplierIds" id="supplierIds">
@@ -273,24 +258,34 @@ $(document).ready(function () {
 	   	  <input type="hidden" name="projectId" id="projectId" value="${projectId }">
 		  <!--包id  -->
 	   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
-	        
-	        <table class="m0" id="table" style="overflow: hidden;word-spacing: keep-all;" >
+	        <div class="content mt0">
+	
+             <div class="content" id="content">
+	        <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
 			  <tr>
 			      <th colspan="4"></th>
+			      <c:forEach items="${supplierList}" var="supplier">
+				      <th colspan="2" class="tc">${supplier.suppliers.supplierName}</th>
+				    </c:forEach>
 			  </tr>
 			  <tr>
-		   	  	  <th width="25% tc">评审项目</th>
-		   	      <th width="25% tc">评审指标</th>
-		   	      <th width="25% tc">指标模型</th>
-		   	      <th width="25% tc">标准分值</th>
+		   	  	  <th class="tc">评审项目</th>
+		   	      <th class="tc">评审指标</th>
+		   	      <th class="tc">指标模型</th>
+		   	      <th class="tc">标准分值</th>
+		   	      <c:forEach items="${supplierList}" var="supplier">
+			        	<th class="tc w100">评委填写</th>
+		   		        <th class="tc w100">评审得分</th>
+	   		  	  	</c:forEach>
 			  </tr>
 			    <c:forEach items="${markTermList}" var="markTerm">
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			    	      <td class="tc" width="25%" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
-			    	      <td class="tc" width="25%"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
-			 	  		  <td class="tc" width="25%">
+			    	      <td class="tc" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
+			    	      <td class="tc"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
+			 	  		  <td class="tc">
 			 	    	    <c:if test="${score.typeName == 0}">模型一A</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型二</c:if>
 				 	        <c:if test="${score.typeName == 2}">模型三</c:if>
@@ -302,45 +297,13 @@ $(document).ready(function () {
 				 	        <c:if test="${score.typeName == 8}">模型一B</c:if>
 				 	        <c:if test="${score.typeName == 9}">模型四B</c:if>
 				 	      </td>
-				 	      <td class="tc" width="25% tc">${score.standardScore}</td>
-				 	    </tr>
-				 	  </c:if>
-				 	</c:forEach>
-				 </c:forEach>
-			</table>	    
-		  </div>
-		  </div>
-		  <div class="<c:if test="${size > 3}">t_r1</c:if> <c:if test="${size <= 3}">t_r2</c:if> mt20">
-			<div class="t_one">
-			<div class="t_r_t" id="t_r_t"> 
-			<div class="<c:if test="${size > 3}">t_r_title1</c:if> <c:if test="${size <= 3}">t_r_title2</c:if>">
-			<table>
-				<tr>
-			      <c:forEach items="${supplierList}" var="supplier">
-				      <th colspan="2" class="tc" width="${length1}">${supplier.suppliers.supplierName}</th>
-				    </c:forEach>
-			  	</tr>
-			  	<tr>
-			  		<c:forEach items="${supplierList}" var="supplier">
-			        	<th class="tc">评委填写</th>
-		   		        <th class="tc">评审得分</th>
-	   		  	  	</c:forEach>
-			  	</tr>
-		  	</table> 
-			</div> 
-			</div> 
-		  <div class="t_r_content" id="t_r_content" onscroll="controlScroll()"> 
-			<table> 
-			<c:forEach items="${markTermList}" var="markTerm">
-			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
-			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
-			    	    <tr>
+				 	      <td class="tc">${score.standardScore}</td>
 				 	      <c:forEach items="${supplierList}" var="supplier">
 					 	    <c:choose>
 					 	      <c:when test="${score.typeName == '0'}">
-					 	        <td class="tc p0" width="${length2}">
-					 	          <select name="expertValue" title="单位:${score.unit}"
-					 	            class="w50"  onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
+					 	        <td class="tc p0">
+					 	          <select name="expertValue" title="单位:${score.unit}" class="m0"
+					 	           onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	          >
 					 	            <option value=""></option>
 					 	            <option value="1" 
@@ -357,8 +320,8 @@ $(document).ready(function () {
 					 	        </td>
 					 	      </c:when>
 					 	      <c:otherwise>
-					 	        <td class="tc p0" width="${length2}">
-					 	          <input type="text" title="单位:${score.unit}" name="expertValue" id="ipt5" onpaste="return false;" class="m0 w50"
+					 	        <td class="tc p0">
+					 	          <input type="text" title="单位:${score.unit}" name="expertValue" id="ipt5" onpaste="return false;" class="m0"
 					 	            onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	            <c:forEach items="${scores}" var="sco">
 					 	              <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.expertValue}"</c:if>
@@ -367,9 +330,9 @@ $(document).ready(function () {
 					 	        </td>
 					 	      </c:otherwise>
 					 	    </c:choose>
-					 	    <td class="tc" width="${length2}">
+					 	    <td class="tc">
 					 	      <input type="hidden" name="supplierId"  value="${supplier.suppliers.id}"/>
-					 	      <input type="hidden" name="expertScore" readonly="readonly" style="width: 80px;" 
+					 	      <input type="hidden" name="expertScore" readonly="readonly"
 					 	      	<c:forEach items="${scores}" var="sco">
 					 	          <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.score}"</c:if>
 					 	        </c:forEach>
@@ -379,14 +342,12 @@ $(document).ready(function () {
 					 	        </c:forEach></span>
 					 	    </td>
 				 	      </c:forEach>
-					    </tr> 
-					  </c:if>
-			        </c:forEach>
-			    </c:forEach>
-			</table> 
-			</div>
-			</div> 
-		</div>
+				 	    </tr>
+				 	  </c:if>
+				 	</c:forEach>
+				 </c:forEach>
+				 </table>
+				 </div></div>
 			<div class="tc col-md-12 col-sm-12 col-xs-12 mt20">
 			  <input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
 			  <input type="button" onclick="zancun();"  value="暂存" class="btn btn-windows save">

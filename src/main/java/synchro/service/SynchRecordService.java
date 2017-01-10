@@ -19,18 +19,10 @@ public interface SynchRecordService {
      *〈简述〉记录新增的供应商信息
      *〈详细描述〉
      * @param  content 内容
+     * @param  synchDate 同步时间
      * @author myc
      */
-    public void backNewSupplierRecord(String content);
-    
-    /**
-     * 
-     *〈简述〉记录修改的供应商信息
-     *〈详细描述〉
-     * @author myc
-     * @param content 内容
-     */
-    public void backModifySupplierRecord(String content);
+    public void commitSupplierRecord(String content, Date synchDate);
     
     /**
      * 

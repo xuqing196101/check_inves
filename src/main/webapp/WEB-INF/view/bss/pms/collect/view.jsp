@@ -7,7 +7,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
-
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 <title>采购需求管理</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -90,7 +90,7 @@
 
 	 if(value!=null&&value!=""){
 		 $("#status").val(4);
-		 $("#acc_form").submit();
+		 $("#table").find("#acc_form").submit();
 	 }else{
 			layer.tips("退回理由不允许为空","#reson");
 	 }
@@ -145,6 +145,9 @@
  	   });
     }
  
+ function acc(){
+	 $("#table").find("#acc_form").submit();
+ }
  
 </script>
 </head>
@@ -218,8 +221,8 @@
           
              <li class="col-md-3 col-sm-6 col-xs-12">
                      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划附件</span>
-                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${fileId}" sysKey="2" typeId="${typeId}" auto="true" />
-                        <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
+                       <u:upload id="detail"  multiple="true" buttonName="上传附件"    businessId="${list[0].fileId}" sysKey="2" typeId="${typeId}" auto="true" />
+                        <u:show showId="detailshow"  businessId="${list[0].fileId}" sysKey="2" typeId="${typeId}" />
              </li>
           
           
@@ -234,10 +237,10 @@
 		
 		
 		
-	<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
-		<div class="container clear margin-top-30 over_scroll h365">
+	
+		<div class="content table_box">
 
-		
+				<div class="content">
 				<table id="table" class="table table-bordered table-condensed mt5 space_nowrap">
 					<thead>
 						<tr>
@@ -261,7 +264,7 @@
 							<!-- <th class="info">操作</th> -->
 						</tr>
 					</thead>
-
+		<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
 							<td class="tc w50">${obj.seq } <input type="hidden" value="${obj.id }" name="list[${vs.index }].id">
@@ -314,25 +317,32 @@
 						</tr>
 
 					</c:forEach>
+					<input type="hidden" name="planNo" value="${planNo }">
+				    <input type="hidden" id="status" name="status" value="3">
+					</form>
 				</table>
-				
-			
-		</div>
-		<div class="col-md-12 col-xs-12 col-sm-12 p0" >
+				   <div class="col-md-12 col-xs-12 col-sm-12 p0" >
 				  <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
 				  <div class="col-md-12 col-xs-12 col-sm-12 p0">
 				      <textarea id="reson" name="reason" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字"></textarea>
                   </div>
                   <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
-				   <input type="hidden" name="planNo" value="${planNo }">
-				    <input type="hidden" id="status" name="status" value="3">
-				   <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="受理"> 
+			
+				   <button class="btn btn-windows save" style="margin-left: 100px;"  onclick="acc()" type="button"> 受理</button> 
 				    <button class="btn btn-windows back" type="button" onclick="ss();">退回</button> 
 				   <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			      </div>
-			     </div>
+			    </div>
+			
+				</div>
+		
+		
+			
+			
+		</div>
+		
 			     
-		</form>
+		
 	</div>
 
 </body>

@@ -13,12 +13,12 @@
         var iframeWin;
         layer.open({
           type: 2, //page层
-          area: ['700px', '500px'],
+          area: ['700px', '350px'],
           title: '导入模板',
           closeBtn: 1,
           shade:0.01, //遮罩透明度
           shift: 1, //0-6的动画形式，-1不开启
-          offset: '70px',
+          offset: '10px',
           shadeClose: false,
           content: '${pageContext.request.contextPath}/resultAnnouncement/getAll.html?projectId='+projectId,
           success: function(layero, index){
@@ -168,8 +168,8 @@
 			 </c:if>
 			 <span class="red">*</span>发布范围：<br>
 			 <div >
-	            <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
-	            <label class="ml30 fl"><input type="checkbox" name="ranges" value="1" >外网</label>
+	            <label class="fl margin-bottom-0"><input type="radio" name="ranges" value="0">内网</label>
+	            <label class="ml30 fl"><input type="radio" name="ranges" value="2" >内外网</label>
 	         </div><br>
 	         
         	 <div class="mt10"><span class="red">*</span><span>公告内容：</span></div>
@@ -179,8 +179,8 @@
              <u:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
              <u:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/> --%>
      				
-     				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	              <span class="" >公告附件：</span>
+     		  <li class="col-md-3 col-sm-6 col-xs-12 pl15 mt5">
+	              <span class="fl" >公告附件：</span>
 	               <u:upload id="a" groups="a,c,e"  buttonName="上传附件" businessId="${articleId}" multiple="true" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
              		 <u:show  showId="b" groups="b,d,f,g"  businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>
@@ -189,8 +189,8 @@
 	                <u:upload id="c"  groups="a,c,e" businessId="${articleId}"  sysKey="${sysKey}" typeId="${typeId_examine}" auto="true" />
                   <u:show  showId="d"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${typeId_examine}"/>
               </li> --%>
-              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	              <span class="" >单位及保密委员会审核表: </span>
+              <li class="col-md-3 col-sm-6 col-xs-12 pl15 mt5">
+	              <span class="fl" >单位及保密委员会审核表: </span>
 	                <u:upload id="e"  groups="a,c,f" businessId="${articleId}"  sysKey="${sysKey}" typeId="${security}" auto="true" />
                   <u:show  showId="f"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}"/>
               </li>
@@ -221,21 +221,16 @@
 	</div>
    <script type="text/javascript">
     var option ={
-            toolbars: [[
-                    'fullscreen', 'source', '|', 'undo', 'redo', '|',
-                    'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-                    'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-                    'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-                    'directionalityltr', 'directionalityrtl', 'indent', '|',
-                    'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-                    'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|','simpleupload', 'insertimage',
-                     'emotion', /*'scrawl',*/ /*'insertvideo', 'music',*/  /* 'map', 'gmap',*/ 'insertframe', /*'insertcode', 'webapp',*/ 'pagebreak', 'template', 'background', '|',
-                    'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-                    'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-                     'preview', 'searchreplace', 'help', 'drafts'
-                ]]
-
-        }
+    	toolbars: [
+          [
+            'undo', 'redo', '|',
+            'bold', 'italic', 'underline', 'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',
+            'fontfamily', 'fontsize', '|',
+            'indent', '|',
+            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',
+          ]
+        ]	
+    }
     var ue = UE.getEditor('editor', option);
     var content = ""; 
     var atrName = '${article.name}';
@@ -249,7 +244,7 @@
 	       // ue.setContent("<h1>欢迎使用UEditor！</h1>");
 	        ue.setContent(content);
 	        ue.setHeight(500);
-	    })
+	    });
     </script>
 </body>
 </html>

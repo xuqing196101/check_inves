@@ -289,8 +289,107 @@ public class ProjectController extends BaseController {
                   lists.addAll(selectByParent);
               }
           }
+          HashMap<String,Object> map = new HashMap<>();
           removeSame(lists);
           sort(lists);
+          int serialoneOne = 1;
+          int serialtwoTwo = 1;
+          int serialthreeThree = 1;
+          int serialfourFour = 1;
+          int serialfiveFive = 0;
+          int serialOne = 1;
+          int serialTwo = 1;
+          int serialThree = 1;
+          int serialFour = 1;
+          int serialSix = 0;
+          int serialFive = 0;
+          List<String> newParentId = new ArrayList<>();
+          List<String> oneParentId = new ArrayList<>();
+          List<String> twoParentId = new ArrayList<>();
+          List<String> threeParentId = new ArrayList<>();
+          List<String> fourParentId = new ArrayList<>();
+          List<String> fiveParentId = new ArrayList<>();
+          for(int i=0;i<lists.size();i++){
+              HashMap<String,Object> detailMap = new HashMap<>();
+              detailMap.put("id",lists.get(i).getId());
+              List<PurchaseDetail> dlist = purchaseDetailService.selectByParentId(detailMap);
+              List<PurchaseDetail> plist = purchaseDetailService.selectByParent(detailMap);
+              if(dlist.size()>1){
+                  lists.get(i).setDetailStatus(0);
+              }
+              if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+                  if(!oneParentId.contains(lists.get(i).getParentId())){
+                      oneParentId.add(lists.get(i).getParentId());
+                      serialoneOne = 1;
+                  }
+                  lists.get(i).setSeq(test(serialoneOne));
+                  serialoneOne ++;
+              }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+                  if(!twoParentId.contains(lists.get(i).getParentId())){
+                      twoParentId.add(lists.get(i).getParentId());
+                      serialtwoTwo = 1;
+                  }
+                  lists.get(i).setSeq("（"+test(serialtwoTwo)+"）");
+                  serialtwoTwo ++;
+              }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+                  if(!threeParentId.contains(lists.get(i).getParentId())){
+                      threeParentId.add(lists.get(i).getParentId());
+                      serialthreeThree = 1;
+                  }
+                  lists.get(i).setSeq(String.valueOf(serialthreeThree));
+                  serialthreeThree ++;
+              }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+                  if(!fourParentId.contains(lists.get(i).getParentId())){
+                      fourParentId.add(lists.get(i).getParentId());
+                      serialfourFour = 1;
+                  }
+                  lists.get(i).setSeq("（"+String.valueOf(serialfourFour)+"）");
+                  serialfourFour ++;
+              }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+                  if(!fiveParentId.contains(lists.get(i).getParentId())){
+                      fiveParentId.add(lists.get(i).getParentId());
+                      serialfiveFive = 0;
+                  }
+                  char serialNum = (char) (97 + serialfiveFive);
+                  lists.get(i).setSeq(String.valueOf(serialNum));
+                  serialfiveFive++;
+              }
+              if(dlist.size()==1){
+                  map.put("id", lists.get(i).getId());
+                  List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
+                  if(!newParentId.contains(lists.get(i).getParentId())){
+                      serialOne = 1;
+                      serialTwo = 1;
+                      serialThree = 1;
+                      serialFour = 1;
+                      serialFive = 0;
+                      serialSix = 0;
+                      newParentId.add(lists.get(i).getParentId());
+                  }
+                  if(list.size()==1){
+                      lists.get(i).setSeq(test(serialOne));
+                      serialOne ++;
+                  }else if(list.size()==2){
+                      lists.get(i).setSeq("（"+test(serialTwo)+"）");
+                      serialTwo ++;
+                  }else if(list.size()==3){
+                      lists.get(i).setSeq(String.valueOf(serialThree));
+                      serialThree ++;
+                  }else if(list.size()==4){
+                      lists.get(i).setSeq("（"+String.valueOf(serialFour)+"）");
+                      serialFour ++;
+                  }else if(list.size()==5){
+                      char serialNum = (char) (97 + serialFive);
+                      lists.get(i).setSeq(String.valueOf(serialNum));
+                      serialFive ++;
+                  }else if(list.size()==6){
+                      char serialNum = (char) (97 + serialSix);
+                      lists.get(i).setSeq("（"+serialNum+"）");
+                      serialSix ++;
+                  }
+              }
+          
+          }
           model.addAttribute("kind", DictionaryDataUtil.find(5));
           model.addAttribute("orgId", orgId);
           model.addAttribute("user", user.getOrg().getId());
@@ -368,8 +467,107 @@ public class ProjectController extends BaseController {
                 lists.addAll(selectByParent);
             }
         }
+        HashMap<String,Object> map = new HashMap<>();
         removeSame(lists);
         sort(lists);
+        int serialoneOne = 1;
+        int serialtwoTwo = 1;
+        int serialthreeThree = 1;
+        int serialfourFour = 1;
+        int serialfiveFive = 0;
+        int serialOne = 1;
+        int serialTwo = 1;
+        int serialThree = 1;
+        int serialFour = 1;
+        int serialSix = 0;
+        int serialFive = 0;
+        List<String> newParentId = new ArrayList<>();
+        List<String> oneParentId = new ArrayList<>();
+        List<String> twoParentId = new ArrayList<>();
+        List<String> threeParentId = new ArrayList<>();
+        List<String> fourParentId = new ArrayList<>();
+        List<String> fiveParentId = new ArrayList<>();
+        for(int i=0;i<lists.size();i++){
+            HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",lists.get(i).getId());
+            List<PurchaseDetail> dlist = purchaseDetailService.selectByParentId(detailMap);
+            if(dlist.size()>1){
+                lists.get(i).setDetailStatus(0);
+            }
+            List<PurchaseDetail> plist = purchaseDetailService.selectByParent(detailMap);
+            if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+                if(!oneParentId.contains(lists.get(i).getParentId())){
+                    oneParentId.add(lists.get(i).getParentId());
+                    serialoneOne = 1;
+                }
+                lists.get(i).setSeq(test(serialoneOne));
+                serialoneOne ++;
+            }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+                if(!twoParentId.contains(lists.get(i).getParentId())){
+                    twoParentId.add(lists.get(i).getParentId());
+                    serialtwoTwo = 1;
+                }
+                lists.get(i).setSeq("（"+test(serialtwoTwo)+"）");
+                serialtwoTwo ++;
+            }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+                if(!threeParentId.contains(lists.get(i).getParentId())){
+                    threeParentId.add(lists.get(i).getParentId());
+                    serialthreeThree = 1;
+                }
+                lists.get(i).setSeq(String.valueOf(serialthreeThree));
+                serialthreeThree ++;
+            }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+                if(!fourParentId.contains(lists.get(i).getParentId())){
+                    fourParentId.add(lists.get(i).getParentId());
+                    serialfourFour = 1;
+                }
+                lists.get(i).setSeq("（"+String.valueOf(serialfourFour)+"）");
+                serialfourFour ++;
+            }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+                if(!fiveParentId.contains(lists.get(i).getParentId())){
+                    fiveParentId.add(lists.get(i).getParentId());
+                    serialfiveFive = 0;
+                }
+                char serialNum = (char) (97 + serialfiveFive);
+                lists.get(i).setSeq(String.valueOf(serialNum));
+                serialfiveFive++;
+            }
+            if(dlist.size()==1){
+                map.put("id", lists.get(i).getId());
+                List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
+                if(!newParentId.contains(lists.get(i).getParentId())){
+                    serialOne = 1;
+                    serialTwo = 1;
+                    serialThree = 1;
+                    serialFour = 1;
+                    serialFive = 0;
+                    serialSix = 0;
+                    newParentId.add(lists.get(i).getParentId());
+                }
+                if(list.size()==1){
+                    lists.get(i).setSeq(test(serialOne));
+                    serialOne ++;
+                }else if(list.size()==2){
+                    lists.get(i).setSeq("（"+test(serialTwo)+"）");
+                    serialTwo ++;
+                }else if(list.size()==3){
+                    lists.get(i).setSeq(String.valueOf(serialThree));
+                    serialThree ++;
+                }else if(list.size()==4){
+                    lists.get(i).setSeq("（"+String.valueOf(serialFour)+"）");
+                    serialFour ++;
+                }else if(list.size()==5){
+                    char serialNum = (char) (97 + serialFive);
+                    lists.get(i).setSeq(String.valueOf(serialNum));
+                    serialFive ++;
+                }else if(list.size()==6){
+                    char serialNum = (char) (97 + serialSix);
+                    lists.get(i).setSeq("（"+serialNum+"）");
+                    serialSix ++;
+                }
+            }
+        
+        }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", lists);
         model.addAttribute("projectNumber", projectNumber);
@@ -1306,7 +1504,7 @@ public class ProjectController extends BaseController {
     
     
     private static String[] hanArr = { "零", "一", "二", "三", "四", "五", "六", "七","八", "九" };
-	private static String[] unitArr = { "十", "百", "千", "万", "十", "白", "千", "亿","十", "百", "千" };
+    private static String[] unitArr = { "十", "百", "千", "万", "十", "白", "千", "亿","十", "百", "千" };
     
     /**
      * 
@@ -1319,23 +1517,23 @@ public class ProjectController extends BaseController {
     * @return String
      */
     public String test(int number) {
-    	String numStr = number + "";
-		String result = "";
-		int numLen = numStr.length();
-		for (int i = 0; i < numLen; i++) {
-			int num = numStr.charAt(i) - 48;
-			if (i != numLen - 1 && num != 0) {
-				result += hanArr[num] + unitArr[numLen - 2 - i];
-				if (number >= 10 && number < 20) {
-					result = result.substring(1);
-				}
-			} else {
-				if (!(number >= 10 && number % 10 == 0)) {
-					result += hanArr[num];
-				}
-			}
-		}
-		return result;
+        String numStr = number + "";
+        String result = "";
+        int numLen = numStr.length();
+        for (int i = 0; i < numLen; i++) {
+            int num = numStr.charAt(i) - 48;
+            if (i != numLen - 1 && num != 0) {
+                result += hanArr[num] + unitArr[numLen - 2 - i];
+                if (number >= 10 && number < 20) {
+                    result = result.substring(1);
+                }
+            } else {
+                if (!(number >= 10 && number % 10 == 0)) {
+                    result += hanArr[num];
+                }
+            }
+        }
+        return result;
     }
     
     /** 
@@ -1742,8 +1940,11 @@ public class ProjectController extends BaseController {
         map.put("projectId", projectId);
         map.put("id", projectDetail.getRequiredId());
         List<ProjectDetail> list = detailService.selectByParentId(map);
+        List<ProjectDetail> list1 = detailService.selectByParent(map);
+        list1.remove(projectDetail);
+        list1.addAll(list);
         if(list.size()>1){
-            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+            String json = JSON.toJSONStringWithDateFormat(list1, "yyyy-MM-dd HH:mm:ss");
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().write(json);
             response.getWriter().flush();

@@ -45,15 +45,19 @@ import common.service.UploadService;
 @Controller
 @RequestMapping("/dataDownload")
 public class DataDownloadController {
+	/** 资料下载service */
 	@Autowired
 	private DataDownloadService dataDownloadService;
 	
+	/** 数据字典service */
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
+	/** 上传service */
 	@Autowired
 	private UploadService uploadService;
 	
+	/** 文章service */
 	@Autowired
 	private ArticleService articleService;
 	

@@ -56,8 +56,8 @@
 			 <input class="col-md-12 w100p" id="name" name="name" readonly="readonly" value="${article.name}" type="text"><br>
         	 <span class="red">*</span>发布范围：<br>
 			 <div>
-	            <label class="fl margin-bottom-0"><input type="checkbox" disabled="disabled" name="ranges" value="0">内网</label>
-	            <label class="ml30 fl"><input type="checkbox" disabled="disabled" name="ranges" value="1" >外网</label>
+	            <label class="fl margin-bottom-0"><input type="radio" disabled="disabled" name="ranges" value="0">内网</label>
+	            <label class="ml30 fl"><input type="radio" disabled="disabled" name="ranges" value="1" >内外网</label>
 	         </div><br>
         	 <div class="mt10"><span class="red">*</span><span>公告内容：</span></div>
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>

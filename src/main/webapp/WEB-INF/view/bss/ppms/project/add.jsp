@@ -317,9 +317,17 @@
                       <td class="tc">${obj.deliverDate}
                       </td>
                       <td class="tc">
-                        <c:forEach items="${kind}" var="kind">
-                          <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                        </c:forEach>
+                        <c:choose>
+                            <c:when test="${obj.detailStatus==0 }">
+
+                            </c:when>
+                            <c:otherwise>
+                              <c:forEach items="${kind}" var="kind">
+			                          <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+			                        </c:forEach>
+                        </c:otherwise>
+                        </c:choose>
+                        
                       </td>
                       <td class="tc">${obj.supplier}
                       </td>

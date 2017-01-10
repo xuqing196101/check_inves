@@ -1,6 +1,7 @@
 package synchro.outer.back.service.supplier.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,24 +108,9 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     private SupplierItemService supplierItemService;
     
     
-    /**
-     * @see synchro.outer.back.service.supplier.OuterSupplierService#backupCreated()
-     */
     @Override
-    public void backupCreated() {
-        getCretedData();
-    }
-    
-    /**
-     * @see synchro.outer.back.service.supplier.OuterSupplierService#backupModify()
-     */
-    @Override
-    public void backupModify() {
-        List<Supplier> list = getModifySupplierList();
-        if (list != null && list.size() > 0){
-            FileUtils.writeFile(FileUtils.getModifySupplierBackUpFile(),JSON.toJSONString(list));
-        }
-        recordService.backModifySupplierRecord(new Integer(list.size()).toString());
+    public void exportCommitSupplier(String startTime, String endTime, Date synchDate) {
+        
     }
 
     /**
@@ -132,13 +118,13 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      *〈详细描述〉
      * @author myc
      */
-    public void getCretedData(){
+    public void getExportData(String startTime, String endTime, Date synchDate){
         List<Supplier> supplierList = supplierService.getCommintSupplierByDate(DateUtils.getYesterDay());
         List<Supplier> list = getSupplierList(supplierList);
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getNewSupperBackUpFile(),JSON.toJSONString(list));
         }
-        recordService.backNewSupplierRecord(new Integer(list.size()).toString());
+        recordService.commitSupplierRecord(new Integer(list.size()).toString(), synchDate );
     }
     
     /**
@@ -152,29 +138,6 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     private List<Supplier> getSupplierList(List<Supplier> supplierList){
         List <Supplier> list = new ArrayList<>();
         for (Supplier supplier : supplierList){
-            packageSupplier(supplier);
-            list.add(supplier);
-        }
-        return list;
-    }
-    
-    /**
-     * 
-     *〈简述〉获取满足条件的供应商
-     *〈详细描述〉
-     * @author myc
-     * @return
-     */
-    private List<Supplier> getModifySupplierList(){
-        List<Supplier> supplierList = supplierService.getModifySupplierByDate(DateUtils.getYesterDay());
-        List<Supplier> list = new ArrayList<>();
-        for (Supplier supplier : supplierList){
-            if (supplier.getCreatedAt() != null && supplier.getUpdatedAt() != null){
-                if (DateUtils.dateToString(supplier.getCreatedAt())
-                        .equals(DateUtils.dateToString(supplier.getUpdatedAt()))){
-                    continue;
-                }
-            }
             packageSupplier(supplier);
             list.add(supplier);
         }

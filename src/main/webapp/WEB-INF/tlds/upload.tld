@@ -99,6 +99,12 @@
             <type>java.lang.String</type>
 	        <rtexprvalue>true</rtexprvalue>
        </attribute>
+       <attribute>
+            <name>singleFileSize</name>
+            <required>false</required>
+            <type>java.lang.Long</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
        
  </tag>
  <tag>

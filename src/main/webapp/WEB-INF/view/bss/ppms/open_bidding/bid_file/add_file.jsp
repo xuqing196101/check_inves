@@ -217,12 +217,14 @@
 	 </c:if>
 	<form id="MyFile" method="post" class="h800">
 		<c:if test="${project.confirmFile != 1}">
-			<div class="clear" id="audit_file_add">
-				<span ><span class="star_red">*</span>上传审批文件</span>
-		        <u:upload id="a" buttonName="上传彩色扫描件" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-		        <u:show  showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+			<div class="" id="audit_file_add">
+				<span class="fl"><span class="star_red">*</span>上传审批文件</span>
+				<div>
+			        <u:upload id="a" buttonName="上传彩色扫描件" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+			        <u:show  showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+				</div>
 			</div>
-			<div class="clear dnone" id="audit_file_view">
+			<div class="dnone" id="audit_file_view">
 				<span ><span class="star_red">*</span>审批文件</span>
 		        <u:show  showId="d" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
 			</div>

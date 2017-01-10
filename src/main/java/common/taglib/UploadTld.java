@@ -54,32 +54,46 @@ public class UploadTld extends TagSupport {
     
     /** 上传按钮名称 */
     private String uloadButton = "开始上传";
+    
     /** 选择按钮名称 */
     private String uClass = "wuexample";
+    
     /** 总样式 */
     private String uListClass = "uploaderlist";
+    
     /** 按钮样式 */
     private String btnClass = "btns";
+    
     /** 上传按钮样式 */
     private String upBtnClass = "btn webuploaderbutton";
+    
     /** 业务ID */
     private String businessId;
+    
     /** 业务类型Id */
     private String typeId;
+    
     /** 对应系统key */
     private String sysKey;
+    
     /** 是否上传多个文件 */
     private boolean  multiple = false;
+    
     /** 文件扩展名 **/
     private String exts;
+    
     /** 扩展名 */
     private String extension = PropUtil.getProperty("file.upload.extension");
+    
     /** 网页内容 */
     private String mimeTypes ="*";
+    
     /** 上传文件是否重复 */
     private boolean duplicate = false;
+    
     /** 是否自动上传 */
     private boolean auto = false;
+    
     /**按钮名称**/
     private String buttonName;
     
@@ -90,12 +104,15 @@ public class UploadTld extends TagSupport {
     
     /** 分块文件大小 */
     private long chunSize = Long.parseLong(PropUtil.getProperty("file.upload.chunk.fileSize")) * UNIT;
+    
     /** 限制最大文件的大小 */
     private long limitFile = Long.parseLong(PropUtil.getProperty("file.upload.maxFileSize")) * UNIT * UNIT * UNIT; 
+    
     /** 单个文件的大小 */
     private long singLimitFie = Long.parseLong(PropUtil.getProperty("file.upload.singleFileSize")) * UNIT * UNIT ;
    
-    
+    /** 单个文件大小 **/
+    private Long singleFileSize;
     
     @Override
     public int doStartTag() throws JspException  {
@@ -163,7 +180,7 @@ public class UploadTld extends TagSupport {
             out.println("<input id='"+id+"_duplicateId' type=\"hidden\"  value=" + duplicate + " />");
             out.println("<input id='"+id+"_autoId' type=\"hidden\"  value=" + auto + " />");
             out.println("<input id='"+id+"_btnNameId' type=\"hidden\"  value=" + buttonName + " />");
-            
+            out.println("<input id='"+id+"_singFileSize' type=\"hidden\"  value=" + singleFileSize + " />");
             out.println("<div id=\"uploaderId\" class=\"" + uClass + "\">");
             out.println("<div class=\"" + btnClass + "\">");
             out.println("<div id=\""+id+"_picker\"></div>");
@@ -325,6 +342,16 @@ public class UploadTld extends TagSupport {
     public void setButtonName(String buttonName) {
         this.buttonName = buttonName;
     }
+
+    public Long getSingleFileSize() {
+        return singleFileSize;
+    }
+
+    public void setSingleFileSize(Long singleFileSize) {
+        this.singleFileSize = singleFileSize;
+    }
+
+    
 
     
     

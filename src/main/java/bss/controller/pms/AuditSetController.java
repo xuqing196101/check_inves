@@ -481,11 +481,11 @@ public class AuditSetController {
 		 	        cell.setCellValue("一轮审核建议");  
 //		        }
 		 	        
-		 	       if(plan.getAuditTurn()==3||plan.getAuditTurn()==2){
+		 	       if((plan.getAuditTurn()==2||plan.getAuditTurn()==3)&&(plan.getStatus()==12||plan.getStatus()==2)){
 				        	 cell = row.createCell(15);  
 				 	        cell.setCellValue("二轮轮审核建议");  
 			        }
-		 	       if(plan.getAuditTurn()==3){
+		 	       if(plan.getAuditTurn()==3&&(plan.getStatus()==12||plan.getStatus()==2)){
 			        	cell = row.createCell(16);  
 			 	        cell.setCellValue("三轮审核建议");  
 			        }

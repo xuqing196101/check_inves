@@ -3219,4 +3219,123 @@ public class PackageExpertController {
         packageService.updateByPrimaryKeySelective(packages);
         return result;
     } 
+    
+    
+    /**
+     *〈简述〉打印符合性审查汇总表
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param packageId 包id 
+     * @param projectId 项目id
+     * @param model
+     * @return
+     */
+    @RequestMapping("/openPrint")
+    public String openPrint(String packageId, String projectId, Model model, String flowDefineId){
+        //包与专家 关联表集合
+        Map<String, Object> packageExpertmap = new HashMap<String, Object>();
+        packageExpertmap.put("packageId", packageId);
+        packageExpertmap.put("projectId", projectId);
+        //查询专家
+        List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
+        if (expertIdList != null && expertIdList.size() > 0) {
+          Short isEnd = expertIdList.get(0).getIsGatherGather();
+          model.addAttribute("isEnd", isEnd);
+        }
+        // 供应商信息
+        List<SaleTender> supplierList = new ArrayList<SaleTender>();
+        List<SaleTender> sl = saleTenderService.list(new SaleTender(projectId), 0);
+        for (SaleTender st : sl) {
+            if (st.getPackages().indexOf(packageId) != -1) {
+                supplierList.add(st);
+            }
+        }
+        // 关联信息集合
+        // 封装实体
+        List<PackExpertExt> packExpertExtList = new ArrayList<>();
+        // 供应商封装实体
+        List<SupplierExt> supplierExtList = new ArrayList<>();
+        PackExpertExt packExpertExt;
+        for (PackageExpert packageExpert : expertIdList) {
+            packExpertExt = new PackExpertExt();
+            Expert expert = expertService.selectByPrimaryKey(packageExpert.getExpertId());
+            packExpertExt.setExpert(expert);
+            packExpertExt.setPackageId(packageExpert.getPackageId());
+            packExpertExt.setProjectId(packageExpert.getProjectId());
+            // 根据供应商id 和包id查询审核表 确定该供应商是否通过评审
+            for (SaleTender saleTender : supplierList) {
+                SupplierExt supplierExt = new SupplierExt();
+                Map<String, Object> map2 = new HashMap<>();
+                map2.put("supplierId", saleTender.getSuppliers().getId());
+                map2.put("packageId", packageExpert.getPackageId());
+                map2.put("expertId", packageExpert.getExpertId());
+                map2.put("isBack", 0);
+                List<ReviewFirstAudit> selectList2 = reviewFirstAuditService.selectList(map2);
+                if (selectList2 != null && selectList2.size() > 0) {
+                    int count2 = 0;
+                    for (ReviewFirstAudit reviewFirstAudit : selectList2) {
+                        if (reviewFirstAudit.getIsPass() == SONE) {
+                            count2++;
+                            break;
+                        }
+                    }
+                    // 如果变量大于0 说明有不合格的数据
+                    if (count2 > 0) {
+                        supplierExt.setSupplierId(saleTender.getSuppliers().getId());
+                        supplierExt.setExpertId(packageExpert.getExpertId());
+                        supplierExt.setPackageId(packageExpert.getPackageId());
+                        //判断专家是否提交
+                        if (packageExpert.getIsAudit() == 1) {
+                          //已提交的话显示评审结果
+                          supplierExt.setSuppIsPass("0");
+                        } else {
+                          //未提交的话显示为未提交
+                          supplierExt.setSuppIsPass("2");
+                        }
+                    } else {
+                        supplierExt.setSupplierId(saleTender.getSuppliers().getId());
+                        supplierExt.setExpertId(packageExpert.getExpertId());
+                        supplierExt.setPackageId(packageExpert.getPackageId());
+                        //判断专家是否提交
+                        if (packageExpert.getIsAudit() == 1) {
+                          //已提交的话显示评审结果
+                          supplierExt.setSuppIsPass("1");
+                        } else {
+                          //未提交的话显示为未提交
+                          supplierExt.setSuppIsPass("2");
+                        }
+                    }
+                } else {
+                    supplierExt
+                    .setSupplierId(saleTender.getSuppliers().getId());
+                    supplierExt.setPackageId(packageExpert.getPackageId());
+                    supplierExt.setExpertId(packageExpert.getExpertId());
+                    supplierExt.setSuppIsPass("2");
+                }
+
+                supplierExtList.add(supplierExt);
+            }
+            packExpertExtList.add(packExpertExt);
+        }
+
+        HashMap<String, Object> packmap = new HashMap<String, Object>();
+        packmap.put("id", packageId);
+        List<Packages> packages = packageService.findPackageById(packmap);
+        if (packages != null && packages.size() > 0 ) {
+            model.addAttribute("pack", packages.get(0));
+        }
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("supplierList", supplierList);
+        model.addAttribute("supplierExtList", supplierExtList);
+        model.addAttribute("packExpertExtList", packExpertExtList);
+        Project project = projectService.selectById(projectId);
+        DictionaryData dd = DictionaryDataUtil.findById(project.getPurchaseType());
+        if (dd != null) {
+          String purcahseCode = dd.getCode();
+          model.addAttribute("purcahseCode", purcahseCode);
+        }
+        return "bss/prms/first_audit/print_total";
+    }
 }

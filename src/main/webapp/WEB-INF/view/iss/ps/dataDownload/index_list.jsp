@@ -68,7 +68,7 @@
                 		<c:forEach items="${list.list}" var="data">
 		                  <li>
 		                   <span class="f18 mr5">·${data.name }</span>
-		                   <span class="hex pull-right release w150"><u:show showId="${data.groupShow }" groups="${data.groupsUploadId }" delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }"/></span>
+		                   <span class="hex pull-right release w150"><u:show showId="${data.groupShow }" groups="${data.groupsUploadId }" delete="false" businessId="${data.id }" sysKey="${sysKey}" typeId="${dataTypeId }" zipFileName="${data.name}" fileName="${data.name}"/></span>
 		                   <span class="hex pull-right fr"><fmt:formatDate value='${data.publishAt}' pattern="yyyy年MM月dd日 " /></span>
 		                   
 		                  </li> 

@@ -199,21 +199,26 @@
 	}
 	
 	function endPrice(projectId, packId, flowDefineId) {
-	    if ('${pack.isEndPrice == 1}') {
+	    /* if ('${pack.isEndPrice == 1}') {
 	    	layer.msg("报价已结束",{offset: ['100px']});
 	    	return;
-	    }
+	    } */
 		$.ajax({
 			url: "${pageContext.request.contextPath}/packageExpert/endPrice.do",
 			data: {"packageId": packId},
 			dataType:'json',
 			success:function(result){
-                    	layer.msg("已结束报价",{offset: ['100px']});
-                },
+				$('#againPrice').attr("disabled",true);
+                layer.msg("已结束报价",{offset: ['100px']});
+            },
             error: function(result){
                 layer.msg("结束报价失败",{offset: ['100px']});
             }
 		});
+	}
+	
+	function openPrint(projectId,packageId){
+		window.open("${pageContext.request.contextPath}/packageExpert/openPrint.html?packageId="+packageId+"&projectId="+projectId, "打印汇总表");
 	}
   </script>
   <body>
@@ -223,10 +228,17 @@
 			    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核检查</button>
 			    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性审查</button>
 			    <c:if test="${purcahseCode == 'JZXTP' || purcahseCode == 'DYLY'}">
-				    <button class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
+				    <button <c:if test="${pack.isEndPrice == '1'}">disabled="disabled"</c:if> id="againPrice" class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
 			    </c:if>
 	    	</c:if>
-		    <button class="btn" onclick="window.print();" type="button">打印汇总表</button>
+	    	<c:if test="${isEnd == 1}">
+			    <button class="btn" disabled="disabled" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核检查</button>
+			    <button class="btn" disabled="disabled" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性审查</button>
+			    <c:if test="${purcahseCode == 'JZXTP' || purcahseCode == 'DYLY'}">
+				    <button  disabled="disabled" class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
+			    </c:if>
+	    	</c:if>
+		    <button class="btn" onclick="openPrint('${projectId}','${pack.id}')" type="button">打印汇总表</button>
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
