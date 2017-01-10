@@ -17,7 +17,7 @@
 <td class="tc">
    	<select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot">
          <option value="1">是</option>
-         <option value="0">无</option>
+         <option value="0">否</option>
   	</select>
 </td>
 <td class="tc">

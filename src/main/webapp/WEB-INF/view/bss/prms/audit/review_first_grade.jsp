@@ -166,14 +166,85 @@ $(document).ready(function() {
 			}
 		});
 	}
-	// 控制滚动
-	function controlScroll(){ 
-		var a = document.getElementById("t_r_content").scrollTop; 
-		var b = document.getElementById("t_r_content").scrollLeft; 
-		document.getElementById("cl_freeze").scrollTop=a; 
-		document.getElementById("t_r_t").scrollLeft=b; 
-	} 
   </script>
+  <!-- 锁表头js -->
+<script type="text/javascript">
+    function FixTable(TableID, FixColumnNumber, width, height) {
+    if ($("#" + TableID + "_tableLayout").length != 0) {
+        $("#" + TableID + "_tableLayout").before($("#" + TableID));
+        $("#" + TableID + "_tableLayout").empty();
+    }
+    else {
+        $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
+    }
+    $('<div id="' + TableID + '_tableFix"></div>'
+    + '<div id="' + TableID + '_tableHead"></div>'
+    + '<div id="' + TableID + '_tableColumn"></div>'
+    + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
+    var oldtable = $("#" + TableID);
+    var tableFixClone = oldtable.clone(true);
+    tableFixClone.attr("id", TableID + "_tableFixClone");
+    $("#" + TableID + "_tableFix").append(tableFixClone);
+    var tableHeadClone = oldtable.clone(true);
+    tableHeadClone.attr("id", TableID + "_tableHeadClone");
+    $("#" + TableID + "_tableHead").append(tableHeadClone);
+    var tableColumnClone = oldtable.clone(true);
+    tableColumnClone.attr("id", TableID + "_tableColumnClone");
+    $("#" + TableID + "_tableColumn").append(tableColumnClone);
+    $("#" + TableID + "_tableData").append(oldtable);
+    $("#" + TableID + "_tableLayout table").each(function () {
+        $(this).css("margin", "0");
+    });
+    var HeadHeight = $("#" + TableID + "_tableHead thead").height();
+    HeadHeight += 2;
+    $("#" + TableID + "_tableHead").css("height", HeadHeight);
+    $("#" + TableID + "_tableFix").css("height", HeadHeight);
+    var ColumnsWidth = 0;
+    var ColumnsNumber = 0;
+    $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
+        ColumnsWidth += $(this).outerWidth(true);
+        ColumnsNumber++;
+    });
+    ColumnsWidth += 2;
+    if ($.browser.msie) {
+        switch ($.browser.version) {
+            case "7.0":
+                if (ColumnsNumber >= 3) ColumnsWidth--;
+                break;
+            case "8.0":
+                if (ColumnsNumber >= 2) ColumnsWidth--;
+                break;
+        }
+    }
+    $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableData").scroll(function () {
+        $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
+        $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
+    });
+    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
+    if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
+        $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
+        $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
+    }
+    if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
+        $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
+        $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
+    }
+    $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
+}
+$(document).ready(function () {
+		var boxwidth = $("#content").width();
+            FixTable("table", 1, boxwidth, 460);
+        });
+        
+</script>
   </head>
   
 <body style="font-size: 5px !important;">
@@ -203,9 +274,7 @@ $(document).ready(function() {
 		  <!--包id  -->
 	   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
 	        
-	        <div class="t_left mt20"> 
-			<div style="width:100%;"> 
-	        <table class="m0" id="table2" style="overflow: hidden;word-spacing: keep-all;" >
+	        <table class="m0" id="table" style="overflow: hidden;word-spacing: keep-all;" >
 			  <tr>
 			      <th colspan="4"></th>
 			  </tr>
@@ -215,27 +284,25 @@ $(document).ready(function() {
 		   	      <th width="25% tc">指标模型</th>
 		   	      <th width="25% tc">标准分值</th>
 			  </tr>
-			</table>
-			</div> 
-			<div class="cl_freeze" id="cl_freeze"> 
-			<table>
 			    <c:forEach items="${markTermList}" var="markTerm">
 			   		<c:forEach items="${scoreModelList}" var="score" varStatus="vs">
 			    	  <c:if test="${score.markTerm.pid eq markTerm.id}">
 			    	    <tr>
-			    	      <td width="25% tc" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
-			    	      <td width="25% tc"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
-			 	  		  <td width="25% tc">
-			 	    	    <c:if test="${score.typeName == 0}">模型一</c:if>
+			    	      <td class="tc" width="25%" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
+			    	      <td class="tc" width="25%"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
+			 	  		  <td class="tc" width="25%">
+			 	    	    <c:if test="${score.typeName == 0}">模型一A</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型二</c:if>
 				 	        <c:if test="${score.typeName == 2}">模型三</c:if>
-				 	        <c:if test="${score.typeName == 3}">模型四</c:if>
+				 	        <c:if test="${score.typeName == 3}">模型四 A</c:if>
 				 	        <c:if test="${score.typeName == 4}">模型五</c:if>
 				 	        <c:if test="${score.typeName == 5}">模型六</c:if>
 				 	        <c:if test="${score.typeName == 6}">模型七</c:if>
 				 	        <c:if test="${score.typeName == 7}">模型八</c:if>
+				 	        <c:if test="${score.typeName == 8}">模型一B</c:if>
+				 	        <c:if test="${score.typeName == 9}">模型四B</c:if>
 				 	      </td>
-				 	      <td width="25% tc">${score.standardScore}</td>
+				 	      <td class="tc" width="25% tc">${score.standardScore}</td>
 				 	    </tr>
 				 	  </c:if>
 				 	</c:forEach>
@@ -271,8 +338,8 @@ $(document).ready(function() {
 				 	      <c:forEach items="${supplierList}" var="supplier">
 					 	    <c:choose>
 					 	      <c:when test="${score.typeName == '0'}">
-					 	        <td class="tc" width="${length2}">
-					 	          <select name="expertValue" 
+					 	        <td class="tc p0" width="${length2}">
+					 	          <select name="expertValue" title="单位:${score.unit}"
 					 	            class="w50"  onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	          >
 					 	            <option value=""></option>
@@ -286,17 +353,17 @@ $(document).ready(function() {
 					 	                <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id and sco.expertValue eq '0'}">selected=selected</c:if>
 					 	              </c:forEach>
 					 	            >否</option>
-					 	          </select>(${score.unit})
+					 	          </select>
 					 	        </td>
 					 	      </c:when>
 					 	      <c:otherwise>
-					 	        <td class="tc" width="${length2}">
-					 	          <input type="text" name="expertValue" id="ipt5" onpaste="return false;" class="m0 w50"
+					 	        <td class="tc p0" width="${length2}">
+					 	          <input type="text" title="单位:${score.unit}" name="expertValue" id="ipt5" onpaste="return false;" class="m0 w50"
 					 	            onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	            <c:forEach items="${scores}" var="sco">
 					 	              <c:if test="${sco.packageId eq packageId and sco.expertId eq expertId and sco.supplierId eq supplier.suppliers.id and sco.scoreModelId eq score.id}">value="${sco.expertValue}"</c:if>
 					 	            </c:forEach>
-					 	          >(${score.unit})
+					 	          >
 					 	        </td>
 					 	      </c:otherwise>
 					 	    </c:choose>

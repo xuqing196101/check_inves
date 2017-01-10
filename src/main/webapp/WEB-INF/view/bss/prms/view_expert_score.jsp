@@ -74,14 +74,16 @@ table th{ background:#f7f7f7; color:#a10333; border:#ddd solid 1px; white-space:
 			    	      <td width="25%" class="tc" rowspan="${score.count}" <c:if test="${score.count eq '0' or score.count == 0}">style="display: none"</c:if> >${markTerm.name}</td>
 			    	      <td width="25%" class="tc"><a href="javascript:void();" title="${score.reviewContent}">${score.name}</a></td>
 			 	  		  <td width="25%" class="tc">
-			 	    	    <c:if test="${score.typeName == 0}">模型一</c:if>
+			 	    	    <c:if test="${score.typeName == 0}">模型一A</c:if>
 			 	            <c:if test="${score.typeName == 1}">模型二</c:if>
 				 	        <c:if test="${score.typeName == 2}">模型三</c:if>
-				 	        <c:if test="${score.typeName == 3}">模型四</c:if>
+				 	        <c:if test="${score.typeName == 3}">模型四 A</c:if>
 				 	        <c:if test="${score.typeName == 4}">模型五</c:if>
 				 	        <c:if test="${score.typeName == 5}">模型六</c:if>
 				 	        <c:if test="${score.typeName == 6}">模型七</c:if>
 				 	        <c:if test="${score.typeName == 7}">模型八</c:if>
+				 	        <c:if test="${score.typeName == 8}">模型一B</c:if>
+				 	        <c:if test="${score.typeName == 9}">模型四B</c:if>
 				 	      </td>
 				 	      <td width="25%" class="tc">${score.standardScore}</td>
 				 	    </tr>
