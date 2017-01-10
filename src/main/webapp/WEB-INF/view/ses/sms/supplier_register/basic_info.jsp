@@ -1003,7 +1003,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalMobile" value="${currSupplier.legalMobile}" <c:if test="${fn:contains(audit,'legalMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalMobile')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
-		        <span class="input-tip">不能为空，如: XXX - XXXXXXX</span>
+		        <span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
 		        <div class="cue"> ${err_legalMobile } </div>
 	       	   </div>
 		    </li> 
@@ -1056,7 +1056,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactFax" value="${currSupplier.contactFax}" <c:if test="${fn:contains(audit,'contactFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactFax')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
-		        <span class="input-tip">不能为空，如: XXX - XXXXXXX</span>
+		        <span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
 		        <div class="cue"> ${err_fax } </div>
 	       	   </div>
 		    </li> 
@@ -1066,7 +1066,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactMobile" value="${currSupplier.contactMobile}" <c:if test="${fn:contains(audit,'contactMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactMobile')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
-		        <span class="input-tip">不能为空，如: XXX - XXXXXXX</span>
+		        <span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
 		        <div class="cue"> ${err_catMobile } </div>
 	       	   </div>
 		    </li> 
@@ -1155,7 +1155,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="armyBusinessFax" value="${currSupplier.armyBusinessFax}" <c:if test="${fn:contains(audit,'armyBusinessFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBusinessFax')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
-		        <span class="input-tip">不能为空，如: XXX - XXXXXXX</span>
+		        <span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
 		        <div class="cue"> ${err_armFax } </div>
 	       	   </div>
 		     </li> 
@@ -1165,7 +1165,7 @@ function deleteFinance() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="armyBuinessMobile" value="${currSupplier.armyBuinessMobile}" <c:if test="${fn:contains(audit,'armyBuinessMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessMobile')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
-		        <span class="input-tip">不能为空，如: XXX - XXXXXXX</span>
+		        <span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
 		        <div class="cue"> ${err_armMobile } </div>
 	       	   </div>
 		    </li> 
