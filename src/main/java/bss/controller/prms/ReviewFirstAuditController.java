@@ -170,7 +170,7 @@ public class ReviewFirstAuditController {
 	    //放入初审项集合
 		extension.setFirstAuditList(firstAuditList);
 		//查询供应商信息
-		List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+		List<SaleTender> supplierList = saleTenderService.find(new SaleTender(projectId));
 		extension.setSupplierList(supplierList);
 		
 		//查询审核过的信息用于回显

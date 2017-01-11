@@ -1867,10 +1867,12 @@ public class ExpertController extends BaseController {
         if (packageExpertList != null && packageExpertList.size() > 0) {
             PackageExpert packageExpert = packageExpertList.get(0);
             if (packageExpert.getIsAudit() == 0 || packageExpert.getIsAudit() == 2) {
+                // 符合性资格性审查
                 return "1";
             } else if (packageExpert.getIsAudit() == 1 && packageExpert.getIsGather() == 0) {
                 return "该包符合性审查未结束";
             } else if (packageExpert.getIsAudit() == 1 && packageExpert.getIsGather() == 1 && (packageExpert.getIsGrade() == 0 || packageExpert.getIsGrade() == 2)) {
+                // 经济技术评审
                 return "2";
             } else if (packageExpert.getIsGrade() == 1 && packageExpert.getIsGather() == 1 && packageExpert.getIsGatherGather() == 0) {
                 return "该包经济技术评审未结束";
