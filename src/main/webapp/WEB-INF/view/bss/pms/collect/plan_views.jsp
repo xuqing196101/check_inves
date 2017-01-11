@@ -4,8 +4,8 @@
 <html>
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
-    		<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
-			<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
 <script type="text/javascript">
   /** 全选全不选 */
   function selectAll(){
@@ -117,6 +117,7 @@
     layer.close(index);
   }
 </script>
+
 </head>
 
 <body>
@@ -137,8 +138,8 @@
     <div class="headline-v2 fl">
       <h2>计划明细</h2>
     </div>
-    <div class="row magazine-page">
-    <div class="col-md-12 pt10 tab-v2">
+    <div class="magazine-page">
+    <div class="col-md-12 col-sm-12 col-xs-12 pt10 tab-v2">
       <ul class="nav nav-tabs bgwhite">
         <li class="active">
           <a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">所有明细</a>
@@ -150,8 +151,9 @@
       
      <div class="tab-content over_hideen">
       <div class="tab-pane fade active in" id="tab-1">
-			      <div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll p0 h365">
-			        <table id="table" class="table table-bordered table-condensed mt5 table_wrap">
+			      <div class="col-md-12 col-xs-12 col-sm-12 mt5">
+			        <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
 			          <thead>
 			            <tr>
 			              <th class="info w50">序号</th>
