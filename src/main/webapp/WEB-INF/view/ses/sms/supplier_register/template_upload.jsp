@@ -107,17 +107,14 @@
 								<input name="flag" type="hidden" />
 							<input name="status" type="hidden" value="${currSupplier.status}" />
 							<input name="supplierTypeIds" value="${supplierTypeIds }"  type="hidden" /> 
-							<div>
-							注：将《军队供应商申请表》和《军队供应商承诺书》签字，盖章后上传
-							</div>
 							
 							<div class="tab-content padding-top-20">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in " id="tab-1">
 									<div class="margin-bottom-0  categories">
-										<!-- <h2 class="f16 jbxx mt40">
-											<i>01</i>申请表和承诺书上传
-										</h2> -->
+										<div class="headline-v2">
+			  								<h2>上传供应商申请表、承诺书  (将第七步下载的申请表、承诺书签字盖章后,扫描为彩色图片上传)</h2>
+										</div>
 										
 											<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 												   <span class="col-md-4 col-sm-12 col-xs-12 padding-left-5 mt15"><i class="red">*</i>供应商申请表上传</span> 

@@ -158,7 +158,7 @@ session.setAttribute("tokenSession", tokenValue);
 		  </h2>
 		<div class="tab-content padding-top-20">
 			<div class="headline-v2">
-			  <h2>上传专家申请表、承诺书</h2>
+			  <h2>上传专家申请表、承诺书(将第六步下载的申请表、承诺书签字盖章后,扫描为彩色图片上传。)</h2>
 			</div>   
 	   	 <table class="table table-bordered">
 	   	   <tr>

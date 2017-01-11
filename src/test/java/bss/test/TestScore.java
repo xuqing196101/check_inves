@@ -18,8 +18,8 @@ public class TestScore {
         scoreModel.setStandardScore("2");
         //不满足0 满足1  
         Integer flag=0;
-        double score=ScoreModelUtil.getScoreByModelOne(scoreModel, flag);
-        System.out.println(score);
+        //double score=ScoreModelUtil.getScoreByModelOne(scoreModel, flag);
+        //System.out.println(score);
     }
     
     @Test
@@ -37,8 +37,8 @@ public class TestScore {
         scoreModel.setUnitScore("1");
         //满足项数量
         Integer number=5;
-        double score=ScoreModelUtil.getScoreByModelTwo(scoreModel, number);
-        System.out.println(score);
+        //double score=ScoreModelUtil.getScoreByModelTwo(scoreModel, number);
+        //System.out.println(score);
     }
     
     @Test
