@@ -49,7 +49,7 @@
               </tbody>       
             </table>     
             <h2 class="count_flow jbxx">需求明细查看</h2>
-            <div class="content ">
+            <div class="content over_scroll">
               <table id="table" class="table table-bordered table-condensed table-hover table-striped table_wrap">  
                 <thead>
 				  <tr>
