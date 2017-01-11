@@ -186,7 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</li>
 					<li>
 						<label class="fl">项目编号：</label>
-						<input type="text" name="projectId" value="${projectId}">
+						<input type="text" name="projectCode" value="${projectCode}">
 					</li>
 					<li>
 						<label class="fl">状态：</label>

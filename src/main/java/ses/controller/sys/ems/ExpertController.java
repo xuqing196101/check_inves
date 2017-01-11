@@ -1789,7 +1789,7 @@ public class ExpertController extends BaseController {
      * @return String
      */
     @RequestMapping("projectList")
-    public String toProjectList(Model model, HttpSession session, String projectId, String projectName, String status, Integer pageNum) {
+    public String toProjectList(Model model, HttpSession session, String projectCode, String projectName, String status, Integer pageNum) {
         try {
             User user = (User) session.getAttribute("loginUser");
             // 判断用户的类型为专家类型
@@ -1809,7 +1809,7 @@ public class ExpertController extends BaseController {
                     String string = packageExpert.getPackageId();
                     hashMap = new HashMap<String, Object>();
                     hashMap.put("id", string);
-                    hashMap.put("projectId", projectId);
+                    hashMap.put("projectId", projectCode);
                     hashMap.put("projectName", projectName);
                     List<Packages> packages = packageService.selectPackageById(hashMap);
                     if (packages != null && packages.size() > 0) {
@@ -1843,7 +1843,7 @@ public class ExpertController extends BaseController {
         }
         
         // 查询条件回显
-        model.addAttribute("projectId", projectId);
+        model.addAttribute("projectId", projectCode);
         model.addAttribute("projectName", projectName);
         model.addAttribute("status", status);
         return "bss/prms/audit/list";

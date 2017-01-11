@@ -226,7 +226,7 @@ $(document).ready(function() {
 }
 $(document).ready(function () {
 		var boxwidth = $("#content").width();
-            FixTable("table", 3, boxwidth, 360);
+            FixTable("table", 3, boxwidth, 500);
         });
         
 </script>
@@ -258,22 +258,22 @@ $(document).ready(function () {
 	   	  <input type="hidden" name="projectId" id="projectId" value="${projectId }">
 		  <!--包id  -->
 	   	  <input type="hidden" name="packageId" id="packageId" value="${packageId }">
-             <div class="content" id="content">
+             <div class="content mt20" id="content">
 	        <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
   border="1" cellspacing="0" cellpadding="0" class="table left_table lockout table_input">
 			 <thead>
 			  <tr>
-			      <th class="tc" rowspan="2">评审项目</th>
+			      <th class="tc w100" rowspan="2">评审项目</th>
 		   	      <th class="tc w180" rowspan="2">评审指标</th>
-		   	      <th class="tc" rowspan="2">标准分值</th>
+		   	      <th class="tc w30" rowspan="2">标准分值</th>
 			      <c:forEach items="${supplierList}" var="supplier">
 				      <th colspan="2" class="tc">${supplier.suppliers.supplierName}</th>
 				    </c:forEach>
 			  </tr>
 			  <tr>
 		   	      <c:forEach items="${supplierList}" var="supplier">
-			        	<th class="tc">参数</th>
-		   		        <th class="tc">得分</th>
+			        	<th class="tc w100">参数</th>
+		   		        <th class="tc w100">得分</th>
 	   		  	  	</c:forEach>
 			  </tr>
 			  </thead>

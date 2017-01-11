@@ -2202,29 +2202,7 @@ public class PackageExpertController {
             supplier.setId(rank.getSupplierId());
             saleTend.setSuppliers(supplier);
             String reviewResult = saleTenderService.findByCon(saleTend).get(0).getReviewResult();
-            if (reviewResult != null && !"".equals(reviewResult)) {
-                rank.setRank(0);
-                rank.setReviewResult(reviewResult);
-            } else {
-                for (SupplierRank temp : rankList) {
-                    if (rank.getPackageId().equals(temp.getPackageId())) {
-                        // 判断review_result是否不为空
-                        SaleTender sale = new SaleTender();
-                        sale.setPackages(temp.getPackageId());
-                        Supplier supp = new Supplier();
-                        supp.setId(temp.getSupplierId());
-                        sale.setSuppliers(supp);
-                        String review = saleTenderService.findByCon(sale).get(0).getReviewResult();
-                        if (review == null || "".equals(review)) {
-                            sum++;
-                            if (rank.getSumScore().compareTo(temp.getSumScore()) != -1 && rank != temp) {
-                                count++;
-                            }
-                        }
-                    }
-                }
-                rank.setRank(sum - count);
-            }
+            rank.setReviewResult(reviewResult);
         }
         model.addAttribute("rankList", rankList);
         // 新增参数
@@ -2238,16 +2216,6 @@ public class PackageExpertController {
         model.addAttribute("packageId", packageId);
         return "bss/prms/view_expert_score";
     }
-    
-    private static void removeDictionaryData(List<DictionaryData> list)   { 
-        for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
-            for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
-                if  (list.get(j).getId(). equals(list.get(i).getId()))   { 
-                    list.remove(j); 
-                } 
-            } 
-        } 
-    } 
 
     /**
      *〈简述〉
