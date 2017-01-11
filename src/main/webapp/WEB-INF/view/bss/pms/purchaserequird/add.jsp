@@ -121,10 +121,10 @@
 						// var tr=$(obj).parent().parent();
 						$(tr).children(":first").children(":first").val(data);
 						var s = detailRow.length;
-						var count=1;
+						var count=s+1;
 						// var trs = $(obj).parent().parent();
 						if(detailRow.length==0){
-							count=count+s;
+							 
 							$("#detailZeroRow").html("<tr name='detailRow' class='tc p0'>   <td> " +
 									"<input class='m0 ' required='required' type='text' name='list[" + 0 + "].seq' /></td>" +
 									"<td class=''  name='department'><input class='m0'  type='text' name='list[" + 0 + "].department'  value=''/></td>" +
@@ -171,6 +171,15 @@
 							"<td class='' ><button  type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 							"<tr/>");
 						}
+					    var bool=$("input[name='import']").is(':checked');
+						if(bool==true){
+							$("td[name='userNone']").attr("style","");
+							$("th[name='userNone']").attr("style","");
+						}else{
+							$("td[name='userNone']").attr("style","display:none");
+							$("th[name='userNone']").attr("style","display:none");
+						}
+						
 					}
 				});
 			}
