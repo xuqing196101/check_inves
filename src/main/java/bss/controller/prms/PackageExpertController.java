@@ -638,8 +638,7 @@ public class PackageExpertController {
         // 进度
         model.addAttribute("reviewProgressList", reviewProgressList);
         // 供应商信息
-        List<SaleTender> supplierList = saleTenderService.list(new SaleTender(
-            projectId), 0);
+        List<SaleTender> supplierList = saleTenderService.find(new SaleTender(projectId));
         model.addAttribute("supplierList", supplierList);
         // 查询条件
         ProjectExtract projectExtract = new ProjectExtract();
@@ -1162,7 +1161,7 @@ public class PackageExpertController {
     @ResponseBody
     public void scoreTotal(String packageId, String projectId) {
         // 供应商信息
-        List<SaleTender> allSupplierList = saleTenderService.list(new SaleTender(projectId), 0);
+        List<SaleTender> allSupplierList = saleTenderService.find(new SaleTender(projectId));
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
         for (int i = 0; i < allSupplierList.size(); i++) {
             SaleTender sale = allSupplierList.get(i);
@@ -1350,7 +1349,7 @@ public class PackageExpertController {
         //放入初审项集合
         extension.setFirstAuditList(firstAuditList);
         //查询供应商信息
-        List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+        List<SaleTender> supplierList = saleTenderService.find(new SaleTender(projectId));
         extension.setSupplierList(supplierList);
 
         //查询审核过的信息用于回显
@@ -1537,7 +1536,7 @@ public class PackageExpertController {
         }
         // 供应商信息
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
-        List<SaleTender> sl = saleTenderService.list(new SaleTender(projectId), 0);
+        List<SaleTender> sl = saleTenderService.find(new SaleTender(projectId));
         for (SaleTender st : sl) {
             if (st.getPackages().indexOf(packageId) != -1) {
                 supplierList.add(st);
@@ -2769,7 +2768,7 @@ public class PackageExpertController {
         //放入初审项集合
       extension.setFirstAuditList(firstAuditList);
       //查询供应商信息
-      List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+      List<SaleTender> supplierList = saleTenderService.find(new SaleTender(projectId));
       extension.setSupplierList(supplierList);
       
       //查询审核过的信息用于回显
@@ -3212,7 +3211,7 @@ public class PackageExpertController {
         }
         // 供应商信息
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
-        List<SaleTender> sl = saleTenderService.list(new SaleTender(projectId), 0);
+        List<SaleTender> sl = saleTenderService.find(new SaleTender(projectId));
         for (SaleTender st : sl) {
             if (st.getPackages().indexOf(packageId) != -1) {
                 supplierList.add(st);
