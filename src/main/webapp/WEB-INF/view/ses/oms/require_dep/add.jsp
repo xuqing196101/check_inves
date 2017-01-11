@@ -3,14 +3,15 @@
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
+<head>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <link href="${pageContext.request.contextPath}/public/ztree/css/ztree-extend.css" type="text/css" rel="stylesheet" >
 <script src="${pageContext.request.contextPath}/js/oms/purchase/jquery.metadata.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/validate-extend.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/oms/purchase/province.js"></script>
-<head>
-<%@ include file="/WEB-INF/view/common.jsp"%>
+
 <script type="text/javascript">
 	
 	//初始化tree

@@ -310,8 +310,8 @@ function onCheck(e, treeId, treeNode) {
 		    
 			<li class="col-md-3 col-sm-6 col-xs-12"><span class=""><span class="star_red">*</span>采购资格证书</span>
 			  <div class="uploader orange m0">
-			    <u:show showId="purShowId" businessId="${mainId}" sysKey="2" />
 				<u:upload id="purUploadId" auto="true" businessId="${mainId}" sysKey="2" />
+				<u:show showId="purShowId" businessId="${mainId}" sysKey="2" />
 			  </div>
 			  <div class="cue"><br>${mainId_msg}</div>
 			</li>

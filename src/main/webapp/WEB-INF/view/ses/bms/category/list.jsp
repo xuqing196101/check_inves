@@ -669,7 +669,7 @@
        	    		<div id="uploadBtnId" class="dis_none">
        	    		  <u:upload  id="uploadId"   businessId="${id}" multiple="true" exts="png,jpeg,jpg,bmp,gif"  auto="true" sysKey="2"/>
        	    		</div>
-       	    		<div id="showFileId">
+       	    		<div id="showFileId" class="picShow">
        	    		  <u:show showId="fileId" businessId="${id}" sysKey="2"/>
        	    		</div>
        	    	  </td>

@@ -177,7 +177,11 @@
 				if (!checkFileType(file.name,$base)){
 					uploader.removeFile(file);
 					var fileType =$("#"+$base+"_extId").val();
-					layer.msg("文件格式错误，只允许" + fileType + "文件格式");
+					if (fileType != null && fileType !="null" && fileType !=""){
+						layer.msg("文件格式错误，只允许" + fileType + "文件格式");
+					} else {
+						layer.msg("文件格式错误！");
+					}
 					return;
 				}
 				var fileSize = file.size / 1024;
@@ -223,7 +227,12 @@
 			   			function(msg){
 			   				if (msg == 'ok') {
 			   					var sid = $("#" + $base + "_btnNameId").nextAll('#showId').val();
-			   					showInitAfterUpload(sid)
+			   					if (sid == undefined){
+			   						var pic_show = $("#"+ $base +"_btnNameId").parent().next(".picShow")[0];
+			   						var showPicId = $(pic_show).children("#showId")[0].id;
+			   						sid = $("#" +showPicId).val();
+			   					}
+			   					showInitAfterUpload(sid);
 			   					// showInit();
 			   				}
 			   				
