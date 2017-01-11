@@ -809,6 +809,10 @@ import common.service.UploadService;
            list.remove(list.get(i));
          }
        }
+       model.addAttribute("pro", pro);
+       model.addAttribute("server", server);
+       model.addAttribute("project", project);
+       model.addAttribute("sale", sale);
        model.addAttribute("supplieType", list);
        List<DictionaryData> wlist = DictionaryDataUtil.find(8);
        model.addAttribute("wlist", wlist);

@@ -679,6 +679,27 @@ $(function(){
     
     
     $(function() {
+			var pro = "${pro}";
+			var server = "${server}";
+			var sale = "${sale}";
+			var project = "${project}";
+			var msg = "";
+			if (pro == "false") {
+				msg = msg + "物资-生产专业信息、";
+			} 
+			if (sale == "false") {
+				msg = msg + "物资-销售专业信息、";
+			} 
+			if (project == "false") {
+				msg = msg + "工程专业信息、";
+			} 
+			if (server == "false") {
+				msg = msg + "服务专业信息、";
+			} 
+			if (msg != "") {
+				var msg = msg.substring(0, msg.length - 1);
+				layer.msg(msg + "不能为空!");
+			}
 		$("#page_ul_id").find("li").click(function() {
 			var id = $(this).attr("id");
 			var page = "tab-" + id.charAt(id.length - 1);
