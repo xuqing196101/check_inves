@@ -6,8 +6,8 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-		<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+		<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
 <title>采购需求管理</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -166,6 +166,84 @@
  }
  
 </script>
+<!-- 锁表头js -->
+<script type="text/javascript">
+    function FixTable(TableID, FixColumnNumber, width, height) {
+    if ($("#" + TableID + "_tableLayout").length != 0) {
+        $("#" + TableID + "_tableLayout").before($("#" + TableID));
+        $("#" + TableID + "_tableLayout").empty();
+    }
+    else {
+        $("#" + TableID).after("<div id='" + TableID + "_tableLayout' style='overflow:hidden;height:" + height + "px; width:" + width + "px;'></div>");
+    }
+    $('<div id="' + TableID + '_tableFix"></div>'
+    + '<div id="' + TableID + '_tableHead"></div>'
+    + '<div id="' + TableID + '_tableColumn"></div>'
+    + '<div id="' + TableID + '_tableData"></div>').appendTo("#" + TableID + "_tableLayout");
+    var oldtable = $("#" + TableID);
+    var tableFixClone = oldtable.clone(true);
+    tableFixClone.attr("id", TableID + "_tableFixClone");
+    $("#" + TableID + "_tableFix").append(tableFixClone);
+    var tableHeadClone = oldtable.clone(true);
+    tableHeadClone.attr("id", TableID + "_tableHeadClone");
+    $("#" + TableID + "_tableHead").append(tableHeadClone);
+    var tableColumnClone = oldtable.clone(true);
+    tableColumnClone.attr("id", TableID + "_tableColumnClone");
+    $("#" + TableID + "_tableColumn").append(tableColumnClone);
+    $("#" + TableID + "_tableData").append(oldtable);
+    $("#" + TableID + "_tableLayout table").each(function () {
+        $(this).css("margin", "0");
+    });
+    var HeadHeight = $("#" + TableID + "_tableHead thead").height();
+    HeadHeight += 2;
+    $("#" + TableID + "_tableHead").css("height", HeadHeight);
+    $("#" + TableID + "_tableFix").css("height", HeadHeight);
+    var ColumnsWidth = 0;
+    var ColumnsNumber = 0;
+    $("#" + TableID + "_tableColumn tr:last td:lt(" + FixColumnNumber + ")").each(function () {
+        ColumnsWidth += $(this).outerWidth(true);
+        ColumnsNumber++;
+    });
+    ColumnsWidth += 2;
+    if ($.browser.msie) {
+        switch ($.browser.version) {
+            case "7.0":
+                if (ColumnsNumber >= 3) ColumnsWidth--;
+                break;
+            case "8.0":
+                if (ColumnsNumber >= 2) ColumnsWidth--;
+                break;
+        }
+    }
+    $("#" + TableID + "_tableColumn").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableFix").css("width", ColumnsWidth);
+    $("#" + TableID + "_tableData").scroll(function () {
+        $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
+        $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
+    });
+    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
+    if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
+        $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
+        $("#" + TableID + "_tableData").css("width", $("#" + TableID + "_tableFix table").width() + 17);
+    }
+    if ($("#" + TableID + "_tableColumn").height() > $("#" + TableID + "_tableColumn table").height()) {
+        $("#" + TableID + "_tableColumn").css("height", $("#" + TableID + "_tableColumn table").height());
+        $("#" + TableID + "_tableData").css("height", $("#" + TableID + "_tableColumn table").height() + 17);
+    }
+    $("#" + TableID + "_tableFix").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableHead").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
+    $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
+}
+$(document).ready(function () {
+		var boxwidth = $("#content").width();
+            FixTable("table", 1, boxwidth, 460);
+        });
+        
+</script>
 </head>
 
 <body>
@@ -245,9 +323,10 @@
 	
 	 <h2 class="count_flow"><i>2</i>计划明细</h2>
 		<div class="content ul_list"  id="content">
-				<table id="table" class="table table-bordered table-condensed mt5 space_nowrap">
+				<table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed lockout">
 					<thead>
-						<tr>
+						<tr class="space_nowrap">
 							<th class="info w50">序号</th>
 							<th class="info">需求部门</th>
 							<th class="info">物资类别<br>及名称</th>
@@ -269,6 +348,7 @@
 						</tr>
 					</thead>
 		<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
+					
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
 							<td class="tc w50">${obj.seq } <input type="hidden" value="${obj.id }" name="list[${vs.index }].id">
@@ -282,15 +362,15 @@
 							<td class="tl pl20">${obj.goodsName }</td>
 							<td class="tl pl20"> ${obj.stand }</td>
 							<td class="tl pl20"> ${obj.qualitStand }</td>
-							<td class="tl pl20"> ${obj.item }</td>
-							<td class="tl pl20">${obj.purchaseCount }</td>
-							<td class="tl pl20">${obj.price }</td>
+							<td class="tc"> ${obj.item }</td>
+							<td class="tc">${obj.purchaseCount }</td>
+							<td class="tr">${obj.price }</td>
 							<td class="tr">${obj.budget }</td>
 							<td>${obj.deliverDate } </td>
 							
 							<td class="p0">
 							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
-							<select onchange="sel(this)" required="required" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
+							<select class="target" onchange="sel(this)" required="required" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
 									 <c:forEach items="${kind}" var="kind" >
 			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
 			                        </c:forEach>
@@ -298,9 +378,9 @@
 			                
 			              <%--   </c:if> --%>
 							</td>
-							<td class="tc">
+							<td class="tc p0">
 							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
-							<select class="org"  required="required"  name="list[${vs.index }].organization">
+							<select class="org target"  required="required"  name="list[${vs.index }].organization">
 						<!-- 	<option value="">请选择</option> -->
 								<c:forEach items="${org }" var="ss">
 									<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
