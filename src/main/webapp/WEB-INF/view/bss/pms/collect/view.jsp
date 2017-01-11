@@ -181,9 +181,8 @@
 			<div class="clear"></div>
 		</div>
 	</div>
-	<div class="container" id="container">
-				<div>
-				<h2 class="count_flow">计划主信息</h2>
+	<div class="container container_box">
+				<h2 class="count_flow"><i>1</i>计划主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
@@ -243,20 +242,9 @@
           
           
 	   </ul>
-	 </div>
 	
-	
-	
-		<div class="headline-v2 fl">
-			<h2>计划明细</h2>
-		</div>
-		
-		
-		
-	
-		<div class="content table_box">
-
-				<div class="content">
+	 <h2 class="count_flow"><i>2</i>计划明细</h2>
+		<div class="content ul_list"  id="content">
 				<table id="table" class="table table-bordered table-condensed mt5 space_nowrap">
 					<thead>
 						<tr>
@@ -337,28 +325,19 @@
 				    <input type="hidden" id="status" name="status" value="3">
 					</form>
 				</table>
-				   <div class="col-md-12 col-xs-12 col-sm-12 p0" >
-				  <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
-				  <div class="col-md-12 col-xs-12 col-sm-12 p0">
-				      <textarea id="reson" name="reason" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字"></textarea>
+				</div>
+				  <div class="col-md-12 col-xs-12 col-sm-12 p0" >
+				     <div class="col-md-12 col-xs-12 col-sm-12 p0"> 退回理由：</div>
+				     <div class="col-md-12 col-xs-12 col-sm-12 p0">
+				         <textarea id="reson" name="reason" class="h80 col-md-10 col-xs-10 col-sm-12" title="不超过800个字"></textarea>
+                     </div>
                   </div>
                   <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
-			
-				   <button class="btn btn-windows save" style="margin-left: 100px;"  onclick="acc()" type="button"> 受理</button> 
-				    <button class="btn btn-windows back" type="button" onclick="ss();">退回</button> 
-				   <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-			      </div>
-			    </div>
-			
-				</div>
-		
-		
-			
-			
-		</div>
-		
-			     
-		
+				     <button class="btn btn-windows save" style="margin-left: 100px;"  onclick="acc()" type="button"> 受理</button> 
+				     <button class="btn btn-windows back" type="button" onclick="ss();">退回</button> 
+				     <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+			      </div> 
+			  
 	</div>
 
 </body>

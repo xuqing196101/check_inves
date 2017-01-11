@@ -195,11 +195,11 @@
 			              <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
 			              </td >
 			              <%-- <td class="tc"> ${obj.item }</td> --%>
-			              <td title="${obj.item}" class="tl pl20">
+			              <td title="${obj.item}" class="tc">
 			              <c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
 			              <c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
 			              </td >
-			              <td class="tl pl20">${obj.purchaseCount }</td>
+			              <td class="tc">${obj.purchaseCount }</td>
 			              <td class="tr pr20">${obj.price }</td>
 			              <td class="tr pr20">${obj.budget }</td>
 			              <td class="tl pl20">${obj.deliverDate }</td>

@@ -132,10 +132,8 @@
 			<div class="clear"></div>
 		</div>
 	</div>
-	<div class="container">
-	
-				<div>
-				<h2 class="count_flow">计划主信息</h2>
+	<div class="container container_box">
+				<h2 class="count_flow"><i>1</i>计划主信息</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
@@ -200,15 +198,9 @@
                     <u:show showId="detailshow"  businessId="${fileId}" sysKey="2" typeId="${typeId}" />
            </li> --%>
 	   </ul>
-	 </div>
-			
-			
-			
-		<div class="headline-v2 fl">
-			<h2>计划明细</h2>
-		</div>
-		<div class="content table_box" >
-			<div class="content"  id="content">
+		
+        <h2 class="count_flow"><i>2</i>计划明细</h2>
+		<div class="content ul_list"  id="content">
 				<table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
   border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
 					<thead>
@@ -310,14 +302,14 @@
 
 					</c:forEach>
 				</table>
-				
+				  </div>
 			<!--   </div> -->
 			  <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
 			   <input class="btn btn-windows back" value="返回" type="button"
                     onclick="location.href='javascript:history.go(-1);'">
-		</div>
-	</div>
-</div>
-</div>
+              </div>
+      
+      </div>
+   
 </body>
 </html>

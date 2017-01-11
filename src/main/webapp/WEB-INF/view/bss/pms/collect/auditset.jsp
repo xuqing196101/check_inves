@@ -556,7 +556,7 @@
 	  </div>
       <div class="content table_box">
       <form id="set_form" action="${pageContext.request.contextPath}/set/update.html" method="post" >
-        <table class="table table-bordered table-condensed table_input left_table" id="userList">
+        <table class="table table-bordered table-condensed " id="userList">
 		<thead>
 		<tr class="info">
 			<th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -578,9 +578,9 @@
 						<c:if test="${kind.id == obj.auditRound}">${kind.name}</c:if>
 					</c:forEach>
 				</td> --%>
-				<td class="tl pl20">${obj.name }</td>
-				<td class="tl pl20">${obj.mobile }</td>
-				<td class="tl pl20">${obj.duty }</td>
+				<td class="tc w120">${obj.name }</td>
+				<td class="tc w120">${obj.mobile }</td>
+				<td class="tl pl20" width="30%">${obj.duty }</td>
 				<td class="tl pl20">${obj.unitName }</td>
 				<%--   <td>${obj.auditStaff }</td> --%>
 			</tr>
