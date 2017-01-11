@@ -327,7 +327,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>市</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                      <select name="cityId" id="city" onchange="loadCities(this.value);">
+                      <select name="cityId" id="city" >
                       </select> <input type="hidden"  id="cid" value="${purchaseDep.cityId }">
                       <div class="cue">${ERR_cityId}</div>
                     </div>

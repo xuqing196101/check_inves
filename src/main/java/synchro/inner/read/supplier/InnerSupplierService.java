@@ -21,5 +21,5 @@ public interface InnerSupplierService {
      * @author myc
      * @param file 新注册的供应商文件
      */
-    public void readNewSupplierInfo(final File file);
+    public void importSupplierInfo(final File file);
 }

@@ -41,10 +41,10 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     
     /**
      * 
-     * @see synchro.inner.read.supplier.InnerSupplierService#readNewSupplierInfo(java.io.File)
+     * @see synchro.inner.read.supplier.InnerSupplierService#importSupplierInfo(java.io.File)
      */
     @Override
-    public void readNewSupplierInfo(final File file) {
+    public void importSupplierInfo(final File file) {
        List<Supplier> list = getSupplier(file);
        for (Supplier supplier : list){
            saveUser(supplier.getUser());
