@@ -39,10 +39,15 @@
       <div class="drop_window">
         <ul class="list-unstyled">
            <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
-               <div class="center" ><span>采购任务名称:</span><input  type="text" name="name" value="${proName}"></div>
+               <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">采购任务名称:</span>
+               <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 input_group input-append">
+                   <input  type="text" name="name" value="${proName}">
+               </div>
            </li>
            <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-             <div  class="center"><span>采购任务编号:</span><input id="documentNumber"  type="text" name="documentNumber" value="${projectNumber}"></div>
+             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">采购任务编号:</span>
+             <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0 input_group input-append">
+                  <input id="documentNumber"  type="text" name="documentNumber" value="${projectNumber}">
 	              <input type="hidden" name="id" value="${projectId}"/>
 	              <input type="hidden" name="proName" value="${proName}"/>
 	              <input type="hidden" name="projectNumber" value="${projectNumber}"/>
@@ -51,11 +56,14 @@
 	              <input type="hidden" name="planType" value="${planType}"/>
 	              <input type="hidden" name="ids" value="${ids}"/>
 	              <input type="hidden" name="organization" value="${organization}"/>
+	          </div>
 	       </li>
 	       <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-	              <div class="center" ><span>预研通知书上传:</span></div>
-	              <u:upload id="upload_id" businessId="${projectId}" multiple="true"  auto="true" typeId="${advancedAdvice}" sysKey="2"/>
-	              <u:show showId="upload_id" businessId="${projectId}" sysKey="2" typeId="${advancedAdvice}"/>
+	              <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">预研通知书上传:</span>
+	              <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+	                 <u:upload id="upload_id" businessId="${projectId}" multiple="true"  auto="true" typeId="${advancedAdvice}" sysKey="2"/>
+	                 <u:show showId="upload_id" businessId="${projectId}" sysKey="2" typeId="${advancedAdvice}"/>
+                  </div>
           </li>
            <div class="clear"></div>
         </ul>
@@ -63,7 +71,7 @@
     </div>
     <div class="tc mt10 col-md-12 col-xs-12 com-sm-12">
       <input class="btn btn-windows save" type="submit" value="确认">
-      <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
+      <input class="btn btn-windows cancel" value="取消" type="button" onclick="cancel();">
     </div>
   </form>
 </div>
