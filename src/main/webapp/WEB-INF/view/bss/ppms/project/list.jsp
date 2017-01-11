@@ -177,7 +177,7 @@
 	$('input[name="chkItem"]:checked').each(function() {
 	  id.push($(this).val());
 	});
-	var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+	var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
     status = $.trim(status);
     if (id.length == 1) {
       if(status == "项目基本信息已完善" || status == "拟制评审文件" || status == "招标公告拟制完毕" || status == "供应商抽取完毕" || status == "发售标书完毕" || status == "抽取评审专家完毕" || status == "开标唱标完毕" || status == "专家签到完成"

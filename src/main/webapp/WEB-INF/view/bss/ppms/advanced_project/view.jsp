@@ -5,8 +5,6 @@
 <html>
   <head>
   <%@ include file="/WEB-INF/view/common.jsp"%>
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
   <script type="text/javascript">
   /** 全选全不选 */
   function selectAll(){

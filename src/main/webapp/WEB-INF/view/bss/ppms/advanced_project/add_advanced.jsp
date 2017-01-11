@@ -9,8 +9,6 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/backend/js/table.js" ></script>
     <script type="text/javascript">
       
       function check(ele){
@@ -141,7 +139,7 @@
         <div>
           <h2 class="count_flow"><i>2</i>需求明细</h2>
           <div class="ul_list">
-            <div class="content table_box">
+            <div class="content table_box over_scroll">
               <table id="table" class="table table-bordered table-condensed table-hover space_nowrap">
                 <thead>
                   <tr>
