@@ -46,7 +46,7 @@
 	<select id="getPackageIds" parameterType="java.lang.String"
 		resultType="java.lang.String">
 		SELECT DISTINCT(PACKAGR_IDS) FROM
-		"JDCG"."T_BSS_PPMS_SALE_TENDER" WHERE STATUS_BID = 2 and STATUS_BOND =
+		T_BSS_PPMS_SALE_TENDER WHERE STATUS_BID = 2 and STATUS_BOND =
 		2 and PROJECT_ID = #{projectId}
 		and IS_REMOVED = '0'
 	</select>

@@ -236,7 +236,7 @@
   </sql>
    <select id="selectProject" parameterType="java.util.Map" resultMap="BaseResultMap">
    select t1.* from 
-    (SELECT * FROM "JDCG"."T_BSS_PPMS_SALE_TENDER"  where STATUS_BID =2 and STATUS_BOND=2) t2
+    (SELECT * FROM T_BSS_PPMS_SALE_TENDER  where STATUS_BID =2 and STATUS_BOND=2) t2
      LEFT JOIN
     ( select * from T_BSS_PPMS_PROJECTS t ) t1
     on  t1.id=t2.project_id
