@@ -1,7 +1,5 @@
-   
-
-//锁表头锁表列
-function FixTable(TableID, FixColumnNumber, width, height) {
+<!-- 锁表头js -->
+    function FixTable(TableID, FixColumnNumber, width, height) {
     if ($("#" + TableID + "_tableLayout").length != 0) {
         $("#" + TableID + "_tableLayout").before($("#" + TableID));
         $("#" + TableID + "_tableLayout").empty();
@@ -54,9 +52,9 @@ function FixTable(TableID, FixColumnNumber, width, height) {
         $("#" + TableID + "_tableHead").scrollLeft($("#" + TableID + "_tableData").scrollLeft());
         $("#" + TableID + "_tableColumn").scrollTop($("#" + TableID + "_tableData").scrollTop());
     });
-    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#f7f7f7" });
-    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#f7f7f7" });
-    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#f7f7f7" });
+    $("#" + TableID + "_tableFix").css({ "overflow": "hidden", "position": "relative", "z-index": "50", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableHead").css({ "overflow": "hidden", "width": width - 17, "position": "relative", "z-index": "45", "background-color": "#F7F7F7" });
+    $("#" + TableID + "_tableColumn").css({ "overflow": "hidden", "height": height - 17, "position": "relative", "z-index": "40", "background-color": "#F7F7F7" });
     $("#" + TableID + "_tableData").css({ "overflow": "scroll", "width": width, "height": height, "position": "relative", "z-index": "35" });
     if ($("#" + TableID + "_tableHead").width() > $("#" + TableID + "_tableFix table").width()) {
         $("#" + TableID + "_tableHead").css("width", $("#" + TableID + "_tableFix table").width());
@@ -72,7 +70,7 @@ function FixTable(TableID, FixColumnNumber, width, height) {
     $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
 }
 $(document).ready(function () {
-		var boxwidth = $("#container").width();
-		var table_box = $("#table").width(boxwidth);
-            FixTable("table", 1, boxwidth, 460);
+		var boxwidth = $("#content").width();
+            FixTable("table", 1, boxwidth, 430);
         });
+        

@@ -169,7 +169,6 @@
                    <c:forEach items="${requires }" var="re" >
                     <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
                   </c:forEach> 
-          
               </td> --%>
               <%-- <td>${obj.goodsName }</td> --%>
               <td title="${obj.goodsName}" class="tl pl20">

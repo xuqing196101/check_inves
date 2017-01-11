@@ -3,9 +3,10 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-		<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
+	<%@ include file="/WEB-INF/view/common.jsp" %>
+     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+     <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
+
 <script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){
@@ -202,7 +203,7 @@
         <h2 class="count_flow"><i>2</i>计划明细</h2>
 		<div class="content ul_list"  id="content">
 				<table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered ">
 					<thead>
 						<tr class="space_nowrap">
 							<th class="info w50">序号</th>
@@ -227,9 +228,9 @@
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-							<td class="tc w50">${obj.seq } 
+							<td class="tc">${obj.seq } 
 							</td>
-							<td  class="tl pl20">${obj.department}</td >
+							<td  class="tc">${obj.department}</td >
 							<%-- <td class="tl pl20">
 							     <c:forEach items="${requires }" var="re" >
 									  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
@@ -252,38 +253,29 @@
 							<c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
 							</td >
 							<%-- <td class="tc"> ${obj.item }</td> --%>
-							<td title="${obj.item}" class="tl pl20">
+							<td title="${obj.item}" class="tc">
 							<c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
 							</td >
 							<td class="tl pl20">${obj.purchaseCount }</td>
-							<td class="tr pr20">${obj.price }</td>
-							<td class="tr pr20">${obj.budget }</td>
+							<td class="tr">${obj.price }</td>
+							<td class="tr">${obj.budget }</td>
 							<td class="tl pl20">${obj.deliverDate }</td>
-							<td class="tl pl20"> <c:forEach items="${kind}" var="kind" >
-                  <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                </c:forEach></td>
-						 
-						 
+							<td class="tc"> <c:forEach items="${kind}" var="kind" >
+                                   <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                                   </c:forEach>
+                            </td>
 						 	<td   class="tl pl20">
-							 
-							 
 							 <c:forEach items="${requires}" var="ss" >
 				                  <c:if test="${ss.orgId==obj.organization}">${ss.name}</c:if>
 				                </c:forEach>
-                
-                
 							</td >
-							
-							
-							
-						 
 							<td title="${obj.supplier}" class="tl pl20">
 							<c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
 							</td >
 						 
-							<td title="${obj.isFreeTax}" class="tl pl20">
+							<td title="${obj.isFreeTax}" class="tc">
 							<c:if test="${fn:length (obj.isFreeTax) > 8}">${fn:substring(obj.isFreeTax,0,7)}...</c:if>
 							<c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
 							</td >

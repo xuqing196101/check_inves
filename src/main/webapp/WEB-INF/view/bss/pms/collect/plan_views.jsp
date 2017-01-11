@@ -151,11 +151,12 @@
       
      <div class="tab-content over_hideen">
       <div class="tab-pane fade active in" id="tab-1">
-			      <div class="col-md-12 col-xs-12 col-sm-12 mt5">
+		<div class="col-md-12 col-xs-12 col-sm-12 mt5 content" id="content">
+			      
 			        <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered">
 			          <thead>
-			            <tr>
+			            <tr class="space_nowrap">
 			              <th class="info w50">序号</th>
 			              <th class="info w150">需求部门</th>
 			              <th class="info w150">物资类别<br>及名称</th>
