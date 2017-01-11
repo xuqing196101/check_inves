@@ -206,7 +206,7 @@ function importAdd(){
 
 	   <div class="col-md-4 col-sm-12 col-xs-12">
 	    <div class="headline-v2">
-         <h2>中标公告</h2>
+         <h2>中标公示</h2>
         </div>
 		<div class="border1 margin-bottom-10 login_box job-content">
 		 <h2 class="f17 bgwhite">
@@ -283,7 +283,7 @@ function importAdd(){
 	 </div>
 		   <div class="col-md-4 col-sm-12 col-xs-12">
 	    <div class="headline-v2">
-         <h2>单一来源公告</h2>
+         <h2>单一来源公示</h2>
         </div>
 		<div class="border1 margin-bottom-10 login_box job-content">
 		 <h2 class="f17 bgwhite">

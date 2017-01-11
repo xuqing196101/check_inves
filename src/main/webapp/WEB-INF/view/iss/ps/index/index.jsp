@@ -339,7 +339,7 @@
           <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <ul class="list-unstyled col-md-12 col-sm-12 col-xs-12 buyer_news m0 p0">
-		  <li class="active fl report_title"><a aria-expanded="true" href="#tab-czList" data-toggle="tab">中标公告</a></li>
+		  <li class="active fl report_title"><a aria-expanded="true" href="#tab-czList" data-toggle="tab">中标公示</a></li>
 		  <c:choose>
 	  	  	<c:when test="${articlejzw=='0'}">
 	          <li class="fl"><a aria-expanded="true" href="#tab-6" data-toggle="tab"> 物资</a></li>
@@ -480,7 +480,7 @@
           <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <ul class="list-unstyled col-md-12 col-sm-12 col-xs-12 buyer_news m0 p0">
-		  <li class="active fl report_title"><a aria-expanded="true" href="#tab-jdList" data-toggle="tab">单一来源公告</a></li>
+		  <li class="active fl report_title"><a aria-expanded="true" href="#tab-jdList" data-toggle="tab">单一来源公示</a></li>
 		  <c:choose>
 	  	  	<c:when test="${articlejdw=='0'}">
 	          <li  class="fl"><a aria-expanded="true" href="#tab-9" data-toggle="tab"> 物资</a></li>
@@ -772,7 +772,7 @@
           <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <ul class="list-unstyled col-md-12 col-sm-12 col-xs-12 buyer_news m0 p0">
-		  <li class="active fl report_title"><a aria-expanded="true" href="#tab-bzList" data-toggle="tab">中标公告</a></li>
+		  <li class="active fl report_title"><a aria-expanded="true" href="#tab-bzList" data-toggle="tab">中标公示</a></li>
 		  <c:choose>
 	  	  	<c:when test="${articlebzw=='0'}">
 	          <li  class="fl"><a aria-expanded="true" href="#tab-15" data-toggle="tab"> 物资</a></li>
@@ -912,7 +912,7 @@
           <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <ul class="list-unstyled col-md-12 col-sm-12 col-xs-12 buyer_news m0 p0">
-		  <li class="active fl report_title"><a aria-expanded="true" href="#tab-bdList" data-toggle="tab">单一来源公告</a></li>
+		  <li class="active fl report_title"><a aria-expanded="true" href="#tab-bdList" data-toggle="tab">单一来源公示</a></li>
 		  <c:choose>
 	  	  	<c:when test="${articlebdw=='0'}">
 	          <li class="fl"><a aria-expanded="true" href="#tab-18" data-toggle="tab"> 物资</a></li>
