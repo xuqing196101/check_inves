@@ -47,19 +47,26 @@ $(function(){
                    <div class="fr mr25 f16">发布时间</div>
              </h2>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0">
-                <c:choose>
-	                <c:when test="${indexList==null}">
-	                  <li class="tc">暂无数据</li>
-	                </c:when>
-                <c:otherwise>
-	                <c:forEach items="${indexList}" var="i">
-	                  <li>
+                <c:forEach items="${indexList}" var="i">
+	                  <%--<li>
 	                   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${i.name }</a>
 	                   <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                  </li> 
-	                </c:forEach>   
-                </c:otherwise> 
-                </c:choose>         
+	                  --%><c:set value="${i.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>50}">
+						<li>
+						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${fn:substring(name,0,50)}...</a>
+	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                    </li>
+					</c:if>
+					<c:if test="${length<=50}">
+					   <li>
+					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${i.name }</a>
+	                   <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                   </li>
+					</c:if>
+	                </c:forEach>         
                 </ul>
 	     <%--<div class="fenye">
            <div class="page_box fr">
