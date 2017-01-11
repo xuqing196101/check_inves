@@ -39,7 +39,15 @@ public class PackageServiceImpl implements PackageService{
   public int insertSelective(Packages pack) {
     return packageMapper.insertSelective(pack);
   }
-
+  
+  /**
+   * @see bss.service.ppms.PackageService#selectPackageById(java.util.HashMap)
+   */
+  @Override
+  public List<Packages> selectPackageById(HashMap<String, Object> map) {
+      return packageMapper.selectPackageById(map);
+  }
+  
   @Override
   public int updateByPrimaryKeySelective(Packages pack) {
     return packageMapper.updateByPrimaryKeySelective(pack);

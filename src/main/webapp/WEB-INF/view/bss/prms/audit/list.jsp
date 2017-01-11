@@ -28,25 +28,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
           }
       }
-  
-  /** 单选 */
-  function check(){
-       var count=0;
-       var checklist = document.getElementsByName ("chkItem");
-       var checkAll = document.getElementById("checkAll");
-       for(var i=0;i<checklist.length;i++){
-             if(checklist[i].checked == false){
-                 checkAll.checked = false;
-                 break;
-             }
-             for(var j=0;j<checklist.length;j++){
-                   if(checklist[j].checked == true){
-                         checkAll.checked = true;
-                         count++;
-                     }
-               }
-         }
-  }
    //项目评审
  /* function toAudit(){
 	  var count = 0;
@@ -116,6 +97,63 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}			
 		});
 	}
+	$(function() {
+		laypage({
+			cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			pages: "${projectExtList.pages}", //总页数
+			skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			skip: true, //是否开启跳页
+			total: "${projectExtList.total}",
+			startRow: "${projectExtList.startRow + 1}",
+			endRow: "${projectExtList.endRow + 1}",
+			groups: "${projectExtList.pages}" >= 3 ? 3 : "${projectExtList.pages}", //连续显示分页数
+			curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
+				return "${projectExtList.pageNum}";
+			}(),
+			jump: function(e, first) { //触发分页后的回调
+				if(!first) { //一定要加此判断，否则初始时会无限刷新
+					$("#pageNum").val(e.curr);
+					$("#formSearch").submit();
+				}
+			}
+		});
+	});
+	function resetForm() {
+		$("input[type='text']").val("");
+		$("#status option:selected").removeAttr("selected");
+	}
+	function review(){
+		var ids = new Array();
+		var checkCount = 0;
+		$("input[name='chkItem']").each(function(index, element){
+			if (element.checked) {
+				checkCount++;
+			}
+		});
+		if (checkCount == 0) {
+			layer.msg("请先选择一项!");
+		} else if (checkCount == 1) {
+			var expertId = "${expertId}";
+			ids = $(":checked").next("input[type='hidden']").val().split(",");
+			var projectId = ids[0];
+			var packageId = ids[1];
+			$.ajax({
+				url: "${pageContext.request.contextPath}/expert/getReviewType.do",
+				data: {"expertId" : expertId, "packageId" : packageId},
+				success: function(data){
+					if (data == '1') {
+						toAudit(projectId, packageId);
+					} else if (data == '2') {
+						toFirstAudit(projectId, packageId);
+					} else {
+						layer.msg(data);
+					}
+				}
+			});
+		} else {
+			layer.msg("只能选择一项!");
+		}
+	}
 </script>
   </head>
   
@@ -138,118 +176,80 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div> 
    </div>
    <div class="container">
-   <span class="fl option_btn ml10">
-        <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">项目评审</button> -->
-      </span>
+   		<div class="search_detail">
+   			<form action="${pageContext.request.contextPath}/expert/projectList.html" id="formSearch">
+   				<input type="hidden" name="pageNum" id="pageNum">
+   				<ul class="demand_list">
+					<li>
+						<label class="fl">项目名称：</label>
+						<input type="text" name="projectName" value="${projectName}">
+					</li>
+					<li>
+						<label class="fl">项目编号：</label>
+						<input type="text" name="projectId" value="${projectId}">
+					</li>
+					<li>
+						<label class="fl">状态：</label>
+						<select name="status" id="status">
+							<option value="0">全部</option>
+							<option value="1" <c:if test="${status eq '1' or status == null}">selected</c:if> >资格性和符合性审查</option>
+							<option value="2" <c:if test="${status eq '2'}">selected</c:if> >经济技术评审</option>
+							<option value="3" <c:if test="${status eq '3'}">selected</c:if> >评审结束</option>
+						</select>
+					</li>
+				</ul>
+				<input class="btn fl" value="查询" type="submit">
+				<button onclick="resetForm();" class="btn fl" type="button">重置</button>
+   			</form>
+   		</div>
+   		<div class="container margin-top-5">
+   			<input class="btn fl" value="评审" type="button" onclick="review()">
+   		</div>
     	<div class="container margin-top-5">
-               <table class="table table-striped table-bordered table-hover">
+       <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-          <!-- <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th> -->
+          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
           <th class="info w50">序号</th>
           <th class="info">项目名称</th>
-          <th class="info">项目编号</th>
+          <th class="info w200">项目编号</th>
           <th class="info">包名</th>
-		  <%--<th class="info">总进度</th>
-		  <th class="info">初审进度</th>
-		  <th class="info">详审进度</th>--%>
-		  <th class="info">操作</th>
+		  <th class="info w100">开标时间</th>
+		  <th class="info w200">状态</th>
 		  </tr>
         </thead>
         <tbody id="tbody_id">
         
-        <c:forEach items="${projectExtList}" var="obj" varStatus="vs">
+        <c:forEach items="${projectExtList.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <%-- <td class="tc w30"><input type="checkbox" value="${obj.id },${obj.packageId}" name="chkItem" onclick="check()"  alt=""></td> --%>
+              <td class="tc w30"><input type="checkbox" name="chkItem"><input type="hidden" value="${obj.id},${obj.packageId}"></td>
               <td class="tc w50" onclick="showView('${obj.packageId}')">${vs.count}</td>
               <td onclick="showView('${obj.packageId}')">${obj.name}</td>
               <td onclick="showView('${obj.packageId}')">${obj.projectNumber}</td>
               <td class="tc" onclick="showView('${obj.packageId}')">${obj.packageName}</td>
+              <td class="tc" onclick="showView('${obj.packageId}')"><fmt:formatDate pattern="yyyy-MM-dd" value="${obj.bidDate}"/></td>
               <td class="tc">
               	<c:forEach items="${obj.packageExperts}" var="pe">
-              	  <!-- 符合性审查未开始 -->
-              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 0}">
-              	    <input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit('${obj.id }','${obj.packageId}');" value="符合性审查">
-              	  </c:if>
               	  <!-- 符合性审查暂存 -->
-              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 2}">
-              	    <input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit('${obj.id }','${obj.packageId}');" value="符合性审查">
-              	  </c:if>
-              	  <!-- 符合性审查已提交未结束 -->
-              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 1 && pe.isGather == 0}">
-              	   	符合性审查已提交
+              	  <c:if test="${pe.isAudit == 2 or pe.isAudit == 0 or (pe.isAudit == 1 and pe.isGather == 0)}">
+              	    资格性和符合性审查
               	  </c:if>
               	  <!-- 符合性审查结束，经济技术审查未开始 -->
-              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGrade == 0 && pe.isGather == 1 && pe.isAudit == 1}">
-              		<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toFirstAudit('${obj.id }','${obj.packageId}');" value="经济技术审查">
-              	  </c:if>
-              	  <!-- 符合性审查结束，经济技术审查暂存 -->
-              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGrade == 2 && pe.isGather == 1 && pe.isAudit == 1}">
-              		<input type="button" class="btn padding-left-10 padding-right-10 btn_back" onclick="toFirstAudit('${obj.id }','${obj.packageId}');" value="经济技术审查">
-              	  </c:if>
-              	  <!-- 符合性审查结束，经济技术审查已提交 -->
-              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGrade == 1 && pe.isGather == 1 && pe.isGatherGather == 0}">
-              		经济技术审查已提交
+              	  <c:if test="${(pe.isGrade == 0 and pe.isGather == 1 and pe.isAudit == 1) or (pe.isGrade == 2 and pe.isGather == 1 and pe.isAudit == 1) or (pe.isGrade == 1 and pe.isGather == 1 and pe.isGatherGather == 0)}">
+              	    经济技术评审
               	  </c:if>
               	  <!-- 符合性审查结束，经济技术审查结束 -->
-              	  <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isGatherGather == 1 && pe.isGather == 1}">
-              		评审结束
+              	  <c:if test="${pe.isGatherGather == 1 and pe.isGather == 1}">
+              	    评审结束
               	  </c:if>
-              	  <%-- <c:if test="${pe.expertId == sessionScope.loginUser.typeId && pe.packageId == obj.packageId && pe.isAudit == 1 && pe.isGrade == 1 }">
-              		评审结束
-              	  </c:if> --%>
               	</c:forEach>
               </td>
-			    <!-- 
-              <td class="w260">
-				  <div class="col-md-12 padding-0">
-				  	  <span class="fl padding-5">
-				  	  	<c:if test="${obj.reviewProgress.auditStatus == '0'}">未评审</c:if>
-				  	  	<c:if test="${obj.reviewProgress.auditStatus == '1'}">初审中</c:if>
-				  	  	<c:if test="${obj.reviewProgress.auditStatus == '2'}">初审完成</c:if>
-				  	  	<c:if test="${obj.reviewProgress.auditStatus == '3'}">详审中</c:if>
-				  	  	<c:if test="${obj.reviewProgress.auditStatus == '4'}">评审完成</c:if>
-				  	  </span>
-					  <div class="progress w55p fl margin-left-0">
-			             <div class="progress-bar progress-bar-danger" role="progressbar" 
-			                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-			                 style="width:${obj.reviewProgress.totalProgress*100}%;"> 
-			             </div> 
-			          </div>
-					  <span class="fl padding-5">${obj.reviewProgress.totalProgress*100}%</span>
-				  </div>
-			    </td>
-			    <td class="tc w200">
-				  <div class="col-md-12 padding-0">
-					  <div class="progress w55p fl margin-left-0">
-			             <div class="progress-bar progress-bar-danger" role="progressbar" 
-			                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-			                 style="width:${obj.reviewProgress.firstAuditProgress*100}%;"> 
-			             </div> 
-			          </div>
-					  <span class="fl padding-5">${obj.reviewProgress.firstAuditProgress*100}%</span>
-				  </div>
-			    </td>
-			    <td class="tc w200">
-				  <div class="col-md-12 padding-0">
-					  <div class="progress w55p fl margin-left-0">
-			             <div class="progress-bar progress-bar-danger" role="progressbar" 
-			                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-			                 style="width:${obj.reviewProgress.scoreProgress*100}%;"> 
-			             </div> 
-			          </div>
-					  <span class="fl padding-5">${obj.reviewProgress.scoreProgress*100}%</span>
-				  </div>
-			    </td>
-			     -->
             </tr>
          </c:forEach> 
         </tbody>
       </table>
+      <div id="pagediv" align="right"></div>
       </div>
- </div>
-
-
- 
-     </body>
+	</div> 
+  </body>
 </html>

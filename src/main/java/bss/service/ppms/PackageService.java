@@ -32,6 +32,15 @@ public interface PackageService {
     int insertSelective(Packages pack);
 
     /**
+     *〈简述〉专家评审页面模糊查询
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param map
+     * @return
+     */
+    List<Packages> selectPackageById(HashMap<String,Object> map);
+    
+    /**
      * 
      * @Title: updateByPrimaryKeySelective
      * @author ZhaoBo

@@ -1,14 +1,17 @@
 package ses.service.ems.impl;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,12 @@ import ses.service.ems.ExpertService;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
+import bss.dao.ppms.ProjectMapper;
+import bss.dao.prms.PackageExpertMapper;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.ext.ProjectExt;
+import bss.model.prms.PackageExpert;
 
 import com.github.pagehelper.PageHelper;
 
@@ -68,6 +77,11 @@ public class ExpertServiceImpl implements ExpertService {
 	private CategoryMapper categoryMapper;
 	@Autowired
     private RoleServiceI roleService;
+	@Autowired
+	private ProjectMapper projectMapper;
+	@Autowired
+	private PackageExpertMapper packageExpertMapper;
+	
 	@Override
 	public void deleteByPrimaryKey(String id) {
 		mapper.deleteByPrimaryKey(id);
@@ -841,6 +855,72 @@ public class ExpertServiceImpl implements ExpertService {
     public List<Category> searchByName(String cateName) {
         // TODO Auto-generated method stub
         return categoryMapper.searchByName(cateName);
+    }
+
+    /**
+     * @throws NoSuchMethodException 
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     * @see ses.service.ems.ExpertService#getProjectExtList(java.util.List)
+     */
+    @Override
+    public List<ProjectExt> getProjectExtList(List<Packages> packageList, String expertId, String status, Integer pageNum) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        if(pageNum != null){
+            PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+        }
+        
+        List<ProjectExt> projectExtList = new ArrayList<ProjectExt>();
+        ProjectExt projectExt;
+        for (Packages packages : packageList) {
+            Project project = projectMapper.selectProjectByPrimaryKey(packages.getProjectId());
+            if (project != null) {
+                projectExt = new ProjectExt();
+                PropertyUtils.copyProperties(projectExt, project);
+                projectExt.setPackageId(packages.getId());
+                projectExt.setPackageName(packages.getName());
+                //查询出关联表中包下已评审的数据
+                Map<String, Object> map2 = new HashMap<String, Object>();
+                map2.put("packageId", packages.getId());
+                map2.put("expertId", expertId);
+                List<PackageExpert> packageExpertList2 = packageExpertMapper.selectList(map2);
+                projectExt.setPackageExperts(packageExpertList2);
+                projectExtList.add(projectExt);
+            }
+        }
+        // 状态查询
+        // 全部
+        if ("0".equals(status)) {
+            return projectExtList;
+        } else {
+            List<ProjectExt> projectList = new ArrayList<ProjectExt>();
+            for (int i = 0; i < projectExtList.size(); i++ ) {
+                List<PackageExpert> packageExpertList = projectExtList.get(i).getPackageExperts();
+                if (packageExpertList != null && packageExpertList.size() > 0) {
+                    PackageExpert packageExpert = packageExpertList.get(0);
+                    if ("1".equals(status)) {
+                        // 资格性和符合性审查
+                        if (0 == packageExpert.getIsAudit() || 2 == packageExpert.getIsAudit() || (1 == packageExpert.getIsAudit() && 0 == packageExpert.getIsGather())) {
+                            projectList.add(projectExtList.get(i));
+                        }
+                    } else if ("2".equals(status)) {
+                        // 经济技术评审
+                        if ((1 == packageExpert.getIsAudit() && 1 == packageExpert.getIsGather() && 0 == packageExpert.getIsGrade()) || (1 == packageExpert.getIsAudit() && 1 == packageExpert.getIsGather() && 2 == packageExpert.getIsGrade()) || (0 == packageExpert.getIsGatherGather() && 1 == packageExpert.getIsGather() && 1 == packageExpert.getIsGrade())) {
+                            projectList.add(projectExtList.get(i));
+                        }
+                    } else if ("3".equals(status)) {
+                        // 评审结束
+                        if (1 == packageExpert.getIsGather() && 1 == packageExpert.getIsGatherGather()) {
+                            projectList.add(projectExtList.get(i));
+                        }
+                    } else {
+                        return projectExtList;
+                    }
+                }
+            }
+            return projectList;
+        }
     }
     
 }

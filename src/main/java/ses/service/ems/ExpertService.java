@@ -1,5 +1,6 @@
 package ses.service.ems;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +15,8 @@ import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
+import bss.model.ppms.Packages;
+import bss.model.ppms.ext.ProjectExt;
 
 
 /**
@@ -367,4 +370,13 @@ public interface ExpertService {
      * @return
      */
     List<Category> searchByName(String cateName);
+    
+    /**
+     *〈简述〉专家后台评审页面分页展示
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param packageList
+     * @return
+     */
+    List<ProjectExt> getProjectExtList(List<Packages> packageList, String expertId, String status, Integer pageNum) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException ;
 }

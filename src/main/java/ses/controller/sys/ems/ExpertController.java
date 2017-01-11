@@ -68,6 +68,7 @@ import ses.model.ems.ExpertCategory;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
+import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -1788,107 +1789,99 @@ public class ExpertController extends BaseController {
      * @return String
      */
     @RequestMapping("projectList")
-    public String toProjectList(Model model, HttpSession session, String projectId) {
+    public String toProjectList(Model model, HttpSession session, String projectId, String projectName, String status, Integer pageNum) {
         try {
             User user = (User) session.getAttribute("loginUser");
             // 判断用户的类型为专家类型
             if (user != null) {
                 // 获取专家id
                 String typeId = user.getTypeId();
+                model.addAttribute("expertId", typeId);
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("expertId", typeId);
-                Expert expert = service.selectByPrimaryKey(typeId);
-                model.addAttribute("expert", expert);
-                // map.put("isAudit", 0);
-                //map.put("isGather", 0);
                 // 查询出关联表中的项目id和包id
-                List<PackageExpert> pel = packageExpertService.selectList(map);
-                List<PackageExpert> packageExpertList = new ArrayList<PackageExpert>();
-                for (PackageExpert packageExpert : pel) {
-                    //if (packageExpert.getProjectId().equals(projectId)){
-                    packageExpertList.add(packageExpert);
-                    //}
-                }
-                HashMap<String, Object> hashMap;
+                List<PackageExpert> packageExpertList = packageExpertService.selectList(map);
                 // 该专家的所有包集合
+                HashMap<String, Object> hashMap;
                 List<Packages> packageList = new ArrayList<Packages>();
                 for (PackageExpert packageExpert : packageExpertList) {
                     // 包id
                     String string = packageExpert.getPackageId();
                     hashMap = new HashMap<String, Object>();
                     hashMap.put("id", string);
-                    List<Packages> packages = packageService.findPackageById(hashMap);
+                    hashMap.put("projectId", projectId);
+                    hashMap.put("projectName", projectName);
+                    List<Packages> packages = packageService.selectPackageById(hashMap);
                     if (packages != null && packages.size() > 0) {
                         packageList.add(packages.get(0));
                     }
                 }
-                //包按创建时间排序
-                ListSort(packageList);
-                
+                List<ProjectExt> projectExtList = new ArrayList<ProjectExt>();
                 // 循环包集合 根据包中的项目id 查询出项目集合
                 if (packageList != null && packageList.size() > 0) {
-                    List<ProjectExt> projectExtList = new ArrayList<ProjectExt>();
-                    ProjectExt projectExt;
-                    for (Packages packages : packageList) {
-                        projectExt = new ProjectExt();
-                        Project project = projectService.selectById(packages.getProjectId());
-                        PropertyUtils.copyProperties(projectExt, project);
-                        projectExt.setPackageId(packages.getId());
-                        projectExt.setPackageName(packages.getName());
-                        //进度
-                        Map<String, Object> map2 = new HashMap<String, Object>();
-                        //map2.put("projectId", projectId);
-                        map2.put("packageId", packages.getId());
-                        //查询该包有没有评审进度数据
-                        List<ReviewProgress> rplist = reviewProgressService.selectByMap(map2);
-                        if (rplist == null || rplist.size() <= 0) {
-                            ReviewProgress reviewProgress = new ReviewProgress();
-                            reviewProgress.setAuditStatus("0");
-                            reviewProgress.setFirstAuditProgress(0.00);
-                            reviewProgress.setPackageId(packages.getId());
-                            reviewProgress.setPackageName(packages.getName());
-                            reviewProgress.setProjectId(projectId);
-                            reviewProgress.setScoreProgress(0.00);
-                            reviewProgress.setTotalProgress(0.00);
-                            projectExt.setReviewProgress(reviewProgress);
-                        } else {
-                            projectExt.setReviewProgress(rplist.get(0));
-                        }
-                        Map<String, Object> map3 = new HashMap<String, Object>();
-                        map3.put("projectId", projectId);
-                        //查询出关联表中包下已评审的数据
-                        List<PackageExpert> packageExpertList2 = packageExpertService.selectList(map2);
-                        projectExt.setPackageExperts(packageExpertList2);
-                        projectExtList.add(projectExt);
-                        model.addAttribute("projectExtList", projectExtList);
-                    }
+                    projectExtList = service.getProjectExtList(packageList, typeId, status, pageNum == null ? 1 : pageNum);
                 }
+                // 排序
+                Collections.sort(projectExtList, new Comparator<ProjectExt>() {  
+                    public int compare(ProjectExt pro1, ProjectExt pro2) {  
+                        // 按照SupplierFinance的年份进行升序排列  
+                        if(pro1.getBidDate().getTime() > pro2.getBidDate().getTime()) {  
+                            return -1;  
+                        }  
+                        if(pro1.getBidDate().getTime() == pro2.getBidDate().getTime()) {  
+                            return 0;  
+                        } else {  
+                            return 1;
+                        }
+                    }  
+                });
+                PageInfo<ProjectExt> pageInfo = new PageInfo<ProjectExt>(projectExtList);
+                model.addAttribute("projectExtList", pageInfo);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
+        // 查询条件回显
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("projectName", projectName);
+        model.addAttribute("status", status);
         return "bss/prms/audit/list";
     }
     
-    private void ListSort(List<Packages> packageList) {
-      Collections.sort(packageList, new Comparator<Packages>() {
-          @Override
-          public int compare(Packages o1, Packages o2) {
-              try {
-                  if (o1.getCreatedAt().getTime() > o2.getCreatedAt().getTime()) {
-                      return 1;
-                  } else if (o1.getCreatedAt().getTime() < o2.getCreatedAt().getTime()) {
-                      return -1;
-                  } else {
-                      return 0;
-                  }
-              } catch (Exception e) {
-                  e.printStackTrace();
-              }
-              return 0;
-          }
-      });
+    /**
+     *〈简述〉异步获取评分类型
+     *〈详细描述〉符合性资格性审查,经济技术评审,以及其他不满足条件的情况
+     * @author WangHuijie
+     * @param packageId 包编号
+     * @param expertId 专家编号
+     * @return 1--符合性资格性审查    2--经济技术评审
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getReviewType", produces = "text/html;charset=utf-8")
+    public String getReviewType (String packageId, String expertId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("packageId", packageId);
+        map.put("expertId", expertId);
+        List<PackageExpert> packageExpertList = packageExpertService.selectList(map);
+        if (packageExpertList != null && packageExpertList.size() > 0) {
+            PackageExpert packageExpert = packageExpertList.get(0);
+            if (packageExpert.getIsAudit() == 0 || packageExpert.getIsAudit() == 2) {
+                return "1";
+            } else if (packageExpert.getIsAudit() == 1 && packageExpert.getIsGather() == 0) {
+                return "该包符合性审查未结束";
+            } else if (packageExpert.getIsAudit() == 1 && packageExpert.getIsGather() == 1 && (packageExpert.getIsGrade() == 0 || packageExpert.getIsGrade() == 2)) {
+                return "2";
+            } else if (packageExpert.getIsGrade() == 1 && packageExpert.getIsGather() == 1 && packageExpert.getIsGatherGather() == 0) {
+                return "该包经济技术评审未结束";
+            } else if (packageExpert.getIsGather() == 1 && packageExpert.getIsGatherGather() == 1) {
+                return "该包已结束评审!";
+            } else {
+                return "该包数据异常,暂时无法进行评审!";
+            }
+        } else {
+            return "该包数据异常,暂时无法进行评审!";
+        }
     }
     
     /**
