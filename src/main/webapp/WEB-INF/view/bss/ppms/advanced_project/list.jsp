@@ -227,7 +227,7 @@
 			<th class="info">项目编号</th>
 			<th class="info">采购方式</th>
 			<th class="info">项目状态</th>
-			<th class="info">项目承办人</th>
+			<th class="info">项目负责人</th>
 		  </tr>
 		</thead>
 		<tbody id="tbody_id">

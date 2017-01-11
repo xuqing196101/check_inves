@@ -6,6 +6,8 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js" ></script>
     <script type="text/javascript">
       //勾选明细
       function check(ele) {
@@ -41,7 +43,7 @@
           }
         });
       }
-
+      
 
       function save() {
         var checkIds = [];
@@ -121,12 +123,8 @@
     <div class="container">
 
       <!-- 项目戳开始 -->
-      <div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows save" type="button" onclick="save()">确定</button>
-        <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
-      </div>
-      <div class="content table_box over_scroll">
-        <table id="table" class="table table-bordered table-condensed table-hover table_wrap left_table">
+      <div class="content" id="content">
+        <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
           <thead>
             <tr class="info">
               <th class="w30">选择</th>
@@ -221,6 +219,10 @@
             </c:forEach>
           </tbody>
         </table>
+        <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
+          <button class="btn btn-windows save" type="button" onclick="save()">确定</button>
+          <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
+        </div>
       </div>
     </div>
 

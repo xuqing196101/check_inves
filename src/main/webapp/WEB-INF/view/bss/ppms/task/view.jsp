@@ -5,7 +5,8 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
-
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
     
     
 <script type="text/javascript"></script>
@@ -49,7 +50,7 @@
               </tbody>       
             </table>     
             <h2 class="count_flow jbxx">需求明细查看</h2>
-            <div class="content over_scroll">
+            <div class="content" id="content">
               <table id="table" class="table table-bordered table-condensed table-hover table-striped table_wrap">  
                 <thead>
 				  <tr>

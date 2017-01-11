@@ -267,10 +267,6 @@ public class ProjectController extends BaseController {
           //根据采购明细ID，获取项目明细
           Task task = taskservice.selectById(projectId);
           List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId());
-          for (PurchaseDetail required : listp) {
-              Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getDepartment());
-              model.addAttribute("orgnization", orgnization);
-          }
           List<PurchaseDetail> list1=new ArrayList<PurchaseDetail>();
           for(int i=0;i<listp.size();i++){
               if(listp.get(i).getPrice() != null){
@@ -1663,6 +1659,7 @@ public class ProjectController extends BaseController {
                             }
                             double money = budget;
                             showDetails.get(j).setBudget(money);
+                            showDetails.get(j).setDetailStatus(0);
                         }
 //                        if(showDetails.get(j).getDepartment()!=null){
 //                          Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(showDetails.get(j).getDepartment());
@@ -1757,6 +1754,7 @@ public class ProjectController extends BaseController {
                         }
                         double money = budget;
                         newDetails.get(i).setBudget(money);
+                        newDetails.get(i).setDetailStatus(0);
                     }
                     if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
 //                      String ids = "";

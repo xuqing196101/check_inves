@@ -122,7 +122,7 @@
          var talks = $("#talks"+id).val();
          var supperName = $("#supperName"+id).val();
 	       window.location.href = "${pageContext.request.contextPath}/open_bidding/educes.html?projectId="
-	       +projectId+"&reviewTime="+reviewTime+"&reviewSite="+reviewSite+"&finalOffer="+finalOffer+"&talks="+talks+"&supperName="+supperName;
+	       +projectId+"&reviewTime="+reviewTime+"&reviewSite="+reviewSite+"&finalOffer="+finalOffer+"&talks="+talks+"&supperName="+supperName+"&packageId="+id;
 	    }
 	    
 	    function ycDiv(obj, index) {
@@ -216,9 +216,9 @@
                     </tr>
                     <tr>
                       <td class="bggrey" colspan="2">成交供应商:</td>
-                      <td class="p0" ><input name="nuter" id="supperName${list.id}"  type="text" class="m0" value="${list.supplierList[0].supplier.relName }"/></td>
+                      <td class="p0" ><input name="nuter" id="supperName${list.id}"  type="text" class="m0" value="${list.supplierList[0].supplier.supplierName}"/></td>
                       <td class="bggrey">报价:</td>
-                      <td class="p0"><input name="finalOffer" id="finalOffer${list.id}" value="${list.negotiationReport.finalOffer}" type="text" class="m0" /></td>
+                      <td class="p0"><input name="finalOffer" id="finalOffer${list.id}" value="${list.supplierList[0].totalPrice}" type="text" class="m0" /></td>
                       <u:upload id="uu${vs.index}"  auto="true"  businessId="${list.id}" typeId="${dataId}" sysKey="2" />
                       <u:show showId="ss${vs.index}"  businessId="${list.id}" sysKey="2" typeId="${dataId}" /> 
                     </tr>

@@ -285,7 +285,7 @@
 				<th>采购方式</th>
 				<th>创建时间</th>
 				<th>项目状态</th>
-				<th>项目承办人</th>
+				<th>项目负责人</th>
 		  </tr>
 		</thead>
 		<tbody id="tbody_id">

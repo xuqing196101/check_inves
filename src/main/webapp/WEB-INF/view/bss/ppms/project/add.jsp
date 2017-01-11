@@ -6,6 +6,8 @@
 
   <head>
   	<%@ include file="/WEB-INF/view/common.jsp"%>
+  	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js" ></script>
     <script type="text/javascript">
       /*分页  */
       $(function() {
@@ -34,13 +36,9 @@
           }
         });
         
-         var row = $("#table tr").length;
-        if(row == 1) {
-          $("table#table").find("tr:eq('0')").remove();
-          $("#remove").addClass("hide");
-        }
         
       });
+      
 
       function checkInfo(ele) {
         var flag = $(ele).prop("checked");
@@ -87,7 +85,7 @@
       function back() {
         window.location.href = "${pageContext.request.contextPath}/project/list.html";
       };
-
+      
       //获取采购明细
       function chooce(projectId, id, name, projectNumber) {
         var name = $("#name").val();
@@ -108,7 +106,7 @@
           success: function(data) {
             var datas = eval("(" + data + ")");
             if(datas == false) {
-              $("#sps").html("已存在").css('color', 'red');
+              $("#sps").html("项目编号已存在").css('color', 'red');
               flag = false;
             } else {
               $("#sps").html("");
@@ -122,12 +120,35 @@
         var num = "1";
         var name = $("#name").val();
         var projectNumber = $("#projectNumber").val();
+        var chkItems = $("input[name='chkItems']").val();
+        chkItems = $.trim(chkItems);
         if(name == "") {
           layer.tips("项目名称不允许为空", "#name");
         } else if(projectNumber == "") {
           layer.tips("项目编号不允许为空", "#projectNumber");
+        }else if(!chkItems){
+          layer.alert("请选择明细");
         } else {
-          window.location.href = "${pageContext.request.contextPath }/project/nextStep.html?id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber+"&num="+num;
+          if(flag == true){
+            $.ajax({
+		          url: "${pageContext.request.contextPath}/project/verify.html",
+		          type: "post",
+		          data: "projectNumber=" + projectNumber,
+		          dataType: "json",
+		          success: function(data) {
+		            var datas = eval("(" + data + ")");
+		            if(datas == false) {
+		              layer.alert("项目编号已存在");
+		              flag = false;
+		            } else {
+		              $("#sps").html("");
+		              flag = true;
+		              window.location.href = "${pageContext.request.contextPath }/project/nextStep.html?id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber+"&num="+num;
+		            }
+		          },
+		        });
+          }
+         
         }
       }
       
@@ -261,12 +282,13 @@
               </table>
               <div id="pagediv" align="right"></div>
             </div>
-
+  
             <div id="hide_detail">
-              <div id="remove" class="col-md-12 pl20 mt10">
+              <c:if test="${lists != null}">
+              <div id="remove" class="col-md-12 mb5 p0 mt10">
                 <button class="btn" type="button" onclick="remove()">移除</button>
               </div>
-              <div class="content table_box over_scroll">
+              <div class="content" id="content">
                 <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
                   <thead>
                     <tr class="info">
@@ -278,8 +300,6 @@
                       <th>质量技术标准</th>
                       <th>计量单位</th>
                       <th>采购数量</th>
-                      <th>单价（元）</th>
-                      <th>预算金额（万元）</th>
                       <th>交货期限</th>
                       <th>采购方式</th>
                       <th>供应商名称</th>
@@ -310,10 +330,6 @@
                       </td>
                       <td class="tc">${obj.purchaseCount}
                       </td>
-                      <td class="tc">${obj.price}
-                      </td>
-                      <td class="tc">${obj.budget}
-                      </td>
                       <td class="tc">${obj.deliverDate}
                       </td>
                       <td class="tc">
@@ -343,6 +359,7 @@
                   </c:forEach>
                 </table>
               </div>
+              </c:if>
             </div>
           </div>
         </div>

@@ -6,6 +6,8 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
 		<script type="text/javascript">
 			var clickState = 0;
 			$(function() {
@@ -499,8 +501,8 @@
 			</div>
 
 			<c:if test="${!empty list}">
-				<div class="content table_box" id="package">
-					<table id="table" class="table table-bordered table-condensed table-hover table-striped">
+				<div class="content" id="content">
+					<table id="table" class="table table-bordered table-condensed table-hover table_wrap">
 						<thead>
 							<tr class="info">
 								<th class="w30"><input type="checkbox" id="selectAll" onclick="selectAll()"></th>
@@ -537,9 +539,16 @@
 								<td>${obj.budget}</td>
 								<td>${obj.deliverDate}</td>
 								<td>
-									<c:forEach items="${kind}" var="kind">
-										<c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-									</c:forEach>
+								  <c:choose>
+              <c:when test="${obj.detailStatus==0 }">
+              
+              </c:when>
+              <c:otherwise>
+                    <c:forEach items="${kind}" var="kind" >
+                       <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                    </c:forEach>
+              </c:otherwise>
+            </c:choose>
 								</td>
 								<td>${obj.supplier}</td>
 								<c:if test="${project.isImport==1 }">
@@ -569,7 +578,7 @@
 						<input type="hidden" value="${pack.id }" />
 					</div>
 
-					<table id="table" class="table table-bordered table-condensed table-hover" id="show${p.index }">
+					<table class="table table-bordered table-condensed table-hover" id="show${p.index }">
 						<thead>
 							<tr class="info">
 								<th class="w50">选择</th>
@@ -608,9 +617,16 @@
 								<td>${obj.budget}</td>
 								--%><td>${obj.deliverDate}</td>
 								<td>
-									<c:forEach items="${kind}" var="kind">
-										<c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-									</c:forEach>
+								   <c:choose>
+              <c:when test="${obj.detailStatus==0 }">
+              
+              </c:when>
+              <c:otherwise>
+                    <c:forEach items="${kind}" var="kind" >
+                       <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                    </c:forEach>
+              </c:otherwise>
+            </c:choose>
 								</td>
 								<td>${obj.supplier}</td>
 								<c:if test="${pack.isImport==1 }">
@@ -679,9 +695,16 @@
 							<td>${obj.budget}</td>
 							<td>${obj.deliverDate}</td>
 							<td>
-								<c:forEach items="${kind}" var="kind">
-									<c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-								</c:forEach>
+								<c:choose>
+              <c:when test="${obj.detailStatus==0 }">
+              
+              </c:when>
+              <c:otherwise>
+                    <c:forEach items="${kind}" var="kind" >
+                       <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                    </c:forEach>
+              </c:otherwise>
+            </c:choose>
 							</td>
 							<td>${obj.supplier}</td>
 							<c:if test="${project.isImport==1 }">

@@ -1172,7 +1172,39 @@ public class OpenBiddingController {
             quote.setDeliveryTime(URLDecoder.decode(deliveryTime, "UTF-8"));
         }
         quoteList.add(quote);
-        supplierQuoteService.insert(quoteList);    
+        supplierQuoteService.insert(quoteList);  
+        Project project = projectService.selectById(projectId);
+        if(project != null){
+            DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+            if("DYLY".equals(findById.getCode())){
+                SupplierCheckPass pass = new SupplierCheckPass();
+                pass.setPackageId(packageId);
+                List<SupplierCheckPass> listCheckPass = supplierCheckPassService.listCheckPass(pass);
+                if(listCheckPass != null && listCheckPass.size() > 0){
+                    for (SupplierCheckPass supplierCheckPass : listCheckPass) {
+                        if(supplierCheckPass != null){
+                            supplierCheckPassService.delete(supplierCheckPass.getId());
+                        }
+                    }
+                    
+                }
+                
+                SupplierCheckPass record = new SupplierCheckPass();
+                record.setId(WfUtil.createUUID());
+                record.setPackageId(packageId);
+                record.setProjectId(projectId);
+                record.setSupplierId(supplierId);
+                record.setTotalPrice(total);
+                record.setRanking(1);
+                record.setIsWonBid((short)1);
+                SupplierCheckPass checkPass = new SupplierCheckPass();
+                checkPass.setPackageId(packageId);
+                supplierCheckPassService.insert(record);
+                
+                
+                
+            }
+        }
        /* if (quoteId == null || "".equals(quoteId)) {
             supplierQuoteService.insert(quoteList);    
         } else {
@@ -1453,23 +1485,6 @@ public class OpenBiddingController {
             quote2.setCreatedAt(new Timestamp(listDate1.get(listDate1.size()-1).getTime()));
             listQuotebyPackage1 = supplierQuoteService.selectQuoteHistoryList(quote2);
             
-            
-            Project project = projectService.selectById(projectId);
-            if(project != null){
-                DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
-                if("DYLY".equals(findById.getCode())){
-                    SupplierCheckPass record = new SupplierCheckPass();
-                    record.setId(WfUtil.createUUID());
-                    record.setPackageId(packId);
-                    record.setProjectId(projectId);
-                    record.setSupplierId(listQuotebyPackage1.get(0).getSupplierId());
-                    record.setTotalPrice(listQuotebyPackage1.get(0).getQuotePrice());
-                    record.setRanking(1);
-                    SupplierCheckPass checkPass = new SupplierCheckPass();
-                    checkPass.setPackageId(packId);
-                    supplierCheckPassService.insert(record);
-                }
-            }
         } 
         //再次点击 查看
         for (SaleTender saleTender : stList) {
@@ -2048,7 +2063,6 @@ public class OpenBiddingController {
             Map<String, Object> map2 = new HashMap<String, Object>();
             map2.put("projectId", projectId);
             List<PackageExpert> expertSigneds = packageExpertService.selectList(map2);
-            List<Packages> listSupplierCheckPass = packageService.listSupplierCheckPass(projectId);
             if (expertSigneds != null && expertSigneds.size() > 0) {
                 List<Packages> packages = packageService.listProjectExtract(projectId);
                 for (int i = 0; i < packages.size(); i++ ) {
@@ -2063,12 +2077,6 @@ public class OpenBiddingController {
                         packages.get(i).setSupplierList(new ArrayList<SupplierCheckPass>());
                     }
                     
-                   /* if(listSupplierCheckPass.size() >0){
-                        SaleTender saleTender = new SaleTender();
-                        saleTender.setSuppliers(listSupplierCheckPass.get(i).getSupplierList().get(i).getSupplier());
-                        BigDecimal ranks = packageExpertService.ranks(saleTender, projectId, packages.get(i).getId());
-                        System.out.println(ranks);
-                    }*/
                     if (report != null) {
                         packages.get(i).setNegotiationReport(report);
                     }else{
@@ -2079,7 +2087,7 @@ public class OpenBiddingController {
                 model.addAttribute("expertSigneds", expertSigneds);
                 model.addAttribute("packages", packages);
                 model.addAttribute("project", project);
-                model.addAttribute("listSupplier", listSupplierCheckPass);
+                model.addAttribute("projectId", projectId);
                 model.addAttribute("flowDefineId", flowDefineId);
             }
         }
@@ -2128,16 +2136,38 @@ public class OpenBiddingController {
     }
     
     @RequestMapping("/educes")
-    public ResponseEntity<byte[]> educes(String projectId, String reviewTime, String reviewSite, String finalOffer, String talks, HttpServletRequest request) throws Exception{
+    public ResponseEntity<byte[]> educes(String projectId, String reviewTime, String reviewSite, String finalOffer, String talks, String supperName, String packageId, HttpServletRequest request) throws Exception{
         Project project = projectService.selectById(projectId);
         Map<String, Object> map2 = new HashMap<String, Object>();
         map2.put("projectId", projectId);
+        map2.put("packageId", packageId);
         List<PackageExpert> expertSigneds = packageExpertService.selectList(map2);
+        if (expertSigneds != null && expertSigneds.size() > 0) {
+            List<Packages> packages = packageService.listProjectExtract(projectId);
+            for (int i = 0; i < packages.size(); i++ ) {
+                NegotiationReport report =  reportService.selectByPackageId(packages.get(i).getId());
+                SupplierCheckPass checkPass = new SupplierCheckPass();
+                checkPass.setIsWonBid((short)1);
+                checkPass.setPackageId(packages.get(i).getId());
+                List<SupplierCheckPass> listCheckPass = supplierCheckPassService.listCheckPass(checkPass);
+                if(listCheckPass != null && listCheckPass.size() > 0){
+                    packages.get(i).setSupplierList(listCheckPass);
+                }else{
+                    packages.get(i).setSupplierList(new ArrayList<SupplierCheckPass>());
+                }
+                
+                if (report != null) {
+                    packages.get(i).setNegotiationReport(report);
+                }else{
+                    packages.get(i).setNegotiationReport(new NegotiationReport());
+                }
+            }
+        }
         String downFileName = null;
         // 文件存储地址
         String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
-        String fileName = createWordMethods(project, reviewTime, reviewSite, finalOffer, talks, expertSigneds,request);
-        downFileName = new String("谈判记录表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
+        String fileName = createWordMethods(project, reviewTime, reviewSite, finalOffer, talks, supperName, expertSigneds, request);
+        downFileName = new String("谈判报告表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
         return projectService.downloadFile(fileName, filePath, downFileName);
     }
     
@@ -2181,7 +2211,7 @@ public class OpenBiddingController {
     
     }
     
-    private String createWordMethods(Project project, String reviewTime, String reviewSite, String finalOffer, String talks, List<PackageExpert> selectList, HttpServletRequest request) throws Exception {
+    private String createWordMethods(Project project, String reviewTime, String reviewSite,String supperName, String finalOffer, String talks, List<PackageExpert> selectList, HttpServletRequest request) throws Exception {
         Date date = new Date(); 
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {   
@@ -2195,14 +2225,15 @@ public class OpenBiddingController {
         dataMap.put("projectNumber", project.getProjectNumber() == null ? "" : project.getProjectNumber());
         dataMap.put("date", date == null ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
         dataMap.put("reviewSite", reviewSite == null ? "" : reviewSite);
-        dataMap.put("net", finalOffer == null ? "" : finalOffer);
-        dataMap.put("net", talks == null ? "" : talks);
-        dataMap.put("selectList", selectList == null ? "" : selectList);
+        dataMap.put("finalOffer", finalOffer == null ? "" : finalOffer);
+        dataMap.put("talks", talks == null ? "" : talks);
+        dataMap.put("expertSigneds", selectList == null ? "" : selectList);
+        dataMap.put("supplierName", supperName == null ? "" : supperName);
         String newFileName = null;
         // 文件名称
-        String fileName = new String(("谈判记录表.doc").getBytes("UTF-8"), "UTF-8");
+        String fileName = new String(("谈判报告表.doc").getBytes("UTF-8"), "UTF-8");
         /** 生成word 返回文件名 */
-        newFileName = WordUtil.createWord(dataMap, "negotiation.ftl", fileName, request);
+        newFileName = WordUtil.createWord(dataMap, "report.ftl", fileName, request);
         return newFileName;
     
     }

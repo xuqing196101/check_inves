@@ -302,9 +302,9 @@
                       <td class="p0"><input name="name" class="m0" id="name" value="${project.name}" type="text"/><input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}" /></td>
                     </tr>
                     <tr>
-                      <td class="bggrey">项目经办人:</td>
+                      <td class="bggrey">项目负责人:</td>
                      <td class="p0"><input type="hidden" name="userId" id="userId" value="${project.principal}"/><select id="principal" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select></td>
-                      <td class="bggrey">承办人手机:</td>
+                      <td class="bggrey">负责人手机:</td>
                       <td class="p0"><input name="ipone" id="ipone" class="m0" value="${project.ipone}" type="text"/></td>
                     </tr>
                     <tr>
