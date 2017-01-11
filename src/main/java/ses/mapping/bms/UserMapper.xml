@@ -807,7 +807,10 @@
 		WHERE
 		    u.IS_DELETED = 0
         <if test="code != null and code != ''">
-           AND r.code = #{code}
+           AND r.CODE = #{code}
+        </if>
+        <if test="id != null and id != ''">
+           AND r.ID = #{id}
         </if>
     </select>
     

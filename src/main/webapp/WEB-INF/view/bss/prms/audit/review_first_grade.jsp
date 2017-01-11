@@ -306,7 +306,7 @@ $(document).ready(function () {
 					 	    <c:choose>
 					 	      <c:when test="${score.typeName == '0'}">
 					 	        <td class="p0">
-					 	          <select name="expertValue" title="单位:${score.unit}" class="m0"
+					 	          <select name="expertValue" title="单位:${score.unit}" class="target"
 					 	           onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	          >
 					 	            <option value=""></option>
@@ -325,7 +325,7 @@ $(document).ready(function () {
 					 	      </c:when>
 					 	      <c:when test="${score.typeName == '8'}">
 					 	        <td class="p0">
-					 	          <select name="expertValue" title="单位:${score.unit}" class="m0"
+					 	          <select name="expertValue" title="单位:${score.unit}" class="target"
 					 	           onchange="audit(this,'${score.id}','${supplier.suppliers.id}','${score.typeName}','${score.markTermId}','')"
 					 	          >
 					 	            <option value=""></option>

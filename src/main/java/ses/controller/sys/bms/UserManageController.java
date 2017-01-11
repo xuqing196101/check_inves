@@ -937,4 +937,26 @@ public class UserManageController extends BaseController{
         response.getWriter().close();
       }
   }
+	
+	@RequestMapping("/listByRole")
+	public String listByRole(Model model, User user, String rId, Integer page){
+	  if (rId != null && !"".equals(rId)) {
+	    user.setRoleId(rId);
+	    List<String> rIds = new ArrayList<String>();
+	    rIds.add(rId);
+      user.setRoleIdList(rIds);
+    }
+    List<User> users = userService.findUserRole(user, page == null ? 1 : page);
+    Role role = new Role();
+    List<Role> roles = roleService.find(role);
+    for (User u : users) {
+      List<Role> roles2 = roleService.selectByUserId(u.getId());
+      u.setRoles(roles2);
+    }
+    model.addAttribute("roles", roles);
+    model.addAttribute("list", new PageInfo<User>(users));
+    model.addAttribute("user", user);
+    model.addAttribute("rid", rId);
+    return "ses/bms/role/user_list";
+	}
 }

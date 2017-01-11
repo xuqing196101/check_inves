@@ -60,6 +60,8 @@ public class Role implements Serializable{
     
     /** 包含菜单 */
     private List<PreMenu> preMenus;
+    
+    private Integer userNumber;
 
     public List<User> getUsers() {
 		return users;
@@ -147,6 +149,14 @@ public class Role implements Serializable{
 
     public void setKind(String kind) {
         this.kind = kind;
+    }
+
+    public Integer getUserNumber() {
+      return userNumber;
+    }
+
+    public void setUserNumber(Integer userNumber) {
+      this.userNumber = userNumber;
     }
     
 }

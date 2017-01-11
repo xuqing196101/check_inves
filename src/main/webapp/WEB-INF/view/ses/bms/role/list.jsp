@@ -239,7 +239,7 @@
 				    	<label class="fl">状态：</label>
                         <span>
 					        <select name="status" class="w178">
-					        	<option value="">请选择</option>
+					        	<option value="">全部</option>
 					        	<option value="0" <c:if test="${'0' eq role.status}">selected</c:if>>启用</option>
 					        	<option value="1" <c:if test="${'1' eq role.status}">selected</c:if>>禁用</option>
 					        </select>
@@ -274,7 +274,8 @@
 						<th class="info">状态</th>
 						<th class="info">唯一编码</th>
 						<th class="info">所属后台</th>
-						<th class="info">描述</th>
+						<th class="info w450">描述</th>
+						<th class="info">用户数量</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -306,6 +307,7 @@
 		                   		<input type="hidden" value="${rkind}">
 							</td>
 							<td class="tl pl20">${role.description}</td>
+							<td class="tc"><a href="${pageContext.request.contextPath}/user/listByRole.do?rId=${role.id}" title="用户列表">${role.userNumber}</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
