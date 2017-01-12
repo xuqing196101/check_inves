@@ -2702,4 +2702,37 @@ h2.list_title{
     font-weight: bold;
     color: #ff6600;
 }
+
+/*tab_repair*/
+.tab_repair .fades{
+	background-color: #fafafa;
+	z-index:-99999;
+	overflow: hidden;
+	padding-bottom: 45px;
+	padding-top: 15px;
+	overflow: hidden;
+	padding-left:1%;
+	padding-right:1%;
+	width:100%;
+	opacity:0;
+	filter:alpha(opacity=0); 
+    -moz-opacity:0;  
+    -khtml-opacity:0; 
+}
+
+.tab_repair{
+	overflow: hidden;
+	background-color: #fafafa;
+	min-height:1100px;
+}
+.tab_repair .fades.active{
+	z-index:1000000;
+	opacity:1;
+	filter:alpha(opacity=100); 
+    -moz-opacity:1;  
+    -khtml-opacity:1; 
+    background-color:#fafafa; 
+    background-color: #fafafa\9;
+    display: block;
+    overflow: hidden;
 }

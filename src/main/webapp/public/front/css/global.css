@@ -949,6 +949,7 @@ li:first-child {
 	box-shadow: 0px -1px 4px #ddd;
 	height: 60px;
 	border-top: 1px solid #dadada;
+	z-index:1000000;
 }
 .border_font{
     background-color:#ffffff;

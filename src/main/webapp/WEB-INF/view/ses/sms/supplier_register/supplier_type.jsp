@@ -75,26 +75,26 @@
  function loadTab(val){
 	 initTabTitleCss();
 	 $("#tab_content_div_id").find(".tab-pane").each(function(index) {
-		 $("#production_div").attr("class", "tab-pane fade");
-		 $("#sale_div").attr("class", "tab-pane fade");
-		 $("#project_div").attr("class", "tab-pane fade ");
-		 $("#server_div").attr("class", "tab-pane fade ");
+		 $("#production_div").attr("class", "tab-pane fades");
+		 $("#sale_div").attr("class", "tab-pane fades");
+		 $("#project_div").attr("class", "tab-pane fades ");
+		 $("#server_div").attr("class", "tab-pane fades ");
 		 
 		 if (val == 'PRODUCT') {
 			 $("#productId").addClass("active");
-			 $("#production_div").attr("class", "tab-pane fade active in");
+			 $("#production_div").attr("class", "tab-pane fades active in");
 		 }
 		 if (val == 'SALES') {
 			 $("#salesId").addClass("active");
-			 $("#sale_div").attr("class", "tab-pane fade active in");
+			 $("#sale_div").attr("class", "tab-pane fades active in");
 		 } 
 		 if (val == 'PROJECT') {
 			 $("#projectId").addClass("active");
-		 	 $("#project_div").attr("class", "tab-pane fade active in");
+		 	 $("#project_div").attr("class", "tab-pane fades active in");
 		 } 
 		 if (val == 'SERVICE') {
 			 $("#serviceId").addClass("active");
-			 $("#server_div").attr("class", "tab-pane fade active in");
+			 $("#server_div").attr("class", "tab-pane fades active in");
 		 } 
 		});
  }
@@ -527,34 +527,34 @@ $(function(){
 					            if(arrays[i]==checkValue){
 				                      $(checkbox).attr("checked",true);
 				                      if(arrays[i]!='PROJECT'){
-					                     $("#project_div").attr("class", "dis_none fade ");
+					                     $("#project_div").attr("class", "dis_none fades ");
 					                  }
 				                      if(arrays[i]!='PRODUCT'){
-				                    	  $("#production_div").attr("class", "dis_none fade ");
+				                    	  $("#production_div").attr("class", "dis_none fades ");
 				                      }
 				                      if(arrays[i]!='SALES'){
-					                      $("#sale_div").attr("class", "dis_none fade ");
+					                      $("#sale_div").attr("class", "dis_none fades ");
 					                  }
 				                      if(arrays[i]!='SERVICE'){
-				                          $("#server_div").attr("class", "dis_none fade ");
+				                          $("#server_div").attr("class", "dis_none fades ");
 				                      }
 				                      
 				                      if(arrays[i]=='PRODUCT'){
 				                    		$("#productId").show();
-				                    		$("#production_div").attr("class", "fade active in");
+				                    		$("#production_div").attr("class", "fades active in");
 				                    	  
 				                      }
 				                      else if(arrays[i]=='SALES'){
 				                        $("#salesId").show();
-				                    	$("#sale_div").attr("class", "fade active in");
+				                    	$("#sale_div").attr("class", "fades active in");
 				                      }
 				                      else if(arrays[i]=='PROJECT'){
 				                    	  $("#projectId").show();
-				                    	  $("#project_div").attr("class", "fade active in");
+				                    	  $("#project_div").attr("class", "fades active in");
 				                      }
 				                        else  if(arrays[i]=='SERVICE'){
 				                    		 $("#serviceId").show();
-				                    	 	$("#server_div").attr("class", "fade active in");
+				                    	 	$("#server_div").attr("class", "fades active in");
 				                      }
 				                      checkedArray.push(arrays[i]);     
 				               }
@@ -700,6 +700,7 @@ $(function(){
 			var msg = msg.substring(0, msg.length - 1);
 			layer.msg(msg + "不能为空!");
 		}
+
 		$("#page_ul_id").find("li").click(function() {
 			var id = $(this).attr("id");
 			var page = "tab-" + id.charAt(id.length - 1);
@@ -720,9 +721,9 @@ $(function(){
 			$("#tab_content_div_id").find(".tab-pane").each(function() {
 				var id = $(this).attr("id");
 				if (id == defaultPage) {
-					$(this).attr("class", "tab-pane fade active in");
+					$(this).attr("class", "tab-pane fades active in");
 				} else {
-					$(this).attr("class", "tab-pane fade ");
+					$(this).attr("class", "tab-pane fades ");
 				}
 			});
 		} else {
@@ -735,9 +736,9 @@ $(function(){
 			});
 			$("#tab_content_div_id").find(".tab-pane").each(function(index) {
 				if (index == 0) {
-					$(this).attr("class", "tab-pane fade active in");
+					$(this).attr("class", "tab-pane fades active in");
 				} else {
-					$(this).attr("class", "tab-pane fade ");
+					$(this).attr("class", "tab-pane fades ");
 				}
 			});
 		}
@@ -814,10 +815,9 @@ $(function(){
 		
 	
 						
-	  <div class="container content height-350" id="tab_div" style="display:none;">
-			<div class="row magazine-page">
-				<div class="col-md-12 tab-v2 job-content">
-					<div class="padding-top-10">
+	  <div class="container" id="tab_div" style="display:none;">
+			<div class="overflow_h magazine-page">
+				<div class="col-md-12 col-sm-12 col-xs-12 p0 tab-v2 job-content">
 					   <ul id="page_ul_id" class="nav nav-tabs supplier_tab">
 							 <li id="productId" style="display:none;" ><a aria-expanded="true" href="#production_div" data-toggle="tab" class=" f18">物资-生产型专业信息</a></li>
 							 <li id="salesId" style="display:none;" ><a aria-expanded="false" href="#sale_div" data-toggle="tab" class="f18">物资-销售型专业信息</a></li>
@@ -835,7 +835,7 @@ $(function(){
 				            <div id="tab_content_div_id" class="tab-content p0 bgwhite border0 tab_repair">
 						<!-- 物资生产型专业信息 -->
 			         <%--  <c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}"> --%>
-			              <div class=""    id="production_div">
+			              <div class="tab-pane fades" id="production_div">
 			              <div class=" ">
 			              	  <h2 class="list_title">物资-生产型专业信息</h2>
 			              	    <ul class="list-unstyled f14 overflow_h">
@@ -889,7 +889,7 @@ $(function(){
 												<!-- <div class="clear"></div> -->
 									</fieldset>
 	 
-						            <fieldset class="col-md-12 border_font mt20">
+						            <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 	 											<legend>产品研发能力 </legend>
 	 			
 										<!-- 	<ul class="list-unstyled list-flow"> -->
@@ -955,7 +955,7 @@ $(function(){
 	
 	
 	
-										<fieldset class="col-md-12 border_font mt20">
+										<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 	 											<legend> 生产能力  </legend>
 											 
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产线数量：</span>
@@ -1083,10 +1083,9 @@ $(function(){
  
 				<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">		 --%>
 								<!-- 物资销售型专业信息 -->
-						<div   class="tab-pane fade" id="sale_div">
-						  <div class="">
+						<div   class="tab-pane fades" id="sale_div">
 			              	  <h2 class="list_title" >物资-销售专业信息</h2>
-			              	    <ul class="list-unstyled" style="font-size: 14px">
+			              	    <ul class="list-unstyled">
 										<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatSell.id}" />
 										<input type="hidden" name="supplierMatSell.supplierId" value="${currSupplier.id}" />
 								        <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
@@ -1198,23 +1197,22 @@ $(function(){
 										    <input type="hidden" id="certSaleNumber" value=${certSaleNumber}>
 										</div>
 									 </div>
-								</div> 
 							 </div>
 		 		<%-- 	</c:if>
 				 <c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}"> --%>
 								
 								<!-- 工程专业信息 -->
-		 			<div class="tab-pane fade w100p" id="project_div">
+		 			<div class="tab-pane fades" id="project_div">
 			              	  <h2 class="list_title">工程专业信息</h2>
-			              	    <ul class="list-unstyled overflow_h">
+			              	
 									   <!--   <div class="col-md-5 title"><span class="star_red fl">*</span>工程专业信息：</div> -->
 										<input type="hidden" name="supplierMatEng.id" value="${currSupplier.supplierMatEng.id }" />
 										<input type="hidden" name="supplierMatEng.supplierId" value="${currSupplier.id}" />
 										 
-										 	<fieldset class="col-md-12 border_font mt20">
+										 	<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 											 	  <legend> 法人代表信息 </legend>
 	 	  
-										
+										    <ul class="list-unstyled overflow_h">
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.orgName" value="${currSupplier.supplierMatEng.orgName}" <c:if test="${fn:contains(engPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_eng_page')"</c:if>/>
@@ -1259,17 +1257,16 @@ $(function(){
 													</div>
 												
 												</li>
-												
+												  </ul>	
 										</fieldset>
-								  </ul>
+							
 									
 	 	               					<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 						 	              <span class="font_line">注册人员信息 </span>
-											
 											<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
-											<button type="button" class="btn" onclick="openRegPerson()">新增</button>
-											<button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
-											<span class="red">${eng_persons }</span>
+											    <button type="button" class="btn" onclick="openRegPerson()">新增</button>
+											    <button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
+											    <span class="red">${eng_persons }</span>
 											</div>
 											<div class="col-md-12 col-xs-12 col-sm-12 p0 over_scroll clear">
 						  						<table  class="table table-bordered table-condensed mt5 table_input left_table table_wrap">
@@ -1297,22 +1294,20 @@ $(function(){
 											</table>
 											<input type="hidden" id="certPersonNumber" value="${certPersonNumber}">
 										</div>
-								      
-											
-									 
+								       </div>
+								  
 										   <!--  <h2 class="count_flow">供应商工程资质资格证书信息  </h2> -->
-								<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-						 	        <span class="font_line">证书信息  </span>
-											
+								        <div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+						 	               <span class="font_line">证书信息  </span>
 											<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
 												<button type="button" class="btn" onclick="openCertEng()">新增</button>
 												<button type="button" class="btn" onclick="deleteCertEng()">删除</button>
 											    <span class="red">${eng_cert}</span>
 										     </div>
-										   	<div class="clear over_scroll col-md-12 col-xs-12 col-sm-12 p0">
-						  						<table  class="table table-bordered table-condensed mt5 table_input table_wrap left_table">
+										     <div class="clear over_scroll col-md-12 col-xs-12 col-sm-12 p0">
+						  					<table  class="table table-bordered table-condensed mt5 table_input left_table">
 												<thead>
-													<tr>
+													<tr class="space_nowrap">
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_eng_list_tbody_id')"/></th>
 														<th class="info">资质资格类型</th>
 														<th class="info">证书编号</th>
@@ -1368,20 +1363,19 @@ $(function(){
 											<input type="hidden" id="certEngNumber" value="${certEngNumber}">
 										</div>
 										</div>
-						
-										 
+						  
 									<!-- 	    <h2 class="count_flow">供应商资质资格信息   </h2> -->
-									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-						 	         <span class="font_line"> 资质证书信息 </span>
+									    <div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+						 	                <span class="font_line"> 资质证书信息 </span>
 											  <div class="col-md-12 col-md-12 col-xs-12 col-sm-12 p0">
 												<button type="button" class="btn" onclick="openAptitute()">新增</button>
 												<button type="button" class="btn" onclick="deleteAptitute()">删除</button>
 												<span class="red">${eng_aptitutes }</span>
 											  </div>
 										   	<div class="over_scroll clear col-md-12 col-xs-12 col-sm-12 p0">
-						  						<table  class="table table-bordered table-condensed mt5 table_input left_table table_wrap">
+						  						<table  class="table table-bordered table-condensed mt5 table_input left_table">
 												<thead>
-													<tr>
+													<tr class="space_nowrap">
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'aptitute_list_tbody_id')"/></th>
 														<th class="info">资质资格类型</th>
 														<th class="info">证书编号</th>
@@ -1442,20 +1436,18 @@ $(function(){
 											<input type="hidden" id="certAptNumber" value="${certAptNumber}">
 									 </div>
 								    </div>
-							 </div>
-							 </div>
-							 
+							     </div>
+                         
 						
 		<%-- 		 </c:if>
 				 	<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}"> --%>
-							 <div class="tab-pane fade height-200"  id="server_div">
+							 <div class="tab-pane fades"  id="server_div">
+							 
 					              	  <h2 class="list_title">服务专业信息</h2>
-					              	    <ul class="list-unstyled" style="font-size: 14px">
-							 	
-									 
+					              	    <ul class="list-unstyled">
 										<input type="hidden" name="supplierMatSe.id" value="${currSupplier.supplierMatSe.id}" />
-										<input type="hidden" name="supplierMatSe.supplierId" value="${currSupplier.id}" />
-												<fieldset class="col-md-12 border_font mt20">
+										  <input type="hidden" name="supplierMatSe.supplierId" value="${currSupplier.id}" />
+												<fieldset class="col-md-12 border_font ">
 											 	  <legend> 法人代表信息 </legend>
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -1571,7 +1563,6 @@ $(function(){
 					</div>		
 				  </div>
 				</div>
-			</div>
 		</div>
 		</div>
 		
