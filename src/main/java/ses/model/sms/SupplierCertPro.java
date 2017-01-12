@@ -69,6 +69,9 @@ public class SupplierCertPro implements Serializable {
 	 * </pre>
 	 */
 	private Integer mot;
+	
+	/** 是否年检(用于申请表下载) **/
+	private String isMot;
 
 	/**
 	 * <pre>
@@ -169,5 +172,13 @@ public class SupplierCertPro implements Serializable {
 	public void setSign(Integer sign) {
 		this.sign = sign;
 	}
+
+    public String getIsMot() {
+        return isMot;
+    }
+
+    public void setIsMot(String isMot) {
+        this.isMot = isMot;
+    }
 
 }
