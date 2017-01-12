@@ -107,7 +107,7 @@ public class ExcelUtil {
 	       /* if (fis != null) {
 	            fis.close();
 	        }*/
-	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
 	        Sheet sheet = workbook.getSheetAt(0);
 	        String planName="";
 	        String errMsg=null;
@@ -164,7 +164,7 @@ public class ExcelUtil {
 	        			 }
 	        			 if(cell.getColumnIndex()==1){
 	        				 if(cell.getCellType()==1){
-	        				     String dep = cell.getStringCellValue();
+	        				/*     String dep = cell.getStringCellValue();
 	        				     if(dep.trim().length()!=0){
 	        				    	 boolean chinese = isContainChinese(rq.getSeq());
 	        				    	 if(chinese==true){
@@ -176,7 +176,7 @@ public class ExcelUtil {
 					        				  break; 
 			        					 }
 	        				    	 }
-	        					 }
+	        					 }*/
 	        				
 		        				
 	        					 rq.setDepartment(cell.getStringCellValue());
@@ -324,11 +324,11 @@ public class ExcelUtil {
 	        				if(rq.getItem()!=null){
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
 		        					 boolean boo = HSSFDateUtil.isCellDateFormatted(cell);
-		        					 if(boo){
+//		        					 if(boo){
 		        						 String date = sdf.format(HSSFDateUtil.getJavaDate(cell.getNumericCellValue()));
 		        						 rq.setDeliverDate(date);
 		        						 continue;
-		        					 }
+//		        					 }
 		        				 }
 	        					 if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING){
 	        						 rq.setDeliverDate(cell.getStringCellValue());
