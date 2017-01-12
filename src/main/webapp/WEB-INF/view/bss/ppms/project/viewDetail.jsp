@@ -114,11 +114,9 @@
               
               </c:when>
               <c:otherwise>
-                  <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
                     <c:forEach items="${kind}" var="kind" >
-                       <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
+                      <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}
                     </c:forEach>
-                  </select>
               </c:otherwise>
             </c:choose>
               </td>
@@ -148,8 +146,6 @@
 			    <th class="info">质量技术标准</th>
 			    <th class="info">计量单位</th>
 			    <th class="info">采购数量</th>
-			    <th class="info">单价（元）</th>
-			    <th class="info">预算金额（万元）</th>
 			    <th class="info">交货期限</th>
 			    <th class="info">采购方式建议</th>
 			    <th class="info">供应商名称</th>
@@ -174,8 +170,6 @@
                 <td class="tc">${obj.qualitStand}</td>
                 <td class="tc">${obj.item}</td>
                 <td class="tc">${obj.purchaseCount}</td>
-                <td class="tc">${obj.price}</td>
-                <td class="tc">${obj.budget}</td>
                 <td class="tc">${obj.deliverDate}</td>
                 <td class="tc">
 	                <c:choose>
@@ -183,11 +177,9 @@
               
               </c:when>
               <c:otherwise>
-                  <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
                     <c:forEach items="${kind}" var="kind" >
-                       <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
+                       <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if> 
                     </c:forEach>
-                  </select>
               </c:otherwise>
             </c:choose>
                 </td>

@@ -263,10 +263,24 @@
 						$("#principal").select2("val", "${project.principal}");
 					}
 				});
-      })
+      });
       
       function change(id) {
 				$("#userId").val(id);
+			}
+			
+			function view(id){
+			 var projectId = $("#id").val();
+			 layer.open({
+         type : 2, //page层
+         area : [ '800px', '500px' ],
+         title : '',
+         shade : 0.01, //遮罩透明度
+         moveType : 1, //拖拽风格，0是默认，1是传统拖动
+         shift : 1, //0-6的动画形式，-1不开启
+         shadeClose : true,
+         content : '${pageContext.request.contextPath}/project/viewIdss.html?id=' + id+'&projectId='+projectId,
+       });
 			}
     </script>
   </head>
@@ -361,7 +375,7 @@
                     </tr>
                     <tr>
                       <td class="bggrey">需求计划提报时间:</td>
-                      <td>${project.demandFromTime}</td>
+                      <td><fmt:formatDate value='${project.demandFromTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                       <td class="bggrey">采购任务下达时间:</td>
                       <td>
                         <fmt:formatDate value='${task.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
@@ -383,31 +397,31 @@
                         <fmt:formatDate value='${project.startTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                       </td>
                       <td class="bggrey">招标公告发布时间:</td>
-                      <td>${project.noticeNewsTime}</td>
+                      <td><fmt:formatDate value='${project.noticeNewsTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                     </tr>
                     <tr>
                       <td class="bggrey">招标公告审批时间:</td>
-                      <td>${project.appTime}</td>
+                      <td><fmt:formatDate value='${project.appTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                       <td class="bggrey">供应商报名时间:</td>
                       <td>${project.signUpTime}</td>
                     </tr>
                     <tr>
                       <td class="bggrey">报名截止时间:</td>
-                      <td>${project.applyDeanline}</td>
+                      <td><fmt:formatDate value='${project.applyDeanline}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                       <td class="bggrey">售后维护时间:</td>
-                      <td>${project.maintenanceTime}</td>
+                      <td><fmt:formatDate value='${project.maintenanceTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                     </tr>
                     <tr>
                       <td class="bggrey">发送中标通知书时间:</td>
-                      <td>${project.noticeTime}</td>
+                      <td><fmt:formatDate value='${project.noticeTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                       <td class="bggrey">项目结束时间:</td>
-                      <td>${project.endTime}</td>
+                      <td><fmt:formatDate value='${project.endTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                     </tr>
                     <tr>
                       <td class="bggrey">合同签订时间:</td>
-                      <td>${project.signingTime}</td>
+                      <td><fmt:formatDate value='${project.signingTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                       <td class="bggrey">验收时间:</td>
-                      <td>${project.acceptanceTime}</td>
+                      <td><fmt:formatDate value='${project.acceptanceTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                     </tr>
                   </tbody>
                 </table>
@@ -444,10 +458,10 @@
                       <th class="info">备注</th>
                     </tr>
                   </thead>
-                  <c:forEach items="${pack.projectDetails}" var="obj">
+                  <c:forEach items="${pack.projectDetails}" var="obj" varStatus="vs">
                     <tr>
-                      <td class="tc w50">${obj.serialNumber}</td>
-                      <td class="tc">${obj.goodsName}</td>
+                      <td class="tc w50">${vs.index+1}</td>
+                      <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.requiredId}');">${obj.goodsName}</a></td>
                       <td class="tc">${obj.stand}</td>
                       <td class="tc">${obj.qualitStand}</td>
                       <td class="tc">${obj.item}</td>
@@ -474,16 +488,14 @@
             <button class="btn btn-windows input" type="button" onclick="cashDeposit('${project.id}')">保证金登记表</button>
             <button class="btn btn-windows input" type="button" onclick="singleConstruction('${project.id}')">送审单</button>
             <button class="btn btn-windows input" type="button" onclick="confidentiality('${project.id}')">保密审查单</button>
-            <div class="mt10"></div>
-            <button class="btn btn-windows input" type="button" onclick="cover('${project.id}')">公告封面</button>
-            <button class="btn btn-windows input" type="button" onclick="biddingDocument('${project.id}')">招标文件</button>
-            <button class="btn btn-windows input" type="button" onclick="expertsSignIn('${project.id}')">专家签到表</button>
-            <button class="btn btn-windows input" type="button" onclick="bidReport('${project.id}')">评标报告</button>
-            <button class="btn btn-windows input" type="button" onclick="bidNotice('${project.id}')">中标通知书</button>
-            <button class="btn btn-windows input" type="button" onclick="bidReports('${project.id}')">评标报告（综合）</button>
-            <div class="mt10"></div>
-            <button class="btn btn-windows input" type="button" onclick="bidReportss('${project.id}')">评标报告（最低）</button>
-            <button class="btn btn-windows input" type="button" onclick="issueRegistration('${project.id}')">劳务发放登记表</button>
+            <button class="btn btn-windows input mt10" type="button" onclick="cover('${project.id}')">公告封面</button>
+            <button class="btn btn-windows input mt10" type="button" onclick="biddingDocument('${project.id}')">招标文件</button>
+            <button class="btn btn-windows input mt10" type="button" onclick="expertsSignIn('${project.id}')">专家签到表</button>
+            <button class="btn btn-windows input mt10" type="button" onclick="bidReport('${project.id}')">评标报告</button>
+            <button class="btn btn-windows input mt10" type="button" onclick="bidNotice('${project.id}')">中标通知书</button>
+            <button class="btn btn-windows input mt10" type="button" onclick="bidReports('${project.id}')">评标报告（综合）</button>
+            <button class="btn btn-windows input mt10" type="button" onclick="bidReportss('${project.id}')">评标报告（最低）</button>
+            <button class="btn btn-windows input mt10" type="button" onclick="issueRegistration('${project.id}')">劳务发放登记表</button>
           </div>
           <div class="tab-pane fade " id="tab-4">
             <div class="margin-bottom-0  categories">

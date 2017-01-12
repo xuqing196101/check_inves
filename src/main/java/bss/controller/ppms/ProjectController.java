@@ -123,8 +123,6 @@ public class ProjectController extends BaseController {
     @Autowired
     private RoleServiceI roleService;
     
-    @Autowired
-    private CollectPlanService collectPlanService;
     
     @Autowired
     private PurchaseDetailService purchaseDetailService;
@@ -592,6 +590,17 @@ public class ProjectController extends BaseController {
         }
     }
     
+    public void sorts(List<ProjectDetail> list){
+        Collections.sort(list, new Comparator<ProjectDetail>(){
+           @Override
+           public int compare(ProjectDetail o1, ProjectDetail o2) {
+              Integer i = o1.getPosition() - o2.getPosition();
+              return i;
+           }
+        });
+    }
+    
+    
     
     
     /**
@@ -885,6 +894,23 @@ public class ProjectController extends BaseController {
             response.getWriter().write(json);
             response.getWriter().flush();
             response.getWriter().close();
+    }
+    
+    @RequestMapping("/viewIdss")
+    public String viewIdss(Model model, String id,String projectId) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("id", id);
+            map.put("projectId", projectId);
+            List<ProjectDetail> list = detailService.selectByParent(map);
+            for (int i = 0; i < list.size(); i++ ) {
+                if(list.get(i).getPrice() != null){
+                    list.remove(list.get(i));
+                }
+                list.get(i).setDetailStatus(0);
+            }
+            sorts(list);
+            model.addAttribute("lists", list);
+            return "bss/ppms/project/view";
     }
 
     /**
@@ -1271,17 +1297,19 @@ public class ProjectController extends BaseController {
         Project pr = projectService.selectById(projectId);
         Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(pr.getPurchaseDepId());
         List<ProjectTask> tasks = projectTaskService.queryByNo(map);
+        List<Task> list1 = new ArrayList<Task>();
         Set<String> set =new HashSet<String>();
         for (ProjectTask projectTask : tasks) {
-            if(StringUtils.isNotEmpty(projectTask.getTaskId())){
-                set.add( projectTask.getTaskId());
-                number = projectTask.getTaskId();
-            }
+            Task task = taskservice.selectById(projectTask.getTaskId());
+            list1.add(task);
         }   
-        if(set.size() == 1){
+        /*if(set.size() == 1){
             Task task = taskservice.selectById(number);
             model.addAttribute("task", task);
-        }
+        }*/
+        sortDate(list1);
+        Task task = taskservice.selectById(list1.get(list1.size()-1).getId());
+        model.addAttribute("task", task);
         map.put("projectId", projectId);
         HashMap<String, Object> map1 = new HashMap<String, Object>();
         map1.put("id", projectId);
@@ -1305,6 +1333,17 @@ public class ProjectController extends BaseController {
         model.addAttribute("dataId", DictionaryDataUtil.getId("PROJECT_IMPLEMENT"));
         model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
         return "bss/ppms/project/essential_information";
+    }
+    
+    public void sortDate(List<Task> list){
+        Collections.sort(list, new Comparator<Task>(){
+           @Override
+           public int compare(Task o1, Task o2) {
+               Task task = (Task) o1;
+               Task task2 = (Task) o2;
+              return task.getAcceptTime().compareTo(task2.getAcceptTime());
+           }
+        });
     }
     
     @RequestMapping("/SameNameCheck")
