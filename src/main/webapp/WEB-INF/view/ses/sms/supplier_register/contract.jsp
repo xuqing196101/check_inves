@@ -12,19 +12,19 @@
 				var PROJECT = $("#li_id_3").text();
 				var SERVICE = $("#li_id_4").text();
 				//加载默认的页签
-				if(PRODUCT = "物资-生产型品目信息") {
+				if(PRODUCT == "物资-生产型品目信息") {
 					loadPageOne('tab-1','supplier/ajaxContract.html','PRODUCT');
 					return;
 				}
-		  	if(SALES = "物资-销售型品目信息") {
+		  		if(SALES == "物资-销售型品目信息") {
 					loadPageTwo('tab-2','supplier/ajaxContract.html','SALES');
 					return;
 				}
-				if(PROJECT = "工程品目信息") {
+				if(PROJECT == "工程品目信息") {
 					loadPageThree('tab-3','supplier/ajaxContract.html','PROJECT');
 					return;
 				}
-				if(SERVICE = "服务品目信息") {
+				if(SERVICE == "服务品目信息") {
 					loadPageFour('tab-4','supplier/ajaxContract.html','SERVICE');
 					return;
 				}
@@ -64,24 +64,36 @@
 	function loadPageOne(id, url, supplierTypeId) {
 	     var supplierId = $("#supplierId").val();
 	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+	  	 $("#tab-4").html("");
+	  	 $("#tab-2").html("");
+	  	 $("#tab-3").html("");
 	  	 $("#"+id).load(path);
 	}
 	
 	function loadPageTwo(id, url, supplierTypeId) {
 	     var supplierId = $("#supplierId").val();
 	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+	  	 $("#tab-1").html("");
+	  	 $("#tab-4").html("");
+	  	 $("#tab-3").html("");
 	  	 $("#"+id).load(path);
 	}
 	
 	function loadPageThree(id, url, supplierTypeId) {
 	     var supplierId = $("#supplierId").val();
 	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+	  	 $("#tab-1").html("");
+	  	 $("#tab-2").html("");
+	  	 $("#tab-4").html("");
 	  	 $("#"+id).load(path);
 	}
 	
 	function loadPageFour(id, url, supplierTypeId) {
 	     var supplierId = $("#supplierId").val();
 	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+	  	 $("#tab-1").html("");
+	  	 $("#tab-2").html("");
+	  	 $("#tab-3").html("");
 	  	 $("#"+id).load(path);
 	}
 	
