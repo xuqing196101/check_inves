@@ -2,11 +2,14 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +38,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierAuditNot;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
@@ -1331,7 +1335,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		//审核、复核标识
 		request.setAttribute("sign",supplier.getSign());
 		request.getSession().getAttribute("sign");
-		
+
 		return "ses/sms/supplier_audit/supplier_all";
 	}
 	
@@ -1384,10 +1388,11 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @param @param request
 	 * @param @return      
 	 * @return String
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "/showModify",produces="text/html;charset=UTF-8")
 	@ResponseBody
-	public String showModify(SupplierHistory supplierHistory, HttpServletRequest request) {
+	public String showModify(SupplierHistory supplierHistory, HttpServletRequest request) throws ParseException {
 		supplierHistory = supplierHistoryService.findBySupplierId(supplierHistory);
 		
 		//在数据字典里查询营业执照类型
@@ -1421,6 +1426,13 @@ public class SupplierAuditController extends BaseSupplierController{
 			return JSON.toJSONString(parentAddress+sonAddress);
 		}
 		
+		// Wed Feb 01 00:00:00 CST 2017         String
+		if(supplierHistory.getBeforeField() != null && supplierHistory.getBeforeField().equals("foundDate")){
+			SimpleDateFormat sdf = new SimpleDateFormat ("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
+	        Date date=sdf.parse(supplierHistory.getBeforeContent());
+	        String d = new SimpleDateFormat("yyyy-MM-dd").format(date);
+	        return JSON.toJSONString(d);
+		}
 		return JSON.toJSONString(supplierHistory.getBeforeContent());
 	}
 	
@@ -1951,4 +1963,41 @@ public class SupplierAuditController extends BaseSupplierController{
            }
        }
     }
+   
+   /**
+    * @Title: recordNotPassed
+    * @author XuQing 
+    * @date 2017-1-11 下午1:53:18  
+    * @Description:记录未通过的审核的
+    * @param @param supplierAuditNot      
+    * @return void
+    */
+   @RequestMapping(value= "/recordNotPassed")
+   @ResponseBody
+   public void recordNotPassed(SupplierAuditNot supplierAuditNot){
+	   Supplier supplier = supplierAuditService.supplierById(supplierAuditNot.getSupplierId());
+	   supplierAuditNot.setCreditCode(supplier.getCreditCode());
+	   supplierAuditNot.setCreatedAt(new Date());
+	   supplierAuditNotService.insertSelective(supplierAuditNot); 
+   }
+   
+   /**
+    * @Title: auditNotReason
+    * @author XuQing 
+    * @date 2017-1-11 下午7:13:44  
+    * @Description:查询未通过审核的记录
+    * @param @param supplierId
+    * @param @param model
+    * @param @return      
+    * @return String
+    */
+   @RequestMapping(value= "/auditNotReason", produces = "text/html;charset=UTF-8")
+   @ResponseBody
+   public String auditNotReason(String supplierId, Model model){
+	    Supplier supplier = supplierAuditService.supplierById(supplierId);
+		SupplierAuditNot supplierAuditNot = new SupplierAuditNot();
+		supplierAuditNot.setCreditCode(supplier.getCreditCode());
+		supplierAuditNot = supplierAuditNotService.selectByPrimaryKey(supplierAuditNot);
+		return supplierAuditNot.getReason();
+	}
 }

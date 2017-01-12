@@ -95,7 +95,34 @@
 					$("input[name='supplierId']").val(id);
 					$("#shenhe_form_id").submit();
 				}
-
+				
+				
+				
+				/* $.ajax({
+							url: "${pageContext.request.contextPath}/supplierAudit/auditNotReason.do",
+							data: {"supplierId" : id},
+							success: function(result) {
+							alert(result);
+							if(result != null){
+								layer.alert(result, {
+									title: '上次未通过审核的原因：',
+									skin: 'layui-layer-molv', //样式类名
+									closeBtn: 0,
+									offset: '100px',
+									shift: 4 //动画类型
+								},
+								function(){
+									$("input[name='supplierId']").val(id);
+									$("#shenhe_form_id").submit();
+									aert("1");
+								});
+							}else{}
+								$("input[name='supplierId']").val(id);
+								$("#shenhe_form_id").submit();
+								alert("2");
+							}
+						}); */
+				
 				//重置搜索栏
 				function resetForm() {
 					$("input[name='supplierName']").val("");

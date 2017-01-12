@@ -3,6 +3,7 @@ package ses.model.sms;
 import java.util.Date;
 
 public class SupplierAuditNot {
+	private String id ;
 	private String supplierId;  //供应商id
 	private String creditCode;  //统一社会信用代码
 	private String reason; //原因
@@ -31,6 +32,12 @@ public class SupplierAuditNot {
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

@@ -22,7 +22,7 @@ public class SupplierAuditNotServiceImpl implements SupplierAuditNotService {
 	}
 
 	@Override
-	public List<SupplierAuditNot> selectByPrimaryKey(SupplierAuditNot supplierAuditNot) {
+	public SupplierAuditNot selectByPrimaryKey(SupplierAuditNot supplierAuditNot) {
 		return supplierAuditNotMapper.selectByPrimaryKey(supplierAuditNot);
 	}
 
