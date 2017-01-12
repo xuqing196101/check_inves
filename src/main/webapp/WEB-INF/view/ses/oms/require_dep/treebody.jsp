@@ -142,7 +142,7 @@
 				  <tbody>
 					<tr>
 					  <td class="col-xs-3 bggrey tl">名称：</td>
-					  <td class="col-xs-3">${orgnization.name }</td>
+					  <td class="col-xs-3">${orgnization.fullName }</td>
 					  <td class="col-xs-3 bggrey tl">简称：</td>
 					  <td class="col-xs-3">${orgnization.shortName }</td>
 					</tr>

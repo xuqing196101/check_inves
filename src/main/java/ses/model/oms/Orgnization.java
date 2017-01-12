@@ -3,12 +3,8 @@ package ses.model.oms;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 
 
@@ -100,6 +96,9 @@ public class Orgnization implements Serializable {
     
     /**采购等级**/
     private transient String purchaseLevel;
+    
+    /** 全称 **/
+    private String fullName;
 
 	public String getId() {
         return id;
@@ -445,6 +444,14 @@ public class Orgnization implements Serializable {
 
     public void setPurchaseLevel(String purchaseLevel) {
         this.purchaseLevel = purchaseLevel;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
     
     

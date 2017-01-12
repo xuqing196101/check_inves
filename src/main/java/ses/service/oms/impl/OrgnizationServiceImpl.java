@@ -159,12 +159,19 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		orgmap.put("princinpalIdCard", orgnization.getPrincinpalIdCard());
 		orgmap.put("nature", orgnization.getNature());
 		orgmap.put("orgLevel", orgnization.getOrgLevel());
-		orgmap.put("position", orgnization.getPosition());
+		
 		orgmap.put("shortName", orgnization.getShortName());
 		orgmap.put("parentName", orgnization.getParentName());
 		orgmap.put("pid", orgnization.getProvinceId());
 		orgmap.put("cid", orgnization.getCityId());
+		
+		setFullOrgName(orgnization);
+		orgmap.put("fullName", orgnization.getFullName());
 		orgmap.put("isDeleted", 0);
+		
+		Long position = getMaxPosition(orgnization.getParentId());
+		orgmap.put("position", position + 1);
+		
 		if(orgnization.getParentId()!=null && !orgnization.getParentId().equals("")){
 			orgmap.put("isroot", 0);
 		}else {
@@ -241,6 +248,10 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		orgmap.put("is_deleted", orgnization.getIsDeleted());
 		orgmap.put("pid", orgnization.getProvinceId());
 		orgmap.put("cid", orgnization.getCityId());
+		
+		setFullOrgName(orgnization);
+        orgmap.put("fullName", orgnization.getFullName());
+        
 		if(orgnization.getParentId()!=null && !orgnization.getParentId().equals("")){
 			orgmap.put("is_root", 0);
 		}else {
@@ -455,5 +466,145 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
     public List<Orgnization> findOrgPartByParam(Map<String, Object> map) {
         return orgniztionMapper.findOrgPartByParam(map);
     }
+    
+    /**
+     * 
+     *〈简述〉设置全部名称
+     *〈详细描述〉
+     * @author myc
+     * @param org
+     */
+    private void setFullOrgName(Orgnization org){
+        if (org != null && StringUtils.isNotBlank(org.getParentId())){
+            Orgnization parentOrg = orgniztionMapper.findByCategoryId(org.getParentId());
+            if (parentOrg != null){
+                org.setFullName(parentOrg.getFullName() + org.getName());
+            } else {
+                org.setFullName(org.getName());
+            }
+        }
+    }
+    
+    
+    /**
+     * 
+     *〈简述〉获取最大的编号
+     *〈详细描述〉
+     * @author myc
+     * @param parentId 父级节点
+     * @return
+     */
+    private Long getMaxPosition(String parentId){
+        if (StringUtils.isNotBlank(parentId)){
+            String position = orgniztionMapper.getMaxPosition(parentId);
+            if (StringUtils.isNotBlank(position)){
+                return Long.parseLong(position);
+            }
+        }
+        return 0L;
+    }
+    
+    /**
+     * 
+     * @see ses.service.oms.OrgnizationServiceI#moveOrder(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public String moveOrder(String id, String targetId, String moveType) {
+        Orgnization org = orgniztionMapper.findByCategoryId(id);
+        Orgnization targetOrg = orgniztionMapper.findByCategoryId(targetId);
+        String res = StaticVariables.SUCCESS;
+        if (targetOrg != null && org != null){
+            //向前移动
+            res = prve(moveType, org, targetOrg);
+            //向后移动
+            res = next(moveType, org, targetOrg);
+        }
+        
+        return res;
+    }
 
+    /**
+     * 
+     *〈简述〉向前移动
+     *〈详细描述〉
+     * @author myc
+     * @param moveType
+     * @param org
+     * @param targetOrg
+     * @return
+     */
+    private String prve(String moveType, Orgnization org , Orgnization targetOrg){
+        if (moveType.equals("prev")){
+            
+            Long srcPos = 1L;
+            if (StringUtils.isNotBlank(targetOrg.getPosition())){
+                srcPos = Long.parseLong(targetOrg.getPosition());
+            }
+            org.setPosition(srcPos - 1 + "");
+            org.setUpdatedAt(new Date());
+            setFullOrgName(org);
+            org.setParentId(targetOrg.getParentId());
+            if (StringUtils.isNotBlank(targetOrg.getParentId())){
+                List<Orgnization> list = orgniztionMapper.getOrgByPid(targetOrg.getParentId());
+                for (Orgnization updateOrg : list){
+                    if (!updateOrg.getId().equals(targetOrg.getId())){
+                        
+                        Long currentPos = 1L;
+                        if (StringUtils.isNotBlank(updateOrg.getPosition())){
+                            currentPos = Long.parseLong(updateOrg.getPosition());
+                        }
+                        updateOrg.setPosition(currentPos - 1 + "");
+                        updateOrg.setUpdatedAt(new Date());
+                        
+                        orgniztionMapper.updateOrgnizationById(updateOrg);
+                    }
+                }
+            }
+            orgniztionMapper.updateOrgnizationById(org);
+        }
+        return StaticVariables.SUCCESS;
+    }
+    
+    /**
+     * 
+     *〈简述〉向后移动
+     *〈详细描述〉
+     * @author myc
+     * @param moveType
+     * @param org
+     * @param targetOrg
+     * @return
+     */
+    private String next(String moveType, Orgnization org , Orgnization targetOrg){
+        if (moveType.equals("next")){
+            
+            Long srcPos = 1L;
+            if (StringUtils.isNotBlank(targetOrg.getPosition())){
+                srcPos = Long.parseLong(targetOrg.getPosition());
+            }
+            org.setPosition(srcPos + 1 + "");
+            org.setUpdatedAt(new Date());
+            setFullOrgName(org);
+            org.setParentId(targetOrg.getParentId());
+            if (StringUtils.isNotBlank(targetOrg.getParentId())){
+                List<Orgnization> list = orgniztionMapper.getOrgByPid(targetOrg.getParentId());
+                for (Orgnization updateOrg : list){
+                    if (!updateOrg.getId().equals(targetOrg.getId())){
+                        
+                        Long currentPos = 1L;
+                        if (StringUtils.isNotBlank(updateOrg.getPosition())){
+                            currentPos = Long.parseLong(updateOrg.getPosition());
+                        }
+                        updateOrg.setPosition(currentPos + 1 + "");
+                        updateOrg.setUpdatedAt(new Date());
+                        
+                        orgniztionMapper.updateOrgnizationById(updateOrg);
+                    }
+                }
+            }
+            orgniztionMapper.updateOrgnizationById(org);
+        }
+        return StaticVariables.SUCCESS;
+    }
+    
 }

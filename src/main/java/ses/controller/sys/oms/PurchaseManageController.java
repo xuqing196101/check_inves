@@ -208,6 +208,20 @@ public class PurchaseManageController {
 	
 	/**
 	 * 
+	 *〈简述〉移动排序
+	 *〈详细描述〉
+	 * @author myc
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/moveOrder")
+	public String moveOrder(String id, String targetId, String moveType){
+	    String res = orgnizationServiceI.moveOrder(id, targetId, moveType);
+	    return res;
+	}
+	
+	/**
+	 * 
 	 *〈简述〉添加组织机构页面
 	 *〈详细描述〉
 	 * @author myc

@@ -31,7 +31,9 @@
 		<result column="STATUS" property="status"/>
 		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
 		<result column="CONTACT_NAME" property="contactName"/>
-    <result column="CONTACT_MOBILE" property="contactMobile"/>
+		<result column="FULL_NAME" property="fullName"/>
+    	<result column="CONTACT_MOBILE" property="contactMobile"/>
+    	<result column="POSITION" property="position"/>
 	</resultMap>
 	
 	<sql id="baseSearchSql">
@@ -119,12 +121,14 @@
 		       d.DEP_ID       as depId,
 		       d.IS_ROOT         as isRoot,
 		       d.EMAIL      as email,
-		       d.STATUS     as status
+		       d.STATUS     as status,
 		       d.CONTACT_NAME      as contactName,
-           d.CONTACT_MOBILE     as contactMobile,
+           	   d.CONTACT_MOBILE     as contactMobile,
+           	   d.FULL_NAME as fullName,
+           	   d.POSITION as position
 		       from T_SES_OMS_ORG d
-		       
 		       where d.ID =#{id}
+		       and d.IS_DELETED = 0
     </select>
   
 <!-- 根据部门  负责人查询 -->
@@ -208,8 +212,9 @@
 		       d.IS_ROOT         as isRoot,
 		       d.EMAIL      as email,
 		       d.CONTACT_NAME      as contactName,
-           d.CONTACT_MOBILE     as contactMobile,
-		       a.NAME as provinceName
+           	   d.CONTACT_MOBILE     as contactMobile,
+		       a.NAME as provinceName,
+		       d.Full_NAME as fullName
 		  from T_SES_OMS_ORG     d
 		  left join T_SES_BMS_AREA a
 		  on d.province_id = a.id
@@ -337,7 +342,7 @@
 		  AREA_ID,DETAIL_ADDR,FAX,
 		  WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,
 		  NATURE,ORG_LEVEL,POSITION,IS_ROOT,EMAIL,
-		  PROVINCE_ID,CITY_ID,PARENT_NAME,SHORT_NAME,IS_DELETED
+		  PROVINCE_ID,CITY_ID,PARENT_NAME,SHORT_NAME,IS_DELETED,FULL_NAME
           )
 		values(
 	      #{id},#{name,jdbcType=VARCHAR},#{type_name,jdbcType=NUMERIC},
@@ -347,7 +352,8 @@
 		  #{areaId,jdbcType=VARCHAR},#{detailAddr,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
 		  #{website,jdbcType=VARCHAR},#{princinpal,jdbcType=VARCHAR},#{princinpalIdCard,jdbcType=VARCHAR},
 		  #{nature,jdbcType=VARCHAR},#{orgLevel,jdbcType=INTEGER},#{position,jdbcType=INTEGER},#{isroot,jdbcType=INTEGER},#{email,jdbcType=VARCHAR},
-		  #{pid,jdbcType=VARCHAR},#{cid,jdbcType=VARCHAR},#{parentName,jdbcType=VARCHAR},#{shortName,jdbcType=VARCHAR},#{isDeleted,jdbcType=INTEGER}
+		  #{pid,jdbcType=VARCHAR},#{cid,jdbcType=VARCHAR},#{parentName,jdbcType=VARCHAR},#{shortName,jdbcType=VARCHAR},#{isDeleted,jdbcType=INTEGER},
+		  #{fullName,jdbcType=VARCHAR}
 		 )
 	</insert>
 	
@@ -464,6 +470,9 @@
       		<if test="contactMobile != null">
 		        ,CONTACT_MOBILE=#{contactMobile}
 		    </if>
+		    <if test="fullName !=null and fullName !=''">
+		       ,FULL_NAME = #{fullName}
+		    </if>
 	     where s.id=#{id}    
 	</update>
 	<!-- 更新人员-->
@@ -546,12 +555,15 @@
 		 		IS_DELETED=#{isDeleted},
 		 	</if>
 		 	<if test="contactName != null">
-        CONTACT_NAME =#{contactName},
-      </if>
-      <if test="contactMobile != null">
-        CONTACT_MOBILE =#{contactMobile},
-      </if>
-		 	</set>
+        		CONTACT_NAME =#{contactName},
+      		</if>
+      		<if test="contactMobile != null">
+       	 		CONTACT_MOBILE =#{contactMobile},
+      		</if>
+      		<if test="fullName != null and fullName !=''">
+       	 		FULL_NAME =#{fullName},
+      		</if>
+		 </set>
 	     where ID=#{id}     
 	</update>
 	<!-- 删除需求部门-->
@@ -639,7 +651,7 @@
 	  FROM T_SES_OMS_ORG
 	  WHERE TYPE_NAME = #{typeName}
 	  AND IS_DELETED = 0
-	  AND PARENT_ID = #{pid} ORDER BY CREATED_AT ASC
+	  AND PARENT_ID = #{pid} ORDER BY POSITION ASC
 	</select>
 	
 	<!-- 根据类型和pid查询 -->
@@ -762,5 +774,49 @@
     	</if>
 	</select>
 	
+	<!-- 获取最大的编号 -->
+	<select id="getMaxPosition" resultType="java.lang.String" >
+	   SELECT MAX(POSITION) AS POSITION
+  	   FROM T_SES_OMS_ORG
+       WHERE IS_DELETED = 0
+       AND PARENT_ID = #{parentId}
+	</select>
+	
+	<!-- 根据父节点查询所有的数据 -->
+	<select id="getOrgByPid" resultMap="baseOrgnization">
+	  select d.id  as id,
+		       d.NAME         as name,
+		       d.TYPE_NAME       as typeName,
+		       d.ADDRESS   as address,
+		       d.MOBILE    as mobile,
+		       d.POST_CODE  as postCode,
+		       d.ORG_CODE   as orgCode,
+		       d.TELEPHONE  as telephone,
+		       d.AREA_ID    as areaId,
+		       d.DETAIL_ADDR  as detailAddr,
+		       d.fax          as fax,
+		       d.WEBSITE      as website,
+		       d.PRINCINPAL   as princinpal,
+		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
+		       d.NATURE       as nature,
+		       d.SHORT_NAME as shortName,
+		       d.PARENT_ID     as parentId,
+		       d.PARENT_NAME      as parentName,
+		       d.PROVINCE_ID      as provinceId,
+		       d.CITY_ID          as cityId,
+		       d.ORG_LEVEL       as orgLevel,
+		       d.IS_DELETED       as isDeleted,
+		       d.DEP_ID       as depId,
+		       d.IS_ROOT         as isRoot,
+		       d.EMAIL      as email,
+		       d.STATUS     as status,
+		       d.CONTACT_NAME      as contactName,
+           	   d.CONTACT_MOBILE     as contactMobile,
+           	   d.FULL_NAME as fullName,
+           	   d.POSITION as position
+		       from T_SES_OMS_ORG d
+		       where d.PARENT_ID =#{parentId}
+		       and d.IS_DELETED = 0
+	</select>
 	
 </mapper>

@@ -150,4 +150,24 @@ public interface OrgnizationMapper {
      */
     Orgnization queryById(@Param("id")String id);
     
+    /**
+     * 
+     *〈简述〉根据父节点查询当前最大的顺序
+     *〈详细描述〉
+     * @author myc
+     * @param parentId
+     * @return
+     */
+    String getMaxPosition(@Param("parentId")String parentId);
+    
+    /**
+     * 
+     *〈简述〉根据父级Id查询所有的子集
+     *〈详细描述〉
+     * @author myc
+     * @param parentId 父级Id
+     * @return
+     */
+    List<Orgnization> getOrgByPid(@Param("parentId") String parentId);
+    
 }

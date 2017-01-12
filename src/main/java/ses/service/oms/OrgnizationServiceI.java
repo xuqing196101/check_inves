@@ -130,5 +130,17 @@ public interface OrgnizationServiceI {
 	Orgnization selectByName(String name);
 	
 	List<Orgnization> findOrgPartByParam(Map<String,Object> map);
+	
+	/**
+	 * 
+	 *〈简述〉移动排序
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 当前对象Id
+	 * @param targetId 目标Id
+	 * @param moveType 移动类型
+	 * @return
+	 */
+    public String moveOrder(String id, String targetId, String moveType);
 
 }

@@ -13,6 +13,7 @@ $(function(){
 		},
 		data:{
 			keep:{
+				leaf: true,
 				parent:true
 			},
 			key:{
@@ -26,11 +27,22 @@ $(function(){
 				rootPId:"0",
 			}
 		},
+		edit:{
+			drag:{
+				isCopy : false, 
+				isMove : true
+		    },
+		    enable: true,
+		    showRemoveBtn: false,
+			showRenameBtn: false
+		},
 		view:{
 	        selectedMulti: false,
 	        showTitle: false,
 	    },
 		callback:{
+			beforeDrag: zTreeBeforeDrag,
+			beforeDrop: zTreeBeforeDrop,
 			onClick:zTreeOnClick,
 			onAsyncSuccess: zTreeOnAsyncSuccess
 		}
@@ -79,6 +91,57 @@ function zTreeOnClick(event,treeId,treeNode){
 		selectedTreeId = null;
 		currentPid = null;
 	}
+}
+
+/**
+ * 判断能拖动的节点
+ * @param treeId
+ * @param treeNodes
+ * @returns 
+ */
+function  zTreeBeforeDrag(treeId, treeNodes) {
+	 for (var i= 0; i<treeNodes.length; i++) {  
+		 var  pid = treeNodes[i].pId;
+		 if(pid=="root" || pid== null ||pid == "null" || pid == 0){
+	        return false;
+	     }
+	 }
+    return true;
+}
+
+/**
+ * 移动后的事件
+ * @param treeId
+ * @param treeNodes
+ * @param targetNode
+ * @param moveType
+ * @returns
+ */
+function zTreeBeforeDrop(treeId, treeNodes, targetNode, moveType){
+	if (targetNode == null) {
+		return false;
+	}
+	moveOrder(treeNodes[0].id, targetNode.id, moveType);
+	return true;
+}
+
+/**
+ * 移动排序
+ * @param id 当前拖动的节点
+ * @param targetId 目标节点
+ * @param moveType 移动类型
+ * @returns
+ */
+function moveOrder(id,targetId,moveType){
+	 $.ajax({
+		type : 'post',
+		url :  globalPath + "/purchaseManage/delOrg.do",
+		data : {id: id, targetId: targetId, moveType: moveType},
+		success : function(msg) {
+			  if(msg == 'ok'){
+			  }
+		}
+	}); 
 }
 
 /**
