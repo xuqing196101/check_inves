@@ -5,7 +5,7 @@ xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
 xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
-<meta http-equiv=Content-Type content="text/html; charset=gb2312">
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 14">
 <meta name=Originator content="Microsoft Word 14">
@@ -385,7 +385,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:fixed;
 	mso-font-signature:0 135135232 16 0 262144 0;!}
 @font-face
-	{font-family:仿宋_GB2312;
+	{font-family:仿宋_utf-8;
 	mso-font-alt:仿宋;
 	mso-font-charset:134;
 	mso-generic-font-family:modern;
@@ -412,7 +412,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
 	mso-font-pitch:fixed;
 	mso-font-signature:0 135135232 16 0 262144 0;!}
 @font-face
-	{font-family:"\@仿宋_GB2312";
+	{font-family:"\@仿宋_utf-8";
 	mso-font-charset:134;
 	mso-generic-font-family:modern;
 	mso-font-pitch:fixed;
@@ -692,10 +692,10 @@ style='font-size:15.0pt;mso-bidi-font-size:14.0pt'><o:p></o:p></span></p>
 
 <p class=MsoNormal align=center style='text-align:center'><span
 style='mso-bidi-font-size:18.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>中央军委后勤保障部监制</span><span
-lang=EN-US style='mso-fareast-font-family:仿宋_GB2312'><o:p></o:p></span></p>
+lang=EN-US style='mso-fareast-font-family:仿宋_utf-8'><o:p></o:p></span></p>
 
 <span lang=EN-US style='font-size:16.0pt;font-family:"Times New Roman","serif";
-mso-fareast-font-family:仿宋_GB2312;mso-ansi-language:EN-US;mso-fareast-language:
+mso-fareast-font-family:仿宋_utf-8;mso-ansi-language:EN-US;mso-fareast-language:
 ZH-CN;mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
 </span>
 
@@ -742,7 +742,7 @@ lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></sp
   border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
   solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${foundDate?string("yyyy-MM-dd")!}<o:p></o:p></span></p>
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${foundDate?string("yyyy.MM.dd")!}<o:p></o:p></span></p>
   </td>
  </tr>
  <tr style='mso-yfti-irow:1;height:19.85pt'>
@@ -1251,194 +1251,10 @@ lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></sp
   lang=EN-US style='font-size:10.5pt;line-height:150%'>${businessScope!}<o:p></o:p></span></p>
   </td>
  </tr>
- <tr style='mso-yfti-irow:17;height:19.85pt'>
-  <td width=125 colspan=2 rowspan=${addressList?size+1!}>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
-  mso-ascii-font-family:"Times New Roman"'>生产或经营地址</span><span lang=EN-US
-  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
-  mso-ascii-font-family:"Times New Roman"'>（填写所有地址）</span><span lang=EN-US
-  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
-  </td>
-  <td width=348 colspan=7 style='width:261.1pt;border-top:none;border-left:
-  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
-  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
-  mso-ascii-font-family:"Times New Roman"'>详细地址</span><span lang=EN-US
-  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
-  </td>
-  <td width=127 colspan=2 style='width:94.95pt;border-top:none;border-left:
-  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
-  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span class=GramE><span style='font-size:10.5pt;
-  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>邮</span></span><span
-  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><span
-  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><span
-  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>编</span><span
-  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
-  </td>
- </tr>
- <#list addressList as addr>
- <tr style='mso-yfti-irow:18;height:19.85pt'>
-  <td width=348 colspan=8 style='width:261.1pt;border:solid windowtext 1.0pt;
-  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${addr.address!}<o:p></o:p></span></p>
-  </td>
-  <td width=127 style='width:94.95pt;border-top:none;border-left:none;
-  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
-  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-  mso-hansi-font-family:宋体'>${addr.code!}<o:p></o:p></span></p>
-  </td>
-  <td style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;
-  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid windowtext .5pt;
-  mso-border-left-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'></td>
-  <td style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;
-  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid windowtext .5pt;
-  mso-border-left-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'></td>
- </tr>
- </#list>
- <tr style='mso-yfti-irow:19;height:19.85pt'>
-  <td width=125 colspan=2 rowspan=${branchList?size+ 1!}>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
-  mso-ascii-font-family:"Times New Roman"'>境外分支机构</span><span lang=EN-US
-  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
-  mso-ascii-font-family:"Times New Roman"'>（是</span><span lang=EN-US
-  style='font-size:10.5pt;mso-hansi-font-family:宋体'>/</span><span
-  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>否）</span><span
-  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
-  </td>
-  <td width=87 colspan=2 style='width:65.25pt;border-top:none;border-left:none;
-  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
-  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
-  mso-ascii-font-family:"Times New Roman"'>国家</span><span lang=EN-US
-  style='font-size:10.5pt;mso-hansi-font-family:宋体'>(</span><span
-  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>地区</span><span
-  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'>)<o:p></o:p></span></p>
-  </td>
-  <td width=95 colspan=3 style='width:71.55pt;border-top:none;border-left:none;
-  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
-  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
-  mso-ascii-font-family:"Times New Roman"'>机构名称</span><span lang=EN-US
-  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
-  </td>
-  <td width=166 colspan=2 style='width:124.3pt;border-top:none;border-left:
-  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
-  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
-  mso-ascii-font-family:"Times New Roman"'>详细地址</span><span lang=EN-US
-  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
-  </td>
-  <td width=127 colspan=2 style='width:94.95pt;border-top:none;border-left:
-  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
-  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
-  mso-ascii-font-family:"Times New Roman"'>生产经营范围</span><span lang=EN-US
-  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
-  </td>
- </tr>
- <#list branchList as branch>
- <tr style='mso-yfti-irow:20;mso-yfti-lastrow:yes;height:19.85pt'>
-  <td width=87 colspan=2 style='width:65.25pt;border:solid windowtext 1.0pt;
-  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-  font-family:宋体'>${branch.country!}<o:p></o:p></span></p>
-  </td>
-  <td width=95 colspan=3 style='width:71.55pt;border-top:none;border-left:none;
-  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
-  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-  font-family:宋体'>${branch.organizationName!}<o:p></o:p></span></p>
-  </td>
-  <td width=166 colspan=3 style='width:124.3pt;border-top:none;border-left:
-  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
-  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-  font-family:宋体'>${branch.detailAddress!}<o:p></o:p></span></p>
-  </td>
-  <td width=127 style='width:94.95pt;border-top:none;border-left:none;
-  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
-  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
-  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
-  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-  font-family:宋体'>${branch.businessSope!}<o:p></o:p></span></p>
-  </td>
-  <td style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;
-  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid windowtext .5pt;
-  mso-border-left-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'></td>
-  <td style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;
-  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid windowtext .5pt;
-  mso-border-left-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
-  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'></td>
- </tr>
- </#list>
- <![if !supportMisalignedColumns]>
- <tr height=0>
-  <td width=80 style='border:none'></td>
-  <td width=53 style='border:none'></td>
-  <td width=116 style='border:none'></td>
-  <td width=30 style='border:none'></td>
-  <td width=51 style='border:none'></td>
-  <td width=16 style='border:none'></td>
-  <td width=30 style='border:none'></td>
-  <td width=129 style='border:none'></td>
-  <td width=168 style='border:none'></td>
-  <td width=15 style='border:none'></td>
-  <td width=135 style='border:none'></td>
- </tr>
  <![endif]>
 </table>
 
 </div>
-
-<p class=MsoNormal style='margin-right:24.0pt;line-height:12.0pt;mso-line-height-rule:
-exactly'><span lang=EN-US style='font-size:12.0pt;font-family:宋体'><o:p>&nbsp;</o:p></span></p>
-
-<span lang=EN-US style='font-size:16.0pt;mso-bidi-font-size:10.5pt;font-family:
-"Times New Roman","serif";mso-fareast-font-family:仿宋_GB2312;mso-ansi-language:
-EN-US;mso-fareast-language:ZH-CN;mso-bidi-language:AR-SA'><br clear=all
-style='page-break-before:always'>
-</span>
-
-<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
-mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
-10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
-"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
-mso-fareast-font-family:黑体'>2</span><span lang=EN-US style='font-size:10.5pt;
-mso-fareast-font-family:黑体'><o:p></o:p></span></p>
 
 <p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
 9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>财务状况登记表</span><span
@@ -1760,11 +1576,11 @@ lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
 
 <p class=MsoNormal style='margin-top:7.8pt;mso-para-margin-top:.5gd;line-height:
 12.0pt;mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-mso-fareast-font-family:仿宋_GB2312'><o:p>&nbsp;</o:p></span></p>
+mso-fareast-font-family:仿宋_utf-8'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal style='margin-top:7.8pt;mso-para-margin-top:.5gd;line-height:
 12.0pt;mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-mso-fareast-font-family:仿宋_GB2312'><o:p>&nbsp;</o:p></span></p>
+mso-fareast-font-family:仿宋_utf-8'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
 mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
@@ -1833,7 +1649,7 @@ lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></sp
   mso-bidi-font-family:宋体;mso-font-kerning:0pt'><o:p></o:p></span></p>
   </td>
  </tr>
- <#list supplierMatPro.listSupplierCertPros as pro> 
+ <#list supplierMatPro.listSupplierCertPros as pro>
  <tr style='mso-yfti-irow:1;mso-yfti-lastrow:yes;height:27.0pt'>
   <td width=43 valign=top style='width:32.4pt;border:solid black 1.0pt;
   border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
@@ -1868,7 +1684,7 @@ lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></sp
   mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
   mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${pro.expStartDate?string("yyyy-MM-dd")!}-${pro.expEndDate?string("yyyy-MM-dd")!}<b
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><#if (pro.expStartDate?exists && pro.expEndDate?exists)>${pro.expStartDate?string("yyyy.MM.dd")!}-${pro.expEndDate?string("yyyy.MM.dd")!}</#if><b
   style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
   </td>
   <td width=51 valign=top style='width:38.0pt;border-top:none;border-left:none;
@@ -1883,10 +1699,10 @@ lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></sp
 </table>
 
 <p class=MsoNormal style='line-height:18.0pt;mso-line-height-rule:exactly'><span
-lang=EN-US style='mso-bidi-font-size:10.5pt;mso-fareast-font-family:仿宋_GB2312'><o:p>&nbsp;</o:p></span></p>
+lang=EN-US style='mso-bidi-font-size:10.5pt;mso-fareast-font-family:仿宋_utf-8'><o:p>&nbsp;</o:p></span></p>
 
 <span lang=EN-US style='font-size:16.0pt;mso-bidi-font-size:10.5pt;font-family:
-"Times New Roman","serif";mso-fareast-font-family:仿宋_GB2312;mso-ansi-language:
+"Times New Roman","serif";mso-fareast-font-family:仿宋_utf-8;mso-ansi-language:
 EN-US;mso-fareast-language:ZH-CN;mso-bidi-language:AR-SA'><br clear=all
 style='page-break-before:always'>
 </span>
@@ -2150,14 +1966,14 @@ lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></sp
   solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.expStartDate?string("yyyy-MM-dd")!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.expStartDate?string("yyyy.MM.dd")!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
   </td>
   <td width=57 style='width:42.55pt;border-top:none;border-left:none;
   border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
   solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
-  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.expEndDate?string("yyyy-MM-dd")!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.expEndDate?string("yyyy.MM.dd")!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
   </td>
   <td width=47 style='width:35.45pt;border-top:none;border-left:none;
   border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
@@ -2392,7 +2208,7 @@ lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></sp
   padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
   mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-  mso-hansi-font-family:宋体'>${aptitutes.aptituteDate?string("yyyy-MM-dd")!}</span><b
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteDate?string("yyyy.MM.dd")!}</span><b
   style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
   </td>
   <td width=47 style='width:35.4pt;border-top:none;border-left:none;border-bottom:
@@ -2419,7 +2235,7 @@ lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></sp
   padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
   mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-  mso-hansi-font-family:宋体'>${aptitutes.aptituteChangeAt?string("yyyy-MM-dd")!}</span><b
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteChangeAt?string("yyyy.MM.dd")!}</span><b
   style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
   </td>
   <td width=47 style='width:35.45pt;border-top:none;border-left:none;
@@ -3819,7 +3635,7 @@ lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></sp
   mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:162.3pt'>
   <p class=MsoNormal align=left style='text-align:left;line-height:18.0pt;
   mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-  mso-fareast-font-family:仿宋_GB2312'><o:p>&nbsp;</o:p></span></p>
+  mso-fareast-font-family:仿宋_utf-8'><o:p>&nbsp;</o:p></span></p>
   </td>
  </tr>
 </table>
@@ -3845,7 +3661,7 @@ lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></sp
   mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:169.6pt'>
   <p class=MsoNormal align=left style='text-align:left;line-height:18.0pt;
   mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
-  mso-fareast-font-family:仿宋_GB2312'><o:p>&nbsp;</o:p></span></p>
+  mso-fareast-font-family:仿宋_utf-8'><o:p>&nbsp;</o:p></span></p>
   </td>
  </tr>
 </table>
