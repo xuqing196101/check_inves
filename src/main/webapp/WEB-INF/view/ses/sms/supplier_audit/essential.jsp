@@ -396,7 +396,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 				   		<span class="hand" onclick="reason1(this,'supplierBank');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">基本账户开户许可证：</span> 
 				      <u:show showId="bank_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
-							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
 					</ul>
 
@@ -447,19 +447,19 @@
 					<ul class="ul_list hand">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="hand" onclick="reason1(this,'taxCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三个月完税凭证：</span>
 							<u:show showId="taxcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
-							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'billCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年银行基本账户年末对账单：</span>
 							<u:show showId="billcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
-							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'securityCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三个月缴纳社会保险金凭证：</span>
 							<u:show showId="curitycert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
-							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年内无重大违法记录声明：</span>
 							<u:show showId="bearchcert_show" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
-							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
 					</ul>
 
@@ -654,7 +654,7 @@
                 <div class="b f18 ml10 fl hand red">×</div>
               </div> --%>
 							<u:show showId="business_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
-							<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
 						<li class="col-md-12 col-sm-12 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">经营范围：</span>

@@ -1335,7 +1335,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		//审核、复核标识
 		request.setAttribute("sign",supplier.getSign());
 		request.getSession().getAttribute("sign");
-
+		
 		return "ses/sms/supplier_audit/supplier_all";
 	}
 	
@@ -1998,6 +1998,9 @@ public class SupplierAuditController extends BaseSupplierController{
 		SupplierAuditNot supplierAuditNot = new SupplierAuditNot();
 		supplierAuditNot.setCreditCode(supplier.getCreditCode());
 		supplierAuditNot = supplierAuditNotService.selectByPrimaryKey(supplierAuditNot);
-		return supplierAuditNot.getReason();
+		if(supplierAuditNot !=null){
+			return supplierAuditNot.getReason();
+		}
+		return "noMessage";
 	}
 }
