@@ -1068,6 +1068,8 @@ public class ExpExtractRecordController extends BaseController {
    */
   @RequestMapping("/record")
   public String Record(Model model,String projectId){
+    //专家类型
+    model.addAttribute("ddList", expExtractRecordService.ddList());
     ExpExtractRecord showExpExtractRecord = null;
     //获取抽取记录
     ExpExtractRecord expExtractRecord=new ExpExtractRecord();

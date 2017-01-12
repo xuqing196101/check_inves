@@ -44,7 +44,7 @@ function sumbits(){
 	  
 	/**返回*/
 	function onback(){
-		  var path = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId }';
+		  var path = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId}&ix=${ix}';
 	         $("#tab-1").load(path);
 	}	
 	
@@ -145,6 +145,7 @@ function sumbits(){
      <input type="hidden" value="${projectId}" name="projectId"/>
      <input type="hidden" value="${packageId}" name="packageId"/>
      <input type="hidden" value="${flowDefineId}" name="flowDefineId"/>
+     <input type="hidden" value="${ix}" name="ix">
    <div>
     <h2 class="count_flow">添加临时供应商</h2>
    <ul class="ul_list">
@@ -161,7 +162,8 @@ function sumbits(){
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
          <input class="title col-md-12" id="appendedInput" name="creditCode" value="${supplier.creditCode}" maxlength="18" type="text">
          <span class="add-on">i</span>
-             <div class="cue" >${creditCodeError}</div>
+         <span class="input-tip">不能为空，长度为18位</span>
+         <div class="cue" >${creditCodeError}</div>
         </div>
     </li>
      <li class="col-md-3 col-sm-6 col-xs-12 ">

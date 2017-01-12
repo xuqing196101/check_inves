@@ -38,12 +38,22 @@
         }(),
         jump: function(e, first) { //触发分页后的回调
           if(!first) { //一定要加此判断，否则初始时会无限刷新
-            $("#page").val(e.curr);
-            $("#form").submit();
+              var packages = "${packId }";
+              var projectId = "${projectId }";
+        	    var path="${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?packId=" + packages + "&projectId=" + projectId+"&supplierName="+$("#supplierName").val()+"&page="+e.curr+"&ix=${ix}";
+                $("#tab-1").load(path);
           }
         }
       });
     });
+    
+    /**查詢*/
+    function query(){
+        var packages = "${packId }";
+        var projectId = "${projectId }";
+        var path="${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?packId=" + packages + "&projectId=" + projectId+"&supplierName="+$("#supplierName").val()+"&ix=${ix}";
+            $("#tab-1").load(path);
+    }
     
     function selectAll() {
       var checklist = document.getElementsByName("chkItem");
@@ -69,7 +79,8 @@
       var projectId = "${projectId }";
       if(kind == 'DYLY'){
         if(id.length == 1){
-          window.location.href = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + id.toString() + "&packages=" + packages + "&projectId=" + projectId;
+         var path = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + id.toString() + "&packages=" + packages + "&projectId=" + projectId+"&ix=${ix}";
+         $("#tab-1").load(path);
         }else{
           layer.alert("只能选择一个供应商", {
             offset: ['30%', '40%'],
@@ -77,7 +88,8 @@
           });
         }
       }else{
-        window.location.href = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + id.toString() + "&packages=" + packages + "&projectId=" + projectId;
+    	  var path  = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + id.toString() + "&packages=" + packages + "&projectId=" + projectId + "&ix=${ix}";
+        $("#tab-1").load(path);
       }
       
       
@@ -107,7 +119,7 @@
     }
     
     function goBack(){
-    	var path = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId }';
+    	var path = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId }&ix=${ix}';
     	   $("#tab-1").load(path);
     }
   </script>
@@ -115,16 +127,13 @@
   <body>
     <!--面包屑导航开始-->
     <div class="search_detail ml0">
-        <form action="" method="post" id="form" class="mb0">
           <ul class="demand_list">
-            <input type="hidden" id="page"  name="page" />
             <li class="fl"><label class="fl">供应商名称：</label><span><input
                 type="text" id="supplierName" class="" value="${supplierName}"  name="supplierName"/></span></li>
           </ul>
-            <input type="submit" onclick="query()" class="btn fl" value="查询"/>
+            <input type="submit" onclick="query();" class="btn fl" value="查询"/>
             <input type="reset" class="btn fl" onclick="resetQuery();" value="重置">
           <div class="clear"></div>
-        </form>
       </div>
 
     <input type="hidden" name="packages" value="${packId }" />

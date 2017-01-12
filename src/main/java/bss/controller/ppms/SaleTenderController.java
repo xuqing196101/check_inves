@@ -128,7 +128,7 @@ public class SaleTenderController {
      * @throws UnsupportedEncodingException 
      */
     @RequestMapping("/view")
-    public String view(String projectId, Model model,String supplierName,String armyBuinessTelephone,Integer statusBid, String flowDefineId) throws UnsupportedEncodingException{
+    public String view(String projectId, Model model,String supplierName,String armyBuinessTelephone,Integer statusBid, String flowDefineId,String ix) throws UnsupportedEncodingException{
       if(supplierName != null && !"".equals(supplierName)){
         supplierName = URLDecoder.decode(supplierName,"UTF-8"); 
       }
@@ -188,6 +188,7 @@ public class SaleTenderController {
         model.addAttribute("armyBuinessTelephone",armyBuinessTelephone);
         model.addAttribute("statusBid",statusBid);
         model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("ix",ix);
         return "bss/ppms/sall_tender/view";
     }
 
@@ -204,14 +205,14 @@ public class SaleTenderController {
      * @return String
      */
     @RequestMapping("/register")
-    public String register(String id,String packId,String projectId,SaleTender saleTender){
+    public String register(String id,String packId,String projectId,SaleTender saleTender,String ix){
 
         saleTender.setUpdatedAt(new Date());
         saleTender.setCreatedAt(new Date());
         saleTender.setStatusBid((short)2);
         saleTenderService.update(saleTender);
 
-        return "redirect:view.html?projectId="+projectId;
+        return "redirect:view.html?projectId="+projectId+"&ix="+ix;
     }
 
     /**
@@ -223,7 +224,7 @@ public class SaleTenderController {
      * @return String
      */
     @RequestMapping("/showSupplier")
-    public  String showSupplier(Model model, String projectId,String page,Supplier supplier){
+    public  String showSupplier(Model model, String projectId,String page,Supplier supplier,String ix){
         //查询list方法里面的供应商id 为了过滤供应商 已经有的就不显示了
         SaleTender saleTender=new SaleTender();
         saleTender.setProjectId(projectId);
@@ -244,6 +245,7 @@ public class SaleTenderController {
         model.addAttribute("list", new PageInfo<>(allSupplier));
         model.addAttribute("projectId", projectId);
         model.addAttribute("supplierName", supplier.getSupplierName());
+        model.addAttribute("ix", ix);
         return "bss/ppms/sall_tender/supplier_list";
     }
 
@@ -262,7 +264,7 @@ public class SaleTenderController {
      * @return String
      */
     @RequestMapping("/showAllSuppliers")
-    public  String showAllSuppliers(Model model, String projectId,String page,String packId,Supplier supplier){
+    public  String showAllSuppliers(Model model, String projectId,String page,String packId,Supplier supplier,String ix){
         SaleTender saleTender=new SaleTender();
         Project project = new Project();
         project.setId(projectId);
@@ -284,6 +286,7 @@ public class SaleTenderController {
         model.addAttribute("packId", packId);
         model.addAttribute("projectId", projectId);
         model.addAttribute("supplierName", supplier.getSupplierName());
+        model.addAttribute("ix", ix);
         return "bss/ppms/sall_tender/suppliers_list";
     }
     
@@ -420,7 +423,7 @@ public class SaleTenderController {
      * @return String
      */
     @RequestMapping("/save")
-    public String save(String ids,String packages,String status,HttpServletRequest sq,String projectId){
+    public String save(String ids,String packages,String status,HttpServletRequest sq,String projectId,String ix){
         User attribute = (User) sq.getSession().getAttribute("loginUser");
         if (attribute != null){
             List<String> listIds = Arrays.asList(ids.split(","));
@@ -428,7 +431,7 @@ public class SaleTenderController {
                 saleTenderService.insert(new SaleTender(projectId, (short)1, str, (short)2, attribute.getId(),packages));
             }
         }
-        return "redirect:manage.html?projectId="+projectId;
+        return "redirect:view.html?projectId="+projectId+"&ix="+ix;
     }
 
     /**
@@ -445,7 +448,7 @@ public class SaleTenderController {
      * @return String
      */
     @RequestMapping("/saveSupplier")
-    public String saveSupplier(String ids,String packages,String status,HttpServletRequest sq,String projectId){
+    public String saveSupplier(String ids,String packages,String status,HttpServletRequest sq,String projectId,String ix){
         User attribute = (User) sq.getSession().getAttribute("loginUser");
         if (attribute != null){
             List<String> listIds=Arrays.asList(ids.split(","));
@@ -453,7 +456,7 @@ public class SaleTenderController {
                 saleTenderService.insert(new SaleTender(projectId, (short)2, str, (short)2, attribute.getId(),packages));
             }
         }
-        return "redirect:manage.html?projectId="+projectId;
+        return "redirect:view.html?projectId="+projectId+"&ix="+ix;
     }
 
     /**

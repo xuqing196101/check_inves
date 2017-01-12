@@ -40,8 +40,8 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        	$("#page").val(e.curr);
-		        $("#form").submit();
+		        	var path="${pageContext.request.contextPath}/saleTender/showSupplier.html?packId=" + packages + "&projectId=" + projectId+"&supplierName="+$("#supplierName").val()+"&page"+e.curr;
+		            $("#tab-1").load(path);
 		        }
 		    }
 		});
@@ -73,14 +73,20 @@
 			packageIds.push($(this).val());
 		}); 
         if(id.length>=1&&packageIds.length>=1){
-          window.location.href="${pageContext.request.contextPath}/saleTender/save.html?ids="+id.toString()+"&packages="+packageIds.toString()+"&projectId=${projectId}";
-             
+          window.location.href="${pageContext.request.contextPath}/saleTender/save.html?ids="+id.toString()+"&packages="+packageIds.toString()+"&projectId=${projectId}";           
         }else if(packageIds.length==0){
         	layer.alert("请选择包",{offset: ['100px', '200px'], shade:0.01});
         }else if(id.length==0){
             layer.alert("请选择一个供应商",{offset: ['100px', '200px'], shade:0.01});
         }
 	}
+	
+	/**查詢*/
+	function query(){
+		  var path="${pageContext.request.contextPath}/saleTender/showSupplier.html?packId=" + packages + "&projectId=" + projectId+"&supplierName="+$("#supplierName").val();
+          $("#tab-1").load(path);
+	}
+	
 	/** 单选 */
 	function check(){
 		 var count=0;
@@ -140,18 +146,13 @@
 </script>
 <body >
 	<!--面包屑导航开始-->
-			 <h2 class="search_detail">
-				<form action="" method="post" id="form" class="mb0">
-					<ul class="demand_list">
+			 <div class="search_detail">
 				    <input type="hidden" id="page"  name="page" />
-						<li class="fl"><label class="fl">供应商名称：</label><span><input
-								type="text" id="supplierName" class="" value="${supplierName}"  name="supplierName"/></span></li>
-						<input type="submit" onclick="query()" class="btn" value="查询"/>
+						<label class="fl">供应商名称：</label><span><input
+								type="text" id="supplierName" class="" value="${supplierName}"  name="supplierName"/></span>
+						<input type="submit" onclick="query();" class="btn" value="查询"/>
 						<input type="reset" class="btn" onclick="resetQuery();" value="重置">
-					</ul>
-					<div class="clear"></div>
-				</form>
-			</h2>
+			</div>
 			<div class="tl">
 				<button class="btn btn-windows save"  onclick="showSupplier()">保存</button>
 			   <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>

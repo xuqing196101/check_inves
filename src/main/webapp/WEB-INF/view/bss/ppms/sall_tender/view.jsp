@@ -17,12 +17,13 @@
     function submit(){        
       var supplierName = $('#supplierName').val();
       var armyBuinessTelephone = $('#armyBuinessTelephone').val();
-      var path = "${pageContext.request.contextPath}/saleTender/view.html?projectId=${project.id}&supplierName="+encodeURI(encodeURI(supplierName))+"&armyBuinessTelephone="+encodeURI(encodeURI(armyBuinessTelephone));
+      var ix = $("#ix").val();
+      var path = "${pageContext.request.contextPath}/saleTender/view.html?projectId=${project.id}&supplierName="+encodeURI(encodeURI(supplierName))+"&armyBuinessTelephone="+encodeURI(encodeURI(armyBuinessTelephone))+"&ix="+ix;
       $("#tab-1").load(path);
       
     }
 
-      function add(packId) {
+      function add(packId,index) {
         var kindName = $("#kindName").val();
         var projectId = $("#projectId").val();
         if(kindName == "GKZB" || kindName == "DYLY") {
@@ -37,7 +38,7 @@
                                 layer.alert("只能选一个");
                               
                               }else{
-                                var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId;
+                                var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId+"&ix="+index;
                                  $("#tab-1").load(path);
                               }
                               
@@ -48,8 +49,8 @@
                             }
                           });
           }else{
-            var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId;
-         $("#tab-1").load(path);
+            var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId+"&ix="+index;
+           $("#tab-1").load(path);
           }
           
          
@@ -68,7 +69,7 @@
                 shade: 0.01,
               });
             } else {
-            	var path = "${pageContext.request.contextPath }/saleTender/register.html?id=" + id + "&packId=" + packId + "&projectId=" + projectId;
+            	var path = "${pageContext.request.contextPath }/saleTender/register.html?id=" + id + "&packId=" + packId + "&projectId=" + projectId+"&ix="+index;
             	$("#tab-1").load(path);
             }
           } else if(id.length > 1) {
@@ -108,6 +109,7 @@
                   };
                 };
             };
+            $("#ix").val(index);
       }
 
       function resetQuery() {
@@ -115,9 +117,9 @@
     	  $('#armyBuinessTelephone').val("");
       }
       
-     function provisional(packId) {
+     function provisional(packId,index) {
     	   var projectId = $("#projectId").val();
-    	  var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}";
+    	  var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix="+index;
     	  $("#tab-1").load(path);
      }
      
@@ -157,11 +159,15 @@
 
       $(function() {
         $("#statusBid").find("option[value='${statusBid}']").attr("selected", true);
-        var index=0;
+        
+        var index= "${ix}";
+        if(index == null || index == ''){
+        	index = 0;
+        }
         var divObj = $(".p0" + index);
         $(divObj).removeClass("hide");
-        $("#package").removeClass("shrink");        
-        $("#package").addClass("spread");
+        $("#package"+index).removeClass("shrink");        
+        $("#package"+index).addClass("spread");
       });
      
     
@@ -207,6 +213,7 @@
 
     <!-- 表格开始-->
     <input type="hidden" id="projectId" value="${project.id }" />
+    <input type="hidden"  id="ix" value="${ix}" />
 
     <c:forEach items="${kind}" var="kind">
       <c:if test="${kind.id == project.purchaseType}"><input type="hidden" id="kindName" value="${kind.code}" /></c:if>
@@ -218,12 +225,12 @@
         <c:set value="${p.index}" var="index"></c:set>
 
         <div class="over_hideen">
-          <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand fl clear" id="package">包名:<span class="f15 blue">${pack.name }</span>
+          <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand fl clear" id="package${index}">包名:<span class="f15 blue">${pack.name }</span>
           </h2>
           <div class="fl mt20 ml10">
-             <button class="btn btn-windows add" onclick="add('${pack.id }')" type="button">登记</button>
+             <button class="btn btn-windows add" onclick="add('${pack.id }',${index})" type="button">登记</button>
              <c:if test="${status != 'DYLY'}">
-             <button class="btn btn-windows add" onclick="provisional('${pack.id}');" type="button">添加临时供应商</button>
+             <button class="btn btn-windows add" onclick="provisional('${pack.id}',${index});" type="button">添加临时供应商</button>
              </c:if>
              <button class="btn btn-windows delete" onclick="del('${pack.id}');" type="button">移除供应商</button>
            </div>

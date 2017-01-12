@@ -1012,8 +1012,9 @@ public class SupplierExtractsController extends BaseController {
    * @param  id 专家id
    */
   @RequestMapping("/showTemporarySupplier")
-  public  String showTemporaryExpert(Model model,String packageId,String projectId,String flowDefineId){
+  public  String showTemporaryExpert(Model model,String packageId,String projectId,String flowDefineId,String ix){
     model.addAttribute("packageId", packageId);
+    model.addAttribute("ix", ix);
     model.addAttribute("projectId", projectId);
     model.addAttribute("expert", new Expert());
     model.addAttribute("flowDefineId", flowDefineId);
@@ -1030,7 +1031,7 @@ public class SupplierExtractsController extends BaseController {
    * @throws UnsupportedEncodingException 
    */
   @RequestMapping(value="AddtemporarySupplier",produces = "text/html;charset=UTF-8")
-  public  Object addTemporaryExpert(Supplier supplier,  Model model, String projectId,String packageId, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq) throws UnsupportedEncodingException{
+  public  Object addTemporaryExpert(Supplier supplier,  Model model, String projectId,String packageId, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq,String ix) throws UnsupportedEncodingException{
     Integer type = 0;
     //转码
     if (supplier != null) {
@@ -1115,6 +1116,7 @@ public class SupplierExtractsController extends BaseController {
       model.addAttribute("projectId", projectId);
       model.addAttribute("packageId", packageId);
       model.addAttribute("flowDefineId", flowDefineId);
+      model.addAttribute("ix", ix);
       //专家类型
       //            model.addAttribute("ddList", expExtractRecordService.ddList());
       //证件类型
@@ -1125,7 +1127,7 @@ public class SupplierExtractsController extends BaseController {
 
     expExtractRecordService.addTemporaryExpert(supplier, projectId,packageId, loginName, loginPwd,sq);
 
-    return  "redirect:/saleTender/manage.html?projectId=" + projectId + "&&flowDefineId=" + flowDefineId;
+    return  "redirect:/saleTender/view.html?projectId=" + projectId + "&&flowDefineId=" + flowDefineId+"&ix="+ix;
   }
 
 

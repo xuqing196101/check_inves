@@ -134,27 +134,36 @@
 					</tr>
 					<tr>
 						<td align="center">序号</td>
-						<td align="center">专家名称</td>
-						  <td align="center">包名称</td>
-						<td align="center">联系人</td>
-						<td align="center">手机号</td>
-						<td align="center">传真</td>
+					  <td align="center">专家姓名</td>
+            <td align="center">联系电话</td>
+            <td align="center">评审类型</td>
+            <td align="center">工作单位名称</td>
+            <td align="center">专家技术职称</td>
 						<td align="center">能否参加</td>
 						<td align="center">不参加理由</td>
 					</tr>
-					<c:forEach items="${conditionList}" var="con" varStatus="vs">
+					 <c:forEach items="${conditionList}" var="con" varStatus="vs">
+					<tr>
+            <td colspan="9"  class="">${con.name}</td>
+          </tr>
 					<c:forEach items="${con.listExpExtCondition}" var="pe" varStatus="vse">
 						<c:forEach items="${pe.extRelatesList}" var="ext" varStatus="vs">
 							<tr>
 								<td align="center">${vs.index+1 }</td>
 								<td align="center">${ext.expert.relName}</td>
-							    <td align="center">${con.name}</td>
-								<td align="center">${ext.expert.relName}</td>
-								<td align="center">${ext.expert.relName}</td>
-								  <td align="center">${ext.expert.relName}</td>
+								<td align="center">${ext.expert.mobile}</td>
+								<td class='tc'>
+                <c:forEach var="expertType" items="${ddList}">
+                  <c:if test="${ext.reviewType eq expertType.id}">
+                                  ${expertType.name}
+                  </c:if>
+                </c:forEach>
+                </td>
+								 <td align="center">${ext.expert.workUnit}</td>
+								<td align="center">${ext.expert.professTechTitles}</td>
 								<td align="center"><c:if test="${ext.operatingType==1 }">
-                                                                                         参加
-                            </c:if>
+                                                                             参加
+                        </c:if>
                             <c:if test="${ext.operatingType==2 }">
                                                                                          待定
                             </c:if>
@@ -175,7 +184,7 @@
 					<tr>
 						<td align="center">序号</td>
 						<td align="center">姓名</td>
-						  <td align="center">手机号</td>
+						<td align="center">手机号</td>
 						<td align="center">单位</td>
 						<td align="center">职务</td>
 						<td align="center">军衔</td>
@@ -185,8 +194,8 @@
 						<td align="center">1</td>
 						<td align="center">${ExpExtractRecord.perpleUser.relName}</td>
 						<td align="center">${ExpExtractRecord.perpleUser.mobile}</td>
-						 <td align="center">${ExpExtractRecord.perpleUser.org.name}</td>
-               <td align="center">${ExpExtractRecord.perpleUser.duties}</td>
+						<td align="center">${ExpExtractRecord.perpleUser.org.name}</td>
+            <td align="center">${ExpExtractRecord.perpleUser.duties}</td>
 						<td align="center">军23衔</td>
 						<td colspan="2" align="center"></td>
 					</tr>
