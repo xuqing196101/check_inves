@@ -103,7 +103,7 @@
 		var x,y;  
 	    oRect = obj.getBoundingClientRect();  
 	    x=oRect.left-50;  
-	    y=oRect.top-200;  
+	    y=oRect.top-100;  
 		var projectId = $("#projectId").val();
 		layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
 		function(index) {
@@ -116,7 +116,7 @@
 		var x,y;  
 	    oRect = obj.getBoundingClientRect();  
 	    x=oRect.left-100;  
-	    y=oRect.top-200;  
+	    y=oRect.top-100;  
 	    var projectId = $("#projectId").val();
 		layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
 		function(index) {

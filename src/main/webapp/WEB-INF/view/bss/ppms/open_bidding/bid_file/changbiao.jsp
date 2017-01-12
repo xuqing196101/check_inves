@@ -140,13 +140,13 @@ function eachTable(obj) {
 	});
 
 function ycDiv(obj, index){
-	if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
-		$(obj).removeClass("jbxx");
-		$(obj).addClass("zhxx");
+	if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+		$(obj).removeClass("spread");
+		$(obj).addClass("shrink");
 	} else {
-		if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
-			$(obj).removeClass("zhxx");
-			$(obj).addClass("jbxx");
+		if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+			$(obj).removeClass("shrink");
+			$(obj).addClass("spread");
 		}
 	}
 	
@@ -225,7 +225,7 @@ function ycDiv(obj, index){
 		<c:forEach items="${listPd }" var="listProDel" varStatus="vs">
 		<c:set value="${vs.index}" var="index"></c:set>
 			   <div>
-				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
+				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
 				 	<span>项目预算报价(万元)：${listPackage[index].projectBudget}</span>
 				 </h2>
                </div>

@@ -63,13 +63,13 @@ $(function(){
 });
 
 function ycDivmingxi(obj, index){
-	if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
-		$(obj).removeClass("jbxx");
-		$(obj).addClass("zhxx");
+	if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+		$(obj).removeClass("spread");
+		$(obj).addClass("shrink");
 	} else {
-		if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
-			$(obj).removeClass("zhxx");
-			$(obj).addClass("jbxx");
+		if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+			$(obj).removeClass("shrink");
+			$(obj).addClass("spread");
 		}
 	}
 	
@@ -193,7 +193,7 @@ function quoteAgain(projectId, packId, status){
 		<c:forEach items="${listPd }" var="listProDel" varStatus="vs">
 		<c:set value="${vs.index}" var="index"></c:set>
 			   <div>
-				 <h2 onclick="ycDivmingxi(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listPackage[index].name }</span></h2>
+				 <h2 onclick="ycDivmingxi(this,'${index}')" class="count_flow spread hand">包名:<span class="f14 blue">${listPackage[index].name }</span></h2>
 		 			<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 					        	
 					        	 <c:if test="${listPackage[index].isEndPrice != 1 }">
