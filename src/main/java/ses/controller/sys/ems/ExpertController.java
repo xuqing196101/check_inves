@@ -69,6 +69,8 @@ import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
@@ -2107,12 +2109,73 @@ public class ExpertController extends BaseController {
                 "UTF-8");
         /** 生成word 返回文件名 */
         Supplier supplier = supplierService.get(supplierId);
+        /** 数据处理 **/
+        handingData(supplier);
+        /** 创建word文件 **/
         String fileName = WordUtil.createWord(supplier, "supplier.ftl",
                 name, request);
         // 下载后的文件名
         String downFileName = new String("供应商入库申请表.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
         return service.downloadFile(fileName, filePath, downFileName);
+    }
+    
+    /**
+     *〈简述〉为供应商申请表下载处理数据
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param supplier 供应商
+     */
+    public void handingData(Supplier supplier) {
+        
+        // 地址
+        Area area = areaServiceI.listById(supplier.getAddress());
+        if (area != null) {
+            String province = areaServiceI.listById(area.getParentId()).getName();
+            String city = area.getName();
+            supplier.setAddress(province + city + supplier.getDetailAddress());
+        }
+        
+        // 类型
+        StringBuffer supplierTypeId = new StringBuffer();
+        String[] typeIds = supplier.getSupplierTypeIds().split(",");
+        for (String typeId : typeIds) {
+            String typeName = DictionaryDataUtil.get(typeId).getName();
+            if (typeName != null) {
+                supplierTypeId.append(typeName + "、");
+            }
+        }
+        if (!"".equals(supplierTypeId) && supplierTypeId.length() > 0) {
+            supplier.setSupplierType(supplierTypeId.toString().substring(0, supplierTypeId.toString().length() - 1));
+        }
+        
+        // 营业执照登记类型
+        DictionaryData businessType = DictionaryDataUtil.findById(supplier.getBusinessType());
+        if (businessType != null) {
+            supplier.setBusinessType(businessType.getName());
+        }
+        
+        // 生产经营地址
+        List<SupplierAddress> addressList = supplier.getAddressList();
+        for (SupplierAddress address : addressList) {
+            Area addr = areaServiceI.listById(address.getAddress());
+            if (addr != null) {
+                String province = areaServiceI.listById(addr.getParentId()).getName();
+                String city = addr.getName();
+                address.setAddress(province + city + address.getDetailAddress());
+            }
+        }
+        
+        // 境外分支地址
+        List<SupplierBranch> branchList = supplier.getBranchList();
+        for (SupplierBranch branch : branchList) {
+            // 国家(地区)
+            if (branch.getCountry() != null) {
+                branch.setCountry(DictionaryDataUtil.findById(branch.getCountry()).getName());
+            }
+        }
+        
+        
     }
     
     /**
