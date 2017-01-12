@@ -100,6 +100,85 @@ function onCheck(e, treeId, treeNode) {
 	  }
   }
 
+  function isExist(){
+			 var is_error = 0;
+			 var loginName = $("#loginName").val();
+			 $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/findByLoginName.do?loginName="+loginName,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+						$("#is_exist").html(data.msg);
+						is_error = 1;
+					 } else {
+					 	$("#is_exist").html("");
+					 }
+               }
+         	});
+         	return is_error;
+		}
+		
+		function ajaxMoblie(){
+			 var is_error = 0;
+			 var mobile = $("#mobile").val();
+			 $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/ajaxMoblie.do?mobile="+mobile,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+						$("#ajax_mobile").html(data.msg);
+						is_error = 1;
+					 } else {
+					 	$("#ajax_mobile").html("");
+					 }
+               }
+         	});
+         	return is_error;
+		}
+		
+		function ajaxIdNumber(){
+			 var is_error = 0;
+			 var idNumber = $("#idNumber").val();
+			 $.ajax({
+             type: "GET",
+             async: false, 
+             url: "${pageContext.request.contextPath}/user/ajaxIdNumber.do?idNumber="+idNumber,
+             dataType: "json",
+             success: function(data){
+                     if (!data.success) {
+						$("#ajax_idNumber").html(data.msg);
+						is_error = 1;
+					 } else {
+					 	$("#ajax_idNumber").html("");
+					 }
+               }
+         	});
+         	return is_error;
+		}
+		
+		$(document).ready(function(){  
+    		$("#formID").bind("submit", function(){  
+    			var error = 0;
+    			if (ajaxIdNumber() == 1) {
+					error += 1;
+				} 
+				if (ajaxMoblie() == 1){
+					error += 1;
+				} 
+				if (isExist() == 1){
+					error += 1;
+				} 
+				if (error > 0) {
+					return false;
+				} else {
+					return true;
+				}
+    		})
+    	})
 </script>
 </head>
 <body>
@@ -136,10 +215,10 @@ function onCheck(e, treeId, treeNode) {
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>用户名</span>
 			  <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			    <input  name="loginName" value="${purchaseInfo.loginName}" maxlength="30" type="text">
+			    <input id="loginName" name="loginName" value="${purchaseInfo.loginName}" maxlength="30" type="text" onblur="isExist();">
 			    <span class="add-on">i</span>
 			    <div class="cue"><sf:errors path="loginName"/></div>
-			    <div class="cue">${exist}</div>
+			    <div id="is_exist" class="cue">${exist}</div>
 			  </div>
 			</li>
 				
@@ -379,10 +458,10 @@ function onCheck(e, treeId, treeNode) {
 			<li class="col-md-3 col-sm-6 col-xs-12"> 
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>身份证号</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-				<input class="input_group" name="idCard" value="${purchaseInfo.idCard}" type="text"> 
+				<input class="input_group" id="idNumber" name="idCard" onblur="ajaxIdNumber()" value="${purchaseInfo.idCard}" type="text"> 
 				<span class="add-on">i</span>
 				<div class="cue"><sf:errors path="idCard"/></div>
-				<div class="cue">${exist_idCard}</div>
+				<div id="ajax_idNumber" class="cue">${exist_idCard}</div>
 			  </div>
 			</li>
 				                     
@@ -400,9 +479,10 @@ function onCheck(e, treeId, treeNode) {
 			<li class="col-md-3 col-sm-6 col-xs-12 pl15">  
 			  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>手机号码</span>
 			  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-				<input class="input_group" name="mobile" value="${purchaseInfo.mobile}" type="text">
+				<input id="mobile" class="input_group" name="mobile" onblur="ajaxMoblie()" value="${purchaseInfo.mobile}" type="text">
 				<span class="add-on">i</span>
 				<div class="cue"><sf:errors path="mobile"/></div>
+				<div id="ajax_mobile" class="cue"></div>
 			  </div>
 			</li>
 			

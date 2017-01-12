@@ -97,6 +97,8 @@ public class PurchaseDep extends Orgnization{
     @Length(min=0,max=50,message="长度不可超过50")
     private String bank;//开户银行
 
+    private String accountName;//开户名称
+    
     private BigDecimal bankAccount;//银行账号
     
     @Length(min=0,max=50,message="长度不可超过50")
@@ -528,6 +530,12 @@ public class PurchaseDep extends Orgnization{
     }
     public void setVideoSurveillance(String videoSurveillance) {
         this.videoSurveillance = videoSurveillance;
+    }
+    public String getAccountName() {
+      return accountName;
+    }
+    public void setAccountName(String accountName) {
+      this.accountName = accountName;
     }
     
 	

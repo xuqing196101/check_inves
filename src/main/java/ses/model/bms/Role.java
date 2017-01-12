@@ -61,7 +61,15 @@ public class Role implements Serializable{
     /** 包含菜单 */
     private List<PreMenu> preMenus;
     
+    /**
+     * 用户数量
+     */
     private Integer userNumber;
+    
+    /**
+     * 位置
+     */
+    private Integer position;
 
     public List<User> getUsers() {
 		return users;
@@ -157,6 +165,14 @@ public class Role implements Serializable{
 
     public void setUserNumber(Integer userNumber) {
       this.userNumber = userNumber;
+    }
+
+    public Integer getPosition() {
+      return position;
+    }
+
+    public void setPosition(Integer position) {
+      this.position = position;
     }
     
 }
