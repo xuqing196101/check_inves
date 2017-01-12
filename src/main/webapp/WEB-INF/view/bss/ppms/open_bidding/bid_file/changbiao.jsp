@@ -225,9 +225,16 @@ function ycDiv(obj, index){
 		<c:forEach items="${listPd }" var="listProDel" varStatus="vs">
 		<c:set value="${vs.index}" var="index"></c:set>
 			   <div>
-				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
+				 <c:if test="${vs.index == 0 }">
+				 	<h2 onclick="ycDiv(this,'${index}')" class="count_flow spread hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
 				 	<span>项目预算报价(万元)：${listPackage[index].projectBudget}</span>
-				 </h2>
+				 	</h2>
+				 </c:if>
+				  <c:if test="${vs.index != 0 }">
+				 	<h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
+				 	<span>项目预算报价(万元)：${listPackage[index].projectBudget}</span>
+				 	</h2>
+				 </c:if>
                </div>
 			<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
 				<c:forEach items="${proDel.key }" var="pdkey" varStatus="vs">

@@ -48,13 +48,14 @@
 							<th class="info">供应商名称</th>
 							<th class="info">关联的包名</th>
 							<th class="info">投标文件</th>
+							<th class="info">是否到场</th>
 						</tr>
 					</thead>
 					<c:forEach items="${supplierList }" var="list" varStatus="vs">
 						<tr>
 							<td class="tc">${vs.index+1}</td>
 							<td class="tl">${list.supplierName}</td>
-							<td class="tc">${list.packageName }</td>
+							<td class="tl">${list.packageName }</td>
 							<td>
 							    <c:if test="${empty list.bidFileName}">
 								<c:if test="${fn:length(supplierList) > 1}">

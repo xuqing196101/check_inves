@@ -18,6 +18,7 @@
 		<result column="REVIEW_RESULT" jdbcType="VARCHAR" property="reviewResult" />
 		<result column="IS_REMOVED" jdbcType="VARCHAR" property="isRemoved" />
 		<result column="REMOVED_REASON" jdbcType="VARCHAR" property="removedReason" />
+		<result column="IS_TURN_UP" jdbcType="DECIMAL" property="isTurnUp" />
 		<association property="user" column="USER_ID"
 			select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
 		<association property="suppliers" column="SUPPLIER_ID"
@@ -27,7 +28,7 @@
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
-		st.ID, st.PROJECT_ID, st.STATUS_BID, st.SUPPLIER_ID, st.STATUS_BOND,
+		st.ID, st.PROJECT_ID, st.STATUS_BID, st.SUPPLIER_ID, st.STATUS_BOND,st.IS_TURN_UP,
 		st.CREATED_AT,
 		st.UPDATED_AT,
 		st.USER_ID,st.BID_FINISH,st.PACKAGR_IDS,st.IS_FIRST_PASS,st.ECONOMIC_SCORE,
@@ -127,6 +128,9 @@
 			<if test="removedReason != null and removedReason != ''">
 				REMOVED_REASON,
 			</if>
+			<if test="isTurnUp != null and isTurnUp != ''">
+				IS_TURN_UP,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -176,6 +180,9 @@
 			</if>
 			<if test="removedReason != null and removedReason != ''">
 				#{removedReason,jdbcType=VARCHAR},
+			</if>
+			<if test="isTurnUp != null and isTurnUp != ''">
+				#{isTurnUp,jdbcType=DECIMAL},
 			</if>
 		</trim>
 	</insert>
@@ -227,6 +234,9 @@
 			</if>
 			<if test="removedReason != null and removedReason != ''">
 				REMOVED_REASON = #{removedReason,jdbcType=VARCHAR},
+			</if>
+			<if test="isTurnUp != null and isTurnUp != ''">
+				IS_TURN_UP = #{isTurnUp,jdbcType=DECIMAL},
 			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
