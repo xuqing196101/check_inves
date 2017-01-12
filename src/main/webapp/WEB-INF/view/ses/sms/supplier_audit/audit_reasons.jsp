@@ -36,18 +36,34 @@
 		//上一步
 	   function lastStep(){
 	     var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
-		 $("#form_id").attr("action",action);
-		 $("#form_id").submit();
+			 $("#form_id").attr("action",action);
+			 $("#form_id").submit();
 	   }
 			
 	   //审核
 	   function shenhe(status){
-	     var auditId = $("#auditId").val();
-		 $("input[name='id']").val(auditId);
-		
-		 $("#status").val(status);
-		 $("#form_shen").submit();
-		}
+	   			var supplierId = $("input[name='supplierId']").val();
+	   			if(status == "6"){
+	   				var index = layer.prompt({
+						title: '请填写理由：',
+						formType: 2,
+						offset: '100px',
+						}, function(text) {
+							$.ajax({
+								url: "${pageContext.request.contextPath}/supplierAudit/recordNotPassed.html",
+								data: {"reason" : text , "supplierId" : supplierId},
+								success: function() {
+									//提交审核
+									$("#status").val(status);
+								  $("#form_shen").submit();
+								}
+							});
+						});
+	   			}else{
+	   				$("#status").val(status);
+						$("#form_shen").submit();
+	   			}
+				}
 			
 		/** 全选全不选 */
 	    function selectAll(){

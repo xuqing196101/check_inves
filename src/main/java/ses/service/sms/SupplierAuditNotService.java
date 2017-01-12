@@ -48,6 +48,6 @@ public interface SupplierAuditNotService {
      * @param @return      
      * @return List<SupplierAudit>
      */
-    List<SupplierAuditNot> selectByPrimaryKey(SupplierAuditNot supplierAuditNot);
+    SupplierAuditNot selectByPrimaryKey(SupplierAuditNot supplierAuditNot);
 	
 } 

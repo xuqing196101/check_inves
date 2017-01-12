@@ -12,11 +12,14 @@
     ID, SUPPLIER_ID, CREDIT_CODE, REASON, CREATED_AT
   </sql>
   
-  <select id="selectByPrimaryKey"   parameterType="ses.model.sms.SupplierAuditNot" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="ses.model.sms.SupplierAuditNot" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT_Not
-    where SUPPLIER_ID = #{supplierId} 
+    where 
+    CREDIT_CODE = #{creditCode}
+    AND
+    CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_SMS_SUPPLIER_AUDIT_NOT )
   </select>
   
   <!-- 插入审核记录 -->
@@ -58,6 +61,6 @@
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
       select sys_guid() from dual
-  </selectKey>
+  	</selectKey>
   </insert>
 </mapper>

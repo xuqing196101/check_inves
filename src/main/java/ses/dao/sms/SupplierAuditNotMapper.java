@@ -26,5 +26,5 @@ public interface SupplierAuditNotMapper {
      * @param @return      
      * @return List<SupplierAudit>
      */
-    List<SupplierAuditNot> selectByPrimaryKey(SupplierAuditNot record);
+    SupplierAuditNot selectByPrimaryKey(SupplierAuditNot record);
 } 
